@@ -42,6 +42,7 @@ public class MyCellEditorList extends DefaultCellEditor implements ActionListene
 		try {
 			editGeo.setSelectedIndex(comboBox.getSelectedIndex());
 			editGeo.updateCascade();
+			editGeo.getKernel().notifyRepaint();
 			editGeo.getKernel().storeUndoInfo();
 		} catch (Exception ex) {
 			ex.printStackTrace();			
