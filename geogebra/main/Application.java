@@ -595,6 +595,9 @@ public class Application implements KeyEventDispatcher {
 		if (!isApplet)
 			pluginmanager = getPluginManager();
 		
+		if (!isApplet())
+			   getScriptManager().ggbOnInit();
+		
 		isSaved = true;
 		
 		if (CASVersionString == "") // CAS might've been initialized already
