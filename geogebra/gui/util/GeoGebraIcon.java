@@ -921,7 +921,6 @@ public class GeoGebraIcon {
 	 * Second draw renders the image with the correct dimensions.
 	 */
 	public static final void drawLatexImageIcon(Application app, ImageIcon latexIcon, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
-Application.debug("XXXXX");
 		// Create image with dummy size, then draw into it to get the correct size
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
 		DrawText draw = new DrawText(app.getEuclidianView(), geo);		
