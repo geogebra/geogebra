@@ -1,0 +1,8 @@
+URI: jogl-natives-macosx-ppc.jar
+
+URI: packed/jogl-natives-macosx-ppc.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jogl-natives-macosx-ppc.jar
+Content-Type: x-java-archive

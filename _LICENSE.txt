@@ -1,0 +1,75 @@
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org/
+
+                                LICENSE
+
+1) GeoGebra Source Code License:
+   GNU General Public License v3 or later
+
+2) GeoGebra Language Files, Documentation, and Installers License:
+   Creative Commons Attribution-Share Alike 3.0 or later
+
+Note for Non-commercial Users (e.g private, schools, or universities)
+  You may use and distribute GeoGebra free of charge at home, 
+  in school and universities under the conditions explained below.
+  
+Note for Commercial Users (e.g. publishers or online schools)
+  If you would like to use GeoGebra applets, installers, or documentation
+  for commercial purposes and put the resulting work under your copyright
+  (e.g. for books, online courses, or on websites under your own copyright),
+  you can do so by setting up a collaboration agreement with GeoGebra. 
+  Please write to office@geogebra.org for details and we will help you to
+  find a simple and good solution for your specific projects.
+
+----------------------------------------------------------------------
+
+1) GeoGebra Source Code License
+
+   GeoGebra's source code is subject to the GNU General Public License
+   (see http://www.gnu.org/licenses/):
+
+   This program is free software; you can redistribute it and/or modify 
+   it under the terms of the GNU General Public License as published by 
+   the Free Software Foundation; either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful, 
+   but WITHOUT ANY WARRANTY; without even the implied warranty of 
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+   GNU General Public License for more details.
+
+   You can find GeoGebra's source code at 
+     http://www.geogebra.org/source/program/
+   If you would like to help with programming, please write to 
+     office@geogebra.org
+
+----------------------------------------------------------------------
+
+2) GeoGebra Language Files, Documentation, and Installers License
+
+   All GeoGebra language files, documentation files, and installers
+   are subject to the following Creative Commons Attribution - 
+   Share Alike License; either version 3.0 of the License, 
+   or (at your option) any later version 
+   (see http://creativecommons.org/licenses/by-sa/3.0/):
+
+   You are free to copy, distribute, transmit, and adapt GeoGebra 
+   language files and documentation under the following conditions:
+    * Attribution. You must attribute the work
+        (i.e. by linking to http://www.geogebra.org/)
+    * Share Alike. If you alter, transform, or build upon this work, 
+        you may distribute the resulting work only under the same, 
+        similar or a compatible license.
+
+   GeoGebra file types that are subject to the abovmentioned license:
+    * GeoGebra language files are ...
+        the user interface language files ("properties files") for 
+        all languages used by the GeoGebra application and applets. 
+        They are part of every official GeoGebra binary distribution.
+    * GeoGebra documentation files are ...
+        all "GeoGebra Help", "GeoGebra Quickstart" and other 
+        documentation files found on the GeoGebra webserver.
+   * GeoGebra installers are ...
+     	installation packages that let you install the GeoGebra 
+     	application and/or documentation files on your system 
+     	(MS Windows, Mac OS X, Linux, etc.) including GeoGebra WebStart.

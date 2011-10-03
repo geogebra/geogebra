@@ -1,0 +1,49 @@
+#!/bin/sh
+
+WIXDIR=../wix36 # You can override this by using a default value in autobuild.conf
+
+test -r ../../autobuild.conf || {
+ echo "Cannot find ../../autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ exit 1
+ }
+. ../.../autobuild.conf
+
+test -r $WIXDIR/candle.exe || {
+ echo WiX is not installed into $WIXDIR
+ exit 1
+ }
+ 
+WINEVERSION=`wine --version | sed s/"\."/""/g | sed s/wine\-//`
+
+if [ "$WINEVERSION" -lt "1320" ]; then
+ echo Wine is almost surely too old to run this program, get at least 1.3.20
+ exit 2
+ fi
+
+test -r ../../../../build/debug/geogebra.jar || {
+ echo GeoGebra does not seem to be built, run ../../buildggb40 first
+ }
+
+cp ../../../../build/debug/* .
+cp ../../../../icons/hicolor/32x32/apps/geogebra.png .
+cp ../../../../installer/geogebra.ico .
+
+GGBVERSION=`cat ../../../../build/unpacked/version.txt`
+GGBVERSION_DASHED=`echo $GGBVERSION | tr . -`
+MSIFILE=GeoGebra-Windows-Installer-$GGBVERSION_DASHED.msi
+
+wine $WIXDIR/candle.exe GeoGebra.wxs -dcodepage=1252
+wine $WIXDIR/light.exe -sval -ext WixUIExtension -cultures:en-us -out GeoGebra.msi GeoGebra.wixobj
+
+# Creating localized installers (http://wix.tramontana.co.hu/tutorial/transforms/morphing-installers)
+cat languages.txt | while read CULTURE CODEPAGE; do
+ wine $WIXDIR/candle.exe GeoGebra.wxs -dcodepage=$CODEPAGE
+ wine $WIXDIR/light.exe -sval -ext WixUIExtension -cultures:$CULTURE -out GeoGebra_$CULTURE.msi GeoGebra.wixobj
+ wine $WIXDIR/torch.exe -p -t language GeoGebra.msi GeoGebra_$CULTURE.msi -out $CULTURE.mst
+ wine $WIXDIR/EmbedTransform.exe GeoGebra.msi $CULTURE.mst
+ done
+
+mv GeoGebra.msi $MSIFILE
+
+echo "Now you can run 'msiexec /i $MSIFILE' to test GeoGebra Windows Installer on Unix"
+

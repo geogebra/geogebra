@@ -1,0 +1,66 @@
+
+10 # LaplaceTransform(_var1,_var2, _expr )	<-- LapTran(var1,var2,expr);
+
+
+10 # LapTran(_var1,_var2,_x + _y)      		<-- LapTran(var1,var2,x) + LapTran(var1,var2,y);
+10 # LapTran(_var1,_var2,_x - _y)		<-- LapTran(var1,var2,x) - LapTran(var1,var2,y);
+10 # LapTran(_var1,_var2,    - _y)       	<-- LapTran(var1,var2,y);
+10 # LapTran(_var1,_var2, c_IsConstant*_y)	<-- c*LapTran(var1,var2,y);
+10 # LapTran(_var1,_var2, _y*c_IsConstant)	<-- c*LapTran(var1,var2,y);
+10 # LapTran(_var1,_var2, _y/c_IsConstant) 	<-- LapTran(var1,var2,y)/c;
+
+
+10 # LapTran(_var1,_var2, Exp(c_IsConstant*_var1)*_expr  ) <-- LapTran(var1,var2-c,expr);
+10 # LapTran(_var1,_var2, Exp(-c_IsConstant*_var1)*_expr ) <-- LapTran(var1,var2+c,expr);
+10 # LapTran(_var1,_var2, _expr*Exp(c_IsConstant*_var1)  ) <-- LapTran(var1,var2-c,expr);
+10 # LapTran(_var1,_var2, _expr*Exp(-c_IsConstant*_var1) ) <-- LapTran(var1,var2+c,expr);
+
+
+10 # LapTran(_var1,_var2, _expr/_var1 )		<-- Integrate(var2,var2,Infinity) LapTran(var1,var2,expr) ;
+10 # LapTran(_var1,_var2, _var1*_expr )		<-- - Deriv(var2) LapTran(var1,var2,expr);
+10 # LapTran(_var1,_var2, _var1^(n_IsInteger)*_expr )  <-- (-1)^n * Deriv(var2,n) LapTran(var1,var2,expr);
+10 # LapTran(_var1,_var2, _expr*_var1 )                <-- - Deriv(var2) LapTran(var1,var2,expr);
+10 # LapTran(_var1,_var2, _expr*_var1^(n_IsInteger)  ) <-- (-1)^n * Deriv(var2,n) LapTran(var1,var2,expr);
+
+
+100 # LapTran(_var1,_var2, _expr )	<-- `Hold(LaplaceTransform(@var1,@var2,@expr));
+
+LapTranDef(_in,_out) <--
+[
+  Local(i,o);
+
+  
+  `(50 # LapTran(_t,_s,@in) <-- @out );
+
+  i:=Subst(_t,c_IsPositiveInteger*_t) in;
+  o:=Subst(s,s/c) out;
+
+  
+  `(50 # LapTran(_t,_s,@i ) <-- @o/c );
+
+  i:=Subst(_t,_t/c_IsPositiveInteger) in;
+  o:=Subst(s,s*c) out;
+
+  
+  `(50 # LapTran(_t,_s,@i ) <-- @o*c );
+
+];
+
+
+LapTranDef( (_t)^(n_IsConstant),	Gamma(n+1)/s^(n+1) );
+LapTranDef( _t, 			1/s^2 );
+LapTranDef( Sqrt(_t), 			Sqrt(Pi)/(2*s^(3/2)) );
+LapTranDef( c_IsFreeOf({t,s}),		c/s );
+LapTranDef( Sin(_t),	 		1/(s^2+1) );
+LapTranDef( Cos(_t), 			s/(s^2+1) );
+LapTranDef( Sinh(_t),			c/(s^2-1) );
+LapTranDef( Cosh(_t),			s/(s^2-1) );
+LapTranDef( Exp(_t),			1/(s-1) );
+LapTranDef( BesselJ(n_IsConstant,_t),	(Sqrt(s^2+1)-s)^n /Sqrt(s^2+1) );
+LapTranDef( BesselI(n_IsConstant,_t),	(s-Sqrt(s^2+1))^n /Sqrt(s^2-1) );
+LapTranDef( Ln(_t),			-(gamma+Ln(s))/s);
+LapTranDef( Ln(_t)^2,			Pi^2/(6*s)+(gamma+Ln(s))/s );
+LapTranDef( Erf(_t),			Exp(s^2/4)*Erfc(s/2)/s );
+LapTranDef( Erf(Sqrt(_t)),		1/(Sqrt(s+1)*s) );
+
+

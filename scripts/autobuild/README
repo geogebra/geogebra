@@ -1,0 +1,20 @@
+These files are for automated server-side builds using Subversion via HTTP
+(or the local file system).
+
+Usage:
+
+1. Copy autobuild.conf.dist to autobuild.conf and edit the latter as needed.
+
+2. Run ./checkout to create a working copy of the repository (this step
+   is needed only once, but probably it is already done --- if no,
+   make sure that all relevant steps are run from that script). On demand
+   another run can be done, it is harmless to do it again later.
+
+3. Run ./buildggb42 or ./deployggb42 to create a fresh numbered
+   version build into the test42 or 4.2 directory, respectively.
+
+For more details, please read this page:
+
+  http://www.geogebra.org/trac/wiki/Deploy
+
+Maintainer: Zoltan Kovacs <zoltan@geogebra.org>

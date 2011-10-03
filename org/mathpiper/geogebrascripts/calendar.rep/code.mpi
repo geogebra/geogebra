@@ -1,0 +1,26 @@
+
+
+Easter(year) := [
+
+    Check(IsPositiveInteger(year), "Argument", "The argument must be a positive integer");
+
+    Local(a,b,c,d,e,f,g,h,i,k,L,m,month,day);
+
+    a := Modulo(year, 19);
+    b := Quotient(year, 100);
+    c := Modulo(year, 100);
+    d := Quotient(b, 4);
+    e := Modulo(b, 4);
+    f := Quotient(b + 8, 25);
+    g := Quotient(b - f + 1, 3);
+    h := Modulo(19*a + b - d - g + 15, 30);
+    i := Quotient(c, 4);
+    k := Modulo(c, 4);
+    L := Modulo(32 + 2*e + 2*i - h - k, 7);
+    m := Quotient(a + 11*h + 22*L, 451);
+    month := Quotient(h + L - 7*m + 114, 31);
+    day := Modulo(h + L - 7*m + 114, 31) + 1;
+
+    { month, day };
+];
+

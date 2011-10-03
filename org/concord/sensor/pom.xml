@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.concord</groupId>
+    <artifactId>maven2-svn</artifactId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+  <groupId>org.concord.project-groups</groupId>
+  <artifactId>sensor</artifactId>
+  <version>4.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Sensor Parent</name>
+  <description> A parent for all sensor specific projects </description>
+  <!--MVN_AUTO 
+    This comment and the elements below it are automatically 
+    generated any changes you make to these elements will be replaced if the pom is
+    regenerated. Do not edit this comment or the elements below it.-->
+  <!--this is required to find out parent pom you should-->
+  <repositories>
+    <repository>
+      <id>cc-repo-internal-snapshot</id>
+      <name>Concord Consortium Internal</name>
+      <url>http://source.concord.org/maven2/internal_snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <modules>
+    <module>ftdi-serial-wrapper</module>
+    <module>labpro-usb</module>
+    <module>labquest-jna</module>
+    <module>sensor</module>
+    <module>sensor-native</module>
+    <module>sensor-vernier</module>
+    <module>sensor-applets</module>
+  </modules>
+</project>

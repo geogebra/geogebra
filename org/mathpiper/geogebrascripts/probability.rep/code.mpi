@@ -1,0 +1,116 @@
+
+
+
+
+
+
+
+
+
+
+10 # CDF(BernoulliDistribution(_p), x_IsNumber) <-- If(x<=0,0,If(x>0 And x<=1, p,1));
+11 # CDF(BernoulliDistribution(_p), _x) <-- Hold(If(x<=0,0,If(x>0 And x<=1, p,1)));
+
+10 # CDF(BinomialDistribution(_p,_n),m_IsNumber)_(m<0) <-- 0;
+10 # CDF(BinomialDistribution(_p,n_IsInteger),m_IsNumber)_(m>n) <-- 1;
+10 # CDF(BinomialDistribution(_p,_n),_m) <-- Sum @ { i, 0, Floor(m), PMF(BinomialDistribution(p,n),i)};
+
+10 # CDF(DiscreteUniformDistribution( a_IsNumber, b_IsNumber), x_IsNumber)_(x<=a) <-- 0;
+10 # CDF(DiscreteUniformDistribution( a_IsNumber, b_IsNumber), x_IsNumber)_(x>b) <-- 1;
+10 # CDF(DiscreteUniformDistribution( a_IsNumber, b_IsNumber), x_IsNumber)_(a<x And x<=b) <-- (x-a)/(b-a+1);
+11 # CDF(DiscreteUniformDistribution( _a, _b), _x) <--Hold(If(x<=a,0,If(x<=b,(x-a)/(b-a),1)));
+
+10 # CDF(PoissonDistribution(_l), x_IsNumber)_(x<=0) <-- 0;
+10 # CDF(PoissonDistribution(_l), _x) <-- Sum @ {i,0,x,PMF(PoissonDistribution(l),i)};
+
+10 # CDF(ChiSquareDistribution(_m), _x) <-- IncompleteGamma(m/2,x/2)/Gamma(x/2);
+10 # CDF(DiscreteDistribution( dom_IsList, prob_IsList), _x)   <--
+      [
+	 Local(i,cdf,y);
+
+	 i := 1;
+	 cdf:=0;
+	 y:=dom[i];
+	 While(y<x) [cdf:=cdf+prob[i];i++;];
+	 cdf;
+      ];
+
+10 # CDF(HypergeometricDistribution( N_IsNumber, M_IsNumber, n_IsNumber), x_IsNumber)_(M <= N And n <= N) <-- 
+[
+    Sum @ {i,0,x,PMF(HypergeometricDistribution(N, M, n),i)};
+];
+
+
+
+
+10 # CDF(NormalDistribution(_m,_s), _x) <-- 1/2 + 1/2 * ErrorFunction((x - m)/(s*Sqrt(2))); 
+
+
+
+
+
+
+10 # Expectation(BernoulliDistribution(_p)) <-- 1-p;
+
+10 # Expectation(BinomialDistribution(_p,_n)) <-- n*p;
+
+10 # Expectation( DiscreteDistribution( dom_IsList, prob_IsList))_( Length(dom)=Length(prob) And Simplify(Sum(prob))=1) <-- Sum @ {i,1,Length(dom),dom[i]*prob[i]};
+
+
+
+
+
+
+
+
+10 # PDF(ExponentialDistribution(_l), _x) <-- If(x<0,0,l*Exp(-l*x));
+
+10 # PDF(NormalDistribution(_m,_s),_x) <-- Exp(-(x-m)^2/(2*s^2))/Sqrt(2*Pi*s^2); 
+
+10 # PDF(ContinuousUniformDistribution(_a,_b),x)_(a<b) <-- If(x<a Or x>b,0,1/(b-a));
+
+10 # PDF(DiscreteDistribution( dom_IsList, prob_IsList), _x)_( Length(dom)=Length(prob) And Simplify(Add(prob))=1) <--
+    [
+      Local(i);
+      i:=Find(dom,x);
+      If(i = -1,0,prob[i]);
+    ];
+10 # PDF( ChiSquareDistribution( _m),x_IsRationalOrNumber)_(x<=0) <-- 0;
+20 # PDF( ChiSquareDistribution( _m),_x) <-- x^(m/2-1)*Exp(-x/2)/2^(m/2)/Gamma(m/2);
+
+10 # PDF(tDistribution(_m),x) <-- Gamma((m+1)/2)*(1+x^2/m)^(-(m+1)/2)/Gamma(m/2)/Sqrt(Pi*m);
+
+
+
+
+
+
+
+10 # PMF(BernoulliDistribution(_p),0) <-- p;
+10 # PMF(BernoulliDistribution(_p),1) <-- 1-p;
+10 # PMF(BernoulliDistribution(_p),x_IsNumber)_(x != 0 And x != 1) <-- 0;
+10 # PMF(BernoulliDistribution(_p),_x) <-- Hold(If(x=0,p,If(x=1,1-p,0)));
+
+10 # PMF(BinomialDistribution(_p,_n),_k) <-- BinomialCoefficient(n,k)*p^k*(1-p)^(n-k);
+
+10 # PMF(DiscreteUniformDistribution(_a,_b), x_IsNumber) <-- If(x<a Or x>b, 0 ,1/(b-a+1));
+11 # PMF(DiscreteUniformDistribution(_a,_b), _x) <-- Hold(If(x<a Or x>b, 0 ,1/(b-a+1)));
+
+10 # PMF(PoissonDistribution(_l), n_IsNumber) <-- If(n<0,0,Exp(-l)*l^n/n!);
+11 # PMF(PoissonDistribution(_l),_n) <-- Exp(-l)*l^n/n!;
+
+10 # PMF(GeometricDistribution(_p),_n) <--If(n<0,0,p*(1-p)^n);
+
+
+
+10 # PMF(DiscreteDistribution( dom_IsList, prob_IsList), _x)_( Length(dom)=Length(prob) And Simplify(Add(prob))=1) <--
+    [
+      Local(i);
+      i:=Find(dom,x);
+      If(i = -1,0,prob[i]);
+    ];
+    
+
+
+10 # PMF(HypergeometricDistribution( N_IsNumber, M_IsNumber, n_IsNumber), x_IsNumber)_(M <= N And n <= N) <-- (BinomialCoefficient(M,x) * BinomialCoefficient(N-M, n-x))/BinomialCoefficient(N,n);
+

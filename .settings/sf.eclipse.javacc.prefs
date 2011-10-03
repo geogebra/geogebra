@@ -1,0 +1,23 @@
+#Mon Sep 05 21:58:27 CEST 2011
+CLEAR_CONSOLE=true
+JAVACC_OPTIONS=-STATIC\=false
+JJDOC_OPTIONS=
+JJTREE_OPTIONS=
+JJ_NATURE=true
+JTB_OPTIONS=
+RUNTIME_JAR=
+# The external JavaCC is not really needed here.
+# From Eclipse we usually don't use the external
+# JavaCC JAR file, only the plugin version.
+# By contrast, on command line build the external javacc.jar is used from
+# ../lib/build/javacc/javacc.jar, but it is completely different from the
+# Eclipse plugin, thus here we don't use it. Of course, we can still
+# use the external version for the Eclipse build as well if someone starts
+# the appropriate target from ../build.xml --- but why to do so? ;-)
+# RUNTIME_JJJAR=${project_loc}/lib/build/javacc/javacc.jar
+# RUNTIME_JTBJAR=${project_loc}/lib/build/javacc/jtb-1.4.0.jar
+RUNTIME_JJJAR=${eclipse_home}/plugins/sf.eclipse.javacc_1.5.24/javacc.jar
+RUNTIME_JTBJAR=${eclipse_home}/plugins/sf.eclipse.javacc_1.5.24/jtb-1.4.4.jar
+SHOW_CONSOLE=true
+SUPPRESS_WARNINGS=false
+eclipse.preferences.version=1

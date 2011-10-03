@@ -1,0 +1,82 @@
+
+
+
+
+
+
+
+
+
+
+
+Function("BesselJN0",{x})
+[
+	Local(ax,z,xx,y,result,res1,res2);
+	Local(c1,c2,c3,c4);
+
+	
+	
+	c1:={57568490574.0,-13362590354.0,651619640.7,
+		-11214424.18,77392.33017,-184.9052456};
+	c2:={57568490411.0,1029532985.0,9494680.718,
+		59272.64853,267.8532712};
+	
+	
+	c3:={-0.001098628627,0.00002734510407,-0.000002073370639,
+		0.0000002093887211};
+	c4:={-0.01562499995,0.0001430488765,-0.000006911147651,
+		0.0000007621095161,0.0000000934935152};
+	ax:=Abs(x);
+
+	If( ax < 8.0,[
+		y:=x^2;
+		res1:=c1[1]+y*(c1[2]+y*c1[3]+y*(c1[4]+y*(c1[5]+y*(c1[6]))));
+		res2:=c1[1]+y*(c2[2]+y*c2[3]+y*(c2[4]+y*(c2[5]+y*1.0)));
+		result:=res1/res2;
+	],[
+		z:=8/ax;
+		y:=z^2;
+		xx:=ax-0.785398164;
+		res1:=1.0+y*(c3[1]+y*(c3[2]+y*(c3[3]+y*c4[4])));
+		res2:=c4[1]+y*(c4[2]+y*(c4[3]+y*(c4[4]-y*c4[5])));
+		result:=Sqrt(2/(Pi*x))*(Cos(xx)*res1-z*Sin(xx)*res2);
+	] );
+];
+
+
+
+
+
+
+
+
+
+
+Function("BesselNsmall",{n,x,modified})
+[
+        Local(term,result,k);
+        Local(prec,eps,tmp);
+        prec:=BuiltinPrecisionGet();
+        BuiltinPrecisionSet(Ceil(1.2*prec)); 
+        eps:=5*10^(-prec);
+
+        term:=1;
+        k:=0;
+        result:=0;
+        While( Abs(term) >= eps )[
+                term:=x^(2*k+n);
+		
+		
+		If( k%2=1 And modified=0 , term:=term*-1 );
+		term:=N(term/(2^(2*k+n)* k! * Gamma(k+n+1) ));
+                
+                result:=result+term;
+                k:=k+1;
+        ];
+        BuiltinPrecisionSet(prec);
+	
+	
+	RoundTo(result,prec);
+
+];
+

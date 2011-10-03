@@ -1,0 +1,74 @@
+
+PollardCombineLists(_left,_right) <--
+[
+  ForEach(item,right)
+  [
+    PollardMerge(left,item);
+  ];
+  left;
+];
+
+
+5 # PollardMerge(_list,{1,_n}) <-- True;
+10 # PollardMerge(_list,_item)_(Assoc(item[1],list) = Empty) <--
+  DestructiveInsert(list,1,item);
+
+20 # PollardMerge(_list,_item) <--
+[
+  Local(assoc);
+  assoc := Assoc(item[1],list);
+  assoc[2]:=assoc[2]+item[2];
+];
+
+
+
+
+
+
+
+
+
+
+PollardRhoPolynomial(_x) <-- x^2+1;
+
+2# PollardRhoFactorize(n_IsPrimePower) <-- {GetPrimePower(n)};
+3# PollardRhoFactorize(_n) <--
+[
+  Local(x,y,restarts,gcd,repeat);
+  gcd:=1;
+  restarts := 100;	
+  While(gcd = 1 And restarts>=0)	
+  [
+  	restarts--;
+    
+    x:= RandomInteger(n-1);
+
+    
+    gcd:=1; y:=x;
+	repeat := 4;	
+
+
+    
+    While(gcd = 1 And repeat>=0)
+    [
+      x:= Modulo( PollardRhoPolynomial(x), n);
+   	  y:= Modulo( PollardRhoPolynomial(
+	  	Modulo( PollardRhoPolynomial(y), n)	
+	  ), n);
+   	  If(x-y = 0,
+       	 [
+		 	gcd := 1;
+		 	repeat--;	
+		 ],
+       	 gcd:=Gcd(x-y,n)
+       	 );
+
+   	];
+	If(InVerboseMode() And repeat<=0, Echo({"PollardRhoFactorize: Warning: stalled while factorizing ", n, "; counters ", x, y}));
+  ];
+  Check(restarts>0, "Math", "PollardRhoFactorize: Error: failed to factorize " : ToString(n));
+  If(InVerboseMode() And gcd > 1, Echo({"PollardRhoFactorize: Info: while factorizing ", n, " found factor ", gcd}));
+  
+  PollardCombineLists(PollardRhoFactorize(gcd), PollardRhoFactorize(Quotient(n,gcd)));
+];
+

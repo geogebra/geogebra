@@ -1,0 +1,317 @@
+
+
+
+
+
+10 # EvaluateHornerScheme({}, _x) <-- 0;
+
+10 # EvaluateHornerScheme({_coeffs}, _x) <-- coeffs;
+20 # EvaluateHornerScheme(coeffs_IsList, _x) <-- First(coeffs)+x*EvaluateHornerScheme(Rest(coeffs), x);
+
+
+
+OrthoP(n_IsInteger, _x)_(n>=0) <-- OrthoP(n, 0, 0, x);
+OrthoP(n_IsInteger, a_IsRationalOrNumber, b_IsRationalOrNumber, _x)_(n>=0 And a> -1 And b> -1) <-- OrthoPoly("Jacobi", n, {a, b}, x);
+
+OrthoG(n_IsInteger, a_IsRationalOrNumber, _x)_(n>=0 And a> -1/2) <-- OrthoPoly("Gegenbauer", n, {a}, x);
+
+OrthoH(n_IsInteger, _x)_(n>=0) <-- OrthoPoly("Hermite", n, {}, x);
+
+OrthoL(n_IsInteger, a_IsRationalOrNumber, _x)_(n>=0 And a> -1) <-- OrthoPoly("Laguerre", n, {a}, x);
+
+OrthoT(n_IsInteger, _x)_(n>=0) <-- OrthoPoly("Tscheb1", n, {}, x);
+OrthoU(n_IsInteger, _x)_(n>=0) <-- OrthoPoly("Tscheb2", n, {}, x);
+
+
+
+OrthoPSum(c_IsList, _x) <-- OrthoP(c, 0, 0, x);
+OrthoPSum(c_IsList, a_IsRationalOrNumber, b_IsRationalOrNumber, _x)_(a> -1 And b> -1) <-- OrthoPolySum("Jacobi", c, {a, b}, x);
+
+OrthoGSum(c_IsList, a_IsRationalOrNumber, _x)_(a> -1/2) <-- OrthoPolySum("Gegenbauer", c, {a}, x);
+
+OrthoHSum(c_IsList, _x) <-- OrthoPolySum("Hermite", c, {}, x);
+
+OrthoLSum(c_IsList, a_IsRationalOrNumber, _x)_(a> -1) <-- OrthoPolySum("Laguerre", c, {a}, x);
+
+OrthoTSum(c_IsList, _x) <-- OrthoPolySum("Tscheb1", c, {}, x);
+OrthoUSum(c_IsList, _x) <-- OrthoPolySum("Tscheb2", c, {}, x);
+
+
+
+LocalSymbols(knownOrthoPoly) [
+  knownOrthoPoly := Hold({
+    {"Jacobi", {{n, p}, {{(p[1]-p[2])/2, 1+(p[1]+p[2])/2}, {(2*n+p[1]+p[2]-1)*((p[1])^2-(p[2])^2)/(2*n*(n+p[1]+p[2])*(2*n+p[1]+p[2]-2)), (2*n+p[1]+p[2]-1)*(2*n+p[1]+p[2])/(2*n*(n+p[1]+p[2])), -(n+p[1]-1)*(n+p[2]-1)*(2*n+p[1]+p[2])/(n*(n+p[1]+p[2])*(2*n+p[1]+p[2]-2))}}}},
+    {"Gegenbauer", {{n, p}, {{0, 2*p[1]}, {0, 2+2*(p[1]-1)/n, -1-2*(p[1]-1)/n}}}},
+    {"Laguerre", {{n, p}, {{p[1]+1, -1}, {2+(p[1]-1)/n, -1/n, -1-(p[1]-1)/n}}}},
+    {"Hermite", {{n, p}, {{0,2}, {0, 2, -2*(n-1)}}}},
+    {"Tscheb1", {{n, p}, {{0,1}, {0,2,-1}}}},
+    {"Tscheb2", {{n, p}, {{0,2}, {0,2,-1}}}}
+  });
+  KnownOrthoPoly() := knownOrthoPoly;
+
+]; 
+
+
+
+
+
+
+
+10 # OrthoPoly(name_IsString, _n, p_IsList, x_IsRationalOrNumber) _ (KnownOrthoPoly()[name] != Empty) <-- OrthoPolyNumeric(name, n, p, x);
+20 # OrthoPoly(name_IsString, _n, p_IsList, _x) _ (KnownOrthoPoly()[name] != Empty) <-- EvaluateHornerScheme(OrthoPolyCoeffs(name, n, p), x);
+
+10 # OrthoPolySum(name_IsString, c_IsList, p_IsList, x_IsRationalOrNumber) _ (KnownOrthoPoly()[name] != Empty) <-- OrthoPolySumNumeric(name, c, p, x);
+20 # OrthoPolySum(name_IsString, c_IsList, p_IsList, _x) _ (KnownOrthoPoly()[name] != Empty) <-- EvaluateHornerScheme(OrthoPolySumCoeffs(name, c, p), x);
+
+
+OrthoPolyNumeric(name_IsString, n_IsInteger, p_IsList, _x) <-- [
+	Local(value1, value2, value3, ruleCoeffs, index);
+	value1 := 1;
+	ruleCoeffs := Apply(KnownOrthoPoly()[name], {n, p})[1];
+	value2 := ruleCoeffs[1] + x*ruleCoeffs[2];
+	index := 1;
+	
+	While(index<n) [
+		index := index + 1;
+		ruleCoeffs := Apply(KnownOrthoPoly()[name], {index, p})[2];
+		value3 := (ruleCoeffs[1] + x*ruleCoeffs[2])*value2 + ruleCoeffs[3]*value1;
+		value1 := value2;
+		value2 := value3;
+
+	];
+	value2;
+];
+
+
+OrthoPolySumNumeric(name_IsString, c_IsList, p_IsList, _x) <-- [
+	Local(value1, value2, value3, ruleCoeffs, ruleCoeffs1, index);
+	value1 := 0;
+	value2 := 0;
+	index := Length(c) - 1;
+	
+	While(index>=1) [
+		ruleCoeffs := Apply(KnownOrthoPoly()[name], {index+1, p})[2];
+		ruleCoeffs1 := Apply(KnownOrthoPoly()[name], {index+2, p})[2];
+		value3 := (ruleCoeffs[1] + x*ruleCoeffs[2])*value2 + ruleCoeffs1[3]*value1 + c[index+1];
+		value1 := value2;
+		value2 := value3;
+		index := index - 1;
+	];
+	
+	ruleCoeffs := Apply(KnownOrthoPoly()[name], {1, p})[1];
+	ruleCoeffs1 := Apply(KnownOrthoPoly()[name], {2, p})[2];
+	value2 := (ruleCoeffs[1] + x*ruleCoeffs[2])*value2 + ruleCoeffs1[3]*value1 + c[1];
+	value2;
+];
+
+
+
+10 # OrthoPolyCoeffs(name_IsString, 0, p_IsList) <-- {1};
+10 # OrthoPolyCoeffs(name_IsString, 1, p_IsList) <-- Apply(KnownOrthoPoly()[name], {1, p})[1];
+
+
+
+
+
+
+20 # OrthoPolyCoeffs(name_IsString, n_IsInteger, p_IsList)_(n>1) <-- [
+	Local(ruleCoeffs, tmpCoeffs, newCoeffs, prevCoeffs, index, jndex, tmptmpCoeffs, prevCoeffsA, newCoeffsA, tmpCoeffsA);
+	
+	prevCoeffsA := ZeroVector(n+1);
+	newCoeffsA := ZeroVector(n+1);
+	tmpCoeffsA := ZeroVector(n+1);
+	
+	prevCoeffs := prevCoeffsA;
+	newCoeffs := newCoeffsA;
+	tmpCoeffs := tmpCoeffsA;
+	
+	prevCoeffs[1] := 1;
+	ruleCoeffs := Apply(KnownOrthoPoly()[name], {n, p})[1];
+	newCoeffs[1] := ruleCoeffs[1];
+	newCoeffs[2] := ruleCoeffs[2];
+	
+	index := 1;
+	
+	While(index < n) [
+		index := index + 1;
+		 
+		ruleCoeffs := Apply(KnownOrthoPoly()[name], {index, p})[2];
+		tmpCoeffs[1] := ruleCoeffs[1]*newCoeffs[1] + ruleCoeffs[3]*prevCoeffs[1];
+		
+		For(jndex:=2, jndex <= index, jndex:=jndex+1) [
+			tmpCoeffs[jndex] := ruleCoeffs[1]*newCoeffs[jndex] + ruleCoeffs[3]*prevCoeffs[jndex] + ruleCoeffs[2]*newCoeffs[jndex-1];
+		];
+		tmpCoeffs[index+1] := ruleCoeffs[2]*newCoeffs[index];
+
+
+		tmptmpCoeffs := prevCoeffs;
+		prevCoeffs := newCoeffs;
+		newCoeffs := tmpCoeffs;
+		tmpCoeffs := tmptmpCoeffs;
+	];
+	newCoeffs;
+];
+
+
+
+OrthoPolySumCoeffs(name_IsString, c_IsList, p_IsList) <-- [
+	Local(n, ruleCoeffs, ruleCoeffs1, tmpCoeffs, newCoeffs, prevCoeffs, index, jndex, tmptmpCoeffs, prevCoeffsA, newCoeffsA, tmpCoeffsA);
+	
+	n := Length(c) - 1;
+	
+	prevCoeffsA := ZeroVector(n+1);
+	newCoeffsA := ZeroVector(n+1);
+	tmpCoeffsA := ZeroVector(n+1);
+	
+	prevCoeffs := prevCoeffsA;
+	newCoeffs := newCoeffsA;
+	tmpCoeffs := tmpCoeffsA;
+	
+	
+	For(index:=n, index >= 1, index:=index-1) [
+		 
+		ruleCoeffs := Apply(KnownOrthoPoly()[name], {index+1, p})[2];
+		ruleCoeffs1 := Apply(KnownOrthoPoly()[name], {index+2, p})[2];
+		tmpCoeffs[1] := c[index+1] + ruleCoeffs[1]*newCoeffs[1] + ruleCoeffs1[3]*prevCoeffs[1];
+		
+		For(jndex:=2, jndex <= n-index, jndex:=jndex+1) [
+			tmpCoeffs[jndex] := ruleCoeffs[1]*newCoeffs[jndex] + ruleCoeffs1[3]*prevCoeffs[jndex] + ruleCoeffs[2]*newCoeffs[jndex-1];
+		];
+		If(n-index>0, tmpCoeffs[n-index+1] := ruleCoeffs[2]*newCoeffs[n-index]);
+
+
+		tmptmpCoeffs := prevCoeffs;
+		prevCoeffs := newCoeffs;
+		newCoeffs := tmpCoeffs;
+		tmpCoeffs := tmptmpCoeffs;
+	];
+	
+	index:=0;
+	ruleCoeffs := Apply(KnownOrthoPoly()[name], {index+1, p})[1];
+	ruleCoeffs1 := Apply(KnownOrthoPoly()[name], {index+2, p})[2];
+	tmpCoeffs[1] := c[index+1] + ruleCoeffs[1]*newCoeffs[1] + ruleCoeffs1[3]*prevCoeffs[1];
+	
+	For(jndex:=2, jndex <= n-index, jndex:=jndex+1) [
+		tmpCoeffs[jndex] := ruleCoeffs[1]*newCoeffs[jndex] + ruleCoeffs1[3]*prevCoeffs[jndex] + ruleCoeffs[2]*newCoeffs[jndex-1];
+	];
+	tmpCoeffs[n-index+1] := ruleCoeffs[2]*newCoeffs[n-index];
+	tmpCoeffs;
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8# OrthoPolyCoeffs("Jacobi", n_IsInteger, {0,0}) <--
+[
+	Local(i, result);
+	result := ZeroVector(n+1);
+	result[n+1] := (2*n-1)!! /n!;	
+	i := 1;
+	While(2*i<=n)
+	[	
+		result[n+1-2*i] := -(result[n+3-2*i]*(n-2*i+1)*(n-2*i+2)) / ((2*n-2*i+1)*2*i);
+		i++;
+	];
+	result;
+];
+
+
+
+
+
+OrthoPolyCoeffs("Hermite", n_IsInteger, {}) <-- HermiteCoeffs(n);
+
+
+HermiteCoeffs(n_IsEven)_(n>0) <--
+[
+	Local(i, k, result);
+	k := Quotient(n,2);
+	result := ZeroVector(n+1);
+	result[1] := (-2)^k*(n-1)!!;	
+	For(i:=1,i<=k,i++)	
+		result[2*i+1] := Quotient(-2*result[2*i-1] * (k-i+1), (2*i-1)*i);	
+	result;
+];
+HermiteCoeffs(n_IsOdd)_(n>0) <--
+[
+	Local(i, k, result);
+	k := Quotient(n,2);
+	result := ZeroVector(n+1);
+	result[2] := 2*(-2)^k*(n!!);	
+	For(i:=1,i<=k,i++)	
+		result[2*i+2] := Quotient(-2*result[2*i] * (k-i+1), i*(2*i+1));	
+	result;
+];
+
+
+
+
+
+
+OrthoPolyCoeffs("Laguerre", n_IsInteger, {_k}) <--
+[
+	Local(i, result);
+	result := ZeroVector(n+1);
+	result[n+1] := (-1)^n/n!;	
+	For(i:=n,i>=1,i--)	
+		result[i] := -(result[i+1]*i*(k+i))/(n-i+1);
+	result;
+];
+
+
+
+
+
+
+OrthoPolyCoeffs("Tscheb1", n_IsInteger, {}) <-- ChebTCoeffs(n);
+OrthoPolyCoeffs("Tscheb2", n_IsInteger, {}) <-- ChebUCoeffs(n);
+
+1 # ChebTCoeffs(0) <-- {1};
+2 # ChebTCoeffs(n_IsInteger) <--
+[
+	Local(i, result);
+	result := ZeroVector(n+1);
+	result[n+1] := 2^(n-1);	
+	i := 1;
+	While(2*i<=n)
+	[	
+		result[n+1-2*i] := -(result[n+3-2*i]*(n-2*i+2)*(n-2*i+1)) / ((n-i)*4*i);
+		i++;
+	];
+	result;
+];
+
+1 # ChebUCoeffs(0) <-- {1};
+2 # ChebUCoeffs(n_IsInteger) <--
+[
+	Local(i, result);
+	result := ZeroVector(n+1);
+	result[n+1] := 2^n;	
+	i := 1;
+	While(2*i<=n)
+	[	
+		result[n+1-2*i] := -(result[n+3-2*i]*(n-2*i+2)*(n-2*i+1)) / ((n-i+1)*4*i);
+		i++;
+	];
+	result;
+];
+
+

@@ -1,0 +1,61 @@
+
+
+
+
+
+
+
+
+
+LoadScriptOnce("initialization.rep/stdopers.mpi");
+
+
+DefMacroRulebase("Defun",{func,args,body});
+Rule("Defun",3,0,True)
+[
+  Local(nrargs);
+  Bind(nrargs,Length(@args));
+  Retract(@func, `(@nrargs));
+  Rulebase(@func,@args);
+  Local(fn,bd);
+  Bind(fn,Hold(@func)); Bind(bd,Hold(@body));
+  `Rule(@fn, @nrargs, 0,True)(@bd);
+];
+
+
+
+LoadScriptOnce("patterns.rep/code.mpi");
+
+
+LoadScriptOnce("deffunc.rep/code.mpi");
+
+
+
+LoadScriptOnce("constants.rep/code.mpi");
+LoadScriptOnce("initialization.rep/standard.mpi");
+LoadScriptOnce("initialization.rep/stdarith.mpi");
+
+
+
+
+
+Rulebase(LoadPackages,{packages});
+Rule(LoadPackages, 1, 1, True)
+[
+	If(IsEqual(packages,{}), True,
+	[
+		DefLoad(First(packages));
+		LoadPackages(Rest(packages));
+	]);
+];
+
+LoadScriptOnce("initialization.rep/packages.mpi");
+LoadPackages(DefFileList());
+
+
+
+
+
+LoadScriptOnce("multivar.rep/code.mpi");
+
+

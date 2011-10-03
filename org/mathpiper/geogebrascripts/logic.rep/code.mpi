@@ -1,0 +1,341 @@
+
+
+ 
+
+
+
+
+
+10  # CNF( Not  True)                  <-- False;
+11  # CNF( Not  False)                 <-- True;
+12  # CNF(True   And  (_x))            <-- CNF(x);
+13  # CNF(False  And  (_x))            <-- False;
+14  # CNF(_x   And  True)              <-- CNF(x);
+15  # CNF(_x  And  False)              <-- False;
+16  # CNF(True   Or  (_x))             <-- True;
+17  # CNF(False  Or  (_x))             <-- CNF(x);
+18  # CNF((_x)  Or  True )             <-- True;
+19  # CNF((_x)  Or  False)             <-- CNF(x);
+
+
+21  # CNF(_x  Or  _x)                  <-- CNF(x);
+22  # CNF(_x  And  _x)                 <-- CNF(x);
+23  # CNF(_x  Or Not (_x))             <-- True;
+14  # CNF(Not (_x)  Or _x)             <-- True;
+25  # CNF(_x  And Not (_x))            <-- False;
+26  # CNF(Not (_x)  And _x)            <-- False;
+
+
+25  # CNF(((_x) == (_y))   Or  ((_x) !== (_y)))   <-- True;
+25  # CNF(((_x) !== (_y))  Or  ((_x) == (_y)))    <-- True;
+26  # CNF(((_x) == (_y))   And ((_x) !== (_y)))   <-- False;
+26  # CNF(((_x) !== (_y))  And ((_x) == (_y)))    <-- False;
+
+27  # CNF(((_x) >= (_y))   And ((_x) < (_y)))     <-- False;
+27  # CNF(((_x) < (_y))    And ((_x) >= (_y)))    <-- False;
+28  # CNF(((_x) >= (_y))   Or  ((_x) < (_y)))     <-- True;
+28  # CNF(((_x) < (_y))    Or  ((_x) >= (_y)))    <-- True;
+
+
+
+120  # CNF((_x)  Or  (_y))            <-- LogOr(x, y, CNF(x), CNF(y));
+10 # LogOr(_x,_y,_x,_y)               <-- x Or y;
+20 # LogOr(_x,_y,_u,_v)               <-- CNF(u Or v);
+
+130  # CNF( Not  (_x))                <-- LogNot(x, CNF(x));
+10 # LogNot(_x, _x)                   <-- Not (x);
+20 # LogNot(_x, _y)                   <-- CNF(Not (y));
+
+40 # CNF( Not ( Not  (_x)))           <-- CNF(x);                           
+45 # CNF((_x)=>(_y))                  <-- CNF((Not (x))  Or  (y));              
+
+50 # CNF( Not ((_x)  And  (_y)))      <-- CNF((Not x) Or (Not y));          
+60 # CNF( Not ((_x)  Or  (_y)))       <-- CNF(Not (x)) And CNF(Not (y));        
+
+
+
+70 # CNF(((_x)  And  (_y))  Or  (_z)) <-- CNF(x Or z) And CNF(y Or z);      
+80 # CNF((_x)  Or  ((_y)  And  (_z))) <-- CNF(x Or y) And CNF(x Or z);
+
+90 # CNF((_x)  And  (_y))             <-- CNF(x) And CNF(y);                
+
+101 # CNF( (_x) < (_y) )              <-- Not CNFInEq(x >=  y);
+102 # CNF( (_x) > (_y) )              <-- CNFInEq(x >   y);
+103 # CNF( (_x) >= (_y) )             <-- CNFInEq(x >=  y);
+104 # CNF( (_x) <= (_y) )             <-- Not CNFInEq(x >  y);
+105 # CNF( (_x) == (_y) )             <-- CNFInEq(x ==  y);
+106 # CNF( (_x) !== (_y) )            <-- Not CNFInEq(x == y);
+
+111 # CNF( Not((_x) <  (_y)) )        <-- CNFInEq( x >= y );
+113 # CNF( Not((_x) <= (_y)) )        <-- CNFInEq( x > y );
+116 # CNF( Not((_x) !== (_y)) )       <-- CNFInEq( x == y );
+
+
+200 # CNF(_x)                         <-- x;
+
+20 # CNFInEq((_xex) == (_yex))        <-- (CNFInEqSimplify(xex-yex) ==  0);
+20 # CNFInEq((_xex) > (_yex))         <-- (CNFInEqSimplify(xex-yex) >   0);
+20 # CNFInEq((_xex) >= (_yex))        <-- (CNFInEqSimplify(xex-yex) >=  0);
+30 # CNFInEq(_exp)                    <-- (CNFInEqSimplify(exp));
+
+10 # CNFInEqSimplify((_x) - (_x))     <-- 0;        
+100# CNFInEqSimplify(_x)              <-- [ x;];
+                                                    
+
+
+
+
+
+
+ 
+
+
+
+
+CanProveAux(_proposition)    <-- LogicSimplify(proposition, 3);
+
+CanProve(_proposition)      <-- CanProveAux( proposition );
+
+
+10 # Contradict((_x) - (_y) == 0, (_x) - (_z) == 0)_(y != z)     <-- True;
+12 # Contradict((_x) == (_y), (_x) == (_z))_(y != z)             <-- True;
+13 # Contradict((_x) - (_y) == 0, (_x) - (_z) >= 0)_(z > y)      <-- True;
+14 # Contradict((_x) - (_y) == 0, (_x) - (_z) >  0)_(z > y)      <-- True;
+14 # Contradict(Not (_x) - (_y) >= 0, (_x) - (_z) >  0)_(z > y)  <-- True;
+15 # Contradict(_a, _b)                                          <-- IsEqual(SimpleNegate(a), b);
+
+
+
+
+DoUnitSubsumptionAndResolution(_list) <--
+[
+    Local(i, j, k, isFalse, isTrue, changed);
+    Bind(isFalse, False);
+    Bind(isTrue,  False);
+    Bind(changed, True);
+
+    
+
+    While(changed) [
+      Bind(changed, False);
+
+      For(i:=1, (Not isFalse And Not isTrue) And i <= Length(list), i++)
+      [
+        If(Length(list[i]) = 1, [
+          Local(x); Bind(x, list[i][1]); 
+          
+
+          
+          For(j:=1, (Not isFalse And Not isTrue) And j <= Length(list), j++)
+          [
+              If(i !=j, [
+                Local(deletedClause); Bind(deletedClause, False);
+                For(k:=1, (Not isFalse And Not isTrue And Not deletedClause) And k <= Length(list[j]),  k++)
+                [
+                    
+
+                    
+
+                    
+                    If(Subsumes(x, list[j][k]), [
+                        
+                        DestructiveDelete(list, j);
+                        j--;
+                        If(i>j, i--);   
+                        Bind(deletedClause, True);
+                        Bind(changed, True);
+                        If(Length(list) = 0, [Bind(isTrue, True);]);
+                    ],
+                      
+                    If(Contradict(x, list[j][k]), [
+                        
+                        DestructiveDelete(list[j], k);
+                        k--;
+                        Bind(changed, True);
+                        If(Length(list[j]) = 0, [Bind(isFalse, True);]);
+                    ])
+                    );
+                ];
+              ]);
+          ];
+        ]);
+      ];
+    ];
+
+    list;
+];
+
+
+
+LogicCombine(_list) <--
+[
+  Local(i, j);
+  For(Bind(i,1), i<=Length(list), Bind(i,AddN(i,1)))
+  [
+    
+
+    For(j := 1, (j<=Length(list[i])), j++)
+    [
+      Local(tocombine, n, k);
+      Bind(n, list[i][j]);
+
+      {tocombine, k} := LogicFindWith(list, i, n);
+                                                  
+      If(tocombine != -1,
+      [
+        Local(combination);
+        Check(k != -1, "Math", "k is -1");
+
+        Bind(combination, LogicRemoveTautologies(Concat(list[i], list[tocombine])));
+        If(combination = {},                      
+          [Bind(list, {{}}); Bind(i, Length(list)+1);], []);
+      ]);
+    ];
+  ];
+  list;
+];
+
+
+
+LogicFindWith(_list, _i, _n) <--
+[
+  Local(result, index, j);
+  Bind(result, -1); Bind(index, -1);
+
+  For(j := i+1, (result<0) And (j <= Length(list)), j++)
+  [
+    Local(k, len); Bind(len, Length(list[j]));
+    For(k := 1, (result<0) And (k<=len), k++)
+    [
+      Local(el); Bind(el, list[j][k]);
+
+      If(Contradict(n, el),
+        [Bind(result, j); Bind(index, k);]);
+    ];
+  ];
+  {result, index};
+];
+
+
+ 
+
+1 # SimpleNegate(Not (_x))  <-- x;
+2 # SimpleNegate(_x)        <-- Not(x);
+
+
+
+
+LocalCmp(_e1, _e2)                  <-- IsLessThan(PipeToString() Write(e1), PipeToString() Write(e2));
+
+
+100 # SimplifyExpression(_x)        <-- x;
+
+
+
+
+LogicRemoveTautologies(_e) <--
+[
+  Local(i, len, negationfound); Bind(len, Length(e));
+  Bind(negationfound, False);
+
+  
+  e := BubbleSort(e, "LocalCmp");
+
+  For(Bind(i, 1), (i <= len) And (Not negationfound), i++)
+  [
+    Local(x, n, j);
+    
+    
+    Bind(x, MathNth(e,i));
+    Bind(n, SimpleNegate(x));                    
+
+    For(Bind(j, i+1), (j <= len) And (Not negationfound), j++) [
+        Local(y);
+        Bind(y, MathNth(e,j));
+
+        If(IsEqual(y, n),
+            [
+                
+
+                Bind(negationfound, True);
+                
+            ],
+        If(IsEqual(y, x),
+            [
+                
+                DestructiveDelete(e, j);
+                Bind(len,SubtractN(len,1));
+            ])
+        );
+    ];
+    Check(len = Length(e), "Math", "The length computation is incorrect");
+  ];
+
+  If(negationfound, {True}, e);            
+];
+
+
+ 
+
+
+
+10 # LogicSimplify(_proposition, _level)_(level<2)  <-- CNF(proposition);
+
+20 # LogicSimplify(_proposition, _level) <--
+[
+  Local(cnf, list, clauses);
+  Check(level > 1, "Argument", "Wrong level");
+  
+  Bind(cnf, CNF(proposition));
+
+  If(level <= 1, cnf, [
+    Bind(list, Flatten(cnf, "And"));
+    Bind(clauses, {});
+    ForEach(clause, list)
+    [
+      Local(newclause);
+      
+      Bind(newclause, LogicRemoveTautologies(Flatten(clause, "Or")));
+      If(newclause != {True}, DestructiveAppend(clauses, newclause));
+    ];
+
+    
+    Bind(clauses, RemoveDuplicates(clauses));
+
+    If(IsEqual(level, 3) And (Length(clauses) != 0), [
+        Bind(clauses, DoUnitSubsumptionAndResolution(clauses));
+        Bind(clauses, LogicCombine(clauses));
+    ]);
+
+    Bind(clauses, RemoveDuplicates(clauses));
+
+    If(IsEqual(Length(clauses), 0), True, [
+        
+        Local(result);
+        Bind(result, True);
+        ForEach(item,clauses)
+        [
+            Bind(result, result And UnFlatten(item, "Or", False));
+        ];
+
+        result;
+    ]);
+  ]);
+];
+
+
+10 # Subsumes((_x) - (_y) == 0, Not ((_x) - (_z)==0))_(y!=z)    <-- True;
+
+20 # Subsumes((_x) - (_y) == 0, (_z) - (_x) >= 0)_(z>=y)        <-- True;
+20 # Subsumes((_x) - (_y) == 0, (_z) - (_x) >  0)_(z>y)         <-- True;
+
+30 # Subsumes((_x) - (_y) == 0, (_x) - (_z) >= 0)_(y>=z)        <-- True;
+30 # Subsumes((_x) - (_y) == 0, (_x) - (_z) > 0)_(y>z)          <-- True;
+
+90 # Subsumes((_x), (_x))                                       <-- True;
+
+100# Subsumes((_x), (_y))                                       <-- False;
+
+
+Rulebase("=>",{a,b});
+

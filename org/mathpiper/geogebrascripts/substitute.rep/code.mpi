@@ -1,0 +1,46 @@
+
+
+Function("MacroSubstitute",{body,predicate,change})
+[
+  `MacroSubstitute((Hold(@body)));
+];
+HoldArgument("MacroSubstitute",predicate);
+HoldArgument("MacroSubstitute",change);
+UnFence("MacroSubstitute",3);
+Rulebase("MacroSubstitute",{body});
+UnFence("MacroSubstitute",1);
+
+Rule("MacroSubstitute",1,1,`ApplyFast(predicate,{Hold(Hold(@body))}) = True)
+[
+  `ApplyFast(change,{Hold(Hold(@body))});
+];
+Rule("MacroSubstitute",1,2,`IsFunction(Hold(@body)))
+[
+  `ApplyFast("MacroMapArgs",{Hold(Hold(@body)),"MacroSubstitute"});
+];
+Rule("MacroSubstitute",1,3,True)
+[
+ `Hold(@body);
+];
+
+
+Function("Substitute",{body,predicate,change})
+[
+  Substitute(body);
+];
+HoldArgument("Substitute",predicate);
+HoldArgument("Substitute",change);
+UnFence("Substitute",3);
+Rulebase("Substitute",{body});
+UnFence("Substitute",1);
+
+Rule("Substitute",1,1,Apply(predicate,{body}) = True)
+[
+  Apply(change,{body});
+];
+Rule("Substitute",1,2,IsFunction(body))
+[
+  Apply("MapArgs",{body,"Substitute"});
+];
+Rule("Substitute",1,3,True) body;
+

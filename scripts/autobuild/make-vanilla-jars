@@ -1,0 +1,151 @@
+#!/bin/sh
+# Creates "vanilla" JARs into ../../build for testing purposes.
+# No cleanup is done before compilation by default.
+
+set_bootclasspath () {
+ test -r "$BOOTCLASSPATH" || {
+  BOOTCLASSPATH="$JAVA_HOME"/jre/lib/rt.jar
+  test -r "$BOOTCLASSPATH" || BOOTCLASSPATH="not set"
+  }
+ }
+
+# 1. Start and loading configuration
+test -r autobuild.conf || {
+ echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ echo "Continuing with defaults anyway..."
+ }
+test -r autobuild.conf && . ./autobuild.conf
+
+# 2. Setting defaults
+if [ "$SVNDIR" = "" ]; then
+ ORIGDIR=`dirname $0`
+ WORKDIR=`cd $ORIGDIR/../..; pwd`
+else
+ WORKDIR=`cd $SVNDIR/geogebra; pwd`
+ fi
+
+if [ "$JAVA_HOME" = "" ]; then
+ JAVA_HOME="not set"
+ fi
+ 
+CLEAN=0
+GRAMMAR=1
+
+BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
+set_bootclasspath
+
+# 3. Reading command line arguments
+while [ $# -gt 0 ]; do
+ case $1 in
+  -h | -help | --help)
+   echo "This script creates vanilla *.jar files from the GeoGebra source files."
+   echo
+   echo "Usage: $0 [options]"
+   echo " Where options can be (defaults in parentheses):"
+   echo "  -h, -help, --help         This help"
+   echo "  -c, --clean               Do a cleanup first by removing *.class files"
+   echo "  -s [dir]                  Use dir for source directory ($WORKDIR)"
+   echo "  -b [file]                 Set bootclasspath for ecj ($BOOTCLASSPATH)"
+   echo "  -j [dir]                  Java home directory ($JAVA_HOME)"
+   echo "  -ng, --no-grammar         Do not compile grammar with javacc"
+   exit 0
+   ;;
+
+  -c | --clean)
+   CLEAN=1
+   ;;
+
+  -s)
+   shift
+   WORKDIR="$1"
+   ;;
+
+  -b)
+   shift
+   BOOTCLASSPATH="$1"
+   set_bootclasspath
+
+   ;;
+
+  -j)
+   shift
+   JAVA_HOME="$1"
+   test -x $JAVA_HOME/bin/java || {
+    echo "Cannot find $JAVA_HOME/bin/java, is Java installed?"
+    exit 4
+    }
+   if [ "$BOOTCLASSPATH" = "not set" ]; then
+    set_bootclasspath
+    fi
+   ;;
+
+  -ng | --no-grammar)
+   GRAMMAR=0
+   ;;
+
+  *)
+   echo "Unknown parameter: $1. Use \"$0 -h\" for help."
+   exit 1
+   ;;
+
+  esac
+ shift
+ done
+
+# 4. Initial settings and checks
+if [ "$JAVA_HOME" = "not set" ]; then
+ echo "Java home is not set. Consider using -j followed by your selection of an item from this list:"
+ export JVM_DIR=/usr/lib/jvm
+ ls -1 $JVM_DIR | awk '{print "'$JVM_DIR'/" $0}'
+ exit 2
+ fi
+
+if [ "$BOOTCLASSPATH" = "not set" ]; then
+ echo "Bootclasspath is not set. Consult a Java guru to find it on your machine."
+ exit 3
+ fi
+
+cd $WORKDIR
+
+umask 0002 # trying to ensure g+w rights for all created files automatically
+
+# 5. Setting global variables
+export JAVA_HOME
+export JDK_HOME=$JAVA_HOME
+export JAVACMD=$JAVA_HOME/bin/java
+export ANT_OPTS="-Xmx1024m"
+
+# 6. Building
+
+# 6/1. Cleanup on demand
+if [ $CLEAN = 1 ]; then
+ ant delete-classes
+ fi
+
+# 6/2. Compiling grammar
+if [ $GRAMMAR = 1 ]; then
+ ant compile-grammar-cl
+ fi
+
+# 6/2. Setting classpath for ecj (required for Java 5)
+JOGLDIR=lib/build/jogl1/jar
+CP=""
+for i in lib/*.jar lib/build/*.jar; do
+ CP=$CP:$i
+ done
+CP=$CP:$JOGLDIR/jogl.jar:$JOGLDIR/gluegenrt.jar
+
+# 6/3. Creating *.class files
+echo "$0: Creating class files"
+$JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
+ -time -proceedOnError -g .  > .ecjlog 2>&1
+tail -1 .ecjlog
+echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
+
+# 6/4. Packaging
+ant ggb-jar-files || exit 3
+
+# 7. Finish
+BUILDDIR=`cd $WORKDIR/build; pwd`
+echo "Vanilla *.jar files are located in $BUILDDIR directory."
+echo "To run GeoGebra, enter \"cd $BUILDDIR; java -jar geogebra.jar\"."

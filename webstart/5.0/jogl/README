@@ -1,0 +1,16 @@
+I removed all binary files from here. They will soon be copied
+automatically to the webstart directory by the autobuild machinery from
+the following files:
+
+gluegen-rt.dll -> ../../../lib/build/jogl1/windows-i586/gluegen-rt.dll
+gluegen-rt.jar -> ../../../lib/build/jogl1/jar/gluegen-rt.jar
+jogl_awt.dll -> ../../../lib/build/jogl1/windows-i586/jogl_awt.dll
+jogl_cg.dll -> ../../../lib/build/jogl1/windows-i586/jogl_cg.dll
+jogl.dll -> ../../../lib/build/jogl1/windows-i586/jogl.dll
+jogl.jar -> ../../../lib/build/jogl1/jar/jogl.jar
+libgluegen-rt.jnilib -> ../../../lib/build/jogl1/macosx/libgluegen-rt.jnilib
+libjogl_awt.jnilib -> ../../../lib/build/jogl1/macosx/libjogl_awt.jnilib
+libjogl_cg.jnilib -> ../../../lib/build/jogl1/macosx/libjogl_cg.jnilib
+libjogl.jnilib -> ../../../lib/build/jogl1/macosx/libjogl.jnilib
+
+This list is, however, incomplete, because of the missing architectures (e.g. Linux).

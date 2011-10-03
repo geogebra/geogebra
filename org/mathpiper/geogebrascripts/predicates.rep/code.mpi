@@ -1,0 +1,494 @@
+
+10 # AllSatisfy(pred_IsString,lst_IsList) <-- Apply("And",(MapSingle(pred,lst)));
+
+20 # AllSatisfy(_pred,_lst) <-- False;
+
+
+
+
+
+FloatIsInt(_x) <--
+   [
+     x:=N(Eval(x));
+     Local(prec,result,n);
+     Bind(prec,BuiltinPrecisionGet());
+     If(IsZero(x),Bind(n,2),
+     If(x>0,
+       Bind(n,2+FloorN(N(FastLog(x)/FastLog(10)))),
+       Bind(n,2+FloorN(N(FastLog(-x)/FastLog(10))))
+       ));
+     BuiltinPrecisionSet(n+prec);
+     Bind(result,IsZero(RoundTo(x-Floor(x),prec)) Or IsZero(RoundTo(x-Ceil(x),prec)));
+     BuiltinPrecisionSet(prec);
+     result;
+   ];
+
+
+
+
+
+
+10 # HasExpr(_expr, _atom) _ IsEqual(expr, atom) <-- True;
+
+15 # HasExpr(expr_IsAtom, _atom) <-- IsEqual(expr, atom);
+
+
+
+19 # HasExpr({}, _atom) <-- False;
+20 # HasExpr(expr_IsList, _atom) <-- HasExpr(First(expr), atom) Or HasExpr(Rest(expr), atom);
+
+30 # HasExpr(expr_IsFunction, _atom) <-- HasExpr(Rest(FunctionToList(expr)), atom);
+
+
+
+
+HasExprArith(expr, atom) := HasExprSome(expr, atom, {ToAtom("+"), ToAtom("-"), *, /});
+
+
+
+
+HasExprSome(_expr, _atom, _look'list) _ IsEqual(expr, atom) <-- True;
+
+15 # HasExprSome(expr_IsAtom, _atom, _look'list) <-- IsEqual(expr, atom);
+
+
+
+19 # HasExprSome({}, _atom, _look'list) <-- False;
+20 # HasExprSome(expr_IsList, _atom, _look'list) <-- HasExprSome(First(expr), atom, look'list) Or HasExprSome(Rest(expr), atom, look'list);
+
+
+25 # HasExprSome(expr_IsFunction, _atom, _look'list)_(Not Contains(look'list, ToAtom(Type(expr)))) <-- False;
+
+30 # HasExprSome(expr_IsFunction, _atom, _look'list) <-- HasExprSome(Rest(FunctionToList(expr)), atom, look'list);
+
+
+
+
+10 # HasFunc(_expr, string_IsString) <-- HasFunc(expr, ToAtom(string));
+
+
+10 # HasFunc(expr_IsAtom, atom_IsAtom) <-- False;
+
+
+20 # HasFunc(expr_IsFunction, atom_IsAtom) <-- IsEqual(First(FunctionToList(expr)), atom) Or ListHasFunc(Rest(FunctionToList(expr)), atom);
+
+
+
+
+HasFuncArith(expr, atom) := HasFuncSome(expr, atom, {ToAtom("+"), ToAtom("-"), *, /});
+
+
+
+10 # HasFuncSome(_expr, string_IsString, _look'list) <-- HasFuncSome(expr, ToAtom(string), look'list);
+
+
+10 # HasFuncSome(expr_IsAtom, atom_IsAtom, _look'list) <-- False;
+
+
+
+
+15 # HasFuncSome(expr_IsFunction, atom_IsAtom, _look'list)_(Not Contains(look'list, ToAtom(Type(expr)))) <-- IsEqual(First(FunctionToList(expr)), atom);
+
+20 # HasFuncSome(expr_IsFunction, atom_IsAtom, _look'list) <-- IsEqual(First(FunctionToList(expr)), atom) Or ListHasFuncSome(Rest(FunctionToList(expr)), atom, look'list);
+
+
+0 # IsBoolType(True) <-- True;
+0 # IsBoolType(False) <-- True;
+1 # IsBoolType(_anythingelse) <-- False;
+
+
+Function ("IsBoolean", {x})
+	(x=True) Or (x=False) Or IsFunction(x) And Contains({"=", ">", "<", ">=", "<=", "!=", "And", "Not", "Or"}, Type(x));
+
+
+IsConstant(_n) <-- (VarList(n) = {});
+
+
+IsDiagonal(A_IsMatrix) <--
+[
+	Local(i,j,m,n,result);
+	m      := Length(A);
+	n      := Length(A[1]);
+	result := (m=n);    
+	
+	i:=2;
+    While(i<=m And result)
+     [
+	     j:=1;
+	     While(j<=n And result)
+	     [
+		     result:= (i=j Or A[i][j] = 0);
+		     j++;
+	     ];
+	     i++;
+	 ];
+	If(m=2, [ result := result And (A=Transpose(A)); ]	);
+	result;
+];
+
+
+
+
+10 # IsEquation(expr_IsAtom) <-- False;
+
+12 # IsEquation(_expr) <-- FunctionToList(expr)[1] = == ; 
+
+
+IsEven(n) := IsInteger(n) And ( BitAnd(n,1)  = 0 );
+
+
+IsEvenFunction(f,x):= (f = Eval(Subst(x,-x)f));
+
+
+IsHermitian(A_IsMatrix) <-- (Conjugate(Transpose(A))=A);
+
+
+IsIdempotent(A_IsMatrix) <-- (A^2 = A);
+
+
+10 # IsInfinity(Infinity) <-- True;
+10 # IsInfinity(-(_x)) <-- IsInfinity(x);
+
+
+
+11 # IsInfinity(Sign(_x)*y_IsInfinity) <-- True;
+
+60000 # IsInfinity(_x) <-- False;
+
+
+IsLowerTriangular(A_IsMatrix) <-- (IsUpperTriangular(Transpose(A)));
+
+
+
+
+
+10 # CanBeMonomial(_expr)_(Type(expr)="UniVariate") <-- False;
+
+10 # CanBeMonomial(_expr)<--Not (HasFunc(expr,ToAtom("+")) Or HasFunc(expr,ToAtom("-")));
+
+10 # IsMonomial(expr_CanBeMonomial) <-- 
+[
+    Local(r);
+    If( IsRationalFunction(expr),
+        r := (VarList(Denominator(expr)) = {}),
+        r := True
+    );
+];
+
+15 # IsMonomial(_expr) <-- False;
+
+
+IsNegativeInteger(x):= IsInteger(x) And x < 0;
+
+
+IsNegativeNumber(x):= IsNumber(x) And x < 0;
+
+
+
+
+IsNegativeReal(_r) <--
+[
+  r:=N(Eval(r));
+  (IsNumber(r) And r <= 0);
+];
+
+
+IsNonNegativeInteger(x):= IsInteger(x) And x >= 0;
+
+
+IsNonNegativeNumber(x):= IsNumber(x) And x >= 0;
+
+
+IsNonZeroInteger(x) := (IsInteger(x) And x != 0);
+
+
+
+
+
+10 # IsNotZero(x_IsNumber) <-- ( AbsN(x)  >= PowerN(10, -BuiltinPrecisionGet()));
+10 # IsNotZero(x_IsInfinity) <-- True;
+60000 # IsNotZero(_x) <-- False;
+
+
+
+IsNumericList(_arg'list) <-- IsList(arg'list) And
+	("And" @ (MapSingle(Hold({{x},IsNumber(N(Eval(x)))}), arg'list)));
+
+
+IsOdd(n)  := IsInteger(n) And ( BitAnd(n,1)  = 1 );
+
+
+IsOddFunction(f,x):= (f = Eval(-Subst(x,-x)f));
+
+
+
+10 # IsOne(x_IsNumber) <-- IsZero(SubtractN(x,1));
+60000 # IsOne(_x) <-- False;
+
+
+IsOrthogonal(A_IsMatrix) <-- (Transpose(A)*A=Identity(Length(A)));
+
+
+
+
+10 # IsPolynomial(expr_IsFunction) <-- 
+[
+    Local(x,vars);
+    vars := VarList(expr);
+    If(Length(vars)>1,vars:=HeapSort(vars,"IsGreaterThan"));    
+    x := vars[1];
+    IsPolynomial(expr,x);
+];
+
+15 # IsPolynomial(_expr) <-- False;
+
+
+10 # IsPolynomial(_expr,_var)_(CanBeUni(var,expr)) <-- True;
+
+15 # IsPolynomial(_expr,_var) <-- False;
+
+
+
+
+10 # IsPolynomialOverIntegers(expr_IsFunction) <-- 
+[
+    Local(x,vars);
+    vars := VarList(expr);
+    If(Length(vars)>1,vars:=HeapSort(vars,"IsGreaterThan"));    
+    x := vars[1];
+    IsPolynomialOverIntegers(expr,x);
+];
+
+15 # IsPolynomialOverIntegers(_expr) <-- False;
+
+
+10 # IsPolynomialOverIntegers(_expr,_var)_(CanBeUni(var,expr)) <--
+[
+    If( AllSatisfy("IsInteger",Coef(expr,var,0 .. Degree(expr,var))),
+        True,
+        False
+      );
+];
+
+15 # IsPolynomialOverIntegers(_expr,_var) <-- False;
+
+
+IsPositiveInteger(x):= IsInteger(x) And x > 0;
+
+
+IsPositiveNumber(x):= IsNumber(x) And x > 0;
+
+
+
+IsPositiveReal(_r) <--
+[
+  r:=N(Eval(r));
+  (IsNumber(r) And r >= 0);
+];
+
+
+
+
+10 # IsRational(x_IsInteger) <-- True;
+10 # IsRational(x_IsInteger / y_IsInteger) <-- True;
+10 # IsRational(-(x_IsInteger / y_IsInteger)) <-- True;
+60000 # IsRational(_x) <-- False;
+
+
+
+
+10 # IsRationalFunction(_expr)_(Length(VarList(expr))=0) <-- False;
+
+15 # IsRationalFunction(_expr) <-- IsRationalFunction(expr,VarList(expr));
+
+10 # IsRationalFunction(expr_IsRationalOrNumber,_var) <-- False;
+
+15 # IsRationalFunction(_expr,var_IsAtom)_(Type(expr)="/" Or Type(-expr)="/") <-- 
+[
+    If (IsPolynomial(Numerator(expr),var) And IsPolynomial(Denominator(expr),var),
+        Contains(VarList(Denominator(expr)),var),
+        False
+    );
+];
+
+20 # IsRationalFunction(_expr,vars_IsList)_(Type(expr)="/" Or Type(-expr)="/") <-- 
+[
+    If (IsPolynomial(Numerator(expr),vars) And IsPolynomial(Denominator(expr),vars),
+        Intersection(vars, VarList(expr)) != {},
+        False
+    );
+];
+
+60000 # IsRationalFunction(_expr,_var) <-- False;
+
+
+
+10 # IsRationalOrNumber(x_IsNumber) <-- True;
+10 # IsRationalOrNumber(x_IsNumber / y_IsNumber) <-- True;
+10 # IsRationalOrNumber(-(x_IsNumber / y_IsNumber)) <-- True;
+60000 # IsRationalOrNumber(_x) <-- False;
+
+
+IsSkewSymmetric(A_IsMatrix) <-- (Transpose(A)=(-1*A));
+
+
+
+10 # IsSumOfTerms(_var,expr_IsFreeOf(var)) <-- False;
+
+
+12 # IsSumOfTerms(_var,expr_IsAtom()) <-- False;
+
+
+14 # IsSumOfTerms(_var,expr_IsList())_(expr[1]=ToAtom("+") Or expr[1]=ToAtom("-")) <-- True;
+
+
+
+16 # IsSumOfTerms(_var,expr_IsList())_(expr[1]=ToAtom("*")) <-- Or(IsFreeOf(var,expr[2]),IsFreeOf(var,expr[3]));
+
+
+
+18 # IsSumOfTerms(_var,expr_IsList())_(expr[1]=ToAtom("/")) <-- IsFreeOf(var,expr[3]);
+
+
+20 # IsSumOfTerms(_var,expr_IsList()) <-- False;
+
+
+22 # IsSumOfTerms(_var,_expr) <-- IsSumOfTerms(var,FunctionToList(expr));
+
+
+IsSymmetric(A_IsMatrix) <-- (Transpose(A)=A);
+
+
+IsUnitary(A_IsMatrix) <-- (Transpose(Conjugate(A))*A = Identity(Length(A)));
+
+
+IsUpperTriangular(A_IsMatrix) <--
+[
+        Local(i,j,m,n,result);
+        m:=Length(A);
+        n:=Length(A[1]);
+        i:=2;
+        result:=(m=n);
+        While(i<=m And result)
+        [
+                j:=1;
+                While(j<=n And result)
+                [
+                        result:= (i<=j Or A[i][j] = 0);
+                        j++;
+                ];
+                i++;
+        ];
+        result;
+];
+
+
+IsVariable(_expr) <-- (IsAtom(expr) And Not(expr=Infinity) And Not(expr= -Infinity) And Not(expr=Undefined) And Not(IsNumber(N(Eval(expr)))));
+
+
+
+
+
+
+10 # IsZero(x_IsNumber) <-- ( MathSign(x) = 0 Or AbsN(x)  < PowerN(10, -BuiltinPrecisionGet()));
+60000 # IsZero(_x) <-- False;
+
+
+20 # IsZero(UniVariate(_var,_first,_coefs)) <-- IsZeroVector(coefs);
+
+
+
+
+
+
+19 # ListHasFunc({}, _atom) <-- False;
+20 # ListHasFunc(expr_IsList, atom_IsAtom) <-- HasFunc(First(expr), atom) Or ListHasFunc(Rest(expr), atom);
+
+
+19 # ListHasFuncSome({}, _atom, _look'list) <-- False;
+20 # ListHasFuncSome(expr_IsList, atom_IsAtom, _look'list) <-- HasFuncSome(First(expr), atom, look'list) Or ListHasFuncSome(Rest(expr), atom, look'list);
+
+
+10 # NoneSatisfy(pred_IsString,lst_IsList) <-- Not Apply("Or",(MapSingle(pred,lst)));
+
+20 # NoneSatisfy(_pred,_lst) <-- True;
+
+
+
+
+LocalSymbols(p,x)
+[
+
+Function("IsScalar",{x}) Not(IsList(x));
+
+
+
+
+Function("IsVector",{x})
+   If(IsList(x),
+   Length(Select(x, IsList))=0,
+   False);
+
+
+Function("IsVector",{p,x})
+[
+   If(IsList(x),
+   [
+      Local(i,n,result);
+      n:=Length(x);
+      i:=1;
+      result:=True;
+      While(i<=n And result)
+      [
+	 result:=Apply(p,{x[i]});
+	 i++;
+      ];
+      result;
+   ],
+   False);
+];
+
+
+Function("IsMatrix",{x})
+If(IsList(x) And Length(x)>0,
+[
+   Local(n);
+   n:=Length(x);
+   If(Length(Select(x, IsVector))=n,
+   MapSingle(Length,x)=Length(x[1])+ZeroVector(n),
+   False);
+],
+False);
+
+
+Function("IsMatrix",{p,x})
+If(IsMatrix(x),
+[
+   Local(i,j,m,n,result);
+   m:=Length(x);
+   n:=Length(x[1]);
+   i:=1;
+   result:=True;
+   While(i<=m And result)
+   [
+      j:=1;
+      While(j<=n And result)
+      [
+         result:=Apply(p,{x[i][j]});
+         j++;
+      ];
+      i++;
+   ];
+   result;
+],
+False);
+
+
+
+
+Function("IsSquareMatrix",{x}) IsMatrix(x) And Length(x)=Length(x[1]);
+
+Function("IsSquareMatrix",{p,x}) IsMatrix(p,x) And Length(x)=Length(x[1]);
+
+]; 
+

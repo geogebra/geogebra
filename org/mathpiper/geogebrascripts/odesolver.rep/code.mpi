@@ -1,0 +1,245 @@
+
+
+
+
+
+10 # OdeLeftHandSideEq(_l == _r) <-- (l-r);
+20 # OdeLeftHandSideEq(_e) <-- e;
+
+10 # OdeNormChange(y(n_IsInteger)) <-- ListToFunction({yyy,n});
+20 # OdeNormChange(y) <-- yyy(0);
+25 # OdeNormChange(y') <-- yyy(1);
+25 # OdeNormChange(y'') <-- yyy(2);
+30 # OdeNormChange(_e) <-- e;
+OdeNormPred(_e) <-- (e != OdeNormChange(e));
+
+
+OdeNormalForm(_e) <--
+[
+  e := Substitute(OdeLeftHandSideEq(e),"OdeNormPred","OdeNormChange");
+];
+
+
+
+10 # OdeChange(yyy(n_IsInteger)) <-- Apply(yn,{n});
+30 # OdeChange(_e) <-- e;
+OdePred(_e) <-- (e != OdeChange(e));
+UnFence("OdeChange",1);
+UnFence("OdePred",1);
+OdeSubstitute(_e,_yn) <--
+[
+  Substitute(e,"OdePred","OdeChange");
+];
+UnFence("OdeSubstitute",2);
+
+OdeConstantList(n_IsInteger) <--
+[
+  Local(result,i);
+  result:=ZeroVector(n);
+  For (i:=1,i<=n,i++) result[i]:=UniqueConstant();
+  result;
+];
+
+
+Rulebase("OdeTerm",{px,list});
+
+
+
+10# OdeFlatTerm(OdeTerm(_a0,_b0)+OdeTerm(_a1,_b1)) <-- OdeTerm(a0+a1,b0+b1);
+10# OdeFlatTerm(OdeTerm(_a0,_b0)-OdeTerm(_a1,_b1)) <-- OdeTerm(a0-a1,b0-b1);
+10# OdeFlatTerm(-OdeTerm(_a1,_b1)) <-- OdeTerm(-a1,-b1);
+10# OdeFlatTerm(OdeTerm(_a0,_b0)*OdeTerm(_a1,_b1))_
+    (IsZeroVector(b0) Or IsZeroVector(b1)) <--
+[
+  OdeTerm(a0*a1,a1*b0+a0*b1);
+];
+
+10# OdeFlatTerm(OdeTerm(_a0,_b0)/OdeTerm(_a1,_b1))_
+    (IsZeroVector(b1)) <--
+    OdeTerm(a0/a1,b0/a1);
+
+10# OdeFlatTerm(OdeTerm(_a0,b0_IsZeroVector)^OdeTerm(_a1,b1_IsZeroVector)) <--
+    OdeTerm(a0^a1,b0);
+15 # OdeFlatTerm(OdeTerm(_a,_b)) <-- OdeTerm(a,b);
+
+15# OdeFlatTerm(OdeTerm(_a0,_b0)*OdeTerm(_a1,_b1)) <-- OdeTermFail();
+15# OdeFlatTerm(OdeTerm(_a0,b0)^OdeTerm(_a1,b1)) <-- OdeTermFail();
+15# OdeFlatTerm(OdeTerm(_a0,b0)/OdeTerm(_a1,b1)) <-- OdeTermFail();
+20 # OdeFlatTerm(a_IsAtom) <-- OdeTermFail();
+
+20 # OdeFlatTerm(_a+_b) <-- OdeFlatTerm(OdeFlatTerm(a) + OdeFlatTerm(b));
+20 # OdeFlatTerm(_a-_b) <-- OdeFlatTerm(OdeFlatTerm(a) - OdeFlatTerm(b));
+20 # OdeFlatTerm(_a*_b) <-- OdeFlatTerm(OdeFlatTerm(a) * OdeFlatTerm(b));
+20 # OdeFlatTerm(_a^_b) <-- OdeFlatTerm(OdeFlatTerm(a) ^ OdeFlatTerm(b));
+20 # OdeFlatTerm(_a/_b) <-- OdeFlatTerm(OdeFlatTerm(a) / OdeFlatTerm(b));
+
+OdeMakeTerm(xx_IsAtom) <-- OdeTerm(xx,FillList(0,10));
+OdeMakeTerm(yyy(_n)) <-- OdeTerm(0,BaseVector(n+1,10));
+
+
+20 # OdeMakeTerm(_xx) <-- OdeTerm(xx,FillList(0,10));
+10 # OdeMakeTermPred(_x+_y) <-- False;
+10 # OdeMakeTermPred(_x-_y) <-- False;
+10 # OdeMakeTermPred(  -_y) <-- False;
+10 # OdeMakeTermPred(_x*_y) <-- False;
+10 # OdeMakeTermPred(_x/_y) <-- False;
+10 # OdeMakeTermPred(_x^_y) <-- False;
+20 # OdeMakeTermPred(_rest) <-- True;
+
+
+OdeCoefList(_e) <--
+[
+  Substitute(e,"OdeMakeTermPred","OdeMakeTerm");
+];
+OdeTermFail() <-- OdeTerm(Error,FillList(Error,10));
+
+
+OdeAuxiliaryEquation(_e) <--
+[
+	
+	e:=OdeNormalForm(e);
+	e:=OdeSubstitute(e,{{n},aaa^n*Exp(aaa*x)});
+	e:=Subst(Exp(aaa*x),1)e;
+	Simplify(Subst(aaa,x)e);
+];
+
+
+OdeSolveLinearHomogeneousConstantCoefficients(_e) <--
+[
+  Local(roots,consts,auxeqn);
+
+  
+  e:=OdeAuxiliaryEquation(e);
+  auxeqn:=e;
+
+  If(InVerboseMode(), Echo("OdeSolve: Auxiliary Eqn ",auxeqn) );
+
+
+  
+  e := Apply("RootsWithMultiples",{e});
+  e := RemoveDuplicates(e);
+
+  
+  if( Length(e) > 0 )[
+    roots:=Transpose(e);
+    consts:= MapSingle(Hold({{nn},Add(OdeConstantList(nn)*(x^(0 .. (nn-1))))}),roots[2]);
+    roots:=roots[1];
+
+    
+    
+    Add( consts * Exp(roots*x) );
+  ] else if ( Degree(auxeqn,x) = 2 ) [
+    
+    Local(a,b,c,roots);
+    roots:=ZeroVector(2);
+
+    
+    {c,b,a} := Coef(auxeqn,x,0 .. 2);
+
+
+    roots := PSolve(a*x^2+b*x+c,x);
+    If(InVerboseMode(),Echo("OdeSolve: Roots of quadratic:",roots) );
+
+    
+    
+    
+    
+    
+
+    if( b=0 And c=0 )[
+	Add(OdeConstantList(2)*{1,x});
+    ] else if( IsNumber(N(roots[1])) )[
+	If(InVerboseMode(),Echo("OdeSolve: Real roots"));
+	Add(OdeConstantList(2)*{Exp(roots[1]*x),Exp(roots[2]*x)});
+    ] else [
+      If(InVerboseMode(),Echo("OdeSolve: Complex conjugate pair roots"));
+      Local(alpha,beta);
+      alpha:=Re(roots[1]);
+      beta:=Im(roots[1]);
+      Exp(alpha*x)*Add( OdeConstantList(2)*{Sin(beta*x),Cos(beta*x)} );
+    ];
+
+  ] else [
+    Echo("OdeSolve: Could not find roots of auxilliary equation");
+  ];
+];
+
+
+10 # OdeOrder(_e) <-- [
+	Local(h,i,coefs);
+
+	coefs:=ZeroVector(10); 
+	e:=OdeNormalForm(e);
+
+	If(InVerboseMode(),Echo("OdeSolve: Normal form is",e));
+	h:=OdeFlatTerm(OdeCoefList(e));
+	If(InVerboseMode(),Echo("OdeSolve: Flatterm is",h));
+
+	
+	
+	coefs:=Reverse(FunctionToList(h)[3]);
+	While( First(coefs) = 0 )[
+		coefs:=Rest(coefs);
+	];
+	Length(coefs)-1;
+];
+
+
+10 # OdeSolve(_expr)_(OdeOrder(expr)=0)	    <-- Echo("OdeSolve: Not a differential equation");
+
+
+
+10 # OdeSolve(y'+_a==_expr)_(IsFreeOf(y,a)) <-- OdeSolve(y'==expr-a);
+10 # OdeSolve(y'-_a==_expr)_(IsFreeOf(y,a)) <-- OdeSolve(y'==expr+a);
+10 # OdeSolve(y'/_a==_expr)_(IsFreeOf(y,a)) <-- OdeSolve(y'==expr*a);
+10 # OdeSolve(_a*y'==_expr)_(IsFreeOf(y,a)) <-- OdeSolve(y'==expr/a);
+10 # OdeSolve(y'*_a==_expr)_(IsFreeOf(y,a)) <-- OdeSolve(y'==expr/a);
+10 # OdeSolve(_a/y'==_expr)_(IsFreeOf(y,a)) <-- OdeSolve(y'==a/expr);
+
+
+10 # OdeSolve(y'==_expr)_(IsFreeOf({y,y',y''},expr)) <--
+[
+	If(InVerboseMode(),Echo("OdeSolve: Integral in disguise!"));
+	If(InVerboseMode(),Echo("OdeSolve: Attempting to integrate ",expr));
+
+	(Integrate(x) expr)+UniqueConstant();
+];
+
+50 # OdeSolve(_e) <--
+[
+  Local(h);
+  e:=OdeNormalForm(e);
+  If(InVerboseMode(),Echo("OdeSolve: Normal form is",e));
+  h:=OdeFlatTerm(OdeCoefList(e));
+  If(InVerboseMode(),Echo("OdeSolve: Flatterm is",h));
+  if (IsFreeOf(Error,h))
+  [
+    OdeSolveLinear(e,h);
+  ]
+  else
+    OdeUnsolved(e);
+];
+
+10 # OdeSolveLinear(_e,OdeTerm(0,_list))_(Length(VarList(list)) = 0) <--
+[
+  OdeSolveLinearHomogeneousConstantCoefficients(OdeNormalForm(e));
+];
+
+100 # OdeSolveLinear(_e,_ode) <-- OdeUnsolved(e);
+
+OdeUnsolved(_e) <-- Subst(yyy,y)e;
+
+
+
+
+
+OdeTest(_e,_solution) <--
+[
+  Local(s);
+  s:= `Lambda({n},if (n>0)(Differentiate(x,n)(@solution)) else (@solution));
+  e:=OdeNormalForm(e);
+  e:=Apply("OdeSubstitute",{e,s});
+  e:=Simplify(e);
+  e;
+];
+

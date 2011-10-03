@@ -1,0 +1,302 @@
+
+
+(Assert(_error'class, _error'object) _predicate) <--
+[
+	CheckErrorTableau();
+	If(IsEqual(predicate, True),	
+		True,
+		[	
+			DestructiveAppend(GetErrorTableau(), {error'class, error'object});
+			False;
+		]
+	);
+];
+
+
+(Assert(_error'class) _predicate) <-- Assert(error'class, True) predicate;
+
+
+(Assert() _predicate) <-- Assert("generic", True) predicate;
+
+
+
+Function("DefaultPrint", {x})
+[
+	DumpErrors();
+	WriteString("Result: ");
+	Write(x);
+	WriteString(";
+");
+];
+HoldArgument("DefaultPrint", x);
+
+
+
+DumpErrors() <--
+[
+	Local(error'object, error'word);
+	CheckErrorTableau();
+	ForEach(error'object, GetErrorTableau())
+	[	
+		If(
+			IsList(error'object),
+			[
+				If( 
+					Length(error'object) > 0 And error'object[1] = "warning",
+					[
+						error'word := "Warning";
+						error'object[1] := "";	
+					],
+					error'word := "Error: "	
+				);
+
+				If(	
+					Length(error'object)=2 And error'object[2]=True,
+					Echo(error'word, error'object[1]),
+					[
+						Echo(error'word, error'object[1], ": ",
+							PrintList(Rest(error'object)));
+					]
+				);
+			],
+			
+			Echo("Error: ", error'object)
+		);
+	];
+	ClearErrors();
+];
+
+
+
+
+10 # EchoInternal(string_IsString) <--
+[
+  WriteString(string);
+];
+
+20 # EchoInternal(_item) <--
+[
+  Write(item);Space();
+];
+
+
+
+
+
+
+
+
+RulebaseListed("Echo",{firstParameter, parametersList});
+
+
+5 # Echo(_firstParameter) <-- Echo(firstParameter, {});
+
+
+
+
+10 # Echo(_firstParameter, parametersList_IsList) <--
+[
+    EchoInternal(firstParameter);
+    ForEach(item,parametersList) EchoInternal(item);
+    NewLine();
+    
+];
+
+
+
+20 # Echo(_firstParameter, _secondParameter) <-- Echo(firstParameter, {secondParameter});
+
+
+
+Echo() := NewLine();
+
+
+
+
+
+
+
+
+
+
+LocalSymbols(ErrorTableau) [
+
+  
+  Bind(ErrorTableau, {});
+
+  GetErrorTableau() := ErrorTableau;
+
+  ClearErrors() <-- Bind(ErrorTableau, {});
+
+  
+  CheckErrorTableau() <--
+  If(
+    Not IsList(ErrorTableau),
+    Bind(ErrorTableau, {{"general", "corrupted ErrorTableau"}})
+  );
+
+]; 
+
+
+
+GetError(error'class_IsString) <--
+[
+	Local(error);
+	error := GetErrorTableau()[error'class];
+	If(
+		error != Empty,
+		error,
+		False
+	);
+];
+
+
+
+ClearError(error'class_IsString) <-- AssocDelete(GetErrorTableau(), error'class);
+
+
+
+IsError() <--
+[
+	CheckErrorTableau();
+	Length(GetErrorTableau())>0;
+];
+
+
+IsError(error'class_IsString) <--
+[
+	CheckErrorTableau();
+	GetErrorTableau()[error'class] != Empty;
+];
+
+
+
+
+
+
+
+10 # Print(_x) <--
+[
+  Print(x,60000);
+  NewLine();
+  DumpErrors();
+];
+
+
+10 # Print(x_IsAtom,_n) <-- Write(x);
+10 # Print(_x,_n)_(IsInfix(Type(x))And ArgumentsCount(x) = 2) <--
+[
+  Local(bracket);
+  bracket:= (PrecedenceGet(Type(x)) > n);
+  If(bracket,WriteString("("));
+  Print(x[1],LeftPrecedenceGet(Type(x)));
+  Write(x[0]);
+  Print(x[2],RightPrecedenceGet(Type(x)));
+  If(bracket,WriteString(")"));
+];
+
+10 # Print(_x,_n)_(IsPrefix(Type(x)) And ArgumentsCount(x) = 1) <--
+[
+  Local(bracket);
+  bracket:= (PrecedenceGet(Type(x)) > n);
+  Write(x[0]);
+  If(bracket,WriteString("("));
+  Print(x[1],RightPrecedenceGet(Type(x)));
+  If(bracket,WriteString(")"));
+];
+
+10 # Print(_x,_n)_(IsPostfix(Type(x))And ArgumentsCount(x) = 1) <--
+[
+  Local(bracket);
+  bracket:= (PrecedenceGet(Type(x)) > n);
+  If(bracket,WriteString("("));
+  Print(x[1],LeftPrecedenceGet(Type(x)));
+  Write(x[0]);
+  If(bracket,WriteString(")"));
+];
+
+20 # Print(_x,_n)_(Type(x) = "List") <--
+[
+  WriteString("{");
+  PrintArg(x);
+  WriteString("}");
+];
+
+20 # Print(_x,_n)_(Type(x) = "Prog") <--
+[
+  WriteString("[");
+  PrintArgProg(Rest(FunctionToList(x)));
+  WriteString("]");
+];
+20 # Print(_x,_n)_(Type(x) = "Nth") <--
+[
+  Print(x[1],0);
+  WriteString("[");
+  Print(x[2],60000);
+  WriteString("]");
+];
+
+100 # Print(x_IsFunction,_n) <--
+ [
+   Write(x[0]);
+   WriteString("(");
+   PrintArg(Rest(FunctionToList(x)));
+   WriteString(")");
+ ];
+
+
+
+10 # PrintArg({}) <-- True;
+
+20 # PrintArg(_list) <--
+[
+  Print(First(list),60000);
+  PrintArgComma(Rest(list));
+];
+10 # PrintArgComma({}) <-- True;
+20 # PrintArgComma(_list) <--
+[
+  WriteString(",");
+  Print(First(list),60000);
+  PrintArgComma(Rest(list));
+];
+
+
+18 # Print(Complex(0,1),_n)   <-- [WriteString("I");];
+19 # Print(Complex(0,_y),_n)  <-- [WriteString("I*");Print(y,4);];
+19 # Print(Complex(_x,1),_n)  <-- [Print(x,7);WriteString("+I");];
+20 # Print(Complex(_x,_y),_n) <-- [Print(x,7);WriteString("+I*");Print(y,4);];
+
+
+
+10 # PrintArgProg({}) <-- True;
+20 # PrintArgProg(_list) <--
+[
+   Print(First(list),60000);
+   WriteString(";");
+   PrintArgProg(Rest(list));
+];
+
+
+
+
+
+
+
+
+Macro("Show",{id})    [SysOut("<< ",@id," >>");];
+Macro("Show",{id,x})  [SysOut("<< ",@id," >> ",Hold(@x),": ",Eval(@x));];
+
+Function("TableForm",{list})
+[
+  Local(i);
+  ForEach(i,list)
+  [
+    Write(i);
+    NewLine();
+  ];
+  True;
+];
+
+Macro("Tell",{id})    [Echo(<<,@id,>>);];
+Macro("Tell",{id,x})  [Echo(<<,@id,>>,Hold(@x),": ",Eval(@x));];

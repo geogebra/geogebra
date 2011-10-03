@@ -1,0 +1,216 @@
+
+
+
+10 # Combine(expr_IsZero) <-- 0;
+
+20 # Combine(_expr) <-- 
+[
+    Local(L);
+    L := ReassembleListTerms(DisassembleExpression(expr));
+    UnFlatten(L,"+",0);
+];
+
+
+Eliminate(_var,_replace,_function) <-- Simplify(Subst(var,replace)function);
+
+
+LocalSymbols(AssembleTerms, AssembleTermsRecursive)
+[
+
+    AssembleTerms(list) :=
+    [
+        Check(IsList(list), "Argument", "The argument must be a list.");
+
+        If(Length(list) = 1, 
+            First(list),
+            AssembleTermsRecursive(Reverse(list)) 
+        );
+    ];
+
+
+    AssembleTermsRecursive(list) :=
+    [
+        If(Type(list[1]) = "-" Or IsNegativeNumber(list[1]) Or Type(list[1]) = "/" And (Type(Numerator(list[1])) = "-" Or IsNegativeNumber(Numerator(list[1]))),
+            If(Length(list) = 2,
+                ListToFunction({ToAtom("-"), list[2], -list[1]} ),
+                ListToFunction({ToAtom("-"), AssembleTermsRecursive(Rest(list)), -First(list)} )
+            ),
+            If(Length(list) = 2,
+                ListToFunction({ToAtom("+"), list[2], list[1]} ),
+                ListToFunction({ToAtom("+"), AssembleTermsRecursive(Rest(list)), First(list)} )
+            )
+        );
+    ];
+
+
+10 # ExpandBrackets(xx_IsZero) <-- 0;
+
+20 # ExpandBrackets(_xx)_(Type(xx)="/" Or Type(-xx)="/") <-- 
+[
+    Local(N,D,t);
+    N := ReassembleListTerms(DisassembleExpression(Numerator(xx)));
+    D := ExpandBrackets(Denominator(xx));
+    AssembleTerms(MapSingle({{t}, t / D}, N));
+];
+
+
+30 # ExpandBrackets(_xx) <-- AssembleTerms(ReassembleListTerms(DisassembleExpression(xx)));
+
+];
+
+
+
+
+
+
+
+
+
+
+
+5 # ExpandFrac(expr_IsList) <-- MapSingle("ExpandFrac", expr);
+
+
+10 # ExpandFrac(_expr)_Not(HasFuncSome(expr, "/", {ToAtom("+"), ToAtom("-"), *, /, ^})) <-- expr;
+15 # ExpandFrac(a_IsRationalOrNumber) <-- a;
+20 # ExpandFrac(_expr) <-- ExpandFrac'combine(GetNumerDenom(expr));
+
+ExpandFrac'combine({_a, _b}) <-- a/b;
+
+
+Rulebase("DoFlatten",{doflattenx});
+UnFence("DoFlatten",1);
+
+10 # DoFlatten(_doflattenx)_(Type(doflattenx)=flattenoper) <--
+     Apply("Concat",MapSingle("DoFlatten",Rest(FunctionToList(doflattenx))));
+20 # DoFlatten(_doflattenx) <-- { doflattenx };
+
+
+Function("Flatten",{body,flattenoper})
+[
+  DoFlatten(body);
+];
+
+
+
+GetNumerDenom(_expr, _a) <-- GetNumerDenom(expr)*{a,1};
+
+
+10 # GetNumerDenom(_expr)_Not(HasFuncSome(expr, "/", {ToAtom("+"), ToAtom("-"), *, /, ^})) <-- {expr, 1};
+
+15 # GetNumerDenom(a_IsRationalOrNumber) <-- {a, 1};
+
+20 # GetNumerDenom(_a + _b) <-- ExpandFrac'add(GetNumerDenom(a), GetNumerDenom(b));
+20 # GetNumerDenom(_a - _b) <-- ExpandFrac'add(GetNumerDenom(a), GetNumerDenom(b, -1));
+20 # GetNumerDenom(- _a) <-- GetNumerDenom(a, -1);
+20 # GetNumerDenom(+ _a) <-- GetNumerDenom(a);
+20 # GetNumerDenom(_a * _b) <-- ExpandFrac'multiply(GetNumerDenom(a), GetNumerDenom(b));
+20 # GetNumerDenom(_a / _b) <-- ExpandFrac'divide(GetNumerDenom(a), GetNumerDenom(b));
+
+20 # GetNumerDenom(_a ^ b_IsInteger)_(b > 1) <-- ExpandFrac'multiply(GetNumerDenom(a), GetNumerDenom(a^(b-1)));
+20 # GetNumerDenom(_a ^ b_IsInteger)_(b < -1) <-- ExpandFrac'divide(GetNumerDenom(1), GetNumerDenom(a^(-b)));
+20 # GetNumerDenom(_a ^ b_IsInteger)_(b = -1) <-- ExpandFrac'divide(GetNumerDenom(1), GetNumerDenom(a));
+
+25 # GetNumerDenom(_a ^ _b) <-- {a^b, 1};
+
+
+ExpandFrac'add({_a, _b}, {_c, _d}) <-- {a*d+b*c, b*d};
+ExpandFrac'multiply({_a, _b}, {_c, _d}) <-- {a*c, b*d};
+ExpandFrac'divide({_a, _b}, {_c, _d}) <-- {a*d, b*c};
+
+
+Rulebase("SimpAdd",{x,y});
+
+
+Rulebase("SimpDiv",{x,y});
+
+
+10 # SimpExpand(SimpAdd(_x,_y)) <-- SimpExpand(x) + SimpExpand(y);
+10 # SimpExpand(SimpMul(_x,_y)) <-- SimpExpand(x) * SimpExpand(y);
+10 # SimpExpand(SimpDiv(_x,_y)) <-- SimpExpand(x) / SimpExpand(y);
+20 # SimpExpand(_x) <-- x;
+
+
+10 # SimpFlatten((_x)+(_y)) <-- SimpAdd(SimpFlatten(x),SimpFlatten(y));
+10 # SimpFlatten((_x)-(_y)) <-- SimpAdd(SimpFlatten(x),SimpMul(-1,SimpFlatten(y)));
+10 # SimpFlatten(    -(_y)) <-- SimpMul(-1,SimpFlatten(y));
+
+10 # SimpFlatten((_x)*(_y)) <-- SimpMul(SimpFlatten(x),SimpFlatten(y));
+10 # SimpFlatten((_x)/(_y)) <-- SimpDiv(SimpFlatten(x),SimpFlatten(y));
+10 # SimpFlatten((_x)^(n_IsPositiveInteger)) <--
+     SimpMul(SimpFlatten(x),SimpFlatten(x^(n-1)));
+
+100 # SimpFlatten(_x) <--
+[
+  x;
+];
+
+
+
+10 # SimpImplode(SimpMul(SimpAdd(_x,_y),_z)) <--
+     SimpImplode(SimpAdd(SimpImplode(SimpMul(x,z)),
+                 SimpImplode(SimpMul(y,z))));
+10 # SimpImplode(SimpMul(_z,SimpAdd(_x,_y))) <--
+     SimpImplode(SimpAdd(SimpImplode(SimpMul(z,x)),
+                 SimpImplode(SimpMul(z,y))));
+
+10 # SimpImplode(SimpDiv(SimpAdd(_x,_y),_z)) <--
+     SimpImplode(SimpAdd(SimpImplode(SimpDiv(x,z)),
+     SimpImplode(SimpDiv(y,z))));
+
+
+
+20 # SimpImplode(SimpAdd(_x,_y)) <--
+     SimpAdd(SimpImplode(x),SimpImplode(y));
+20 # SimpImplode(SimpMul(_x,_y)) <--
+     SimpMul(SimpImplode(x),SimpImplode(y));
+20 # SimpImplode(SimpDiv(_x,_y)) <--
+     SimpDiv(SimpImplode(x),SimpImplode(y));
+30 # SimpImplode(_x) <-- x;
+
+
+Rulebase("SimpMul",{x,y});
+
+
+
+
+10 # Simplify(expr_IsList) <-- MapSingle("Simplify",expr);
+
+15 # Simplify(Complex(_r,_i)) <-- Complex(Simplify(r),Simplify(i));
+
+20 # Simplify((_xex) == (_yex)) <-- (Simplify(xex-yex) == 0);
+
+20 # Simplify((_xex) > (_yex)) <-- (Simplify(xex-yex) > 0);
+20 # Simplify((_xex) < (_yex)) <-- (Simplify(xex-yex) < 0);
+20 # Simplify((_xex) >= (_yex)) <-- (Simplify(xex-yex) >= 0);
+20 # Simplify((_xex) <= (_yex)) <-- (Simplify(xex-yex) <= 0);
+20 # Simplify((_xex) !== (_yex)) <-- (Simplify(xex-yex) !== 0);
+
+
+25 # Simplify(if (_a) _b) <-- "if" @ {Simplify(a), Simplify(b)};
+25 # Simplify(_a else _b) <-- "else" @ {Simplify(a), Simplify(b)};
+
+
+40 # Simplify(_expr)_(Type(expr)="Ln") <--
+[
+    
+    LnCombine(expr);
+];
+
+40 # Simplify(_expr)_(Type(expr)="Exp") <--
+[
+    
+    expr;
+];
+
+50 # Simplify(_expr) <-- 
+[
+    
+    MultiSimp(Eval(expr));
+];
+
+
+10 # UnFlatten({},_op,_identity) <-- identity;
+20 # UnFlatten(list_IsList,_op,_identity) <--
+     Apply(op,{First(list),UnFlatten(Rest(list),op,identity)});
+

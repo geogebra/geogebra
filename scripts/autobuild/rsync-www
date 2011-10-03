@@ -1,0 +1,22 @@
+#!/bin/sh
+# Runs rsync to copy all required files to www.geogebra.org
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# 1. Start and loading configuration
+date
+echo "$0: start"
+
+WWW_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test
+
+test -r autobuild.conf || {
+ echo "Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ exit 1
+ }
+. ./autobuild.conf
+cd $SVNDIR/geogebra
+
+# 2. rsync'ing
+rsync -av --rsh=ssh $WWWDIR/* $WWW_REMOTEDIR
+
+date
+echo "$0: end"

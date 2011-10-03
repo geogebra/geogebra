@@ -1,0 +1,8 @@
+URI: jogl-natives-solaris-i586.jar
+
+URI: packed/jogl-natives-solaris-i586.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jogl-natives-solaris-i586.jar
+Content-Type: x-java-archive

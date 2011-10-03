@@ -1,0 +1,28 @@
+
+
+
+
+OMDef( "Minimum", "minmax1","min",
+       { "<OMA>", "<OMS cd=\"set1\" name=\"set\"/>",
+         1,2,3,4,5,6,7,8,9,10,11,12,13,14,
+         "</OMS>", "</OMA>" },
+       ($):_1 );
+OMDef( "Maximum", "minmax1","max",
+       { "<OMA>", "<OMS cd=\"set1\" name=\"set\"/>",
+         1,2,3,4,5,6,7,8,9,10,11,12,13,14,
+         "</OMS>", "</OMA>" },
+       ($):_1 );
+OMDef( "!", "integer1","factorial" );
+OMDef( "BinomialCoefficient", "combinat1","binomial" );
+OMDef( "!!",  mathpiper,"double_factorial" );
+OMDef( "***", mathpiper,"partial_factorial" );
+OMDef( "Add", mathpiper,"Add" );
+OMDef( "Sum", "arith1","sum", 
+       { $, _2 .. _3, OMBIND(OMS("fns1", "lambda"), OMBVAR(_1), _4) },
+       { $, _{2,2,1}, _{1,1}, _{1,2}, _{2,3} }
+      );
+OMDef( "Product", mathpiper,"Product" );
+OMDef( "Taylor",    mathpiper,"Taylor" );
+OMDef( "Subfactorial", mathpiper,"Subfactorial" );
+
+

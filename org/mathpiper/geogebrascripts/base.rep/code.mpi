@@ -1,0 +1,202 @@
+
+Defun("CosN",{x})Trigonometry(x,0.0,1.0,1.0);
+
+
+
+
+
+
+Defun("ExpN", {x})
+	If(IsEqual(x,0),1,
+	 If(IsLessThan(x,0),DivideN(1, ExpN(MathNegate(x))),
+	  If(IsGreaterThan(x,1), MathExpDoubling(MathExpTaylor0(MathMul2Exp(x,MathNegate(MathBitCount(x)))), MathBitCount(x)), MathExpTaylor0(x)
+	)));
+
+
+
+Defun("MathExpDoubling", {value, n})
+[
+	Local(shift, result);
+	Bind(shift, n);
+	Bind(result, value);
+	While (IsGreaterThan(shift,0))	
+	[
+		Bind(result, MultiplyN(result, result));
+		Bind(shift, AddN(shift,MathNegate(1)));
+	];
+	result;
+];
+
+
+
+Defun("MathExpTaylor0",{x})
+[
+  Local(i,aResult,term,eps);
+  
+  
+  
+  
+  Bind(i,0);
+  
+  Bind(aResult,1.0);
+  
+  Bind(term,1.0);
+  Bind(eps,MathIntPower(10,MathNegate(BuiltinPrecisionGet())));
+  
+  While(IsGreaterThan(AbsN(term),eps))
+  [
+    
+    Bind(i,AddN(i,1));
+    
+    Bind(term,DivideN(MultiplyN(term,x),i));
+    
+    Bind(aResult,AddN(aResult,term));
+  ];
+  aResult;
+];
+
+
+
+
+
+
+
+Defun("MathIntPower", {x,y})
+	If(IsEqual(x,0),0,If(IsEqual(x,1),1,
+	 If(IsInteger(y),If(IsLessThan(y,0), 
+	  DivideN(1, PositiveIntPower(AddN(x,0.),MathNegate(y))),
+	   
+	  PositiveIntPower(x,y)
+	 ),	
+	 False)
+	));
+
+
+
+
+Defun("MathMul2Exp", {x,n})	
+	If(IsGreaterThan(n,0), MultiplyN(x, MathIntPower(2,n)), DivideN(x, MathIntPower(2,MathNegate(n))));
+
+
+
+
+
+Defun("MathPi",{})
+[
+  
+  
+  
+  Local(initialPrec,curPrec,result,aPrecision);
+  Bind(aPrecision,BuiltinPrecisionGet());
+	Bind(initialPrec, aPrecision);	
+  Bind(curPrec, 40);  
+  Bind(result, 3.141592653589793238462643383279502884197169399);    
+
+	
+	While (IsGreaterThan(initialPrec, MultiplyN(curPrec,3)))
+  [
+		Bind(initialPrec, FloorN(DivideN(AddN(initialPrec,2),3)));
+  ];
+	Bind(curPrec, initialPrec);
+  While (Not(IsGreaterThan(curPrec, aPrecision)))
+  [
+ 		
+    
+    BuiltinPrecisionSet(curPrec);
+    Bind(result,AddN(result,SinN(result)));
+    
+		
+		
+		If (IsEqual(curPrec, aPrecision),	
+    [
+			Bind(curPrec, AddN(aPrecision,1));	
+    ],
+    [
+			Bind(curPrec, MultiplyN(curPrec,3));	
+			
+ 			If (IsGreaterThan(curPrec, aPrecision),
+      [
+				Bind(curPrec, aPrecision);	
+      ]);
+		]);
+  ];
+  BuiltinPrecisionSet(aPrecision);
+  result;
+];
+
+
+
+
+
+
+Defun("PositiveIntPower", {x,n})
+[
+  Local(result,unit);
+  If(IsLessThan(n,0), False,
+  [
+	Bind(unit,1);	 
+	Bind(result, unit);
+	If(IsEqual(n,0),unit,
+	 If(IsEqual(n,1),x,
+	  [
+		While(IsGreaterThan(n,0))
+		[
+			If(
+				IsEqual(BitAnd(n,1), 1),
+
+
+
+					Bind(result, MultiplyN(result,x))
+
+			);
+			Bind(x, MultiplyN(x,x));
+			Bind(n,ShiftRight(n,1));
+		];
+		result;
+	  ]
+	 )
+	);
+  ]);
+];
+
+
+
+
+
+
+Defun("PowerN", {x,y})
+
+	If(IsEqual(x,0),0, If(IsEqual(x,1),1,
+	  If(IsInteger(y), MathIntPower(x,y), False)
+	));
+
+
+Defun("SinN",{x})Trigonometry(x,1.0,x,x);
+
+
+Defun("TanN",{x})DivideN(SinN(x),CosN(x));
+
+
+Defun("Trigonometry",{x,i,sum,term})
+[
+  Local(x2,orig,eps,previousPrec,newPrec);
+  Bind(previousPrec,BuiltinPrecisionGet());
+  Bind(newPrec,AddN(BuiltinPrecisionGet(),2));
+  Bind(x2,MultiplyN(x,x));
+  BuiltinPrecisionSet(newPrec);
+  Bind(eps,MathIntPower(10,MathNegate(previousPrec)));
+  While(IsGreaterThan(AbsN(term),eps))
+  [
+    Bind(term,MultiplyN(term,x2));
+    Bind(i,AddN(i,1.0));
+    Bind(term,DivideN(term,i));
+    Bind(i,AddN(i,1.0));
+    Bind(term,DivideN(MathNegate(term),i));
+    BuiltinPrecisionSet(previousPrec);
+    Bind(sum, AddN(sum, term));
+    BuiltinPrecisionSet(newPrec);
+  ];
+  BuiltinPrecisionSet(previousPrec);
+  sum;
+];
+

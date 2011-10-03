@@ -1,0 +1,470 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5  # AntiDeriv(_var, poly_CanBeUni(var) )
+     <-- NormalForm(AntiDeriv(var,`MakeUni(@poly,@var)));
+5 # AntiDeriv(_var,UniVariate(_var,_first,_coefs)) <--
+[
+  Local(result,i);
+  result:=FlatCopy(coefs);
+  For(i:=1,i<=Length(result),i++)
+  [
+    result[i]:= result[i]/(first+i);
+  ];
+  UniVariate(var,first+1,result);
+];
+
+
+
+
+
+
+
+10 # AntiDeriv(_var,_x + _y) <-- AntiDeriv(var,x) + AntiDeriv(var,y);
+10 # AntiDeriv(_var,_x - _y) <-- AntiDeriv(var,x) - AntiDeriv(var,y);
+10 # AntiDeriv(_var,   - _y) <--            - AntiDeriv(var,y);
+
+10 # AntiDeriv(_var,_x/c_IsFreeOf(var) )_(HasExpr(x,var)) <-- AntiDeriv(var,x)/c;
+10 # AntiDeriv(_var,c_IsFreeOf(var)/_x )_(HasExpr(x,var) And c!= 1)
+	<-- c*AntiDeriv(var,1/x);
+
+
+
+
+
+
+
+
+1570 # IntegrateMultiplicative(_var,(exy_CanBeUni(var)) * _exx,_dummy1,_dummy2)
+     <-- IntByParts(var,exy*exx,AntiDeriv(var,exx));
+1570 # IntegrateMultiplicative(_var,_exx * (exy_CanBeUni(var)),_dummy1,_dummy2)
+     <-- IntByParts(var,exy*exx,AntiDeriv(var,exx));
+10 # IntByParts(_var,_exy * _exx,Integrate(_var)(_something)) <--
+     `Hold(AntiDeriv(@var,((@exy)*(@exx))));
+20 # IntByParts(_var,_exy * _exx,_anti)_(Not IsFreeOf(anti,exx)) <--
+     `Hold(AntiDeriv(@var,((@exy)*(@exx))));
+30 # IntByParts(_var,_exy * _exx,_anti) <--
+     [
+       Local(cf);
+       cf:=anti*Deriv(var)exy;
+
+       exy*anti - `(AntiDeriv(@var,@cf));
+     ];
+
+
+
+
+
+
+
+1570 # IntegrateMultiplicative(_var,(exy_CanBeUni(var)) / (exx_CanBeUni(var)),_dummy1,_dummy2) <--
+     IntRat(var,exy/exx,MakeUni(exy,var),MakeUni(exx,var));
+
+10 # IntRat(_var,_exy / _exx,_exyu,_exxu)_
+     (Degree(exyu) > Degree(exxu) Or Degree(Gcd(exyu,exxu)) > 0) <--
+     [
+     Local(gcd);
+     gcd:=Gcd(exxu,exyu);
+     exyu:=Quotient(exyu,gcd);
+     exxu:=Quotient(exxu,gcd);
+     AntiDeriv(var,NormalForm(Quotient(exyu,exxu))) +
+       AntiDeriv(var,NormalForm(Modulo(exyu,exxu))/NormalForm(exxu));
+     ];
+
+11 # IntRat(_var,_exy / _exx,_exyu,_exxu)_
+        (Degree(exxu,var) > 1 And LeadingCoef(exxu)=1 And
+	 IsNumericList(Coef(exxu,var,0 .. Degree(exxu)))) <--
+[
+  Local(ee);
+  ee:=Apart(exy/exx,var);
+  `AntiDeriv(@var,@ee);
+];
+
+
+20 # IntRat(_var,_exy / _exx,_exyu,_exxu) <--
+     `Hold(AntiDeriv(@var,((@exy)/(@exx))));
+
+
+30 # AntiDeriv(_var,Deriv(_var)(_expr)) <-- expr;
+
+
+
+
+
+
+100 # AntiDeriv(_var,_exp) <--
+[
+  IntegrateMultiplicative(var,exp,a,b);
+];
+
+
+
+
+
+
+
+
+
+10 # IntegrateMultiplicative(_var,if(_cond)(_body),_a,_b)
+     <--
+     [
+       body := AntiDeriv(var,body);
+       `Hold(if(@cond)(@body));
+     ];
+
+10 # IntegrateMultiplicative(_var,(_left) else (_right),_a,_b)
+     <--
+     [
+       left  := AntiDeriv(var,left);
+       right := AntiDeriv(var,right);
+       `Hold( (@left) else (@right) );
+     ];
+
+
+
+
+
+
+
+1600 # IntegrateMultiplicative(_var,_exp,_a,_b) <-- `Hold(Integrate(@var)(@exp));
+
+
+
+
+
+
+
+
+
+LocalSymbols(intpred)
+[
+  intpred := 50;
+  IntFunc(_vr,_from,_to) <--
+  [
+    `((@intpred) # IntegrateMultiplicative(_var,@from,_dummy1,_dummy2)_MatchLinear(var,@vr) <-- (@to)/Matched'a());
+    intpred++;
+  ];
+];
+
+
+IntPureSquare(_vr,_from,_sign2,_sign0,_to) <--
+[
+  `(50 # IntegrateMultiplicative(_var,@from,_dummy1,_dummy2)_MatchPureSquared(var,@sign2,@sign0,@vr) <-- (@to));
+];
+
+
+
+
+
+
+
+
+
+
+
+IntFunc(x,Sqrt(_x),(2*Sqrt(x)^(3))/3);
+IntFunc(x,1/Sqrt(_x),2*Sqrt(x));
+IntFunc(x,1/_x^(_n),x^(1-n)/(1-n) );
+IntFunc(x,Sin(_x),-Cos(x));
+IntFunc(x,1/Sin(_x), Ln( 1/Sin(x) - Cos(x)/Sin(x) ) );
+IntFunc(x,Cos(_x),Sin(x));
+IntFunc(x,1/Cos(_x),Ln(1/Cos(x)+Tan(x)));
+IntFunc(x,Tan(_x),-Ln(Cos(x)));
+IntFunc(x,1/Tan(_x),Ln(Sin(x)) );
+IntFunc(x,Cos(_x)/Sin(_x),Ln(Sin(x)));
+IntFunc(x,Exp(_x),Exp(x));
+IntFunc(x,(C_IsFreeOf(var))^(_x),C^x/Ln(C));
+
+IntFunc(x,num_IsFreeOf(var) / (_x),num*Ln(x));
+IntFunc(x,Ln(_x),x*Ln(x)-x);
+
+IntFunc(x,(_x)*Ln(_x),(1/(1+1))*x^(1+1)*Ln(x) - (1/(1+1)^2)*x^(1+1) );
+IntFunc(x,Ln(_x)*(_x),(1/(1+1))*x^(1+1)*Ln(x) - (1/(1+1)^2)*x^(1+1) );
+
+IntFunc(x,1/Sin(_x)^2,-Cos(x)/Sin(x) );
+IntFunc(x,1/Cos(_x)^2,Tan(x) );
+IntFunc(x,1/(Sin(_x)*Tan(_x)),-1/Sin(x));
+IntFunc(x,Tan(_x)/Cos(_x),1/Cos(x));
+IntFunc(x,1/Sinh(_x)^2,-1/Tanh(x));
+IntFunc(x,1/Cosh(_x)^2,Tanh(x));
+IntFunc(x,1/(Sinh(_x)*Tan(_x)),-1/Sinh(x));
+IntFunc(x,Tanh(_x)/Cosh(_x),-1/Cosh(x));
+
+IntFunc(x,1/Sqrt(m_IsFreeOf(x)-_x^2),ArcSin(x/Sqrt(m)) );
+
+IntFunc(x,Exp(n_IsNumber*_x)*Sin(m_IsNumber*_x),Exp(n*x)*(n*Sin(m*x)- m*Cos(m*x))/(m^2+n^2) );
+
+
+IntFunc(x,Ln(_x)*(_x)^n_IsNumber,(1/(n+1))*x^(n+1)*Ln(x) - (1/(n+1)^2)*x^(n+1) );
+
+
+IntFunc(x,Ln(A_IsNumber*_x)*(_x)^n_IsNumber,(1/(n+1))*x^(n+1)*Ln(A*x) - (1/(n+1)^2)*x^(n+1) );
+
+IntFunc(x,Sin(Ln(_x)),x*Sin(Ln(x))/2 - x*Cos(Ln(x))/2 );
+
+
+
+
+IntFunc(x,Cos(Ln(_x)),x*Sin(Ln(x))/2 + x*Cos(Ln(x))/2 );
+
+IntFunc(x,1/((_x)*Ln(_x)),Ln(Ln(x)));
+
+IntFunc(x,(_x)^(-1),Ln(x));
+
+IntFunc(x,(_x)^(n_IsFreeOf(x)),x^(n+1)/(n+1));
+IntFunc(x,C_IsFreeOf(x)*(_x)^(n_IsFreeOf(x)),C*x^(n+1)/(n+1));
+IntFunc(x,C_IsFreeOf(x)/(D_IsFreeOf(x)*(_x)^(n_IsFreeOf(x))),(C/D)*x^(1-n)/(1-n));
+IntFunc(x,Sinh(_x),Cosh(x));
+IntFunc(x,Sinh(_x)^2,Sinh(2*x)/4 - x/2);
+IntFunc(x,1/Sinh(_x),Ln(Tanh(x/2)));
+IntFunc(x,Cosh(_x),Sinh(x));
+IntFunc(x,Cosh(_x)^2,Sinh(2*x)/4 + x/2);
+IntFunc(x,1/Cosh(_x),ArcTan(Sinh(x)));
+IntFunc(x,Tanh(_x),Ln(Cosh(x)));
+IntFunc(x,Tanh(_x)/Cosh(_x),-1/Cosh(x));
+IntFunc(x,1/Cosh(_x)^2,Tanh(x));
+
+IntFunc(x,1/Tanh(_x),Ln(Sinh(x)));
+
+IntFunc(x,Abs(_x),Abs(x)*x/2);	
+
+IntFunc(x,ArcTan(_x),x*ArcTan(x) - Ln(x^2 + 1)/2);
+
+IntFunc(x,ArcCos(_x),x*ArcCos(x) - Sqrt(1-x^2) );
+
+IntFunc(x,ArcTanh(_x),x*ArcTanh(x) + Ln(1-x^2)/2 );
+IntFunc(x,ArcSinh(_x),x*ArcSinh(x) - Sqrt(x^2 + 1) );
+IntFunc(x,ArcCosh(_x),x*ArcCosh(x) - Sqrt(x-1)*Sqrt(x+1) );
+
+
+
+
+
+
+
+
+
+
+
+
+IntFunc(x,num_IsFreeOf(var)/(A_IsNumber + B_IsNumber*(_x))^2,-num/(A*b + B^2*x));
+
+
+IntFunc(x,num_IsFreeOf(var)/(n_IsNumber + m_IsNumber*Exp(p_IsNumber*(_x))),num*x/n - num*Ln(n + m*Exp(p*x))/(n*p));
+IntFunc(x,num_IsFreeOf(var)/(m_IsNumber*Exp(p_IsNumber*(_x)) + n_IsNumber),num*x/n - num*Ln(n + m*Exp(p*x))/(n*p));
+
+
+IntPureSquare(x,num_IsFreeOf(var)/(_x),1,1,(num/(Sqrt(Matched'b()*Matched'a())))*ArcTan(var/Sqrt(Matched'b()/Matched'a())));
+
+
+IntFunc(x,Erf(_x), x*Erf(x)+ 1/(Exp(x^2)*Sqrt(Pi)) );
+
+UnFence("IntegrateMultiplicative",4);
+
+
+
+
+
+10# (Integrate(_var)(expr_IsList))
+    <-- Map("Integrate",{FillList(var,Length(expr)),expr});
+20 # (Integrate(_var)(_expr)) <-- IntSub(var,expr,AntiDeriv(var,IntClean(var,expr)));
+
+20 # (Integrate(_var, optionsList_IsList)(_expr)) <--
+[
+    Local(result);
+
+    optionsList := OptionsToAssociativeList(optionsList);
+
+    result := Integrate(var) expr;
+
+    If( optionsList["logAbs"] = "True", result := ( result /: {Ln(_x) <- Ln(Abs(x))}) );
+
+    result;
+];
+
+
+10 # IntSub(_var,_expr,Integrate(_var)(_expr2)) <--
+     `Hold(Integrate(@var)(@expr));
+20 # IntSub(_var,_expr,_result) <-- result;	
+
+
+
+
+
+
+10# (Integrate(_var,_from,_to)(expr_IsList))
+    <-- Map("Integrate",{FillList(var,Length(expr)),
+                         FillList(from,Length(expr)),
+			 FillList(to,Length(expr)),
+                         expr});
+
+20 # (Integrate(_var,_from,_to)(_expr))
+    <-- defIntegrate(var,from,to,expr,a,b);
+
+
+20 # (Integrate(_var,_from,_to,optionsList_IsList)(_expr)) <--
+[
+    Local(result);
+
+    optionsList := OptionsToAssociativeList(optionsList);
+
+    result := Integrate(var,from,to) expr;
+
+    If( optionsList["logAbs"] = "True", result := ( result /: {Ln(_x) <- Ln(Abs(x))}) );
+
+    result;
+];
+
+
+
+
+
+
+
+
+10 # defIntegrate(_var,_from,_to,_expr,_a,_b)_(from = -to And IsOddFunction(expr,var)) <-- 0;
+
+
+
+
+
+
+
+
+10 # defIntegrate(_var,_from,_from,_expr,_a,_b) <-- 0;
+
+12 # defIntegrate(_var,_from,_to,_expr,_a,_b)_(from = -to And IsEvenFunction(expr,var))
+        <-- 2*defIntegrate(var,0,to,expr,a,b);
+
+100 # defIntegrate(_var,_from,_to,_expr,_a,_b)_(Type(AntiDeriv(var,IntClean(var,expr))) != "AntiDeriv")
+        <-- IntegrateRange(var,expr,from,to,AntiDeriv(var,IntClean(var,expr)));
+
+101 # defIntegrate(_var,_from,_to,_expr,_a,_b)
+    <-- `Hold(Integrate(@var,@from,@to)(@expr));
+
+
+
+
+
+
+
+
+10 # IntegrateRange(_var,_expr,_from,_to,Integrate(_var)_expr2)
+    <-- `Hold(Integrate(@var,@from,@to)@expr);
+
+
+
+
+
+
+20 # IntegrateRange(_var,_expr,_from,_to,_antideriv)
+    <-- `(@antideriv Where @var == @to) - `(@antideriv Where @var == @from);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10 # IntClean(_var,_expr) <--
+[
+	if( IsFreeOf(var,expr) Or IsSumOfTerms(var,expr) )[
+		expr;
+	] else if ( HasFunc(expr,Sin) Or HasFunc(expr,Cos) )[
+		Simplify(TrigSimpCombine(expr));
+	] else [
+		Simplify(expr);
+	];
+];
+
+
+
+
+
+
+
+LocalSymbols(a,b)[
+
+10 # MatchLinear(var_IsAtom,expr_CanBeUni(var)) <--
+[
+  Bind(expr,MakeUni(expr,var));
+  MatchLinear(expr);
+];
+20 # MatchLinear(_var,_expr) <-- False;
+
+10 # MatchLinear(_expr)_(Degree(expr,var)<2) <--
+[
+  Check(IsUniVar(expr), "Argument", PipeToString()Echo({"Incorrect argument ",expr," passed to MatchLinear"}));
+
+
+
+
+
+  a := Coef(expr,1);
+  b := Coef(expr,0);
+  True;
+];
+20 # MatchLinear(_expr) <-- False;
+UnFence("MatchLinear",1);
+UnFence("MatchLinear",2);
+
+
+10 # MatchPureSquared(var_IsAtom,_sign2,_sign0,expr_CanBeUni(var)) <--
+[
+  Bind(expr,MakeUni(expr,var));
+  MatchPureSquared(expr,sign2,sign0);
+];
+20 # MatchPureSquared(_var,_sign2,_sign0,_expr) <-- False;
+
+10 # MatchPureSquared(_expr,_sign2,_sign0)_(Degree(expr,var)=2 And
+                                    Coef(expr,1) = 0 And
+				    IsNumber(Coef(expr,0)) And
+				    IsNumber(Coef(expr,2)) And
+				    Coef(expr,0)*sign0 > 0 And
+				    Coef(expr,2)*sign2 > 0
+				    ) <--
+[
+  Check(IsUniVar(expr), "Argument", PipeToString()Echo({"Incorrect argument ",expr," passed to MatchLinear"}));
+
+
+
+  a := Coef(expr,2);
+  b := Coef(expr,0);
+  True;
+];
+20 # MatchPureSquared(_expr,_sign2,_sign0) <-- False;
+UnFence("MatchPureSquared",3);
+UnFence("MatchPureSquared",4);
+
+Matched'a() := a;
+Matched'b() := b;
+
+
+
+]; 
+
+

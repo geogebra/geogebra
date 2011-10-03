@@ -1,0 +1,8 @@
+URI: jlm_cyrillic.jar
+
+URI: packed/jlm_cyrillic.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jlm_cyrillic.jar
+Content-Type: x-java-archive

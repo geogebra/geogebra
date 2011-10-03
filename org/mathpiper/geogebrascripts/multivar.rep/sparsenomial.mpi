@@ -1,0 +1,141 @@
+
+
+
+LoadScriptOnce("multivar.rep/sparsetree.mpi");
+
+LocalSymbols(NormalMultiNomial) [
+
+CreateTerm(_vars,{_coefs,_fact})
+  <-- MultiNomial(vars,CreateSparseTree(coefs,fact));
+
+
+MultiNomialAdd(MultiNomial(_vars,_x), MultiNomial(_vars,_y))
+    <-- MultiNomial(vars,AddSparseTrees(Length(vars),x,y));
+MultiNomialMultiplyAdd(MultiNomial(_vars,_x), MultiNomial(_vars,_y),_coefs,_fact)
+    <-- MultiNomial(vars,MultiplyAddSparseTrees(Length(vars),x,y,coefs,fact));
+MultiNomialNegate(MultiNomial(_vars,_terms))
+    <--
+    [
+      SparseTreeMap(Hold({{coefs,list},-list}),Length(vars),terms);
+      MultiNomial(vars,terms);
+    ];
+MultiNomialMultiply(MultiNomial(_vars,_x),_multi2)
+    <--
+    [
+      Local(result);
+      Bind(result,MakeMultiNomial(0,vars));
+      SparseTreeScan("muadm",Length(vars),x);
+      result;
+    ];
+muadm(_coefs,_fact) <--
+[
+  Bind(result,MultiNomialMultiplyAdd(result, multi2,coefs,fact));
+];
+UnFence("muadm",2);
+
+
+
+10 # NormalForm(x_IsMulti/y_IsMulti) <-- NormalForm(x)/NormalForm(y);
+20 # NormalForm(MultiNomial(_vars,_list) )
+    <-- NormalMultiNomial(vars,list,1);
+10 # NormalMultiNomial({},_term,_prefact) <-- prefact*term;
+20 # NormalMultiNomial(_vars,_list,_prefact)
+    <--
+    [
+      Local(first,rest,result);
+      Bind(first,First(vars));
+      Bind(rest,Rest(vars));
+      Bind(result,0);
+      ForEach(item,list)
+      [
+        Bind(result,result+NormalMultiNomial(rest,item[2],prefact*first^(item[1])));
+      ];
+      result;
+    ];
+
+]; 
+
+MultiLeadingTerm(MultiNomial(_vars,_terms))
+    <--
+    [
+      Local(coefs,fact);
+      Bind(coefs,MultiDegreeScanHead(terms,Length(vars)));
+      {coefs,fact};
+    ];
+10 # MultiDegreeScanHead(_tree,0)
+   <--
+   [
+     Bind(fact,tree);
+     {};
+   ];
+10 # MultiDegreeScanHead(_tree,1)
+   <--
+   [
+     Bind(fact,tree[1][2]);
+     {tree[1][1]};
+   ];
+20 # MultiDegreeScanHead(_tree,_depth)
+   <--
+   [
+     (tree[1][1]):MultiDegreeScanHead(tree[1][2],depth-1);
+   ];
+UnFence("MultiDegreeScanHead",2);
+
+ScanMultiNomial(_op,MultiNomial(vars_IsList,_terms))
+    <-- SparseTreeScan(op,Length(vars),terms);
+UnFence("ScanMultiNomial",2);
+
+
+MultiDropLeadingZeroes(MultiNomial(_vars,_terms))
+    <--
+    [
+      MultiDropScan(terms,Length(vars));
+      MultiNomial(vars,terms);
+    ];
+10 # MultiDropScan(0,0) <-- True;
+10 # MultiDropScan({_n,0},0) <-- True;
+20 # MultiDropScan(_n,0)
+   <--
+   [
+     False;
+   ];
+30 # MultiDropScan(_tree,_depth)
+   <--
+   [
+     Local(i);
+     For(i:=1,i<=Length(tree),i++)
+     [
+       if (MultiDropScan(tree[i][2],depth-1))
+       [
+         DestructiveDelete(tree,i);
+         i--;
+       ]
+       else
+       [
+         i:=Length(tree);
+       ];
+     ];
+     (tree = {});
+   ];
+UnFence("MultiDropScan",2);
+
+
+MultiTermLess({_deg1,_fact1},{_deg2,_fact2}) <--
+  [
+    Local(deg);
+    Bind(deg, deg1-deg2);
+    While(deg != {} And First(deg) = 0) [ Bind(deg, Rest(deg));];
+
+    ((deg = {}) And (fact1-fact2 < 0)) Or
+    ((deg != {}) And (deg[1] < 0));
+  ];
+
+20 # MultiZero(multi_IsMulti) <--
+[
+  CheckMultiZero(DropZeroLC(multi));
+];
+10 # CheckMultiZero(MultiNomial(_vars,{})) <-- True;
+20 # CheckMultiZero(MultiNomial(_vars,_terms)) <-- False;
+
+
+

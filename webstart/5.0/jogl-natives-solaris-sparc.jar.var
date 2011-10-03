@@ -1,0 +1,8 @@
+URI: jogl-natives-solaris-sparc.jar
+
+URI: packed/jogl-natives-solaris-sparc.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jogl-natives-solaris-sparc.jar
+Content-Type: x-java-archive

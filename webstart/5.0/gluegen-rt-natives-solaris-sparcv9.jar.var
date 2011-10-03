@@ -1,0 +1,8 @@
+URI: gluegen-rt-natives-solaris-sparcv9.jar
+
+URI: packed/gluegen-rt-natives-solaris-sparcv9.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/gluegen-rt-natives-solaris-sparcv9.jar
+Content-Type: x-java-archive

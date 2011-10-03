@@ -1,0 +1,169 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Function("AddTerm",{termlist,term,begining})
+[
+ Local(l,i);
+ l := Length(termlist);
+ If(term[2]!=0,
+ [
+  i:=begining;
+
+  If (l>=1, While ((i<=l) And (term[1]<termlist[i][1])) i++);
+  If  (i>l, [DestructiveAppend(termlist,term);i++;],
+          If (term[1]=termlist[i][1],
+             [ Local(nc);
+               nc:=termlist[i][2]+term[2];
+                 If(nc!=0,DestructiveReplace(termlist,i,{term[1],nc}),
+                          [DestructiveDelete(termlist,i);i--;]);
+             ],  DestructiveInsert(termlist,i,term))
+     );
+ ]
+  );
+ i+1;
+];
+
+
+
+
+Function("AddTerms",{terms1,terms2})
+[
+  Local(result,begining,t);
+  begining :=1;
+  ForEach (t,terms2)
+     begining :=AddTerm(terms1,t,begining);
+  terms1;
+];
+
+
+
+
+Function("DivTermList",{a,b})
+[
+ Local(q,nq,t,c,begining);
+ q := {};
+ 
+ While ((a!={}) And a[1][1]>=b[1][1])
+  [
+     begining := 1;
+     If(InVerboseMode(),Echo("degree=",a[1][1]));
+     nq := {a[1][1]-b[1][1],a[1][2]/b[1][2]}; 
+     DestructiveAppend(q,nq);
+     
+     ForEach (t,b)
+       begining := AddTerm(a,{t[1]+nq[1],-t[2]*nq[2]},begining);
+   ];
+   
+ q;
+];
+
+
+Function("ExpandSparseUniVar",{s})
+[
+ Local(result,t,var,termlist);
+ result :=0;
+ var := s[1];
+ termlist := s[2];
+ ForEach (t,termlist)
+ [
+   Local(term);
+   term := NormalForm(t[2]*var^t[1]);
+   result := result + term;
+ ];
+ result;
+];
+
+
+
+
+10 # MakeSparseUniVar(poly_CanBeUni,var_IsAtom) <--
+[
+    If(InVerboseMode(),Tell("MakeSparseUniVar",{var,poly}));
+    Local(uni,first,coeffs,n,c,lc,termlist,term);
+    uni    := MakeUni(poly,var);
+    If(InVerboseMode(),Tell("      ",uni));
+    first  := uni[2];
+    coeffs := (uni[3]);
+    If(InVerboseMode(),[Tell("    ",first); Tell("   ",coeffs);]);
+    termlist := {};
+    lc       := Length(coeffs);
+    For(n:=0,n<lc,n++)
+    [
+        c    := coeffs[n+1];
+        term := {n+first,c};
+        If(InVerboseMode(),Tell("        ",term));
+        If(c != 0, Push(termlist,term));
+    ];
+    If(InVerboseMode(),Tell("   ",{var,termlist}));
+    {var,termlist};
+];
+
+
+
+
+
+Function("MultiplySingleTerm",{termlist,term})
+[
+ Local(result,t);
+ result:={};
+ If(term[2]!=0,
+       ForEach (t,termlist)
+         DestructiveAppend(result,{t[1]+term[1],t[2]*term[2]}) );
+ result;
+];
+
+
+Function("MultiplyTerms",{terms1,terms2})
+[
+ Local(result,t1,t2,begining);
+ result:={};
+ ForEach (t1,terms1)
+ [
+   begining :=1;
+   ForEach (t2,terms2)
+     begining := AddTerm(result,{t1[1]+t2[1],t1[2]*t2[2]},1);
+ ];
+ result;
+];
+
+
+
+
+
+
+
+
+Rulebase("SparseUniVar",{var,termlist});
+
+300 # SparseUniVar(_var,_terms1) * SparseUniVar(_var,_terms2) <--
+SparseUniVar(var, MultiplyTerms(terms1,terms2));
+
+300 # SparseUniVar(_var,_terms1) + SparseUniVar(_var,_terms2) <--
+SparseUniVar(var, AddTerms(terms1,terms2));
+
+300 # SparseUniVar(_var,_terms1) - SparseUniVar(_var,_terms2) <--
+SparseUniVar(var, SubstractTerms(terms1,terms2));
+
+
+
+
+Function("SubtractTerms",{terms1,terms2})
+[
+  Local(result,t);
+  begining :=1 ;
+  ForEach (t,terms2)
+     begining := AddTerm(terms1,{t[1],-t[2]},1);
+  terms1;
+];
+

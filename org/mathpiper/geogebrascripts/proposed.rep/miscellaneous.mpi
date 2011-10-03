@@ -1,0 +1,605 @@
+
+
+CombinationsList(inputList, r) :=
+[
+    Local(n,manipulatedIndexes,totalCombinations,combinationsList,combinationsLeft,combination,i,j,currentIndexes);
+    
+    Check(IsList(inputList) And Length(inputList) >= 1, "Argument", "The first argument must be a list with 1 or more elements.");
+    
+    n := Length(inputList);
+    
+    Check(r <= n , "Argument", "The second argument must be <= the length of the list.");
+    
+    manipulatedIndexes := 1 .. r; 
+    
+    totalCombinations := Combinations(n,r);
+    
+    combinationsLeft := totalCombinations;
+    
+    combinationsList := {};
+    
+    While(combinationsLeft > 0)
+    [
+        combination := {};
+      
+        if(combinationsLeft = totalCombinations) 
+        [ 
+          combinationsLeft := combinationsLeft - 1;
+          
+          currentIndexes := manipulatedIndexes;
+        ]
+        else
+        [
+            i := r;
+        
+            While(manipulatedIndexes[i] = n - r + i) 
+            [
+              i--;
+            ];
+            
+            manipulatedIndexes[i] := manipulatedIndexes[i] + 1;
+            
+            For(j := i + 1, j <= r, j++) 
+            [
+              manipulatedIndexes[j] := manipulatedIndexes[i] + j - i;
+            ];
+        
+            combinationsLeft := combinationsLeft - 1;
+            
+            currentIndexes := manipulatedIndexes;
+        ];
+
+        For(i := 1, i <= Length(currentIndexes), i++) 
+        [
+            combination := Append(combination,(inputList[currentIndexes[i]]));
+        ];
+      
+        combinationsList := Append(combinationsList,combination);
+    ];
+    
+    combinationsList;
+];
+
+
+
+
+
+ElementCount(list) :=
+[   
+    if(Length(list) = 0)
+    [
+        0;
+    ]
+    else if(IsAtom(list))
+    [
+        1;
+    ]
+    else
+    [
+        ElementCount(First(list)) + ElementCount(Rest(list));
+    ];
+
+];
+
+
+IsListOfLists(listOfLists) :=
+[
+    Local(result);
+    
+    result := True;
+    
+    if(Not IsList(listOfLists))
+    [
+        result := False;
+    ]
+    else 
+    [
+        ForEach(list, listOfLists)
+        [
+            If(Not IsList(list), result := False);
+        ];
+    ];
+    
+    result;
+];
+
+
+
+
+RulebaseListed("JavaAccess",{object, method, parameters});
+
+
+5 # JavaAccess(_object, _method) <-- JavaAccess(object, method, {});
+
+
+
+
+10 # JavaAccess(_object, _method, parameters_IsList) <--
+[   
+    JavaCall(object, method, parameters);
+    
+    
+];
+
+
+
+20 # JavaAccess(_object, _method, _singleParameter) <-- JavaAccess(object, method, {singleParameter});
+
+
+
+
+
+
+10 # ListToString(list_IsList)_(Length(list) = 0) <-- "";
+
+
+
+20 # ListToString(list_IsList) <--
+[
+    Local(resultString, character);
+    
+    resultString := "";
+    
+    ForEach(element, list)
+    [
+        If(IsString(element), character := element, character := ToString(element));
+        
+        resultString := resultString : character;
+    ];
+    
+    resultString;
+
+];
+
+
+
+
+
+
+LocalSymbols(ZoomInOnce)
+[
+
+    10 # NumberLinePrintZoom(_lowValue, _highValue, divisions_IsPositiveInteger, depth_IsPositiveInteger)_(lowValue < highValue) <-- 
+    [
+    
+        Local(numbers, stepAmount, zoomIndexes, nextZoomIndex, outputWidth, numbersString, output, randomStep, randomZoomNumber, iteration);
+        
+        iteration := 1;
+        
+        While(iteration <= depth)
+        [
+            {numbers, stepAmount} := ZoomInOnce(lowValue, highValue, divisions);
+            
+            zoomIndexes := {};
+            
+            outputWidth := 0;
+            
+            numbersString := "";
+            
+            ForEach(number, numbers)
+            [
+                output := PipeToString() Write(number);
+                
+                zoomIndexes := Append(zoomIndexes, Length(output));
+                
+                numbersString := numbersString : output : PipeToString() Space(3);
+                
+                outputWidth := outputWidth + Length(output) + 3;
+            
+            ];
+            
+            randomStep := RandomInteger(divisions);
+            
+            randomZoomNumber := Sum(Take(zoomIndexes, randomStep));
+            
+            If(randomStep = 1, nextZoomIndex := randomZoomNumber + 1, nextZoomIndex := 3*(randomStep-1) + randomZoomNumber + 1);
+         
+            If(iteration > 1, Echo(ListToString(FillList("-", outputWidth-3)))); 
+            
+            Echo(numbersString);
+            
+            If(iteration != depth,[Space(nextZoomIndex);Echo("|");]);
+            
+            lowValue := numbers[randomStep];
+            
+            highValue := numbers[randomStep+1];
+            
+            iteration++;
+            
+        ];
+    
+    ];
+    
+    
+    
+    
+    ZoomInOnce(_lowValue, _highValue, divisions_IsPositiveInteger)_(lowValue < highValue) <--
+    [
+        Local(stepAmount, x, numbers);
+        
+        stepAmount := If(IsDecimal(lowValue) Or IsDecimal(highValue), N((highValue-lowValue)/divisions), (highValue-lowValue)/divisions);
+        
+        x := lowValue;
+        
+        numbers := {};
+        
+        While(x <= highValue)
+        [
+        
+            numbers := Append(numbers, x);
+            
+            x := x + stepAmount;
+        
+        ];
+        
+        {numbers, stepAmount};
+    
+    ];
+
+
+];
+
+OptionsToAssociativeList(optionList) :=
+[
+    Local(associativeList, key, value);
+    
+    associativeList := {};
+    
+    ForEach(option, optionList)
+    [
+        If(option[0] = ->,
+        [
+            If(IsString(option[1]), key := option[1], key := ToString(option[1]));
+            If(IsString(option[2]), value := option[2], value := ToString(option[2]));
+            
+            associativeList := {key, value} : associativeList;
+        
+        ]);
+    
+    ];
+    associativeList;
+];
+
+
+
+
+10 # PadLeft(number_IsNumber, totalDigits_IsInteger) <--
+[
+    Local(integerString, padAmount, resultString);
+    
+    integerString := ToString(number);
+    
+    padAmount := totalDigits - Length(integerString);
+    
+    If(padAmount > 0,
+        resultString := ListToString(FillList(0, padAmount)) : integerString,
+        resultString := integerString );
+];
+
+
+
+
+
+
+
+
+
+Rulebase("RForm",{expression});
+Rulebase("RForm",{expression, precedence});
+
+Function ("RFormBracketIf", {predicate, string})
+[
+	Check(IsBoolean(predicate) And IsString(string), "Argument", "RForm internal error: non-boolean and/or non-string argument of RFormBracketIf");
+	If(predicate, ConcatStrings("( ", string, ") "), string);
+];
+
+
+
+
+RFormMaxPrec() := 60000;	 
+
+100 # RForm(_x) <-- RForm(x, RFormMaxPrec());
+
+
+110 # RForm(x_IsInteger, _p) <-- ToString(x);
+111 # RForm(x_IsZero, _p) <-- "0.";
+112 # RForm(x_IsNumber, _p) <-- ToString(x);
+
+190 # RForm(False, _p) <-- "false";
+190 # RForm(True, _p) <-- "true";
+190 # RForm(Pi, _p) <-- "pi";
+200 # RForm(x_IsAtom, _p) <-- ToString(x);
+
+
+100 # RForm(x_IsString, _p) <-- ConcatStrings("\"", x, "\"");
+
+
+
+
+
+
+
+
+LocalSymbols(rFormRegularOps) [
+  rFormRegularOps := 
+  { 
+    {"+","+"},
+    {"-","-"},
+    {"*","*"},
+    {"/","/"},
+    {"/","/"},
+    {"^","^"},
+    {"=","=="},
+    {">=",">="},
+    {">",">"},
+    {"<=","<="},
+    {"<","<"},
+    {"!=","!="},
+    {"..",":"},
+    {"Not","!"},
+    {":=","<-"},
+    {"sequence",":"},
+    {"True","TRUE"},
+    {"Modulo","%%"},
+    {"Quotient","%/%"},
+  };
+
+  RFormRegularOps() := rFormRegularOps;
+]; 
+
+
+
+
+LocalSymbols(rFormMathFunctions) [
+  rFormMathFunctions :=
+  {
+    {"NthRoot","root"},
+    {"Infinite","Inf"},
+    {"Undefined","NaN"},
+    {"Sin","sin"},
+    {"Cos","cos"},
+    {"Tan","tan"},
+    {"ArcSin","asin"},
+    {"ArcCos","acos"},
+    {"ArcTan","atan"},
+    {"ArcSinh","asinh"},
+    {"ArcCosh","acosh"},
+    {"ArcTanh","atanh"},
+    {"ArcCsc","acsc"},
+    {"ArcCsch","acsch"},
+    {"ArcSec","asec"},
+    {"ArcSech","asech"},
+    {"ArcCot","acot"},
+    {"ArcCoth","acoth"},
+    {"Exp","exp"},
+    {"Ln","log"},
+    {"Sqrt","sqrt"},
+    {"Bin","choose"},
+    {"Gamma","gamma"},
+    {"!","factorial"},
+    {"Limit","limit"},
+    {"Deriv","deriv"},
+    {"Integrate","integrate"},
+    {"Taylor","?"},
+    {"List","list"},
+  };
+
+  RFormMathFunctions() := rFormMathFunctions;
+
+]; 
+
+
+
+
+
+
+	
+100 # RForm(+ _y, _p) <-- RFormBracketIf(p<PrecedenceGet("+"), ConcatStrings(" + ", RForm(y, RightPrecedenceGet("+")) ) );
+
+	
+100 # RForm(- _y, _p) <-- RFormBracketIf(p<PrecedenceGet("-"), ConcatStrings(" - ", RForm(y, RightPrecedenceGet("-")) ) );
+
+	
+100 # RForm(_x ^ _y, _p) <-- RFormBracketIf(p <= PrecedenceGet("^"), ConcatStrings(RForm(x, RFormMaxPrec()), "^", RForm(y, RFormMaxPrec())) );
+
+100 # RForm(if(_pred)_body, _p) <-- "if (":RForm(pred,60000):") ":RForm(body);
+100 # RForm(_left else _right, _p) <-- RForm(left):" else ":RForm(right);
+
+
+
+
+120 # RForm(expr_IsFunction, _p)_(ArgumentsCount(expr)=2 And Contains(AssocIndices(RFormRegularOps()), Type(expr)) ) <--
+      RFormBracketIf(p<PrecedenceGet(Type(expr)), ConcatStrings(RForm(FunctionToList(expr)[2], LeftPrecedenceGet(Type(expr))), RFormRegularOps()[Type(expr)], RForm(FunctionToList(expr)[3], RightPrecedenceGet(Type(expr))) ) );
+
+
+
+
+120 # RForm(expr_IsFunction, _p) _
+      (ArgumentsCount(expr)=1 And Contains(AssocIndices(RFormMathFunctions()), Type(expr)) ) <--
+      ConcatStrings(RFormMathFunctions()[Type(expr)], "(", RForm( FunctionToList(expr)[2], RFormMaxPrec()),")" );
+
+
+
+
+
+RFormArgs(list_IsList) <--
+[
+  Local(i,nr,result);
+  result:="";
+  nr:=Length(list);
+  For (i:=1,i<=nr,i++)
+  [
+    result:=result:RForm(list[i]);
+    If (i<nr, result:=result:", ");
+  ];
+  result;
+];
+
+
+200 # RForm(_x, _p)_(IsFunction(x)) <--
+[
+  ConcatStrings(Type(x), "(", RFormArgs(Rest(FunctionToList(x))),")" );
+];
+
+
+100 # RForm(Complex(0, 1), _p) <-- "I";
+100 # RForm(Complex(_x, 0), _p) <-- RForm(x, p);
+110 # RForm(Complex(_x, 1), _p) <-- RForm(x+Hold(I), p);
+110 # RForm(Complex(0, _y), _p) <-- RForm(Hold(I)*y, p);
+120 # RForm(Complex(_x, _y), _p) <-- RForm(x+Hold(I)*y, p);
+
+
+
+100 # RForm(Modulo(_x, _y), _p) <-- RFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(RForm(x, PrecedenceGet("/")), " % ", RForm(y, PrecedenceGet("/")) ) )
+;
+
+
+
+
+100 # RForm(Nth(_x, _i), _p) <-- ConcatStrings(RForm(x, RFormMaxPrec()), "[", RForm(i, RFormMaxPrec()), "]");
+
+LocalSymbols(RIndent) [
+  RIndent:=1;
+
+  RNlIndented():=
+  [
+    Local(result);
+
+    result:=
+"
+";
+    Local(i);
+    For(i:=1,i<RIndent,i++)
+    [
+      result:=result:"  ";
+    ];
+    result;
+  ];
+  RIndent() :=
+  [
+  (RIndent++);
+  "";
+  ];
+  RUndent() :=
+  [
+  (RIndent--);
+  "";
+  ];
+]; 
+
+RFormStatement(_x) <-- RForm(x) : ";" : RNlIndented();
+
+120 # RForm(_x,_p)_(Type(x) = "Prog") <--
+[
+  Local(result);
+  result:=RIndent():"{":RNlIndented();
+  ForEach(item,Rest(FunctionToList(x)))
+  [
+    result:=result:RFormStatement(item);
+  ];
+  result:=result:"}":RUndent():RNlIndented();
+  result;
+];
+
+120 # RForm(For(_from,_to,_step)_body,_p) <--
+  "for(" : RForm(from,RFormMaxPrec()) : ";"
+	: RForm(to,RFormMaxPrec()) : ";"
+	: RForm(step,RFormMaxPrec()) : ")"
+	: RIndent() : RNlIndented()
+	: RFormStatement(body) : RUndent();
+
+120 # RForm(While(_pred)_body, _p) <--
+	"while(" : RForm(pred,RFormMaxPrec()) : ")"
+	: RIndent() : RNlIndented()
+	: RFormStatement(body) : RUndent();
+
+
+
+
+10 # StringToList(string_IsString)_(Length(string) = 0) <-- {};
+
+
+20 # StringToList(string_IsString) <--
+[
+    Local(resultList);
+    
+    resultList := {};
+    
+    ForEach(character, string)
+    [
+        resultList := Append(resultList, character);
+    ];
+    
+    resultList;
+
+];
+
+
+
+
+
+StringToNumber( str_IsString ) <-- FromBase(10,str);
+
+
+VerifyNumeric(expression1, expression2, optionsList) :=
+[
+    Local(variablesList1, variablesList2, numericValue1, numericValue2, numericDifference, optionsVariableNamesList, optionsValuesList, associativeList);
+ 
+    variablesList1 := VarList(expression1);
+    
+    variablesList2 := VarList(expression2);
+    
+    if(Length(variablesList1) = 0 And Length(variablesList2) = 0)
+    [
+        numericValue1 := N(expression1);
+        
+        numericValue2 := N(expression2);
+    ]
+    else
+    [
+        optionsList := HeapSort(optionsList, Lambda({x,y},IsLessThan(x[1],y[1])));
+        
+        associativeList := OptionsToAssociativeList(optionsList);
+        
+        optionsVariableNamesList := MapSingle("ToAtom", AssocIndices(associativeList));
+        
+        optionsValuesList := MapSingle("ToAtom", AssocValues(associativeList));
+        
+        variablesList1 := HeapSort(variablesList1,"IsLessThan");
+        
+        variablesList2 := HeapSort(variablesList2,"IsLessThan");
+        
+        Check(variablesList1 = variablesList2 And variablesList1 = optionsVariableNamesList, "Argument", "Both expressions and the options list must have the same variable names and the same number of variables.");
+        
+        numericValue1 := N(WithValue(variablesList1, optionsValuesList, expression1));
+        
+        numericValue2 := N(WithValue(variablesList2, optionsValuesList, expression2 ));
+        
+        Echo(Map("->",{variablesList1, optionsValuesList}));
+        
+        NewLine();
+    ];
+    
+    Echo(expression1, "-> ", numericValue1);
+    
+    NewLine();
+    
+    Echo(expression2, "-> ", numericValue2);
+    
+    numericDifference := N(numericValue1 - numericValue2);
+        
+    NewLine();
+    
+    Echo("Difference between the numeric values: ", numericDifference);
+    
+    numericDifference;
+];
+
+
+
+
+VerifyNumeric(expression1, expression2) :=
+[
+    VerifyNumeric(expression1, expression2, {});
+];
+

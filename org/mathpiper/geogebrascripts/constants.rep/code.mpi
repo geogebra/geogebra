@@ -1,0 +1,127 @@
+
+
+
+
+
+
+
+SetGlobalLazyVariable(I,Complex(0,1));
+
+
+
+
+
+
+LocalSymbols(CacheOfConstantsN) [
+
+
+
+Rulebase("CachedConstant", {C'cache, C'atom, C'func});
+UnFence("CachedConstant", 3);	
+HoldArgument("CachedConstant", C'func);
+HoldArgument("CachedConstant", C'cache);	
+
+Rule("CachedConstant", 3, 10, And(IsAtom(C'atom), IsFunction(C'func)))
+[
+ 	Local(C'name,C'functionName);
+	Bind(C'name, ToString(C'atom));	
+  Bind(C'functionName,ConcatStrings("Internal'",C'name));
+
+	If(	
+		IsAtom(Eval(C'cache)),
+		MacroBind(Eval(C'cache), {})
+	);
+
+	
+	If(
+	  IsEqual(Builtin'Assoc(C'name, Eval(C'cache)), Empty),	
+	  [	
+		MacroUnbind(C'atom);
+
+		
+
+		DestructiveInsert(Eval(C'cache), 1, {C'name, 0, 0});
+
+		
+		
+
+		MacroRulebase(C'functionName, {});
+		`( Rule(@C'functionName, 0, 1024, True)
+		[
+			Local(new'prec, new'C, cached'C);
+			Bind(new'prec, BuiltinPrecisionGet());
+			
+			
+			Bind(cached'C, Builtin'Assoc(@C'name, @C'cache));
+			If( MathNth(cached'C, 2) != new'prec,
+			  [	
+				If(IsEqual(InVerboseMode(),True), Echo("CachedConstant: Info: constant ", @C'name, " is being recalculated at precision ", new'prec));
+				Bind(new'C, RoundTo(Eval(@C'func),new'prec));
+				DestructiveReplace(cached'C, 2, new'prec);
+				DestructiveReplace(cached'C, 3, new'C);
+				new'C;
+			  ],
+			  
+			  MathNth(cached'C, 3)
+			);
+		]);
+
+		
+
+		
+	  ],
+	  
+	  Echo("CachedConstant: Warning: constant ", C'atom, " already defined")
+	);
+];
+
+Rule("CachedConstant", 3, 20, True)
+	Echo("CachedConstant: Error: ", C'atom, " must be an atom and ", C'func, " must be a function.");
+
+
+
+Function("AssignCachedConstantsN", {})
+[
+	Local(var,fname);
+	ForEach(var, AssocIndices(CacheOfConstantsN))
+	[
+		MacroUnbind(ToAtom(var));
+    Bind(fname,ConcatStrings("Internal'",var));
+    Bind(var,ToAtom(var));
+		
+    `SetGlobalLazyVariable((@var), ListToFunction({ToAtom(fname)}));
+	];
+];
+UnFence("AssignCachedConstantsN", 0);
+
+
+
+Function("ClearCachedConstantsN", {})
+[
+	Local(c'entry);
+	ForEach(c'entry, CacheOfConstantsN)
+		MacroUnbind(ToAtom(c'entry[1]));
+];
+UnFence("ClearCachedConstantsN", 0);
+
+
+CachedConstant(CacheOfConstantsN, Pi,
+[
+
+
+	Local(result,old'prec);
+  Bind(old'prec,BuiltinPrecisionGet());
+If(IsEqual(InVerboseMode(),True), Echo("Recalculating Pi at precision ",old'prec+5));
+	BuiltinPrecisionSet(BuiltinPrecisionGet()+5);
+	result := MathPi();
+If(IsEqual(InVerboseMode(),True),Echo("Switching back to precision ",old'prec));
+	BuiltinPrecisionSet(old'prec);
+	result;
+]
+);
+CachedConstant(CacheOfConstantsN, gamma, GammaConstNum());
+CachedConstant(CacheOfConstantsN, GoldenRatio, N( (1+Sqrt(5))/2 ) );
+CachedConstant(CacheOfConstantsN, Catalan, CatalanConstNum() );
+
+]; 
+

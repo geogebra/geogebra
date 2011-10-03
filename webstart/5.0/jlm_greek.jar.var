@@ -1,0 +1,8 @@
+URI: jlm_greek.jar
+
+URI: packed/jlm_greek.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/jlm_greek.jar
+Content-Type: x-java-archive

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Creates the actual portable version of GeoGebra.
+# Based on ggb42maxima.
+# FIXME: Filename for this script should be changed.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+GGB42_ZIP=../../../../GeoGebra-Windows-Portable-3-9-x-x.zip
+# You can also add a variable for that into autobuild.conf.
+
+# Please do not edit below this. (FIXME: the above settings should come from the config file.)
+
+umask 0002 # trying to ensure g+w rights for all created files automatically
+
+TEMPDIR=/tmp/ggb42
+mkdir -p $TEMPDIR
+
+. ../autobuild.conf
+
+cp $GGB42_ZIP $TEMPDIR
+ZIPFILE=`basename $GGB42_ZIP`
+TARGET_DIR=$WWWDIR/installer
+mkdir -p $TARGET_DIR
+
+GGB42_ZIPVERSION=`basename $GGB42_ZIP | sed 's/GeoGebra-Windows-Portable-//g' | sed 's/.zip//g' | tr - .`
+
+VERSION_STRING=`cat ../../../build/unpacked/version.txt`
+if [ "$VERSION_STRING" = "" ]; then
+ echo "Please build GeoGebra first."
+ exit 1
+ fi
+
+which unzip 2>&1 >/dev/null || {
+    echo unzip is required to run this script.
+    exit 1
+    }
+
+which zip 2>&1 >/dev/null || {
+    echo zip is required to run this script.
+    exit 1
+    }
+
+echo "Updating GeoGebra JAR files from version $GGB42_ZIPVERSION to $VERSION_STRING..."
+
+# 1. Preparations and unzipping:
+DIRNAME="GeoGebra ${VERSION_STRING}"
+rm -fR "GeoGebra ${GGB42_ZIPVERSION}" # removing old working directory
+unzip $TEMPDIR/$ZIPFILE >> /dev/null
+mv "GeoGebra ${GGB42_ZIPVERSION}" "$DIRNAME"
+cd "$DIRNAME"
+
+# 2. Zipping:
+cp ../../../../build/unpacked/* .
+
+# Creating (and overwriting) unsigned directory:
+mkdir -p unsigned
+cd unsigned
+rm -fR *
+cp ../../../../../build/unsigned/unpacked/* .
+
+cd ../..
+rm -f "$DIRNAME.zip" # deleting if a previous version already exists
+zip -r "$DIRNAME.zip" "$DIRNAME" >> /dev/null
+chmod g+w "$DIRNAME.zip"
+# GeoGebra 3.9.209.0.zip -> GeoGebra-Windows-Portable-3-9-209-0.zip
+WINDOWS_ZIP_FINAL=GeoGebra-Windows-Portable-`echo $VERSION_STRING | tr . -`.zip
+mv "$DIRNAME.zip" $WINDOWS_ZIP_FINAL
+cp $WINDOWS_ZIP_FINAL $TARGET_DIR
+
+# 3. Copying to Google Code:
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+  $SVNDIR/geogebra/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Windows" \
+   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_ZIP_FINAL
+ fi
+
+# 4. Cleanup:
+rm -fR "$DIRNAME" $WINDOWS_ZIP_FINAL # removing current working directory and file
+rm -f $TEMPDIR/$GGB42_ZIP

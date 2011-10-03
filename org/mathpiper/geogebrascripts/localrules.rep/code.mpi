@@ -1,0 +1,185 @@
+
+
+20 # (list_IsList AddTo _rest) <--
+[
+  Local(res);
+  res:={};
+  ForEach(item,list)
+  [
+    res := Concat(res,item AddTo rest);
+  ];
+  res;
+];
+30 # (_a'item AddTo list_IsList) <--
+[
+  MapSingle({{orig},a'item And orig},list);
+];
+40 # (_a'item AddTo _b) <-- a'item And b;
+
+
+LocalSymbols(LocResult) [
+
+  Bind(LocResult,True);
+  10 # LocPredicate(exp_IsAtom) <--
+  [
+    Local(tr,result);
+    tr:=patterns;
+    result:=False;
+    While (tr != {})
+    [
+      If (First(First(tr)) = exp,
+      [
+        Bind(LocResult,Eval(First(Rest(First(tr)))));
+        result := True;
+        tr:={};
+      ],
+      [
+        tr := Rest(tr);
+      ]);
+    ];
+    result;
+  ];
+
+  10 # LocPredicate(exp_IsFunction) <--
+  [
+    Local(tr,result,head);
+    tr:=patterns;
+    result:=False;
+    While (tr != {})
+    [
+      Bind(head, First(First(tr)));
+      If (Not(IsAtom(head)) And exp[0]=head[1] And PatternMatches(head[2], exp),
+      [
+        Bind(LocResult,Eval(First(Rest(First(tr)))));
+        Bind(result, True);
+        Bind(tr,{});
+      ],
+      [
+        Bind(tr, Rest(tr));
+      ]);
+    ];
+    result;
+  ];
+  20 # LocPredicate(_exp) <-- False;
+
+  LocChange(_exp) <-- LocResult;
+]; 
+
+UnFence("LocPredicate",1);
+UnFence("LocChange",1);
+
+10 # LocProcessSingle({_pat,_post,_exp}) <-- { {pat[0],PatternCreate(pat,post)},exp };
+
+20 # LocProcessSingle({pat_IsFunction,_exp}) <-- { {pat[0],PatternCreate(pat,True)},exp };
+
+30 # LocProcessSingle({pat_IsAtom,_exp}) <-- { pat,exp };
+
+
+40 # LocProcessSingle(pat_IsFunction <- _exp) <-- 
+[
+    Local(justPattern, postPredicate);
+    
+    If(Type(pat) = "_",
+        [
+            
+            justPattern := pat[1];
+            postPredicate := pat[2];
+        ],
+        [
+            
+            justPattern := pat;
+            postPredicate := True;
+        ]
+    );
+    
+    { {justPattern[0],PatternCreate(justPattern,postPredicate)},exp };
+];
+
+50 # LocProcessSingle(pat_IsAtom <- _exp) <-- { pat,exp };
+
+LocProcess(patterns) :=
+[
+  MapSingle("LocProcessSingle",patterns);
+];
+
+CompilePatterns(patterns) := LocPatterns(LocProcess(patterns));
+
+
+Rulebase("Where",{left,right});
+
+
+UnFence("Where",2);
+10 # (_body Where var_IsAtom == _value)
+     <-- `[Local(@var);@var := @value;@body;];
+20 # (_body Where (_a And _b))
+     <--
+[
+  Bind(body,`(@body Where @a));
+  `(@body Where @b);
+];
+
+30 # (_body Where {}) <-- {};
+40 # (_body Where list_IsList)_IsList(list[1])
+     <--
+     [
+       Local(head,rest);
+       head:=First(list);
+       rest:=Rest(list);
+       rest:= `(@body Where @rest);
+       `(@body Where @head) : rest;
+     ];
+
+50 # (_body Where list_IsList)
+     <--
+     [
+       Local(head,rest);
+       While (list != {})
+       [
+          head:=First(list);
+          body := `(@body Where @head);
+          list:=Rest(list);
+        ];
+        body;
+     ];
+
+
+60 # (_body Where _var == _value) <-- Subst(var,value)body;
+
+
+Rulebase("<-",{left,right});
+HoldArgument("<-",left);
+HoldArgument("<-",right);
+
+
+5 # (_expression /:: LocPatterns(_patterns)) <--
+[
+  MacroSubstitute(expression,"LocPredicate","LocChange");
+];
+10 # (_expression /:: _patterns) <--
+[
+  Local(old);
+  Bind(patterns, LocProcess(patterns));
+  Bind(old, expression);
+  Bind(expression, MacroSubstitute(expression,"LocPredicate","LocChange"));
+  While (expression != old)
+  [
+    Bind(old, expression);
+    Bind(expression, MacroSubstitute(expression,"LocPredicate","LocChange"));
+  ];
+  expression;
+];
+
+
+
+5 # (_expression /: LocPatterns(_patterns)) <--
+[
+  MacroSubstitute(expression,"LocPredicate","LocChange");
+];
+
+
+10 # (_expression /: _patterns) <--
+[
+  Bind(patterns, LocProcess(patterns));
+  MacroSubstitute(expression,"LocPredicate","LocChange");
+];
+

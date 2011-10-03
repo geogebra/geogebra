@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<project>
+
+	<property name="src.dir" location="."/>
+	<property name="propertiessrc.dir" location="./geogebra/properties"/>
+	<property name="build.dir" location="build"/>
+	<property name="propertiestemp.dir" location="${build.dir}/tempproperties"/>
+	<property name="temp.dir" location="${build.dir}/temp"/>
+	<property name="workspace.dir" location="../"/>
+	<!--property environment="env"/-->
+
+
+	<!-- reads the version/build number from geogebra.GeoGebra.java -->
+	<target name="readVersion">
+		<loadfile property="fullversion" srcfile="${src.dir}/geogebra/GeoGebra.java">
+			<filterchain>
+				<linecontainsregexp>
+					<regexp pattern="public static final String VERSION_STRING.*=" />
+				</linecontainsregexp>
+				<containsregex pattern=".*&quot;(.*)&quot;.*" replace="\1"/>
+				<deletecharacters chars="\r\n" />
+			</filterchain>
+		</loadfile>
+		<loadfile property="version" srcfile="${src.dir}/geogebra/GeoGebra.java">
+			<filterchain>
+				<linecontainsregexp>
+					<regexp pattern="public static final String VERSION_STRING.*=" />
+				</linecontainsregexp>
+				<containsregex pattern=".*&quot;(.*)\..*&quot;.*" replace="\1"/>
+				<deletecharacters chars="\r\n" />
+			</filterchain>
+		</loadfile>
+		<loadfile property="build" srcfile="${src.dir}/geogebra/GeoGebra.java">
+			<filterchain>
+				<linecontainsregexp>
+					<regexp pattern="public static final String VERSION_STRING.*=" />
+				</linecontainsregexp>
+				<containsregex pattern=".*&quot;.*\..*\..*\.(.*)&quot;.*" replace="\1"/>
+				<deletecharacters chars="\r\n" />
+			</filterchain>
+		</loadfile>
+		<loadfile property="versionname" srcfile="${src.dir}/geogebra/GeoGebra.java">
+			<filterchain>
+				<linecontainsregexp>
+					<regexp pattern="public static final String VERSION_STRING.*=" />
+				</linecontainsregexp>
+				<containsregex pattern=".*&quot;(.*)&quot;.*" replace="\1"/>
+				<deletecharacters chars="\r\n" />
+				<tokenfilter>
+					<replaceregex pattern="\." replace="-" flags="g" />
+				</tokenfilter>
+			</filterchain>
+		</loadfile>
+		<!--
+		<echo> ${fullversion} </echo>
+		<echo> ${version}     </echo>
+		<echo> ${build}       </echo>
+		<echo> ${versionname} </echo>
+		-->
+	</target>
+
+</project>

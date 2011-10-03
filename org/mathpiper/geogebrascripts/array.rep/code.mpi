@@ -1,0 +1,18 @@
+
+ArrayCreateFromList(list):=
+[
+  Local(result,i);
+  result:=ArrayCreate(Length(list),0);
+  i:=1;
+  While (list != {})
+  [
+    result[i]:=First(list);
+    i++;
+    list:=Rest(list);
+  ];
+  result;
+];
+
+
+ArrayToList(array):= (array[1 .. ArraySize(array) ]);
+

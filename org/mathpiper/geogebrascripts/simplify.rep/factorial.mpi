@@ -1,0 +1,230 @@
+
+
+
+
+FactorialNormalForm(x):=
+[
+  
+  x:=(x/:{BinomialCoefficient(_n,_m)<- (n!)/((m!)*(n-m)!)});
+  
+  
+
+  x:=(
+      x/::Hold({
+          (_a/_b)/_c <- (a)/(b*c),
+          (-(_a/_b))/_c <- (-a)/(b*c),
+          (_a/_b)*_c <- (a*c)/b,
+          (_a*_b)^_m <- a^m*b^m,
+          (_a/_b)^_m*_c <- (a^m*c)/b^m,
+          _a*(_b+_c) <- a*b+a*c,
+          (_b+_c)*_a <- a*b+a*c,
+          (_b+_c)/_a <- b/a+c/a,
+          _a*(_b-_c) <- a*b-a*c,
+          (_b-_c)*_a <- a*b-a*c,
+          (_b-_c)/_a <- b/a-c/a
+     }));
+  x;
+];
+
+FactorialSimplify(x):=
+[
+  x := FactorialNormalForm(x);
+  FactorialSimplifyWorker(x);
+];
+
+
+
+10 # CommonDivisors(_x^(_n),_x^(_m)) <-- {x^Simplify(n-m),1,x^m};
+10 # CommonDivisors(_x^(_n),_x)  <-- {x^Simplify(n-1),1,x};
+10 # CommonDivisors(_x,_x^(_m)) <-- {x^Simplify(1-m),1,x^m};
+10 # CommonDivisors((_x) !,_x) <-- {(x-1)!,1,x};
+10 # CommonDivisors(_x,_x) <-- {1,1,x};
+10 # CommonDivisors(- _x,_x) <-- {-1,1,x};
+10 # CommonDivisors(_x,- _x) <-- {1,-1,x};
+10 # CommonDivisors((_x),(_x)!) <-- {1,(x-1)!,x};
+10 # CommonDivisors((_x)!, (_y)!)_IsInteger(Simplify(x-y))  <-- CommonFact(Simplify(x-y),y);
+
+
+10 # CommonDivisors((_x)! ^ _m, (_y)! ^ _m)_IsInteger(Simplify(x-y))  <-- CommonFact(Simplify(x-y),y)^m;
+
+10 # CommonFact(dist_IsNegativeInteger,_y)
+   <-- {1,Product(i,1,-dist,Simplify(y+i+dist)),Simplify(y+dist)!};
+11 # CommonFact(_dist,_y)
+   <-- {Product(i,1,dist,Simplify(y+i)),1,Simplify(y)!};
+60000 # CommonDivisors(_x,_y) <-- {x,y,1};
+
+10 # CommonFactors((_x)!,_y)_(Simplify(y-x) = 1) <-- {y!,1};
+10 # CommonFactors((_x)!,_y)_(Simplify((-y)-x) = 1) <-- {(-y)!,-1};
+
+10 # CommonFactors(_x^_n,_x^_m) <-- {x^Simplify(n+m),1};
+10 # CommonFactors(_x^_n,_x) <-- {x^Simplify(n+1),1};
+
+60000 # CommonFactors(_x,_y) <-- {x,y};
+
+10 # FactorialSimplifyWorker(_x+_y) <-- FactorialSimplifyWorker(x)+FactorialSimplifyWorker(y);
+10 # FactorialSimplifyWorker(_x-_y) <-- FactorialSimplifyWorker(x)-FactorialSimplifyWorker(y);
+10 # FactorialSimplifyWorker(  -_y) <--                     -FactorialSimplifyWorker(y);
+
+LocalSymbols(x,y,i,j,n,d)[
+
+20 # FactorialSimplifyWorker(_x/_y) <--
+[
+  
+  Local(numerCommon,numerTerms);
+  {numerCommon,numerTerms}:=FactorialGroupCommonDivisors(x);
+  Local(denomCommon,denomTerms);
+  {denomCommon,denomTerms}:=FactorialGroupCommonDivisors(y);
+  Local(n,d,c);
+  {n,d,c} := FactorialDivideTerms(numerCommon,denomCommon);
+  (n/d)*Simplify((numerTerms)/(denomTerms));
+];
+
+
+
+20 # FactorialGcd(_x,_y) <--
+[
+  
+  Local(numerCommon,numerTerms);
+  {numerCommon,numerTerms}:=FactorialGroupCommonDivisors(x);
+  Local(denomCommon,denomTerms);
+  {denomCommon,denomTerms}:=FactorialGroupCommonDivisors(y);
+  Local(n,d,c);
+  {n,d,c} := FactorialDivideTerms(numerCommon,denomCommon);
+  c;
+];
+
+
+
+
+
+10 # FactorialDivideTerms(- _x,- _y) <-- FactorialDivideTermsAux(x,y);
+LocalSymbols(n,d,c)
+[
+  20 # FactorialDivideTerms(- _x,  _y)
+    <--
+    [
+      Local(n,d,c);
+      {n,d,c} := FactorialDivideTermsAux(x,y);
+      {-n,d,c};
+    ];
+  30 # FactorialDivideTerms(  _x,- _y)
+    <--
+    [
+      Local(n,d,c);
+      {n,d,c} := FactorialDivideTermsAux(x,y);
+      {n,-d,c};
+    ];
+];
+40 # FactorialDivideTerms(  _x,  _y)
+   <--
+   [
+
+     FactorialDivideTermsAux(x,y);
+   ];
+
+LocalSymbols(n,d,c)
+[
+  10 # FactorialDivideTermsAux(_x,_y) <--
+  [
+    x:=Flatten(x,"*");
+    y:=Flatten(y,"*");
+
+    Local(i,j,common);
+    common:=1;
+    For(i:=1,i<=Length(x),i++)
+    For(j:=1,j<=Length(y),j++)
+    [
+      Local(n,d,c);
+
+      {n,d,c} := CommonDivisors(x[i],y[j]);
+
+
+      x[i] := n;
+      y[j] := d;
+      common:=common*c;
+    ];
+
+
+    {Product(x),Product(y),common};
+  ];
+];
+
+];
+
+60000 # FactorialSimplifyWorker(_x)
+      <--
+      [
+  
+  Local(numerCommon,numerTerms);
+  {numerCommon,numerTerms}:=FactorialGroupCommonDivisors(x);
+  numerCommon*numerTerms;
+      ];
+
+
+10 # FactorialFlattenAddition(_x+_y) <-- Concat(FactorialFlattenAddition(x), FactorialFlattenAddition(y));
+10 # FactorialFlattenAddition(_x-_y) <-- Concat(FactorialFlattenAddition(x),-FactorialFlattenAddition(y));
+10 # FactorialFlattenAddition(  -_y) <--                           -FactorialFlattenAddition(y);
+20 # FactorialFlattenAddition(_x   ) <--                           {x};
+
+LocalSymbols(n,d,c)
+[
+  10 # FactorialGroupCommonDivisors(_x) <--
+  [
+    Local(terms,common,tail);
+    terms:=FactorialFlattenAddition(x);
+
+    common := First(terms);
+    tail:=Rest(terms);
+    While (tail != {})
+    [
+      Local(n,d,c);
+      {n,d,c} := FactorialDivideTerms(common,First(tail));
+
+
+      common := c;
+      tail:=Rest(tail);
+    ];
+    Local(i,j);
+
+
+
+    For(j:=1,j<=Length(terms),j++)
+    [
+      Local(n,d,c);
+
+
+      {n,d,c} := FactorialDivideTerms(terms[j],common);
+
+
+      Check(d = 1, "Math",
+        PipeToString()[
+        Echo("FactorialGroupCommonDivisors failure 1 : ",d);
+        ]);
+
+      terms[j] := n;
+    ];
+    terms:=Add(terms);
+
+    common:=Flatten(common,"*");
+    For(j:=1,j<=Length(common),j++)
+    [
+      Local(f1,f2);
+      {f1,f2}:=CommonFactors(common[j],terms);
+      common[j]:=f1;
+      terms:=f2;
+
+      For(i:=1,i<=Length(common),i++)
+      If(i != j,
+        [
+          {f1,f2}:=CommonFactors(common[j],common[i]);
+          common[j]:=f1;
+          common[i]:=f2;
+        ]);
+    ];
+    common := Product(common);
+    {common,terms};
+  ];
+];
+
+
+

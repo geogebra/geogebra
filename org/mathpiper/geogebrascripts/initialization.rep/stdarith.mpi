@@ -1,0 +1,423 @@
+
+
+
+50  # x_IsNumber * y_IsNumber <-- MultiplyN(x,y);
+100 #  1  * _x  <-- x;
+100 # _x  *  1  <-- x;
+100 # (_f  * _x)_(f= -1)  <-- -x;
+100 # (_x  * _f)_(f= -1)  <-- -x;
+105 # (f_IsNegativeNumber * _x)  <-- -(-f)*x;
+105 # (_x * f_IsNegativeNumber)  <-- -(-f)*x;
+
+95 # x_IsMatrix * y_IsMatrix <--
+[
+   Local(i,j,k,row,result);
+   result:=ZeroMatrix(Length(x),Length(y[1]));
+   For(i:=1,i<=Length(x),i++)
+   For(j:=1,j<=Length(y),j++)
+   For(k:=1,k<=Length(y[1]),k++)
+   [
+     row:=result[i];
+     row[k]:= row[k]+x[i][j]*y[j][k];
+   ];
+   result;
+];
+
+
+96 # x_IsMatrix * y_IsList <--
+[
+   Local(i,result);
+   result:={};
+   For(i:=1,i<=Length(x),i++)
+   [ DestructiveInsert(result,i,Dot(x[i], y)); ];
+   result;
+];
+
+
+97 # (x_IsList * y_IsNonObject)_Not(IsList(y)) <-- y*x;
+98 # (x_IsNonObject * y_IsList)_Not(IsList(x)) <--
+[
+   Local(i,result);
+   result:={};
+   For(i:=1,i<=Length(y),i++)
+   [ DestructiveInsert(result,i,x * y[i]); ];
+   result;
+];
+
+
+50  # _x * Undefined <-- Undefined;
+50  # Undefined * _y <-- Undefined;
+
+
+100  # 0 * y_IsInfinity <-- Undefined;
+100  # x_IsInfinity * 0 <-- Undefined;
+
+101 # 0    * (_x) <-- 0;
+101 # (_x) *    0 <-- 0;
+
+100 # x_IsNumber * (y_IsNumber * _z) <-- (x*y)*z;
+100 # x_IsNumber * (_y * z_IsNumber) <-- (x*z)*y;
+
+100 # (_x * _y) * _y <-- x * y^2;
+100 # (_x * _y) * _x <-- y * x^2;
+100 # _y * (_x * _y) <-- x * y^2;
+100 # _x * (_x * _y) <-- y * x^2;
+100 # _x * (_y / _z) <-- (x*y)/z;
+
+100 # (_y / _z) * _x <-- (x*y)/z;
+100 # (_x * y_IsNumber)_Not(IsNumber(x)) <-- y*x;
+
+100 # (_x) * (_x) ^ (n_IsConstant) <-- x^(n+1);
+100 # (_x) ^ (n_IsConstant) * (_x) <-- x^(n+1);
+100 # (_x * _y)* _x ^ n_IsConstant <-- y * x^(n+1);
+100 # (_y * _x)* _x ^ n_IsConstant <-- y * x^(n+1);
+100 # Sqrt(_x) * (_x) ^ (n_IsConstant) <-- x^(n+1/2);
+100 # (_x) ^ (n_IsConstant) * Sqrt(_x) <-- x^(n+1/2);
+100 # Sqrt(_x) * (_x) <-- x^(3/2);
+100 # (_x) * Sqrt(_x) <-- x^(3/2);
+
+105 # x_IsNumber * -(_y) <-- (-x)*y;
+105 # (-(_x)) * (y_IsNumber) <-- (-y)*x;
+
+106 # _x * -(_y) <-- -(x*y);
+106 # (- _x) * _y <-- -(x*y);
+
+107 # -( (-(_x))/(_y)) <-- x/y;
+107 # -( (_x)/(-(_y))) <-- x/y;
+
+
+250  # x_IsNumber * y_IsInfinity <-- Sign(x)*y;
+250  # x_IsInfinity * y_IsNumber <-- Sign(y)*x;
+
+
+
+230 # (aLeft_IsList * aRight_IsList)_(Length(aLeft)=Length(aRight)) <--
+	 Map("*",{aLeft,aRight});
+
+242 # (x_IsInteger / y_IsInteger) * (v_IsInteger / w_IsInteger) <-- (x*v)/(y*w);
+243 #  x_IsInteger * (y_IsInteger / z_IsInteger) <--  (x*y)/z;
+243 #  (y_IsInteger / z_IsInteger) * x_IsInteger <--  (x*y)/z;
+
+400 # (_x) * (_x) <-- x^2;
+
+
+
+50 # _x ^ (1/2) <-- Sqrt(x);
+50 # (x_IsPositiveNumber ^ (1/2))_IsInteger(SqrtN(x)) <-- SqrtN(x);
+58 # 1 ^ n_IsInfinity <-- Undefined;
+59 # _x ^ 1 <-- x;
+59 # 1 ^ _n <-- 1;
+59 # x_IsZero ^ y_IsZero <-- Undefined;
+60 # (x_IsZero ^ n_IsRationalOrNumber)_(n>0) <-- 0;
+60 # (x_IsZero ^ n_IsRationalOrNumber)_(n<0) <-- Infinity;
+
+
+
+
+
+
+
+59 # _x ^ Undefined <-- Undefined;
+59 # Undefined ^ _x <-- Undefined;
+
+
+61 # Infinity ^ (y_IsNegativeNumber) <-- 0;
+61 # (-Infinity) ^ (y_IsNegativeNumber) <-- 0;
+
+
+
+61 # x_IsPositiveNumber ^ y_IsPositiveInteger <-- MathIntPower(x,y);
+61 # x_IsPositiveNumber ^ y_IsNegativeInteger <-- 1/MathIntPower(x,-y);
+65 # (x_IsPositiveNumber ^ y_IsNumber)_InNumericMode() <-- Exp(y*Ln(x));
+
+90 # (-_x)^m_IsEven <-- x^m;
+91 # (x_IsConstant ^ (m_IsOdd / p_IsOdd))_(IsNegativeNumber(Re(N(Eval(x))))) <--
+     -((-x)^(m/p));
+92 # (x_IsNegativeNumber ^ y_IsNumber)_InNumericMode() <-- Exp(y*Ln(x));
+
+
+70  # (_x ^ m_IsRationalOrNumber) ^ n_IsRationalOrNumber <-- x^(n*m);
+
+80 # (x_IsNumber/y_IsNumber) ^ n_IsPositiveInteger <-- x^n/y^n;
+80 # (x_IsNumber/y_IsNumber) ^ n_IsNegativeInteger <-- y^(-n)/x^(-n);
+80 # x_IsNegativeNumber ^ n_IsEven <-- (-x)^n;
+80 # x_IsNegativeNumber ^ n_IsOdd <-- -((-x)^n);
+
+
+100  # ((_x)*(_x ^ _m)) <-- x^(m+1);
+100  # ((_x ^ _m)*(_x)) <-- x^(m+1);
+100  # ((_x ^ _n)*(_x ^ _m)) <-- x^(m+n);
+
+100  # ((x_IsNumber)^(n_IsInteger/(_m)))_(n>1) <-- MathIntPower(x,n)^(1/m);
+
+100 # Sqrt(_n)^(m_IsEven) <-- n^(m/2);
+
+100 # Abs(_a)^n_IsEven <-- a^n;
+100 # Abs(_a)^n_IsOdd <-- Sign(a)*a^n;
+
+
+200 # x_IsMatrix ^ n_IsPositiveInteger <-- x*(x^(n-1));
+204 # (xlist_IsList ^ nlist_IsList)_(Length(xlist)=Length(nlist)) <--
+	 Map("^",{xlist,nlist});
+205 # (xlist_IsList ^ n_IsConstant)_(Not(IsList(n))) <--
+	 Map({{xx},xx^n},{xlist});
+206 # (_x ^ n_IsList)_(Not(IsList(x))) <-- Map({{xx},x^xx},{n});
+249 # x_IsInfinity ^ 0 <-- Undefined;
+250 # Infinity ^ (_n) <-- Infinity;
+250 # Infinity ^ (_x_IsComplex) <-- Infinity;
+250 # ((-Infinity) ^ (n_IsNumber))_(IsEven(n)) <-- Infinity;
+250 # ((-Infinity) ^ (n_IsNumber))_(IsOdd(n)) <-- -Infinity;
+
+250 # (x_IsNumber ^ Infinity)_(x> -1 And x < 1) <-- 0;
+250 # (x_IsNumber ^ Infinity)_(x> 1) <-- Infinity;
+
+
+
+250 # (x_IsComplex ^ Infinity)_(Magnitude(x) > 1) <-- Infinity;
+250 # (x_IsComplex ^ Infinity)_(Magnitude(x) < -1) <-- -Infinity;
+250 # (x_IsComplex ^ Infinity)_(Magnitude(x) > -1 And Magnitude(x) < 1) <-- 0;
+
+250 # (x_IsNumber ^ -Infinity)_(x> -1 And x < 1) <-- Infinity;
+250 # (x_IsNumber ^ -Infinity)_(x< -1) <-- 0;
+250 # (x_IsNumber ^ -Infinity)_(x> 1) <-- 0;
+
+255 # (x_IsComplex ^ Infinity)_(Abs(x) = 1) <-- Undefined;
+255 # (x_IsComplex ^ -Infinity)_(Abs(x) = 1) <-- Undefined;
+
+
+
+400 # _x ^ 0 <-- 1;
+
+
+
+
+
+51 # -Undefined <-- Undefined;
+54 # - (- _x)      <-- x;
+55 # (- (x_IsNumber)) <-- SubtractN(0,x);
+100 # _x - n_IsConstant*(_x)   <-- (1-n)*x;
+100 # n_IsConstant*(_x) - _x   <-- (n-1)*x;
+
+110 # - (_x - _y) <-- y-x;
+111 # - (x_IsNumber / _y) <-- (-x)/y;	
+LocalSymbols(x)
+[
+  200 # - (x_IsList) <-- MapSingle("-",x);
+];
+
+
+50  # x_IsNumber - y_IsNumber <-- SubtractN(x,y);
+50  # x_IsNumber - y_IsNumber <-- SubtractN(x,y);
+60  # Infinity - Infinity <-- Undefined;
+100 # 0 - _x <-- -x;
+100 # _x - 0 <-- x;
+100 # _x - _x <-- 0;
+
+110 # _x - (- _y) <-- x + y;
+110 # _x - (y_IsNegativeNumber) <-- x + (-y);
+111 # (_x + _y)- _x <-- y;
+111 # (_x + _y)- _y <-- x;
+112 # _x - (_x + _y) <-- - y;
+112 # _y - (_x + _y) <-- - x;
+113 # (- _x) - _y <-- -(x+y);
+113 # (x_IsNegativeNumber) - _y <-- -((-x)+y);
+113 # (x_IsNegativeNumber)/_y - _z <-- -((-x)/y+z);
+
+
+
+LocalSymbols(x,y,xarg,yarg)
+[
+  10 # ((x_IsList) - (y_IsList))_(Length(x)=Length(y)) <--
+  [
+    Map({{xarg,yarg},xarg-yarg},{x,y});
+  ];
+];
+
+240 # (x_IsList - y_IsNonObject)_Not(IsList(y)) <-- -(y-x);
+
+241 # (x_IsNonObject - y_IsList)_Not(IsList(x)) <--
+[
+   Local(i,result);
+   result:={};
+   For(i:=1,i<=Length(y),i++)
+   [ DestructiveInsert(result,i,x - y[i]); ];
+   result;
+];
+
+250 # z_IsInfinity - Complex(_x,_y) <-- Complex(-x+z,-y);
+250 # Complex(_x,_y) - z_IsInfinity <-- Complex(x-z,y);
+
+251 # z_IsInfinity - _x <-- z;
+251 # _x - z_IsInfinity <-- -z;
+
+250 # Undefined - _y <-- Undefined;
+250 # _x - Undefined <-- Undefined;
+
+210 # x_IsNumber - (y_IsNumber / z_IsNumber) <--(x*z-y)/z;
+210 # (y_IsNumber / z_IsNumber) - x_IsNumber <--(y-x*z)/z;
+210 # (x_IsNumber / v_IsNumber) - (y_IsNumber / z_IsNumber) <--(x*z-y*v)/(v*z);
+
+
+
+
+100 # + _x  <-- x;
+
+50 # x_IsNumber + y_IsNumber <-- AddN(x,y);
+
+100 # 0 + _x    <-- x;
+100 # _x + 0    <-- x;
+100 # _x + _x   <-- 2*x;
+100 # _x + n_IsConstant*(_x)   <-- (n+1)*x;
+100 # n_IsConstant*(_x) + _x   <-- (n+1)*x;
+101 # _x + - _y <-- x-y;
+101 # _x + (- _y)/(_z) <-- x-(y/z);
+101 # (- _y)/(_z) + _x  <-- x-(y/z);
+101 # (- _x) + _y <-- y-x;
+102 # _x + y_IsNegativeNumber <-- x-(-y);
+102 # _x + y_IsNegativeNumber * _z <-- x-((-y)*z);
+102 # _x + (y_IsNegativeNumber)/(_z) <-- x-((-y)/z);
+102 # (y_IsNegativeNumber)/(_z) + _x  <-- x-((-y)/z);
+102 # (x_IsNegativeNumber) + _y <-- y-(-x);
+
+150 # _n1 / _d + _n2 / _d <-- (n1+n2)/d;
+
+200 # (x_IsNumber + _y)_Not(IsNumber(y)) <-- y+x;
+200 # ((_y + x_IsNumber) + _z)_Not(IsNumber(y) Or IsNumber(z)) <-- (y+z)+x;
+200 # ((x_IsNumber + _y) + z_IsNumber)_Not(IsNumber(y)) <-- y+(x+z);
+200 # ((_x + y_IsNumber) + z_IsNumber)_Not(IsNumber(x)) <-- x+(y+z);
+
+210 # x_IsNumber + (y_IsNumber / z_IsNumber) <--(x*z+y)/z;
+210 # (y_IsNumber / z_IsNumber) + x_IsNumber <--(x*z+y)/z;
+210 # (x_IsNumber / v_IsNumber) + (y_IsNumber / z_IsNumber) <--(x*z+y*v)/(v*z);
+
+
+
+
+220 # (xlist_IsList + ylist_IsList)_(Length(xlist)=Length(ylist)) <-- Map("+",{xlist,ylist});
+
+SumListSide(_x, y_IsList) <--
+[
+   Local(i,result);
+   result:={};
+   For(i:=1,i<=Length(y),i++)
+   [ DestructiveInsert(result,i,x + y[i]); ];
+   result;
+];
+
+240 # (x_IsList + _y)_Not(IsList(y)) <-- SumListSide(y,x);
+241 # (_x + y_IsList)_Not(IsList(x)) <-- SumListSide(x,y);
+
+250 # z_IsInfinity + Complex(_x,_y) <-- Complex(x+z,y);
+250 # Complex(_x,_y) + z_IsInfinity <-- Complex(x+z,y);
+
+251 # z_IsInfinity + _x <-- z;
+251 # _x + z_IsInfinity <-- z;
+
+
+250 # Undefined + _y <-- Undefined;
+250 # _x + Undefined <-- Undefined;
+
+
+
+
+50 # 0 / 0 <-- Undefined;
+
+52 # x_IsPositiveNumber / 0 <-- Infinity;
+52 # x_IsNegativeNumber / 0 <-- -Infinity;
+55 # (_x / y_IsNumber)_(IsZero(y)) <-- Undefined;
+55 # 0 / _x <-- 0;
+
+
+
+56 # (x_IsNonZeroInteger / y_IsNonZeroInteger)_(GcdN(x,y) > 1) <--
+     [
+       Local(gcd);
+       Bind(x,x);
+       Bind(y,y);
+       Bind(gcd,GcdN(x,y));
+       QuotientN(x,gcd)/QuotientN(y,gcd);
+     ];
+
+57 # ((x_IsNonZeroInteger * _expr) / y_IsNonZeroInteger)_(GcdN(x,y) > 1) <--
+     [
+       Local(gcd);
+       Bind(x,x);
+       Bind(y,y);
+       Bind(gcd,GcdN(x,y));
+       (QuotientN(x,gcd)*expr)/QuotientN(y,gcd);
+     ];
+
+57 # ((x_IsNonZeroInteger) / (y_IsNonZeroInteger * _expr))_(GcdN(x,y) > 1) <--
+     [
+       Local(gcd);
+       Bind(x,x);
+       Bind(y,y);
+       Bind(gcd,GcdN(x,y));
+       QuotientN(x,gcd)/(QuotientN(y,gcd)*expr);
+     ];
+
+57 # ((x_IsNonZeroInteger * _p) / (y_IsNonZeroInteger * _q))_(GcdN(x,y) > 1) <--
+     [
+       Local(gcd);
+       Bind(x,x);
+       Bind(y,y);
+       Bind(gcd,GcdN(x,y));
+       (QuotientN(x,gcd)*p)/(QuotientN(y,gcd)*q);
+     ];
+
+60 # (x_IsDecimal / y_IsNumber)  <-- DivideN(x,y);
+60 # (x_IsNumber  / y_IsDecimal) <-- DivideN(x,y); 
+60 # (x_IsNumber  / y_IsNumber)_(InNumericMode()) <-- DivideN(x,y);
+
+
+90 # x_IsInfinity / y_IsInfinity <-- Undefined;
+95  # x_IsInfinity / y_IsNumber <-- Sign(y)*x;
+95  # x_IsInfinity / y_IsComplex <-- Infinity;
+
+90 # Undefined / _y <-- Undefined;
+90 # _y / Undefined <-- Undefined;
+
+
+100 # _x / _x <-- 1;
+100 # _x /  1 <-- x;
+100 # (_x / y_IsNegativeNumber) <-- -x/(-y);
+100 # (_x / - _y) <-- -x/y;
+
+150 # (_x) / (_x) ^ (n_IsConstant) <-- x^(1-n);
+150 # (_x) ^ (n_IsConstant) * (_x) <-- x^(n-1);
+150 # Sqrt(_x) / (_x) ^ (n_IsConstant) <-- x^(1/2-n);
+150 # (_x) ^ (n_IsConstant) / Sqrt(_x) <-- x^(n-1/2);
+150 # (_x) / Sqrt(_x) <-- Sqrt(x);
+
+
+200 # (_x / _y)/ _z <-- x/(y*z);
+230 # _x / (_y / _z) <-- (x*z)/y;
+
+240 # (xlist_IsList / ylist_IsList)_(Length(xlist)=Length(ylist)) <--
+	 Map("/",{xlist,ylist});
+
+
+250 # (x_IsList / _y)_(Not(IsList(y))) <--
+[
+   Local(i,result);
+   result:={};
+   For(i:=1,i<=Length(x),i++)
+   [ DestructiveInsert(result,i,x[i] / y); ];
+   result;
+];
+
+250 # (_x / y_IsList)_(Not(IsList(x))) <--
+[
+   Local(i,result);
+   result:={};
+   For(i:=1,i<=Length(y),i++)
+   [ DestructiveInsert(result,i,x/y[i]); ];
+   result;
+];
+
+250 # _x / Infinity <-- 0;
+250 # _x / (-Infinity) <-- 0;
+
+
+400 # 0 / _x <-- 0;
+

@@ -1,0 +1,8 @@
+
+
+OMDef( ":"        , "mathpiper","prepend"    );
+OMDef( "@"        , "mathpiper","apply"      );
+OMDef( "/@"       , "mathpiper","list_apply" );
+OMDef( ".."       , "interval1","integer_interval" );
+OMDef( "NFunction", "mathpiper","NFunction" );
+

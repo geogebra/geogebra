@@ -1,0 +1,272 @@
+
+
+Rulebase("Function",{oper,args,body});
+
+
+
+
+Rule("Function",3,2047,
+	And(IsGreaterThan(Length(args), 1), IsEqual( MathNth(args, Length(args)), ToAtom("...") ))
+)
+[
+  DestructiveDelete(args,Length(args));	
+  Retract(oper,Length(args));
+  MacroRulebaseListed(oper,args);
+  MacroRule(oper,Length(args),1025,True) body;	
+];
+
+
+Rule("Function",3,2048,True)
+[
+  Retract(oper,Length(args));
+  MacroRulebase(oper,args);
+  MacroRule(oper,Length(args),1025,True) body;
+];
+
+
+
+Rulebase("Function",{oper});
+
+Rule("Function",1,2047,
+	And(IsFunction(oper), IsGreaterThan(Length(oper), 1), IsEqual( MathNth(oper, Length(oper)), ToAtom("...") ))
+)
+[
+	Local(args);
+	Bind(args,Rest(FunctionToList(oper)));
+	DestructiveDelete(args,Length(args));	
+	If(RulebaseDefined(Type(oper),Length(args)),
+		False,	
+		MacroRulebaseListed(Type(oper),args)
+	);
+];
+
+
+
+Rule("Function",1,2048,
+	And(IsFunction(oper))
+)
+[
+	Local(args);
+	Bind(args,Rest(FunctionToList(oper)));
+	If(RulebaseDefined(Type(oper),Length(args)),
+		False,	
+		MacroRulebase(Type(oper),args)
+	);
+];
+
+
+HoldArgument("Function",oper);
+HoldArgument("Function",args);
+HoldArgument("Function",body);
+
+
+Function("HoldArgumentNumber",{function,arity,index})
+[
+  Local(args);
+  args:=RulebaseArgumentsList(function,arity);
+
+  ApplyFast("HoldArgument",{function,args[index]});
+];
+
+
+Rulebase("Macro",{oper,args,body});
+HoldArgument("Macro",oper);
+HoldArgument("Macro",args);
+HoldArgument("Macro",body);
+
+
+Rule("Macro",3,2047,
+	And(IsGreaterThan(Length(args), 1), IsEqual( MathNth(args, Length(args)), ToAtom("...") ))
+)
+[
+  DestructiveDelete(args,Length(args));	
+  Retract(oper,Length(args));
+  `DefMacroRulebaseListed(@oper,@args);
+  MacroRule(oper,Length(args),1025,True) body;	
+];
+
+
+Rule("Macro",3,2048,True)
+[
+  Retract(oper,Length(args));
+  `DefMacroRulebase(@oper,@args);
+  MacroRule(oper,Length(args),1025,True) body;
+];
+
+Rulebase("Macro",{oper});
+
+Rule("Macro",1,2047,
+	And(IsFunction(oper), IsGreaterThan(Length(oper), 1), IsEqual( MathNth(oper, Length(oper)), ToAtom("...") ))
+)
+[
+	Local(args,name);
+	Bind(args,Rest(FunctionToList(oper)));
+	DestructiveDelete(args,Length(args));	
+  Bind(name,Type(oper));
+	If(RulebaseDefined(Type(oper),Length(args)),
+		False,	
+		`DefMacroRulebaseListed(@name,@args)
+	);
+];
+
+Rule("Macro",1,2048,
+	And(IsFunction(oper))
+)
+[
+	Local(args,name);
+	Bind(args,Rest(FunctionToList(oper)));
+  Bind(name,Type(oper));
+	If(RulebaseDefined(Type(oper),Length(args)),
+		False,	
+		[
+      `DefMacroRulebase(@name,@args);
+    ]
+	);
+];
+
+
+Rulebase("TemplateFunction",{oper,args,body});
+
+Bodied("TemplateFunction",60000);
+
+HoldArgument("TemplateFunction",oper);
+
+HoldArgument("TemplateFunction",args);
+
+HoldArgument("TemplateFunction",body);
+
+Rule("TemplateFunction",3,2047,True)
+[
+  Retract(oper,Length(args));
+  Local(arglist);
+  arglist:=FlatCopy(args);
+
+  DestructiveAppend(arglist,{args,ListToFunction({Hold,body})});
+  arglist:=ApplyFast("LocalSymbols",arglist);
+
+  MacroRulebase(oper,arglist[1]);
+  MacroRule(oper,Length(args),1025,True) arglist[2];
+
+];
+
+
+
+Rulebase("Unholdable",{var});
+
+HoldArgument("Unholdable",var);
+
+UnFence("Unholdable",1);
+
+Rule("Unholdable",1,10,IsEqual(Type(Eval(var)),"Eval"))
+[
+    MacroBind(var,Eval(Eval(var)));
+    
+];
+
+
+Rule("Unholdable",1,20,True)
+[
+    
+  True;
+];
+
+
+
+Rulebase(":=",{aLeftAssign,aRightAssign});
+UnFence(":=",2);
+HoldArgument(":=",aLeftAssign);
+HoldArgument(":=",aRightAssign);
+
+
+
+Rule(":=",2,0,IsAtom(aLeftAssign))
+[
+  Check( Not IsNumber(aLeftAssign), "Argument", "Only a variable can be placed on the left side of an := operator." );
+
+  MacroBind(aLeftAssign,Eval(aRightAssign));
+
+  Eval(aLeftAssign);
+];
+
+
+
+
+Rule(":=",2,0,IsList(aLeftAssign))
+[
+  Map(":=",{aLeftAssign,Eval(aRightAssign)});
+];
+
+
+Rulebase("AssignArray",{setlistterm,setlistindex,setlistresult});
+UnFence("AssignArray",3);
+Rule("AssignArray",3,1,IsString(setlistindex))
+[
+  Local(item);
+  item:=Assoc(setlistindex,setlistterm);
+  If(item = Empty,
+     DestructiveInsert(setlistterm,1,{setlistindex,setlistresult}),
+     DestructiveReplace(item,2,setlistresult)
+     );
+  True;
+];
+
+Rule("AssignArray",3,1,
+   And(
+           IsEqual(IsGeneric(setlistterm),True),
+           IsEqual(GenericTypeName(setlistterm),"Array")
+          )
+    )
+[
+  ArraySet(setlistterm,setlistindex,setlistresult);
+];
+
+
+Rule("AssignArray",3,2,True)
+[
+  DestructiveReplace(setlistterm ,setlistindex, setlistresult);
+  True;
+];
+
+
+Rule(":=",2,10,IsFunction(aLeftAssign) And (First(FunctionToList(aLeftAssign)) = Nth))
+[
+ Local(frst,scnd);
+
+ Local(lst);
+ Bind(lst,(FunctionToList(aLeftAssign)));
+ Bind(lst,Rest(lst));
+ Bind(frst, Eval(First(lst)));
+ Bind(lst,Rest(lst));
+ Bind(scnd, Eval(First(lst)));
+
+ AssignArray(frst,scnd,Eval(aRightAssign));
+];
+
+
+Rule(":=",2,30,IsFunction(aLeftAssign) And Not(IsEqual(aLeftAssign[0], ToAtom(":="))) )
+[
+  Check( Not IsEqual(aLeftAssign[0], ToAtom("/")), "Argument", "Only a variable can be placed on the left side of an := operator." );
+
+  Local(oper,args,arity);
+  Bind(oper,ToString(aLeftAssign[0]));
+  Bind(args,Rest(FunctionToList(aLeftAssign)));
+  If(
+	And(IsGreaterThan(Length(args), 1), IsEqual( MathNth(args, Length(args)), ToAtom("...") )),
+	
+	[
+	  DestructiveDelete(args,Length(args));	
+	  Bind(arity,Length(args));
+	  Retract(oper,arity);
+	  MacroRulebaseListed(oper, args);
+	],
+	
+	[
+	  Bind(arity,Length(args));
+	  Retract(oper,arity);
+	  MacroRulebase(oper, args);
+	]
+  );
+  Unholdable(aRightAssign);
+  MacroRule(oper,arity,1025,True) aRightAssign;
+];
+

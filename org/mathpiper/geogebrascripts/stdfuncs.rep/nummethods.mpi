@@ -1,0 +1,392 @@
+
+
+
+
+
+
+
+
+ArithmeticGeometricMean(a, b, eps) :=
+[
+    Check(IsPositiveReal(a) And IsPositiveReal(b), "Argument", "The first two arguments must be positive real numbers.");
+    
+    Check(IsPositiveInteger(eps), "Argument", "The precision argument must be a positive integer.");
+    
+    a := N(a, eps);
+    
+    b := N(b, eps);
+    
+	Local(a1, b1);
+	
+	If(InVerboseMode(), Echo("ArithmeticGeometricMean: Info: at prec. ", BuiltinPrecisionGet()));
+	
+	
+	While(Abs(a-b)>=eps)
+	[
+		a1 := DivideN(a+b, 2);
+		b1 := SqrtN(MultiplyN(a, b));	
+		a := a1;
+		b := b1;
+	];
+	
+	DivideN(a+b, 2);
+];
+
+
+
+
+
+
+
+
+
+
+5 # IntPowerNum(_x, 0, _func, _unity) <-- unity;
+10 # IntPowerNum(_x, n_IsInteger, _func, _unity) <--
+[
+	
+	Local(result);
+	
+	While(n > 0)
+	[
+		If(
+			(n&1) = 1,
+			If(
+				IsBound(result), 
+				result := Apply(func, {result,x}),
+				result := x, 
+			)
+		);
+		x := Apply(func, {x,x});
+		n := n>>1;
+	];
+	result;
+];
+
+
+
+
+
+
+
+
+
+
+
+
+Function() MultiplyNum(x, y, ...);
+Function() MultiplyNum(x);
+
+10 # MultiplyNum(x_IsList)_(Length(x)>1) <-- MultiplyNum(First(x), Rest(x));
+
+10 # MultiplyNum(x_IsRational, y_IsRationalOrNumber) <--
+[
+	If(
+        Type(y) = "/",  
+		DivideN(Numerator(x)*Numerator(y), Denominator(x)*Denominator(y)),
+		
+		
+		If(
+			Numerator(x)=1,
+			DivideN(y, Denominator(x)),
+			If(
+				Denominator(x)=1,
+				MultiplyN(y, Numerator(x)),
+				DivideN(MultiplyN(y, Numerator(x)), Denominator(x))
+			)
+		)
+	);
+];
+
+20 # MultiplyNum(x_IsNumber, y_IsRational) <-- MultiplyNum(y, x);
+
+25 # MultiplyNum(x_IsNumber, y_IsNumber) <-- MultiplyN(x,y);
+
+30 # MultiplyNum(Complex(r_IsNumber, i_IsNumber), y_IsRationalOrNumber) <-- Complex(MultiplyNum(r, y), MultiplyNum(i, y));
+
+35 # MultiplyNum(y_IsNumber, Complex(r_IsNumber, i_IsRationalOrNumber)) <-- MultiplyNum(Complex(r, i), y);
+
+40 # MultiplyNum(Complex(r1_IsNumber, i1_IsNumber), Complex(r2_IsNumber, i2_IsNumber)) <-- Complex(MultiplyNum(r1,r2)-MultiplyNum(i1,i2), MultiplyNum(r1,i2)+MultiplyNum(i1,r2));
+
+
+30 # MultiplyNum(x_IsRationalOrNumber, y_IsNumericList)_(Length(y)>1) <-- MultiplyNum(MultiplyNum(x, First(y)), Rest(y));
+40 # MultiplyNum(x_IsRationalOrNumber, y_IsNumericList)_(Length(y)=1) <-- MultiplyNum(x, First(y));
+
+
+
+
+
+
+
+
+
+
+
+Common'digits(x,y) :=
+[
+	Local(diff);
+	diff := Abs(x-y);
+	If(
+		diff=0,
+		Infinity,
+		
+		Quotient(IntLog(FloorN(DivideN(Maximum(Abs(x), Abs(y)), diff)), 2)*351, 1166)
+	); 	
+];
+
+
+NewtonNum(_func, _x0) <-- NewtonNum(func, x0, 5);	
+NewtonNum(_func, _x0, _prec0) <-- NewtonNum(func, x0, prec0, 2);
+
+
+
+
+
+NewtonNum(_func, _x'init, _prec0, _order) <--
+[
+	Check(prec0>=4, "Argument", "NewtonNum: Error: initial precision must be at least 4");
+	Check(IsInteger(order) And order>1, "Argument", "NewtonNum: Error: convergence order must be an integer and at least 2");
+	Local(x0, x1, prec, exact'digits, int'part, initial'tries);
+  N([
+    x0 := x'init;
+    prec := BuiltinPrecisionGet();
+    int'part := IntLog(Ceil(Abs(x0)), 10);	
+    
+    BuiltinPrecisionSet(2+prec0-int'part);	
+    x1 := (func @ x0);	
+    
+    exact'digits := 0;
+    initial'tries := 5;	
+    While(exact'digits*order < prec0 And initial'tries>0)
+    [
+      initial'tries--;
+      x0 := x1;
+      x1 := (func @ x0);
+      exact'digits := Common'digits(x0, x1);
+  
+    ];
+    
+    If(
+      Assert("value", {"NewtonNum: Error: need a more accurate initial value than", x'init})
+        exact'digits >= 1,
+    [
+    exact'digits :=Minimum(exact'digits, prec0+2);
+    
+    int'part := IntLog(Ceil(Abs(x1)), 10);	
+    While(exact'digits*order <= prec)
+    [
+      exact'digits := exact'digits*order;
+      BuiltinPrecisionSet(2+Minimum(exact'digits, Quotient(prec,order)+1)-int'part);
+      x0 := x1;
+      x1 := (func @ x0);
+  
+    ];
+    
+    BuiltinPrecisionSet(2+prec);
+    x1 := RoundTo( (func @ x1), prec);
+    ],
+    
+    x1 := x'init
+    );
+    BuiltinPrecisionSet(prec);
+  ]);
+	x1;
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SumTaylorNum0(_x, _nth'term'func, _n'terms) <-- SumTaylorNum0(x, nth'term'func, {}, n'terms);
+
+SumTaylorNum1(_x, _nth'term'func, _n'terms) <-- SumTaylorNum1(x, nth'term'func, {}, n'terms);
+
+
+SumTaylorNum(_x, _nth'term'func, _n'terms) <--
+If(
+	n'terms >= 30,	
+	
+	SumTaylorNum1(x, nth'term'func, n'terms),
+	SumTaylorNum0(x, nth'term'func, n'terms)
+);
+
+SumTaylorNum(_x, _nth'term'func, _next'term'factor, _n'terms) <--
+If(
+	n'terms >= 5,	
+	SumTaylorNum1(x, nth'term'func, next'term'factor, n'terms),
+	SumTaylorNum0(x, nth'term'func, next'term'factor, n'terms)
+);
+
+
+
+1# SumTaylorNum0(_x, _nth'term'func, {}, _n'terms) <--
+[
+	Local(sum, k);
+  N([
+    
+    x:=Eval(x);
+    sum := 0;
+    For(k:=n'terms, k>=0, k--)
+      sum := AddN(sum*x, nth'term'func @ k);
+  ]);
+	sum;
+];
+
+
+
+2# SumTaylorNum0(_x, _nth'term'func, _next'term'factor, _n'terms) <--
+[
+	Local(sum, k, term, delta);
+  N([
+    x:=Eval(x);	
+    If (IsConstant(nth'term'func),
+      term := nth'term'func,
+      term := (nth'term'func @ {0}),
+    );
+    sum := term;	
+  ]);
+  NonN([
+    delta := 1;
+    For(k:=1, k<=n'terms And delta != 0, k++)
+    [
+      term := MultiplyNum(term, next'term'factor @ {k}, x);	
+      delta := sum;
+      sum := sum + term;	
+      delta := Abs(sum-delta);	
+    ];
+  ]);
+	sum;
+];
+
+
+SumTaylorNum0(_x, _nth'term'func, _n'terms) <-- SumTaylorNum0(x, nth'term'func, {}, n'terms);
+
+
+
+
+
+
+
+
+
+SumTaylorNum1(x, nth'term'func, next'term'factor, n'terms) :=
+[
+	
+	Local(sum, rows, cols, rows'tmp, last'power, i, j, x'power, term'tmp);
+  N([ 
+    x:=Eval(x);	
+    rows := IntNthRoot(n'terms+1, 2);
+    cols := Quotient(n'terms+rows, rows);	
+    Check(rows>1 And cols>1, "Argument", "SumTaylorNum1: Internal error: number of Taylor sum terms must be at least 4");
+    rows'tmp := ArrayCreate(rows, 0);
+    x'power := x ^ rows;	
+    
+    
+    
+    
+    If(
+      next'term'factor = {},
+      term'tmp := 1,
+  
+      If (IsConstant(nth'term'func),
+        term'tmp := nth'term'func,
+        term'tmp := (nth'term'func @ {0}),
+      )
+    );
+  ]);
+  NonN([ 
+    
+    For(i:=0, i<cols, i++)
+    [
+      
+      For(j:=0, j<rows And (i<cols-1 Or i*rows+j<=n'terms), j++)	
+      [
+        
+        
+        If(
+          next'term'factor = {},	
+          [
+            rows'tmp[j+1] := rows'tmp[j+1] + MultiplyNum(term'tmp, nth'term'func @ {i*rows+j});
+          ],
+          [
+            rows'tmp[j+1] := rows'tmp[j+1] + term'tmp;	
+            term'tmp := MultiplyNum(term'tmp, next'term'factor @ {i*rows+j+1});	
+          ]
+        );
+      ];
+      
+      term'tmp := term'tmp*x'power;	
+    ];
+    
+    
+    For([j:=rows; sum:=0;], j>0, j--)
+      sum := sum*x + rows'tmp[j];
+  ]);
+	sum;
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BinSplitNum(m,n,a,b,p,q) := BinSplitFinal(BinSplitData(m,n,a,b,p,q));
+
+
+BinSplitFinal({_P,_Q,_B,_T}) <-- DivideN(T, MultiplyN(B, Q));
+
+
+BinSplitCombine({_P1, _Q1, _B1, _T1}, {_P2, _Q2, _B2, _T2}) <-- {P1*P2, Q1*Q2, B1*B2, B1*P1*T2+B2*Q2*T1};
+
+
+
+
+
+10 # BinSplitData(_m, _n, _a, _b, _p, _q)_(m>n) <-- {1,1,1,0};
+
+10 # BinSplitData(_m, _n, _a, _b, _p, _q)_(m=n) <-- {p@m, q@m, b@m, (a@m)*(p@m)};
+
+10 # BinSplitData(_m, _n, _a, _b, _p, _q)_(m+1=n) <-- {(p@m)*(p@n), (q@m)*(q@n), (b@m)*(b@n), (p@m)*((a@m)*(b@n)*(q@n)+(a@n)*(b@m)*(p@n))};
+
+
+
+
+20 # BinSplitData(_m, _n, _a, _b, _p, _q) <--
+[
+	BinSplitCombine(BinSplitData(m,(m+n)>>1, a,b,p,q), BinSplitData(1+((m+n)>>1),n, a,b,p,q));
+];
+
+

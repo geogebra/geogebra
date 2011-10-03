@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/vnd.geogebra.file">
+		<comment>GeoGebra worksheet</comment>
+		<comment xml:lang="cs">Pracovní list GeoGebry</comment>
+		<comment xml:lang="de">GeoGebra-Arbeitsblatt</comment>
+		<comment xml:lang="es">Archivo GeoGebra</comment>
+		<comment xml:lang="fr">Feuille de travail GeoGebra </comment>
+		<comment xml:lang="hi">जीओ-जेब्रा कार्य-पत्र</comment>
+		<comment xml:lang="it">Foglio di lavoro GeoGebra </comment>
+		<comment xml:lang="pt-BR">Planilha GeoGebra</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.ggb"/>
+	</mime-type>
+	<mime-type type="application/vnd.geogebra.tool">
+		<comment>GeoGebra tool</comment>
+		<comment xml:lang="cs">Nástroj GeoGebry</comment>
+		<comment xml:lang="de">GeoGebra-Werkzeug</comment>
+		<comment xml:lang="es">Herramienta GeoGebra</comment>
+		<comment xml:lang="fr">Outil GeoGebra</comment>
+		<comment xml:lang="hi">जीओ-जेब्रा साधन</comment>
+		<comment xml:lang="it">Strumento GeoGebra</comment>
+		<comment xml:lang="pt-BR">Ferramenta GeoGebra</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.ggt"/>
+	</mime-type>
+</mime-info>

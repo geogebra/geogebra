@@ -1,0 +1,136 @@
+#!/bin/bash
+#---------------------------------------------
+# Script to start GeoGebra
+#---------------------------------------------
+
+#---------------------------------------------
+# Used environment variables:
+#
+# GG_SCRIPTNAME=<name of originally called script to start GeoGebra> # If unset, name of this script will be used
+#
+# GG_PATH=<path of directory containing geogebra.jar> # If unset, path of this script will be used.
+# In this case if the path of script does not contain the geogebra.jar file, /usr/share/geogebra will be used.
+#
+# JAVACMD=<Java command> # If unset, java will be used
+#
+# GG_XMS=<initial Java heap size> # If unset, 32m will be used.
+#
+# GG_XMX=<maximum Java heap size> # If unset, 512m will be used.
+#
+# GG_DJAVA_LIBRARY_PATH=<native library path>
+
+#---------------------------------------------
+# If GG_SCRIPTNAME not set, use name of this script
+
+if [ -z "$GG_SCRIPTNAME" ]; then
+	GG_SCRIPTNAME=$(basename $0)
+fi
+
+#---------------------------------------------
+# If GG_XMS not set, set to 32m
+
+if [ -z "$GG_XMS" ]; then
+	GG_XMS='32m'
+fi
+
+#---------------------------------------------
+# If GG_XMX not set, set to 512m
+
+if [ -z "$GG_XMX" ]; then
+	GG_XMX='512m'
+fi
+
+#---------------------------------------------
+# Set Java default options
+
+JAVA_OPTS=("-Xms$GG_XMS" "-Xmx$GG_XMX")
+if [ -n "$GG_DJAVA_LIBRARY_PATH" ]; then
+	JAVA_OPTS[${#JAVA_OPTS[*]}]="-Djava.library.path=$GG_DJAVA_LIBRARY_PATH"
+fi
+
+#---------------------------------------------
+# Set GeoGebra default options
+
+GG_OPTS=()
+
+#---------------------------------------------
+# Define usage function
+
+func_usage()
+{
+cat << _USAGE
+Usage: $GG_SCRIPTNAME [Java-options] [GeoGebra-options] [FILE]
+
+GeoGebra - Dynamic mathematics software
+
+Java options:
+  -Xms<size>                         Set initial Java heap size, default $GG_XMS
+  -Xmx<size>                         Set maximum Java heap size, default $GG_XMX
+  -Djava.library.path=<path>         Set native library path`if [ -n "$GG_DJAVA_LIBRARY_PATH" ]; then echo ", default $GG_DJAVA_LIBRARY_PATH"; fi`
+
+GeoGebra options:
+  --help                             Print this help message
+  --v                                Print version
+  --language=<iso_code>              Set language using locale code, e.g. en, de_AT
+  --showAlgebraInput=<boolean>       Show/hide algebra input field
+  --showAlgebraInputTop=<boolean>    Show algebra input field at top/bottom
+  --showAlgebraWindow=<boolean>      Show/hide algebra window
+  --showSpreadsheet=<boolean>        Show/hide spreadsheet
+  --showCAS=<boolean>                Show/hide CAS window
+  --showSplash=<boolean>             Enable/disable the splash screen
+  --enableUndo=<boolean>             Enable/disable Undo
+  --fontSize=<number>                Set default font size
+  --showAxes=<boolean>               Show/hide coordinate axes
+  --showGrid=<boolean>               Show/hide grid
+  --settingsfile=[<path>|<filename>] Load/save settings from/in a local file
+  --resetSettings                    Reset current settings
+  --antiAliasing=<boolean>           Turn anti-aliasing on/off
+  --regressionFile=<filename>        Export textual representations of dependent objects, then exit
+_USAGE
+}
+
+#---------------------------------------------
+# If JAVACMD not set, use java
+
+if [ -z "$JAVACMD" ]; then
+	JAVACMD='java'
+fi
+
+#---------------------------------------------
+# Check for option --help and pass Java options to Java, others to GeoGebra
+
+for i in "$@"; do
+	case "$i" in
+	--help | --hel | --he | --h )
+		func_usage; exit 0 ;;
+	esac
+	if [ $(expr match "$i" '.*--') -ne 0 ]; then
+		GG_OPTS[${#GG_OPTS[*]}]="$i"
+		shift $((1))
+	elif [ $(expr match "$i" '.*-Xms') -ne 0 -o $(expr match "$i" '.*-Xmx') -ne 0  -o $(expr match "$i" '.*-Djava.library.path') -ne 0 ]; then
+		JAVA_OPTS[${#JAVA_OPTS[*]}]="$i"
+		shift $((1))
+	fi
+done
+
+#---------------------------------------------
+# If GG_PATH not set, use path of this script
+
+if [ -z "$GG_PATH" ]; then
+	GG_PATH="${BASH_SOURCE[0]}"
+	if [ -h "${GG_PATH}" ]; then
+		while [ -h "${GG_PATH}" ]; do
+			GG_PATH=`readlink "${GG_PATH}"`
+		done
+	fi
+	pushd . > /dev/null
+	cd `dirname ${GG_PATH}` > /dev/null
+	GG_PATH=`pwd`
+	popd > /dev/null
+	test -r "${GG_PATH}/geogebra.jar" || GG_PATH='/usr/share/geogebra'
+fi
+
+#---------------------------------------------
+# Run
+
+exec "$JAVACMD" "${JAVA_OPTS[@]}" -jar "$GG_PATH/geogebra.jar" "${GG_OPTS[@]}" "$@"

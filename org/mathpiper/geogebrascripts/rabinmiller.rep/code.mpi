@@ -1,0 +1,143 @@
+
+
+
+
+
+
+FastModularPower(a_IsPositiveInteger, b_IsPositiveInteger, n_IsPositiveInteger) <--
+[
+  Local(p, j, r);
+  p := a;
+  j := b;
+  r := 1;
+
+  While (j > 0)
+    [
+      If (IsOdd(j), r := ModuloN(r*p, n));
+      p := ModuloN(p*p, n);
+      j := ShiftRight(j, 1);
+    ];
+  r;
+];
+
+
+
+
+IsStronglyProbablyPrime(b_IsPositiveInteger, n_IsPositiveInteger) <--
+[
+  Local(m, q, r, a, flag, i, root);
+  m := n-1;
+  q := m;
+  r := 0;
+  root := 0;	
+  While (IsEven(q))
+  [
+    q := ShiftRight(q, 1);
+    r++;
+  ];
+
+  a := FastModularPower(b, q, n);
+  flag := (a = 1 Or a = m);
+  i := 1;
+
+  While (Not(flag) And (i < r))
+  [
+	root := a;	
+    a := ModuloN(a*a, n);
+    flag := (a = m);
+    i++;
+  ];
+
+  {root, flag};	
+];
+
+
+
+
+10 # RabinMillerSmall(1) <-- False;
+
+10 # RabinMillerSmall(2) <-- True;
+
+20 # RabinMillerSmall(n_IsEven) <-- False;
+
+20 # RabinMillerSmall(3) <-- True;
+
+30 # RabinMillerSmall(n_IsPositiveInteger) <--
+[
+  Local(continue, prime, i, primetable, pseudotable, root);
+  continue := True;
+  prime := True;
+  i := 1;
+  primetable := {2, 3, 5, 7, 11, 13, 17};
+  pseudotable := {2047, 1373653, 25326001, 3215031751, 2152302898747,
+                  3474749660383, 34155071728321};
+  
+  While (continue And prime And (i < 8))
+  [	
+    {root, prime} := IsStronglyProbablyPrime(primetable[i], n);
+    
+    continue := (n >= pseudotable[i]);
+    i++;
+  ];
+  
+  If (continue And (i = 8), Overflow, prime);
+];
+
+
+
+
+10 # RabinMillerProbabilistic(1, _p) <-- False;
+
+10 # RabinMillerProbabilistic(2, _p) <-- True;
+
+20 # RabinMillerProbabilistic(n_IsEven, _p) <-- False;
+
+20 # RabinMillerProbabilistic(3, _p) <-- True;
+
+30 # RabinMillerProbabilistic(n_IsPositiveInteger, p_IsPositiveInteger) <--
+[
+  Local(k, prime, b, roots'of'minus1, root);
+  k := 1+IntLog(IntLog(n,2),4)+p;	
+  b := 1;
+  prime := True;
+  roots'of'minus1 := {0};	
+  While (prime And k>0)
+    [
+      b := NextPseudoPrime(b);	
+      {root, prime} := IsStronglyProbablyPrime(b, n);
+	  If(prime, roots'of'minus1 := Union(roots'of'minus1, {root}));
+	  If(Length(roots'of'minus1)>3, prime := False);
+	  
+	  If( 
+	  	InVerboseMode() And Length(roots'of'minus1)>3,
+	  	[	
+			Local(factor);
+			roots'of'minus1 := Difference(roots'of'minus1,{0});
+			
+			factor := Gcd(n, If(
+				roots'of'minus1[1]+roots'of'minus1[2]=n,
+				roots'of'minus1[1]+roots'of'minus1[3],
+				roots'of'minus1[1]+roots'of'minus1[2]
+			));
+			Echo(n, " = ", factor, " * ", n/factor);
+		]
+	  );
+      k--;
+    ];
+  prime;
+];
+
+
+
+
+RabinMiller(n_IsPositiveInteger) <--
+[
+	
+	If(
+		n < 34155071728321,
+		RabinMillerSmall(n),
+		RabinMillerProbabilistic(n, 40)	
+	);
+];
+
+

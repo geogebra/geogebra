@@ -1,0 +1,60 @@
+
+
+
+Internal'GammaNum(z) := N(Exp(Internal'LnGammaNum(z)));
+
+
+Internal'GammaNum(z,a) := N(Exp(Internal'LnGammaNum(z,a)));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10 # Internal'LnGammaNum(_z, _a)_(N(Re(z))<0) <-- [
+	If (InVerboseMode(), Echo({"Internal'LnGammaNum: using 1-z identity"}));
+	N(Ln(Pi/Sin(Pi*z)) - Internal'LnGammaNum(1-z, a));
+];
+20 # Internal'LnGammaNum(_z, _a) <-- [
+	Local(e, k, tmpcoeff, coeff, result);
+	a := Maximum(a, 4);	
+	If (InVerboseMode(), Echo({"Internal'LnGammaNum: precision parameter = ", a}));
+	e := N(Exp(1));
+	k:=Ceil(a);	
+	result := 0;	
+	
+	While(k>1) [	
+		k:=k-1;
+		result := N( PowerN(a-k,k)/((z+k)*Sqrt(a-k))-result/(e*k) );
+	];
+	N(Ln(1+Exp(a-1)/Sqrt(2*Pi)*result) + Ln(2*Pi)/2 -a-z+(z+1/2)*Ln(z+a) - Ln(z));
+];
+
+Internal'LnGammaNum(z) := [
+	Local(a, prec, result);
+	prec := BuiltinPrecisionGet();
+	a:= Quotient((prec-IntLog(prec,10))*659, 526) + 0.4;	
+	
+	
+	
+
+	BuiltinPrecisionSet(Ceil(prec*1.4));	
+	result := Internal'LnGammaNum(z,a);
+	BuiltinPrecisionSet(prec);
+	result;
+];
+
+

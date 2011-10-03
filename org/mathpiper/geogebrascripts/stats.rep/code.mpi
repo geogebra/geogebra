@@ -1,0 +1,16 @@
+
+10 # ExpressionDepth(expression_IsFunction) <--
+[
+  Local(result);
+  result:=0;
+  ForEach(item,Rest(FunctionToList(expression)))
+  [
+    Local(newresult);
+    newresult:=ExpressionDepth(item);
+    result:=Maximum(result,newresult);
+  ];
+  result+1;
+];
+20 # ExpressionDepth(_expression) <-- 1;
+UnFence("ExpressionDepth",1);
+

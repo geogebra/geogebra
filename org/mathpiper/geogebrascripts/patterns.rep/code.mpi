@@ -1,0 +1,79 @@
+
+Rulebase("DefinePattern",{leftOperand, rightOperand, rulePrecedence, postPredicate});
+
+
+
+Rule("DefinePattern",4,9,IsEqual(Type(leftOperand),"_"))
+[
+    DefinePattern(leftOperand[1], rightOperand, rulePrecedence, leftOperand[2]);
+];
+
+
+
+Rule("DefinePattern",4,10,True)
+[
+      Local(patternFlat,patternVariables, pattern, patternOperator, arg, arity);
+      
+      Bind(patternFlat, FunctionToList(leftOperand)); 
+      
+      Bind(patternVariables, Rest(patternFlat)); 
+      
+      Bind(patternOperator,ToString(First(patternFlat))); 
+      
+      Bind(arity,Length(patternVariables)); 
+      
+      DefLoadFunction(patternOperator);  
+    
+      
+      If(Not(RulebaseDefined(patternOperator,arity)),
+         [
+          MacroRulebase(patternOperator,MakeVector(arg,arity));
+         ]
+        );
+    
+      Bind(pattern,PatternCreate(patternVariables,postPredicate));
+    
+      MacroRulePattern(patternOperator,arity,rulePrecedence, pattern)rightOperand;
+    
+      True;
+];
+
+
+Rulebase("MakeVector",{vec,dimension});
+Rule("MakeVector",2,1,True)
+[
+    Local(res,i);
+    res:={};
+    i:=1;
+    Bind(dimension,AddN(dimension,1));
+    While(IsLessThan(i,dimension))
+    [
+      DestructiveInsert(res,1,ToAtom(ConcatStrings(ToString(vec),ToString(i))));
+      Bind(i,AddN(i,1));
+    ];
+    DestructiveReverse(res);
+];
+
+
+Rulebase("<--",{leftOperand,rightOperand});
+
+
+
+Rule("<--",2,1,IsEqual(Type(leftOperand),"#"))
+[
+  DefinePattern(leftOperand[2],rightOperand,leftOperand[1],True);
+];
+
+
+
+Rule("<--",2,2,IsFunction(leftOperand))
+[
+ DefinePattern(leftOperand,rightOperand,0,True);
+];
+
+HoldArgument("<--",leftOperand);
+HoldArgument("<--",rightOperand);
+
+
+
+

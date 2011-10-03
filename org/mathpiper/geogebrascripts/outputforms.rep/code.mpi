@@ -1,0 +1,1784 @@
+
+
+
+
+
+
+
+
+
+Rulebase("CForm",{expression});
+Rulebase("CForm",{expression, precedence});
+
+Function ("CFormBracketIf", {predicate, string})
+[
+	Check(IsBoolean(predicate) And IsString(string), "Argument", "CForm internal error: non-boolean and/or non-string argument of CFormBracketIf");
+	If(predicate, ConcatStrings("( ", string, ") "), string);
+];
+
+CFormDoublePrecisionNumber(x_IsNumber) <--
+[
+    Local(i,n,s,f);
+    s := ToString(x);
+    n := Length(s);
+    f := False;
+    For(i := 1, i <= n, i++)
+    [
+        If(s[i] = "e" Or s[i] = ".", f := True);
+    ];
+    If(f, s, s : ".");
+];
+
+
+
+
+CFormMaxPrec() := 60000;	 
+
+100 # CForm(_x) <-- CForm(x, CFormMaxPrec());
+
+
+110 # CForm(x_IsInteger, _p) <-- ToString(x);
+111 # CForm(x_IsZero, _p) <-- "0.";
+112 # CForm(x_IsNumber, _p) <-- CFormDoublePrecisionNumber(x);
+
+190 # CForm(False, _p) <-- "false";
+190 # CForm(True, _p) <-- "true";
+200 # CForm(x_IsAtom, _p) <-- ToString(x);
+
+
+100 # CForm(x_IsString, _p) <-- ConcatStrings("\"", x, "\"");
+
+
+
+
+
+
+
+
+LocalSymbols(cformRegularOps) [
+  cformRegularOps := { {"+"," + "}, {"-"," - "}, {"*"," * "},
+                       {"/"," / "}, {":="," = "}, {"=="," == "},
+                       {"="," == "}, {"!="," != "}, {"<="," <= "},
+                       {">="," >= "}, {"<"," < "}, {">"," > "},
+                       {"And"," && "}, {"Or"," || "}, {">>", " >> "},
+                       { "<<", " << " }, { "&", " & " }, { "|", " | " },
+                       { "%", " % " }, { "^", " ^ " },
+                     };
+
+  CFormRegularOps() := cformRegularOps;
+]; 
+
+	
+
+	
+100 # CForm(+ _y, _p) <-- CFormBracketIf(p<PrecedenceGet("+"), ConcatStrings(" + ", CForm(y, RightPrecedenceGet("+")) ) );
+
+	
+100 # CForm(- _y, _p) <-- CFormBracketIf(p<PrecedenceGet("-"), ConcatStrings(" - ", CForm(y, RightPrecedenceGet("-")) ) );
+
+	
+100 # CForm(_x ^ _y, _p) <-- CFormBracketIf(p<=PrecedenceGet("^"), ConcatStrings("pow(", CForm(x, CFormMaxPrec()), ", ", CForm(y, CFormMaxPrec()), ")" ) );
+
+100 # CForm(if(_pred)_body, _p) <-- "if (":CForm(pred,60000):") ":CForm(body);
+100 # CForm(_left else _right, _p) <-- CForm(left):" else ":CForm(right);
+
+
+LocalSymbols(cformMathFunctions) [
+  cformMathFunctions :=
+    {
+      {"Sqrt","sqrt"},
+      {"Cos","cos"},
+      {"Sin","sin"},
+      {"Tan","tan"},
+      {"Cosh","cosh"},
+      {"Sinh","sinh"},
+      {"Tanh","tanh"},
+      {"Exp","exp"},
+      {"Ln","log"},
+      {"ArcCos","acos"},
+      {"ArcSin","asin"},
+      {"ArcTan","atan"},
+      {"ArcCosh","acosh"},
+      {"ArcSinh","asinh"},
+      {"ArcTanh","atanh"},
+      {"Maximum","max"},
+      {"Minimum","min"},
+      {"Abs","fabs"},
+      {"Floor","floor"},
+      {"Ceil","ceil"},
+    {"!","factorial"}
+    };
+
+  CFormMathFunctions() := cformMathFunctions;
+
+]; 
+
+
+
+
+120 # CForm(expr_IsFunction, _p)_(ArgumentsCount(expr)=2 And Contains(AssocIndices(CFormRegularOps()), Type(expr)) ) <--
+      CFormBracketIf(p<PrecedenceGet(Type(expr)), ConcatStrings(CForm(FunctionToList(expr)[2], LeftPrecedenceGet(Type(expr))), CFormRegularOps()[Type(expr)], CForm(FunctionToList(expr)[3], RightPrecedenceGet(Type(expr))) ) );
+
+
+
+
+120 # CForm(expr_IsFunction, _p) _
+      (ArgumentsCount(expr)=1 And Contains(AssocIndices(CFormMathFunctions()), Type(expr)) ) <--
+      ConcatStrings(CFormMathFunctions()[Type(expr)], "(", CForm( FunctionToList(expr)[2], CFormMaxPrec()),")" );
+
+
+
+
+
+CFormArgs(list_IsList) <--
+[
+  Local(i,nr,result);
+  result:="";
+  nr:=Length(list);
+  For (i:=1,i<=nr,i++)
+  [
+    result:=result:CForm(list[i]);
+    If (i<nr, result:=result:", ");
+  ];
+  result;
+];
+
+
+200 # CForm(_x, _p)_(IsFunction(x)) <--
+[
+  ConcatStrings(Type(x), "(", CFormArgs(Rest(FunctionToList(x))),")" );
+];
+
+
+100 # CForm(Complex(0, 1), _p) <-- "I";
+100 # CForm(Complex(_x, 0), _p) <-- CForm(x, p);
+110 # CForm(Complex(_x, 1), _p) <-- CForm(x+Hold(I), p);
+110 # CForm(Complex(0, _y), _p) <-- CForm(Hold(I)*y, p);
+120 # CForm(Complex(_x, _y), _p) <-- CForm(x+Hold(I)*y, p);
+
+
+
+100 # CForm(Modulo(_x, _y), _p) <-- CFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(CForm(x, PrecedenceGet("/")), " % ", CForm(y, PrecedenceGet("/")) ) )
+;
+
+
+
+
+100 # CForm(Nth(_x, _i), _p) <-- ConcatStrings(CForm(x, CFormMaxPrec()), "[", CForm(i, CFormMaxPrec()), "]");
+
+LocalSymbols(cindent) [
+  cindent:=1;
+
+  NlIndented():=
+  [
+    Local(result);
+
+    result:=
+"
+";
+    Local(i);
+    For(i:=1,i<cindent,i++)
+    [
+      result:=result:"  ";
+    ];
+    result;
+  ];
+  CIndent() :=
+  [
+  (cindent++);
+  "";
+  ];
+  CUndent() :=
+  [
+  (cindent--);
+  "";
+  ];
+]; 
+
+CFormStatement(_x) <-- CForm(x) : ";" : NlIndented();
+
+120 # CForm(_x,_p)_(Type(x) = "Prog") <--
+[
+  Local(result);
+  result:=CIndent():"{":NlIndented();
+  ForEach(item,Rest(FunctionToList(x)))
+  [
+    result:=result:CFormStatement(item);
+  ];
+  result:=result:"}":CUndent():NlIndented();
+  result;
+];
+
+120 # CForm(For(_from,_to,_step)_body,_p) <--
+  "for(" : CForm(from,CFormMaxPrec()) : ";"
+	: CForm(to,CFormMaxPrec()) : ";"
+	: CForm(step,CFormMaxPrec()) : ")"
+	: CIndent() : NlIndented()
+	: CFormStatement(body) : CUndent();
+
+120 # CForm(While(_pred)_body, _p) <--
+	"while(" : CForm(pred,CFormMaxPrec()) : ")"
+	: CIndent() : NlIndented()
+	: CFormStatement(body) : CUndent();
+
+
+
+
+
+
+LocalSymbols(CFormAllFunctions) [
+
+  
+
+  
+  
+  IsCFormable(_expr) <-- `IsCFormable(@expr, {});
+
+  
+  IsCFormable(_expr, funclist_IsList) <--
+  [
+    Local(bad'functions);
+    bad'functions := Difference(`FuncList(@expr), Concat(CFormAllFunctions, funclist));
+    If(Length(bad'functions)=0,
+      True,
+      [
+        If(InVerboseMode(),
+          Echo(Concat({"IsCFormable: Info: unexportable function(s): "}, bad'functions))
+        );
+        False;
+      ]
+    );
+  ];
+  HoldArgumentNumber("IsCFormable", 1, 1);
+  HoldArgumentNumber("IsCFormable", 2, 1);
+
+  
+  CFormAllFunctions := MapSingle(ToAtom, Concat(AssocIndices(CFormMathFunctions()), AssocIndices(CFormRegularOps()),
+  
+  {
+    "For",
+    "While",
+    "Prog",
+    "Nth",
+    "Modulo",
+    "Complex",
+    "if",
+    "else",
+    "++",
+    "--",
+  }
+  ));
+
+
+]; 
+
+
+
+
+
+
+
+
+
+
+
+
+CharList(length,item):=
+[
+  Local(line,i);
+  line:="";
+  For(Bind(i,0),IsLessThan(i,length),Bind(i,AddN(i,1)))
+    Bind(line, line:item);
+  line;
+];
+
+
+
+
+CharField(width,height) := ArrayCreate(height,CharList(width," "));
+
+
+
+
+WriteCharField(charfield):=
+[
+  Local(i,len);
+  len:=Length(charfield);
+  For(Bind(i,1),i<=len,Bind(i,AddN(i,1)))
+  [
+    WriteString(charfield[i]);
+    NewLine();
+  ];
+  True;
+];
+
+
+
+
+ColumnFilled(charfield,column):=
+[
+  Local(i,result,len);
+  result:=False;
+  len:=Length(charfield);
+  For(Bind(i, 1),(result = False) And (i<=len),Bind(i,AddN(i,1)))
+  [
+    If(StringMidGet(column,1,charfield[i]) != " ",result:=True);
+  ];
+  result;
+];
+
+
+
+
+WriteCharField(charfield,width):=
+[
+  Local(pos,length,len);
+  Bind(length, Length(charfield[1]));
+  Bind(pos, 1);
+  While(pos<=length)
+  [
+    Local(i,thiswidth);
+    Bind(thiswidth, width);
+    If(thiswidth>(length-pos)+1,
+      [
+        Bind(thiswidth, AddN(SubtractN(length,pos),1));
+      ],
+      [
+        While (thiswidth>1 And ColumnFilled(charfield,pos+thiswidth-1))
+        [
+          Bind(thiswidth,SubtractN(thiswidth,1));
+        ];
+        If(thiswidth = 1, Bind(thiswidth, width));
+      ]
+    );
+    len:=Length(charfield);
+    For(Bind(i, 1),i<=len,Bind(i,AddN(i,1)))
+    [
+      WriteString(StringMidGet(pos,thiswidth,charfield[i]));
+      NewLine();
+    ];
+    Bind(pos, AddN(pos, thiswidth));
+    NewLine();
+  ];
+  True;
+];
+
+
+
+
+PutString(charfield,x,y,string):=
+[
+  cf[y] := StringMidSet(x,string,cf[y]);
+  True;
+];
+
+
+
+
+MakeOper(x,y,width,height,oper,args,base):=
+[
+  Local(result);
+  Bind(result,ArrayCreate(7,0));
+  ArraySet(result,1,x);
+  ArraySet(result,2,y);
+  ArraySet(result,3,width);
+  ArraySet(result,4,height);
+  ArraySet(result,5,oper);
+  ArraySet(result,6,args);
+  ArraySet(result,7,base);
+  result;
+];
+
+
+
+
+MoveOper(f,x,y):=
+[
+  f[1]:=AddN(f[1], x); 
+  f[2]:=AddN(f[2], y); 
+  f[7]:=AddN(f[7], y); 
+];
+
+
+
+
+AlignBase(i1,i2):=
+[
+  Local(base);
+  Bind(base, Maximum(i1[7],i2[7]));
+  MoveOper(i1,0,SubtractN(base,(i1[7])));
+  MoveOper(i2,0,SubtractN(base,(i2[7])));
+];
+
+
+
+
+10 # BuildArgs({}) <-- Formula(ToAtom(" "));
+
+
+
+
+20 # BuildArgs({_head}) <-- head;
+
+
+
+
+30 # BuildArgs(_any)    <--
+     [
+        Local(item1,item2,comma,base,newitem);
+        Bind(item1, any[1]);
+        Bind(item2, any[2]);
+        Bind(comma, Formula(ToAtom(",")));
+        Bind(base, Maximum(item1[7],item2[7]));
+        MoveOper(item1,0,SubtractN(base,(item1[7])));
+        MoveOper(comma,AddN(item1[3],1),base);
+
+        MoveOper(item2,comma[1]+comma[3]+1,SubtractN(base,(item2[7])));
+        Bind(newitem, MakeOper(0,0,AddN(item2[1],item2[3]),Maximum(item1[4],item2[4]),"Func",{item1,comma,item2},base));
+        BuildArgs(newitem:Rest(Rest(any)));
+      ];
+
+
+
+
+FormulaBracket(f):=
+[
+  Local(left,right);
+  Bind(left, Formula(ToAtom("(")));
+  Bind(right, Formula(ToAtom(")")));
+  left[4]:=f[4];
+  right[4]:=f[4];
+  MoveOper(left,f[1],f[2]);
+  MoveOper(f,2,0);
+  MoveOper(right,f[1]+f[3]+1,f[2]);
+  MakeOper(0,0,right[1]+right[3],f[4],"Func",{left,f,right},f[7]);
+];
+
+
+
+
+
+
+1 # Formula(f_IsAtom) <--
+  MakeOper(0,0,Length(ToString(f)),1,"ToAtom",ToString(f),0);
+
+
+
+
+2 # Formula(_xx ^ _yy) <--
+[
+  Local(l,r);
+  Bind(l, BracketOn(Formula(xx),xx,LeftPrecedenceGet("^")));
+  Bind(r, BracketOn(Formula(yy),yy,RightPrecedenceGet("^")));
+  MoveOper(l,0,r[4]);
+  MoveOper(r,l[3],0);
+  MakeOper(0,0,AddN(l[3],r[3]),AddN(l[4],r[4]),"Func",{l,r},l[2]+l[4]-1);
+];
+
+
+
+
+10 # FormulaArrayItem(xx_IsList) <--
+[
+  Local(sub,height);
+  sub := {};
+  height := 0;
+  ForEach(item,xx)
+  [
+    Local(made);
+    made := FormulaBracket(Formula(item));
+    If(made[4] > height,Bind(height,made[4]));
+    DestructiveAppend(sub,made);
+  ];
+  MakeOper(0,0,0,height,"List",sub,height>>1);
+];
+
+
+
+20 # FormulaArrayItem(_item) <-- Formula(item);
+
+
+
+
+2 # Formula(xx_IsList) <--
+[
+  Local(sub,width,height);
+  sub:={};
+  width := 0;
+  height := 1;
+
+  ForEach(item,xx)
+  [
+    Local(made);
+    made := FormulaArrayItem(item);
+
+    If(made[3] > width,Bind(width,made[3]));
+    MoveOper(made,0,height);
+    Bind(height,AddN(height,AddN(made[4],1)));
+    DestructiveAppend(sub,made);
+  ];
+
+  Local(thislength,maxlength);
+  maxlength:=0;
+  ForEach(item,xx)
+  [
+    thislength:=0;
+    if(IsList(item)) [thislength:=Length(item);];
+    if (maxlength<thislength) [maxlength:=thislength;];
+  ];
+
+  If(maxlength>0,
+  [
+    Local(i,j);
+    width:=0;
+    For(j:=1,j<=maxlength,j++)
+    [
+      Local(w);
+      w := 0;
+      For(i:=1,i<=Length(sub),i++)
+      [
+        if (IsList(xx[i]) And j<=Length(xx[i]))
+          If(sub[i][6][j][3] > w,w := sub[i][6][j][3]);
+      ];
+
+      For(i:=1,i<=Length(sub),i++)
+      [
+        if (IsList(xx[i]) And j<=Length(xx[i]))
+          MoveOper(sub[i][6][j],width,0);
+      ];
+      width := width+w+1;
+    ];
+    For(i:=1,i<=Length(sub),i++)
+    [
+      sub[i][3] := width;
+    ];
+  ]
+  );
+
+  sub := MakeOper(0,0,width,height,"List",sub,height>>1);
+  FormulaBracket(sub);
+];
+
+
+
+
+
+2 # Formula(_xx / _yy) <--
+[
+  Local(l,r,dash,width);
+
+  Bind(l, Formula(xx));
+  Bind(r, Formula(yy));
+  Bind(width, Maximum(l[3],r[3]));
+  Bind(dash, Formula(ToAtom(CharList(width,"-"))));
+  MoveOper(dash,0,l[4]);
+  MoveOper(l,(SubtractN(width,l[3])>>1),0);
+  MoveOper(r,(SubtractN(width,r[3])>>1),AddN(dash[2], dash[4]));
+  MakeOper(0,0,width,AddN(r[2], r[4]),"Func",{l,r,dash},dash[2]);
+];
+
+
+
+
+Rulebase("BracketOn",{op,f,prec});
+
+Rule("BracketOn",3,1,IsFunction(f) And ArgumentsCount(f) = 2
+     And IsInfix(Type(f)) And PrecedenceGet(Type(f)) > prec)
+[
+ FormulaBracket(op);
+];
+
+
+
+
+Rule("BracketOn",3,2,True)
+[
+  op;
+];
+
+
+
+
+
+10 # Formula(f_IsFunction)_(ArgumentsCount(f) = 2 And IsInfix(Type(f))) <--
+[
+  Local(l,r,oper,width,height,base);
+  Bind(l, Formula(f[1]));
+  Bind(r, Formula(f[2]));
+
+  Bind(l, BracketOn(l,f[1],LeftPrecedenceGet(Type(f))));
+  Bind(r, BracketOn(r,f[2],RightPrecedenceGet(Type(f))));
+
+  Bind(oper, Formula(f[0]));
+  Bind(base, Maximum(l[7],r[7]));
+  MoveOper(oper,AddN(l[3],1),SubtractN(base,(oper[7])));
+  MoveOper(r,oper[1] + oper[3]+1,SubtractN(base,(r[7])));
+  MoveOper(l,0,SubtractN(base,(l[7])));
+  Bind(height, Maximum(AddN(l[2], l[4]),AddN(r[2], r[4])));
+
+  MakeOper(0,0,AddN(r[1], r[3]),height,"Func",{l,r,oper},base);
+];
+
+
+
+
+11 # Formula(f_IsFunction) <--
+[
+  Local(head,args,all);
+  Bind(head, Formula(f[0]));
+  Bind(all, Rest(FunctionToList(f)));
+
+  Bind(args, FormulaBracket(BuildArgs(MapSingle("Formula",Apply("Hold",{all})))));
+  AlignBase(head,args);
+  MoveOper(args,head[3],0);
+
+  MakeOper(0,0,args[1]+args[3],Maximum(head[4],args[4]),"Func",{head,args},head[7]);
+];
+
+
+
+Rulebase("RenderFormula",{cf,f,x,y});
+
+
+
+Rule("RenderFormula",4,1,f[5] = "ToAtom" And f[6] = "(" And f[4] > 1)
+[
+  Local(height,i);
+  Bind(x, AddN(x,f[1]));
+  Bind(y, AddN(y,f[2]));
+  Bind(height, SubtractN(f[4],1));
+
+  cf[y] := StringMidSet(x, "/", cf[y]);
+  cf[AddN(y,height)] := StringMidSet(x, "\\", cf[AddN(y,height)]);
+  For (Bind(i,1),IsLessThan(i,height),Bind(i,AddN(i,1)))
+    cf[AddN(y,i)] := StringMidSet(x, "|", cf[AddN(y,i)]);
+];
+
+
+
+
+Rule("RenderFormula",4,1,f[5] = "ToAtom" And f[6] = ")" And f[4] > 1)
+[
+  Local(height,i);
+  Bind(x, AddN(x,f[1]));
+  Bind(y, AddN(y,f[2]));
+  Bind(height, SubtractN(f[4],1));
+  cf[y] := StringMidSet(x, "\\", cf[y]);
+  cf[y+height] := StringMidSet(x, "/", cf[y+height]);
+  For (Bind(i,1),IsLessThan(i,height),Bind(i,AddN(i,1)))
+    cf[AddN(y,i)] := StringMidSet(x, "|", cf[AddN(y,i)]);
+];
+
+
+
+
+Rule("RenderFormula",4,5,f[5] = "ToAtom")
+[
+  cf[AddN(y, f[2]) ]:=
+    StringMidSet(AddN(x,f[1]),f[6],cf[AddN(y, f[2]) ]);
+];
+
+
+
+
+Rule("RenderFormula",4,6,True)
+[
+  ForEach(item,f[6])
+  [
+    RenderFormula(cf,item,AddN(x, f[1]),AddN(y, f[2]));
+  ];
+];
+
+
+
+
+LocalSymbols(formulaMaxWidth) [
+  SetFormulaMaxWidth(width):=
+  [
+    formulaMaxWidth := width;
+  ];
+  FormulaMaxWidth() := formulaMaxWidth;
+  SetFormulaMaxWidth(60);
+]; 
+
+
+
+
+Function("PrettyForm",{ff})
+[
+  Local(cf,f);
+
+  f:=Formula(ff);
+
+  cf:=CharField(f[3],f[4]);
+  RenderFormula(cf,f,1,1);
+
+  NewLine();
+  WriteCharField(cf,FormulaMaxWidth());
+
+  DumpErrors();
+  True;
+];
+
+
+
+
+
+EvalFormula(f):=
+[
+  Local(result);
+  result:= ListToFunction({ToAtom("="),f,Eval(f)});
+  PrettyForm(result);
+  True;
+];
+HoldArgument("EvalFormula",f);
+
+
+
+
+
+
+
+
+
+
+
+
+Rulebase("OMREP",{});
+Rule("OMREP",0,1,True)
+[
+  OMREP(0);
+];
+Rulebase("OMREP",{count});
+LocalSymbols(input,stringOut,result)
+Rule("OMREP",1,1,True)
+[
+  Local(input,stringOut,result);
+  While(Not(IsExitRequested()))
+  [
+    Bind(errorObject, False);
+    ExceptionCatch(Bind(input, PipeFromString(ConcatStrings(ReadCmdLineString("")," "))OMRead()), Bind(errorObject,OMGetCoreError()));
+
+    If(Not(errorObject = False), errorObject); 
+
+    If (Not(IsExitRequested()) And errorObject = False,
+    [
+      Bind(stringOut,"");
+      Bind(result,False);
+      ExceptionCatch(Bind(stringOut,PipeToString()[Secure(Bind(result,Eval(input)));]), Bind(errorObject,OMGetCoreError()));
+
+      If(Not(errorObject = False), errorObject); 
+
+      If(Not(stringOut = ""), WriteString(stringOut));
+      SetGlobalLazyVariable(%,result);
+      If(PrettyPrinterGet()="",
+      [
+        Apply("OMForm",{result});
+      ],
+      Apply(PrettyPrinterGet(),{result}));
+      If(count > 0 And (count:=count-1) = 0, Exit());
+    ]);
+  ];
+];
+
+
+LocalSymbols(omindent) [
+  
+  OMIndent() := [omindent := omindent + 2;];
+  OMUndent() := [omindent := omindent - 2;];
+  OMClearIndent() := [omindent := 0;];
+  OMIndentSpace() := Space(omindent);
+
+  
+  OMClearIndent();
+]; 
+
+
+
+
+10 # OMForm(_expression)
+     <--
+     [
+     OMClearIndent();
+     OMEcho("<OMOBJ>");
+     OMIndent();
+     If(IsAtom(expression),
+        If(expression = ToAtom("%"),
+           Secure(expression := Eval(expression))
+           )
+        );
+     OMFormExpression(expression);
+     OMUndent();
+     OMEcho("</OMOBJ>");
+     ];
+
+10 # OMFormExpression(i_IsString)  <-- OMEcho("<OMSTR>":i:"</OMSTR>");
+11 # OMFormExpression(i_IsInteger) <-- OMEcho("<OMI>":ToString(i):"</OMI>");
+12 # OMFormExpression(i_IsNumber)  <-- OMEcho("<OMF dec=\"":ToString(i):"\"/>");
+13 # OMFormExpression(i_IsConstant)_(OMSymbol()[ ToString(i) ] != Empty)
+     <-- OMEcho("<OMS cd=\"":OMSymbol()[ ToString(i) ][1]
+                :"\" name=\"":OMSymbol()[ ToString(i) ][2]:"\"/>"
+                );
+14 # OMFormExpression(i_IsConstant)
+     <-- OMEcho("<OMV name=\"":ToString(i):"\"/>");
+15 # OMFormExpression(i_IsVariable)_(OMSymbol()[ ToString(i) ] != Empty)
+     <-- OMEcho("<OMS cd=\"":OMSymbol()[ ToString(i) ][1]
+                :"\" name=\"":OMSymbol()[ ToString(i) ][2]:"\"/>"
+                );
+16 # OMFormExpression(i_IsVariable)
+     <-- OMEcho("<OMV name=\"":ToString(i):"\"/>");
+16 # OMFormExpression(i_IsVariable)_(i = Empty)
+     <-- False; 
+
+10 # OMFormExpression(function_IsFunction)_(Type(function) = "OMError")
+     <--
+     [
+     Local(cd, name);
+     If(IsList(function[1]),
+        [ cd := function[1][1]; name := function[1][2]; ],
+        [ cd := "error";        name := function[1];    ]);
+     OMEcho("<OME>");
+     OMIndent();
+     OMEcho("<OMS cd=\"":cd:"\" name=\"":name:"\"/>");
+     ForEach(i, Rest(function)) OMFormExpression(i);
+     OMUndent();
+     OMEcho("</OME>");
+     ];
+10 # OMFormExpression(function_IsFunction)_(Type(function) = "OME")
+     <--
+     [
+     OMEcho("<OME>");
+     OMIndent();
+     ForEach(i, function) OMFormExpression(i);
+     OMUndent();
+     OMEcho("</OME>");
+     ];
+10 # OMFormExpression(function_IsFunction)_(Type(function) = "OMS")
+     <-- OMEcho("<OMS cd=\"":function[1]:"\" name=\"":function[2]:"\"/>");
+10 # OMFormExpression(function_IsFunction)_(Type(function) = "OMBIND")
+     <--
+     [
+     OMEcho("<OMBIND>");
+     OMIndent();
+     ForEach(i, function) OMFormExpression(i);
+     OMUndent();
+     OMEcho("</OMBIND>");
+     ];
+10 # OMFormExpression(function_IsFunction)_(Type(function) = "OMBVAR")
+     <--
+     [
+     OMEcho("<OMBVAR>");
+     OMIndent();
+     ForEach(i, function) OMFormExpression(i);
+     OMUndent();
+     OMEcho("</OMBVAR>");
+     ];
+10 # OMFormExpression(function_IsFunction)_(Type(function) = "OMA")
+     <--
+     [
+     
+     
+     OMEcho("<OMA>");
+     OMIndent();
+     ForEach(i, function) OMFormExpression(i);
+     OMUndent();
+     OMEcho("</OMA>");
+     ];
+11 # OMFormExpression(function_IsFunction)
+     <--
+     [
+     OMEcho("<OMA>");
+     OMIndent();
+     OMFormFunction(function);
+     OMUndent();
+     OMEcho("</OMA>");
+     ];
+
+11 # OMFormFunction(function_IsFunction)
+     <--
+     [
+     Local(arity);
+     arity := Length(function);
+     OMEcho("<OMS cd=\"piper\" name=\"":Type(function):"\"/>");
+     If(arity > 0, ForEach(arg, function) OMFormExpression(arg));
+     ];
+10 # OMFormFunction(function_IsFunction)_(OMSymbol()[ Type(function) ] != Empty)
+     <--
+     [
+     Local(symbolDef);
+     
+     
+     
+     symbolDef := OMSymbol()[ OMSignature(function) ];
+     If(symbolDef = Empty, symbolDef := OMSymbol()[ Type(function) ] );
+     If(symbolDef = Empty Or Length(symbolDef) < 3 Or symbolDef[3] = {},
+        [
+        OMEcho("<OMS cd=\"":symbolDef[1]:"\" name=\"":symbolDef[2]:"\"/>");
+        ForEach(arg, function) OMFormExpression(arg);
+        ],
+        [
+        Local(result);
+        result := OMApplyMapping(function, symbolDef[3]);
+        
+        If(IsList(result),
+           [
+           result := ListToFunction(Subst($, function[0]) result);
+           OMFormExpression(result[0]);
+           ForEach(i, result) OMFormExpression(i);
+           ],
+           If(result = Empty,
+              Echo("No rule matched ", function, symbolDef[3]),
+              Echo("Unexpected result value from OMApplyMapping(): ", result)
+             )
+          );
+        ]
+       );
+     ];
+
+
+OMWrite(_expression) <--
+[
+  Write(expression);
+];
+
+OMEcho(_expression) <--
+[
+  OMIndentSpace();
+  Write(expression);
+  NewLine();
+];
+OMEcho(expression_IsString) <--
+[
+  OMIndentSpace();
+  WriteString(expression);
+  NewLine();
+];
+OMEcho(expression_IsList) <--
+[
+  ForEach(arg, expression)
+  [
+    If (IsString(arg), WriteString(arg), Write(arg));
+  ];
+  NewLine();
+];
+
+OMEscape(_expression) <--
+[
+  "<![CDATA[":ToString(expression):"]]>";
+];
+OMEscapeString(_expression_IsString) <--
+[
+  "<![CDATA[":expression:"]]>";
+];
+OMWriteEscape(_expression) <--
+[
+  WriteString(OMEscape(expression));
+];
+OMWriteStringEscape(expression_IsString) <--
+[
+  WriteString(OMEscapeString(expression));
+];
+OMEchoEscape(_expression) <--
+[
+  OMWriteEscape(expression);
+  NewLine();
+];
+OMEchoEscape(expression_IsString) <--
+[
+  OMWriteStringEscape(expression);
+  NewLine();
+];
+OMEchoEscape(expression_IsList) <--
+[
+  WriteString("<![CDATA[");
+  ForEach(arg, expression)
+  [
+    If (IsString(arg), WriteString(arg), Write(arg));
+  ];
+  WriteString("]]>");
+  NewLine();
+];
+
+
+HoldArgumentNumber("OMForm",1,1);
+
+
+
+
+OMSignature(_function) <-- "";
+OMSignature(function_IsFunction) <--
+[
+  Local(makeSig);
+  makeSig := {ConcatStrings, Type(function), "_"};
+  Local(type);
+  type := "";
+  ForEach(arg, function)
+  [
+    If(Type(arg) = "List",
+       type := "L",
+       If(IsFunction(arg),
+          type := "F",
+          If(IsInteger(arg),
+             type := "I",
+             type := "V"
+             )
+          )
+       );
+    DestructiveAppend(makeSig, type);
+  ];
+  Secure(Eval(ListToFunction(makeSig)));
+];
+HoldArgumentNumber("OMSignature", 1, 1);
+
+
+
+
+
+
+
+
+
+
+LocalSymbols(omtoken) [
+  OMNextToken() :=
+  [
+    omtoken := XmlExplodeTag(ToString(ReadToken()));
+  ];
+  OMToken() := omtoken;
+]; 
+
+OMRead():=
+[
+  Local(result);
+  ExceptionCatch(
+  [
+    XmlTokenizer();
+    OMNextToken();
+    result := MatchOMOBJ(OMToken());
+    DefaultTokenizer();
+  ],
+  [
+    result := OMGetCoreError();
+    DefaultTokenizer();
+  ]);
+  result;
+];
+
+
+OMDump(str):=
+PipeFromString(str:" EndOfFile")
+[
+  Local(result);
+  XmlTokenizer();
+  OMNextToken();
+  While(OMToken() != "EndOfFile")
+  [
+    Echo("Exploded ",OMToken());
+    OMNextToken();
+  ];
+  DefaultTokenizer();
+  True;
+];
+
+
+
+10 # MatchClose(_x)_(x = OMToken()) <-- [OMNextToken();True;];
+20 # MatchClose(_x) <-- Check(False, "Syntax", PipeToString()Echo("encodingError:unexpected closing brace")); 
+
+10 # MatchOMOBJ(XmlTag("OMOBJ",_attributes,"Open")) <--
+[
+  
+  Local(result);
+  OMNextToken();
+  result := ReadOMOBJ(OMToken());
+  MatchClose(XmlTag("OMOBJ",{},"Close"));
+  result;
+];
+10 # MatchOMOBJ(XmlTag("OMOBJ",_attributes,"OpenClose")) <--
+[
+  OMNextToken();
+  
+  
+  Empty;
+];
+20 # MatchOMOBJ(_rest) <-- Check(False, "Type", PipeToString()Echo("encodingError:not an OMOBJ :",rest));
+
+10 # ReadOMOBJ(XmlTag("OMOBJ",_attributes,"Close")) <--
+[
+  
+  Empty;
+];
+
+10 # ReadOMOBJ(XmlTag("OMI",{},"Open")) <--
+[
+  Local(result);
+  OMNextToken();
+  result := ToAtom(OMToken());
+  OMNextToken();
+  MatchClose(XmlTag("OMI",{},"Close"));
+  result;
+];
+
+10 # ReadOMOBJ(XmlTag("OMV",{{"NAME",_name}},"OpenClose")) <--
+[
+  OMNextToken();
+  ToAtom(name);
+];
+
+10 # ReadOMOBJ(XmlTag("OMF",{{"DEC",_dec}},"OpenClose")) <--
+[
+  OMNextToken();
+  ToAtom(dec);
+];
+
+10 # ReadOMOBJ(XmlTag("OMSTR",{},"Open")) <--
+[
+  Local(result);
+  OMNextToken();
+  If(IsString(OMToken()), [result := OMToken(); OMNextToken();], result := "");
+  MatchClose(XmlTag("OMSTR",{},"Close"));
+  result;
+];
+10 # ReadOMOBJ(XmlTag("OMSTR",{},"OpenClose")) <--
+[
+  OMNextToken();
+  "";
+];
+
+10 # ReadOMOBJ(XmlTag("OMA",{},"Open")) <--
+[
+  Local(result, new);
+  result:={};
+  OMNextToken();
+  While (OMToken() != XmlTag("OMA",{},"Close"))
+  [
+    new:=ReadOMOBJ(OMToken());
+    DestructiveAppend(result,new);
+  ];
+  MatchClose(XmlTag("OMA",{},"Close"));
+  OMApplyReverseMapping(ListToFunction(result));
+];
+
+10 # ReadOMOBJ(XmlTag("OMBIND",{},"Open")) <--
+[
+  Local(result, new);
+  result:={};
+  OMNextToken();
+  While (OMToken() != XmlTag("OMBIND",{},"Close"))
+  [
+    new:=ReadOMOBJ(OMToken());
+    DestructiveAppend(result,new);
+  ];
+  MatchClose(XmlTag("OMBIND",{},"Close"));
+  result;
+];
+10 # ReadOMOBJ(XmlTag("OMBVAR",{},"Open")) <--
+[
+  Local(result, new);
+  result:={};
+  OMNextToken();
+  While (OMToken() != XmlTag("OMBVAR",{},"Close"))
+  [
+    new:=ReadOMOBJ(OMToken());
+    DestructiveAppend(result,new);
+  ];
+  MatchClose(XmlTag("OMBVAR",{},"Close"));
+  result;
+];
+
+10 # OMApplyReverseMapping(piperExp_IsFunction) <-- piperExp;
+10 # OMApplyReverseMapping(piperExp_IsFunction)_(OMSymbol()[ Type(piperExp) ] != Empty)
+     <--
+     [
+     Local(symbolDef, result);
+     symbolDef := OMSymbol()[ Type(piperExp) ];
+     If(symbolDef[4] = {},
+        result := piperExp,
+        [
+          result := OMApplyMapping(piperExp, symbolDef[4]);
+          result := Subst($, piperExp[0]) result;
+          If(IsList(result), result := ListToFunction(result));
+        ]
+       );
+     result;
+     ];
+
+10 # OMApplyMapping(_function, _mapping) <--
+[
+  Local(expandRules, result);
+  expandRules := { _(_path) <- OMPathSelect(path, function) };
+  expandRules[1][2][2] := function;
+
+  mapping := (mapping /: expandRules);
+
+  Local(ruleMatched);
+  ruleMatched := False;
+  If(Type(mapping) = "|",
+     [
+     mapping := Flatten(mapping, "|");
+     ForEach(rule, mapping)
+       If(Not ruleMatched,
+          [
+          If(Type(rule) = "_",
+             If( Eval(rule[2]), [ result := rule[1]; ruleMatched := True; ] ),
+             [ result := rule; ruleMatched := True; ]
+            );
+          ]
+         );
+     ],
+     [
+     If(Type(mapping) = "_",
+        If(Eval(mapping[2]),
+           result := mapping[1],
+           result := FunctionToList(function)
+          ),
+	result := mapping
+       );
+     ruleMatched := True;
+     ]
+    );
+
+  If(ruleMatched,
+     If(Type(result) = ":",
+        If(Length(result) = 2,
+           result[1]:result[2],
+           result),
+        result),
+     Empty);
+];
+
+11 # OMPathSelect(path_IsNumber, _expression) <--
+[
+  If(path >= 0 And path <= Length(expression),
+     expression[path],
+     Undefined);
+];
+11 # OMPathSelect(path_IsList, _expression) <--
+[
+  ForEach(i, path)
+    If(IsFunction(expression) And i >= 0 And i <= Length(expression),
+       expression := expression[i],
+       Undefined);
+  expression;
+];
+HoldArgumentNumber("OMPathSelect", 2, 2);
+
+
+
+
+
+
+
+
+100 # ReadOMOBJ(XmlTag("OMS", _attributes, "OpenClose")) <--
+[
+  OMNextToken();
+  Local(omcd, omname);
+  omcd   := attributes["CD"];
+  omname := attributes["NAME"];
+  If(omcd = Empty Or omname = Empty,
+     OMCheck(False, "Argument", OMError({"moreerrors", "encodingError"}, PipeToString()Echo("missing \"cd\" or \"name\" attribute: ",attributes))),
+     [
+     Local(cdTable, piperform);
+     cdTable := OMSymbolReverse()[ omcd ];
+     If(cdTable != Empty, piperform := cdTable[ omname ]);
+     
+     
+     
+     If(piperform = Empty,
+        If(cd = mathpiper, ToAtom(omname), OMS(omcd, omname)),
+        If(IsString(piperform), ToAtom(piperform), piperform));
+     ]
+    );
+];
+
+101 # ReadOMOBJ(_rest) <-- OMCheck(False, "Unimplemented", OMError({"moreerrors", "encodingError"}, PipeToString()Echo("unhandled tag: ",rest)));
+
+
+
+
+
+
+Macro(OMCheck,{predicate,error})
+[
+  If(Not(@predicate),
+  [
+    Assert("omErrorObject", @error) False;
+    Check(False, "Undefined", "omErrorObject");
+  ]
+  ,
+  True);
+];
+
+
+
+OMGetCoreError():=
+[
+  Local(result);
+  result := ExceptionGet(); 
+  If(result != False,
+     If( IsError("omErrorObject"),
+        [result := GetError("omErrorObject");                     ],
+        [result := OMError({"moreerrors", "unexpected"}, result); ])
+    );
+  result;
+];
+
+
+
+
+
+
+LocalSymbols(omsymbol, omsymbolreverse) [
+  
+  omsymbol := {};
+  omsymbolreverse := {};
+
+  
+  OMSymbol() := omsymbol;
+  OMSymbolReverse() := omsymbolreverse;
+
+]; 
+
+OMDef(_piperform, omcd_IsString, omname_IsString, _directMapping, _reverseMapping) <--
+[
+  Local(cdTable);
+  If(IsString(piperform),
+     OMSymbol()[ piperform ] := {omcd, omname, directMapping, reverseMapping}
+     );
+  cdTable := OMSymbolReverse()[ omcd ];
+  If(cdTable = Empty,
+     OMSymbolReverse()[ omcd ] := {{omname, piperform}},
+     [
+       Local(oldMathPiperform);
+       oldMathPiperform := cdTable[ omname ];
+       If(oldMathPiperform = Empty,
+          cdTable[ omname ] := piperform,
+          [
+          If(oldMathPiperform != piperform,
+             [
+             cdTable[ omname ] := piperform;
+             Echo("Warning: the mapping for ", omcd, ":", omname,
+                  " was already defined as ", oldMathPiperform,
+                  ", but is redefined now as ", piperform
+                  );
+             ]
+            );
+          ]
+         );
+      ]
+     );
+  True;
+];
+
+OMDef(_piperform, omcd_IsString, omname_IsString)
+<-- OMDef(piperform, omcd, omname, {}, {});
+
+OMDef(piperalias_IsString, pipername_IsString) <--
+[
+  OMSymbol()[ piperalias ] := OMSymbol()[ pipername ];
+];
+HoldArgumentNumber("OMDef", 5, 4);
+HoldArgumentNumber("OMDef", 5, 5);
+
+
+
+OMDef( {},     "set1","emptyset" );
+OMDef( "List", "set1","set"      );
+OMDef( "List", "linalg2","matrix"    );
+OMDef( "List", "linalg2","matrixrow" );
+OMDef( "List", "linalg2","vector"    );
+OMDef( "List", "list1","list" );
+
+
+
+
+OMDef( "Infinity" ,  "nums1", "infinity" );
+OMDef( "Undefined",  "nums1", "NaN"      );
+
+OMDef( "And"   ,  "logic1", "and"        );
+OMDef( "=="    ,  "logic1", "equivalent" );
+OMDef( "!=="   ,  "logic1", "not",
+                { "<OMA><OMS cd=\"logic1\" name=\"equivalent\"/>",
+                  1,
+                  2,
+                  "</OMA>"
+                }
+      );
+OMDef( "False",  "logic1", "false" );
+OMDef( "Or"   ,  "logic1", "or"    );
+OMDef( "True" ,  "logic1", "true"  );
+
+
+OMDef( "&" ,  mathpiper, "bitwise_and" );
+OMDef( "|" ,  mathpiper, "bitwise_or"  );
+OMDef( "%" ,  mathpiper, "bitwise_xor" );
+OMDef( "/" , "arith1", "divide");
+OMDef( "/" , "nums1", "rational", {$, _1, _2}_(IsRational(_1/_2)) | {OMS("arith1", "divide"), _1, _2}, {/, _1, _2});
+OMDef( "-" ,  "arith1", "unary_minus");
+OMDef( "-" ,  "arith1", "minus"  );
+OMDef( "+" ,  "arith1", "plus"   );
+OMDef( "^" ,  "arith1", "power"  );
+OMDef( "*" ,  "arith1", "times"  );
+
+
+LoadScriptOnce("constants.rep/om.mpi");
+LoadScriptOnce("stdfuncs.rep/om.mpi");
+LoadScriptOnce("stubs.rep/om.mpi");
+LoadScriptOnce("logic.rep/om.mpi");
+LoadScriptOnce("complex.rep/om.mpi");
+LoadScriptOnce("integrate.rep/om.mpi");
+LoadScriptOnce("sums.rep/om.mpi");
+LoadScriptOnce("limit.rep/om.mpi");
+
+LoadScriptOnce("functional.rep/om.mpi");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TexForm(_expr) <-- [DumpErrors();WriteString(TeXForm(expr));NewLine();];
+
+Rulebase("TeXForm",{expression});
+Rulebase("TeXForm",{expression, precedence});
+
+
+
+
+
+
+Function ("TeXFormBracketIf", {predicate, string})
+[
+	Check(IsBoolean(predicate) And IsString(string), "Argument", "TeXForm internal error: non-boolean and/or non-string argument of TeXFormBracketIf");
+	If(predicate, ConcatStrings("( ", string, ") "), string);
+];
+
+
+
+
+Function ("TeXFormMatrixBracketIf", {predicate, string})
+[
+	Check(IsBoolean(predicate) And IsString(string), "Argument", "TeXForm internal error: non-boolean and/or non-string argument of TeXFormMatrixBracketIf");
+	If(predicate, ConcatStrings("\\left[ ", string, "\\right]"), string);
+];
+
+
+
+
+
+TeXFormMaxPrec() := 60000;	 
+
+
+100 # TeXForm(_x) <-- ConcatStrings("$", TeXForm(x, TeXFormMaxPrec()), "$");
+
+
+
+110 # TeXForm(x_IsNumber, _p) <-- ToString(x);
+
+200 # TeXForm(x_IsAtom, _p) <-- TeXFormTeXify(ToString(x));
+
+
+
+100 # TeXForm(x_IsString, _p) <--
+[
+    Local(characterList);
+
+    characterList := {};
+    ForEach(character, x)
+    [
+        If(character != " ", DestructiveAppend(characterList, character), DestructiveAppend(characterList, "\\hspace{2 mm}"));
+    ];
+    ConcatStrings("\\mathrm{''", ListToString(characterList), "''}");
+];
+
+
+
+
+100 # TeXForm(x_IsAtom, _p)_(IsInfix(ToString(x))) <-- ConcatStrings("\\mathrm{", ToString(x), "}");
+
+
+
+
+100 # TeXForm(x_IsList, _p)_(Length(x)=0) <-- TeXFormBracketIf(True, "");
+110 # TeXForm(x_IsList, _p) <-- TeXFormBracketIf(True, ConcatStrings(TeXForm(First(x), TeXFormMaxPrec()), TeXFormFinishList(Rest(x)) ) );
+100 # TeXFormFinishList(x_IsList)_(Length(x)=0) <-- "";
+110 # TeXFormFinishList(x_IsList) <-- ConcatStrings(", ", TeXForm(First(x), TeXFormMaxPrec()), TeXFormFinishList(Rest(x)));
+
+
+
+
+	
+
+
+115 # TeXForm(_expr * n_IsNumber, _p) <-- TeXFormBracketIf(p<PrecedenceGet("*"), ConcatStrings(TeXForm(expr, LeftPrecedenceGet("*")), "\\cdot ", TeXForm(n, RightPrecedenceGet("*")) ) );
+
+116 # TeXForm(_n * _expr, _p) _ (IsFunction(expr) And Contains({"^", "!", "!!"}, Type(expr)) And IsNumber(FunctionToList(expr)[2])) <-- TeXFormBracketIf(p<PrecedenceGet("*"), ConcatStrings(TeXForm(n, LeftPrecedenceGet("*")), "\\cdot ", TeXForm(expr, RightPrecedenceGet("*")) ) );
+
+	
+120 # TeXForm(expr_IsFunction, _p)_(ArgumentsCount(expr)=2 And IsInfix(Type(expr)) ) <-- TeXFormBracketIf(p<PrecedenceGet(Type(expr)), ConcatStrings(TeXForm(FunctionToList(expr)[2], LeftPrecedenceGet(Type(expr))), TeXFormTeXify(Type(expr)), TeXForm(FunctionToList(expr)[3], RightPrecedenceGet(Type(expr))) ) );
+
+	
+
+	
+	
+120 # TeXForm(expr_IsFunction, _p)_(ArgumentsCount(expr)=1 And IsPrefix(Type(expr))) <-- TeXFormBracketIf(p<PrecedenceGet(Type(expr)), ConcatStrings(
+	TeXFormTeXify(Type(expr)),
+	TeXForm(FunctionToList(expr)[2], RightPrecedenceGet(Type(expr)))
+) );
+	
+120 # TeXForm(expr_IsFunction, _p)_(ArgumentsCount(expr)=1 And IsPostfix(Type(expr))) <-- TeXFormBracketIf(p<LeftPrecedenceGet(Type(expr)), ConcatStrings(
+	TeXForm(FunctionToList(expr)[2], LeftPrecedenceGet(Type(expr))),
+	TeXFormTeXify(Type(expr))
+) );
+
+	
+100 # TeXForm(_x / _y, _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings("\\frac{", TeXForm(x, TeXFormMaxPrec()), "}{", TeXForm(y, TeXFormMaxPrec()), "} ") );
+
+	
+100 # TeXForm(_x ^ (1/2), _p) <-- ConcatStrings("\\sqrt{", TeXForm(x, TeXFormMaxPrec()), "}");
+101 # TeXForm(_x ^ (1/_y), _p) <-- ConcatStrings("\\sqrt[", TeXForm(y, TeXFormMaxPrec()), "]{", TeXForm(x, TeXFormMaxPrec()), "}");
+
+
+120 # TeXForm(_x ^ _y, _p) <-- TeXFormBracketIf(p<=PrecedenceGet("^"), ConcatStrings(TeXForm(x, PrecedenceGet("^")), " ^{", TeXForm(y, TeXFormMaxPrec()), "}" ) );
+
+100 # TeXForm(if(_pred)_body, _p) <-- "\\textrm{if }(":TeXForm(pred,60000):") ":TeXForm(body,60000);
+100 # TeXForm(_left else _right, _p) <-- TeXForm(left,60000):"\\textrm{ else }":TeXForm(right,60000);
+
+
+
+
+
+LocalSymbols(TeXFormRegularOps, TeXFormRegularPrefixOps, TeXFormGreekLetters, TeXFormSpecialNames) [
+
+	
+
+  TeXFormRegularOps :=
+  {
+    {"+"," + "},
+    {"-"," - "},
+    {"*"," \\cdot "},
+    {":="," := "}, 
+    {"=="," = "},
+    {"="," = "},
+    {"!=","\\neq "},
+    {"<=","\\leq "},
+    {">=","\\geq "},
+    {"<"," < "},
+    {">"," > "},
+    {"And","\\wedge "},
+    {"Or", "\\vee "},
+    {"<>", "\\sim "},
+    {"<=>", "\\approx "},
+    {"=>", "\\Rightarrow "},
+    {"%", "\\bmod "},
+  };
+
+  TeXFormRegularPrefixOps := { {"+"," + "}, {"-"," - "}, {"Not"," \\neg "} };
+
+
+
+    
+
+  TeXFormGreekLetters := {"Gamma", "Delta", "Theta", "Lambda", "Xi", "Pi", "Sigma", "Upsilon", "Phi", "Psi", "Omega", "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "varpi", "varrho", "varsigma", "varphi", "varepsilon"};
+  TeXFormSpecialNames := {
+    {"I", "\\imath "},	
+    {"Pi", "\\pi "},	
+    {"Infinity", "\\infty "},
+    {"TeX", "\\textrm{\\TeX\\/}"},
+    {"LaTeX", "\\textrm{\\LaTeX\\/}"},
+    {"Maximum", "\\max "},	
+    {"Minimum", "\\min "},
+    {"Prog", " "},
+    {"Zeta", "\\zeta "},
+  };
+
+
+  
+  Function ("TeXFormTeXify", {string})
+  [
+    Check(IsString(string), "Argument", "TeXForm internal error: non-string argument of TeXFormTeXify");
+    
+    If (Contains(AssocIndices(TeXFormSpecialNames), string), TeXFormSpecialNames[string],
+    If (Contains(TeXFormGreekLetters, string), ConcatStrings("\\", string, " "),
+    If (Contains(AssocIndices(TeXFormRegularOps), string), TeXFormRegularOps[string],
+    If (Contains(AssocIndices(TeXFormRegularPrefixOps), string), TeXFormRegularPrefixOps[string],
+    If (Length(string) >= 2 And IsNumber(ToAtom(StringMidGet(2, Length(string)-1, string))), ConcatStrings(StringMidGet(1,1,string), "_{", StringMidGet(2, Length(string)-1, string), "}"),
+    If (Length(string) > 2, ConcatStrings("\\mathrm{ ", string, " }"),
+    string
+    ))))));
+  ];
+
+];
+
+
+
+
+
+200 # TeXForm(x_IsFunction, _p) _ (IsBodied(Type(x))) <-- [
+	Local(func, args, last'arg);
+	func := Type(x);
+	args := Rest(FunctionToList(x));
+	last'arg := PopBack(args);
+	TeXFormBracketIf(p<PrecedenceGet(func), ConcatStrings(
+	  TeXFormTeXify(func), TeXForm(args, TeXFormMaxPrec()),  TeXForm(last'arg, PrecedenceGet(func))
+	));
+];
+
+
+
+220 # TeXForm(x_IsFunction, _p) <-- ConcatStrings(TeXFormTeXify(Type(x)), TeXForm(Rest(FunctionToList(x)), TeXFormMaxPrec()) );
+
+	
+100 # TeXForm(Sqrt(_x), _p) <-- ConcatStrings("\\sqrt{", TeXForm(x, TeXFormMaxPrec()), "}");
+
+	
+100 # TeXForm(Exp(_x), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings("\\exp ", TeXFormBracketIf(True, TeXForm(x, TeXFormMaxPrec())) ) );
+
+
+LocalSymbols(TeXFormMathFunctions, TeXFormMathFunctions2) [
+
+  
+  
+  TeXFormMathFunctions := { {"Cos","\\cos "}, {"Sin","\\sin "}, {"Tan","\\tan "}, {"Cosh","\\cosh "}, {"Sinh","\\sinh "}, {"Tanh","\\tanh "}, {"Ln","\\ln "}, {"ArcCos","\\arccos "}, {"ArcSin","\\arcsin "}, {"ArcTan","\\arctan "}, {"ArcCosh","\\mathrm{arccosh}\\, "}, {"ArcSinh","\\mathrm{arcsinh}\\, "}, {"ArcTanh","\\mathrm{arctanh}\\, "},
+  {"Erf", "\\mathrm{erf}\\, "}, {"Erfc", "\\mathrm{erfc}\\, "},
+  };
+
+  
+  TeXFormMathFunctions2 := {
+  {"BesselI", "I "}, {"BesselJ", "J "},
+  {"BesselK", "K "}, {"BesselY", "Y "},
+  {"OrthoH", "H "}, {"OrthoP", "P "},
+  {"OrthoT", "T "}, {"OrthoU", "U "},
+  };
+
+  
+
+  
+
+  
+  120 # TeXForm(expr_IsFunction, _p) _ (ArgumentsCount(expr)=1 And Contains(AssocIndices(TeXFormMathFunctions), Type(expr)) ) <-- TeXFormBracketIf(p<PrecedenceGet("*"), ConcatStrings(TeXFormMathFunctions[Type(expr)], TeXForm( FunctionToList(expr)[2], PrecedenceGet("*")) ) );
+
+  
+  120 # TeXForm(expr_IsFunction, _p) _ (ArgumentsCount(expr)=2 And Contains(AssocIndices(TeXFormMathFunctions2), Type(expr)) ) <-- TeXFormBracketIf(p<PrecedenceGet("*"),
+    ConcatStrings(
+    TeXFormMathFunctions2[Type(expr)],
+    "_{",
+    TeXForm( FunctionToList(expr)[2], TeXFormMaxPrec()),	
+    "}",
+    TeXFormBracketIf(True, TeXForm(FunctionToList(expr)[3], TeXFormMaxPrec()) ) 
+    )
+  );
+
+]; 
+
+
+
+100 # TeXForm(Complex(0, 1), _p) <-- TeXForm(Hold(I), p);
+100 # TeXForm(Complex(_x, 0), _p) <-- TeXForm(x, p);
+110 # TeXForm(Complex(_x, 1), _p) <-- TeXForm(x+Hold(I), p);
+110 # TeXForm(Complex(0, _y), _p) <-- TeXForm(Hold(I)*y, p);
+120 # TeXForm(Complex(_x, _y), _p) <-- TeXForm(x+Hold(I)*y, p);
+
+
+
+100 # TeXForm(Abs(_x), _p) <-- ConcatStrings("\\left| ", TeXForm(x, TeXFormMaxPrec()), "\\right| ");
+100 # TeXForm(Floor(_x), _p) <-- ConcatStrings("\\left\\lfloor ", TeXForm(x, TeXFormMaxPrec()), "\\right\\rfloor ");
+100 # TeXForm(Ceil(_x), _p) <-- ConcatStrings("\\left\\lceil ", TeXForm(x, TeXFormMaxPrec()), "\\right\\rceil ");
+
+
+
+100 # TeXForm(Modulo(_x, _y), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(TeXForm(x, PrecedenceGet("/")), "\\bmod ", TeXForm(y, PrecedenceGet("/")) ) );
+
+100 # TeXForm(Union(_x, _y), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(TeXForm(x, PrecedenceGet("/")), "\\cup ", TeXForm(y, PrecedenceGet("/")) ) );
+
+100 # TeXForm(Intersection(_x, _y), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(TeXForm(x, PrecedenceGet("/")), "\\cap ", TeXForm(y, PrecedenceGet("/")) ) );
+
+100 # TeXForm(Difference(_x, _y), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(TeXForm(x, PrecedenceGet("/")), "\\setminus ", TeXForm(y, PrecedenceGet("/")) ) );
+
+
+
+100 # TeXForm(Contains(_x, _y), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(TeXForm(y, PrecedenceGet("/")), "\\in ", TeXForm(x, PrecedenceGet("/")) ) );
+
+
+100 # TeXForm(BinomialCoefficient(_n, _m), _p) <-- TeXFormBracketIf(False, ConcatStrings("{", TeXForm(n, TeXFormMaxPrec()), " \\choose ", TeXForm(m, TeXFormMaxPrec()), "}" )
+);
+
+
+
+100 # TeXForm(Sum(_x, _x1, _x2, _expr), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings("\\sum _{", TeXForm(x, TeXFormMaxPrec()), " = ", TeXForm(x1, TeXFormMaxPrec()), "} ^{", TeXForm(x2, TeXFormMaxPrec()), "} ", TeXForm(expr, PrecedenceGet("*")) ) );
+
+100 # TeXForm(Sum(_expr), _p) <-- TeXFormBracketIf(p < PrecedenceGet("/"), ConcatStrings("\\sum ", TeXForm(expr, PrecedenceGet("*")) ) );
+
+
+100 # TeXForm(Product(_x, _x1, _x2, _expr), _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings("\\prod _{", TeXForm(x, TeXFormMaxPrec()), " = ", TeXForm(x1, TeXFormMaxPrec()), "} ^{", TeXForm(x2, TeXFormMaxPrec()), "} ", TeXForm(expr, PrecedenceGet("*")) ) );
+
+100 # TeXForm(Integrate(_x, _x1, _x2) _expr, _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(
+"\\int _{", TeXForm(x1, TeXFormMaxPrec()), "} ^{", TeXForm(x2, TeXFormMaxPrec()), " } ", TeXForm(expr, PrecedenceGet("*")), " d", TeXForm(x, TeXFormMaxPrec())
+) );
+
+
+100 # TeXForm(Integrate(_x) _expr, _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings(
+"\\int ", TeXForm(expr, PrecedenceGet("*")), " d", TeXForm(x, TeXFormMaxPrec())
+) );
+
+100 # TeXForm(Limit(_x, _x1) _expr, _p) <-- TeXFormBracketIf(p<PrecedenceGet("/"), ConcatStrings("\\lim _{", TeXForm(x, TeXFormMaxPrec()), "\\rightarrow ", TeXForm(x1, TeXFormMaxPrec()), "} ", TeXForm(expr, PrecedenceGet("/")) ) );
+
+
+
+
+100 # TeXForm(Deriv(_x)_y, _p) <-- TeXFormBracketIf(p<PrecedenceGet("-"), ConcatStrings(
+	If(Length(VarList(y))>1, "\\frac{\\partial}{\\partial ", "\\frac{d}{d "
+	), TeXForm(x, PrecedenceGet("^")), "}", TeXForm(y, PrecedenceGet("/")) ) );
+
+100 # TeXForm(Deriv(_x, _n)_y, _p) <-- TeXFormBracketIf(p<PrecedenceGet("-"), ConcatStrings(
+	If(
+		Length(VarList(y))>1,
+		"\\frac{\\partial^" : TeXForm(n, TeXFormMaxPrec()) : "}{\\partial ",
+		"\\frac{d^" : TeXForm(n, TeXFormMaxPrec()) : "}{d "
+	), TeXForm(x, PrecedenceGet("^")), " ^", TeXForm(n, TeXFormMaxPrec()), "}", TeXForm(y, PrecedenceGet("/")) ) );
+100 # TeXForm(Differentiate(_x)_y, _p) <-- TeXForm(Deriv(x) y, p);
+100 # TeXForm(Differentiate(_x, _n)_y, _p) <-- TeXForm(Deriv(x, n) y, p);
+
+
+
+
+
+
+100 # TeXForm(Nth(Nth(_x, i_IsList), _j), _p) <-- TeXForm(TeXFormNth(x, Append(i,j)), p);
+100 # TeXForm(TeXFormNth(Nth(_x, i_IsList), _j), _p) <-- TeXForm(TeXFormNth(x, Append(i,j)), p);
+110 # TeXForm(Nth(Nth(_x, _i), _j), _p) <-- TeXForm(TeXFormNth(x, List(i,j)), p);
+120 # TeXForm(Nth(_x, _i), _p) <-- ConcatStrings(TeXForm(x, TeXFormMaxPrec()), " _{", TeXForm(i, TeXFormMaxPrec()), "}");
+120 # TeXForm(TeXFormNth(_x, _i), _p) <-- ConcatStrings(TeXForm(x, TeXFormMaxPrec()), " _{", TeXForm(i, TeXFormMaxPrec()), "}");
+
+
+
+80 # TeXForm(M_IsMatrix, _p) <-- TeXFormMatrixBracketIf(True, TeXFormPrintMatrix(M));
+
+Function ("TeXFormPrintMatrix", {M})
+[
+
+	Local(row, col, result, ncol);
+	result := "\\begin{array}{";
+	ForEach(col, M[1]) result:=ConcatStrings(result, "c");
+	result := ConcatStrings(result, "}");
+
+	ForEach(row, 1 .. Length(M)) [
+		ForEach(col, 1 .. Length(M[row])) [
+			result := ConcatStrings( result, " ", TeXForm(M[row][col], TeXFormMaxPrec()), If(col = Length(M[row]), If(row = Length(M), "", " \\\\"), " &"));
+		];
+	];
+
+	ConcatStrings(result, " \\end{array} ");
+];
+

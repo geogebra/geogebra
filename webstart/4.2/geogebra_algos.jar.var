@@ -1,0 +1,8 @@
+URI: geogebra_algos.jar
+
+URI: packed/geogebra_algos.jar.pack.gz
+Content-Type: x-java-archive
+Content-Encoding: pack200-gzip
+
+URI: unpacked/geogebra_algos.jar
+Content-Type: x-java-archive

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp codebase="http://www.geogebra.org/webstart/3Dbeta/"
+      href="jogl.jnlp">
+  <information>
+    <title>Java Binding to the OpenGL API</title>
+    <vendor>Sun Microsystems, Inc.</vendor>
+    <homepage href="http://jogl.dev.java.net/"/>
+    <description>Java Binding to the OpenGL API - JSR-231 Current Build</description>
+    <description kind="short">Java programming language binding to the OpenGL 3D graphics API. (Current build of JSR-231 APIs)</description>
+    <offline-allowed/>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+    <resources>
+      <jar href="jogl.jar" />
+      <extension name="gluegen-rt" href="http://download.java.net/media/gluegen/webstart/gluegen-rt.jnlp" />
+    </resources>
+    <resources os="Windows" arch="x86">
+      <nativelib href = "jogl-natives-windows-i586.jar" />
+    </resources>
+    <resources os="Windows" arch="amd64">
+      <nativelib href = "jogl-natives-windows-amd64.jar" />
+    </resources>
+    <resources os="Windows" arch="x86_64">
+      <nativelib href = "jogl-natives-windows-amd64.jar" />
+    </resources>
+    <resources os="SunOS" arch="sparc">
+      <nativelib href = "jogl-natives-solaris-sparc.jar" />
+    </resources>
+    <resources os="SunOS" arch="sparcv9">
+      <nativelib href = "jogl-natives-solaris-sparcv9.jar" />
+    </resources>
+    <resources os="SunOS" arch="x86">
+      <nativelib href = "jogl-natives-solaris-i586.jar" />
+    </resources>
+    <resources os="SunOS" arch="amd64">
+      <nativelib href = "jogl-natives-solaris-amd64.jar" />
+    </resources>
+    <resources os="SunOS" arch="x86_64">
+      <nativelib href = "jogl-natives-solaris-amd64.jar" />
+    </resources>
+    <resources os="Linux" arch="i386">
+      <nativelib href = "jogl-natives-linux-i586.jar" />
+    </resources>
+    <resources os="Linux" arch="x86">
+      <nativelib href = "jogl-natives-linux-i586.jar" />
+    </resources>
+    <resources os="Linux" arch="amd64">
+      <nativelib href = "jogl-natives-linux-amd64.jar" />
+    </resources>
+    <resources os="Linux" arch="x86_64">
+      <nativelib href = "jogl-natives-linux-amd64.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="ppc">
+      <nativelib href = "jogl-natives-macosx-ppc.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="i386">
+      <nativelib href = "jogl-natives-macosx-universal.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="x86_64">
+      <nativelib href = "jogl-natives-macosx-universal.jar" />
+    </resources>
+  <component-desc />
+</jnlp>

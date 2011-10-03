@@ -1,0 +1,71 @@
+
+
+
+
+
+10 # RadSimp(_n)_(Length(VarList(n))<1) <--
+[
+  Local(max, result);
+  Bind(max, CeilN(N(Eval(n^2))));
+  Bind(result,0);
+  Bind(result,RadSimpTry(n,0,1,max));
+
+
+  if (CheckRadicals(n,result))
+    result
+  else
+    n;
+];
+
+
+20 # RadSimp(_n) <-- n;
+
+
+
+
+CheckRadicals(_n,_test) <-- Abs(N(Eval(n-test),20)) < 0.000001;
+
+10 # ClampRadicals(_r)_(N(Eval(Abs(r)), 20)<0.000001) <-- 0;
+20 # ClampRadicals(_r) <-- r;
+
+
+
+RadSimpTry(_n,_result,_current,_max)<--
+[
+
+  if (IsLessThan(N(Eval(result-n)), 0))
+  [
+    Local(i);
+
+    
+    i:=BSearch(max,Hold({{try},ClampRadicals(N(Eval((result+Sqrt(try))-n),20))}));
+    If(i>0,
+    [
+      Bind(result,result+Sqrt(i));
+      Bind(i,AddN(max,1));
+      Bind(current,AddN(max,1));
+    ]);
+
+    
+    if (IsLessThan(N(Eval(result-n)), 0))
+    [
+      For (Bind(i,current),i<=max,Bind(i,AddN(i,1)))
+      [
+        Local(new, test);
+        Bind(test,result+Sqrt(i));
+
+
+
+        Bind(new,RadSimpTry(n,test,i,max));
+	if (CheckRadicals(n,new))
+        [
+          Bind(result,new);
+          Bind(i,AddN(max,1));
+        ];
+      ];
+    ];
+  ];
+  result;
+];
+
+

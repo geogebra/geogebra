@@ -1,0 +1,26 @@
+
+
+OMDef( "Gamma", "nums1", "gamma" );
+OMDef( "LnGamma"        , mathpiper, "LnGamma" );
+OMDef( "Zeta"           , mathpiper, "Zeta" );
+OMDef( "Bernoulli"      , mathpiper, "Bernoulli" );
+OMDef( "ApproxInfSum"   , mathpiper, "ApproxInfSum" );
+OMDef( "BesselJ"        , mathpiper, "BesselJ" );
+OMDef( "BesselI"        , mathpiper, "BesselI" );
+OMDef( "BesselY"        , mathpiper, "BesselY" );
+OMDef( "Erf"            , mathpiper, "Erf" );
+OMDef( "Erfc"           , mathpiper, "Erfc" );
+OMDef( "Erfi"           , mathpiper, "Erfi" );
+OMDef( "FresnelSin"     , mathpiper, "FresnelSin" );
+OMDef( "FresnelCos"     , mathpiper, "FresnelCos" );
+OMDef( "LambertW"       , mathpiper, "LambertW" );
+OMDef( "Beta"           , mathpiper, "Beta" );
+OMDef( "DirichletEta"   , mathpiper, "DirichletEta" );
+OMDef( "DirichletLambda", mathpiper, "DirichletLambda" );
+OMDef( "DirichletBeta"  , mathpiper, "DirichletBeta" );
+OMDef( "Sinc"           , mathpiper, "Sinc" );
+OMDef( "PolyLog"        , mathpiper, "PolyLog" );
+OMDef( "CatalanConstNum", mathpiper, "CatalanConstNum" );
+OMDef( "Digamma"        , mathpiper, "Digamma" );
+OMDef( "DawsonIntegral" , mathpiper, "DawsonIntegral" );
+

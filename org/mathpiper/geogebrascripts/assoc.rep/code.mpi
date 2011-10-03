@@ -1,0 +1,46 @@
+
+
+
+Function("Assoc",{key,list})  Builtin'Assoc(key,list);
+
+
+
+LocalSymbols(hash, key, element, hash'expr)
+[
+
+
+10 # AssocDelete(hash_IsList, element_IsList) <--
+[
+	Local(index);
+	index := Find(hash, element);
+	If(
+		index > 0,
+		DestructiveDelete(hash, index)
+	);
+	index>0;	
+
+];
+
+
+
+20 # AssocDelete(hash_IsList, key_IsString) <--
+[
+	AssocDelete(hash, Builtin'Assoc(key, hash));
+];
+
+30 # AssocDelete(hash_IsList, Empty) <-- False;
+
+
+
+
+
+];	
+
+
+AssocIndices(associndiceslist_IsList) <--
+  DestructiveReverse(MapSingle("First",associndiceslist));
+
+
+AssocValues(assocvalueslist_IsList) <--
+  DestructiveReverse(MapSingle(Lambda({x},First(Rest(x))),assocvalueslist));
+

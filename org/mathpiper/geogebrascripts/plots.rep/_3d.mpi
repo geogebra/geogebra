@@ -1,0 +1,295 @@
+
+
+
+
+
+
+
+Plot3DS'outputs() := {
+	{"default", "data"},
+	{"data", "Plot3DS'data"},
+};
+
+
+
+
+Plot3DS'data(values_IsList, _options'hash) <-- values;
+
+
+
+
+
+
+
+
+
+
+
+
+
+	LocalSymbols(var, func, xrange, yrange, option, options'list, xdelta, ydelta, options'hash, cx, cy, fc, all'values, dummy)
+[
+
+
+Function() Plot3DS(func);
+Function() Plot3DS(func, xrange, yrange);
+Function() Plot3DS(func, xrange, yrange, options, ...);
+
+
+
+1 # Plot3DS(_func) <-- ("Plot3DS" @ {func, -5:5, -5:5});
+2 # Plot3DS(_func, _xrange, _yrange) <-- ("Plot3DS" @ {func, xrange, yrange, {}});
+3 # Plot3DS(_func, _xrange, _yrange, option_IsFunction) _ (Type(option) = "->" ) <-- ("Plot3DS" @ {func, xrange, yrange, {option}});
+
+
+5 # Plot3DS(_func, _xrange, _yrange, options'list_IsList)_(Not IsList(func)) <-- ("Plot3DS" @ {{func}, xrange, yrange, options'list});
+
+
+
+4 # Plot3DS(func'list_IsList, _xrange, _yrange, options'list_IsList) <--
+[
+	Local(var, func, xdelta, ydelta, options'hash, cx, cy, fc, all'values, dummy);
+	
+	all'values := {};
+	options'hash := "OptionsListToHash" @ {options'list};
+	
+	options'hash["xname"] := "";
+	options'hash["yname"] := "";
+	
+	options'hash["zname"] := {};
+	
+	If (
+		Type(xrange) = "->",	
+		[
+			
+			options'hash["xname"] := ToString(xrange[1]);
+			xrange := xrange[2];
+		]
+	);
+	If (
+		Type(yrange) = "->" ,	
+		[
+			
+			options'hash["yname"] := ToString(yrange[1]);
+			yrange := yrange[2];
+		]
+	);
+	If(
+		Type(xrange) = ":",	
+		xrange := N(Eval({xrange[1], xrange[2]}))
+	);
+	If(
+		Type(yrange) = ":",	
+		yrange := N(Eval({yrange[1], yrange[2]}))
+	);
+	
+	If(
+		options'hash["points"] = Empty,
+		options'hash["points"] := 10	
+	);
+	If(
+		options'hash["xpoints"] = Empty,
+		options'hash["xpoints"] := options'hash["points"]
+	);
+	If(
+		options'hash["ypoints"] = Empty,
+		options'hash["ypoints"] := options'hash["points"]
+	);
+
+	If(
+		options'hash["depth"] = Empty,
+		options'hash["depth"] := 2
+	);
+	If(
+		options'hash["precision"] = Empty,
+		options'hash["precision"] := 0.0001
+	);
+	If(
+		options'hash["hidden"] = Empty Or Not IsBoolean(options'hash["hidden"]),
+		options'hash["hidden"] := True
+	);
+	If(
+		options'hash["output"] = Empty Or IsString(options'hash["output"]) And Plot3DS'outputs()[options'hash["output"]] = Empty,
+		options'hash["output"] := Plot3DS'outputs()["default"]
+	);
+	
+	If(
+		options'hash["output"] = "datafile" And options'hash["filename"] = Empty,
+		options'hash["filename"] := "output.data"
+	);
+	options'hash["used depth"] := options'hash["depth"];
+	
+	options'hash["xpoints"] := N(Eval(Quotient(options'hash["xpoints"]+1, 2)));
+	options'hash["ypoints"] := N(Eval(Quotient(options'hash["ypoints"]+1, 2)));
+	
+	options'hash["precision"] := N(Eval(options'hash["precision"]));
+	
+	options'hash["xrange"] := {xrange[1], xrange[2]};
+	options'hash["yrange"] := {yrange[1], yrange[2]};
+	
+	xdelta := N(Eval( (xrange[2] - xrange[1]) / (options'hash["xpoints"]) ) );
+	ydelta := N(Eval( (yrange[2] - yrange[1]) / (options'hash["ypoints"]) ) );
+	
+	Check(IsNumericList({xrange[1], xrange[2], options'hash["xpoints"], options'hash["ypoints"], options'hash["precision"]}),
+                "Argument", 
+		"Plot3DS: Error: plotting ranges '"
+		:(PipeToString()Write(xrange, yrange))
+		:"' and/or the number of points '"
+		:(PipeToString()Write(options'hash["xpoints"], options'hash["ypoints"]))
+		:"' and/or precision '"
+		:(PipeToString()Write(options'hash["precision"]))
+		:"' is not numeric"
+	);
+	
+	ForEach(func, func'list)
+	[
+		
+		var := VarList(func);        
+    	Check(Length(var)<=2, "Argument", "Plot3DS: Error: expression is not a function of at most two variables: "
+			:(PipeToString()Write(func))
+		);
+		
+		If(Length(var)=0, var:={dummy, dummy});
+		If(Length(var)=1, var:={var[1], dummy});
+		
+		If(
+			options'hash["xname"] = "",
+			options'hash["xname"] := ToString(var[1])
+		);
+		If(
+			options'hash["yname"] = "",
+			options'hash["yname"] := ToString(var[2])
+		);
+		
+		DestructiveAppend(options'hash["zname"], PipeToString()Write(func));
+		
+		cx := xrange[1]; cy := yrange[1];
+		fc := N(Eval(Apply({var, func}, {cx, cy})));
+		Check(IsNumber(fc) Or fc=Infinity Or fc= -Infinity Or fc=Undefined,
+                        "Argument", 
+			"Plot3DS: Error: cannot evaluate function '"
+			:(PipeToString()Write(func))
+			:"' at point '"
+			:(PipeToString()Write(cx, cy))
+			:"' to a number, instead got '"
+			:(PipeToString()Write(fc))
+			:"'"
+		);
+		
+		DestructiveAppend(all'values, RemoveRepeated(HeapSort( Plot3DS'get'data(func, var, {cx, cy, fc}, {xdelta, ydelta}, options'hash), Hold({{x,y},x[1]<y[1] Or x[1] = y[1] And x[2] <= y[2] } ) )) );
+		If(InVerboseMode(), Echo({"Plot3DS: using ", Length(all'values[Length(all'values)]), " points for function ", func}), True);
+		If(InVerboseMode(), Echo({"Plot3DS: max. used ", 2^(options'hash["depth"] - options'hash["used depth"]), "subdivisions for ", func}), True);
+	];
+	
+	Plot3DS'outputs()[options'hash["output"]] @ {all'values, options'hash};
+];
+
+HoldArgumentNumber("Plot3DS", 3, 2);
+HoldArgumentNumber("Plot3DS", 3, 3);
+HoldArgumentNumber("Plot3DS", 4, 2);
+HoldArgumentNumber("Plot3DS", 4, 3);
+HoldArgumentNumber("Plot3DS", 4, 4);
+
+
+
+
+
+Plot3DS'get'data(_func, _var, _init'values, _deltas, _options'hash) <--
+[
+	Local(i, j, xa, ya, fa, xb, yb, fb, result, row'cache);
+	
+	
+	
+	
+	
+	row'cache := {init'values};
+	For(i:=1, i<=options'hash["ypoints"], i++)
+	[
+		ya := N(Eval(init'values[2]+i*deltas[2]));
+		DestructiveAppend(row'cache, {init'values[1], ya, N(Eval(Apply({var, func}, {init'values[1], ya})))});
+	];
+	result := row'cache;
+	
+	For(i:=1, i<=options'hash["xpoints"], i++)
+	[
+		
+		
+		xa := N(Eval(init'values[1]+i*deltas[1]));
+		ya := init'values[2];
+		fa := N(Eval(Apply({var, func}, {xa, ya})));
+		DestructiveAppend(result, {xa, ya, fa});
+		
+		For(j:=1, j<=options'hash["ypoints"], j++)
+		[	
+			
+			
+			
+			yb := N(Eval(init'values[2] + j*deltas[2]));
+			fb := N(Eval(Apply({var, func}, {xa, yb})));
+			result := Concat(result, Plot3DS'adaptive(func, var, {row'cache[j][1], ya, xa, yb, row'cache[j][3], row'cache[j+1][3], fa, fb}, options'hash["depth"],
+				
+				options'hash["precision"] * options'hash["xpoints"] * options'hash["ypoints"], options'hash ));
+			
+			row'cache[j] := {xa, ya, fa};
+			ya := yb;
+			fa := fb;
+			DestructiveAppend(result, {xa, ya, fa});
+		];
+	];
+
+	result;
+];
+
+
+
+
+
+
+10 # Plot3DS'adaptive(_func, _var, _square, 0, _epsilon, _options'hash) <-- {};
+20 # Plot3DS'adaptive(_func, _var, {_x1, _y1, _x2, _y2, _f11, _f12, _f21, _f22}, _depth, _epsilon, _options'hash) <--
+[
+	Local(x3, y3, f13, f31, f33, f32, f23, result);
+
+	
+	options'hash["used depth"] := depth-1;
+	
+	x3 := N(Eval((x1+x2)/2));
+	y3 := N(Eval((y1+y2)/2));
+	
+	
+	f13 := N(Eval(Apply({var, func}, {x1, y3})));
+	f31 := N(Eval(Apply({var, func}, {x3, y1})));
+	f33 := N(Eval(Apply({var, func}, {x3, y3})));
+	f32 := N(Eval(Apply({var, func}, {x3, y2})));
+	f23 := N(Eval(Apply({var, func}, {x2, y3})));
+	result := {{x1,y3,f13}, {x3, y1, f31}, {x3, y3, f33}, {x3, y2, f32}, {x2, y3, f23}};
+
+	If(
+		
+		sign'change(f11,f13,f12) + sign'change(f13,f12,f32) + sign'change(f12,f32,f22) <= 2 And sign'change(f22,f23,f21) + sign'change(f23,f21,f31) + sign'change(f21,f31,f11) <= 2
+		And
+		
+		N(Eval(Abs( (f11-f23)/2-(f12-f21)/3+(f22-f13)/6+2*(f32-f33)/3 )))
+			<= N(Eval( epsilon*(	
+			
+		(f11 + f12 + f21 + f22)/12 + 2*f33/3
+		- Minimum({f11, f12, f21, f22, f13, f31, f33, f32, f23}) ) ) )
+		,
+		
+		result,
+		
+		Concat(
+			
+			result,
+			
+			Plot3DS'adaptive(func, var, {x1, y1, x3, y3, f11, f13, f31, f33}, depth-1, epsilon*4, options'hash),
+			Plot3DS'adaptive(func, var, {x1, y3, x3, y2, f13, f12, f33, f32}, depth-1, epsilon*4, options'hash),
+			Plot3DS'adaptive(func, var, {x3, y1, x2, y3, f31, f33, f21, f23}, depth-1, epsilon*4, options'hash),
+			Plot3DS'adaptive(func, var, {x3, y3, x2, y2, f33, f32, f23, f22}, depth-1, epsilon*4, options'hash)
+		)
+	);
+];
+
+];	
+
+

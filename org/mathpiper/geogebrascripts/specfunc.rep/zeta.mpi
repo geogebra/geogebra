@@ -1,0 +1,122 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Internal'ZetaNum(_s, n_IsInteger) <-- [
+	Local(result, j, sign);
+	If (InVerboseMode(), Echo({"Internal'ZetaNum: Borwein's method, precision ", BuiltinPrecisionGet(), ", n = ", n}));
+	result := 0;
+	sign := 1;	
+	For(j:=0, j<=2*n-1, j++)
+	[	
+		result := N(result + sign*Internal'ZetaNumCoeffEj(j,n)/(1+j)^s );
+		sign := -sign;
+	];
+	N(result/(2^n)/(1-2^(1-s)));
+];
+
+
+Internal'ZetaNum1(s, limit) := [
+	Local(i, sum);
+	If (InVerboseMode(), Echo({"Internal'ZetaNum: direct method (sum), precision ", BuiltinPrecisionGet(), ", N = ", limit}));
+	sum := 0;
+	limit := Ceil(N(limit));
+	For(i:=2, i<=limit, i++) sum := sum+N(1/PowerN(i, s));
+
+	sum+1;	
+];
+
+Internal'ZetaNum2(s, limit) :=
+[
+	Local(i, prod);
+	If (InVerboseMode(), Echo({"Internal'ZetaNum: direct method (product), precision ", BuiltinPrecisionGet(), ", N = ", limit}));
+	prod := N( (1-1/PowerN(2, s))*(1-1/PowerN(3,s)) );
+	limit := Ceil(N(limit));
+	For(i:=5, i<=limit, i:= NextPrime(i))
+		prod := prod*N(1-1/PowerN(i, s));
+	1/prod;
+];
+
+
+Internal'ZetaNumCoeffEj(j,n) := [
+	Local(k);
+	2^n-If(j<n,
+		0,
+		Sum(k,0,j-n,BinomialCoefficient(n,k))	
+	);
+];
+
+
+
+
+
+
+Zeta3() :=
+[
+	Local(result, old'result, k, term);
+  N([
+    For(
+    [
+      k:=1;
+      result := 1;
+      old'result := -1;
+      term := 1;
+    ],
+    old'result!=result,
+    k++
+    )
+    [
+      old'result := result;
+      term := -term * k^2 / ((2*k+1)*(2*k));
+      result := result + term/(k+1)^2;
+    ];
+    result := 5/4*result;
+  ], BuiltinPrecisionGet()+IntLog(BuiltinPrecisionGet(),10)+1);
+
+	result;
+];
+
+
+
+10 # Internal'ZetaNum(_s) _ (N(s)=0) <-- -0.5;
+10 # Internal'ZetaNum(_s) _ (N(s)=1) <-- Infinity;
+20 # Internal'ZetaNum(_s) <-- [
+	Local(n, prec, result);
+	prec := BuiltinPrecisionGet();
+	If(	
+		N(Re(s)) < 0.5,
+		
+		[
+			If(InVerboseMode(), Echo({"Internal'ZetaNum: using s->1-s identity, s=", s, ", precision ", prec}));
+			result :=  2*Exp(Internal'LnGammaNum(1-s)-(1-s)*Ln(2*Internal'Pi()))*Sin(Internal'Pi()*s/2) * Internal'ZetaNum(1-s);
+		],
+		
+		If (N(Re(s)) > N(1+(prec*Ln(10))/(Ln(prec)+0.1), 6),
+			[	
+				n:= N(10^(prec/(s-1)), 6)+2;	
+				BuiltinPrecisionSet(prec+2);	
+				result := Internal'ZetaNum1(s, n);
+			],
+			[	
+				n := Ceil( N( prec*Ln(10)/Ln(8) + 2, 6 ) );	
+				BuiltinPrecisionSet(prec+2);	
+				result := Internal'ZetaNum(s, n);
+			]
+		)
+	);
+	BuiltinPrecisionSet(prec);
+	result;
+];
+
+

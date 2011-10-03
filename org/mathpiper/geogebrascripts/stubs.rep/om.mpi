@@ -1,0 +1,29 @@
+
+
+OMDef( "Not", "logic1","not" );
+OMDef( "=" , "relation1","eq"  );
+OMDef( ">=", "relation1","geq" );
+OMDef( ">" , "relation1","gt"  );
+OMDef( "<=", "relation1","leq" );
+OMDef( "<" , "relation1","lt"  );
+OMDef( "!=", "relation1","neq" );
+OMDef( "Gcd", "arith1","gcd" );
+OMDef( "Sqrt", "arith1","root", { $, _1, 2 }, $(_1)_(_2=2) | (_1^(1/_2)) );
+
+
+
+
+OMDef( "Abs", "arith1","abs" );
+OMDef( "Lcm", "arith1","lcm" );
+
+OMDef( "Floor", "rounding1","floor"   );
+OMDef( "Ceil" , "rounding1","ceiling" );
+OMDef( "Round", "rounding1","round"   );
+
+OMDef( "Quotient"   , mathpiper,"div"    );
+OMDef( "Modulo"   , mathpiper,"mod"    );
+OMDef( "Expand", mathpiper,"expand" );
+OMDef( "Object", mathpiper,"object" );
+OMDef( "Sign"  , mathpiper,"sign"   );
+
+
