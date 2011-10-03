@@ -74,6 +74,12 @@ public class DrawEquation {
 
 			// Arabic is in standard Java fonts, so we don't need to search for a font
 			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
+			// Korean is in standard Java fonts, so we don't need to search for a font
+			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
+			
+			// Other codeblocks (currency, symbols etc)
+			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");			
+			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
 
 		   try{
 			   WebStartAlphabetRegistration.register(AlphabetRegistration.JLM_GREEK);
