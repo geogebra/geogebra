@@ -2,15 +2,15 @@
 <!-- JNLP File for GeoGebra WebStart Application -->
 <jnlp spec="1.0+" codebase="http://www.geogebra.org/webstart/4.2/jnlp/" href="geogebra-42.jnlp">
   <information>
-    <title>GeoGebra 4.2 Beta Release</title>
+    <title>GeoGebra 4.2 Beta</title>
     <vendor>International GeoGebra Institute</vendor>
     <homepage href="http://www.geogebra.org/"/>
     <description>Dynamic Mathematics for Everyone</description>
-    <icon href="../geogebra64.gif" width="64" height="64"/>
+    <icon href="../geogebra128.gif" width="128" height="128"/>
     <offline-allowed/>
     <shortcut online="true">
       <desktop/>
-      <menu submenu="GeoGebra 4.2 Beta Release"/>
+      <menu submenu="GeoGebra 4.2 Beta"/>
     </shortcut>
 
     <association mime-type="application/vnd.geogebra.file" extensions="ggb" description="GeoGebra File"/>

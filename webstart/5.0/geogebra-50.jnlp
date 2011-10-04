@@ -6,8 +6,7 @@
     <vendor>GeoGebra Inc.</vendor>
     <homepage href="http://www.geogebra.org/"/>
     <description>Dynamic Mathematics for Everyone</description>
-    <icon href="../geogebra32.gif" width="32" height="32"/>
-    <icon href="../geogebra64.gif" width="64" height="64"/>
+    <icon href="../geogebra128.gif" width="128" height="128"/>
     <offline-allowed/>
     <shortcut online="true">
       <desktop/>
