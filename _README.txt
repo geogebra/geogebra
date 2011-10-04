@@ -2,7 +2,7 @@ GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org/
 
 The software GeoGebra is licensed under GNU GPL v3 (or later).
-However, as part of this SVN repository you will also find libraries 
+However, as part of the version control repository you may also find libraries
 and plug-in files that are subject to other licenses.
 For details please read on and see the file LICENSE.txt
 
