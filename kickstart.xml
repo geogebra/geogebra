@@ -67,7 +67,7 @@ to ensure availability.
 
 
 	<!-- download external libraries -->
-	<target name="lib" depends="lib-runtime, lib-build-geogebra5, lib-pack"
+	<target name="lib" depends="lib-runtime, lib-build-geogebra5, lib-pack, ecj"
 	    description="(FALLBACK) Download all packages for the current OS and architecture">
 	</target>
 
