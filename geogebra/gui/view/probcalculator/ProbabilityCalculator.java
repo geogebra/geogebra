@@ -263,6 +263,12 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 
 
+
+	public int getSelectedDist() {
+		return selectedDist;
+	}
+
+
 	public double getLow() {
 		return low;
 	}
@@ -777,26 +783,20 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				
 				// point on curve 
 				GeoFunction f = (GeoFunction)densityCurve;	
-				AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, (Path)f, highPoint.getInhomX(), 0);
-				cons.removeFromConstructionList(pAlgo);
-				curvePoint = (GeoPoint) pAlgo.getGeoElements()[0];
-				
-				
-				/*
-				ExpressionNode highPointX = new ExpressionNode(kernel, highPoint, ExpressionNode.XCOORD, null);
-				
-				// need expression for f evaluated xcoord of highPoint
-				ExpressionNode curveY = new ExpressionNode(???????);
-				
+				ExpressionNode highPointX = new ExpressionNode(kernel, highPoint, 
+						ExpressionNode.XCOORD, null);
+				ExpressionNode curveY = new ExpressionNode(kernel, f,
+						ExpressionNode.FUNCTION, highPointX);
+		
 				MyVecNode curveVec = new MyVecNode( kernel, highPointX, curveY);
-				ExpressionNode curvePointNode = new ExpressionNode(kernel, curveVec, ExpressionNode.NO_OPERATION, null);
+				ExpressionNode curvePointNode = new ExpressionNode(kernel, curveVec, 
+						ExpressionNode.NO_OPERATION, null);
 				curvePointNode.setForcePoint();
 
 				AlgoDependentPoint pAlgo = new AlgoDependentPoint(cons, curvePointNode, false);
 				cons.removeFromConstructionList(pAlgo);
-				*/
 				
-				
+					
 				curvePoint = (GeoPoint) pAlgo.getGeoElements()[0];
 				curvePoint.setObjColor(COLOR_POINT);
 				curvePoint.setPointSize(4);
@@ -871,10 +871,10 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		plotSettings.yMin = yMin;
 		plotSettings.yMax = yMax;
 
-		// don't show the y-axis for continuous case (edge axis looks bad)
+		// axes
 		//	plotSettings.showYAxis = probManager.isDiscrete(selectedDist);
-		plotSettings.showYAxis = true;
-
+		plotSettings.showYAxis = isCumulative();
+		
 
 		plotSettings.isEdgeAxis[0] = false;
 		plotSettings.isEdgeAxis[1] = true;
@@ -1021,18 +1021,18 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 		if(source == comboDistribution){
-			comboDistribution.removeActionListener(this);
+			
 			if(comboDistribution.getSelectedItem() != null) 
 				if( comboDistribution.getSelectedItem().equals(ListSeparatorRenderer.SEPARATOR)){
+					comboDistribution.removeActionListener(this);
 					comboDistribution.setSelectedItem(distributionMap.get(selectedDist));
+					comboDistribution.addActionListener(this);
 				}
 				else if(selectedDist != this.reverseDistributionMap.get(comboDistribution.getSelectedItem())){
 					selectedDist = this.reverseDistributionMap.get(comboDistribution.getSelectedItem());
 					parameters = probManager.getDefaultParameterMap().get(selectedDist);
 					this.setProbabilityCalculator(selectedDist, parameters, isCumulative);
 				}
-			comboDistribution.addActionListener(this);
-
 			this.requestFocus();
 		}
 
@@ -1148,6 +1148,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		setXAxisPoints();
 		updateProbabilityType();
 		updateGUI();
+		if(styleBar != null)
+			styleBar.updateGUI();
 		//this.requestFocus();
 
 	}
@@ -1324,7 +1326,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		int firstX = (int) ((GeoNumeric)discreteValueList.get(0)).getDouble();
 		int lastX = (int) ((GeoNumeric)discreteValueList.get(discreteValueList.size()-1)).getDouble();
-		table.setTable(selectedDist, parameters, firstX, lastX, isCumulative);
+		table.setTable(selectedDist, parameters, firstX, lastX);
 	}
 
 

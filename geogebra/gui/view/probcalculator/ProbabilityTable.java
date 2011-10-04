@@ -28,16 +28,14 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	int distType;
 	private int xMin, xMax;
 	private boolean isIniting;
-	private boolean isCumulative;
-
+	private double[] parms;
+	
 	
 	public ProbabilityTable(Application app, ProbabilityCalculator probCalc){
 		this.app = app;
 		kernel = app.getKernel();
 		this.probCalc = probCalc;
 		this.probManager = probCalc.getProbManager();
-
-		setLabels(); // need to do this before creating table
 
 		setLayout(new BorderLayout());
 		statTable = new StatTable(app);
@@ -49,7 +47,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
 		// blank table
-		setTable(-1, null , 0, 10, true);
+		setTable(-1, null , 0, 10);
 
 
 
@@ -61,15 +59,16 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	}
 
 
-	public void setTable(int distType, double[] parms, int xMin, int xMax, boolean isCumulative){
+	public void setTable(int distType, double[] parms, int xMin, int xMax){
 
 		isIniting = true;
 
 		this.distType = distType;
 		this.xMin = xMin;
 		this.xMax = xMax;
-		this.isCumulative = isCumulative;
-
+		this.parms = parms;
+		setColumnNames();
+		
 		statTable.setStatTable(xMax - xMin + 1, null, 2, columnNames);
 
 		DefaultTableModel model = statTable.getModel();
@@ -82,7 +81,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 			model.setValueAt("" + x, row, 0);
 			if(distType > -1 ){
-				prob = probManager.probability(x, parms, distType, isCumulative);
+				prob = probManager.probability(x, parms, distType, isCumulative());
 				model.setValueAt("" + probCalc.format(prob), row, 1);
 			}
 			x++;
@@ -90,14 +89,17 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 		}
 
 		updateFonts(app.getPlainFont());
-		setLabels();
 		
 		// need to get focus so that the table will finish resizing columns (not sure why)
 		statTable.getTable().requestFocus();
 		isIniting = false;
 	}
 
+	private boolean isCumulative(){
+		return probCalc.isCumulative();
+	}
 
+	
 	public void updateFonts(Font font){
 		statTable.updateFonts(font);
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -111,16 +113,22 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 	}
 
-	public void setLabels(){
+	public void setColumnNames(){
 
 		columnNames = new String[2];
 		columnNames[0] = "k";
-		if(isCumulative)
+		if(isCumulative())
 			columnNames[1] = app.getMenu("ProbabilityOf") + "X ≤ k" + app.getMenu("EndProbabilityOf");
 		else
 			columnNames[1] = app.getMenu("ProbabilityOf") + "X = k" + app.getMenu("EndProbabilityOf");
+		
 	}
 
+	
+	public void setLabels(){
+		setTable( distType, parms, xMin, xMax);	
+	}
+	
 
 	public void valueChanged(ListSelectionEvent e) {
 
@@ -150,7 +158,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 			// adjust the selection
 			table.getSelectionModel().removeListSelectionListener(this);
-			if(isCumulative){
+			if(isCumulative()){
 				// single row selected
 				table.changeSelection(selRow[selRow.length-1],0, false,false);
 			}
@@ -199,7 +207,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 			//System.out.println("-------------");
 			//System.out.println(lowIndex + " , " + highIndex);
 			
-			if(isCumulative){
+			if(isCumulative()){
 				statTable.getTable().changeSelection(highIndex,0, false,false);
 			}
 			else

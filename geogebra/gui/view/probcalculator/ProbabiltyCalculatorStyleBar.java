@@ -35,6 +35,8 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		this.app = app;
 		this.setFloatable(false);
 		createGUI();
+		updateGUI();
+		setLabels();
 
 	}
 
@@ -74,7 +76,6 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		});
 			
 		
-		
 		add(btnRounding); 
 		add(btnCumulative); 
 		add(btnLineGraph); 
@@ -82,8 +83,17 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		
 	}
 	
+	public void updateGUI(){
+		if(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()))
+			btnLineGraph.setVisible(true);
+		else
+			btnLineGraph.setVisible(false);
+	}
+	
 	public void setLabels(){
-		createGUI();
+		btnRounding.setText(app.getMenu("Rounding"));
+		btnLineGraph.setToolTipText(app.getPlain("Lines"));	
+		btnCumulative.setToolTipText(app.getMenu("Cumulative"));
 	}
 
 
@@ -95,7 +105,6 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		btnRounding = new JButton(app.getImageIcon("triangle-down.png"));	
 		btnRounding.setHorizontalTextPosition(JButton.LEFT); 
 		btnRounding.setHorizontalAlignment(JButton.LEFT);
-		btnRounding.setText(app.getMenu("Rounding"));
 		roundingPopup = createRoundingPopup();
 		
 		btnRounding.addActionListener(new ActionListener(){
