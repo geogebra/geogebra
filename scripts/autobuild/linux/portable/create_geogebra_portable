@@ -38,7 +38,7 @@ IMAGE_DIR=../../../../geogebra/gui/images/
 #     }
 
 # 2. Packaging
-for i in ../../../../../jre*.bin; do
+for i in ../../../../installer/jre/jre*.bin; do
     chmod a+x $i
     python3 ./create_geogebra_portable.py \
      $VERSION_STRING \

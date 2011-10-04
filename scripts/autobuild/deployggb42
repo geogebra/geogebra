@@ -56,7 +56,7 @@ for i in *.html *.jnlp; do
  cat $i | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/unsigned"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/unsigned"/g | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/usb-gomotion"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR"/g | \
+  sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/"/g | \
   sed s/"<\/title>"/" ($MYVER)<\/title>"/g \
   > unpacked/$i
  rm $i || exit 4
@@ -82,7 +82,7 @@ for i in *.jar; do
  ln -s ../unpacked/$i
  ln -s ../packed/$i.pack.gz
  done
-cp $WWWDIR/$MYDIR/geogebra-42.jnlp jnlp/
+cp $WWWDIR/$MYDIR/geogebra-42.jnlp $WWWDIR/$MYDIR/jnlp/
 
 echo "$0: JAR files copied to 4.2 and history/$MYVER"
 
