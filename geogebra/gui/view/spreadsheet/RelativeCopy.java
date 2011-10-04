@@ -345,9 +345,16 @@ public class RelativeCopy {
 			text = value.getCommandDescription(); 
 		}
 
-		// enclose in quotes if we are copying a GeoText
+		
+		// handle GeoText source value
 		if(value.isGeoText() && !((GeoText)value).isTextCommand()){
-			text = "\"" + text + "\"";
+			// enclose text in quotes if we are copying an independent GeoText, e.g. "2+3"
+			if(value.isIndependent())
+				text = "\"" + text + "\"";
+			
+			// for dependent text, e.g. A1 + "red", force GeoText by adding + "" 
+			else if(!text.endsWith(" + \"\""))
+				text = text + "\"\"";
 		}
 		
 
@@ -615,11 +622,6 @@ public class RelativeCopy {
 	//              Cell Editing Methods    
 	//=========================================================================
 
-	// G.Sturr 2010-6-4
-	// Some methods used by cell editors to add/edit cell values. 
-	// TODO ... is this the correct place to for these?
-
-
 
 	private static GeoElement prepareNewValue(Kernel kernel, String name,
 			String text) throws Exception {
@@ -641,12 +643,9 @@ public class RelativeCopy {
 				throw new CircularDefinitionException();
 			}
 
-			// evaluate input text
+			// evaluate input text without an error dialog in case of unquoted text
 			newValues = kernel.getAlgebraProcessor()
-			// G.Sturr 2010-7-5
-			// make sure that an error dialog is not displayed for unquoted text
 			.processAlgebraCommandNoExceptionHandling(text, false, false, false);
-			//.processAlgebraCommandNoExceptionHandling(text, false);
 
 			// check if text was the label of an existing geo 
 			// toLowerCase() added to fix bug A1=1, enter just 'a1' or 'A1' into cell B1 -> A1 disappears
@@ -836,14 +835,14 @@ public class RelativeCopy {
 	//		oldValue = null;
 	//	}
 
-		// if null text then remove the current cell geo and return null
+		// if the text is null then remove the current cell geo and return null
 		if (text == null) {
 			if (oldValue != null) {
 				oldValue.remove();
 			}
 			return null;
 
-			// if not null, try to convert it to a GeoElement for the cell
+		// else if the target cell is empty, try to create a new GeoElement for this cell
 		} else if (oldValue == null) {
 			try {
 				// this will be a new geo
@@ -851,8 +850,9 @@ public class RelativeCopy {
 			} catch (Throwable t) {
 				return prepareNewValue(kernel, name, "");
 			}
-		} else { // value != null;
-			// this will be a redefined geo
+			
+		// else the target cell is an existing GeoElement, so redefine it	
+		} else { 
 			return updateOldValue(kernel, oldValue, name, text);
 		}
 	}
