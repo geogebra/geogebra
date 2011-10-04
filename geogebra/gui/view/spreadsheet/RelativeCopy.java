@@ -331,7 +331,6 @@ public class RelativeCopy {
 		}
 		String text = null;
 
-
 		// make sure a/0.001 doesn't become a/0
 		kernel.setTemporaryPrintFigures(15);
 
@@ -344,7 +343,6 @@ public class RelativeCopy {
 		else {
 			text = value.getCommandDescription(); 
 		}
-
 		
 		// handle GeoText source value
 		if(value.isGeoText() && !((GeoText)value).isTextCommand()){
@@ -352,9 +350,16 @@ public class RelativeCopy {
 			if(value.isIndependent())
 				text = "\"" + text + "\"";
 			
-			// for dependent text, e.g. A1 + "red", force GeoText by adding + "" 
-			else if(!text.endsWith(" + \"\""))
-				text = text + "\"\"";
+			// for dependent text, e.g. A1 + "red", force GeoText by adding + "" if necessary
+			else {
+				
+				// check if 'text' parses to a GeoText
+				GeoText testGeoText = kernel.getAlgebraProcessor().evaluateToText(text, false, false);
+				
+				// if it doesn't then force it to by adding +"" on the end
+				if (testGeoText == null)
+					text = text + "+\"\"";
+			}
 		}
 		
 
