@@ -80,7 +80,8 @@ public class TableSymbolsLaTeX {
 		"\\int{ }",
 		"\\int_{a}^{b}{ }",
 		"\\oint{ }" ,
-		"\\oint_{a}^{b}{ }"
+		"\\oint_{a}^{b}{ }",
+		"\\lim_{ x \\to \\infty }"
 
 	};
 
