@@ -595,30 +595,38 @@ public class AlgebraProcessor {
 	 * Parses given String str and tries to evaluate it to a GeoText.
 	 * Returns null if something went wrong.
 	 */
-	public GeoText evaluateToText(String str, boolean createLabel) {
+	public GeoText evaluateToText(String str, boolean createLabel, boolean showErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(!createLabel);
 
 		GeoText text = null;
-		GeoElement [] temp = null;;
+		GeoElement [] temp = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);			
 			temp = processValidExpression(ve);
 			text = (GeoText) temp[0];
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
-			app.showError("CircularDefinition");
+			if (showErrors) {
+				Application.debug("CircularDefinition");
+				app.showError("CircularDefinition");
+			}
 		} catch (Exception e) {		
-			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			if (showErrors) {
+				e.printStackTrace();
+				app.showError("InvalidInput", str);
+			}
 		} catch (MyError e) {
-			e.printStackTrace();
-			app.showError(e);
+			if (showErrors) {
+				e.printStackTrace();
+				app.showError(e);
+			}
 		} catch (Error e) {
-			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			if (showErrors) {
+				e.printStackTrace();
+				app.showError("InvalidInput", str);
+			}
 		} 
-		
+
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return text;
 	}

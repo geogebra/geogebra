@@ -53,11 +53,8 @@ public class LaTeXPreviewerPanel extends JPanel {
 
 		if (str.indexOf('"') > -1) {
 
-			boolean errorsActive = app.isErrorDialogsActive();
-			app.setErrorDialogsActive(false);
 			GeoText text = app.getKernel().getAlgebraProcessor()
-					.evaluateToText(str, false);
-			app.setErrorDialogsActive(errorsActive);
+					.evaluateToText(str, false, false);
 
 			if (text != null) {
 				text.setLaTeX(true, false);

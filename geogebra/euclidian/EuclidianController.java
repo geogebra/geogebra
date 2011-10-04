@@ -5528,7 +5528,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			}
 
 			// create dynamic text
-			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText, true);
+			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText, true, true);
 			if (useLabels) {
 				text.setLabel(removeUnderscores(app.getPlain("Text") + geoA.getLabel() + geoB.getLabel()));	
 				text.setLaTeX(useLabels, true);
@@ -5552,7 +5552,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			// create dynamic text
 			String dynText = "\"" + descText + " = \" + " + value.getLabel();
 
-			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText, true);									
+			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText, true, true);									
 			text.setAbsoluteScreenLocActive(true);
 			text.setAbsoluteScreenLoc(loc.x, loc.y);			
 			text.updateRepaint();
