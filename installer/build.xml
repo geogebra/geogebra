@@ -50,14 +50,14 @@ to ensure availability.
 
 
 	<!-- download jdk from GeoGebra repository -->
-	<target name="jdk-geogebra" if="linux-amd64">
+	<target name="jdk-geogebra" if="linux">
 	<mkdir dir="jdk"/>
 	<get src="http://www.geogebra.org/download/installer/jdk/jdk-1_5_0_22-linux-amd64.bin" dest="jdk/jdk-1_5_0_22-linux-amd64.bin" usetimestamp="true"/>
 	<get src="http://www.geogebra.org/download/installer/jdk/jdk-6u26-linux-x64.bin" dest="jdk/jdk-6u26-linux-x64.bin" usetimestamp="true"/>
 	</target>
 	
 	<!-- download jre from GeoGebra repository -->
-	<target name="jre-geogebra" if="linux-amd64">
+	<target name="jre-geogebra" if="linux">
 	<mkdir dir="jre"/>
 	<get src="http://www.geogebra.org/download/installer/jre/jre-6u26-linux-i586.bin" dest="jre/jre-6u26-linux-i586.bin" usetimestamp="true"/>
 	<get src="http://www.geogebra.org/download/installer/jre/jre-6u26-linux-x64.bin" dest="jre/jre-6u26-linux-x64.bin" usetimestamp="true"/>
@@ -69,6 +69,7 @@ to ensure availability.
 	<target name="launch4j-geogebra-common">
 	<mkdir dir="launch4j/bin"/>
 	<mkdir dir="launch4j/lib"/>
+	<mkdir dir="download"/>
 	<get src="http://www.geogebra.org/download/installer/launch4j/launch4j.jar" dest="launch4j/launch4j.jar" usetimestamp="true"/>
 	<get src="http://www.geogebra.org/download/installer/launch4j/lib/xstream.jar" dest="launch4j/lib/xstream.jar" usetimestamp="true"/>
 	<get src="http://www.geogebra.org/download/installer/launch4j/launch4j-head+w32api.zip" dest="download/launch4j-head+w32api.zip" usetimestamp="true"/>
