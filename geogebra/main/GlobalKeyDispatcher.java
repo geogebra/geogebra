@@ -253,8 +253,8 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 		}
 
-		// Ctrl key down
-		if (Application.isControlDown(event)) {
+		// Ctrl key down (and not Alt, so that AltGr works for special characters)
+		if (Application.isControlDown(event) && !event.isAltDown()) {
 
 			switch (keyCode) {				
 			case KeyEvent.VK_1:
