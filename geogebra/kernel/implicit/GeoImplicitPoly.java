@@ -216,6 +216,10 @@ Dilateable, Transformable, EuclidianViewCE {
 	public boolean isDefined() {
 		return defined && locus.isDefined() && locus.getMyPointList().size() > 0;
 	}
+	
+	public boolean getDefined() {
+		return defined;
+	}
 
 	@Override
 	public boolean isEqual(GeoElement Geo) {
@@ -269,7 +273,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		super.set(geo);
 		setCoeff(((GeoImplicitPoly)geo).getCoeff(),false);
 		locus.set(((GeoImplicitPoly)geo).locus);
-		this.defined=geo.isDefined();
+		this.defined=((GeoImplicitPoly)geo).getDefined();
 	}
 
 	@Override
@@ -1133,7 +1137,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	 
 
 		public boolean euclidianViewUpdate() {
-			if (isDefined()){
+			if (getDefined()){
 				updatePath();
 				return true;
 			}
