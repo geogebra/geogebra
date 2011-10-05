@@ -80,6 +80,7 @@ public class DrawEquation {
 			// Other codeblocks (currency, symbols etc)
 			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");			
 			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
+			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u2700'), "Sans Serif", "Serif");
 
 		   try{
 			   WebStartAlphabetRegistration.register(AlphabetRegistration.JLM_GREEK);
