@@ -168,6 +168,9 @@ public class GeoGebraColorConstants {
 	 * @return Color object corresponding with given GeoGebra color name string
 	 */
 	public static Color getGeogebraColor(Application app, String colorName){
+
+		getGeoGebraColors();
+		
 		Color ret = geogebraColor.get(colorName.toLowerCase(Locale.US));
 		
 		if (ret == null){			
