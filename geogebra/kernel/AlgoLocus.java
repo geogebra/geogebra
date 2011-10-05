@@ -309,16 +309,16 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 		      		}
 	      		}
       		}
-      	}               	      
-      }             
+      	}
+      }
 
     // compute locus line
-    final protected void compute() {    	    
-    	if (!movingPoint.isDefined() || macroCons == null) {    		
+    final protected void compute() {
+    	if (!movingPoint.isDefined() || macroCons == null || !path.toGeoElement().isDefined()) {
     		locus.setUndefined();
     		return;
     	}
- 
+
     	locus.clearPoints();    
     	clearCache();
     	pointCount = 0;	 	     	
