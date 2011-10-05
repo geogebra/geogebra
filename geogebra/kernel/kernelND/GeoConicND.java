@@ -1726,12 +1726,19 @@ public abstract class GeoConicND extends GeoQuadricND implements LineProperties,
 			defined = false;
 			return;
 		}
-							
+
 		// set conics's matrix
 		double b1 = B.inhomX;
 		double b2 = B.inhomY;
 		double c1 = C.inhomX;
 		double c2 = C.inhomY;
+
+		double halfLengthBC = Math.sqrt((b1-c1)*(b1-c1)+(b2-c2)*(b2-c2))/2;
+
+		if (Kernel.isEqual(halfLengthBC, a)) {
+			defined = false;
+			return;
+		}
 
 		// precalculations
 		double diff1 = b1 - c1;
