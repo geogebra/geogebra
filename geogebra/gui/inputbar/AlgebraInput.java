@@ -260,7 +260,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		// for auto completion
 		if (e.isConsumed()) return;
 
-		int keyCode = e.getKeyCode();    
+		int keyCode = e.getKeyCode();
 		if (keyCode == KeyEvent.VK_ENTER) {	
 			app.getKernel().clearJustCreatedGeosInViews();
 			String input = inputField.getText();					   
@@ -272,6 +272,13 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 			app.setScrollToShow(true);
 			GeoElement[] geos;
+			// PYTHON EXPERIMENT
+			if (input.startsWith(":")) {
+				app.executePython(input.substring(1));
+				inputField.setText("");
+				return;
+			} else
+			// END PYTHON EXPERIMENT
 			try {
 				geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
 			} catch (Exception ee) {

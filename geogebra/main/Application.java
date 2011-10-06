@@ -51,6 +51,7 @@ import geogebra.main.settings.Settings;
 import geogebra.plugin.GgbAPI;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManager;
+import geogebra.plugin.jython.PythonBridge;
 import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
 import geogebra.util.ImageManager;
@@ -454,6 +455,10 @@ public class Application implements KeyEventDispatcher {
 	private GgbAPI ggbapi = null;
 	private PluginManager pluginmanager = null;
 	private ScriptManager scriptManager = null;
+	private PythonBridge pythonBridge = null;
+
+	
+
 
 	
 	
@@ -4519,6 +4524,24 @@ public class Application implements KeyEventDispatcher {
 		}
 
 		return ggbapi;
+	}
+	
+	public void executePython(String code) {
+		if (pythonBridge == null) {
+			pythonBridge = new PythonBridge(this);
+		}
+		pythonBridge.exec(code);
+	}
+	
+	public PythonBridge getPythonBridge() {
+		if (pythonBridge == null) {
+			pythonBridge = new PythonBridge(this);
+		}
+		return pythonBridge;		
+	}
+	
+	public boolean hasPythonBridge() {
+		return pythonBridge != null;
 	}
 	
 	public ScriptManager getScriptManager() {

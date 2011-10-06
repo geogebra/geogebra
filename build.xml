@@ -77,7 +77,7 @@ office@geogebra.org
 
 	<!-- create all jar files -->
 	<target name="ggb-jar-files" 
-			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath">
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython">
 	</target>
 
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
@@ -156,7 +156,7 @@ office@geogebra.org
 	<manifest file="../manifest.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -283,6 +283,7 @@ office@geogebra.org
 			<arg value="geogebra_javascript.jar"/>
 			<arg value="geogebra_properties.jar"/>
 			<arg value="geogebra_usb.jar"/>
+			<arg value="jython.jar"/>
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
@@ -308,6 +309,13 @@ office@geogebra.org
 		</copy>
 		<copy file="${src.dir}/lib/jlm_cyrillic.jar"
 		      tofile="${build.dir}/jlm_cyrillic.jar">
+		</copy>
+	</target>
+
+	<!-- copies the jython jars  -->
+	<target name="ggb-copy-jython" depends="clean" description="copy jlatexmath jars">
+		<copy file="${src.dir}/lib/jython.jar"
+		      tofile="${build.dir}/jython.jar">
 		</copy>
 	</target>
 
@@ -339,6 +347,7 @@ office@geogebra.org
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
+			**/*.py,
 		  			geogebra/main/default-preferences.xml, 				
 					  geogebra/main/*.png,
 			  edu/xtec/adapter/**,

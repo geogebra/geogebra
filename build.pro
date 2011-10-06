@@ -14,6 +14,7 @@
 -injars build/geogebra_usb.jar
 -injars build/jlatexmath.jar
 
+
 -outjars build/temp
 
 # libraries
@@ -22,6 +23,7 @@
 -libraryjars lib/build/lib_mac_extensions.jar
 -libraryjars lib/build/jogl1/jar/jogl.jar
 -libraryjars lib/build/jogl1/jar/gluegen-rt.jar
+-libraryjars lib/jython.jar
 #-libraryjars jlatexmath.jar
 
 # Rhino Javascript is not obfuscated

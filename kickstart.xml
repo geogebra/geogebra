@@ -57,6 +57,7 @@ to ensure availability.
 	<target name="mpreduce" depends="mpreduce-geogebra"/>
 	<target name="jogl1" depends="jogl1-geogebra"/>
 	<target name="jogl2" depends="jogl2-geogebra"/>
+	<target name="jython" depends="jython-geogebra"/>
 	<target name="jlatexmath" depends="jlatexmath-geogebra"/>
 	<target name="p200ant" depends="p200ant-geogebra"/>
 	<target name="jsobject" depends="jsobject-geogebra"/>
@@ -83,7 +84,7 @@ to ensure availability.
 	    description="Download all packages needed for creating the JAR files">
 	</target>
 
-	<target name="lib-runtime" depends="jlatexmath, vernier"
+	<target name="lib-runtime" depends="jlatexmath, vernier, jython"
 	    description="Download all packages needed for runtime use">
 	</target>
 
@@ -137,6 +138,11 @@ to ensure availability.
 	<get src="http://www.geogebra.org/download/lib/jlatexmath.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
 	<get src="http://www.geogebra.org/download/lib/jlm_cyrillic.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
 	<get src="http://www.geogebra.org/download/lib/jlm_greek.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
+	</target>
+	
+	<!-- download jython from GeoGebra repository -->
+	<target name="jython-geogebra">
+	<get src="http://www.geogebra.org/download/lib/jython.jar" dest="lib/jython.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- download p200ant from GeoGebra repository -->
@@ -409,6 +415,7 @@ to ensure availability.
 
 	&lt;classpathentry kind="lib" path="lib/build/lib_jsobject.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/build/lib_mac_extensions.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/jython.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlatexmath.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;

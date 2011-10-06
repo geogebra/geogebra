@@ -2606,6 +2606,9 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					//ggb3D : geo1 may be null if it's axes or xOy plane
 					if (geo1!=null)
 						geo1.runScripts(null);
+						if (app.hasPythonBridge()) {
+							app.getPythonBridge().click(geo1);
+						}
 				}
 			}
 		}
