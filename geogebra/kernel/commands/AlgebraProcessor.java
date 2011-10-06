@@ -348,7 +348,6 @@ public class AlgebraProcessor {
 			String cmd, boolean storeUndo, boolean allowErrorDialog, boolean throwMyError) 
 	throws Exception {
 		ValidExpression ve;					
-		
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);
 		} catch (ParseException e) {
@@ -558,7 +557,7 @@ public class AlgebraProcessor {
 	 * Parses given String str and tries to evaluate it to a GeoPoint.
 	 * Returns null if something went wrong.
 	 */
-	public GeoPointND evaluateToPoint(String str) {
+	public GeoPointND evaluateToPoint(String str, boolean showErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -574,17 +573,25 @@ public class AlgebraProcessor {
 			 temp = processValidExpression(ve);
 			 p = (GeoPointND) temp[0];
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
-			app.showError("CircularDefinition");
+			if (showErrors) {
+				Application.debug("CircularDefinition");
+				app.showError("CircularDefinition");
+			}
 		} catch (Exception e) {		
-			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			if (showErrors) {
+				e.printStackTrace();
+				app.showError("InvalidInput", str);
+			}
 		} catch (MyError e) {
-			e.printStackTrace();
-			app.showError(e);
+			if (showErrors) {
+				e.printStackTrace();
+				app.showError(e);
+			}
 		} catch (Error e) {
-			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			if (showErrors) {
+				e.printStackTrace();
+				app.showError("InvalidInput", str);
+			}
 		} 
 		
 		cons.setSuppressLabelCreation(oldMacroMode);
@@ -1172,7 +1179,7 @@ public class AlgebraProcessor {
 	
 
 
-	protected GeoElement[] processExpressionNode(ExpressionNode n) throws MyError {					
+	public GeoElement[] processExpressionNode(ExpressionNode n) throws MyError {					
 		// command is leaf: process command		
 		if (n.isLeaf()) {			
 			 ExpressionValue leaf =  n.getLeft();

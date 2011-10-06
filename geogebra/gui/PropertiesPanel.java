@@ -2560,7 +2560,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			if (strLoc == null || strLoc.trim().length() == 0) {
 				newLoc = null;
 			} else {
-				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc);
+				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc, true);
 			}
 
 			for (int i = 0; i < geos.length; i++) {
@@ -2725,7 +2725,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			if (strLoc == null || strLoc.trim().length() == 0) {
 				newLoc = null;
 			} else {
-				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc);
+				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc, true);
 			}
 
 			for (int i = 0; i < geos.length; i++) {

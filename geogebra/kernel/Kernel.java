@@ -5770,7 +5770,7 @@ public class Kernel {
 			
 		//Application.debug(sb.toString());
 
-		GeoPoint pp = (GeoPoint)getAlgebraProcessor().evaluateToPoint(sb.toString());
+		GeoPoint pp = (GeoPoint)getAlgebraProcessor().evaluateToPoint(sb.toString(), true);
 		
 		try {
 			cons.replace(points[i], pp);
@@ -5851,7 +5851,7 @@ public class Kernel {
 			
 		//Application.debug(sb.toString());
 
-		GeoPoint pp = (GeoPoint)getAlgebraProcessor().evaluateToPoint(sb.toString());
+		GeoPoint pp = (GeoPoint)getAlgebraProcessor().evaluateToPoint(sb.toString(), true);
 		
 		try {
 			cons.replace(points[i], pp);

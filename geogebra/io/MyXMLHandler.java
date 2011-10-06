@@ -3925,7 +3925,7 @@ public class MyXMLHandler implements DocHandler {
 			while (it.hasNext()) {
 				LocateableExpPair pair = it.next();
 				GeoPointND P = pair.point != null ? pair.point : 
-								algProc.evaluateToPoint(pair.exp);
+								algProc.evaluateToPoint(pair.exp, true);
 				pair.locateable.setStartPoint(P, pair.number);
 								
 			}

@@ -7,7 +7,10 @@ import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoText;
+import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
 import java.awt.Point;
@@ -182,8 +185,8 @@ public class CellRangeProcessor {
 	 * cells found in rangeList
 	 * Uses these defaults: no sorting, no undo point 
 	 */
-	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight) {
-		return  createPointList(rangeList, byValue, leftToRight, false, false);
+	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight, boolean createIndividualPoints) {
+		return  createPointList(rangeList, byValue, leftToRight, false, false, createIndividualPoints);
 	}
 
 	/**
@@ -198,13 +201,13 @@ public class CellRangeProcessor {
 	 * @return
 	 */
 	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
-			boolean isSorted, boolean doStoreUndo) {
+			boolean isSorted, boolean doStoreUndo, boolean createIndividualPoints) {
 
 		GeoElement[] geos = null;
 
 		try {
 			// get a string expression for the list and convert the string to a geo
-			String pointListStr = createPointListString(rangeList, byValue,  leftToRight, isSorted, doStoreUndo);
+			String pointListStr = createPointListString(rangeList, byValue,  leftToRight, isSorted, doStoreUndo, createIndividualPoints);
 			geos = table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(pointListStr, false);
 
 			if(doStoreUndo)
@@ -274,7 +277,7 @@ public class CellRangeProcessor {
 
 		try {
 			// get a string expression for the PolyLine and convert the string to a geo
-			String pointListStr = createPointListString(rangeList, byValue,  leftToRight, isSorted, doStoreUndo);
+			String pointListStr = createPointListString(rangeList, byValue,  leftToRight, isSorted, doStoreUndo, false);
 			pointListStr = "PolyLine["  + pointListStr + "]";
 			geos = table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(pointListStr, false);
 
@@ -360,11 +363,13 @@ public class CellRangeProcessor {
 	 * @return
 	 */
 	public String createPointListString(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
-			boolean isSorted, boolean doStoreUndo) {
-
+			boolean isSorted, boolean doStoreUndo, boolean createIndividualPoints) {
+		
 		// get the orientation and dimensions of the list
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
+		
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 
 
 		// build the string
@@ -380,8 +385,19 @@ public class CellRangeProcessor {
 					xCoord = RelativeCopy.getValue(table, pd.c1, i);
 					yCoord = RelativeCopy.getValue(table, pd.c2, i);
 					pointStr = pointString(xCoord, yCoord, byValue, leftToRight);
-					if(pointStr != null)
-						list.append(pointStr + ",");
+					if(pointStr != null) {
+						if (createIndividualPoints) { 
+							GeoPointND p = ap.evaluateToPoint(pointStr, false);
+							if (p != null) {
+								p.setLabel(null);
+								list.append(p.getLabel());
+								list.append(",");
+							}
+						} else {
+							list.append(pointStr);
+							list.append(",");
+						}
+					}
 				}
 
 			} else {   // vertical pairs
@@ -389,8 +405,19 @@ public class CellRangeProcessor {
 					xCoord = RelativeCopy.getValue(table, i, pd.r1);
 					yCoord = RelativeCopy.getValue(table, i, pd.r2);
 					pointStr = pointString(xCoord, yCoord, byValue, leftToRight);
-					if(pointStr != null)
-						list.append(pointStr + ",");
+					if(pointStr != null) {
+						if (createIndividualPoints) { 
+							GeoPointND p = ap.evaluateToPoint(pointStr, false);
+							if (p != null) {
+								p.setLabel(null);
+								list.append(p.getLabel());
+								list.append(",");
+							}
+						} else {
+							list.append(pointStr);
+							list.append(",");
+						}
+					}
 				}
 			}
 

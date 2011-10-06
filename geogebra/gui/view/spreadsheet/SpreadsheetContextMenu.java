@@ -213,7 +213,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 			item = new JMenuItem(app.getMenu("ListOfPoints"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cp.createPointList(selectedCellRanges, false, true);
+					cp.createPointList(selectedCellRanges, false, true, true);
 				}
 			});	 
 			addSubItem(subMenu,item);	

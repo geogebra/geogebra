@@ -205,7 +205,8 @@ public class StatDialogController {
 							copyByValue, 
 							leftToRight,
 							isSorted, 
-							doStoreUndo);
+							doStoreUndo,
+							false);
 				}
 				break;
 
