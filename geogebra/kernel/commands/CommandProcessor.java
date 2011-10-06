@@ -61,6 +61,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Variable;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.statistics.SetRandomValue;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
@@ -735,6 +736,11 @@ class CmdLength extends CommandProcessor {
 				GeoElement[] ret = { kernel.Length(c.getLabel(),
 						(GeoLocus) arg[0]) };
 				return ret;
+			} else if (arg[0].isGeoSegment() || arg[0].isGeoPoint()) {
+					GeoElement[] ret = { kernel.Length(c.getLabel(),
+							(GeoSegmentND) arg[0]) };
+					return ret;
+				
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}
@@ -1131,7 +1137,8 @@ class CmdArea extends CommandProcessor {
 			}
 			// area of polygon = polygon variable
 			else if (arg[0].isGeoPolygon()) {
-				GeoElement[] ret = { arg[0] };
+				GeoElement[] ret = { kernel.Area(c.getLabel(),
+						(GeoPolygon) arg[0]) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);

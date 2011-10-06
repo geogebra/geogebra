@@ -79,6 +79,7 @@ import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
@@ -3710,6 +3711,15 @@ public class Kernel {
 		GeoNumeric num = algo.getLength();
 		return num;
 	}
+	
+	/** 
+	 * Length named label of segment seg
+	 */
+	final public GeoNumeric Length(String label, GeoSegmentND seg) {
+		AlgoLengthSegment algo = new AlgoLengthSegment(cons, label, seg);
+		GeoNumeric num = algo.getLength();
+		return num;
+	}
 
 	/** 
 	 * Distance named label between points P and Q
@@ -3761,6 +3771,15 @@ public class Kernel {
 	 */
 	final public GeoNumeric Area(String label, GeoConic c) {
 		AlgoAreaConic algo = new AlgoAreaConic(cons, label, c);
+		GeoNumeric num = algo.getArea();
+		return num;
+	}
+	
+	/** 
+	 * Area named label of  polygon
+	 */
+	final public GeoNumeric Area(String label, GeoPolygon p) {
+		AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, label, p);
 		GeoNumeric num = algo.getArea();
 		return num;
 	}
