@@ -768,6 +768,7 @@ public class WorksheetExportDialog extends JDialog {
 		if (flag) {
 			checkEuclidianView();
 			loadPreferences();
+			pack();
 			super.setVisible(true);
 		} else {
 			// store the texts of the text ares in
