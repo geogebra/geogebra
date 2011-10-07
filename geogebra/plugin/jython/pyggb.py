@@ -41,6 +41,7 @@ class Interface(PythonScriptInterface):
             'Color': Color,
             'Point': Point,
             'Element': Element,
+            'Numeric': Numeric,
             'Vector': Vector,
             'Line': Line,
             'Segment': Segment,
@@ -54,16 +55,27 @@ class Interface(PythonScriptInterface):
             'Text': Text,
             'Intersect': Intersect,
             'geo': self.geo,
+            'pointlist': pointlist,
         }
         self.namespace.update(unary_functions)
+        self.handling_event = False
         self.pywin.add("*** Python Interface initialised ***", "output")
     def handleEvent(self, evt_type, target):
+        if self.handling_event:
+            return
         element = self.geo._get_element(target)
         try:
             action = getattr(element, "on" + evt_type)
         except AttributeError:
             return
-        action(element)
+        try:
+            self.handling_event = True
+            action(element)
+        except Exception:
+            self.pywin.add("Error while handling event '%s' on '%r'"
+                           % evt_type, target)
+        finally:
+            self.handling_event = False
     def compileinteractive(self, source):
         try:
             return compile(source, "<pyggb>", "single")
@@ -76,7 +88,7 @@ class Interface(PythonScriptInterface):
                 return "error"
     def compilemodule(self, source):
         try:
-            return compile(source, "<oyggb>", "exec")
+            return compile(source, "<pyggb>", "exec")
         except SyntaxError, e:
             self.pywin.add("Syntax Error: " + e.msg, "error")
             return "error"
@@ -129,9 +141,9 @@ class Element(GenericMethods):
 
     # property: label 
     def _getlabel(self):
-        return self.geo.label
+        return self.geo.getLabel()
     def _setlabel(self, label):
-        self.geo.label = label
+        self.geo.setLabel(label)
         self.geo.updateRepaint()
     label = property(_getlabel, _setlabel)
 
@@ -177,6 +189,8 @@ def expr(obj):
         if len(obj) == 2:
             x, y = obj
             return VectorExpression(x, y)
+    elif isinstance(obj, ExpressionNode):
+        return Expression.fromnode(obj)
     elif isinstance(obj, Expression):
         return obj
     else:
@@ -194,6 +208,19 @@ class Expression(GenericMethods):
     def __init__(self, expr):
         self.expr = expr
 
+    @classmethod
+    def fromnode(self, node):
+        val = node.evaluate()
+        if val.isNumberValue():
+            return NumberExpression(node)
+        elif val.isVectorValue():
+            return VectorExpression(node)
+        elif val.isBooleanValue():
+            return BooleanExpression(node)
+        else:
+            # TODO add other types of expressions
+            return Expression(node)
+        
     def __expr__(self):
         return self
 
@@ -217,17 +244,8 @@ class Expression(GenericMethods):
         x = self.expr
         y = other.expr
         node = ExpressionNode(_kernel, x, opcode, y)
-        val = node.evaluate()
-        if val.isNumberValue():
-            return NumberExpression(node)
-        elif val.isVectorValue():
-            return VectorExpression(node)
-        elif val.isBooleanValue():
-            return BooleanExpression(node)
-        else:
-            # TODO add other types of expressions
-            return Expression(node)
-
+        return self.fromnode(node)
+    
     # Arithmetic operators
     def __add__(self, other):
         return self._binop(other, EC.PLUS)
@@ -368,8 +386,7 @@ class Numeric(ExpressionElement, NumberExpression):
     @specmethod.__init__
     @sign(Number)
     def initfromnumber(self, val):
-        self.geo = GeoNumeric(_cons)
-        self.geo.value = val
+        self.geo = GeoNumeric(_cons, float(val))
     
     @specmethod.__init__
     @sign(Expression)
@@ -666,14 +683,14 @@ class Function(Element):
             x = FunctionVariable(_kernel, varnames[0])
             fx = f(Expression(x))
             func = _Function(fx.expr, x)
-            func.initFunction()
-            self.geo = _kernel.Function(f.__name__, func)
+            [self.geo] = _algprocessor.processFunction(None, func)
         else:
             xs = [FunctionVariable(_kernel, v) for v in varnames]
             fxs = f(*map(Expression, xs))
             func = FunctionNVar(fxs.expr, xs)
-            func.initFunction()
-            self.geo = _kernel.FunctionNVar(f.__name__, func)
+            #func.initFunction()
+            #self.geo = _kernel.FunctionNVar(f.__name__, func)
+            [self.geo] = _algprocessor.processFunctionNVar(None, func)
     
     def __call__(self, *args):
         args = map(expr, args)
@@ -727,6 +744,14 @@ class Intersect(GenericMethods):
         for i in self.intersections:
             yield i
 
+def pointlist():
+    classtype = GeoElement.GEO_CLASS_POINT
+    pointset = _cons.getGeoSetLabelOrder(classtype)
+    pointlist = []
+    it = pointset.iterator()
+    while it.hasNext():
+        pointlist.append(Point.fromgeo(it.next()))
+    return pointlist
 
 class Geo(object):
     _map = {
@@ -741,6 +766,7 @@ class Geo(object):
         GeoRay: Ray,
         GeoConic: Conic,
     }
+    _revmap = dict((v, k) for k, v in _map.iteritems())
     _cache = {}
     @classmethod
     def _get_element(cls, geo):
