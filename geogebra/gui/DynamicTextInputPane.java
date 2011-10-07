@@ -258,6 +258,8 @@ public class DynamicTextInputPane extends JTextPane {
 		public DynamicTextField(Application app, TextInputDialog id) {
 			super(app);
 			this.id = id;
+			// see ticket #1339
+			this.enableColoring(false);
 
 			// add a mouse listener to trigger the context menu
 			addMouseListener(new MouseAdapter() {
