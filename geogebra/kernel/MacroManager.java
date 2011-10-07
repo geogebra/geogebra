@@ -23,12 +23,12 @@ import java.util.Locale;
  */
 public class MacroManager {
 	
-	private HashMap macroMap; // maps macro name to macro object
-	private ArrayList macroList; // lists all macros	
+	private HashMap<String, Macro> macroMap; // maps macro name to macro object
+	private ArrayList<Macro> macroList; // lists all macros	
 	
 	public MacroManager() {
-		macroMap = new HashMap();
-		macroList = new ArrayList();
+		macroMap = new HashMap<String, Macro>();
+		macroList = new ArrayList<Macro>();
 	}
 		
 	public void addMacro(Macro macro) {						
@@ -89,7 +89,7 @@ public class MacroManager {
 	/**
 	 * Returns an array of all macros handled by this MacroManager. 
 	 */
-	public ArrayList getAllMacros() {
+	public ArrayList<Macro> getAllMacros() {
 		return macroList;
 	}
 	
@@ -107,7 +107,7 @@ public class MacroManager {
 	/**
 	 * Returns an XML represenation of the specified macros in this kernel.	 
 	 */
-	public static String getMacroXML(ArrayList macros) {				
+	public static String getMacroXML(ArrayList<Macro> macros) {				
 		if (macros == null) return "";
 
 		StringBuilder sb = new StringBuilder();	
