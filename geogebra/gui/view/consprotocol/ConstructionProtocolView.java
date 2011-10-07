@@ -914,7 +914,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public void updateCaption(){
-			caption = geo.getCaptionDescriptionTextOrHTML();
+			caption = geo.getCaptionDescriptionHTML(false);
 		}
 		
 		public void updateAll() {
@@ -958,7 +958,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			else algebra = geo.getAlgebraDescriptionTextOrHTML();
 			definition = geo.getDefinitionDescriptionHTML(true);
 			command = geo.getCommandDescriptionHTML(true);
-			caption = geo.getCaptionDescriptionTextOrHTML();
+			updateCaption();
 			consProtocolVisible = new Boolean(geo.isConsProtocolBreakpoint());
 
 			// does this line include an index?
@@ -1348,7 +1348,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		
 			case 6:
 				return ((RowData) rowList.get(nRow)).geo
-						.getCaptionDescriptionHTML();			
+						.getCaptionDescriptionHTML(false);			
 				
 			case 7:
 				return ((RowData) rowList.get(nRow)).consProtocolVisible

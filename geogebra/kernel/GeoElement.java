@@ -3709,21 +3709,9 @@ public abstract class GeoElement
 		return convertIndicesToHTML(ret);
 	}
 
-	final public String getCaptionDescriptionTextOrHTML() {
-		//TODO: Temporarly the caption in the the Construction protocol strored in html.
-		// If there is no index in the caption the html-form is redundant
-		// We need a function (which is similar to hasIndexLabel() ) to determine this
-		// hasIndexLabel() don't checks the caption's index
-		
-		//if (hasIndexLabel())			
-			return getCaptionDescriptionHTML();
-		//else
-			//return getCaptionDescription();
-	}
-	
-	final public String getCaptionDescriptionHTML() {	
+	final public String getCaptionDescriptionHTML(boolean addHTMLtag) {	
 		if (strCaptionDescriptionHTMLneedsUpdate) {
-			strCaptionDescriptionHTML = indicesToHTML(getCaptionDescription(), true);
+			strCaptionDescriptionHTML = indicesToHTML(getCaptionDescription(), addHTMLtag);
 
 			strCaptionDescriptionHTMLneedsUpdate = false;
 		}
