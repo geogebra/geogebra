@@ -1,7 +1,12 @@
-package geogebra.kernel;
+package geogebra.kernel.advancedgeometry;
 
+import geogebra.kernel.AlgoElement;
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoPoint;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.main.Application;
+
 
 /**
  * @author Zbynek Konecny, credit goes to Jason Cantarella of the Univerity of Georgia
@@ -19,7 +24,7 @@ public class AlgoKimberling extends AlgoElement {
 	private GeoPoint M; // output
 	private NumberValue n;
 
-	AlgoKimberling(Construction cons, String label, GeoPoint A, GeoPoint B,
+	public AlgoKimberling(Construction cons, String label, GeoPoint A, GeoPoint B,
 			GeoPoint C, NumberValue n) {
 		super(cons);
 		this.A = A;
@@ -49,7 +54,7 @@ public class AlgoKimberling extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoPoint getResult() {
+	public GeoPoint getResult() {
 		return M;
 	}
 
@@ -64,10 +69,10 @@ public class AlgoKimberling extends AlgoElement {
 		double c = A.distance(B);
 		double b = C.distance(A);
 		double a = B.distance(C);
-		/*double m = Math.min(Math.min(a, b), c);
+		double m = Math.min(Math.min(a, b), c);
 		a = a/m;
 		b= b/m;
-		c= c/m;*/
+		c= c/m;
 		int k = (int) n.getDouble();
 		double wA = weight(k, a, b, c);
 		double wB = weight(k, b, c, a);
@@ -6016,68 +6021,24 @@ public class AlgoKimberling extends AlgoElement {
 			return a2*(a6+a4*b2-a2*b4-b6+a4*c2-5*a2*b2*c2+3*b4*c2-a2*c4+3*b2*c4-c6); 
 		case 2931:
 			return a2*T*(a10*a2-2*a10*b2-a8*b4+4*a6*b6-a4*b8-2*a2*b10+b10*b2-2*a10*c2+3*a8*b2*c2-a6*b4*c2-3*a4*b6*c2+7*a2*b8*c2-4*b10*c2-a8*c4-a6*b2*c4+4*a4*b4*c4-5*a2*b6*c4+7*b8*c4+4*a6*c6-3*a4*b2*c6-5*a2*b4*c6-8*b6*c6-a4*c8+7*a2*b2*c8+7*b4*c8-2*a2*c10-4*b2*c10+c10*c2); 
-		/*
-		  case 2923:            my(a,b,c, angleA, angleB, angleC) = @_;
-		 
-		            my(x,y,z,val);
+		
+		  case 2923:       
+		case 2924:  
+		case 2925:  
+		case 2926:  
+		case 2927:  
 		            
-		            (x,y,z) = TC(2923-2910,a,b,c);
-		            val = a2*( -a3/(c*y + b*z) + 
+		case 2928:  
+		            
+		            double x = weight(k-2910,a,b,c);
+		            double y = weight(k-2910,b,c,a);
+		            double z = weight(k-2910,c,a,b);
+		            
+		            return a2*( -a3/(c*y + b*z) + 
 		                             b3/(a*z + c*x) + 
 		                             c3/(b*x + a*y) );
-		                             
-		            return val;
-		        
-		case 2924:            my(a,b,c, angleA, angleB, angleC) = @_;
-		            my(x,y,z,val);
-		            
-		            (x,y,z) = TC(2924-2910,a,b,c);
-		            val = a2*( -a3/(c*y + b*z) + 
-		                             b3/(a*z + c*x) + 
-		                             c3/(b*x + a*y) );
-		                             
-		            return val;
-		        
-		case 2925:            my(a,b,c, angleA, angleB, angleC) = @_;
-		            my(x,y,z,val);
-		            
-		            (x,y,z) = TC(2925-2910,a,b,c);
-		            val = a2*( -a3/(c*y + b*z) + 
-		                             b3/(a*z + c*x) + 
-		                             c3/(b*x + a*y) );
-		                             
-		            return val;
-		        
-		case 2926:            my(a,b,c, angleA, angleB, angleC) = @_;
-		            my(x,y,z,val);
-		            
-		            (x,y,z) = TC(2926-2910,a,b,c);
-		            val = a2*( -a3/(c*y + b*z) + 
-		                             b3/(a*z + c*x) + 
-		                             c3/(b*x + a*y) );
-		                             
-		            return val;
-		        
-		case 2927:            my(a,b,c, angleA, angleB, angleC) = @_;
-		            my(x,y,z,val);
-		            
-		            (x,y,z) = TC(2927-2910,a,b,c);
-		            val = a2*( -a3/(c*y + b*z) + 
-		                             b3/(a*z + c*x) + 
-		                             c3/(b*x + a*y) );
-		                             
-		            return val;
-		        
-		case 2928:            my(a,b,c, angleA, angleB, angleC) = @_;
-		            my(x,y,z,val);
-		            
-		            (x,y,z) = TC(2928-2910,a,b,c);
-		            val = a2*( -a3/(c*y + b*z) + 
-		                             b3/(a*z + c*x) + 
-		                             c3/(b*x + a*y) );
-		                             
-		            return val;
-		*/        
+
+		       
 		case 2932:
 			return a2*(a5-a4*b-2*a3*b2+2*a2*b3+a*b4-b5-a4*c+5*a3*b*c-5*a*b3*c+b4*c-2*a3*c2+2*b3*c2+2*a2*c3-5*a*b*c3+2*b2*c3+a*c4+b*c4-c5); 
 		case 2933:

@@ -358,6 +358,7 @@ office@geogebra.org
 					geogebra/gui/**,
 					geogebra/export/**, 
 					geogebra/cas/**,
+			geogebra/kernel/advancedgeometry/**,
 			geogebra/kernel/discrete/**,
 			geogebra/kernel/cas/**,
 			geogebra/sound/**,
@@ -431,6 +432,7 @@ office@geogebra.org
 			basedir="${src.dir}"
 			includes="geogebra/kernel/discrete/**,
 			geogebra/sound/**,
+			geogebra/advancedgeometry/**,
 					edu/uci/**,
 					org/jfugue/**,
 					org/apache/**"

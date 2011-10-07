@@ -24,6 +24,7 @@ import geogebra.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyXMLHandler;
+import geogebra.kernel.advancedgeometry.AlgoKimberling;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
