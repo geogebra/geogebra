@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.euclidian.EuclidianConstants;
+
 import java.util.ArrayList;
 
 /**
@@ -104,6 +106,10 @@ public class AlgoDependentList extends AlgoElement {
     public GeoList getGeoList() { 
     	return geoList; 
     }       
+    
+    public int getRelatedModeID() {
+		return EuclidianConstants.MODE_CREATE_LIST;
+}
     
     protected final void compute() {	    	
     	geoList.clear();
