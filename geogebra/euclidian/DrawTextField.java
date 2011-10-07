@@ -213,7 +213,7 @@ public final class DrawTextField extends Drawable {
 				
 			}
 			
-			else geo.runScripts(textField.getText());
+			geo.runScripts(textField.getText());
 			
 		}
 
