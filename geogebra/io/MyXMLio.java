@@ -429,7 +429,7 @@ public class MyXMLio {
 			// save macros
 			if (kernel.hasMacros()) {
 				// get all registered macros from kernel
-				ArrayList macros = kernel.getAllMacros();
+				ArrayList<Macro> macros = kernel.getAllMacros();
 	
 				// write all images used by macros
 				writeMacroImages(macros, zip);
@@ -493,7 +493,7 @@ public class MyXMLio {
 			// save macros
 			if (kernel.hasMacros()) {
 				// get all registered macros from kernel
-				ArrayList macros = kernel.getAllMacros();
+				ArrayList<Macro> macros = kernel.getAllMacros();
 	
 				// write all images used by macros
 				writeMacroImages(macros, zip, I2G_PRIVATE_IMAGES);
@@ -532,7 +532,7 @@ public class MyXMLio {
 	 * Creates a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons).
 	 */
-	public void writeMacroFile(File file, ArrayList macros) throws IOException {
+	public void writeMacroFile(File file, ArrayList<Macro> macros) throws IOException {
 		if (macros == null)
 			return;
 
@@ -548,7 +548,7 @@ public class MyXMLio {
 	 * Writes a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons) to the specified output stream.
 	 */
-	public void writeMacroStream(OutputStream os, ArrayList macros)
+	public void writeMacroStream(OutputStream os, ArrayList<Macro> macros)
 			throws IOException {
 		// zip stream
 		ZipOutputStream zip = new ZipOutputStream(os);
@@ -581,7 +581,7 @@ public class MyXMLio {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 		// save all GeoImage images
 		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
-		TreeSet geos = cons.getGeoSetLabelOrder();
+		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
 		if (geos == null)
 			return;
 
@@ -634,12 +634,12 @@ public class MyXMLio {
 	 * Writes all images used in the given macros to zip.
 	 */
 	// Modified for Intergeo File Format (Yves Kreis) -->
-	private void writeMacroImages(ArrayList macros, ZipOutputStream zip)
+	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip)
 			throws IOException {
 		writeMacroImages(macros, zip, "");
 	}
 
-	private void writeMacroImages(ArrayList macros, ZipOutputStream zip,
+	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip,
 			String filePath) throws IOException {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (macros == null)
@@ -826,7 +826,7 @@ public class MyXMLio {
 	/**
 	 * Returns XML representation of given macros in the kernel.
 	 */
-	public String getFullMacroXML(ArrayList macros) {
+	public String getFullMacroXML(ArrayList<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, true, null);
