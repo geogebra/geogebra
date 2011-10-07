@@ -44,7 +44,6 @@ public class GeoGebraKeys implements KeyListener {
 			}
 			altPressed = true;
 		} else {
-			
 			if (altCodes.length() > 0) {
 				
 				// intercept wrong character and replace with correct Alt-code
@@ -227,9 +226,9 @@ public class GeoGebraKeys implements KeyListener {
 					break;
 				case 'm' :
 					if (e.isShiftDown())
-						insertStr = "\u039c"; // alt-P -> unicode pi (upper case)
+						insertStr = "\u039c"; // alt-M -> unicode my (upper case)
 					else
-						insertStr = "\u03bc"; // alt-p -> unicode pi
+						insertStr = "\u03bc"; // alt-m -> unicode my
 					break;
 				case 'o' :
 					insertStr = "\u00b0"; // alt-o -> unicode degree sign
@@ -242,9 +241,9 @@ public class GeoGebraKeys implements KeyListener {
 					break;
 				case 's' :
 					if (e.isShiftDown())
-						insertStr = "\u03a3"; // alt-S -> unicode theta (upper case)
+						insertStr = "\u03a3"; // alt-S -> unicode sigma (upper case)
 					else
-						insertStr = "\u03c3"; // alt-s -> unicode theta
+						insertStr = "\u03c3"; // alt-s -> unicode sigma
 					break;
 				case 't' :
 					if (e.isShiftDown())
