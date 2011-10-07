@@ -38,8 +38,6 @@ import geogebra.kernel.AlgoElement;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.Relation;
@@ -108,7 +106,6 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -118,7 +115,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
-import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
@@ -440,7 +436,7 @@ public class Application implements KeyEventDispatcher {
 	private boolean isErrorDialogShowing = false;
 	private boolean isOnTheFlyPointCreationActive = true;
 
-	private static LinkedList fileList = new LinkedList();
+	private static LinkedList<File> fileList = new LinkedList<File>();
 	private boolean isSaved = true;
 //	private int guiFontSize;
 //	private int axesFontSize;
@@ -1285,7 +1281,7 @@ public class Application implements KeyEventDispatcher {
 	
 	public void setApplet(AppletImplementation appletImpl) {
 		isApplet = true;
-		this.appletImpl = appletImpl;
+		Application.appletImpl = appletImpl;
 		mainComp = appletImpl.getJApplet();
 	}
 	
@@ -1516,7 +1512,7 @@ public class Application implements KeyEventDispatcher {
 	 * Sets the maximum pixel size (width and height) of 
 	 * all icons in the user interface. Larger icons are scaled
 	 * down.
-	 * @param pixel: max icon size between 16 and 32 pixels
+	 * @param pixel max icon size between 16 and 32 pixels
 	 */
 	public void setMaxIconSize(int pixel) {
 		maxIconSize = Math.min(32, Math.max(16, pixel));
@@ -1588,7 +1584,7 @@ public class Application implements KeyEventDispatcher {
 	}
 
 	public BufferedImage getExternalImage(String filename) {
-		return imageManager.getExternalImage(filename);
+		return ImageManager.getExternalImage(filename);
 	}
 
 	public void addExternalImage(String filename, BufferedImage image) {
@@ -1607,8 +1603,6 @@ public class Application implements KeyEventDispatcher {
 	/**
 	 * Sets the ratio between the scales of y-axis and x-axis, i.e. ratio =
 	 * yscale / xscale;
-	 * 
-	 * @param zoomFactor
 	 */
 	public final void zoomAxesRatio(double axesratio) {
 		((EuclidianView)getGuiManager().getActiveEuclidianView()).zoomAxesRatio(axesratio, true);
@@ -1825,7 +1819,7 @@ public class Application implements KeyEventDispatcher {
 	private boolean rightToLeftDigits = false;
 
 	final public boolean isRightToLeftDigits() {
-		if (!kernel.internationalizeDigits) return false;
+		if (!Kernel.internationalizeDigits) return false;
 		return rightToLeftDigits;
 	}
 
@@ -2077,7 +2071,8 @@ public class Application implements KeyEventDispatcher {
 
 		updateReverseLanguage(locale);
 		
-		String  language = getLocale().getLanguage();
+		//TODO delete object language ?
+		String language = getLocale().getLanguage();
 
 	}
 
@@ -2175,7 +2170,7 @@ public class Application implements KeyEventDispatcher {
 
 		// translation table for all command names in command.properties
 		if (translateCommandTable == null) 
-			translateCommandTable = new Hashtable();
+			translateCommandTable = new Hashtable<String, String>();
 
 		// command dictionary for all public command names available in
 		// GeoGebra's input field	
@@ -2188,12 +2183,12 @@ public class Application implements KeyEventDispatcher {
 
 		translateCommandTable.clear();
 
-		Enumeration e = rbcommand.getKeys();
-		Set publicCommandNames = kernel.getAlgebraProcessor().getPublicCommandSet();
+		Enumeration<String> e = rbcommand.getKeys();
+		Set<String> publicCommandNames = kernel.getAlgebraProcessor().getPublicCommandSet();
 		
 		//=====================================
 		// init sub command dictionaries
-		Set[] publicSubCommandNames = kernel.getAlgebraProcessor().getPublicCommandSubSets();
+		Set<?>[] publicSubCommandNames = kernel.getAlgebraProcessor().getPublicCommandSubSets();
 		if(subCommandDict == null){
 			subCommandDict = new LowerCaseDictionary[publicSubCommandNames.length];
 			for(int i=0; i<subCommandDict.length; i++)
@@ -2247,7 +2242,7 @@ public class Application implements KeyEventDispatcher {
 
 		// translation table for all command names in command.properties
 		if (translateCommandTableScripting == null) 
-			translateCommandTableScripting = new Hashtable();
+			translateCommandTableScripting = new Hashtable<String, String>();
 
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
@@ -2255,7 +2250,7 @@ public class Application implements KeyEventDispatcher {
 		translateCommandTableScripting.clear();
 		
 
-		Enumeration e = rbcommandScripting.getKeys();
+		Enumeration<String> e = rbcommandScripting.getKeys();
 	
 		while (e.hasMoreElements()) {
 			String internal = (String) e.nextElement();
@@ -2297,7 +2292,7 @@ public class Application implements KeyEventDispatcher {
 		if (commandDict == null || kernel == null || !kernel.hasMacros())
 			return;
 
-		ArrayList macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = ((Macro) macros.get(i)).getCommandName();
 			if (!commandDict.contains(cmdName))
@@ -2309,7 +2304,7 @@ public class Application implements KeyEventDispatcher {
 		if (commandDict == null || kernel == null || !kernel.hasMacros())
 			return;
 
-		ArrayList macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = ((Macro) macros.get(i)).getCommandName();
 			commandDict.removeEntry(cmdName);
@@ -2543,6 +2538,7 @@ public class Application implements KeyEventDispatcher {
 
 	private boolean showConstProtNavigationNeedsUpdate=false;
 
+	//TODO delete object isFileLoading ?
 	private boolean isFileLoading;
 
 	final public String getMenu(String key) {
@@ -2846,8 +2842,6 @@ public class Application implements KeyEventDispatcher {
 	/**
 	 * Downloads a bitmap from the URL and stores it in this application's
 	 * imageManager. Michael Borcherds
-	 * 
-	 * @return fileName of image stored in imageManager
 	 * 
 	 * public String getImageFromURL(String url) { try{
 	 * 
@@ -3738,7 +3732,7 @@ public class Application implements KeyEventDispatcher {
 	 * 
 	 * @return true if successful
 	 */
-	final public boolean saveMacroFile(File file, ArrayList macros) {
+	final public boolean saveMacroFile(File file, ArrayList<Macro> macros) {
 		try {
 			setWaitCursor();
 			myXMLio.writeMacroFile(file, macros);
@@ -3758,7 +3752,7 @@ public class Application implements KeyEventDispatcher {
 	}
 	
 	public String getMacroXML() {
-		ArrayList macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		return myXMLio.getFullMacroXML(macros);
 	}
 	
@@ -4005,13 +3999,7 @@ public class Application implements KeyEventDispatcher {
 		}
 
 		return sb.toString();
-	}
-	
-	
-	
-	
-	
-	
+	}	
 
 	/**
 	 * Returns the CodeBase URL.
@@ -4092,11 +4080,11 @@ public class Application implements KeyEventDispatcher {
 	 * 
 	 * @param geos
 	 */
-	final public void setSelectedGeos(ArrayList geos) {
+	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
 		clearSelectedGeos(false);
 		if (geos != null) {
 			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = (GeoElement) geos.get(i);
+				GeoElement geo = geos.get(i);
 				addSelectedGeo(geo, false);
 			}
 		}
@@ -4111,7 +4099,7 @@ public class Application implements KeyEventDispatcher {
 	final public void selectAll(int layer) {
 		clearSelectedGeos(false);
 
-		Iterator it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
+		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = (GeoElement) it.next();
 			if (layer == -1 || geo.getLayer() == layer)
@@ -4123,7 +4111,7 @@ public class Application implements KeyEventDispatcher {
 
 	final public void invertSelection() {
 
-		Iterator it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
+		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = (GeoElement) it.next();
 			if (selectedGeos.contains(geo))
@@ -4139,8 +4127,8 @@ public class Application implements KeyEventDispatcher {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = (GeoElement) selectedGeos.get(i);
-			TreeSet tree = geo.getAllPredecessors();
-			Iterator it2 = tree.iterator();
+			TreeSet<GeoElement> tree = geo.getAllPredecessors();
+			Iterator<GeoElement> it2 = tree.iterator();
 			while (it2.hasNext())
 				addSelectedGeo((GeoElement) it2.next(), false);
 		}
@@ -4174,8 +4162,8 @@ public class Application implements KeyEventDispatcher {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = (GeoElement) selectedGeos.get(i);
-			Set tree = geo.getAllChildren();
-			Iterator it2 = tree.iterator();
+			TreeSet<GeoElement> tree = geo.getAllChildren();
+			Iterator<GeoElement> it2 = tree.iterator();
 			while (it2.hasNext())
 				addSelectedGeo((GeoElement) it2.next(), false);
 		}
@@ -4250,7 +4238,7 @@ public class Application implements KeyEventDispatcher {
 		
 		TreeSet<GeoElement> tree = kernel.getConstruction().getGeoSetLabelOrder();
 		
-		TreeSet<GeoElement> copy = new TreeSet(tree);
+		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
 		
 		Iterator<GeoElement> it = copy.iterator();
 		
@@ -4288,7 +4276,7 @@ public class Application implements KeyEventDispatcher {
 		GeoElement selGeo = selectedGeos.get(0);
 		GeoElement lastGeo = null;
 		TreeSet<GeoElement> tree = kernel.getConstruction().getGeoSetLabelOrder();
-		TreeSet<GeoElement> copy = new TreeSet(tree);
+		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
 		Iterator<GeoElement> it = copy.iterator();
 		
 		// remove geos that don't have isSelectionAllowed()==true
@@ -4936,7 +4924,7 @@ public class Application implements KeyEventDispatcher {
 			}
 
 			// make sure this filename is not taken yet
-			BufferedImage oldImg = imageManager.getExternalImage(fileName);
+			BufferedImage oldImg = ImageManager.getExternalImage(fileName);
 			if (oldImg != null) {
 				// image with this name exists already
 				if (oldImg.getWidth() == img.getWidth()
@@ -4958,7 +4946,7 @@ public class Application implements KeyEventDispatcher {
 						String extension = pos < fileName.length() ? fileName
 								.substring(pos) : "";
 						fileName = firstPart + n + extension;
-					} while (imageManager.getExternalImage(fileName) != null);
+					} while (ImageManager.getExternalImage(fileName) != null);
 				}
 			}
 
