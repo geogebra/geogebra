@@ -24,6 +24,7 @@ import geogebra.kernel.arithmetic.BooleanValue;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -37,7 +38,6 @@ import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.arithmetic.TextValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic.VectorValue;
-import geogebra.kernel.cas.AlgoDependentCasCell;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.parser.ParseException;
@@ -47,7 +47,6 @@ import geogebra.main.MyError;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class AlgebraProcessor {
 	
@@ -78,7 +77,7 @@ public class AlgebraProcessor {
 	
 	
 	
-	public Set getPublicCommandSet() {
+	public Set<String> getPublicCommandSet() {
 		return cmdDispatcher.getPublicCommandSet();
 	}
 	
@@ -688,9 +687,9 @@ public class AlgebraProcessor {
 	 * processes valid expression. 
 	 * @param ve
 	 * @param redefineIndependent == true: independent objects are redefined too
-	 * @return
 	 * @throws MyError
 	 * @throws Exception
+	 * @return
 	 */
 	public GeoElement[] processValidExpression(
 		ValidExpression ve,
@@ -859,7 +858,7 @@ public class AlgebraProcessor {
 		// check for interval
 		
 		ExpressionNode en = fun.getExpression();
-		if (en.operation == en.AND) {
+		if (en.operation == ExpressionNodeConstants.AND) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
 			
@@ -880,23 +879,23 @@ public class AlgebraProcessor {
 				int rightDir = 0;
 				
 	
-				if ((opLeft == en.LESS || opLeft == en.LESS_EQUAL)) {
+				if ((opLeft == ExpressionNodeConstants.LESS || opLeft == ExpressionNodeConstants.LESS_EQUAL)) {
 					if (leftLeft instanceof FunctionVariable && leftRight.isNumberValue()) leftDir = -1;
 					else if (leftRight instanceof FunctionVariable && leftLeft.isNumberValue()) leftDir = +1;
 					
 				} else
-				if ((opLeft == en.GREATER || opLeft == en.GREATER_EQUAL)) {
+				if ((opLeft == ExpressionNodeConstants.GREATER || opLeft == ExpressionNodeConstants.GREATER_EQUAL)) {
 					if (leftLeft instanceof FunctionVariable && leftRight.isNumberValue()) leftDir = +1;
 					else if (leftRight instanceof FunctionVariable && leftLeft.isNumberValue()) leftDir = -1;
 					
 				}
 				
-				if ((opRight == en.LESS || opRight == en.LESS_EQUAL)) {
+				if ((opRight == ExpressionNodeConstants.LESS || opRight == ExpressionNodeConstants.LESS_EQUAL)) {
 					if (rightLeft instanceof FunctionVariable && rightRight.isNumberValue()) rightDir = -1;
 					else if (rightRight instanceof FunctionVariable && rightLeft.isNumberValue()) rightDir = +1;
 					
 				} else
-				if ((opRight == en.GREATER || opRight == en.GREATER_EQUAL)) {
+				if ((opRight == ExpressionNodeConstants.GREATER || opRight == ExpressionNodeConstants.GREATER_EQUAL)) {
 					if (rightLeft instanceof FunctionVariable && rightRight.isNumberValue()) rightDir = +1;
 					else if (rightRight instanceof FunctionVariable && rightLeft.isNumberValue()) rightDir = -1;
 					
@@ -928,7 +927,7 @@ public class AlgebraProcessor {
 			//Application.debug(left.getClass()+"");
 			//Application.debug(right.getClass()+"");
 			//Application.debug("");
-		} else if (en.operation == en.FUNCTION) {
+		} else if (en.operation == ExpressionNodeConstants.FUNCTION) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
 			if (left.isLeaf() && left.isGeoElement() &&
@@ -1322,7 +1321,7 @@ public class AlgebraProcessor {
 		if (!n.hasOperations() || n.isConstant()) {		
 			
 			// PROCESS list items to generate a list of geoElements		
-			ArrayList geoElements = new ArrayList();
+			ArrayList<GeoElement> geoElements = new ArrayList<GeoElement>();
 			boolean isIndependent = true;
 							
 			// make sure we don't create any labels for the list elements
