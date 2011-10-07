@@ -182,24 +182,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			firstVec[0] = 1;
 			firstVec[1] = 0;
 		} else if (algo instanceof AlgoAnglePolygon) {
-			AlgoAnglePolygon va = (AlgoAnglePolygon) algo;
-
-			GeoAngle[] angles = va.getAngles();
-			
-			GeoPointND[] points = va.getPolygon().getPoints();
-			
-			int l = points.length;		
-			
-			for (int i = 0 ; i < angles.length ; i++) {
-				if (angles[i] == angle) {
-					point2 = (GeoPoint) points[(i - 1 + l) % l];
-					vertex = (GeoPoint) points[i];
-					point = (GeoPoint) points[(i + 1) % l];
-					break;
-				}
-			}
-			
-			angleDrawMode = DRAW_MODE_POINTS;
+						
 		
 		} else Application.debug("missing case in DrawAngle");
 	}

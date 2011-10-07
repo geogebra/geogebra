@@ -5208,7 +5208,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}
 
 		GeoAngle angle = null;
-		GeoAngle [] angles = null;
+		GeoElement [] angles = null;
 		if (selPoints() == 3) {
 			GeoPoint[] points = getSelectedPoints();
 			angle = kernel.Angle(null, points[0], points[1], points[2]);					

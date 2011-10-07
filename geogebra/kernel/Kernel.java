@@ -6024,9 +6024,9 @@ public class Kernel {
 	/** 
 	 * all angles of given polygon
 	 */
-	final public GeoAngle [] Angles(String [] labels, GeoPolygon poly) {
+	final public GeoElement [] Angles(String [] labels, GeoPolygon poly) {
 		AlgoAnglePolygon algo = new AlgoAnglePolygon(cons, labels, poly);
-		GeoAngle [] angles = algo.getAngles();
+		GeoElement [] angles = algo.getAngles();
 		//for (int i=0; i < angles.length; i++) {
 		//	angles[i].setAlphaValue(0.0f);
 		//}
