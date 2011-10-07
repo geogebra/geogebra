@@ -63,8 +63,8 @@ public class AlgoSample extends AlgoElement {
         input[1] = num.toGeoElement();
         if (replacement != null) input[2] = replacement;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        setOutputLength(1);
+        setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -113,7 +113,7 @@ public class AlgoSample extends AlgoElement {
 	    		return;    		   
     	   }
     	   
-	       	ArrayList<GeoElement> list = new ArrayList();
+	       	ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 	
 	        // copy inputList into arraylist
 	        for (int i=0 ; i<inputListSize ; i++)
