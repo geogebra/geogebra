@@ -293,13 +293,13 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		substList.append('}');
 		
 		// make sure pure substitute is not evaluated 
-		boolean keepInput = true;
+		boolean keepInput = false;
 		
 		// substitute command
 		String subCmd = "Substitute[" + evalText + "," + substList + "]";
 		if (actionCommand.equals("Substitute")) {
 			subCmd = "Substitute[" + evalText + "," + substList + "]"; 
-			keepInput = false;
+			keepInput = true;
 		}
 		else if (actionCommand.equals("Numeric")) {
 			subCmd = "Numeric[" + subCmd + "]";

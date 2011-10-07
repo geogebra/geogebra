@@ -28,8 +28,9 @@ public class CASmpreduce extends CASgeneric {
 	// using static CAS instance as a workaround for the MPReduce deadlock with multiple application windows
 	// see http://www.geogebra.org/trac/ticket/1415 
 	private static Interpreter2 mpreduce;
-	
+	private static StringBuilder varOrder=new StringBuilder();
 	private final CasParserTools parserTools;
+
 	
 	// We escape any upper-letter words so Reduce doesn't switch them to lower-letter,
 	// however the following function-names should not be escaped
@@ -95,7 +96,11 @@ public class CASmpreduce extends CASgeneric {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<<keepinput!!:=");
 		sb.append(keepInput ? 1 : 0);
-		sb.append("$numeric!!:=0$ precision 30$ print\\_precision 16$ off complex, rounded, numval, factor, div, combinelogs, expandlogs, pri$");
+		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ off complex, rounded, numval, factor, div, combinelogs, expandlogs, pri$ currentx!!:= ");
+		sb.append(casParser.getKernel().getCasVariablePrefix());
+		sb.append("x; currenty!!:= ");
+		sb.append(casParser.getKernel().getCasVariablePrefix());
+		sb.append("y;");
 		sb.append(mpreduceInput);
 		sb.append(">>");
 		
@@ -198,6 +203,11 @@ public class CASmpreduce extends CASgeneric {
 							case '\'':
 								sb.append('!');
 								sb.append(c);
+								break;
+								
+							case '\\':
+								if (i<(t.length()+1))
+									sb.append(t.charAt(++i));
 								break;
 						
 							default:
@@ -309,15 +319,20 @@ public class CASmpreduce extends CASgeneric {
 	private synchronized void initMyMPReduceFunctions() throws Throwable {
 		
 		// user variable ordering
-		String varOrder = "order ggbcasvara, " +
+		String varOrder = "ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, " +
 				"ggbcasvarb, ggbcasvarc, ggbcasvard, ggbcasvare, ggbcasvarf, " +
 				"ggbcasvarg, ggbcasvarh, ggbcasvari, ggbcasvarj, ggbcasvark, " +
 				"ggbcasvarl, ggbcasvarm, ggbcasvarn, ggbcasvaro, ggbcasvarp, " +
 				"ggbcasvarq, ggbcasvarr, ggbcasvars, ggbcasvart, ggbcasvaru, " +
-				"ggbcasvarv, ggbcasvarw, ggbcasvary, ggbcasvarz, ggbcasvarx;";
+				"ggbcasvarv, ggbcasvarw";
 		// make sure to use current kernel's variable prefix
 		varOrder = varOrder.replace("ggbcasvar", casParser.getKernel().getCasVariablePrefix());
-		mpreduce.evaluate(varOrder);
+		if (CASmpreduce.varOrder.length()>0)
+			CASmpreduce.varOrder.append(',');
+		CASmpreduce.varOrder.append(varOrder);
+		mpreduce.evaluate("varorder!!:= list("+CASmpreduce.varOrder+");");
+		mpreduce.evaluate("order varorder!!;");
+		mpreduce.evaluate("korder varorder!!;");
 		
 		// access functions for elements of a vector
 		String xyzCoordFunctions = 
@@ -759,11 +774,11 @@ public class CASmpreduce extends CASgeneric {
 				+ "	matrix m!!(1,lengthoflist); "
 				+ "	for i:=1:lengthoflist do " 
 				+ "		m!!(1,i):=part(list,i); "
-				+ "	return m!! " 
+				+ "	return m!!; " 
 				+ "end;");
 
 		mpreduce.evaluate("procedure mod!!(a,b);" +
-				" a-b*div(a,b)");
+				" a-b*div(a,b);");
 		
 		mpreduce.evaluate("procedure div(a,b);" +
 				" begin scalar a!!, b!!, result!!;" +
@@ -883,10 +898,13 @@ public class CASmpreduce extends CASgeneric {
 				"	  if arglength(element)=-1 then" +
 				"	    element" +
 				"	  else" +
-				"	    getkernels(part(element,0):=list)");
+				"	    getkernels(part(element,0):=list);");
 
+		mpreduce.evaluate("procedure mymainvaraux a;" +
+				"if numberp(a) then currentx!! else a;");
+		
 		mpreduce.evaluate("procedure mymainvar a;" +
-				"mainvar(sub({e=0,i=0},getkernels(list(a))));");
+				"mainvar(mymainvaraux(getkernels(list(a))));");
 		
 		mpreduce.evaluate("procedure myint(exp!!, var!!, from!!, to!!);" +
 				"begin scalar integrand!!;" +
