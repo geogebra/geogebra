@@ -653,7 +653,7 @@ public class Kernel {
      * If exp is not a polynomial null is returned.
      * 
      * @param exp expression in MPreduce syntax, e.g. "3*a*x^2 + b*x"
-     * @param variable, e.g "x"
+     * @param variable e.g "x"
      * @return array of coefficients, e.g. ["0", "b", "3*a"]
      */
     final public String [] getPolynomialCoeffs(String exp, String variable) {
@@ -698,7 +698,6 @@ public class Kernel {
 	
 	/**
 	 * Returns whether MySpecialDouble objects should keep numbers literally or not. 
-	 * @param keepCasNumbers true = keep literal CAS numbers, false = use kernel number formatting
 	 */
 	public boolean isKeepCasNumbers() {
 		return keepCasNumbers;
@@ -870,7 +869,7 @@ public class Kernel {
 	 */
 	void registerRenameListenerAlgo(AlgoElement algo) {
 		if (renameListenerAlgos == null) {
-			renameListenerAlgos = new ArrayList();
+			renameListenerAlgos = new ArrayList<AlgoElement>();
 		}
 		
 		if (!renameListenerAlgos.contains(algo))
@@ -881,7 +880,7 @@ public class Kernel {
 		if (renameListenerAlgos != null) 
 			renameListenerAlgos.remove(algo);
 	}
-	private ArrayList renameListenerAlgos;
+	private ArrayList<AlgoElement> renameListenerAlgos;
 	
 	private void notifyRenameListenerAlgos() {
 		AlgoElement.updateCascadeAlgos(renameListenerAlgos);
@@ -2288,7 +2287,7 @@ public class Kernel {
 	/**
 	 * Returns a list with all currently registered macros.
 	 */
-	public ArrayList getAllMacros() {
+	public ArrayList<Macro> getAllMacros() {
 		if (macroManager == null)
 			return null;
 		else
@@ -2332,7 +2331,7 @@ public class Kernel {
 	 * 
 	 * @return
 	 */
-	public String getMacroXML(ArrayList macros) {
+	public String getMacroXML(ArrayList<Macro> macros) {
 		if (hasMacros())					
 			return MacroManager.getMacroXML(macros);
 		else
@@ -2482,7 +2481,7 @@ public class Kernel {
 	 * @param geoElementList list of GeoElement objects
 	 * @return
 	 */
-	final public GeoList List(String label, ArrayList geoElementList, boolean isIndependent) {
+	final public GeoList List(String label, ArrayList<GeoElement> geoElementList, boolean isIndependent) {
 		if (isIndependent) {
 			GeoList list = new GeoList(cons);		
 			int size = geoElementList.size();
