@@ -14,6 +14,7 @@ import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.GeoScriptAction;
 import geogebra.kernel.GeoText;
 import geogebra.kernel.GeoUserInputElement;
 import geogebra.kernel.GeoVec2D;
@@ -803,9 +804,13 @@ public class AlgebraProcessor {
 	
 	public GeoElement [] doProcessValidExpression(ValidExpression ve) throws MyError, Exception {
 		GeoElement [] ret = null;	
-		
+			
 			if (ve instanceof ExpressionNode) {
-				ret = processExpressionNode((ExpressionNode) ve);
+				ret = processExpressionNode((ExpressionNode) ve);				
+				if(ret[0] instanceof GeoScriptAction){
+					((GeoScriptAction)ret[0]).perform();
+					return new GeoElement[] {};
+				}
 			}
 	
 			// Command		
@@ -834,7 +839,7 @@ public class AlgebraProcessor {
 			else if (ve instanceof Parametric) {
 				ret = processParametric((Parametric) ve);
 			}
-	
+			
 //			// Assignment: variable
 //			else if (ve instanceof Assignment) {
 //				ret = processAssignment((Assignment) ve);
