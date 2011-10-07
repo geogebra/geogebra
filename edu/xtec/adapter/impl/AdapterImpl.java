@@ -28,7 +28,7 @@ public class AdapterImpl implements Adapter
   private double maxGrade;
   private ExitListener exitListener;
   private int attempts;
-  private int duration;
+  private long duration;
   private String log;
   private Vector logList;
   private String userMode;
@@ -44,6 +44,16 @@ public class AdapterImpl implements Adapter
 
   public String doExit()
   {
+  	long lTotalDuration = (new Date().getTime()-startTime.getTime())/1000;
+    if (getState()!=null) {
+    	// Continue previous attempt
+    	if (duration>0) lTotalDuration += duration;
+    } else{
+    	// New attempt
+    	setAttempts(getAttempts()+1);
+    }
+	setDuration(lTotalDuration);
+	
     if (exitListener!=null)
     {
       exitListener.onExit();
@@ -54,14 +64,10 @@ public class AdapterImpl implements Adapter
     prop.put("version","1.0");
     prop.put("implementation",this.getClass().getName());
     prop.put("test-encoding","&=á ");
-    if (getState()!=null)
-    {
-      prop.put("state",getState());
+    if (getState()!=null) {
+    	prop.put("state",getState());
     }
-    if (duration>0)
-      prop.put("duration",""+duration);
-    else
-      prop.put("duration",""+(new Date().getTime()-startTime.getTime())/1000);
+    prop.put("duration",""+getDuration());
     prop.put("attempts",""+getAttempts());
 
     return PropertiesUtils.encode(prop);
@@ -82,11 +88,20 @@ public class AdapterImpl implements Adapter
     		  setGrade(dGrade);
     	  }
       }catch (NumberFormatException nfe){ }
+      // Initialize attempt number
       try{
     	  String sAttempts = prop.getProperty("attempts");
     	  if (sAttempts!=null){
     		  int iAttempts = Integer.parseInt(sAttempts);
     		  setAttempts(iAttempts);
+    	  }
+      }catch (NumberFormatException nfe){ }
+      // Initialize duration (to continue previous attempt)
+      try{
+    	  String sDuration = prop.getProperty("duration");
+    	  if (sDuration!=null){
+    		  int iDuration = Integer.parseInt(sDuration);
+    		  setDuration(iDuration);
     	  }
       }catch (NumberFormatException nfe){ }
       tmp=prop.getProperty("userMode");
@@ -123,12 +138,12 @@ public class AdapterImpl implements Adapter
     this.attempts = attempts;
   }
 
-  public int getDuration()
+  public long getDuration()
   {
     return duration;
   }
 
-  public void setDuration(int duration)
+  public void setDuration(long duration)
   {
     this.duration = duration;
   }

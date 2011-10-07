@@ -44,7 +44,6 @@ public class GeoGebraMoodleApplet extends GeoGebraApplet implements ExitListener
    */
   public void onExit() {
     adapter.setGrade(this.getValue("grade"));
-    adapter.setAttempts(adapter.getAttempts()+1);
     adapter.setState(super.getBase64());
   }
 

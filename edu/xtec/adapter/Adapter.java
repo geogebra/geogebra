@@ -24,8 +24,8 @@ public interface Adapter
   public double getMaxGrade();
   public int getAttempts();
   public void setAttempts(int attempts);
-  public int getDuration();
-  public void setDuration(int duration);
+  public long getDuration();
+  public void setDuration(long duration);
   public String getLog();
   public void setLog(String log);
   public Vector getLogList();
