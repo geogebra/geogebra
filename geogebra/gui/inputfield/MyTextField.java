@@ -65,7 +65,9 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	private BorderButton borderBtn;
 	private Border defaultBorder;
 
+	private boolean enableColoring = true;
 	
+
 	
 
 	/************************************
@@ -106,6 +108,25 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		setDefaultBorder();
 	}
 
+	
+	/**
+	 * returns true if bracket coloring is enabled
+	 * @return
+	 */
+	public boolean enableColoring() {
+		return enableColoring;
+	}
+
+	/**
+	 * sets the flag to enable bracket coloring
+	 * @param enableColoring
+	 */
+	public void enableColoring(boolean enableColoring) {
+		this.enableColoring = enableColoring;
+	}
+	
+	
+	
 
 	//====================================================
 	//     BorderButton
@@ -363,10 +384,14 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	private Graphics2D g2;
 	private Insets insets;
 
+	
+
 	public void paintComponent(Graphics gr) {
 
 		// moving caret doesn't work without this... why?
 		super.paintComponent(gr);
+		
+		if(enableColoring  == false) return;
 
 		// flash caret if there's been no caret movement since last repaint
 		if (caretUpdated) caretShowing = false;

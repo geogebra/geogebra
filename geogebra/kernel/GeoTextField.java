@@ -21,6 +21,7 @@ public class GeoTextField extends GeoButton {
 		textField = new AutoCompleteTextField(defaultLength, c.getApplication());
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
+		textField.enableColoring(false);
 	}
 	public GeoTextField(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
