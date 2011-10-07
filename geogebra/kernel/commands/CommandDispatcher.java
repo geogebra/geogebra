@@ -359,7 +359,7 @@ public class CommandDispatcher {
         // STANDARD CASE
         else {
         	// get CommandProcessor object for command name from command table
-        	cmdProc = (CommandProcessor) cmdTable.get(cmdName);    
+        	cmdProc = cmdTable.get(cmdName);    
 
         	if (cmdProc == null) {
         		cmdProc = commandTableSwitch(cmdName);
