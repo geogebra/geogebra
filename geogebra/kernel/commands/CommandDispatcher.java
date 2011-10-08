@@ -605,7 +605,7 @@ public class CommandDispatcher {
     			case Polygon: return new CmdPolygon(kernel);
     			case RigidPolygon: return new CmdRigidPolygon(kernel);	   
     			case Area: return new CmdArea(kernel);
-    			case Union: return new CmdArea(kernel);
+    			case Union: return new CmdUnion(kernel);
     			case Circumference: return new CmdCircumference(kernel);
     			case Perimeter: return new CmdPerimeter(kernel);
     			case Locus: return new CmdLocus(kernel);	   
