@@ -850,7 +850,7 @@ public class AlgebraProcessor {
 	}
 	
 
-	protected GeoElement[] processFunction(ExpressionNode funNode, Function fun) {		
+	public GeoElement[] processFunction(ExpressionNode funNode, Function fun) {		
 		fun.initFunction();		
 		
 		String label = fun.getLabel();
