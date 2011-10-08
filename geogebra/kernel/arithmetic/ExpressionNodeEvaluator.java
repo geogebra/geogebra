@@ -2,6 +2,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.AlgoDependentNumber;
 import geogebra.kernel.AlgoListElement;
+import geogebra.kernel.GeoCurveCartesian;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunction;
 import geogebra.kernel.GeoFunctionable;
@@ -1569,15 +1570,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// Application.debug("DERIVATIVE called");
 			// derivative(function, order)
 			if (rt.isNumberValue()) {
-				return ((Functional) lt).getGeoDerivative((int) Math.round(((NumberValue) rt).getDouble()));
+				if (lt instanceof Functional) { // derivative of GeoFunction
+					return ((Functional) lt).getGeoDerivative((int) Math.round(((NumberValue) rt).getDouble()));
+				}
+				else if (lt instanceof GeoCurveCartesian) { // derivative of GeoCurveCartesian
+					return ((GeoCurveCartesian) lt).getGeoDerivative((int) Math.round(((NumberValue) rt).getDouble()));
+				}
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance() && ((Polynomial) rt).degree() == 0) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, ExpressionNode.DERIVATIVE, rt), ""));
-			} else {
-				String[] str = { "IllegalArgument", rt.toString() };
-				throw new MyError(app, str);
-			}
+			} 
+			// error if we get here
+			String[] str = { "IllegalArgument", rt.toString() };
+			throw new MyError(app, str);
 
 		default:
 			throw new MyError(app, "ExpressionNode: Unhandled operation."+(operation-NO_OPERATION));

@@ -203,6 +203,33 @@ implements Transformable, VarString, Path, Translateable, Rotateable, PointRotat
 		distFun = new ParametricCurveDistanceFunction(this);
 	}
 	
+	public GeoCurveCartesian getGeoDerivative(int order){	
+		if (derivGeoFun == null) {
+			derivGeoFun = new GeoCurveCartesian(cons);
+		}
+		
+		derivGeoFun.setDerivative(this, order);
+		return derivGeoFun;					
+	}
+	private GeoCurveCartesian derivGeoFun;
+	
+	/**
+	 * Set this curve to the n-th derivative of c
+	 * @param fd function to be differentiated
+	 * @param n order of derivative
+	 */
+	public void setDerivative(GeoCurveCartesian c, int n) {		
+		if (c.isDefined()) {			
+			funX = c.funX.getDerivative(n);
+			funY = c.funY.getDerivative(n);
+			isDefined = !(funX == null || funY == null);
+			if (isDefined)
+				setInterval(c.startParam, c.endParam);			
+		} else {
+			isDefined = false;
+		}	
+		distFun = new ParametricCurveDistanceFunction(this);
+	}
 	
 	// added by Loic Le Coq 2009/08/12
 	/**
@@ -667,12 +694,6 @@ implements Transformable, VarString, Path, Translateable, Rotateable, PointRotat
         double t1 = Math.sqrt(f1eval[0]*f1eval[0] + f1eval[1]*f1eval[1]);
         double t3 = t1 * t1 * t1;
         return (f1eval[0]*f2eval[1] - f2eval[0]*f1eval[1]) / t3;
-	}
-	
-
-	
-	final public boolean isGeoCurveable() {
-		return true;
 	}
 	
 	public boolean isCasEvaluableObject() {

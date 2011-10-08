@@ -4947,10 +4947,6 @@ public abstract class GeoElement
 		return false;
 	}
 
-	public boolean isGeoCurveable() {
-		return false;
-	}
-
 	public boolean isCasEvaluableObject() {
 		return false;
 	}

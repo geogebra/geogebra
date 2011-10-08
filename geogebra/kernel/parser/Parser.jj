@@ -2130,12 +2130,15 @@ ExpressionNode numberFunction():
 			int argNumber = myList.size();
       		
       		if (order > 0) { // derivative
-      			if (geo.isGeoFunction()) {// function 
-      				// n-th derivative of geo
-	      			ExpressionNode derivative =  new ExpressionNode(kernel, geoExp, ExpressionNode.DERIVATIVE, 
+      		      				// n-th derivative of geo
+	      		ExpressionNode derivative =  new ExpressionNode(kernel, geoExp, ExpressionNode.DERIVATIVE, 
 	      																new MyDouble(kernel, order));
+      			if (geo.isGeoFunction()) {// function 
 	      			return new ExpressionNode(kernel, derivative, ExpressionNode.FUNCTION, myList.getListElement(0)); 
-	      		} 	      		
+	      		}
+	      		else if (geo.isGeoCurveCartesian()) {// Cartesian curve 
+      				return new ExpressionNode(kernel, derivative, ExpressionNode.VEC_FUNCTION, myList.getListElement(0)); 
+	      		}       		
 	      		else {
 	                String [] str = { "FunctionExpected", funcName };
 	                throw new MyParseError(app, str);

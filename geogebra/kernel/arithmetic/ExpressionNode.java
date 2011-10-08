@@ -3560,8 +3560,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			break;
 
 		case VEC_FUNCTION:
-			// GeoCurveables should not be expanded
-			if (left.isGeoElement() && ((GeoElement) left).isGeoCurveable()) {
+			// GeoCurveCartesian should not be expanded
+			if (left.isGeoElement() && ((GeoElement) left).isGeoCurveCartesian()) {
 				sb.append(((GeoElement) left).getLabel());
 			} else
 				sb.append(leftStr);
