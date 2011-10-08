@@ -108,8 +108,8 @@ public class DrawList3D extends Drawable3D {
 	}
 	
 	
-	public void drawLabelForPicking(Renderer renderer){
-			
+	public boolean drawLabelForPicking(Renderer renderer){
+		return false;
 	}
 	
 	@Override

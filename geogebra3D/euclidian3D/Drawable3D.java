@@ -527,7 +527,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * draw for picking, and verify (or not) if pickable
 	 * @param renderer
 	 * @param verifyIsPickable
-	 * @return this, or the DrawList that created it
+	 * @return this, or the DrawList that created it, or null if not pickable/visible
 	 */
 	public Drawable3D drawForPicking(Renderer renderer, boolean verifyIsPickable) {
 		
@@ -538,11 +538,11 @@ public abstract class Drawable3D extends DrawableND {
 			ret = this;
 
 		if (!getGeoElement().isPickable() && verifyIsPickable)
-			return ret;
+			return null;
 			
 		
 		if(!isVisible())
-			return ret;	
+			return null;	
 		
 		drawGeometry(renderer);
 
@@ -559,27 +559,30 @@ public abstract class Drawable3D extends DrawableND {
 	/** draws the label for picking it 
      * @param renderer 3D renderer
      * */
-	public void drawLabelForPicking(Renderer renderer){
-		drawLabel(renderer, true);		
+	public boolean drawLabelForPicking(Renderer renderer){
+		return drawLabel(renderer, true);		
 	}
     
     /** draws the label (if any)
      * @param renderer 3D renderer
      * @param forPicking says if this method is called for picking
+     * @return if picking occurred
      */
-    private void drawLabel(Renderer renderer, boolean forPicking){
+    private boolean drawLabel(Renderer renderer, boolean forPicking){
 
     	
     	if (forPicking) 
     		if(!(getGeoElement().isPickable()))
-    			return;
+    			return false;
     	
 		if(!isLabelVisible())
-			return;
+			return false;
     	
     	
     	
     	label.draw(renderer);
+    	
+    	return true;
 				
     }
     

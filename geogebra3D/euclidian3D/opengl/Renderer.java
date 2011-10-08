@@ -1227,6 +1227,7 @@ public class Renderer implements GLEventListener {
 	
 	private IntBuffer createSelectBufferForPicking(int bufSize){
 		// Set Up the Selection Buffer
+		//Application.debug(bufSize);
 		IntBuffer ret = newIntBuffer(bufSize);
         gl.glSelectBuffer(bufSize, ret); // Tell OpenGL To Use Our Array For Selection
         return ret; 
@@ -1345,7 +1346,7 @@ public class Renderer implements GLEventListener {
  
         // picking labels
         int labelLoop = pickingLoop;
-        
+       
         if (pickingMode == PICKING_MODE_LABELS){
         	// picking labels
         	gl.glEnable(GLlocal.GL_TEXTURE_2D);
@@ -1450,15 +1451,19 @@ public class Renderer implements GLEventListener {
     	//Application.debug("1");
     	gl.glLoadName(pickingLoop);//Application.debug("2");
     	Drawable3D ret = d.drawForPicking(this,verifyIsPickable);	//Application.debug("3");
-    	drawHits[pickingLoop] = ret;//Application.debug("4");
-    	pickingLoop++;//Application.debug("5");
+    	if (ret!=null){
+    		drawHits[pickingLoop] = ret;//Application.debug("4");
+    		pickingLoop++;//Application.debug("5");
+    	}
     }
     
     public void pickLabel(Drawable3D d){   	
     	gl.glLoadName(pickingLoop);
-    	d.drawLabelForPicking(this);	
-    	drawHits[pickingLoop] = d;
-    	pickingLoop++;
+    	if (d.drawLabelForPicking(this)){
+    		//Application.debug(d.getGeoElement());
+    		drawHits[pickingLoop] = d;
+    		pickingLoop++;
+    	}
     }
     
     /** returns the depth between 0 and 2, in double format, from an integer offset 
