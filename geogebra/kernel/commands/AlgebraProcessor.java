@@ -807,7 +807,7 @@ public class AlgebraProcessor {
 			
 			if (ve instanceof ExpressionNode) {
 				ret = processExpressionNode((ExpressionNode) ve);				
-				if(ret[0] instanceof GeoScriptAction){
+				if(ret!=null && ret.length >0 && ret[0] instanceof GeoScriptAction){
 					((GeoScriptAction)ret[0]).perform();
 					return new GeoElement[] {};
 				}
