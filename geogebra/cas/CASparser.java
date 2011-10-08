@@ -121,6 +121,7 @@ public class CASparser {
 		try {
 			return toString(ev, ExpressionNode.STRING_TYPE_GEOGEBRA);
 		} catch (Throwable e) {
+			e.printStackTrace();
 			throw new CASException(e);
 		}
 	}

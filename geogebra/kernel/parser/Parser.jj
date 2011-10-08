@@ -674,7 +674,8 @@ Command command():
 {   
 	(
 	    (t = <SPREADSHEET_LABEL> | t = <LABEL>)
-	    {   c = new Command(kernel, t.image, true );    } 
+	    { // don't allow evaluation for type check when parsing from external CAS
+	      c = new Command(kernel, t.image, true, !ExternalCASParsing );    } 
 	    ("[" 
 	       ( en = cmdexpression()  { c.addArgument( en ); } )?
 	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
@@ -682,7 +683,7 @@ Command command():
 	    { return c; }	 
     |
      	(t = <FUNCTION_LABEL>) // includes (
-	    {   c = new Command(kernel, t.image.substring(0,t.image.length()-1), true );    } 
+	    {   c = new Command(kernel, t.image.substring(0,t.image.length()-1), true, !ExternalCASParsing );    } 
 	    (   ( en = cmdexpression()  { c.addArgument( en ); } )?
 	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
 	    ")" )
@@ -1728,7 +1729,7 @@ Command spreadsheetRange():
 		// build command CellRange[ startCell, endCell ]
 		ExpressionNode startCell = new ExpressionNode(kernel, new Variable(kernel, c.image));
 		ExpressionNode endCell = new ExpressionNode(kernel, new Variable(kernel, c2.image));
-		Command cmd = new Command(kernel, "CellRange", false ); // don't translate name
+		Command cmd = new Command(kernel, "CellRange", false, !ExternalCASParsing ); // don't translate name
 		cmd.addArgument(startCell);
 		cmd.addArgument(endCell);
 		return cmd;
@@ -1837,7 +1838,7 @@ ExpressionNode numberFunction():
         if (GeoGebraCASParsing)         {
           	// GeoGebra CAS view: x(...) is interpreted as a function
           	String funName = c.image.substring(0,c.image.length()-1);
-          	Command cmd = new Command(kernel, funName, true );
+          	Command cmd = new Command(kernel, funName, true, !ExternalCASParsing );
 			cmd.addArgument( en );			
 			return new ExpressionNode(kernel, cmd);
       	}
@@ -1869,7 +1870,7 @@ ExpressionNode numberFunction():
         {
           	// GeoGebra CAS view: z(...) is interpreted as a function
           	String funName = c.image.substring(0,c.image.length()-1);
-          	Command cmd = new Command(kernel, funName, true );
+          	Command cmd = new Command(kernel, funName, true, !ExternalCASParsing );
 			cmd.addArgument( en );			
 			return new ExpressionNode(kernel, cmd);
       	}
@@ -2112,7 +2113,7 @@ ExpressionNode numberFunction():
       		
       		if (geo == null) {
       				// function name does not exist: return command
-      				Command cmd = new Command(kernel, funcName, true );
+      				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
       				for (int i=0; i < myList.size(); i++)      				{
       				  cmd.addArgument( (ExpressionNode) myList.getListElement(i) );      				}
       				return new ExpressionNode(kernel, cmd);      						

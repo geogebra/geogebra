@@ -46,12 +46,25 @@ implements ReplaceableValue {
     private Application app;
     private GeoElement[] evalGeos; // evaluated Elements
     private Macro macro; // command may correspond to a macro 
-    private boolean allowEvaluation = true;
+    private boolean allowEvaluationForTypeCheck = true;
     
     /** Creates new Command */
     public Command(Kernel kernel, String name, boolean translateName) {    
+    	this(kernel, name, translateName, true);
+    }
+    
+    /**
+     * Creates a new command object.
+     * 
+     * @param kernel
+     * @param name
+     * @param translateName
+     * @param allowEvaluationForTypeCheck whether this command is allowed to be evaluated in type checks like isTextValue()
+     */
+    public Command(Kernel kernel, String name, boolean translateName, boolean allowEvaluationForTypeCheck) {
         this.kernel = kernel;
         app = kernel.getApplication();
+        this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
         
         /* need to check app.isUsingInternalCommandNames() due to clash with
         * BinomialDist=Binomial
@@ -220,7 +233,7 @@ implements ReplaceableValue {
 	        }
 	        
 	        // avoid evaluation of command
-	        allowEvaluation = false;
+	        allowEvaluationForTypeCheck = false;
     	}
     }
     
@@ -247,15 +260,15 @@ implements ReplaceableValue {
     }
 
     public boolean isNumberValue() {
-        return allowEvaluation && evaluate().isNumberValue();
+        return allowEvaluationForTypeCheck && evaluate().isNumberValue();
     }
 
     public boolean isVectorValue() {
-        return allowEvaluation && evaluate().isVectorValue();
+        return allowEvaluationForTypeCheck && evaluate().isVectorValue();
     }
     
     final public boolean isBooleanValue() {
-        return allowEvaluation && evaluate().isBooleanValue();
+        return allowEvaluationForTypeCheck && evaluate().isBooleanValue();
     }
 
     public boolean isPolynomialInstance() {
@@ -265,7 +278,7 @@ implements ReplaceableValue {
     }
     
     public boolean isTextValue() {
-        return allowEvaluation && evaluate().isTextValue();
+        return allowEvaluationForTypeCheck && evaluate().isTextValue();
     }   
 
     public ExpressionValue deepCopy(Kernel kernel) {
