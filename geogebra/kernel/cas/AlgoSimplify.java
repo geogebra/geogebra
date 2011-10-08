@@ -16,7 +16,7 @@ public class AlgoSimplify extends AlgoCasBase {
 
 	@Override
 	protected void applyCasCommand() {
-		g.setUsingCasCommand("SimplifyFull(%)", f, false);		
+		g.setUsingCasCommand("Simplify(%)", f, false);		
 	}
 	
 }
