@@ -631,11 +631,14 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			// discrete distribution 
 			// ====================================================
 
+			
 			// create discrete bar graph and associated lists
 			createDiscreteLists();
-			//expr = "BarChart[" + discreteValueList.getLabel() + "," + discreteProbList.getLabel() + "]";
+		
 
-
+			// create interval bar chart
+			// ============================
+			
 			AlgoBarChart algoBarChart;
 			if(isLineGraph){
 				NumberValue zeroWidth = new GeoNumeric(cons, 0);
@@ -646,7 +649,6 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			cons.removeFromConstructionList(algoBarChart);
 
 
-			//discreteGraph = createGeoFromString(expr);
 			discreteGraph = algoBarChart.getGeoElements()[0];
 			discreteGraph.setObjColor(COLOR_PDF);
 			discreteGraph.setAlphaValue(opacityDiscrete);
@@ -699,7 +701,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			AlgoBarChart barChart;
 			if(isLineGraph){
-				NumberValue zeroWidth2 = new GeoNumeric(cons, 0);
+				NumberValue zeroWidth2 = new GeoNumeric(cons, 0.1d);
 				barChart = new AlgoBarChart(cons, intervalValueList, intervalProbList, zeroWidth2);
 			}else{
 				barChart = new AlgoBarChart(cons, intervalValueList, intervalProbList);
@@ -2077,8 +2079,12 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 				GeoElement discreteValueListCopy = discreteValueList.copy();
 				newGeoList.add(discreteValueList);
-
-				expr = "BarChart[" + discreteValueListCopy.getLabel() + "," + discreteProbListCopy.getLabel() + ",0]";
+				
+				if(isLineGraph)
+					expr = "BarChart[" + discreteValueListCopy.getLabel() + "," + discreteProbListCopy.getLabel() + ",0.1]";
+				else
+					expr = "BarChart[" + discreteValueListCopy.getLabel() + "," + discreteProbListCopy.getLabel() + "]" ;
+				
 				GeoElement discreteGraphCopy = createGeoFromString(expr,null,false);
 				discreteGraphCopy.setLabel(null);
 				discreteGraphCopy.setVisualStyle(discreteGraph);
@@ -2099,11 +2105,16 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				GeoElement intervalValueList  = (GeoList) createGeoFromString(expr, null, false);
 				newGeoList.add(intervalValueList);
 
-				expr = "BarChart[" + intervalValueList.getLabel() + "," + intervalProbList.getLabel() + ",0]";
+				if(isLineGraph)
+					expr = "BarChart[" + intervalValueList.getLabel() + "," + intervalProbList.getLabel() + ",0.1]";
+				else
+					expr = "BarChart[" + intervalValueList.getLabel() + "," + intervalProbList.getLabel() + "]";
+				
 				GeoElement discreteIntervalGraphCopy  = createGeoFromString(expr, null, false);
 				discreteIntervalGraphCopy.setLabel(null);
 				discreteIntervalGraphCopy.setVisualStyle(discreteIntervalGraph);
 				newGeoList.add(discreteIntervalGraphCopy);
+				
 
 			}
 
@@ -2118,12 +2129,14 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				newGeoList.add(densityCurveCopy);
 
 				//integral
-				expr = "Integral[" + densityCurveCopy.getLabel() + ", x(" + lowPointCopy.getLabel() 
-				+ "), x(" + highPointCopy.getLabel() + ") , true ]";
-				GeoElement integralCopy  = createGeoFromString(expr,null, false);
-				integralCopy.setVisualStyle(integral);
-				integralCopy.setLabel(null);
-				newGeoList.add(integralCopy);
+				if(!isCumulative){
+					expr = "Integral[" + densityCurveCopy.getLabel() + ", x(" + lowPointCopy.getLabel() 
+					+ "), x(" + highPointCopy.getLabel() + ") , true ]";
+					GeoElement integralCopy  = createGeoFromString(expr,null, false);
+					integralCopy.setVisualStyle(integral);
+					integralCopy.setLabel(null);
+					newGeoList.add(integralCopy);
+				}
 			}
 
 
