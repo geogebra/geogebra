@@ -700,6 +700,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public void updateMatrix(){
 		
 		//TODO use Ggb3DMatrix4x4
+		//Application.printStacktrace("");
 		
 		//rotations
 		CoordMatrix m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b-90)*EuclidianController3D.ANGLE_TO_DEGREES);
@@ -1131,6 +1132,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	protected void initView(boolean repaint) {
 		setBackground(Color.white);
+		updateMatrix();
 	}
 
 	/**
