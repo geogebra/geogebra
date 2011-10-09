@@ -873,10 +873,10 @@ implements GeoPointND, PointProperties, Vector3DValue{
 
 
 
-	public boolean isEqual(GeoElement geo) {
-		
-if (!geo.isGeoPoint()) return false;
-    	
+	public boolean isEqual(GeoElement geo) {	
+
+		if (!geo.isGeoPoint()) return false;
+
     	GeoPointND P = (GeoPointND)geo;
     	
         if (!(isDefined() && P.isDefined())) return false;   
