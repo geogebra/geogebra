@@ -953,7 +953,7 @@ public class AlgebraProcessor {
 		return ret;
 	}
 	
-	protected GeoElement[] processFunctionNVar(ExpressionNode funNode, FunctionNVar fun) {		
+	public GeoElement[] processFunctionNVar(ExpressionNode funNode, FunctionNVar fun) {		
 		fun.initFunction();		
 		
 		String label = fun.getLabel();
