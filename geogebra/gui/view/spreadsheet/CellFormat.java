@@ -251,8 +251,13 @@ public class CellFormat {
 			Object value){
 
 		HashMap<Point,Object> formatTable = formatMapArray[formatType];
-
-		//Integer value = new Integer(formatValue);
+		
+		// handle select all case first, then exit
+		if(table.isSelectAll() && value == null){
+			formatTable.clear();
+			return;
+		}
+		
 
 		Point testCell = new Point();
 		Point testRow = new Point();
@@ -264,7 +269,7 @@ public class CellFormat {
 
 				// iterate through each row in the selection
 				for(int r = cr.getMinRow(); r <= cr.getMaxRow(); ++r){
-
+					
 					// format the row
 					formatTable.put(new Point(-1,r), value);
 
@@ -354,6 +359,11 @@ public class CellFormat {
 		Point cell = new Point();
 		Point cell2 = new Point();
 
+		// handle select all case first, then exit
+		if(table.isSelectAll() && borderStyle == BORDER_STYLE_NONE){
+			formatMapArray[FORMAT_BORDER].clear();
+			return;
+		}
 
 		if(cr.isRow()){
 
@@ -380,16 +390,18 @@ public class CellFormat {
 				setFormat(cr,FORMAT_BORDER, BORDER_ALL);
 				break;
 
-				//TODO fix this one
 			case BORDER_STYLE_INSIDE:
-				setFormat(cr,FORMAT_BORDER, BORDER_ALL);
+				setFormat(new CellRange(table, -1, cr.getMinRow(), -1, cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
+				if(cr.getMinRow() < cr.getMaxRow()){
+					byte b = (int)BORDER_LEFT + (int)BORDER_TOP;
+					setFormat(new CellRange(table, -1, cr.getMinRow()+1, -1, cr.getMaxRow()), FORMAT_BORDER, b);
+				}
 				break;
 
 			case BORDER_STYLE_FRAME:
-				byte b = (int)BORDER_TOP + (int)BORDER_BOTTOM;
-				setFormat(cr,FORMAT_BORDER, b);
-				break;	
-
+				setFormat(new CellRange(table, -1, cr.getMinRow(), -1, cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
+				setFormat(new CellRange(table, -1, cr.getMaxRow(), -1, cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
+				break;
 			}
 
 			return;
@@ -422,14 +434,17 @@ public class CellFormat {
 				setFormat(cr,FORMAT_BORDER, BORDER_ALL);
 				break;
 
-				//TODO fix this one
 			case BORDER_STYLE_INSIDE:
-				setFormat(cr,FORMAT_BORDER, BORDER_ALL);
+				setFormat(new CellRange(table, cr.getMinColumn(), -1, cr.getMinColumn(), -1), FORMAT_BORDER, BORDER_TOP);
+				if(cr.getMinColumn() < cr.getMaxColumn()){
+					byte b = (int)BORDER_LEFT + (int)BORDER_TOP;
+					setFormat(new CellRange(table, cr.getMinColumn()+1, -1, cr.getMaxColumn(), -1), FORMAT_BORDER, b);
+				}
 				break;
-
+				
 			case BORDER_STYLE_FRAME:
-				byte b = (int)BORDER_LEFT + (int)BORDER_RIGHT;
-				setFormat(cr,FORMAT_BORDER, b);
+				setFormat(new CellRange(table, cr.getMinColumn(), -1, cr.getMinColumn(), -1), FORMAT_BORDER, BORDER_LEFT);
+				setFormat(new CellRange(table, cr.getMaxColumn(), -1, cr.getMaxColumn(), -1), FORMAT_BORDER, BORDER_RIGHT);
 				break;	
 
 			}
@@ -540,14 +555,29 @@ public class CellFormat {
 			break;
 
 		case BORDER_STYLE_INSIDE:
-			// TODO --- inside style
-			for(int r = r1; r<=r2; r++)
-				for(int c = c1; c <=c2; c++)
+			
+			for(int r = r1 + 1; r<=r2; r++){
+				cell.x = c1;
+				cell.y = r;
+				setFormat(cell,FORMAT_BORDER, BORDER_TOP);
+			}
+			
+			for(int c = c1 + 1; c<=c2; c++){
+				cell.x = c;
+				cell.y = r1;
+				setFormat(cell,FORMAT_BORDER, BORDER_LEFT);
+			}
+			
+			for(int r = r1 + 1; r<=r2; r++){
+				for(int c = c1+1; c <=c2; c++)
 				{
 					cell.x = c;
 					cell.y = r;
-					setFormat(cell,FORMAT_BORDER, BORDER_ALL);
+					byte b = (int)BORDER_LEFT + (int)BORDER_TOP;
+					setFormat(cell,FORMAT_BORDER, b);
 				}
+			}
+			
 			break;
 
 		case BORDER_STYLE_TOP:

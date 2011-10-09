@@ -110,7 +110,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 		int index = getSelectedIndex();
 		if(index <= -1)
 			return defaultColor;
-		else if (colorSetType == COLORSET_BGCOLOR && index == colorSet.length-1)
+		else if (colorSetType == COLORSET_BGCOLOR && index > colorSet.length-1)
 			return null;
 		else
 			return colorSet[index];

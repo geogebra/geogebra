@@ -238,7 +238,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			}
 		}
 		setBackground(bgColor);
-		setForeground(geo.getAlgebraColor());
+		setForeground(geo.getLabelColor());
 
 
 

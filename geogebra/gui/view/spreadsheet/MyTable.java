@@ -984,10 +984,12 @@ public class MyTable extends JTable implements FocusListener
 	}
 
 
+	
+	
+	
 	//===============================================================
-	//                   Paint 
+	//          Selection Utilities
 	//===============================================================
-
 
 
 	public Color getSelectionRectangleColor(){	
@@ -1067,130 +1069,10 @@ public class MyTable extends JTable implements FocusListener
 	}
 
 
-	// draws a grid line beneath the give row
-	private void drawGridRow(Graphics2D g2, int row){
-
-		Rectangle rect1 = getCellRect(row, 0, true);
-		int r1 = rect1.x-1;
-		int c1 = rect1.y-1;
-		Rectangle rect2 = getCellRect(row, getColumnCount(), true);
-		int r2 = rect2.x-1;
-		int c2 = rect2.y-1;
-
-		g2.drawLine(r1, c1, r2, c2);
-
-	}
-
-	// draws a grid line to the right the give column
-	private void drawGridColumn(Graphics2D g2, int column){
-
-		Rectangle rect1 = getCellRect(0, column, true);
-		int r1 = rect1.x-1;
-		int c1 = rect1.y-1;
-		Rectangle rect2 = getCellRect(getRowCount(), column, true);
-		int r2 = rect2.x-1;
-		int c2 = rect2.y-1;
-
-		g2.drawLine(r1, c1, r2, c2);
-
-	}
-
-
-	private void drawGridLine(Graphics2D g2, int col1, int row1, int col2, int row2){
-
-		Rectangle rect1 = this.getCellRect(row1, col1, true);
-		int r1 = rect1.x-1;
-		int c1 = rect1.y-1;
-		Rectangle rect2 = this.getCellRect(row2, col2, true);
-		int r2 = rect2.x-1;
-		int c2 = rect2.y-1;
-
-		g2.drawLine(r1, c1, r2, c2);
-
-	}
-
-	private void drawBoxPartial(Graphics2D g2, int col1, int row1, int col2, int row2, byte v){
-
-		Rectangle rect1 = this.getCellRect(row1, col1, true);
-		int r1 = rect1.x-1;
-		int c1 = rect1.y-1;
-		Rectangle rect2 = this.getCellRect(row2, col2, true);
-		int r2 = rect2.x-1;
-		int c2 = rect2.y-1;
-
-		// left bar
-		if(!isZeroBit(v,0))
-			g2.drawLine(r1, c1, r1, c2);
-		// top bar
-		if(!isZeroBit(v,1))
-			g2.drawLine(r1, c1, r2, c1);
-		// right bar
-		if(!isZeroBit(v,2))
-			g2.drawLine(r2, c1, r2, c2);
-		// bottom bar
-		if(!isZeroBit(v,3))
-			g2.drawLine(r1, c2, r2, c2);
-
-	}
-
-	static public boolean isZeroBit(int value, int position){
-		return (value &= (1 << position)) == 0;
-	} 
-
-
-	private void handleRowColumnGridFormat(Graphics2D g2, int col, int row, byte v){
-
-		// row
-		if(col == -1){
-			// top bar
-			if(!isZeroBit(v,1))
-				drawGridRow(g2, row);
-			// bottom bar
-			if(!isZeroBit(v,3))
-				drawGridRow(g2, row+1);
-		}
-
-		// column
-		if(row == -1){
-			// left bar
-			if(!isZeroBit(v,0))
-				drawGridColumn(g2, col);
-			// right bar
-			if(!isZeroBit(v,2))
-				drawGridColumn(g2, col+1);
-		}
-	}
-
-
-	private void drawFormatBorders(Graphics2D g2){
-
-		g2.setColor(GeoGebraColorConstants.BLACK);
-		g2.setStroke(new BasicStroke(1));
-
-		HashMap<Point,Object> map = getCellFormatHandler().getFormatMap(CellFormat.FORMAT_BORDER);
-		Set<Point> formatCell = map.keySet();
-
-		int c = 0,r = 0;
-		for(Point cell:formatCell){
-
-			Byte b = (Byte) getCellFormatHandler().getCellFormat(cell, CellFormat.FORMAT_BORDER);
-			if(b != null){
-				c = cell.x;
-				r  = cell.y;
-				//System.out.println(cell.toString());
-				if(c == -1 || r == -1)
-					handleRowColumnGridFormat(g2, c, r, b);
-				else
-					drawBoxPartial(g2,c,r,c+1,r+1,b);
-			}
-		}
-
-	}
-
-
+	// target selection frame 
+	// =============================
 	private Rectangle targetcellFrame;
-
-
+	
 	public Rectangle getTargetcellFrame() {
 		return targetcellFrame;
 	}
@@ -1199,28 +1081,40 @@ public class MyTable extends JTable implements FocusListener
 		this.targetcellFrame = targetcellFrame;
 	}
 
-
 	final static float dash1[] = { 2.0f };
 	final static BasicStroke dashed = new BasicStroke(3.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
-	@Override
+	
+
+	//===============================================================
+	//          Paint
+	//===============================================================
+
+	
+	/**
+	 * Overrides the paint() to draw special spreadsheet table graphics,
+	 * e.g. selection rectangle and custom borders
+	 * 
+	 * @Override
+	 */
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
 
 		Graphics2D g2 = (Graphics2D)graphics;
 
-		drawFormatBorders(g2);
+		// draw custom borders
+		SpreadsheetBorders.drawFormatBorders(g2, this);
 
-
+		// draw special target cell frame
 		if(targetcellFrame != null){
 			g2.setColor(GeoGebraColorConstants.DARKBLUE);
 			g2.setStroke(dashed);
-
 			g2.draw(targetcellFrame);
 		}
 
-
+		// if the spreadsheet doesn't have focus
+		// then don't draw the selection graphics ... exit now
 		if(!view.hasViewFocus()){
 			if(!isSelectNone)
 				setSelectNone(true);
@@ -1228,24 +1122,6 @@ public class MyTable extends JTable implements FocusListener
 		}
 
 
-
-
-		/*
-		for(GeoElement geo: view.getTraceManager().getTraceGeoList()){
-			tSet = view.getTraceManager().getTraceSettings(geo);
-			int row = tSet.tracingRow != -1 ? tSet.tracingRow-1 : tSet.traceRow2;
-			Point point1 = getPixel(tSet.traceColumn1, row, true);
-			Point point2 = getPixel(tSet.traceColumn2, row, false);
-			cellFrame.setFrameFromDiagonal(point1, point2);
-			g2.draw(cellFrame);
-		}
-		 */	
-		/*
-		//Don't draw anything if the view does not have the focus	
-		if(!view.hasFocus()) {
-			return;
-		}
-		 */
 
 		//draw special dragging frame for cell editor
 		if (isDragging2) {
@@ -1721,7 +1597,7 @@ public class MyTable extends JTable implements FocusListener
 
 
 	/**
-	 * Adjust all rows/columns to fit the maximum preffered height/width
+	 * Adjust all rows/columns to fit the maximum preferred height/width
 	 * of their cell contents.
 	 * 
 	 */
