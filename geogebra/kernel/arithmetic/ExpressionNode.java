@@ -348,67 +348,6 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 
 	/**
-	 * 
-	 * @param lt
-	 * @param rt
-	 * @return false if not defined
-	 */
-	private MyBoolean evalEquals(ExpressionValue lt, ExpressionValue rt) {
-		// booleans
-		if (lt.isBooleanValue() && rt.isBooleanValue())
-			return new MyBoolean(kernel, 
-					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
-							.getBoolean());
-
-		// nummber == number
-		else if (lt.isNumberValue() && rt.isNumberValue())
-			return new MyBoolean(kernel, kernel.isEqual(((NumberValue) lt).getDouble(),
-					((NumberValue) rt).getDouble()));
-
-		// needed for eg If[""=="a",0,1]
-		// when lt and rt are MyStringBuffers
-		else if (lt.isTextValue() && rt.isTextValue()) {
-
-			String strL = ((TextValue) lt).toValueString();
-			String strR = ((TextValue) rt).toValueString();
-
-			// needed for eg Sequence[If[Element[list1,i]=="b",0,1],i,i,i]
-			if (strL == null || strR == null)
-				return new MyBoolean(kernel, false);
-
-			return new MyBoolean(kernel, strL.equals(strR));
-		} else if (lt.isGeoElement() && rt.isGeoElement()) {
-			GeoElement geo1 = (GeoElement) lt;
-			GeoElement geo2 = (GeoElement) rt;
-
-			return new MyBoolean(kernel, geo1.isEqual(geo2));
-		} else if (lt.isVectorValue() && rt.isVectorValue()) {
-			VectorValue vec1 = (VectorValue) lt;
-			VectorValue vec2 = (VectorValue) rt;
-			return new MyBoolean(kernel, vec1.getVector().equals(vec2.getVector()));
-		}
-
-		/*
-		 * // Michael Borcherds 2008-05-01 // replaced following code with one
-		 * line:
-		 * 
-		 * if (geo1.isGeoPoint() && geo2.isGeoPoint()) { return new
-		 * MyBoolean(((GeoPoint)geo1).equals((GeoPoint) geo2)); } else if
-		 * (geo1.isGeoLine() && geo2.isGeoLine()) { return new
-		 * MyBoolean(((GeoLine)geo1).equals((GeoLine) geo2)); } else if
-		 * (geo1.isGeoConic() && geo2.isGeoConic()) { return new
-		 * MyBoolean(((GeoConic)geo1).equals((GeoConic) geo2)); } else if
-		 * (geo1.isGeoVector() && geo2.isGeoVector()) { return new
-		 * MyBoolean(((GeoVector)geo1).equals((GeoVector) geo2)); } else if
-		 * (geo1.isGeoList() && geo2.isGeoList()) { // Michael Borcherds
-		 * 2008-04-12 return new MyBoolean(kernel, ((GeoList)geo1).equals((GeoList)
-		 * geo2)); }
-		 */
-
-		return new MyBoolean(kernel, false);
-	}
-
-	/**
 	 * look for Variable objects in the tree and replace them by their resolved
 	 * GeoElement
 	 */

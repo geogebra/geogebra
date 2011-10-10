@@ -1643,25 +1643,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (lt.isVectorValue() && rt.isVectorValue()) {
 			VectorValue vec1 = (VectorValue) lt;
 			VectorValue vec2 = (VectorValue) rt;
-			return new MyBoolean(kernel, vec1.getVector().equals(vec2.getVector()));
+			return new MyBoolean(kernel, vec1.getVector().isEqual(vec2.getVector()));
+		} else if (lt.isVector3DValue() && rt.isVector3DValue()) {
+			Vector3DValue vec1 = (Vector3DValue) lt;
+			Vector3DValue vec2 = (Vector3DValue) rt;
+			return new MyBoolean(kernel, vec1.get3DVec().isEqual(vec2.get3DVec()));
 		}
-
-		/*
-		 * // Michael Borcherds 2008-05-01 // replaced following code with one
-		 * line:
-		 * 
-		 * if (geo1.isGeoPoint() && geo2.isGeoPoint()) { return new
-		 * MyBoolean(kernel, ((GeoPoint)geo1).equals((GeoPoint) geo2)); } else
-		 * if (geo1.isGeoLine() && geo2.isGeoLine()) { return new
-		 * MyBoolean(kernel, ((GeoLine)geo1).equals((GeoLine) geo2)); } else if
-		 * (geo1.isGeoConic() && geo2.isGeoConic()) { return new
-		 * MyBoolean(kernel, ((GeoConic)geo1).equals((GeoConic) geo2)); } else
-		 * if (geo1.isGeoVector() && geo2.isGeoVector()) { return new
-		 * MyBoolean(kernel, ((GeoVector)geo1).equals((GeoVector) geo2)); } else
-		 * if (geo1.isGeoList() && geo2.isGeoList()) { // Michael Borcherds
-		 * 2008-04-12 return new MyBoolean(kernel,
-		 * ((GeoList)geo1).equals((GeoList) geo2)); }
-		 */
 
 		return new MyBoolean(kernel, false);
 	}

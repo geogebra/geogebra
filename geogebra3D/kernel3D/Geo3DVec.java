@@ -639,4 +639,8 @@ implements Vector3DValue {
 			return kernel;
 		}
 
+		public boolean isEqual(Geo3DVec v) {
+			return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y) && Kernel.isEqual(z, v.z);
+		}
+
 }

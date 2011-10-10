@@ -202,7 +202,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     /** Yields true if the coordinates of this vector are equal to
      * those of vector v. 
      */
-    final public boolean equals(GeoVec2D v) {                   
+    final public boolean isEqual(GeoVec2D v) {                   
         return kernel.isEqual(x, v.x) && kernel.isEqual(y, v.y);                   
     }
     
