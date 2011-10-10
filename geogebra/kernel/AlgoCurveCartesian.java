@@ -102,13 +102,25 @@ public class AlgoCurveCartesian extends AlgoElement {
     }    
     
     public GeoCurveCartesianND getCurve() { return curve; }        
-    
-    protected final void compute() {    
+
+    protected final void compute() {
+
+    	// take care to set the curve undefined
+    	// if its predecessors are undefined
+    	for (int i = 0; i <= 1; i++)
+    	for (GeoElement geo: coords[i].toGeoElement().getAllPredecessors()) {
+    		if (!geo.isDefined()) {
+    			curve.setUndefined();
+    			return;
+    		}
+    	}
+    	curve.setDefined(true);
+
     	// the coord-functions don't have to be updated,
     	// so we only set the interval
     	curve.setInterval(from.getDouble(), to.getDouble());
-    }   
-    
+    }
+
     final public String toString() {
         return getCommandDescription();
     }
