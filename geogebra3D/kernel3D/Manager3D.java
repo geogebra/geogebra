@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.kernel.AlgoCircleThreePoints;
 import geogebra.kernel.AlgoElement;
+import geogebra.kernel.AlgoLengthVector;
 import geogebra.kernel.AlgoPolygon;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
@@ -11,6 +12,7 @@ import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.GeoSurfaceFinite;
+import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.Path;
@@ -1028,5 +1030,18 @@ public class Manager3D implements Manager3DInterface {
 		
 		AlgoIntersectCS2D2D algo = new AlgoIntersectCS2D2D(cons, cs1, cs2);
 		return algo.getIntersection();
+	}
+	
+	
+	/** 
+	 * Length named label of vector v
+	 * @param label 
+	 * @param v 
+	 * @return length of the vector
+	 */
+	final public GeoNumeric Length(String label, GeoVector3D v) {
+		AlgoLengthVector3D algo = new AlgoLengthVector3D(cons, label, v);
+		GeoNumeric num = algo.getLength();
+		return num;
 	}
 }

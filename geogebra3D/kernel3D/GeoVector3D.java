@@ -4,6 +4,7 @@ import geogebra.kernel.AlgoDependentVector;
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Locateable;
 import geogebra.kernel.PathParameter;
@@ -114,9 +115,34 @@ implements GeoVectorND, Locateable, Vector3DValue{
     	return (!(Double.isNaN(getX()) || Double.isNaN(getY()) || Double.isNaN(getZ()) || Double.isNaN(getW())));        
     }
 
-	public boolean isEqual(GeoElement Geo) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isEqual(GeoElement geo) {
+				
+		if (!geo.isGeoVector()) 
+			return false;
+
+		
+		GeoVectorND v = (GeoVectorND) geo;
+
+		if (!(isFinite() && v.isFinite())) 
+			return false;   
+		
+		Coords c1 = getCoords();
+		Coords c2 = v.getCoordsInD(3);
+
+		return Kernel.isEqual(c1.getX(), c2.getX()) 
+		&& Kernel.isEqual(c1.getY(), c2.getY())  
+		&& Kernel.isEqual(c1.getZ(), c2.getZ());  
+		
+
+	}
+	
+	final public boolean isInfinite() {
+		Coords v = getCoords();
+		return Double.isInfinite(v.getX()) || Double.isInfinite(v.getY()) || Double.isInfinite(v.getZ());  
+	}
+	
+	final public boolean isFinite() {
+		return !isInfinite();
 	}
 
 

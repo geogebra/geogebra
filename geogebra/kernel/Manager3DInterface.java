@@ -14,6 +14,7 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoQuadricND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
+import geogebra3D.kernel3D.GeoVector3D;
 
 /**
  * Interface for managing all 3D methods in Kernel. <br/>
@@ -543,5 +544,14 @@ public interface Manager3DInterface {
 			public GeoElement IntersectPlanes(
 					GeoCoordSys2D cs1,
 					GeoCoordSys2D cs2);
+			
+			/** 
+			 * Length named label of vector v
+			 * @param label 
+			 * @param v 
+			 * @return length of the vector
+			 */
+			public GeoNumeric Length(String label, GeoVector3D v);
+
 
 }

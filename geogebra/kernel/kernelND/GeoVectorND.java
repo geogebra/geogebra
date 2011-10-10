@@ -32,5 +32,7 @@ public interface GeoVectorND extends GeoDirectionND {
 
 	boolean getTrace();
 
+	boolean isFinite();
+
 
 }
