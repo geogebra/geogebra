@@ -1,3 +1,4 @@
+# Make division novice-friendly :)
 from __future__ import division
 
 # GeoGebra imports
@@ -685,7 +686,7 @@ class Function(Element):
             func = _Function(fx.expr, x)
             [self.geo] = _algprocessor.processFunction(None, func)
         else:
-            xs = [FunctionVariable(_kernel, v) for v in varnames]
+            xs = [FunctionVariable(_kernel, v) for v in varnames[:nargs]]
             fxs = f(*map(Expression, xs))
             func = FunctionNVar(fxs.expr, xs)
             #func.initFunction()
