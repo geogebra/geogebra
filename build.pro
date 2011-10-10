@@ -91,6 +91,8 @@
 -keep class org.mathpiper.builtin.javareflection.* { <methods>; }
 -keep class edu.jas.poly.* { <methods>; }
 
+# called with reflection
+-keep class edu.xtec.adapter.impl.AdapterImpl { <methods>; }
 
 # Jasymca uses reflection to create functions like LambaSIN
 #-keep class jasymca.Lambda* {}
