@@ -25,6 +25,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	private Application app;
 	private CASparser casParser;
 	private CASgeneric cas;
+	private CASmpreduce casMPReduce;
 	public int currentCAS = -1;
 
 	public GeoGebraCAS(Kernel kernel) {
@@ -37,7 +38,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 		return casParser;
 	}
 	
-	public CASgeneric getCurrentCAS() {
+	public synchronized CASgeneric getCurrentCAS() {
 		return cas;
 	}
 	
@@ -59,7 +60,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	 * Sets the currently used CAS for evaluateGeoGebraCAS().
 	 * @param CAS use CAS_MATHPIPER or CAS_MAXIMA
 	 */
-	public void setCurrentCAS(int CAS) {
+	public synchronized void setCurrentCAS(int CAS) {
 		try {
 			switch (CAS) {
 			/*
@@ -123,11 +124,10 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 			return new CASmaxima(casParser, new CasParserToolsImpl('b'));
 	}*/
 	
-	private CASmpreduce getMPReduce() {
-		if (currentCAS == Application.CAS_MPREDUCE)
-			return (CASmpreduce) cas;
-		else
-			return new CASmpreduce(casParser, new CasParserToolsImpl('e'));
+	private synchronized CASmpreduce getMPReduce() {
+		if (casMPReduce == null)
+			casMPReduce = new CASmpreduce(casParser, new CasParserToolsImpl('e'));
+		return casMPReduce;
 	}
 	
 //	/**
