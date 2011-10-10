@@ -157,8 +157,8 @@ public class MyTable extends JTable implements FocusListener
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	public static HashSet<Point> cellResizeHeightSet = new HashSet<Point>();
-	public static HashSet<Point> cellResizeWidthSet = new HashSet<Point>();
+	public HashSet<Point> cellResizeHeightSet;
+	public HashSet<Point> cellResizeWidthSet;
 
 
 	private ArrayList<Point> adjustedRowHeights = new ArrayList<Point>();
@@ -198,6 +198,10 @@ public class MyTable extends JTable implements FocusListener
 	 */
 	public MyTable(SpreadsheetView view, DefaultTableModel tableModel) {
 		super(tableModel);
+		
+		cellResizeHeightSet = new HashSet<Point>();
+		cellResizeWidthSet = new HashSet<Point>();
+
 
 		app = view.getApplication();
 		kernel = app.getKernel();
@@ -1509,7 +1513,7 @@ public class MyTable extends JTable implements FocusListener
 	 * Enlarge the row and/or column of a cell to fit the cell's preferred size. 
 	 */
 	public void setPreferredCellSize(int row, int col, boolean adjustWidth, boolean adjustHeight) {
-
+		
 		Dimension prefSize = table.getCellRenderer(row, col)
 		.getTableCellRendererComponent(table,
 				table.getValueAt(row, col), false, false, row, col)
