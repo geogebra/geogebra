@@ -107,11 +107,15 @@ public class AlgoCurveCartesian extends AlgoElement {
 
     	// take care to set the curve undefined
     	// if its predecessors are undefined
-    	for (int i = 0; i <= 1; i++)
-    	for (GeoElement geo: coords[i].toGeoElement().getAllPredecessors()) {
-    		if (!geo.isDefined()) {
-    			curve.setUndefined();
-    			return;
+    	for (int i = 0; i <= 1; i++) {
+    		AlgoElement algo = coords[i].toGeoElement().getParentAlgorithm();
+    		if (algo != null) {
+    			for (GeoElement geo: algo.getInput()) {
+    				if (!geo.isDefined()) {
+    					curve.setUndefined();
+    					return;
+    				}
+    			}
     		}
     	}
     	curve.setDefined(true);
