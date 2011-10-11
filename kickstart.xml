@@ -82,8 +82,8 @@ instructions.
 	</target>
 
 	<!-- detecting operating system and architecture -->
-	<condition property="winnt-i386">
-		<os family="winnt" arch="i386"/>
+	<condition property="winnt-x86">
+		<os family="winnt" arch="x86"/>
 	</condition>
 
 	<condition property="winnt-amd64">
@@ -325,7 +325,7 @@ instructions.
 	</echo>
 	</target>
 	
-	<target name="jogl1-winnt-i586-geogebra" if="winnt-i386">
+	<target name="jogl1-winnt-i586-geogebra" if="winnt-x86">
 	<mkdir dir="lib/build/jogl1/windows-i586"/>
 	<get 
 	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-windows-i586.zip"
