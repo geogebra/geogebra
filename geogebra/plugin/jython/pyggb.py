@@ -112,6 +112,7 @@ class Interface(PythonScriptInterface):
 
 interface = Interface()
 
+LABEL_MODES = ["name", "name+value", "value", "caption"]
 
 class Element(GenericMethods):
 
@@ -156,13 +157,6 @@ class Element(GenericMethods):
         self.geo.updateRepaint()
     color = property(_getcolor, _setcolor)
 
-    # propety: background_color
-    def _getbgcolor(self):
-        return self.geo.backgroundColor
-    def _setbgcolor(self, val):
-        self.geo.backgroundColor = val
-    background_color = property(_getbgcolor, _setbgcolor)
-    
     # property: caption
     def _getcaption(self):
         return self.geo.caption
@@ -171,6 +165,32 @@ class Element(GenericMethods):
         self.geo.updateRepaint()
     caption = property(_getcaption, _setcaption)
 
+    # property: label_mode
+    def _getlabel_mode(self):
+        return LABEL_MODES[self.geo.getLabelMode()]
+    def _setlabel_mode(self, mode):
+        try:
+            mode = LABEL_MODES.index(mode)
+            self.geo.setLabelMode()
+        except ValueError:
+            raise ValueError("illegal label mode: %s", mode)
+    label_mode = property(_getlabel_mode, _setlabel_mode)
+
+    # property: label_color
+    def _getlabel_color(self):
+        return self.geo.getLabelColor()
+    def _setlabel_color(self, color):
+        self.geo.setLabelColor(color)
+        self.geo.updateRepaint()
+    label_color = property(_getlabel_color, _setlabel_color)
+    
+    # propety: background_color
+    def _getbgcolor(self):
+        return self.geo.backgroundColor
+    def _setbgcolor(self, val):
+        self.geo.backgroundColor = val
+    background_color = property(_getbgcolor, _setbgcolor)
+    
     # property: visible
     def _getvisible(self):
         return self.geo.euclidianVisible
