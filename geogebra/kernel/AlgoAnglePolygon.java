@@ -90,8 +90,8 @@ public class AlgoAnglePolygon extends AlgoElement {
 		
 		
 		for (int i =0; i<length; i++){
-			algoAngle = new AlgoAnglePoints(cons,poly.getPoint((i+2)%length), poly.getPoint((i+1)%length),
-					poly.getPoint(i));
+			algoAngle = new AlgoAnglePoints(cons,poly.getPoint((i+1)%length), poly.getPoint(i),
+					poly.getPoint((i+length-1)%length));
 			
     		GeoAngle angle = (GeoAngle) outputAngles.getElement(i);
     		angle.set(algoAngle.getAngle());   
