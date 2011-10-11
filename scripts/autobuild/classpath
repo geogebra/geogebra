@@ -1,0 +1,6 @@
+#!/bin/sh
+# Explodes the classpath from ../../.classpath.
+
+ECLIPSE_CLASSPATH_DIR=../..
+cat $ECLIPSE_CLASSPATH_DIR/.classpath | grep "classpathentry kind=\"lib" | cut -f4 -d\" | awk '{printf $0; printf ":"}'
+echo

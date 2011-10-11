@@ -128,12 +128,7 @@ if [ $GRAMMAR = 1 ]; then
  fi
 
 # 6/2. Setting classpath for ecj (required for Java 5)
-JOGLDIR=lib/build/jogl1/jar
-CP=""
-for i in lib/*.jar lib/build/*.jar; do
- CP=$CP:$i
- done
-CP=$CP:$JOGLDIR/jogl.jar:$JOGLDIR/gluegenrt.jar
+CP=`cd scripts/autobuild; ./classpath`
 
 # 6/3. Creating *.class files
 echo "$0: Creating class files"
