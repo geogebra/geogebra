@@ -536,7 +536,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 				break;
 
 			case TYPE_LISTOFPOINTS:	
-				newGeo = cp.createPointList(selectedCellRanges, copyByValue, leftToRight, true);
+				newGeo = cp.createPointList(selectedCellRanges, copyByValue, leftToRight);
 				break;
 
 			case TYPE_MATRIX:	

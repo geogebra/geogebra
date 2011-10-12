@@ -36,6 +36,11 @@ public class AlgoPolyLine extends AlgoElement {
     	this(cons, labels, null, geoList);
     }
     
+    public AlgoPolyLine(Construction cons, GeoList geoList) {
+    	this(cons, null, geoList, null, 
+        		true, null);
+    }
+    
     public AlgoPolyLine(Construction cons, String [] labels, GeoPointND [] points) {
     	this(cons, labels, points, null);
     }
@@ -56,6 +61,19 @@ public class AlgoPolyLine extends AlgoElement {
     protected AlgoPolyLine(Construction cons, String [] labels, 
     		GeoPointND [] points, GeoList geoList, CoordSys cs2D, 
     		boolean createSegments, GeoElement polyhedron) {
+
+    	this(cons, points, geoList, cs2D, createSegments, polyhedron);
+        
+        if (labels != null)
+        	poly.setLabel(labels[0]);
+        else
+        	poly.setLabel(null);
+        
+    }   
+    
+    protected AlgoPolyLine(Construction cons,  
+    		GeoPointND [] points, GeoList geoList, CoordSys cs2D, 
+    		boolean createSegments, GeoElement polyhedron) {
         super(cons);
         this.points = points;           
         this.geoList = geoList;
@@ -68,13 +86,7 @@ public class AlgoPolyLine extends AlgoElement {
         
         setInputOutput(); // for AlgoElement
         
-        if (labels != null)
-        	poly.setLabel(labels[0]);
-        else
-        	poly.setLabel(null);
-        
     }   
-    
     
     /**
      * create the polygon

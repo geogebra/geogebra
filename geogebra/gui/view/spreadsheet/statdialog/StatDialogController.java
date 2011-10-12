@@ -5,6 +5,7 @@ import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.gui.view.spreadsheet.RelativeCopy;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
+import geogebra.kernel.AlgoDependentList;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunction;
@@ -17,6 +18,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.util.MultidimensionalCounter.Iterator;
 
 public class StatDialogController {
 
@@ -154,7 +156,7 @@ public class StatDialogController {
 		String text = "";
 
 		boolean scanByColumn = true;
-		boolean isSorted = false;
+		//boolean isSorted = false;
 		boolean copyByValue = true;
 		boolean doStoreUndo = false;
 
@@ -164,13 +166,11 @@ public class StatDialogController {
 		if(dataAll != null) dataAll.remove();
 
 		if(dataSource instanceof GeoList){
-			// TODO list option not working yet
 			//dataListAll = dataSource;
-			/*
 			text = ((GeoList)dataSource).getLabel();
-			if(isSorted)
-				text = "Sort[" + text + "]";
-			 */
+			//if(isSorted)
+			//	text = "Sort[" + text + "]";
+
 		}else{
 
 			ArrayList<CellRange> cellRangeList =  (ArrayList<CellRange>) dataSource;
@@ -181,45 +181,45 @@ public class StatDialogController {
 						cellRangeList, 
 						scanByColumn,
 						copyByValue, 
-						isSorted, 
+						false, 
 						doStoreUndo, 
 						GeoElement.GEO_CLASS_NUMERIC, false);
 
 				break;
 
 			case StatDialog.MODE_REGRESSION:
-
+				
 				if( cellRangeList.size()==1 && cellRangeList.get(0).isPointList()){
 					dataAll = (GeoList) crProcessor.createList(
 							cellRangeList, 
 							scanByColumn,
 							copyByValue, 
-							isSorted, 
+							false, 
 							doStoreUndo, 
 							GeoElement.GEO_CLASS_POINT, false);
 				}
-
+				
 				else{
-					dataAll = (GeoList) crProcessor.createPointList(
+					
+					dataAll = (GeoList) crProcessor.createPointGeoList(
 							cellRangeList, 
 							copyByValue, 
 							leftToRight,
-							isSorted, 
-							doStoreUndo,
-							false);
+							false, 
+							doStoreUndo);
 				}
 				break;
 
-			case StatDialog.MODE_MULTIVAR:
-				cons.setSuppressLabelCreation(true);
-				dataAll = crProcessor.createCollectionList((ArrayList<CellRange>)dataSource, true); 
-				cons.setSuppressLabelCreation(false);
-				break;
+				case StatDialog.MODE_MULTIVAR:
+					cons.setSuppressLabelCreation(true);
+					dataAll = crProcessor.createCollectionList((ArrayList<CellRange>)dataSource, true); 
+					cons.setSuppressLabelCreation(false);
+					break;
 
 			}
 		}	
 
-
+		
 		//=======================================
 		// create/update dataListSelected
 
@@ -228,7 +228,7 @@ public class StatDialogController {
 			dataSelected = new GeoList(cons);			
 			cons.setSuppressLabelCreation(false);
 		}
-
+		
 
 		try {			
 			dataSelected.clear();

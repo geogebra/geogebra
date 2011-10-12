@@ -1,16 +1,18 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.kernel.AlgoDependentList;
+import geogebra.kernel.AlgoDependentPoint;
+import geogebra.kernel.AlgoPolyLine;
 import geogebra.kernel.AlgoSort;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoText;
-import geogebra.kernel.commands.AlgebraProcessor;
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.main.Application;
 
 import java.awt.Point;
@@ -52,7 +54,7 @@ public class CellRangeProcessor {
 		// two adjacent rows or columns?
 		if (rangeList.size() == 1 && rangeList.get(0).is2D())
 			return true;
-
+		
 		// two non-adjacent rows or columns?
 		else if (rangeList.size() == 2 && 
 				rangeList.get(0).getWidth() == 1 && rangeList.get(1).getWidth() == 1 )
@@ -64,7 +66,7 @@ public class CellRangeProcessor {
 		return false;
 	}
 
-
+	
 
 	/*
 	 * top-left must be a function of 2 variables eg A4(x,y)=x y^2
@@ -185,45 +187,9 @@ public class CellRangeProcessor {
 	 * cells found in rangeList
 	 * Uses these defaults: no sorting, no undo point 
 	 */
-	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight, boolean createIndividualPoints) {
-		return  createPointList(rangeList, byValue, leftToRight, false, false, createIndividualPoints);
+	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight) {
+		return  createPointGeoList(rangeList, byValue, leftToRight, false, false);
 	}
-
-	/**
-	 * Creates a GeoList containing points constructed from the spreadsheet
-	 * cells found in rangeList.
-	 * 
-	 * @param rangeList
-	 * @param byValue
-	 * @param leftToRight
-	 * @param isSorted
-	 * @param doStoreUndo
-	 * @return
-	 */
-	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
-			boolean isSorted, boolean doStoreUndo, boolean createIndividualPoints) {
-
-		GeoElement[] geos = null;
-
-		try {
-			// get a string expression for the list and convert the string to a geo
-			String pointListStr = createPointListString(rangeList, byValue,  leftToRight, isSorted, doStoreUndo, createIndividualPoints);
-			geos = table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(pointListStr, false);
-
-			if(doStoreUndo)
-				app.storeUndoInfo();
-
-		} catch (Exception e) {
-			Application.debug("Creating list of points failed with exception: " + e);
-		}
-
-		if(geos != null)
-			return geos[0];
-		else 
-			return null;
-
-	}
-
 
 	/**
 	 * Creates a GeoList of lists where each element is a list
@@ -273,31 +239,15 @@ public class CellRangeProcessor {
 	public GeoElement createPolyLine(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
 			boolean isSorted, boolean doStoreUndo) {
 
-		GeoElement[] geos = null;
+		GeoList list = createPointGeoList(rangeList, byValue,  leftToRight, isSorted, doStoreUndo);
 
-		try {
-			// get a string expression for the PolyLine and convert the string to a geo
-			String pointListStr = createPointListString(rangeList, byValue,  leftToRight, isSorted, doStoreUndo, false);
-			pointListStr = "PolyLine["  + pointListStr + "]";
-			geos = table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(pointListStr, false);
+		AlgoPolyLine al = new AlgoPolyLine(cons, list);
+		cons.removeFromConstructionList(al);
 
-			if(doStoreUndo)
-				app.storeUndoInfo();
-
-		} catch (Exception e) {
-			Application.debug("Creating PolyLine failed with exception: " + e);
-		}
-
-		if(geos != null)
-			return geos[0];
-		else 
-			return null;
-
+		return al.getGeoElements()[0];
 	}
 
-
-
-	private static class PointDimension{
+	private class PointDimension{
 		private boolean doHorizontalPairs;
 		private int c1, c2, r1, r2;
 	}
@@ -350,86 +300,63 @@ public class CellRangeProcessor {
 
 	}
 
-
-
 	/**
-	 * Builds a string expression for a list of points.
+	 * Builds a list of points.
 	 * note: It is assumed that rangeList has passed the isCreatePointListPossible() test 
 	 * @param rangeList
 	 * @param byValue
 	 * @param leftToRight
 	 * @param isSorted
 	 * @param doStoreUndo
-	 * @return
+	 * @return GeoList
 	 */
-	public String createPointListString(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
-			boolean isSorted, boolean doStoreUndo, boolean createIndividualPoints) {
-		
+	public GeoList createPointGeoList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
+			boolean isSorted, boolean doStoreUndo) {
+
 		// get the orientation and dimensions of the list
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
-		
-		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 
+		Kernel kernel = cons.getKernel();
 
 		// build the string
-		StringBuilder list = new StringBuilder();
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 
 		try {			
-			list.append("{");
-			String pointStr;
 			GeoElement xCoord, yCoord;
 
 			if (pd.doHorizontalPairs) {
 				for (int i = pd.r1; i <= pd.r2; ++i) {
 					xCoord = RelativeCopy.getValue(table, pd.c1, i);
 					yCoord = RelativeCopy.getValue(table, pd.c2, i);
-					pointStr = pointString(xCoord, yCoord, byValue, leftToRight);
-					if(pointStr != null) {
-						if (createIndividualPoints) { 
-							GeoPointND p = ap.evaluateToPoint(pointStr, false);
-							if (p != null) {
-								p.setLabel(null);
-								list.append(p.getLabel());
-								list.append(",");
-							}
-						} else {
-							list.append(pointStr);
-							list.append(",");
-						}
+					
+					if (byValue) {
+						xCoord = xCoord.copy();
+						yCoord = yCoord.copy();
 					}
+					
+					MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
+					ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+					point.setForcePoint();
+					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
+					cons.removeFromConstructionList(pointAlgo);
+					list.add(pointAlgo.getGeoElements()[0]);
 				}
 
 			} else {   // vertical pairs
 				for (int i = pd.c1; i <= pd.c2; ++i) {
 					xCoord = RelativeCopy.getValue(table, i, pd.r1);
 					yCoord = RelativeCopy.getValue(table, i, pd.r2);
-					pointStr = pointString(xCoord, yCoord, byValue, leftToRight);
-					if(pointStr != null) {
-						if (createIndividualPoints) { 
-							GeoPointND p = ap.evaluateToPoint(pointStr, false);
-							if (p != null) {
-								p.setLabel(null);
-								list.append(p.getLabel());
-								list.append(",");
-							}
-						} else {
-							list.append(pointStr);
-							list.append(",");
-						}
-					}
+
+					MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
+					ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+					point.setForcePoint();
+					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
+					cons.removeFromConstructionList(pointAlgo);
+					list.add(pointAlgo.getGeoElements()[0]);
 				}
 			}
 
-			// finish processing the text
-			if(list.length() > 1)
-				list.deleteCharAt(list.length()-1);
-			list.append("}");
-
-			if(isSorted){
-				list.insert(0, "Sort[" );
-				list.append("]");
-			}
 			//System.out.println(list.toString());
 		}
 
@@ -437,8 +364,10 @@ public class CellRangeProcessor {
 		catch (Exception ex) {
 			Application.debug("Creating list of points expression failed with exception " + ex);
 		}
-
-		return list.toString();
+		
+		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
+		cons.removeFromConstructionList(dl);
+		return (GeoList) dl.getGeoElements()[0];
 
 	}
 
@@ -492,7 +421,7 @@ public class CellRangeProcessor {
 		// return null titles if data source is a point list
 		if(rangeList.size()==1 && rangeList.get(0).isPointList())
 			return title;
-
+		
 		// get the orientation and dimensions of the list
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
@@ -603,13 +532,14 @@ public class CellRangeProcessor {
 	public GeoElement createList(ArrayList<CellRange> rangeList,  boolean scanByColumn, boolean copyByValue, 
 			boolean isSorted, boolean doStoreUndo, Integer geoTypeFilter, boolean setLabel) {
 
+		GeoElement[] geos = null;
 		//StringBuilder listString = new StringBuilder();
-
+		
 		GeoList geoList = null;
 		ArrayList<GeoElement> list = null;
 		if (copyByValue) geoList = new GeoList(cons);
 		else list = new ArrayList<GeoElement>();
-
+		
 		ArrayList<Point> cellList = new ArrayList<Point>();
 
 		// temporary fix for catching duplicate cells caused by ctrl-seelct
@@ -632,7 +562,7 @@ public class CellRangeProcessor {
 			for(CellRange cr:rangeList){
 				cellList.addAll(cr.toCellList(scanByColumn));
 			}
-
+			
 			// iterate through the cells and add their contents to the expression string
 			for(Point cell: cellList){
 				if(!usedCells.contains(cell)){
@@ -658,7 +588,7 @@ public class CellRangeProcessor {
 			//	listString.deleteCharAt(listString.length()-1);
 
 			//listString.append("}");
-
+			
 			if (!copyByValue) {
 				AlgoDependentList algo = new AlgoDependentList(cons, list, false);
 				geoList = (GeoList) algo.getGeoElements()[0];
@@ -686,7 +616,7 @@ public class CellRangeProcessor {
 
 		if(doStoreUndo)
 			app.storeUndoInfo();
-
+		
 		if (setLabel)
 			geoList.setLabel(null);
 
@@ -742,7 +672,7 @@ public class CellRangeProcessor {
 
 	}
 
-
+	
 	/**
 	 * Creates a string expression for a matrix formed by the cell range with
 	 * upper left corner (column1, row1) and lower right corner (column2, row2).
@@ -847,7 +777,7 @@ public class CellRangeProcessor {
 
 		GeoElement[] geos = null;
 		String expr = null;
-
+		
 		try {
 			expr = createMatrixExpression( column1, column2, row1, row2, copyByValue, transpose);
 			//Application.debug(expr);
@@ -884,7 +814,7 @@ public class CellRangeProcessor {
 
 		GeoElement[] geos = null;
 		StringBuilder text= new StringBuilder();
-
+		
 		try {
 			text.append("TableText[");		
 			text.append(createMatrixExpression( column1, column2, row1, row2, copyByValue, transpose));
@@ -906,7 +836,7 @@ public class CellRangeProcessor {
 	}
 
 
-
+	
 
 
 	//===================================================
@@ -920,7 +850,7 @@ public class CellRangeProcessor {
 
 
 
-	public void insertLeft(int column1, int column2){ 
+	public void InsertLeft(int column1, int column2){ 
 
 		int columns = table.getModel().getColumnCount();
 		if (columns == column1 + 1){
@@ -951,7 +881,7 @@ public class CellRangeProcessor {
 	}
 
 
-	public void insertRight(int column1, int column2){
+	public void InsertRight(int column1, int column2){
 
 		int columns = table.getModel().getColumnCount();
 		int rows = table.getModel().getRowCount();
@@ -987,7 +917,7 @@ public class CellRangeProcessor {
 
 
 
-	public void insertAbove(int row1, int row2){
+	public void InsertAbove(int row1, int row2){
 		int columns = table.getModel().getColumnCount();
 		int rows = table.getModel().getRowCount();
 		if (rows == row2 + 1){
@@ -1017,7 +947,7 @@ public class CellRangeProcessor {
 	}
 
 
-	public void insertBelow(int row1, int row2){	
+	public void InsertBelow(int row1, int row2){	
 		int columns = table.getModel().getColumnCount();
 		int rows = table.getModel().getRowCount();
 		boolean succ = false;
@@ -1088,7 +1018,7 @@ public class CellRangeProcessor {
 
 
 	//Experimental ---- merging ctrl-selected cells 
-	/*
+
 	private void consolidateRangeList(ArrayList<CellRange> rangeList){
 
 		ArrayList<Point> columnList = new ArrayList<Point>();
@@ -1132,7 +1062,7 @@ public class CellRangeProcessor {
 		}
 
 	}
-	 */
+
 
 
 	public String getCellRangeString(CellRange range){

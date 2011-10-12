@@ -151,7 +151,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 				item = new JMenuItem(app.getMenu("InsertLeft"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cp.insertLeft(column1, column2);
+						cp.InsertLeft(column1, column2);
 					}
 				});	 	 	
 				addSubItem(subMenu,item);	 		
@@ -159,7 +159,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 				item = new JMenuItem(app.getMenu("InsertRight"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cp.insertRight(column1, column2);
+						cp.InsertRight(column1, column2);
 					}
 				});	 	  	 	
 				addSubItem(subMenu,item);	
@@ -170,7 +170,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 				item = new JMenuItem(app.getMenu("InsertAbove"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cp.insertAbove(row1, row2);
+						cp.InsertAbove(row1, row2);
 					}
 				});	 	 	 	
 				addSubItem(subMenu,item);	
@@ -179,7 +179,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 				item = new JMenuItem(app.getMenu("InsertBelow"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cp.insertBelow(row1, row2);
+						cp.InsertBelow(row1, row2);
 					}
 				});	 	 	 	
 				addSubItem(subMenu,item);	
@@ -213,7 +213,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 			item = new JMenuItem(app.getMenu("ListOfPoints"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cp.createPointList(selectedCellRanges, false, true, true);
+					cp.createPointList(selectedCellRanges, false, true);
 				}
 			});	 
 			addSubItem(subMenu,item);	
