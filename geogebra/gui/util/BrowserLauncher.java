@@ -72,7 +72,9 @@ public static void openURL(String url) {
      }
      else { //assume Unix or Linux
         String[] browsers = {
-           "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape" };
+        		"xdg-open","firefox","google-chrome","chromium-browser","opera",
+        		"konqueror", "epiphany", "safari", "mozilla", "netscape", "seamonkey"
+        		};
         String browser = null;
         for (int count = 0; count < browsers.length && browser == null; count++)
            if (Runtime.getRuntime().exec(
