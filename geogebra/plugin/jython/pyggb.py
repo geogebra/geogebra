@@ -90,7 +90,7 @@ class Interface(PythonScriptInterface):
     def toggleWindow(self):
         self.pywin.toggle_visibility()
     def isWindowVisible(self):
-        return self.pywin.visible
+        return self.pywin.frame.visible
     def set_selection_listener(self, sl):
         _app.setSelectionListenerMode(_app.getPythonBridge())
         self.selection_listener = sl
