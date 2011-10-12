@@ -27,7 +27,8 @@ public class CASmpreduce extends CASgeneric {
 	
 	// using static CAS instance as a workaround for the MPReduce deadlock with multiple application windows
 	// see http://www.geogebra.org/trac/ticket/1415 
-	private static Interpreter2 mpreduce;
+	private static Interpreter2 mpreduce_static;
+	private Interpreter2 mpreduce;
 	private static StringBuilder varOrder=new StringBuilder();
 	private final CasParserTools parserTools;
 
@@ -40,28 +41,44 @@ public class CASmpreduce extends CASgeneric {
 	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
 		super(casParser, RB_GGB_TO_MPReduce);
 		this.parserTools = parserTools;
-		getInterpreter();
+		getMPReduce();
 	}
 
-	private synchronized Interpreter2 getInterpreter() {
-		if (mpreduce == null) {
-			mpreduce = new Interpreter2();
+	/**
+	 * @return Static MPReduce interpreter shared by all
+	 * CASmpreduce instances.
+	 */
+	private static synchronized Interpreter2 getStaticInterpreter() {
+		if (mpreduce_static == null) {
+			mpreduce_static = new Interpreter2();
 
 			// the first command sent to mpreduce produces an error
 			try {
-				loadMyMPReduceFunctions();
+				loadMyMPReduceFunctions(mpreduce_static);
 			} catch (Throwable e)
 			{}
 			
-			Application.setCASVersionString(getVersionString());
+			Application.setCASVersionString(getVersionString(mpreduce_static));
 		}
 		
-		// make sure to call initMyMPReduceFunctions() for each CASmpreduce instance
-		// because it depends on the current kernel's ggbcasvar prefix, see #1443
-		try {
-			initMyMPReduceFunctions();
-		} catch (Throwable e) {
-			e.printStackTrace();
+		return mpreduce_static;
+	}
+	
+	/**
+	 * @return MPReduce interpreter using static interpreter with local kernel initialization.
+	 */
+	private synchronized Interpreter2 getMPReduce() {
+		if (mpreduce == null) {
+			// create mpreduce as a private reference to mpreduce_static
+			mpreduce = getStaticInterpreter();
+			
+			try {
+				// make sure to call initMyMPReduceFunctions() for each CASmpreduce instance
+				// because it depends on the current kernel's ggbcasvar prefix, see #1443
+				initMyMPReduceFunctions(mpreduce);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return mpreduce;
@@ -222,7 +239,7 @@ public class CASmpreduce extends CASgeneric {
 		exp = sb.toString();
 
 		System.out.println("eval with MPReduce: " + exp);
-		String result = mpreduce.evaluate(exp, getTimeoutMilliseconds());
+		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
 		for (String s : result.split("\n")) {
@@ -270,17 +287,15 @@ public class CASmpreduce extends CASgeneric {
 
 	@Override
 	public synchronized void reset() {
+		if (mpreduce == null) return;
+		
 		try {
-			mpreduce.evaluate("resetreduce;");
-			mpreduce.initialize();
-			initMyMPReduceFunctions();
+			getMPReduce().evaluate("resetreduce;");
+			getMPReduce().initialize();
+			initMyMPReduceFunctions(getMPReduce());
 		} catch (Throwable e) {
+			Application.debug("failed to reset MPReduce");
 			e.printStackTrace();
-
-			// if we fail, we just re-initialize the interpreter
-			Application.debug("failed to reset MPReduce, creating new MPReduce instance");
-			mpreduce = null;
-			getInterpreter();
 		}
 	}
 
@@ -291,7 +306,7 @@ public class CASmpreduce extends CASgeneric {
 			sb.append("clear(");
 			sb.append(var);
 			sb.append(");");
-			mpreduce.evaluate(sb.toString());
+			getMPReduce().evaluate(sb.toString());
 			
 			// TODO: remove
 			System.out.println("Cleared variable: " + sb.toString());
@@ -300,23 +315,21 @@ public class CASmpreduce extends CASgeneric {
 		}
 	}
 
-	private synchronized void loadMyMPReduceFunctions() throws Throwable {
-		mpreduce.evaluate("load_package rsolve;");
-		mpreduce.evaluate("load_package numeric;");
-		mpreduce.evaluate("load_package specfn;");
-		mpreduce.evaluate("load_package odesolve;");
-		mpreduce.evaluate("load_package defint;");
-		mpreduce.evaluate("load_package linalg;");
-		mpreduce.evaluate("load_package reset;");
-		mpreduce.evaluate("load_package taylor;");
-		mpreduce.evaluate("load_package groebner;");		
-		mpreduce.evaluate("load_package trigsimp;");	
-		mpreduce.evaluate("load_package polydiv;");	
-		
-		
+	private static synchronized void loadMyMPReduceFunctions(Interpreter2 mpreduce_static) throws Throwable {
+		mpreduce_static.evaluate("load_package rsolve;");
+		mpreduce_static.evaluate("load_package numeric;");
+		mpreduce_static.evaluate("load_package specfn;");
+		mpreduce_static.evaluate("load_package odesolve;");
+		mpreduce_static.evaluate("load_package defint;");
+		mpreduce_static.evaluate("load_package linalg;");
+		mpreduce_static.evaluate("load_package reset;");
+		mpreduce_static.evaluate("load_package taylor;");
+		mpreduce_static.evaluate("load_package groebner;");		
+		mpreduce_static.evaluate("load_package trigsimp;");	
+		mpreduce_static.evaluate("load_package polydiv;");	
 	}
 
-	private synchronized void initMyMPReduceFunctions() throws Throwable {
+	private synchronized void initMyMPReduceFunctions(Interpreter2 mpreduce) throws Throwable {
 		
 		// user variable ordering
 		String varOrder = "ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, " +
@@ -913,8 +926,7 @@ public class CASmpreduce extends CASgeneric {
 				"end;");
 	}
 
-	private String getVersionString() {
-
+	private static String getVersionString(Interpreter2 mpreduce) {
 		Pattern p = Pattern.compile("version (\\S+)");
 		Matcher m = p.matcher(mpreduce.getStartMessage());
 		if (!m.find())
@@ -938,7 +950,7 @@ public class CASmpreduce extends CASgeneric {
 			return;
 		this.significantNumbers=significantNumbers;
 		try{
-			mpreduce.evaluate("printprecision!!:=" + significantNumbers);
+			getMPReduce().evaluate("printprecision!!:=" + significantNumbers);
 		} catch (Throwable th) {
 			th.printStackTrace();
 		}
