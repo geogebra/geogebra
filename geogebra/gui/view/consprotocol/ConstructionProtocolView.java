@@ -914,7 +914,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public void updateCaption(){
-			caption = geo.getCaptionDescriptionHTML(false);
+			caption = geo.getCaptionDescriptionHTML(true);
 		}
 		
 		public void updateAll() {
