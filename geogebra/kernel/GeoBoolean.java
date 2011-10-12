@@ -57,7 +57,7 @@ AbsoluteScreenLocateable {
 	}
 	
     public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_SHOW_HIDE_OBJECT;
+    	return EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX;
     }
 	
     protected String getTypeString() {
