@@ -30,6 +30,7 @@ class ViewMenu extends BaseMenu {
 	private AbstractAction 
 		showAlgebraInputAction,
 		showKeyboardAction,
+		showPythonAction,					// Arnaud Delobelle 12 Oct 2011
 		showInputHelpToggleAction,
 		showInputTopAction,
 		showToolBarAction,
@@ -50,7 +51,8 @@ class ViewMenu extends BaseMenu {
 		cbShowConsProtNavigationPlay,
 		cbShowConsProtNavigationOpenProt,
 		cbShowAlgebraInput,
-		cbShowKeyboard,		
+		cbShowKeyboard,	
+		cbShowPython,						// Arnaud Delobelle 12 Oct 2011
 		cbShowInputHelpToggle,
 		cbShowAxes,
 		cbShowGrid;
@@ -116,6 +118,11 @@ class ViewMenu extends BaseMenu {
 			vk.setVisible(true);
 		}
 		add(cbShowKeyboard);
+		
+		// show/hide python window
+		cbShowPython = new JCheckBoxMenuItem(showPythonAction);
+		app.setEmptyIcon(cbShowPython);
+		add(cbShowPython);
 		
 //		cbShowHandwriting = new JCheckBoxMenuItem(showHandwritingAction);
 //		app.setEmptyIcon(cbShowHandwriting);
@@ -221,6 +228,14 @@ class ViewMenu extends BaseMenu {
 					update();
 				}
 
+			}
+		};
+		
+		// Arnaud Delobelle 12 Oct 2011 TODO localize "Python Window" string
+		showPythonAction = new AbstractAction("Python Window") {
+			public void actionPerformed(ActionEvent e) {
+				app.getPythonBridge().toggleWindow();
+				update();
 			}
 		};
 		
@@ -436,6 +451,7 @@ class ViewMenu extends BaseMenu {
 		
 		cbShowAlgebraInput.setSelected(app.showAlgebraInput());
 		cbShowKeyboard.setSelected(Application.isVirtualKeyboardActive());
+		cbShowPython.setSelected(app.isPythonWindowVisible());
 //		cbShowHandwriting.setSelected(Application.isHandwritingRecognitionActive());
 //		cbShowHandwritingAutoAdd.setSelected(Application.isHandwritingRecognitionAutoAdd());
 //		cbShowHandwritingTimedAdd.setSelected(Application.isHandwritingRecognitionTimedAdd());

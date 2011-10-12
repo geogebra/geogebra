@@ -3,10 +3,11 @@ package geogebra.plugin.jython;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.View;
 import geogebra.main.Application;
+import geogebra.main.GeoElementSelectionListener;
 
 import org.python.util.PythonInterpreter;
 
-public class PythonBridge implements View {
+public class PythonBridge implements View, GeoElementSelectionListener {
 	private Application application;
 	private PythonInterpreter interpreter;
 	private PythonScriptInterface pyInterface;
@@ -14,6 +15,7 @@ public class PythonBridge implements View {
 	public PythonBridge(Application app) {
 		application = app;
 		interpreter = null;
+		init();
 	}
 	
 	private void init() {
@@ -27,8 +29,12 @@ public class PythonBridge implements View {
 		}
 	}
 	
-	public void exec(String code) {
-		init();
+	public void toggleWindow() {
+		pyInterface.toggleWindow();
+	}
+	
+	public boolean isWindowVisible() {
+		return pyInterface.isWindowVisible();
 	}
 	
 	public void click(GeoElement geo) {
@@ -73,6 +79,10 @@ public class PythonBridge implements View {
 	
 	public int getViewID() {
 		return 0;
+	}
+
+	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
+		pyInterface.notifySelected(geo, addToSelection);
 	}
 
 }

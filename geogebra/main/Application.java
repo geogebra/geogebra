@@ -4514,13 +4514,6 @@ public class Application implements KeyEventDispatcher {
 		return ggbapi;
 	}
 	
-	public void executePython(String code) {
-		if (pythonBridge == null) {
-			pythonBridge = new PythonBridge(this);
-		}
-		pythonBridge.exec(code);
-	}
-	
 	public PythonBridge getPythonBridge() {
 		if (pythonBridge == null) {
 			pythonBridge = new PythonBridge(this);
@@ -4532,6 +4525,12 @@ public class Application implements KeyEventDispatcher {
 		return pythonBridge != null;
 	}
 	
+	public boolean isPythonWindowVisible() {
+		if (!hasPythonBridge()) {
+			return false;
+		}
+		return getPythonBridge().isWindowVisible();
+	}
 	public ScriptManager getScriptManager() {
 		if (scriptManager == null) {
 			scriptManager = new ScriptManager(this);
