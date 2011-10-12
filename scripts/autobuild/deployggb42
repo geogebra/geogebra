@@ -83,7 +83,6 @@ for i in *.jar; do
  ln -s ../unpacked/$i
  ln -s ../packed/$i.pack.gz
  done
-cp $WWWDIR/$MYDIR/geogebra-42.jnlp $WWWDIR/$MYDIR/jnlp/
 
 echo "$0: JAR files copied to 4.2 and history/$MYVER"
 
