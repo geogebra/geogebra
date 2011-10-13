@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.main.MyParseError;
@@ -176,12 +177,12 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
 								
 			default: // continue below
 			  sb.append('(');
-		        sb.append(x.toString());
+		        sb.append(x.isGeoElement() ? ((GeoElement)x).getLabel() : x.toString());
 		        if (mode == Kernel.COORD_CARTESIAN) 
 		        	sb.append(", ");
 		        else 
 		        	sb.append("; ");   
-		        sb.append(y.toString());
+		        sb.append(y.isGeoElement() ? ((GeoElement)y).getLabel() : y.toString());
 		        sb.append(')'); 
 		        break;
     	}

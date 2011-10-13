@@ -242,9 +242,15 @@ public class CellRangeProcessor {
 		GeoList list = createPointGeoList(rangeList, byValue,  leftToRight, isSorted, doStoreUndo);
 
 		AlgoPolyLine al = new AlgoPolyLine(cons, list);
-		cons.removeFromConstructionList(al);
 
-		return al.getGeoElements()[0];
+		// need it in XML - used by Create Polyline tool, so don't want this line
+		//cons.removeFromConstructionList(al);
+		
+		GeoElement ret = al.getGeoElements()[0];
+		
+		ret.setLabel(null);
+
+		return ret;
 	}
 
 	private class PointDimension{
