@@ -2970,7 +2970,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}
 
 		// show Mouse coordinates, manage alt -> multiple of 15 degrees
-		else if (view.getShowMouseCoords()) {
+		else if (view.getShowMouseCoords() && view.getAllowShowMouseCoords()) {
 			transformCoords();
 			repaintNeeded = true;
 		}		
