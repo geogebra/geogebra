@@ -217,7 +217,7 @@ class Element(GenericMethods):
     def _setlabel_mode(self, mode):
         try:
             mode = LABEL_MODES.index(mode)
-            self.geo.setLabelMode()
+            self.geo.setLabelMode(mode)
         except ValueError:
             raise ValueError("illegal label mode: %s", mode)
     label_mode = property(_getlabel_mode, _setlabel_mode)
@@ -230,7 +230,14 @@ class Element(GenericMethods):
         self.geo.updateRepaint()
     label_color = property(_getlabel_color, _setlabel_color)
     
-    # propety: background_color
+    # property: label_visible
+    def _getlabel_visible(self):
+        return self.geo.isLabelVisible()
+    def _setlabel_visible(self, val):
+        self.geo.setLabelVisible(bool(val))
+    label_visible = property(_getlabel_visible, _setlabel_visible)
+    
+    # property: background_color
     def _getbgcolor(self):
         return self.geo.backgroundColor
     def _setbgcolor(self, val):
@@ -614,6 +621,20 @@ class Segment(Line, ExpressionElement, NumberExpression):
     @sign(Point, Point)
     def initfrompoints(self, p, q):
         self.geo = _kernel.Segment(None, p.geo, q.geo)
+
+    # property: startpoint    
+    def _getstartpoint(self):
+        return Point(self.geo.getStartPoint())
+    def _setstartpoint(self, p):
+        self.geo.setStartPoint(element(p).geo)
+    startpoint = property(_getstartpoint, _setstartpoint)
+    
+    # property: endpoint
+    def _getendpoint(self):
+        return Point(self.geo.getEndPoint())
+    def _setendpoint(self):
+        self.geo.setEndPoint(element(p).geo)
+    endpoint = property(_getendpoint, _setendpoint)
 
 
 class Ray(Line):
