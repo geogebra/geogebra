@@ -22,11 +22,11 @@ instructions.
 
 <project default="geogebra5-developer">
 
-	<target name="geogebra4-developer" depends="_classpath-open, lib-build-geogebra4, lib-runtime, _classpath-close, info"
+	<target name="geogebra4-developer" depends="_classpath-open, _lib-build-geogebra4, _lib-runtime, _classpath-close, info"
 	    description="For Eclipse developers: to create GeoGebra 4 builds (JOGL1 not included)">
 	</target>
 
-	<target name="geogebra5-developer" depends="_classpath-open, lib-build-geogebra5, lib-runtime, _classpath-close, info"
+	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, info"
 	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds (JOGL1 included)">
 	</target>
 
@@ -34,15 +34,15 @@ instructions.
 	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra4-packager" depends="_classpath-open, geogebra4-developer, lib-pack, _classpath-close"
+	<target name="geogebra4-packager" depends="_classpath-open, geogebra4-developer, _lib-pack, _classpath-close"
 	    description="For JAR testers: to create GeoGebra 4 JAR packages">	
 	</target>
 
-	<target name="geogebra5-packager" depends="_classpath-open, geogebra5-developer, lib-pack, _classpath-close"
+	<target name="geogebra5-packager" depends="_classpath-open, geogebra5-developer, _lib-pack, _classpath-close"
 	    description="For JAR testers: to create GeoGebra 5 JAR packages">	
 	</target>
 
-	<target name="geogebra4-packager-commandline" depends="_classpath-open, geogebra4-developer-commandline, lib-pack, _classpath-close"
+	<target name="geogebra4-packager-commandline" depends="_classpath-open, geogebra4-developer-commandline, _lib-pack, _classpath-close"
 	    description="For command line JAR testers (mostly Unix): to create GeoGebra 4 JAR packages">	
 	</target>
 
@@ -61,24 +61,24 @@ instructions.
 
 
 	<!-- download external libraries -->
-	<target name="lib" depends="lib-runtime, lib-build-geogebra5, lib-pack, ecj"
-	    description="(FALLBACK) Download all packages for the current OS and architecture">
+	<target name="_lib" depends="_lib-runtime, _lib-build-geogebra5, _lib-pack, ecj"
+	    description="Internal target, please do not use manually. Downloads all packages for the current OS and architecture">
 	</target>
 
-	<target name="lib-build-geogebra4" depends="mpreduce, javacc, jsobject, mac_extensions, jlatexmath"
-	    description="Download all packages needed for a full build for the current OS and architecture (for GeoGebra 4)">
+	<target name="_lib-build-geogebra4" depends="mpreduce, javacc, jsobject, mac_extensions, jlatexmath"
+	    description="Internal target, please do not use manually. Downloads all packages needed for a full build for the current OS and architecture (for GeoGebra 4)">
 	</target>
 
-	<target name="lib-build-geogebra5" depends="lib-build-geogebra4, jogl1, jogl2"
-	    description="Download all packages needed for a full build for the current OS and architecture (for GeoGebra 5)">
+	<target name="_lib-build-geogebra5" depends="_lib-build-geogebra4, jogl1, jogl2"
+	    description="Internal target, please do not use manually. Downloads all packages needed for a full build for the current OS and architecture (for GeoGebra 5)">
 	</target>
 
-	<target name="lib-pack" depends="proguard, p200ant"
-	    description="Download all packages needed for creating the JAR files">
+	<target name="_lib-pack" depends="proguard, p200ant"
+	    description="Internal target, please do not use manually. Download all packages needed for creating the JAR files">
 	</target>
 
-	<target name="lib-runtime" depends="jlatexmath, vernier, jython"
-	    description="Download all packages needed for runtime use">
+	<target name="_lib-runtime" depends="jlatexmath, vernier, jython"
+	    description="Internal target, please do not use manually. Downloads all packages needed for runtime use.">
 	</target>
 
 	<!-- detecting operating system and architecture -->
@@ -395,10 +395,11 @@ instructions.
 	</target>
 
 	<target name="info">
-	<echo message="***************************************************************************"/>
-	<echo message="* Now: 1. Click on Package Explorer -> geogebra (first item in the list). *"/>
-	<echo message="*      2. Right click, Refresh (or just press F5).                        *"/>
-	<echo message="***************************************************************************"/>
+	<echo message="**********************************************************************"/>
+	<echo message="* If you are working with Eclipse, please                            *"/>
+	<echo message="* 1. Click on Package Explorer -> geogebra (first item in the list). *"/>
+	<echo message="* 2. Right click, Refresh (or just press F5).                        *"/>
+	<echo message="**********************************************************************"/>
 	</target>
 
 
