@@ -22,17 +22,17 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	final protected Rectangle2D getBounds(){
 	
 		if (geo.isLaTeX())
-			return Drawable.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, font, Color.BLACK, Color.WHITE, text, 0, 0);
+			return Drawable.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, font, Color.BLACK, Color.WHITE, text, 0, 0, false);
 		else
-			return Drawable.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, tempGraphics);
+			return Drawable.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, tempGraphics, false);
 		
 	}
 
 	final protected void draw(Graphics2D g2d){
 		if (geo.isLaTeX())
-			Drawable.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, font, Color.BLACK, Color.WHITE, text, 0, 0);
+			Drawable.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, font, Color.BLACK, Color.WHITE, text, 0, 0, false);
 		else
-			Drawable.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, g2d);
+			Drawable.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, g2d, false);
 	}
 	
 

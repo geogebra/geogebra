@@ -164,7 +164,7 @@ public abstract class Drawable extends DrawableND {
 			// do the slower index drawing routine and check for indices
 			oldLabelDesc = labelDesc;
 
-			Point p = drawIndexedString(view.getApplication(), g2, label, xLabel, yLabel);
+			Point p = drawIndexedString(view.getApplication(), g2, label, xLabel, yLabel, isSerif());
 			labelHasIndex = p.y > 0;
 			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x, fontSize + p.y);
 		}
@@ -321,7 +321,7 @@ public abstract class Drawable extends DrawableND {
 	
 	
 	public final void drawMultilineLaTeX(Graphics2D g2, Font font, Color fgColor, Color bgColor) {
-		labelRectangle.setBounds(drawMultilineLaTeX(view.getApplication(), view.getTempGraphics2D(font), geo, g2, font, fgColor, bgColor, labelDesc, xLabel, yLabel));
+		labelRectangle.setBounds(drawMultilineLaTeX(view.getApplication(), view.getTempGraphics2D(font), geo, g2, font, fgColor, bgColor, labelDesc, xLabel, yLabel, isSerif()));
 	}
 
 	/**
@@ -334,7 +334,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param fgColor
 	 * @param bgColor
 	 */
-	public static final Rectangle drawMultilineLaTeX(Application app, Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font, Color fgColor, Color bgColor, String labelDesc, int xLabel, int yLabel) {
+	public static final Rectangle drawMultilineLaTeX(Application app, Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font, Color fgColor, Color bgColor, String labelDesc, int xLabel, int yLabel, boolean serif) {
 		int fontSize = g2.getFont().getSize();
 		int lineSpread = (int)(fontSize * 1.0f);
 		int lineSpace = (int)(fontSize * 0.5f);
@@ -424,7 +424,7 @@ public abstract class Drawable extends DrawableND {
 
 					// draw the string
 					g2.setFont(font); // JLaTeXMath changes g2's fontsize
-					xOffset += drawIndexedString(app, g2, lines[j], xLabel + xOffset, yLabel + height + yOffset + lineSpread).x;
+					xOffset += drawIndexedString(app, g2, lines[j], xLabel + xOffset, yLabel + height + yOffset + lineSpread, serif).x;
 
 					// add the height of this line if more lines follow
 					if(j + 1 < lines.length) {
@@ -567,13 +567,13 @@ public abstract class Drawable extends DrawableND {
 	}
 
 
-	public final static Rectangle drawMultiLineText(Application app, String labelDesc, int xLabel, int yLabel, Graphics2D g2) {
+	public final static Rectangle drawMultiLineText(Application app, String labelDesc, int xLabel, int yLabel, Graphics2D g2, boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
 		float lineSpread = fontSize * 1.5f;
 
 		Font font = g2.getFont();
-		font = app.getFontCanDisplay(labelDesc, false, font.getStyle(), font.getSize());
+		font = app.getFontCanDisplay(labelDesc, serif, font.getStyle(), font.getSize());
 
 		FontRenderContext frc = g2.getFontRenderContext();
 		int xoffset = 0;
@@ -612,7 +612,7 @@ public abstract class Drawable extends DrawableND {
 	}
 	
 	
-	public final static Rectangle drawMultiLineIndexedText(Application app, String labelDesc, int xLabel, int yLabel, Graphics2D g2) {
+	public final static Rectangle drawMultiLineIndexedText(Application app, String labelDesc, int xLabel, int yLabel, Graphics2D g2, boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
 		float lineSpread = fontSize * 1.5f;
@@ -627,7 +627,7 @@ public abstract class Drawable extends DrawableND {
 		for (int i=0; i < length-1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 				//end of line reached: draw this line
-				Point p = drawIndexedString(app, g2, labelDesc.substring(lineBegin, i), xLabel, yLabel + lines * lineSpread);
+				Point p = drawIndexedString(app, g2, labelDesc.substring(lineBegin, i), xLabel, yLabel + lines * lineSpread, serif);
 				if (p.x > xoffset) xoffset = p.x;
 				if (p.y > yoffset) yoffset = p.y;
 				lines++;
@@ -636,7 +636,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		float ypos = yLabel + lines * lineSpread;
-		Point p = drawIndexedString(app, g2, labelDesc.substring(lineBegin), xLabel, ypos);
+		Point p = drawIndexedString(app, g2, labelDesc.substring(lineBegin), xLabel, ypos, serif);
 		if (p.x > xoffset) xoffset = p.x;
 		if (p.y > yoffset) yoffset = p.y;
 		//labelHasIndex = yoffset > 0;
@@ -648,6 +648,10 @@ public abstract class Drawable extends DrawableND {
 	}
 	
 
+	final boolean isSerif() {
+		return geo.isGeoText() ? ((GeoText)geo).isSerifFont() : false;
+	}
+
 	final void drawMultilineText(Graphics2D g2) {
 
 		if (labelDesc == null) return;
@@ -656,7 +660,7 @@ public abstract class Drawable extends DrawableND {
 		// no index in text
 		if (oldLabelDesc == labelDesc && !labelHasIndex) {
 
-			labelRectangle.setBounds(drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2) );
+			labelRectangle.setBounds(drawMultiLineText(view.getApplication(), labelDesc, xLabel, yLabel, g2, isSerif()) );
 		}
 		else {
 			int lines = 0;
@@ -676,7 +680,7 @@ public abstract class Drawable extends DrawableND {
 			for (int i=0; i < length-1; i++) {
 				if (labelDesc.charAt(i) == '\n') {
 					//end of line reached: draw this line
-					Point p = drawIndexedString(view.getApplication(), g2, labelDesc.substring(lineBegin, i), xLabel, yLabel + lines * lineSpread);
+					Point p = drawIndexedString(view.getApplication(), g2, labelDesc.substring(lineBegin, i), xLabel, yLabel + lines * lineSpread, isSerif());
 					if (p.x > xoffset) xoffset = p.x;
 					if (p.y > yoffset) yoffset = p.y;
 					lines++;
@@ -685,7 +689,7 @@ public abstract class Drawable extends DrawableND {
 			}
 
 			float ypos = yLabel + lines * lineSpread;
-			Point p = drawIndexedString(view.getApplication(), g2, labelDesc.substring(lineBegin), xLabel, ypos);
+			Point p = drawIndexedString(view.getApplication(), g2, labelDesc.substring(lineBegin), xLabel, ypos, isSerif());
 			if (p.x > xoffset) xoffset = p.x;
 			if (p.y > yoffset) yoffset = p.y;
 			labelHasIndex = yoffset > 0;
@@ -702,9 +706,9 @@ public abstract class Drawable extends DrawableND {
 	 * @param str
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static Point drawIndexedString(Application app, Graphics2D g2, String str, float xPos, float yPos) {
+	public static Point drawIndexedString(Application app, Graphics2D g2, String str, float xPos, float yPos, boolean serif) {
 		Font g2font = g2.getFont();
-		g2font = app.getFontCanDisplay(str, false, g2font.getStyle(), g2font.getSize());
+		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(), g2font.getSize());
 		Font indexFont = getIndexFont(g2font);
 		Font font = g2font;
 		TextLayout layout;
