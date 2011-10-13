@@ -19,10 +19,10 @@ import java.net.URL;
 public class GeoGebra extends Object {
 	
 	// GeoGebra version
-	public static final String BUILD_DATE = "08 October 2011";
-	public static final String VERSION_STRING = "4.9.5.0"; // <- update lines below when this is updated
+	public static final String BUILD_DATE = "13 October 2011";
+	public static final String VERSION_STRING = "4.1.13.0"; // <- update lines below when this is updated
 	//current 3D: "4.9.5.0"
-	//current ggb42: "4.1.12.0"
+	//current ggb42: "4.1.13.0"
 	
 	public static final String PREFERENCES_ROOT = VERSION_STRING.startsWith("4.9") ? 
 			"/geogebra50" : "/geogebra42";
