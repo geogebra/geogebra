@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- JNLP File for GeoGebra WebStart Application -->
-<jnlp spec="1.0+" href="geogebra-42.jnlp">
+<jnlp spec="1.0+" codebase="http://www.geogebra.org/webstart/4.2/" href="geogebra-42.jnlp">
   <information>
     <title>GeoGebra 4.2 Beta</title>
     <vendor>International GeoGebra Institute</vendor>
