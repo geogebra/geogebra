@@ -58,6 +58,7 @@ for i in *.html *.jnlp; do
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/unsigned"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/unsigned"/g | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/usb-gomotion"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/"/g | \
+  sed s/"codebase=\"http:\/\/jars"/"codebase=\"http:\/\/www"/g | \
   sed s/"<\/title>"/"<\/title>"/g \
   > unpacked/$i
  rm $i || exit 4
