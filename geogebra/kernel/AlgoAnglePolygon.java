@@ -94,7 +94,16 @@ public class AlgoAnglePolygon extends AlgoElement {
 					poly.getPoint((i+length-1)%length));
 			
     		GeoAngle angle = (GeoAngle) outputAngles.getElement(i);
-    		angle.set(algoAngle.getAngle());   
+    		angle.set(algoAngle.getAngle());
+    		if(!angle.isDrawable){
+    			angle.setDrawable(true);
+    			if (angle.isLabelVisible()) 
+					angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+				else{ 
+					angle.setLabelMode(GeoElement.LABEL_VALUE);
+					angle.setLabelVisible(true);					
+				}
+    		}
     		angle.setDrawAlgorithm(algoAngle.copy());
     		cons.removeFromConstructionList(algoAngle);
     	}
