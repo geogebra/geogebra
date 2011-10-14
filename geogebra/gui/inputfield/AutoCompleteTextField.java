@@ -315,10 +315,14 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			if (!handleEscapeKey) {
 				break;
 			}
-			if(historyPopup != null && historyPopup.isDownPopup())
+			if(historyPopup != null && historyPopup.isDownPopup()){
 				historyPopup.showPopup();
-			else
-				setText(getNextInput());
+			}else{
+				// Fix for Ticket #463
+				if(getNextInput() != null){
+					setText(getNextInput());
+				}
+			}
 			break;
 
 		case KeyEvent.VK_F9: 
