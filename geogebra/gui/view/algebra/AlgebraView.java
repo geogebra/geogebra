@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.gui.SetLabels;
-import geogebra.gui.inputfield.MathTextField;
+import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
@@ -35,8 +35,6 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
-import javax.swing.JComponent;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.CellEditorListener;
@@ -46,7 +44,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 /**
@@ -82,7 +79,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels{
 	
 	private MyRenderer renderer;
 	private MyDefaultTreeCellEditor editor;
-	private JTextField editTF;
+	private AutoCompleteTextField editTF;
 	
 	// store all pairs of GeoElement -> node in the Tree
 	private HashMap<GeoElement, DefaultMutableTreeNode> nodeTable = new HashMap<GeoElement, DefaultMutableTreeNode>(500);
@@ -136,9 +133,6 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels{
 	 * Flag for LaTeX rendering
 	 */
 	final private static boolean renderLaTeX = true;
-
-
-	
 	
 	/** Creates new AlgebraView */
 	public AlgebraView(AlgebraController algCtrl) {	
@@ -267,7 +261,8 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels{
 
 	private void initTreeCellRendererEditor() {
 		renderer = newMyRenderer(app);		
-		editTF = new MathTextField(app);
+		editTF = new AutoCompleteTextField(0, app, true);
+		editTF.setAutoComplete(false);
 		editor = new MyDefaultTreeCellEditor(this, renderer, 
 									new MyCellEditor(editTF, app));
 		
@@ -858,7 +853,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels{
 			}
 		}
 
-	}  // MyEditor
+	}  // MyDefaultTreeCellEditor
 
 	public int getViewID() {
 		return Application.VIEW_ALGEBRA;
