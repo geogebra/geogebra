@@ -1044,4 +1044,10 @@ public class Manager3D implements Manager3DInterface {
 		GeoNumeric num = algo.getLength();
 		return num;
 	}
+	
+	
+	final public GeoPolyhedron Cube(String[] labels, GeoPointND A, GeoPointND B, GeoDirectionND v){
+		AlgoCube algo = new AlgoCube(cons, labels, A, B, v);
+		return algo.getPolyhedron();
+	}
 }

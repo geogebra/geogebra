@@ -49,6 +49,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 		cmdTable.put("Prism", new CmdPrism(kernel));
 		cmdTable.put("Pyramid", new CmdPyramid(kernel));
 		
+		cmdTable.put("Cube", new CmdCube(kernel));
+		
 		
 		cmdTable.put("PointIn", new CmdPointIn3D(kernel));   
 		  

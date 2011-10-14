@@ -553,5 +553,14 @@ public interface Manager3DInterface {
 			 */
 			public GeoNumeric Length(String label, GeoVector3D v);
 
+			/**
+			 * 
+			 * @param labels
+			 * @param A
+			 * @param B
+			 * @param v
+			 * @return cube with A, B for first points and v for direction
+			 */
+			public GeoElement Cube(String[] labels, GeoPointND A, GeoPointND B, GeoDirectionND v);
 
 }
