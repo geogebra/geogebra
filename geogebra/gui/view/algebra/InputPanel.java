@@ -37,7 +37,6 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	
 	private Application app;	
 	private JTextComponent textComponent;	
-
 	
 	/** panel to hold the text field; needs to be a global to set the popup width */
 	private JPanel tfPanel;  
@@ -61,7 +60,6 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 			AutoCompleteTextField atf = (AutoCompleteTextField) textComponent;
 			atf.setAutoComplete(false);
 		}
-
 	}
 	
 	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon, boolean dynamic) {
@@ -124,11 +122,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 			tfPanel.add(textComponent, BorderLayout.CENTER);
 			add(tfPanel, BorderLayout.CENTER);
 		}		
-		
 	}
-
-	
-
 	
 	public JTextComponent getTextComponent() {
 		return textComponent;
@@ -151,20 +145,10 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		textComponent.setText(text);
 	}
 	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Inserts string at current position of the input textfield and gives focus
 	 * to the input textfield.
-	 * @param str: inserted string
+	 * @param str inserted string
 	 */
 	public void insertString(String str) {	
 		textComponent.replaceSelection(str);	
@@ -186,10 +170,6 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	public void focusLost(FocusEvent e) {
 		app.getGuiManager().setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
 	}
-
-	
-
-	
 	
 	//TODO  Hide/show popup button options
 	public void showSpecialChars(boolean flag) {
@@ -197,7 +177,6 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		//for(int i=0; i < symbolButton.length; i++)
 			//symbolButton[i].setVisible(false);	
 	}
-
 	
 	/**
 	 * custom cell renderer for the history list,
@@ -236,7 +215,6 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 					return this;
 				}
 	} 
-	/** end history list cell renderer **/
-		
+	/** end history list cell renderer **/	
 }
 
