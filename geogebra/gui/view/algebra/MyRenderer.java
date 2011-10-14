@@ -1,6 +1,5 @@
 package geogebra.gui.view.algebra;
 
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.FormulaDimension;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
@@ -149,10 +148,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 			// make sure we use a font that can display the text
 			setFont(app.getFontCanDisplay(str));
-
-
 		}		
-
 		return this;
 	}
 
@@ -161,7 +157,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 	 * @param geo
 	 * @return algebra description of the geo
 	 */
-	protected String getAlgebraDescriptionTextOrHTML(GeoElement geo){
+	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo){
 		return geo.getAlgebraDescriptionTextOrHTML();
 	}
 
@@ -200,7 +196,6 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 				bgColor, true);
 
 		latexIcon.setImage(image);
-
 	}
 
 	/**
@@ -210,7 +205,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 	 * @param rightIcon
 	 * @return
 	 */
-	private ImageIcon joinIcons(ImageIcon leftIcon, ImageIcon rightIcon){
+	private static ImageIcon joinIcons(ImageIcon leftIcon, ImageIcon rightIcon){
 
 		int w1 = leftIcon.getIconWidth();
 		int w2 = rightIcon.getIconWidth();
@@ -236,8 +231,5 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 		super.setFont(font);
 		//latexFont = font;
 		// use a slightly smaller font for LaTeX
-
 	}
-
-
 } // MyRenderer
