@@ -1,0 +1,20 @@
+/*
+Archimedean 1.1, a 3D applet/application for visualizing, building, 
+transforming and analyzing Archimedean solids and their derivatives.
+Copyright 1998, 2011 Raffi J. Kasparian, www.raffikasparian.com.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+package com.quantimegroup.solutions.archimedean.app;import com.quantimegroup.solutions.archimedean.utils.Axes;import com.quantimegroup.solutions.archimedean.utils.IntList;import com.quantimegroup.solutions.archimedean.utils.ObjectList;public class TruncableSpacePoly extends SpacePoly {	double[] truncStages = new double[1];	double truncPercent;	IntList ranks;	final static int CT_PLATONIC = 1, CT_ARCHIMEDEAN = 2, ET_PLATONIC = 3, ET_ARCHIMEDEAN = 4;	public TruncableSpacePoly(Archimedean g, ArchiBuilder b, Axes a) {		super(g, b, a);	}	int theoreticalNumPoints(TruncableSpaceSide s) {		int p = s.numPoints();		int p2 = p / 2;		switch (type) {		case CT_PLATONIC:			if (s.cornerSide){				if (truncPercent == truncStages[0]) return 0;				else if (truncPercent <= truncStages[2]) return p2;				else if (truncPercent == truncStages[4]) return p2;				else return p;			}else{				if (truncPercent == truncStages[0]) return p2;				else if (truncPercent < truncStages[2]) return p;				else if (truncPercent < truncStages[4]) return p2;				else return 0;			}		case CT_ARCHIMEDEAN:			if (s.cornerSide){				if (truncPercent == truncStages[0]) return 0;				else if (truncPercent <= truncStages[1]) return p2;				else if (truncPercent < truncStages[2]) return p;				else if (truncPercent < truncStages[3]) return p - 1;				else if (truncStages.length == 5 && truncPercent < truncStages[4]) return p - 2;				else return p / 2;			}else{				if (truncPercent == truncStages[0]) return p2;				else if (truncPercent < truncStages[1]) return p;				else if (truncPercent < truncStages[2]) return p2;				else if (truncPercent < truncStages[3]){					if (p2 <= ranks.get(0)) return 0;					else return p2;				}else if (truncStages.length == 5 && truncPercent < truncStages[4]){					if (p2 <= ranks.get(1)) return 0;					else return p2;				}else return 0;			}		case ET_PLATONIC:		case ET_ARCHIMEDEAN:			if (s.cornerSide){				if (truncPercent == truncStages[0]) return 0;				else if (truncPercent >= truncStages[truncStages.length - 1]) return 4;				else if (truncStages.length >= 2 && truncPercent < truncStages[1]) return 6;				else if (truncStages.length >= 3 && truncPercent < truncStages[2]) return s.neighbors[1];				else if (truncStages.length >= 4 && truncPercent < truncStages[3]) return s.neighbors[2];				else return 4;			}else{				if (truncPercent < truncStages[1]) return p;				else if (truncPercent >= truncStages[truncStages.length - 1]) return 0;				else if (truncPercent < truncStages[2]){					if (p <= ranks.get(0)) return 0;					else return p;				}else if (truncPercent < truncStages[3]){					if (p <= ranks.get(1)) return 0;					else return p;				}else return 0;			}		}		return p;	}	double getTruncStage() {		if (truncPercent < 0){			return -1;		}		for (int i = 0; i < truncStages.length; ++i){			if (truncStages[i] == truncPercent){				return i;			}else if (truncStages[i] > truncPercent){				return i - 0.5;			}		}		return -1;	}}
