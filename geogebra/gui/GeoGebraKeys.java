@@ -36,8 +36,9 @@ public class GeoGebraKeys implements KeyListener {
 	}
 
 	public void keyTyped(KeyEvent e) {
+		
 		//Application.debug("keyTyped"+e.getKeyChar());
-		if (e.isAltDown()) {
+		if (Application.isAltDown(e)) {
 			if (!altPressed) {
 				altCodes.setLength(0);
 				//Application.debug("alt pressed");
@@ -78,7 +79,8 @@ public class GeoGebraKeys implements KeyListener {
 
 	}   
 
-	public void keyReleased(KeyEvent e) {   
+	public void keyReleased(KeyEvent e) {  
+		
 		//Application.debug("keyReleased");
 		// ctrl pressed on Mac
 		// or alt on Windows
@@ -318,5 +320,4 @@ Ctrl Alt               {   }
 			}
 		}
 	}
-
 }
