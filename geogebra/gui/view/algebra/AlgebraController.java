@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.kernel.GeoElement;
@@ -62,7 +61,6 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 	private DragSource ds;
 
-
 	/** Creates new CommandProcessor */
 	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
@@ -85,8 +83,6 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		ds = new DragSource();
 		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(view, DnDConstants.ACTION_COPY_OR_MOVE, this);
 	}
-
-
 
 	/*
 	 * MouseListener implementation for popup menus
@@ -245,7 +241,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			}	
 
 			// LEFT CLICK	
-		}else{
+		} else {
 
 			// When a single, new selection is made with no key modifiers
 			// we need to handle selection in mousePressed, not mouseClicked.
@@ -309,14 +305,11 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		} else
 			view.setToolTipText(null);						
 	}
-
-
-
+	
 
 	//=====================================================
 	// Drag and Drop 
 	//=====================================================
-	
 	
 	public void dragDropEnd(DragSourceDropEvent e) {}
 	public void dragEnter(DragSourceDragEvent e) {}
@@ -358,8 +351,6 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 	}
 
-
-	
 	/**
 	 * 	Extension of Transferable for exporting AlgegraView selections as a list of Geo labels
 	 */
@@ -390,5 +381,4 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			throw new UnsupportedFlavorException(flavor);
 		}
 	}
-
 }
