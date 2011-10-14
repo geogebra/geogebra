@@ -60,19 +60,14 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	boolean caretUpdated = true;
 	boolean caretShowing = true;
 
-
 	// border button fields
 	private BorderButton borderBtn;
 	private Border defaultBorder;
 
 	private boolean enableColoring = true;
-	
-
-	
 
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
-	 * @param guiManager
 	 */
 	public MyTextField(Application app) {
 		super();
@@ -82,7 +77,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 
 	/************************************
 	 * Construct an instance of MyTextField with a fixed column width
-	 * @param guiManager
 	 * @param columns
 	 */
 	public MyTextField(Application app, int columns) {
@@ -90,8 +84,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		this.app = app;
 		initField();
 	}
-
-
 	
 	/**
 	 * Initializes the field: registers listeners, creates and sets the BorderButton
@@ -107,7 +99,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		borderBtn.setBorderButton(0, icon, this);
 		setDefaultBorder();
 	}
-
 	
 	/**
 	 * returns true if bracket coloring is enabled
@@ -124,8 +115,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	public void enableColoring(boolean enableColoring) {
 		this.enableColoring = enableColoring;
 	}
-	
-	
 	
 
 	//====================================================
@@ -154,8 +143,9 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	}
 
 	/**
-	 * Overrrides setBorder to prevent removal of the BorderButton
+	 * Overrides <code>setBorder</code> to prevent removal of the BorderButton
 	 */
+	@Override
 	public void setBorder(Border border){
 		super.setBorder(BorderFactory.createCompoundBorder(border, borderBtn));
 	}
@@ -191,8 +181,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 			app.getGuiManager().setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
 	}
 
-	
-
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
@@ -207,7 +195,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		}
 	}
 
-	
 	/**
 	 * Caret update
 	 */
@@ -216,13 +203,10 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		repaint();
 	}
 
-	
-
 	/**
 	 * Inserts a string into the text at the current caret position
 	 */
 	public void insertString(String text) {
-
 		int start = getSelectionStart();
 		int end = getSelectionEnd();      
 
@@ -269,10 +253,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		// caret, but not working yet
 		//	setCaret(new DefaultCaret());
 		//	setCaretPosition(newPos); 
-
 	}
-
-
 
 	/** 
 	 * Creates an instance of JPopupMenu and adds a symbol table to it.
@@ -293,13 +274,10 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 
-
-
 	/** 
 	 * Gets the pixel location of the caret. Used to locate the popup. 
 	 * */
 	private Point getCaretPixelPosition(){
-
 		int position = thisField.getCaretPosition();  
 		Rectangle r;
 		try {
@@ -309,7 +287,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		}  
 		return new Point(r.x, r.y - popup.getPreferredSize().height-10);
 	}
-
 
 	/** 
 	 * Hides the popup and inserts selected symbol. (Called by symbol table
@@ -326,7 +303,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	 * triggered by ctrl-up.
 	 * */
 	public void processKeyEvent(KeyEvent e) {
-
 		int keyCode = e.getKeyCode(); 
 
 		if ((e.isControlDown()||Application.isControlDown(e)) && keyCode == KeyEvent.VK_UP){
@@ -373,9 +349,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		super.processKeyEvent(e);
 	}
 
-
-
-
 	private float pos = 0;
 	private int scrollOffset = 0;
 	private int width = 0, height = 0, textBottom, fontHeight;
@@ -384,10 +357,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	private Graphics2D g2;
 	private Insets insets;
 
-	
-
 	public void paintComponent(Graphics gr) {
-
 		// moving caret doesn't work without this... why?
 		super.paintComponent(gr);
 		
@@ -494,7 +464,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 					bracket1pos = -1;
 					bracket2pos = -1;
 					break;
-
 				}
 
 			}
@@ -519,8 +488,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		int selStart = getSelectionStart();
 		int selEnd = getSelectionEnd();
 
-
-
 		float caretPos = -1;
 
 		if (caret == 0) caretPos = pos;
@@ -542,7 +509,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 			g2.setColor(Color.black);
 			g2.fillRect((int)caretPos - scrollOffset + insets.left, textBottom - fontHeight + 4 , 1, fontHeight);
 			g2.setPaintMode();
-
 		}
 	}
 
@@ -550,7 +516,6 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		if (text == null || text.length() == 0) return 0;
 		TextLayout layout = new TextLayout(text, font, frc);
 		return layout.getAdvance();
-
 	}
 
 	private void drawText(String str, boolean selected) {
@@ -570,9 +535,5 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		//g2.drawString(str, pos - scrollOffset + insets.left, height - insets.bottom - insets.top - 4);
 		pos += layout.getAdvance();
-
 	}
-
-
-
 }
