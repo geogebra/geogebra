@@ -110,7 +110,7 @@ public class ColorPickerPanel extends JPanel {
 	/** The point used to indicate the selected color. */
 	private Point point = new Point(0,0);
 	
-	private Vector changeListeners = new Vector();
+	private Vector<ChangeListener> changeListeners = new Vector<ChangeListener>();
 	
 	/* Floats from [0,1].  They must be kept distinct, because
 	 * when you convert them to RGB coordinates HSB(0,0,0) and HSB (.5,0,0)
