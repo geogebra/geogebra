@@ -995,10 +995,6 @@ public abstract class GeoElement
 			double m = L-.5*C;
 
 			Color c = new Color((int)((R1+m)*255.0), (int)((G1+m)*255.0), (int)((B1+m)*255.0), alpha);
-
-			if(c == null){
-				Application.printStacktrace("error converting HSL to RGB");
-			}
 			return c;
 
 
@@ -3172,7 +3168,6 @@ public abstract class GeoElement
 	
 	/**
 	 * Sends geo's value in the current CAS, e.g. a := 5;
-	 * @param geo
 	 * @return whether an assignment was evaluated
 	 */
 	final public boolean sendValueToCAS() {
@@ -4285,8 +4280,8 @@ public abstract class GeoElement
 		kernel.setPrintLocalizedCommandNames(false);
 
 		// make sure numbers are not put in XML in eg Arabic
-		boolean oldI8NValue = kernel.internationalizeDigits;
-		kernel.internationalizeDigits = false;	
+		boolean oldI8NValue = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;	
 
 		getElementOpenTagXML(sb);
 		
@@ -4296,7 +4291,7 @@ public abstract class GeoElement
 		getElementCloseTagXML(sb);
 
 		kernel.setPrintLocalizedCommandNames(oldValue);
-		kernel.internationalizeDigits = oldI8NValue;
+		Kernel.internationalizeDigits = oldI8NValue;
 	}
 	
 	protected void getElementOpenTagXML(StringBuilder sb) {
@@ -6232,10 +6227,10 @@ public abstract class GeoElement
 	 * with LaTeX rendering in the spreadsheet or AV. For performance reasons
 	 * LaTeX is to be avoided when not needed.
 	 * 
-	 * @param geo
 	 * @return
 	 */
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
+		//TODO Does not what the comment says
 		return false;
 	}
 	
