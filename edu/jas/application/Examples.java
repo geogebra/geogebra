@@ -14,8 +14,6 @@ import edu.jas.structure.Product;
 import edu.jas.structure.ProductRing;
 
 import edu.jas.gb.GroebnerBase;
-import edu.jas.gb.GroebnerBasePseudoSeq;
-import edu.jas.gb.GroebnerBaseSeq;
 import edu.jas.gb.GBFactory;
 import edu.jas.gb.RGroebnerBasePseudoSeq;
 import edu.jas.gb.RReductionSeq;

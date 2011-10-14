@@ -20,11 +20,8 @@ import org.apache.log4j.Logger;
 import edu.jas.gb.ExtendedGB;
 import edu.jas.gb.GroebnerBaseAbstract;
 import edu.jas.gb.GroebnerBasePartial;
-import edu.jas.gb.GroebnerBaseSeq;
-import edu.jas.gb.GroebnerBaseSeqPairSeq;
 import edu.jas.gb.GBFactory;
 import edu.jas.gb.Reduction;
-import edu.jas.gb.ReductionSeq;
 import edu.jas.poly.ExpVector;
 import edu.jas.poly.GenPolynomial;
 import edu.jas.poly.GenPolynomialRing;
@@ -775,7 +772,7 @@ public class Ideal<C extends GcdRingElem<C>> implements Comparable<Ideal<C>>, Se
         }
 
         GroebnerBasePartial<C> bbp = new GroebnerBasePartial<C>(bb, null);
-        String[] rname = bbp.remainingVars(aname, ename);
+        String[] rname = GroebnerBasePartial.remainingVars(aname, ename);
         //System.out.println("rname = " + Arrays.toString(rname));
         PolynomialList<C> Pl = null;
         if (rname.length == 0) {

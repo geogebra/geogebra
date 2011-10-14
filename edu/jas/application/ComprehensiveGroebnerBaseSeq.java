@@ -6,14 +6,11 @@ package edu.jas.application;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import edu.jas.gb.GroebnerBase;
-import edu.jas.gb.GroebnerBasePseudoSeq;
 import edu.jas.gb.GBFactory;
 import edu.jas.poly.ExpVector;
 import edu.jas.poly.GenPolynomial;
@@ -22,7 +19,6 @@ import edu.jas.structure.GcdRingElem;
 import edu.jas.structure.RingFactory;
 
 import edu.jas.ufd.SquarefreeFactory;
-import edu.jas.ufd.Squarefree;
 import edu.jas.ufd.SquarefreeAbstract;
 
 
@@ -163,7 +159,8 @@ public class ComprehensiveGroebnerBaseSeq<C extends GcdRingElem<C>>
      * @return true, if CS is a Comprehensive-Groebner system, else false.
      */
     // @Override
-    public boolean isGBsys(int modv, List<ColoredSystem<C>> CS) {
+    @SuppressWarnings("unused")
+	public boolean isGBsys(int modv, List<ColoredSystem<C>> CS) {
         if (CS == null || CS.size() == 0) {
             return true;
         }
