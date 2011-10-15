@@ -188,7 +188,6 @@ extends GeoPolygon implements GeoElement3DInterface, Path, GeoCoordSys2D {
 	private boolean reverseNormal = false;
 	
 	public void setReverseNormal(){
-		Application.debug("ici");
 		reverseNormal = true;
 	}
 	 
