@@ -31,7 +31,10 @@ public class GeoGebraKeys implements KeyListener {
 		this.app = app;
 	}
 	
-	public void keyPressed(KeyEvent e) {   
+	public void keyPressed(KeyEvent e) {  
+		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
+		if (Application.MAC_OS && e.isControlDown())
+			e.consume();
 		//Application.debug("keyPressed");
 	}
 
@@ -73,9 +76,8 @@ public class GeoGebraKeys implements KeyListener {
 		if (e.isAltDown() && e.isControlDown())
 			return;
 
-		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
-		if (Application.MAC_OS && e.isControlDown())
-			e.consume();
+		
+		
 
 	}   
 
