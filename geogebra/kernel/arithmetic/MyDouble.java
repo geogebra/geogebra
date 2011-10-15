@@ -174,23 +174,47 @@ implements NumberValue, Comparable {
         c.set(a.val - b.val); 
     }
     
-    /** c = a * b */
+    /** c = a * b 
+     * http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
+     * */
     final public static void mult(MyDouble a, MyDouble b, MyDouble c) {
         c.isAngle = a.isAngle || b.isAngle;
-        if(a.val == 0 || b.val == 0){
-        	c.set(0);
+        
+        // ? * anything = ?
+        if (Double.isNaN(a.val) || Double.isNaN(b.val)) {
+        	c.set(Double.NaN);
         	return;
         }
+        
+        // (infinity) * (-infinity) = ?
+        if (Double.isInfinite(a.val) && Double.isInfinite(b.val) && Math.signum(a.val) != Math.signum(b.val)) {
+        	c.set(Double.NaN);
+        	return;
+        }
+        
+        // gives correct answer for eg -3 * infinity
     	c.set(a.val * b.val);
     }
     
-    /** c = a * b */
+    /** c = a * b 
+     * http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
+     * */
     final public static void mult(MyDouble a, double b, MyDouble c) {
         c.isAngle = a.isAngle;
-        if(a.val == 0 || b == 0){
-        	c.set(0);
+        
+        // ? * anything = ?
+        if (Double.isNaN(a.val) || Double.isNaN(b)) {
+        	c.set(Double.NaN);
         	return;
         }
+        
+        // (infinity) * (-infinity) = ?
+        if (Double.isInfinite(a.val) && Double.isInfinite(b) && Math.signum(a.val) != Math.signum(b)) {
+        	c.set(Double.NaN);
+        	return;
+        }
+        
+        // gives correct answer for eg -3 * infinity
     	c.set(a.val * b);
     }
     
