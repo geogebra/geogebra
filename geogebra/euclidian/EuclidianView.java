@@ -13,6 +13,7 @@
 package geogebra.euclidian;
 
 import geogebra.euclidian.DrawableList.DrawableIterator;
+import geogebra.euclidian.DrawablesFor3D.DrawAngleFor3D;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.kernel.AlgoBoxPlot;
@@ -3660,11 +3661,17 @@ implements EuclidianViewInterface, Printable, SettingListener {
 								.getConstructionDefaults().getDefaultGeo(
 										ConstructionDefaults.DEFAULT_ANGLE)
 								.getObjectColor();
+						Application.debug(col);
 						geo.setObjColor(col);
 					}
 				}
 			}
 			break;
+			
+		case GeoElement.GEO_CLASS_ANGLE_3D:
+			d = new DrawAngleFor3D(this, (GeoAngle) geo);
+			break;
+
 
 		case GeoElement.GEO_CLASS_NUMERIC:
 			AlgoElement algo = geo.getDrawAlgorithm();

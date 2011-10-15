@@ -48,7 +48,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	private GeoAngle angle;
 
-	private GeoPoint vertex, point, point2;
+	private GeoPointND vertex, point, point2;
 
 	private GeoLine line, line2;
 
@@ -187,6 +187,19 @@ public class DrawAngle extends Drawable implements Previewable {
 		} else Application.debug("missing case in DrawAngle");
 	}
 	
+	/**
+	 * 
+	 * @param point
+	 * @return true if coords are in this view
+	 */
+	protected boolean inView(Coords point){
+		return true;
+	}
+	
+	protected double getRawAngle(){
+		return angle.getRawAngle();
+	}
+	
 	final public void update() {
 		if(!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
 			init();
@@ -205,24 +218,41 @@ public class DrawAngle extends Drawable implements Previewable {
 		switch (angleDrawMode) {
 		case DRAW_MODE_POINTS: // three points
 			// vertex
-			vertex.getInhomCoords(m);
-
+			Coords v = vertex.getInhomCoordsInD(3);
+			if (!inView(v)){
+				isVisible=false;
+				return;
+			}
+			m = v.get();
+			
+			Coords coords = point.getInhomCoordsInD(3);
+			if (!inView(coords)){
+				isVisible=false;
+				return;
+			}
+			Coords coords2 = point2.getInhomCoordsInD(3);
+			if (!inView(coords2)){
+				isVisible=false;
+				return;
+			}
+	
+			
 			// first vec
-			firstVec[0] = point.inhomX - m[0];
-			firstVec[1] = point.inhomY - m[1];
+			firstVec[0] = coords.getX() - m[0];
+			firstVec[1] = coords.getY() - m[1];
 			
 			double vertexScreen[] = new double[2];
 			vertexScreen[0] = m[0];
 			vertexScreen[1] = m[1];
 			
 			double firstVecScreen[] = new double[2];
-			firstVecScreen[0] = point.inhomX;
-			firstVecScreen[1] = point.inhomY;
+			firstVecScreen[0] = coords.getX();
+			firstVecScreen[1] = coords.getY();
 			
 			
 			double secondVecScreen[] = new double[2];
-			secondVecScreen[0] = point2.inhomX;
-			secondVecScreen[1] = point2.inhomY;
+			secondVecScreen[0] = coords2.getX();
+			secondVecScreen[1] = coords2.getY();
 			
 			view.toScreenCoords(vertexScreen);
 			view.toScreenCoords(firstVecScreen);
@@ -251,8 +281,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		case DRAW_MODE_LINES: // two lines
 			// intersect lines to get vertex
-			GeoVec3D.cross(line, line2, vertex);
-			vertex.getInhomCoords(m);
+			m = GeoVec3D.cross(line, line2).get();
 
 			// first vec
 			line.getDirection(firstVec);
@@ -298,7 +327,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 		// Michael Borcherds 2007-11-19 BEGIN
 //		double angExt = angle.getValue();
-		double angExt = angle.getRawAngle();
+		double angExt = getRawAngle();
 
 		// if this angle was not allowed to become a reflex angle
 		// (i.e. greater than pi) we got (2pi - angleValue) for angExt

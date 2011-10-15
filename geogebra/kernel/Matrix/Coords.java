@@ -282,15 +282,38 @@ public class Coords
 	 * @param v vector multiplied with
 	 * @return vector resulting of the cross product
 	 */
-	public Coords crossProduct(Coords v){
+	final public Coords crossProduct(Coords v){
 		
 		Coords ret = new Coords(3);
 		
-		ret.val[0] = val[1]*v.val[2]-val[2]*v.val[1];
-		ret.val[1] = val[2]*v.val[0]-val[0]*v.val[2];
-		ret.val[2] = val[0]*v.val[1]-val[1]*v.val[0];
+		ret.setCrossProduct(this, v);
 		
 		return ret;
+	}
+	
+	/**
+	 * 
+	 * @param v
+	 * @return 4-length vector equal to cross product this ^ v
+	 */
+	final public Coords crossProduct4(Coords v){
+		
+		Coords ret = new Coords(4);
+		
+		ret.setCrossProduct(this, v);
+		
+		return ret;
+	}
+	
+	/**
+	 * set x,y,z values according to v1 ^ v2 cross product
+	 * @param v1
+	 * @param v2
+	 */
+	final public void setCrossProduct(Coords v1, Coords v2){
+		val[0] = v1.val[1]*v2.val[2]-v1.val[2]*v2.val[1];
+		val[1] = v1.val[2]*v2.val[0]-v1.val[0]*v2.val[2];
+		val[2] = v1.val[0]*v2.val[1]-v1.val[1]*v2.val[0];
 	}
 
 	

@@ -20,14 +20,18 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import java.awt.Color;
+
+import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.MyDouble;
+import geogebra.main.Application;
 
 /**
  * 
  * @author Markus
  * @version
  */
-public final class GeoAngle extends GeoNumeric {
+public class GeoAngle extends GeoNumeric {
 
 	private static final long serialVersionUID = 1L;
 
@@ -308,6 +312,14 @@ public final class GeoAngle extends GeoNumeric {
 		return angleStyle;
 
 	}
+	
+	/**
+	 * 
+	 * @return true if has a "super" orientation (e.g. in 3D, from a specific oriented plane)
+	 */
+	public boolean hasOrientation(){
+		return true; //orientation of xOyPlane
+	}
 
 	/**
 	 * Returns the raw value of angle
@@ -461,5 +473,11 @@ public final class GeoAngle extends GeoNumeric {
 				|| getParentAlgorithm() instanceof AlgoAnglePoints);		
 	}
 
+	
+	public boolean hasDrawable3D(){
+		return true;
+	}
+	
+	
 
 }

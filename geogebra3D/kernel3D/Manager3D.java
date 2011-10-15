@@ -1,15 +1,18 @@
 package geogebra3D.kernel3D;
 
 
+import geogebra.kernel.AlgoAnglePoints;
 import geogebra.kernel.AlgoCircleThreePoints;
 import geogebra.kernel.AlgoElement;
 import geogebra.kernel.AlgoLengthVector;
 import geogebra.kernel.AlgoPolygon;
 import geogebra.kernel.Construction;
+import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.GeoSurfaceFinite;
 import geogebra.kernel.GeoVec3D;
@@ -1030,6 +1033,20 @@ public class Manager3D implements Manager3DInterface {
 		
 		AlgoIntersectCS2D2D algo = new AlgoIntersectCS2D2D(cons, cs1, cs2);
 		return algo.getIntersection();
+	}
+	
+	
+	/** 
+	 * Angle named label between three points
+	 */
+	final public GeoAngle Angle3D(
+		String label,
+		GeoPointND A,
+		GeoPointND B,
+		GeoPointND C) {
+		AlgoAnglePoints algo = new AlgoAnglePoints3D(cons, label, A, B, C);
+		GeoAngle angle = algo.getAngle();
+		return angle;
 	}
 	
 	

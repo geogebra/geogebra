@@ -355,6 +355,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 					return DEFAULT_POINT3D_DEPENDENT;
 			}
 			
+		case GeoElement.GEO_CLASS_ANGLE_3D:
+			return DEFAULT_ANGLE;
+			
 		case GeoElement3D.GEO_CLASS_LINE3D: 
 			if (((GeoLine3D)geo).isIntersection())
 				return DEFAULT_LINE3D_INTERSECTION;

@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -183,6 +184,7 @@ implements Traceable {
         					 u.z * v.x - u.x * v.z,  
         					 u.x * v.y - u.y * v.x );              
     }  
+    
     
     /** Calculates the cross product of vectors u and v.
      * @param u 

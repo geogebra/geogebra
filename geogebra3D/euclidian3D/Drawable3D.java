@@ -269,16 +269,19 @@ public abstract class Drawable3D extends DrawableND {
 		if (isVisible())
 			updateForView();
 		
-		if (labelWaitForUpdate){
-			updateLabel();
-			labelWaitForUpdate = false;
-		}
 		
 		if (waitForUpdate){
 			if (updateForItSelf())
 				waitForUpdate = false;
 			setLabelWaitForUpdate();//TODO remove that
 		}
+		
+		if (labelWaitForUpdate){
+			updateLabel();
+			labelWaitForUpdate = false;
+		}
+
+		
 		
 		realtimeUpdate();
 		

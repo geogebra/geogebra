@@ -9,6 +9,7 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidian.Hits;
 import geogebra.euclidian.Previewable;
 import geogebra.kernel.AlgoElement;
+import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoConicPart;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
@@ -19,7 +20,6 @@ import geogebra.kernel.GeoPolyLine;
 import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordMatrixUtil;
@@ -68,8 +68,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.JPanel;
-
-import org.freehep.graphicsio.emf.gdi.IntersectClipRect;
 
 
 /**
@@ -591,7 +589,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 			case GeoElement3D.GEO_CLASS_CURVECARTESIAN3D:	
 				d = new DrawCurve3D(this, (GeoCurveCartesian3D) geo);	
-				break;									
+				break;				
+				
+			case GeoElement.GEO_CLASS_ANGLE:
+			case GeoElement.GEO_CLASS_ANGLE_3D:
+				d = new DrawAngle3D(this, (GeoAngle) geo);
+				break;
 
 
 

@@ -544,6 +544,18 @@ public interface Manager3DInterface {
 			public GeoElement IntersectPlanes(
 					GeoCoordSys2D cs1,
 					GeoCoordSys2D cs2);
+
+			
+			
+			/** 
+			 * Angle named label between three points
+			 */
+			public GeoAngle Angle3D(
+				String label,
+				GeoPointND A,
+				GeoPointND B,
+				GeoPointND C);
+
 			
 			/** 
 			 * Length named label of vector v

@@ -395,6 +395,30 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
+	/**
+	 * draws a parallelogram
+	 * @param center
+	 * @param v1
+	 * @param v2
+	 * @param l1 
+	 * @param l2 
+	 */
+	public void parallelogram(Coords center, Coords v1, Coords v2, double l1, double l2){
+		manager.startGeometry(Manager.QUADS);
+
+		manager.texture(0, 0);
+		manager.normal(v1.crossProduct(v2));
+		manager.vertex(center);  
+		//manager.texture(1, 0);//TODO ?
+		manager.vertex(center.add(v1.mul(l1)));  
+		//manager.texture(1, 1);
+		manager.vertex(center.add(v1.mul(l1)).add(v2.mul(l2)));  
+		//manager.texture(0, 1);
+		manager.vertex(center.add(v2.mul(l2)));      	           	
+
+		manager.endGeometry();
+	}
+	
 	
 	
 	/** draws an ellipse

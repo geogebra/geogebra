@@ -2096,6 +2096,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private Object[] geos; // currently selected geos
 		private JCheckBox reflexAngleCB;
 		private JCheckBox forceReflexAngleCB;
+		
+		private boolean hasOrientation;
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -2127,16 +2129,20 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			GeoAngle temp, geo0 = (GeoAngle) geos[0];
 			boolean equalangleStyle=true;
 			boolean allreflex=true;
+			hasOrientation = true;
 			
 			for (int i = 0; i < geos.length; i++) {
 				temp = (GeoAngle) geos[i];
 				// same object visible value
 				if (temp.getAngleStyle()!=3) allreflex=false;
+				if (!temp.hasOrientation()) hasOrientation=false;
 				if (geo0.getAngleStyle() != temp.getAngleStyle())
 					equalangleStyle = false;
+				
+				
 			}
 			
-			if (allreflex==true) reflexAngleCB.setEnabled(false); else reflexAngleCB.setEnabled(true);
+			if (allreflex==true || !hasOrientation) reflexAngleCB.setEnabled(false); else reflexAngleCB.setEnabled(true);
 
 			
 			if (equalangleStyle)
@@ -2194,7 +2200,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					}
 					else 
 					{
-						reflexAngleCB.setEnabled(true);
+						if (hasOrientation)
+							reflexAngleCB.setEnabled(true);
 						if (reflexAngleCB.isSelected())
 							geo.setAngleStyle(0);
 						else

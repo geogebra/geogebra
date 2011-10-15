@@ -472,7 +472,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     protected void drawAngle(GeoAngle geo){
     	int arcSize=geo.getArcSize();
     	AlgoElement algo=geo.getParentAlgorithm();
-    	GeoPoint vertex,point;
+    	GeoPointND vertex, point;
     	GeoVector v;
     	GeoLine line,line2;
      	GeoPoint tempPoint = new GeoPoint(construction);     	
@@ -484,10 +484,11 @@ public class GeoGebraToPstricks extends GeoGebraExport {
      		AlgoAnglePoints pa = (AlgoAnglePoints) algo;
     		vertex = pa.getB();
     		point = pa.getA();
-	        vertex.getInhomCoords(m);
+    		vertex.getInhomCoords(m);
 	        // first vec
-		    firstVec[0] = point.inhomX - m[0];
-		    firstVec[1] = point.inhomY - m[1];
+	        Coords coords = point.getInhomCoordsInD(3);
+		    firstVec[0] = coords.getX() - m[0];
+		    firstVec[1] = coords.getY() - m[1];
     	} 
      	// angle between two vectors
 		else if (algo instanceof AlgoAngleVectors) {
@@ -507,8 +508,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			line2 = la.geth();	
 			vertex = tempPoint;
 			// intersect lines to get vertex
-			GeoVec3D.cross(line, line2, vertex);
-			vertex.getInhomCoords(m);
+			m = GeoVec3D.cross(line, line2).get();
 			// first vec
 			line.getDirection(firstVec);
 		}

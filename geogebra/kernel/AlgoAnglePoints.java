@@ -19,6 +19,8 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
+import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -32,19 +34,22 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input
-    private GeoAngle angle; // output           
+	private GeoPointND An, Bn, Cn; // input
+    private GeoAngle angle; // output  
+    
+    /** standard normal vector */
+    private static final Coords STANDARD_VN = new Coords(0,0,1,0);
 
     private AlgoAnglePolygon algoAnglePoly;
 
     transient private double bx, by, vx, vy, wx, wy;
 
-    AlgoAnglePoints(
+    protected AlgoAnglePoints(
         Construction cons,
         String label,
-        GeoPoint A,
-        GeoPoint B,
-        GeoPoint C) {
+        GeoPointND A,
+        GeoPointND B,
+        GeoPointND C) {
         this(cons, A, B, C);
         angle.setLabel(label);
     }
@@ -52,9 +57,9 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     AlgoAnglePoints(
         Construction cons,
         AlgoAnglePolygon algoAnglePoly,
-        GeoPoint A,
-        GeoPoint B,
-        GeoPoint C) {
+        GeoPointND A,
+        GeoPointND B,
+        GeoPointND C) {
         this(cons, A, B, C);
         this.algoAnglePoly = algoAnglePoly;
     }
@@ -69,41 +74,45 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     
     public AlgoAnglePoints(
         Construction cons,
-        GeoPoint A,
-        GeoPoint B,
-        GeoPoint C) {
+        GeoPointND A,
+        GeoPointND B,
+        GeoPointND C) {
         super(cons);
-        this.A = A;
-        this.B = B;
-        this.C = C;
-        angle = new GeoAngle(cons);
+        this.An = A;
+        this.Bn = B;
+        this.Cn = C;
+        angle = newGeoAngle(cons);
         setInputOutput(); // for AlgoElement
 
         // compute angle
         compute();
     }
     
+    protected GeoAngle newGeoAngle(Construction cons){
+    	return new GeoAngle(cons);
+    }
+    
     public AlgoAnglePoints(
-                     GeoPoint A,
-            GeoPoint B,
-            GeoPoint C,Construction cons) {
+                     GeoPointND A,
+            GeoPointND B,
+            GeoPointND C,Construction cons) {
     	super(cons);
     	this.cons=cons;
-            this.A = A;
-            this.B = B;
-            this.C = C;
+            this.An = A;
+            this.Bn = B;
+            this.Cn = C;
          
      }
     
-    public AlgoAnglePoints(GeoPoint A, GeoPoint B, GeoPoint C) {
-    	super(A.cons, false);
-    	this.A = A;
-        this.B = B;
-        this.C = C;
+    public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C) {
+    	super(((GeoElement) A).cons, false);
+    	this.An = A;
+        this.Bn = B;
+        this.Cn = C;
 	}
 
 	public AlgoAnglePoints copy(){
-    	return new AlgoAnglePoints((GeoPoint)A.copy(),(GeoPoint)B.copy(),(GeoPoint)C.copy());
+    	return new AlgoAnglePoints((GeoPointND)An.copy(),(GeoPointND)Bn.copy(),(GeoPointND)Cn.copy());
     }
 
     void setAlgoAnglePolygon(AlgoAnglePolygon algo) {
@@ -113,9 +122,9 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     // for AlgoElement
     protected void setInputOutput() {
         input = new GeoElement[3];
-        input[0] = A;
-        input[1] = B;
-        input[2] = C;
+        input[0] = (GeoElement) An;
+        input[1] = (GeoElement) Bn;
+        input[2] = (GeoElement) Cn;
 
         setOutputLength(1);
         setOutput(0,angle);
@@ -139,19 +148,28 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     public GeoAngle getAngle() {
         return angle;
     }
-    public GeoPoint getA() {
-        return A;
+    public GeoPointND getA() {
+        return An;
     }
-    public GeoPoint getB() {
-        return B;
+    public GeoPointND getB() {
+        return Bn;
     }
-    public GeoPoint getC() {
-        return C;
+    public GeoPointND getC() {
+        return Cn;
+    }
+    
+    public Coords getVn(){
+    	return STANDARD_VN;
     }
 
     // calc angle between vectors A-B and C-B    
     // angle in range [0, pi]
-    protected final void compute() {
+    protected void compute() {
+    	
+    	GeoPoint A = (GeoPoint) An;
+    	GeoPoint B = (GeoPoint) Bn;
+    	GeoPoint C = (GeoPoint) Cn;
+    	
         if (!A.isFinite() || !B.isFinite() || !C.isFinite()) {
             angle.setUndefined(); // undefined
             return;
@@ -187,9 +205,9 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         if (algoAnglePoly != null) 
-            return app.getPlain("AngleBetweenABCofD",A.getLabel(),B.getLabel(),C.getLabel(),algoAnglePoly.getPolygon().getNameDescription());
+            return app.getPlain("AngleBetweenABCofD",An.getLabel(),Bn.getLabel(),Cn.getLabel(),algoAnglePoly.getPolygon().getNameDescription());
         else
-           	return app.getPlain("AngleBetweenABC",A.getLabel(),B.getLabel(),C.getLabel());
+           	return app.getPlain("AngleBetweenABC",An.getLabel(),Bn.getLabel(),Cn.getLabel());
 
 
     }
