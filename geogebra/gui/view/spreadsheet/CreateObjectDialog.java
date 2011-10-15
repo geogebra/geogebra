@@ -537,6 +537,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 
 			case TYPE_LISTOFPOINTS:	
 				newGeo = cp.createPointList(selectedCellRanges, copyByValue, leftToRight);
+				newGeo.setLabel(null);
 				break;
 
 			case TYPE_MATRIX:	
@@ -549,6 +550,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 
 			case TYPE_POLYLINE:	
 				newGeo = cp.createPolyLine(selectedCellRanges, copyByValue, leftToRight);
+				newGeo.setLabel(null);
 				break;
 
 			}

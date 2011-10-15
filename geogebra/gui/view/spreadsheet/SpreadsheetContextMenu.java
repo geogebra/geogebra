@@ -213,7 +213,9 @@ public class SpreadsheetContextMenu extends JPopupMenu
 			item = new JMenuItem(app.getMenu("ListOfPoints"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cp.createPointList(selectedCellRanges, false, true);
+					GeoElement newGeo = cp.createPointList(selectedCellRanges, false, true);
+					newGeo.setLabel(null);
+					
 				}
 			});	 
 			addSubItem(subMenu,item);	
@@ -238,6 +240,19 @@ public class SpreadsheetContextMenu extends JPopupMenu
 			});	 
 			addSubItem(subMenu,item);	
 			item.setEnabled(cp.isCreateMatrixPossible(selectedCellRanges));
+
+			
+			item = new JMenuItem(app.getMenu("PolyLine"));
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GeoElement newGeo = cp.createPolyLine(selectedCellRanges, false, true);
+					newGeo.setLabel(null);
+					
+				}
+			});	 
+			addSubItem(subMenu,item);	
+			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges)));
+
 
 
 

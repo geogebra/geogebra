@@ -9,6 +9,7 @@ import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
@@ -333,8 +334,13 @@ public class CellRangeProcessor {
 
 			if (pd.doHorizontalPairs) {
 				for (int i = pd.r1; i <= pd.r2; ++i) {
+					
 					xCoord = RelativeCopy.getValue(table, pd.c1, i);
 					yCoord = RelativeCopy.getValue(table, pd.c2, i);
+					
+					// don't process the point if either coordinate is null or non-numeric, 
+					if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) 
+					continue;
 					
 					if (byValue) {
 						xCoord = xCoord.copy();
@@ -347,6 +353,10 @@ public class CellRangeProcessor {
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 					cons.removeFromConstructionList(pointAlgo);
 					list.add(pointAlgo.getGeoElements()[0]);
+					
+					if(yCoord.isAngle() || xCoord.isAngle())
+						((GeoPoint)pointAlgo.getGeoElements()[0]).setPolar();
+					
 				}
 
 			} else {   // vertical pairs
@@ -354,12 +364,26 @@ public class CellRangeProcessor {
 					xCoord = RelativeCopy.getValue(table, i, pd.r1);
 					yCoord = RelativeCopy.getValue(table, i, pd.r2);
 
+
+					if (byValue) {
+						xCoord = xCoord.copy();
+						yCoord = yCoord.copy();
+					}
+					
+					// don't process the point if either coordinate is null or non-numeric, 
+					if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) 
+					continue;
+					
 					MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
 					ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
 					point.setForcePoint();
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 					cons.removeFromConstructionList(pointAlgo);
 					list.add(pointAlgo.getGeoElements()[0]);
+					
+					
+					if(yCoord.isAngle() || xCoord.isAngle())
+						((GeoPoint)pointAlgo.getGeoElements()[0]).setPolar();
 				}
 			}
 
