@@ -54,6 +54,7 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		addAlgoToInput();
 		
 		polyhedron.updateFaces();
+		polyhedron.setReverseNormals();
 		setOutput();
 		
 		
@@ -89,6 +90,7 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	 * @param polyhedron
 	 */
 	protected abstract void createPolyhedron(GeoPolyhedron polyhedron);
+	
 	
 	
 	

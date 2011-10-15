@@ -1,18 +1,15 @@
 package geogebra3D.kernel3D;
 
-import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
-
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra3D.archimedean.support.IFace;
-import geogebra3D.archimedean.support.Point;
+
+import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
 
 public class AlgoCube extends AlgoArchimedeanSolid {
@@ -63,8 +60,6 @@ public class AlgoCube extends AlgoArchimedeanSolid {
 			polyhedron.endCurrentFace();
 		}
 		
-		
-
 	}
 
 	@Override
@@ -101,7 +96,7 @@ public class AlgoCube extends AlgoArchimedeanSolid {
 		for (int i=0; i<coords.length-2; i++){
 			outputPoints.getElement(i).setCoords(matrix.mul(coords[i+2]),true);
 		}
-			
+		
 
 	}
 

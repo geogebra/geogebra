@@ -41,10 +41,19 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 	
 	
 	public void calcVerticesInABv(){
-		//get 3 first points to create coord sys
+		//get 3 first points of the first face to create coord sys
+		/*
+		int[] indices = faces[0].getVertexIndices();
+		
+		Point A = vertices[indices[0]];
+		Point B = vertices[indices[1]];
+		Point C = vertices[indices[2]];
+		*/
+		
 		Point A = vertices[0];
 		Point B = vertices[1];
 		Point C = vertices[2];
+		
 		
 		//calc AB length and create orthonormal vectors
 		Coords v1l = B.sub(A);
@@ -52,7 +61,7 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		double l = v1l.getNorm();
 		Coords v1 = v1l.mul(1/l);
 		
-		Coords v3 = v1.crossProduct(C.sub(B)).normalized();
+		Coords v3 = v1.crossProduct(C.sub(A)).normalized();
 		
 		Coords v2 = v3.crossProduct(v1);
 		
@@ -93,7 +102,7 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		}
 		setVertices(pointList.toArray(new Point[0]));
 		
-		calcVerticesInABv();
+		
 
 		List<SpaceSide> ssList = new ArrayList<SpaceSide>();
 		builder.getSides(ssList);
@@ -102,6 +111,8 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 			faceList.add(new Face(ss.getIndex().shrink().ints));
 		}
 		setFaces(faceList.toArray(new Face[0]));
+		
+		calcVerticesInABv();
 	}
 
 	/**

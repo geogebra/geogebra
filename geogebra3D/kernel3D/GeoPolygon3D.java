@@ -159,8 +159,12 @@ extends GeoPolygon implements GeoElement3DInterface, Path, GeoCoordSys2D {
 	public Coords getMainDirection(){
 		
 		
-		if (interiorPoint==null)
-			return coordSys.getNormal();
+		if (interiorPoint==null){
+			if (reverseNormal)
+				return coordSys.getNormal().mul(-1);
+			else
+				return coordSys.getNormal();
+		}
 		
 		Coords vn = coordSys.getNormal();
 		
@@ -179,6 +183,13 @@ extends GeoPolygon implements GeoElement3DInterface, Path, GeoCoordSys2D {
 	
 	public void setInteriorPoint(Coords point){
 		interiorPoint = point;
+	}
+	
+	private boolean reverseNormal = false;
+	
+	public void setReverseNormal(){
+		Application.debug("ici");
+		reverseNormal = true;
 	}
 	 
 

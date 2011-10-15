@@ -579,7 +579,11 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 		 */
 	 }
 
-	 
+	 public void setReverseNormals(){
+		 for (GeoPolygon3D polygon : polygons.values()){
+			 polygon.setReverseNormal();
+		 }
+	 }
 	 
 	 public void setEuclidianVisible(boolean visible) {
 		 
