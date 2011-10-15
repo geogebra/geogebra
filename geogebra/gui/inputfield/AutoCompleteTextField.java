@@ -420,6 +420,8 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 				(ctrlC && Application.MAC_OS) // don't want selection cleared
 		) return;        
 
+		clearSelection();
+
 		// handle alt-p etc
 		super.keyReleased(e);
 
@@ -449,6 +451,21 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 				setCaretPosition(caretPos - decrease);
 			}
 		}		
+	}
+
+	private void clearSelection() {
+		int start = getSelectionStart();
+		int end = getSelectionEnd();        
+		//    clear selection if there is one
+		if (start != end) {
+			int pos = getCaretPosition();
+			String oldText = getText();
+			StringBuilder sb = new StringBuilder();
+			sb.append(oldText.substring(0, start));
+			sb.append(oldText.substring(end));            
+			setText(sb.toString());
+			if (pos < sb.length()) setCaretPosition(pos);
+		}
 	}
 
 	/**
@@ -483,6 +500,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			return;
 		}
 
+		clearSelection();
 		caretPos = getCaretPosition();
 
 
