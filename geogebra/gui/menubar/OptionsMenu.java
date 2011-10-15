@@ -240,6 +240,9 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 			if (text == null)
 				text = loc.getDisplayLanguage(Locale.ENGLISH);
 			mi = new JRadioButtonMenuItem(text);
+			
+			// make sure eg Malayalam, Georgian drawn OK (not in standard Java font)
+			mi.setFont(app.getFontCanDisplay(text));
 
 			if (loc == app.getLocale())
 				mi.setSelected(true);
