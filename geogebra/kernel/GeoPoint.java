@@ -422,8 +422,8 @@ GeoPointND, Animatable, Transformable  {
 	private GeoNumeric getCoordNumber(ExpressionValue ev, boolean allowPlusNode) throws Throwable {
 		// simple variable "a"
 		if (ev.isLeaf()) {
-			GeoElement geo = kernel.lookupLabel(ev.toString(), false);
-			if (geo.isGeoNumeric()) return (GeoNumeric) geo;
+			GeoElement geo = kernel.lookupLabel(ev.isGeoElement() ? ((GeoElement)ev).getLabel() : ev.toString(), false);
+			if (geo != null && geo.isGeoNumeric()) return (GeoNumeric) geo;
 			else return null;
 		}
 		
