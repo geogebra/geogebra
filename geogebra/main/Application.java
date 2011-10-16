@@ -699,9 +699,13 @@ public class Application implements KeyEventDispatcher {
 	 */
 	public void initEuclidianViews(){
 
-		euclidianController = new EuclidianController(kernel);
+		euclidianController = newEuclidianController(kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
+	}
+	
+	protected EuclidianController newEuclidianController(Kernel kernel){
+		return new EuclidianController(kernel);
 	}
 	
 	protected EuclidianView newEuclidianView(boolean[] showAxes, boolean showGrid){

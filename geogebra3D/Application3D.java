@@ -22,12 +22,14 @@ import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcher;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianControllerForPlane;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
@@ -101,6 +103,10 @@ public class Application3D extends Application{
 		euclidianController3D = new EuclidianController3D(kernel3D);
         euclidianView3D = new EuclidianView3D(euclidianController3D); 
         
+	}
+	
+	protected EuclidianController newEuclidianController(Kernel kernel){
+		return new EuclidianControllerFor3D(kernel);
 	}
 	
 	protected EuclidianView newEuclidianView(boolean[] showAxes, boolean showGrid){

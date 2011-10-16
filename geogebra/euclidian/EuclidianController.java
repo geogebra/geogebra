@@ -5210,8 +5210,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		GeoAngle angle = null;
 		GeoElement [] angles = null;
 		if (selPoints() == 3) {
-			GeoPoint[] points = getSelectedPoints();
-			angle = kernel.Angle(null, points[0], points[1], points[2]);					
+			GeoPointND[] points = getSelectedPointsND();
+			angle = createAngle(points[0], points[1], points[2]);					
 		} else if (selVectors() == 2) {
 			GeoVector[] vecs = getSelectedVectors();
 			angle = kernel.Angle(null, vecs[0], vecs[1]);				
@@ -5248,6 +5248,10 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			return angles;
 		} else
 			return null;
+	}
+	
+	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C){
+		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 
 	// build angle between two lines

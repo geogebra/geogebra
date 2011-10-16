@@ -1,24 +1,18 @@
 package geogebra3D.gui;
 
-import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputDialog;
-import geogebra.gui.InputDialogCirclePointRadius;
 import geogebra.gui.OptionsDialog;
-import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.gui.layout.Layout;
-import geogebra.gui.layout.panels.Euclidian2DockPanel;
-import geogebra.gui.layout.panels.EuclidianDockPanel;
-import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
+import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
@@ -238,7 +232,7 @@ public class GuiManager3D extends GuiManager {
 	
 	
 	protected EuclidianView newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
-		return new EuclidianViewFor3D(new EuclidianController(kernel), showAxis, showGrid, id);
+		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id);
 	}
 
 

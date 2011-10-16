@@ -26,6 +26,7 @@ import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoQuadricND;
 import geogebra.kernel.kernelND.Region3D;
 import geogebra.main.Application;
+import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
@@ -51,7 +52,7 @@ import javax.swing.JPanel;
  * @author matthieu
  *
  */
-public class EuclidianController3D extends EuclidianController 
+public class EuclidianController3D extends EuclidianControllerFor3D 
 implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 

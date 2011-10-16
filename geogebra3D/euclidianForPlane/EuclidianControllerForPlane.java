@@ -1,28 +1,24 @@
 package geogebra3D.euclidianForPlane;
 
-import java.util.ArrayList;
-
-import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.Hits;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Path;
 import geogebra.kernel.Region;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
+import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.kernel3D.GeoPoint3D;
+
+import java.util.ArrayList;
 
 /**
  * Controler for 2D view created from a plane
  * @author matthieu
  *
  */
-public class EuclidianControllerForPlane extends EuclidianController {
+public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 
 	public EuclidianControllerForPlane(Kernel kernel) {
 		super(kernel);
