@@ -13,7 +13,6 @@
 package geogebra.euclidian;
 
 import geogebra.euclidian.DrawableList.DrawableIterator;
-import geogebra.euclidian.DrawablesFor3D.DrawAngleFor3D;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.kernel.AlgoBoxPlot;
@@ -64,6 +63,7 @@ import geogebra.main.settings.EuclidianSettings;
 import geogebra.main.settings.SettingListener;
 import geogebra.util.MyMath;
 import geogebra.util.Unicode;
+import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -3592,6 +3592,24 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @return drawable for given GeoElement
 	 */
 	protected Drawable createDrawable(GeoElement geo) {
+		Drawable d = newDrawable(geo);
+		
+		if (d != null) {			
+			DrawableMap.put(geo, d);
+			if (geo.isGeoPoint())
+				stickyPointList.add((GeoPointND)geo);
+		}
+
+		return d;
+	}	
+	
+	
+	/**
+	 * adds a GeoElement to this view
+	 * @param geo GeoElement to be added
+	 * @return drawable for given GeoElement
+	 */
+	protected Drawable newDrawable(GeoElement geo) {
 		Drawable d = null;
 
 		switch (geo.getGeoClassType()) {
@@ -3668,10 +3686,6 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			}
 			break;
 			
-		case GeoElement.GEO_CLASS_ANGLE_3D:
-			d = new DrawAngleFor3D(this, (GeoAngle) geo);
-			break;
-
 
 		case GeoElement.GEO_CLASS_NUMERIC:
 			AlgoElement algo = geo.getDrawAlgorithm();
@@ -3756,12 +3770,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			d = new DrawList(this, (GeoList) geo);
 			break;
 		}
-		
-		if (d != null) {			
-			DrawableMap.put(geo, d);
-			if (geo.isGeoPoint())
-				stickyPointList.add((GeoPointND)geo);
-		}
+
 
 		return d;
 	}	

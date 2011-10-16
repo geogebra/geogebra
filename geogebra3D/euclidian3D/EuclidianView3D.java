@@ -592,7 +592,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 				break;				
 				
 			case GeoElement.GEO_CLASS_ANGLE:
-			case GeoElement.GEO_CLASS_ANGLE_3D:
+			case GeoElement.GEO_CLASS_ANGLE3D:
 				d = new DrawAngle3D(this, (GeoAngle) geo);
 				break;
 

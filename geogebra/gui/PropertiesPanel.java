@@ -2200,12 +2200,14 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					}
 					else 
 					{
-						if (hasOrientation)
+						if (hasOrientation){
 							reflexAngleCB.setEnabled(true);
-						if (reflexAngleCB.isSelected())
-							geo.setAngleStyle(0);
-						else
-							geo.setAngleStyle(2);							
+							if (reflexAngleCB.isSelected())
+								geo.setAngleStyle(0);
+							else
+								geo.setAngleStyle(2);
+						}else
+							geo.setAngleStyle(2);
 					}
 //					Michael Borcherds 2007-11-19
 					geo.updateRepaint();

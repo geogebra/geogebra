@@ -1,4 +1,4 @@
-package geogebra.euclidian.DrawablesFor3D;
+package geogebra3D.euclidianFor3D;
 
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.EuclidianView;

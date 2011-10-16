@@ -356,7 +356,7 @@ public abstract class GeoElement
 	public static final int GEO_CLASS_CAS_CELL = 1001;
 
 	// 3D types
-	public static final int GEO_CLASS_ANGLE_3D = 3001;
+	public static final int GEO_CLASS_ANGLE3D = 3001;
 
 	public static final int GEO_CLASS_POINT3D = 3010;
 	public static final int GEO_CLASS_VECTOR3D = 3011;

@@ -531,12 +531,16 @@ public class GuiManager {
     		boolean [] showAxis = { true, true };
     		boolean showGrid = false;
     		Application.debug("XXXXX Creating 2nd Euclidian View XXXXX",1);
-    		euclidianView2 = new EuclidianView(new EuclidianController(kernel), showAxis, showGrid, 2);
+    		euclidianView2 = newEuclidianView(showAxis, showGrid, 2);
     		//euclidianView2.setEuclidianViewNo(2);
     		euclidianView2.setAntialiasing(true);
     		euclidianView2.updateFonts();
     	}
     	return euclidianView2;
+	}
+	
+	protected EuclidianView newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
+		return new EuclidianView(new EuclidianController(kernel), showAxis, showGrid, id);
 	}
 
 	public boolean hasEuclidianView2() {

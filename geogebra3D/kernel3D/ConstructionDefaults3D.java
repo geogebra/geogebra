@@ -4,6 +4,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
+import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
 import geogebra.main.Application;
@@ -22,6 +23,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	
 	// DEFAULT GeoElement types	
+	/** default angle 3D type */	
+	public static final int DEFAULT_ANGLE3D = 3001;
+	
 	/** default point 3D type */	
 	public static final int DEFAULT_POINT3D_FREE = 3010;
 	/** default dependant point 3D type */	
@@ -156,7 +160,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	public void createDefaultGeoElements() {
 		super.createDefaultGeoElements();
 		
-		
+		// angle
+		GeoAngle3D angle = new GeoAngle3D(cons);	
+		angle.setVisualStyle(super.getDefaultGeo(DEFAULT_ANGLE));
+		angle.setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+		defaultGeoElements.put(DEFAULT_ANGLE3D, angle);
+	
 		// free point
 		GeoPoint3D freePoint = new GeoPoint3D(cons);	
 		freePoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
@@ -355,8 +364,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 					return DEFAULT_POINT3D_DEPENDENT;
 			}
 			
-		case GeoElement.GEO_CLASS_ANGLE_3D:
-			return DEFAULT_ANGLE;
+		case GeoElement.GEO_CLASS_ANGLE3D:
+			return DEFAULT_ANGLE3D;
 			
 		case GeoElement3D.GEO_CLASS_LINE3D: 
 			if (((GeoLine3D)geo).isIntersection())

@@ -426,7 +426,7 @@ public class Application implements KeyEventDispatcher {
 	private MyXMLio myXMLio;
 
 	protected EuclidianView euclidianView;
-	private EuclidianController euclidianController;
+	protected EuclidianController euclidianController;
 	protected GeoElementSelectionListener currentSelectionListener;
 	private GlobalKeyDispatcher globalKeyDispatcher;
 
@@ -700,9 +700,13 @@ public class Application implements KeyEventDispatcher {
 	public void initEuclidianViews(){
 
 		euclidianController = new EuclidianController(kernel);
-		euclidianView = new EuclidianView(euclidianController, showAxes,
-				showGrid);
+		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
+	}
+	
+	protected EuclidianView newEuclidianView(boolean[] showAxes, boolean showGrid){
+		return new EuclidianView(euclidianController, showAxes,
+				showGrid);
 	}
 	
 	/**

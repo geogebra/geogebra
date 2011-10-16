@@ -1,5 +1,6 @@
 package geogebra3D.gui;
 
+import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputDialog;
@@ -18,6 +19,7 @@ import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
+import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
@@ -232,6 +234,11 @@ public class GuiManager3D extends GuiManager {
 
 	protected OptionsDialog newOptionsDialog(){
 		return new OptionsDialog3D(app);
+	}
+	
+	
+	protected EuclidianView newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
+		return new EuclidianViewFor3D(new EuclidianController(kernel), showAxis, showGrid, id);
 	}
 
 

@@ -28,6 +28,7 @@ import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcher;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianControllerForPlane;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.gui.GuiManager3D;
@@ -100,6 +101,11 @@ public class Application3D extends Application{
 		euclidianController3D = new EuclidianController3D(kernel3D);
         euclidianView3D = new EuclidianView3D(euclidianController3D); 
         
+	}
+	
+	protected EuclidianView newEuclidianView(boolean[] showAxes, boolean showGrid){
+		return new EuclidianViewFor3D(euclidianController, showAxes,
+				showGrid, 1);
 	}
 	
 	public void setMode(int mode) {

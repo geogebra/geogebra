@@ -20,6 +20,7 @@ import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
+import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 
 
@@ -29,7 +30,7 @@ import geogebra3D.kernel3D.GeoPlane3D;
  * @author matthieu
  *
  */
-public class EuclidianViewForPlane extends EuclidianView {
+public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
 	/**
 	 * 
@@ -44,7 +45,7 @@ public class EuclidianViewForPlane extends EuclidianView {
 	 * @param plane 
 	 */
 	public EuclidianViewForPlane(EuclidianController ec, GeoCoordSys2D plane) {
-		super(ec, new boolean[]{ true, true }, true);
+		super(ec, new boolean[]{ true, true }, true, 1); //TODO ev id
 		
 		this.plane = plane;
 		updateMatrix();
