@@ -175,6 +175,7 @@ libraries used by GeoGebra:
   * Maxima, http://maxima.sourceforge.net/ (GPL)
   * JSXGraph, http://jsxgraph.org/ (LGPL)
   * J2DXX, http://bleyer.org/jd2xx/ (BSD)
+  * Jython, http://www.jython.org (Python 2)
 For other tools used for running or building GeoGebra please see
 http://www.geogebra.org/trac/wiki/SourcesForUsedLibraries
 
