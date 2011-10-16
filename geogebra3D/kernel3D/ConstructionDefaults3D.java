@@ -164,6 +164,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoAngle3D angle = new GeoAngle3D(cons);	
 		angle.setVisualStyle(super.getDefaultGeo(DEFAULT_ANGLE));
 		angle.setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+		angle.setLayer(2);
 		defaultGeoElements.put(DEFAULT_ANGLE3D, angle);
 	
 		// free point
