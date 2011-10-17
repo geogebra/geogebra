@@ -85,21 +85,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		if (getAlpha()<1)
 			return;
 
-		GeoConicND conic = (GeoConicND) getGeoElement();
-
-		switch(conic.getType()){
-		case GeoConic.CONIC_CIRCLE:
-		case GeoConic.CONIC_ELLIPSE:
-			setLight(renderer);
-			setSurfaceHighlightingColor();
-			renderer.setLayer(getGeoElement().getLayer());
-			renderer.getGeometryManager().draw(getSurfaceIndex());
-			renderer.setLayer(0);
-			break;
-		default:
-			break;
-
-		}
+		drawSurfaceGeometry(renderer);
 		
 
 		
@@ -349,7 +335,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     	switch(((GeoConicND) getGeoElement()).getType()){
     	case GeoConic.CONIC_CIRCLE:
 		case GeoConic.CONIC_ELLIPSE:
-			renderer.setLayer(getGeoElement().getLayer());
+			renderer.setLayer(getGeoElement().getLayer()+0.5f); //+0.5f to avoid mixing with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());
     		renderer.setLayer(0);
     		break;

@@ -72,9 +72,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 		setLight(renderer);
 		setSurfaceHighlightingColor();
-		renderer.setLayer(getGeoElement().getLayer());
-		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(0);
+		
+		drawSurfaceGeometry(renderer);
 
 
 		
@@ -228,7 +227,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	private void drawSurfaceGeometry(Renderer renderer){
 
-		renderer.setLayer(getGeoElement().getLayer());
+		renderer.setLayer(getGeoElement().getLayer()+2.5f); //+2.5f to avoid mixing with planes and polygons
 		renderer.getGeometryManager().draw(getSurfaceIndex());
 		renderer.setLayer(0);
 

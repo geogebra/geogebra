@@ -56,7 +56,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	public void drawGeometry(Renderer renderer) {
 
-		renderer.setLayer(getGeoElement().getLayer());		
+		renderer.setLayer(getGeoElement().getLayer()+0.5f); //+0.5f to avoid mixing with planes		
 		renderer.drawPolygon(getGeometryIndex());		
 		renderer.setLayer(0);
 
