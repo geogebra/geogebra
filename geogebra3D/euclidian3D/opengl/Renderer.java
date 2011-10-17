@@ -1669,7 +1669,7 @@ public class Renderer implements GLEventListener {
    
         //common enabling
         gl.glEnable(GLlocal.GL_DEPTH_TEST);
-        gl.glDepthFunc(GLlocal.GL_LESS);
+        gl.glDepthFunc(GLlocal.GL_LEQUAL); //less or equal for transparency
 		gl.glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
 
         //gl.glPolygonOffset(1.0f, 2f);
