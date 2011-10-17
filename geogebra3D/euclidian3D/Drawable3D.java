@@ -832,8 +832,9 @@ public abstract class Drawable3D extends DrawableND {
 
 	protected void updateAlpha(){
 		//only used by surfaces
-		//use 1-Math.sqrt(1-alpha) because transparent parts are drawn twice
-		setAlpha((float) (1-Math.pow(1-getGeoElement().getAlphaValue(),1./3.)));
+		//DON'T use 1-Math.sqrt(1-alpha) because transparent parts are drawn twice
+		//setAlpha((float) (1-Math.pow(1-getGeoElement().getAlphaValue(),1./1.)));
+		setAlpha(getGeoElement().getAlphaValue());
 	}
 
 
