@@ -378,6 +378,7 @@ office@geogebra.org
 					org/apache/**,
 					org/apache/log4j/**, 
 			com/bric/**,
+			com/quantimegroup/**,
 				    tutor/**,
 					meta-inf/**"		
 		/>
@@ -454,7 +455,8 @@ office@geogebra.org
 	<target name="ggb-3d-jar" depends="clean" description="create unsigned geogebra_3d.jar">
 		<jar jarfile="${build.dir}/geogebra_3d.jar"
 			basedir="${src.dir}"
-			includes="geogebra3D/**"		
+			includes="geogebra3D/**,
+			com/quantimegroup/**"		
 			excludes="**/*.java,
 						geogebra3D/samples/**" 
 		/>
