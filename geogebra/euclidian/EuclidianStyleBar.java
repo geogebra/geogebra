@@ -1567,6 +1567,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 					needUndo = true;
 			}
 		}
+		
+		app.getKernel().notifyRepaint();
 	}
 
 

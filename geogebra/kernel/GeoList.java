@@ -746,9 +746,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			// Application.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				GeoElement geo = (GeoElement) colorFunctionListener.get(i);
-				kernel.notifyUpdate(geo);
+				//kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
+				geo.updateVisualStyle();
 			}
+			//kernel.notifyRepaint();
 		}
 	}
 

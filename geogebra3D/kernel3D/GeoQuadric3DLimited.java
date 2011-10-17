@@ -368,6 +368,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		side.updateVisualStyle();
 
 
+		getKernel().notifyRepaint();
 
 	}
 

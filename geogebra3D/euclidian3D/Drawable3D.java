@@ -260,9 +260,10 @@ public abstract class Drawable3D extends DrawableND {
 					+"\n reset="+labelWaitForReset);
 					*/
 
-		if (waitForUpdateColor){
+		if (waitForUpdateVisualStyle){
 			updateColors();
-			waitForUpdateColor = false;
+			setLabelWaitForUpdate();
+			waitForUpdateVisualStyle = false;
 		}
 		
 
@@ -338,7 +339,7 @@ public abstract class Drawable3D extends DrawableND {
 	public void setWaitForUpdate(){
 		
 		waitForUpdate = true;
-		setWaitForUpdateColor();
+		setWaitForUpdateVisualStyle();
 	}
 	
 	/**
@@ -370,14 +371,14 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	
-	private boolean waitForUpdateColor = true;
+	private boolean waitForUpdateVisualStyle = true;
 	
 	/**
 	 * wait for reset color
 	 */
-	public void setWaitForUpdateColor(){
+	public void setWaitForUpdateVisualStyle(){
 		
-		waitForUpdateColor = true;
+		waitForUpdateVisualStyle = true;
 	}
 	
 	

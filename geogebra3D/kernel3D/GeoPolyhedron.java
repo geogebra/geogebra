@@ -632,6 +632,8 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	   			segment.setObjColor(color);
 	   			segment.updateVisualStyle();
 	   		}
+	   		
+	   		getKernel().notifyRepaint();
 	   }
 	 
 
@@ -729,16 +731,16 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	   		
    			for (GeoPolygon3D polygon : polygons.values()){
    				polygon.setAlphaValue(alpha);
-   				polygon.update();
+   				polygon.updateVisualStyle();
 	   		}
    			
 
 	   		for (GeoPolygon polygon : polygonsLinked){
 	   			polygon.setAlphaValue(alpha);
-	   			polygon.update();
+	   			polygon.updateVisualStyle();
 	   		}
 	   		
-	   		
+	   		getKernel().notifyRepaint();
 	
 	   }
 	 

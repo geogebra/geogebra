@@ -1221,7 +1221,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		if (geo.hasDrawable3D()){
 			Drawable3D d = drawable3DMap.get(geo);
 			if (d!=null){
-				d.setWaitForUpdateColor();
+				d.setWaitForUpdateVisualStyle();
 			}
 		}
 	}
@@ -3073,21 +3073,21 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 	/**
-	 * reset all drawables colors
+	 * reset all drawables visual styles
 	 */
-	public void resetAllColors(){
+	public void resetAllVisualStyles(){
 		
 		// own drawables
-		xOyPlaneDrawable.setWaitForUpdateColor();
+		xOyPlaneDrawable.setWaitForUpdateVisualStyle();
 		
 		for(int i=0;i<3;i++){
-			axisDrawable[i].setWaitForUpdateColor();
+			axisDrawable[i].setWaitForUpdateVisualStyle();
 		}
 				
-		pointDecorations.setWaitForUpdateColor();
+		pointDecorations.setWaitForUpdateVisualStyle();
 		
 		// other drawables
-		drawable3DLists.resetAllColors();
+		drawable3DLists.resetAllVisualStyles();
 		
 	}
 	
@@ -3776,7 +3776,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			setViewChanged();
 			setWaitForUpdate();
 			//resetAllDrawables();
-			resetAllColors();
+			resetAllVisualStyles();
 			renderer.setWaitForUpdateClearColor();
 		}
 	}

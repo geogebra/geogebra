@@ -187,12 +187,12 @@ public class Drawable3DLists {
 		
 	}
 	
-	/** says all colors to be updated */
-	public void resetAllColors(){
+	/** says all visual styles to be updated */
+	public void resetAllVisualStyles(){
 		
 		for(int i=0; i<Drawable3D.DRAW_TYPE_MAX; i++)
 			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();) 
-				d.next().setWaitForUpdateColor();	
+				d.next().setWaitForUpdateVisualStyle();	
 		
 	}
 	
