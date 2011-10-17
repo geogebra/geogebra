@@ -32,6 +32,7 @@ chmod g+rwx $WWWDIR/$MYDIR || exit 3
 
 # 4/1. Copying static files (common code with buildggb42)
 cp -R $SVNDIR/geogebra/webstart/4.2/* $WWWDIR/$MYDIR || exit 4
+cp $SVNDIR/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
 find $WWWDIR/$MYDIR -name .svn | xargs rm -fR
 mkdir -p $WWWDIR/$MYDIR/usb
 cp $SVNDIR/geogebra/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4

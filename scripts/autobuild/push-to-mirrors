@@ -31,7 +31,7 @@ cat $SVNDIR/geogebra/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$
  # (Re)creating directories (-n is important to prevent reading data from cat):
  ssh -n -l $RUSER -p $PORT $IP "mkdir -p $DIR; cd $DIR; mkdir -p $MYDIR; cd $MYDIR; mkdir -p jnlp packed unpacked unsigned/packed unsigned/unpacked usb"
  # Copying files to root directory:
- scp -P $PORT forum.gif wiki.jpg geogebra64.gif *.var $RUSER@$IP:$DIR/$MYDIR
+ scp -P $PORT forum.gif wiki.jpg geogebra64.gif geogebra64.png *.var $RUSER@$IP:$DIR/$MYDIR
  # Copying files to packed directory:
  scp -P $PORT packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/packed
  # Copying files to packed directory:
