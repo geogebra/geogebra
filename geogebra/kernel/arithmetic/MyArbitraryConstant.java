@@ -23,7 +23,7 @@ public class MyArbitraryConstant extends MyDouble {
 		numberStr = numberStr.trim();
 		int number = 1;
 		try {
-			number = Integer.parseInt(numberStr);
+			number = (int) Math.round(Double.parseDouble(numberStr));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
