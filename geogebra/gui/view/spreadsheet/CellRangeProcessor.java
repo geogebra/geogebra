@@ -350,8 +350,12 @@ public class CellRangeProcessor {
 					MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
 					ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
 					point.setForcePoint();
+
+					// make sure points are independent of list (and so draggable)
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
-					cons.removeFromConstructionList(pointAlgo);
+					//cons.removeFromConstructionList(pointAlgo);
+					
+					pointAlgo.getGeoElements()[0].setLabel(null);
 					list.add(pointAlgo.getGeoElements()[0]);
 					
 					if(yCoord.isAngle() || xCoord.isAngle())
@@ -377,8 +381,12 @@ public class CellRangeProcessor {
 					MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
 					ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
 					point.setForcePoint();
+					
+					// make sure points are independent of list (and so draggable)
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
-					cons.removeFromConstructionList(pointAlgo);
+					//cons.removeFromConstructionList(pointAlgo);
+					
+					pointAlgo.getGeoElements()[0].setLabel(null);
 					list.add(pointAlgo.getGeoElements()[0]);
 					
 					
