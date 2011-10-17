@@ -59,6 +59,7 @@ import geogebra.kernel.cas.AlgoTangentCurve;
 import geogebra.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.discrete.AlgoBarycenter;
 import geogebra.kernel.discrete.AlgoConvexHull;
 import geogebra.kernel.discrete.AlgoDelauneyTriangulation;
 import geogebra.kernel.discrete.AlgoHull;
@@ -9447,6 +9448,12 @@ public class Kernel {
 	
 	final public GeoPoint Kimberling(String label, GeoPoint A, GeoPoint B, GeoPoint C, NumberValue v) {
 		AlgoKimberling algo = new AlgoKimberling(cons, label, A,B,C,v);
+		GeoPoint P = algo.getResult();
+		return P;
+	}
+	
+	final public GeoPoint Barycenter(String label, GeoList A, GeoList B) {
+		AlgoBarycenter algo = new AlgoBarycenter(cons, label, A,B);
 		GeoPoint P = algo.getResult();
 		return P;
 	}
