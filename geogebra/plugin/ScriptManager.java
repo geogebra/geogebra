@@ -50,9 +50,13 @@ public class ScriptManager {
 	
 	public void ggbOnInit() {
 		
-		// call only if libraryJavaScript is not the default (ie do nothing)
-		if (!app.getKernel().getLibraryJavaScript().equals(app.getKernel().defaultLibraryJavaScript))
-				CallJavaScript.evalScript(app, "ggbOnInit();", null);
+		try {
+			// call only if libraryJavaScript is not the default (ie do nothing)
+			if (!app.getKernel().getLibraryJavaScript().equals(app.getKernel().defaultLibraryJavaScript))
+					CallJavaScript.evalScript(app, "ggbOnInit();", null);
+		} catch (Exception e) {
+			Application.debug("Error calling ggbOnInit(): "+e.getMessage());
+		}
 	}
 	
 
