@@ -449,6 +449,7 @@ public class Renderer implements GLEventListener {
         
         
  
+        setLightPosition();
 
 
        
@@ -1521,6 +1522,8 @@ public class Renderer implements GLEventListener {
     	
     }
     
+    
+    
     private void disableLight(int light){
     	switch(light){
     	case LIGHT_STANDARD:
@@ -1543,6 +1546,12 @@ public class Renderer implements GLEventListener {
     	}
     }
     
+    
+    private float[] light0Position = {-1f, 0f, 1f, 0f};
+    
+    private void setLightPosition(){
+        gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, light0Position, 0);
+    }
     
     //////////////////////////////////
     // clear color
@@ -1613,7 +1622,7 @@ public class Renderer implements GLEventListener {
         float[] lightAmbient, lightDiffuse;
         
         //LIGHT_STANDARD
-        float ambiant = 0.4f;
+        float ambiant = 0.5f;
         lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
         float diffuse=1f-ambiant;
         lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
@@ -1826,6 +1835,7 @@ public class Renderer implements GLEventListener {
 
 
     	gl.glMatrixMode(GLlocal.GL_MODELVIEW);
+    	
 		
 	}
 
@@ -2039,15 +2049,6 @@ public class Renderer implements GLEventListener {
     
 
 
-
-
-    private void viewPerspective(GLlocal gl)                                  // Set Up A Perspective View
-    {
-        gl.glMatrixMode(GLlocal.GL_PROJECTION);                               // Select Projection
-        gl.glPopMatrix();                                                // Pop The Matrix
-        gl.glMatrixMode(GLlocal.GL_MODELVIEW);                                // Select Modelview
-        gl.glPopMatrix();                                                // Pop The Matrix
-    }
 
 
 	public void dispose(GLAutoDrawable arg0) {
