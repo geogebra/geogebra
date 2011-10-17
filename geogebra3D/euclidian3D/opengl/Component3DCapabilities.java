@@ -24,6 +24,10 @@ public class Component3DCapabilities extends GLCapabilities{
     	setDoubleBuffered(true);	      	
         //stereo
     	Application.debug("stereo: "+getStereo()); 
+    	
+    	//stencil buffer
+    	//setStencilBits(32);Application.debug("stencil bits: "+getStencilBits()); 
+    	     	
 	}
 	
 	final static public void initSingleton(){

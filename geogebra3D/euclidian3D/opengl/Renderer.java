@@ -409,27 +409,38 @@ public class Renderer implements GLEventListener {
         }
     }
     
-    private void draw(){
-        
-        
-        
-        
-        //draw face-to screen parts (labels, ...)
+    
+    private void drawFaceToScreen(){
+    	//draw face-to screen parts (labels, ...)
         //drawing labels
         //gl.glEnable(GLlocal.GL_CULL_FACE);
         //gl.glCullFace(GLlocal.GL_BACK);
+
+
         gl.glEnable(GLlocal.GL_ALPHA_TEST);  //avoid z-buffer writing for transparent parts     
         gl.glDisable(GLlocal.GL_LIGHTING);
         gl.glEnable(GLlocal.GL_BLEND);
         gl.glEnable(GLlocal.GL_TEXTURE_2D);
         //gl.glDisable(GLlocal.GL_BLEND);
+        //gl.glDepthMask(false);
         drawable3DLists.drawLabel(this);
-        //gl.glEnable(GLlocal.GL_LIGHTING);
-        //gl.glDisable(GLlocal.GL_ALPHA_TEST);     
+        
+        //gl.glDepthMask(true);
+    	//gl.glAlphaFunc(GLlocal.GL_EQUAL, 1);
+        //drawable3DLists.drawLabel(this);
+ 
+        //gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
         gl.glDisable(GLlocal.GL_TEXTURE_2D);
-    	
+    }
+    
+    
+    private void draw(){
         
         
+         
+
+        //labels
+        drawFaceToScreen();
         
         //init drawing matrix to view3D toScreen matrix
         gl.glPushMatrix();
@@ -570,6 +581,7 @@ public class Renderer implements GLEventListener {
         
         
         gl.glPopMatrix();
+        
         
    	
     	//drawFPS();
@@ -794,6 +806,7 @@ public class Renderer implements GLEventListener {
     	
     	// 0<=l<10
     	// l2-l1>=1 to see something
+    	//l=l/3f;
        	gl.glPolygonOffset(-l*0.05f, -l*10);
        	//gl.glPolygonOffset(-1, -l);
        	//gl.glPolygonOffset(-l, 0);
@@ -1586,7 +1599,6 @@ public class Renderer implements GLEventListener {
         		+", vbo supported : "+VBOsupported);
         
        
-        
 
         
         //TODO use gl lists / VBOs
@@ -1657,7 +1669,7 @@ public class Renderer implements GLEventListener {
    
         //common enabling
         gl.glEnable(GLlocal.GL_DEPTH_TEST);
-        gl.glDepthFunc(GLlocal.GL_LEQUAL);
+        gl.glDepthFunc(GLlocal.GL_LESS);
 		gl.glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
 
         //gl.glPolygonOffset(1.0f, 2f);
