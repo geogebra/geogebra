@@ -1405,7 +1405,7 @@ public class Application implements KeyEventDispatcher {
 	}
 	
 	public synchronized JFrame getFrame() {
-		if (frame == null) {
+		if (frame == null && getGuiManager() != null) {
 			frame = getGuiManager().createFrame();	
 		}
 		
