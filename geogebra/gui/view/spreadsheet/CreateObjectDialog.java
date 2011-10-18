@@ -1,10 +1,12 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.FormulaDimension;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.kernel.AlgoPolyLine;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoList;
+import geogebra.kernel.GeoPoint;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
 
@@ -286,9 +288,9 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 		btCancel.setText(app.getMenu("Create"));
 
 		// object/value checkboxes
-		btnObject.setText(app.getPlain("dependent"));
+		btnObject.setText(app.getPlain("DependentObjects"));
 		btnObject.addActionListener(this);
-		btnValue.setText(app.getPlain("free"));
+		btnValue.setText(app.getPlain("FreeObjects"));
 		btnValue.addActionListener(this);
 
 		// transpose checkbox
@@ -477,15 +479,10 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 
 		// clean up on exit: either remove our geo or keep it and make it visible
 		if(!isVisible){
-			if(keepNewGeo){
-				newGeo.setEuclidianVisible(true);
-				if(!newGeo.isGeoText())
-					newGeo.setAuxiliaryObject(false);
-				newGeo.update();
-				app.storeUndoInfo();
-			}else{
+			if(keepNewGeo)
+				addNewGeoToConstruction();
+			else
 				newGeo.remove();
-			}
 		}
 		super.setVisible(isVisible);
 	}
@@ -493,30 +490,67 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 
 	private void closeDialog(){
 		//either remove our geo or keep it and make it visible
-		if(keepNewGeo){
-			newGeo.setEuclidianVisible(true);
-			if(!newGeo.isGeoText())
-				newGeo.setAuxiliaryObject(false);
-			newGeo.update();
-			app.storeUndoInfo();
-
-		}else{
+		if(keepNewGeo)
+			addNewGeoToConstruction();
+		else
 			newGeo.remove();
-		}
+		
 		setVisible(false);
 	}
 
 
+	 
+	private void addNewGeoToConstruction(){
+		
+		if(objectType == TYPE_LISTOFPOINTS || objectType == TYPE_POLYLINE){
+			app.getKernel().getConstruction().addToConstructionList(newGeo.getParentAlgorithm(), true);
+		}
+		
+		newGeo.setEuclidianVisible(true);
+		if(!newGeo.isGeoText())
+			newGeo.setAuxiliaryObject(false);
+		
+
+		if(objectType == TYPE_LISTOFPOINTS){
+			GeoList gl = (GeoList)newGeo;
+			for(int i=0; i < gl.size(); i++){
+				gl.get(i).setEuclidianVisible(true);
+				gl.get(i).setAuxiliaryObject(false);
+			}
+		}
+
+		if(objectType == TYPE_POLYLINE){
+			GeoPoint[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
+			for(int i=0; i < pts.length; i++){
+				pts[i].setEuclidianVisible(true);
+				pts[i].setAuxiliaryObject(false);
+			}
+		}	
+
+		newGeo.update();
+		app.storeUndoInfo();
+	}
 
 
 
-	public void createNewGeo(){
+	private void createNewGeo(){
 
 		boolean nullGeo = newGeo == null;
 
-		if(!nullGeo)
+		if(!nullGeo){
+			if(objectType == TYPE_LISTOFPOINTS){
+				GeoList gl = (GeoList)newGeo;
+				for(int i=0; i < gl.size(); i++)
+					gl.get(i).remove();
+			}
+			
+			if(objectType == TYPE_POLYLINE){
+				GeoPoint[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
+				for(int i=0; i < pts.length; i++)
+					pts[i].remove();
+			}
 			newGeo.remove();
-
+		}
 
 		int column1 = table.selectedCellRanges.get(0).getMinColumn();
 		int column2 = table.selectedCellRanges.get(0).getMaxColumn();
@@ -527,6 +561,9 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 		boolean scanByColumn = cbScanOrder.getSelectedIndex() == 1;
 		boolean leftToRight = cbLeftRightOrder.getSelectedIndex() == 0;
 		boolean transpose = ckTranspose.isSelected();
+		boolean doCreateFreePoints = true;
+		boolean doStoreUndo = true;
+		boolean isSorted = false;
 
 		try {
 			switch (objectType){
@@ -536,8 +573,13 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 				break;
 
 			case TYPE_LISTOFPOINTS:	
-				newGeo = cp.createPointList(selectedCellRanges, copyByValue, leftToRight);
+				newGeo = cp.createPointGeoList(selectedCellRanges, 
+						copyByValue, leftToRight, isSorted, doStoreUndo, doCreateFreePoints);
 				newGeo.setLabel(null);
+				for(int i=0; i < ((GeoList)newGeo).size(); i++){
+					((GeoList)newGeo).get(i).setAuxiliaryObject(true);
+					((GeoList)newGeo).get(i).setEuclidianVisible(false);
+				}
 				break;
 
 			case TYPE_MATRIX:	
@@ -551,6 +593,11 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 			case TYPE_POLYLINE:	
 				newGeo = cp.createPolyLine(selectedCellRanges, copyByValue, leftToRight);
 				newGeo.setLabel(null);
+				GeoPoint[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
+				for(int i=0; i < pts.length; i++){
+					pts[i].setAuxiliaryObject(true);
+					pts[i].setEuclidianVisible(false);
+				}
 				break;
 
 			}

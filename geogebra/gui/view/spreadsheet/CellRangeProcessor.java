@@ -183,15 +183,7 @@ public class CellRangeProcessor {
 	//           Create Lists from Cells
 	//====================================================
 
-	/**
-	 * Creates a GeoList containing points constructed from the spreadsheet
-	 * cells found in rangeList
-	 * Uses these defaults: no sorting, no undo point 
-	 */
-	public GeoElement createPointList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight) {
-		return  createPointGeoList(rangeList, byValue, leftToRight, false, false);
-	}
-
+	
 	/**
 	 * Creates a GeoList of lists where each element is a list
 	 * of cells in each column spanned by the range list
@@ -240,7 +232,8 @@ public class CellRangeProcessor {
 	public GeoElement createPolyLine(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
 			boolean isSorted, boolean doStoreUndo) {
 
-		GeoList list = createPointGeoList(rangeList, byValue,  leftToRight, isSorted, doStoreUndo);
+		boolean doCreateFreePoints = true;
+		GeoList list = createPointGeoList(rangeList, byValue,  leftToRight, isSorted, doStoreUndo, doCreateFreePoints);
 
 		AlgoPolyLine al = new AlgoPolyLine(cons, list);
 
@@ -307,18 +300,25 @@ public class CellRangeProcessor {
 
 	}
 
+
+	
 	/**
-	 * Builds a list of points.
-	 * note: It is assumed that rangeList has passed the isCreatePointListPossible() test 
+	 * Creates a GeoList containing points constructed from the spreadsheet
+	 * cells found in rangeList. note: It is assumed that rangeList has passed
+	 * the isCreatePointListPossible() test
+	 * 
 	 * @param rangeList
 	 * @param byValue
 	 * @param leftToRight
 	 * @param isSorted
 	 * @param doStoreUndo
+	 * @param doCreateFreePoints
+	 *            if freePoints is true then a set of independent GeoPoints is
+	 *            created in addition to the list
 	 * @return GeoList
 	 */
 	public GeoList createPointGeoList(ArrayList<CellRange> rangeList, boolean byValue, boolean leftToRight,
-			boolean isSorted, boolean doStoreUndo) {
+			boolean isSorted, boolean doStoreUndo, boolean doCreateFreePoints) {
 
 		// get the orientation and dimensions of the list
 		PointDimension pd = new PointDimension();
@@ -353,9 +353,12 @@ public class CellRangeProcessor {
 
 					// make sure points are independent of list (and so draggable)
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
-					//cons.removeFromConstructionList(pointAlgo);
+
+					if(doCreateFreePoints)
+						pointAlgo.getGeoElements()[0].setLabel(null);	
+					else
+						cons.removeFromConstructionList(pointAlgo);
 					
-					pointAlgo.getGeoElements()[0].setLabel(null);
 					list.add(pointAlgo.getGeoElements()[0]);
 					
 					if(yCoord.isAngle() || xCoord.isAngle())
@@ -384,9 +387,13 @@ public class CellRangeProcessor {
 					
 					// make sure points are independent of list (and so draggable)
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
-					//cons.removeFromConstructionList(pointAlgo);
+
+					if(doCreateFreePoints)
+						pointAlgo.getGeoElements()[0].setLabel(null);	
+					else
+						cons.removeFromConstructionList(pointAlgo);
 					
-					pointAlgo.getGeoElements()[0].setLabel(null);
+
 					list.add(pointAlgo.getGeoElements()[0]);
 					
 					
@@ -664,6 +671,74 @@ public class CellRangeProcessor {
 			return null;
 
 	}
+	
+	
+	/**
+	 * Creates a GeoList from the cells in a frequency table. Empty and text cells are ignored.
+	 * @param cr
+	 * @param scanByColumn
+	 * @param copyByValue
+	 * @param isSorted
+	 * @param doStoreUndo
+	 * @param geoTypeFilter
+	 * @param setLabel
+	 * @return
+	 */
+	public GeoElement createListFromFrequencyTable(CellRange cr,  boolean scanByColumn, boolean copyByValue, 
+			boolean isSorted, boolean doStoreUndo, Integer geoTypeFilter, boolean setLabel) {
+
+		double value;
+		int freq;
+		ArrayList<Double> valueList= new ArrayList<Double>();
+
+		GeoElement[] geos = null;
+		GeoElement valueGeo, freqGeo;
+		GeoList geoList = new GeoList(cons);
+
+		try {
+			int c = cr.getMinColumn();
+			for(int r = cr.getMinRow(); r <= cr.getMaxRow(); r++){
+				
+					valueGeo = RelativeCopy.getValue(table, c, r);
+					freqGeo = RelativeCopy.getValue(table, c+1, r);
+
+					// validate (null or text geos)
+					//if (geo != null && (geoTypeFilter == null || geo.getGeoClassType() == geoTypeFilter)){
+
+					freq = (int) ((GeoNumeric)freqGeo).getDouble();
+
+					for(int i=0; i<freq; i++){
+						geoList.add(valueGeo.copy());
+					}
+			}
+
+			if(isSorted){
+				AlgoSort algo = new AlgoSort(cons, geoList);
+				cons.removeFromConstructionList(algo);
+				geoList = (GeoList)algo.getGeoElements()[0];
+			}
+
+
+		} catch (Exception ex) {
+			Application.debug("Creating list from frequency table failed with exception " + ex);
+		}
+
+		if(doStoreUndo)
+			app.storeUndoInfo();
+		
+		if (setLabel)
+			geoList.setLabel(null);
+
+		if(geoList != null)
+			return geoList;
+		else 
+			return null;
+
+	}
+	
+	
+	
+	
 
 	/** Creates a list from all cells in a spreadsheet column */
 	public GeoElement createListFromColumn(int column, boolean copyByValue, boolean isSorted,
