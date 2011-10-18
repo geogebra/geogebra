@@ -597,11 +597,10 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 		
 		statGeo.setRemoveFromConstruction(removeFromConstruction);
 		
-		if(!removeFromConstruction){
-			String text = statDialog.getStatDialogController().getDataSelected().toValueString();
-			GeoElement[] geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptions(text, false);
-			dataListSelected = (GeoList) geos[0];
-			dataListSelected.setLabel(null);
+		
+		if(!removeFromConstruction){	
+			statDialog.getStatDialogController().setRegressionGeo();
+			
 		}
 	
 		
@@ -972,23 +971,16 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 			// update the plot to get a new set of geos that exist in the construction
 			updatePlot(true, false);
 
-			// set the EV location and auxiliary = false for all of the new geos
+			// prepare the new geos to display in the EV (e.g. set labels, auxiliary = false)
 			for(GeoElement geo: plotGeoList){
-				geo.setLabel(null);
-				geo.setAuxiliaryObject(false);
-				if(viewID == Application.VIEW_EUCLIDIAN){
-					geo.addView(Application.VIEW_EUCLIDIAN);
-					geo.removeView(Application.VIEW_EUCLIDIAN2);
-					geo.update();
-				}
-				if(viewID == Application.VIEW_EUCLIDIAN2){
-					geo.addView(Application.VIEW_EUCLIDIAN2);
-					geo.removeView(Application.VIEW_EUCLIDIAN);
-					geo.update();
-				}
-				
+				prepareGeoForEV(geo, viewID);
 			}
-
+			
+			GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
+			GeoElement regressionCopy = (GeoElement)statGeo.createRegressionPlot((GeoList) dataListSelected.copy(),
+					statDialog.getRegressionMode(), statDialog.getRegressionOrder(), false);
+			prepareGeoForEV(regressionCopy, viewID);
+			
 
 			// set the window dimensions of the target EV to match the plotPanel dimensions
 			EuclidianView ev  = (EuclidianView) app.getView(viewID);
@@ -1015,6 +1007,7 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 			
 			plotGeoList.clear();
 
+			statDialog.getStatDialogController().removeRegressionGeo();
 			
 			//update the plot in removeFromConstruction mode to get a new set of geos for our plot
 			updatePlot(true, true);
@@ -1028,15 +1021,23 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 		app.setDefaultCursor();
 	}
 
+	
+	private void prepareGeoForEV(GeoElement geo, int viewID){
 
+		geo.setLabel(null);
+		geo.setAuxiliaryObject(false);
+		if(viewID == Application.VIEW_EUCLIDIAN){
+			geo.addView(Application.VIEW_EUCLIDIAN);
+			geo.removeView(Application.VIEW_EUCLIDIAN2);
+			geo.update();
+		}
+		if(viewID == Application.VIEW_EUCLIDIAN2){
+			geo.addView(Application.VIEW_EUCLIDIAN2);
+			geo.removeView(Application.VIEW_EUCLIDIAN);
+			geo.update();
+		}
 
-
-
-
-
-
-
-
+	}
 
 
 } 

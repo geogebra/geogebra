@@ -43,7 +43,7 @@ public class StatDialogController {
 		return dataSelected;
 	}
 
-	protected GeoElement geoRegression;
+	private GeoElement geoRegression;
 
 	private int mode;
 	private boolean leftToRight = true;
@@ -159,6 +159,8 @@ public class StatDialogController {
 		//boolean isSorted = false;
 		boolean copyByValue = true;
 		boolean doStoreUndo = false;
+		boolean isSorted = false;
+		boolean doCreateFreePoints = false;
 
 
 		//=======================================
@@ -194,7 +196,7 @@ public class StatDialogController {
 							cellRangeList, 
 							scanByColumn,
 							copyByValue, 
-							false, 
+							isSorted, 
 							doStoreUndo, 
 							GeoElement.GEO_CLASS_POINT, false);
 				}
@@ -205,8 +207,9 @@ public class StatDialogController {
 							cellRangeList, 
 							copyByValue, 
 							leftToRight,
-							false, 
-							doStoreUndo);
+							isSorted, 
+							doStoreUndo,
+							doCreateFreePoints);
 				}
 				break;
 
@@ -385,6 +388,7 @@ public class StatDialogController {
 	}
 
 
+	
 	public void setRegressionGeo(){
 
 		if(geoRegression != null){
@@ -392,13 +396,13 @@ public class StatDialogController {
 		}
 
 		geoRegression = (GeoElement)statGeo.createRegressionPlot(dataSelected, sd.getRegressionMode(), sd.getRegressionOrder(), false);
-		geoRegression.removeView(Application.VIEW_EUCLIDIAN);
-		geoRegression.setAuxiliaryObject(true);
-		app.getEuclidianView().remove(geoRegression);
-		geoRegression.setLabel("regressionModel");
+		
 		updateAllStatPanels(true);
 	}
 
+	public void removeRegressionGeo(){
+		removeStatGeo(geoRegression);
+	}
 
 	/**
 	 * Removes all geos maintained by this dialog and its child components
