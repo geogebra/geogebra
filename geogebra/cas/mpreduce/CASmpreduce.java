@@ -397,7 +397,8 @@ public class CASmpreduce extends CASgeneric {
 				"};");
 		
 		mpreduce.evaluate("solverules:={" +
-				//"tan(~x) => sin(x)/cos(x)" +
+				"logb(~x,~b)=>log(x)/log(b)," +
+				"log10(~x)=>log(x)/log(10)" +
 				"};");
 		
 		mpreduce.evaluate("procedure myatan2(y,x);" +

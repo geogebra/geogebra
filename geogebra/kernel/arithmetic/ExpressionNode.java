@@ -2894,11 +2894,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 			case STRING_TYPE_MAXIMA:
 			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MPREDUCE:
 			case STRING_TYPE_PGF:
 				sb.append("log10("); // user-defined function in Maxima
 				sb.append(leftStr);
 				sb.append(')');
+				break;
+				
+			case STRING_TYPE_MPREDUCE:
+				sb.append("logb(");
+				sb.append(leftStr);
+				sb.append(",10)");
 				break;
 
 			default:
