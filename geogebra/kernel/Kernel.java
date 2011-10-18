@@ -67,6 +67,7 @@ import geogebra.kernel.discrete.AlgoKimberling;
 import geogebra.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.discrete.AlgoTravelingSalesman;
+import geogebra.kernel.discrete.AlgoTrilinear;
 import geogebra.kernel.discrete.AlgoVoronoi;
 import geogebra.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
@@ -9457,7 +9458,13 @@ public class Kernel {
 		GeoPoint P = algo.getResult();
 		return P;
 	}
-
+	
+	final public GeoPoint Trilinear(String label, GeoPoint A, GeoPoint B, GeoPoint C, 
+			NumberValue a, NumberValue b, NumberValue c) {
+		AlgoTrilinear algo = new AlgoTrilinear(cons, label, A,B,C,a,b,c);
+		GeoPoint P = algo.getResult();
+		return P;
+	}
 
 	public GeoTextField textfield(String label,GeoElement geoElement) {
 		AlgoTextfield at = new AlgoTextfield(cons,label,geoElement);
