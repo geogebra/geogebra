@@ -212,13 +212,13 @@ public class AppletImplementation implements AppletImplementationInterface {
 				String path = documentBase.substring(0, documentBase.lastIndexOf('/')+1);
 				fileStr = path + fileStr;	
 			}
-			Application.debug("loading "+fileStr);
 		} else {
 			// check if ggb file is encoded as base 64
 			String fileBase64 = applet.getParameter("ggbBase64");
 			if (fileBase64 != null)
 				fileStr = "base64://" + fileBase64;
 		}
+		Application.debug("loading "+fileStr);
 
 		// type = "button" or parameter is not available 
 		String typeStr = applet.getParameter("type");
