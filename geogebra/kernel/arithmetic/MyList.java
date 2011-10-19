@@ -641,7 +641,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 				 while ((index1=sb.indexOf("listofliststomat(list"))!=-1){
 					 sb.delete(index1, index1+21);
 					 int level=1;
-					 int index2=index1+2;
+					 int index2=index1+1;
 					 do {
 						 if (sb.charAt(index2)=='(')
 							 level++;
