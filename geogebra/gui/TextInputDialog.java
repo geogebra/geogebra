@@ -19,7 +19,6 @@ import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbols;
 import geogebra.gui.util.TableSymbolsLaTeX;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
@@ -688,6 +687,19 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	}
 
 
+	public void updateFonts(){
+		GuiManager.setFontRecursive(this, app.getPlainFont());
+		buildInsertGeoButton();
+		buildInsertLaTeXButton();
+		buildInsertUnicodeButton();
+		textPreviewer.updateFonts();
+		pack();
+	}
+	
+	
+	
+	
+	
 
 	//=============================================================
 	//      Document listener

@@ -952,6 +952,10 @@ public class GuiManager {
 		
 		if(probCalculator != null)
 			probCalculator.updateFonts();
+		
+		if(textInputDialog != null){
+			textInputDialog.updateFonts();
+		}
 			
 		SwingUtilities.updateComponentTreeUI(app.getMainComponent());			
 	}
