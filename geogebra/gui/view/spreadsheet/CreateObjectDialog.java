@@ -580,6 +580,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 					((GeoList)newGeo).get(i).setAuxiliaryObject(true);
 					((GeoList)newGeo).get(i).setEuclidianVisible(false);
 				}
+				newGeo.updateRepaint();
 				break;
 
 			case TYPE_MATRIX:	
@@ -598,6 +599,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 					pts[i].setAuxiliaryObject(true);
 					pts[i].setEuclidianVisible(false);
 				}
+				newGeo.updateRepaint();
 				break;
 
 			}
