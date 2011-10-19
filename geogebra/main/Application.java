@@ -386,7 +386,7 @@ public class Application implements KeyEventDispatcher {
 
 	// private static Color COLOR_STATUS_BACKGROUND = new Color(240, 240, 240);
 	
-	private boolean hasGui = false;
+	private boolean useFullGui = false;
 	
 	public static final int VIEW_NONE = 0;
 	public static final int VIEW_EUCLIDIAN = 1;
@@ -540,7 +540,7 @@ public class Application implements KeyEventDispatcher {
 			mainComp = comp;
 		}
 		
-		hasGui = !isApplet || appletImpl.needsGui();
+		useFullGui = !isApplet || appletImpl.needsGui();
 		
 		// don't want to redirect System.out and System.err when running as Applet
 		// or eg from Eclipse
@@ -605,7 +605,7 @@ public class Application implements KeyEventDispatcher {
 		boolean fileLoaded = handleFileArg(args);	
 		
 		// initialize GUI
-		if(useFullGui()) {
+		if(isUsingFullGui()) {
 			initGuiManager();
 			
 			// set frame
@@ -624,7 +624,7 @@ public class Application implements KeyEventDispatcher {
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
 		}
 		
-		if(useFullGui() && tmpPerspectives != null && !ggtloading) {
+		if(isUsingFullGui() && tmpPerspectives != null && !ggtloading) {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
 		}
 
@@ -725,8 +725,8 @@ public class Application implements KeyEventDispatcher {
 	 * @return True if the whole GUI is available, false if
 	 * 		just the euclidian view is displayed.
 	 */
-	final public synchronized boolean useFullGui() {
-		return hasGui;
+	final public synchronized boolean isUsingFullGui() {
+		return useFullGui;
 	}
 	
 	/**
@@ -845,13 +845,13 @@ public class Application implements KeyEventDispatcher {
 		clearConstruction();
 		
 		// clear input bar
-		if (useFullGui() && showAlgebraInput()) {
+		if (isUsingFullGui() && showAlgebraInput()) {
 			AlgebraInput ai = (AlgebraInput)(getGuiManager().getAlgebraInput());
 			ai.clear();
 		}
 		
 		// reset spreadsheet columns, reset trace columns
-		if (useFullGui()) {
+		if (isUsingFullGui()) {
 			getGuiManager().resetSpreadsheet();
 		}
 		
@@ -983,7 +983,7 @@ public class Application implements KeyEventDispatcher {
 		updateCenterPanel(true);
 
 		// full GUI => use layout manager, add other GUI elements as requested 
-		if(useFullGui()) {
+		if(isUsingFullGui()) {
 			JPanel topPanel = new JPanel(new BorderLayout());
 			JPanel bottomPanel = new JPanel(new BorderLayout());
 	
@@ -1039,7 +1039,7 @@ public class Application implements KeyEventDispatcher {
 		}
 		
 		// minimal applet => just display EV
-		else {
+		else {			
 			panel.add(euclidianView, BorderLayout.CENTER);
 			centerPanel.add(panel, BorderLayout.CENTER);
 			return panel;
@@ -1137,7 +1137,7 @@ public class Application implements KeyEventDispatcher {
 		
 		centerPanel.removeAll();
 		
-		if(useFullGui()) {
+		if(isUsingFullGui()) {
 			centerPanel.add(getGuiManager().getLayout().getRootComponent(), BorderLayout.CENTER);
 		} else {
 			centerPanel.add(getEuclidianView(), BorderLayout.CENTER);
@@ -1291,10 +1291,11 @@ public class Application implements KeyEventDispatcher {
 						URL url = new URL(fileArgument2);
 						success = loadXML(url, isMacroFile);
 						
+						// check if full GUI is necessary
 						if(success && !isMacroFile) {
-							if(!useFullGui()) {
-								if(!isJustEuclidianVisible()) {
-									hasGui = true;
+							if(!isUsingFullGui()) {
+								if(showConsProtNavigation || !isJustEuclidianVisible()) {
+									useFullGui = true;
 								}
 							}
 						}
@@ -1305,9 +1306,9 @@ public class Application implements KeyEventDispatcher {
 						success = loadXML(zipFile);
 						
 						if(success && !isMacroFile) {
-							if(!useFullGui()) {
+							if(!isUsingFullGui()) {
 								if(!isJustEuclidianVisible()) {
-									hasGui = true;
+									useFullGui = true;
 								}
 							}
 						}
@@ -2962,7 +2963,7 @@ public class Application implements KeyEventDispatcher {
 			addToFileList(currentFile);
 		} 	
 		
-		if(!isIniting() && useFullGui()) {
+		if(!isIniting() && isUsingFullGui()) {
 			updateTitle();
 			getGuiManager().updateMenuWindow();	
 		}
@@ -3193,7 +3194,7 @@ public class Application implements KeyEventDispatcher {
 	}
 	
 	public boolean onlyGraphicsViewShowing() {
-		if(!useFullGui()) {
+		if(!isUsingFullGui()) {
 			return true;
 		}
 		
@@ -3411,7 +3412,7 @@ public class Application implements KeyEventDispatcher {
 	}
 
 	public void updateMenubar() {
-		if (!showMenuBar || !useFullGui() || isIniting())
+		if (!showMenuBar || !isUsingFullGui() || isIniting())
 			return;
 
 		getGuiManager().updateMenubar();
@@ -3420,7 +3421,7 @@ public class Application implements KeyEventDispatcher {
 	}
 
 	public void updateSelection() {
-		if (!showMenuBar || !useFullGui() || isIniting())
+		if (!showMenuBar || !isUsingFullGui() || isIniting())
 			return;
 		
 		// put in to check possible bottleneck
@@ -3441,7 +3442,7 @@ public class Application implements KeyEventDispatcher {
 	
 	
 	public void updateStyleBars(){
-		if(!useFullGui() || isIniting()) {
+		if(!isUsingFullGui() || isIniting()) {
 			return;
 		}
 		
@@ -3454,7 +3455,7 @@ public class Application implements KeyEventDispatcher {
 	}
 
 	public void updateMenuWindow() {
-		if (!showMenuBar || !useFullGui() || isIniting())
+		if (!showMenuBar || !isUsingFullGui() || isIniting())
 			return;
 
 		getGuiManager().updateMenuWindow();

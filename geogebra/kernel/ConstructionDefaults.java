@@ -548,7 +548,7 @@ public class ConstructionDefaults {
 		// if algebra window open -> all labels
 		// else -> no labels
 		if (labelingStyle == LABEL_VISIBLE_AUTOMATIC) {
-			if(app.useFullGui()) {
+			if(app.isUsingFullGui()) {
 				if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()) {
 					labelingStyle = app.getGuiManager().getAlgebraView().isVisible() ?
 							LABEL_VISIBLE_USE_DEFAULTS :

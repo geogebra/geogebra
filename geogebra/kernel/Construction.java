@@ -907,7 +907,7 @@ public class Construction {
 		
 		if (updateAlgos != null) {
 			Application app = kernel.getApplication();
-			if (app.useFullGui())
+			if (app.isUsingFullGui())
 				app.getGuiManager().updateConstructionProtocol();
 		}
 

@@ -1570,7 +1570,7 @@ public abstract class GeoElement
 		switch (tooltipMode) {
 		default:
 		//case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!(app.useFullGui() && app.getGuiManager().showView(Application.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui() && app.getGuiManager().showView(Application.VIEW_ALGEBRA))) {
 				return false;
 			} else
 				return isAlgebraVisible(); // old behaviour
@@ -1590,7 +1590,7 @@ public abstract class GeoElement
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!alwaysOn)
-			if (!(app.useFullGui() && app.getGuiManager().showView(Application.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui() && app.getGuiManager().showView(Application.VIEW_ALGEBRA))) {
 				return "";
 			}
 			// else fall through:
@@ -3153,7 +3153,7 @@ public abstract class GeoElement
 		}
 		
 		//G.Sturr 2010-6-26
-		if(getSpreadsheetTrace() && app.useFullGui()){
+		if(getSpreadsheetTrace() && app.isUsingFullGui()){
 			app.getGuiManager().traceToSpreadsheet(this);
 
 		}
@@ -4610,7 +4610,7 @@ public abstract class GeoElement
 		// Get spreadsheet trace XML from the trace manager
 
 		// trace to spreadsheet
-		if (app.useFullGui() && isSpreadsheetTraceable() && getSpreadsheetTrace()) {
+		if (app.isUsingFullGui() && isSpreadsheetTraceable() && getSpreadsheetTrace()) {
 			sb.append( ((SpreadsheetView) app.getGuiManager().getSpreadsheetView())
 					.getTraceManager().getTraceXML(this));
 		}
@@ -5569,7 +5569,7 @@ public abstract class GeoElement
 	 * Called after mouse_release.
 	 */
 	public void resetTraceColumns() {
-		if (app.useFullGui())
+		if (app.isUsingFullGui())
 			app.getGuiManager().resetTraceColumn(this);
 	}
 

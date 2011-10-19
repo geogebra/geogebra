@@ -59,7 +59,7 @@ public class UndoManager {
 	
 
 	private void updateUndoActions() {
-		if (app.useFullGui())
+		if (app.isUsingFullGui())
 			app.getGuiManager().updateActions();		
 	}
 

@@ -172,7 +172,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			if (!(event.getSource() instanceof JTable)) {			
 
 				// ENTER: set focus to input field
-				if (app.useFullGui() && app.getGuiManager().noMenusOpen())
+				if (app.isUsingFullGui() && app.getGuiManager().noMenusOpen())
 				{
 					if (app.showAlgebraInput() && 
 							!app.getGuiManager().getAlgebraInput().hasFocus()) 
@@ -213,7 +213,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			break;			
 
 		case KeyEvent.VK_TAB:
-			if (event.isControlDown() && app.useFullGui()) {
+			if (event.isControlDown() && app.isUsingFullGui()) {
 				consumed = true;
 				GuiManager gui = app.getGuiManager();
 				gui.getLayout().getDockManager().moveFocus(!event.isShiftDown());
@@ -483,7 +483,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 				// ctrl-shift-s (toggle spreadsheet)
 			case KeyEvent.VK_S:
-				if (event.isShiftDown() && app.useFullGui()) {
+				if (event.isShiftDown() && app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(Application.VIEW_SPREADSHEET),
 							Application.VIEW_SPREADSHEET);
@@ -600,13 +600,13 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 					ev.setCoordSystemFromMouseMove(-(int)(height * base), 0, EuclidianController.MOVE_VIEW);
 					return true;
 				case KeyEvent.VK_DOWN:
-					if (app.useFullGui() && app.getGuiManager().noMenusOpen()) {
+					if (app.isUsingFullGui() && app.getGuiManager().noMenusOpen()) {
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0, (int)(height / 100.0 * base), EuclidianController.MOVE_VIEW);
 						return true;
 					}
 				case KeyEvent.VK_UP:
-					if (app.useFullGui() && app.getGuiManager().noMenusOpen()) {
+					if (app.isUsingFullGui() && app.getGuiManager().noMenusOpen()) {
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0, -(int)(height / 100.0 * base), EuclidianController.MOVE_VIEW);
 						return true;
@@ -714,7 +714,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
 		if (event.getSource() instanceof JTable
-				|| (app.useFullGui() &&  
+				|| (app.isUsingFullGui() &&  
 						app.getGuiManager().hasSpreadsheetView() &&
 						app.getGuiManager().getSpreadsheetView().hasFocus())) {			
 			return false;
@@ -728,7 +728,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		case KeyEvent.VK_UP:
 
 			// make sure arrow keys work in menus
-			if (app.useFullGui() && !app.getGuiManager().noMenusOpen()) return false;
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) return false;
 
 			changeVal = base;			
 			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
@@ -737,7 +737,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		case KeyEvent.VK_DOWN:
 
 			// make sure arrow keys work in menus
-			if (app.useFullGui() && !app.getGuiManager().noMenusOpen()) return false;
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) return false;
 
 			changeVal = -base;
 			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
@@ -746,7 +746,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		case KeyEvent.VK_RIGHT:
 
 			// make sure arrow keys work in menus
-			if (app.useFullGui() && !app.getGuiManager().noMenusOpen()) return false;
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) return false;
 
 			changeVal = base;
 			moved = handleArrowKeyMovement(geos, changeVal, 0, 0);
@@ -755,7 +755,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		case KeyEvent.VK_LEFT:
 
 			// make sure arrow keys work in menus
-			if (app.useFullGui() && !app.getGuiManager().noMenusOpen()) return false;
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) return false;
 
 			changeVal = -base;
 			moved = handleArrowKeyMovement(geos, changeVal, 0, 0);
@@ -786,7 +786,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		switch (keyCode) {
 		case KeyEvent.VK_F2:
 			// handle F2 key to start editing first selected element
-			if (app.useFullGui()) {
+			if (app.isUsingFullGui()) {
 				app.getGuiManager().startEditing(geos.get(0));
 				return true;
 			}			
@@ -902,7 +902,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 	 * @param geo 
 	 */
 	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
-		if (!app.useFullGui() || !app.showAlgebraInput()) 
+		if (!app.isUsingFullGui() || !app.showAlgebraInput()) 
 			return;		
 		JTextComponent textComponent = app.getGuiManager().getAlgebraInputTextField();				
 
@@ -1009,7 +1009,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 		// change application font size
 		app.setFontSize(fontSize);
-		if (app.useFullGui())
+		if (app.isUsingFullGui())
 			app.getGuiManager().updateSpreadsheetColumnWidths();
 
 		// apply styles to to selected or all geos

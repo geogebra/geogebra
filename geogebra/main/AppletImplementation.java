@@ -557,7 +557,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		// just update layout if the layout was already visible
 		// (which isn't the case in button-only mode), see ticket #217
-		if(app.useFullGui() && !showOpenButton)
+		if(app.isUsingFullGui() && !showOpenButton)
 			app.getGuiManager().updateLayout();
 
 		app.updateContentPane();
@@ -592,7 +592,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		app.setApplet(this);
 
-		if(app.useFullGui())
+		if(app.isUsingFullGui())
 			app.getGuiManager().updateLayout();
 		
 		initGUI();

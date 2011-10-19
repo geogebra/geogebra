@@ -1026,7 +1026,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 	public void mousePressed(MouseEvent e) {
 		
-		if (app.useFullGui()) {
+		if (app.isUsingFullGui()) {
 			// determine parent panel to change focus
 			//EuclidianDockPanelAbstract panel = (EuclidianDockPanelAbstract)SwingUtilities.getAncestorOfClass(EuclidianDockPanelAbstract.class, (Component)e.getSource());
 			
@@ -2035,7 +2035,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			GeoElementSelectionListener sel = app.getCurrentSelectionListener();
 			if (sel == null) return false;
-			if (app.useFullGui()) {
+			if (app.isUsingFullGui()) {
 				return !app.getGuiManager().isInputFieldSelectionListener();
 			}
 			else
@@ -2247,7 +2247,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		// outdated - we want to leave the point selected after drag now
 		//if (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
 
-		if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET && app.useFullGui())
+		if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET && app.isUsingFullGui())
 			getMovedGeoPoint().resetTraceColumns();
 
 	}
@@ -2313,7 +2313,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			// deselect slider after drag, but not on click
 			//if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
 
-			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET && app.useFullGui()) {
+			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET && app.isUsingFullGui()) {
 				movedGeoNumeric.resetTraceColumns();
 			}
 		}
@@ -2666,7 +2666,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			// tell properties dialog
 			if (hits.size() > 0 &&
-					app.useFullGui() &&
+					app.isUsingFullGui() &&
 					app.getGuiManager().isPropertiesDialogSelectionListener()) 
 			{
 				GeoElement geo = (GeoElement) hits.get(0);
@@ -2741,7 +2741,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			app.setSelectedGeos(hits);
 
 			// if alt pressed, create list of objects as string and copy to input bar
-			if (hits != null && hits.size() > 0 && e != null && e.isAltDown() && app.useFullGui() && app.showAlgebraInput()) {
+			if (hits != null && hits.size() > 0 && e != null && e.isAltDown() && app.isUsingFullGui() && app.showAlgebraInput()) {
 
 				JTextComponent textComponent = app.getGuiManager().getAlgebraInputTextField();				
 
@@ -3386,7 +3386,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		justCreatedGeos.clear();
 		app.updateStyleBars();
 		
-		if(app.useFullGui()) {
+		if(app.isUsingFullGui()) {
 			app.getGuiManager().updateMenubarSelection();
 		}
 	}
@@ -7939,14 +7939,14 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	
 	
 	private void openMiniPropertiesPanel() {
-		if (!app.useFullGui()) return;
+		if (!app.isUsingFullGui()) return;
 		if (app.isMiniPropertiesActive())
 			app.getGuiManager().toggleMiniProperties(true);
 
 	}
 
 	private void closeMiniPropertiesPanel() {
-		if (!app.useFullGui()) return;
+		if (!app.isUsingFullGui()) return;
 		app.getGuiManager().toggleMiniProperties(false);
 
 	}

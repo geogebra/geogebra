@@ -920,7 +920,7 @@ public abstract class Drawable extends DrawableND {
 		if (view.getKernel().isViewReiniting())
 			return;
 		Construction cons = view.getKernel().getConstruction();
-		if (cons.getApplication().useFullGui())
+		if (cons.getApplication().isUsingFullGui())
 			cons.getApplication().getGuiManager().traceToSpreadsheet(geo);
 	}
 

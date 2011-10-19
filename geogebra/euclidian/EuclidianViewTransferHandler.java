@@ -53,7 +53,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 	
 	private void setSupportedFlavours() {
 		if (supportedFlavors == null) {
-			if (app.useFullGui()) {
+			if (app.isUsingFullGui()) {
 				supportedFlavors = new DataFlavor[5];
 				supportedFlavors[0] = DataFlavor.imageFlavor;
 				supportedFlavors[1] = DataFlavor.stringFlavor;

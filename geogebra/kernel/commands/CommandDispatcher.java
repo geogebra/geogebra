@@ -521,7 +521,7 @@ public class CommandDispatcher {
     	// do *after* above loop as we must add only those CAS commands without a ggb equivalent
     	//=============================================================
     	
-    	if (GeoGebra.CAS_VIEW_ENABLED && app.useFullGui() && isCasActive)
+    	if (GeoGebra.CAS_VIEW_ENABLED && app.isUsingFullGui() && isCasActive)
     		initCASCommands();
 
     }

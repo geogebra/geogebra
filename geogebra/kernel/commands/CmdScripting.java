@@ -682,7 +682,7 @@ class CmdSetActiveView extends CmdScripting {
 		
 		
 
-		if (!app.useFullGui()) return;
+		if (!app.isUsingFullGui()) return;
 			
 		switch (n) {
 		case 1:

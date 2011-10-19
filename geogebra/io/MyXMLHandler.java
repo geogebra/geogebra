@@ -803,7 +803,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case 'd':
 			if (eName.equals("distribution")) {
-				if (app.useFullGui())
+				if (app.isUsingFullGui())
 					ok = handleProbabilityDistribution(attrs);
 				break;
 			}
@@ -1705,6 +1705,7 @@ public class MyXMLHandler implements DocHandler {
 			//Maybe there is not guiManager yet. In this case we store the
 			//navigation bar's states in ConstructionProtocolSettings
 			
+			// TODO the settings should *always* be stored in the ConstructionProtoclSettings object 
 			if(app.getGuiManager()!=null){
 				app.setShowConstructionProtocolNavigation(show);			
 				
