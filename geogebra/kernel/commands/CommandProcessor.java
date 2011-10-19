@@ -8312,6 +8312,7 @@ class CmdButton extends CommandProcessor {
 				gb.setLabelVisible(true);
 				gb.setLabel(c.getLabel());	
 				gb.setCaption(caption);
+				gb.updateRepaint();
 				return new GeoElement[] {gb};
 			}
 			else
@@ -8320,6 +8321,7 @@ class CmdButton extends CommandProcessor {
 			GeoButton gb = new GeoButton(cons);		
 			gb.setLabelVisible(true);
 			gb.setLabel(c.getLabel());	
+			gb.updateRepaint();
 			return new GeoElement[] {gb};
 
 		default:
