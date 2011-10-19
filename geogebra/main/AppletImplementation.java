@@ -204,12 +204,15 @@ public class AppletImplementation implements AppletImplementationInterface {
 				!( fileStr.startsWith("http") || fileStr.startsWith("file") )) 
 		{
 			// add document base to file name 
-			String documentBase = applet.getDocumentBase().toString();
-			String path = documentBase.substring(0, documentBase.lastIndexOf('/')+1);
+			URL base = applet.getDocumentBase();
+			String documentBase = base.toString();
 			if (fileStr.startsWith("/")) {
-				fileStr = fileStr.substring(1);
+				fileStr = base.getProtocol() + "://" + base.getHost() + fileStr;
+			} else {
+				String path = documentBase.substring(0, documentBase.lastIndexOf('/')+1);
+				fileStr = path + fileStr;	
 			}
-			fileStr = path + fileStr;			
+			Application.debug("loading "+fileStr);
 		} else {
 			// check if ggb file is encoded as base 64
 			String fileBase64 = applet.getParameter("ggbBase64");
