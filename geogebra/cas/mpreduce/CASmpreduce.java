@@ -418,6 +418,16 @@ public class CASmpreduce extends CASgeneric {
 				" else" +
 				"   '? end;");
 		
+		mpreduce.evaluate("procedure mycoeff(p,x);" +
+				" begin scalar coefflist, bool!!;" +
+				" coefflist:=coeff(p,x);" +
+				" if 1=for each elem!! in coefflist product" +
+				"   if freeof(elem!!,x) then 1 else 0 then" +
+				"   return reverse(coefflist)" +
+				" else" +
+				"   return '?" +
+				" end;");
+		
 		mpreduce.evaluate(" Degree := pi/180;");
 
 		mpreduce.evaluate("procedure myround(x);" 
