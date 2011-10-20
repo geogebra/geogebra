@@ -1176,7 +1176,7 @@ public class GuiManager {
 		
 	
 		// save the geos list: it will be cleared by setMoveMode()
-		ArrayList selGeos = null;
+		ArrayList<GeoElement> selGeos = null;
 		if (geos == null)
 			geos = app.getSelectedGeos();
 
@@ -1200,7 +1200,7 @@ public class GuiManager {
 		app.setDefaultCursor();
 	}
 
-	private ArrayList tempGeos = new ArrayList();
+	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();
 
 	public void showPropertiesDialog() {
 		showPropertiesDialog(null);
@@ -1284,7 +1284,7 @@ public class GuiManager {
 	/**
 	 * Displays the redefine dialog for geo
 	 * 
-	 * @param allowTextDialog: whether text dialog should be used for texts
+	 * @param allowTextDialog whether text dialog should be used for texts
 	 */
 	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
 		// doBeforeRedefine();
