@@ -335,7 +335,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     	switch(((GeoConicND) getGeoElement()).getType()){
     	case GeoConic.CONIC_CIRCLE:
 		case GeoConic.CONIC_ELLIPSE:
-			renderer.setLayer(getGeoElement().getLayer()+0.5f); //+0.5f to avoid mixing with planes
+			renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());
     		renderer.setLayer(0);
     		break;

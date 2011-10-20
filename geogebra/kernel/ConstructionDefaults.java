@@ -309,6 +309,7 @@ public class ConstructionDefaults {
 		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT);
 		angle.setAnimationSpeed(GeoAngle.DEFAULT_SLIDER_SPEED);
 		angle.setDefaultGeoType(DEFAULT_ANGLE);
+		angle.setLineTypeHidden(EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 		
 		// function

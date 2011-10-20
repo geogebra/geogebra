@@ -10,6 +10,7 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.kernel3D.GeoAxis3D;
 import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
@@ -355,7 +356,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * says that the label has to be updated
 	 */
 	public void setLabelWaitForUpdate(){
-		
 		labelWaitForUpdate = true;
 	}
 	
@@ -417,6 +417,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return the label position
 	 */
 	public Coords getLabelPosition(){
+		
 		return getGeoElement().getLabelPosition().copyVector();
 	}
 	

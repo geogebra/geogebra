@@ -30,7 +30,7 @@ implements GeoVectorND, Locateable, Vector3DValue{
 	
 	private CoordMatrix matrix;
 	
-	private Coords labelPosition;
+	private Coords labelPosition = new Coords(0,0,0,0);
 
 	/** simple constructor
 	 * @param c

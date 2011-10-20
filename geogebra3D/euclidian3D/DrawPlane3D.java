@@ -60,9 +60,12 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 		if (!((GeoPlane3D)getGeoElement()).isPlateVisible())
 			return;
-		//renderer.initMatrix();
-		renderer.getGeometryManager().draw(getGeometryIndex());
-		//renderer.resetMatrix();
+
+		renderer.setLayer(getGeoElement().getLayer()-1f); //-1f for z-fighting with planes
+		renderer.getGeometryManager().draw(getGeometryIndex());	
+		renderer.setLayer(0);
+		
+
 		
 	}
 	

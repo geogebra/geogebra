@@ -73,8 +73,10 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	
 	public void drawHidden(Renderer renderer){
 		
+		
 		if(!isVisible())
 			return;
+		
 		
 		if (getGeoElement().getLineTypeHidden()==EuclidianView.LINE_TYPE_HIDDEN_NONE)
 			return;

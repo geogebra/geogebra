@@ -1308,6 +1308,7 @@ public abstract class GeoElement
 		// note: line thickness in Drawable is calculated as lineThickness / 2.0f
 		setLineThickness(geo.lineThickness);
 		setLineType(geo.lineType);
+		setLineTypeHidden(geo.lineTypeHidden);
 		setDecorationType(geo.decorationType);
 
 		// set whether it's an auxilliary object
