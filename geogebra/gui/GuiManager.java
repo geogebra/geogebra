@@ -3120,14 +3120,32 @@ public class GuiManager {
 	    public String getCreatedWithHTML(boolean JSXGraph) {
 	        String ret;
 	        
-	        if (!JSXGraph) ret = Util.toHTMLString(app.getPlain("CreatedWithGeoGebra")); // MRB 2008-06-14 added Util.toHTMLString
-	        else           ret = Util.toHTMLString(app.getPlain("CreatedWithGeoGebraAndJSXGraph"));
+	        //if (!JSXGraph)
+	        ret = Util.toHTMLString(app.getPlain("CreatedWithGeoGebra")); // MRB 2008-06-14 added Util.toHTMLString
+	        //else           ret = Util.toHTMLString(app.getPlain("CreatedWithGeoGebraAndJSXGraph"));
 
-	        if (ret.toLowerCase().indexOf("geogebra") == -1)
+	        // examples in other languages:
+	        // GeoGebrom
+	        // GeoGebrou
+	        // GeoGebrarekin
+	        if (ret.toLowerCase(Locale.US).indexOf("geogebr") == -1)
 	        	ret="Created with GeoGebra";
 	        
-	        ret = ret.replaceAll("[Gg]eo[Gg]ebra", "<a href=\""+GeoGebra.GEOGEBRA_WEBSITE+"\" target=\"_blank\" >GeoGebra</a>");
-	        ret = ret.replaceAll("JSXGraph", "<a href=\"http://jsxgraph.org/\" target=\"_blank\" >JSXGraph</a>");
+	        String[] words = ret.split(" ");
+	        
+	        ret = "";
+	        
+	        for (int i = 0 ; i < words.length ; i++) {
+	        	// deliberate 'a' missing
+	        	if (words[i].toLowerCase(Locale.US).startsWith("geogebr")) {
+	        		// wrap transletion of GeoGebra to make a link
+	        		words[i] = "<a href=\""+GeoGebra.GEOGEBRA_WEBSITE+"\" target=\"_blank\" >"+words[i]+"</a>";
+	        	}
+	        	ret += words[i]+ ((i == words.length -1) ? "" : " ");
+	        }
+	        
+	        //ret = ret.replaceAll("[Gg]eo[Gg]ebra", "<a href=\""+GeoGebra.GEOGEBRA_WEBSITE+"\" target=\"_blank\" >GeoGebra</a>");
+	        //ret = ret.replaceAll("JSXGraph", "<a href=\"http://jsxgraph.org/\" target=\"_blank\" >JSXGraph</a>");
 	        
 	        return ret;
 	    }
