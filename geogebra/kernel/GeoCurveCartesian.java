@@ -231,6 +231,24 @@ implements Transformable, VarString, Path, Translateable, Rotateable, PointRotat
 		distFun = new ParametricCurveDistanceFunction(this);
 	}
 	
+	/**
+	 * Sets this curve to the parametric derivative of the given curve c. 
+	 * The parametric derivative of a curve c(t) = (x(t), y(t)) is defined as
+	 * (x(t), y'(t)/x'(t)).
+	 */
+	public void setParametricDerivative(GeoCurveCartesian c) {		
+		if (c.isDefined()) {			
+			funX = c.funX;
+			funY = Function.getDerivativeQuotient(c.funX, c.funY);
+			isDefined = !(funX == null || funY == null);
+			if (isDefined)
+				setInterval(c.startParam, c.endParam);			
+		} else {
+			isDefined = false;
+		}	
+		distFun = new ParametricCurveDistanceFunction(this);
+	}	
+		
 	// added by Loic Le Coq 2009/08/12
 	/**
 	 * @return value string x-coord function

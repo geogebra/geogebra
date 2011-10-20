@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.GeoFunction;
+import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.roots.RealRootDerivFunction;
@@ -689,11 +690,53 @@ implements ExpressionValue, RealRootFunction, Functional {
     	
     	return (Function) evalCasCommand(sb.toString(), true);
     }
-    
-    
-    
+        
+    /**
+	 * @return Function y'(t)/x'(t) needed for parametric derivative
+	 * @param funX function x(t)
+	 * @param funY function y(t)
+	 */
+	public static Function getDerivativeQuotient(Function funX, Function funY) {
+		if (funX.fVars == null) return null;
+		
+		// get variable string with tmp prefix, 
+		// e.g. "t" becomes "ggbtmpvart" here
+		Kernel kernel = funX.kernel;
+		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
+		kernel.setUseTempVariablePrefix(true);
+		String varStr = funX.fVars[0].toString();
+		
+		// should we try to get a symbolic derivative?
+		// for multi-variate functions we need to ensure value form,
+		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as Derivative[x^2+2] instead of Derivative[f(x,2)]
+		// see http://www.geogebra.org/trac/ticket/1466
+		boolean symbolic = !funX.expression.containsObjectType(GeoFunctionNVar.class) &&
+				   			!funY.expression.containsObjectType(GeoFunctionNVar.class);		
+    	
+		// build y'(t)/x'(t) string as "Derivative( <funY>, t ) / Derivative( %, t)"
+    	StringBuilder sb = new StringBuilder();
+    	//  Derivative( y, t )    	
+    	sb.append("Derivative(");
+    	sb.append(funY.expression.getCASstring(ExpressionNode.STRING_TYPE_GEOGEBRA, symbolic));
+    	sb.append(",");
+    	sb.append(varStr);
+    	sb.append(")");
+    	
+    	sb.append("/");
 
-    
+    	// "Derivative( %, t )", funX will be substituted for % in funX.evalCasCommand() later
+    	sb.append("Derivative(");
+    	sb.append("%");
+    	sb.append(",");
+    	sb.append(varStr);
+    	sb.append(")");
+    	String casString = sb.toString();
+    	kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
+    	
+    	// eval cas string  "Derivative( <funY>, t ) / Derivative( %, t)"
+    	return (Function) funX.evalCasCommand(casString, symbolic);
+	}
+	    
     /**
      * Creates the difference expression (a - b) and stores the result in
      * Function c.
