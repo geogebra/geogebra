@@ -885,7 +885,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		if(rootPane.getRightComponent() == null) {
 			Component leftComponent = rootPane.getLeftComponent();
 			
-			if(leftComponent != null) {
+			if(leftComponent != null && leftComponent instanceof DockPanel) {
 				singlePanel = (DockPanel)leftComponent;
 			}
 		}
@@ -893,7 +893,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		if(rootPane.getLeftComponent() == null) {
 			Component rightComponent = rootPane.getRightComponent();
 			
-			if(rightComponent != null) {
+			if(rightComponent != null && rightComponent instanceof DockPanel) {
 				singlePanel = (DockPanel)rightComponent;
 			}
 		}
