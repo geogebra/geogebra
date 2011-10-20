@@ -2,14 +2,16 @@
 from __future__ import division
 
 # GeoGebra imports
-from geogebra.kernel import GeoElement, GeoPoint, GeoNumeric, GeoVector, GeoFunction, GeoText, GeoConic, GeoLine, GeoSegment, GeoRay, GeoBoolean
+from geogebra.kernel import GeoElement, GeoPoint, GeoNumeric, GeoVector, GeoFunction, GeoText, GeoConic, GeoLine, GeoSegment, GeoRay, GeoBoolean, GeoLocus
 from geogebra.kernel import Construction, AlgoDependentNumber, AlgoDependentPoint, AlgoDependentVector
 from geogebra.kernel.arithmetic import ExpressionNode, MyVecNode, FunctionVariable, Function as _Function, FunctionNVar, Variable, MyDouble, ExpressionNodeConstants as EC, MyBoolean, NumberValue
 from geogebra.euclidian import EuclidianView
 from geogebra.plugin.jython import PythonScriptInterface
 
 # Java imports
-from javax.swing import JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList, DefaultListModel, ListCellRenderer, BorderFactory
+from javax.swing import JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList, DefaultListModel, ListCellRenderer, BorderFactory, JTextPane
+from javax.swing.text import StyleContext, StyleConstants
+
 from java.awt import Component, BorderLayout, Color, GridLayout, Font
 from java.awt.event import KeyListener
 
@@ -22,21 +24,18 @@ from generic import generic, specmethod, GenericMethods, GenericError, sign
 
 Number = (int, long, float)
 
-class Out(object):
-    def __init__(self):
-        self.value = ""
-    def write(self, text):
-        self.value += text
 
 class Interface(PythonScriptInterface):
     def init(self, app):
         global _app, _kernel, _cons, _algprocessor
+        global selection, pywindow
         _app = app
         _kernel = app.getKernel()
         _cons = _kernel.getConstruction()
         _algprocessor = _kernel.getAlgebraProcessor()
-        self.pywin = PythonWindow()
+        pywindow = self.pywin = PythonWindow()
         self.geo = Geo()
+        selection = self.selection = Selection()
         sys.stdout = self.pywin
         self.namespace = {
             'Color': Color,
@@ -53,15 +52,17 @@ class Interface(PythonScriptInterface):
             'Ellipse': Ellipse,
             'Hyperbola': Hyperbola,
             'Parabola': Parabola,
+            'Locus': Locus,
             'Text': Text,
             'Intersect': Intersect,
             'geo': self.geo,
+            'selection': self.selection,
             'pointlist': pointlist,
             'interactive': interactive,
         }
         self.namespace.update(unary_functions)
         self.handling_event = False
-        self.pywin.add("*** Python Interface initialised ***", "output")
+        self.pywin.add("*** Python Interface initialised ***\n", "output")
     def handleEvent(self, evt_type, target):
         if self.handling_event:
             return
@@ -74,8 +75,9 @@ class Interface(PythonScriptInterface):
             self.handling_event = True
             action(element)
         except Exception:
-            self.pywin.add("Error while handling event '%s' on '%r'"
-                           % evt_type, target)
+            self.pywin.error("Error while handling event '%s' on '%r'"
+                           % (evt_type, target))
+            raise
         finally:
             self.handling_event = False
     def notifySelected(self, geo, add):
@@ -105,29 +107,29 @@ class Interface(PythonScriptInterface):
                          r"mismatched input '\n' expecting INDENT"):
                 return "continue"
             else:
-                self.pywin.add("Syntax Error: " + e.msg, "error")
+                self.pywin.error("Syntax Error: " + e.msg)
                 return "error"
     def compilemodule(self, source):
         try:
             return compile(source, "<pyggb>", "exec")
         except SyntaxError, e:
-            self.pywin.add("Syntax Error: " + e.msg, "error")
+            self.pywin.error("Syntax Error: " + e.msg)
             return "error"
     def run(self, code):
-        stdout = sys.stdout
-        f = Out()
-        sys.stdout = f
+        #stdout = sys.stdout
+        #f = Out()
+        #sys.stdout = f
         try:
             exec code in self.namespace
-            if f.value.endswith('\n'):
-                f.value = f.value[:-1]
-            if f.value:
-                self.pywin.add(f.value, "output")
         except Exception, e:
-            self.pywin.add("Runtime Error: " + str(e), "error")
-            return "error"
-        finally:
-            sys.stdout = stdout
+            self.pywin.error("Runtime Error: " + str(e))
+            raise
+        #finally:
+        #    sys.stdout = stdout
+        #    if f.value.endswith('\n'):
+        #        f.value = f.value[:-1]
+        #    if f.value:
+        #        self.pywin.add(f.value, "output")
         return "OK"
 
 interface = Interface()
@@ -186,7 +188,12 @@ class Element(GenericMethods):
 
     def __repr__(self):
         return "<%s>" % self.geo
-
+    def __str__(self):
+        if self.label is not None:
+            return self.label
+        else:
+            return "(unnamed)"
+    
     # property: label 
     def _getlabel(self):
         return self.geo.getLabel()
@@ -294,7 +301,10 @@ class Expression(GenericMethods):
         else:
             # TODO add other types of expressions
             return Expression(node)
-        
+    
+    def __hash__(self):
+        return hash(self.geo)
+    
     def __expr__(self):
         return self
 
@@ -624,14 +634,14 @@ class Segment(Line, ExpressionElement, NumberExpression):
 
     # property: startpoint    
     def _getstartpoint(self):
-        return Point(self.geo.getStartPoint())
+        return Geo._get_element(self.geo.getStartPoint())
     def _setstartpoint(self, p):
         self.geo.setStartPoint(element(p).geo)
     startpoint = property(_getstartpoint, _setstartpoint)
     
     # property: endpoint
     def _getendpoint(self):
-        return Point(self.geo.getEndPoint())
+        return Geo._get_element(self.geo.getEndPoint())
     def _setendpoint(self):
         self.geo.setEndPoint(element(p).geo)
     endpoint = property(_getendpoint, _setendpoint)
@@ -748,9 +758,6 @@ class Parabola(Conic):
     def initfromfocusanddirectrix(self, p, l):
         self._geo = _kernel.Parabola(None, p.geo, l.geo)
 
-class ImplicitPoly(Path):
-
-    pass
 
 Conic._conic_types = {
     'Circle': Circle,
@@ -759,6 +766,19 @@ Conic._conic_types = {
     'Ellipse': Ellipse,
 }
     
+
+class Locus(Path):
+    
+    def get_point(self, param):
+        if param < 0 or param > 1:
+            raise ValueError("param must be between 0 and 1")
+        return _kernel.Point(None, self.geo, element(param).geo)
+
+
+class ImplicitPoly(Path):
+
+    pass
+
 
 class Function(Element):
     
@@ -832,6 +852,32 @@ class Intersect(GenericMethods):
         for i in self.intersections:
             yield i
 
+
+class Selection(object):
+    @property
+    def all(self):
+        return map(Geo._get_element, _app.getSelectedGeos())
+    
+    def filter(self, eltype):
+        return [x for x in self.all if isinstance(x, eltype)]
+    
+    @property
+    def points(self):
+        return self.filter(Point)
+
+    @property
+    def lines(self):
+        return self.filter(Line)
+    
+    @property
+    def segments(self):
+        return self.filter(Segment)
+    
+    @property
+    def vectors(self):
+        return self.filter(Vector)
+
+
 def pointlist():
     classtype = GeoElement.GEO_CLASS_POINT
     pointset = _cons.getGeoSetLabelOrder(classtype)
@@ -853,6 +899,7 @@ class Geo(object):
         GeoSegment: Segment,
         GeoRay: Ray,
         GeoConic: Conic,
+        GeoLocus: Locus,
     }
     _revmap = dict((v, k) for k, v in _map.iteritems())
     _cache = {}
@@ -897,44 +944,68 @@ class MyListCellRenderer(ListCellRenderer):
         return renderer
 
 
+class OutputPane(object):
+    def __init__(self):
+        self.textpane = JTextPane()
+        self.doc = self.textpane.getStyledDocument()
+        self.textpane.editable = False
+        default_style = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE)
+        parent_style = self.doc.addStyle("parent", default_style)
+        StyleConstants.setFontFamily(parent_style, "Monospaced")
+        input_style = self.doc.addStyle("input", parent_style)
+        output_style = self.doc.addStyle("output", parent_style)
+        StyleConstants.setForeground(output_style, Color.BLUE)
+        error_style = self.doc.addStyle("error", parent_style)
+        StyleConstants.setForeground(error_style, Color.RED)
+    def addtext(self, text, style="input", ensure_newline=False):
+        doclen = self.doc.length
+        if ensure_newline and self.doc.getText(doclen - 1, 1) != '\n':
+            text = '\n' + text
+        self.doc.insertString(self.doc.length, text, self.doc.getStyle(style))
+        # Scroll down
+        self.textpane.setCaretPosition(self.doc.length)
+
+
 class PythonWindow(KeyListener):
     def __init__(self):
         self.frame = JFrame("Python Window")
-        self.historyList = JList(DefaultListModel())
-        self.historyList.cellRenderer = MyListCellRenderer()
-        #self.historyPanel.layout = BoxLayout(
-        #    self.historyPanel,
-        #    BoxLayout.Y_AXIS
-        #)
+        #self.historyList = JList(DefaultListModel())
+        #self.historyList.cellRenderer = MyListCellRenderer()
         scrollpane = JScrollPane()
-        #    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-        #    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        #)
-        # scrollpane.preferredSize = 400, 800
         inputPanel = JPanel()
         inputPanel.layout = GridLayout(1, 1)
         self.input = JTextArea("")
         self.input.border = BorderFactory.createEmptyBorder(5, 5, 5, 5)
         self.input.tabSize = 4
         self.input.font = Font("Monospaced", Font.PLAIN, 12)
-        #self.input.preferredSize = 500, 200 
         self.input.addKeyListener(self)
-        #self.button = JButton('Run', actionPerformed=self.run)
         inputPanel.add(self.input)
-        #inputPanel.add(self.button)
-        scrollpane.viewport.view = self.historyList
+        self.outputpane = OutputPane()
+        scrollpane.viewport.view = self.outputpane.textpane #self.historyList
         self.frame.add(scrollpane, BorderLayout.CENTER)
         self.frame.add(inputPanel, BorderLayout.PAGE_END)
         self.frame.size = 500, 600
         self.frame.visible = False
+        self.component = None
     def toggle_visibility(self):
         self.frame.visible = not self.frame.visible
+    def add_component(self, c):
+        self.remove_component()
+        self.frame.add(c, BorderLayout.PAGE_START)
+        self.component = c
+    def remove_component(self):
+        if self.component is not None:
+            self.frame.remove(self.component)
+            self.component = None
     def add(self, text, type="input"):
-        self.historyList.model.addElement({"text": text, "type": type})
-        self.historyList.validate()
+        self.outputpane.addtext(text, type)
+        #self.historyList.model.addElement({"text": text, "type": type})
+        #self.historyList.validate()
         self.frame.validate()
-        last = self.historyList.model.getSize() - 1
-        self.historyList.ensureIndexIsVisible(last)
+        #last = self.historyList.model.getSize() - 1
+        #self.historyList.ensureIndexIsVisible(last)
+    def error(self, text):
+        self.outputpane.addtext(text, "error", ensure_newline=True)
     def write(self, text):
         self.add(text, "output")
     def run(self, evt):
@@ -948,7 +1019,8 @@ class PythonWindow(KeyListener):
             code = interface.compilemodule(processed_source)
             if code == "error":
                 return
-        self.add(source.strip())
+        source = source.strip() + '\n'
+        self.outputpane.addtext(source, "input", ensure_newline=True)
         result = interface.run(code)
         if result == "OK":
             self.input.text = ""
