@@ -55,7 +55,7 @@ public class AlgoDerivative extends AlgoCasBase {
     
 
     public String getClassName() {
-        return "AlgoCasDerivative";
+        return "AlgoDerivative";
     }
 
     // for AlgoElement

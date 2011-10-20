@@ -28,7 +28,7 @@ public class AlgoFactor extends AlgoCasBase {
 
 	@Override
 	public String getClassName() {
-		return "AlgoCasFactor";
+		return "AlgoFactor";
 	}
 
 	@Override

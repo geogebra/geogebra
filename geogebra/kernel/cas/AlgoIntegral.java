@@ -48,7 +48,7 @@ public class AlgoIntegral extends AlgoCasBase {
      }
     
     public String getClassName() {
-        return "AlgoCasIntegral";
+        return "AlgoIntegral";
     }   
     
     protected void setInputOutput() {

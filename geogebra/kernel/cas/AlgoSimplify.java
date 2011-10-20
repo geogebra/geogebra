@@ -11,7 +11,7 @@ public class AlgoSimplify extends AlgoCasBase {
 
 	@Override
 	public String getClassName() {
-		return "AlgoCasSimplify";
+		return "AlgoSimplify";
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 
 	@Override
 	public String getClassName() {
-		return "AlgoCasPartialFractions";
+		return "AlgoPartialFractions";
 	}
 
 	@Override
