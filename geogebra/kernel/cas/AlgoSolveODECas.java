@@ -11,7 +11,7 @@ public class AlgoSolveODECas extends AlgoCasBase {
 
 	@Override
 	public String getClassName() {
-		return "AlgoCasSolveODE";
+		return "AlgoSolveODECas";
 	}
 
 	@Override

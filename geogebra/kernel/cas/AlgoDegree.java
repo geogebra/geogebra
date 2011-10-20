@@ -79,7 +79,7 @@ public class AlgoDegree extends AlgoElement {
 			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 			num.setValue(Double.parseDouble(functionOut));	
 		} catch (Throwable e) {
-			System.err.println("AlgoCasDegree: " + e.getMessage());
+			System.err.println("AlgoDegree: " + e.getMessage());
 			num.setUndefined();
 		}
 		
