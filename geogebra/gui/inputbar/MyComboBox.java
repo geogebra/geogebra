@@ -62,6 +62,4 @@ public class MyComboBox extends JComboBox implements PopupMenuListener {
 	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 		stateCmb = false;
 	}
-
-
 }

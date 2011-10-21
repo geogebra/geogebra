@@ -128,22 +128,23 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		add(labelPanel, BorderLayout.WEST);
 		add(inputPanel, BorderLayout.CENTER);
 		add(eastPanel, BorderLayout.EAST);
-		
-		
 
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		setLabels();
 
 	}
 
+	@Override
 	public boolean requestFocusInWindow() { 
 		return inputField.requestFocusInWindow();
 	}
 
+	@Override
 	public void requestFocus() {
 		requestFocusInWindow();
 	}
 
+	@Override
 	public boolean hasFocus() {
 		return inputField.hasFocus();
 	}
@@ -200,7 +201,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.setText(str);
 	}
 
-
 	// see actionPerformed
 	public void insertCommand(String cmd) {
 		if (cmd == null) return;
@@ -217,7 +217,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.requestFocus();
 	}
 
-
 	public void insertString(String str) {
 		if (str == null) return;
 
@@ -231,9 +230,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.setCaretPosition(pos + str.length());		
 		inputField.requestFocus();
 	}
-
-
-
 
 	/**
 	 * action listener implementation for input help panel toggle button
@@ -251,8 +247,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 				app.setShowInputHelpPanel(false);
 			}
 		}
-
-
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -307,7 +301,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 				}
 			}
 
-
 			app.setScrollToShow(false);
 
 			if (success) {						   
@@ -318,9 +311,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 	public void keyReleased(KeyEvent e) {
-
 	}
-
 
 	public void keyTyped(KeyEvent e) {	
 	}
@@ -330,7 +321,5 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 	public void focusLost(FocusEvent arg0) {
-
 	}	 
-
 }

@@ -58,26 +58,28 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, ActionListener, FocusListener, SetLabels {
+public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
+		ActionListener, FocusListener, SetLabels {
 
 	private Application app;
 	private InputBarHelpPanel thisPanel;
 	private Color bgColor = Color.WHITE;
-	
+
 	private Color titleColor;
-	
-	
+
 	private MyJTree cmdTree, fcnTree;
-	private DefaultMutableTreeNode functionTitleNode, rootSubCommands, rootAllCommands;;
+	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
+			rootAllCommands;;
 	private DefaultTreeModel cmdTreeModel;
 
 	private String selectedCommand, rollOverCommand;
+
 	public String getSelectedCommand() {
 		return selectedCommand;
 	}
+
 	private String selectedFunction;
-	
-	
+
 	private JPopupMenu contextMenu;
 	private JTextPane helpTextPane;
 	private JButton btnOnlineHelp, btnRefresh;
@@ -90,111 +92,101 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 	private JButton btnPaste;
 	private JScrollPane scroller;
 
-	
-	
-	/*************************************************** 
-	 * Constructor */
+	/***************************************************
+	 * Constructor
+	 */
 	public InputBarHelpPanel(Application app) {
 
 		this.app = app;
 		thisPanel = this;
 		this.setOpaque(true);
-		//this.setBackground(Color.blue);	
+		// this.setBackground(Color.blue);
 		titleColor = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
 		bgColor = this.getBackground().brighter();
-		
+
 		createFunctionPanel();
 		createCommandTree();
 		createSyntaxPanel();
 		contextMenu = new JPopupMenu();
-		
-		
+
 		JPanel commandPanel = new JPanel(new BorderLayout());
-		commandPanel.add(tablePanel,BorderLayout.NORTH);
-		commandPanel.add(cmdTree,BorderLayout.CENTER);
+		commandPanel.add(tablePanel, BorderLayout.NORTH);
+		commandPanel.add(cmdTree, BorderLayout.CENTER);
 		commandPanel.setBorder(BorderFactory.createEmptyBorder());
 		scroller = new JScrollPane(commandPanel);
-	
-		//scroller.setBorder(BorderFactory.createEmptyBorder());
+
+		// scroller.setBorder(BorderFactory.createEmptyBorder());
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
+
 		JPanel titlePanel = new JPanel();
-		titlePanel.setBorder(
-			BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
+		titlePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		titlePanel.setLayout(new BorderLayout());
-		
-		//titlePanel.setBackground(titleColor);
+
+		// titlePanel.setBackground(titleColor);
 		titleLabel = new JLabel();
-	//	titleLabel.setForeground(Color.darkGray);
-		
+		// titleLabel.setForeground(Color.darkGray);
+
 		titlePanel.add(titleLabel, BorderLayout.WEST);
-		
-		
+
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(scroller, BorderLayout.CENTER);
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 
-		cmdSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainPanel, syntaxHelpPanel);	
+		cmdSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainPanel,
+				syntaxHelpPanel);
 		cmdSplitPane.setResizeWeight(1.0);
 		cmdSplitPane.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		this.setLayout(new BorderLayout());
-		this.add(cmdSplitPane, BorderLayout.CENTER);	
+		this.add(cmdSplitPane, BorderLayout.CENTER);
 		this.add(createButtonPanel(), BorderLayout.SOUTH);
-	//	this.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 4));
+		// this.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 4));
 
 		setLabels();
 		updateFonts();
-			
-		
 	}
-	
-	public int getPreferredWidth(){
-		return (int) (1.2* cmdTree.getPreferredSize().width);
-	}
-	
 
-	private void createSyntaxPanel(){
-	
+	public int getPreferredWidth() {
+		return (int) (1.2 * cmdTree.getPreferredSize().width);
+	}
+
+	private void createSyntaxPanel() {
+
 		helpTextPane = new JTextPane();
-		//helpTextArea.setText("");
+		// helpTextArea.setText("");
 		helpTextPane.setEditable(false);
-		//helpTextArea.setMinimumSize(new Dimension(200,300));
+		// helpTextArea.setMinimumSize(new Dimension(200,300));
 		helpTextPane.setBorder(BorderFactory.createEmptyBorder(8, 5, 2, 5));
 		helpTextPane.setBackground(bgColor);
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(helpTextPane, BorderLayout.CENTER);
-		
+
 		p.setBorder(BorderFactory.createEmptyBorder());
 		JPanel titlePanel = new JPanel(new BorderLayout());
-		titlePanel.setBorder(
-			BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(1, 0, 1, 0, SystemColor.controlShadow),
+		titlePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(1, 0, 1, 0, SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		syntaxLabel = new JLabel();
 		syntaxLabel.setForeground(Color.darkGray);
 		titlePanel.add(syntaxLabel, BorderLayout.WEST);
-		
+
 		syntaxHelpPanel = new JPanel(new BorderLayout());
 		JScrollPane scroller = new JScrollPane(helpTextPane);
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		//scroller.setBorder(BorderFactory.createEmptyBorder());
-		
+		// scroller.setBorder(BorderFactory.createEmptyBorder());
+
 		JPanel corner = new JPanel(new FlowLayout());
 		corner.setBackground(this.getBackground());
 		scroller.setCorner(JScrollPane.LOWER_RIGHT_CORNER, corner);
-			
-		
-		syntaxHelpPanel.add(scroller,BorderLayout.CENTER);
-		//syntaxHelpPanel.add(titlePanel,BorderLayout.NORTH);	
-		
+
+		syntaxHelpPanel.add(scroller, BorderLayout.CENTER);
+		// syntaxHelpPanel.add(titlePanel,BorderLayout.NORTH);
 	}
-	
-	
-	private JPanel createButtonPanel(){
+
+	private JPanel createButtonPanel() {
 
 		btnRefresh = new JButton(app.getImageIcon("view-refresh.png"));
 		btnRefresh.setBorderPainted(false);
@@ -202,80 +194,79 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 		btnRefresh.setEnabled(false);
 		btnRefresh.addActionListener(this);
 		btnRefresh.setContentAreaFilled(false);
-		btnRefresh.setPreferredSize(new Dimension(24,20));
-		
-		
+		btnRefresh.setPreferredSize(new Dimension(24, 20));
+
 		btnPaste = new JButton();
 		btnPaste.addActionListener(this);
 		btnPaste.setFocusable(false);
-		
+
 		btnOnlineHelp = new JButton(app.getPlain("ShowOnlineHelp"));
 		btnOnlineHelp.setFocusable(false);
 		btnOnlineHelp.addActionListener(this);
-		//btnOnlineHelp.setBorderPainted(false);
-		//btnOnlineHelp.setContentAreaFilled(false);
-		//btnOnlineHelp.setPreferredSize(new Dimension(24,20));
-		
+		// btnOnlineHelp.setBorderPainted(false);
+		// btnOnlineHelp.setContentAreaFilled(false);
+		// btnOnlineHelp.setPreferredSize(new Dimension(24,20));
+
 		JPanel leftPanel = new JPanel(new FlowLayout());
 		leftPanel.add(btnPaste);
-		
+
 		JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		rightPanel.add(btnOnlineHelp);
 		rightPanel.add(btnRefresh);
-		
-		
-		JPanel buttonPanel = new JPanel(new BorderLayout());
-		buttonPanel.add(leftPanel,BorderLayout.WEST);
-		buttonPanel.add(rightPanel,BorderLayout.EAST);
-		buttonPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
-				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
-		
-	//	buttonPanel.setBackground(titleColor);
-	//	leftPanel.setBackground(titleColor);
-	//	rightPanel.setBackground(titleColor);
-		
-		return buttonPanel;
-		
-	}
-	
-	
-	private void createFunctionPanel(){
 
-		functionTable = new SelectionTable(app, TableSymbols.functions, -1,2, new Dimension(20,16), SelectionTable.MODE_TEXT);
+		JPanel buttonPanel = new JPanel(new BorderLayout());
+		buttonPanel.add(leftPanel, BorderLayout.WEST);
+		buttonPanel.add(rightPanel, BorderLayout.EAST);
+		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
+				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
+
+		// buttonPanel.setBackground(titleColor);
+		// leftPanel.setBackground(titleColor);
+		// rightPanel.setBackground(titleColor);
+
+		return buttonPanel;
+	}
+
+	private void createFunctionPanel() {
+
+		functionTable = new SelectionTable(app, TableSymbols.functions, -1, 2,
+				new Dimension(20, 16), SelectionTable.MODE_TEXT);
 		functionTable.setShowGrid(true);
 		functionTable.setHorizontalAlignment(SwingConstants.LEFT);
-		functionTable.setBorder(BorderFactory.createLineBorder(functionTable.getGridColor()));
+		functionTable.setBorder(BorderFactory.createLineBorder(functionTable
+				.getGridColor()));
 		functionTable.addMouseListener(new TableSelectionListener());
 		functionTable.setBackground(bgColor);
 		functionTable.setVisible(false);
 
 		DefaultMutableTreeNode functionRoot = new DefaultMutableTreeNode();
-		
-		functionTitleNode = new DefaultMutableTreeNode(app.getMenu("MathematicalFunctions"));
+
+		functionTitleNode = new DefaultMutableTreeNode(
+				app.getMenu("MathematicalFunctions"));
 		functionTitleNode.add(new DefaultMutableTreeNode());
 		functionRoot.add(functionTitleNode);
 		fcnTree = new MyJTree(new DefaultTreeModel(functionRoot));
-		fcnTree.addTreeExpansionListener(
-				new TreeExpansionListener(){
-					public void treeCollapsed(TreeExpansionEvent e) {
-						functionTable.setVisible(false);	
-						((MyJTree)e.getSource()).rollOverRow = -1;
-					}
-					public void treeExpanded(TreeExpansionEvent e) {
-						functionTable.setVisible(true);	
-						((MyJTree)e.getSource()).rollOverRow = -1;
-						thisPanel.btnRefresh.setEnabled(true);
-					}
-				}
-		);
+		fcnTree.addTreeExpansionListener(new TreeExpansionListener() {
+			public void treeCollapsed(TreeExpansionEvent e) {
+				functionTable.setVisible(false);
+				((MyJTree) e.getSource()).rollOverRow = -1;
+			}
+
+			public void treeExpanded(TreeExpansionEvent e) {
+				functionTable.setVisible(true);
+				((MyJTree) e.getSource()).rollOverRow = -1;
+				thisPanel.btnRefresh.setEnabled(true);
+			}
+		});
 
 		// add listener for mouse roll over
 		RollOverListener rollOverListener = new RollOverListener();
 		fcnTree.addMouseMotionListener(rollOverListener);
 		fcnTree.addMouseListener(rollOverListener);
 
-		fcnTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		fcnTree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		fcnTree.setCellRenderer(new MyRenderer());
 		fcnTree.setRootVisible(false);
 		fcnTree.setShowsRootHandles(false);
@@ -284,91 +275,84 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 		fcnTree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		fcnTree.setRowHeight(-1);
 
-
 		JPanel fPanel = new JPanel(new BorderLayout());
-		fPanel.add(Box.createRigidArea(new Dimension(35,1)), BorderLayout.WEST);
+		fPanel.add(Box.createRigidArea(new Dimension(35, 1)), BorderLayout.WEST);
 		fPanel.add(functionTable, BorderLayout.CENTER);
 		fPanel.setBackground(bgColor);
 
 		tablePanel = new JPanel(new BorderLayout());
-		tablePanel.add(fcnTree,BorderLayout.NORTH);
+		tablePanel.add(fcnTree, BorderLayout.NORTH);
 
-		tablePanel.add(fPanel,BorderLayout.WEST);
+		tablePanel.add(fPanel, BorderLayout.WEST);
 		functionTable.setAlignmentX(LEFT_ALIGNMENT);
-		
+
 		tablePanel.setBackground(bgColor);
-
-
 	}
 
-
 	/** mouse listener to handle table selection */
-	public class TableSelectionListener extends MouseAdapter  {
+	public class TableSelectionListener extends MouseAdapter {
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
 
-			if(e.getSource() == functionTable){
-				if(!cmdTree.getSelectionModel().isSelectionEmpty())
+			if (e.getSource() == functionTable) {
+				if (!cmdTree.getSelectionModel().isSelectionEmpty())
 					cmdTree.clearSelection();
 				selectedFunction = (String) functionTable.getSelectedValue();
 				selectedCommand = null;
 				helpTextPane.setText("");
-				if(e.getClickCount()==2)
+				if (e.getClickCount() == 2)
 					doPaste();
 			}
 		}
-
 	}
 
-
-	public void setLabels(){
+	public void setLabels() {
 		setCommands();
 		cmdTreeModel.setRoot(rootSubCommands);
 		cmdTreeModel.reload();
-		
+
 		titleLabel.setText(app.getMenu("InputHelp"));
 		syntaxLabel.setText(app.getPlain("Syntax"));
 		btnPaste.setText(app.getMenu("Paste"));
 		btnOnlineHelp.setText(app.getPlain("ShowOnlineHelp"));
-		
+
 		helpTextPane.setText(null);
 		functionTable.populateModel(TableSymbols.functions);
 		functionTitleNode.setUserObject(app.getMenu("MathematicalFunctions"));
-		rootAllCommands.setUserObject(app.getMenu("AllCommands") );
+		rootAllCommands.setUserObject(app.getMenu("AllCommands"));
 		updateFonts();
 		repaint();
 	}
 
-
-	public void updateFonts(){
+	public void updateFonts() {
 
 		functionTable.updateFonts();
 		helpTextPane.setFont(app.getPlainFont());
 		titleLabel.setFont(app.getPlainFont());
 		syntaxLabel.setFont(app.getPlainFont());
 		this.validate();
-		
+
 		// set the height of the syntax panel
 		Dimension d = syntaxHelpPanel.getMinimumSize();
-		d.height = 12*app.getGUIFontSize();
+		d.height = 12 * app.getGUIFontSize();
 		syntaxHelpPanel.setMinimumSize(d);
-		
-		// set the minimum width of the help panel (see Application.setShowInputHelpPanel)
+
+		// set the minimum width of the help panel (see
+		// Application.setShowInputHelpPanel)
 		d = this.getPreferredSize();
-		d.width = Math.max( (int) (1.1* this.cmdSplitPane.getPreferredSize().width),
+		d.width = Math.max(
+				(int) (1.1 * this.cmdSplitPane.getPreferredSize().width),
 				this.getPreferredSize().width);
 		this.setMinimumSize(d);
-		
-		
+
 		// adjust scrolling increments to match font size
-		scroller.getVerticalScrollBar().setBlockIncrement(10*app.getFontSize());
-		scroller.getVerticalScrollBar().setUnitIncrement(3*app.getFontSize());
-		
-		
+		scroller.getVerticalScrollBar().setBlockIncrement(
+				10 * app.getFontSize());
+		scroller.getVerticalScrollBar().setUnitIncrement(3 * app.getFontSize());
 	}
 
-	
-	private void createCommandTree(){
+	private void createCommandTree() {
 
 		setCommands();
 
@@ -386,312 +370,318 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 		cmdTree.addMouseMotionListener(rollOverListener);
 		cmdTree.addMouseListener(rollOverListener);
 
-		cmdTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		cmdTree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		cmdTree.setCellRenderer(new MyRenderer());
 		cmdTree.setLargeModel(true);
-		//tree.putClientProperty("JTree.lineStyle", "none");
+		// tree.putClientProperty("JTree.lineStyle", "none");
 		cmdTree.setRootVisible(false);
 		cmdTree.setShowsRootHandles(false);
-		//tree.setScrollsOnExpand(true);	
+		// tree.setScrollsOnExpand(true);
 		cmdTree.setToggleClickCount(1);
 		cmdTree.setBackground(bgColor);
 		cmdTree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		cmdTree.setRowHeight(-1);
-		
-		cmdTree.addTreeExpansionListener(
-				new TreeExpansionListener(){
-					public void treeCollapsed(TreeExpansionEvent e) {
-					}
-					public void treeExpanded(TreeExpansionEvent e) {
-						thisPanel.btnRefresh.setEnabled(true);
-					}
-				}
-		);
-			
+
+		cmdTree.addTreeExpansionListener(new TreeExpansionListener() {
+			public void treeCollapsed(TreeExpansionEvent e) {
+			}
+
+			public void treeExpanded(TreeExpansionEvent e) {
+				thisPanel.btnRefresh.setEnabled(true);
+			}
+		});
 	}
 
+	public void setCommands() {
 
-	public void setCommands(){
-
-		if(rootSubCommands == null)
+		if (rootSubCommands == null)
 			rootSubCommands = new DefaultMutableTreeNode();
-		if(rootAllCommands == null)
-			rootAllCommands = new DefaultMutableTreeNode(app.getMenu("AllCommands") );
+		if (rootAllCommands == null)
+			rootAllCommands = new DefaultMutableTreeNode(
+					app.getMenu("AllCommands"));
 		rootSubCommands.removeAllChildren();
 		rootAllCommands.removeAllChildren();
-		
-		DefaultMutableTreeNode child;		
+
+		DefaultMutableTreeNode child;
 		LowerCaseDictionary[] subDict = app.getSubCommandDictionary();
 
-		// load the sub-command nodes 
-		for(int i=0; i<subDict.length; i++){
-			
+		// load the sub-command nodes
+		for (int i = 0; i < subDict.length; i++) {
+
 			// add stem node: sub-command set name
-			String name = app.getKernel().getAlgebraProcessor().getSubCommandSetName(i);
+			String name = app.getKernel().getAlgebraProcessor()
+					.getSubCommandSetName(i);
 			child = new DefaultMutableTreeNode(name);
-			addNodeInSortedOrder(rootSubCommands,child);
-			
+			addNodeInSortedOrder(rootSubCommands, child);
+
 			// add leaf nodes: sub-command names
 			Iterator<?> it = subDict[i].getIterator();
 			while (it.hasNext()) {
 				String cmdName = (String) subDict[i].get(it.next());
-				if (cmdName != null && cmdName.length() > 0){
-					addNodeInSortedOrder(child,new DefaultMutableTreeNode(cmdName));
+				if (cmdName != null && cmdName.length() > 0) {
+					addNodeInSortedOrder(child, new DefaultMutableTreeNode(
+							cmdName));
 				}
-			}	 
+			}
 		}
-		
+
 		// laod the All Commands node
-		LowerCaseDictionary dict = app.getCommandDictionary(); 
+		LowerCaseDictionary dict = app.getCommandDictionary();
 		Iterator<?> it = dict.getIterator();
 		while (it.hasNext()) {
 			String cmdName = (String) dict.get(it.next());
-			if (cmdName != null && cmdName.length() > 0){
-				addNodeInSortedOrder(rootAllCommands,new DefaultMutableTreeNode(cmdName));
+			if (cmdName != null && cmdName.length() > 0) {
+				addNodeInSortedOrder(rootAllCommands,
+						new DefaultMutableTreeNode(cmdName));
 			}
-		}	
+		}
 		// ignore sort and put this one first
-		rootSubCommands.insert(rootAllCommands,0);
-
+		rootSubCommands.insert(rootAllCommands, 0);
 	}
 
-
-
 	/**
-	 * Adds a new node to a sorted tree. Node leaf strings are sorted in ascending
-	 * order using a locale-sensitive Collator class.
+	 * Adds a new node to a sorted tree. Node leaf strings are sorted in
+	 * ascending order using a locale-sensitive Collator class.
 	 */
 	private void addNodeInSortedOrder(DefaultMutableTreeNode parent,
-			DefaultMutableTreeNode child){
-		
-		if (child.toString() == null) return;
-		
+			DefaultMutableTreeNode child) {
+
+		if (child.toString() == null)
+			return;
+
 		int n = parent.getChildCount();
-		if(n==0){
+		if (n == 0) {
 			parent.add(child);
 			return;
 		}
-		
+
 		// make sure eg accented letters get sorted correctly
 		Collator collator = Collator.getInstance(app.getLocale());
 		collator.setStrength(Collator.SECONDARY);
 		collator.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
-		DefaultMutableTreeNode node=null;
-		
-		for(int i=0;i<n;i++){
-			node = (DefaultMutableTreeNode)parent.getChildAt(i);
-			if(collator.compare(node.toString(), child.toString()) > 0){
+		DefaultMutableTreeNode node = null;
+
+		for (int i = 0; i < n; i++) {
+			node = (DefaultMutableTreeNode) parent.getChildAt(i);
+			if (collator.compare(node.toString(), child.toString()) > 0) {
 				parent.insert(child, i);
 				return;
 			}
 		}
-		
+
 		parent.add(child);
 		return;
 	}
 
-
-	
-	
 	public void valueChanged(TreeSelectionEvent e) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)cmdTree.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) cmdTree
+				.getLastSelectedPathComponent();
 
-		if (node == null) return; // Nothing is selected.	
+		if (node == null)
+			return; // Nothing is selected.
 
-		if(node.isLeaf()){
+		if (node.isLeaf()) {
 			Object nodeInfo = node.getUserObject();
-			selectedCommand = (String)nodeInfo;
+			selectedCommand = (String) nodeInfo;
 			selectedFunction = null;
-		//	insertInputBarCommand(selectedCommand);
+			// insertInputBarCommand(selectedCommand);
 			showSelectedSyntax();
-			if(functionTable.getSelectedIndex() != -1)
+			if (functionTable.getSelectedIndex() != -1)
 				functionTable.clearSelection();
 		}
-		
-		else if(e.getSource().equals(fcnTree)){
+
+		else if (e.getSource().equals(fcnTree)) {
 
 			functionTable.setVisible(!functionTable.isVisible());
 		}
-
 	}
 
-	
-	
 	private class RollOverListener extends MouseInputAdapter {
-		
-		
-		 private void myPopupEvent(MouseEvent e) {
-             int x = e.getX();
-             int y = e.getY();
-             JTree tree = (JTree)e.getSource();
-             TreePath tp = tree.getPathForLocation(x, y);
-             if (tp == null)
-                     return; 				
- 			DefaultMutableTreeNode node = ((DefaultMutableTreeNode)tp.getLastPathComponent());
- 			if(node.isLeaf()){
- 				contextMenu.setBackground(bgColor);
- 				contextMenu.removeAll();
- 				//JMenuItem item = new JMenuItem(helpTextArea.getText());
- 				
- 				Object nodeInfo = node.getUserObject();
-				String cmd = (String)nodeInfo;
+
+		private void myPopupEvent(MouseEvent e) {
+			int x = e.getX();
+			int y = e.getY();
+			JTree tree = (JTree) e.getSource();
+			TreePath tp = tree.getPathForLocation(x, y);
+			if (tp == null)
+				return;
+			DefaultMutableTreeNode node = ((DefaultMutableTreeNode) tp
+					.getLastPathComponent());
+			if (node.isLeaf()) {
+				contextMenu.setBackground(bgColor);
+				contextMenu.removeAll();
+				// JMenuItem item = new JMenuItem(helpTextArea.getText());
+
+				Object nodeInfo = node.getUserObject();
+				String cmd = (String) nodeInfo;
 				rollOverCommand = cmd;
 				StringBuilder sb = new StringBuilder();
 				cmd = app.translateCommand(cmd); // internal name
-				CommandProcessor.getCommandSyntax(sb, app, cmd, -1);		
- 				
-				JTextArea t = new JTextArea(sb.toString());
-				t.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
- 				contextMenu.add(t);
- 				
- 				//item = new JMenuItem((String) node.getUserObject());
- 				//contextMenu.add(item);
- 				contextMenu.addSeparator();
- 				JMenuItem item = new JMenuItem(app.getPlain("ShowOnlineHelp"));
- 				item.setIcon(app.getImageIcon("help.png"));
- 				item.addActionListener(new ActionListener() {
- 					public void actionPerformed(ActionEvent e) {
- 						app.getGuiManager().openCommandHelp(rollOverCommand); 						
- 					}
- 				});	 
- 				
- 				contextMenu.add(item);
- 				
- 				contextMenu.show(tree, x, y);
- 				contextMenu.getSelectionModel().clearSelection();
- 			}
-     }
-     public void mousePressed(MouseEvent e) { 
-             if (e.isPopupTrigger()) myPopupEvent(e);
-             if(e.getClickCount()==2){
-            	 doPaste();
-             }
-     }
-     public void mouseReleased(MouseEvent e) {
-             if (e.isPopupTrigger()) myPopupEvent(e);
-     }
+				CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
 
-		
-		
-			
+				JTextArea t = new JTextArea(sb.toString());
+				t.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+				contextMenu.add(t);
+
+				// item = new JMenuItem((String) node.getUserObject());
+				// contextMenu.add(item);
+				contextMenu.addSeparator();
+				JMenuItem item = new JMenuItem(app.getPlain("ShowOnlineHelp"));
+				item.setIcon(app.getImageIcon("help.png"));
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						app.getGuiManager().openCommandHelp(rollOverCommand);
+					}
+				});
+
+				contextMenu.add(item);
+
+				contextMenu.show(tree, x, y);
+				contextMenu.getSelectionModel().clearSelection();
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (e.isPopupTrigger())
+				myPopupEvent(e);
+			if (e.getClickCount() == 2) {
+				doPaste();
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			if (e.isPopupTrigger())
+				myPopupEvent(e);
+		}
+
+		@Override
 		public void mouseExited(MouseEvent e) {
 			MyJTree tree;
-			if(e.getSource() instanceof JTree)
+			if (e.getSource() instanceof JTree) {
 				tree = (MyJTree) e.getSource();
-			else return;
+			} else {
+				return;
+			}
 			tree.rollOverRow = -1;
 			tree.repaint();
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e) {
 
-		// TODO most of this code can be removed now that roll over no longer changes the help text	
+			// TODO most of this code can be removed now that roll over no
+			// longer changes the help text
 			MyJTree tree;
-			if(e.getSource() instanceof MyJTree)
+			if (e.getSource() instanceof MyJTree)
 				tree = (MyJTree) e.getSource();
-			else return;
+			else
+				return;
 
 			int row = tree.getRowForLocation(e.getX(), e.getY());
-			
-			if( row != tree.rollOverRow) {
+
+			if (row != tree.rollOverRow) {
 				tree.rollOverRow = row;
-				if(row != -1 && tree.equals(cmdTree)){
-					
+				if (row != -1 && tree.equals(cmdTree)) {
+
 					// get the help text for this node
-					TreePath tp =  tree.getPathForRow(row);				
-					DefaultMutableTreeNode node = ((DefaultMutableTreeNode)tp.getLastPathComponent());
-					if(node.isLeaf()){
+					TreePath tp = tree.getPathForRow(row);
+					DefaultMutableTreeNode node = ((DefaultMutableTreeNode) tp
+							.getLastPathComponent());
+					if (node.isLeaf()) {
 						Object nodeInfo = node.getUserObject();
-						String cmd = (String)nodeInfo;
+						String cmd = (String) nodeInfo;
 						rollOverCommand = cmd;
 						StringBuilder sb = new StringBuilder();
 						cmd = app.translateCommand(cmd); // internal name
-						//CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
+						// CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
 						sb.append(app.getCommandSyntax(cmd));
-						//helpTextArea.setText(sb.toString());
+						// helpTextArea.setText(sb.toString());
 
-					}else{
-						//clear the help text
-						//rollOverCommand = null;
-						//helpTextArea.setText("");			
+					} else {
+						// clear the help text
+						// rollOverCommand = null;
+						// helpTextArea.setText("");
 					}
 				}
 
-				if(tree.equals(fcnTree)){
-					//clear the help text
+				if (tree.equals(fcnTree)) {
+					// clear the help text
 					rollOverCommand = null;
-					//helpTextArea.setText("");
+					// helpTextArea.setText("");
 				}
-				
-				
+
 				tree.repaint();
 			}
 		}
 	}
 
-	
-	private void showSelectedSyntax(){
-		
+	private void showSelectedSyntax() {
+
 		String cmd = app.translateCommand(selectedCommand); // internal name
-		//String s = "Syntax:\n" + app.getCommandSyntax(cmd);
-		String description=app.getCommandSyntax(cmd);
-		String descriptionCAS=app.getCommandSyntaxCAS(cmd);
+		// String s = "Syntax:\n" + app.getCommandSyntax(cmd);
+		String description = app.getCommandSyntax(cmd);
+		String descriptionCAS = app.getCommandSyntaxCAS(cmd);
 		String descriptionCASHeader = "\n" + app.getMenu("Type.CAS") + ":\n";
-		
-		
-		StyledDocument doc=helpTextPane.getStyledDocument();
+
+		StyledDocument doc = helpTextPane.getStyledDocument();
 		try {
-			doc.remove(0,doc.getLength());
+			doc.remove(0, doc.getLength());
 		} catch (BadLocationException e1) {
 			// this should never occur
 			e1.printStackTrace();
 		}
-		
-		//define the regular and italic style
-		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+
+		// define the regular and italic style
+		Style def = StyleContext.getDefaultStyleContext().getStyle(
+				StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);
 		StyleConstants.setFontFamily(def, "SansSerif");
 		Style s = doc.addStyle("italic", regular);
 		StyleConstants.setItalic(s, true);
-		
-		SimpleAttributeSet attrs=new SimpleAttributeSet();
+
+		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		StyleConstants.setFirstLineIndent(attrs, -50);
 		StyleConstants.setLeftIndent(attrs, 50);
-	    doc.setParagraphAttributes(0,doc.getLength(),attrs, false);
-		
-		
-		if (GeoGebra.CAS_VIEW_ENABLED && !descriptionCAS.equals(cmd + app.syntaxCAS)){
-			if (!description.equals(cmd + app.syntaxStr))
+		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
+
+		if (GeoGebra.CAS_VIEW_ENABLED
+				&& !descriptionCAS.equals(cmd + Application.syntaxCAS)) {
+			if (!description.equals(cmd + Application.syntaxStr))
 				try {
-					doc.insertString(doc.getLength(), description+"\n", doc.getStyle("regular"));
+					doc.insertString(doc.getLength(), description + "\n",
+							doc.getStyle("regular"));
 				} catch (BadLocationException e) {
 					// should never occur
 					e.printStackTrace();
 				}
 			try {
-				doc.insertString(doc.getLength(), descriptionCASHeader, doc.getStyle("italic"));
-				doc.insertString(doc.getLength(), descriptionCAS, doc.getStyle("regular"));
+				doc.insertString(doc.getLength(), descriptionCASHeader,
+						doc.getStyle("italic"));
+				doc.insertString(doc.getLength(), descriptionCAS,
+						doc.getStyle("regular"));
 			} catch (BadLocationException e) {
 				// should never occur
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				doc.insertString(doc.getLength(), description, doc.getStyle("regular"));
+				doc.insertString(doc.getLength(), description,
+						doc.getStyle("regular"));
 			} catch (BadLocationException e) {
 				// should never occur
 				e.printStackTrace();
 			}
 		}
-		//helpTextArea.setText(app.getCommandSyntax(cmd));
+		// helpTextArea.setText(app.getCommandSyntax(cmd));
 		helpTextPane.setCaretPosition(0);
-		helpTextPane.repaint();	
+		helpTextPane.repaint();
 	}
-	
-
 
 	// =============================================
-	//         Tree Cell Renderer
+	// Tree Cell Renderer
 	// =============================================
 
 	private class MyRenderer extends DefaultTreeCellRenderer {
@@ -703,8 +693,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 			setClosedIcon(app.getImageIcon("tree-open.png"));
 			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
 
-			selectionColor = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;;  // this.getBackgroundSelectionColor()     
-			rollOverColor =  Color.LIGHT_GRAY;
+			selectionColor = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;
+			; // this.getBackgroundSelectionColor()
+			rollOverColor = Color.LIGHT_GRAY;
 
 			this.setTextSelectionColor(Color.black);
 			this.setTextNonSelectionColor(Color.black);
@@ -713,39 +704,37 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 
 		}
 
+		@Override
 		public Component getTreeCellRendererComponent(JTree tree, Object value,
 				boolean isSelected, boolean expanded, boolean leaf, int row,
 				boolean hasFocus) {
 
-			super.getTreeCellRendererComponent(tree, value, isSelected, expanded,
-					leaf, row, hasFocus);
+			super.getTreeCellRendererComponent(tree, value, isSelected,
+					expanded, leaf, row, hasFocus);
 
-			if (value == null) {		
+			if (value == null) {
 				setText("");
 				return this;
 			}
 			setFont(app.getPlainFont());
-			
-			setText(value.toString());			
+
+			setText(value.toString());
 			if (leaf) {
 
 				if (isSelected) {
 					setBackgroundSelectionColor(selectionColor);
-				} 
-				else if(row == ((MyJTree)tree).rollOverRow) {
+				} else if (row == ((MyJTree) tree).rollOverRow) {
 					setBackgroundNonSelectionColor(rollOverColor);
-				}
-				else{
+				} else {
 					setBackgroundSelectionColor(bgColor);
 					setBackgroundNonSelectionColor(bgColor);
 				}
 
-
-			}else{
+			} else {
 				setFont(app.getBoldFont());
 				setBackgroundSelectionColor(bgColor);
 				setBackgroundNonSelectionColor(bgColor);
-				if(row == ((MyJTree)tree).rollOverRow){
+				if (row == ((MyJTree) tree).rollOverRow) {
 					setBackgroundNonSelectionColor(rollOverColor);
 					setBackgroundSelectionColor(rollOverColor);
 				}
@@ -755,13 +744,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 		}
 	}
 
-	
-	
-	
-	
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == btnRefresh) {
+		if (e.getSource() == btnRefresh) {
 			cmdTreeModel.setRoot(rootSubCommands);
 			cmdTreeModel.reload();
 			cmdTree.setRootVisible(false);
@@ -771,54 +756,50 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 			selectedCommand = null;
 			selectedFunction = null;
 		}
-		
 
-		else if(e.getSource() == btnOnlineHelp){
-			if(selectedCommand != null){
+		else if (e.getSource() == btnOnlineHelp) {
+			if (selectedCommand != null) {
 				app.getGuiManager().openCommandHelp(selectedCommand);
-			}
-			else if(selectedFunction != null)
+			} else if (selectedFunction != null)
 				app.getGuiManager().openHelp(Application.WIKI_OPERATORS);
 			else
 				app.getGuiManager().openHelp("InputBar");
-		} 
-		
-		else if(e.getSource() == btnPaste){
-			 doPaste();
-		} 
+		}
 
+		else if (e.getSource() == btnPaste) {
+			doPaste();
+		}
 	}
 
-	
-	
-	
-	private void doPaste(){
-		
-		if(selectedFunction != null){
-			((AlgebraInput)app.getGuiManager().getAlgebraInput()).insertString(selectedFunction);	
+	private void doPaste() {
+
+		if (selectedFunction != null) {
+			((AlgebraInput) app.getGuiManager().getAlgebraInput())
+					.insertString(selectedFunction);
 		}
-		
-		if(selectedCommand != null){
-			((AlgebraInput)app.getGuiManager().getAlgebraInput()).insertCommand(selectedCommand);
+
+		if (selectedCommand != null) {
+			((AlgebraInput) app.getGuiManager().getAlgebraInput())
+					.insertCommand(selectedCommand);
 		}
-		
 	}
 
 	/*
-	private void insertInputBarCommand(String cmd){
-		//((AlgebraInput)app.getGuiManager().getAlgebraInput()).getInputPanel().insertString(cmd);
-		//((AlgebraInput)app.getGuiManager().getAlgebraInput()).insertString(cmd);
-		//app.getGuiManager().insertStringIntoTextfield(cmd, false,false,false);
-		
-	
-		if(app.getGuiManager().getCurrentKeyboardListener() != null){
-			VirtualKeyboardListener tf =  app.getGuiManager().getCurrentKeyboardListener();
-			tf.insertString(cmd);
-		}
-		
-		
-	}
-*/
+	 * private void insertInputBarCommand(String cmd){
+	 * //((AlgebraInput)app.getGuiManager
+	 * ().getAlgebraInput()).getInputPanel().insertString(cmd);
+	 * //((AlgebraInput)
+	 * app.getGuiManager().getAlgebraInput()).insertString(cmd);
+	 * //app.getGuiManager().insertStringIntoTextfield(cmd, false,false,false);
+	 * 
+	 * 
+	 * if(app.getGuiManager().getCurrentKeyboardListener() != null){
+	 * VirtualKeyboardListener tf =
+	 * app.getGuiManager().getCurrentKeyboardListener(); tf.insertString(cmd); }
+	 * 
+	 * 
+	 * }
+	 */
 
 	public void focusGained(FocusEvent arg0) {
 		// TODO Auto-generated method stub
@@ -828,13 +809,11 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener, 
 		// TODO Auto-generated method stub
 	}
 
-	
 	private class MyJTree extends JTree {
 		public int rollOverRow = -1;
-		public MyJTree(TreeModel tm){
+
+		public MyJTree(TreeModel tm) {
 			super(tm);
 		}
 	}
-		
-
 }
