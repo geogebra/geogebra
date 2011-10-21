@@ -18,7 +18,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +93,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		completionsPopup = new CompletionsPopup(this, cellRenderer, 6);
 		//addKeyListener(this); now in MathTextField
 		setDictionary(dict);
-
 	}   
 
 	public AutoCompleteTextField(int columns, Application app, boolean handleEscapeKey){
@@ -131,7 +129,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		};
 		setBorderButton(1, GeoGebraIcon.createUpDownTriangleIcon(false, true), al);
 		this.setBorderButtonVisible(1, false);
-
 	}
 
 
@@ -215,11 +212,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		this.isEqualsRequired = isEqualsRequired;
 	}
 
-
-
-
-
-
 	//----------------------------------------------------------------------------
 	// Protected methods
 	//----------------------------------------------------------------------------
@@ -228,9 +220,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 
 	private boolean isVisibleHistoryButton;
 
-
-
-
+	@Override
 	public void keyPressed(KeyEvent e) {        
 		int keyCode = e.getKeyCode(); 
 
@@ -257,6 +247,12 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 				e.consume();
 			}
 			break;
+		case KeyEvent.VK_C:
+			if (Application.isControlDown(e)) //workaround for MAC_OS
+			{
+				ctrlC = true;
+			}
+			break;
 
 		case KeyEvent.VK_0:
 		case KeyEvent.VK_1:
@@ -273,13 +269,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			break;
 
 			// process input
-		case KeyEvent.VK_C:
-			if (Application.isControlDown(e)) //workaround for MAC_OS
-			{
-				ctrlC = true;
-			}
-
-			break;
 
 		case KeyEvent.VK_ESCAPE:
 			if (!handleEscapeKey) {
@@ -384,7 +373,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		}                                   
 	}
 
-
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 		//Application.debug(e+"");
@@ -417,11 +406,10 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 
 		char charPressed = e.getKeyChar();  
 
-		if ( (!isLetterOrDigit(charPressed) && !modifierKeyPressed) || 
-				(ctrlC && Application.MAC_OS) // don't want selection cleared
-		) return;        
-
-		clearSelection();
+		if ((isLetterOrDigit(charPressed) || modifierKeyPressed) && 
+				!(ctrlC && Application.MAC_OS) && !(e.getKeyCode() == KeyEvent.VK_A && Application.MAC_OS)) {
+			clearSelection();
+		}     
 
 		// handle alt-p etc
 		super.keyReleased(e);
@@ -474,6 +462,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 	 * is a space or end of input text.
 	 * and ignores ] }, ) if the brackets already match (simple check)
 	 */
+	@Override
 	public void keyTyped(KeyEvent e) {
 
 		// only handle parentheses
@@ -553,7 +542,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		setCaretPosition(Math.min(text.length(), caretPos));
 	}
 
-
 	private boolean isCloseBracketOrWhitespace(char c) {
 		return Character.isWhitespace(c) || c == ')' || c == ']' || c == '}';
 	}
@@ -585,9 +573,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			}
 		}
 		
-		
-		
-		
 		// search to the left
 		curWordStart = caretPos - 1;
 		while (  curWordStart >= 0 &&
@@ -606,8 +591,9 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		curWord.append(text.substring(curWordStart, curWordEnd));
 
 		// remove '[' at end
-		if (curWord.toString().endsWith("["))
+		if (curWord.toString().endsWith("[")) {
 			curWord.setLength(curWord.length() - 1);
+		}
 	}
 
 	// returns the word at position pos in text
@@ -624,10 +610,11 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		while (   wordEnd < length &&
 				isLetterOrDigit( text.charAt(wordEnd) ))    ++wordEnd;
 
-		if (wordStart >= 0 && wordEnd <= length)
+		if (wordStart >= 0 && wordEnd <= length) {
 			return text.substring(wordStart, wordEnd);
-		else 
+		} else {
 			return null;
+		}
 	}
 
 	private static boolean isLetterOrDigit(char character) {
@@ -650,8 +637,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			return Character.isLetterOrDigit(character);
 		}
 	}
-
-
 
 	//static String lastTyped = null;
 
@@ -696,11 +681,9 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 				completions = null; 
 				return null;                     				
 			}
-		} else {
-			if (curWord.length() < 2) { 
-				completions = null; 
-				return null;                     
-			} 
+		} else if (curWord.length() < 2) { 
+			completions = null; 
+			return null;                     	 
 		}
 		cmdPrefix = curWord.toString();
 
@@ -732,7 +715,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			} else {
 				syntaxString = app.getCommandSyntax(cmdInt);
 			}
-			if (syntaxString.endsWith(isCASInput ? app.syntaxCAS : app.syntaxStr)) {
+			if (syntaxString.endsWith(isCASInput ? Application.syntaxCAS : Application.syntaxStr)) {
 				
 				// command not found, check for macros
 				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
@@ -945,7 +928,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 
 		// check if we really found syntax information
 		//if (key.equals(syntax)) return null;
-		if (syntax.indexOf(app.syntaxStr) == -1) return null;
+		if (syntax.indexOf(Application.syntaxStr) == -1) return null;
 
 		// build html tooltip
 		syntax = syntax.replaceAll("<", "&lt;");
@@ -987,6 +970,4 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		app.showError(e);
 
 	}
-
-
 }
