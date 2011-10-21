@@ -94,7 +94,7 @@ public class PropertiesDialog
 	
 	/**
 	 * Creates new PropertiesDialog.
-	 * @param app: parent frame
+	 * @param app parent frame
 	 */
 	public PropertiesDialog(Application app) {
 		super(app.getFrame(), false);
@@ -107,6 +107,7 @@ public class PropertiesDialog
 		addWindowListener(this);		
 		geoTree = new JTreeGeoElements();	
 		geoTree.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseEntered(MouseEvent e) {
 				// some textfields are updated when they lose focus
 				// give them a chance to do that before we change the selection
@@ -297,7 +298,7 @@ public class PropertiesDialog
 	/**
 	 * shows this dialog and select GeoElement geo at screen position location
 	 */
-	public void setVisibleWithGeos(ArrayList geos) {
+	public void setVisibleWithGeos(ArrayList<GeoElement> geos) {
 		kernel.clearJustCreatedGeosInViews();
 		
 		setViewActive(true);					
@@ -333,6 +334,7 @@ public class PropertiesDialog
 	}
 	private boolean firstTime = true;
 
+	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {			
 			setVisibleWithGeos(null);			
@@ -382,7 +384,7 @@ public class PropertiesDialog
 	}
 	
 	
-	private ArrayList updateSelectedGeos(TreePath [] selPath ) {
+	private ArrayList<?> updateSelectedGeos(TreePath [] selPath ) {
 		selectionList.clear();	
 		
 		if (selPath != null) {				
@@ -557,6 +559,7 @@ public class PropertiesDialog
 			}
 		}
 				
+		@Override
 		protected void setExpandedState(TreePath path, boolean state) {
             // Ignore all collapse requests of root        	
             if (path != getPathForRow(0)) {
@@ -585,7 +588,7 @@ public class PropertiesDialog
 
 		/**
 		 * selects object geo in the list of GeoElements	 
-		 * @param addToSelection: false => clear old selection 
+		 * @param addToSelection false => clear old selection 
 		 */
 		public void setSelected(ArrayList geos, boolean addToSelection) {
 			TreePath tp = null;	
@@ -607,7 +610,7 @@ public class PropertiesDialog
 					lsm.clearSelection();		
 							
 				// get paths for all geos
-				ArrayList paths = new ArrayList();
+				ArrayList<TreePath> paths = new ArrayList<TreePath>();
 				for (int i=0; i<geos.size(); i++) {
 					TreePath result = getGeoPath((GeoElement) geos.get(i));
 					if (result != null) {	
@@ -620,7 +623,7 @@ public class PropertiesDialog
 				// select geo paths
 				TreePath [] selPaths = new TreePath[paths.size()];
 				for (int i=0; i < selPaths.length; i++) {
-					selPaths[i] = (TreePath) paths.get(i);
+					selPaths[i] = paths.get(i);
 				}
 				lsm.addSelectionPaths(selPaths);
 				
@@ -644,7 +647,7 @@ public class PropertiesDialog
 		 */
 		private TreePath getGeoPath(GeoElement geo) {
 			String typeString = geo.getObjectType();
-			DefaultMutableTreeNode typeNode = (DefaultMutableTreeNode) typeNodesMap.get(typeString);
+			DefaultMutableTreeNode typeNode = typeNodesMap.get(typeString);
 			if (typeNode == null)
 				return null;
 			
@@ -662,6 +665,7 @@ public class PropertiesDialog
 			}
 		}
 					
+		@Override
 		public void clearSelection() {
 			getSelectionModel().clearSelection();
 		}
@@ -688,7 +692,7 @@ public class PropertiesDialog
 				
 			// get type node
 			String typeString = geo.getObjectType();
-			DefaultMutableTreeNode typeNode = (DefaultMutableTreeNode) typeNodesMap.get(typeString);
+			DefaultMutableTreeNode typeNode = typeNodesMap.get(typeString);
 			
 			// init type node
 			boolean initing = typeNode == null;
@@ -746,12 +750,11 @@ public class PropertiesDialog
 		
 		/**
 		 * 
-		 * @param geo
-		 * @param binarySearch: true for binary, false for linear search
+		 * @param binarySearch true for binary, false for linear search
 		 */
 		public void remove(GeoElement geo, boolean binarySearch) {
 			// get type node
-			DefaultMutableTreeNode typeNode = (DefaultMutableTreeNode) typeNodesMap.get(geo.getObjectType());
+			DefaultMutableTreeNode typeNode = typeNodesMap.get(geo.getObjectType());
 			if (typeNode == null) return;
 									
 			int pos = binarySearch ?
@@ -776,7 +779,7 @@ public class PropertiesDialog
 		 * @return returns null if geo is not in tree
 		 */
 		private TreePath getTreePath(GeoElement geo) {
-			DefaultMutableTreeNode typeNode = (DefaultMutableTreeNode) typeNodesMap.get(geo.getObjectType());
+			DefaultMutableTreeNode typeNode = typeNodesMap.get(geo.getObjectType());
 			if (typeNode == null) return null;
 			
 			// find pos of geo 

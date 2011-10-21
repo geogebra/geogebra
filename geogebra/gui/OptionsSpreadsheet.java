@@ -61,8 +61,6 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	private JPanel locationPanel;
 
 	private JTabbedPane tabbedPane;
-
-	
 	
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
@@ -79,8 +77,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	private SpreadsheetSettings settings(){
 		return app.getSettings().getSpreadsheet();
 	}
-	
-	
+		
 	private void initGUI() {
 		
 		removeAll();	
@@ -90,14 +87,10 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 		tabbedPane = new JTabbedPane();
 		
 		tabbedPane.addTab(app.getMenu("Layout"),null, new JScrollPane(buildLayoutOptionsPanel()));
-		if(app.hasFullPermissions())
+		if(Application.hasFullPermissions())
 			tabbedPane.addTab(app.getMenu("Browser"),null, new JScrollPane(buildBrowserOptionsPanel()));
 		add(tabbedPane);
-		
-		
-	    
-	}
-	
+	}	
 	
 	private JPanel buildLayoutOptionsPanel() {
         		 
@@ -150,8 +143,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
         
         return layoutOptions;
 	}
-	
-	
+		
 	private JPanel buildBrowserOptionsPanel() {
 		
 		//====================================================
@@ -251,8 +243,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
        	
 		return browserPanel;
 	}
-	
-	
+		
 	/**
 	 * Update spreadsheet panel labels. Should be applied if the
 	 * language was changed. Will be called after initialization automatically.
@@ -278,8 +269,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 		setCurrentButton.setText(app.getMenu("SetToCurrentLocation"));
 		
 		tabbedPane.setTitleAt(0, app.getMenu("Layout"));
-		tabbedPane.setTitleAt(1, app.getMenu("Browser"));
-	    
+		tabbedPane.setTitleAt(1, app.getMenu("Browser"));	    
 	}
 	
 	/**
@@ -289,9 +279,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 		//TODO -- add any settings that need changing on Apply button click
 		// or after dialog close 
 	}
-	
-	
-	
+		
 	public void updateGUI() {				
 					  
         //======================================
@@ -367,11 +355,9 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
         
 		dirField.setEnabled(cbShowBrowser.isSelected() && dirRadioButton.isSelected());
         browseButton.setEnabled(dirField.isEnabled());
-        urlField.setEnabled(cbShowBrowser.isSelected() && urlRadioButton.isSelected());
-        
+        urlField.setEnabled(cbShowBrowser.isSelected() && urlRadioButton.isSelected());       
 	}
-	
-	
+		
 	public void actionPerformed(ActionEvent e) {	
 		doActionPerformed(e.getSource());		
 	}
@@ -459,11 +445,8 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 			settings().setDefaultBrowser(false);
 		}
 		
-		updateGUI();
-		
-	}
-	
-	
+		updateGUI();		
+	}	
 
 	public void focusGained(FocusEvent arg0) {
 	}
@@ -471,6 +454,5 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	public void focusLost(FocusEvent e) {
 		doActionPerformed(e.getSource());
 	}
-
 
 }

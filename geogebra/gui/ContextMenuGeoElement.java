@@ -823,10 +823,6 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addSeparator();
 		}
 
-
-
-
-
 		/*
         // EDIT in AlgebraView
         else if (app.showAlgebraView() && geo.isChangeable() && !geo.isGeoImage()) { 
@@ -842,7 +838,6 @@ public class ContextMenuGeoElement extends JPopupMenu {
         }    
 		 */                                    
 
-
 		// Rename      
 		if (geos.size() == 1 && app.letRename() && geo.isRenameable())  {    
 			addAction(new AbstractAction(
@@ -855,7 +850,6 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				}
 			});
 		}
-
 
 		// EDITING      
 		// EDIT Text in special dialog
@@ -908,8 +902,6 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			});       
 		}
 
-
-
 		if (app.letShowPropertiesDialog() && geo.hasProperties()) {
 			addSeparator();
 
@@ -951,11 +943,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		addSeparator();   
 
 		title.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
 			}
 		});
-
 	}
 	
 	protected void setMenuShortCutAccelerator(JMenuItem mi, char acc) {
@@ -963,6 +955,5 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				.getMenuShortcutKeyMask());
 		mi.setAccelerator(ks);
 	}
-
 
 }

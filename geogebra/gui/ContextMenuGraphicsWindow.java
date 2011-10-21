@@ -80,7 +80,6 @@ implements ActionListener {
         	setTitle("<html>" + app.getPlain("DrawingPad") + "</html>");
         }
         
-        
         addAxesAndGridCheckBoxes();
         
         addSeparator();
@@ -138,8 +137,7 @@ implements ActionListener {
         miProperties.addActionListener(this);
         miProperties.setBackground(bgColor);
         add(miProperties); 
-    }
-    
+    }   
     
     protected void addAxesAndGridCheckBoxes(){
 
@@ -203,8 +201,7 @@ implements ActionListener {
               if (! separatorAdded) {
                   menu.addSeparator();
                   separatorAdded = true;
-              }
-              
+              }         
           }                           
           sb.append(perc);
           sb.append("%");             

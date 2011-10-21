@@ -53,6 +53,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		return this;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;

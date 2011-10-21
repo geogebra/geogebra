@@ -1,6 +1,5 @@
 package geogebra.gui;
 
-
 import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
@@ -17,7 +16,6 @@ import java.awt.event.WindowEvent;
  *
  */
 public abstract class InputDialogRadius extends InputDialog{
-	
 
 	/**
 	 * 
@@ -38,12 +36,12 @@ public abstract class InputDialogRadius extends InputDialog{
 		super(app, app.getPlain("Radius"), title, "", false, handler);
 		
 		this.kernel = kernel;
-
 	}
 
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -80,7 +78,6 @@ public abstract class InputDialogRadius extends InputDialog{
 		}
 
 		return ret;
-		
 	}
 	
 	/**
@@ -88,9 +85,9 @@ public abstract class InputDialogRadius extends InputDialog{
 	 * @param num
 	 * @return the circle
 	 */
-	abstract protected GeoElement createOutput(NumberValue num);
-	
+	abstract protected GeoElement createOutput(NumberValue num);	
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!isModal()) {
 			app.setCurrentSelectionListener(null);

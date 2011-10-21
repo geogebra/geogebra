@@ -46,6 +46,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 		iconHidden = app.getImageIcon("hidden.gif");	
 	}
 
+	@Override
 	public Component getTreeCellRendererComponent(
 			JTree tree,
 			Object value,
@@ -95,7 +96,6 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 			
 		}	
 		
-		return this;
-		
+		return this;	
 	}
 }

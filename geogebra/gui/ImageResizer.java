@@ -9,7 +9,7 @@ public class ImageResizer {
     /**
      * Resizes the image to the given size.
      * 
-     * @param srcImg
+     * @param srcImage
      * 		the image to be resized
      * @param width
      * 		width of the resized image

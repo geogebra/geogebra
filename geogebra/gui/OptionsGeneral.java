@@ -156,6 +156,7 @@ public class OptionsGeneral extends JPanel implements SetLabels {
 	
 	private class SwatchCheckBoxUI extends BasicCheckBoxUI
 	{
+		@Override
 		public void paint(Graphics g, JComponent c)
 		{
 			SwatchCheckBox b = (SwatchCheckBox)c;

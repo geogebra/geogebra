@@ -320,6 +320,7 @@ public class InputDialog extends JDialog implements ActionListener,
 		inputPanel.setText(text);
 	}
 	
+	@Override
 	public void setVisible(boolean flag) {	
 		if (!isModal()) {
 			if (flag) { // set old mode again			
@@ -352,8 +353,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
-		app.getGuiManager().setCurrentTextfield(null, !(arg0.getOppositeWindow() instanceof VirtualKeyboard));
-		
+		app.getGuiManager().setCurrentTextfield(null, !(arg0.getOppositeWindow() instanceof VirtualKeyboard));		
 	}
 
 }

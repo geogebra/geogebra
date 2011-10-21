@@ -113,7 +113,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	
 	/**
 	 * Creates a new dialog for the properties of the Euclidian view.
-	 * @param app: parent frame
+	 * @param app parent frame
 	 */
 	public OptionsEuclidian(Application app, EuclidianViewInterface view) {
 		
@@ -127,11 +127,11 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		isIniting = false;
 	}
 	
-	
 	public void setView(EuclidianViewInterface view){
 		this.view = view;
-		if(!isIniting)
+		if(!isIniting) {
 			updateGUI();
+		}
 	}
 
 	
@@ -157,16 +157,13 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		// setup axes ratio field
 		nfAxesRatio = NumberFormat.getInstance(Locale.ENGLISH);
 		nfAxesRatio.setMaximumFractionDigits(5);
-		nfAxesRatio.setGroupingUsed(false);
-		
-		
+		nfAxesRatio.setGroupingUsed(false);		
 		
 		// create panels for the axes
 		initAxisPanels();
 
         // create panel with comboBox to switch between Euclidian views
-        createCbView();
-     
+        createCbView();  
         
         // create tabbed pane for basic, axes, and grid options
 		 tabbedPane = new JTabbedPane();
@@ -183,8 +180,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		removeAll();	
 		setLayout(new BorderLayout());
 		addCbView();
-		add(tabbedPane, BorderLayout.CENTER);			
-         
+		add(tabbedPane, BorderLayout.CENTER);			        
 	}
 	
 	private JPanel selectViewPanel;
@@ -216,8 +212,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         tabbedPane.addTab("", yAxisPanel); 	
         
 	}
-	
-	
+		
 	private JPanel buildBasicPanel() {
 		
 		//===================================
@@ -254,8 +249,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         yDimPanel.add(dimLabel[2]);
         yDimPanel.add(tfMinY);
         yDimPanel.add(dimLabel[3]);
-        yDimPanel.add(tfMaxY);
-   
+        yDimPanel.add(tfMaxY);  
             
         JPanel axesRatioPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,5));
         tfAxesRatioX = new MyTextField(app,6);
@@ -308,8 +302,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         cbAxesStyle.setEditable(false); 
         axesOptionsPanel.add(lineStyle);   
         axesOptionsPanel.add(cbAxesStyle);   
-       
-        
+             
         
        //-------------------------------------
 		// background color panel
@@ -333,8 +326,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		cbTooltips = new JComboBox(new String[] { app.getPlain("On"), app.getPlain("Automatic"), app.getPlain("Off") });
 		bgPanel.add(cbTooltips);
 		cbTooltips.addActionListener(this);
-		
-		
+				
 		
 		//==========================================
 		// create basic panel and add all sub panels
@@ -353,12 +345,9 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         JPanel basicPanel = new JPanel(new BorderLayout());
         basicPanel.add(northPanel, BorderLayout.NORTH);
   	
-       return basicPanel;
-		
+       return basicPanel;		
 	}
-	
-	
-	
+		
 	private JPanel buildGridPanel() {
 		
 		int hgap = 5;
@@ -476,9 +465,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		gridPanel.add(northPanel, BorderLayout.NORTH);
         
         return gridPanel;
-	}
-	
-	
+	}	
 	
 	protected void updateMinMax(){
 
@@ -496,8 +483,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	 	tfMinY.addActionListener(this);
 	 	tfMaxY.addActionListener(this);
  
-	}
-	
+	}	
 	
 	protected void setCbViewSelectedIndex(){
 		if(view == app.getEuclidianView())
@@ -547,14 +533,12 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         cbShowMouseCoords.setSelected(view.getAllowShowMouseCoords());
         cbShowMouseCoords.addActionListener(this);      
         
-        
         updateGUIforCbView();
         
     	tfAxesRatioX.setEnabled(view.isZoomable());
 		tfAxesRatioY.setEnabled(view.isZoomable());
         
-		updateMinMax();
-        
+		updateMinMax();       
         
         cbGridType.removeActionListener(this);
         cbGridType.setSelectedIndex(view.getGridType());
@@ -584,7 +568,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         cbGridTickAngle.removeItemListener(this);
         double [] gridTicks = view.getGridDistances();
             
-        if(view.getGridType() != EuclidianView.GRID_POLAR){
+        if(view.getGridType() != EuclidianView.GRID_POLAR) {
         	
         	ncbGridTickY.setVisible(true);
         	gridLabel2.setVisible(true);
@@ -595,7 +579,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         	ncbGridTickY.setValue(gridTicks[1]);
         	gridLabel1.setText("x:");
       
-        }else{	
+        } else {	
         	ncbGridTickY.setVisible(false);
         	gridLabel2.setVisible(false);
         	cbGridTickAngle.setVisible(true);
@@ -630,13 +614,9 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         tfAxesRatioY.addActionListener(this);        
         
         xAxisPanel.updatePanel();
-        yAxisPanel.updatePanel();
-        
-        
-        
+        yAxisPanel.updatePanel();        
 	}
-	
-	
+		
 	public void setLabels() {
         typePanel.setBorder(BorderFactory.createTitledBorder((app.getPlain("GridType"))));
         
@@ -658,29 +638,21 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
  
         //TODO --- finish set labels
         cbShowGrid.setText(app.getPlain("ShowGrid"));
-
 		
 		// tab titles
 		setTabLabels();
 		
-		
-
         // window dimension panel
 		dimLabel[0].setText(app.getPlain("xmin") + ":");
 		dimLabel[1].setText(app.getPlain("xmax") + ":");
 		dimLabel[2].setText(app.getPlain("ymin") + ":");
 		dimLabel[3].setText(app.getPlain("ymax") + ":");
 		axesRatioLabel.setText(app.getPlain("xAxis") + " : " + app.getPlain("yAxis") + " = " );
-	//	dimPanelTitle = "ttt";
-			
-		
-		
+	//	dimPanelTitle = "ttt";		
 
 		setLabelsForCbView();
-		
-		
-		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
-		
+			
+		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));	
 	}
 	
 	protected void setTabLabels(){
@@ -689,7 +661,6 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         tabbedPane.setTitleAt(2, app.getPlain("yAxis"));   
         tabbedPane.setTitleAt(3, app.getMenu("Grid"));	
 	}
-	
 	
 	protected void setLabelsForCbView(){
 		cbView.removeActionListener(this);
@@ -716,13 +687,8 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		
         dimPanel.setBorder(BorderFactory.createTitledBorder(app.getPlain("Dimensions")));
 		axesOptionsPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Axes")));
-		cbShowAxes.setText(app.getPlain("ShowAxes")); 						
-
-		
+		cbShowAxes.setText(app.getPlain("ShowAxes")); 							
 	}
-	
-	
-	
 	
 	public void actionPerformed(ActionEvent e) {	
 		doActionPerformed(e.getSource());		
@@ -730,145 +696,148 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	
 	protected void doActionPerformed(Object source) {				
 		if (source == btBackgroundColor) {
-			if (view == app.getEuclidianView())
+			if (view == app.getEuclidianView()) {
 				app.getSettings().getEuclidian(1).setBackground(
 					app.getGuiManager().showColorChooser(
 						app.getSettings().getEuclidian(1).getBackground()
 					)
 				);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setBackground(view.getBackground());
-			else if (view == app.getEuclidianView2())
+			} else if (view == app.getEuclidianView2()) {
 				app.getSettings().getEuclidian(2).setBackground(
 					app.getGuiManager().showColorChooser(
 						app.getSettings().getEuclidian(2).getBackground()
 					)
 				);
-			else
+			} else {
 				view.setBackground(view.getBackground());
-		}
-		else if (source == btAxesColor) {
-			Color col = app.getGuiManager().showColorChooser(view.getAxesColor());
-			if (view == app.getEuclidianView())
-				app.getSettings().getEuclidian(1).setAxesColor(col);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setAxesColor(col);
-			else if (view == app.getEuclidianView2())
-				app.getSettings().getEuclidian(2).setAxesColor(col);
-			else
-				view.setAxesColor(col);
-		}
-		else if (source == btGridColor) {
-			Color col = app.getGuiManager().showColorChooser(view.getGridColor());
-			if (view == app.getEuclidianView())
-				app.getSettings().getEuclidian(1).setGridColor(col);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				view.setGridColor(col);
-			else if (view == app.getEuclidianView2())
-				app.getSettings().getEuclidian(2).setGridColor(col);
-			else
-				view.setGridColor(col);
-		}
-		else if (source == cbTooltips) {
-			int ind = cbTooltips.getSelectedIndex();
-			if (ind == 0) ind = EuclidianView.TOOLTIPS_ON;
-			else if (ind == 1) ind = EuclidianView.TOOLTIPS_AUTOMATIC;
-			else if (ind == 2) ind = EuclidianView.TOOLTIPS_OFF;
-			if (view instanceof EuclidianView) {
-				if (view == app.getEuclidianView())
-					app.getSettings().getEuclidian(1).setAllowToolTips(ind);
-				else if (!app.hasEuclidianView2EitherShowingOrNot())
-					((EuclidianView)view).setAllowToolTips(ind);
-				else if (view == app.getEuclidianView2())
-					app.getSettings().getEuclidian(2).setAllowToolTips(ind);
-				else
-					((EuclidianView)view).setAllowToolTips(ind);
 			}
-		}
-		else if (source == cbShowAxes) {
-			if (app.getEuclidianView() == view)
+		} else if (source == btAxesColor) {
+			Color col = app.getGuiManager().showColorChooser(view.getAxesColor());
+			if (view == app.getEuclidianView()) {
+				app.getSettings().getEuclidian(1).setAxesColor(col);
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+				view.setAxesColor(col);
+			} else if (view == app.getEuclidianView2()) {
+				app.getSettings().getEuclidian(2).setAxesColor(col);
+			} else {
+				view.setAxesColor(col);
+			}
+		} else if (source == btGridColor) {
+			Color col = app.getGuiManager().showColorChooser(view.getGridColor());
+			if (view == app.getEuclidianView()) {
+				app.getSettings().getEuclidian(1).setGridColor(col);
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+				view.setGridColor(col);
+			} else if (view == app.getEuclidianView2()) {
+				app.getSettings().getEuclidian(2).setGridColor(col);
+			} else {
+				view.setGridColor(col);
+			}
+		} else if (source == cbTooltips) {
+			int ind = cbTooltips.getSelectedIndex();
+			if (ind == 0)  {
+				ind = EuclidianView.TOOLTIPS_ON;
+			} else if(ind == 1) {
+				ind = EuclidianView.TOOLTIPS_AUTOMATIC;
+			} else if(ind == 2) {
+				ind = EuclidianView.TOOLTIPS_OFF;
+			}
+			if (view instanceof EuclidianView) {
+				if (view == app.getEuclidianView()) {
+					app.getSettings().getEuclidian(1).setAllowToolTips(ind);
+				} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
+					((EuclidianView)view).setAllowToolTips(ind);
+				} else if (view == app.getEuclidianView2()) {
+					app.getSettings().getEuclidian(2).setAllowToolTips(ind);
+				} else {
+					((EuclidianView)view).setAllowToolTips(ind);
+				}
+			}
+		} else if (source == cbShowAxes) {
+			if (app.getEuclidianView() == view) {
 				app.getSettings().getEuclidian(1).setShowAxes(cbShowAxes.isSelected(), cbShowAxes.isSelected());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setShowAxes(cbShowAxes.isSelected(), true);
-			else if (app.getEuclidianView2() == view)
+			} else if (app.getEuclidianView2() == view) {
 				app.getSettings().getEuclidian(2).setShowAxes(cbShowAxes.isSelected(), cbShowAxes.isSelected());
-			else
+			} else {
 				view.setShowAxes(cbShowAxes.isSelected(), true);
-		}
-		else if (source == cbShowGrid) {
-			if (app.getEuclidianView() == view)
+			}
+		} else if (source == cbShowGrid) {
+			if (app.getEuclidianView() == view) {
 				app.getSettings().getEuclidian(1).showGrid(cbShowGrid.isSelected());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.showGrid(cbShowGrid.isSelected());
-			else if (app.getEuclidianView2() == view)
+			} else if (app.getEuclidianView2() == view) {
 				app.getSettings().getEuclidian(2).showGrid(cbShowGrid.isSelected());
-			else
+			} else {
 				view.showGrid(cbShowGrid.isSelected());
-		}
-		else if (source == cbBoldGrid) {
-			if (app.getEuclidianView() == view)
+			}
+		} else if (source == cbBoldGrid) {
+			if (app.getEuclidianView() == view) {
 				app.getSettings().getEuclidian(1).setGridIsBold(cbBoldGrid.isSelected());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridIsBold(cbBoldGrid.isSelected());
-			else if (app.getEuclidianView2() == view)
+			} else if (app.getEuclidianView2() == view) {
 				app.getSettings().getEuclidian(2).setGridIsBold(cbBoldGrid.isSelected());
-			else
+			} else {
 				view.setGridIsBold(cbBoldGrid.isSelected());
-		}
-		else if (source == cbShowMouseCoords) {
-			if (view == app.getEuclidianView())
+			}
+		} else if (source == cbShowMouseCoords) {
+			if (view == app.getEuclidianView()) {
 				app.getSettings().getEuclidian(1).setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			else if (view == app.getEuclidianView2())
+			} else if (view == app.getEuclidianView2()) {
 				app.getSettings().getEuclidian(2).setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-			else
+			} else {
 				view.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
-		}
-		else if (source == cbGridType) {
-			if (app.getEuclidianView() == view)
+			}
+		} else if (source == cbGridType) {
+			if (app.getEuclidianView() == view) {
 				app.getSettings().getEuclidian(1).setGridType(cbGridType.getSelectedIndex());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridType(cbGridType.getSelectedIndex());
-			else if (app.getEuclidianView2() == view)
+			} else if (app.getEuclidianView2() == view) {
 				app.getSettings().getEuclidian(2).setGridType(cbGridType.getSelectedIndex());
-			else
+			} else {
 				view.setGridType(cbGridType.getSelectedIndex());
-		}
-
-		else if (source == cbAxesStyle) {
-			if (view == app.getEuclidianView())
+			}
+		} else if (source == cbAxesStyle) {
+			if (view == app.getEuclidianView()) {
 				app.getSettings().getEuclidian(1).setAxesLineStyle(cbAxesStyle.getSelectedIndex());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
-			else if (view == app.getEuclidianView2())
+			} else if (view == app.getEuclidianView2()) {
 				app.getSettings().getEuclidian(2).setAxesLineStyle(cbAxesStyle.getSelectedIndex());
-			else
+			} else {
 				view.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
-		}
-		else if (source == cbGridStyle) {
+			}
+		} else if (source == cbGridStyle) {
 			int type = ((Integer) cbGridStyle.getSelectedItem()).intValue();
 
-			if (app.getEuclidianView() == view)
+			if (app.getEuclidianView() == view) {
 				app.getSettings().getEuclidian(1).setGridLineStyle(type);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridLineStyle(type);
-			else if (app.getEuclidianView2() == view)
+			} else if (app.getEuclidianView2() == view) {
 				app.getSettings().getEuclidian(2).setGridLineStyle(type);
-			else
+			} else {
 				view.setGridLineStyle(type);
-		}
-		else if (source == cbGridManualTick) {
-			if (app.getEuclidianView() == view)
+			}
+		} else if (source == cbGridManualTick) {
+			if (app.getEuclidianView() == view) {
 				app.getSettings().getEuclidian(1).setAutomaticGridDistance(!cbGridManualTick.isSelected(), true);
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
+			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAutomaticGridDistance(!cbGridManualTick.isSelected());
-			else if (app.getEuclidianView2() == view)
+			} else if (app.getEuclidianView2() == view) {
 				app.getSettings().getEuclidian(2).setAutomaticGridDistance(!cbGridManualTick.isSelected(), true);
-			else
+			} else {
 				view.setAutomaticGridDistance(!cbGridManualTick.isSelected());
-		}
-		else if (source == tfAxesRatioX || source == tfAxesRatioY) {			
+			}
+		} else if (source == tfAxesRatioX || source == tfAxesRatioY) {			
 			double xval = parseDouble(tfAxesRatioX.getText());
 			double yval = parseDouble(tfAxesRatioY.getText());
 			if (!(Double.isInfinite(xval) || Double.isNaN(xval) ||
@@ -879,16 +848,11 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				 view.setCoordSystem(view.getXZero(), view.getYZero(), 
 				 		view.getXscale(), view.getXscale() * xval/yval);			 
 			}
-		}		
-
-		else if (source == cbView) {
+		} else if (source == cbView) {
 			
 			setViewFromIndex(cbView.getSelectedIndex());
 
-		}
-
-		
-		else if (source == tfMinX || source == tfMaxX || source == tfMaxY || source == tfMinY) {
+		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY || source == tfMinY) {
 			
 			NumberValue minMax = kernel.getAlgebraProcessor().evaluateToNumeric(((JTextField)source).getText(), false);
 			//not parsed to number => return all
@@ -945,9 +909,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				tfAxesRatioY.setEnabled(view.isZoomable() && !view.isUnitAxesRatio());
 				view.updateBounds();
 			}
-		}
-
-		
+		}		
 
 		view.updateBackground();		
 		updateGUI();		
@@ -967,10 +929,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			return Double.NaN;
 		else
 			return kernel.getAlgebraProcessor().evaluateToDouble(text);	
-	}
-	
-	
-	
+	}	
 	
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getSource();
@@ -1008,8 +967,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		
 		view.updateBackground();
 		updateGUI();		
-	}
-	
+	}	
 	
 	public void focusGained(FocusEvent arg0) {
 	}
@@ -1021,12 +979,10 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	}
 	
 	
-	
 	//=======================================================
 	//              AxisPanel Class
 	//=======================================================
-	
-	
+		
 	protected class AxisPanel extends JPanel implements ActionListener, ItemListener, FocusListener, SetLabels {		
 
 		/**
@@ -1397,13 +1353,8 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			crossAt.setText(app.getPlain("CrossAt") + ":");
 			stickToEdge.setText(app.getPlain("StickToEdge"));
 			
-		}
-
-		
+		}	
 		
 	} // end AxisPanel class
-	
-
-
 
 }

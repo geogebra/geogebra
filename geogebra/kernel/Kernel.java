@@ -686,7 +686,7 @@ public class Kernel {
 		}
 	}
 
-	final public double getEpsilon() {
+	final public static double getEpsilon() {
 		return EPSILON;
 	}
 
@@ -1285,7 +1285,7 @@ public class Kernel {
 	
 	/**
      * Creates a new GeoElement object for the given type string.
-     * @param type: String as produced by GeoElement.getXMLtypeString()
+     * @param type String as produced by GeoElement.getXMLtypeString()
      */
     public GeoElement createGeoElement(Construction cons, String type) throws MyError {    	
     	// the type strings are the classnames in lowercase without the beginning "geo"
@@ -2615,7 +2615,7 @@ public class Kernel {
 	 * e.g. m := c + 3
 	 * @return resulting casCell created using geoCasCell.copy(). 
 	 */
-	final public GeoCasCell DependentCasCell(GeoCasCell geoCasCell) {
+	final public static GeoCasCell DependentCasCell(GeoCasCell geoCasCell) {
 		AlgoDependentCasCell algo = new AlgoDependentCasCell(geoCasCell);
 		return algo.getCasCell();
 	}
@@ -6546,7 +6546,6 @@ public class Kernel {
 	
 	/**
 	 * conic from coefficients
-	 * @param labels
 	 * @param coeffList
 	 * @return
 	 */
@@ -6999,7 +6998,7 @@ public class Kernel {
 	 * to avoid multiple calculations of the intersection points of the same
 	 * two objects, we remember all the intersection algorithms created
 	 */
-	 private ArrayList intersectionAlgos = new ArrayList();
+	 private ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<AlgoIntersectAbstract>();
 	 
 	 // intersect polynomial and conic
 	 AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f, GeoConic c) {
@@ -8095,7 +8094,7 @@ public class Kernel {
 	/** if x is nearly zero, 0.0 is returned,
 	 *  else x is returned
 	 */
-	final public double chop(double x) {
+	final public static double chop(double x) {
 		if (isZero(x))
 			return 0.0d;
 		else
@@ -8107,7 +8106,7 @@ public class Kernel {
 		return -EPSILON < x && x < EPSILON;
 	}
 
-	final boolean isZero(double[] a) {
+	final static boolean isZero(double[] a) {
 		for (int i = 0; i < a.length; i++) {
 			if (!isZero(a[i]))
 				return false;
@@ -8115,7 +8114,7 @@ public class Kernel {
 		return true;
 	}
 
-	final public boolean isInteger(double x) {
+	final public static boolean isInteger(double x) {
 		if (x > 1E17)
 			return true;
 		else
@@ -8165,7 +8164,7 @@ public class Kernel {
 
 	// compares double arrays: 
 	// yields true if (isEqual(a[i], b[i]) == true) for all i
-	final boolean isEqual(double[] a, double[] b) {
+	final static boolean isEqual(double[] a, double[] b) {
 		for (int i = 0; i < a.length; ++i) {
 			if (!isEqual(a[i], b[i]))
 				return false;
@@ -8173,7 +8172,7 @@ public class Kernel {
 		return true;
 	}
 	
-    final public double convertToAngleValue(double val) {
+    final public static double convertToAngleValue(double val) {
 		if (val > EPSILON && val < PI_2) return val;
 		
     	double value = val % PI_2; 
@@ -9067,7 +9066,7 @@ public class Kernel {
 	 * Checks if x is very close (1E-8) to an integer. If it is,
 	 * the integer value is returned, otherwise x is returnd.
 	 */	
-	final public double checkInteger(double x) {		
+	final public static double checkInteger(double x) {		
 		double roundVal = Math.round(x);
 		if (Math.abs(x - roundVal) < EPSILON)
 			return roundVal;
@@ -9328,7 +9327,7 @@ public class Kernel {
 	
 	
 	/** return all points of the current construction */
-	public TreeSet getPointSet(){
+	public TreeSet<GeoElement> getPointSet(){
 		return getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_POINT);
 	}
 	

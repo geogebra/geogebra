@@ -69,6 +69,7 @@ public class AngleInputDialog extends InputDialog {
 		return rbCounterClockWise.isSelected();
 	}
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		

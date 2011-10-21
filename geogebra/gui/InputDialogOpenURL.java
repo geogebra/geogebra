@@ -1,6 +1,5 @@
 package geogebra.gui;
 
-
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -26,21 +25,21 @@ public class InputDialogOpenURL extends InputDialog{
 		optionPane.add(inputPanel, BorderLayout.CENTER);		
 		centerOnScreen();
 		
-		inputPanel.selectText();
-		
+		inputPanel.selectText();	
 	}
 
+	@Override
 	public void setLabels(String title) {
 		setTitle(title);
 		
 		btOK.setText(app.getPlain("Open"));
 		btCancel.setText(app.getPlain("Cancel"));
-
 	}
 
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -64,6 +63,5 @@ public class InputDialogOpenURL extends InputDialog{
 	private boolean processInput() {
 			return app.getGuiManager().loadURL(inputPanel.getText());
 	}
-
 
 }

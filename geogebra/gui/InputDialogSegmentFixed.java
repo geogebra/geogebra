@@ -1,6 +1,5 @@
 package geogebra.gui;
 
-
 import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
@@ -28,6 +27,7 @@ public class InputDialogSegmentFixed extends InputDialog{
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -67,9 +67,9 @@ public class InputDialogSegmentFixed extends InputDialog{
 		}
 
 		return ret;
-		
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!isModal()) {
 			app.setCurrentSelectionListener(null);

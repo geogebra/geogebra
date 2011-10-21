@@ -16,7 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 /**
- * @author Loïc Le Coq
+ * @author Loï¿½c Le Coq
  * date 31/10/2006
  * This class defines the renderer for the ComboBox where
  * the user chooses the decoration for GeoAngle
@@ -62,9 +62,9 @@ public class DecorationAngleListRenderer extends JPanel implements ListCellRende
 				27-37*Math.sin(angle),
 				13+43*Math.cos(angle),
 				27-43*Math.sin(angle));
-
 	}
 
+	@Override
 	public void paint(Graphics g){
 		super.paint(g);
 		// added by Markus Hohenwarter, BEGIN

@@ -75,7 +75,8 @@ public class ButtonDialog extends JDialog
 	private int x,y;
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
-	 * @param x, y: location of slider in screen coords
+	 * @param x location of slider in screen coords
+	 * @param y location of slider in screen coords
 	 */
 	public ButtonDialog(Application app, int x, int y, boolean textField) {
 		super(app.getFrame(), false);
@@ -117,7 +118,7 @@ public class ButtonDialog extends JDialog
 		
 		// combo box to link GeoElement to TextField
 		comboModel = new DefaultComboBoxModel();
-		TreeSet sortedSet = app.getKernel().getConstruction().
+		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
 									getGeoSetNameDescriptionOrder();			
 		
 		final JComboBox cbAdd = new JComboBox(comboModel);
@@ -127,7 +128,7 @@ public class ButtonDialog extends JDialog
 		if (textField) {
 			// lists for combo boxes to select input and output objects
 			// fill combobox models
-			Iterator it = sortedSet.iterator();
+			Iterator<GeoElement> it = sortedSet.iterator();
 			comboModel.addElement(null);
 			FontMetrics fm = getFontMetrics(getFont());
 			int width = (int)cbAdd.getPreferredSize().getWidth();
@@ -142,7 +143,7 @@ public class ButtonDialog extends JDialog
 			}	
 			
 			// make sure it's not too wide (eg long GeoList)
-			Dimension size = new Dimension(Math.min(app.getScreenSize().width/2, width), cbAdd.getPreferredSize().height);
+			Dimension size = new Dimension(Math.min(Application.getScreenSize().width/2, width), cbAdd.getPreferredSize().height);
 			cbAdd.setMaximumSize(size);
 			cbAdd.setPreferredSize(size);
 
@@ -152,6 +153,7 @@ public class ButtonDialog extends JDialog
 		
 				// listener for the combobox
 				MyComboBoxListener ac = new MyComboBoxListener() {
+					@Override
 					public void doActionPerformed(Object source) {				
 						GeoElement geo = (GeoElement) cbAdd.getSelectedItem();		
 						//if (geo == null)
@@ -336,7 +338,5 @@ public class ButtonDialog extends JDialog
 	public void windowOpened(WindowEvent arg0) {		
 		//setLabelFieldFocus();
 	}
-
-	
 			
 }

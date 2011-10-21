@@ -47,7 +47,6 @@ public class DynamicTextInputPane extends JTextPane {
 		//this.setCaret(new MyCaret());
 	}
 
-
 	/**
 	 * Inserts dynamic text field at the current caret position and returns the text
 	 * field's document
@@ -55,7 +54,6 @@ public class DynamicTextInputPane extends JTextPane {
 	public Document insertDynamicText(String text, TextInputDialog inputDialog) {
 		return insertDynamicText(text, this.getCaretPosition(), inputDialog);
 	}
-
 
 	/**
 	 * Inserts dynamic text field at a specified position and returns the text
@@ -181,7 +179,6 @@ public class DynamicTextInputPane extends JTextPane {
 	/**
 	 * Builds and sets editor content to correspond with the text string of a GeoText
 	 * @param geo
-	 * @param text
 	 */
 	public void setText(GeoText geo, TextInputDialog id){
 
@@ -229,6 +226,7 @@ public class DynamicTextInputPane extends JTextPane {
 			super();
 			this.setBlinkRate(500);
 		}
+		@Override
 		protected synchronized void damage(Rectangle r){
 			if (r == null) return;
 			x = r.x;
@@ -239,7 +237,6 @@ public class DynamicTextInputPane extends JTextPane {
 
 		}
 	}
-
 
 	/*********************************************************************
 	 * Class for the dynamic text container.
@@ -263,12 +260,14 @@ public class DynamicTextInputPane extends JTextPane {
 
 			// add a mouse listener to trigger the context menu
 			addMouseListener(new MouseAdapter() {
+				@Override
 				public void mousePressed(MouseEvent evt) {
 					if (evt.isPopupTrigger()) {
 						createContextMenu();
 						contextMenu.show(evt.getComponent(), evt.getX(), evt.getY());
 					}
 				}
+				@Override
 				public void mouseReleased(MouseEvent evt) {
 					if (evt.isPopupTrigger()) {
 						createContextMenu();
@@ -276,7 +275,6 @@ public class DynamicTextInputPane extends JTextPane {
 					}
 				}
 			});
-
 
 			// special transparent border to show caret when next to the component
 			setOpaque(false);
@@ -307,9 +305,9 @@ public class DynamicTextInputPane extends JTextPane {
 
 				}
 			});
-
 		}
 
+		@Override
 		public Dimension getMaximumSize() {
 			return this.getPreferredSize();
 		}
@@ -356,9 +354,7 @@ public class DynamicTextInputPane extends JTextPane {
 			}); */
 			contextMenu.add(item);
 		}
-
 	}
-
 
 }
 

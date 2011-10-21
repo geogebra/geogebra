@@ -35,14 +35,14 @@ class DashListRenderer extends JPanel implements ListCellRenderer {
 	 */
 	private static final long serialVersionUID = 1L;
 	// map with (type, dashStrokes for type) pairs
-	private HashMap dashStrokeMap;
+	private HashMap<Integer, BasicStroke> dashStrokeMap;
 	private BasicStroke dashStroke;
 	//private Color bgColor;
 	private boolean nullValue = false;
 
 	public DashListRenderer() {
 		//	init stroke map 
-		dashStrokeMap = new HashMap();
+		dashStrokeMap = new HashMap<Integer, BasicStroke>();
 		Integer[] types = EuclidianView.getLineTypes();
 		int type;
 		BasicStroke stroke;
@@ -78,6 +78,7 @@ class DashListRenderer extends JPanel implements ListCellRenderer {
 		return this;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		// clear background

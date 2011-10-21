@@ -1,6 +1,5 @@
 package geogebra.gui;
 
-
 import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
@@ -47,6 +46,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -81,8 +81,6 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 		boolean success = inputHandler.processInput(inputText);
 
 		cons.setSuppressLabelCreation(oldVal);
-		
-		
 		
 		if (success) {
 			//GeoElement circle = kernel.Circle(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
@@ -121,12 +119,11 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 			}
 			
 		}
-
 		
 		return false;
-		
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!isModal()) {
 			app.setCurrentSelectionListener(null);

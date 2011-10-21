@@ -521,7 +521,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			// update tab labels
 			tabs.removeAll();				
 			for (int i=0; i < tabPanelList.size(); i++) {
-				TabPanel tp = (TabPanel) tabPanelList.get(i);
+				TabPanel tp = tabPanelList.get(i);
 				tp.addToTabbedPane(tabs);
 			}
 														
@@ -551,7 +551,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			
 			tabs.removeAll();				
 			for (int i=0; i < tabPanelList.size(); i++) {
-				TabPanel tp = (TabPanel) tabPanelList.get(i);
+				TabPanel tp = tabPanelList.get(i);
 				tp.update(geos);
 				tp.addToTabbedPane(tabs);
 			}
@@ -565,7 +565,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				tabs.setVisible(false);
 		}
 		
-		private boolean updateTabPanel(TabPanel tabPanel, ArrayList tabList, Object [] geos) {
+		private static boolean updateTabPanel(TabPanel tabPanel, ArrayList<JPanel> tabList, Object [] geos) {
 			// update all panels and their visibility			
 			boolean oneVisible = false;
 			int size = tabList.size();
@@ -590,10 +590,10 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private class TabPanel extends JPanel {
 		
 			private String title;
-			private ArrayList panelList;
+			private ArrayList<JPanel> panelList;
 			private boolean makeVisible = true;			
 			
-			public TabPanel(ArrayList pVec) {
+			public TabPanel(ArrayList<JPanel> pVec) {
 				panelList = pVec;
 					
 				setLayout(new BorderLayout());
@@ -604,7 +604,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				panel.setLayout(new FullWidthLayout());
 				
 				for (int i = 0; i < pVec.size(); i++) {		
-					panel.add((JPanel)pVec.get(i));
+					panel.add(pVec.get(i));
 				}
 				
 				JScrollPane scrollPane = new JScrollPane(panel);
@@ -1071,7 +1071,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		        setPreferredSize(new Dimension(100,app.getGUIFontSize() + 8));
 		        setBorder(BorderFactory.createRaisedBevelBorder());
 		      }
-		      public void paintComponent(Graphics g) {
+		      @Override
+			public void paintComponent(Graphics g) {
 		        Dimension size = getSize();
 	
 		        g.setColor(getForeground());
@@ -3353,8 +3354,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			*/
 
 			// set label font
-			Dictionary labelTable = slider.getLabelTable();
-			Enumeration en = labelTable.elements();
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
@@ -3860,8 +3861,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 */
 			
 			// set label font
-			Dictionary labelTable = slider.getLabelTable();
-			Enumeration en = labelTable.elements();
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
@@ -3964,8 +3965,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 */
 			
 			// set label font
-			Dictionary labelTable = slider.getLabelTable();
-			Enumeration en = labelTable.elements();
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
@@ -4497,8 +4498,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 */
 			
 			// set label font
-			Dictionary labelTable = slider.getLabelTable();
-			Enumeration en = labelTable.elements();
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
@@ -4785,8 +4786,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			slider.setSnapToTicks(true);
 
 			// set label font
-			Dictionary labelTable = slider.getLabelTable();
-			Enumeration en = labelTable.elements();
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
@@ -4872,8 +4873,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			slider.setSnapToTicks(true);
 
 			// set label font
-			Dictionary labelTable = slider.getLabelTable();
-			Enumeration en = labelTable.elements();
+			Dictionary<?, ?> labelTable = slider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
 				label = (JLabel) en.nextElement();
@@ -5401,7 +5402,7 @@ class SliderPanel
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {				
+	private static boolean checkGeos(Object[] geos) {				
 		boolean geosOK = true;
 		for (int i = 0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];
@@ -5727,7 +5728,7 @@ class TextfieldSizePanel
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {
+	private static boolean checkGeos(Object[] geos) {
 		boolean geosOK = true;
 		for (int i = 0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];
@@ -6033,7 +6034,7 @@ class ShowConditionPanel
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {
+	private static boolean checkGeos(Object[] geos) {
 		for (int i=0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];	
 			if (!geo.isEuclidianShowable())
@@ -6338,7 +6339,7 @@ class ColorFunctionPanel
 	}
 
 	// return true: want to be able to color all spreadsheet objects
-	private boolean checkGeos(Object[] geos) {
+	private static boolean checkGeos(Object[] geos) {
 		return true;
 	}
 
@@ -6727,7 +6728,7 @@ class NamePanel
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {				
+	private static boolean checkGeos(Object[] geos) {				
 		return geos.length == 1;
 	}
 
@@ -6790,7 +6791,7 @@ class NamePanel
 			doActionPerformed(e.getSource());
 	}
 	
-	private String getDefText(GeoElement geo) {
+	private static String getDefText(GeoElement geo) {
 		/*
 		return geo.isIndependent() ?
 				geo.toOutputValueString() :

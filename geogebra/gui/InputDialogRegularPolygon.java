@@ -29,6 +29,7 @@ public class InputDialogRegularPolygon extends InputDialog{
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -66,12 +67,12 @@ public class InputDialogRegularPolygon extends InputDialog{
 				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
 			}
 		}
-		
 
 		return ret;
 		
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!isModal()) {
 			app.setCurrentSelectionListener(null);

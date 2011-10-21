@@ -45,6 +45,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyListen
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 

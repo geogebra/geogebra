@@ -1,6 +1,5 @@
 package geogebra.gui;
 
-
 import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
@@ -41,12 +40,12 @@ public class InputDialogDilate extends InputDialog {
 		centerPanel.add(inputPanel, BorderLayout.CENTER);								
 		getContentPane().add(centerPanel, BorderLayout.CENTER);		
 		centerOnScreen();
-
 	}
 
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -75,8 +74,6 @@ public class InputDialogDilate extends InputDialog {
 
 		cons.setSuppressLabelCreation(oldVal);
 		
-		
-		
 		if (success) {
 			NumberValue num = ((NumberInputHandler)inputHandler).getNum();
 
@@ -96,15 +93,13 @@ public class InputDialogDilate extends InputDialog {
 					app.storeUndoInfo();
 				}
 				return true;
-			}
-			
+			}			
 		}
-
-		
-		return false;
-		
+	
+		return false;	
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!isModal()) {
 			app.setCurrentSelectionListener(null);
@@ -116,8 +111,7 @@ public class InputDialogDilate extends InputDialog {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 }

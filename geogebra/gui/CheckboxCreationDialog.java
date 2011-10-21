@@ -12,7 +12,6 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.CircularDefinitionException;
@@ -77,12 +76,12 @@ implements WindowFocusListener, ActionListener, GeoElementSelectionListener {
 	private void initLists() {
 		// fill combo box with all geos
 		comboModel = new DefaultComboBoxModel();
-		TreeSet sortedSet = app.getKernel().getConstruction().
+		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
 									getGeoSetNameDescriptionOrder();			
 		
 		// lists for combo boxes to select input and output objects
 		// fill combobox models
-		Iterator it = sortedSet.iterator();
+		Iterator<GeoElement> it = sortedSet.iterator();
 		comboModel.addElement(null);
 		while (it.hasNext()) {
 			GeoElement geo = (GeoElement) it.next();				
@@ -93,6 +92,7 @@ implements WindowFocusListener, ActionListener, GeoElementSelectionListener {
 		
 		// fill list with all selected geos
 		listModel = new DefaultListModel() {
+			@Override
 			public void addElement(Object ob) {
 				if (contains(ob)) return;
 				
@@ -222,6 +222,7 @@ implements WindowFocusListener, ActionListener, GeoElementSelectionListener {
 	public void windowLostFocus(WindowEvent arg0) {
 	}
 
+	@Override
 	public void setVisible(boolean flag) {	
 		if (!isModal()) {
 			if (flag) { // set old mode again			

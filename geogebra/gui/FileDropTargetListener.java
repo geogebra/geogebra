@@ -41,8 +41,6 @@ public class FileDropTargetListener implements DropTargetListener {
 		}
 	}
 
-
-
 	private Application app;
 
 	public FileDropTargetListener(Application app) {
@@ -105,13 +103,11 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @param fileName
 	 * @return
 	 */
-	private boolean isGGBFile(String fileName){
+	private static boolean isGGBFile(String fileName){
 		int mid = fileName.lastIndexOf(".");
 	    String ext = fileName.substring(mid+1,fileName.length());
 	    return ext.equals(Application.FILE_EXT_GEOGEBRA);
 	}
-
-	
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {
 
@@ -124,7 +120,7 @@ public class FileDropTargetListener implements DropTargetListener {
 				//Image img = (Image) trans.getTransferData (DataFlavor.imageFlavor); 
 			} else if (transferable.isDataFlavorSupported (DataFlavor.javaFileListFlavor)) {
 				//Application.debug("javaFileList is supported");
-				List<File> list = (List<File>)transferable.getTransferData (DataFlavor.javaFileListFlavor);
+				List<File> list = (List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
 				ListIterator<File> it = list.listIterator( );    
 				while (it.hasNext( )) {
 					File f = (File) it.next( );

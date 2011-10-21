@@ -1,6 +1,5 @@
 package geogebra.gui;
 
-
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
@@ -32,9 +31,9 @@ public class InputDialogCirclePointRadius extends InputDialogRadius{
 		super(app, title, handler, kernel);
 		
 		geoPoint1 = point1;
-
 	}
 
+	@Override
 	protected GeoElement createOutput(NumberValue num){
 		return kernel.Circle(null, geoPoint1, num);
 	}

@@ -18,7 +18,6 @@ public class NumberChangeSignInputDialog extends InputDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean changingSign;
-	
 
 	/**
 	 * 
@@ -39,20 +38,17 @@ public class NumberChangeSignInputDialog extends InputDialog {
 				new JCheckBox(checkBoxText,true), false);
 		
 		this.changingSign=changingSign;
-		
 	}
 	
-	
+	@Override
 	protected boolean processInputHandler(){
 		return ((NumberChangeSignInputHandler) inputHandler).processInput(inputText,changingSign && checkBox.isSelected());
 	}
 	
-
-	
+	@Override
 	protected void createBtPanel(boolean showApply){
 		btPanel.add(checkBox);
 		super.createBtPanel(showApply);
 	}
-	
 
 }
