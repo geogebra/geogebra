@@ -1,6 +1,5 @@
 package geogebra.gui.inputfield;
 
-
 import geogebra.gui.util.GeoGebraIcon;
 
 import java.awt.BorderLayout;
@@ -34,9 +33,7 @@ import javax.swing.border.Border;
 public class BorderButton extends AbstractBorder
 implements MouseListener, MouseMotionListener{
 
-
 	private Component borderOwner;
-	
 
 	public static final String cmdSuffix = "BorderButtonAction";
 	private ImageIcon[] icon;
@@ -80,6 +77,7 @@ implements MouseListener, MouseMotionListener{
 		}
 	}
 
+	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
 
 		int offset = hGap;
@@ -130,11 +128,12 @@ implements MouseListener, MouseMotionListener{
 		return insetWidth;
 	}
 
-
+	@Override
 	public Insets getBorderInsets(Component c) {
 		return new Insets(0, 0, 0, getTotalInsetWidth());
 	}
 
+	@Override
 	public boolean isBorderOpaque() {
 		return false;
 	}
@@ -145,7 +144,6 @@ implements MouseListener, MouseMotionListener{
 		otherCursor = tmp; 
 	} 
 	
-
 	//=============================================
 	//  Mouse Listeners
 	//=============================================
@@ -191,12 +189,8 @@ implements MouseListener, MouseMotionListener{
 		}
 	}
 
-
-
-
 	/**************************************************************
-	 *   Main --- for testing, remove later
-	 *   
+	 * TODO  Main --- for testing, remove later
 	 **************************************************************/
 
 	private static void createAndShowGUI() {

@@ -6,7 +6,6 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_UP;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
@@ -40,7 +39,6 @@ import javax.swing.event.PopupMenuListener;
  */
 public class HistoryPopup implements ListSelectionListener{
 
-
 	private AutoCompleteTextField textField;
 	private JPopupMenu popup;
 	private JList historyList;
@@ -49,7 +47,6 @@ public class HistoryPopup implements ListSelectionListener{
 	private KeyListener keyListener;
 	private KeyListener[] textFieldKeyListeners;
 	private DefaultListModel model;
-
 
 	public HistoryPopup(AutoCompleteTextField autoCompleteField){
 
@@ -69,7 +66,6 @@ public class HistoryPopup implements ListSelectionListener{
 		
 		registerListeners();	
 	}
-
 
 	private class PopupListener implements PopupMenuListener {
 
@@ -106,6 +102,7 @@ public class HistoryPopup implements ListSelectionListener{
 		
 		// add mouse motion listener to repaint the list for rollover effect
 		historyList.addMouseMotionListener(new MouseMotionAdapter(){
+			@Override
 			public void mouseMoved(MouseEvent e){
 				historyList.repaint();
 			}
@@ -113,17 +110,18 @@ public class HistoryPopup implements ListSelectionListener{
 
 		// create key listener (will be added by PopupListener)
 		keyListener = new KeyAdapter() {
+			@Override
 			public void keyPressed(KeyEvent e) { handleSpecialKeys(e); }
 		};
 
 		// add mouse listener
 		historyList.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) { handleMouseClick(e); }
 		});
 		
 		popup.addPopupMenuListener(new PopupListener());
 	}
-	
 	
 	public void showPopup() {		
 
@@ -177,7 +175,6 @@ public class HistoryPopup implements ListSelectionListener{
 
 	}
 
-
 	public boolean isDownPopup() {
 		return isDownPopup;
 	}
@@ -185,8 +182,6 @@ public class HistoryPopup implements ListSelectionListener{
 	public void setDownPopup(boolean isDownPopup) {
 		this.isDownPopup = isDownPopup;
 	}
-
-
 
 	private boolean isPopupVisible() {
 		return popup.isVisible();
@@ -213,20 +208,15 @@ public class HistoryPopup implements ListSelectionListener{
 		} 
 	}  
 
-
 	private void undoPopupChange(){
 		DefaultListModel model = (DefaultListModel) historyList.getModel(); 
 		textField.setText((String) model.getElementAt(model.size()-1));
 	}
 
-
 	public void handleMouseClick(MouseEvent e){
 		// selection listener has handled text changes, so just exit after a click
 		hidePopup();
 	}
-
-
-
 
 	public void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isPopupVisible()) {
@@ -264,9 +254,6 @@ public class HistoryPopup implements ListSelectionListener{
 		}
 	}
 
-
-
-
 	private void navigateRelative(int offset) {
 		boolean up = offset < 0;
 		int end = model.getSize() - 1;
@@ -290,8 +277,6 @@ public class HistoryPopup implements ListSelectionListener{
 		}
 	}
 
-
-
 	/**
 	 * custom cell renderer for the history list,
 	 * draws grid lines
@@ -309,6 +294,7 @@ public class HistoryPopup implements ListSelectionListener{
 				BorderFactory.createMatteBorder(0, 0, 1, 0, GeoGebraColorConstants.TABLE_GRID_COLOR),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index,
 				boolean isSelected, boolean cellHasFocus) {
 

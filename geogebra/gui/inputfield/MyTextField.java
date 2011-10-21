@@ -302,6 +302,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	 * Overrides processKeyEvents so that the symbol table popup can be
 	 * triggered by ctrl-up.
 	 * */
+	@Override
 	public void processKeyEvent(KeyEvent e) {
 		int keyCode = e.getKeyCode(); 
 
@@ -357,6 +358,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 	private Graphics2D g2;
 	private Insets insets;
 
+	@Override
 	public void paintComponent(Graphics gr) {
 		// moving caret doesn't work without this... why?
 		super.paintComponent(gr);
