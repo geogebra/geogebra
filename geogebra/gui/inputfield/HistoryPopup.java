@@ -6,6 +6,7 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_UP;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
@@ -202,10 +203,10 @@ public class HistoryPopup implements ListSelectionListener{
 	 * handles selection in the history popup; pastes the 
 	 * selected string into the input field and hides the popup
 	 */
-	public void valueChanged(ListSelectionEvent evt) { 
+	public void valueChanged(ListSelectionEvent evt) {
 		if (!evt.getValueIsAdjusting()) 
 		{ 
-			if(evt.getSource() == historyList){ 
+			if(evt.getSource() == historyList) {
 				textField.setText((String) historyList.getSelectedValue());
 				//this.setVisible(false);
 			}
