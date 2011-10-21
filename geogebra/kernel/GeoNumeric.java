@@ -1047,28 +1047,30 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	}	
 	
 	/**
-	 * Returns a comparator for GeoNumeric objects.
+	 * Returns a comparator for NumberValue objects.
 	 * If equal, doesn't return zero (otherwise TreeSet deletes duplicates)
 	 * @return 1 if first is greater (or same but sooner in construction), -1 otherwise 
 	 */
-	public static Comparator<GeoNumeric> getComparator() {
+	public static Comparator<NumberValue> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<GeoNumeric>() {
-		      public int compare(GeoNumeric itemA, GeoNumeric itemB) {
+			comparator = new Comparator<NumberValue>() {
+		      public int compare(NumberValue itemA, NumberValue itemB) {
 		        
-		        double comp = itemA.getValue() - itemB.getValue();
-		        if (Kernel.isZero(comp))
-		        // don't return 0 for equal objects, otherwise the TreeSet deletes duplicates
-		        	return itemA.getConstructionIndex() > itemB.getConstructionIndex() ? -1 : 1;
-		        else
+		        double comp = itemA.getDouble() - itemB.getDouble();
+		        if (Kernel.isZero(comp)) {
+			        // don't return 0 for equal objects, otherwise the TreeSet deletes duplicates
+		        	if (!itemA.isGeoElement() || !itemB.isGeoElement()) return 1;
+		        	return ((GeoElement) itemA).getConstructionIndex() > ((GeoElement) itemB).getConstructionIndex() ? -1 : 1;
+		        } else {
 		        	return comp < 0 ? -1 : +1;
+		        }
 		      }
 			};
 		}
 		
 		return comparator;
 	}
-	private static volatile Comparator<GeoNumeric> comparator;
+	private static Comparator<NumberValue> comparator;
 
 	
 	
