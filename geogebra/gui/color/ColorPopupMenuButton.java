@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-
 public class ColorPopupMenuButton extends PopupMenuButton implements ActionListener{
 
 	private Application app;
@@ -51,8 +50,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 		defaultColor = colorSet[0];
 
 		lookupMap = new HashMap<Color,Integer>();
-		for(int i = 0; i < colorSet.length; i++)
+		for(int i = 0; i < colorSet.length; i++) {
 			lookupMap.put(colorSet[i], i);
+		}
 
 		setToolTipArray(getToolTipArray());
 
@@ -66,7 +66,6 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 
 		updateColorTable();	
 		addActionListener(this);
-
 	}
 
 	public void updateColorTable(){
@@ -82,10 +81,12 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 		}
 	}
 
+	@Override
 	public ImageIcon getButtonIcon() {
 		ImageIcon icon = super.getButtonIcon();
-		if (icon == null && this.hasSlider)
+		if (icon == null && this.hasSlider) {
 			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
+		}
 		return icon;
 	}
 
@@ -106,18 +107,17 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 
 
 	public Color getSelectedColor(){
-
 		int index = getSelectedIndex();
-		if(index <= -1)
+		if(index <= -1) {
 			return defaultColor;
-		else if (colorSetType == COLORSET_BGCOLOR && index > colorSet.length-1)
+		} else if (colorSetType == COLORSET_BGCOLOR && index > colorSet.length-1) {
 			return null;
-		else
+		} else {
 			return colorSet[index];
+		}
 	}
 
-
-	private  Color[] getColorArray(int colorSetType){
+	private static Color[] getColorArray(int colorSetType){
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
@@ -132,35 +132,32 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 	private String[] getToolTipArray(){
 		String[] toolTipArray = new String[colorSet.length];
 		for(int i=0; i<toolTipArray.length; i++){
-			if(colorSet[i]==null)
+			if(colorSet[i]==null) {
 				toolTipArray[i] = app.getMenu("Transparent");
-			else
+			} else {
 				toolTipArray[i] = GeoGebraColorConstants.getGeogebraColorName(app, colorSet[i]);
-			
+			}
 		}
 		return toolTipArray;
 	}
 
-
-
-	private ImageIcon[] getColorSwatchIcons(Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
-
+	private static ImageIcon[] getColorSwatchIcons(Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
 		ImageIcon[] a = new ImageIcon[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
-			if(colorArray[i] != null)
+			if(colorArray[i] != null) {
 				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, colorArray[i] , null);
-			else
+			} else {
 				a[i] = GeoGebraIcon.createNullSymbolIcon(iconSize.width, iconSize.height);
-
+			}
 		return a;
 	}
 
 	private static  ImageIcon[] createDummyIcons( Dimension iconSize){
 
 		ImageIcon[] a = new ImageIcon[27];
-		for(int i = 0; i < 27; i++)
+		for(int i = 0; i < 27; i++) {
 			a[i] = GeoGebraIcon.createEmptyIcon(iconSize.width, iconSize.height);
-
+		}
 		return a;
 	}
 

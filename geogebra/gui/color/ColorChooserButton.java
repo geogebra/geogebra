@@ -71,6 +71,7 @@ public class ColorChooserButton extends JButton{
 		
 		myPopup = new ColorChooserPopup();
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				Point locButton = getLocation();
 				int h = e.getX() - locButton.x;
@@ -325,10 +326,12 @@ public class ColorChooserButton extends JButton{
 			 */
 			class SwatchButtonUI extends BasicButtonUI 
 			{				
+				@Override
 				public Dimension getPreferredSize(JComponent c) {
 					return new Dimension(16, 16);
 				}
 				
+				@Override
 				public void paint(Graphics g, JComponent c) {
 					SwatchButton b = (SwatchButton)c;
 					
@@ -353,6 +356,5 @@ public class ColorChooserButton extends JButton{
 			}
 		}
 	}
-
 }
 
