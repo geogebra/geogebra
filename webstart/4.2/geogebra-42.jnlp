@@ -16,24 +16,24 @@
     <association mime-type="application/vnd.geogebra.file" extensions="ggb" description="GeoGebra File"/>
     <association mime-type="application/vnd.geogebra.tool" extensions="ggt" description="GeoGebra Tool"/>
 
-   <related-content href="http://www.geogebra.org/">
+  <related-content href="http://www.geogebra.org/">
       <title>www.geogebra.org</title>
       <description>www.geogebra.org</description>
     </related-content>
     <related-content href="http://www.geogebra.org/forum/">
       <title>GeoGebra Forum</title>
       <description>GeoGebra Forum</description>
-      <icon href="http://www.geogebra.org/webstart/4.2/forum.gif" width="16" height="16"/>
+      <icon href="../forum.gif" width="16" height="16"/>
     </related-content>
-    <related-content href="http://www.geogebra.org/en/wiki/">
-      <title>GeoGebraWiki (International)</title>
-      <description>GeoGebraWiki (International)</description>
-      <icon href="http://www.geogebra.org/webstart/4.2/wiki.jpg" width="16" height="16"/>
+    <related-content href="http://wiki.geogebra.org//">
+      <title>GeoGebra Wiki</title>
+      <description>GeoGebra Wiki</description>
+      <icon href="../wiki.jpg" width="16" height="16"/>
     </related-content>
-    <related-content href="http://www.geogebra.org/de/wiki/">
-      <title>GeoGebraWiki (German)</title>
-      <description>GeoGebraWiki (German)</description>
-      <icon href="http://www.geogebra.org/webstart/4.2/wiki.jpg" width="16" height="16"/>
+    <related-content href="http://www.geogebratube.org/">
+      <title>GeoGebraTube</title>
+      <description>GeoGebraTube</description>
+      <icon href="../wiki.jpg" width="16" height="16"/>
     </related-content>
   </information>
   <information locale="de">
