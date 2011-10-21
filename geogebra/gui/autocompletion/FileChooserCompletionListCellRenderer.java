@@ -52,7 +52,7 @@ public class FileChooserCompletionListCellRenderer extends DefaultListCellRender
 		return label;
 	}
 
-	private Icon getIcon(File file) {
+	private static Icon getIcon(File file) {
 		if (file.isDirectory()) {
 			return DIRECTORY_ICON;
 		}
@@ -75,5 +75,4 @@ public class FileChooserCompletionListCellRenderer extends DefaultListCellRender
 		}
 		return new ImageIcon(iconUrl);
 	}
-	
 }

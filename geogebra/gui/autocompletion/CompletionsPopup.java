@@ -10,7 +10,6 @@ import static java.awt.event.KeyEvent.VK_UP;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import geogebra.gui.inputfield.AutoCompleteTextField;
-import geogebra.main.Application;
 
 import java.awt.Rectangle;
 import java.awt.event.FocusAdapter;
@@ -102,7 +101,6 @@ public class CompletionsPopup {
 			}
 			textField.addKeyListener(keyListener);
 		}
-		
 	}
 		
 	private void registerListeners() {
@@ -142,6 +140,7 @@ public class CompletionsPopup {
 		});
 		// This doesn't work very well :(
 		textField.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
+			@Override
 			public void ancestorMoved(HierarchyEvent e) {
 				if (isPopupVisible()) {
 					placePopup();
@@ -248,8 +247,6 @@ public class CompletionsPopup {
 			textField.processKeyEvent(keyEvent);
 		}
 	}
-	
-	
 
 	private void navigateRelative(int offset) {
 		boolean up = offset < 0;
@@ -281,5 +278,4 @@ public class CompletionsPopup {
 			current_length=-1;
 		} 
 	}
-
 }

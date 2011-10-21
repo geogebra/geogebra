@@ -69,7 +69,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 	public GeoGebraFrame() {
 		instances.add(this);
 		activeInstance = this;
-
 	}
 
 	// public static void printInstances() {
@@ -85,6 +84,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 	/**
 	 * Disposes this frame and removes it from the static instance list.
 	 */
+	@Override
 	public void dispose() {
 		instances.remove(this);
 		if (this == activeInstance)
@@ -115,6 +115,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 	public void windowLostFocus(WindowEvent arg0) {
 	}
 
+	@Override
 	public Locale getLocale() {
 		Locale defLocale = GeoGebraPreferences.getPref().getDefaultLocale();
 
@@ -124,6 +125,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 			return defLocale;
 	}
 
+	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
 			updateSize();
@@ -201,12 +203,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 		// check java version
 		double javaVersion = Util.getJavaVersion();
 		if (javaVersion < 1.5) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Sorry, GeoGebra cannot be used with your Java version "
-									+ javaVersion
-									+ "\nPlease visit http://www.java.com to get a newer version of Java.");
+			JOptionPane.showMessageDialog(
+				null,
+				"Sorry, GeoGebra cannot be used with your Java version "
+				+ javaVersion
+				+ "\nPlease visit http://www.java.com to get a newer version of Java.");
 			return;
 		}
 
@@ -390,6 +391,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 			this.app = app;
 		}
 
+		@Override
 		public void run() {
 			// init properties dialog
 			this.app.getGuiManager().initPropertiesDialog();
@@ -407,7 +409,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 					g2d.getFont(), false, Color.BLACK, Color.WHITE, false);
 
 			// check if newer version is available
-			if (!app.isApplet() && !app.isWebstart()) {
+			if (!app.isApplet() && !Application.isWebstart()) {
 				checkVersion();
 			}
 		}

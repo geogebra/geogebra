@@ -16,7 +16,7 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 	 * until an active instance was created by GeoGebra.main()
 	 * @return
 	 */
-	private synchronized GeoGebraFrame getGGBInstance() {
+	private synchronized static GeoGebraFrame getGGBInstance() {
 		GeoGebraFrame wnd = null;
 		while (wnd == null) {
 			try {
@@ -96,5 +96,4 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 		Application.debug("handleReOpenApplication event, filename: " + arg0.getFilename());
 	}
 		
-	
 }

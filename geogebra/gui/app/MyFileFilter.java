@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package geogebra.gui.app;
 
-
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -129,7 +127,8 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
      * @see #getExtension
      * @see FileFilter#accept
      */
-    public boolean accept(File f) {
+    @Override
+	public boolean accept(File f) {
 		if(f != null) {
 		    if(f.isDirectory())
 				return true;
@@ -187,7 +186,8 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 		fullDescription = null;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
     	return getDescription();
     }
 
@@ -200,7 +200,8 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
      * @see #isExtensionListInDescription
      * @see FileFilter#getDescription
      */
-    public String getDescription() {
+    @Override
+	public String getDescription() {
 		if(fullDescription == null) {
 		    if(description == null || isExtensionListInDescription()) {
 	 		fullDescription = description==null ? "(" : description + " (";
