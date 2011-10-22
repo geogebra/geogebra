@@ -156,7 +156,7 @@ office@geogebra.org
 	<manifest file="../manifest.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -283,7 +283,6 @@ office@geogebra.org
 			<arg value="geogebra_javascript.jar"/>
 			<arg value="geogebra_properties.jar"/>
 			<arg value="geogebra_usb.jar"/>
-			<arg value="jython.jar"/>
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
