@@ -6,16 +6,17 @@ import java.util.LinkedHashMap;
 public class MaxSizeHashMap<V, T> extends LinkedHashMap<V,T> {
 	
 	private int maxSize;
-	private Iterator it;
+	private Iterator<?> it;
 	
 	public MaxSizeHashMap(int maxSize) {		
 		this.maxSize = maxSize;
 		it = entrySet().iterator();
 	}
 	
+	@Override
 	public T put(V key, T value) {
 		if (size() >= maxSize) {
-			Iterator it = entrySet().iterator();
+			Iterator<?> it = entrySet().iterator();
 			Object removed = it.next();
 			it.remove();
 		}

@@ -9,6 +9,7 @@ import javax.swing.JApplet;
  */
 public class GeoGebraAppletPreloader extends JApplet {
 
+	@Override
 	public void init() {
 		setBackground(Color.white);
 		System.out.println("GeoGebraAppletPreloader " + GeoGebra.VERSION_STRING + " started");
@@ -20,6 +21,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 	 */
 	public static void loadAllJarFiles(final boolean loadJavaScriptJAR) {
 		Thread jarLoader = new Thread() {
+			@Override
 			public void run() {
 				// touch on file in all jar files to force loading
 

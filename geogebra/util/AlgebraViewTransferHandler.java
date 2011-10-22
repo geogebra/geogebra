@@ -1,6 +1,5 @@
 package geogebra.util;
 
-
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.GeoElement;
 import geogebra.main.Application;
@@ -33,22 +32,22 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 
 	/****************************************
 	 * Constructor
-	 * @param ev
 	 */
 	public AlgebraViewTransferHandler(Application app){
 		this.app = app;
 	}
 
-
-
+	@Override
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.COPY;
 	}
 
+	@Override
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {	
 		return false;
 	}
 
+	@Override
 	public Transferable createTransferable(JComponent comp) {
 		
 		if(geoLabelList == null)
@@ -66,10 +65,10 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 		return null;
 	}
 
+	@Override
 	public boolean importData(JComponent comp, Transferable t) {
 		return false;
 	}
-
 
 	public Object getTransferData(DataFlavor flavor) {
 		if (isDataFlavorSupported(flavor)) {

@@ -95,7 +95,6 @@ public class MidiSound implements MetaEventListener  {
 		return success;
 	}
 
-
 	/** 
 	 * Generates a list of available instruments in String form 
 	 * */
@@ -114,10 +113,6 @@ public class MidiSound implements MetaEventListener  {
 		return list;
 	}
 
-
-
-
-
 	/**
 	 * Plays a midi sequence with default tempo 
 	 */
@@ -125,7 +120,6 @@ public class MidiSound implements MetaEventListener  {
 		int tempo = 120;
 		playSequence( sequence, tempo, tickPosition );
 	}
-
 
 	/**
 	 * Plays a MIDI sequence
@@ -155,9 +149,6 @@ public class MidiSound implements MetaEventListener  {
 		} catch (InvalidMidiDataException e) {
 		}
 	}
-
-
-
 
 	public void pause(boolean doPause){
 
@@ -192,7 +183,6 @@ public class MidiSound implements MetaEventListener  {
 		System.gc();
 	}
 
-
 	/**
 	 * Midi meta event listener that closes the sequencer at end of track.
 	 */
@@ -202,8 +192,6 @@ public class MidiSound implements MetaEventListener  {
 			closeMidiSound();
 		}
 	}
-
-
 
 
 	/** 
@@ -218,9 +206,7 @@ public class MidiSound implements MetaEventListener  {
 		
 	}
 
-
-
-	/*
+	/**
 	 * Uses the sequencer to play a Midi sequence from a .mid file
 	 * or a .txt file containing a JFugue string.
 	 */
@@ -262,7 +248,6 @@ public class MidiSound implements MetaEventListener  {
 
 	}
 
-
 	private void loadSoundBank(File soundbankFile){
 
 		try {
@@ -289,9 +274,6 @@ public class MidiSound implements MetaEventListener  {
 		}
 	}
 
-
-	
-
 	public void playSequenceFromJFugueString(String noteString, int instrument){
 
 		initialize();
@@ -307,12 +289,7 @@ public class MidiSound implements MetaEventListener  {
 		Pattern pattern = new Pattern(noteString);
 		PlayerThread thread = new PlayerThread(player, pattern);
 		thread.start(); 
-
 	}
-
-
-
-
 
 	public void playJFugueFromFile(File file) throws IOException {
 
@@ -343,12 +320,6 @@ public class MidiSound implements MetaEventListener  {
 		}
 	}
 
-
-
-
-
-
-
 	/**********************************************************
 	 * Class PlayerThread 
 	 * Thread extension that runs a JFugue MIDI player 
@@ -364,14 +335,11 @@ public class MidiSound implements MetaEventListener  {
 			this.pattern = pattern;
 		}
 
+		@Override
 		public void run() {
 			player.play(pattern);
 			player.close();
 		}
 	}
-
-
-
-
 
 } 

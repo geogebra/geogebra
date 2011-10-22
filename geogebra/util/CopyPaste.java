@@ -642,7 +642,6 @@ public class CopyPaste {
 	 * into the construction
 	 * 
 	 * @param app
-	 * @param cons
 	 */
 	public static void pasteFromXML(Application app) {
 

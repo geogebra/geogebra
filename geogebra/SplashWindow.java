@@ -118,7 +118,8 @@ public class SplashWindow extends Window {
 	        // clicking on its display area. This mouse listener
 	        // listens for mouse clicks and disposes the splash window.
 	        MouseAdapter disposeOnClick = new MouseAdapter() {
-	            public void mouseClicked(MouseEvent evt) {
+	            @Override
+				public void mouseClicked(MouseEvent evt) {
 	                // Note: To avoid that method splash hangs, we
 	                // must set paintCalled to true and call notifyAll.
 	                // This is necessary because the mouse click may
@@ -138,7 +139,8 @@ public class SplashWindow extends Window {
     /**
      * Updates the display area of the window.
      */
-    public void update(Graphics g) {
+    @Override
+	public void update(Graphics g) {
         // Note: Since the paint method is going to draw an
         // image that covers the complete area of the component we
         // do not fill the component with its background color
@@ -149,7 +151,8 @@ public class SplashWindow extends Window {
     /**
      * Paints the image on the window.
      */
-    public void paint(Graphics g) {
+    @Override
+	public void paint(Graphics g) {
         g.drawImage(splashImage, 0, 0, this);
         
         // Markus Hohenwarter (14. 4. 2006): add border to splashImage

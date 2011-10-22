@@ -56,7 +56,8 @@ public class ScientificFormat extends Format
     * is of type Number. If so casts the Number object to double and calls the format method.
     * Returns the result.
     */
-   public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos)
+   @Override
+public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos)
    {
       if (obj instanceof Number)
       {
@@ -90,7 +91,8 @@ public class ScientificFormat extends Format
    
    /**Dummy implementation of inherited abstract method.
     */
-   public Object parseObject(String source, ParsePosition pos)
+   @Override
+public Object parseObject(String source, ParsePosition pos)
    {
       return null;
    }
@@ -155,7 +157,7 @@ public class ScientificFormat extends Format
    
    //simplify method for taking log base 10 of x
    private final static double k = 1/Math.log(10);
-   private double Log10(double x)
+   private static double Log10(double x)
    {
       if (x==0) return 0;
       else return Math.log(x)*k;
@@ -180,7 +182,7 @@ public class ScientificFormat extends Format
       if(errorsigdigit <1) return 1;
       return errorsigdigit;
    }
-   private DecimalFormat getDecimalFormat(int sigDig)
+   private static DecimalFormat getDecimalFormat(int sigDig)
    {
       StringBuffer buffer = new StringBuffer("0.");
       for (int i=1; i<sigDig; i++) buffer.append('0');
