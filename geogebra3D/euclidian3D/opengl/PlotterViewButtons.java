@@ -4,12 +4,6 @@ import java.awt.Color;
 
 import geogebra.kernel.Matrix.Coords;
 
-import javax.media.opengl.GL;
-
-
-
-
-
 /**
  * Class that describes the geometry of buttons for 3D view
  * 
@@ -24,15 +18,12 @@ public class PlotterViewButtons {
 	final static public int TYPE_HANDLE_ARROWS = 2;
 	final static public int TYPE_HANDLE = 3;
 	
-	
 	final static public int TYPE_LENGTH = 4;
-	
 	
 	static private float size = 32f;
 	static private float shift = 5f;
 	static private float shift2 = size+shift;
 	static private float transparency = 0.25f;
-	
 
 	/** shift (separation) value */
 	static public float SHIFT = 10f;
@@ -47,19 +38,16 @@ public class PlotterViewButtons {
 
 	private int[] index;
 	
-	private Manager manager;
-	
+	private Manager manager;	
 
 	/** common constructor
-	 * @param geometryRenderer
 	 */
 	public PlotterViewButtons(Manager manager) {
 		
 		this.manager = manager;
 		
 		index = new int[TYPE_LENGTH];
-		
-		
+			
 		//buttons
 		for (int i=0; i<2; i++){
 			index[i] = manager.startNewList();
@@ -85,10 +73,7 @@ public class PlotterViewButtons {
 		brush.segment(new Coords(handleSizeStart, 0, 0, 1),new Coords(handleSize, 0, 0, 1));
 		brush.setThickness(thickness);//re sets the thickness
 		brush.segment(new Coords(-handleSizeStart, 0, 0, 1),new Coords(-handleSize, 0, 0, 1));
-		index[TYPE_HANDLE_ARROWS] =brush.end();
-
-		
-		
+		index[TYPE_HANDLE_ARROWS] =brush.end();			
 		
 		//handle picked
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_CLOSED);
@@ -102,7 +87,6 @@ public class PlotterViewButtons {
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 	}
-
 	
 	
 	//////////////////////////////////
@@ -116,6 +100,7 @@ public class PlotterViewButtons {
 	public int getIndex(int i){
 		return index[i];
 	}
+	
 	
 	//////////////////////////////////
 	// GEOMETRIES
@@ -155,13 +140,5 @@ public class PlotterViewButtons {
 			break;
 		}
 	}
-	
-	
-	
-	
-	
-	
-
-
 	
 }

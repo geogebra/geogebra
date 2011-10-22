@@ -3,7 +3,6 @@ package geogebra3D.archimedean.support;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
-import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,6 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		return verticesInABv;
 	}
 	
-	
 	public void calcVerticesInABv(){
 		//get 3 first points of the first face to create coord sys
 		/*
@@ -52,8 +50,7 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		
 		Point A = vertices[0];
 		Point B = vertices[1];
-		Point C = vertices[2];
-		
+		Point C = vertices[2];	
 		
 		//calc AB length and create orthonormal vectors
 		Coords v1l = B.sub(A);
@@ -65,7 +62,6 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		
 		Coords v2 = v3.crossProduct(v1);
 		
-
 		//create matrix
 		CoordMatrix4x4 matrix = new CoordMatrix4x4();
 		matrix.setOrigin(A);
@@ -78,10 +74,9 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		//calc vertices
 		int count = getVertexCount();
 		verticesInABv = new Coords[count];
-		for (int i=0; i<count; i++)
+		for (int i=0; i<count; i++) {
 			verticesInABv[i] = mInv.mul(vertices[i]);
-		
-		
+		}		
 	}
 
 	public int getFaceCount() {
@@ -101,8 +96,6 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 			pointList.add(new Point(ot.x, ot.y, ot.z));
 		}
 		setVertices(pointList.toArray(new Point[0]));
-		
-		
 
 		List<SpaceSide> ssList = new ArrayList<SpaceSide>();
 		builder.getSides(ssList);
@@ -133,6 +126,7 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		this.faces = faces;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(vertices.length + " Vertices:");
@@ -162,7 +156,6 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		 * Vertices must be in clockwise order when facing the exterior side of this
 		 * face.
 		 * 
-		 * @param vertices
 		 */
 		protected Face(int... vertexIndices) {
 			this.vertexIndices = vertexIndices;
@@ -176,6 +169,7 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 			return vertexIndices.length;
 		}
 
+		@Override
 		public String toString() {
 
 			StringBuilder sb = new StringBuilder();
@@ -190,6 +184,5 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 			sb.append(")");
 			return sb.toString();
 		}
-
 	}
 }

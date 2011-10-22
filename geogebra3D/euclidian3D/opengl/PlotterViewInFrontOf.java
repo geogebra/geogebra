@@ -4,12 +4,6 @@ import java.awt.Color;
 
 import geogebra.kernel.Matrix.Coords;
 
-import javax.media.opengl.GL;
-
-
-
-
-
 /**
  * Class that describes the geometry of buttons for 3D view
  * 
@@ -18,24 +12,15 @@ import javax.media.opengl.GL;
  */
 public class PlotterViewInFrontOf {
 	
-	
-	
-
-	
-
-
-	
 	static private float start = 60f;	
 	static private float end = 0f;
 
 
 	private int[] index;
 	
-	private Manager manager;
-	
+	private Manager manager;	
 
 	/** common constructor
-	 * @param geometryRenderer
 	 */
 	public PlotterViewInFrontOf(Manager manager) {
 		
@@ -43,8 +28,6 @@ public class PlotterViewInFrontOf {
 		
 		index = new int[1];
 		
-		
-
 		//arrow
 		PlotterBrush brush = manager.getBrush();
 
@@ -66,7 +49,6 @@ public class PlotterViewInFrontOf {
 	}
 
 	
-	
 	//////////////////////////////////
 	// INDEX
 	//////////////////////////////////	
@@ -77,13 +59,5 @@ public class PlotterViewInFrontOf {
 	public int getIndex(){
 		return index[0];
 	}
-	
-	
-	
-	
-	
-	
-
-
 	
 }

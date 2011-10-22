@@ -662,7 +662,7 @@ public class Kernel {
     	return getGeoGebraCAS().getPolynomialCoeffs(exp, variable);
     }
 
-	final public void setEpsilon(double epsilon) {
+	final public static void setEpsilon(double epsilon) {
 		EPSILON = epsilon;
 	
 		if (EPSILON > MIN_PRECISION)
@@ -9044,7 +9044,7 @@ public class Kernel {
 	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
 	 * otherwise x is returned.
 	 */
-	final public double checkDecimalFraction(double x, double precision) {
+	final public static double checkDecimalFraction(double x, double precision) {
 		
 		//Application.debug(precision+" ");
 		precision = Math.pow(10, Math.floor(Math.log(Math.abs(precision))/Math.log(10)));

@@ -7,7 +7,6 @@ import geogebra3D.euclidian3D.plots.MarchingCubes;
 import geogebra3D.euclidian3D.plots.ParametricSurfaceMesh;
 import geogebra3D.euclidian3D.plots.SurfaceMesh2;
 
-import java.awt.Color;
 import java.nio.FloatBuffer;
 
 /** Class for drawing surfaces.
@@ -245,9 +244,8 @@ public class PlotterSurface {
 		
 		manager.endGeometry();
 	}
-
 	
-	private Coords sphericalCoords(int ui, int vi, int longitude, int latitude){
+	private static Coords sphericalCoords(int ui, int vi, int longitude, int latitude){
 		
 		double u = ((double) ui/longitude)*2*Math.PI;
 		double v = ((double) vi/latitude)*Math.PI/2;
@@ -514,7 +512,7 @@ public class PlotterSurface {
 		manager.vertex(point);
 	}
 	
-	private float getTextureCoord(int i, int n, float fadeMin, float fadeMax){
+	private static float getTextureCoord(int i, int n, float fadeMin, float fadeMax){
 		
 		float t;
 	
@@ -535,7 +533,6 @@ public class PlotterSurface {
 
 		return TEXTURE_FADE_IN;
 	}
-	
 	
 
 }
