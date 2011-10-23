@@ -81,7 +81,7 @@ public class DrawSlider extends Drawable {
         		coordsRW[0] = number.getSliderX();
         		coordsRW[1] = number.getSliderY();
         		coordsScreen[0] = view.toScreenCoordXd(coordsRW[0]);
-        		coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
+        		coordsScreen[1] = view.toScreenCoordYd(coordsRW[1] - 1);
         		
         		widthRW = number.getSliderWidth();
         		widthScreen = horizontal ? widthRW * view.xscale :
@@ -96,7 +96,7 @@ public class DrawSlider extends Drawable {
         	labelVisible = geo.isLabelVisible();
         	geoPoint.setLabelVisible(labelVisible);
         	
-        	// horiztonal slider
+        	// horizontal slider
         	if (horizontal) {        	
         		geoPoint.setCoords(coordsRW[0] + widthRW * param, coordsRW[1], 1.0);  	
 	        	drawPoint.update();      	        	
