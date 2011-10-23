@@ -742,7 +742,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	}
 
 	public void setAbsoluteScreenLoc(int x, int y) {
-		setSliderLocation(x, y, false);		
+		setSliderLocation(x, y, true);		
 	}
 
 	public int getAbsoluteScreenLocX() {	
