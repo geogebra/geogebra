@@ -70,7 +70,7 @@ public class DrawSlider extends Drawable {
         	// start point of horizontal line for slider
         	if (number.isAbsoluteScreenLocActive()) {        		
         		coordsScreen[0] = number.getSliderX();
-        		coordsScreen[1] = number.getSliderY();
+        		coordsScreen[1] = number.getSliderY() - 1;
         		coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
         		coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
         		
@@ -81,7 +81,7 @@ public class DrawSlider extends Drawable {
         		coordsRW[0] = number.getSliderX();
         		coordsRW[1] = number.getSliderY();
         		coordsScreen[0] = view.toScreenCoordXd(coordsRW[0]);
-        		coordsScreen[1] = view.toScreenCoordYd(coordsRW[1] - 1);
+        		coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
         		
         		widthRW = number.getSliderWidth();
         		widthScreen = horizontal ? widthRW * view.xscale :
