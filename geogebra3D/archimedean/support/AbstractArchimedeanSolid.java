@@ -178,11 +178,11 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 					OrderedTriple cross2 = zeroAngleVector.cross(projectedOt2);
 					double angle1 = zeroAngleVector.degBetween(projectedOt1);
 					if (cross1.z < 0) {
-						angle1 += 180;
+						angle1 = 360 - angle1;
 					}
 					double angle2 = zeroAngleVector.degBetween(projectedOt2);
 					if (cross2.z < 0) {
-						angle2 += 180;
+						angle2 = 360 - angle2;
 					}
 					double angleDiff = angle1 - angle2;
 					if (angleDiff > 0) {
