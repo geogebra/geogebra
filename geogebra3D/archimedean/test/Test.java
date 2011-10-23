@@ -3,7 +3,7 @@ package geogebra3D.archimedean.test;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 
-import comold.quantimegroup.solutions.archimedean.common.SolidDefinition;
+import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
 /**
  * Use this class for testing GeoGebra / Archimedean collaboration.

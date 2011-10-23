@@ -1,5 +1,7 @@
 package geogebra3D.archimedean.support;
 
+import geogebra.kernel.Matrix.Coords;
+
 /**
  * The interface that all Archimedean solids should implement.
  * 
@@ -20,6 +22,8 @@ public interface IArchimedeanSolid {
 	 * @return an array of vertices
 	 */
 	public Point[] getVertices();
+	
+	public Coords[] getVerticesInABv();
 
 	/**
 	 * Get the number of faces in this IArchimedeanSolid

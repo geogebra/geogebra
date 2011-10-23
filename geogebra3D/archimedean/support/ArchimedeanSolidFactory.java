@@ -1,6 +1,6 @@
 package geogebra3D.archimedean.support;
 
-import comold.quantimegroup.solutions.archimedean.common.SolidDefinition;
+import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
 /**
  * Factory for creating Archimedean solids.
@@ -29,5 +29,46 @@ public class ArchimedeanSolidFactory {
 				return new Face();
 			}
 		};
+	}
+	
+
+	public static IArchimedeanSolid create(String name) {
+		return create(getSolidDefinition(name));
+	}
+	
+	
+	
+	private static final SolidDefinition getSolidDefinition(String name){
+		
+		switch(name.charAt(0)){
+		case 'T':
+			if (name.equals("Tetrahedron"))
+				return SolidDefinition.TETRAHEDRON;
+			break;
+			
+		case 'C':
+			if (name.equals("Cube"))
+				return SolidDefinition.CUBE;
+			break;
+
+		case 'O':
+			if (name.equals("Octahedron"))
+				return SolidDefinition.OCTAHEDRON;
+			break;
+
+		case 'D':
+			if (name.equals("Dodecahedron"))
+				return SolidDefinition.DODECAHEDRON;
+			break;
+
+		case 'I':
+			if (name.equals("Icosahedron"))
+				return SolidDefinition.ICOSAHEDRON;
+			break;
+
+		
+	}
+		
+		return null;
 	}
 }
