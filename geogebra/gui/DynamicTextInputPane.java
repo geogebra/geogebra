@@ -44,6 +44,8 @@ public class DynamicTextInputPane extends JTextPane {
 		thisPane = this;
 		setBackground(Color.white);
 		doc = (DefaultStyledDocument) this.getDocument();
+		this.addKeyListener(new GeoGebraKeys(app));
+		
 		//this.setCaret(new MyCaret());
 	}
 
