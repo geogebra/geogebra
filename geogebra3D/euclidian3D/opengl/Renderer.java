@@ -651,9 +651,9 @@ public class Renderer implements GLEventListener {
     	// 0<=l<10
     	// l2-l1>=1 to see something
     	//l=l/3f;
-       	//gl.glPolygonOffset(-l*0.05f, -l*10);
+       	gl.glPolygonOffset(-l*0.05f, -l*10);
     	
-       	gl.glPolygonOffset(-l*0.75f, -l*0.5f);
+       	//gl.glPolygonOffset(-l*0.75f, -l*0.5f);
        	
        	//gl.glPolygonOffset(-l, 0);
     }   
