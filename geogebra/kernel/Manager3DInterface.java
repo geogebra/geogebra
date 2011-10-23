@@ -573,6 +573,8 @@ public interface Manager3DInterface {
 			 * @param v
 			 * @return cube with A, B for first points and v for direction
 			 */
-			public GeoElement Cube(String[] labels, GeoPointND A, GeoPointND B, GeoDirectionND v);
+			public GeoElement ArchimedeanSolid(String[] labels, 
+					GeoPointND A, GeoPointND B, GeoDirectionND v,
+					String name);
 
 }

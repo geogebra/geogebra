@@ -4,7 +4,6 @@ package geogebra3D.kernel3D;
 import geogebra.kernel.AlgoAnglePoints;
 import geogebra.kernel.AlgoCircleThreePoints;
 import geogebra.kernel.AlgoElement;
-import geogebra.kernel.AlgoLengthVector;
 import geogebra.kernel.AlgoPolygon;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoAngle;
@@ -12,10 +11,8 @@ import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.GeoSurfaceFinite;
-import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.Path;
@@ -1063,8 +1060,12 @@ public class Manager3D implements Manager3DInterface {
 	}
 	
 	
-	final public GeoPolyhedron Cube(String[] labels, GeoPointND A, GeoPointND B, GeoDirectionND v){
-		AlgoCube algo = new AlgoCube(cons, labels, A, B, v);
+	final public GeoPolyhedron ArchimedeanSolid(String[] labels, 
+			GeoPointND A, GeoPointND B, GeoDirectionND v, 
+			String name){
+		AlgoArchimedeanSolid algo = new AlgoArchimedeanSolid(cons, labels, 
+				A, B, v,
+				name);
 		return algo.getPolyhedron();
 	}
 }

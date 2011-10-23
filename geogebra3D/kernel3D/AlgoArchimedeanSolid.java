@@ -2,10 +2,14 @@ package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
+import geogebra3D.archimedean.support.IArchimedeanSolid;
+import geogebra3D.archimedean.support.IFace;
 
 /**
  * @author ggb3D
@@ -13,7 +17,7 @@ import geogebra.kernel.kernelND.GeoPointND;
  * Creates a new GeoPolyhedron
  *
  */
-public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
+public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
 	
 	
@@ -22,6 +26,12 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	
 	protected CoordMatrix4x4 matrix;
 
+
+	
+	private Coords[] coords;
+	
+	
+	private String name, className;
 	
 	
 	
@@ -31,9 +41,15 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	 * @param A 
 	 * @param B 
 	 * @param v 
+	 * @param name 
 	 */
-	public AlgoArchimedeanSolid(Construction c, String[] labels, GeoPointND A, GeoPointND B, GeoDirectionND v) {
+	public AlgoArchimedeanSolid(Construction c, String[] labels, 
+			GeoPointND A, GeoPointND B, GeoDirectionND v,
+			String name) {
 		super(c);
+		
+		this.name = name;
+		this.className = "Algo"+name;
 
 		outputPolyhedron.adjustOutputSize(1);
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
@@ -45,7 +61,6 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		matrix = new CoordMatrix4x4();
 
 		createPolyhedron(polyhedron);
-		//polyhedron.updateFaces();
 		
 		compute();
 		
@@ -60,6 +75,8 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
         
         polyhedron.initLabels(labels);
+        
+        update();
 	}
 	
 	
@@ -89,7 +106,81 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	 * create the polyhedron (faces and edges)
 	 * @param polyhedron
 	 */
-	protected abstract void createPolyhedron(GeoPolyhedron polyhedron);
+	protected void createPolyhedron(GeoPolyhedron polyhedron) {
+		
+		IArchimedeanSolid solid = ArchimedeanSolidFactory.create(name);
+		int vertexCount = solid.getVertexCount();
+		
+		outputPoints.augmentOutputSize(vertexCount-2);
+		outputPoints.setLabels(null);
+		
+		
+		//coords
+		coords = solid.getVerticesInABv();
+		
+		//points
+		GeoPointND[] points = new GeoPointND[vertexCount];
+		points[0] = getA();
+		points[1] = getB();
+		for (int i=2; i<vertexCount; i++){
+			GeoPoint3D point = outputPoints.getElement(i-2);
+			points[i] = point;
+			point.setCoords(coords[i]);
+			polyhedron.addPointCreated(point);
+		}
+		
+		//faces
+		IFace[] faces = solid.getFaces();
+		for (int i=0; i<solid.getFaceCount(); i++){
+			polyhedron.startNewFace();
+			for (int j=0; j<faces[i].getVertexCount(); j++)
+				polyhedron.addPointToCurrentFace(points[faces[i].getVertexIndices()[j]]);
+			polyhedron.endCurrentFace();
+		}
+		
+	}
+
+	@Override
+	protected void compute() {
+		
+		Coords o = getA().getInhomCoordsInD(3);
+		
+		Coords v1l = getB().getInhomCoordsInD(3).sub(o);
+		if (v1l.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+			getPolyhedron().setUndefined();
+			return;
+		}
+		
+		v1l.calcNorm();
+		double l = v1l.getNorm();
+		Coords v1 = v1l.mul(1/l);
+		
+		Coords v2 = getDirection().crossProduct(v1);
+		if (v2.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+			getPolyhedron().setUndefined();
+			return;
+		}
+		
+		v2.normalize();
+		
+		Coords v3 = v1.crossProduct(v2);
+		
+		
+		matrix.setOrigin(o);
+		matrix.setVx(v1l);
+		matrix.setVy(v2.mul(l));
+		matrix.setVz(v3.mul(l));
+		
+		for (int i=0; i<coords.length-2; i++){
+			outputPoints.getElement(i).setCoords(matrix.mul(coords[i+2]),true);
+		}
+		
+
+	}	
+	
+	
+	
+	
 	
 	
 	
@@ -120,7 +211,12 @@ public abstract class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	
 	
 
-	
+
+
+
+	public String getClassName() {
+		return className;
+	}
 	
     
   

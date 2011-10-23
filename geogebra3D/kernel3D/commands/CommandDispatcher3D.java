@@ -2,10 +2,6 @@ package geogebra3D.kernel3D.commands;
 
 
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CmdIntersect;
-import geogebra.kernel.commands.CmdIntersectionPaths;
-import geogebra.kernel.commands.CmdMidpoint;
-import geogebra.kernel.commands.CmdUnitOrthogonalVector;
 import geogebra.kernel.commands.CommandDispatcher;
 
 public class CommandDispatcher3D extends CommandDispatcher {
@@ -49,7 +45,11 @@ public class CommandDispatcher3D extends CommandDispatcher {
 		cmdTable.put("Prism", new CmdPrism(kernel));
 		cmdTable.put("Pyramid", new CmdPyramid(kernel));
 		
-		cmdTable.put("Cube", new CmdCube(kernel));
+		cmdTable.put("Tetrahedron", new CmdArchimedeanSolid(kernel, "Tetrahedron"));
+		cmdTable.put("Cube", new CmdArchimedeanSolid(kernel, "Cube"));
+		cmdTable.put("Octahedron", new CmdArchimedeanSolid(kernel, "Octahedron"));
+		cmdTable.put("Dodecahedron", new CmdArchimedeanSolid(kernel, "Dodecahedron"));
+		cmdTable.put("Icosahedron", new CmdArchimedeanSolid(kernel, "Icosahedron"));
 		
 		
 		cmdTable.put("PointIn", new CmdPointIn3D(kernel));   
