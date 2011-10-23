@@ -918,18 +918,22 @@ GeoPointND, Animatable, Transformable  {
     	sbToString.setLength(0);                               
 		sbToString.append(label);	
 		
-		switch (kernel.getCoordStyle()) {
-		case Kernel.COORD_STYLE_FRENCH:
-			// no equal sign
-			sbToString.append(": ");
-	
-		case Kernel.COORD_STYLE_AUSTRIAN:
-			// no equal sign
-			break;
-			
-		default: 
+		if (toStringMode==Kernel.COORD_COMPLEX) {
 			sbToString.append(" = ");
-	}
+		} else {
+			switch (kernel.getCoordStyle()) {
+			case Kernel.COORD_STYLE_FRENCH:
+				// no equal sign
+				sbToString.append(": ");
+
+			case Kernel.COORD_STYLE_AUSTRIAN:
+				// no equal sign
+				break;
+
+			default: 
+				sbToString.append(" = ");
+			}
+		}
 		
 		sbToString.append(buildValueString());       
         return sbToString.toString();
