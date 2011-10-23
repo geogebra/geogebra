@@ -67,7 +67,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
 
         this.g = g;
         this.pi = p;
-        this.p = (GeoPolyLine)p.getBoundary();
+        
 
         newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
     
@@ -163,6 +163,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     	newCoords.clear();
     	
     	//fill a new points map
+    	this.p = (GeoPolyLine)pi.getBoundary();
     	intersectionsCoords(g, p, newCoords);
     	
     	//update and/or create points
