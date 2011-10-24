@@ -50,7 +50,7 @@ public class EquationSolver {
 	 * @param roots array with the coefficients of the polynomial 
 	 * @return number of realRoots found
 	 */
-	final public int polynomialRoots(double [] roots) {			
+	final public int polynomialRoots(double [] roots,boolean multiple) {			
 		int realRoots;
 		
 		/* update: if roots[n], roots[n-1], ..., we need to determine "real" degree
@@ -73,6 +73,10 @@ public class EquationSolver {
 			
 			case 2:
 				realRoots = solveQuadratic(roots, roots);
+				if(multiple && realRoots==1){
+					realRoots=2;
+					roots[1]=roots[0];
+				}
 				break;
 			
 			case 3: 

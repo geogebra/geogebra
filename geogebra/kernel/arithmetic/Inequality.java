@@ -23,6 +23,7 @@ import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.implicit.GeoImplicitPoly;
+import geogebra.main.Application;
 import geogebra.main.MyError;
 
 /**
@@ -237,7 +238,10 @@ public class Inequality {
 			funBorder = new GeoFunction(cons);
 			funBorder.setFunction(new Function(normal, fv[varIndex]));
 		}
-		zeros = kernel.Root(null, funBorder);
+		zeros = kernel.RootMultiple(null, funBorder);
+		for(int i=0;i<zeros.length;i++){
+			Application.debug(zeros[i]);
+		}
 		cons.setSuppressLabelCreation(supress);
 		border = funBorder;
 		if (isStrict()) {

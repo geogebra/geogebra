@@ -35,6 +35,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private static final int ROOTS = 0;
     private static final int INTERSECT_POLYNOMIALS = 1;
     private static final int INTERSECT_POLY_LINE = 2;
+    private static final int MULTIPLE_ROOTS = 3;
     private int mode;
 
     GeoFunction f, g; // input  (g for intersection of polynomials)   
@@ -127,6 +128,39 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
             }
         }
 
+    public AlgoRootsPolynomial(            
+            GeoFunction f
+            ) {
+            super(f.cons);
+            this.f = f;
+            
+
+            tempPoint = new GeoPoint(cons);
+            
+            // set mode
+                mode = MULTIPLE_ROOTS;
+
+            
+            eqnSolver = cons.getEquationSolver();
+
+            //  make sure root points is not null
+            int number = labels == null ? 1 : Math.max(1, labels.length);
+            rootPoints = new GeoPoint[0];
+            initRootPoints(number);
+            initLabels = true;  
+                    
+            setInputOutput(); // for AlgoElement    
+            compute();        
+            
+            // show at least one root point in algebra view
+            // this is enforced here:
+            if (!rootPoints[0].isDefined()) {
+            	rootPoints[0].setCoords(0,0,1);
+            	rootPoints[0].update();
+            	rootPoints[0].setUndefined();
+            	rootPoints[0].update();
+            }
+        }
     public AlgoRootsPolynomial(
             Construction cons,
             GeoFunction f) {
@@ -174,6 +208,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
     // for AlgoElement
     protected void setInputOutput() {
         switch (mode) {
+        	case MULTIPLE_ROOTS:
             case ROOTS : // roots of f
                 input = new GeoElement[1];
                 input[0] = f;
@@ -209,13 +244,22 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
         return null;
     }       
 
+    
     protected void compute() {
         switch (mode) {
             case ROOTS :
                 // roots of f
                 computeRoots();
                 break;
-
+            case MULTIPLE_ROOTS:
+            	if (f.isDefined()) {
+                    Function fun = f.getFunction();
+                    // get polynomial factors anc calc roots
+                    calcRootsMultiple(fun, 0);
+                } else {
+                    curRealRoots = 0;
+                }
+            	break;
             case INTERSECT_POLYNOMIALS :
                 //  intersection of f and g
                 computePolynomialIntersection();
@@ -270,7 +314,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
             yValFunction = f.getFunction();
 
             // check for vertical line a*x + c = 0: intersection at x=-c/a 
-            if (kernel.isZero(line.y)) {
+            if (Kernel.isZero(line.y)) {
                 double x = -line.z / line.x;
                 curRoots[0] = x;
                 curRealRoots = 1;
@@ -302,66 +346,12 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
      * Calculates the roots of the given function resp. its derivative,
      * stores them in curRoots and
      * sets curRealRoots to the number of real roots found.
-     * @param derivDegree: degree of derivative to compute roots from
+     * @param derivDegree degree of derivative to compute roots from
      */
-    final void calcRoots(Function fun, int derivDegree) {  
-    	LinkedList factorList;    	
-    	PolyFunction derivPoly = null;// only needed for derivatives
-		RealRootFunction evalFunction = null; // needed to remove wrong extrema and inflection points 
-    	
-    	// get polynomial factors for this function
-    	if (derivDegree > 0) {
-    		// try to get the factors of the symbolic derivative
-    		factorList = fun.getSymbolicPolynomialDerivativeFactors(derivDegree, true);
-    		
-    		// if this didn't work take the derivative of the numeric
-    		// expansion of this function
-    		if (factorList == null) {
-    			derivPoly = fun.getNumericPolynomialDerivative(derivDegree);  	
-    			evalFunction = derivPoly;
-    		} else {
-    			evalFunction = fun.getDerivative(derivDegree);
-    		}
-    	} else {
-    		// standard case
-    		factorList = fun.getPolynomialFactors(true);    		
-    	}
-    	
-        double[] roots;
-        int realRoots;
-        curRealRoots = 0; // reset curRoots index 
-        
-    	// we got a list of polynomial factors
-        if (factorList != null) { 
-        	 // compute the roots of every single factor              
-            Iterator it = factorList.iterator();
-            while (it.hasNext()) {
-            	PolyFunction polyFun = (PolyFunction) it.next();                       
-            	
-                //  update the current coefficients of polyFun
-            	// (this is needed for SymbolicPolyFunction objects)
-                if (!polyFun.updateCoeffValues()) {
-                    //  current coefficients are not defined
-                    curRealRoots = 0;
-                    return;
-                }
-
-                // now let's compute the roots of this factor           
-                //  compute all roots of polynomial polyFun
-                roots = polyFun.getCoeffsCopy();   
-                realRoots = eqnSolver.polynomialRoots(roots);  
-                addToCurrentRoots(roots, realRoots);                            
-            }
-        }         
-        // we've got one factor, i.e. derivPoly
-        else if (derivPoly != null) {          
-            //  compute all roots of derivPoly
-            roots = derivPoly.getCoeffsCopy();   
-            realRoots = eqnSolver.polynomialRoots(roots);                           
-            addToCurrentRoots(roots, realRoots);
-        } else
-			return;                      
-
+    public final void calcRoots(Function fun, int derivDegree) {  
+    	RealRootFunction evalFunction = calcRootsMultiple(fun,derivDegree);
+    	if(evalFunction==null)
+    		return;
         if (curRealRoots > 1) {
             // sort roots and eliminate duplicate ones
             Arrays.sort(curRoots, 0, curRealRoots);
@@ -387,7 +377,68 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
         }
     }
     
-    // remove roots where the sign of the function's values did not change    
+    public RealRootFunction calcRootsMultiple(Function fun, int derivDegree) {
+    	LinkedList factorList;    	
+    	PolyFunction derivPoly = null;// only needed for derivatives
+		RealRootFunction evalFunction = null; // needed to remove wrong extrema and inflection points 
+    	
+    	// get polynomial factors for this function
+    	if (derivDegree > 0) {
+    		// try to get the factors of the symbolic derivative
+    		factorList = fun.getSymbolicPolynomialDerivativeFactors(derivDegree, true);
+    		
+    		// if this didn't work take the derivative of the numeric
+    		// expansion of this function
+    		if (factorList == null) {
+    			derivPoly = fun.getNumericPolynomialDerivative(derivDegree);  	
+    			evalFunction = derivPoly;
+    		} else {
+    			evalFunction = fun.getDerivative(derivDegree);
+    		}
+    	} else {
+    		// standard case
+    		factorList = fun.getPolynomialFactors(false);    		
+    	}
+    	
+        double[] roots;
+        int realRoots;
+        curRealRoots = 0; // reset curRoots index 
+        
+    	// we got a list of polynomial factors
+        if (factorList != null) { 
+        	 // compute the roots of every single factor              
+            Iterator it = factorList.iterator();
+            while (it.hasNext()) {
+            	PolyFunction polyFun = (PolyFunction) it.next();                       
+            	
+                //  update the current coefficients of polyFun
+            	// (this is needed for SymbolicPolyFunction objects)
+                if (!polyFun.updateCoeffValues()) {
+                    //  current coefficients are not defined
+                    curRealRoots = 0;
+                    return null;
+                }
+
+                // now let's compute the roots of this factor           
+                //  compute all roots of polynomial polyFun
+                roots = polyFun.getCoeffsCopy();   
+                realRoots = eqnSolver.polynomialRoots(roots,true);  
+                addToCurrentRoots(roots, realRoots);                            
+            }
+        }         
+        // we've got one factor, i.e. derivPoly
+        else if (derivPoly != null) {          
+            //  compute all roots of derivPoly
+            roots = derivPoly.getCoeffsCopy();   
+            realRoots = eqnSolver.polynomialRoots(roots,false);                           
+            addToCurrentRoots(roots, realRoots);
+        } else
+			return null;                      
+        return evalFunction;
+		
+	}
+
+	// remove roots where the sign of the function's values did not change    
     private void ensureSignChanged(RealRootFunction f) {      	    	
         double left, right, leftEval, rightEval;
         boolean signUnChanged;

@@ -89,7 +89,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		for (int j=0;j<p.size();j++){
 			tRoots[j]=p.get(p.size()-1-j);
 		}
-		int tn=solver.polynomialRoots(tRoots);
+		int tn=solver.polynomialRoots(tRoots,false);
 		int shift=0;
 		for (int j=1;j<tn;j++){
 			if (Kernel.isEqual(tRoots[j-shift-1],tRoots[j])){
@@ -133,7 +133,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         ArrayList<double[]> homogenPolys=new ArrayList<double[]>();
         homogenPolys.add(roots.clone());
         
-        int n=solver.polynomialRoots(roots);
+        int n=solver.polynomialRoots(roots,false);
 //        StringBuilder sb=new StringBuilder();
 //        for (int i=0;i<n;i++){
 //        	sb.append(roots[i]);

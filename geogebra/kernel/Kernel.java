@@ -7787,7 +7787,14 @@ public class Kernel {
 		GeoPoint [] g = algo.getRootPoints();
 		return g;
 	}	
-	
+	final public GeoPoint [] RootMultiple(String [] labels, GeoFunction f) {
+		// allow functions that can be simplified to factors of polynomials
+		if (!f.isPolynomialFunction(true)) return null;
+		
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(f);
+		GeoPoint [] g = algo.getRootPoints();
+		return g;
+	}
 	/**
 	 * all Complex Roots of polynomial f (works only for polynomials)
 	 */

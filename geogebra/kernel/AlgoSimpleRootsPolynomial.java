@@ -93,7 +93,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	 * @return number of distinct roots
 	 */
 	public static int getRoots(double[] roots,EquationSolver eqnSolver){
-		int nrRealRoots=eqnSolver.polynomialRoots(roots);
+		int nrRealRoots=eqnSolver.polynomialRoots(roots,false);
 //		StringBuilder sb=new StringBuilder();
 //		for (int i=0;i<nrRealRoots;i++){
 //			if (i>0)
