@@ -25,6 +25,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -58,11 +59,13 @@ public class PrintPreview extends JDialog {
 	protected int m_orientation;
 	protected int m_scale;
 	protected Printable m_target;
-	protected JComboBox m_cbScale, m_cbOrientation;
-	protected JCheckBox cbEVscalePanel;
+	protected JComboBox m_cbScale, m_cbOrientation, m_cbView;
+	//protected JCheckBox cbEVscalePanel;
 	protected JScrollPane ps;
 	protected PreviewContainer m_preview;
 	protected Application app;
+	protected JPanel tempPanel, panelForTitleAndScaling; //used for title and scaling of graphics view's print preview
+	protected ActionListener lst;
 	
 	protected boolean kernelChanged = false;
 	
@@ -77,7 +80,7 @@ public class PrintPreview extends JDialog {
 	}
 
 	public PrintPreview(Application app, Printable target) {
-		this(app, target, PageFormat.PORTRAIT);		
+		this(app, target, PageFormat.PORTRAIT);
 	}
 
 	public PrintPreview(Application app, Printable target, int orientation) {
@@ -107,7 +110,7 @@ public class PrintPreview extends JDialog {
 		tb.setFloatable(false);
 		JButton bt = new JButton(app.getMenu("Print"), 
 												app.getImageIcon("document-print.png"));
-		ActionListener lst = new ActionListener() {
+		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					public void run() {				
@@ -210,6 +213,72 @@ public class PrintPreview extends JDialog {
 		m_cbOrientation.setEditable(false);
 		tb.addSeparator();
 		tb.add(m_cbOrientation);
+
+		// VIEW combo box
+
+		String[] views = {
+				app.getPlain("AlgebraWindow"),
+				app.getPlain("CAS"),
+				app.getPlain("Spreadsheet"),
+				app.getPlain("DrawingPad"),
+				app.getPlain("DrawingPad2"),		
+				app.getPlain("ConstructionProtocol")};
+		
+		
+		m_cbView = new JComboBox(views);
+		m_cbView.setSelectedItem(app.getPlain(app.getGuiManager().getLayout().getDockManager().getFocusedPanel().getViewTitle()));
+		
+		ActionListener lst_view = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Thread runner = new Thread() {
+					public void run() {
+						setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+						m_preview.removeAll();
+						
+						String selItem = m_cbView.getSelectedItem().toString();
+						
+						//change view
+						if(selItem == app.getPlain("AlgebraWindow")){
+							m_target = new PrintGridable((Gridable)app.getGuiManager().getAlgebraView());
+						} else if (selItem == app.getPlain("CAS")){
+							m_target = new PrintGridable((Gridable)app.getGuiManager().getCasView());
+						} else if (selItem == app.getPlain("Spreadsheet")){
+							m_target = new PrintGridable((Gridable)app.getGuiManager().getSpreadsheetView());
+						} else if (selItem == app.getPlain("DrawingPad")){
+							m_target = app.getEuclidianView();
+						} else if (selItem == app.getPlain("DrawingPad2")){
+							m_target = app.getGuiManager().getEuclidianView2();
+						} else if (selItem == app.getPlain("ConstructionProtocol")){
+							m_target = app.getGuiManager().getConstructionProtocolView();
+						} else if (selItem == app.getPlain("All view")){
+							//TODO
+						}	
+						
+						//show the appropriate scale panel
+						tempPanel.removeAll();
+						if ((selItem == app.getPlain("DrawingPad")) || (selItem == app.getPlain("DrawingPad2"))){
+							tempPanel.add(createPanelForScaling());
+						}
+						panelForTitleAndScaling.revalidate();
+						
+						initPages();
+						
+						m_preview.doLayout();
+						m_preview.getParent().getParent().validate(); 
+						
+						setCursor(Cursor.getDefaultCursor());
+						
+						
+					}
+				};
+				runner.start();
+			}
+		};					
+		m_cbView.addActionListener(lst_view);
+		m_cbView.setMaximumSize(m_cbView.getPreferredSize());
+		m_cbView.setEditable(false);
+		tb.addSeparator();
+		tb.add(m_cbView);
 		
 		TitlePanel titlePanel = new TitlePanel(app);
 		lst = new ActionListener() {
@@ -230,41 +299,21 @@ public class PrintPreview extends JDialog {
 		m_preview = new PreviewContainer();		
 		ps = new JScrollPane(m_preview);
 		JPanel centerPanel = new JPanel(new BorderLayout());
+		panelForTitleAndScaling = new JPanel(new BorderLayout());
 		
 		// show scale panel for euclidian view
 		EuclidianView ev = app.getEuclidianView();
 		EuclidianView ev2 = app.getEuclidianView2();
 		app.clearSelectedGeos();
-		if (m_target == ev || m_target == ev2) {		
-			// checkbox to turn on/off printing of scale string
-			cbEVscalePanel = new JCheckBox();
-			cbEVscalePanel.setSelected(app.isPrintScaleString());
-			cbEVscalePanel.addActionListener(lst);
-			cbEVscalePanel.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					app.setPrintScaleString(cbEVscalePanel.isSelected());
-				}				
-			});
-						
-			// scale panel to set scale of x-axis in cm
-			PrintScalePanel scalePanel = new PrintScalePanel(app, (EuclidianView) m_target);				
-			scalePanel.addActionListener(lst);									
-			
-			JPanel tempPanel = new JPanel();
-			tempPanel.setLayout(new BoxLayout(tempPanel, BoxLayout.X_AXIS));
-			tempPanel.setBorder(BorderFactory.createEtchedBorder());		
-			tempPanel.add(Box.createHorizontalStrut(10));
-			tempPanel.add(cbEVscalePanel);			
-			tempPanel.add(scalePanel);
-						
-			JPanel panel = new JPanel(new BorderLayout());
-			panel.add(titlePanel, BorderLayout.CENTER);
-			panel.add(tempPanel, BorderLayout.SOUTH);
-			centerPanel.add(panel, BorderLayout.NORTH);
-		} else {
-			centerPanel.add(titlePanel, BorderLayout.NORTH);
-		}
-	
+		
+		tempPanel = new JPanel(new GridLayout(0,1));
+		if (m_target == ev || m_target == ev2) {
+			tempPanel.add(createPanelForScaling());
+		}			
+		panelForTitleAndScaling.add(tempPanel, BorderLayout.SOUTH);
+		panelForTitleAndScaling.add(titlePanel, BorderLayout.CENTER);
+		centerPanel.add(panelForTitleAndScaling, BorderLayout.NORTH);
+		
 		// preview in center
 		centerPanel.add(ps, BorderLayout.CENTER);
 				
@@ -280,6 +329,31 @@ public class PrintPreview extends JDialog {
 	   						
 		setVisible(true);		
 		app.getMainComponent().setCursor(oldCursor);
+	}
+	
+	public JPanel createPanelForScaling(){
+		// checkbox to turn on/off printing of scale string
+		final JCheckBox cbEVscalePanel = new JCheckBox();
+		cbEVscalePanel.setSelected(app.isPrintScaleString());
+		cbEVscalePanel.addActionListener(lst);
+		cbEVscalePanel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				app.setPrintScaleString(cbEVscalePanel.isSelected());
+			}				
+		});
+					
+		// scale panel to set scale of x-axis in cm
+		PrintScalePanel scalePanel = new PrintScalePanel(app, (EuclidianView) m_target);				
+		scalePanel.addActionListener(lst);									
+		
+		JPanel retPanel = new JPanel();
+		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
+		retPanel.setBorder(BorderFactory.createEtchedBorder());		
+		retPanel.add(Box.createHorizontalStrut(10));
+		retPanel.add(cbEVscalePanel);			
+		retPanel.add(scalePanel);		
+		
+		return retPanel;
 	}
 	
 	private void loadPreferences() {
@@ -358,7 +432,7 @@ public class PrintPreview extends JDialog {
 		while (true) {
 			if (pageExists(pageIndex)) {
 				PagePreview pp = new PagePreview(m_target, pageFormat, pageIndex);
-				pp.setScale(m_scale);			
+				pp.setScale(m_scale);
 				m_preview.add(pp);
 			} 
 			else break;			
@@ -387,7 +461,7 @@ public class PrintPreview extends JDialog {
 	}
 	
 	// update Pages, add or remove last page if necessary
-	private void updatePages() {							
+	private void updatePages() {	
 		// update existing pages
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
@@ -581,8 +655,8 @@ public class PrintPreview extends JDialog {
 			setBackground(Color.white);
 			setBorder(new MatteBorder(1, 1, 2, 2, Color.black));
 //			update();
-		}		
-	
+		}
+		
 		public void setPageFormat(PageFormat format) {
 			this.format = format;	
 			m_w = (int) (format.getWidth() * scale);
