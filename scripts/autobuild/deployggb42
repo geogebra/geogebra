@@ -51,7 +51,7 @@ find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name p
  cp $filename $WWWDIR/history/$MYVER/$filename || exit 6
  done
 
-# 4/3. Copying files to unpacked/ (common code with buildggb42
+# 4/3. Rewriting *.html and *.jnlp files
 # (currently the version number is not written at <\/title>"):
 cd $WWWDIR/$MYDIR
 for i in *.html *.jnlp; do
@@ -61,9 +61,8 @@ for i in *.html *.jnlp; do
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/"/g | \
   sed s/"codebase=\"http:\/\/jars"/"codebase=\"http:\/\/www"/g | \
   sed s/"<\/title>"/"<\/title>"/g \
-  > unpacked/$i
- rm $i || exit 4
- cp unpacked/$i $i || exit 4 # Some files in some subdirectories may still refer to the original file.
+  > $i.work
+ mv $i.work $i || exit 4
  echo "$0: $i is rewritten"
  done
 
