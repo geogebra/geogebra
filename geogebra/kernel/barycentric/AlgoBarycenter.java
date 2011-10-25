@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete;
+package geogebra.kernel.barycentric;
 
 import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
