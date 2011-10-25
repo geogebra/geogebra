@@ -34,6 +34,10 @@ import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
+import geogebra.kernel.barycentric.AlgoBarycenter;
+import geogebra.kernel.barycentric.AlgoKimberling;
+import geogebra.kernel.barycentric.AlgoTriangleCubic;
+import geogebra.kernel.barycentric.AlgoTrilinear;
 import geogebra.kernel.cas.AlgoCoefficients;
 import geogebra.kernel.cas.AlgoDegree;
 import geogebra.kernel.cas.AlgoDependentCasCell;
@@ -59,15 +63,12 @@ import geogebra.kernel.cas.AlgoTangentCurve;
 import geogebra.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.kernel.commands.AlgebraProcessor;
-import geogebra.kernel.discrete.AlgoBarycenter;
 import geogebra.kernel.discrete.AlgoConvexHull;
 import geogebra.kernel.discrete.AlgoDelauneyTriangulation;
 import geogebra.kernel.discrete.AlgoHull;
-import geogebra.kernel.discrete.AlgoKimberling;
 import geogebra.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.discrete.AlgoTravelingSalesman;
-import geogebra.kernel.discrete.AlgoTrilinear;
 import geogebra.kernel.discrete.AlgoVoronoi;
 import geogebra.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
@@ -9470,6 +9471,12 @@ public class Kernel {
 		AlgoTrilinear algo = new AlgoTrilinear(cons, label, A,B,C,a,b,c);
 		GeoPoint P = algo.getResult();
 		return P;
+	}
+	
+	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint A, GeoPoint B, GeoPoint C, NumberValue v) {
+		AlgoTriangleCubic algo = new AlgoTriangleCubic(cons, label, A,B,C,v);
+		GeoImplicitPoly poly = algo.getResult();
+		return poly;
 	}
 
 	public GeoTextField textfield(String label,GeoElement geoElement) {
