@@ -143,11 +143,15 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	@Override
 	protected void compute() {
 		
+		getPolyhedron().setDefined();
+		
 		Coords o = getA().getInhomCoordsInD(3);
 		
 		Coords v1l = getB().getInhomCoordsInD(3).sub(o);
+		
+		//check if A!=B
 		if (v1l.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
-			getPolyhedron().setUndefined();
+			setUndefined();
 			return;
 		}
 		
@@ -155,12 +159,21 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		double l = v1l.getNorm();
 		Coords v1 = v1l.mul(1/l);
 		
-		Coords v2 = getDirection().crossProduct(v1);
-		if (v2.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
-			getPolyhedron().setUndefined();
+		//check if vn!=0
+		Coords vn = getDirection();
+		if (vn.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+			setUndefined();
 			return;
-		}
+		}		
 		
+		//check if vn is ortho to AB
+		if (!Kernel.isZero(vn.dotproduct(v1))){
+			setUndefined();
+			return;
+		}		
+		
+		
+		Coords v2 = getDirection().crossProduct(v1);
 		v2.normalize();
 		
 		Coords v3 = v1.crossProduct(v2);
@@ -179,7 +192,13 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	}	
 	
 	
-	
+	private void setUndefined(){
+		getPolyhedron().setUndefined();
+		
+		for (int i=0; i<outputPoints.size(); i++)
+			outputPoints.getElement(i).setUndefined();
+		
+	}
 	
 	
 	

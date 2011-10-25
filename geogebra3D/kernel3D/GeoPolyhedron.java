@@ -802,10 +802,9 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 		return "Polyhedron";
 	}
 
-	@Override
 	public boolean isDefined() {
-		// TODO Auto-generated method stub
-		return true;
+		
+		return isDefined;
 	}
 
 	@Override
@@ -842,12 +841,32 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	}
 
 	
+	private boolean isDefined = true;
 	
-	
-	@Override
 	public void setUndefined() {
-		// TODO Auto-generated method stub
+		isDefined = false;
+		
+		/*
+		for (GeoPolygon3D polygon : polygons.values()){
+			 polygon.setEuclidianVisible(visible,false);
+		 }
+		 
+		 for (GeoPolygon polygon : polygonsLinked){
+			 polygon.setEuclidianVisible(visible,false);
+		 }
 
+		 for (GeoSegment3D segment : segments.values()){
+			 segment.setEuclidianVisible(visible);
+		 }
+		 
+		 for (GeoSegmentND segment : segmentsLinked.values()){
+			 segment.setEuclidianVisible(visible);
+		 }
+		 */
+	}
+
+	public void setDefined() {
+		isDefined = true;
 	}
 
 	@Override
