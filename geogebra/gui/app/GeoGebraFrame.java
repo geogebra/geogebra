@@ -28,6 +28,7 @@ import geogebra.util.Util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -35,6 +36,9 @@ import java.awt.Toolkit;
 import java.awt.dnd.DropTarget;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -50,7 +54,7 @@ import javax.swing.UIManager;
 /**
  * GeoGebra's main window.
  */
-public class GeoGebraFrame extends JFrame implements WindowFocusListener {
+public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -555,6 +559,27 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
 	 */
 	public FileDropTargetListener getDropTargetListener() {
 		return dropTargetListener;
+	}
+
+	public int print(Graphics g, PageFormat pf, int pageIndex)
+			throws PrinterException {
+		
+			if (pageIndex > 0) {
+	            return NO_SUCH_PAGE;
+	        }
+
+	        Graphics2D g2d = (Graphics2D)g;
+	        g2d.translate(pf.getImageableX(), pf.getImageableY());
+	        
+			double xScale = pf.getImageableWidth() / this.getWidth();
+			double yScale = pf.getImageableHeight() / this.getHeight();
+			double scale = Math.min(xScale, yScale);
+	        g2d.scale(scale, scale);
+
+	        this.printAll(g);
+
+	        return PAGE_EXISTS;
+
 	}
 
 }

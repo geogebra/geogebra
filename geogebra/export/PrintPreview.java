@@ -222,7 +222,8 @@ public class PrintPreview extends JDialog {
 				app.getPlain("Spreadsheet"),
 				app.getPlain("DrawingPad"),
 				app.getPlain("DrawingPad2"),		
-				app.getPlain("ConstructionProtocol")};
+				app.getPlain("ConstructionProtocol"),
+				app.getPlain("All views")};
 		
 		
 		m_cbView = new JComboBox(views);
@@ -250,8 +251,8 @@ public class PrintPreview extends JDialog {
 							m_target = app.getGuiManager().getEuclidianView2();
 						} else if (selItem == app.getPlain("ConstructionProtocol")){
 							m_target = app.getGuiManager().getConstructionProtocolView();
-						} else if (selItem == app.getPlain("All view")){
-							//TODO
+						} else if (selItem == app.getPlain("All views")){
+							m_target = (Printable) app.getMainComponent();
 						}	
 						
 						//show the appropriate scale panel
