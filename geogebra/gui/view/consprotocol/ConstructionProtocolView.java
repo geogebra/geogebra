@@ -1741,14 +1741,14 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		boolean icon_column;
 		
 		// Let's be W3C compliant:
-		sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n"
-				+ "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
-		sb.append("<html>\n");
+		sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
+		sb.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
+		sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
 		sb.append("<head>\n");
 		sb.append("<title>");
-		sb.append(Util.toHTMLString(app.getPlain("ApplicationName") + " - "
-				+ app.getPlain("ConstructionProtocol")));
+		sb.append(Util.toHTMLString(app.getPlain("ApplicationName")));
+		sb.append(" - ");
+		sb.append(app.getPlain("ConstructionProtocol"));
 		sb.append("</title>\n");
 		sb.append("<meta keywords = \"");
 		sb.append(Util.toHTMLString(app.getPlain("ApplicationName")));
