@@ -223,7 +223,7 @@ public class CASmpreduce extends CASgeneric {
 								break;
 								
 							case '\\':
-								if (i<(t.length()+1))
+								if (i<(t.length()-1))
 									sb.append(t.charAt(++i));
 								break;
 						

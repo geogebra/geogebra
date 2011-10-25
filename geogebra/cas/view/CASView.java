@@ -2,6 +2,8 @@ package geogebra.cas.view;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.euclidian.EuclidianConstants;
+import geogebra.gui.GuiManager;
+import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.GeoCasCell;
 import geogebra.kernel.GeoElement;
@@ -62,6 +64,14 @@ public class CASView extends JComponent implements View, Gridable {
 			}
 		};
 		initCAS.start();
+		
+		//init commands subtable for cas-commands in inputbar-help
+		kernel.getAlgebraProcessor().enableCAS();
+		
+		GuiManager gm=app.getGuiManager();
+		if (gm!=null){
+			((InputBarHelpPanel)gm.getInputHelpPanel()).setCommands();
+		}
 
 		// CAS input/output cells
 		createCASTable();

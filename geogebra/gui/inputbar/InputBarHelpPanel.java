@@ -409,6 +409,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		// load the sub-command nodes
 		for (int i = 0; i < subDict.length; i++) {
 
+			if (subDict[i].isEmpty())
+			    continue;
+
 			// add stem node: sub-command set name
 			String name = app.getKernel().getAlgebraProcessor()
 					.getSubCommandSetName(i);

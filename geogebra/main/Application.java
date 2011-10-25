@@ -43,6 +43,7 @@ import geogebra.kernel.Macro;
 import geogebra.kernel.Relation;
 import geogebra.kernel.View;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.commands.CommandProcessor;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.settings.Settings;
@@ -2280,7 +2281,7 @@ public class Application implements KeyEventDispatcher {
 		}
 		
 		//get CAS Commands
-		if (isCasLoaded)
+		if (kernel.isGeoGebraCASready())
 			fillCasCommandDict();
 		addMacroCommands();
 	}
@@ -5941,37 +5942,38 @@ public class Application implements KeyEventDispatcher {
 	}
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
-
 	
-
-	/** Enables the CAS in the GUI */
-	public void enableCAS() {
-		isCasLoaded = true;
-		fillCasCommandDict();
-	}
-	private boolean isCasLoaded = false;
-
-	
-	private void fillCasCommandDict() {
+	public void fillCasCommandDict() {
 		// this method might get called during initialization, when we're not yet 
 		// ready to fill the casCommandDict. In that case, we will fill the 
 		// dict during  fillCommandDict :)
-		if (rbcommand == null)
+
+		if (rbcommand == rbcommandOld && (commandDictCAS!=null || rbcommand==null))
 			return;
+		
+		rbcommandOld = rbcommand;
+		
 		commandDictCAS=new LowerCaseDictionary();
+		subCommandDict[CommandDispatcher.TABLE_CAS].clear();
 
 		// iterate through all available CAS commands, add them (translated if available, otherwise untranslated)
 		for (String cmd : kernel.getGeoGebraCAS().getCurrentCAS().getAvailableCommandNames()) {
 			try {
 				String local = rbcommand.getString(cmd);
-				if (local != null)
+				if (local != null){
 					commandDictCAS.addEntry(local);
-				else
+					subCommandDict[CommandDispatcher.TABLE_CAS].addEntry(local);
+				}
+				else{
 					commandDictCAS.addEntry(cmd);
+					subCommandDict[CommandDispatcher.TABLE_CAS].addEntry(cmd);
+				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
+				subCommandDict[CommandDispatcher.TABLE_CAS].addEntry(cmd);
 			}
 		}
+		
 	}
 
 	
