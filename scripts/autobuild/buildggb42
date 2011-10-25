@@ -28,7 +28,7 @@ if [ "$1" != "" ]; then
 
 # 2. Updating source files
 rm -fR org # not sure why SVN cannot handle this properly (org/mathpiper), http://stackoverflow.com/questions/1608836/folders-skipped-when-updating-svn
-ant delete-sources
+ant -f pack.xml delete-sources
 $SVN_COMMAND $REVISION_PARAM update --accept theirs-full --force > .svn-update
 $SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revision
 WARNINGS=`chmod -R g+rw $SVNDIR/geogebra 2>&1 | wc -l | awk '{print $1}'`
@@ -59,7 +59,7 @@ tail -1 .ecjlog
 echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 
 # 4/5. Packaging
-ant geogebra || exit 3
+ant -f pack.xml geogebra || exit 3
 
 # 4/6. Testing packed jars
 cd $SVNDIR/geogebra/scripts/autobuild

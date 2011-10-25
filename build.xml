@@ -2,16 +2,14 @@
 
 <!-- README: Building GeoGebra 
 
-This script builds several kinds of GeoGebra *.jar files,
-primarily for creating an official build for GeoGebra.
-It must be run using JDK 1.5 (NOT 1.6 or later).
-Note that GeoGebra itself needs to be compiled using Java 1.5.
+This script helps building vanilla GeoGebra *.jar files
+primarily for testing purposes. It is also a basis
+to create an official build for GeoGebra (see pack.xml).
 
 To learn more on building GeoGebra by using this script, please
 read the following web pages:
 
-  http://www.geogebra.org/trac/wiki/SetUpCommandLine
-  http://www.geogebra.org/trac/wiki/BuildingProcess
+  http://www.geogebra.org/trac/wiki/SetUp
 
 If you want to include GeoGebra with e.g. Linux distributions or
 other software, please see the license conditions below and contact
@@ -37,135 +35,16 @@ office@geogebra.org
    @author Markus Hohenwarter <markus@geogebra.org>
 -->
 
-<project default="geogebra">
+<project default="info">
+
+	<target name="info">
+		<echo message="****************************************************************************************"/>
+		<echo message="* To learn how to build GeoGebra, please read http://www.geogebra.org/trac/wiki/SetUp. *"/>
+		<echo message="* To create JAR files for GeoGebra, please use the pack.xml file instead.              *"/>
+		<echo message="****************************************************************************************"/>
+	</target>
 
 	<import file="common.xml"/>
-	
-	<!-- build signed and unsigned GeoGebra jar files -->
-	<target name="geogebra" 
-		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate, delete3D, ggb-jar-index, 
-					copyJars, sign, pack, preloadHtml, finish">
-	</target>
-
-	<!-- build signed and unsigned GeoGebra 3D jar files -->
-	<target name="geogebra3D" 
-		depends="clean, ggb-jar-files3D, copyDebug3D, signDebug, obfuscate3D, ggb-jar-index3D, 
-					copyJars3D, sign, pack, preloadHtml, finish">
-	</target>
-
-	<!-- build signed and unsigned GeoGebra jar files (from command line) -->
-	<target name="geogebra-cl"
-		depends="clean, compile-grammar-cl, compile-oe-cl, geogebra">
-	</target>
-
-	<!-- build signed and unsigned GeoGebra 3D jar files (from command line) -->
-	<target name="geogebra3D-cl"
-		depends="clean, compile-grammar-cl, compile-oe-cl, geogebra3D">
-	</target>
-
-	<!-- build jar files for testing without obfuscation -->
-	<target name="geogebra-unobfuscated" 
-		depends="clean, ggb-jar-files, delete3D, ggb-jar-index, 
-					copyJars, sign, pack, preloadHtml, finish">
-	</target>
-
-	<!-- build jar files for testing without obfuscation -->
-	<target name="geogebra3D-unobfuscated" 
-		depends="clean, ggb-jar-files3D, 
-					copyJars3D, sign, pack, preloadHtml, finish">
-	</target>
-
-	<!-- create all jar files -->
-	<target name="ggb-jar-files" 
-			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython">
-	</target>
-
-	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
-	<target name="compile-grammar">
-		<javacc
-		   target="./geogebra/kernel/parser/Parser.jj"
-		   javacchome="${src.dir}/lib/build/javacc"
-		   static="false"
-		/>
-	</target>
-
-	<target name="compile-oe">
-		<mkdir dir="${build.dir}/classes" />
-		<path id="build.class.path">
-			<fileset dir="${src.dir}">
-				<include name="*.jar" />
-				<include name="lib/build/jogl1/jar/jogl.jar" />
-				<include name="lib/build/jogl1/jar/gluegen-rt.jar" />
-			</fileset>
-		</path>
-		<javac srcdir="${src.dir}" destdir="${build.dir}/classes">
-			<classpath refid="build.class.path" />
-		<!-- Adding line numbers -->
-		<compilerarg value="-g" />
-		</javac>
-	</target>
-
-	<!-- compiles grammar for cl -->
-	<target name="compile-grammar-cl" depends="compile-grammar-clean, compile-grammar">
-	</target>
-
-	<target name="compile-grammar-clean">
-		<delete followsymlinks="false">
-			<fileset dir="./geogebra/kernel" includes="**/*.class" />
-		</delete>
-		<delete followsymlinks="false">
-			<fileset dir="./geogebra/kernel/parser" includes="*.java"/>
-		</delete>
-	</target>
-
-	<target name="delete-sources">
-		<delete followsymlinks="false">
-			<fileset dir="." includes="**/*.java" />
-		</delete>
-		<delete followsymlinks="false">
-			<fileset dir="." includes="geogebra/properties/*.properties" />
-		</delete>
-	</target>
-
-	<target name="delete-classes">
-		<delete followsymlinks="false">
-			<fileset dir="." includes="**/*.class" />
-		</delete>
-	</target>
-
-	<target name="compile-oe-cl">
-		<path id="build.class.path">
-			<fileset dir="${src.dir}">
-				<include name="*.jar"/>
-				<include name="lib/build/jogl1/jar/jogl.jar"/>
-				<include name="lib/build/jogl1/jar/gluegen-rt.jar"/>
-			</fileset>
-		</path>
-		<javac srcdir="${src.dir}">
-			<classpath refid="build.class.path"/>
-			<!-- Adding line numbers -->
-			<compilerarg value="-g" />
-		</javac>
-	</target>
-
-	<!-- create all jar files -->
-	<target name="ggb-jar-files3D" 
-			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl">
-	</target>
-
-	<manifest file="../manifest.mf">
-		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
-		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar"/>
-		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
-	</manifest>
-
-	<manifest file="../manifest3D.mf">
-		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
-		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar"/>
-		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
-	</manifest>
 
 	<target name="clean">
 		<!-- delete build directory -->
@@ -196,10 +75,58 @@ office@geogebra.org
 		</delete>
 
 	</target>
-
-	<target name="finish">
-		<delete dir="${propertiestemp.dir}"/>
+	
+	<!-- create all jar files -->
+	<target name="ggb-jar-files" 
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython">
 	</target>
+
+	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
+	<target name="compile-grammar">
+		<javacc
+		   target="./geogebra/kernel/parser/Parser.jj"
+		   javacchome="${src.dir}/lib/build/javacc"
+		   static="false"
+		/>
+	</target>
+
+	<!-- compiles grammar for cl -->
+	<target name="compile-grammar-cl" depends="compile-grammar-clean, compile-grammar">
+	</target>
+
+	<target name="compile-grammar-clean">
+		<delete followsymlinks="false">
+			<fileset dir="./geogebra/kernel" includes="**/*.class" />
+		</delete>
+		<delete followsymlinks="false">
+			<fileset dir="./geogebra/kernel/parser" includes="*.java"/>
+		</delete>
+	</target>
+
+	<target name="delete-classes">
+		<delete followsymlinks="false">
+			<fileset dir="." includes="**/*.class" />
+		</delete>
+	</target>
+
+	<!-- create all jar files -->
+	<target name="ggb-jar-files3D" 
+			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl">
+	</target>
+
+	<manifest file="../manifest.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
+		<attribute name="Class-Path" 
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
+
+	<manifest file="../manifest3D.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
+		<attribute name="Class-Path" 
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
 
 	<!-- remove comments from properties files -->
 	<target name="stripComments">
@@ -213,42 +140,6 @@ office@geogebra.org
 					<comment value="#"/>
 				</striplinecomments>
 			</filterchain>
-		</copy>
-	</target>
-
-	<!-- put jar files into subdirectories signed and unsigned -->
-	<target name="copyJars" depends="ggb-jar-files">
-		<copy todir="${build.dir}/unsigned/unpacked">
-			<fileset dir="${build.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-	</target>
-
-	<!-- put jar files (unobfuscated, unindexed) into subdirectory debug -->
-	<target name="copyDebug" depends="ggb-jar-files">
-		<copy todir="${build.dir}/debug">
-			<fileset dir="${build.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-	</target>
-
-	<!-- put jar files (unobfuscated, unindexed) into subdirectory debug -->
-	<target name="copyDebug3D" depends="ggb-jar-files3D">
-		<copy todir="${build.dir}/debug">
-			<fileset dir="${build.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-	</target>
-
-	<!-- put jar files into subdirectories signed and unsigned -->
-	<target name="copyJars3D" depends="ggb-jar-files3D">
-		<copy todir="${build.dir}/unsigned/unpacked">
-			<fileset dir="${build.dir}">
-				<include name="*.jar" />
-			</fileset>
 		</copy>
 	</target>
 
@@ -469,150 +360,5 @@ office@geogebra.org
 		/>
 	</target>
 
-
-	<!-- Define Proguard task -->
-	<taskdef 
-		resource="proguard/ant/task.properties" 
-		classpath="lib/build/tools_proguard46.jar" />
-
-	<!-- Define pack200 task -->
-	<!-- bug in Java 6, see http://www.geogebra.org/forum/viewtopic.php?f=8&t=3972&st=0&sk=t&sd=a&start=15 -->
-	<taskdef name="p200ant"
-	    classname="de.matthiasmann.p200ant.P200AntTask"
-	    classpath="lib/build/tools_p200ant_java5only.jar"/>
-
-
-	<!-- Obfuscate jar files without signing -->
-	<target name="obfuscate" depends="ggb-jar-files">
-		<!-- check if java150-rt.jar file present -->
-		<condition property="java150-rt.present">
-			<available file="${workspace.dir}/java150-rt.jar"/>
-		</condition>
-		<antcall target="doObfuscate"/>
-	</target>
-	<target name="obfuscate3D" depends="ggb-jar-files3D">
-		<!-- check if java150-rt.jar file present -->
-		<condition property="java150-rt.present">
-			<available file="${workspace.dir}/java150-rt.jar"/>
-		</condition>
-		<antcall target="doObfuscate"/>
-	</target>
-	<target name="doObfuscate" if="java150-rt.present" description="obfuscate jar files">
-		<proguard configuration="build.pro"/>
-		<move todir="${build.dir}">
-			<fileset dir="${temp.dir}">
-				<include name="*.jar"/>
-			</fileset>
-		</move>
-		<delete dir="${temp.dir}"/>
-	</target>
-
-	<!-- Sign jar files -->
-	<target name="sign" description="repack and sign jar files twice (to ensure WebStart compatibility)">
-		<!-- check if keystore file present -->
-		<condition property="keystore.present">
-			<available file="${workspace.dir}/igi-keystore.p12"/>
-		</condition>
-
-		<!-- repack and sign jars first time -->
-		<antcall target="repack"/>
-		<antcall target="doSign"/>
-
-		<!-- used to use to repack and sign jars second time -->
-		<!-- not needed  due to pack.segment.limit=-1 works properly -->
-		<!--antcall target="repack"/-->
-		<!--antcall target="doSign"/-->
-	</target>
-
-	<!-- sign jars -->
-	<target name="doSign" if="keystore.present" description="sign jar files">
-		<signjar 
-			keystore="${workspace.dir}/igi-keystore.p12" 	
-			alias="International GeoGebra Institute&apos;s GlobalSign nv-sa ID"
-			storetype="pkcs12"
-			storepass="geogebra">
-			<fileset dir="${build.dir}" includes="*.jar" />
-		</signjar>
-	</target>
-
-	<!-- Sign debug jar files -->
-	<target name="signDebug" description="repack and sign jar files twice (to ensure WebStart compatibility)">
-		<!-- check if keystore file present -->
-		<condition property="keystore.present">
-			<available file="${workspace.dir}/igi-keystore.p12"/>
-		</condition>
-
-		<antcall target="doSignDebug"/>
-
-	</target>
-
-	<!-- sign debug jars -->
-	<target name="doSignDebug" if="keystore.present" description="sign jar files">
-		<signjar 
-			keystore="${workspace.dir}/igi-keystore.p12" 	
-			alias="International GeoGebra Institute&apos;s GlobalSign nv-sa ID"
-			storetype="pkcs12"
-			storepass="geogebra">
-			<fileset dir="${build.dir}/debug" includes="*.jar" />
-		</signjar>
-	</target>
-
-	<!-- repack jars -->
-	<target name="repack" if="keystore.present" description="repack jar files in preparation for signing">
-                <fileset id="jars2pack" dir="${build.dir}">
-                        <include name="*.jar"/>
-                </fileset>
-                <p200ant repack="true"  configFile="tools_p200.config">
-                        <fileset refid="jars2pack"/>
-                </p200ant>
-	</target>
-
-	<!-- pack jars -->
-	<!-- This should prevent running the pack target on Java 1.6
-	     http://www.java-tips.org/other-api-tips/ant/how-can-i-test-for-jvm-versions.html -->
-  	<target name="get-jvm">
-      		<condition property="jvm.buggy">
-			<or>
-      				<equals arg1="${ant.java.version}" arg2="1.6"/>
-      			</or>
-      		</condition>
-      	</target>
-
-	<target name="pack" description="pack jar files" depends="get-jvm" unless="jvm.buggy">
-                <fileset id="unsignedJars" dir="${build.dir}/unsigned/unpacked">
-                        <include name="*.jar"/>
-                </fileset>
-                <p200ant destdir="${build.dir}/unsigned/packed"  configFile="tools_p200.config">
-                        <fileset refid="unsignedJars"/>
-                </p200ant>
-
-		<move todir="${build.dir}/unpacked">
-			<fileset dir="${build.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</move>
-
-                <fileset id="signedJars" dir="${build.dir}/unpacked">
-                        <include name="*.jar"/>
-                </fileset>
-                <p200ant destdir="${build.dir}/packed"  configFile="tools_p200.config">
-                        <fileset refid="signedJars"/>
-                </p200ant>
-
-	</target>
-
-	<!-- creates preload.html -->
-	<target name="preloadHtml" depends="readVersion">
-		<echo file="${build.dir}/unsigned/preload.html" append="false">
-		&lt;html&gt;
-		&lt;applet code="geogebra.GeoGebraAppletPreloader" archive="geogebra.jar" codebase="./" width="1" height="1"&gt;
-			&lt;param name="cache_archive" value="geogebra.jar, geogebra_main.jar, geogebra_gui.jar, geogebra_cas.jar, geogebra_export.jar, geogebra_algos.jar, geogebra_javascript.jar, geogebra_properties.jar, jlatexmath.jar, jlm_cyrillic.jar, jlm_greek.jar "/&gt;
-			&lt;param name="cache_version" value="${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}, ${fullversion}"/&gt;
-		&lt;/applet&gt;
-		&lt;/html&gt;	
-		</echo>		
-		
-		<echo file="${build.dir}/unpacked/version.txt" append="false">${fullversion}</echo>
-	</target>
 
 </project>

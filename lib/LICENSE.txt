@@ -2,8 +2,8 @@ This directory contains 3rd party libraries. Most of them are required
 to run GeoGebra properly.
 
 
-jd2xx library (DLL files extracted to ../)
-------------------------------------------
+jd2xx library (JD2XX*.dll)
+--------------------------
 
 jd2xx is a Java native interface port of Future Technology Devices
 International (FTDI) D2XX direct USB driver. FTDI chips are used in a
