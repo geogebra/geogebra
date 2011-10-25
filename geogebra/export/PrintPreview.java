@@ -14,6 +14,7 @@ package geogebra.export;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.TitlePanel;
+import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
@@ -225,9 +226,13 @@ public class PrintPreview extends JDialog {
 				app.getPlain("ConstructionProtocol"),
 				app.getPlain("All views")};
 		
-		
 		m_cbView = new JComboBox(views);
-		m_cbView.setSelectedItem(app.getPlain(app.getGuiManager().getLayout().getDockManager().getFocusedPanel().getViewTitle()));
+		
+		DockPanel focusedPanel = app.getGuiManager().getLayout().getDockManager().getFocusedPanel();		
+		if (focusedPanel == null)
+			m_cbView.setSelectedItem(app.getPlain("All views"));
+		else 
+			m_cbView.setSelectedItem(app.getPlain(focusedPanel.getViewTitle()));
 		
 		ActionListener lst_view = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

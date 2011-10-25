@@ -212,9 +212,12 @@ public class GeoGebraMenuBar extends JMenuBar {
 							new geogebra.export.PrintPreview(app, app.getEuclidianView2(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_ALGEBRA))
 							new geogebra.export.PrintPreview(app, app.getGuiManager().getAlgebraView(), PageFormat.LANDSCAPE);
-						else //graphics view focused
+						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_EUCLIDIAN))
 							new geogebra.export.PrintPreview(app, app.getEuclidianView(), PageFormat.LANDSCAPE);
-										
+						//if there is no view in focus (e.g. just closed the focused view),
+						// it prints the GeoGebra main window
+						else //if (dm.getFocusedPanel()==null)
+							new geogebra.export.PrintPreview(app, (Printable) app.getMainComponent(), PageFormat.LANDSCAPE);
 						
 					} catch (Exception e) {
 						Application.debug("Print preview not available");
