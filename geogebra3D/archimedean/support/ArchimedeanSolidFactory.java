@@ -17,12 +17,14 @@ public class ArchimedeanSolidFactory {
 	 * 
 	 * @param sd
 	 * @return
+	 * @throws Exception
 	 */
-	public static IArchimedeanSolid create(SolidDefinition sd) {
+	public static IArchimedeanSolid create(SolidDefinition sd) throws Exception {
 		int[] polys = sd.getSignature();
 		boolean isDual = sd.isDual();
 		if (isDual) {
-			throw new IllegalArgumentException("Duals not handled yet. Will be handled when/if necessary.");
+			throw new IllegalArgumentException(
+					"Duals not handled yet. Will be handled when/if necessary.");
 		}
 		return new AbstractArchimedeanSolid(polys, polys.length, false) {
 			public IFace createFace() {
@@ -30,22 +32,38 @@ public class ArchimedeanSolidFactory {
 			}
 		};
 	}
-	
+
+	/**
+	 * Create an Archimedean solid for the specified type.
+	 * 
+	 * @param sd
+	 * @return
+	 * @throws Exception
+	 */
+	public static IArchimedeanSolid create(int[] polys) throws Exception {
+		return new AbstractArchimedeanSolid(polys, polys.length, false) {
+			public IFace createFace() {
+				return new Face();
+			}
+		};
+	}
 
 	public static IArchimedeanSolid create(String name) {
-		return create(getSolidDefinition(name));
+		try {
+			return create(getSolidDefinition(name));
+		} catch (Exception e) {
+			return null;
+		}
 	}
-	
-	
-	
-	private static final SolidDefinition getSolidDefinition(String name){
-		
-		switch(name.charAt(0)){
+
+	private static final SolidDefinition getSolidDefinition(String name) {
+
+		switch (name.charAt(0)) {
 		case 'T':
 			if (name.equals("Tetrahedron"))
 				return SolidDefinition.TETRAHEDRON;
 			break;
-			
+
 		case 'C':
 			if (name.equals("Cube"))
 				return SolidDefinition.CUBE;
@@ -66,9 +84,7 @@ public class ArchimedeanSolidFactory {
 				return SolidDefinition.ICOSAHEDRON;
 			break;
 
-		
-	}
-		
+		}
 		return null;
 	}
 }

@@ -61,7 +61,7 @@ public class SolidDefinition {
 			TRAPEZOIDAL_HEXECONTAHEDRON,
 			HEXAKIS_ICOSAHEDRON, PENTAGONAL_HEXECONTAHEDRON;
 
-	static public final int UNDEFINED = -1, OTHER = 0, PLATONIC = 1, ARCHIMEDEAN = 2, DUAL = 3, RATIONAL = 4;
+	static public final int UNDEFINED = -1, OTHER = 0, PLATONIC = 1, ARCHIMEDEAN = 2, DUAL = 3;
 	static {
 		init();
 	}
@@ -275,15 +275,31 @@ public class SolidDefinition {
 	 * Return the SolidDefinition for the specified signature.
 	 * 
 	 * @param signature
-	 *          must be in sorted order.
+	 * 
 	 * @param isDual
 	 * @return a SolidDefinition or null of the signature is not known.
 	 */
-	static public SolidDefinition findSolidDefinition(int[] signature, boolean isDual) {
-		for (int i = 0; i < knownSolids.num; ++i) {
-			SolidDefinition sd = (SolidDefinition) knownSolids.get(i);
-			if (sd.dual == isDual && Misc.arrayCompare(signature, sd.signature) == 0) {
-				return sd;
+	public static SolidDefinition findSolidDefinition(int[] signature, boolean dual) {
+		if (signature.length != signature.length) {
+			int[] temp = new int[signature.length];
+			System.arraycopy(signature, 0, temp, 0, signature.length);
+			signature = temp;
+		}
+		for (SolidDefinition sd : getKnownSolids()) {
+			for (int i = 0; i < signature.length; ++i) {
+				Misc.arrayRotate(signature, 1);
+				if (Misc.arrayCompare(signature, sd.signature) == 0) {
+					return sd;
+				}
+			}
+		}
+		Misc.arrayReverse(signature);
+		for (SolidDefinition sd : getKnownSolids()) {
+			for (int i = 0; i < signature.length; ++i) {
+				Misc.arrayRotate(signature, 1);
+				if (Misc.arrayCompare(signature, sd.signature) == 0) {
+					return sd;
+				}
 			}
 		}
 		return null;
@@ -294,10 +310,17 @@ public class SolidDefinition {
 	 * 
 	 * @param signature
 	 *          must be in sorted order.
+	 * @param isDual
 	 * @return a SolidDefinition or null of the signature is not known.
 	 */
-	static public SolidDefinition findSolidDefinition(int[] signature) {
-		return findSolidDefinition(signature, false);
+	static private SolidDefinition findSolidDefinitionOld(int[] signature, boolean isDual) {
+		for (int i = 0; i < knownSolids.num; ++i) {
+			SolidDefinition sd = (SolidDefinition) knownSolids.get(i);
+			if (sd.dual == isDual && Misc.arrayCompare(signature, sd.signature) == 0) {
+				return sd;
+			}
+		}
+		return null;
 	}
 
 	static public boolean isPrism(int[] signature, int signatureLength) {
@@ -411,5 +434,4 @@ public class SolidDefinition {
 	public String toString() {
 		return name;
 	}
-
 }

@@ -76,4 +76,20 @@ public class Misc {
 		return d;
 	}
 
+	public static String joinStrings(String[] strings, String joinString) {
+		return joinStrings(strings, 0, strings.length, joinString);
+	}
+
+	public static String joinStrings(String[] strings, int beginIndex, int endIndex, String joinString) {
+		if (endIndex - beginIndex <= 0) {
+			return "";
+		}
+		StringBuffer buf = new StringBuffer(strings[beginIndex]);
+		for (int i = beginIndex + 1; i < endIndex; ++i) {
+			buf.append(joinString);
+			buf.append(strings[i]);
+		}
+		return buf.toString();
+	}
+
 }

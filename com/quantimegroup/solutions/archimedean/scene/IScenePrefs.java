@@ -67,4 +67,6 @@ public interface IScenePrefs {
 	public Color getEdgeColor();
 
 	public void setEdgeColor(Color color);
+	
+	public void setPrimaryColoring(boolean b);
 }

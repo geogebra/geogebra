@@ -69,6 +69,7 @@ public class Scene {
 			float hue2 = 0.5f;
 			Color color1;
 			Color color2;
+			private boolean primaryColoring = true;
 			Color edgeColor = Color.BLACK;
 			OrderedTriple lightSource = new OrderedTriple(20000, -100000, 20000);
 			boolean colorCoding = true;
@@ -85,14 +86,14 @@ public class Scene {
 			public void setColorCoding(boolean colorCoding) {
 				this.colorCoding = colorCoding;
 			}
-			
-			public Color getColor(int polyType) {
-				if (colorCoding)
-					return Color.getHSBColor(intToHue(polyType), 1f, 1f);
-				else
-					return color1;
-			}
 
+			public Color getColor(int polyType) {
+				if (colorCoding) {
+					return Color.getHSBColor(intToHue(polyType), 1f, 1f);
+				} else {
+					return primaryColoring ? color1 : color2;
+				}
+			}
 
 			private float intToHue(int i) {
 				float[] hues = new float[9];
@@ -112,7 +113,7 @@ public class Scene {
 					int p = s.getVertexCount();
 					return intToHue(p);
 				} else {
-					return hue1;
+					return primaryColoring ? hue1 : hue2;
 				}
 			}
 
@@ -183,6 +184,10 @@ public class Scene {
 			public void setEdgeColor(Color color) {
 				edgeColor = color;
 
+			}
+
+			public void setPrimaryColoring(boolean b) {
+				primaryColoring = b;
 			}
 
 		};

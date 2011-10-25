@@ -96,8 +96,9 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 	 * @param polyTypes
 	 * @param numPolys
 	 * @param untwist
+	 * @throws Exception 
 	 */
-	protected AbstractArchimedeanSolid(int[] polyTypes, int numPolys, boolean untwist) {
+	protected AbstractArchimedeanSolid(int[] polyTypes, int numPolys, boolean untwist) throws Exception {
 		ArchiBuilder builder = new ArchiBuilder(polyTypes, numPolys, untwist);
 		ObjectList<OrderedTriple> ots = builder.getPoints();
 		SpaceSide firstSide = builder.getSide(0);

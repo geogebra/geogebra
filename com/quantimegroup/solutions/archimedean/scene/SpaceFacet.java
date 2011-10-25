@@ -25,7 +25,6 @@ import java.awt.Polygon;
 import java.util.List;
 
 import com.quantimegroup.solutions.archimedean.geom.GeometryUtils;
-import com.quantimegroup.solutions.archimedean.scene.SpacePoint;
 import com.quantimegroup.solutions.archimedean.utils.IntList;
 import com.quantimegroup.solutions.archimedean.utils.OrderedTriple;
 import com.quantimegroup.solutions.archimedean.utils.SmartPolygon;
@@ -109,8 +108,8 @@ public class SpaceFacet {
 	}
 
 	public void draw(Graphics g, IScenePrefs scenePrefs, boolean transparent) {
-//		if (!transparent && !visible())
-//			return;
+		// if (!transparent && !visible())
+		// return;
 		if (scenePrefs.isDraw()) {
 			if (!visible()) {
 				g.setColor(Color.getHSBColor(scenePrefs.getHue1(), 1f, 0.4f));
