@@ -95,7 +95,8 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 	
 	private GeoElement[] boxPlotTitles;
 	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve, 
-	scatterPlot, scatterPlotLine;
+	scatterPlot, scatterPlotLine, residualPlot;
+;
 	
 
 	// display panels 	
@@ -147,7 +148,7 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 	private JLabel lblTitleX, lblTitleY;
 	private MyTextField fldTitleX, fldTitleY;
 	private FrequencyTable frequencyTable;
-
+	
 
 
 
@@ -702,7 +703,8 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 				scatterPlot = statGeo.createScatterPlot(dataListSelected);
 				plotGeoList.add(scatterPlot);
 
-				if(statDialog.getRegressionModel()!=null){
+				if(statDialog.getRegressionModel()!=null 
+						&& statDialog.getRegressionMode() != statDialog.REG_NONE){
 					plotGeoList.add(statDialog.getRegressionModel());  
 				}
 
@@ -726,11 +728,20 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 
 
 		case PLOT_RESIDUAL:
-			if(doCreate)
-				plotGeoList.add((GeoElement) statGeo.createRegressionPlot(dataListSelected, statDialog.getRegressionMode(), statDialog.getRegressionOrder(), true));
-			if(statDialog.getRegressionMode() != statDialog.REG_NONE)
-				statGeo.getResidualPlotSettings(dataListSelected, plotGeoList.get(plotGeoList.size()-1), settings);
-			plotPanel.updateSettings(settings);
+			if(doCreate){
+				if(statDialog.getRegressionMode() != statDialog.REG_NONE){
+					residualPlot = statGeo.createRegressionPlot(dataListSelected, statDialog.getRegressionMode(), 
+							statDialog.getRegressionOrder(), true);
+					plotGeoList.add(residualPlot);
+					statGeo.getResidualPlotSettings(dataListSelected, residualPlot, settings);
+					plotPanel.updateSettings(settings);
+				} 
+				else if(residualPlot != null){
+					residualPlot.remove();
+					residualPlot = null;
+				}
+			}
+
 			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 			break;
 
@@ -967,6 +978,10 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 		try {
 			app.storeUndoInfo();
 
+			// prepare the data list to display in the EV (e.g. set labels, auxiliary = false)
+			GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
+			prepareGeoForEV(dataListSelected, viewID);
+			
 
 			// update the plot to get a new set of geos that exist in the construction
 			updatePlot(true, false);
@@ -976,11 +991,14 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 				prepareGeoForEV(geo, viewID);
 			}
 			
-			GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
-			GeoElement regressionCopy = (GeoElement)statGeo.createRegressionPlot((GeoList) dataListSelected.copy(),
-					statDialog.getRegressionMode(), statDialog.getRegressionOrder(), false);
-			prepareGeoForEV(regressionCopy, viewID);
-			
+			GeoElement regressionCopy = null;
+			if(statDialog.getMode() == StatDialog.MODE_REGRESSION 
+					&& statDialog.getRegressionMode() != StatDialog.REG_NONE)
+			{
+				regressionCopy = (GeoElement)statGeo.createRegressionPlot((GeoList) dataListSelected,
+						statDialog.getRegressionMode(), statDialog.getRegressionOrder(), false);
+				prepareGeoForEV(regressionCopy, viewID);
+			}
 
 			// set the window dimensions of the target EV to match the plotPanel dimensions
 			EuclidianView ev  = (EuclidianView) app.getView(viewID);
@@ -1002,12 +1020,34 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 			dotPlot = null;
 			frequencyPolygon = null;
 			normalCurve = null; 
-			scatterPlot = null;
 			scatterPlotLine = null;
+			
+			if(scatterPlot != null){
+				scatterPlot.remove(); // dataListSelected already gives the scatterplot 
+				scatterPlot = null;
+			}
+			
+			if(residualPlot != null){
+				residualPlot = null;
+				regressionCopy.remove();
+				dataListSelected.setEuclidianVisible(false); // hide the dataListSelected scatterplot 
+				dataListSelected.updateRepaint();
+				
+			}
+			
+			
+			//TODO: in multivar mode create dynamic boxplots linked to separate lists
+			if(statDialog.getMode() == StatDialog.MODE_MULTIVAR){
+				dataListSelected.remove();
+			}
+			
 			
 			plotGeoList.clear();
 
+			
 			statDialog.getStatDialogController().removeRegressionGeo();
+			statDialog.getStatDialogController().removeDataListSelected();
+			statDialog.getStatDialogController().loadDataLists();
 			
 			//update the plot in removeFromConstruction mode to get a new set of geos for our plot
 			updatePlot(true, true);
@@ -1025,6 +1065,7 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 	private void prepareGeoForEV(GeoElement geo, int viewID){
 
 		geo.setLabel(null);
+		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(false);
 		if(viewID == Application.VIEW_EUCLIDIAN){
 			geo.addView(Application.VIEW_EUCLIDIAN);

@@ -401,9 +401,15 @@ public class StatDialogController {
 	}
 
 	public void removeRegressionGeo(){
-		removeStatGeo(geoRegression);
+		if(geoRegression != null)
+			removeStatGeo(geoRegression);
 	}
 
+	public void removeDataListSelected(){
+		dataSelected = null;
+	}
+	
+	
 	/**
 	 * Removes all geos maintained by this dialog and its child components
 	 */
