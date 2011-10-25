@@ -16,7 +16,7 @@ test -r autobuild.conf || {
 cd $SVNDIR/geogebra
 
 # 2. rsync'ing
-rsync -av --rsh=ssh $WWWDIR/* $WWW_REMOTEDIR
+rsync -avPO --rsh=ssh $WWWDIR/* $WWW_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
 date
 echo "$0: end"
