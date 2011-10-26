@@ -415,8 +415,10 @@ public class Kernel3D
 	public GeoElement copy3D(GeoElement geo){
 		
 		switch (geo.getGeoClassType()){
+		
     	case GeoElement.GEO_CLASS_POINT:
     		return new GeoPoint3D((GeoPointND) geo);
+    		
        	case GeoElement.GEO_CLASS_LINE:
     		GeoCoordSys1D ret = new GeoLine3D(geo.getConstruction());
     		ret.set(geo);
@@ -428,7 +430,11 @@ public class Kernel3D
        	case GeoElement.GEO_CLASS_RAY:
     		ret = new GeoRay3D(geo.getConstruction());
     		ret.set(geo);
-    		return ret;  		
+    		return ret;  
+    		
+       	case GeoElement.GEO_CLASS_CONIC:
+       		return new GeoConic3D((GeoConicND) geo);
+    		
     	default:
     		return geo.copy();
     	}

@@ -6,6 +6,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
@@ -19,7 +20,8 @@ import geogebra3D.euclidian3D.Drawable3D;
  *
  */
 public class GeoConic3D 
-extends GeoConicND implements GeoElement3DInterface{//, GeoCoordSys2D{
+extends GeoConicND implements GeoElement3DInterface
+{//, GeoCoordSys2D{
 
 	
 	/** 2D coord sys where the conic exists */
@@ -41,7 +43,7 @@ extends GeoConicND implements GeoElement3DInterface{//, GeoCoordSys2D{
 		setCoordSys(cs);
 	}	
 	
-	public GeoConic3D(GeoConic3D conic) {
+	public GeoConic3D(GeoConicND conic) {
 		this(conic.getConstruction());
 		set(conic);
 	}
@@ -326,14 +328,12 @@ extends GeoConicND implements GeoElement3DInterface{//, GeoCoordSys2D{
 		public void set(GeoElement geo) {
 			
 			
-			if (geo instanceof GeoConic3D){
+			if (geo instanceof GeoConicND){
 				super.set(geo);
-				//setCoordSys(((GeoConic3D) geo).getCoordSys());
-				//coordSys = new CoordSys(((GeoConic3D) geo).getCoordSys());
 				if (coordSys==null) //TODO remove that
 					coordSys=new CoordSys(2);
-				coordSys.set(((GeoConic3D) geo).getCoordSys());
-				setIsEndOfQuadric(((GeoConic3D) geo).isEndOfQuadric());
+				coordSys.set(((GeoConicND) geo).getCoordSys());
+				setIsEndOfQuadric(((GeoConicND) geo).isEndOfQuadric());
 			}
 			
 		}
@@ -441,5 +441,11 @@ extends GeoConicND implements GeoElement3DInterface{//, GeoCoordSys2D{
 		
 		public boolean isIntersection() {
 			return isIntersection;
+		}
+		
+		
+		
+		protected void doTranslate(Coords v){
+			coordSys.translate(v);
 		}
 }

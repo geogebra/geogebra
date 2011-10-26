@@ -20,6 +20,7 @@ import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.RegionParameters;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
@@ -41,7 +42,9 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path {
+public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
+Translateable
+{
 	
 	
 
@@ -1786,7 +1789,7 @@ public abstract class GeoConicND extends GeoQuadricND implements LineProperties,
 	 * @param v translation vector
 	 */
 	final public void translate(Coords v) {
-		doTranslate(v.getX(), v.getY());
+		doTranslate(v);
 
 		//classifyConic();
 		setAffineTransform();
@@ -1807,6 +1810,10 @@ public abstract class GeoConicND extends GeoQuadricND implements LineProperties,
 
 		setAffineTransform();
 		updateDegenerates(); // for degenerate conics      
+	}
+	
+	protected void doTranslate(Coords v){
+		doTranslate(v.getX(),v.getY());
 	}
 	
 	protected final void doTranslate(double vx, double vy) {
