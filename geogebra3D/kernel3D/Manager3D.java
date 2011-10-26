@@ -1068,4 +1068,19 @@ public class Manager3D implements Manager3DInterface {
 				name);
 		return algo.getPolyhedron();
 	}
+	
+	
+	
+	
+	/********************************************************************
+	 * TRANSFORMATIONS
+	 ********************************************************************/
+
+	
+	final public GeoElement [] Translate3D(String label, GeoElement geoTrans, GeoVectorND v) {
+		Transform3D t = new TransformTranslate3D(cons, v);
+		return t.transform(geoTrans, label);				
+	}
+	
+	
 }

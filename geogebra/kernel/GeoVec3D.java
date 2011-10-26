@@ -21,6 +21,7 @@ package geogebra.kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
 
 
 /**
@@ -101,7 +102,7 @@ implements Traceable {
     	coords.setY(y);
     	coords.setZ(z);
     	return coords;        
-    } 
+    }
     
     /** 
      * Writes x and y to the array res.

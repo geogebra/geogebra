@@ -400,4 +400,19 @@ public class Kernel3D
 	}
 	
 	
+	/**
+	 * 
+	 * @param geo
+	 * @return 3D copy of the geo (if exists)
+	 */
+	public GeoElement copy3D(GeoElement geo){
+		switch (geo.getGeoClassType()){
+    	case GeoElement.GEO_CLASS_POINT:
+    		return new GeoPoint3D((GeoPointND) geo);
+    	default:
+    		return geo.copy();
+    	}
+	}
+	
+	
 }

@@ -1,6 +1,7 @@
 package geogebra.kernel.kernelND;
 
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.LimitedPath;
 import geogebra.kernel.Matrix.Coords;
 
 import java.awt.Color;
@@ -11,7 +12,7 @@ import java.awt.Color;
  * @author ggb3D
  *
  */
-public interface GeoSegmentND extends GeoLineND {
+public interface GeoSegmentND extends GeoLineND, LimitedPath {
 
 
 	void setLabel(String string);
@@ -87,5 +88,7 @@ public interface GeoSegmentND extends GeoLineND {
 	public GeoPointND getEndPoint();
 
 	public void updateVisualStyle();
+
+	public boolean keepsTypeOnGeometricTransform();
 
 }

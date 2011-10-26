@@ -1,5 +1,7 @@
 package geogebra.kernel.kernelND;
 
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoElement;
 import geogebra.kernel.LocateableList;
 import geogebra.kernel.Path;
 import geogebra.kernel.PathParameter;
@@ -166,6 +168,8 @@ public interface GeoPointND {
 	public GeoPointND copy();
 
 	public boolean isAbsoluteStartPoint();
+
+	public GeoElement copyInternal(Construction cons);
 
 	
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;

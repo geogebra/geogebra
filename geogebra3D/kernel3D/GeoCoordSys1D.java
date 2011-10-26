@@ -5,6 +5,7 @@ import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Path;
 import geogebra.kernel.PathParameter;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordMatrixUtil;
@@ -17,7 +18,8 @@ import geogebra.main.Application;
 import geogebra3D.Application3D;
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
-GeoLineND, GeoCoordSys{
+GeoLineND, GeoCoordSys,
+Translateable{
 	
 	protected CoordSys coordsys;
 	
@@ -424,5 +426,22 @@ GeoLineND, GeoCoordSys{
 		return isIntersection;
 	}
 	
+	
+	
+	
+	
+
+	
+	final public boolean isTranslateable() {
+		return true;
+	}
+	
+    final public void translate(Coords v) {        
+       coordsys.translate(v);
+    }  
+    
+    
+    
+    
 	
 }

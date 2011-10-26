@@ -3130,7 +3130,7 @@ public class MyXMLHandler implements DocHandler {
 	
 	// for point or vector
 	private boolean handleCoordStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoPoint() || geo.isGeoVector())) {
+		if (!(geo.isGeoPoint() || geo.isGeoVector()) || geo.isGeoElement3D()) {
 			System.err.println("wrong element type for <coordStyle>: "
 					+ geo.getClass());
 			return false;

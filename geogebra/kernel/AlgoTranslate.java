@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.main.Application;
 
 /**
  *
@@ -34,19 +35,8 @@ public class AlgoTranslate extends AlgoTransformation {
 	private static final long serialVersionUID = 1L;
 	private Translateable out;   
     private GeoElement inGeo, outGeo;
-    private GeoVec3D v;  // input      
+    protected GeoElement v;  // input      
     
-    /**
-     * Creates labeled translation algo
-     * @param cons
-     * @param label
-     * @param in
-     * @param v
-     */
-    AlgoTranslate(Construction cons, String label, GeoElement in, GeoVec3D v) {
-    	this(cons, in, v);
-    	outGeo.setLabel(label);
-    }
             
     /**
      * Creates unlabeled translation algo
@@ -54,7 +44,7 @@ public class AlgoTranslate extends AlgoTransformation {
      * @param in
      * @param v
      */
-    AlgoTranslate(Construction cons, GeoElement in, GeoVec3D v) {
+    public AlgoTranslate(Construction cons, GeoElement in, GeoElement v) {
         super(cons);        
         this.v = v;
         
@@ -68,13 +58,17 @@ public class AlgoTranslate extends AlgoTransformation {
         else if(in.isGeoList()){
         	outGeo = new GeoList(cons);
         }else {
-        outGeo = inGeo.copy();
-        out = (Translateable) outGeo;
+        	outGeo = copy(inGeo);
+        	out = (Translateable) outGeo;
         }
         
         setInputOutput();               
         compute();               
-    }           
+    } 
+    
+    protected GeoElement copy(GeoElement geo){
+    	return geo.copy();
+    }
     
     public String getClassName() {
         return "AlgoTranslate";
@@ -105,10 +99,15 @@ public class AlgoTranslate extends AlgoTransformation {
     		return;
     	}
         outGeo.set(inGeo);
-        out.translate(new Coords(new double[] {v.x,v.y,v.z}));
+        out.translate(getVectorCoords());
         if(inGeo.isLimitedPath())
         	this.transformLimitedPath(inGeo, outGeo);
-    }       
+    }   
+    
+    protected Coords getVectorCoords(){
+    	GeoVec3D vec = (GeoVec3D) v;
+    	return new Coords(vec.x,vec.y,vec.z);
+    }
 
     
     final public String toString() {

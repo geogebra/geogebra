@@ -89,6 +89,7 @@ GeoPointND, Animatable, Transformable  {
     	super(c);
     	setAnimationType(ANIMATION_INCREASING);
     	setUndefined();
+    	
     }
   
     /**

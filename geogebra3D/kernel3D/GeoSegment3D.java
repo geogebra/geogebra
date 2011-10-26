@@ -2,8 +2,11 @@ package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoPoint;
+import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
+import geogebra.kernel.Transform;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.kernelND.GeoPointND;
@@ -324,5 +327,123 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	
 	
 	
+
+	/////////////////////////////////////////
+	// LIMITED PATH
+	/////////////////////////////////////////
+	
+	private boolean allowOutlyingIntersections = false;
+	private boolean keepTypeOnGeometricTransform = true; // for mirroring, rotation, ...
+	
+	
+	final public boolean isLimitedPath() {
+		return true;
+	}
+	
+
+	
+	public boolean allowOutlyingIntersections() {
+		return allowOutlyingIntersections;
+	}
+	
+	public void setAllowOutlyingIntersections(boolean flag) {
+		allowOutlyingIntersections = flag;		
+	}
+	
+	public boolean keepsTypeOnGeometricTransform() {		
+		return keepTypeOnGeometricTransform;
+	}
+
+	public void setKeepTypeOnGeometricTransform(boolean flag) {
+		keepTypeOnGeometricTransform = flag;
+	}
+	
+	
+	private boolean forceSimpleTransform;
+
+	   
+	/**
+	 * creates new transformed segment
+	 */
+    public GeoElement [] createTransformedObject(Transform t,String label) {	
+    	
+		if (keepTypeOnGeometricTransform && t.isAffine()) {		
+			
+			// mirror endpoints
+			GeoPointND [] points = {getStartPoint(), getEndPoint()};
+			points = ((Transform3D) t).transformPoints3D(points);	
+			// create SEGMENT
+			GeoElement segment = kernel.getManager3D().Segment3D(label, points[0], points[1]);
+			segment.setVisualStyleForTransformations(this);
+			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
+			return geos;	
+		} 
+		else if(!t.isAffine()) {		
+			// mirror endpoints
+			this.forceSimpleTransform = true;
+			GeoElement [] geos = {t.transform(this, label)[0]};
+			return geos;	
+		} 
+		else {
+			//	create LINE
+			GeoElement transformedLine = t.getTransformedLine(this);
+			transformedLine.setLabel(label);
+			transformedLine.setVisualStyleForTransformations(this);
+			GeoElement [] geos = {transformedLine};
+			return geos;
+		}							
+	}
+    
+	public boolean isAllEndpointsLabelsSet() {
+		return !forceSimpleTransform && startPoint.isLabelSet() && endPoint.isLabelSet();		
+	} 
+	
+    public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
+    	if (allowOutlyingIntersections)
+			return isOnFullLine(p.getCoordsInD(3), eps);
+		else
+			return isOnPath(p, eps);
+    }
+    
+	public GeoElement copyInternal(Construction cons) {
+		GeoSegment3D seg = new GeoSegment3D(cons, 
+										(GeoPointND) startPoint.copyInternal(cons), 
+										(GeoPointND) endPoint.copyInternal(cons));
+		seg.set(this);
+		return seg;
+	}
+	
+	public void set(GeoElement geo) {
+		super.set(geo);		
+		if (!geo.isGeoSegment()) return;
+		
+		if (!geo.isDefined())
+			setUndefined();
+		
+		GeoSegmentND seg = (GeoSegmentND) geo;	
+		
+        
+        setKeepTypeOnGeometricTransform(seg.keepsTypeOnGeometricTransform()); 	
+    	    	     		   
+    	startPoint.set(seg.getStartPoint());
+    	endPoint.set(seg.getEndPoint());    	
+	}   
+	
+	
+	protected void getXMLtags(StringBuilder sb) {
+        super.getXMLtags(sb);
+		
+        // allowOutlyingIntersections
+        sb.append("\t<outlyingIntersections val=\"");
+        sb.append(allowOutlyingIntersections);
+        sb.append("\"/>\n");
+        
+        // keepTypeOnGeometricTransform
+        sb.append("\t<keepTypeOnTransform val=\"");
+        sb.append(keepTypeOnGeometricTransform);
+        sb.append("\"/>\n");
+  
+    }
+
 	
 }

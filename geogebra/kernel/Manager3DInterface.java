@@ -576,5 +576,17 @@ public interface Manager3DInterface {
 			public GeoElement ArchimedeanSolid(String[] labels, 
 					GeoPointND A, GeoPointND B, GeoDirectionND v,
 					String name);
+			
+			
+			
+			
+			/********************************************************************
+			 * TRANSFORMATIONS
+			 ********************************************************************/
+
+			/**
+			 * translate geoTrans by vector v
+			 */
+			public GeoElement [] Translate3D(String label, GeoElement geoTrans, GeoVectorND v);
 
 }

@@ -20,22 +20,13 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import java.awt.geom.Point2D;
-import java.util.TreeSet;
-
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.AlgoDynamicCoordinates;
 import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoConic;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.GeoVec3D;
-import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.LocateableList;
 import geogebra.kernel.Path;
@@ -43,16 +34,16 @@ import geogebra.kernel.PathParameter;
 import geogebra.kernel.PointProperties;
 import geogebra.kernel.Region;
 import geogebra.kernel.RegionParameters;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.Region3D;
-import geogebra.main.Application;
 import geogebra.util.Util;
-import geogebra3D.Application3D;
+
+import java.util.TreeSet;
 
 
 /**
@@ -61,7 +52,9 @@ import geogebra3D.Application3D;
  * @version 
  */
 public class GeoPoint3D extends GeoVec4D
-implements GeoPointND, PointProperties, Vector3DValue{   	
+implements GeoPointND, PointProperties, Vector3DValue,
+Translateable
+{   	
 	
 	/**
 	 * 

@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.util.GgbMat;
 
@@ -175,9 +176,9 @@ public abstract class Transform {
 	 * @param line
 	 * @return transformed line
 	 */
-	public GeoElement getTransformedLine(GeoLine line) {
-		GeoElement ret = doTransform(line);
-		ret.setVisualStyleForTransformations(line);
+	public GeoElement getTransformedLine(GeoLineND line) {
+		GeoElement ret = doTransform((GeoElement) line);
+		ret.setVisualStyleForTransformations((GeoElement) line);
 		return ret;
 	}
 	

@@ -78,6 +78,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 		
 		cmdTable.put("Angle", new CmdAngle3D(kernel));
+		
+		
+		cmdTable.put("Translate", new CmdTranslate3D(kernel));
     	    	
 
 		

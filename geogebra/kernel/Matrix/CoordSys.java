@@ -493,6 +493,16 @@ public class CoordSys {
 	public CoordMatrix4x4 getDrawingMatrix(){
 		return drawingMatrix;
 	}
+	
+	
+	/////////////////////////////
+	// TRANSFORMATIONS
+	////////////////////////////
+	
+	public void translate(Coords v){
+		setOrigin(getOrigin().add(v));
+		matrixOrthonormal.setOrigin(getOrigin());
+	}
 
 	
 	
