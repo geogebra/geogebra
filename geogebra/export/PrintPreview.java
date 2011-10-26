@@ -224,13 +224,13 @@ public class PrintPreview extends JDialog {
 				app.getPlain("DrawingPad"),
 				app.getPlain("DrawingPad2"),		
 				app.getPlain("ConstructionProtocol"),
-				app.getPlain("All views")};
+				app.getPlain("AllViews")};
 		
 		m_cbView = new JComboBox(views);
 		
 		DockPanel focusedPanel = app.getGuiManager().getLayout().getDockManager().getFocusedPanel();		
 		if (focusedPanel == null)
-			m_cbView.setSelectedItem(app.getPlain("All views"));
+			m_cbView.setSelectedItem(app.getPlain("AllViews"));
 		else 
 			m_cbView.setSelectedItem(app.getPlain(focusedPanel.getViewTitle()));
 		
@@ -256,7 +256,7 @@ public class PrintPreview extends JDialog {
 							m_target = app.getGuiManager().getEuclidianView2();
 						} else if (selItem == app.getPlain("ConstructionProtocol")){
 							m_target = app.getGuiManager().getConstructionProtocolView();
-						} else if (selItem == app.getPlain("All views")){
+						} else if (selItem == app.getPlain("AllViews")){
 							m_target = (Printable) app.getMainComponent();
 						}	
 						
