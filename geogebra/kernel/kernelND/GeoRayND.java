@@ -8,4 +8,6 @@ package geogebra.kernel.kernelND;
 
 public interface GeoRayND extends GeoLineND{
 
+	public boolean keepsTypeOnGeometricTransform();
+
 }
