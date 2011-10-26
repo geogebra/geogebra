@@ -2503,7 +2503,7 @@ protected void drawImplicitPoly(GeoImplicitPoly geo) {
 	code.append("\n\n");
 }
 protected void drawPolyLine(GeoPolyLine geo){
-	GeoPoint[] path=geo.getPoints();
+	GeoPointND[] path=geo.getPoints();
 	if (path.length<2) return;
 	startBeamer(code);
 	code.append("\\draw ");
@@ -2511,8 +2511,9 @@ protected void drawPolyLine(GeoPolyLine geo){
 	if (s.length()!=0) s="["+s+"] ";
 	code.append(s);
 	for(int i=0;i<path.length;i++){
-		double x1=path[i].getInhomX();
-		double y1=path[i].getInhomY();			
+		Coords coords = path[i].getInhomCoords();
+		double x1=coords.getX();
+		double y1=coords.getY();			
 		writePoint(x1,y1,code);
 		if (i!=path.length-1) 	code.append("-- ");
 	}

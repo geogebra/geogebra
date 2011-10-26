@@ -44,7 +44,7 @@ public class CmdRay3D extends CmdRay {
             			&& (ok[1] = (geo1.isGeoPoint()))) {
             		GeoElement[] ret =
             		{
-            				kernel.getManager3D().Ray3D(
+            				(GeoElement) kernel.getManager3D().Ray3D(
             						c.getLabel(),
             						(GeoPointND) geo0,
             						(GeoPointND) geo1)};

@@ -18,8 +18,13 @@ package geogebra3D.kernel3D;
 import geogebra.GeoGebra3D;
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.io.MyXMLHandler;
+import geogebra.kernel.AlgoJoinPointsRay;
+import geogebra.kernel.AlgoJoinPointsSegment;
+import geogebra.kernel.AlgoPolygon;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoPoint;
+import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
@@ -29,6 +34,8 @@ import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.kernel.kernelND.GeoRayND;
+import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.MyError;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
@@ -406,13 +413,76 @@ public class Kernel3D
 	 * @return 3D copy of the geo (if exists)
 	 */
 	public GeoElement copy3D(GeoElement geo){
+		
 		switch (geo.getGeoClassType()){
     	case GeoElement.GEO_CLASS_POINT:
     		return new GeoPoint3D((GeoPointND) geo);
+       	case GeoElement.GEO_CLASS_LINE:
+    		GeoCoordSys1D ret = new GeoLine3D(geo.getConstruction());
+    		ret.set(geo);
+    		return ret;
+       	case GeoElement.GEO_CLASS_SEGMENT:
+    		ret = new GeoSegment3D(geo.getConstruction());
+    		ret.set(geo);
+    		return ret;
+       	case GeoElement.GEO_CLASS_RAY:
+    		ret = new GeoRay3D(geo.getConstruction());
+    		ret.set(geo);
+    		return ret;  		
     	default:
     		return geo.copy();
     	}
 	}
 	
+	
+	////////////////////////////////////
+	// 2D FACTORY EXTENSION
+	////////////////////////////////////
+	
+	
+	final public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
+		if (((GeoElement) P).isGeoElement3D() || ((GeoElement) P).isGeoElement3D())
+			return getManager3D().Ray3D(label, P, Q);
+		else
+			return super.Ray(label, (GeoPoint) P, (GeoPoint) Q);
+	}
+
+	final public GeoSegmentND SegmentND(
+			String label,
+			GeoPointND P,
+			GeoPointND Q) {
+
+		if (((GeoElement) P).isGeoElement3D() || ((GeoElement) P).isGeoElement3D())
+			return getManager3D().Segment3D(label, P, Q);
+		else
+			return super.Segment(label, (GeoPoint) P, (GeoPoint) Q);
+	}
+	
+	final public GeoElement [] PolygonND(String [] labels, GeoPointND [] P) {
+		
+		boolean is3D = false;
+		for (int i=0; i<P.length && !is3D; i++)
+			if (((GeoElement) P[i]).isGeoElement3D())
+				is3D = true;
+
+		if (is3D)
+			return getManager3D().Polygon3D(labels, P);
+		else
+			return super.Polygon(labels, P);
+	}
+	
+	public GeoElement [] PolyLineND(String [] labels, GeoPointND [] P) {
+		
+		boolean is3D = false;
+		for (int i=0; i<P.length && !is3D; i++)
+			if (((GeoElement) P[i]).isGeoElement3D())
+				is3D = true;
+
+		if (is3D)
+			return getManager3D().PolyLine3D(labels, P);
+		else
+			return super.PolyLine(labels, P);
+		
+	}
 	
 }

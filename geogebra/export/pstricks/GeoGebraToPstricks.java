@@ -2047,15 +2047,16 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code.append("}\n");
 	}
 	protected void drawPolyLine(GeoPolyLine geo){
-		GeoPoint[] path=geo.getPoints();
+		GeoPointND[] path=geo.getPoints();
 		if (path.length<2) return;
 		startBeamer(code);
 		code.append("\\psline");
 		code.append(LineOptionCode(geo,true));
 
 		for(int i=0;i<path.length;i++){
-			String x1=kernel.format(path[i].getInhomX());
-			String y1=kernel.format(path[i].getInhomY());			
+			Coords coords = path[i].getInhomCoords();
+			String x1=kernel.format(coords.getX());
+			String y1=kernel.format(coords.getY());			
 			code.append("(");
 			code.append(x1);
 			code.append(",");

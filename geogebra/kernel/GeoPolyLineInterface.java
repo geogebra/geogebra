@@ -29,5 +29,7 @@ public interface GeoPolyLineInterface {
 
 	public Path getBoundary();
 
+	public GeoPointND[] getPointsND();
+
 
 }

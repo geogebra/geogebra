@@ -371,9 +371,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 			
 			// mirror endpoints
 			GeoPointND [] points = {getStartPoint(), getEndPoint()};
-			points = ((Transform3D) t).transformPoints3D(points);	
+			points = t.transformPoints(points);	
 			// create SEGMENT
-			GeoElement segment = kernel.getManager3D().Segment3D(label, points[0], points[1]);
+			GeoElement segment = (GeoElement) kernel.getManager3D().Segment3D(label, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
 			return geos;	

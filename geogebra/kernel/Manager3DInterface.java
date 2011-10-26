@@ -12,6 +12,7 @@ import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoQuadricND;
+import geogebra.kernel.kernelND.GeoRayND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra3D.kernel3D.GeoVector3D;
@@ -105,7 +106,7 @@ public interface Manager3DInterface {
 			 */
 
 			/** Segment3D label linking points P1 and P2   */
-			 public GeoElement Segment3D(String label, GeoPointND P1, GeoPointND P2);
+			 public GeoSegmentND Segment3D(String label, GeoPointND P1, GeoPointND P2);
 
 			/** Line3D label linking points P1 and P2   */	
 			 public GeoElement Line3D(String label, GeoPointND P1, GeoPointND P2);
@@ -118,7 +119,7 @@ public interface Manager3DInterface {
 
 			 
 			/** Ray3D label linking points P1 and P2   */	
-			 public GeoElement Ray3D(String label, GeoPointND P1, GeoPointND P2);
+			 public GeoRayND Ray3D(String label, GeoPointND P1, GeoPointND P2);
 
 
 		    /** Line3D through point orthogonal to plane   */	

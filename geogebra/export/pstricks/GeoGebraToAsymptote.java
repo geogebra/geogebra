@@ -1946,14 +1946,13 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     
     @Override
     protected void drawPolyLine(GeoPolyLine geo) {
-        GeoPoint[] points = geo.getPoints();
+        GeoPointND[] points = geo.getPoints();
         
         startDraw(); // connect (by join --) all points within one draw statement
         for (int i = 0; i < points.length; i++){
-            double x = points[i].getX(),
-                   y = points[i].getY(),
-                   z = points[i].getZ();
-            x = x / z; y = y / z;
+        	Coords coords = points[i].getInhomCoords();
+            double x = coords.getX(),
+                   y = coords.getY();
             addPoint(kernel.format(x),kernel.format(y),code);
             if (i != points.length - 1)
                 code.append("--");

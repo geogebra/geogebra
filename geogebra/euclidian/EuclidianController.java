@@ -4428,7 +4428,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		GeoPointND[] points = getSelectedPointsND();
 		GeoElement[] ret = { null };
 		if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D())
-			ret[0] = getKernel().getManager3D().Segment3D(null,points[0], points[1]);
+			ret[0] = (GeoElement) getKernel().getManager3D().Segment3D(null,points[0], points[1]);
 		else
 			ret[0] = getKernel().Segment(null, (GeoPoint) points[0], (GeoPoint) points[1]);
 		return ret;
@@ -4488,7 +4488,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		GeoPointND[] points = getSelectedPointsND();
 		GeoElement[] ret = { null };
 		if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D())
-			ret[0] = getKernel().getManager3D().Ray3D(null,points[0], points[1]);
+			ret[0] = (GeoElement) getKernel().getManager3D().Ray3D(null,points[0], points[1]);
 		else
 			ret[0] = getKernel().Ray(null, (GeoPoint) points[0], (GeoPoint) points[1]);
 		return ret;

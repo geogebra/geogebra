@@ -1432,7 +1432,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 */
 	public boolean isAllVertexLabelsSet() {
 		for(int i=0;i<points.length;i++)
-			if(!((GeoPoint)points[i]).isLabelSet())return false;
+			if(!((GeoElement)points[i]).isLabelSet())return false;
 		return true;
 	}
 

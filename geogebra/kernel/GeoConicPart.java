@@ -676,10 +676,10 @@ implements LimitedPath, NumberValue, LineProperties {
 		if (algoParent instanceof AlgoConicPartCircle) {	
 			//	transform points
 			AlgoConicPartCircle algo = (AlgoConicPartCircle) algoParent;
-			GeoPoint [] points = { algo.getCenter(), algo.getStartPoint(), algo.getEndPoint() };
+			GeoPointND [] points = { algo.getCenter(), algo.getStartPoint(), algo.getEndPoint() };
 			
 		    // create circle with center through startPoint        
-	        AlgoCircleTwoPoints algoCircle = new AlgoCircleTwoPoints(cons, points[0], points[1]);
+	        AlgoCircleTwoPoints algoCircle = new AlgoCircleTwoPoints(cons, (GeoPoint) points[0], (GeoPoint) points[1]);
 	        cons.removeFromConstructionList(algoCircle);
 	        GeoConic circle = algoCircle.getCircle();
 	        
@@ -689,24 +689,24 @@ implements LimitedPath, NumberValue, LineProperties {
 			cons.removeFromConstructionList(transformedCircle.getParentAlgorithm());			
 										
 			// create a new arc from the transformed circle using startPoint and endPoint
-			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(cons, label, transformedCircle, points[1], points[2], conic_part_type);			
+			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(cons, label, transformedCircle, (GeoPoint) points[1], (GeoPoint) points[2], conic_part_type);			
 			GeoConicPart conicPart = algoResult.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
-			GeoElement [] geos = {conicPart, points[0], points[2], points[1]};
+			GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[2], (GeoElement) points[1]};
 						
 			return geos;					
 		}
 		
 		else if (algoParent instanceof AlgoConicPartCircumcircle) {
-			GeoPoint [] points ={ (GeoPoint) algoParent.input[0], 
+			GeoPointND [] points ={ (GeoPoint) algoParent.input[0], 
 					 (GeoPoint) algoParent.input[1],  (GeoPoint) algoParent.input[2]};			
 			points = t.transformPoints(points);
 			
-			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, points[0], points[1], points[2], conic_part_type);
+			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2], conic_part_type);
 			GeoConicPart res = algo.getConicPart();
 			res.setLabel(label);
 			res.setVisualStyleForTransformations(this);
-			GeoElement [] geos = {res, points[1], points[2], points[0]};
+			GeoElement [] geos = {res, (GeoElement) points[1], (GeoElement) points[2], (GeoElement) points[0]};
 			return geos;
 		}
 				
@@ -725,46 +725,46 @@ implements LimitedPath, NumberValue, LineProperties {
 		
 		else if (algoParent instanceof AlgoConicPartConicPoints) {
 			AlgoConicPartConicPoints algo = (AlgoConicPartConicPoints) algoParent;			
-			GeoPoint [] points ={ algo.getStartPoint(), algo.getEndPoint() };			
+			GeoPointND [] points ={ algo.getStartPoint(), algo.getEndPoint() };			
 			points = t.transformPoints(points);									
 			GeoConic orgConic = algo.getConic();
 			
 			GeoConic transformedConic = t.getTransformedConic(orgConic);	
 			cons.removeFromConstructionList(transformedConic.getParentAlgorithm());		
 		
-			algo = new AlgoConicPartConicPoints(cons, label, transformedConic, points[0], points[1], conic_part_type);			
+			algo = new AlgoConicPartConicPoints(cons, label, transformedConic, (GeoPoint) points[0], (GeoPoint) points[1], conic_part_type);			
 			GeoConicPart conicPart = algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
-			GeoElement [] geos = {conicPart, points[0], points[1]};
+			GeoElement [] geos = {conicPart, (GeoPoint) points[0], (GeoPoint) points[1]};
 			return geos;
 		}
 		
 		else if (algoParent instanceof AlgoSemicircle) {			
 			AlgoElement algo =  algoParent;			
-			GeoPoint [] points ={ ((AlgoSemicircle)algo).getA(), ((AlgoSemicircle)algo).getB() };			
+			GeoPointND [] points ={ ((AlgoSemicircle)algo).getA(), ((AlgoSemicircle)algo).getB() };			
 			points = t.transformPoints(points);
 			
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
-				semCirc = kernel.Semicircle(label, points[1], points[0]);
+				semCirc = kernel.Semicircle(label, (GeoPoint) points[1], (GeoPoint) points[0]);
 			} else if(t.isSimilar()) {
-				semCirc = kernel.Semicircle(label, points[0], points[1]);
+				semCirc = kernel.Semicircle(label, (GeoPoint) points[0], (GeoPoint) points[1]);
 			} else {
 				
 				GeoConic orgConic = ((AlgoSemicircle)algo).getConic();
 				GeoConic transformedConic = t.getTransformedConic(orgConic);
 				cons.removeFromConstructionList(transformedConic.getParentAlgorithm());
 				if(t.changesOrientation()){
-				algo = new AlgoConicPartConicPoints(cons, label, transformedConic, points[0], points[1], conic_part_type);
+				algo = new AlgoConicPartConicPoints(cons, label, transformedConic, (GeoPoint) points[0], (GeoPoint) points[1], conic_part_type);
 				}else
-					algo = new AlgoConicPartConicPoints(cons, label, transformedConic, points[1], points[0], conic_part_type);
+					algo = new AlgoConicPartConicPoints(cons, label, transformedConic, (GeoPoint) points[1], (GeoPoint) points[0], conic_part_type);
 				GeoConicPart conicPart = ((AlgoConicPartConicPoints)algo).getConicPart();
 				conicPart.setVisualStyleForTransformations(this);
-				GeoElement [] geos = {conicPart, points[0], points[1]};
+				GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[1]};
 				return geos;				
 			}
 			semCirc.setVisualStyleForTransformations(this);
-			GeoElement [] geos = {semCirc, points[0], points[1]};
+			GeoElement [] geos = {semCirc, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
 		}
 		

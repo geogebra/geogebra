@@ -117,6 +117,12 @@ Translateable{
 				setUndefined();
 			else
 				setCoord((GeoCoordSys1D) geo);
+		}else if (geo instanceof GeoLineND){
+			if (!geo.isDefined())
+				setUndefined();
+			else{
+				setCoord(((GeoLineND) geo).getStartPoint(), ((GeoLineND) geo).getEndPoint());
+			}
 		}
 
 	}

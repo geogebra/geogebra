@@ -468,12 +468,12 @@ GeoSegmentND {
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {			
 			// mirror endpoints
-			GeoPoint [] points = {getStartPoint(), getEndPoint()};
+			GeoPointND [] points = {getStartPoint(), getEndPoint()};
 			points = t.transformPoints(points);	
 			// create SEGMENT
-			GeoElement segment = kernel.Segment(label, points[0], points[1]);
+			GeoElement segment = (GeoElement) kernel.SegmentND(label, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
-			GeoElement [] geos = {segment, points[0], points[1]};	
+			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
 			return geos;	
 		} 
 		else if(!t.isAffine()) {			

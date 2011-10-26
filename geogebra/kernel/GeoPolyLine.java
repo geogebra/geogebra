@@ -364,8 +364,8 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		getScriptTags(sb);
 	}
 
-	public final GeoPoint[] getPoints() {
-		return (GeoPoint[])points;
+	public final GeoPointND[] getPoints() {
+		return points;
 	}
 
 	public GeoPointND[] getPointsND() {

@@ -68,7 +68,7 @@ public abstract class Transform {
 		if (geo instanceof GeoPolyLineInterface && this.isAffine()) {
 			GeoPolyLineInterface poly = (GeoPolyLineInterface) geo;
 			if(poly.isVertexCountFixed() && poly.isAllVertexLabelsSet())
-				return transformPoly(label, poly, transformPoints(poly.getPoints()));
+				return transformPoly(label, poly, transformPoints(poly.getPointsND()));
 		}		
 		if (label == null)
 			label = transformedGeoLabel(geo);
@@ -104,7 +104,7 @@ public abstract class Transform {
 	protected abstract AlgoTransformation getTransformAlgo(GeoElement geo);
 	
 	private GeoElement[] transformPoly(String label, GeoPolyLineInterface oldPoly,
-			GeoPoint[] transformedPoints) {
+			GeoPointND[] transformedPoints) {
 		// get label for polygon
 		String[] polyLabel = null;
 		if (label == null) {
@@ -120,19 +120,19 @@ public abstract class Transform {
 		// use visibility of points for transformed points
 		GeoPointND[] oldPoints = oldPoly.getPoints();
 		for (int i = 0; i < oldPoints.length; i++) {
-			transformedPoints[i].setEuclidianVisible(((GeoElement) oldPoints[i])
+			((GeoElement) transformedPoints[i]).setEuclidianVisible(((GeoElement) oldPoints[i])
 					.isSetEuclidianVisible());
-			transformedPoints[i].setVisualStyleForTransformations((GeoElement) oldPoints[i]);
-			cons.getKernel().notifyUpdate(transformedPoints[i]);
+			((GeoElement) transformedPoints[i]).setVisualStyleForTransformations((GeoElement) oldPoints[i]);
+			cons.getKernel().notifyUpdate((GeoElement) transformedPoints[i]);
 		}
 		
 		GeoElement [] ret;
 
 		// build the polygon from the transformed points
 		if(oldPoly instanceof GeoPolygon)
-			ret = cons.getKernel().Polygon(polyLabel, transformedPoints);
+			ret = cons.getKernel().PolygonND(polyLabel, transformedPoints);
 		else
-			ret = cons.getKernel().PolyLine(polyLabel, transformedPoints);
+			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
 		
 		for (int i = 0; i < ret.length; i++) {
 			ret[i].setEuclidianVisible(((GeoElement)oldPoly)
@@ -149,13 +149,13 @@ public abstract class Transform {
 	 * @param points
 	 * @return array of transformed points
 	 */
-	public GeoPoint[] transformPoints(GeoPointND[] points) {
+	public GeoPointND[] transformPoints(GeoPointND[] points) {
 		// dilate all points
-		GeoPoint[] newPoints = new GeoPoint[points.length];
+		GeoPointND[] newPoints = new GeoPointND[points.length];
 		for (int i = 0; i < points.length; i++) {
 			String pointLabel = transformedGeoLabel((GeoElement) points[i]);
-			newPoints[i] = (GeoPoint) transform((GeoElement) points[i], pointLabel)[0];
-			newPoints[i].setVisualStyleForTransformations((GeoElement) points[i]);
+			newPoints[i] = (GeoPointND) transform((GeoElement) points[i], pointLabel)[0];
+			((GeoElement) newPoints[i]).setVisualStyleForTransformations((GeoElement) points[i]);
 		}
 		return newPoints;
 	}

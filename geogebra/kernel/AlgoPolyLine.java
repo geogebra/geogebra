@@ -135,7 +135,9 @@ public class AlgoPolyLine extends AlgoElement {
 			input[0] = geoList;
 
     	} else {    	
-   			input = (GeoElement[]) points;
+    		input = new GeoElement[points.length];
+    		for (int i=0; i<points.length; i++)
+    			input[i] = (GeoElement) points[i];
     	}    	
     	// set dependencies
         for (int i = 0; i < input.length; i++) {

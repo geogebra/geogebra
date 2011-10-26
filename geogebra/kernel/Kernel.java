@@ -83,6 +83,7 @@ import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.kernel.kernelND.GeoRayND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.parser.Parser;
@@ -3175,6 +3176,14 @@ public class Kernel {
 		GeoSegment s = algo.getSegment();
 		return s;
 	}
+	
+	public GeoSegmentND SegmentND(
+			String label,
+			GeoPointND P,
+			GeoPointND Q) {
+			
+			return Segment(label, (GeoPoint) P, (GeoPoint) Q);
+		}
 
 	/** 
 	 * Line named label through Points P and Q
@@ -3200,6 +3209,10 @@ public class Kernel {
 	final public GeoRay Ray(String label, GeoPoint P, GeoPoint Q) {
 		AlgoJoinPointsRay algo = new AlgoJoinPointsRay(cons, label, P, Q);
 		return algo.getRay();
+	}
+	
+	public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
+		return Ray(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
 	/** 
@@ -5729,6 +5742,10 @@ public class Kernel {
 		return algo.getOutput();
 	}
 	
+	public GeoElement [] PolygonND(String [] labels, GeoPointND [] P) {
+		return Polygon(labels,P);
+	}
+	
 	//G.Sturr 2010-3-14
 	/** 
 	 * Polygon with vertices from geolist 
@@ -5744,9 +5761,13 @@ public class Kernel {
 	 * polygon P[0], ..., P[n-1]
 	 * The labels name the polygon itself and its segments
 	 */
-	final public GeoElement [] PolyLine(String [] labels, GeoPoint [] P) {
+	final public GeoElement [] PolyLine(String [] labels, GeoPointND [] P) {
 		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, P);
 		return algo.getOutput();
+	}
+	
+	public GeoElement [] PolyLineND(String [] labels, GeoPointND [] P) {
+		return PolyLine(labels,P);
 	}
 	
 	final public GeoElement [] PolyLine(String [] labels, GeoList pointList) {
@@ -5928,7 +5949,7 @@ public class Kernel {
 		AlgoPointOnPath algoPoint = new AlgoPointOnPath(cons, pointLabel, algoCircle.getCircle(), A.inhomX+ n.getDouble(), A.inhomY );
 		
 		// return segment and new point
-		GeoElement [] ret = { Segment(segmentLabel, A, algoPoint.getP()),
+		GeoElement [] ret = { (GeoElement) Segment(segmentLabel, A, algoPoint.getP()),
 											algoPoint.getP() };
 		return ret;		
 	}

@@ -15,21 +15,6 @@ import geogebra.kernel.kernelND.GeoVectorND;
  */
 public abstract class Transform3D extends Transform{
 	
-	/**
-	 * Applies the transform to all points
-	 * @param points
-	 * @return array of transformed points
-	 */
-	public GeoPointND[] transformPoints3D(GeoPointND[] points) {
-		// dilate all points
-		GeoPointND[] newPoints = new GeoPointND[points.length];
-		for (int i = 0; i < points.length; i++) {
-			String pointLabel = transformedGeoLabel((GeoElement) points[i]);
-			newPoints[i] = (GeoPointND) transform((GeoElement) points[i], pointLabel)[0];
-			((GeoElement) newPoints[i]).setVisualStyleForTransformations((GeoElement) points[i]);
-		}
-		return newPoints;
-	}
 
 }
 
