@@ -1,12 +1,15 @@
 #!/bin/sh
 
-WIXDIR=../wix36 # You can override this by using a default value in autobuild.conf
+WIXDIR=../wix35 # You can override this by using a default value in autobuild.conf
+
+./create-license
+./create-wxs
 
 test -r ../../autobuild.conf || {
  echo "Cannot find ../../autobuild.conf (make sure you edit autobuild.conf.dist first)"
  exit 1
  }
-. ../.../autobuild.conf
+. ../../autobuild.conf
 
 test -r $WIXDIR/candle.exe || {
  echo WiX is not installed into $WIXDIR
@@ -20,28 +23,28 @@ if [ "$WINEVERSION" -lt "1320" ]; then
  exit 2
  fi
 
-test -r ../../../../build/debug/geogebra.jar || {
- echo GeoGebra does not seem to be built, run ../../buildggb40 first
+test -r ../../../../build/installer/windows/geogebra.exe || {
+ echo GeoGebra Windows Install does not seem to be built, run../../buildggb40 first
  }
 
-cp ../../../../build/debug/* .
-cp ../../../../icons/hicolor/32x32/apps/geogebra.png .
+# Copying needed files here:
+cp ../../../../build/unpacked/* .
 cp ../../../../installer/geogebra.ico .
+cp ../../../../build/installer/windows/geogebra.exe .
+cp ../../../../installer/cc-by-sa-3.0.txt .
+cp ../../../../installer/cc.ico .
+cp ../../../../installer/forum.ico .
+cp ../../../../installer/wiki.ico .
+cp ../../../../installer/gpl-3.0.txt .
+mkdir -p unsigned
+cp ../../../../build/unsigned/unpacked/* unsigned
 
 GGBVERSION=`cat ../../../../build/unpacked/version.txt`
 GGBVERSION_DASHED=`echo $GGBVERSION | tr . -`
 MSIFILE=GeoGebra-Windows-Installer-$GGBVERSION_DASHED.msi
 
-wine $WIXDIR/candle.exe GeoGebra.wxs -dcodepage=1252
-wine $WIXDIR/light.exe -sval -ext WixUIExtension -cultures:en-us -out GeoGebra.msi GeoGebra.wixobj
-
-# Creating localized installers (http://wix.tramontana.co.hu/tutorial/transforms/morphing-installers)
-cat languages.txt | while read CULTURE CODEPAGE; do
- wine $WIXDIR/candle.exe GeoGebra.wxs -dcodepage=$CODEPAGE
- wine $WIXDIR/light.exe -sval -ext WixUIExtension -cultures:$CULTURE -out GeoGebra_$CULTURE.msi GeoGebra.wixobj
- wine $WIXDIR/torch.exe -p -t language GeoGebra.msi GeoGebra_$CULTURE.msi -out $CULTURE.mst
- wine $WIXDIR/EmbedTransform.exe GeoGebra.msi $CULTURE.mst
- done
+wine $WIXDIR/candle.exe GeoGebra.wxs
+wine $WIXDIR/light.exe -sval -ext WixUIExtension GeoGebra.wixobj
 
 mv GeoGebra.msi $MSIFILE
 

@@ -78,3 +78,12 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 # 4. Cleanup:
 rm -fR "$DIRNAME" $WINDOWS_ZIP_FINAL # removing current working directory and file
 rm -f $TEMPDIR/$GGB42_ZIP
+
+# 5. Creating the MSI version and copying to Google Code:
+cd $SVNDIR/geogebra/scripts/autobuild/windows/WiX
+./create-msi
+WINDOWS_MSI=`ls -1 --color=no *.msi` # assuming 1 file exists here, FIXME
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+  $SVNDIR/geogebra/scripts/autobuild/googlecode_upload.py -s "GeoGebra $VERSION_STRING for Windows (for automated install)" \
+   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_MSI
+ fi
