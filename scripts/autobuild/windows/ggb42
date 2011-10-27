@@ -81,6 +81,7 @@ rm -f $TEMPDIR/$GGB42_ZIP
 
 # 5. Creating the MSI version and copying to Google Code:
 cd $SVNDIR/geogebra/scripts/autobuild/windows/WiX
+rm -f *.msi
 ./create-msi
 WINDOWS_MSI=`ls -1 --color=no *.msi` # assuming 1 file exists here, FIXME
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
