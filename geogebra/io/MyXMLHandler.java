@@ -1861,15 +1861,72 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleToolbar(Application app, LinkedHashMap<String, String> attrs) {
 		try {
-			String showToolBar = (String)attrs.get("show");
-			
-			if(showToolBar == null) {
+			String toolbarStr = (String)attrs.get("str");
+			if (toolbarStr != null) {
+				// GeoGebra 3.2 or older
+
+				// substitute 1000+x to 100000+x (macro numbers)
+				// this seems to be easier with a loop
+				boolean afterspace = true;
+				int thousande = 0;
+				StringBuilder addendum = new StringBuilder();
+				StringBuilder converted = new StringBuilder();
+				for (int lv = 0; lv < toolbarStr.length(); lv++) {
+					if (toolbarStr.charAt(lv) == ' ') {
+						afterspace = true;
+						thousande = 0;
+						addendum = new StringBuilder();
+						converted.append(toolbarStr.charAt(lv));
+					} else if (afterspace) {
+						if (thousande == 0) {
+							if (toolbarStr.charAt(lv) == '1') {
+								thousande++;
+								addendum = new StringBuilder();
+								addendum.append(toolbarStr.charAt(lv));
+							} else {
+								afterspace = false;
+								thousande = 0;
+								converted.append(toolbarStr.charAt(lv));
+							}
+						} else if (thousande < 4) {
+							if (Character.isDigit(toolbarStr.charAt(lv))) {
+								thousande++;
+								addendum.append(toolbarStr.charAt(lv));
+							} else {
+								thousande = 0;
+								afterspace = false;
+								converted.append(addendum);
+								converted.append(toolbarStr.charAt(lv));
+							}
+						}
+						if (thousande == 4) {
+							if (lv + 1 == toolbarStr.length()) {
+								converted.append("100"+addendum.toString().substring(1));
+							} else if (!Character.isDigit(toolbarStr.charAt(lv+1)) ) {
+								converted.append("100"+addendum.toString().substring(1));
+							} else {
+								converted.append(addendum);
+							}
+							afterspace = false;
+							thousande = 0;
+						}
+					} else {
+						converted.append(toolbarStr.charAt(lv));
+					}
+				}
+				toolbarStr = converted.toString();
+
 				tmp_perspective.setShowToolBar(true);
-			} else {
-				tmp_perspective.setShowToolBar(showToolBar.equals("true"));
+				tmp_perspective.setToolbarDefinition(toolbarStr);
+			} else { // GeoGebra 4.0
+				String showToolBar = (String)attrs.get("show");
+				if(showToolBar == null) {
+					tmp_perspective.setShowToolBar(true);
+				} else {
+					tmp_perspective.setShowToolBar(showToolBar.equals("true"));
+				}
+				tmp_perspective.setToolbarDefinition((String) attrs.get("items"));
 			}
-			
-			tmp_perspective.setToolbarDefinition((String) attrs.get("items"));
 			return true;
 		} catch (Exception e) {
 			Application.debug(e.getMessage() + ": " + e.getCause());
