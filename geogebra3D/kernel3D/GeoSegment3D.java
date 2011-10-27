@@ -9,6 +9,8 @@ import geogebra.kernel.PathMover;
 import geogebra.kernel.Transform;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.arithmetic.MyDouble;
+import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
@@ -23,7 +25,7 @@ import geogebra.main.Application;
  * @author ggb3d
  *
  */
-public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
+public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND, NumberValue {
 	
 
 	/** if is a segment from a GeoPolygon3D or GeoPolyhedron */
@@ -444,6 +446,21 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
         sb.append("\"/>\n");
   
     }
+	
+	
+	
 
+	final public MyDouble getNumber() {
+		return new MyDouble(kernel,  getLength() );
+	}
+
+	final public double getDouble() {
+		return getLength();
+	}
+
+
+	final public boolean isNumberValue() {
+		return true;
+	}
 	
 }
