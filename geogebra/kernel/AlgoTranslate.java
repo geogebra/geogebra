@@ -52,7 +52,8 @@ public class AlgoTranslate extends AlgoTransformation {
                 
         // create out
         if(inGeo instanceof GeoPolyLineInterface || inGeo.isLimitedPath()){
-	        outGeo = inGeo.copyInternal(cons);
+        	
+	        outGeo = copyInternal(cons, inGeo);
 	        out = (Translateable) outGeo;
         }
         else if(in.isGeoList()){
@@ -68,6 +69,10 @@ public class AlgoTranslate extends AlgoTransformation {
     
     protected GeoElement copy(GeoElement geo){
     	return geo.copy();
+    }
+    
+    protected GeoElement copyInternal(Construction cons, GeoElement geo){
+    	return geo.copyInternal(cons);
     }
     
     public String getClassName() {

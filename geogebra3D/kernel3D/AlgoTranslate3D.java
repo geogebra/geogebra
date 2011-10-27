@@ -24,5 +24,12 @@ public class AlgoTranslate3D extends AlgoTranslate {
     	else
     		return super.copy(geo);
     }
+    
+    protected GeoElement copyInternal(Construction cons, GeoElement geo){
+    	if (v.isGeoElement3D())
+    		return ((Kernel3D) kernel).copyInternal3D(cons,geo);
+    	else
+    		return super.copyInternal(cons,geo);
+    }
 
 }

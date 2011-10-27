@@ -42,7 +42,7 @@ implements Comparable<ConstructionElement> {
 		setConstruction(c);
 	}
 
-	void setConstruction(Construction c) {
+	public void setConstruction(Construction c) {
 		cons = c;
 		kernel = c.getKernel();
 		app = c.getApplication();

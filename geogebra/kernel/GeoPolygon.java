@@ -1406,7 +1406,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 	public void translate(Coords v) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).translate(v);		
+			((Translateable)points[i]).translate(v);		
 	}
 
 	public void dilate(NumberValue r, GeoPoint S) {

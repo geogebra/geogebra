@@ -9,6 +9,7 @@ import geogebra.kernel.Path;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.Region;
 import geogebra.kernel.RegionParameters;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
@@ -587,5 +588,10 @@ extends GeoPolygon implements GeoElement3DInterface, Path, GeoCoordSys2D {
 		area = Math.abs(calcAreaWithSign(points2D));
 	}
 	*/
+	
+	public void translate(Coords v) {
+		super.translate(v);		
+		getCoordSys().translate(v);
+	}
 	
 }

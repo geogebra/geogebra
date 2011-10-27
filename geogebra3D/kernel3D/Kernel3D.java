@@ -24,6 +24,7 @@ import geogebra.kernel.AlgoPolygon;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
@@ -437,6 +438,32 @@ public class Kernel3D
     		
     	default:
     		return geo.copy();
+    	}
+	}
+	
+	/**
+	 * 
+	 * @param cons 
+	 * @param geo
+	 * @return 3D copy internal of the geo (if exists)
+	 */
+	public GeoElement copyInternal3D(Construction cons, GeoElement geo){
+		
+		switch (geo.getGeoClassType()){
+		
+    	case GeoElement.GEO_CLASS_POLYGON:
+    		GeoPolygon3D poly = new GeoPolygon3D(cons, null); 
+    		GeoPointND[] geoPoints = ((GeoPolygon) geo).getPointsND();
+    		GeoPointND[] points = new GeoPointND[geoPoints.length];
+    		for (int i=0; i<geoPoints.length; i++){
+    			points[i] = new GeoPoint3D(geoPoints[i]);
+    			((GeoElement) points[i]).setConstruction(cons);
+    		}
+    		poly.setPoints(points);
+    		poly.set(geo);
+    		return poly;
+    	default:
+    		return geo.copyInternal(cons);
     	}
 	}
 	

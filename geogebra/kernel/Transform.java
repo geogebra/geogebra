@@ -3,6 +3,7 @@ package geogebra.kernel;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
 import geogebra.util.GgbMat;
 
 import org.apache.commons.math.linear.LUDecompositionImpl;
@@ -87,6 +88,8 @@ public abstract class Transform {
 
 			return geos;
 		}
+		
+		
 		// standard case
 		GeoElement ret = doTransform(geo);
 		ret.setLabel(label);
