@@ -864,13 +864,6 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 
 
-	// fetch the two selected points for vector
-	protected GeoElement[] vector(){
-		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = { null };
-		ret[0] = getKernel().getManager3D().Vector3D(null,points[0], points[1]);
-		return ret;
-	}
 
 
 	// build polygon	

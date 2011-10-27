@@ -4443,24 +4443,19 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		addSelectedPoint(hits, 2, false);
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			/*
-			GeoPoint[] points = getSelectedPoints();
-			kernel.Vector(null, points[0], points[1]);
-			*/
-			return vector();
+			
+			GeoPointND[] points = getSelectedPointsND();
+			return new GeoElement[] {vector(points[0], points[1])};
 		}
 		return null;
 	}
 	
 	// fetch the two selected points for vector
-	protected GeoElement[] vector(){
-		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = { null };
-		if ( ((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D() )
-			ret[0] = kernel.getManager3D().Vector3D(null, points[0], points[1]);
+	protected GeoElement vector(GeoPointND a, GeoPointND b){
+		if ( ((GeoElement) a).isGeoElement3D() || ((GeoElement) b).isGeoElement3D() )
+			return kernel.getManager3D().Vector3D(null, a, b);
 		else
-			ret[0] = kernel.Vector(null, (GeoPoint) points[0], (GeoPoint) points[1]);
-		return ret;
+			return kernel.Vector(null, (GeoPoint) a, (GeoPoint) b);
 	}
 
 	//	get two points and create ray with them
@@ -6322,31 +6317,31 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (selVectors() == 1 || selPoints() == 2) {		
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
-				GeoVector vec = null;
+				GeoVectorND vec = null;
 				if (selVectors() == 1)
-					vec = getSelectedVectors()[0];
+					vec = getSelectedVectorsND()[0];
 				else {
-					GeoPoint[] ab = getSelectedPoints();
-					vec = kernel.Vector(null, ab[0], ab[1]);
+					GeoPointND[] ab = getSelectedPointsND();
+					vec = (GeoVectorND) vector(ab[0], ab[1]);
 				}
 				allowSelectionRectangleForTranslateByVector = true;
-				return kernel.Translate(null,  polys[0], vec);
+				return translate(polys[0], vec);
 			}
 			else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement [] geos = getSelectedGeos();
-				GeoVector vec = null;
+				GeoVectorND vec = null;
 				if (selVectors() == 1)
-					vec = getSelectedVectors()[0];
+					vec = getSelectedVectorsND()[0];
 				else {
-					GeoPoint[] ab = getSelectedPoints();
-					vec = kernel.Vector(null, ab[0], ab[1]);
+					GeoPointND[] ab = getSelectedPointsND();
+					vec = (GeoVectorND) vector(ab[0], ab[1]);
 				}
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				for (int i=0; i < geos.length; i++) {
 					if (geos[i] != vec) {
 						if (geos[i] instanceof Transformable || geos[i].isGeoPolygon())
-							ret.addAll(Arrays.asList(kernel.Translate(null,   geos[i], vec)));
+							ret.addAll(Arrays.asList(translate(geos[i], vec)));
 					}
 				}
 				GeoElement[] retex = {};
@@ -6355,6 +6350,10 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			}
 		}
 		return null;
+	}
+	
+	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec){
+		return kernel.Translate(null, geo, (GeoVector) vec);
 	}
 
 	// get rotateable object, point and angle

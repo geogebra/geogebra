@@ -779,6 +779,8 @@ public class Toolbar extends JToolBar {
 		+ EuclidianConstants.MODE_SPHERE_POINT_RADIUS 
 		+ " || "
 		+ EuclidianConstants.MODE_ANGLE		
+		+ " | "		
+		+ EuclidianConstants.MODE_TRANSLATE_BY_VECTOR	
 		+ " || "		
 		+ EuclidianConstants.MODE_ROTATEVIEW + " "
 		+ EuclidianConstants.MODE_TRANSLATEVIEW + " " + EuclidianConstants.MODE_ZOOM_IN
