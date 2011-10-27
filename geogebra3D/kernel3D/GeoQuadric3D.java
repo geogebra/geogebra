@@ -1,13 +1,10 @@
 package geogebra3D.kernel3D;
 
-import java.awt.geom.AffineTransform;
-
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.RegionParameters;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
@@ -32,7 +29,8 @@ import geogebra3D.euclidian3D.Drawable3D;
  *
  */
 public class GeoQuadric3D extends GeoQuadricND
-implements GeoElement3DInterface, Functional2Var, Region3D{
+implements GeoElement3DInterface, Functional2Var, Region3D,
+Translateable{
 	
 	
 
@@ -523,17 +521,6 @@ implements GeoElement3DInterface, Functional2Var, Region3D{
 	// GEOELEMENT3D INTERFACE
 	///////////////////////////////////////////
 
-
-	private Drawable3D drawable3D = null;
-
-	public Drawable3D getDrawable3D() {
-		return drawable3D;
-	}
-	
-	public void setDrawable3D(Drawable3D d){
-		drawable3D = d;
-	}
-	
 	
 
 
@@ -787,6 +774,29 @@ implements GeoElement3DInterface, Functional2Var, Region3D{
 	
 
 
+	/////////////////////////////////////
+	// TRANSFORMATIONS
+	/////////////////////////////////////
+	
+	public void translate(Coords v){
+		setMidpoint(getMidpoint().add(v).get());
+		
+		//current symetric matrix
+		CoordMatrix sm = getSymetricMatrix();
+		//transformation matrix
+		CoordMatrix tm = CoordMatrix.Identity(4);
+		tm.setOrigin(v.mul(-1));
+		tm.set(4,4,1);
+		//set new symetric matrix
+		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
+		
+		//eigen matrix
+		eigenMatrix.setOrigin(getMidpoint());
+	}
+
+	public boolean isTranslateable(){
+		return true;
+	}
 
 
 

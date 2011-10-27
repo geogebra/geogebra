@@ -157,6 +157,15 @@ public  GeoElement[] process(Command c) throws MyError {
         							(GeoQuadric3D) arg[1])};
         			return ret;
         		}
+        		else if ((arg[1] instanceof GeoPlaneND) && (arg[0] instanceof GeoQuadricND)){
+        			GeoElement[] ret =
+        			{
+        					kernel.getManager3D().Intersect(
+        							c.getLabel(),
+        							(GeoPlaneND) arg[1],
+        							(GeoQuadric3D) arg[0])};
+        			return ret;
+        		}
         		
         		
 
