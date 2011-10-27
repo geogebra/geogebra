@@ -47,6 +47,7 @@ import geogebra.kernel.PointProperties;
 import geogebra.kernel.PointRotateable;
 import geogebra.kernel.Region;
 import geogebra.kernel.Transformable;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -6292,13 +6293,18 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits transAbles = hits.getHits(Transformable.class, tempArrayList);
+			Hits transAbles = hits.getHits(Translateable.class, tempArrayList);
 			count = addSelectedGeo(transAbles, 1, false);
 		}
 
 		// polygon
 		if (count == 0) {					
 			count = addSelectedPolygon(hits, 1, false);
+		}	
+		
+		// list
+		if (count == 0) {					
+			count = addSelectedList(hits, 1, false);
 		}	
 
 		// translation vector
@@ -6340,7 +6346,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				for (int i=0; i < geos.length; i++) {
 					if (geos[i] != vec) {
-						if (geos[i] instanceof Transformable || geos[i].isGeoPolygon())
+						if (geos[i] instanceof Translateable || geos[i].isGeoPolygon() || geos[i].isGeoList())
 							ret.addAll(Arrays.asList(translate(geos[i], vec)));
 					}
 				}
