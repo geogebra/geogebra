@@ -314,6 +314,11 @@ public class CoordSys {
 	public void makeEquationVector(){
 		equationVector.set(getVx().crossProduct(getVy()), 1);
 		equationVector.set(4, 0);
+		if (equationVector.getX()<Kernel.EPSILON
+				&& equationVector.getY()<Kernel.EPSILON
+				&& equationVector.getZ()<Kernel.EPSILON)
+			equationVector=equationVector.mul(-1);
+			
 		double d = equationVector.dotproduct(getOrigin());
 		equationVector.set(4, -d);
 		//Application.debug("equationVector:\n"+equationVector);
@@ -502,6 +507,10 @@ public class CoordSys {
 	public void translate(Coords v){
 		setOrigin(getOrigin().add(v));
 		matrixOrthonormal.setOrigin(getOrigin());
+	}
+
+	public void translateDrawingMatrix(Coords v){
+		drawingMatrix.setOrigin(getOrigin());
 	}
 
 	

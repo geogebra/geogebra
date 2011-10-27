@@ -1,10 +1,10 @@
 package geogebra3D.kernel3D;
 
-import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.RegionParameters;
+import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
@@ -17,7 +17,9 @@ import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 public class GeoPlane3D extends GeoElement3D
-implements Functional2Var, GeoCoordSys2D, GeoCoords4D, GeoPlaneND{
+implements Functional2Var, GeoCoordSys2D, GeoCoords4D, GeoPlaneND,
+Translateable
+{
 	
 	
 	
@@ -539,6 +541,22 @@ implements Functional2Var, GeoCoordSys2D, GeoCoords4D, GeoPlaneND{
 	
 	public double getMeasure() {
 		return Double.POSITIVE_INFINITY;
+	}
+
+	
+	
+	/////////////////////////////////////
+	// TRANSFORMATIONS
+	/////////////////////////////////////
+	
+	public void translate(Coords v){
+		getCoordSys().translate(v);
+		getCoordSys().translateDrawingMatrix(v);
+		getCoordSys().makeEquationVector();
+	}
+
+	public boolean isTranslateable(){
+		return true;
 	}
 	
 }
