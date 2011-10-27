@@ -46,11 +46,20 @@ public abstract class AlgoTransformation extends AlgoElement implements Euclidia
 
 	protected GeoElement getResultTemplate(GeoElement geo) {		
 		if(geo instanceof GeoPolyLineInterface || geo.isLimitedPath())
-			return geo.copyInternal(cons);
+			return copyInternal(cons,geo);
 		if(geo.isGeoList())        	
         	return new GeoList(cons);
-		return geo.copy();		
+		return copy(geo);		
 	}
+
+	protected GeoElement copy(GeoElement geo){
+		return geo.copy();
+	}
+
+	protected GeoElement copyInternal(Construction cons, GeoElement geo){
+		return geo.copyInternal(cons);
+	}
+
 
 	protected void transformLimitedPath(GeoElement a,GeoElement b){
 		

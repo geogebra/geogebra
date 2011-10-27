@@ -67,14 +67,7 @@ public class AlgoTranslate extends AlgoTransformation {
         compute();               
     } 
     
-    protected GeoElement copy(GeoElement geo){
-    	return geo.copy();
-    }
-    
-    protected GeoElement copyInternal(Construction cons, GeoElement geo){
-    	return geo.copyInternal(cons);
-    }
-    
+     
     public String getClassName() {
         return "AlgoTranslate";
     }
