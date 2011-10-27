@@ -130,7 +130,7 @@ read the following web pages:
 		<copy file="${build.dir}/installer/windows/unsigned/GeoGebra-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe"/>
 		<antcall target="installer-windows-sign-installer"/>
 		<move file="${build.dir}/installer/windows/GeoGebra-Windows-Installer-${versionname}.exe" tofile="${build.dir}/installer/GeoGebra-Windows-Installer-${versionname}.exe"/>
-		<delete dir="${build.dir}/installer/windows" followsymlinks="false" removeNotFollowedSymlinks="true"/>
+		<!--delete dir="${build.dir}/installer/windows" followsymlinks="false" removeNotFollowedSymlinks="true"/-->
 	</target>
 	<target name="installer-windows-move-uninstaller-mac" if="installer-windows-osfamily-mac">
 		<move file="${workspace.dir}/wine/drive_c/uninstaller.exe" tofile="${build.dir}/installer/windows/unsigned/uninstaller.exe"/>
