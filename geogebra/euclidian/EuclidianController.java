@@ -1488,12 +1488,15 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				moveMode = MOVE_NONE;
 			}				
 		} 
-		
+
 		// free point
 		else if (movedGeoElement.isGeoPoint()) {
 			moveMode = MOVE_POINT;
 			setMovedGeoPoint(movedGeoElement);
-		} 			
+			// make sure snap-to-grid works after e.g. pressing a button 
+			transformCoordsOffset[0] = 0;
+			transformCoordsOffset[1] = 0;
+		}
 
 		// free line
 		else if (movedGeoElement.isGeoLine()) {
