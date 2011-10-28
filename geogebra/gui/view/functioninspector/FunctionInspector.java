@@ -1347,8 +1347,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		functionInterval.setLayer(f.getLayer()+1);
 		intervalTabGeoList.add(functionInterval);
 
-
-		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(cons, selectedGeo, (NumberValue)xLow.getGeoElements()[0], (NumberValue)xHigh.getGeoElements()[0], null);
+		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(cons, selectedGeo, (NumberValue)xLow.getGeoElements()[0], (NumberValue)xHigh.getGeoElements()[0], null, false);
 		cons.removeFromConstructionList(inte);
 		integralGeo = inte.getGeoElements()[0];
 		integralGeo.setEuclidianVisible(false);
@@ -1358,7 +1357,9 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		ExpressionNode en = new ExpressionNode(kernel, selectedGeo, ExpressionNode.ABS, null);
 		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons, (Function) en.evaluate());
 		cons.removeFromConstructionList(funAlgo);
-		AlgoIntegralDefinite area = new AlgoIntegralDefinite(cons, (GeoFunction)funAlgo.getGeoElements()[0], (NumberValue)xLow.getGeoElements()[0], (NumberValue)xHigh.getGeoElements()[0], null);
+		
+		//the antiderivative of a function containing the absolute function might be difficult to find if it exists at all. Therefore the definite integral is calculated numerically.
+		AlgoIntegralDefinite area = new AlgoIntegralDefinite(cons, (GeoFunction)funAlgo.getGeoElements()[0], (NumberValue)xLow.getGeoElements()[0], (NumberValue)xHigh.getGeoElements()[0], null, true);
 		cons.removeFromConstructionList(area);
 		areaGeo = area.getGeoElements()[0];
 		areaGeo.setEuclidianVisible(false);

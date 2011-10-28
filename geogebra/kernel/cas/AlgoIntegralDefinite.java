@@ -75,13 +75,23 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
             n.setLabel(label);
         }
 
+    public AlgoIntegralDefinite(
+            Construction cons,
+            GeoFunction f,
+            NumberValue a,
+            NumberValue b,
+            GeoBoolean evaluate) {
+    		this(cons, f, a, b, evaluate, false);
+
+        }
     
     public AlgoIntegralDefinite(
         Construction cons,
         GeoFunction f,
         NumberValue a,
         NumberValue b,
-        GeoBoolean evaluate) {
+        GeoBoolean evaluate,
+        boolean evaluateNumerically) {
         super(cons);
         this.f = f;
         n = new GeoNumeric(cons); // output
@@ -95,7 +105,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         // create helper algorithm for symbolic integral
         // don't use symbolic integral for conditional functions
         // or if it should not be evaluated (i.e. a shade-only integral)
-        if ((evaluate == null || evaluate.getBoolean()) && !f.isGeoFunctionConditional()) {
+        if ((evaluate == null || evaluate.getBoolean()) && !f.isGeoFunctionConditional() && !evaluateNumerically) {
             AlgoIntegral algoInt = new AlgoIntegral(cons, f, null);
             symbIntegral = (GeoFunction) algoInt.getResult();           
             cons.removeFromConstructionList(algoInt);     
