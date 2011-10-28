@@ -3,7 +3,7 @@ CLEAR_CONSOLE=true
 JAVACC_OPTIONS=-STATIC\=false
 JJDOC_OPTIONS=
 JJTREE_OPTIONS=
-JJ_NATURE=true
+JJ_NATURE=false
 JTB_OPTIONS=
 RUNTIME_JAR=
 # The external JavaCC is not really needed here.
