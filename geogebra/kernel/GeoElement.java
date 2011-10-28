@@ -48,7 +48,6 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +57,6 @@ import java.util.Stack;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /**
  *
@@ -806,7 +804,7 @@ public abstract class GeoElement
 	}
 	/**
 	 * Returns the character which is used between label and definition
-	 * @return : for conics, implicit polynomials and inequalities, = otherwise
+	 * @return for conics, implicit polynomials and inequalities, = otherwise
 	 */
 	protected char getLabelDelimiter(){
 		return '=';
@@ -834,8 +832,9 @@ public abstract class GeoElement
     		inputBarStr = getAlgebraDescription();
     	}
 
-    	if (increasePrecision)
+    	if (increasePrecision) {
 			kernel.restorePrintAccuracy();
+    	}
 
 		return inputBarStr;
 	}
@@ -851,8 +850,9 @@ public abstract class GeoElement
 		// copy into text field
 		String ret = toOutputValueString();
 
-		if (increasePrecision)
+		if (increasePrecision) {
 			kernel.restorePrintAccuracy();
+		}
 
 		return ret;
 	}
@@ -861,7 +861,7 @@ public abstract class GeoElement
 	 * Sets this object to zero (number = 0, points = (0,0), etc.)
 	 */
 	public void setZero() {
-
+		//TODO ?
 	}
 
 	/**
@@ -941,7 +941,6 @@ public abstract class GeoElement
 		greenD = greenD/2 - Math.floor(greenD/2);
 		blueD = blueD/2 - Math.floor(blueD/2);
 
-
 		// step function so
 		// [0,1] -> [0,1]
 		// [1,2] -> [1,0]
@@ -953,7 +952,6 @@ public abstract class GeoElement
 		if (blueD>0.5) blueD=2*(1-blueD); else blueD=2*blueD;
 
 		//Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
-
 
 		// adjust color triple to alternate color spaces, default to RGB
 		switch(colorSpace){
@@ -1411,6 +1409,7 @@ public abstract class GeoElement
 	 * Returns whether this GeoElement is visible in
 	 * the construction protocol
 	 */
+	@Override
 	final public boolean isConsProtocolBreakpoint() {
 		return isConsProtBreakpoint;
 	}
@@ -1690,6 +1689,7 @@ public abstract class GeoElement
 		return algorithmList;
 	}
 
+	@Override
 	public boolean isIndependent() {
 		return (algoParent == null);
 	}
@@ -2885,6 +2885,7 @@ public abstract class GeoElement
 	 * Removes this object and all dependent objects from the Kernel.
 	 * If this object is not independent, it's parent algorithm is removed too.
 	 */
+	@Override
 	public void remove() {
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
@@ -2959,6 +2960,7 @@ public abstract class GeoElement
 		return latexCache;
 	}
 
+	@Override
 	final public void notifyAdd() {
 		kernel.notifyAdd(this);
 
@@ -2966,6 +2968,7 @@ public abstract class GeoElement
 		// printUpdateSets();
 	}
 
+	@Override
 	final public void notifyRemove() {
 		kernel.notifyRemove(this);
 
@@ -3132,6 +3135,7 @@ public abstract class GeoElement
 	 * Note: no dependent objects are updated.
 	 * @see #updateRepaint()
 	 */
+	@Override
 	public void update() {
 
 		updateGeo();
@@ -3390,6 +3394,7 @@ public abstract class GeoElement
 	}
 	
 	
+	@Override
 	public String toString() {
 		return label;
 	}
@@ -3466,6 +3471,7 @@ public abstract class GeoElement
 	 * The predecessors are sorted topologically. Note: when this method is called
 	 * on an independent geo that geo is included in the TreeSet.
 	 */
+	@Override
 	public TreeSet<GeoElement> getAllIndependentPredecessors() {
 		TreeSet<GeoElement> set = new TreeSet<GeoElement>();
 		addPredecessorsToSet(set, true);
@@ -3566,30 +3572,30 @@ public abstract class GeoElement
 		return set;
 	}
 
-
-
 	/*
 	* implementation of abstract methods from ConstructionElement
 	*/
+	@Override
 	public GeoElement[] getGeoElements() {
 		return myGeoElements;
 	}
 	private GeoElement [] myGeoElements = new GeoElement[] { this };
 
+	@Override
 	final public boolean isAlgoElement() {
 		return false;
 	}
 
+	@Override
 	final public boolean isGeoElement() {
 		return true;
 	}
-
-
 
 	/**
 	 * Returns construction index in current construction.
 	 * For a dependent object the construction index of its parent algorithm is returned.
 	 */
+	@Override
 	public int getConstructionIndex() {
 		if (algoParent == null)
 			return super.getConstructionIndex();
@@ -3601,6 +3607,7 @@ public abstract class GeoElement
 	 * Returns the smallest possible construction index for this object in its construction.
 	 * For an independent object 0 is returned.
 	 */
+	@Override
 	public int getMinConstructionIndex() {
 		if (algoParent == null)
 			return 0;
@@ -3611,6 +3618,7 @@ public abstract class GeoElement
 	/**
 	 * Returns the largest possible construction index for this object in its construction.
 	 */
+	@Override
 	public int getMaxConstructionIndex() {
 		if (algoParent == null) {
 			// independent object:
@@ -3629,6 +3637,7 @@ public abstract class GeoElement
 			return algoParent.getMaxConstructionIndex();
 	}	
 
+	@Override
 	public String getDefinitionDescription() {
 		if (algoParent == null)
 			return "";
@@ -3643,6 +3652,7 @@ public abstract class GeoElement
 			return indicesToHTML(app.translationFix(algoParent.toString()), addHTMLtag);
 	}
 
+	@Override
 	public String getCommandDescription() {
 		if (algoParent == null)
 			return "";
@@ -3668,6 +3678,7 @@ public abstract class GeoElement
 				addHTMLtag);
 	}
 
+	@Override
 	public int getRelatedModeID() {
 		if (algoParent == null)
 			return -1;
@@ -3963,6 +3974,7 @@ public abstract class GeoElement
 	/**
 	 * Returns algebraic representation of this GeoElement.
 	 */
+	@Override
 	final public String getAlgebraDescription() {
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
@@ -4073,9 +4085,7 @@ public abstract class GeoElement
 		}
 
 		return sb.toString();
-
 	}
-	
 	
 	
 	/*
@@ -4160,6 +4170,7 @@ public abstract class GeoElement
 		* returns type and label of a GeoElement
 		* (for tooltips and error messages)
 		*/
+	@Override
 	public String getNameDescription() {
 		StringBuilder sbNameDescription = new StringBuilder();
 
@@ -4284,6 +4295,7 @@ public abstract class GeoElement
 	 * save object in xml format
 	 * GeoGebra File Format
 	 */
+	@Override
 	public void getXML(StringBuilder sb) {
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setPrintLocalizedCommandNames(false);
@@ -4373,6 +4385,7 @@ public abstract class GeoElement
 	 * save object in i2g format
 	 * Intergeo File Format (Yves Kreis)
 	 */
+	@Override
 	public void getI2G(StringBuilder sb, int mode) {
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setPrintLocalizedCommandNames(false);
@@ -5214,9 +5227,9 @@ public abstract class GeoElement
 					GeoPoint p = ((AlgoDynamicCoordinates)getParentAlgorithm()).getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
 					geo = p;
+				} else {
+					movedGeo = movePoint(rwTransVec, endPosition);
 				}
-				else movedGeo = movePoint(rwTransVec, endPosition);
-
 			}
 
 			// translateable
@@ -5236,8 +5249,7 @@ public abstract class GeoElement
 					int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
 					screenLoc.setAbsoluteScreenLoc(x, y);
 					movedGeo = true;
-				}
-				else if (isGeoNumeric()) {
+				} else if (isGeoNumeric()) {
 					if (!((GeoNumeric)geo).isSliderFixed()) {
 						// real world screen position - GeoNumeric
 						((GeoNumeric)geo).setRealWorldLoc(
@@ -5245,8 +5257,7 @@ public abstract class GeoElement
 								((GeoNumeric)geo).getRealWorldLocY() + rwTransVec.getY());
 						movedGeo = true;
 					}
-				}
-				else if (isGeoText()) {
+				} else if (isGeoText()) {
 					// check for GeoText with unlabeled start point
 					GeoText movedGeoText = (GeoText) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
@@ -5261,10 +5272,11 @@ public abstract class GeoElement
 			}
 
 			if (movedGeo) {
-				if (updateGeos != null)
+				if (updateGeos != null) {
 					updateGeos.add(geo);
-				else
+				} else {
 					geo.updateCascade();
+				}
 			}
 		}
 
@@ -6264,13 +6276,5 @@ public abstract class GeoElement
 		// no real latex string
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-
 
 }

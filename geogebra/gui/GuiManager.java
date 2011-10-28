@@ -2561,7 +2561,7 @@ public class GuiManager {
 		return false;
 	}
 
-	private String getAttributeValue(String page, String lowerCasedPage,
+	private static String getAttributeValue(String page, String lowerCasedPage,
 			String attrName) {
 		int index;
 		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value='test.ggb'
@@ -3364,7 +3364,6 @@ public class GuiManager {
 				if (Application.isVirtualKeyboardActive())
 					toggleKeyboard(true);
 			}
-
 	}
 
 	WindowsUnicodeKeyboard kb = null;

@@ -117,19 +117,17 @@ implements Comparable<ConstructionElement> {
 	 * Returns all independent predecessors (of type GeoElement) that this object depends on.
 	 * The predecessors are sorted topologically.
 	 */
-	public abstract TreeSet getAllIndependentPredecessors();
+	public abstract TreeSet<?> getAllIndependentPredecessors();
 	
 	/**
 	 * Returns XML representation of this object.
 	 * GeoGebra File Format.
-	 * @return xml String
 	 */
     public abstract void getXML(StringBuilder sb);
     
 	/**
 	 * Returns I2G representation of this object.
 	 * Intergeo File Format. (Yves Kreis)
-	 * @return xml String
 	 */
     public abstract void getI2G(StringBuilder sb, int mode);
         
@@ -218,6 +216,7 @@ implements Comparable<ConstructionElement> {
     		return 1;
     }
         
+	@Override
 	public boolean equals(Object obj) {
 		return this == obj;
 	}

@@ -47,7 +47,7 @@ public final class ClassPathManipulator {
 	/** Adds a file given as File to the Classpath */
 	public synchronized static boolean addFile(File f) {
 		try {
-			addURL(f.toURL(), null); // System.err.println(f.toURL());
+			addURL(f.toURI().toURL(), null); // System.err.println(f.toURL());
 			return true;
 		} catch (MalformedURLException e) {
 			System.err.println("MalformedURLException for " + f.getName());
@@ -66,7 +66,7 @@ public final class ClassPathManipulator {
 		if (loader == null)
 			loader = ClassLoader.getSystemClassLoader();
 		URLClassLoader sysloader = (URLClassLoader) loader;
-		Class sysclass = URLClassLoader.class;
+		Class<URLClassLoader> sysclass = URLClassLoader.class;
 				
 		// check if URL u is already on classpath
 		URL [] classpath = sysloader.getURLs();
@@ -79,7 +79,6 @@ public final class ClassPathManipulator {
 				}
 			}
 		}
-	
 		
 		try {
 			Class[] parameter = new Class[] { URL.class };
@@ -142,6 +141,5 @@ public final class ClassPathManipulator {
 //	
 //	
 	
-
 
 }// class ClassPathManipulator

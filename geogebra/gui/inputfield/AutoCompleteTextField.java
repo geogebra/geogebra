@@ -231,10 +231,9 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 			return;
 
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
-		if (Application.MAC_OS && e.isControlDown())
+		if (Application.MAC_OS && e.isControlDown()) {
 			e.consume();
-
-
+		}
 
 		ctrlC = false;
 
@@ -542,7 +541,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		setCaretPosition(Math.min(text.length(), caretPos));
 	}
 
-	private boolean isCloseBracketOrWhitespace(char c) {
+	private static boolean isCloseBracketOrWhitespace(char c) {
 		return Character.isWhitespace(c) || c == ')' || c == ']' || c == '}';
 	}
 
@@ -968,6 +967,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 	 */
 	public void showError(MyError e) {
 		app.showError(e);
-
 	}
+
 }

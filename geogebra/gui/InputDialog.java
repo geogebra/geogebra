@@ -111,16 +111,21 @@ public class InputDialog extends JDialog implements ActionListener,
 		optionPane.add(p, BorderLayout.CENTER);		
 		centerOnScreen();
 		this.setResizable(true);
-		if (initString != null && selectInitText)
+		if (initString != null && selectInitText) {
 			inputPanel.selectText();
-		else
-            // workaround for Mac OS X 10.5 problem (first character typed deleted)
-			// TODO [UNTESTED]
-            if (Application.MAC_OS)
-	            SwingUtilities.invokeLater( new Runnable(){ public void
-	            	run() { inputPanel.getTextComponent().setSelectionStart(1);
-	            	inputPanel.getTextComponent().setSelectionEnd(1);} });
-
+		} else {
+            // workaround for #1478
+			// TODO not working
+            if (Application.MAC_OS) {
+            	final String initString2= initString;
+	            SwingUtilities.invokeLater( new Runnable(){ 
+	            	public void run() { 
+	            		inputPanel.getTextComponent().setSelectionStart(0);
+	            		inputPanel.getTextComponent().setSelectionEnd(0);
+	            	} 
+	            });
+            }
+		}
 		this.pack();
 	}	
 	

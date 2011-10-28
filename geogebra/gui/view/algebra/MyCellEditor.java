@@ -26,7 +26,8 @@ public class MyCellEditor extends DefaultCellEditor {
     }
     
     /** Implements the <code>TreeCellEditor</code> interface. */
-    public Component getTreeCellEditorComponent(JTree tree, Object value,
+    @Override
+	public Component getTreeCellEditorComponent(JTree tree, Object value,
                         boolean isSelected,
                         boolean expanded,
                         boolean leaf, int row) {

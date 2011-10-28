@@ -141,7 +141,9 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 				if (geo instanceof GeoTextField) {
 					GeoTextField tf = (GeoTextField)geo;
 					tf.setFocus(ch+"");
-				} else app.getGuiManager().showRenameDialog(geo, true, Character.toString(ch), false);
+				} else {
+					app.getGuiManager().showRenameDialog(geo, true, Character.toString(ch), false);
+				}
 				return true;
 			}
 		}		

@@ -193,6 +193,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 				BorderFactory.createMatteBorder(0, 0, 1, 0, GeoGebraColorConstants.TABLE_GRID_COLOR),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
+				@Override
 				public Component getListCellRendererComponent(JList list, Object value, int index,
 						boolean isSelected, boolean cellHasFocus) {
 
