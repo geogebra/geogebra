@@ -44,6 +44,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 * Loads necessary jar files and initializes applet. During the loading of
 	 * jar files, a splash screen is shown.
 	 */
+	@Override
 	public void init() {		
 		Application.debug("init");
 		try {
@@ -64,6 +65,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	
 	private void initAppletInBackground() {
 		Thread runner = new Thread() {
+			@Override
 			public void run() {						
 				Application.debug("initAppletInBackground");
 				// init applet
@@ -90,6 +92,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		runner.start();
 	}
 
+	@Override
 	public void start() {
 		// restart animation if necessary
 		if (animationRunningAtLastStop) {
@@ -107,6 +110,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		System.gc();
 	}
 
+	@Override
 	public void stop() {
 		// stop animation and remember that it needs to be restarted later
 		if (appletImplementation != null) {
@@ -120,6 +124,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		System.gc();
 	}
 
+	@Override
 	public void destroy() {	
 		// stop animation
 		if (appletImplementation != null) {
@@ -177,6 +182,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 * Paints the applet or a loading screen while the applet is being
 	 * initialized.
 	 */
+	@Override
 	final public void paint(Graphics g) {
 		// INITING applet
 		if (appletIsIniting) {

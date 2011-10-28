@@ -33,8 +33,6 @@ and ftd2xx.dll (installed by CDM20814_Setup.exe)
 
 package geogebra.plugin.jd2xx;
 
-import geogebra.main.Application;
-
 import java.io.IOException;
 
 import jd2xx.JD2XX;

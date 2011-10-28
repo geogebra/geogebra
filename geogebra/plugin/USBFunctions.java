@@ -14,11 +14,9 @@ import org.concord.sensor.SensorDataProducer;
 public class USBFunctions {
 	USBLogger logger = null;
 	private ScriptManager sm;
-	private Application app;
 	
-	public USBFunctions(ScriptManager sm, Application app) {
+	public USBFunctions(ScriptManager sm) {
 		this.sm = sm;
-		this.app = app;
 	}
 	
 	/**

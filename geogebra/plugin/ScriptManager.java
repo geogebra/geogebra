@@ -1,14 +1,12 @@
 package geogebra.plugin;
 
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
 import geogebra.main.Application;
-import geogebra.usb.USBLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.SwingUtilities;
 
 //import org.concord.framework.data.stream.DataListener;
 //import org.concord.framework.data.stream.DataStreamEvent;
@@ -51,8 +49,9 @@ public class ScriptManager {
 	public void ggbOnInit() {
 		
 		try {
+			app.getKernel();
 			// call only if libraryJavaScript is not the default (ie do nothing)
-			if (!app.getKernel().getLibraryJavaScript().equals(app.getKernel().defaultLibraryJavaScript))
+			if (!app.getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
 					CallJavaScript.evalScript(app, "ggbOnInit();", null);
 		} catch (Exception e) {
 			Application.debug("Error calling ggbOnInit(): "+e.getMessage());
@@ -69,7 +68,7 @@ public class ScriptManager {
 	 */
 	
 	// maps between GeoElement and JavaScript function names
-	private HashMap updateListenerMap;
+	private HashMap<GeoElement, String> updateListenerMap;
 	private ArrayList<String> addListeners, removeListeners, renameListeners, updateListeners, clearListeners;
 	private JavaToJavaScriptView javaToJavaScriptView;
 	
@@ -87,7 +86,7 @@ public class ScriptManager {
 		
 		// init list
 		if (addListeners == null) {
-			addListeners = new ArrayList();			
+			addListeners = new ArrayList<String>();			
 		}		
 		addListeners.add(JSFunctionName);				
 		Application.debug("registerAddListener: " + JSFunctionName);
@@ -95,7 +94,7 @@ public class ScriptManager {
 	
 	/**
 	 * Removes a previously registered add listener 
-	 * @see registerAddListener() 
+	 * @see #registerAddListener(String) 
 	 */
 	public synchronized void unregisterAddListener(String JSFunctionName) {
 		if (addListeners != null) {
@@ -118,7 +117,7 @@ public class ScriptManager {
 		
 		// init list
 		if (removeListeners == null) {
-			removeListeners = new ArrayList();			
+			removeListeners = new ArrayList<String>();			
 		}		
 		removeListeners.add(JSFunctionName);				
 		Application.debug("registerRemoveListener: " + JSFunctionName);
@@ -126,7 +125,7 @@ public class ScriptManager {
 	
 	/**
 	 * Removes a previously registered remove listener 
-	 * @see registerRemoveListener() 
+	 * @see #registerRemoveListener(String) 
 	 */
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		if (removeListeners != null) {
@@ -149,7 +148,7 @@ public class ScriptManager {
 		
 		// init list
 		if (clearListeners == null) {
-			clearListeners = new ArrayList();			
+			clearListeners = new ArrayList<String>();			
 		}		
 		clearListeners.add(JSFunctionName);				
 		Application.debug("registerClearListener: " + JSFunctionName);
@@ -157,7 +156,7 @@ public class ScriptManager {
 	
 	/**
 	 * Removes a previously registered clear listener 
-	 * @see registerClearListener() 
+	 * @see #registerClearListener(String) 
 	 */
 	public synchronized void unregisterClearListener(String JSFunctionName) {
 		if (clearListeners != null) {
@@ -180,7 +179,7 @@ public class ScriptManager {
 		
 		// init list
 		if (renameListeners == null) {
-			renameListeners = new ArrayList();			
+			renameListeners = new ArrayList<String>();			
 		}		
 		renameListeners.add(JSFunctionName);				
 		Application.debug("registerRenameListener: " + JSFunctionName);
@@ -188,7 +187,7 @@ public class ScriptManager {
 	
 	/**
 	 * Removes a previously registered rename listener.
-	 * @see registerRenameListener() 
+	 * @see #registerRenameListener(String) 
 	 */
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
 		if (renameListeners != null) {
@@ -211,7 +210,7 @@ public class ScriptManager {
 		
 		// init list
 		if (updateListeners == null) {
-			updateListeners = new ArrayList();			
+			updateListeners = new ArrayList<String>();			
 		}		
 		updateListeners.add(JSFunctionName);				
 		Application.debug("registerUpdateListener: " + JSFunctionName);
@@ -219,7 +218,7 @@ public class ScriptManager {
 	
 	/**
 	 * Removes a previously registered update listener.
-	 * @see registerRemoveListener() 
+	 * @see #registerRemoveListener(String) 
 	 */
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
 		if (updateListeners != null) {
@@ -252,7 +251,7 @@ public class ScriptManager {
 		
 		// init map and view
 		if (updateListenerMap == null) {
-			updateListenerMap = new HashMap();			
+			updateListenerMap = new HashMap<GeoElement, String>();			
 		}
 		
 		// add map entry
@@ -283,7 +282,7 @@ public class ScriptManager {
 		
 		/**
 		 * Calls all registered add listeners.
-		 * @see registerAddListener()
+		 * @see #registerAddListener(String)
 		 */
 		public void add(GeoElement geo) {
 			if (addListeners != null && geo.isLabelSet()) { 	
@@ -294,7 +293,7 @@ public class ScriptManager {
 		
 		/**
 		 * Calls all registered remove listeners.
-		 * @see registerRemoveListener()
+		 * @see #registerRemoveListener(String)
 		 */
 		public void remove(GeoElement geo) {
 			if (removeListeners != null && geo.isLabelSet()) {  
@@ -305,7 +304,7 @@ public class ScriptManager {
 		
 		/**
 		 * Calls all registered clear listeners.
-		 * @see registerClearListener()
+		 * @see #registerClearListener(String)
 		 */
 		public void clearView() {
 			/* 
@@ -342,7 +341,7 @@ public class ScriptManager {
 		
 		/**
 		 * Calls all registered rename listeners.
-		 * @see registerRenameListener()
+		 * @see #registerRenameListener(String)
 		 */
 		public void rename(GeoElement geo) {						
 			if (renameListeners != null && geo.isLabelSet()) {
@@ -355,7 +354,7 @@ public class ScriptManager {
 		 * Calls all JavaScript functions (listeners) using 
 		 * the specified arguments.
 		 */
-		private synchronized void notifyListeners(ArrayList listeners, Object [] args) {	
+		private synchronized void notifyListeners(ArrayList<String> listeners, Object [] args) {	
 			if (!listenersEnabled) return;
 			int size = listeners.size();
 			for (int i=0; i < size; i++) {
@@ -366,7 +365,7 @@ public class ScriptManager {
 																	
 		/**
 		 * Calls all registered update and updateObject listeners.
-		 * @see registerUpdateListener()
+		 * @see #registerUpdateListener(String)
 		 */
 		public synchronized void update(GeoElement geo) {			
 			geo.runUpdateScripts();
@@ -471,7 +470,7 @@ public class ScriptManager {
 	USBFunctions usb = null;
 	
 	public USBFunctions getUSBFunctions() {
-		if (usb == null) usb = new USBFunctions(this, app);
+		if (usb == null) usb = new USBFunctions(this);
 		
 		return usb;
 	}

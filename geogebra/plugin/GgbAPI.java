@@ -893,7 +893,7 @@ public class GgbAPI {
 			((GeoNumeric) geo).setValue(x);
 			geo.updateRepaint();
 		} else if (geo.isGeoBoolean()) {
-			((GeoBoolean) geo).setValue(kernel.isZero(x) ? false : true);
+			((GeoBoolean) geo).setValue(Kernel.isZero(x) ? false : true);
 			geo.updateRepaint();
 		}
 	}
@@ -968,7 +968,7 @@ public class GgbAPI {
 	public String [] getObjNames() {			//ulven 29.05.08: Had to change to public, used by applet
 
 		Construction cons = kernel.getConstruction();
-		TreeSet geoSet =  cons.getGeoSetConstructionOrder();
+		TreeSet<GeoElement> geoSet =  cons.getGeoSetConstructionOrder();
 		int size = geoSet.size();
 		
 		/* removed Michael Borcherds 2009-02-09
@@ -984,7 +984,7 @@ public class GgbAPI {
 		objNames = new String[size];
 				
 		int i=0; 
-		Iterator it = geoSet.iterator();
+		Iterator<GeoElement> it = geoSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = (GeoElement) it.next();
 			objNames[i] = geo.getLabel();
@@ -1005,7 +1005,7 @@ public class GgbAPI {
 	 * Returns an array with the names of all selected objects.
 	 */
 	public synchronized String [] getSelectedObjectNames() {			
-		ArrayList selGeos = app.getSelectedGeos();
+		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
 		String [] objNames = new String[selGeos.size()];
 		
 		for (int i=0; i < selGeos.size(); i++) {
@@ -1041,12 +1041,12 @@ public class GgbAPI {
 	 * signed applets only
 	 */
 	public synchronized boolean writePNGtoFile(String filename, final double exportScale, final boolean transparent, final double DPI) {
-		if (!app.hasFullPermissions()) return false;
+		if (!Application.hasFullPermissions()) return false;
 		final File file = new File(filename);
 
 		if (file == null) return false;
 
-		return (Boolean) AccessController.doPrivileged(new PrivilegedAction() {
+		return (Boolean) AccessController.doPrivileged(new PrivilegedAction<Object>() {
 			public Boolean run() {
 
 				try {			
@@ -1083,7 +1083,7 @@ public class GgbAPI {
 
 		
 	    try {
-		    Iterator it = ImageIO.getImageWritersByFormatName("png");
+		    Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName("png");
 		    ImageWriter writer = (ImageWriter) it.next();
 		    ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
 

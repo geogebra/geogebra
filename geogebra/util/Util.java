@@ -116,7 +116,6 @@ public class Util extends Object {
 
     /**
      * converts Color to hex String with RGB values
-     * @param Color
      * @return
      */
     final public static String toHexString(Color col) {
@@ -303,7 +302,6 @@ public class Util extends Object {
 
     /**
      * Adds keylistener recursivley to all subcomponents of container.
-     * @param comp
      * @param l
      */
     public static void addKeyListenerToAll(Container cont, KeyListener l) {
@@ -614,7 +612,6 @@ public class Util extends Object {
     /**
      * Removes all characters that are neither letters nor digits from the filename
      * and changes the given file accordingly.
-     * @param file
      */
     public static String keepOnlyLettersAndDigits(String name) {
 		int length = name != null ? name.length() : 0;
@@ -643,7 +640,6 @@ public class Util extends Object {
     /**
      * Removes < > " * / ? | \ and replaces them with underscore (_)
 	 * Michael Borcherds 2007-11-23
-     * @param file
      */
     public static String processFilename(String name) {
 		int length = name != null ? name.length() : 0;
@@ -761,14 +757,11 @@ public class Util extends Object {
 			      public int compare(File itemA, File itemB) {
 
 				        return itemA.getName().compareTo(itemB.getName());
-			      }
-				        
+			      }	        
 			};
 		}
 		
 		return comparator;
 	}
 
-
 }
-

@@ -262,13 +262,13 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Starts automatic animation for all objects with the animating flag set.
-	 * @see setAnimating()
+	 * @see #setAnimating(String, boolean)
 	 */
 	public void startAnimation();
 	
 	/**
 	 * Stops animation for all objects with the animating flag set.
-	 * @see setAnimating()
+	 * @see #setAnimating(String, boolean)
 	 */
 	public void stopAnimation();
 	
@@ -398,7 +398,7 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Removes a previously registered add listener 
-	 * @see registerAddListener() 
+	 * @see #registerAddListener(String) 
 	 */
 	public void unregisterAddListener(String JSFunctionName);
 	
@@ -411,7 +411,7 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Removes a previously registered remove listener 
-	 * @see registerRemoveListener() 
+	 * @see #registerRemoveListener(String) 
 	 */
 	public void unregisterRemoveListener(String JSFunctionName);
 	
@@ -424,7 +424,7 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Removes a previously registered clear listener 
-	 * @see registerClearListener() 
+	 * @see #registerClearListener(String) 
 	 */
 	public void unregisterClearListener(String JSFunctionName);
 	
@@ -437,7 +437,7 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Removes a previously registered rename listener.
-	 * @see registerRenameListener() 
+	 * @see #registerRenameListener(String) 
 	 */
 	public void unregisterRenameListener(String JSFunctionName);
 	
@@ -450,7 +450,7 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Removes a previously registered update listener.
-	 * @see registerRemoveListener() 
+	 * @see #registerRemoveListener(String) 
 	 */
 	public void unregisterUpdateListener(String JSFunctionName);
 	
@@ -471,7 +471,7 @@ public interface JavaScriptAPI {
 	
 	/**
 	 * Removes a previously set change listener for the given object.
-	 * @see setChangeListener
+	 * @see #setChangeListener
 	 */
 	public void unregisterObjectUpdateListener(String objName);
 

@@ -58,14 +58,14 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 
 	// /// ----- Properties ----- /////
 
-	private Hashtable plugintable = new Hashtable(); // 1.4.2: Not generics :-\
+	private Hashtable<String, PlugLetIF> plugintable = new Hashtable<String, PlugLetIF>(); // 1.4.2: Not generics :-\
 														// String
 														// classname,pluginclass
 	// private geogebra.GeoGebra ggb= null;
 	private geogebra.main.Application app = null;
 	private JMenu pluginmenu = null; // Make it here, let Application and
 										// Menubar get it
-	private ArrayList lines = new ArrayList();
+	private ArrayList<String> lines = new ArrayList<String>();
 	private ClassPathManipulator cpm = new ClassPathManipulator();
 
 	// /// ----- Interface ----- /////
@@ -75,9 +75,9 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 		this.app = app; // ref to Ggb application
 
 		//ClassPathManipulator.addURL(addPathToJar("."), null);
-		String cb=app.getCodeBase().toString();
+		String cb=Application.getCodeBase().toString();
 		if(!cb.startsWith("http://")){								//16.02.09: Don't use plugins with webstart
-			ClassPathManipulator.addURL(app.getCodeBase(), null);            //14.02.09
+			ClassPathManipulator.addURL(Application.getCodeBase(), null);            //14.02.09
 		}//if webstart
 		loadProperties();
 
@@ -157,8 +157,8 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 		String[] tokens;
 		File file;
 		URL url;
-		ArrayList paths = new ArrayList();
-		Class pluginclass; // class
+		ArrayList<String> paths = new ArrayList<String>();
+		Class<?> pluginclass; // class
 		PlugLetIF plugin; // object
 		JMenuItem menuitem = null;
 		String menutext = null;
@@ -169,7 +169,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 													// plugin.properties
 			paths.clear();
 			args="";					//23.02.09
-			line = (String) lines.get(i);
+			line = lines.get(i);
 			line = line.trim();
 			if (line.startsWith("#") || // comment or
 					(line.indexOf("=") == -1)) { // wrong syntax or blank
@@ -214,7 +214,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 		String name = mi.getName();
 		Object o = plugintable.get(name);
 		if (o instanceof PlugLetIF) {
-			PlugLetIF plugin = (PlugLetIF) plugintable.get(name);
+			PlugLetIF plugin = plugintable.get(name);
 			// plugin.execute(app.getGgbApi());
 			plugin.execute();
 		} else {
@@ -224,23 +224,23 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 	}// actionPerformed(ActionEvent)
 
 	// / --- Private: --- ///
-	private void addPaths(ArrayList paths) {
+	private void addPaths(ArrayList<String> paths) {
 		String path = null;
 		int n = paths.size();
 		for (int i = 0; i < n; i++) {
-			path = (String) paths.get(i);
+			path = paths.get(i);
 			ClassPathManipulator.addURL(addPathToJar(path), null);
 		}// for all paths
 	}// addPaths(ArrayList)
 
 	/** Get instance from class in plugintable */
-	private PlugLetIF getPluginInstance(String name) {
+	private static PlugLetIF getPluginInstance(String name) {
 		PlugLetIF pluglet = null;
 		String method = name + ".getInstance()"; // For exception messages
 		try {
-			Class c = Class.forName(name);
+			Class<?> c = Class.forName(name);
 			debug(c.getName());
-			Class[] empty = new Class[] {};
+			Class<?>[] empty = new Class[] {};
 			Method get = c.getMethod("getInstance", empty); // Use Singleton DP!
 			// Not:
 			// PlugLetIF o = (PlugLetIF)c.newInstance(); //c.newInstance();
@@ -303,7 +303,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 		}// if()
 	}// debug()
 	
-	 private URL addPathToJar(String path){
+	 private static URL addPathToJar(String path){
 	        File file=null;
 	        URL  url=null;        
 	        try{
@@ -321,16 +321,16 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 	        		// get applet codebase
 	        		//URL codeBase = (app.getApplet()!=null) ? app.getCodeBase() : null;
 	        		
-	                if (app.getCodeBase()!=null)
+	                if (Application.getCodeBase()!=null)
 	                {
 	                    //Application.debug("addPath3"+path);
-	                	url = new URL(app.getCodeBase() + path); // running as applet
+	                	url = new URL(Application.getCodeBase() + path); // running as applet
 	                }
 	                else
 	                {
 	                    //Application.debug("addPath4"+path);
 	                	file=new File(path);
-	        		    url=file.toURL();
+	        		    url=file.toURI().toURL();
 	                }
 	        	}
 	        	

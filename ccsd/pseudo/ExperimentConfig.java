@@ -43,7 +43,8 @@ public class ExperimentConfig implements
     swigCPtr = cPtr;
   }
 
-  protected void finalize() {
+  @Override
+protected void finalize() {
     delete();
   }
 
