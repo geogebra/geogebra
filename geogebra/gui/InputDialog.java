@@ -117,7 +117,6 @@ public class InputDialog extends JDialog implements ActionListener,
             // workaround for #1478
 			// TODO not working
             if (Application.MAC_OS) {
-            	final String initString2= initString;
 	            SwingUtilities.invokeLater( new Runnable(){ 
 	            	public void run() { 
 	            		inputPanel.getTextComponent().setSelectionStart(0);
