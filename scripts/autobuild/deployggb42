@@ -60,6 +60,7 @@ for i in *.html *.jnlp; do
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/usb-gomotion"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/4.2\/"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/"/g | \
   sed s/"codebase=\"http:\/\/jars"/"codebase=\"http:\/\/www"/g | \
+  sed s/"\$LONGVERSION"/"$MYVER"/g | \
   sed s/"<\/title>"/"<\/title>"/g \
   > $i.work
  mv $i.work $i || exit 4
