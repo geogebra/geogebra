@@ -954,17 +954,14 @@ public class Application implements KeyEventDispatcher {
 		System.gc();
 	}
 
-	protected void updateComponentTreeUI() {
-		if (frame != null) {
-			SwingUtilities.updateComponentTreeUI(frame);
-		} 
-		else if (appletImpl != null) {
+	protected void updateComponentTreeUI() {		
+		if (isApplet()) {
 			SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-		}
-		else if (mainComp != null) {
+		} else if(frame != null) {
+			SwingUtilities.updateComponentTreeUI(frame);
+		} else if (mainComp != null) {
 			SwingUtilities.updateComponentTreeUI(mainComp);
 		}
-			
 	}
 
 	/**
