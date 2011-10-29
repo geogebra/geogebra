@@ -377,6 +377,8 @@ public class EuclidianPen {
 
 			app.refreshViews(); // clear trace
 
+			minX = Integer.MAX_VALUE;
+			maxX = Integer.MIN_VALUE;
 
 			return;
 		}
