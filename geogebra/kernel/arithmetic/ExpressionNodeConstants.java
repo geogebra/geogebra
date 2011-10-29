@@ -70,6 +70,7 @@ public interface ExpressionNodeConstants {
     public static final int POWER = 12;            
     
     
+    public static final int FREEHAND = 40;   
     public static final int COS = 50;   
     public static final int SIN = 60;   
     public static final int TAN = 70;   

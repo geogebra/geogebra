@@ -7525,12 +7525,21 @@ public class Kernel {
 	/** function limited to interval [a, b]
 	 */
 	final public GeoFunction Function(String label, GeoFunction f, 
-										NumberValue a, NumberValue b) {
+			NumberValue a, NumberValue b) {
 		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, label, f, a, b);		
 		GeoFunction g = algo.getFunction();
 		return g;
 	}
-	
+
+	/*
+	 * freehand function defined by list
+	 */
+	final public GeoFunction Function(String label, GeoList f) {
+		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, label, f);		
+		GeoFunction g = algo.getFunction();
+		return g;
+	}
+
 	/**
 	 * n-th derivative of multivariate function f
 	 */

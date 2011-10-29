@@ -3,6 +3,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionable;
+import geogebra.kernel.GeoList;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -24,6 +25,20 @@ public class CmdFunction extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 
 		switch (n) {
+		case 1 :            	                
+			if (arg[0].isGeoList()) {
+				GeoElement[] ret =
+				{
+						kernel.Function(
+								c.getLabel(),
+								(GeoList)arg[0])
+				};
+				return ret;
+			}                                
+			else {
+				throw argErr(app, "Function", arg[0]);
+			}
+
 		case 3 :            	                
 			if ((ok[0] = (arg[0] .isGeoFunctionable()))
 					&& (ok[1] = (arg[1] .isNumberValue()))

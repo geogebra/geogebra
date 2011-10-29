@@ -33,7 +33,8 @@ public class EuclidianPen {
 	private GeoImage penGeo = null; // used if drawing to existing GeoImage	
 	private GeoImage lastPenImage = null;
 	private boolean penWritingToExistingImage = false;
-	private ArrayList penPoints = new ArrayList();
+	private ArrayList<Point> penPoints = new ArrayList<Point>();
+	int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
 
 
 	private boolean erasing = false;
@@ -159,7 +160,7 @@ public class EuclidianPen {
 
 	
 	public void handleMousePressedForPenMode(MouseEvent e, Hits hits) {
-
+		
 		Rectangle rect = view.getSelectionRectangle();
 
 
@@ -202,6 +203,7 @@ public class EuclidianPen {
 		if (rect != null && (!penUsingOffsets || penOffsetX != rect.x || 
 				penOffsetY != rect.y) ) {
 			// just draw on a subset of the Graphics View
+
 			GraphicsEnvironment ge =
 				GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -313,6 +315,9 @@ public class EuclidianPen {
 		//g2D.drawOval(e.getX(), e.getY(), penSize, penSize);
 		g2D.fill(circle);
 
+		if (minX > e.getX()) minX = e.getX();
+		if (maxX < e.getX()) maxX = e.getX();
+
 		if (penPoints.size() == 0)
 			penPoints.add(newPoint);
 		else {
@@ -326,6 +331,55 @@ public class EuclidianPen {
 	
 	public void handleMouseReleasedForPenMode(MouseEvent e) {
 
+		
+		if (e.isAltDown()) {
+			int n = maxX - minX + 1;
+			double [] freehand = new double[n];
+
+			for (int i = 0 ; i < n ; i++) freehand[i] = Double.NaN;
+
+
+			for (int i = 0 ; i < penPoints.size() ; i++) {
+				Point p = penPoints.get(i);
+				if (Double.isNaN(freehand[p.x - minX])) {
+					freehand[p.x - minX] = view.toRealWorldCoordY(p.y);
+				}
+			}
+
+			// fill in any gaps (eg from fast mouse movement)
+			double val = freehand[0];
+			for (int i = 0 ; i < n ; i++) {
+				if (Double.isNaN(freehand[i])) {
+					freehand[i] = val;
+				} else {
+					val = freehand[i];
+				}
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Function[{");
+			sb.append(view.toRealWorldCoordX(minX));
+			sb.append(",");
+			sb.append(view.toRealWorldCoordX(maxX));
+			sb.append(",");
+			for (int i = 0 ; i < n ; i++) {
+				sb.append(freehand[i]);
+				if (i < n-1) sb.append(",");
+			}
+			sb.append("}]");
+
+			app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), true);
+
+			penPoints.clear();
+
+			EuclidianView ev=(EuclidianView)app.getActiveEuclidianView();
+
+			app.refreshViews(); // clear trace
+
+
+			return;
+		}
 		
 		if (penImage == null) return; // right click
 		
@@ -402,6 +456,10 @@ public class EuclidianPen {
 
 		if (!penWritingToExistingImage) penImage = null;
 		//penWritingToExistingImage = false;
+		
+		minX = Integer.MAX_VALUE;
+		maxX = Integer.MIN_VALUE;
+
 
 	}
 	

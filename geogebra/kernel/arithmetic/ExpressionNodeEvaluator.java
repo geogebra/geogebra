@@ -8,6 +8,7 @@ import geogebra.kernel.GeoFunction;
 import geogebra.kernel.GeoFunctionable;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoList;
+import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
@@ -113,6 +114,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 																	// 2008-04-12
 				&& operation != NOT_EQUAL // ditto
 				&& operation != FUNCTION_NVAR // ditto
+				&& operation != FREEHAND // ditto
 				&& !lt.isVectorValue() // eg {1,2} + (1,2)
 				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
 										// 2008-06-05
@@ -878,6 +880,45 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, ExpressionNode.SIN, null), ""));
 			} else {
 				String[] str = { "IllegalArgument", "sin", lt.toString() };
+				throw new MyError(app, str);
+			}
+
+		case FREEHAND:
+			// freehand function
+			if (lt.isNumberValue() && rt.isListValue()){
+				
+				double x = ((NumberValue)lt).getDouble();
+				double ret = Double.NaN;
+				if (rt.isGeoElement()) {
+					GeoList list = (GeoList)rt;
+					int n = list.size() - 3;
+					double min = ((GeoNumeric)(list.get(0))).getDouble();
+					double max = ((GeoNumeric)(list.get(1))).getDouble();
+					
+					if (min > max || x > max || x < min) return new MyDouble(kernel, Double.NaN);
+					
+					double step = (max - min) / n;
+					
+					int index = (int)Math.floor((x - min) / step);
+					
+					if (index > n - 1) ret = ((GeoNumeric)(list.get(n + 2))).getDouble();
+					else {
+						
+						double y1 = ((GeoNumeric)(list.get(index + 2))).getDouble();
+						double y2 = ((GeoNumeric)(list.get(index + 3))).getDouble();
+						double x1 = min+index*step;
+						
+						ret = y1 + (x - x1) * (y2 - y1) / step;
+					}
+				}
+				
+				//Application.debug(lt.getClass()+" "+rt.getClass());
+				
+				return new MyDouble(kernel, ret);
+				
+			} else {
+				String[] str = { "IllegalArgument", "freehand", lt.toString() };
+				Application.debug(lt.getClass()+" "+rt.getClass());
 				throw new MyError(app, str);
 			}
 
