@@ -3737,7 +3737,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	public Double getCoefficient(FunctionVariable fv) {
 		if (this.isLeaf()) {
-			if (this.equals(fv) || left.equals(fv)) {
+			if (this.toString().equals(fv.toString())) {
 				return 1.0;
 			}
 
@@ -3748,7 +3748,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		Double lc = getLeftTree() == null ? null : getLeftTree()
 				.getCoefficient(fv);
 		Double rc = getRightTree() == null ? null : getRightTree()
-				.getCoefficient(fv);
+				.getCoefficient(fv);		
 		if (lc == null || rc == null)
 			return null;
 		if (this.operation == PLUS && lc != null && rc != null) {
