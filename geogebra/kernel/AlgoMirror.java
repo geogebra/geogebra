@@ -21,6 +21,7 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.implicit.GeoImplicitPoly;
+import geogebra.main.Application;
 
 /**
  *
@@ -229,7 +230,9 @@ public class AlgoMirror extends AlgoTransformation {
     protected void transformLimitedPath(GeoElement a,GeoElement b){
     	if(mirror != mirrorConic){
     		super.transformLimitedPath(a, b);
+    		return;
     	}
+    	
     	GeoConicPart arc = (GeoConicPart)b;
     	arc.setParameters(0, 6.28, true);
 		if(a instanceof GeoRay){			
