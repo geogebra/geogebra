@@ -2095,32 +2095,30 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for angles to set whether reflex angles are allowed 
 	 * @author Markus Hohenwarter
 	 */
-	private class AllowReflexAnglePanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class AllowReflexAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
-		private JCheckBox reflexAngleCB;
-		private JCheckBox forceReflexAngleCB;
+		
+		private JLabel rangeLabel;
+		private JComboBox rangeCombo;
 		
 		private boolean hasOrientation;
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 			
-			reflexAngleCB = new JCheckBox();
-			reflexAngleCB.addItemListener(this);
-			forceReflexAngleCB = new JCheckBox();
-			forceReflexAngleCB.addItemListener(this);
-			add(reflexAngleCB);	
-
-			add(forceReflexAngleCB);
+			rangeLabel = new JLabel();
+			rangeCombo = new JComboBox(GeoAngle.getRanges());
+			add(rangeLabel);
+			add(rangeCombo);
+			
 		}
 		
 		public void setLabels() {
-			reflexAngleCB.setText(app.getPlain("allowReflexAngle"));
-			forceReflexAngleCB.setText(app.getPlain("forceReflexAngle"));
+			rangeLabel.setText(app.getPlain("Interval"));
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2128,56 +2126,29 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			if (!checkGeos(geos))
 				return null;
 
-//			 Michael Borcherds 2007-11-19
-			reflexAngleCB.removeItemListener(this);
-			forceReflexAngleCB.removeItemListener(this);
+			rangeCombo.removeActionListener(this);
 
 			// check if properties have same values
 			GeoAngle temp, geo0 = (GeoAngle) geos[0];
 			boolean equalangleStyle=true;
-			boolean allreflex=true;
 			hasOrientation = true;
 			
 			for (int i = 0; i < geos.length; i++) {
 				temp = (GeoAngle) geos[i];
-				// same object visible value
-				if (temp.getAngleStyle()!=3) allreflex=false;
 				if (!temp.hasOrientation()) hasOrientation=false;
 				if (geo0.getAngleStyle() != temp.getAngleStyle())
 					equalangleStyle = false;
-				
-				
+							
 			}
-			
-			if (allreflex==true || !hasOrientation) reflexAngleCB.setEnabled(false); else reflexAngleCB.setEnabled(true);
 
 			
 			if (equalangleStyle)
 			{
-				switch (geo0.getAngleStyle()) {
-				case 2: // acute/obtuse
-					reflexAngleCB.setSelected(false);
-					forceReflexAngleCB.setSelected(false);
-					break;
-				case 3: // force reflex
-					reflexAngleCB.setSelected(true);
-					forceReflexAngleCB.setSelected(true);
-					break;
-				default: // should be 0: anticlockwise
-					reflexAngleCB.setSelected(true);
-					forceReflexAngleCB.setSelected(false);
-					break;
-					
-				}
+				rangeCombo.setSelectedIndex(geo0.getAngleRange());
 			}
-			else
-			{
-				reflexAngleCB.setSelected(false);
-				forceReflexAngleCB.setSelected(false);
-			}
+				
 
-			reflexAngleCB.addItemListener(this);
-			forceReflexAngleCB.addItemListener(this);
+			rangeCombo.addActionListener(this);
 			return this;
 		}
 
@@ -2189,38 +2160,21 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			}
 			return true;
 		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
-		public void itemStateChanged(ItemEvent e) {
-			GeoAngle geo;
-			Object source = e.getItemSelectable();
-
-//Michael Borcherds 2007-11-19
-			if (source == reflexAngleCB || source==forceReflexAngleCB) {
+		
+		public void actionPerformed(ActionEvent e){
+			Object source = e.getSource();
+			if (source == rangeCombo) {
+				GeoAngle geo;
+				int index = rangeCombo.getSelectedIndex();
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoAngle) geos[i];
-					if (forceReflexAngleCB.isSelected()) {
-						geo.setAngleStyle(3);
-						reflexAngleCB.setEnabled(false);
-					}
-					else 
-					{
-						if (hasOrientation){
-							reflexAngleCB.setEnabled(true);
-							if (reflexAngleCB.isSelected())
-								geo.setAngleStyle(0);
-							else
-								geo.setAngleStyle(2);
-						}else
-							geo.setAngleStyle(2);
-					}
-//					Michael Borcherds 2007-11-19
+					geo.setAngleRange(index);
 					geo.updateRepaint();
 				}
 			}
 		}
+
+		
 	}
 
 	/**

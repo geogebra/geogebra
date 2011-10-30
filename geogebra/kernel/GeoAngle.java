@@ -82,6 +82,44 @@ public class GeoAngle extends GeoNumeric {
 		};
 		return ret;
 	}
+	
+	public static final String[] rangeString = {
+		"[0\u00b0,360\u00b0[",
+		"[0\u00b0,180\u00b0]",
+		"[180\u00b0,360\u00b0]"
+	};
+
+	
+	
+	//orders have to be changed both in following arrays
+	public static final int[] rangeToStyle = {
+		ANGLE_ISANTICLOCKWISE,
+		ANGLE_ISNOTREFLEX,
+		ANGLE_ISREFLEX
+	};
+
+	public static final int[] styleToRange = {
+		0,//ANGLE_ISANTICLOCKWISE,
+		-1,
+		1,//ANGLE_ISNOTREFLEX,
+		2//ANGLE_ISREFLEX		
+	};
+
+	
+	
+	public static final String[] getRanges(){
+		return rangeString;
+	}
+	
+	public void setAngleRange(int range){
+		setAngleStyle(rangeToStyle[range]);
+	}
+	
+	public int getAngleRange(){
+		return styleToRange[getAngleStyle()];
+	}
+	
+	
 
 	/** Creates new GeoAngle 
 	 * @param c Construction 
