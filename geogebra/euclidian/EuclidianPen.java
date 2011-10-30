@@ -201,8 +201,8 @@ public class EuclidianPen {
 			
 			penGeo = null;
 		} else
-		if (rect != null && (!penUsingOffsets || penOffsetX != rect.x || 
-				penOffsetY != rect.y && rect.getWidth() > 0 && rect.getHeight() > 0) ) {
+		if (rect != null && rect.getWidth() > 1 && rect.getHeight() > 1 && (!penUsingOffsets || penOffsetX != rect.x || 
+				penOffsetY != rect.y ) ) {
 			// just draw on a subset of the Graphics View
 
 			GraphicsEnvironment ge =
@@ -287,7 +287,7 @@ public class EuclidianPen {
 		}
 
 		if (penImage == null) {
-
+			view.setSelectionRectangle(null);
 			GraphicsEnvironment ge =
 				GraphicsEnvironment.getLocalGraphicsEnvironment();
 
