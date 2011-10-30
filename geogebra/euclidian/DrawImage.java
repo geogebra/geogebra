@@ -32,7 +32,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 
 
 /**
@@ -54,6 +56,7 @@ public final class DrawImage extends Drawable {
     private boolean needsInterpolationRenderingHint;
     private int screenX, screenY;
     private Rectangle boundingBox;
+	private GeneralPath highlighting;
         
     public DrawImage(EuclidianView view, GeoImage geoImage) {      
     	this.view = view;          
@@ -253,8 +256,31 @@ public final class DrawImage extends Drawable {
      			if (!isInBackground && geo.doHighlighting()) {
     				// draw rectangle around image
      				g2.setStroke(selStroke);
-    				g2.setPaint(Color.lightGray);		
-    				g2.draw(labelRectangle);        
+    				g2.setPaint(Color.lightGray);	
+    				
+    				// changed to code below so that the line thicknesses aren't transformed
+    				//g2.draw(labelRectangle);        
+
+    				// draw parallelogram around edge
+    				drawHighlighting(at, g2);
+    				Point2D corner1 = new Point2D.Double(labelRectangle.getMinX(), labelRectangle.getMinY());
+    				Point2D corner2 = new Point2D.Double(labelRectangle.getMinX(), labelRectangle.getMaxY());
+    				Point2D corner3 = new Point2D.Double(labelRectangle.getMaxX(), labelRectangle.getMaxY());
+    				Point2D corner4 = new Point2D.Double(labelRectangle.getMaxX(), labelRectangle.getMinY());
+    				at.transform(corner1, corner1);
+    				at.transform(corner2, corner2);
+    				at.transform(corner3, corner3);
+    				at.transform(corner4, corner4);
+         			if (highlighting == null) highlighting = new GeneralPath();
+         			else highlighting.reset();
+         			highlighting.moveTo((float)corner1.getX(), (float)corner1.getY());
+         			highlighting.lineTo((float)corner2.getX(), (float)corner2.getY());
+         			highlighting.lineTo((float)corner3.getX(), (float)corner3.getY());
+         			highlighting.lineTo((float)corner4.getX(), (float)corner4.getY());
+         			highlighting.lineTo((float)corner1.getX(), (float)corner1.getY());
+         			g2.setTransform(oldAT);
+         			g2.draw(highlighting);
+
     			} 
      			     			
      			// reset previous values
@@ -266,7 +292,12 @@ public final class DrawImage extends Drawable {
         }
     }
     
-    boolean isInBackground() {
+    private void drawHighlighting(AffineTransform at2, Graphics2D g2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	boolean isInBackground() {
     	return geoImage.isInBackground();
     }
    
