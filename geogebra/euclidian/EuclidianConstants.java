@@ -152,6 +152,8 @@ public final class EuclidianConstants {
 
 	public static final int MODE_COMPLEX_NUMBER = 72;
 
+	public static final int MODE_FREEHAND = 73;
+
 	// ggb3D start
 	/** special mode that allows to create point inside a region (polygon, etc.) */
 	public static final int MODE_POINT_ON_OBJECT = 501;

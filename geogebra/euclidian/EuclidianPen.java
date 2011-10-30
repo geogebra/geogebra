@@ -85,6 +85,7 @@ public class EuclidianPen {
 	private int eraserSize;
 	private int penLineStyle;
 	private Color penColor;
+	private boolean freehand = false;
 	
 	
 	
@@ -165,7 +166,7 @@ public class EuclidianPen {
 		Rectangle rect = view.getSelectionRectangle();
 
 
-		if (Application.isRightClick(e)) {
+		if (Application.isRightClick(e) && !freehand) {
 			view.setCursor(app.getEraserCursor());
 			erasing = true;
 		} else {	
@@ -306,7 +307,7 @@ public class EuclidianPen {
 		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
 		Graphics2D g2D = view.getGraphicsForPen();
 		Shape circle;
-		if (Application.isRightClick(e)) {
+		if (Application.isRightClick(e) && !freehand) {
 			g2D.setColor(Color.white);
 			circle = new Ellipse2D.Float(e.getX() - eraserSize, e.getY() - eraserSize, eraserSize * 2, eraserSize * 2);		
 		} else {
@@ -333,7 +334,7 @@ public class EuclidianPen {
 	public void handleMouseReleasedForPenMode(MouseEvent e) {
 
 		
-		if (e.isAltDown()) {
+		if (freehand) {
 			int n = maxX - minX + 1;
 			double [] freehand = new double[n];
 
@@ -388,8 +389,6 @@ public class EuclidianPen {
 			app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), true);
 
 			penPoints.clear();
-
-			EuclidianView ev=(EuclidianView)app.getActiveEuclidianView();
 
 			app.refreshViews(); // clear trace
 
@@ -489,6 +488,14 @@ public class EuclidianPen {
 		maxX = Integer.MIN_VALUE;
 
 
+	}
+
+
+
+
+	public void setFreehand(boolean b) {
+		freehand = b;
+		
 	}
 	
 	

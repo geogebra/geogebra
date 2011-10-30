@@ -3573,6 +3573,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				}
 			}
 			break;
+			
+		case FREEHAND:
+			sb.append(app.getPlain("freehand"));
+			break;
 
 		default:
 			sb.append("unhandled operation " + operation);

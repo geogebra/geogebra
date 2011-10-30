@@ -1586,6 +1586,9 @@ public class Kernel {
 		case EuclidianConstants.MODE_PEN:
 			return "Pen";
 			
+		case EuclidianConstants.MODE_FREEHAND:
+			return "Freehand";
+			
 		case EuclidianConstants.MODE_VISUAL_STYLE:
 			return "VisualStyle";
 			

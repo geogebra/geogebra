@@ -569,6 +569,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			break;
 			
 		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_FREEHAND:
 			pen.resetPenOffsets();
 			
 			view.setSelectionRectangle(null);
@@ -612,7 +613,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		// init preview drawables
 		switch (mode) {
 		
+		case EuclidianConstants.MODE_FREEHAND:
+			pen.setFreehand(true);
+			
+			break;
 		case EuclidianConstants.MODE_PEN:
+			pen.setFreehand(false);
 			
 			/*
 			boolean createUndo = true;
@@ -826,7 +832,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 	public void mouseClicked(MouseEvent e) {	
 		
-		if (mode == EuclidianConstants.MODE_PEN)
+		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND)
 			return;
 		
 		Hits hits;
@@ -1045,7 +1051,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		
 		Hits hits;
 		
-		if (mode == EuclidianConstants.MODE_PEN) {
+		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND) {
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			hits.removeAllButImages();
@@ -1852,7 +1858,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (textfieldHasFocus) return;
 
-		if (mode == EuclidianConstants.MODE_PEN) {
+		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND) {
 			pen.handleMousePressedForPenMode(e, null);
 			return;
 		}
@@ -2275,7 +2281,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (textfieldHasFocus) return;
 
-		if (mode == EuclidianConstants.MODE_PEN) {
+		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND) {
 			pen.handleMouseReleasedForPenMode(e);
 			return;
 		}
@@ -3340,7 +3346,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			break;
 
 		case EuclidianConstants.MODE_PEN:
-			changedKernel = pen();
+		case EuclidianConstants.MODE_FREEHAND:
+					changedKernel = pen();
 			break;
 
 			// Michael Borcherds 2008-03-13	
@@ -7736,7 +7743,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (textfieldHasFocus) return;
 		
-		if (mode == EuclidianConstants.MODE_PEN) return;
+		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND) return;
 
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
 		boolean allowMouseWheel = 

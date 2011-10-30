@@ -510,7 +510,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			case KeyEvent.VK_EQUALS:	
 				
 				// disable zooming in PEN mode
-				if (app.getEuclidianView().getMode() != EuclidianConstants.MODE_PEN) {
+				if (app.getEuclidianView().getMode() != EuclidianConstants.MODE_PEN || app.getEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND) {
 
 					boolean spanish = app.getLocale().toString().startsWith("es");
 	
