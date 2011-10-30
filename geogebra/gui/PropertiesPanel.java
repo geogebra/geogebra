@@ -14,6 +14,7 @@ package geogebra.gui;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.gui.PropertiesPanel.TextEditPanel;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
@@ -334,8 +335,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			ArrayList<JPanel> textTabList = new ArrayList<JPanel>();			
 			textTabList.add(textOptionsPanel);	
 			
-			if(!isDefaults)
+			if(!isDefaults) {
 				textTabList.add(textEditPanel);
+				textOptionsPanel.setEditPanel(textEditPanel);
+			} else {
+				textOptionsPanel.setEditPanel(null);
+			}
 			
 			textTab = new TabPanel(textTabList);
 			tabPanelList.add(textTab);
@@ -2759,7 +2764,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	/**
 	 * panel for text editing
 	 */
-	private class TextEditPanel
+	public class TextEditPanel
 		extends JPanel
 		implements ActionListener, UpdateablePanel, SetLabels {
 		/**
@@ -3592,6 +3597,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private JPanel secondLine;
 		private boolean secondLineVisible = false;
 		private boolean justDisplayFontSize = true;
+		private TextEditPanel editPanel;
 
 		
 		public TextOptionsPanel() {	
@@ -3641,6 +3647,11 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			secondLineVisible = true;
 		}
 		
+		public void setEditPanel(TextEditPanel tep) {
+			this.editPanel = tep;
+			
+		}
+
 		public void setLabels() {
 			String[] fontSizes = app.getFontSizeStrings();
 			
@@ -3782,6 +3793,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					text.setFontSize(GeoText.getRelativeFontSize(cbSize.getSelectedIndex())); // transform indices to the range -6, .. , 6
 					((GeoElement)text).updateRepaint();
 				}
+				
+				// update preview panel
+				if (textEditPanel != null) textEditPanel.td.handleDocumentEvent(null);
 			} 
 			else if (source == cbFont) {
 				boolean serif = cbFont.getSelectedIndex() == 1;		
@@ -3790,6 +3804,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					text = (TextProperties) geos[i];
 					text.setSerifFont(serif);
 					((GeoElement)text).updateRepaint();
+					
+					// update preview panel
+					if (textEditPanel != null) textEditPanel.td.handleDocumentEvent(null);
 				}
 			}
 			else if (source == cbDecimalPlaces) {
@@ -3810,6 +3827,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 						text.setPrintFigures(Application.roundingMenuLookup[decimals], true);
 					}
 					((GeoElement)text).updateRepaint();
+
+					// update preview panel
+					if (textEditPanel != null) textEditPanel.td.handleDocumentEvent(null);
 				}
 			}
 			else if (source == btBold || source == btItalic) {
@@ -3823,6 +3843,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					text.setFontStyle(style);
 					((GeoElement)text).updateRepaint();
 				}
+				
+				// update preview panel
+				if (textEditPanel != null) textEditPanel.td.handleDocumentEvent(null);
 			}								
 		}
 	}

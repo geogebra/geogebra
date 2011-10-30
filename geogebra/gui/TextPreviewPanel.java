@@ -352,7 +352,7 @@ public class TextPreviewPanel extends EuclidianView {
 	 */
 	private void locateTextGeo(GeoText geo) {
 		int xInset = 4;
-		int yInset = geo.isLaTeX() ? 4 : 4 + app.getGUIFontSize();
+		int yInset = geo.isLaTeX() ? 4 : 18 + geo.getFontSize();
 		geo.setAbsoluteScreenLocActive(true);
 		geo.setAbsoluteScreenLoc( xInset, yInset);
 	}
