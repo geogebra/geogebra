@@ -948,9 +948,11 @@ public class WorksheetExportDialog extends JDialog {
 
 		appendWithLineBreak(sb, "</head>");
 		appendWithLineBreak(sb, "<body>");
+		
+		appendTitle(sb, kernel.getConstruction().getTitle());
 
-		appendWithLineBreak(sb, "<h1>Tabber Example</h1>");
-
+		appendText(sb, textAbove.getText()); 
+		
 		appendWithLineBreak(sb, "<div class=\"tabber\">");
 
 		final ArrayList<GeoGebraFrame> ggbInstances = GeoGebraFrame.getInstances();
@@ -987,6 +989,8 @@ public class WorksheetExportDialog extends JDialog {
 		}
 
 		appendWithLineBreak(sb, "</div>");
+		
+		appendText(sb, textBelow.getText()); 
 
 		appendWithLineBreak(sb, "</body>");
 		appendWithLineBreak(sb, "</html>");
@@ -1396,8 +1400,6 @@ public class WorksheetExportDialog extends JDialog {
 		// width for table
 		int pageWidth = Math.max(appletWidth, DEFAULT_HTML_PAGE_WIDTH);
 		
-		Construction cons = app2.getKernel().getConstruction();
-
 		// xhtml header
 		// Michael Borcherds 2008-05-01
 		// xhtml header
@@ -1449,20 +1451,11 @@ public class WorksheetExportDialog extends JDialog {
 		appendWithLineBreak(sb, "<table border=\"0\" width=\"" + pageWidth + "\">");
 		appendWithLineBreak(sb, "<tr><td>");
 
-		// header with title
-		if (!title.equals("")) {
-			sb.append("<h2>");
-			sb.append(Util.toHTMLString(title));
-			appendWithLineBreak(sb, "</h2>");
-		}
+		appendTitle(sb, title);
 
 		// text before applet
 		String text = app == app2 ? textAbove.getText() : cons2.getWorksheetText(0);
-		if (text != null) {
-			appendWithLineBreak(sb, "<p>");
-			sb.append(Util.toHTMLString(text));
-			appendWithLineBreak(sb, "</p>");
-		}
+		appendText(sb, text); 
 
 		// include applet tag
 		appendWithLineBreak(sb, "");
@@ -1472,11 +1465,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		// text after applet
 		text = app == app2 ? textBelow.getText() : cons2.getWorksheetText(1);
-		if (text != null) {
-			appendWithLineBreak(sb, "<p>");
-			sb.append(Util.toHTMLString(text));
-			appendWithLineBreak(sb, "</p>");
-		}
+		appendText(sb, text);
 
 		sb.append(getFooter(cons2, false));
 
@@ -1509,6 +1498,23 @@ public class WorksheetExportDialog extends JDialog {
 		sb.append("</html>");
 
 		return sb.toString();
+	}
+
+	private void appendText(StringBuilder sb, String text) {
+		if (text != null) {
+			appendWithLineBreak(sb, "<p>");
+			sb.append(Util.toHTMLString(text));
+			appendWithLineBreak(sb, "</p>");
+		}
+	}
+
+	private void appendTitle(StringBuilder sb, String title) {
+		// header with title
+		if (!title.equals("")) {
+			sb.append("<h2>");
+			sb.append(Util.toHTMLString(title));
+			appendWithLineBreak(sb, "</h2>");
+		}
 	}
 
 	private void appendJavaScript(StringBuilder sb) {
