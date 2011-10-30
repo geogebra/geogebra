@@ -202,7 +202,7 @@ public class EuclidianPen {
 			penGeo = null;
 		} else
 		if (rect != null && (!penUsingOffsets || penOffsetX != rect.x || 
-				penOffsetY != rect.y) ) {
+				penOffsetY != rect.y && rect.getWidth() > 0 && rect.getHeight() > 0) ) {
 			// just draw on a subset of the Graphics View
 
 			GraphicsEnvironment ge =
