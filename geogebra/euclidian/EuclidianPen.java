@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoImage;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.AlphaComposite;
@@ -456,6 +457,16 @@ public class EuclidianPen {
 			geoImage.setLabel(null);
 			geoImage.setCorner(corner, 0);
 			geoImage.setCorner(corner2, 1);
+
+			// need 3 corner points if axes ratio isn't 1:1
+			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
+				GeoPoint corner4 = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY),1.0));
+				corner4.setLabelVisible(false);
+				corner4.setAuxiliaryObject(!penUsingOffsets);
+				corner4.update();
+				geoImage.setCorner(corner4, 2);
+			}
+			
 			geoImage.setFixed(!penUsingOffsets);
 			geoImage.setSelectionAllowed(penUsingOffsets);
 			geoImage.setAuxiliaryObject(!penUsingOffsets);
