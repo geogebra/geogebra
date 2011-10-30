@@ -13,8 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.AlgoDependentFunction;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoConic;
 import geogebra.kernel.GeoElement;
@@ -23,7 +21,6 @@ import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.Application;
 import geogebra.main.MyError;
 
 /**
@@ -59,8 +56,7 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private GeoPoint[] zeros;
-	private FunctionalNVar function;
+	private GeoPoint[] zeros;	
 	// if variable x or y appears with 0 coef, we want to replace the 
 	// variable by 0 itself to avoid errors on computation
 	private MyDouble zeroDummy0,zeroDummy1;
@@ -81,8 +77,7 @@ public class Inequality {
 
 		this.op = op;
 		this.kernel = kernel;
-		this.fv = fv;
-		this.function = function;
+		this.fv = fv;		
 		
 		if (op == ExpressionNode.GREATER || op == ExpressionNode.GREATER_EQUAL) {
 			normal = new ExpressionNode(kernel, lhs, ExpressionNode.MINUS, rhs);
@@ -222,26 +217,17 @@ public class Inequality {
 		isAboveBorder = (valAtCenter < 0)
 				^ (conicBorder.getType() == GeoConic.CONIC_HYPERBOLA);		
 	}
-
+	
 	private void init1varFunction(int varIndex) {
 		Construction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		if (normal.containsObjectType(GeoElement.class)) {
-			AlgoDependentFunction df = new AlgoDependentFunction(cons, null,
-					new Function(normal, fv[varIndex]));
-			funBorder = df.getFunction();
-			AlgoElement thisPar = ((GeoElement) function).getParentAlgorithm();
-			if (thisPar != null)
-				thisPar.setUpdateAfterAlgo(df);// TODO: make this work
-		} else {
-			funBorder = new GeoFunction(cons);
-			funBorder.setFunction(new Function(normal, fv[varIndex]));
-		}
+		funBorder = new GeoFunction(cons);
+		funBorder.setFunction(new Function(normal, fv[varIndex]));		
 		zeros = kernel.RootMultiple(null, funBorder);
-		for(int i=0;i<zeros.length;i++){
+		/*for(int i=0;i<zeros.length;i++){
 			Application.debug(zeros[i]);
-		}
+		}*/
 		cons.setSuppressLabelCreation(supress);
 		border = funBorder;
 		if (isStrict()) {
