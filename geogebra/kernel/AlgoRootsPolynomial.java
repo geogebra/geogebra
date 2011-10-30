@@ -433,7 +433,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
             realRoots = eqnSolver.polynomialRoots(roots,false);                           
             addToCurrentRoots(roots, realRoots);
         } else
-			return null;                      
+			return null;      
+        if(curRealRoots > 1)
+        	Arrays.sort(curRoots, 0, curRealRoots);
         return evalFunction;
 		
 	}
