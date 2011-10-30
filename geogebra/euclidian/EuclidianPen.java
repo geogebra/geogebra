@@ -348,11 +348,26 @@ public class EuclidianPen {
 
 			// fill in any gaps (eg from fast mouse movement)
 			double val = freehand[0];
+			int valIndex = 0;
+			double nextVal = Double.NaN;
+			int nextValIndex = -1;
 			for (int i = 0 ; i < n ; i++) {
 				if (Double.isNaN(freehand[i])) {
-					freehand[i] = val;
+					if(i>nextValIndex){
+						nextValIndex = i;
+						while(nextValIndex<n && Double.isNaN(freehand[nextValIndex]))
+							nextValIndex++;
+					}
+					if(nextValIndex>=n)
+						freehand[i]=val;
+					else{
+						nextVal=freehand[nextValIndex];
+						freehand[i] = 
+						(val*(nextValIndex-i)+nextVal*(i-valIndex))/(nextValIndex-valIndex);
+					}
 				} else {
 					val = freehand[i];
+					valIndex = i;
 				}
 			}
 
