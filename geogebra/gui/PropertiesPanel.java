@@ -2102,23 +2102,37 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
 		
-		private JLabel rangeLabel;
-		private JComboBox rangeCombo;
+		private JLabel intervalLabel;
+		private JComboBox intervalCombo;
 		
-		private boolean hasOrientation;
+		private boolean hasOrientation = true;
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 			
-			rangeLabel = new JLabel();
-			rangeCombo = new JComboBox(GeoAngle.getRanges());
-			add(rangeLabel);
-			add(rangeCombo);
+			intervalLabel = new JLabel();
+			intervalCombo = new JComboBox();
+			add(intervalLabel);
+			add(intervalCombo);
 			
 		}
 		
 		public void setLabels() {
-			rangeLabel.setText(app.getPlain("Interval"));
+			intervalLabel.setText(app.getPlain("AngleBetween"));
+			
+			setComboLabels();
+		}
+		
+		public void setComboLabels(){
+			intervalCombo.removeAllItems();
+			
+			if (hasOrientation){
+				for (int i=0; i<GeoAngle.INTERVAL_MIN.length; i++)
+					intervalCombo.addItem(app.getPlain("AandB",GeoAngle.INTERVAL_MIN[i],GeoAngle.INTERVAL_MAX[i]));
+			}else{//only 180° wide interval are possible
+				intervalCombo.addItem(app.getPlain("AandB",GeoAngle.INTERVAL_MIN[1],GeoAngle.INTERVAL_MAX[1]));
+				intervalCombo.addItem(app.getPlain("AandB",GeoAngle.INTERVAL_MIN[2],GeoAngle.INTERVAL_MAX[2]));				
+			}
 		}
 
 		public JPanel update(Object[] geos) {
@@ -2126,11 +2140,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			if (!checkGeos(geos))
 				return null;
 
-			rangeCombo.removeActionListener(this);
+			intervalCombo.removeActionListener(this);
 
 			// check if properties have same values
 			GeoAngle temp, geo0 = (GeoAngle) geos[0];
 			boolean equalangleStyle=true;
+			boolean hasOrientationOld = hasOrientation;
 			hasOrientation = true;
 			
 			for (int i = 0; i < geos.length; i++) {
@@ -2142,13 +2157,17 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			}
 
 			
+			//Application.debug(hasOrientationOld+","+hasOrientation);
+			if (hasOrientation!=hasOrientationOld)
+				setComboLabels();
+			
+				
 			if (equalangleStyle)
-			{
-				rangeCombo.setSelectedIndex(geo0.getAngleRange());
-			}
+				setSelectedIndex(geo0.getAngleInterval());
+			
 				
 
-			rangeCombo.addActionListener(this);
+			intervalCombo.addActionListener(this);
 			return this;
 		}
 
@@ -2163,15 +2182,29 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		
 		public void actionPerformed(ActionEvent e){
 			Object source = e.getSource();
-			if (source == rangeCombo) {
+			if (source == intervalCombo) {
 				GeoAngle geo;
-				int index = rangeCombo.getSelectedIndex();
+				int index = getIndex();				
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoAngle) geos[i];
-					geo.setAngleRange(index);
+					geo.setAngleInterval(index);
 					geo.updateRepaint();
 				}
 			}
+		}
+		
+		private int getIndex(){
+			if (hasOrientation)
+				return intervalCombo.getSelectedIndex();
+			else //first interval disabled
+				return intervalCombo.getSelectedIndex()+1;
+		}
+		
+		private void setSelectedIndex(int index){
+			if (hasOrientation)
+				intervalCombo.setSelectedIndex(index);
+			else //first interval disabled
+				intervalCombo.setSelectedIndex(index-1);
 		}
 
 		

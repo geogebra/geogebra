@@ -83,22 +83,34 @@ public class GeoAngle extends GeoNumeric {
 		return ret;
 	}
 	
-	public static final String[] rangeString = {
-		"[0\u00b0,360\u00b0[",
-		"[0\u00b0,180\u00b0]",
-		"[180\u00b0,360\u00b0]"
+	
+
+	//////////////////////////////////////////
+	// INTERVAL
+	//////////////////////////////////////////
+	
+	public static final String[] INTERVAL_MIN = {
+		"0\u00b0",
+		"0\u00b0",
+		"180\u00b0"
+	};
+	
+	public static final String[] INTERVAL_MAX = {
+		"360\u00b0",
+		"180\u00b0",
+		"360\u00b0"
 	};
 
 	
 	
 	//orders have to be changed both in following arrays
-	public static final int[] rangeToStyle = {
+	public static final int[] INTERVAL_TO_STYLE = {
 		ANGLE_ISANTICLOCKWISE,
 		ANGLE_ISNOTREFLEX,
 		ANGLE_ISREFLEX
 	};
 
-	public static final int[] styleToRange = {
+	public static final int[] STYLE_TO_INTERVAL = {
 		0,//ANGLE_ISANTICLOCKWISE,
 		-1,
 		1,//ANGLE_ISNOTREFLEX,
@@ -107,16 +119,13 @@ public class GeoAngle extends GeoNumeric {
 
 	
 	
-	public static final String[] getRanges(){
-		return rangeString;
+	
+	public void setAngleInterval(int index){
+		setAngleStyle(INTERVAL_TO_STYLE[index]);
 	}
 	
-	public void setAngleRange(int range){
-		setAngleStyle(rangeToStyle[range]);
-	}
-	
-	public int getAngleRange(){
-		return styleToRange[getAngleStyle()];
+	public int getAngleInterval(){
+		return STYLE_TO_INTERVAL[getAngleStyle()];
 	}
 	
 	

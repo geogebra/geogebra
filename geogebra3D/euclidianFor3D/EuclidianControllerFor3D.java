@@ -3,6 +3,7 @@ package geogebra3D.euclidianFor3D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.kernelND.GeoPointND;
@@ -17,7 +18,10 @@ public class EuclidianControllerFor3D extends EuclidianController {
 	
 	
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C){
-		return kernel.getManager3D().Angle3D(null, A, B, C);
+		if (((GeoElement) A).isGeoElement3D() || ((GeoElement) B).isGeoElement3D() || ((GeoElement) C).isGeoElement3D())			
+			return kernel.getManager3D().Angle3D(null, A, B, C);
+		else
+			return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 	
 	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec){
