@@ -17,13 +17,13 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
+import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.Functional;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.roots.RealRootFunction;
@@ -423,7 +423,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			derivGeoFun = new GeoFunction(cons);
 		}
 		
-		derivGeoFun.setDerivative(this, order);
+		if (getParentAlgorithm() instanceof AlgoFunctionFreehand)
+			derivGeoFun.setUndefined();
+		else		
+			derivGeoFun.setDerivative(this, order);
+		
 		return derivGeoFun;					
 	}
 	private GeoFunction derivGeoFun;
