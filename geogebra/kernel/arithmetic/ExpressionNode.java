@@ -2281,6 +2281,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case FACTORIAL:
 			switch (STRING_TYPE) {
 			case STRING_TYPE_MPREDUCE:
+				Application.printStacktrace("WWWWWWWWWWWW");
 				sb.append("factorial(");
 				sb.append(leftStr);
 				sb.append(")");				
@@ -3575,7 +3576,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			break;
 			
 		case FREEHAND:
-			sb.append(app.getPlain("freehand"));
+			// need to output eg freehand(ggbtmpvarx) so that Derivative fails rather than giving zero
+			sb.append("freehand(");
+			sb.append(leftStr);
+			sb.append(')');
 			break;
 
 		default:

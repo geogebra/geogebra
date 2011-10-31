@@ -139,7 +139,7 @@ public interface ExpressionNodeConstants {
 		"sgn", "sqrt", "exp", "log", "ln", "ld", "lg", "cos", "sin", "tan",
 		"acos", "arcos", "arccos", "asin", "arcsin", "atan", "arctan", 
 		"cosh", "sinh", "tanh", "acosh", "arcosh", "arccosh", "asinh",
-		"arcsinh", "atanh", "arctanh", "atan2", "erf",
+		"arcsinh", "atanh", "arctanh", "atan2", "erf", "freehand",
 		"floor", "ceil", "round", "random", "conjugate", "arg",
 		"gamma", "gammaRegularized", "beta", "betaRegularized", 
 		"sec", "csc", "cosec", "cot", "sech", "csch", "coth"));

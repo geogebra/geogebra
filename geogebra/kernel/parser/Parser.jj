@@ -323,6 +323,7 @@ TOKEN: {
 |	< Y_FUNC:  "y(" | "ycoord("  > 
 |	< Z_FUNC:  "z(" | "zcoord("  >
 |	< MAT_FUNC:  "mat("  > // may be returned by MPReduce
+|	< FREEHAND_FUNC: ( "freehand(" ) > 
 |	< COS_FUNC: ( "cos(" | "Cos(" ) > 
 |	< COSN_FUNC: ( "cos" | "Cos" ) ( < POWERN > ) + "(" > 
 |	< SIN_FUNC: ( "sin(" | "Sin(" ) > 
@@ -1887,6 +1888,9 @@ ExpressionNode numberFunction():
 	         }
       	}
       }   
+|
+     <FREEHAND_FUNC> en = expressionOrEquation() ")"
+      { return new ExpressionNode(kernel, en, ExpressionNode.FREEHAND, null); }   
 |
      <COS_FUNC> en = expressionOrEquation() ")"
       { return new ExpressionNode(kernel, en, ExpressionNode.COS, null); }   

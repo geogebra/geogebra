@@ -423,9 +423,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			derivGeoFun = new GeoFunction(cons);
 		}
 		
-		if (getParentAlgorithm() instanceof AlgoFunctionFreehand)
-			derivGeoFun.setUndefined();
-		else		
+		//if (getParentAlgorithm() instanceof AlgoFunctionFreehand)
+		//	derivGeoFun.setUndefined();
+		//else		
 			derivGeoFun.setDerivative(this, order);
 		
 		return derivGeoFun;					
