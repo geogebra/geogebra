@@ -71,14 +71,17 @@ public class AlgoFunctionFreehand extends AlgoElement {
     }
     
     protected final void compute() {  
-        if (!(inputList.isDefined())) 
+        if (!(inputList.isDefined()) || inputList.getElementType() != GeoElement.GEO_CLASS_NUMERIC || inputList.size() < 4){ 
             g.setUndefined();
+            return;
+        }
                
         FunctionVariable X=new FunctionVariable(kernel);
         ExpressionNode expr=new ExpressionNode(kernel, X,ExpressionNode.FREEHAND, inputList);
         Function fun = new Function(expr, X);
         g.setFunction(fun);
         g.setDefined(true);
+        g.setInterval(((GeoNumeric)inputList.get(0)).getDouble(), ((GeoNumeric)inputList.get(1)).getDouble());
        
     }
     
