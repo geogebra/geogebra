@@ -886,29 +886,33 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case FREEHAND:
 			// freehand function
 			if (lt.isNumberValue() && rt.isListValue()){
-				
 				double x = ((NumberValue)lt).getDouble();
 				double ret = Double.NaN;
 				if (rt.isGeoElement()) {
 					GeoList list = (GeoList)rt;
 					int n = list.size() - 3;
-					double min = ((GeoNumeric)(list.get(0))).getDouble();
-					double max = ((GeoNumeric)(list.get(1))).getDouble();
-					
-					if (min > max || x > max || x < min) return new MyDouble(kernel, Double.NaN);
-					
-					double step = (max - min) / n;
-					
-					int index = (int)Math.floor((x - min) / step);
-					
-					if (index > n - 1) ret = ((GeoNumeric)(list.get(n + 2))).getDouble();
-					else {
+					if (n >= 1 && list.getElementType() == GeoElement.GEO_CLASS_NUMERIC) {
+						double min = ((GeoNumeric)(list.get(0))).getDouble();
+						double max = ((GeoNumeric)(list.get(1))).getDouble();
 						
-						double y1 = ((GeoNumeric)(list.get(index + 2))).getDouble();
-						double y2 = ((GeoNumeric)(list.get(index + 3))).getDouble();
-						double x1 = min+index*step;
+						if (min > max || x > max || x < min) return new MyDouble(kernel, Double.NaN);
 						
-						ret = y1 + (x - x1) * (y2 - y1) / step;
+						double step = (max - min) / n;
+						
+						int index = (int)Math.floor((x - min) / step);
+						
+						if (index > n - 1) {
+							ret = ((GeoNumeric)(list.get(n + 2))).getDouble();
+						}
+						else {
+							
+							double y1 = ((GeoNumeric)(list.get(index + 2))).getDouble();
+							double y2 = ((GeoNumeric)(list.get(index + 3))).getDouble();
+							double x1 = min + index * step;
+							
+							// linear interpolation between (x1,y1) and (x2,y2+step) to give (x,ret)
+							ret = y1 + (x - x1) * (y2 - y1) / step;
+						}
 					}
 				}
 				
