@@ -271,6 +271,10 @@ public class DrawAngle3D extends Drawable3DCurves {
   	}
 	
 	
+	protected void updateLabel(){//TODO remove this and implement all angle cases
+		if (labelCenter!=null)
+			super.updateLabel();
+	}
 	
 
 	protected float getLabelOffsetX(){

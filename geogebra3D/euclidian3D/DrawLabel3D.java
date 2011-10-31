@@ -101,6 +101,7 @@ public class DrawLabel3D {
 			return;
 		
 		this.origin = v;
+		//if (v==null)Application.debug(text);
 		this.color = new Coords((double) color.getRed()/255, 
 				(double) color.getGreen()/255, (double) color.getBlue()/255,1);
 		

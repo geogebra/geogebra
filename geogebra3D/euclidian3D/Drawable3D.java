@@ -278,7 +278,7 @@ public abstract class Drawable3D extends DrawableND {
 			setLabelWaitForUpdate();//TODO remove that
 		}
 		
-		if (labelWaitForUpdate){
+		if (labelWaitForUpdate && isLabelVisible()){
 			updateLabel();
 			labelWaitForUpdate = false;
 		}
@@ -592,7 +592,7 @@ public abstract class Drawable3D extends DrawableND {
     }
     
     protected boolean isLabelVisible(){
-    	return isVisible() && getGeoElement().isLabelVisible();
+    	return getGeoElement()!=null && isVisible() && getGeoElement().isLabelVisible();
     }
 	
 	
