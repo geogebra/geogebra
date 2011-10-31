@@ -637,7 +637,7 @@ Section Install Install
     File cc-by-sa-3.0.txt
     File wiki.ico
     SetOutPath $INSTDIR\unsigned
-    File "${build.dir}\unsigned\unpacked\geogebra*.jar"
+    File "${build.dir}\unsigned\unpacked\*.jar"
     
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes"
     SetOutPath ""
@@ -648,8 +648,8 @@ Section Install Install
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebra.org.lnk" http://www.geogebra.org/ "" $INSTDIR\geogebra.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License.lnk" http://www.geogebra.org/download/license.txt "" $INSTDIR\geogebra.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (CC-by-SA-3.0).lnk" http://creativecommons.org/licenses/by-sa/3.0/ "" $INSTDIR\cc.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (GPL-2.0).lnk" $INSTDIR\gpl-3.0.txt
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\Release Notes.lnk" http://www.geogebra.org/en/wiki/index.php/Release_Notes_GeoGebra_3.2 "" $INSTDIR\geogebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (GPL-3.0).lnk" $INSTDIR\gpl-3.0.txt
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\Release Notes.lnk" http://www.geogebra.org/en/wiki/index.php/Release_Notes_GeoGebra_4.2 "" $INSTDIR\geogebra.exe 0
     ${If} 1 = $DESKTOP_ALL
     ${OrIf} 1 = $DESKTOP_CURRENT
       Call PushShellVarContext
@@ -856,12 +856,12 @@ FunctionEnd
     
     !insertmacro RemoveUninstaller
     
-    Delete $INSTDIR\unsigned\geogebra*.jar
+    Delete $INSTDIR\unsigned\*.jar
     RMDir $INSTDIR\unsigned
     Delete $INSTDIR\cc.ico
     Delete $INSTDIR\forum.ico
     Delete $INSTDIR\geogebra.exe
-    Delete $INSTDIR\geogebra*.jar
+    Delete $INSTDIR\*.jar
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\wiki.ico
     RMDir $INSTDIR
