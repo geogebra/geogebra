@@ -12,7 +12,7 @@ echo "----------------------------------------------------------------------" >>
 cat ../../../../_README.txt | tail -n +3 >> $W
 
 # Appending to the RTF:
-cat $W | awk '{printf ("%s\par\r\n", $0)}' >> $F
+cat $W | awk '{printf ("%s\\par\r\n", $0)}' >> $F
 /usr/bin/printf "}\x0d\n\00" >> $F
 
 # Cleanup
