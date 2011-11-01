@@ -226,7 +226,7 @@ public class SliderDialog extends JDialog
 
 			setVisible(false);
 			
-			app.getKernel().storeUndoInfo();
+			app.storeUndoInfo();
 		} 
 		else if (source == btCancel) {						
 			setVisible(false);

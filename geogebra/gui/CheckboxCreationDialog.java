@@ -207,7 +207,7 @@ implements WindowFocusListener, ActionListener, GeoElementSelectionListener {
 		geoBoolean.setLabelVisible(true);
 		geoBoolean.updateRepaint();
 		
-		app.getKernel().storeUndoInfo();
+		app.storeUndoInfo();
 	}
 	
 	public void windowGainedFocus(WindowEvent arg0) {		
