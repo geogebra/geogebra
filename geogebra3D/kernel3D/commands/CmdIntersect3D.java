@@ -148,7 +148,16 @@ public  GeoElement[] process(Command c) throws MyError {
         		}
         		
         		//TODO remove this if conflicting another case
-        		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
+           		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoPlaneND)){
+        			GeoElement[] ret =
+        			{
+        					kernel.getManager3D().IntersectPlanes(
+        							c.getLabel(),
+        							(GeoCoordSys2D) arg[0],
+        							(GeoCoordSys2D) arg[1])};
+        			return ret;
+        		}
+           		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
         			GeoElement[] ret =
         			{
         					kernel.getManager3D().Intersect(
