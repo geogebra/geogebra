@@ -780,6 +780,11 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		
 		for (int i = 0 ; i < myList.size() ; i++) {
 			ExpressionValue ev = myList.getListElement(i).evaluate();
+			
+			// g:x=0, g isElementOf {x=0} gives null here
+			// see #1535
+			if (ev == null) continue;
+			
 			if (ExpressionNode.isEqual(a, ev)) return true;			
 		}
 				

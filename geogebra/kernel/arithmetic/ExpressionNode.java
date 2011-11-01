@@ -3654,10 +3654,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
 			return ((TextValue) ev1).toString().equals(
 					((TextValue) ev2).toString());
+		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
+			return ((VectorValue) ev1).getVector().equals(((VectorValue) ev2).getVector());
+		} else if (ev1.isBooleanValue() && ev2.isBooleanValue()) {
+			return ((BooleanValue) ev1).getMyBoolean().getBoolean() == ((BooleanValue) ev2).getMyBoolean().getBoolean();
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
 			return ((GeoElement) ev1).isEqual(((GeoElement) ev2));
-		} else
-			return false;
+		}
+
+		return false;
 	}
 
 	/**
