@@ -65,6 +65,11 @@ public class DrawIntegral extends Drawable {
 		if(!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
 			init();
         
+		if (gp == null)
+			gp = new GeneralPathClipped(view);
+		else
+			gp.reset(); 	
+
 		// init gp
 		double aRW = a.getDouble();
 		double bRW = b.getDouble();
@@ -85,10 +90,6 @@ public class DrawIntegral extends Drawable {
 		float y0 = (float) view.yZero;
 				
 		// plot definite integral
-		if (gp == null)
-			gp = new GeneralPathClipped(view);
-		else
-			gp.reset(); 	
 		
 		if (Kernel.isEqual(aRW, bRW)) {
 			gp.moveTo(ax, y0); 
