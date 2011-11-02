@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.AlgoClosestPoint;
 import geogebra.kernel.AlgoElement;
 import geogebra.kernel.AlgoPointOnPath;
@@ -419,6 +418,9 @@ Dilateable, Transformable, EuclidianViewCE {
 				degY=c[i].length-1;
 			for (int j = 0; j < c[i].length; j++){
 				coeff[i][j]=c[i][j];
+				if (Double.isInfinite(coeff[i][j])){
+					setUndefined();
+				}
 				isConstant=isConstant&&(c[i][j]==0||(i==0&&j==0));	
 			}
 		}
@@ -452,8 +454,10 @@ Dilateable, Transformable, EuclidianViewCE {
 				if (ev[i][j]==null)
 					coeff[i][j]=0;
 				else
-					coeff[i][j] = ((NumberValue) ev[i][j].evaluate())
-						.getDouble();
+					coeff[i][j] = ((NumberValue) ev[i][j].evaluate()).getDouble();
+				if (Double.isInfinite(coeff[i][j])){
+					setUndefined();
+				}
 				isConstant=isConstant&&(Kernel.isZero(coeff[i][j])||(i==0&&j==0));
 			}
 		}
@@ -1213,6 +1217,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		public void updatePath(double rectX,double rectY,double rectW,double rectH,double resolution){
 			if (!calcPath) //important for helper curves, which aren't visible
 				return;
+			
 			locus.clearPoints();
 			singularitiesCollection=new ArrayList<double[]>();
 			boundaryIntersectCollection=new ArrayList<double[]>();
@@ -1346,6 +1351,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		private final static double MIN_PATH_GAP=1;  
 		private final static double SING_RADIUS=1; 
 		private final static double NEAR_SING=1E-3;
+		private final static int MAX_STEPS=10^5;
 		
 		private double scaledNormSquared(double x,double y){
 			return x*x/scaleX/scaleX+y*y/scaleY/scaleY;
@@ -1375,7 +1381,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			boolean nearSing=false;
 			double lastGradX=Double.POSITIVE_INFINITY;
 			double lastGradY=Double.POSITIVE_INFINITY;
-			while(true){
+			while(s<MAX_STEPS){
 				s++;
 				boolean reachedSingularity=false;
 				boolean reachedEnd=false;
