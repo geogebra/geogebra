@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.euclidian.EuclidianConstants;
+
 
 /**
  *
@@ -54,6 +56,10 @@ public class AlgoDiameterLine extends AlgoElement {
         return "AlgoDiameterLine";
     }
 
+    public int getRelatedModeID() {
+    	return EuclidianConstants.MODE_POLAR_DIAMETER;
+    }
+    
     // for AlgoElement
     protected void setInputOutput() {
         input = new GeoElement[2];
