@@ -18,6 +18,7 @@ import geogebra.main.Application;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * stores left and right hand side of an equation as
@@ -227,12 +228,23 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     }
     
     final public GeoElement [] getGeoElementVariables() {
-        HashSet varset = new HashSet();
-        try { varset.addAll(lhs.getVariables()); } catch (Exception e) {e.printStackTrace();}
-        try { varset.addAll(rhs.getVariables()); } catch (Exception e) {e.printStackTrace();}
+        Set<GeoElement> varSet;
+        Set<GeoElement> leftVars = lhs.getVariables();
+		Set<GeoElement> rightVars = rhs.getVariables();
+		if (leftVars == null) {
+			varSet=rightVars;
+		} else if (rightVars == null) {
+			varSet=leftVars;
+		} else {
+			leftVars.addAll(rightVars);
+			varSet=leftVars;
+		}
+		if (varSet==null){
+			return new GeoElement[0];
+		}
         
-        Iterator i = varset.iterator();        
-        GeoElement [] ret = new GeoElement[varset.size()];
+        Iterator<GeoElement> i = varSet.iterator();        
+        GeoElement [] ret = new GeoElement[varSet.size()];
         int j=0;
         while (i.hasNext()) {
             ret[j++] = (GeoElement) i.next();

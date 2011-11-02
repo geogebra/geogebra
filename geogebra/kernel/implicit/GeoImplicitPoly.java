@@ -929,7 +929,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		
 		this.setCoeff(coeffMatrix,true);
 		
-		this.defined = true;
+		setDefined();
 		for(int i=0; i<points.size(); i++)
 			if(!this.isOnPath(points.get(i),1))
 			{
@@ -1351,7 +1351,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		private final static double MIN_PATH_GAP=1;  
 		private final static double SING_RADIUS=1; 
 		private final static double NEAR_SING=1E-3;
-		private final static int MAX_STEPS=10^5;
+		private final static int MAX_STEPS=10000;
 		
 		private double scaledNormSquared(double x,double y){
 			return x*x/scaleX/scaleX+y*y/scaleY/scaleY;
