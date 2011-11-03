@@ -864,6 +864,8 @@ public class Application implements KeyEventDispatcher {
 		
 		kernel.resetLibraryJavaScript();
 
+		if (scriptManager != null) scriptManager.resetListeners();
+		
 		resetUniqueId();
 	}
 

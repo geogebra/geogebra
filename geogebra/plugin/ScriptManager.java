@@ -72,6 +72,27 @@ public class ScriptManager {
 	private ArrayList<String> addListeners, removeListeners, renameListeners, updateListeners, clearListeners;
 	private JavaToJavaScriptView javaToJavaScriptView;
 	
+	/*
+	 * needed for eg File -> New
+	 */
+	public void resetListeners() {
+		if (addListeners != null)
+			addListeners.clear();
+		
+		if (removeListeners != null)
+			removeListeners.clear();
+		
+		if (renameListeners != null)
+			renameListeners.clear();
+		
+		if (updateListeners != null)
+			updateListeners.clear();
+		
+		if (clearListeners != null)
+			clearListeners.clear();
+
+	}
+	
 	/**
 	 * Registers a JavaScript function as an add listener for the applet's construction.
 	 *  Whenever a new object is created in the GeoGebraApplet's construction, the JavaScript 
