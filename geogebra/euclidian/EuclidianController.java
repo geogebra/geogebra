@@ -2592,7 +2592,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			changedKernel = POINT_CREATED;
 			break;
 
-		case EuclidianView.MODE_TRANSLATEVIEW:
+		case EuclidianConstants.MODE_TRANSLATEVIEW:
 			changedKernel = true;
 			break;
 			
