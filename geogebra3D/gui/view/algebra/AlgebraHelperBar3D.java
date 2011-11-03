@@ -15,7 +15,6 @@ import geogebra.main.Application;
  */
 public class AlgebraHelperBar3D extends AlgebraHelperBar {
 	
-
 	/**
 	 * 
 	 */
@@ -31,6 +30,7 @@ public class AlgebraHelperBar3D extends AlgebraHelperBar {
 		super(algebraView, app);
 	}
 	
+	@Override
 	protected void addButtons(){
 		
 		super.addButtons();
@@ -43,9 +43,10 @@ public class AlgebraHelperBar3D extends AlgebraHelperBar {
 		
 	}
 	
+	@Override
 	public void updateLabels() {
 		super.updateLabels();
-		if(algebraView.getTreeMode() == algebraView.MODE_VIEW) {
+		if(algebraView.getTreeMode() == AlgebraView.MODE_VIEW) {
 			treeModeView.setToolTipText(app.getPlainTooltip("TreeModeDependency"));
 		} else {
 			treeModeView.setToolTipText(app.getPlainTooltip("TreeModeView"));
@@ -53,6 +54,7 @@ public class AlgebraHelperBar3D extends AlgebraHelperBar {
 	}
 	
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == treeModeView) {
 			algebraView.setTreeMode((algebraView.getTreeMode() != AlgebraView.MODE_VIEW) ? AlgebraView.MODE_VIEW : AlgebraView.MODE_DEPENDENCY);

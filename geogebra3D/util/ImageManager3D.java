@@ -3,7 +3,6 @@ package geogebra3D.util;
 import java.awt.Component;
 import java.awt.Image;
 
-import geogebra.main.Application;
 import geogebra.util.ImageManager;
 
 /**
@@ -20,8 +19,7 @@ public class ImageManager3D extends ImageManager {
 		super(comp);
 	}
 	
-	
-	
+	@Override
 	public Image getImageResourceGeoGebra(String name) {
 		
 		Image img = getImageResource("/geogebra3D"+name);

@@ -8,9 +8,8 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.gui.view.algebra.MyRenderer;
 import geogebra.kernel.GeoElement;
-import geogebra.main.Application;
+
 import geogebra3D.Application3D;
 
 
@@ -27,7 +26,6 @@ public class AlgebraView3D extends AlgebraView {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
 	/**
 	 * Nodes for tree mode MODE_VIEW
 	 */
@@ -38,7 +36,6 @@ public class AlgebraView3D extends AlgebraView {
 	 */
 	private DefaultMutableTreeNode rootView;
 
-
 	/**
 	 * @param algCtrl
 	 */
@@ -46,12 +43,12 @@ public class AlgebraView3D extends AlgebraView {
 		super(algCtrl);
 	}
 	
-	
+	@Override
 	protected AlgebraHelperBar newAlgebraHelperBar(){
 		return new AlgebraHelperBar3D(this, app);
 	}
 	
-	
+	@Override
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo){
 		
 		if(treeMode != MODE_VIEW)
@@ -95,6 +92,7 @@ public class AlgebraView3D extends AlgebraView {
 		return parent;
 	}
 
+	@Override
 	protected void clearTree() {
 		
 		if(treeMode != MODE_VIEW){
@@ -108,6 +106,7 @@ public class AlgebraView3D extends AlgebraView {
 
 	}
 	
+	@Override
 	protected void initModel() {	
 		
 		if(treeMode != MODE_VIEW){
@@ -131,12 +130,13 @@ public class AlgebraView3D extends AlgebraView {
 		
 	}
 	
+	@Override
 	protected void removeAuxiliaryNode(){
 		if(auxiliaryNode.isNodeChild(rootDependency))
 			super.removeAuxiliaryNode();
 	}
 	
-
+	@Override
 	protected void setTreeLabels(){
 		
 		if(treeMode != MODE_VIEW){
@@ -149,9 +149,7 @@ public class AlgebraView3D extends AlgebraView {
 			node = viewNodesMap.get(key);
 			node.setUserObject(app.getPlain(key));
 			model.nodeChanged(node);
-		}
-		
+		}	
 	}
-	
 
 }

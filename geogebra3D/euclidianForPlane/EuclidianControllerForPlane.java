@@ -28,8 +28,8 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 	private Coords getCoordsFromView(double x, double y){
 		return ((EuclidianViewForPlane) view).getCoordsFromView(new Coords(x,y,0,1));
 	}
-	
-	
+		
+	@Override
 	protected void movePoint(boolean repaint) {
 		
 		Coords coords = getCoordsFromView(xRW,yRW);
@@ -49,10 +49,9 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 
 		if (repaint)
 			kernel.notifyRepaint();
-	}
+	}	
 	
-	
-	
+	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex){
 	
 		Coords coords = getCoordsFromView(xRW,yRW);
@@ -61,40 +60,37 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 		return ret;
 	}
 	
+	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
 		return createNewPoint(forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex);
 	}
 	
+	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
 		return createNewPoint(forPreviewable, region, coords.getX(), coords.getY(), coords.getZ(), complex);
 	}
-	
 
-
+	@Override
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1){
 		return createCircle2ForPoints3D(p0, p1);
 	}
 
-
+	@Override
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
 		return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line, ((EuclidianView) view).getDirection())};		
 
 	}
 	
-	
-	
-	
-
-	
-	
+	@Override
 	protected void processModeLock(GeoPointND point){
 		Coords coords = ((EuclidianView) view).getCoordsForView(point.getInhomCoordsInD(3));
 		xRW = coords.getX();
 		yRW = coords.getY();
 	}
 	
+	@Override
 	protected void processModeLock(Path path){
 		GeoPointND p = createNewPoint(true, path, false);
 		((GeoElement) p).update();
@@ -102,10 +98,8 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 		xRW = coords.getX();
 		yRW = coords.getY();
 	}
-	
-	
-	
 
+	@Override
 	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list){
 		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 		for (GeoElement geo : list)
@@ -114,7 +108,4 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 		return ret;
 	}
 	
-	
-
-
 }

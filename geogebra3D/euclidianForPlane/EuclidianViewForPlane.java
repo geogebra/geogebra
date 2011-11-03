@@ -4,25 +4,18 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.Previewable;
 import geogebra.kernel.AlgoElement;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPlaneND;
-import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
-import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
-import geogebra3D.kernel3D.GeoPlane3D;
 
+import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 
 /**
  * 2D view for plane.
@@ -58,17 +51,18 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		showGrid(false);
 	}
 	
-
+	@Override
 	public boolean isDefault2D(){
 		return false;
 	}
 	
+	@Override
 	public void updateForPlane(){
 		updateMatrix();
 		updateAllDrawables(true);
 	}
 	
-	
+	@Override
 	public boolean isVisibleInThisView(GeoElement geo){
 
 		// prevent not implemented type to be displayed (TODO remove)
@@ -97,10 +91,10 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return geo.isVisibleInView3D();
 	}
 	
+	@Override
 	public void attachView() {
 		kernel.attach(this);
 	}
-
 
 	/**
 	 * add all existing geos to this view
@@ -108,14 +102,9 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	public void addExistingGeos(){
 
 		kernel.notifyAddAll(this);
-	}
+	}	
 	
-	
-	
-	
-	
-	
-	
+	@Override
 	public Coords getCoordsForView(Coords coords){
 		return coords.projectPlane(getMatrix())[1];
 	}
@@ -124,6 +113,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return getMatrix().mul(coords);
 	}
 	
+	@Override
 	public CoordMatrix getMatrix(){
 		
 		return transformedMatrix;
@@ -224,8 +214,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		
 	}
 	
-	
-
+	@Override
 	public AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
 
 		//use already computed for this view middlepoint M and eigen vecs ev
@@ -241,47 +230,53 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return transform;
 	}
 	
+	@Override
 	public String getFromPlaneString(){
 		return ((GeoElement) plane).getLabel();
 	}
 
+	@Override
 	public String getTranslatedFromPlaneString(){
-		if (plane instanceof GeoPlaneND)
+		if (plane instanceof GeoPlaneND) {
 			return app.getPlain("PlaneA",((GeoElement) plane).getLabel());
-		else
+		} else {
 			return app.getPlain("PlaneFromA",((GeoElement) plane).getLabel());
+		}
 	}
 	
 	public GeoCoordSys2D getGeoElement(){
 		return plane;
 	}
 	
+	@Override
 	public GeoPlaneND getPlaneContaining(){
-		if (plane instanceof GeoPlaneND)
+		if (plane instanceof GeoPlaneND) {
 			return (GeoPlaneND) plane;
-		else
+		} else {
 			return kernel.getManager3D().Plane3D(plane);
+		}
 	}
 	
+	@Override
 	public GeoDirectionND getDirection(){
 		return plane;
 	}
 	
-	
-	
+	@Override
 	public boolean hasForParent(GeoElement geo){
 		return geo.isParentOf((GeoElement) plane);
 	}
-	
 
+	@Override
 	public boolean isMoveable(GeoElement geo){
-		if (hasForParent(geo))
+		if (hasForParent(geo)) {
 			return false;
-		else
+		} else {
 			return geo.isMoveable();
-	}
-	
+		}
+	}	
 
+	@Override
 	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
 		ArrayList<GeoPoint> list = algoParent.getFreeInputPoints();
 		ArrayList<GeoPoint> ret = new ArrayList<GeoPoint>();	
@@ -289,7 +284,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 			if (!hasForParent(p))
 				ret.add(p);
 		return ret;
-	}
-	
+	}	
 	
 }

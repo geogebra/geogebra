@@ -5,7 +5,6 @@ import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
-import geogebra.main.Application;
 
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects
@@ -21,6 +20,7 @@ public class EuclidianViewFor3D extends EuclidianView {
 		//Application.debug("ici");
 	} 
 	
+	@Override
 	protected Drawable newDrawable(GeoElement geo) {
 		
 		//first try super method
@@ -35,9 +35,7 @@ public class EuclidianViewFor3D extends EuclidianView {
 			break;
 		}
 
-
-		return d;
-		
+		return d;		
 	}
 
 } 

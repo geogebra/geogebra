@@ -44,6 +44,7 @@ public class GuiManager3D extends GuiManager {
 		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 	}
 	
+	@Override
 	protected void createLayout(){
 		setLayout(new Layout());
 	}
@@ -51,6 +52,7 @@ public class GuiManager3D extends GuiManager {
 	/**
 	 * Add 3D euclidian view to layout.
 	 */
+	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
 		EuclidianDockPanel3D panel = new EuclidianDockPanel3D(app);
@@ -62,7 +64,7 @@ public class GuiManager3D extends GuiManager {
 	// ACTIONS
 	//////////////////////////////
 	
-	
+	@Override
 	protected boolean initActions() {
 		
 		if (!super.initActions())
@@ -112,7 +114,6 @@ public class GuiManager3D extends GuiManager {
 		
 	}
 	
-	
 	public AbstractAction getShowAxes3DAction() {
 		initActions();
 		return showAxes3DAction;
@@ -130,14 +131,9 @@ public class GuiManager3D extends GuiManager {
 	
 	
 	
-	
-	
-	
-	
 	//////////////////////////////
 	// POPUP MENU
 	//////////////////////////////
-	
 	
 	/**
 	 * Displays the zoom menu at the position p in the coordinate space of
@@ -170,12 +166,11 @@ public class GuiManager3D extends GuiManager {
 	}
 	
 	
-
-	
 	//////////////////////////////
 	// ALGEBRA VIEW
 	//////////////////////////////
 	
+	@Override
 	protected AlgebraView newAlgebraView(AlgebraController algc){
 		return new AlgebraView3D(algc);
 	}
@@ -199,6 +194,7 @@ public class GuiManager3D extends GuiManager {
 
 	}
 	
+	@Override
 	public void showNumberInputDialogCirclePointRadius(String title, GeoPointND geoPoint1,  EuclidianView view) {
 
 		if (((GeoElement) geoPoint1).isGeoElement3D() || (view instanceof EuclidianViewForPlane))
@@ -210,7 +206,6 @@ public class GuiManager3D extends GuiManager {
 		
 	}
 	
-	
 	/**
 	 * 
 	 * @param title
@@ -221,19 +216,16 @@ public class GuiManager3D extends GuiManager {
 		NumberInputHandler handler = new NumberInputHandler();
 		InputDialog id = new InputDialogSpherePointRadius(app, title, handler, geoPoint, kernel);
 		id.setVisible(true);
-
 	}
-	
-	
 
+	@Override
 	protected OptionsDialog newOptionsDialog(){
 		return new OptionsDialog3D(app);
 	}
 	
-	
+	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
 		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id);
 	}
-
 
 }

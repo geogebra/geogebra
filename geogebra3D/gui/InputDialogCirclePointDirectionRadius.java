@@ -1,6 +1,5 @@
 package geogebra3D.gui;
 
-
 import geogebra.gui.InputDialogRadius;
 import geogebra.gui.InputHandler;
 import geogebra.kernel.GeoElement;
@@ -42,6 +41,7 @@ public class InputDialogCirclePointDirectionRadius extends InputDialogRadius{
 
 	}
 
+	@Override
 	protected GeoElement createOutput(NumberValue num){
 
 		return kernel.getManager3D().Circle3D(
@@ -49,7 +49,6 @@ public class InputDialogCirclePointDirectionRadius extends InputDialogRadius{
 				geoPoint,
 				num,
 				forAxis);
-
 	}
 
 }

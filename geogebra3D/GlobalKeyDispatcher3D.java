@@ -1,7 +1,5 @@
 package geogebra3D;
 
-import java.awt.event.KeyEvent;
-
 import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcher;
 

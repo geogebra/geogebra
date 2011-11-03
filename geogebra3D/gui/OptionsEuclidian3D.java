@@ -1,6 +1,5 @@
 package geogebra3D.gui;
 
-
 import geogebra.gui.OptionsEuclidian;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra3D.Application3D;
@@ -16,8 +15,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-
 
 public class OptionsEuclidian3D extends OptionsEuclidian {
 	
@@ -52,8 +49,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		((AxisPanel3D) xAxisPanel).enableStuff(flag);
 		((AxisPanel3D) yAxisPanel).enableStuff(flag);
 		zAxisPanel.enableStuff(flag);
-		
-		
+				
 
 		cbGridManualTick.setEnabled(flag);  
         ncbGridTickX.setEnabled(flag); 
@@ -65,11 +61,11 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		btGridColor.setEnabled(flag); 
 		
 	}
-
 	
-	
+	@Override
 	protected void setViewFromIndex(int index){
 		
+		//TODO ?
 		/*
 		switch(index){
 		case 0:
@@ -87,9 +83,9 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		
 	}
 	
+	@Override
 	public void updateGUI() {
 		super.updateGUI();
-		
 
 		zAxisPanel.updatePanel();
 		
@@ -104,35 +100,39 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		
 		
 		tfCavAngle.setText(""+((EuclidianView3D) view).getCavAngle());
-		tfCavFactor.setText(""+((EuclidianView3D) view).getCavFactor());
-		
-		
-		
-		
+		tfCavFactor.setText(""+((EuclidianView3D) view).getCavFactor());		
 	}
 	
+	@Override
 	protected void setLabelsForCbView(){
+		//TODO ?
 		/*
 		super.addItemsToCbView();
 		cbView.addItem(app.getPlain("GraphicsView3D"));
 		*/
 	}
 	
+	@Override
 	protected void createCbView(){
 	}
 	
+	@Override
 	protected void addCbView(){
 	}
 	
+	@Override
 	protected void updateGUIforCbView(){
 		
 	}
 	
+	@Override
 	protected void updateMinMax(){
 		super.updateMinMax();
 	}
 	
-	protected void setCbViewSelectedIndex(){
+	@Override
+	protected void setCbViewSelectedIndex() {
+		//TODO ?
 		/*
 		if(view == app.getEuclidianView())
     		cbView.setSelectedIndex(0);
@@ -143,23 +143,21 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		 */
 	}
 	
-	
-
+	@Override
 	protected void initAxisPanels(){
 
         xAxisPanel = new AxisPanel3D(0);
         yAxisPanel = new AxisPanel3D(1);
-        zAxisPanel = new AxisPanel3D(2);
-        
+        zAxisPanel = new AxisPanel3D(2);       
 	}
 	
-
+	@Override
 	protected void addTabs(){
 		super.addTabs();
 		tabbedPane.addTab("" , buildProjectionPanel() );
 	}
 	
-
+	@Override
 	protected void addAxisTabs(){
 		super.addAxisTabs();
 		tabbedPane.addTab("" , zAxisPanel );
@@ -312,8 +310,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		
 	}
 	
-	
-
+	@Override
 	protected void setTabLabels(){
 		tabbedPane.setTitleAt(0,app.getMenu("Properties.Basic"));
         tabbedPane.setTitleAt(1, app.getPlain("xAxis"));
@@ -323,7 +320,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
         tabbedPane.setTitleAt(5, app.getMenu("Projection"));	
 	}
 	
-	
+	@Override
 	public void setLabels(){
 		super.setLabels();
 		
@@ -345,9 +342,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		projectionButtons.setSelected(((EuclidianView3D) view).getProjection());
 	}
 	
-	
-	
-	
+	@Override
 	protected void doActionPerformed(Object source) {	
 		
 		if (source == tfPersp) {
@@ -422,18 +417,13 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 			cbAnaglyphGray.setSelected(flag);
 			((EuclidianView3D) view).setAnaglyphGrayScaled(flag);
 			*/
-		}else if (source == cbAnaglyphShutDownGreen) {
+		} else if (source == cbAnaglyphShutDownGreen) {
 			((EuclidianView3D) view).setAnaglyphShutDownGreen(cbAnaglyphShutDownGreen.isSelected());
-		
-		
 			
-		}else super.doActionPerformed(source);
-		
+		} else {
+			super.doActionPerformed(source);		
+		}
 	}
-	
-	
-	
-	
 	
 	protected class AxisPanel3D extends AxisPanel{
 		
@@ -454,22 +444,17 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		    cbTickStyle.setEnabled(flag); 
 		    cbAxisLabel.setEnabled(flag);
 		    cbUnitLabel.setEnabled(flag);
-			tfCross.setEnabled(flag);
-			
-			
+			tfCross.setEnabled(flag);		
 		}
 		
+		@Override
 		protected String getString(){
-			if (axis==AXIS_Z)
+			if (axis==AXIS_Z) {
 				return "zAxis";
-			else
+			} else {
 				return super.getString();
-		}
-		
-		
-	}
-	
-
-	
+			}
+		}	
+	}	
 	
 }

@@ -79,14 +79,13 @@ public class Application3D extends Application{
         
     }
     
-    
-    
-    
+	@Override
 	public void initKernel(){
 		kernel3D = new Kernel3D(this);
 		kernel = kernel3D;
 	}
 	
+	@Override
 	protected void initImageManager(Component component){
 		imageManager = new ImageManager3D(component);
 	}
@@ -94,6 +93,7 @@ public class Application3D extends Application{
 	/**
 	 * init the EuclidianView (and EuclidianView3D for 3D)
 	 */
+	@Override
 	public void initEuclidianViews(){
 		
 		//init the 2D euclidian view
@@ -105,23 +105,26 @@ public class Application3D extends Application{
         
 	}
 	
+	@Override
 	protected EuclidianController newEuclidianController(Kernel kernel){
 		return new EuclidianControllerFor3D(kernel);
 	}
 	
+	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes, boolean showGrid){
 		return new EuclidianViewFor3D(euclidianController, showAxes,
 				showGrid, 1);
 	}
 	
+	@Override
 	public void setMode(int mode) {
 		super.setMode(mode);
 		
 		//if (euclidianView3D != null)
 			euclidianView3D.setMode(mode);
-		
 	}
 
+	@Override
 	public String getCompleteUserInterfaceXML(boolean asPreference) {
 		StringBuilder sb = new StringBuilder();
 
@@ -142,17 +145,19 @@ public class Application3D extends Application{
 		return euclidianView3D;
 	}
 	
+	@Override
 	public void getEuclidianViewXML(StringBuilder sb,boolean asPreference){
 		super.getEuclidianViewXML(sb, asPreference);
 		sb.append(getEuclidianView3D().getXML());
 	}
 	
-	
+	@Override
 	public BufferedImage getExportImage(double maxX, double maxY) throws OutOfMemoryError {
 		//TODO use maxX, maxY values
 		return getEuclidianView3D().getRenderer().getExportImage();
 	}
 	
+	@Override
 	public boolean saveGeoGebraFile(File file) {		
 		//TODO generate it before
 		getEuclidianView3D().getRenderer().needExportImage();
@@ -164,12 +169,12 @@ public class Application3D extends Application{
 	// EUCLIDIAN VIEW FOR PLANE
 	/////////////////////////////////
 	
-	
-	
+		
 	/**
 	 * @param plane
 	 * @return create a new euclidian view for the plane
 	 */
+	@Override
 	public EuclidianView createEuclidianViewForPlane(GeoCoordSys2D plane){
 		// create new view for plane and controller
 		EuclidianController ec = new EuclidianControllerForPlane(kernel3D);
@@ -194,7 +199,6 @@ public class Application3D extends Application{
 		getGuiManager().getLayout().getDockManager().show(panel);
 		
 		return euclidianViewForPlane;
-	
 	}
 	
 	/////////////////////////////////
@@ -202,6 +206,7 @@ public class Application3D extends Application{
 	/////////////////////////////////
 	
 
+	@Override
 	public void refreshViews() {
 		getEuclidianView3D().reset();
 		super.refreshViews();
@@ -222,7 +227,7 @@ public class Application3D extends Application{
 		getEuclidianView3D().toggleGrid();
 	}
 	
-	
+	@Override
 	public void setShowAxesSelected(JCheckBoxMenuItem cb){
 		cb.setSelected(getEuclidianView3D().axesAreAllVisible());
 	}
@@ -238,28 +243,32 @@ public class Application3D extends Application{
 	/** set the show grid combo box selected if the plane is visible
 	 * @param cb
 	 */
+	@Override
 	public void setShowGridSelected(JCheckBoxMenuItem cb){
 		GeoPlane3D p = getEuclidianView3D().getxOyPlane();
 		cb.setSelected(p.isGridVisible());
 	}
 	
-	
+	@Override
 	protected GuiManager newGuiManager(){
 		return new GuiManager3D(this);
 	}
 	
+	@Override
 	public void updateFonts() {
 
 		super.updateFonts();
 		
-		if (euclidianViewForPlane!=null)
+		if (euclidianViewForPlane!=null) {
 			euclidianViewForPlane.updateFonts();
+		}
 	}
     
 	///////////////////////////////////////
 	// COMMANDS
 	///////////////////////////////////////
 	
+	@Override
 	public String getCommandSyntax(String key) {
 		String key3D = key + syntax3D;
 		String command3D = getCommand(key3D);
@@ -267,26 +276,22 @@ public class Application3D extends Application{
 		
 		return super.getCommandSyntax(key);
 	}
-	
-	
-	
-	
-	
+
+	@Override
 	public void addToEuclidianView(GeoElement geo){
 		super.addToEuclidianView(geo);
 		geo.addView(Application.VIEW_EUCLIDIAN3D);
 		getEuclidianView3D().add(geo);
 	}
 
+	@Override
 	public void removeFromEuclidianView(GeoElement geo){
 		super.removeFromEuclidianView(geo);
 		geo.removeView(Application.VIEW_EUCLIDIAN3D);
 		getEuclidianView3D().remove(geo);
 	}	
 	
-	
-	
-	
+	@Override
 	public void updateStyleBars(){		
 		super.updateStyleBars();
 		getEuclidianView3D().getStyleBar().updateStyleBar();
@@ -296,6 +301,7 @@ public class Application3D extends Application{
 	/////////////////////////////////
 	// FOR TESTING : TODO remove all
 
+	@Override
 	protected GlobalKeyDispatcher newGlobalKeyDispatcher(){
 		return new GlobalKeyDispatcher3D(this);
 	}
@@ -326,7 +332,7 @@ public class Application3D extends Application{
 	
 	*/
 	
-	
+	@Override
 	public boolean is3D(){
 		return true;
 	}

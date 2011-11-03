@@ -1,15 +1,11 @@
 package geogebra3D.gui.layout.panels;
 
-import java.awt.event.MouseEvent;
-
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
-import geogebra3D.Application3D;
+
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 /**
@@ -37,17 +33,17 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		this.view = view;
 	}
 	
+	@Override
 	protected String getPlainTitle(){
 		return app.getPlain(getViewTitle(),view.getTranslatedFromPlaneString());
 	}
 
-
-
-
+	@Override
 	protected JComponent loadComponent() {
 		return view;
 	}
 	
+	@Override
 	protected JComponent loadStyleBar() {
 		return view.getStyleBar();
 	}

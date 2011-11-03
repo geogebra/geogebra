@@ -15,12 +15,14 @@ public class OptionsDialog3D extends OptionsDialog {
 		super(app);
 	}
 	
+	@Override
 	protected void createTabs(){
 		super.createTabs();
 		euclidianPanel3D = new OptionsEuclidian3D((Application3D) app);
 		
 	}
 	
+	@Override
 	protected void addTabs(){
 
 		super.addTabs();
@@ -29,7 +31,7 @@ public class OptionsDialog3D extends OptionsDialog {
 				Color.RED), euclidianPanel3D);
 	}
 	
-
+	@Override
 	public void setLabels() {
 		super.setLabels();
 				

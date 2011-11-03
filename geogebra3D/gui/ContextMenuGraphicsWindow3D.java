@@ -2,10 +2,10 @@ package geogebra3D.gui;
 
 import javax.swing.JCheckBoxMenuItem;
 
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.ContextMenuGraphicsWindow;
 import geogebra.gui.OptionsDialog;
 import geogebra.main.Application;
+
 import geogebra3D.Application3D;
 
 /** Extending ContextMenuGraphicsWindow class for 3D
@@ -32,8 +32,7 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
 		
 	}
 	
-	
-
+	@Override
 	protected void addAxesAndGridCheckBoxes(){
 
         // checkboxes for axes and grid
@@ -55,6 +54,7 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
 		add(cbShowPlane);
 	}
 	
+	@Override
 	protected void showOptionsDialog(){
     	app.getGuiManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN3D);
 		//app.getGuiManager().showDrawingPadPropertiesDialog();

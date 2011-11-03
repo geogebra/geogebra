@@ -21,32 +21,10 @@ package geogebra3D;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolygon;
-import geogebra.kernel.Region;
-import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.commands.AlgebraProcessor;
-import geogebra.main.Application;
-import geogebra.plugin.GgbAPI;
-import geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.kernel3D.GeoConic3D;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
-import geogebra3D.kernel3D.GeoLine3D;
-import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.GeoPolygon3D;
-import geogebra3D.kernel3D.GeoPolyhedron;
-import geogebra3D.kernel3D.GeoQuadric3D;
-import geogebra3D.kernel3D.GeoSegment3D;
-import geogebra3D.kernel3D.GeoVector3D;
-import geogebra3D.kernel3D.Kernel3D;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
+import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra3D.kernel3D.Kernel3D;
 
 /**
  * @author  ggb3D
@@ -58,22 +36,15 @@ public class Test3D{
 		//testLoad("test");
 		//kernel3D.setResolveUnkownVarsAsDummyGeos(true);
 		//testQuadric();
-		
-		
+				
 	}
-	
-	
-	
-	
 	
 	Construction cons;
 	Kernel3D kernel3D;
 	EuclidianView view2D;
 	Application3D app;
-	
-	
+		
 	GeoPlane3D xOyPlane;
-
 
 	public Test3D(Kernel3D kernel3D, EuclidianView view2D, EuclidianView3D view3D, Application3D app){
 		
@@ -157,8 +128,5 @@ public class Test3D{
         
         //testCurve3D();
 	}
-
-	
-
 	
 }

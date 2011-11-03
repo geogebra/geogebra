@@ -37,6 +37,7 @@ public class InputDialogSpherePointRadius extends InputDialogRadius{
 
 	}
 
+	@Override
 	protected GeoElement createOutput(NumberValue num){
 		return kernel.getManager3D().Sphere(null, geoPoint, num);
 	}

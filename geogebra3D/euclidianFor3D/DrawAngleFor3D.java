@@ -7,7 +7,6 @@ import geogebra.kernel.GeoAngle;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 
-
 public class DrawAngleFor3D extends DrawAngle {
 
 	public DrawAngleFor3D(EuclidianView view, GeoAngle angle) {
@@ -15,16 +14,18 @@ public class DrawAngleFor3D extends DrawAngle {
 	}
 	
 	
+	@Override
 	protected boolean inView(Coords point){
 		return Kernel.isZero(point.getZ());
 	}
 	
+	@Override
 	protected double getRawAngle(){
-		if (((AlgoAnglePoints) getGeoElement().getDrawAlgorithm()).getVn().getZ()<0)
+		if (((AlgoAnglePoints) getGeoElement().getDrawAlgorithm()).getVn().getZ()<0) {
 			return 2*Math.PI-super.getRawAngle();
-		else
+		} else {
 			return super.getRawAngle();
-
+		}
 	}
 
 }

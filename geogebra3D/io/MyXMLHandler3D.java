@@ -33,10 +33,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	public MyXMLHandler3D(Kernel kernel, Construction cons) {
 		super(kernel, cons);
-	}
-	
-	
-	
+	}	
 	
 	// ====================================
 	// <euclidianView3D> only used in 3D
@@ -45,6 +42,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @param eName
 	 * @param attrs
 	 */
+	@Override
 	protected void startEuclidianView3DElement(String eName, LinkedHashMap<String, String> attrs) {
 		
 		boolean ok = true;
@@ -110,12 +108,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			System.err.println("unknown tag in <euclidianView3D>: " + eName);
 		}
 
-		if (!ok)
+		if (!ok) {
 			System.err.println("error in <euclidianView3D>: " + eName);
+		}
 	}
 	
-	
-	
+	@Override
 	protected void startGeoElement(String eName, LinkedHashMap<String, String> attrs) {
 		if (geo == null) {
 			System.err.println("no element set for <" + eName + ">");
@@ -144,10 +142,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 	
-	
-	
-	
-	private boolean handleCoordSystem3D(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleCoordSystem3D(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
 		try {
 			double xZero = Double.parseDouble((String) attrs.get("xZero"));
 			double yZero = Double.parseDouble((String) attrs.get("yZero"));
@@ -170,7 +165,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 	
-	
 	private boolean handleFading(LinkedHashMap<String, String> attrs) {
 		try {
 			float fading = Float.parseFloat((String) attrs.get("val"));			
@@ -180,7 +174,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return false;
 		}
 	}
-
 
 	private boolean handleLevelOfDetail(LinkedHashMap<String, String> attrs) {
 		try {
@@ -192,7 +185,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
-	
 	/** handles plane attributes for EuclidianView3D
 	 * @param ev
 	 * @param attrs
@@ -220,7 +212,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		*/
 	}
 	
-	
 	/** handles plane attributes (show plate) for EuclidianView3D
 	 * @param ev
 	 * @param attrs
@@ -240,8 +231,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			//e.printStackTrace();
 			return false;
 		}
-	}
-	
+	}	
 	
 	/** handles plane attributes (show grid) for EuclidianView3D
 	 * @param ev
@@ -265,6 +255,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	}
 	
 	/** create absolute start point (coords expected) */
+	@Override
 	protected GeoPointND handleAbsoluteStartPoint(LinkedHashMap<String, String> attrs) {
 		double x = Double.parseDouble((String) attrs.get("x"));
 		double y = Double.parseDouble((String) attrs.get("y"));
@@ -275,8 +266,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		return p;
 	}
 	
-	
-	private boolean handleBgColor(EuclidianViewInterface ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleBgColor(EuclidianViewInterface ev, LinkedHashMap<String, String> attrs) {
 		
 		Application.debug("TODO: remove this");
 		
@@ -287,7 +277,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		return true;
 	}
 	
-	private Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
+	private static Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt((String) attrs.get("r"));
 			int green = Integer.parseInt((String) attrs.get("g"));
@@ -372,18 +362,13 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (posAxis != null) {
 				boolean isPositive = Boolean.parseBoolean(posAxis);
 				ev.setPositiveAxis(axis,isPositive);
-			}
-			
-				
+			}			
 			
 			return true;
 		} catch (Exception e) {
 			//e.printStackTrace();
 			return false;
 		}
-	}
-
-
-	
+	}	
 
 }
