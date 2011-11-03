@@ -61,17 +61,17 @@ public class GeoGebraContext extends ViewContext {
 
 	/* Tokens color */
 	static {
-		colorMap.put("Default", Color.decode("#000000"));
-		colorMap.put("Operator", Color.decode("#01a801"));
-		colorMap.put("Constante", Color.decode("#da70d6"));
-		colorMap.put("Number", Color.decode("#9f06ef"));
-		colorMap.put("OpenClose", Color.decode("#4a55db"));
-		colorMap.put("String", Color.decode("#bc8f8f"));
-		colorMap.put("Built-in function", Color.decode("#32b9b9"));
-		colorMap.put("Function", Color.decode("#ffb9b9"));
-		colorMap.put("Unknown", Color.decode("#ff5409"));
-		colorMap.put("Command", Color.decode("#ae5cb0"));
-		colorMap.put("Variable", Color.decode("#834310"));
+		colorMap.put("Default", Color.black);
+		colorMap.put("Operator", Color.black);
+		colorMap.put("Constante", Color.black);
+		colorMap.put("Number", Color.black);
+		colorMap.put("OpenClose", Color.black);
+		colorMap.put("String", Color.black);
+		colorMap.put("Built-in function", Color.black);
+		colorMap.put("Function", Color.black);
+		colorMap.put("Unknown", Color.red);
+		colorMap.put("Command", Color.black);
+		colorMap.put("Variable", Color.black);
 		colorMap.put("White", Color.decode("#dcdcdc"));
 		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
 	}
