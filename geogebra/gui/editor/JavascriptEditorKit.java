@@ -53,7 +53,8 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 	/**
      * {@inheritDoc}
      */
-    public String getContentType() {
+    @Override
+	public String getContentType() {
         return MIMETYPE;
     }
 	
@@ -71,14 +72,16 @@ public class JavascriptEditorKit extends DefaultEditorKit {
     /**
      * {@inheritDoc}
      */
-    public Document createDefaultDocument() {
+    @Override
+	public Document createDefaultDocument() {
         return new JavascriptDocument();
     }
     
 	/**
      * {@inheritDoc}
      */
-    public ViewFactory getViewFactory() {
+    @Override
+	public ViewFactory getViewFactory() {
         return getStylePreferences();
     }
     
@@ -108,9 +111,6 @@ public class JavascriptEditorKit extends DefaultEditorKit {
     		return ((MutableAttributeSet) el.getAttributes()).containsAttribute(COMMENTLINE, COMMENTLINE);
       	}
     	
-    	/**
-    	 * @param tc the JTextComponent where the document will be rendered
-    	 */
     	public void setTextComponent(GeoGebraEditorPane pane) {
     		this.textcomponent = pane;
     	}
@@ -151,7 +151,6 @@ public class JavascriptEditorKit extends DefaultEditorKit {
     	/**
     	 * Handle the remove or insert events.
     	 * @param ev the event
-    	 * @param attr the attribute set
     	 */
     	protected void handleUpdate(DocumentEvent ev) {
     		Element root = getDefaultRootElement();

@@ -63,7 +63,7 @@ public class HelpOnKeywordPanel extends JPanel {
 			instance = new HelpOnKeywordPanel();
 		}
 
-		String help = app.getCommand(app.translateCommand(command) + app.syntaxStr);
+		String help = app.getCommand(app.translateCommand(command) + Application.syntaxStr);
 		String[] lines = help.split("\n");
 		int cols = 1;
 		for (int i = 0; i < lines.length; i++) {

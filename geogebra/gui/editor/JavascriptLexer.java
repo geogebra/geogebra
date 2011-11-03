@@ -185,12 +185,14 @@ public final class JavascriptLexer extends Lexer implements JavascriptLexerConst
 		setDocument(doc);
     }
 
-    public void setDocument(Document doc) {
+    @Override
+	public void setDocument(Document doc) {
         this.doc = (JavascriptEditorKit.JavascriptDocument) doc;
         this.elem = doc.getDefaultRootElement();
     }
 
-    public void setRange(int p0, int p1) {
+    @Override
+	public void setRange(int p0, int p1) {
         start = p0;
         end = p1;
         String str = "";
@@ -204,15 +206,18 @@ public final class JavascriptLexer extends Lexer implements JavascriptLexerConst
         }
     }
 
-    public int yychar() {
+    @Override
+	public int yychar() {
         return yychar;
     }
 
-    public int scan() throws IOException {
+    @Override
+	public int scan() throws IOException {
         return yylex();
     }
 
-    public int getKeyword(int pos, boolean strict) {
+    @Override
+	public int getKeyword(int pos, boolean strict) {
     	int index = elem.getElementIndex(pos);
         Element line = elem.getElement(index);
         int end = line.getEndOffset();
@@ -242,7 +247,6 @@ public final class JavascriptLexer extends Lexer implements JavascriptLexerConst
            return JavascriptLexerConstants.DEFAULT;
         }
      }
-
 
   /**
    * Creates a new scanner
@@ -416,7 +420,8 @@ public final class JavascriptLexer extends Lexer implements JavascriptLexerConst
   /**
    * Returns the length of the matched text region.
    */
-  public final int yylength() {
+  @Override
+public final int yylength() {
     return zzMarkedPos-zzStartRead;
   }
 
@@ -435,7 +440,7 @@ public final class JavascriptLexer extends Lexer implements JavascriptLexerConst
    *
    * @param   errorCode  the code of the errormessage to display
    */
-  private void zzScanError(int errorCode) {
+  private static void zzScanError(int errorCode) {
     String message;
     try {
       message = ZZ_ERROR_MSG[errorCode];

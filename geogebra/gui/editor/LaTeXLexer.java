@@ -167,12 +167,14 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
 		setDocument(doc);
     }
 
-    public void setDocument(Document doc) {
+    @Override
+	public void setDocument(Document doc) {
         this.doc = doc;
         this.elem = doc.getDefaultRootElement();
     }
 
-    public void setRange(int p0, int p1) {
+    @Override
+	public void setRange(int p0, int p1) {
         start = p0;
         end = p1;
         String str = "";
@@ -182,15 +184,18 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
         yyreset(new StringReader(str));
     }
 
-    public int yychar() {
+    @Override
+	public int yychar() {
         return yychar;
     }
 
-    public int scan() throws IOException {
+    @Override
+	public int scan() throws IOException {
         return yylex();
     }
 
-    public int getKeyword(int pos, boolean strict) {
+    @Override
+	public int getKeyword(int pos, boolean strict) {
         Element line = elem.getElement(elem.getElementIndex(pos));
         int end = line.getEndOffset();
         int tok = -1;
@@ -389,7 +394,8 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
   /**
    * Returns the length of the matched text region.
    */
-  public final int yylength() {
+  @Override
+public final int yylength() {
     return zzMarkedPos-zzStartRead;
   }
 
@@ -408,7 +414,7 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
    *
    * @param   errorCode  the code of the errormessage to display
    */
-  private void zzScanError(int errorCode) {
+  private static void zzScanError(int errorCode) {
     String message;
     try {
       message = ZZ_ERROR_MSG[errorCode];

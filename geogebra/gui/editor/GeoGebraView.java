@@ -96,7 +96,6 @@ public class GeoGebraView extends WrappedPlainView {
     /**
      * The constructor to set this view for an element with a context (containing infos
      * such as colors or fonts of the keywords).
-     * @param app the Application where the view is used
      * @param elem the element to view
      * @param lexer the lexer to use
      * @param context used to view the element
@@ -141,7 +140,8 @@ public class GeoGebraView extends WrappedPlainView {
      * @param a the shape bounding the visible area
      * @overload paint method in WrappedPlainView
      */
-    public void paint(Graphics g, Shape a) {
+    @Override
+	public void paint(Graphics g, Shape a) {
         super.paint(g, a);
     }
 
@@ -149,7 +149,8 @@ public class GeoGebraView extends WrappedPlainView {
      * A trick to be sure that all the line is covered by an highlight
      * {@inheritDoc}
      */
-    public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
+    @Override
+	public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
         Rectangle r = (Rectangle) super.modelToView(p0, b0, p1, b1, a);
         r.width = ((Rectangle) a).width;
         return r;
@@ -186,7 +187,8 @@ public class GeoGebraView extends WrappedPlainView {
      * @return the x-coordinate where to draw the next piece of text
      * @throws BadLocationException if p0 and p1 are bad positions in the text
      */
-    protected int drawUnselectedText(Graphics g, int sx, int sy, int p0, int p1) throws BadLocationException {
+    @Override
+	protected int drawUnselectedText(Graphics g, int sx, int sy, int p0, int p1) throws BadLocationException {
         if (!enable) {
             return super.drawUnselectedText(g, sx, sy, p0, p1);
         }
@@ -325,14 +327,15 @@ public class GeoGebraView extends WrappedPlainView {
     /**
      * Draw the selected text.
      * @param g the graphics where to draw
-     * @param sx the x-coordinate where to draw
-     * @param sy the y-coordinate ... (guess the end pf the sentence)
+     * @param x the x-coordinate where to draw
+     * @param y the y-coordinate ... (guess the end pf the sentence)
      * @param p0 the start of the text in the doc
      * @param p1 the end of the text in the doc
      * @return the x-coordinate where to draw the next piece of text
      * @throws BadLocationException if p0 and p1 are bad positions in the text
      */
-    protected int drawSelectedText(Graphics g, int x, int y, int p0, int p1) throws BadLocationException {
+    @Override
+	protected int drawSelectedText(Graphics g, int x, int y, int p0, int p1) throws BadLocationException {
         unselected = false;
         int z = drawUnselectedText(g, x, y, p0, p1);
         unselected = true;

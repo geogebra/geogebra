@@ -35,7 +35,7 @@ public class JavascriptContext extends ViewContext {
     /**
      * TOKENS : A Map which contains the names of keywords
      */
-    public static final Map<String, Integer> TOKENS = new HashMap(14);
+    public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(14);
     
     static {
         TOKENS.put("Default", JavascriptLexerConstants.DEFAULT);
@@ -189,14 +189,16 @@ public class JavascriptContext extends ViewContext {
     /**
      * {@inheritDoc}
      */
-    public View getCurrentView() {
+    @Override
+	public View getCurrentView() {
         return view;
     }
 
     /**
      * {@inheritDoc}
      */
-    public View create(Element elem) {
+    @Override
+	public View create(Element elem) {
     	view = new GeoGebraView(elem, new JavascriptLexer(), this);
         return view;
     }	

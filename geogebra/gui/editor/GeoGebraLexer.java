@@ -201,7 +201,7 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
         		variables.add(g.getLabel());
         	}
         }
-        commands = new HashSet();
+        commands = new HashSet<String>();
         commands.addAll(app.getCommandDictionary().values());
     }
 
@@ -210,12 +210,14 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
         setDocument(doc);
     }
 
+	@Override
 	public void setDocument(Document doc) {
 		this.doc = doc;
 		this.elem = doc.getDefaultRootElement();
 	}
 
-    public void setRange(int p0, int p1) {
+    @Override
+	public void setRange(int p0, int p1) {
         this.start = p0;
         this.end = p1;
         String str = "";
@@ -225,15 +227,18 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
         yyreset(new StringReader(str));
     }
 
-    public int yychar() {
+    @Override
+	public int yychar() {
         return yychar;
     }
 
-    public int scan() throws IOException {
+    @Override
+	public int scan() throws IOException {
         return yylex();
     }
 
-    public int getKeyword(int pos, boolean strict) {
+    @Override
+	public int getKeyword(int pos, boolean strict) {
         Element line = elem.getElement(elem.getElementIndex(pos));
         int end = line.getEndOffset();
         int tok = -1;
@@ -432,7 +437,8 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
   /**
    * Returns the length of the matched text region.
    */
-  public final int yylength() {
+  @Override
+public final int yylength() {
     return zzMarkedPos-zzStartRead;
   }
 
@@ -451,7 +457,7 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
    *
    * @param   errorCode  the code of the errormessage to display
    */
-  private void zzScanError(int errorCode) {
+  private static void zzScanError(int errorCode) {
     String message;
     try {
       message = ZZ_ERROR_MSG[errorCode];

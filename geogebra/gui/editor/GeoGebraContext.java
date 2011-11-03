@@ -35,7 +35,7 @@ public class GeoGebraContext extends ViewContext {
 	/**
 	 * TOKENS : A Map which contains the names of keywords
 	 */
-	public static final Map<String, Integer> TOKENS = new HashMap(14);
+	public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(14);
 
 	static {
 		TOKENS.put("Default", GeoGebraLexerConstants.DEFAULT);
@@ -194,6 +194,7 @@ public class GeoGebraContext extends ViewContext {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public View getCurrentView() {
 		return view;
 	}
@@ -201,6 +202,7 @@ public class GeoGebraContext extends ViewContext {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public View create(Element elem) {
 		view = new GeoGebraView(elem, new GeoGebraLexer(app), this);
 		return view;

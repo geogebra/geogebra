@@ -44,7 +44,8 @@ public class LaTeXEditorKit extends DefaultEditorKit {
 	/**
      * {@inheritDoc}
      */
-    public String getContentType() {
+    @Override
+	public String getContentType() {
         return MIMETYPE;
     }
 	
@@ -62,7 +63,8 @@ public class LaTeXEditorKit extends DefaultEditorKit {
 	/**
      * {@inheritDoc}
      */
-    public ViewFactory getViewFactory() {
+    @Override
+	public ViewFactory getViewFactory() {
         return getStylePreferences();
     }
 }

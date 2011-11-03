@@ -311,7 +311,8 @@ public class MatchingBlockManager {
          * @param view the view to use
          * @return the shape containg the highlighted text
          */
-        public Shape paintLayer(Graphics g, int offs0, int offs1,
+        @Override
+		public Shape paintLayer(Graphics g, int offs0, int offs1,
                                 Shape bounds, JTextComponent c, View view) {
             try {
                 Rectangle r = (Rectangle) view.modelToView(offs0, Position.Bias.Forward,

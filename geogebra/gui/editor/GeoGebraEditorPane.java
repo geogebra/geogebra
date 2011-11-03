@@ -123,6 +123,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void setFont(Font f) {
 		super.setFont(f);
 		this.columnWidth = getFontMetrics(f).charWidth('m');
@@ -132,6 +133,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = super.getPreferredSize();
 		dim = (dim == null) ? new Dimension(400, 400) : dim;
@@ -148,6 +150,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Dimension getPreferredScrollableViewportSize() {
 		return new Dimension(cols * columnWidth, rows * rowHeight);
 	}
