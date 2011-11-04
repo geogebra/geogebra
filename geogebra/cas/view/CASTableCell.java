@@ -95,8 +95,6 @@ public abstract class CASTableCell extends JPanel{
 		
 	}
 
-	
-	
 	public void setValue(GeoCasCell cellValue) {		
 		// set input panel
 		String input = cellValue.getInput();
@@ -135,7 +133,6 @@ public abstract class CASTableCell extends JPanel{
 		}	
 	}
 
-	
 	void updateTableRowHeight(JTable table, int row) {
 		if (isVisible()) {
 			Dimension prefSize = getPreferredSize();
@@ -164,6 +161,7 @@ public abstract class CASTableCell extends JPanel{
 		return inputPanel.getInputArea();
 	}	
 	
+	@Override
 	public void setFont(Font ft) {
 		super.setFont(ft);
 		if (inputPanel != null)

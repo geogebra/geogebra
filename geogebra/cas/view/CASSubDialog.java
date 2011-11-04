@@ -148,6 +148,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		});
 		
 		replaceTable.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar()!=KeyEvent.CHAR_UNDEFINED&&e.getKeyChar()!='\t')
 					addRow(true);
@@ -242,6 +243,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		}
 	}
 	
+	@Override
 	public void setVisible(boolean flag) {
 		casView.setSubstituteDialog(flag ? this : null);
 		super.setVisible(flag);
@@ -251,7 +253,6 @@ public class CASSubDialog extends JDialog implements ActionListener {
 			replaceTable.setColumnSelectionInterval(1, 1);
 		}
 	}
-
 	
 	/**
 	 * if editing insert inStr at current caret position
@@ -336,6 +337,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 			editing=false;
 			changeEvent=new ChangeEvent(delegate);
 			delegate.addKeyListener(new KeyAdapter() {	
+				@Override
 				public void keyTyped(KeyEvent e) {
 					addRow(true);
 				}
@@ -346,7 +348,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 			return delegate.getText();
 		}
 
-
+		@Override
 		public boolean stopCellEditing() {
 			if (editing)
 				fireEditingStopped();
@@ -354,12 +356,12 @@ public class CASSubDialog extends JDialog implements ActionListener {
 			return true;
 		}
 
+		@Override
 		public void cancelCellEditing() {
 			if (editing)
 				fireEditingCanceled();
 			editing=false;
 		}
-
 
 		public Component getTableCellEditorComponent(JTable table,
 				Object value, boolean isSelected, int row, int column) {
@@ -371,10 +373,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 		
 		public void insertString(String text){
 			delegate.insertString(text);
-		}
-		
-		
-		
+		}	
 	}
 
 	

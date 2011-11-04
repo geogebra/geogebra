@@ -22,6 +22,7 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 		this.rowHeader = rowHeader;					
 	}
 	
+	@Override
 	public void mousePressed(MouseEvent e) {
 		rightClick = Application.isRightClick(e);
 		
@@ -39,6 +40,7 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 		rowHeader.requestFocusInWindow();
 	}
 	
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 			
@@ -56,6 +58,7 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 		dragged = true;
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		e.consume();	
 		mousePressedRow = -1;
@@ -77,12 +80,12 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 		} 
 	}
 	
-	
-	
+	@Override
 	public void mouseClicked(MouseEvent e) {
 
 	}
 	
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}

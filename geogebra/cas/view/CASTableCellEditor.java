@@ -1,17 +1,10 @@
 package geogebra.cas.view;
 
 import geogebra.kernel.GeoCasCell;
-import geogebra.main.Application;
 
 import java.awt.Component;
-import java.awt.Font;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
 
@@ -32,7 +25,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 	private int editingRow;
 	private String inputOnEditingStart;
 		
-	private ArrayList listeners = new ArrayList();
+	private ArrayList<CellEditorListener> listeners = new ArrayList<CellEditorListener>();
 
 	public CASTableCellEditor(CASView view) {
 		super(view);
@@ -61,8 +54,6 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		} 
 		return this;
 	}	
-	
-
 	
 	public String getInputText() {	
 		return getInputArea().getText();
@@ -123,12 +114,11 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		return cellValue;
 	}
 
-
 	protected void fireEditingCanceled() {				
 		if (editing && editingRow < table.getRowCount()) {	
 			ChangeEvent ce = new ChangeEvent(this);
 			for (int i=0; i < listeners.size(); i++) {
-				CellEditorListener l = (CellEditorListener) listeners.get(i);
+				CellEditorListener l = listeners.get(i);
 				l.editingCanceled(ce);
 			}
 		}
@@ -140,7 +130,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		if (editing && editingRow < table.getRowCount()) {	
 			ChangeEvent ce = new ChangeEvent(this);
 			for (int i=0; i < listeners.size(); i++) {
-				CellEditorListener l = (CellEditorListener) listeners.get(i);
+				CellEditorListener l = listeners.get(i);
 				l.editingStopped(ce);
 			}
 		}

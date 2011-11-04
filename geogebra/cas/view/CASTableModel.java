@@ -3,7 +3,7 @@ package geogebra.cas.view;
 import javax.swing.table.DefaultTableModel;
 
 public class CASTableModel extends DefaultTableModel {
-   
+ 
  	
     public CASTableModel() {
         super(1, 1);          
@@ -18,7 +18,8 @@ public class CASTableModel extends DefaultTableModel {
      * Don't need to implement this method unless your table's
      * editable.
      */
-    public boolean isCellEditable(int row, int col) {
+    @Override
+	public boolean isCellEditable(int row, int col) {
     	return true;
     }
 

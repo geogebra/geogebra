@@ -1,18 +1,11 @@
 package geogebra.cas.view;
 
 import geogebra.cas.CASparser;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.GeoCasCell;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ValidExpression;
-import geogebra.kernel.cas.AlgoDependentCasCell;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 public class CASInputHandler {
 
@@ -475,7 +468,7 @@ public class CASInputHandler {
 	 * @param cellValue
 	 * @return
 	 */
-	private String resolveButtonParameter(String param, GeoCasCell cellValue) {
+	private static String resolveButtonParameter(String param, GeoCasCell cellValue) {
 		if (param.charAt(0) == '%') {
 			int n = Integer.parseInt(param.substring(1));
 			
@@ -1102,11 +1095,11 @@ public class CASInputHandler {
 //		return assignmentResult.toString();
 //	}
 
-	private boolean isDeleteCommand(String inputExp) {
+	private static boolean isDeleteCommand(String inputExp) {
 		return inputExp.startsWith("Delete");	
 	}
 
-	private boolean containsCommand(String CASResult) {
+	private static boolean containsCommand(String CASResult) {
 		return  CASResult != null && CASResult.indexOf('[') > -1;
 	}
 

@@ -1,8 +1,6 @@
 package geogebra.cas.view;
 
 import geogebra.kernel.GeoCasCell;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 
 import java.awt.Component;
 

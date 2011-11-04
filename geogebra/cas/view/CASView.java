@@ -9,7 +9,6 @@ import geogebra.kernel.GeoCasCell;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.ValidExpression;
 
 import geogebra.main.Application;
@@ -58,6 +57,7 @@ public class CASView extends JComponent implements View, Gridable {
 		this.app = app;
 
 		Thread initCAS = new Thread() {
+			@Override
 			public void run() {
 				// init CAS
 				getCAS();
@@ -117,6 +117,7 @@ public class CASView extends JComponent implements View, Gridable {
 
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				int clickedRow = consoleTable.rowAtPoint(e.getPoint());
 				//boolean undoNeeded = false;
@@ -152,7 +153,6 @@ public class CASView extends JComponent implements View, Gridable {
 
 		//addFocusListener(this);
 	}
-	
 	
 	public void showSubstituteDialog(String prefix, String evalText, String postfix, int selRow) {
 		if (subDialog != null && subDialog.isShowing()) return;
@@ -322,8 +322,6 @@ public class CASView extends JComponent implements View, Gridable {
 		return rowHeader;
 	}
 
-	
-
 	public Application getApp() {
 		return app;
 	}
@@ -368,13 +366,10 @@ public class CASView extends JComponent implements View, Gridable {
 		}	
 	}
 	
-
 	final public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
 
-
-	
 	/**
 	 * Handles toolbar mode changes
 	 */
@@ -444,7 +439,6 @@ public class CASView extends JComponent implements View, Gridable {
 	
 	/**
      * Makes sure we have an empty row at the end.
-     * @return The new row.
      */
     private void ensureOneEmptyRow() {
     	int rows = getRowCount();
@@ -474,7 +468,6 @@ public class CASView extends JComponent implements View, Gridable {
 		consoleTable.setLabels();
 	}
 
-
 	public int getViewID() {
 		return Application.VIEW_CAS;
 	}
@@ -487,16 +480,13 @@ public class CASView extends JComponent implements View, Gridable {
 		this.toolbarIsUpdatedByDockPanel = toolbarIsUpdatedByDockPanel;
 	}
 
-
 	public Application getApplication() {
 		return app;
 	}
 
-
 	public int[] getGridColwidths() {
 		return new int[]{rowHeader.getWidth()+consoleTable.getWidth()};
 	}
-
 
 	public int[] getGridRowHeights() {
 		int[] heights=new int[consoleTable.getRowCount()];
@@ -505,8 +495,6 @@ public class CASView extends JComponent implements View, Gridable {
 		}
 		return heights;
 	}
-	
-
 
 	public Component[][] getPrintComponents() {
 		return new Component[][]{{rowHeader,consoleTable}};

@@ -1,6 +1,5 @@
 package geogebra.cas.view;
 
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.FormulaDimension;
 import geogebra.main.Application;
 
@@ -24,8 +23,6 @@ public class LaTeXPanel extends JPanel {
 		this.app = app;
 		ensureImageSize(100, 100);
 	}
-	
-	
 	
 	public void setLaTeX(String latex) {
 		if (latex.equals(this.latex)) return;
@@ -68,6 +65,7 @@ public class LaTeXPanel extends JPanel {
 		return false;
 	}
 	
+	@Override
 	public void paint(Graphics g) {
 		if (app.exporting){
 			//draw full resolution image directly on g

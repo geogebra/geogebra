@@ -81,6 +81,7 @@ public class CASOutputPanel extends JPanel {
 		return outputArea.getText();
 	}
 
+	@Override
 	final public void setFont(Font ft) {
 		super.setFont(ft);
 		
