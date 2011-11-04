@@ -40,7 +40,6 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 		rowHeader.requestFocusInWindow();
 	}
 	
-	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 			
@@ -85,7 +84,7 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 
 	}
 	
-	@Override
+	
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}
