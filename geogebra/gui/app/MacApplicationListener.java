@@ -57,7 +57,8 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 				
 				// open file 
 				File [] files = { openFile };
-				boolean openInThisWindow = app.getCurrentFile() == null;
+				// #1541
+				boolean openInThisWindow = app.isSaved();
 				app.getGuiManager().doOpenFiles(files, openInThisWindow);
 				
 				// make sure window is visible
