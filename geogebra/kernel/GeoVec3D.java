@@ -20,9 +20,6 @@ package geogebra.kernel;
 
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
-
 
 /**
  *
@@ -61,26 +58,31 @@ implements Traceable {
 //        return new GeoVec3D(this.cons, this);        
 //    }
     
-    public boolean isDefined() {
+    @Override
+	public boolean isDefined() {
     	return (!(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)));        
     }
     
-    public void setUndefined() {     
+    @Override
+	public void setUndefined() {     
     	setCoords(Double.NaN, Double.NaN, Double.NaN);   
     	update(); //TODO hide undefined elements in algebraView
     }       
     
-    protected boolean showInEuclidianView() {     
+    @Override
+	protected boolean showInEuclidianView() {     
         return isDefined();
     }
     
-    public boolean showInAlgebraView() {
+    @Override
+	public boolean showInAlgebraView() {
        // return true;
 	   //return isDefined();
     	return true;
     }        
     
-    public void set(GeoElement geo) {    
+    @Override
+	public void set(GeoElement geo) {    
         GeoVec3D v = (GeoVec3D) geo;        
         setCoords(v.x, v.y, v.z);        
     }         
@@ -123,6 +125,7 @@ implements Traceable {
     public void setCartesian() { toStringMode = Kernel.COORD_CARTESIAN; }
     public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }     
     
+	@Override
 	public boolean isTraceable() {
 		return true;
 	}
@@ -159,13 +162,13 @@ implements Traceable {
      */
     final public boolean linDep(GeoVec3D v) {
         // v lin.dep this  <=>  cross(v,w) = o            
-        return kernel.isEqual(y * v.z, z * v.y)
-			&& kernel.isEqual(z * v.x, x * v.z) 
-			&& kernel.isEqual(x * v.y, y * v.x);       
+        return Kernel.isEqual(y * v.z, z * v.y)
+			&& Kernel.isEqual(z * v.x, x * v.z) 
+			&& Kernel.isEqual(x * v.y, y * v.x);       
     }
     
     final public boolean isZero() {
-        return kernel.isZero(x) && kernel.isZero(y) && kernel.isZero(z);
+        return Kernel.isZero(x) && Kernel.isZero(y) && Kernel.isZero(z);
     }
     
      /** Calculates the cross product of this vector and vector v.
@@ -371,7 +374,8 @@ implements Traceable {
 		c.setCoords(a.x - b.x, a.y - b.y, a.z - b.z);         
     }       
     
-    public String toString() {
+    @Override
+	public String toString() {
 		sbToString.setLength(0);
 		sbToString.append('(');
 		sbToString.append(x);
@@ -388,6 +392,7 @@ implements Traceable {
      * returns all class-specific xml tags for saveXML
      * Geogebra File Format
      */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
         super.getXMLtags(sb);
         
@@ -399,6 +404,7 @@ implements Traceable {
 
     }
 
+	@Override
 	protected void getXMLtagsMinimal(StringBuilder sb) {
 		sb.append(regrFormat(x) + " " + regrFormat(y) + " " + regrFormat(z));
 	}
@@ -407,7 +413,8 @@ implements Traceable {
      * returns all class-specific i2g tags for saveI2G
      * Intergeo File Format (Yves Kreis)
      */
-    protected void getI2Gtags(StringBuilder sb) {
+    @Override
+	protected void getI2Gtags(StringBuilder sb) {
         super.getI2Gtags(sb);
 
         sb.append("\t\t\t<homogeneous_coordinates>\n");
@@ -418,17 +425,22 @@ implements Traceable {
         
     }
     
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
+	
+	@Override
 	public void setZero() {
 		x=0;
 		y=0;
@@ -445,7 +457,7 @@ implements Traceable {
         x = x0; 
 	}
 	
-	  /**
+	/**
      * mirror transform with angle phi
      *  [ cos(phi)       sin(phi)   ]
      *  [ sin(phi)      -cos(phi)   ]  
@@ -458,9 +470,5 @@ implements Traceable {
         y = x * sin - y * cos;
         x = x0;        
     }
-    
-    
-    
-    
     
 }

@@ -216,31 +216,31 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	protected Hits tempArrayList = new Hits();
 	protected Hits tempArrayList2 = new Hits();
 	protected Hits tempArrayList3 = new Hits();
-	protected ArrayList selectedPoints = new ArrayList();
+	protected ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
 
-	protected ArrayList selectedNumbers = new ArrayList();
-	protected ArrayList selectedNumberValues = new ArrayList();
+	protected ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
+	protected ArrayList<NumberValue> selectedNumberValues = new ArrayList<NumberValue>();
 
-	protected ArrayList selectedLines = new ArrayList();
+	protected ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
 	protected ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
 
-	protected ArrayList selectedSegments = new ArrayList();
+	protected ArrayList<GeoSegment> selectedSegments = new ArrayList<GeoSegment>();
 
-	protected ArrayList selectedRegions = new ArrayList();
-	protected ArrayList selectedPaths = new ArrayList();
-	protected ArrayList selectedConicsND = new ArrayList<GeoConicND>();
-	protected ArrayList selectedImplicitpoly = new ArrayList();
+	protected ArrayList<Region> selectedRegions = new ArrayList<Region>();
+	protected ArrayList<Path> selectedPaths = new ArrayList<Path>();
+	protected ArrayList<GeoConic> selectedConicsND = new ArrayList<GeoConic>();
+	protected ArrayList<GeoImplicitPoly> selectedImplicitpoly = new ArrayList<GeoImplicitPoly>();
 
-	protected ArrayList selectedFunctions = new ArrayList();
-	protected ArrayList selectedCurves = new ArrayList();
+	protected ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
+	protected ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
 
-	protected ArrayList selectedVectors = new ArrayList();
+	protected ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
 
-	protected ArrayList selectedPolygons = new ArrayList();
-	protected ArrayList selectedPolyLines = new ArrayList();
+	protected ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
+	protected ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
 
 	protected ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
-	protected ArrayList selectedLists = new ArrayList();
+	protected ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
 
 	//protected LinkedList highlightedGeos = new LinkedList();
 	protected Hits highlightedGeos = new Hits();
@@ -271,7 +271,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 	protected int mode, oldMode, moveMode = MOVE_NONE;
 	protected Macro macro;
-	protected Class [] macroInput;
+	protected Class<? extends GeoElement> [] macroInput;
 
 	protected int DEFAULT_INITIAL_DELAY;
 
@@ -495,12 +495,11 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	public void setPen(EuclidianPen pen){
 		this.pen = pen;
 	}
+	
 	public EuclidianPen getPen(){
 		return pen;
 	}
-	
-	
-	
+		
 	public int getMode(){
 		return mode;
 	}
@@ -524,16 +523,15 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			initNewMode(newMode);
 			if (app.getActiveEuclidianView() == view)
 				processSelectionRectangle(null);
-		}
-		else if (EuclidianView.usesSelectionAsInput(newMode))
-		{
+		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
 			initNewMode(newMode);
-			if (app.getActiveEuclidianView() == view)
+			if (app.getActiveEuclidianView() == view) {
 				processSelection();
-		}
-		else
-		{
-			if (!TEMPORARY_MODE) app.clearSelectedGeos(false);
+			}
+		} else {
+			if (!TEMPORARY_MODE) {
+				app.clearSelectedGeos(false);
+			}
 			initNewMode(newMode);
 		}
 
@@ -559,8 +557,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:				
 			// take all selected objects and hide them
-			Collection coll = 	app.getSelectedGeos();				
-			Iterator it = coll.iterator();
+			Collection<GeoElement> coll = 	app.getSelectedGeos();				
+			Iterator<GeoElement> it = coll.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = (GeoElement) it.next();					
 				geo.setEuclidianVisible(false);
@@ -576,12 +574,10 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			break;
 		}
 
-		if (toggleModeChangedKernel)
+		if (toggleModeChangedKernel) {
 			app.storeUndoInfo();
+		}
 	}
-	
-	
-	
 	
 	protected void initNewMode(int mode) {
 		this.mode = mode;
@@ -595,10 +591,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		closeMiniPropertiesPanel();
 
 		if (mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-			if (!app.getGuiManager().hasSpreadsheetView())
+			if (!app.getGuiManager().hasSpreadsheetView()) {
 				app.getGuiManager().attachSpreadsheetView();
-			if (!app.getGuiManager().showView(Application.VIEW_SPREADSHEET))
+			}
+			if (!app.getGuiManager().showView(Application.VIEW_SPREADSHEET)) {
 				app.getGuiManager().setShowView(true, Application.VIEW_SPREADSHEET);
+			}
 		}
 
 
@@ -632,7 +630,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				app.getEuclidianView2().zoomAxesRatio(1, createUndo);
 			}//*/
 			
-			ArrayList selection = app.getSelectedGeos();
+			ArrayList<GeoElement> selection = app.getSelectedGeos();
 			if (selection.size() == 1) {
 				GeoElement geo = (GeoElement)selection.get(0);
 				// getCorner(1) == null as we can't write to transformed images
@@ -740,7 +738,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
 			// select all hidden objects			
-			Iterator it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
+			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
 			while (it.hasNext()) {
 				GeoElement geo = (GeoElement) it.next();
 				// independent numbers should not be set visible
@@ -941,7 +939,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}
 	}
 
-	protected void handleSelectClick(ArrayList geos, boolean ctrlDown) {	
+	protected void handleSelectClick(ArrayList<GeoElement> geos, boolean ctrlDown) {	
 		if (geos == null) {			
 			app.clearSelectedGeos();
 		} else {					
@@ -956,20 +954,11 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					if (geo != null) {
 						app.clearSelectedGeos(false);
 						app.addSelectedGeo(geo);
-
-
-
-
 					}
 				}				
 			}			
 		}
 	}
-
-
-
-
-
 
 	protected void mousePressedTranslatedView(MouseEvent e){
 
@@ -1390,7 +1379,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		
 		//Application.debug("end("+(System.currentTimeMillis()-t0)+")");
 
-		ArrayList selGeos = app.getSelectedGeos();
+		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
 		
 		// if object was chosen before, take it now!
 		if (selGeos.size() == 1 && 
@@ -1447,7 +1436,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			// point with changeable coord parent numbers
 			if (movedGeoElement.hasChangeableCoordParentNumbers()) {
 				movedGeoElement.recordChangeableCoordParentNumbers();
-				translateableGeos = new ArrayList();
+				translateableGeos = new ArrayList<GeoElement>();
 				translateableGeos.add(movedGeoElement);
 			}
 
@@ -2404,7 +2393,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 						// no selected geos: choose geo and show popup menu
 						geo = chooseGeo(hits, false);
 						if (geo!=null) {
-							ArrayList<GeoElement> geos = new ArrayList();
+							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
 							app.getGuiManager().showPopupMenu(geos,(JPanel) view, mouseLoc);
 						}
@@ -2776,7 +2765,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		kernel.notifyRepaint();
 	}
 
-	protected void processSelectionRectangleForTransformations(Hits hits, Class transformationInterface) {
+	// TODO replace Class<?> by Class<GeoElement> ?
+	protected void processSelectionRectangleForTransformations(Hits hits, Class<?> transformationInterface) {
 		for (int i=0; i < hits.size(); i++) {
 			GeoElement geo = (GeoElement) hits.get(i);
 			if (!(transformationInterface.isInstance(geo) 
@@ -3050,7 +3040,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	//	set highlighted state of all highlighted geos without repainting
 	protected final void setHighlightedGeos(boolean highlight) {
 		GeoElement geo;
-		Iterator it = highlightedGeos.iterator();
+		Iterator<GeoElement> it = highlightedGeos.iterator();
 		while (it.hasNext()) {
 			geo = (GeoElement) it.next();
 			geo.setHighlighted(highlight);
@@ -4373,12 +4363,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		movedGeoPoint = point;
 	}
 
-
-
-
-
-
-
 	// get two points and create line through them
 	final protected GeoElement[] join(Hits hits) {
 		if (hits.isEmpty())
@@ -4412,7 +4396,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return ret;
 	}
 
-	private boolean noPointsIn(Hits hits)
+	private static boolean noPointsIn(Hits hits)
 	{
 		for (int i = 0 ; i < hits.size(); i++) {
 			if ( ((GeoElement)(hits.get(i))).isGeoPoint()) return false;
@@ -6039,7 +6023,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	 * Removes parent points of segments, rays, polygons, etc. from selGeos
 	 * that are not necessary for transformations of these objects.
 	 */
-	protected void removeParentPoints(ArrayList selGeos) {
+	protected void removeParentPoints(ArrayList<GeoElement> selGeos) {
 		tempArrayList.clear();	
 		tempArrayList.addAll(selGeos);
 		
@@ -6058,7 +6042,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 			case GeoElement.GEO_CLASS_CONICPART:
 				GeoConicPart cp = (GeoConicPart) geo;
-				ArrayList ip = cp.getParentAlgorithm().getInputPoints();
+				ArrayList<GeoPoint> ip = cp.getParentAlgorithm().getInputPoints();
 				tempArrayList.removeAll(ip);
 				break;
 
@@ -7410,8 +7394,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	/**
 	 * 	selectionList may only contain max objects
 	 * a choose dialog will be shown if not all objects can be added
-	 * @param geos: a clone of the to-be-added list
-	 * @param addMoreThanOneAllowed: it's possible to add several objects
+	 * @param geos a clone of the to-be-added list
+	 * @param addMoreThanOneAllowed it's possible to add several objects
 	 * without choosing
 	 */
 	final protected int addToSelectionList(ArrayList selectionList,
@@ -7715,7 +7699,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 	}
 
-	private void removeAxes(ArrayList<GeoElement> geos) {
+	private static void removeAxes(ArrayList<GeoElement> geos) {
 
 		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 			GeoElement geo = geos.get(i);
@@ -7874,15 +7858,11 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return false;
 	}
 
-
-
 	/** right-release the mouse makes stop 3D rotation 
 	 * @return false */
 	protected boolean processRightReleaseFor3D(){
 		return false;
 	}
-
-	
 	
 
 	
@@ -7894,7 +7874,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		penLineStyle = lineStyle;
 		
 		//if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-			ArrayList geos = app.getSelectedGeos();
+			ArrayList<GeoElement> geos = app.getSelectedGeos();
 			
 			for (int i = 0 ; i < geos.size() ; i++) {
 				GeoElement geo = (GeoElement)geos.get(i);
@@ -7903,9 +7883,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				
 			}
 	//	}
-	}
-
-		
+	}	
 	
 	final private static int eraserSize = 12;
 	private boolean erasing = false;

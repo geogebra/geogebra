@@ -140,12 +140,10 @@ public final class DrawButton extends Drawable {
 
 		public void mouseExited(MouseEvent arg0) {
 			hit = false;
-		}
-
-		
+		}		
 	}
 
-
+	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 		button.setVisible(isVisible);
@@ -200,9 +198,9 @@ public final class DrawButton extends Drawable {
 		labelRectangle.setBounds(xLabel, yLabel,
 				 ((textSize == null) ? 0 : textSize.x),
 				12);
-
 	}
 
+	@Override
 	final public void draw(Graphics2D g2) {
 
 		if (isVisible) {		
@@ -213,7 +211,6 @@ public final class DrawButton extends Drawable {
 				button.setBackground(geo.doHighlighting() ? Color.blue : Color.white);
 			}
 		}
-
 	}
 
 	/**
@@ -227,10 +224,12 @@ public final class DrawButton extends Drawable {
 	 * was this object clicked at? (mouse pointer
 	 * location (x,y) in screen coords)
 	 */
+	@Override
 	final public boolean hit(int x, int y) {
 		return hit;				      
 	}
 
+	@Override
 	final public boolean isInside(Rectangle rect) {
 		return rect.contains(labelRectangle);
 	}
@@ -238,17 +237,19 @@ public final class DrawButton extends Drawable {
 	/**
 	 * Returns false
 	 */
+	@Override
 	public boolean hitLabel(int x, int y) {
 		return false;
 	}
 
+	@Override
 	final public GeoElement getGeoElement() {
 		return geo;
 	}
 
+	@Override
 	final public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
-
 
 }

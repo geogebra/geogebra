@@ -65,7 +65,7 @@ public final class DrawBoolean extends Drawable {
 		update();
 	}
 
-
+	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 		//checkBox.setVisible(isVisible);
@@ -118,10 +118,10 @@ public final class DrawBoolean extends Drawable {
 				prefSize.width + ((textSize == null) ? 0 : textSize.x),
 				prefSize.height);
 			
-		//checkBox.setBounds(labelRectangle);
-		
+		//checkBox.setBounds(labelRectangle);	
 	}
 
+	@Override
 	final public void draw(Graphics2D g2) {
 
 		if (isVisible) {		
@@ -168,10 +168,12 @@ public final class DrawBoolean extends Drawable {
      * was this object clicked at? (mouse pointer
      * location (x,y) in screen coords)
      */
-    final public boolean hit(int x, int y) {
+    @Override
+	final public boolean hit(int x, int y) {
 		return super.hitLabel(x, y);				      
     }
     
+	@Override
 	final public boolean isInside(Rectangle rect) {
 		return rect.contains(labelRectangle);
 	}
@@ -179,14 +181,17 @@ public final class DrawBoolean extends Drawable {
 	/**
 	 * Returns false
 	 */
+	@Override
 	public boolean hitLabel(int x, int y) {
 		return false;
 	}
 
+	@Override
 	final public GeoElement getGeoElement() {
 		return geo;
 	}
 
+	@Override
 	final public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}

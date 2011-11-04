@@ -23,7 +23,6 @@ import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
@@ -39,6 +38,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+
 /**
  * 
  * @author Markus Hohenwarter, Loic De Coq
@@ -120,7 +120,6 @@ public class DrawAngle extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawAngle for preview 
 	 * @param view 
-	 * @param mode 
 	 * @param points 
 	 */
 	DrawAngle(EuclidianView view, ArrayList<GeoPointND> points) {
@@ -200,6 +199,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		return angle.getRawAngle();
 	}
 	
+	@Override
 	final public void update() {
 		if(!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
 			init();
@@ -369,7 +369,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// check whether we need to take care for a special 90 degree angle appearance
 		show90degrees = view.getRightAngleStyle() != EuclidianView.RIGHT_ANGLE_STYLE_NONE &&
 						angle.isEmphasizeRightAngle() &&  
-						kernel.isEqual(angExt, Kernel.PI_HALF);
+						Kernel.isEqual(angExt, Kernel.PI_HALF);
 		
 		// set coords to screen coords of vertex
 		coords[0]=m[0];
@@ -590,6 +590,7 @@ public class DrawAngle extends Drawable implements Previewable {
 							
 	}
 
+	@Override
 	final public void draw(Graphics2D g2) {
 		
 		if (isVisible) {
@@ -693,18 +694,22 @@ public class DrawAngle extends Drawable implements Previewable {
 				coords[1]+(radius+length)* sin *view.getScaleRatio());
 	}
 
+	@Override
 	final public boolean hit(int x, int y) {
 		return shape != null && shape.contains(x, y);
 	}
 	
+	@Override
 	final public boolean isInside(Rectangle rect) {
 		return  shape != null && rect.contains(shape.getBounds());		
 	}
 
+	@Override
 	public GeoElement getGeoElement() {
 		return geo;
 	}
 
+	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
@@ -712,6 +717,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.	 
 	 */
+	@Override
 	final public Rectangle getBounds() {		
 		if (!geo.isDefined() || shape == null || !geo.isEuclidianVisible())
 			return null;

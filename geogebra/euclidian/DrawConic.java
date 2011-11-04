@@ -125,6 +125,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	private int previewMode, neededPrevPoints;
 	private boolean isPreview = false;
     
+	@Override
 	public Area getShape(){	
 		Area a = super.getShape()!=null? 
 				super.getShape():(shape==null?new Area():new Area(shape));
@@ -199,9 +200,9 @@ final public class DrawConic extends Drawable implements Previewable {
 		previewTempPoints[0] = new GeoPoint(cons);
 		
 		initPreview();
-	} 
-	
+	} 	
 
+	@Override
 	final public void update() {		
         isVisible = geo.isEuclidianVisible();
         if (!isVisible) return;
@@ -916,7 +917,7 @@ final public class DrawConic extends Drawable implements Previewable {
         yLabel = (int) labelCoords[1];
     }
         
-    
+	@Override
 	final public void draw(Graphics2D g2) {
         if (!isVisible) return;                
         g2.setColor(geo.getObjectColor());        		
@@ -1007,6 +1008,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * Returns the bounding box of this Drawable in screen coordinates. 
 	 * @return null when this Drawable is infinite or undefined	 
 	 */
+	@Override
 	final public Rectangle getBounds() {	
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
@@ -1063,6 +1065,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 	}
     
+	@Override
 	final public boolean hit(int x, int y) {   
 		if (!isVisible)
 			return false;
@@ -1137,7 +1140,7 @@ final public class DrawConic extends Drawable implements Previewable {
         }
     }
 	
-	
+	@Override
 	final public boolean isInside(Rectangle rect) {				
 		switch (type) {
            case GeoConic.CONIC_SINGLE_POINT:                         
@@ -1151,11 +1154,13 @@ final public class DrawConic extends Drawable implements Previewable {
 	    return false;
 	}
 
-    public GeoElement getGeoElement() {
+    @Override
+	public GeoElement getGeoElement() {
         return geo;
     }        
     
-    public void setGeoElement(GeoElement geo) {
+    @Override
+	public void setGeoElement(GeoElement geo) {
         this.geo = geo;
         if(drawLines != null)
         	for(int i=0; i<2 && drawLines[i]!=null; i++)
@@ -1269,8 +1274,9 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 	
 	public void disposePreview() {	
-		if (conic != null)
+		if (conic != null) {
 			conic.remove();
+		}
 	}
 
 	/**

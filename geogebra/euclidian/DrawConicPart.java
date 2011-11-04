@@ -22,6 +22,7 @@ import geogebra.kernel.GeoConicPart;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -63,7 +64,7 @@ implements Previewable {
     private GeoPoint tempPoint;
     
     // preview
-    private ArrayList prevPoints;
+    private ArrayList<GeoPointND> prevPoints;
     private GeoPoint [] previewTempPoints;  
     private int previewMode, neededPrevPoints;
     
@@ -88,7 +89,7 @@ implements Previewable {
 	/**
 	 * Creates a new DrawConicPart for preview.     
 	 */
-	DrawConicPart(EuclidianView view, int mode, ArrayList points) {
+	DrawConicPart(EuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view; 
 		prevPoints = points;		
 		previewMode = mode;	
@@ -105,6 +106,7 @@ implements Previewable {
 		initPreview();
 	} 
 
+	@Override
 	final public void update() {
         isVisible = geo.isEuclidianVisible() && geo.isDefined();
         if (isVisible) { 
@@ -219,6 +221,7 @@ implements Previewable {
 		}
 	}
     
+	@Override
 	final public void draw(Graphics2D g2) {
         if (isVisible) {	
         	switch (draw_type) {
@@ -259,6 +262,7 @@ implements Previewable {
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.	 
 	 */
+	@Override
 	final public Rectangle getBounds() {		
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
@@ -370,6 +374,7 @@ implements Previewable {
 		}
 	}
     
+	@Override
 	final public boolean hit(int x,int y) { 
 		if (!isVisible) return false;
 		
@@ -413,6 +418,7 @@ implements Previewable {
 		}
     }
 	
+	@Override
 	final public boolean isInside(Rectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
@@ -424,9 +430,10 @@ implements Previewable {
 		case DRAW_TYPE_RAYS:
 		default:			
 			return false;
-	}
+		}
 	}
 	
+	@Override
 	final public boolean hitLabel(int x, int y) {
 		switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
@@ -446,14 +453,14 @@ implements Previewable {
 	
 	
     
-    public GeoElement getGeoElement() {
+    @Override
+	public GeoElement getGeoElement() {
         return geo;
     }    
     
-    public void setGeoElement(GeoElement geo) {
+    @Override
+	public void setGeoElement(GeoElement geo) {
         this.geo = geo;
     }
-    
- 
     
 }

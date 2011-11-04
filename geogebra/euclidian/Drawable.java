@@ -22,15 +22,11 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoText;
 import geogebra.main.Application;
-import geogebra.main.MyError;
-import geogebra.util.Unicode;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -39,11 +35,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Area;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import javax.swing.JLabel;
-
-
 
 /**
  *
@@ -87,10 +78,12 @@ public abstract class Drawable extends DrawableND {
 
 	//boolean createdByDrawList = false;
 
+	@Override
 	public abstract void update();
 	public abstract void draw(Graphics2D g2);
 	public abstract boolean hit(int x, int y);
 	public abstract boolean isInside(Rectangle rect);
+	@Override
 	public abstract GeoElement getGeoElement();
 	public abstract void setGeoElement(GeoElement geo);
 

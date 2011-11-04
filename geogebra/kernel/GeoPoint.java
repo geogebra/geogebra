@@ -121,7 +121,8 @@ GeoPointND, Animatable, Transformable  {
 		this.region = region;	
 	}
     
-    public void setZero() {
+    @Override
+	public void setZero() {
     	setCoords(0,0,1);
     }
     
@@ -143,25 +144,28 @@ GeoPointND, Animatable, Transformable  {
     }
     
     
+	@Override
 	public String getClassName() {
 		return "GeoPoint";
 	}        
 	
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return toStringMode == Kernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
     			: EuclidianConstants.MODE_POINT;
     }
-
     
-    protected String getTypeString() {
+    @Override
+	protected String getTypeString() {
     	if (toStringMode == Kernel.COORD_COMPLEX)
     		return "ComplexNumber";
     	else
     		return "Point";
 	}
     
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_POINT;
     }
     
@@ -175,7 +179,8 @@ GeoPointND, Animatable, Transformable  {
     	set((GeoElement) p);
     }
     
-    public void set(GeoElement geo) { 
+    @Override
+	public void set(GeoElement geo) { 
     	if (geo.isGeoPoint()) {
 	    	GeoPoint p = (GeoPoint) geo;  
 	    	if (p.pathParameter != null) {
@@ -193,8 +198,8 @@ GeoPointND, Animatable, Transformable  {
     	}else throw new IllegalArgumentException();
     } 
     
-    
-    public GeoPoint copy() {
+    @Override
+	public GeoPoint copy() {
         return new GeoPoint(this);        
     }                 
        
@@ -228,7 +233,7 @@ GeoPointND, Animatable, Transformable  {
 	/**
 	 * @author Florian Sonner
 	 * @version 2008-07-17
-	 * @param int style the new style to use
+	 * @param style the new style to use
 	 */
 	public void setPointStyle(int style) {
 		
@@ -239,6 +244,7 @@ GeoPointND, Animatable, Transformable  {
 		
 	}
 	
+	@Override
 	public boolean isChangeable() {
 		
 		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
@@ -253,18 +259,8 @@ GeoPointND, Animatable, Transformable  {
 		return !isFixed() && (isIndependent() || isPointOnPath() || isPointInRegion()); 
 	}	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec, Coords endPosition, Coords viewDirection, ArrayList updateGeos, ArrayList tempMoveObjectList){
+	@Override
+	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec, Coords endPosition, Coords viewDirection, ArrayList<GeoElement> updateGeos, ArrayList<GeoElement> tempMoveObjectList){
 				
 		if (!hasChangeableCoordParentNumbers())
 			return false;
@@ -276,9 +272,9 @@ GeoPointND, Animatable, Transformable  {
 			
 
 		// translate x and y coordinates by changing the parent coords accordingly
-		ArrayList changeableCoordNumbers = getCoordParentNumbers();					
-		GeoNumeric xvar = (GeoNumeric) changeableCoordNumbers.get(0);
-		GeoNumeric yvar = (GeoNumeric) changeableCoordNumbers.get(1);
+		ArrayList<GeoNumeric> changeableCoordNumbers = getCoordParentNumbers();					
+		GeoNumeric xvar = changeableCoordNumbers.get(0);
+		GeoNumeric yvar = changeableCoordNumbers.get(1);
 
 		// polar coords (r; phi)
 		if (hasPolarParentNumbers()) {
@@ -287,7 +283,7 @@ GeoPointND, Animatable, Transformable  {
 			xvar.setValue(radius);
 
 			// angle
-			double angle = kernel.convertToAngleValue(Math.atan2(endPosition.getY(), endPosition.getX()));
+			double angle = Kernel.convertToAngleValue(Math.atan2(endPosition.getY(), endPosition.getX()));
 			// angle outsid of slider range
 			if (yvar.isIntervalMinActive() && yvar.isIntervalMaxActive() &&
 					(angle < yvar.getIntervalMin() || angle > yvar.getIntervalMax())) 
@@ -319,17 +315,11 @@ GeoPointND, Animatable, Transformable  {
 		return true;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Returns whether this point has two changeable numbers as coordinates, 
 	 * e.g. point A = (a, b) where a and b are free GeoNumeric objects.
 	 */
+	@Override
 	final public boolean hasChangeableCoordParentNumbers() {
 		
 		if (isFixed())
@@ -443,9 +433,9 @@ GeoPointND, Animatable, Transformable  {
 			coordNumeric = (GeoNumeric) en.getLeft();
 			
 			// check that variables in right branch are all independent to avoid circular definitions
-			HashSet rightVars = en.getRight().getVariables();			
+			HashSet<GeoElement> rightVars = en.getRight().getVariables();			
 			if (rightVars != null) {
-				Iterator it = rightVars.iterator();
+				Iterator<GeoElement> it = rightVars.iterator();
 				while (it.hasNext()) {			
 					GeoElement var = (GeoElement) it.next(); 
 					if (var.isChildOrEqual(coordNumeric)) 
@@ -457,6 +447,7 @@ GeoPointND, Animatable, Transformable  {
 		return coordNumeric;
 	}
 	
+	@Override
 	final public boolean isPointOnPath() {
 		return path != null;
 	}
@@ -465,6 +456,7 @@ GeoPointND, Animatable, Transformable  {
 	 * Returns whether this number can be animated. Only free numbers with min and max interval
 	 * values can be animated (i.e. shown or hidden sliders). 
 	 */
+	@Override
 	public boolean isAnimatable() {
 		return isPointOnPath() && isChangeable();
 	}
@@ -506,7 +498,8 @@ GeoPointND, Animatable, Transformable  {
 					(((GeoConic)path).isElliptic());		
 	}*/
     
-    final public boolean isInfinite() {
+    @Override
+	final public boolean isInfinite() {
        return isInfinite;  
     }
     
@@ -514,25 +507,30 @@ GeoPointND, Animatable, Transformable  {
        return isDefined && !isInfinite;
     }
     
-    final public boolean showInEuclidianView() {               
+    @Override
+	final public boolean showInEuclidianView() {               
     	return isDefined && !isInfinite;
     }    
     
-    public final boolean showInAlgebraView() {
+    @Override
+	public final boolean showInAlgebraView() {
         // intersection points
 //        return (isDefined || showUndefinedInAlgebraView) && !isI;
     	return (isDefined || showUndefinedInAlgebraView);
     }   
     
+	@Override
 	final public boolean isDefined() { 
 		return isDefined;        
 	}     
 	
-    public void setUndefined() {   
+    @Override
+	public void setUndefined() {   
     	super.setUndefined();
     	isDefined = false;
     }       
 
+	@Override
 	final public boolean isFixable() {
 		return path != null || super.isFixable();
 	}		    
@@ -548,6 +546,7 @@ GeoPointND, Animatable, Transformable  {
 	 * Sets homogeneous coordinates and updates
 	 * inhomogeneous coordinates
 	 */
+	@Override
 	final public void setCoords(double x, double y, double z) {	
 		// set coordinates
 		this.x = x;
@@ -649,6 +648,7 @@ GeoPointND, Animatable, Transformable  {
 	   setCoords( r * Math.cos( phi ), r * Math.sin( phi ), 1.0d);        
 	}   
 	
+	@Override
 	final public void setCoords(GeoVec3D v) {
 		 setCoords(v.x, v.y, v.z);
 	 } 
@@ -664,7 +664,8 @@ GeoPointND, Animatable, Transformable  {
      * those of point P. Infinite points are checked for linear dependency.
      */
 	// Michael Borcherds 2008-04-30
-    final public boolean isEqual(GeoElement geo) {
+    @Override
+	final public boolean isEqual(GeoElement geo) {
     	
     	if (!geo.isGeoPoint()) return false;
     	
@@ -684,7 +685,8 @@ GeoPointND, Animatable, Transformable  {
     /** 
      * Writes (x/z, y/z) to res.
      */
-    final public void getInhomCoords(double [] res) {
+    @Override
+	final public void getInhomCoords(double [] res) {
        	res[0] = inhomX;
        	res[1] = inhomY;
     }        	
@@ -711,21 +713,25 @@ GeoPointND, Animatable, Transformable  {
     	                  };
     }
     
-    public double distance(GeoPointND P){
+    @Override
+	public double distance(GeoPointND P){
     	//TODO dimension ?
     	return getInhomCoordsInD(3).distance(P.getInhomCoordsInD(3));
     }
     
+	@Override
 	public Point2D.Double getNearestPoint(GeoPoint p) {
 		return getNearestPoint((GeoPointND) p);
 	}
 	
+	@Override
 	public Point2D.Double getNearestPoint(GeoPointND p) {
 		return new Point2D.Double(inhomX, inhomY);
 	}
 	
     // euclidian distance between this GeoPoint and P
-    final public double distance(GeoPoint P) {       
+    @Override
+	final public double distance(GeoPoint P) {       
         return GeoVec2D.length(	P.inhomX - inhomX, 
         						P.inhomY - inhomY);
     }            
@@ -799,6 +805,7 @@ GeoPointND, Animatable, Transformable  {
     		setCoords(x + v.getX() * z, y + v.getY() * z, z); 
     }        
     
+	@Override
 	final public boolean isTranslateable() {
 		return true;
 	}
@@ -915,7 +922,8 @@ GeoPointND, Animatable, Transformable  {
  
 /***********************************************************/
     
-    final public String toString() {     
+    @Override
+	final public String toString() {     
     	sbToString.setLength(0);                               
 		sbToString.append(label);	
 		
@@ -940,7 +948,8 @@ GeoPointND, Animatable, Transformable  {
         return sbToString.toString();
     }
     
-    final public String toStringMinimal() {
+    @Override
+	final public String toStringMinimal() {
     	sbToString.setLength(0);
     	sbToString.append(toValueStringMinimal());
     	return sbToString.toString();
@@ -948,10 +957,12 @@ GeoPointND, Animatable, Transformable  {
     
     private StringBuilder sbToString = new StringBuilder(50);        
     
-    final public String toValueString() {
+    @Override
+	final public String toValueString() {
     	return buildValueString().toString();	
     }       
     
+	@Override
 	final public String toValueStringMinimal() {
 		sbBuildValueString.setLength(0);
 		if (isInfinite()) {
@@ -1053,15 +1064,18 @@ GeoPointND, Animatable, Transformable  {
         return ret;
     }        
         
-    public boolean isConstant() {
+    @Override
+	public boolean isConstant() {
         return false;
     }
     
-    public boolean isLeaf() {
+    @Override
+	public boolean isLeaf() {
         return true;
     }
     
-    public HashSet<GeoElement> getVariables() {
+    @Override
+	public HashSet<GeoElement> getVariables() {
     	HashSet<GeoElement> varset = new HashSet<GeoElement>();        
         varset.add(this);        
         return varset;          
@@ -1070,13 +1084,15 @@ GeoPointND, Animatable, Transformable  {
     
     /** POLAR or CARTESIAN */
   
-    public ExpressionValue evaluate() { return this; }
+    @Override
+	public ExpressionValue evaluate() { return this; }
       
     
     /**
      * returns all class-specific xml tags for saveXML
      * GeoGebra File Format
      */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
         super.getXMLtags(sb); 
         
@@ -1139,18 +1155,22 @@ GeoPointND, Animatable, Transformable  {
 		return isIndependent() && !isLabelSet();
 	}
     
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return true;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
 	
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}   
@@ -1159,6 +1179,7 @@ GeoPointND, Animatable, Transformable  {
 	/**
 	 * Calls super.update() and updateCascade() for all registered locateables.	 
 	 */
+	@Override
 	public void update() {  	
 		super.update();
 						
@@ -1218,6 +1239,7 @@ GeoPointND, Animatable, Transformable  {
 	 * Tells Locateables that their start point is removed
 	 * and calls super.remove()
 	 */
+	@Override
 	public void doRemove() {
 		if (locateableList != null) {
 			
@@ -1260,6 +1282,7 @@ GeoPointND, Animatable, Transformable  {
 		super.doRemove();
 	}
 	
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		if (geo.isGeoPoint()) {
@@ -1271,8 +1294,8 @@ GeoPointND, Animatable, Transformable  {
 			setPointStyle(((PointProperties)geo).getPointStyle());
 		}
 	}
-	
     
+	@Override
 	final public boolean isGeoPoint() {
 		return true;
 	}
@@ -1322,6 +1345,7 @@ GeoPointND, Animatable, Transformable  {
 	    // REGION
 
 		
+		@Override
 		final public boolean isPointInRegion() {
 			return region != null;
 		}
@@ -1338,6 +1362,7 @@ GeoPointND, Animatable, Transformable  {
 	    	region=a_region;
 	    }
 
+		@Override
 		public boolean isVector3DValue() {
 			return false;
 		}
@@ -1383,8 +1408,6 @@ GeoPointND, Animatable, Transformable  {
 			return new Coords(new double[] {x,y,z});
 		}
 		
-		
-		
 		public Coords getCoordsInD(int dimension){
 			switch(dimension){
 			case 2:
@@ -1396,6 +1419,8 @@ GeoPointND, Animatable, Transformable  {
 				return null;
 			}
 		}		
+		
+		@Override
 		public boolean isMatrixTransformable() {
 			return true;
 		}
@@ -1406,7 +1431,6 @@ GeoPointND, Animatable, Transformable  {
 			Double y1 = c*x + d*y;
 
 			setCoords(x1, y1, z);
-			
 		}
 		
 		
@@ -1414,11 +1438,13 @@ GeoPointND, Animatable, Transformable  {
 		// 3D stuff
 		//////////////////////////////////////
 		
-	  	public boolean hasDrawable3D() {
+	  	@Override
+		public boolean hasDrawable3D() {
 			return true;
 		}
 	    
-	  	public Coords getLabelPosition(){
+	  	@Override
+		public Coords getLabelPosition(){
 	  		/*
 	  		Coords v = new Coords(4);
 	  		v.set(getInhomCoordsInD(3));
@@ -1554,6 +1580,7 @@ GeoPointND, Animatable, Transformable  {
 		}
 		
 
+		@Override
 		final public boolean isCasEvaluableObject() {
 			return true;
 		}
@@ -1569,6 +1596,7 @@ GeoPointND, Animatable, Transformable  {
 //			isI = true;
 //		}
 		
+		@Override
 		public boolean isFixed() {
 //			return fixed && !isI;
 			return fixed;
@@ -1596,6 +1624,7 @@ GeoPointND, Animatable, Transformable  {
 		public void setCoords(double x, double y, double z, double w) {
 		}
 		
+		@Override
 		public void moveDependencies(GeoElement oldGeo) {
 			if (oldGeo.isGeoPoint()
 					&& ((GeoPoint) oldGeo).locateableList != null) {
@@ -1696,7 +1725,7 @@ GeoPointND, Animatable, Transformable  {
 				// store parameters of current construction
 				Iterator<GeoElement> it = pred.iterator();
 				while (it.hasNext()) {
-					GeoElement predGeo = (GeoElement) it.next();
+					GeoElement predGeo = it.next();
 					predGeo.storeClone();
 				}
 				
@@ -1704,7 +1733,7 @@ GeoPointND, Animatable, Transformable  {
 				for (int i = 0; i<5; ++i) {
 					it = pred.iterator();
 					while (it.hasNext()) {
-						GeoElement predGeo = (GeoElement) it.next();
+						GeoElement predGeo = it.next();
 						predGeo.randomizeForProbabilisticChecking();
 					}
 					
@@ -1731,7 +1760,7 @@ GeoPointND, Animatable, Transformable  {
 				// recover parameters of current construction
 				it = pred.iterator();
 				while (it.hasNext()) {
-					GeoElement predGeo = (GeoElement) it.next();
+					GeoElement predGeo = it.next();
 					if ( !predGeo.isIndependent()) {
 						GeoElement.updateCascadeUntil(predList, tempSet, predGeo.algoParent);
 					}
@@ -1755,14 +1784,19 @@ GeoPointND, Animatable, Transformable  {
 			
 			return incident;
 		}	
+		
+		@Override
 		public boolean isRandomizable() {
 			return isChangeable();
 		}
+		
+		@Override
 		public void randomizeForProbabilisticChecking(){
 			setCoords(x + (Math.random() *2 -1) *z,
 					y + (Math.random() *2 -1) *z,
 					z);
 		}		
+		
 		public void randomizeForErrorEstimation(){
 			setCoords(x + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,//TODO: record the error of the point
 					y + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,
