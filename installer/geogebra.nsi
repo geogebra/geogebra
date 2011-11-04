@@ -222,7 +222,7 @@ Var ASSOCIATE_GGT
   !define UMUI_CONFIRMPAGE_TEXTBOX Confirm
   !insertmacro UMUI_PAGE_CONFIRM
   !insertmacro MUI_PAGE_INSTFILES
-  !define MUI_FINISHPAGE_RUN $INSTDIR\geogebra.exe
+  !define MUI_FINISHPAGE_RUN $INSTDIR\GeoGebra.exe
   !insertmacro MUI_PAGE_FINISH
 !else
   !insertmacro UMUI_UNPAGE_MULTILANGUAGE
@@ -631,7 +631,8 @@ Section Install Install
     SetOutPath $INSTDIR
     File cc.ico
     File forum.ico
-    File "${build.dir}\installer\windows\geogebra.exe"
+    File "${build.dir}\installer\windows\GeoGebra.exe"
+    File "${build.dir}\installer\windows\GeoGebraPrim.exe"
     File "${build.dir}\unpacked\*.jar"
     File gpl-3.0.txt
     File cc-by-sa-3.0.txt
@@ -641,15 +642,17 @@ Section Install Install
     
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes"
     SetOutPath ""
-    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\geogebra.exe "" $INSTDIR\geogebra.exe 0
+    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
+    CreateShortCut $SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraPrim.lnk $INSTDIR\GeoGebraPrim.exe "" $INSTDIR\GeoGebraPrim.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebra Forum.lnk" http://www.geogebra.org/forum/ "" $INSTDIR\forum.ico 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (German).lnk" http://www.geogebra.org/de/wiki/ "" $INSTDIR\wiki.ico 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (International).lnk" http://www.geogebra.org/en/wiki/ "" $INSTDIR\wiki.ico 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebra.org.lnk" http://www.geogebra.org/ "" $INSTDIR\geogebra.exe 0
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License.lnk" http://www.geogebra.org/download/license.txt "" $INSTDIR\geogebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebra.org.lnk" http://www.geogebra.org/ "" $INSTDIR\GeoGebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\www.geogebratube.org.lnk" http://www.geogebratube.org/ "" $INSTDIR\GeoGebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License.lnk" http://www.geogebra.org/download/license.txt "" $INSTDIR\GeoGebra.exe 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (CC-by-SA-3.0).lnk" http://creativecommons.org/licenses/by-sa/3.0/ "" $INSTDIR\cc.ico 0
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\License (GPL-3.0).lnk" $INSTDIR\gpl-3.0.txt
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\Release Notes.lnk" http://www.geogebra.org/en/wiki/index.php/Release_Notes_GeoGebra_4.2 "" $INSTDIR\geogebra.exe 0
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\License & Release Notes\Release Notes.lnk" http://www.geogebra.org/en/wiki/index.php/Release_Notes_GeoGebra_4.2 "" $INSTDIR\GeoGebra.exe 0
     ${If} 1 = $DESKTOP_ALL
     ${OrIf} 1 = $DESKTOP_CURRENT
       Call PushShellVarContext
@@ -658,11 +661,12 @@ Section Install Install
       ${ElseIf} 1 = $DESKTOP_CURRENT
        SetShellVarContext current
       ${EndIf}
-      CreateShortCut $DESKTOP\GeoGebra.lnk $INSTDIR\geogebra.exe "" $INSTDIR\geogebra.exe 0
+      CreateShortCut $DESKTOP\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
+      CreateShortCut $DESKTOP\GeoGebraPrim.lnk $INSTDIR\GeoGebraPrim.exe "" $INSTDIR\GeoGebraPrim.exe 0
       Call PopShellVarContext
     ${EndIf}
     ${If} 1 = $QUICK_LAUNCH
-      CreateShortCut $QUICKLAUNCH\GeoGebra.lnk $INSTDIR\geogebra.exe "" $INSTDIR\geogebra.exe 0
+      CreateShortCut $QUICKLAUNCH\GeoGebra.lnk $INSTDIR\GeoGebra.exe "" $INSTDIR\GeoGebra.exe 0
     ${EndIf}
     
     Call PushShellVarContext
@@ -676,16 +680,16 @@ Section Install Install
       WriteRegStr SHCTX Software\Classes\.ggb "" GeoGebra.File
       WriteRegStr SHCTX Software\Classes\.ggb "Content Type" application/vnd.geogebra.file
       WriteRegStr SHCTX Software\Classes\GeoGebra.File "" "GeoGebra File"
-      WriteRegStr SHCTX Software\Classes\GeoGebra.File\DefaultIcon "" $INSTDIR\geogebra.exe,0
-      WriteRegStr SHCTX Software\Classes\GeoGebra.File\shell\open\command "" '"$INSTDIR\geogebra.exe" "%1"'
+      WriteRegStr SHCTX Software\Classes\GeoGebra.File\DefaultIcon "" $INSTDIR\GeoGebra.exe,0
+      WriteRegStr SHCTX Software\Classes\GeoGebra.File\shell\open\command "" '"$INSTDIR\GeoGebra.exe" "%1"'
       WriteRegStr SHCTX "Software\Classes\MIME\Database\Content Type\application/vnd.geogebra.file" Extension .ggb
     ${EndIf}
     ${If} 1 = $ASSOCIATE_GGT
       WriteRegStr SHCTX Software\Classes\.ggt "" GeoGebra.Tool
       WriteRegStr SHCTX Software\Classes\.ggt "Content Type" application/vnd.geogebra.tool
       WriteRegStr SHCTX Software\Classes\GeoGebra.Tool "" "GeoGebra Tool"
-      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\DefaultIcon "" $INSTDIR\geogebra.exe,0
-      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\shell\open\command "" '"$INSTDIR\geogebra.exe" "%1"'
+      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\DefaultIcon "" $INSTDIR\GeoGebra.exe,0
+      WriteRegStr SHCTX Software\Classes\GeoGebra.Tool\shell\open\command "" '"$INSTDIR\GeoGebra.exe" "%1"'
       WriteRegStr SHCTX "Software\Classes\MIME\Database\Content Type\application/vnd.geogebra.tool" Extension .ggt
     ${EndIf}
     ${If} 1 = $ASSOCIATE_GGB
@@ -702,7 +706,7 @@ Section Install Install
     StrCpy $3 "0$3"
     SectionGetSize ${Install} $0
     WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra Contact office@geogebra.org
-    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayIcon $INSTDIR\geogebra.exe,0
+    WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayIcon $INSTDIR\GeoGebra.exe,0
     WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayName GeoGebra
     WriteRegStr   SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra DisplayVersion ${fullversion}
     WriteRegDWORD SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\GeoGebra EstimatedSize $0
@@ -860,7 +864,8 @@ FunctionEnd
     RMDir $INSTDIR\unsigned
     Delete $INSTDIR\cc.ico
     Delete $INSTDIR\forum.ico
-    Delete $INSTDIR\geogebra.exe
+    Delete $INSTDIR\GeoGebra.exe
+    Delete $INSTDIR\GeoGebraPrim.exe
     Delete $INSTDIR\*.jar
     Delete $INSTDIR\gpl-3.0.txt
     Delete $INSTDIR\wiki.ico
@@ -876,6 +881,7 @@ FunctionEnd
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (German).lnk"
     Delete "$SMPROGRAMS\$STARTMENU_FOLDER\GeoGebraWiki (International).lnk"
     Delete $SMPROGRAMS\$STARTMENU_FOLDER\www.geogebra.org.lnk
+    Delete $SMPROGRAMS\$STARTMENU_FOLDER\www.geogebratube.org.lnk
     RMDir $SMPROGRAMS\$STARTMENU_FOLDER
     
     ${If} 1 = $DESKTOP_ALL
