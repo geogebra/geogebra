@@ -55,23 +55,22 @@ read the following web pages:
 		</or>
 	</condition>
 	<condition property="installer-windows-keystore">
-		<and>
-			<available file="${workspace.dir}/igi-keystore.spc"/>
 			<or>
 				<and>
 					<os family="winnt"/>
 					<available file="${workspace.dir}/igi-keystore.pvk"/>
+					<available file="${workspace.dir}/igi-keystore.spc"/>
 				</and>
 				<and>
 					<os family="mac"/>
 					<available file="${workspace.dir}/igi-keystore.der"/>
+					<available file="${workspace.dir}/igi-keystore.spc"/>
 				</and>
 				<and>
 					<os family="unix"/>
 					<available file="${workspace.dir}/igi-keystore-CL.spc.der"/>
 				</and>
 			</or>
-		</and>
 	</condition>
 	<condition property="installer-windows-uninstaller" value="${build.dir}\installer\windows\unsigned\">
 		<os family="winnt"/>
