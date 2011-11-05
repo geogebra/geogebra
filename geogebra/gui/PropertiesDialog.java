@@ -14,6 +14,7 @@ package geogebra.gui;
 
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
+import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.GeoElement;
@@ -23,7 +24,6 @@ import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -82,7 +82,7 @@ public class PropertiesDialog
 	private JTreeGeoElements geoTree;
 	private JButton closeButton, defaultsButton, delButton;
 	private PropertiesPanel propPanel;
-	private JColorChooser colChooser;
+	private GeoGebraColorChooser colChooser;
 
 	// stop slider increment being less than 0.00000001
 	final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -183,8 +183,7 @@ public class PropertiesDialog
 		// PROPERTIES PANEL
 		if (colChooser == null) {
 			// init color chooser
-			colChooser = new JColorChooser();
-			colChooser.setColor(new Color(1, 1,1, 100));
+			colChooser = new GeoGebraColorChooser(app);
 		}
 			
 		// check for null added otherwise you get two listeners for the colChooser

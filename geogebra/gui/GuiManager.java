@@ -10,6 +10,7 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
+import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.layout.Layout;
@@ -1436,16 +1437,17 @@ public class GuiManager {
 	}
 
 	public Color showColorChooser(Color currentColor) {
-		// there seems to be a bug concerning ToolTips in JColorChooser
-		// so we turn off ToolTips
-		// ToolTipManager.sharedInstance().setEnabled(false);
+		
 		try {
-			Color newColor = JColorChooser.showDialog(null,
-					app.getPlain("ChooseColor"), currentColor);
-			// ToolTipManager.sharedInstance().setEnabled(true);
-			return newColor;
+			GeoGebraColorChooser chooser = new GeoGebraColorChooser(app);
+			chooser.setColor(currentColor);
+			JDialog dialog = JColorChooser.createDialog(app.getMainComponent(),
+					app.getPlain("ChooseColor"), true, chooser, null, null);
+		        dialog.setVisible(true);
+			
+			return chooser.getColor();
+			
 		} catch (Exception e) {
-			// ToolTipManager.sharedInstance().setEnabled(true);
 			return null;
 		}
 	}

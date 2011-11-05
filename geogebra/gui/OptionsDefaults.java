@@ -1,17 +1,16 @@
 package geogebra.gui;
 
+import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
-import javax.swing.JColorChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -125,7 +124,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		tree.setCellRenderer(treeCellRenderer);
 		
 		// create the properties panel
-		JColorChooser colorChooser = new JColorChooser(new Color(1, 1,1, 100));
+		GeoGebraColorChooser colorChooser = new GeoGebraColorChooser(app);
 		propPanel = new PropertiesPanel(app, colorChooser, true);
 		propPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		propPanel.updateSelection(new Object[] { defaults.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });

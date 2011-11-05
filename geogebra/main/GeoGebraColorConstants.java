@@ -222,12 +222,13 @@ public class GeoGebraColorConstants {
 		primaryColors[0] = geogebraColor.get("red");
 		primaryColors[1] = geogebraColor.get("orange");
 		primaryColors[2] = geogebraColor.get("yellow");
-		primaryColors[3] = geogebraColor.get("green");
-		primaryColors[4] = geogebraColor.get("cyan");
-		primaryColors[5] = geogebraColor.get("blue");
-		primaryColors[6] = geogebraColor.get("violet");
-		primaryColors[7] = geogebraColor.get("magenta");
-		primaryColors[8] = geogebraColor.get("lime");
+		primaryColors[3] = geogebraColor.get("lime");
+		primaryColors[4] = geogebraColor.get("green");
+		primaryColors[5] = geogebraColor.get("cyan");
+		primaryColors[6] = geogebraColor.get("blue");
+		primaryColors[7] = geogebraColor.get("violet");
+		primaryColors[8] = geogebraColor.get("magenta");
+		
 		
 		return primaryColors;
 	}
@@ -297,6 +298,22 @@ public class GeoGebraColorConstants {
 	}
 
 
+	/**
+	 * Returns array of localized color names 
+	 * @param app
+	 * @param color
+	 * @return array of localized color names
+	 */
+	public static String[] getColorNames(Application app, Color[] color){
+		String[] s = new String[color.length];
+		for(int i=0; i<s.length; i++){
+			s[i] =  getGeogebraColorName(app, color[i]);
+		}
+		return s;
+	}
+	
+	
+	
 
 	/**
 	 * Returns array of colors for color popup menus
@@ -330,19 +347,138 @@ public class GeoGebraColorConstants {
 		return colors;	
 	}
 
+	
+	
 	/**
-	 * Returns array of localized color names 
-	 * @param app
-	 * @param color
-	 * @return array of localized color names
+	 * Array of colors intended for the primary color swatch panel of the
+	 * GeoGebraColorChooser class.
 	 */
-	public static String[] getColorNames(Application app, Color[] color){
-		String[] s = new String[color.length];
-		for(int i=0; i<s.length; i++){
-			s[i] =  getGeogebraColorName(app, color[i]);
-		}
-		return s;
+	public static Color[] getPrimarySwatchColors() {
+
+		Color[] colors = new Color[18];		
+
+		for(int i = 0; i< 18; i = i+2){
+				// first row
+			colors[i] = getGrayColors()[i/2];	
+			colors[i+1] = getPrimaryColors()[i/2];
+				
+			}
+				
+		return colors;	
 	}
+
+
+	/**
+	 * Array of colors intended for the main color swatch panel of the
+	 * GeoGebraColorChooser class.
+	 */
+	public  static Color[] mainColorSwatchColors = { 
+
+				// Row 1   	RED related colors
+
+				PINK,  
+				new Color(255, 153, 204),
+				new Color(255, 102, 153),
+				new Color(255, 51, 102),
+				new Color(255, 0, 51),
+				new Color(204, 0, 0),
+				MAROON, 
+				new Color(51, 0, 0),
+
+				// Row 2	ORANGE related colors
+
+				LIGHTORANGE,
+				new Color(255, 204, 51),
+				new Color(255, 153, 0),
+				new Color(255, 153, 51),
+				new Color(255, 102, 0),
+				new Color(204, 102, 0),
+				new Color(153, 102, 0),
+				new Color(51, 51, 0),
+
+				// Row 3	YELLOW related colors
+
+				LIGHTYELLOW,
+				new Color(255, 255, 153),
+				new Color(255, 255, 102),
+				GOLD,
+				new Color(255, 204, 102),
+				new Color(204, 153, 0),
+				BROWN,
+				new Color(102, 51, 0),
+
+				// Row 4	YELLOW-GREEN ("LIME") related colors
+
+				new Color(204, 255, 204),
+				new Color(204, 255, 102),
+				new Color(153, 255, 0),
+				new Color(153, 204, 0),
+				new Color(102, 204, 0),
+				new Color(102, 153, 0),
+				new Color(51, 153, 0),
+				new Color(0, 102, 51),
+
+				// Row 5	GREEN related colors
+
+				LIGHTGREEN,
+				new Color(153, 255, 153),
+				new Color(102, 255, 0),
+				new Color(51, 255, 0),
+				new Color(0, 204, 0),
+				new Color(0, 153, 0),
+				DARKGREEN,
+				new Color(0, 51, 0),
+
+				// Row 6	CYAN related colors
+
+				TURQUOISE,
+				new Color(153, 255, 255),
+				new Color(51, 255, 204),
+				new Color(0, 153, 255),
+				new Color(0, 153, 204),
+				new Color(0, 102, 153),
+				new Color(0, 51, 204),
+				new Color(0, 51, 153),
+
+				// Row 7	BLUE related colors
+
+				AQUA,
+				new Color(153, 204, 255),
+				new Color(102, 204, 255),
+				new Color(102, 153, 255),
+				new Color(125, 125, 255),
+				new Color(51, 51, 255),
+				new Color(0, 0, 204),
+				new Color(0, 0, 51),
+
+				// Row 8	VIOLET related colors
+
+				LIGHTPURPLE,
+				new Color(204, 153, 255),
+				new Color(204, 102, 255),
+				new Color(153, 102, 255),
+				new Color(102, 0, 204),
+				PURPLE,
+				INDIGO,
+				new Color(51, 0, 51),
+
+
+				// Row 9	MAGENTA related colors
+
+				LIGHTVIOLET,
+				new Color(255, 153, 255),
+				new Color(255, 153, 153),
+				new Color(255, 51, 204),
+				CRIMSON,
+				new Color(204, 0, 102),
+				new Color(153, 0, 51),
+				new Color(102, 0, 153),		
+	};
+
+	
+	
+	
+	
 
 
 	private static HashMap<String, Color> colors = null;

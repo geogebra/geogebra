@@ -14,7 +14,7 @@ package geogebra.gui;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.gui.PropertiesPanel.TextEditPanel;
+import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
@@ -61,7 +61,9 @@ import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.LevelOfDetail;
 import geogebra.main.Application;
+import geogebra.main.GeoGebraColorConstants;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -69,6 +71,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -91,7 +95,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -124,7 +127,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		
 		private Application app;
 		private Kernel kernel;
-		private JColorChooser colChooser;
+		private GeoGebraColorChooser colChooser;
 	
 		private static final long serialVersionUID = 1L;
 		private NamePanel namePanel;
@@ -204,7 +207,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		 * @param colChooser
 		 * @param isDefaults
 		 */
-		public PropertiesPanel(Application app, JColorChooser colChooser, boolean isDefaults) {					
+		public PropertiesPanel(Application app, GeoGebraColorChooser colChooser, boolean isDefaults) {					
 			this.isDefaults = isDefaults;
 			
 			this.app = app;
@@ -984,118 +987,164 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	/**
 	 * panel color chooser and preview panel
 	 */
-	private class ColorPanel extends JPanel implements UpdateablePanel, ChangeListener, SetLabels {
+	private class ColorPanel extends JPanel implements UpdateablePanel,
+			ChangeListener, SetLabels {
 
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos		
+		private Object[] geos; // currently selected geos
 		private JLabel previewLabel, currentColorLabel;
-		private JPanel previewPanel;
+		private PreviewPanel previewPanel;
+		private JPanel opacityPanel;
 
-		public ColorPanel(JColorChooser colChooser) {
-			colChooser.setLocale(app.getLocale());
-			previewPanel = new PreviewPanel();			
+		private JSlider opacitySlider;
+		private JPanel previewMetaPanel;
+		private boolean allFillable = false;
+		
+		public ColorPanel(GeoGebraColorChooser colChooser) {
+
+			previewPanel = new PreviewPanel();
 			previewLabel = new JLabel();
 			currentColorLabel = new JLabel();
-			AbstractColorChooserPanel [] tabs = colChooser.getChooserPanels();
-			
-			setLayout(new BorderLayout());		
-			
-			/*
-			// Michael Borcherds 2008-03-14
-			// added RGB in a new tab
-			// and moved preview underneath
-			JTabbedPane colorTabbedPane = new JTabbedPane();
-			colorTabbedPane.addTab( app.getMenu("Swatches"), tabs[0] );
-			//colorTabbedPane.addTab( app.getMenu("HSB"), tabs[1] );
-			colorTabbedPane.addTab( app.getMenu("RGB"), tabs[2] );
-			colorTabbedPane.setSelectedIndex(0);
-			JPanel p = new JPanel();
-			
-			// create grid with one column
-			p.setLayout(new GridBagLayout());
-			GridBagConstraints c = new GridBagConstraints();
-			c.fill = GridBagConstraints.NONE;
-			c.anchor = GridBagConstraints.NORTHWEST;
-			c.weightx = 0.0;
-			c.weighty = 0.0;
-			
-			c.gridx = 0;
-			c.gridy = 0;			
-			c.gridwidth = 4;
-			p.add(colorTabbedPane, c);
-			
-			c.gridx = 0;
-			c.gridy = 1;
-			c.gridwidth = 1;
-			c.insets = new Insets(10,0,0,0);  //top padding
-			p.add(new JLabel(app.getMenu("Preview") + ": "), c);
-								
-			c.gridx = 1;
-			c.gridy = 1;
-			c.gridwidth = 1;
-			p.add(previewPanel, c);
-										
-			c.weighty = 1.0;
-			p.add(Box.createVerticalGlue(), c);
-		*/
-	
-		
+
+			// prepare color chooser
+			colChooser.setLocale(app.getLocale());
+			colChooser.getSelectionModel().addChangeListener(this);
+
+			// get the color chooser panel 
+			AbstractColorChooserPanel colorChooserPanel = colChooser.getChooserPanels()[0];
+
+			// create opacity slider
+			opacitySlider = new JSlider(0, 100);
+			opacitySlider.setMajorTickSpacing(25);
+			opacitySlider.setMinorTickSpacing(5);
+			opacitySlider.setPaintTicks(true);
+			opacitySlider.setPaintLabels(true);
+			opacitySlider.setSnapToTicks(true);
+
+			// set slider label font
+			Dictionary<?, ?> labelTable = opacitySlider.getLabelTable();
+			Enumeration<?> en = labelTable.elements();
+			JLabel label;
+			while (en.hasMoreElements()) {
+				label = (JLabel) en.nextElement();
+				label.setFont(app.getSmallFont());
+			}
+
+			// panel to hold color chooser
+			JPanel colorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			colorPanel.add(colorChooserPanel);
+
+			// panel to hold opacity slider
+			opacityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			opacityPanel.add(opacitySlider);
+
+			// panel to hold preview
+			previewMetaPanel = new JPanel(new FlowLayout());
+			previewMetaPanel.add(previewLabel);
+			previewMetaPanel.add(previewPanel);
+			previewMetaPanel.add(currentColorLabel);
+
+			// vertical box panel that stacks the preview and opacity slider
+			// together
+			Box southPanel = Box.createVerticalBox();
+			southPanel.add(previewMetaPanel);
+			southPanel.add(opacityPanel);
+
+			// put the sub-panels together
 			setLayout(new BorderLayout());
-			
-			JPanel colorPalette = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			colorPalette.add(tabs[0]);
-			add(colorPalette, BorderLayout.NORTH);		
-			
-			JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			p.add(previewLabel);
-			p.add(previewPanel);
-			p.add(currentColorLabel);
-			add(p, BorderLayout.CENTER);
-			
-			// in order to get state changes we need to set color chooser to
-			// a color that is different to the 	
-			
-			/*
-			// remove possible old change listeners from color chooser						
-			ChangeListener [] listeners = (ChangeListener[]) colChooser.getListeners(ChangeListener.class);
-			if (listeners != null) {
-				for (int i = 0; i< listeners.length; i++) {
-					colChooser.getSelectionModel().removeChangeListener( listeners[i]);
+			add(colorPanel, BorderLayout.NORTH);
+			add(southPanel, BorderLayout.WEST);
+
+		}
+
+		/**
+		 * Extended JPanel that draws a preview rectangle filled with the color of
+		 * the currently selected GeoElement(s). If the geo is fillable the
+		 * panel paints a transparent rectangle using the geo's alpha
+		 * value. An opaque 2 pixel border is drawn around the transparent interior. 
+		 * 
+		 */
+		protected class PreviewPanel extends JPanel {
+
+			private Color alphaFillColor;
+
+			public PreviewPanel() {
+				setPreferredSize(new Dimension(80, app.getGUIFontSize() + 16));
+				setMaximumSize(this.getPreferredSize());
+				this.setBorder(BorderFactory.createEmptyBorder());
+				this.setBackground(null);
+				this.setOpaque(true);
+
+			}
+
+			/**
+			 * Sets the preview colors.
+			 * 
+			 * @param color
+			 * @param alpha
+			 */
+			public void setPreview(Color color, float alpha) {
+				
+				if (color == null) {
+					alphaFillColor = getBackground();
+					setForeground(getBackground());
+				} else {
+					float[] rgb = new float[3];
+					color.getRGBColorComponents(rgb);
+					alphaFillColor = new Color(rgb[0], rgb[1], rgb[2], alpha);
+					setForeground(new Color(rgb[0], rgb[1], rgb[2], 1f));
 				}
-			}*/
-			
-						
-			//colChooser.setColor(new Color(1, 1,1, 100));
-			colChooser.getSelectionModel().addChangeListener(this);	
-		}
-		
+				this.repaint();
+			}
 
-		
-		private class PreviewPanel extends JPanel {
-		    public PreviewPanel() {
-		        setPreferredSize(new Dimension(100,app.getGUIFontSize() + 8));
-		        setBorder(BorderFactory.createRaisedBevelBorder());
-		      }
-		      @Override
+			@Override
 			public void paintComponent(Graphics g) {
-		        Dimension size = getSize();
-	
-		        g.setColor(getForeground());
-		        g.fillRect(0,0,size.width,size.height);
-		      }
-	    }
-	    
-	    public void setLabels() {
-			previewLabel.setText(app.getMenu("Preview") + ": ");
+				super.paintComponent(g);
+
+				Graphics2D g2 = (Graphics2D) g;
+				Insets insets = getInsets();
+				int w = this.getWidth() - insets.left - insets.right;
+				int h = this.getHeight() - insets.top - insets.bottom;
+
+				g2.setPaint(Color.WHITE);
+				g.fillRect(insets.left, insets.top, w, h);
+
+				g2.setPaint(alphaFillColor);
+				g.fillRect(insets.left, insets.top, w, h);
+
+				g2.setPaint(getForeground());
+				g2.setStroke(new BasicStroke(3));
+				g.drawRect(insets.left + 3, insets.top + 3, w - 7, h - 7);
+
+				g2.setPaint(Color.LIGHT_GRAY);
+				g2.setStroke(new BasicStroke(1));
+				g.drawRect(insets.left, insets.top, w - 1, h - 1);
+
+				g2.setPaint(Color.WHITE);
+				g2.setStroke(new BasicStroke(1));
+				g2.drawRect(insets.left + 1, insets.top + 1, w - 3, h - 3);
+
+			}
 		}
 
+		public void setLabels() {
+			previewLabel.setText(app.getMenu("Preview") + ": ");
+			opacityPanel.setBorder(BorderFactory.createTitledBorder(app
+					.getMenu("Opacity")));
+			colChooser.setLocale(app.getLocale());
+		}
+
+		
 		public JPanel update(Object[] geos) {
+			
 			this.geos = geos;
 			if (!checkGeos(geos))
 				return null;
-
-			// check if properties have same values
-			GeoElement temp, geo0 = (GeoElement) geos[0];
+			
+			GeoElement geo0 = (GeoElement) geos[0];
+			
+			// check if geos have same color
+			GeoElement temp;
 			boolean equalObjColor = true;
 
 			for (int i = 1; i < geos.length; i++) {
@@ -1107,75 +1156,140 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 
-			// set colorButton's color to object color
-			Color col;
-			if (equalObjColor) {
-				col = geo0.getObjectColor();
-				previewPanel.setToolTipText(col.getRed() + ", " + col.getGreen() + ", " + col.getBlue());
-				currentColorLabel.setText("("+previewPanel.getToolTipText()+")");		
-			} else {
-				col = null;
-				previewPanel.setToolTipText("");
-				currentColorLabel.setText("");
+			// check if geos are all fillable
+			allFillable = true;
+			for (int i = 0; i < geos.length; i++) {
+				if (!((GeoElement) geos[i]).isFillable()) {
+					allFillable = false;
+					break;
+				}
 			}
 			
-			previewPanel.setForeground(col);
+			
+			// initialize selected color and opacity
+			Color selectedColor = null;
+			float alpha = 1;
+			
+			
+			// set selectedColor if all selected geos have the same color
+			if (equalObjColor) {
+				if (allFillable) {
+					selectedColor = geo0.getFillColor();
+					alpha = geo0.getAlphaValue();
+				} else {
+					selectedColor = geo0.getObjectColor();
+				}
+			} 
+			
+			// set the preview tool tip and color label text for the chosen color
+			if(selectedColor == null)
+				previewPanel.setToolTipText("");
+			else
+				previewPanel.setToolTipText(getToolTipText(selectedColor));
+			currentColorLabel.setText(previewPanel.getToolTipText());
+			
+			
+			// set the chooser color
+			colChooser.getSelectionModel().removeChangeListener(this);
+			colChooser.getSelectionModel().setSelectedColor(selectedColor);
+			colChooser.getSelectionModel().addChangeListener(this);
+			
+				
+			// set the opacity 
+			opacitySlider.removeChangeListener(this);
+			if (allFillable) 
+			{   // show opacity slider and set to first geo's alpha value
+				opacityPanel.setVisible(true);
+				alpha = ((GeoElement) geos[0]).getAlphaValue();
+				opacitySlider.setValue((int) Math.round(alpha * 100));
+			} 
+			else 
+			{  // hide opacity slider and set alpha = 1
+				opacityPanel.setVisible(false);
+				alpha = 1;
+				opacitySlider.setValue((int) Math.round(alpha * 100));
+			}
+			opacitySlider.addChangeListener(this);
+
+			
+			// set the preview panel (do this after the alpha level is set above)
+			previewPanel.setPreview(selectedColor, alpha);	
+			
 			return this;
 		}
 
+		
 		/**
-		 * sets color of selected GeoElements
+		 * Sets the tooltip string for a given color
+		 * @param color
+		 * @return
 		 */
-		private void updateColor(Color col) {						
+		public String getToolTipText(Color color) {
+			String name = GeoGebraColorConstants.getGeogebraColorName(app,
+					color);
+			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
+					+ color.getBlue();
+			if (name != null)
+				return name + "  " + rgbStr;
+			else
+				return rgbStr;
+		}
+
+		/**
+		 * Sets color of selected GeoElements
+		 */
+		private void updateColor(Color col, float alpha, boolean updateAlphaOnly) {
 			if (col == null || geos == null)
 				return;
-			
-			// update preview panel
-			previewPanel.setForeground(col);
-			previewPanel.setToolTipText(col.getRed() + ", " + col.getGreen() + ", " + col.getBlue());
-			currentColorLabel.setText("("+previewPanel.getToolTipText()+")");
 
+			// update preview panel
+			previewPanel.setPreview(col, alpha);
+			previewPanel.setToolTipText(getToolTipText(col));
+			currentColorLabel.setText(previewPanel.getToolTipText());
+
+			// update the color and alpha value for the selected geos
 			GeoElement geo;
 			for (int i = 0; i < geos.length; i++) {
 				geo = (GeoElement) geos[i];
-				geo.setObjColor(col);
-				//geo.updateRepaint();
+				if(!updateAlphaOnly)
+					geo.setObjColor(col);
+				if(allFillable)
+					geo.setAlphaValue(alpha);
 				geo.updateVisualStyle();
-			}		
+			}
 			kernel.notifyRepaint();
-			
-			Application.debug("Setting color RGB = "+col.getRed()+" "+col.getGreen()+" "+col.getBlue());
-			
-			// in order to get state changes we need to set color chooser to
-			// a color that is not an available color
-			colChooser.getSelectionModel().removeChangeListener(this);		
-			colChooser.setColor(new Color(0, 0, 1));
-			
-			colChooser.getSelectionModel().addChangeListener(this);	
 		}
-
+		
 	
+		
+
 		// show everything but images
 		private boolean checkGeos(Object[] geos) {
 			for (int i = 0; i < geos.length; i++) {
-				/* removed - we want to be able to change the color of everything in the spreadsheet
-				if (geos[i] instanceof GeoNumeric) {
-					GeoNumeric num = (GeoNumeric) geos[i];
-					if (!num.isDrawable())
-						return false;
-				} else */
+				/*
+				 * removed - we want to be able to change the color of
+				 * everything in the spreadsheet if (geos[i] instanceof
+				 * GeoNumeric) { GeoNumeric num = (GeoNumeric) geos[i]; if
+				 * (!num.isDrawable()) return false; } else
+				 */
 				if (geos[i] instanceof GeoImage)
 					return false;
 			}
 			return true;
 		}
-		
+
 		/**
 		 * Listens for color chooser state changes
 		 */
-		public void stateChanged(ChangeEvent arg0) {
-			updateColor(colChooser.getColor());	
-		}	
+		public void stateChanged(ChangeEvent e) {
+
+			float alpha = opacitySlider.getValue() / 100.0f;
+			if(e.getSource() == opacitySlider)
+				updateColor(colChooser.getColor(), alpha, true);
+			else
+				updateColor(colChooser.getColor(), alpha, false);
+
+		}
 
 	} // ColorPanel
 
@@ -3943,6 +4057,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 	}
 
+
 	/**
 	 * panel to select the size of a GeoAngle's arc
 	 * @author Markus Hohenwarter
@@ -4072,35 +4187,37 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to select the filling of a polygon or conic section
 	 * @author Markus Hohenwarter
 	 */
-	private class FillingPanel extends JPanel implements ChangeListener, SetLabels, UpdateablePanel, ActionListener {
+	private class FillingPanel extends JPanel implements ChangeListener,
+			SetLabels, UpdateablePanel, ActionListener {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
-		
+
 		private FillingPanel fillingPanel;
-		
+
 		private JSlider fillingSlider;
 		private JSlider angleSlider;
 		private JSlider distanceSlider;
 		private JComboBox cbFillType;
 		private JCheckBox cbFillInverse;
-		
-		private JPanel transparencyPanel, hatchFillPanel, imagePanel, anglePanel, distancePanel;
+
+		private JPanel transparencyPanel, hatchFillPanel, imagePanel,
+				anglePanel, distancePanel;
 		private JLabel lblFillType;
 		private JButton btnOpenFile;
-		
+
 		private PopupMenuButton btnImage;
 		private String[] fileNameArray;
 		private JLabel lblFillInverse;
 
 		public FillingPanel() {
-			
-			fillingPanel = this; 
-				
-			//JLabel sizeLabel = new JLabel(app.getPlain("Filling") + ":");		
+
+			fillingPanel = this;
+
+			// JLabel sizeLabel = new JLabel(app.getPlain("Filling") + ":");
 			fillingSlider = new JSlider(0, 100);
 			fillingSlider.setMajorTickSpacing(25);
 			fillingSlider.setMinorTickSpacing(5);
@@ -4109,24 +4226,24 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			fillingSlider.setSnapToTicks(true);
 
 			angleSlider = new JSlider(0, 180);
-			angleSlider.setPreferredSize(new Dimension(250,64));
+			// angleSlider.setPreferredSize(new Dimension(150,50));
 			angleSlider.setMajorTickSpacing(45);
 			angleSlider.setMinorTickSpacing(5);
 			angleSlider.setPaintTicks(true);
 			angleSlider.setPaintLabels(true);
 			angleSlider.setSnapToTicks(true);
 
-			//Create the label table
-			Hashtable<Integer,JLabel> labelHash = new Hashtable<Integer,JLabel>();
-			labelHash.put( new Integer( 0 ), new JLabel("0\u00b0") );
-			labelHash.put( new Integer( 45 ), new JLabel("45\u00b0") );
-			labelHash.put( new Integer( 90 ), new JLabel("90\u00b0") );
-			labelHash.put( new Integer( 135 ), new JLabel("135\u00b0") );
-			labelHash.put( new Integer( 180 ), new JLabel("180\u00b0") );
-			angleSlider.setLabelTable( labelHash );
+			// Create the label table
+			Hashtable<Integer, JLabel> labelHash = new Hashtable<Integer, JLabel>();
+			labelHash.put(new Integer(0), new JLabel("0\u00b0"));
+			labelHash.put(new Integer(45), new JLabel("45\u00b0"));
+			labelHash.put(new Integer(90), new JLabel("90\u00b0"));
+			labelHash.put(new Integer(135), new JLabel("135\u00b0"));
+			labelHash.put(new Integer(180), new JLabel("180\u00b0"));
+			angleSlider.setLabelTable(labelHash);
 
 			distanceSlider = new JSlider(5, 50);
-			distanceSlider.setPreferredSize(new Dimension(150,64));
+			// distanceSlider.setPreferredSize(new Dimension(150,50));
 			distanceSlider.setMajorTickSpacing(10);
 			distanceSlider.setMinorTickSpacing(5);
 			distanceSlider.setPaintTicks(true);
@@ -4134,18 +4251,17 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			distanceSlider.setSnapToTicks(true);
 
 			/*
-			Dimension dim = slider.getPreferredSize();
-			dim.width = SLIDER_MAX_WIDTH;
-			slider.setMaximumSize(dim);
-			slider.setPreferredSize(dim);
-*/
-			
+			 * Dimension dim = slider.getPreferredSize(); dim.width =
+			 * SLIDER_MAX_WIDTH; slider.setMaximumSize(dim);
+			 * slider.setPreferredSize(dim);
+			 */
+
 			// set label font
 			Dictionary<?, ?> labelTable = fillingSlider.getLabelTable();
 			Enumeration<?> en = labelTable.elements();
 			JLabel label;
 			while (en.hasMoreElements()) {
-				label = (JLabel)en.nextElement();
+				label = (JLabel) en.nextElement();
 				label.setFont(app.getSmallFont());
 			}
 
@@ -4163,11 +4279,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				label.setFont(app.getSmallFont());
 			}
 
-			
-			
-			//========================================
+			// ========================================
 			// create sub panels
-			
+
 			// panel for the fill type combobox
 			cbFillType = new JComboBox();
 			JPanel cbPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -4178,177 +4292,174 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			cbPanel.add(cbFillType);
 			cbPanel.add(cbFillInverse);
 			cbPanel.add(lblFillInverse);
-			
+
 			// panels to hold sliders
-			transparencyPanel = new JPanel (new FlowLayout(FlowLayout.LEFT));
+			transparencyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			transparencyPanel.add(fillingSlider);
-				
-			anglePanel = new JPanel (new FlowLayout(FlowLayout.LEFT));
+
+			anglePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			anglePanel.add(angleSlider);
-			
-			distancePanel = new JPanel (new FlowLayout(FlowLayout.LEFT));
+
+			distancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			distancePanel.add(distanceSlider);
-			
+
 			// hatchfill panel: only shown when hatch fill option is selected
 			hatchFillPanel = new JPanel();
-			hatchFillPanel.setLayout(new BoxLayout(hatchFillPanel,BoxLayout.X_AXIS));
+			hatchFillPanel.setLayout(new BoxLayout(hatchFillPanel,
+					BoxLayout.X_AXIS));
 			hatchFillPanel.add(anglePanel);
 			hatchFillPanel.add(distancePanel);
 			hatchFillPanel.setVisible(false);
-			
+
 			// image panel: only shown when image fill option is selected
 			createImagePanel();
 			imagePanel.setVisible(false);
-			
-			
-			
-			//===========================================================
+
+			// ===========================================================
 			// put all the sub panels together
-			
-			this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+
+			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.add(cbPanel);
 			this.add(transparencyPanel);
 			this.add(hatchFillPanel);
 			this.add(imagePanel);
-			
-			
-			
+
 		}
-		
+
 		public void setAllEnabled(boolean b) {
 			Component[] c = this.getComponents();
-			for(int i=0;i<c.length;i++){
-				Component[] subc = ((JPanel)c[i]).getComponents();
-				for(int j=0;j<subc.length;j++){
+			for (int i = 0; i < c.length; i++) {
+				Component[] subc = ((JPanel) c[i]).getComponents();
+				for (int j = 0; j < subc.length; j++) {
 					subc[j].setEnabled(b);
 				}
-			}			
+			}
 		}
 
 		public void setLabels() {
-			
-			//setBorder(BorderFactory.createTitledBorder(app.getPlain("Filling")));
-			
-			transparencyPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Opacity")));
-			anglePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Angle")));
-			distancePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Spacing")));
-			imagePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Images")));
-			
-			
-			btnOpenFile.setText(app.getMenu("ChooseFromFile")+"...");
-			
-			
+
+			// setBorder(BorderFactory.createTitledBorder(app.getPlain("Filling")));
+
+			transparencyPanel.setBorder(BorderFactory.createTitledBorder(app
+					.getMenu("Opacity")));
+			anglePanel.setBorder(BorderFactory.createTitledBorder(app
+					.getMenu("Angle")));
+			distancePanel.setBorder(BorderFactory.createTitledBorder(app
+					.getMenu("Spacing")));
+			imagePanel.setBorder(BorderFactory.createTitledBorder(app
+					.getMenu("Images")));
+
+			btnOpenFile.setText(app.getMenu("ChooseFromFile") + "...");
+
 			// fill type combobox
 			lblFillType = new JLabel(app.getMenu("Filling") + ":");
-			
+
 			int selectedIndex = cbFillType.getSelectedIndex();
-			cbFillType.removeActionListener(this);		
+			cbFillType.removeActionListener(this);
 			cbFillType.removeAllItems();
-					
+
 			cbFillType.addItem(app.getMenu("Filling.Standard")); // index 0
 			cbFillType.addItem(app.getMenu("Filling.Hatch")); // index 1
 			cbFillType.addItem(app.getMenu("Filling.Image")); // index 2
-			
+
 			cbFillType.setSelectedIndex(selectedIndex);
 			cbFillType.addActionListener(this);
-				
-			
+
 		}
-		
-		private JPanel createImagePanel(){
-			
-			
-			//=============================================	
-			// create array of image files from toolbar icons	
-			// for testing only ... 
+
+		private JPanel createImagePanel() {
+
+			// =============================================
+			// create array of image files from toolbar icons
+			// for testing only ...
 			ImageIcon[] iconArray = new ImageIcon[20];
 			fileNameArray = new String[20];
 			String modeStr;
-			for( int i = 0; i < 20; i++) {		
+			for (int i = 0; i < 20; i++) {
 				modeStr = kernel.getModeText(i).toLowerCase(Locale.US);
-				fileNameArray[i]="/geogebra/gui/toolbar/images/mode_"+modeStr+"_32.gif";
-				iconArray[i] = GeoGebraIcon.createFileImageIcon( app, fileNameArray[i], 1.0f, new Dimension(32,32));
+				fileNameArray[i] = "/geogebra/gui/toolbar/images/mode_"
+						+ modeStr + "_32.gif";
+				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
+						fileNameArray[i], 1.0f, new Dimension(32, 32));
 			}
-			//============================================
-	
-			
-			// panel for button to open external file		
-					
-			btnImage = new PopupMenuButton(app, iconArray, -1,-1,new Dimension(32,32), SelectionTable.MODE_ICON);
-			btnImage.addActionListener(this);			
-			
+			// ============================================
+
+			// panel for button to open external file
+
+			btnImage = new PopupMenuButton(app, iconArray, -1, -1,
+					new Dimension(32, 32), SelectionTable.MODE_ICON);
+			btnImage.setSelectedIndex(1);
+			btnImage.setStandardButton(true);
+			btnImage.addActionListener(this);
+
 			btnOpenFile = new JButton();
 			btnOpenFile.addActionListener(this);
-			
+
 			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			btnPanel.add(btnImage);
+			// btnPanel.add(btnImage);
 			btnPanel.add(btnOpenFile);
-			
-				
-			
-			//=====================================
+
+			// =====================================
 			// put all sub panels together
-			
+
 			imagePanel = new JPanel(new BorderLayout());
 			imagePanel.add(btnPanel, BorderLayout.CENTER);
-			
+
 			return imagePanel;
 		}
 
-		
-		
-		private void updateFillTypePanel(int fillType){
-			
-			switch(fillType){
-				
+		private void updateFillTypePanel(int fillType) {
+
+			switch (fillType) {
+
 			case GeoElement.FILL_STANDARD:
+				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(false);
 				imagePanel.setVisible(false);
 				break;
 
 			case GeoElement.FILL_HATCH:
+				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
 				break;
-				
+
 			case GeoElement.FILL_IMAGE:
+				transparencyPanel.setVisible(true);
 				hatchFillPanel.setVisible(false);
 				imagePanel.setVisible(true);
 				break;
 
 			}
 		}
-		
-		
-		
+
 		public JPanel update(Object[] geos) {
 			// check geos
 			if (!checkGeos(geos))
 				return null;
 
 			cbFillType.removeActionListener(this);
-			//	set selected fill type to first geo's fill type
+			// set selected fill type to first geo's fill type
 			cbFillType.setSelectedIndex(((GeoElement) geos[0]).getFillType());
-			cbFillType.addActionListener(this);		
-			
+			cbFillType.addActionListener(this);
+
 			cbFillInverse.removeActionListener(this);
-			//	set selected fill type to first geo's fill type
+			// set selected fill type to first geo's fill type
 			cbFillInverse.setSelected(((GeoElement) geos[0]).isInverseFill());
 			cbFillInverse.addActionListener(this);
 			updateFillTypePanel(((GeoElement) geos[0]).getFillType());
-			
-			
+
 			this.geos = geos;
 			fillingSlider.removeChangeListener(this);
 			angleSlider.removeChangeListener(this);
 			distanceSlider.removeChangeListener(this);
 
-			//	set value to first geo's alpha value
+			// set value to first geo's alpha value
 			double alpha = ((GeoElement) geos[0]).getAlphaValue();
 			fillingSlider.setValue((int) Math.round(alpha * 100));
 
 			double angle = ((GeoElement) geos[0]).getHatchingAngle();
-			angleSlider.setValue((int)angle);
+			angleSlider.setValue((int) angle);
 
 			int distance = ((GeoElement) geos[0]).getHatchingDistance();
 			distanceSlider.setValue(distance);
@@ -4356,11 +4467,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			fillingSlider.addChangeListener(this);
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
-			
-		//	imageList.removeListSelectionListener(this);
-		//	imageList.setSelectedValue(((GeoElement) geos[0]).getImageFileName(), true);	
-		//	imageList.addListSelectionListener(this);
-			
+
+			// imageList.removeListSelectionListener(this);
+			// imageList.setSelectedValue(((GeoElement)
+			// geos[0]).getImageFileName(), true);
+			// imageList.addListSelectionListener(this);
+
 			return this;
 		}
 
@@ -4368,12 +4480,14 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			boolean geosOK = true;
 			cbFillInverse.setVisible(true);
 			lblFillInverse.setVisible(true);
-			cbFillType.setVisible(true); //TODO remove this (see below)
+			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoFunctionNVar || geos[i] instanceof GeoFunction
-						|| geos[i] instanceof GeoCurveCartesian || geos[i] instanceof GeoConic
+				if (!(geos[i] instanceof GeoFunctionNVar
+						|| geos[i] instanceof GeoFunction
+						|| geos[i] instanceof GeoCurveCartesian
+						|| geos[i] instanceof GeoConic
 						|| geos[i] instanceof GeoPolygon || geos[i] instanceof GeoLocus)
-						|| ( ((GeoElement)geos[i]).getParentAlgorithm() instanceof AlgoTransformation)){
+						|| (((GeoElement) geos[i]).getParentAlgorithm() instanceof AlgoTransformation)) {
 					cbFillInverse.setVisible(false);
 					lblFillInverse.setVisible(false);
 				}
@@ -4381,8 +4495,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					geosOK = false;
 					break;
 				}
-				
-				//TODO add fill type for 3D elements
+
+				// TODO add fill type for 3D elements
 				if (((GeoElement) geos[i]).isGeoElement3D())
 					cbFillType.setVisible(false);
 			}
@@ -4390,10 +4504,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		/**
-		* change listener implementation for slider
-		*/
+		 * change listener implementation for slider
+		 */
 		public void stateChanged(ChangeEvent e) {
-			if (!fillingSlider.getValueIsAdjusting() && !angleSlider.getValueIsAdjusting() && !distanceSlider.getValueIsAdjusting()) {
+			if (!fillingSlider.getValueIsAdjusting()
+					&& !angleSlider.getValueIsAdjusting()
+					&& !distanceSlider.getValueIsAdjusting()) {
 				float alpha = fillingSlider.getValue() / 100.0f;
 				int angle = angleSlider.getValue();
 				int distance = distanceSlider.getValue();
@@ -4409,69 +4525,67 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 
-			
 		/**
-		* action listener for fill type combobox
-		*/
+		 * action listener for fill type combobox
+		 */
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			GeoElement geo;
-			
+
 			// handle change in fill type
 			if (source == cbFillType) {
-				
+
 				int fillType = cbFillType.getSelectedIndex();
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setFillType(fillType);
-					
+
 					// set default image to first imageList element
-					if(fillType == GeoElement.FILL_IMAGE && geo.getFillImage() == null){
-					//	String fileName = (String)(imageList.getModel()).getElementAt(0);
-					//	geo.setFillImage(geo.getImageFileName());
-						//imageList.setSelectedIndex(0);
-						//imageTable.repaint();
+					if (fillType == GeoElement.FILL_IMAGE
+							&& geo.getFillImage() == null) {
+						// String fileName =
+						// (String)(imageList.getModel()).getElementAt(0);
+						// geo.setFillImage(geo.getImageFileName());
+						// imageList.setSelectedIndex(0);
+						// imageTable.repaint();
 					}
-					
+
 					geo.updateRepaint();
 				}
 				fillingPanel.updateFillTypePanel(fillType);
-			}
-			else if (source == cbFillInverse) {
-				
-				
+			} else if (source == cbFillInverse) {
+
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setInverseFill(cbFillInverse.isSelected());
 					geo.updateRepaint();
 				}
-				
+
 			}
-			// handle image button selection 
-			else if(source == this.btnImage){		
+			// handle image button selection
+			else if (source == this.btnImage) {
 				String fileName = fileNameArray[btnImage.getSelectedIndex()];
-				if(fileName != null)
+				if (fileName != null)
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoElement) geos[i];
 						geo.setImageFileName(fileName);
 						geo.updateRepaint();
 					}
-			}	
-			
-			// handle load image file 
-			else if(source == btnOpenFile){		
+			}
+
+			// handle load image file
+			else if (source == btnOpenFile) {
 				String fileName = app.getGuiManager().getImageFromFile();
-				if(fileName != null)
+				if (fileName != null)
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoElement) geos[i];
 						geo.setImageFileName(fileName);
 						geo.updateRepaint();
 					}
-			}	
+			}
 		}
 
 	}
-	
 
 	/**
 	 * panel to select thickness and style (dashing) of a GeoLine
@@ -4492,7 +4606,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private JComboBox dashCB;
 
 		public LineStylePanel() {
-			// thickness slider		
+			// thickness slider
 			slider = new JSlider(1, GeoElement.MAX_LINE_WIDTH);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
@@ -4505,8 +4619,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			dim.width = SLIDER_MAX_WIDTH;
 			slider.setMaximumSize(dim);
 			slider.setPreferredSize(dim);
-*/
-			
+			 */
+
 			// set label font
 			Dictionary<?, ?> labelTable = slider.getLabelTable();
 			Enumeration<?> en = labelTable.elements();
@@ -4515,10 +4629,10 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				label = (JLabel) en.nextElement();
 				label.setFont(app.getSmallFont());
 			}
-			//slider.setFont(app.getSmallFont());	
+			// slider.setFont(app.getSmallFont());
 			slider.addChangeListener(this);
 
-			// line style combobox (dashing)		
+			// line style combobox (dashing)
 			DashListRenderer renderer = new DashListRenderer();
 			renderer.setPreferredSize(
 				new Dimension(130, app.getGUIFontSize() + 6));
@@ -4543,34 +4657,34 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			//		BorderFactory.createEmptyBorder(3,5,0,5)));	
 			thicknessPanel.add(Box.createRigidArea(new Dimension(5,0)));
 			thicknessPanel.add(thicknessLabel);
-			*/				
-			thicknessPanel.add(slider);			
+			 */
+			thicknessPanel.add(slider);
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			thicknessPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-			dashPanel.setAlignmentX(Component.LEFT_ALIGNMENT);	
+			dashPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			add(thicknessPanel);
-			add(dashPanel);			
+			add(dashPanel);
 		}
-		
+
 		public void setLabels() {
 			thicknessPanel.setBorder(
 					BorderFactory.createTitledBorder(app.getPlain("Thickness")));
-			
+
 			dashLabel.setText(app.getPlain("LineStyle") + ":");
 		}
-		
+
 		private int maxMinimumThickness(Object[] geos) {
-			
+
 			if (geos == null || geos.length == 0) return 1;
-			
-			for (int i = 0  ; i < geos.length ; i++) {
+
+			for (int i = 0; i < geos.length; i++) {
 				GeoElement testGeo = ((GeoElement)geos[i]).getGeoElementForPropertiesDialog();
 				if (testGeo.getMinimumLineThickness() == 1) return 1;
 			}
-			
+
 			return 0;
-			
+
 		}
 
 		public JPanel update(Object[] geos) {
@@ -4582,14 +4696,14 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			slider.removeChangeListener(this);
 			dashCB.removeActionListener(this);
 
-			//	set slider value to first geo's thickness 
+			// set slider value to first geo's thickness
 			GeoElement temp, geo0 = (GeoElement) geos[0];
 			slider.setValue(geo0.getLineThickness());
-			
+
 			// allow polygons to have thickness 0
 			slider.setMinimum(maxMinimumThickness(geos));
 
-			//	check if geos have same line style
+			// check if geos have same line style
 			boolean equalStyle = true;
 			for (int i = 1; i < geos.length; i++) {
 				temp = (GeoElement) geos[i];
@@ -4600,7 +4714,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 			// select common line style
 			if (equalStyle) {
-				int type = geo0.getLineType();				
+				int type = geo0.getLineType();
 				for (int i = 0; i < dashCB.getItemCount(); i++) {
 					if (type == ((Integer) dashCB.getItemAt(i)).intValue()) {
 						dashCB.setSelectedIndex(i);
@@ -4633,8 +4747,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		/**
-		* change listener implementation for slider
-		*/
+		 * change listener implementation for slider
+		 */
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
 				int size = slider.getValue();
@@ -4648,8 +4762,8 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		/**
-		* action listener implementation for coord combobox
-		*/
+		 * action listener implementation for coord combobox
+		 */
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == dashCB) {
@@ -4662,17 +4776,13 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
-	} 
-
-	
-
-
+	}
 
 	/**
 	 * select 
 	 * dash style for hidden parts.
 	 * @author matthieu
-	 *
+	 * 
 	 */
 	private class LineStyleHiddenPanel extends JPanel implements UpdateablePanel, SetLabels, ActionListener {
 		private static final long serialVersionUID = 1L;
@@ -4681,37 +4791,33 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 		public LineStyleHiddenPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			
 
 			PointStyleListRenderer renderer = new PointStyleListRenderer();
-			renderer.setPreferredSize(new Dimension(18,18));		
-
+			renderer.setPreferredSize(new Dimension(18, 18));
 
 			buttons = new JRadioButton[3];
 
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_NONE] 
+			buttons[EuclidianView.LINE_TYPE_HIDDEN_NONE]
 			        = new JRadioButton(app.getMenu("Hidden.Invisible"));			
 			buttons[EuclidianView.LINE_TYPE_HIDDEN_NONE]
-			        .setActionCommand("none");
+					.setActionCommand("none");
 
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_DASHED] 
+			buttons[EuclidianView.LINE_TYPE_HIDDEN_DASHED]
 			        = new JRadioButton(app.getMenu("Hidden.Dashed"));			
 			buttons[EuclidianView.LINE_TYPE_HIDDEN_DASHED]
-			        .setActionCommand("dashed");
+					.setActionCommand("dashed");
 
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN] 
+			buttons[EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN]
 			        = new JRadioButton(app.getMenu("Hidden.Unchanged"));	
 			buttons[EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN]
-			        .setActionCommand("asNotHidden");
+					.setActionCommand("asNotHidden");
 
 			ButtonGroup buttonGroup = new ButtonGroup();
-			for(int i=0; i<3; i++){
+			for (int i = 0; i < 3; i++) {
 				buttons[i].addActionListener(this);
 				add(buttons[i]);
 				buttonGroup.add(buttons[i]);
 			}
-
-
 
 		}
 
@@ -4726,10 +4832,10 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 			this.geos = geos;
 
-			//	set value to first line's style 
+			// set value to first line's style
 			GeoElement geo0 = (GeoElement) geos[0];
 
-			// update radio buttons 
+			// update radio buttons
 			buttons[geo0.getLineTypeHidden()].setSelected(true);
 
 			return this;
@@ -4750,15 +4856,13 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 		public void actionPerformed(ActionEvent e) {
 
-
 			int type = EuclidianView.LINE_TYPE_HIDDEN_NONE;
 
-			if (e.getActionCommand()=="dashed"){	
+			if (e.getActionCommand() == "dashed") {
 				type = EuclidianView.LINE_TYPE_HIDDEN_DASHED;
-			}else if (e.getActionCommand()=="asNotHidden"){
+			} else if (e.getActionCommand() == "asNotHidden") {
 				type = EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN;
 			}
-
 
 			GeoElement geo;
 			for (int i = 0; i < geos.length; i++) {
@@ -4768,9 +4872,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 	}
-	
-	
-	
+
 	/**
 	 * panel to select the fading for endings of a surface
 	 * @author mathieu
@@ -4784,10 +4886,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private Object[] geos;
 		private JSlider slider;
 
-		public FadingPanel() {		
+		public FadingPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-				
-		
+
 			slider = new JSlider(0, 50);
 			slider.setMajorTickSpacing(25);
 			slider.setMinorTickSpacing(5);
@@ -4804,12 +4905,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				label.setFont(app.getSmallFont());
 			}
 
-			slider.setFont(app.getSmallFont());	
-			slider.addChangeListener(this);			
-			
-			add(slider);			
+			slider.setFont(app.getSmallFont());
+			slider.addChangeListener(this);
+
+			add(slider);
 		}
-		
+
 		public void setLabels() {
 			setBorder(BorderFactory.createTitledBorder(app.getPlain("Fading")));
 		}
@@ -4822,9 +4923,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			this.geos = geos;
 			slider.removeChangeListener(this);
 
-			//	set value to first point's size 
+			// set value to first point's size
 			GeoPlaneND geo0 = (GeoPlaneND) geos[0];
-			slider.setValue((int) (100*geo0.getFading()));
+			slider.setValue((int) (100 * geo0.getFading()));
 
 			slider.addChangeListener(this);
 			return this;
@@ -4833,7 +4934,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private boolean checkGeos(Object[] geos) {
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement)geos[i];
+				GeoElement geo = (GeoElement) geos[i];
 				if (!(geo.isGeoPlane())) {
 					geosOK = false;
 					break;
@@ -4843,15 +4944,15 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		/**
-		* change listener implementation for slider
-		*/
+		 * change listener implementation for slider
+		 */
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
 				int size = slider.getValue();
 				GeoPlaneND plane;
 				for (int i = 0; i < geos.length; i++) {
 					plane = (GeoPlaneND) geos[i];
-					plane.setFading((float) size/100);
+					plane.setFading((float) size / 100);
 					((GeoElement) plane).updateRepaint();
 				}
 			}
