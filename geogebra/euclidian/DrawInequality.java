@@ -75,7 +75,7 @@ public class DrawInequality extends Drawable {
 		
 		// init gp
 		updateRecursive(function.getIneqs());
-		labelDesc = geo.getLabel();
+		labelDesc = geo.getLabelDescription();
 		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
 				&& !"y".equals(((GeoFunction) geo).getVarString())) {
 			TreeSet<Double> zeros = new TreeSet<Double>();
@@ -107,8 +107,7 @@ public class DrawInequality extends Drawable {
 			updateStrokes(geo);
 		} else
 			gpAxis = null;
-		if(labelVisible)
-			addLabelOffset();
+		
 	}
 
 	private void updateRecursive(IneqTree it) {

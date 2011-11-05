@@ -962,7 +962,7 @@ final public class DrawConic extends Drawable implements Previewable {
                 g2.setStroke(objStroke);
                 g2.setColor(geo.getObjectColor());				
                 g2.draw(shape);    
-                if (labelVisible) {
+                if (labelVisible && geo instanceof GeoConic) {
 					g2.setFont(view.fontConic); 
 					g2.setColor(geo.getLabelColor());                   
 					drawLabel(g2);                                                               
