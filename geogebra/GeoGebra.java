@@ -20,9 +20,9 @@ public class GeoGebra extends Object {
 	
 	// GeoGebra version
 	public static final String BUILD_DATE = "05 November 2011";
-	public static final String VERSION_STRING = "4.1.20.0"; // <- update lines below when this is updated
+	public static final String VERSION_STRING = "4.1.21.0"; // <- update lines below when this is updated
 	//current 3D: "4.9.9.0"
-	//current ggb42: "4.1.20.0"
+	//current ggb42: "4.1.21.0"
 	
 	public static final String PREFERENCES_ROOT = VERSION_STRING.startsWith("4.9") ? 
 			"/geogebra50" : "/geogebra42";
