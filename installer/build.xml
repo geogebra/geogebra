@@ -142,6 +142,7 @@ to ensure availability.
 
 	<target name="javaapplicationstub-geogebra">
 	<get src="http://www.geogebra.org/download/installer/JavaApplicationStub.mac" dest="JavaApplicationStub" usetimestamp="true"/>
+	<chmod file="JavaApplicationStub" perm="755"/>
 	</target>
 
 	<target name="jarbundler-geogebra">
