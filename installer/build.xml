@@ -140,9 +140,7 @@ to ensure availability.
 	<get src="http://www.geogebra.org/download/installer/winport/GeoGebra-Windows-Portable-3-9-x-x.zip" dest="download/GeoGebra-Windows-Portable-3-9-x-x.zip" usetimestamp="true"/>
 	</target>
 
-	<target name="javaapplicationstub-geogebra" depends="javaapplicationstub-geogebra-mac"/>
-	
-	<target name="javaapplicationstub-geogebra-mac" if="mac">
+	<target name="javaapplicationstub-geogebra">
 	<get src="http://www.geogebra.org/download/installer/JavaApplicationStub.mac" dest="JavaApplicationStub" usetimestamp="true"/>
 	</target>
 
