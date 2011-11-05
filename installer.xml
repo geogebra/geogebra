@@ -90,21 +90,31 @@ read the following web pages:
 	</condition>
 
 	<target name="GeoGebra.exe">
-		<nsis script="installer/GeoGebra_exe.nsi" verbosity="1" path="${src.dir}/installer/nsis">
-		</nsis>
+		<!--nsis script="installer/GeoGebra_exe.nsi" verbosity="1" path="${src.dir}/installer/nsis">
+		</nsis-->
+		<launch4j configFile="${src.dir}/installer/geogebra.xml"
+			outfile="${build.dir}/installer/windows/unsigned/GeoGebra.exe"
+			fileVersion="${fullversion}"
+			txtFileVersion="${fullversion}"
+			productVersion="${fullversion}"
+			txtProductVersion="${fullversion}"/>
+	<copy file="${build.dir}/installer/windows/unsigned/GeoGebra.exe" tofile="${build.dir}/installer/windows/GeoGebra.exe"/>
 	</target>
 
 	<target name="GeoGebraPrim.exe">
-		<nsis script="installer/GeoGebraPrim_exe.nsi" verbosity="1" path="${src.dir}/installer/nsis">
-		</nsis>
+		<!--nsis script="installer/GeoGebraPrim_exe.nsi" verbosity="1" path="${src.dir}/installer/nsis">
+		</nsis-->
+		<launch4j configFile="${src.dir}/installer/geogebraprim.xml"
+			outfile="${build.dir}/installer/windows/unsigned/GeoGebraPrim.exe"
+			fileVersion="${fullversion}"
+			txtFileVersion="${fullversion}"
+			productVersion="${fullversion}"
+			txtProductVersion="${fullversion}"/>
+	<copy file="${build.dir}/installer/windows/unsigned/GeoGebraPrim.exe" tofile="${build.dir}/installer/windows/GeoGebraPrim.exe"/>
 	</target>
 	
-	<!-- creates a GeoGebra.exe installer for Windows -->
+	<!-- creates a GeoGebra installer for Windows -->
 	<target name="installer-windows" depends="readVersion, GeoGebra.exe, GeoGebraPrim.exe" if="installer-windows">
-		<copy file="installer/GeoGebra.exe" tofile="${build.dir}/installer/windows/unsigned/GeoGebra.exe"/>
-		<copy file="installer/GeoGebraPrim.exe" tofile="${build.dir}/installer/windows/unsigned/GeoGebraPrim.exe"/>
-		<copy file="installer/GeoGebra.exe" tofile="${build.dir}/installer/windows/GeoGebra.exe"/>
-		<copy file="installer/GeoGebraPrim.exe" tofile="${build.dir}/installer/windows/GeoGebraPrim.exe"/>
 		<tstamp />
 		<nsis script="installer/geogebra.nsi" verbosity="1" path="${src.dir}/installer/nsis">
 			<define name="build.dir"   value="${build.dir}"/>
@@ -114,6 +124,7 @@ read the following web pages:
 			<define name="outfile"     value="${build.dir}/installer/windows/temp/uninstaller.exe"/>
 			<define name="uninstaller" value="${installer-windows-uninstaller}"/>
 		</nsis>
+		<antcall target="installer-windows-sign-components"/>
 		<exec executable="${build.dir}/installer/windows/temp/uninstaller.exe" osfamily="winnt"/>
 		<exec dir="/Applications/Wine.app/Contents/MacOS" executable="/Applications/Wine.app/Contents/MacOS/startwine" osfamily="mac">
 			<arg file="${build.dir}/installer/windows/temp/uninstaller.exe"/>
@@ -126,7 +137,6 @@ read the following web pages:
 		<antcall target="installer-windows-move-uninstaller-mac"/>
 		<antcall target="installer-windows-move-uninstaller-unix"/>
 		<copy file="${build.dir}/installer/windows/unsigned/uninstaller.exe" tofile="${build.dir}/installer/windows/uninstaller.exe"/>
-		<antcall target="installer-windows-sign-components"/>
 		<nsis script="installer/geogebra.nsi" verbosity="1" path="${src.dir}/installer/nsis">
 			<define name="build.dir"   value="${build.dir}"/>
 			<define name="fullversion" value="${fullversion}"/>
@@ -158,7 +168,7 @@ read the following web pages:
 			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/GeoGebraPrim.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/signcode" osfamily="winnt">
-			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/uninstaller.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -v '${workspace.dir}/igi-keystore.pvk' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll '${build.dir}/installer/windows/temp/uninstaller.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
 			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra.exe' -out '${build.dir}/installer/windows/GeoGebra.exe'"/>
@@ -167,7 +177,7 @@ read the following web pages:
 			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebraPrim.exe' -out '${build.dir}/installer/windows/GeoGebraPrim.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="mac">
-			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/uninstaller.exe' -out '${build.dir}/installer/windows/uninstaller.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore.spc' -key '${workspace.dir}/igi-keystore.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/temp/uninstaller.exe' -out '${build.dir}/installer/windows/uninstaller.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
 			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebra.exe' -out '${build.dir}/installer/windows/GeoGebra.exe'"/>
@@ -176,7 +186,7 @@ read the following web pages:
 			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/GeoGebraPrim.exe' -out '${build.dir}/installer/windows/GeoGebraPrim.exe'"/>
 		</exec>
 		<exec executable="${src.dir}/installer/osslsigncode" osfamily="unix">
-			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/unsigned/uninstaller.exe' -out '${build.dir}/installer/windows/uninstaller.exe'"/>
+			<arg line="-spc '${workspace.dir}/igi-keystore-CL.spc.der' -key '${workspace.dir}/igi-keystore-CL.key.der' -n GeoGebra -i http://www.geogebra.org/ -t http://timestamp.verisign.com/scripts/timstamp.dll -in '${build.dir}/installer/windows/temp/uninstaller.exe' -out '${build.dir}/installer/windows/uninstaller.exe'"/>
 		</exec>
 	</target>
 	<target name="installer-windows-sign-installer" if="installer-windows-keystore">
