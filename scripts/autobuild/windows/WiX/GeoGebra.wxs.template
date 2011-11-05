@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='windows-1252'?>
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
+    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Name='GeoGebra $SHORTVERSION' Id='d44fff47-306c-4198-9899-832c1daa4566' UpgradeCode='05cf25f8-b534-47e2-a66a-b7e1f1ede637'
     Language='1033' Codepage='1252' Version='$LONGVERSION' Manufacturer='International GeoGebra Institute'>
 
@@ -17,11 +18,22 @@
           <Directory Id='INSTALLDIR' Name='GeoGebra $SHORTVERSION'>
 
             <Component Id='MainExecutable' Guid='30b84939-322a-4c8e-9018-996b43c273f6'>
-              <File Id='GeoGebraExe' Name='geogebra.exe' DiskId='1' Source='geogebra.exe' KeyPath='yes'>
-                <Shortcut Id="startmenuGeoGebra40" Directory="ProgramMenuDir" Name="GeoGebra $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
-                <Shortcut Id="desktopGeoGebra40" Directory="DesktopFolder" Name="GeoGebra $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
+              <File Id='GeoGebraExe' Name='GeoGebra.exe' DiskId='1' Source='GeoGebra.exe' KeyPath='yes'>
+                <Shortcut Id="startmenuGeoGebra" Directory="ProgramMenuDir" Name="GeoGebra $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
+                <Shortcut Id="desktopGeoGebra" Directory="DesktopFolder" Name="GeoGebra $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
               </File>
             </Component>
+
+            <Component Id='MainExecutablePrim' Guid='4631ca72-0d9a-4b3a-a63e-2428796510a1'>
+              <File Id='GeoGebraPrimExe' Name='GeoGebraPrim.exe' DiskId='1' Source='GeoGebraPrim.exe' KeyPath='yes'>
+                <Shortcut Id="startmenuGeoGebraPrim" Directory="ProgramMenuDir" Name="GeoGebraPrim $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
+                <Shortcut Id="desktopGeoGebraPrim" Directory="DesktopFolder" Name="GeoGebraPrim $SHORTVERSION" WorkingDirectory='INSTALLDIR' Icon="geogebra.ico" IconIndex="0" Advertise="yes" />
+              </File>
+            </Component>
+            
+            <!--Component Id='GeogebraOrgURL' Guid='23c93ff9-d6a7-4991-b384-c416068cfc03'>
+        	<Util:InternetShortcut id='GeogebraOrgURL' Directory='ProgramMenuDir' Name='GeoGebra website' Target='http://www.geogebra.org' />
+            </Component-->
 
             <Component Id='GeogebraJar' Guid='0fc449ce-18e9-4aa9-8b0e-2b0d2729ed16'>
               <File Id='GeogebraJar' Name='geogebra.jar' DiskId='1' Source='geogebra.jar' KeyPath='yes' />
@@ -166,6 +178,8 @@
       Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
       <Feature Id='MainProgram' Title='Program' Description='The main executable.' Level='1'>
         <ComponentRef Id='MainExecutable' />
+        <ComponentRef Id='MainExecutablePrim' />
+        <!--ComponentRef Id='GeogebraOrgURL' /-->
         <ComponentRef Id='GeogebraJar' />
         <ComponentRef Id='GeogebraMainJar' />
         <ComponentRef Id='GeogebraAlgosJar' />

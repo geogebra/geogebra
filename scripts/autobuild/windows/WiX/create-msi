@@ -23,14 +23,15 @@ if [ "$WINEVERSION" -lt "1320" ]; then
  exit 2
  fi
 
-test -r ../../../../build/installer/windows/geogebra.exe || {
- echo GeoGebra Windows Install does not seem to be built, run../../buildggb40 first
+test -r ../../../../build/installer/windows/GeoGebra.exe || {
+ echo GeoGebra Windows Install does not seem to be built, run../../buildggb42 first
  }
 
 # Copying needed files here:
 cp ../../../../build/unpacked/* .
 cp ../../../../installer/geogebra.ico .
-cp ../../../../build/installer/windows/geogebra.exe .
+cp ../../../../build/installer/windows/GeoGebra.exe .
+cp ../../../../build/installer/windows/GeoGebraPrim.exe .
 cp ../../../../installer/cc-by-sa-3.0.txt .
 cp ../../../../installer/cc.ico .
 cp ../../../../installer/forum.ico .
@@ -43,8 +44,8 @@ GGBVERSION=`cat ../../../../build/unpacked/version.txt`
 GGBVERSION_DASHED=`echo $GGBVERSION | tr . -`
 MSIFILE=GeoGebra-Windows-Installer-$GGBVERSION_DASHED.msi
 
-wine $WIXDIR/candle.exe GeoGebra.wxs
-wine $WIXDIR/light.exe -sval -ext WixUIExtension GeoGebra.wixobj
+wine $WIXDIR/candle.exe -ext WiXUtilExtension GeoGebra.wxs
+wine $WIXDIR/light.exe -sval -ext WixUIExtension -ext WiXUtilExtension GeoGebra.wixobj
 
 mv GeoGebra.msi $MSIFILE
 
