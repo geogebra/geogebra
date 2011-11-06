@@ -398,6 +398,14 @@ public class AlgebraProcessor {
 	 * Returns Double.NaN if something went wrong.
 	 */
 	public double evaluateToDouble(String str) {
+		return evaluateToDouble(str, false);
+	}
+	
+	/**
+	 * Parses given String str and tries to evaluate it to a double.
+	 * Returns Double.NaN if something went wrong.
+	 */
+	public double evaluateToDouble(String str, boolean suppressErrors) {
 		try {
 			ValidExpression ve = parser.parseExpression(str);
 			ExpressionNode en = (ExpressionNode) ve;
@@ -406,19 +414,19 @@ public class AlgebraProcessor {
 			return nv.getDouble();
 		} catch (Exception e) {
 			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			if (!suppressErrors) app.showError("InvalidInput", str);
 			return Double.NaN;
 		} catch (MyError e) {
 			e.printStackTrace();
-			app.showError(e);
+			if (!suppressErrors) app.showError(e);
 			return Double.NaN;
 		} catch (Error e) {
 			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			if (!suppressErrors) app.showError("InvalidInput", str);
 			return Double.NaN;
 		}
 	}
-	
+		
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoBoolean object.
 	 * Returns null if something went wrong.
