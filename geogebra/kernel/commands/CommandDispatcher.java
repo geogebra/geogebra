@@ -121,7 +121,7 @@ public class CommandDispatcher {
        	CircleSector, CircumcircleSector, CircumcircleArc, Polygon,
        	RigidPolygon, Area, Union, Circumference,
        	Perimeter, Locus, Centroid, TriangleCenter, Barycenter, Trilinear, TriangleCubic, 
-       	Vertex, PolyLine, PointIn, AffineRatio,
+       	TriangleCurve,Vertex, PolyLine, PointIn, AffineRatio,
        	CrossRatio, ClosestPoint,
 
       	//=============================================================
@@ -613,6 +613,7 @@ public class CommandDispatcher {
     			case Barycenter: return new CmdBarycenter(kernel);
     			case Trilinear: return new CmdTrilinear(kernel);
     			case TriangleCubic: return new CmdTriangleCubic(kernel);
+    			case TriangleCurve: return new CmdTriangleCurve(kernel);
     			case Vertex: return new CmdVertex(kernel);	
     			case PolyLine: return new CmdPolyLine(kernel);	   
     			case PointIn: return new CmdPointIn(kernel);   

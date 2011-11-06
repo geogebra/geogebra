@@ -37,6 +37,7 @@ import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.barycentric.AlgoBarycenter;
 import geogebra.kernel.barycentric.AlgoKimberling;
 import geogebra.kernel.barycentric.AlgoTriangleCubic;
+import geogebra.kernel.barycentric.AlgoTriangleCurve;
 import geogebra.kernel.barycentric.AlgoTrilinear;
 import geogebra.kernel.cas.AlgoCoefficients;
 import geogebra.kernel.cas.AlgoDegree;
@@ -9509,6 +9510,14 @@ public class Kernel {
 	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint A, GeoPoint B, GeoPoint C, NumberValue v) {
 		AlgoTriangleCubic algo = new AlgoTriangleCubic(cons, label, A,B,C,v);
 		GeoImplicitPoly poly = algo.getResult();
+		return poly;
+	}
+	
+	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint A, GeoPoint B,
+			GeoPoint C, GeoImplicitPoly v, GeoNumeric a, GeoNumeric b, GeoNumeric c) {
+		AlgoTriangleCurve algo = new AlgoTriangleCurve(cons, label, A,B,C,v,a,b,c);
+		GeoImplicitPoly poly = algo.getResult();
+
 		return poly;
 	}
 

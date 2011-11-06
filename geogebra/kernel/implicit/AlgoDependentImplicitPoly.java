@@ -87,6 +87,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		geoElement.setLabel(label);
 	}
 	
+	public Equation getEquation(){
+		return equation;
+	}
 	
 	protected void compute(boolean first) {
 		if (!first){

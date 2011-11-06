@@ -80,9 +80,16 @@ public class AlgoTriangleCubic extends AlgoElement {
 		String equation = "";
 		
 		double det = (-x2 + x3)*(y1 - y3) + (x1 - x3)*(y2 - y3);
-		String A = "((" + (x3-x2) + "*(y -" + y3 + ") + (x - " + x3 + ")*" + (y2 - y3) + ")/" + det + ")";
-		String B = "((" + (x1-x3) + "*(y -" + y3 + ") + (x - " + x3 + ")*" + (y3 - y1) + ")/" + det + ")";
-		String C = "(1-" + A + "-" + B + ")";
+		if(Kernel.isZero(det)){
+			poly.setUndefined();
+			return;
+		}
+		String A =  "(" + (x3-x2)/det + "*y  + "+
+				(y2 - y3)/det+"*x - " + ((x3-x2)*y3+(y2 - y3)*x3)/det + ")";
+		String B =  "(" + (x1-x3)/det + "*y  + "+
+				(y3 - y1)/det+"*x - " + ((x1-x3)*y1+(y3 - y1)*x1)/det + ")";
+		String C =  "(" + (x2-x1)/det + "*y  + "+
+				(y1 - y2)/det+"*x - " + ((x2-x1)*y2+(y1 - y2)*x2)/det + ")";
 		
 		double ab_c, a_bc, _abc;
 		
