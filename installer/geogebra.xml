@@ -41,7 +41,7 @@
     <initialHeapSize>32</initialHeapSize>
     <maxHeapSize>512</maxHeapSize>
   </jre>
-  <cmdLine>--settingsfile=geogebra.properties</cmdLine>
+  <cmdLine></cmdLine>
   <versionInfo>
     <fileDescription>GeoGebra</fileDescription>
     <copyright>(C) 2001-2011 International GeoGebra Institute</copyright>
