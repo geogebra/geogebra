@@ -426,8 +426,8 @@ public abstract class GeoElement
 	private int animationDirection = 1;
 
 	protected float alphaValue = 0.0f;
-	private int hatchingAngle = 45; // in degrees
-	private int hatchingDistance = 10;
+	protected int hatchingAngle = 45; // in degrees
+	protected int hatchingDistance = 10;
 	private boolean inverseFill = false;
 
 	//=================================

@@ -208,6 +208,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 			geo.setLineThickness(this.getLineThickness());
 			geo.setLineType(this.getLineType());
+			
+
 
 			if (geo instanceof PointProperties) {
 				((PointProperties) geo).setPointSize(this.getPointSize());
@@ -227,6 +229,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 			}
 
+			geo.setFillType(fillType);
+			geo.setHatchingAngle(hatchingAngle);
+			geo.setHatchingDistance(hatchingDistance);
+			geo.setImageFileName(imageFileName);
 			geo.setAlphaValue(this.getAlphaValue());
 
 			geo.setLayer(this.getLayer());
