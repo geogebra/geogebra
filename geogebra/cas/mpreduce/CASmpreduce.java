@@ -364,7 +364,7 @@ public class CASmpreduce extends CASgeneric {
 		mpreduce.evaluate("linelength 50000;");
 		mpreduce.evaluate("scientific_notation {16,5};");
 		mpreduce.evaluate("on fullroots;");
-		mpreduce.evaluate("printprecision!!:=5;");
+		mpreduce.evaluate("printprecision!!:=15;");
 		
 		mpreduce.evaluate("intrules!!:={" +
 				"int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x)," +
@@ -819,7 +819,11 @@ public class CASmpreduce extends CASgeneric {
 				"  >> else << " +
 				"    if numeric!!=0 then" +
 				"      off rounded, roundall, numval;" +
-				"    part(divide(a,b),1)>>" +
+				"    on rational;" +
+				"    result!!:=part(divide(a,b),1);" +
+				"    off rational;" +
+				"    if numeric!!=1 then on rounded, roundall, numval;" +
+				"    result!!>>" +
 				" end;");
 		
 		// to avoid using the package assist
