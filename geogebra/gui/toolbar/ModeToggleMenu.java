@@ -261,9 +261,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 	
 	// set mode
 	public void actionPerformed(ActionEvent e) {
-		//don't select mode if popup triangle clicked
-		if (!popupTriangleClicked || !menu.isPopupShowing())
-		  menu.setMode(Integer.parseInt(e.getActionCommand()));		
+		menu.setMode(Integer.parseInt(e.getActionCommand()));		
 	}
 
 	public void setIcon(Icon icon) {
