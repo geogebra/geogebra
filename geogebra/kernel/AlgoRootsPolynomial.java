@@ -350,8 +350,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
      */
     public final void calcRoots(Function fun, int derivDegree) {  
     	RealRootFunction evalFunction = calcRootsMultiple(fun,derivDegree);
-    	if(evalFunction==null)
-    		return;
+    	
         if (curRealRoots > 1) {
             // sort roots and eliminate duplicate ones
             Arrays.sort(curRoots, 0, curRealRoots);
