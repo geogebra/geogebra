@@ -133,29 +133,35 @@ public class StatGeo   {
 
 		if(isMatrix){
 
+			// create index for iterating through the lists in the matrix
 			GeoNumeric index = new GeoNumeric(cons, 1);
+			
+			// create algo for extracting a list from the matrix that depends on index
 			AlgoListElement le = new AlgoListElement(cons, dataList, index);
+			removeFromConstructionList(le);
+			
+			// create list from this algo 
 			GeoList list = (GeoList) le.getGeoElements()[0];
+			
+			// create algos to find the max and min values of the list
 			AlgoListMax maxAlgo = new AlgoListMax(cons, list);
 			AlgoListMin minAlgo = new AlgoListMin(cons, list);
 			removeFromConstructionList(minAlgo);
 			removeFromConstructionList(maxAlgo);
 
+			// create max/min geos from the max/min algos
 			GeoNumeric maxGeo = (GeoNumeric) maxAlgo.getGeoElements()[0];
 			GeoNumeric minGeo = (GeoNumeric) minAlgo.getGeoElements()[0];
 
-			//dataBounds[0] = this.evaluateExpression("Min[ Element[" + label + ", 1] ]");
-			//dataBounds[1] = this.evaluateExpression("Max[ Element[" + label + ", 1] ]");
+			// initialize the data bounds with max/min from the first list
 			dataBounds[0] = ((GeoNumeric)minAlgo.getGeoElements()[0]).getDouble();
 			dataBounds[1] = ((GeoNumeric)maxAlgo.getGeoElements()[0]).getDouble();
 
-			//System.out.println(s + ":  " + dataBounds[0] + "--------" + dataBounds[0] );
+			// iterate through the remaining lists to find the max/min for the matrix
 			double min, max;
 			for(int i = 1; i < dataList.size(); i++){
-				//min = this.evaluateExpression("Min[ Element[" + label + "," + (i+1) + "]]");
-				//max = this.evaluateExpression("Max[ Element[" + label + "," + (i+1) + "]]");
-
-				index.setValue(i);
+				
+				index.setValue(i+1);  // use i+1 because Element[] uses 1-based counting
 				index.updateCascade();
 				min = minGeo.getDouble();
 				max = maxGeo.getDouble();
@@ -449,7 +455,7 @@ public class StatGeo   {
 
 		for (int i = 0; i < dataTitles.length; i++){
 			GeoPoint p = new GeoPoint(cons, settings.xMin, i+1d, 1d);
-			GeoText t = new GeoText(cons, ""+dataTitles[dataTitles.length - i - 1]);
+			GeoText t = new GeoText(cons, "  "+dataTitles[dataTitles.length - i - 1]);
 			AlgoText text = new AlgoText(cons, t, p, null, null);
 			cons.removeFromAlgorithmList(text);
 			ret[i] = text.getGeoElements()[0];

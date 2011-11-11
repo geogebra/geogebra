@@ -357,8 +357,8 @@ SpecialNumberFormatInterface {
 				updateStatDataPanelVisibility();
 			}
 		});
-		btnOptions.addPopupMenuItem(menuItem);
-
+		if(this.mode !=  MODE_MULTIVAR)
+			btnOptions.addPopupMenuItem(menuItem);
 
 		menuItem = new JCheckBoxMenuItem(app.getMenu("ShowStatistics"));
 		menuItem.setSelected(showStatPanel);
@@ -369,7 +369,8 @@ SpecialNumberFormatInterface {
 			}
 		});
 		menuItem.setEnabled(true);
-		btnOptions.addPopupMenuItem(menuItem);
+		if(this.mode !=  MODE_MULTIVAR)
+			btnOptions.addPopupMenuItem(menuItem);
 
 
 		menuItem = new JCheckBoxMenuItem(app.getMenu("ShowPlot2"));
@@ -379,8 +380,9 @@ SpecialNumberFormatInterface {
 				setShowComboPanel2(!showComboPanel2);
 			}
 		});
-		btnOptions.addPopupMenuItem(menuItem);
 		menuItem.setEnabled(true);
+		if(this.mode !=  MODE_MULTIVAR)
+			btnOptions.addPopupMenuItem(menuItem);
 
 		JMenuItem item = new JMenuItem(app.getMenu("Print")+ "...");
 		item.addActionListener(new ActionListener(){
