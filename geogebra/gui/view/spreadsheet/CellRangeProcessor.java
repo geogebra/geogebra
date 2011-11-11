@@ -138,8 +138,9 @@ public class CellRangeProcessor {
 
 
 	/**
-	 * Returns true if rangeList contains two or more columns and each column
-	 * has at least three data values.
+	 * Returns true if either: 1) rangeList is a single cell range with at least
+	 * two columns and at least three non-empty rows or 2) rangeList contains
+	 * two or more columns and each column has at least three data values.
 	 * 
 	 * @param rangeList
 	 * @return
@@ -148,15 +149,35 @@ public class CellRangeProcessor {
 
 		if(rangeList == null || rangeList.size() == 0) return false; 
 
-		int columnCount = 0;
-		for(CellRange cr : rangeList){
-			if(!cr.isColumn()) return false;
-			if(!containsMinimumGeoNumeric(cr,3)) return false;
-			columnCount += cr.getMaxColumn() - cr.getMinColumn() + 1;
+		// if rangeList is a single cell range
+		// check that there is at least two columns and at least three non-empty rows 
+		if(rangeList.size()==1)
+		{
+			CellRange cr = rangeList.get(0);
+			if (cr.getMaxColumn()-cr.getMinColumn() < 1)
+				return false;
+
+			for(int col=cr.getMinColumn(); col<=cr.getMaxColumn(); col++){			
+				if(!containsMinimumGeoNumeric(new CellRange(table, col, cr.getMinRow(), col, cr.getMaxRow()) ,3)) 
+					return false;
+			}
+			return true;
 		}
 
-		return columnCount >= 2;
-
+		// otherwise check if rangeList contains two or more columns and each column
+		// has at least three data values.
+		else
+		{
+			int columnCount = 0;
+			for(CellRange cr : rangeList){
+				if(!cr.isColumn()) return false;
+				if(!containsMinimumGeoNumeric(cr,3)) return false;
+				columnCount += cr.getMaxColumn() - cr.getMinColumn() + 1;
+			}
+			return columnCount >= 2;
+		}
+		
+		
 	}
 
 	/**

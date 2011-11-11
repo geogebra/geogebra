@@ -47,18 +47,18 @@ public class CellRange implements Cloneable{
 	
 	
 	/** Create new CellRange */
-	CellRange(MyTable table) {
+	public CellRange(MyTable table) {
 		this.table = table;
 	}
 
-	CellRange(MyTable table, int anchorColumn, int anchorRow, int col2, int row2) {
+	public CellRange(MyTable table, int anchorColumn, int anchorRow, int col2, int row2) {
 		this.table = table;
 		setCellRange( anchorColumn, anchorRow, col2, row2);
 
 	}
 
 	/** Construct CellRange for single cell */
-	CellRange(MyTable table, int anchorColumn, int anchorRow) {
+	public CellRange(MyTable table, int anchorColumn, int anchorRow) {
 		this.table = table;
 		setCellRange( anchorColumn, anchorRow, anchorColumn, anchorRow);
 

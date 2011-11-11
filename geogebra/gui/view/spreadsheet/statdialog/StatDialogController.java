@@ -280,7 +280,7 @@ public class StatDialogController {
 
 		if(dataSource == null) return null;
 
-		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
+		CellRangeProcessor cellRangeProc = spreadsheetTable.getCellRangeProcessor();
 		String[] title = null;
 
 		switch(mode){
@@ -315,7 +315,7 @@ public class StatDialogController {
 				//TODO -- handle geolist data source titles
 				//title[0] = ((GeoList) dataSource).getLabel();
 			}else{
-				title = cr.getPointListTitles((ArrayList<CellRange>)dataSource, leftToRight);
+				title = cellRangeProc.getPointListTitles((ArrayList<CellRange>)dataSource, leftToRight);
 			}
 			break;
 
@@ -324,7 +324,28 @@ public class StatDialogController {
 				//TODO -- handle geolist data source titles
 				//title[0] = ((GeoList) dataSource).getLabel();
 			}else{
-				title = cr.getColumnTitles((ArrayList<CellRange>)dataSource);
+				
+				// data is in a single cell range
+				if(((ArrayList<CellRange>)dataSource).size() == 1)
+				{
+					CellRange cr = ((ArrayList<CellRange>)dataSource).get(0);
+					title = new String[cr.getMaxColumn() - cr.getMinColumn()+1];
+					for(int i = 0; i < title.length; i++){
+						CellRange cr2 = new CellRange(spreadsheetTable,
+								cr.getMinColumn()+i, 
+								cr.getMinRow(), 
+								cr.getMinColumn()+i,
+								cr.getMaxRow() );
+
+						title[i] = cellRangeProc.getCellRangeString(cr2);
+					}
+				}
+				
+				// data is in columns
+				else
+				{
+					title = cellRangeProc.getColumnTitles((ArrayList<CellRange>)dataSource);
+				}
 			}
 			break;
 
