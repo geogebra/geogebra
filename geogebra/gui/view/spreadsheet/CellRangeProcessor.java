@@ -346,7 +346,11 @@ public class CellRangeProcessor {
 					AlgoDependentPoint pointAlgo = null;
 
 					if (byValue) {
-						geoPoint = new GeoPoint(cons, ((GeoNumeric)xCoord).getDouble(), ((GeoNumeric)yCoord).getDouble(), 1.0);
+						if(leftToRight)
+							geoPoint = new GeoPoint(cons, ((GeoNumeric)xCoord).getDouble(), ((GeoNumeric)yCoord).getDouble(), 1.0);
+						else
+							geoPoint = new GeoPoint(cons, ((GeoNumeric)yCoord).getDouble(), ((GeoNumeric)xCoord).getDouble(), 1.0);
+
 					} else {
 					
 						MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
