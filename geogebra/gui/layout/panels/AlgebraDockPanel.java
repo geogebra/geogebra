@@ -37,6 +37,7 @@ public class AlgebraDockPanel extends DockPanel {
 		return app.getGuiManager().getAlgebraView().getHelperBar();
 	}
 	
+	@Override
 	protected JComponent loadComponent() {
 		JScrollPane scrollPane = new JScrollPane(app.getGuiManager().getAlgebraView());
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -44,8 +45,8 @@ public class AlgebraDockPanel extends DockPanel {
 		
 		return scrollPane;
 	}
-	
 
+	@Override
 	protected void setActiveToolBar(){
 		//use the focused euclidian view for active toolbar
 		if(dockManager.getFocusedEuclidianPanel()==null || !dockManager.getFocusedEuclidianPanel().hasToolbar()) {

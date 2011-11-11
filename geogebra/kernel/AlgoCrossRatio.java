@@ -10,7 +10,6 @@ package geogebra.kernel;
 
 public class AlgoCrossRatio extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A, B, C, D; // input
     private GeoNumeric M; // output
     
@@ -26,20 +25,22 @@ public class AlgoCrossRatio extends AlgoElement {
         M.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCrossRatio";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[4];
         input[0] = A;
         input[1] = B;
         input[2] = C;
         input[3] = D;
 
-        output = new GeoElement[1];
-        output[0] = M;
+        super.setOutputLength(1);
+        super.setOutput(0, M);
         setDependencies(); // done by AlgoElement
     }
 
@@ -47,7 +48,8 @@ public class AlgoCrossRatio extends AlgoElement {
         return M;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         //Check if the points are aligned
     	if ( !(A.isEqual(D)) && !(B.isEqual(C)) 
         	 && GeoPoint.collinear(B, C, D) && GeoPoint.collinear(A, C, D) ) {

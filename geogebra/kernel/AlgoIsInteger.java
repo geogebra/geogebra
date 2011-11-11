@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 public class AlgoIsInteger extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoNumeric inputGeo; //input
     private GeoBoolean outputBoolean; //output	
 
@@ -36,16 +35,18 @@ public class AlgoIsInteger extends AlgoElement {
         outputBoolean.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIsInteger";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputGeo;
 
-        output = new GeoElement[1];
-        output[0] = outputBoolean;
+        super.setOutputLength(1);
+        super.setOutput(0, outputBoolean);
         setDependencies(); // done by AlgoElement
     }
 
@@ -53,8 +54,9 @@ public class AlgoIsInteger extends AlgoElement {
         return outputBoolean;
     }
 
-    protected final void compute() {
-        outputBoolean.setValue(kernel.isInteger(inputGeo.getDouble()));
+    @Override
+	protected final void compute() {
+        outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
     }
   
 }

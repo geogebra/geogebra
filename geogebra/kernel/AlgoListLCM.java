@@ -23,7 +23,6 @@ import java.math.BigInteger;
 
 public class AlgoListLCM extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private static final BigInteger bigZero = BigInteger.valueOf(0);
 	private GeoList geoList; //input
     private GeoNumeric num; //output	
@@ -39,11 +38,13 @@ public class AlgoListLCM extends AlgoElement {
         num.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoListLCM";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = geoList;
 
@@ -56,7 +57,8 @@ public class AlgoListLCM extends AlgoElement {
         return num;
     }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		num.setUndefined();
@@ -73,7 +75,7 @@ public class AlgoListLCM extends AlgoElement {
     	for (int i = 1 ; i < geoList.size() ; i++) {
     		double nd = ((GeoNumeric)(geoList.get(i))).getDouble();
     		
-    		if(!kernel.isInteger(nd)){
+    		if(!Kernel.isInteger(nd)){
     			num.setUndefined();
     			return;
     		}    		

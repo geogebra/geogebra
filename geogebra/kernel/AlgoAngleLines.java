@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g, h; // input
+    private GeoLine g, h; // input
     private GeoAngle angle; // output           
 
     /**
@@ -76,16 +72,19 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
     	return new AlgoAngleLines((GeoLine)g.copy(),(GeoLine)h.copy());
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngleLines";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGLE;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = g;
         input[1] = h;
@@ -121,7 +120,8 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
 
     // calc angle between lines g and h
     // use normalvectors (gx, gy), (hx, hy)
-    protected final void compute() {
+    @Override
+	protected final void compute() {
      	// |v| * |w| * sin(alpha) = det(v, w)
     	// cos(alpha) = v . w / (|v| * |w|)
     	// tan(alpha) = sin(alpha) / cos(alpha)
@@ -133,7 +133,8 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
         angle.setValue(value);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("AngleBetweenAB",g.getLabel(),h.getLabel());

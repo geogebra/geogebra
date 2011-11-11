@@ -18,7 +18,7 @@ import java.util.HashSet;
 
 /**
  * Helper class to evaluate expressions with GeoBoolean objects in it.
- * @see ExpressionNode.evaluate()
+ * @see ExpressionNode#evaluate()
  * @author Markus Hohenwarter
  */
 public class MyBoolean extends ValidExpression implements BooleanValue {
@@ -35,7 +35,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
     	this.value = value; 
     }
        
-    public String toString() {    	
+    @Override
+	public String toString() {    	
         return value ? "true" : "false";
     }
 

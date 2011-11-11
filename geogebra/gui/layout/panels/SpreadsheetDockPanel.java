@@ -1,7 +1,6 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
@@ -31,17 +30,21 @@ public class SpreadsheetDockPanel extends DockPanel {
 		this.app = app;
 	}
 
+	@Override
 	protected JComponent loadStyleBar() {
 		return ((SpreadsheetView)app.getGuiManager().getSpreadsheetView()).getSpreadsheetStyleBar();
 	}
 	
+	@Override
 	protected JComponent loadComponent() {
 		return app.getGuiManager().getSpreadsheetView();
 	}
 	
+	@Override
 	protected void focusGained() {
 	}
 	
+	@Override
 	protected void focusLost() {
 	}
 	

@@ -29,11 +29,7 @@ import geogebra.kernel.kernelND.GeoPointND;
  */
 public class AlgoDistancePoints extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPointND P, Q; // input
+    private GeoPointND P, Q; // input
     private GeoNumeric dist; // output       
 
     AlgoDistancePoints(
@@ -52,23 +48,26 @@ public class AlgoDistancePoints extends AlgoElement {
         dist.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDistancePoints";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_DISTANCE;
     }
     
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) P;
         input[1] = (GeoElement) Q;
 
-        output = new GeoElement[1];
-        output[0] = dist;
+        super.setOutputLength(1);
+        super.setOutput(0, dist);
         setDependencies(); // done by AlgoElement
     }
 
@@ -85,11 +84,13 @@ public class AlgoDistancePoints extends AlgoElement {
     */
 
     // calc length of vector v   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         dist.setValue(P.distance(Q));
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("DistanceOfAandB",P.getLabel(),Q.getLabel());

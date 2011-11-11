@@ -29,10 +29,6 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoRotatePoint extends AlgoTransformation {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPoint Q;
     private PointRotateable out;    
     private NumberValue angle; 
@@ -40,11 +36,6 @@ public class AlgoRotatePoint extends AlgoTransformation {
     
     /**
      * Creates new point rotation algo
-     * @param cons
-     * @param label
-     * @param A
-     * @param angle
-     * @param Q
      */
     AlgoRotatePoint(Construction cons, String label,
             GeoElement A, NumberValue angle, GeoPoint Q) {
@@ -54,10 +45,6 @@ public class AlgoRotatePoint extends AlgoTransformation {
     
     /**
      * Creates new unlabeled point rotation algo
-     * @param cons
-     * @param A
-     * @param angle
-     * @param Q
      */
     AlgoRotatePoint(Construction cons, 
     		GeoElement A, NumberValue angle, GeoPoint Q) {
@@ -78,16 +65,16 @@ public class AlgoRotatePoint extends AlgoTransformation {
         	cons.registerEuclidianViewCE(this);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRotatePoint";
     }
 
-
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ROTATE_BY_ANGLE;
     }
-
-    
+  
     /**
      * Returns true iff euclidian view updte is needed (for images)
      * @return true iff euclidian view updte is needed 
@@ -97,7 +84,8 @@ public class AlgoRotatePoint extends AlgoTransformation {
     }
     
     // for AlgoElement
-    protected void setInputOutput() {    	
+    @Override
+	protected void setInputOutput() {    	
         input = new GeoElement[3];
         input[0] = inGeo;
         input[1] = angleGeo;
@@ -112,12 +100,14 @@ public class AlgoRotatePoint extends AlgoTransformation {
      * Returns the rotated point
      * @return rotated point
      */
-    GeoElement getResult() {
+    @Override
+	GeoElement getResult() {
         return outGeo;
     }
 
     // calc rotated point
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
@@ -131,11 +121,11 @@ public class AlgoRotatePoint extends AlgoTransformation {
         	this.transformLimitedPath(inGeo, outGeo);
     }
        
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-25
         // simplified to allow better Chinese translation
         return app.getPlain("ARotatedByAngleB",inGeo.getLabel(),angleGeo.getLabel());
-
     }
 
     @Override
@@ -143,8 +133,7 @@ public class AlgoRotatePoint extends AlgoTransformation {
 		inGeo = g;
 		outGeo = g2;
 		if(!(outGeo instanceof GeoList))
-			out = (PointRotateable)outGeo;
-		
+			out = (PointRotateable)outGeo;		
 	}
     
     @Override

@@ -24,11 +24,13 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
        	f.setLabel(label);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoDependentInterval";
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
     	return f.toSymbolicString();
     }
 

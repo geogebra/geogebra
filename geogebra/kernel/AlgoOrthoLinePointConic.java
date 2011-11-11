@@ -30,11 +30,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoOrthoLinePointConic extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P; // input
+    private GeoPoint P; // input
     private GeoConic l; // input
     private GeoLine[] g; // output      
     
@@ -75,17 +71,19 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
         	g[0].setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoOrthoLinePointLine";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ORTHOGONAL;
     }
     
-
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = l.toGeoElement();
@@ -96,19 +94,24 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
         
         setDependencies(); // done by AlgoElement
     }
+    
     GeoConic getC(){
     	return l;
     }
+    
     GeoLine[] getLines() {
         return g;
     }
+    
     GeoPoint getP() {
         return P;
     }
     
-
-    // calc the line g through P and normal to l   
-    protected final void compute() {
+    /**
+     *  calc the line g through P and normal to l   
+     */
+    @Override
+	protected final void compute() {
     	/*
         if(l.getType()==GeoConic.CONIC_ELLIPSE){
         double[] params = l.getZeroGradientParams(P.getCoords());
@@ -126,10 +129,10 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
        /* }*/
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(),l.toGeoElement().getLabel());
-
     }
 }

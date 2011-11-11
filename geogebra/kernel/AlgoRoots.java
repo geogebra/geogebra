@@ -47,8 +47,6 @@ import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 
 public class AlgoRoots extends AlgoGeoPointsFunction {
 	
-	// Constants
-	private static final long 	serialVersionUID 		= 	1L;
 	private static final int	TYPE_ROOTS				=	0;
 	private static final int 	TYPE_INTERSECTIONS		=	1;
 	private static final int	PIXELS_BETWEEN_SAMPLES	=	  5;		// Open for empirical adjustments
@@ -126,7 +124,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	
     }//Constructor TYPE_INTERSECTIONS    
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRoots";
     }//getClassName()
     
@@ -134,7 +133,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	return getPoints();					//Points in ancestor
     }//getRootPoints()
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	switch(type){
     		case TYPE_ROOTS:
     			input 	 = new GeoElement[3];
@@ -150,14 +150,15 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     			input[3]=georight;
     	}//switch
         
-        output=getPoints();					//Points in ancestor
+        super.setOutput(getPoints());				//Points in ancestor
 
         noUndefinedPointsInAlgebraView(getPoints()); 
         
         setDependencies(); // done by AlgoElement
     }//setInputOutput()
     
-    protected final void compute(){
+    @Override
+	protected final void compute(){
     	boolean ok=false;
     	switch(type){
     		case TYPE_ROOTS:
@@ -238,7 +239,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		
 		double[] y	=new double[samples+1];				//
 		ArrayList<Double>	xlist=new ArrayList<Double>();
-		double x,xval,yval;
+		double x, xval;
 		double	deltax	=(r-l)/samples;
 		
 		for(int i=0;i<=samples;i++) {
@@ -397,9 +398,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     }//listPoints(GeoPoint[])
  
     public final  static String testGeoPointX(GeoPoint geo,double answer){
-    	double  value;
-    	boolean ok=false;
-   		value=geo.getX();
+    	double value;
+    	value = geo.getX();
     	if(Math.abs(value-answer)<Kernel.MIN_PRECISION){
     		return " === GOOD ===";
     	} else {

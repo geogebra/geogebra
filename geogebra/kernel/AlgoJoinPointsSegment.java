@@ -28,7 +28,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoJoinPointsSegment extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint P, Q; // input
     private GeoSegment s; // output: GeoSegment subclasses GeoLine 
 
@@ -73,17 +72,19 @@ public class AlgoJoinPointsSegment extends AlgoElement {
     	Q.addIncidence(s);
 	}
     
-
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoJoinPointsSegment";
     }
 
+	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_SEGMENT_FIXED;
 	}
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	GeoElement [] efficientInput = new GeoElement[2];
     	efficientInput[0] = P;
     	efficientInput[1] = Q;
@@ -100,8 +101,8 @@ public class AlgoJoinPointsSegment extends AlgoElement {
 //            input[1] = Q;               
     	}            	
     	
-        output = new GeoElement[1];
-        output[0] = s;
+        super.setOutputLength(1);
+        super.setOutput(0, s);
           
         //setDependencies();
         setEfficientDependencies(input, efficientInput);
@@ -122,14 +123,16 @@ public class AlgoJoinPointsSegment extends AlgoElement {
     }
 
     // calc the line g through P and Q    
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // g = P v Q  <=>  g_n : n = P x Q
         // g = cross(P, Q)
     	GeoVec3D.lineThroughPoints(P, Q, s);      	    
     	s.calcLength();
     }
 
-    public void remove() {
+    @Override
+	public void remove() {
         super.remove();
         if (poly != null)
             poly.remove();
@@ -142,20 +145,23 @@ public class AlgoJoinPointsSegment extends AlgoElement {
     	super.remove();    	
     }
 
-    public int getConstructionIndex() {
-        if (poly != null)
+    @Override
+	public int getConstructionIndex() {
+        if (poly != null) {
 			return poly.getConstructionIndex();
-		else
+        } else {
 			return super.getConstructionIndex();
+        }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        if (poly != null)
+        if (poly != null) {
         	return app.getPlain("SegmentABofC",P.getLabel(),Q.getLabel(),poly.getNameDescription());
-        else
+        } else {
         	return app.getPlain("SegmentAB",P.getLabel(),Q.getLabel());
-
+        }
     }
 }

@@ -29,11 +29,7 @@ import geogebra.kernel.kernelND.GeoQuadricND;
  */
 public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPointND M, P; // input    
+    private GeoPointND M, P; // input    
     private GeoQuadricND sphereND; // output         
 
     public AlgoSphereNDTwoPoints(
@@ -47,8 +43,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
         setInputOutput(); // for AlgoElement
 
         compute();
-    }
-    
+    }   
     
     abstract protected GeoQuadricND createSphereND(Construction cons);
     
@@ -61,18 +56,20 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
          sphereND.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCircleTwoPoints";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) M;
         input[1] = (GeoElement) P;
 
-        output = new GeoElement[1];
-        output[0] = sphereND;
+        super.setOutputLength(1);
+        super.setOutput(0, sphereND);
         setDependencies(); // done by AlgoElement
     }
 
@@ -87,9 +84,9 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
     }
 
     // compute circle with midpoint M and radius r
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         sphereND.setSphereND(M, P);
     }
-
 
 }

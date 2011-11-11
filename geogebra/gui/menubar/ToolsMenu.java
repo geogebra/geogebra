@@ -36,7 +36,6 @@ class ToolsMenu extends BaseMenu {
 	/**
 	 * Initialize the menu items.
 	 */
-	@SuppressWarnings("unchecked")
 	private void updateItems()
 	{
 		removeAll();
@@ -73,7 +72,7 @@ class ToolsMenu extends BaseMenu {
 
 		int menuIndex = 0;
 
-		for (Iterator iter = modes.iterator(); iter.hasNext();) {
+		for (Iterator<Object> iter = modes.iterator(); iter.hasNext();) {
 			Object next = iter.next();
 			if (next instanceof Vector) {
 				for (Iterator iter2 = ((Vector) next).iterator(); iter2

@@ -22,7 +22,6 @@ import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
 
 
-
 /**
  *
  * @author  Markus
@@ -30,11 +29,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoApplyMatrix extends AlgoTransformation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private MatrixTransformable out;   
+    private MatrixTransformable out;   
     private GeoElement inGeo, outGeo; 
     private GeoList matrix;
     
@@ -85,12 +80,14 @@ public class AlgoApplyMatrix extends AlgoTransformation {
         	cons.registerEuclidianViewCE(this);
     }           
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoApplyMatrix";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[1] = inGeo; 
         input[0] = matrix;
@@ -104,12 +101,13 @@ public class AlgoApplyMatrix extends AlgoTransformation {
      * Returns the resulting element
      * @return resulting element
      */
-    public GeoElement getResult() { 
+    @Override
+	public GeoElement getResult() { 
     	return outGeo; 
     }       
    
-
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;

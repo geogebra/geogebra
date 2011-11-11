@@ -26,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoAxes extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c; // input
+    private GeoConic c; // input
     private GeoLine[] axes; // output          
 
     private GeoVec2D[] eigenvec;
@@ -47,7 +43,8 @@ public class AlgoAxes extends AlgoElement {
         GeoElement.setLabels(labels, axes);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAxes";
     }
 
@@ -72,7 +69,8 @@ public class AlgoAxes extends AlgoElement {
     }
 
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;
         setOutputLength(2);
@@ -89,7 +87,8 @@ public class AlgoAxes extends AlgoElement {
     }
 
     // calc axes
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // axes are lines with directions of eigenvectors
         // through midpoint b        
 
@@ -104,7 +103,8 @@ public class AlgoAxes extends AlgoElement {
         P.setCoords(b.x, b.y, 1.0);
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("AxisOfA",c.getLabel());

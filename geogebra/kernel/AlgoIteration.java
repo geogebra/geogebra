@@ -23,7 +23,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 
 public class AlgoIteration extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f; //input
 	private NumberValue startValue, n;
 	private GeoElement startValueGeo, nGeo;
@@ -45,18 +44,20 @@ public class AlgoIteration extends AlgoElement {
         result.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIteration";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = f;
         input[1] = startValueGeo;
         input[2] = nGeo;
 
-        output = new GeoElement[1];
-        output[0] = result;
+        super.setOutputLength(1);
+        super.setOutput(0, result);
         setDependencies(); // done by AlgoElement
     }
 
@@ -64,7 +65,8 @@ public class AlgoIteration extends AlgoElement {
         return result;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (!f.isDefined() ||  !startValueGeo.isDefined() || !nGeo.isDefined()) {
     		result.setUndefined();
     		return;

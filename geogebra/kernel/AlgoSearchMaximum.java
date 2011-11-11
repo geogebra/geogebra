@@ -34,9 +34,6 @@ import geogebra.main.Application;
 
 public class AlgoSearchMaximum {
 
-	private static final long serialVersionUID = 1L;
-	
-	private 	 	Construction				cons		=	null;
 	private 	 	Kernel						kernel		=	null;
 	private 	 	ExtremumFinder				extrFinder	=	null;		//Uses ExtremumFinder for the dirty work
 	private 	   	RealRootFunctionVariable	i_am_not_a_real_function=null;	
@@ -59,7 +56,8 @@ public class AlgoSearchMaximum {
 	
 	private final static boolean	DEBUG	=	true;			//debug or errormsg
 	
-    private final static void debug(String s) {
+    @SuppressWarnings("unused")
+	private final static void debug(String s) {
         if(DEBUG) {
             System.out.println(s);
         }else{
@@ -73,7 +71,6 @@ public class AlgoSearchMaximum {
     
     /** Needs a constructor */
     public AlgoSearchMaximum(Construction cons,String depstr,String indepstr){
-    	this.cons=cons;
     	kernel=cons.getKernel();
     	GeoElement geo = kernel.lookupLabel(depstr);
     	if( (geo!=null)&& (geo.isGeoElement())){

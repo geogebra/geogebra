@@ -22,11 +22,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoSumLeft extends AlgoFunctionAreaSums {
 		
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Creates lower sum
 	 * @param cons construction
 	 * @param label label
@@ -51,6 +46,7 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 				(NumberValue)this.getB().deepCopy(kernel),(NumberValue)this.getN().copy().evaluate(),
 				this.getValues().clone(),this.getLeftBorder().clone());
 	}
+	@Override
 	public String getClassName() {
 		return "AlgoSumLeft";
 	}

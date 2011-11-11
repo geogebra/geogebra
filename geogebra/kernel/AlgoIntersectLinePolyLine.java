@@ -33,13 +33,7 @@ import java.util.TreeMap;
  */
 public class AlgoIntersectLinePolyLine extends AlgoElement{
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
-	protected GeoLineND g; // input
+    protected GeoLineND g; // input
 	protected GeoPolyLine p; //input
 	protected GeoPolyLineInterface pi;
 	protected OutputHandler<GeoElement> outputPoints; // output
@@ -48,7 +42,6 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     
     private TreeMap<Double, Coords> newCoords;
     //private TreeMap<Double, Coords[]> newSegmentCoords;
-
 
 	//protected boolean pAsBoundary;
     
@@ -68,7 +61,6 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         this.g = g;
         this.pi = p;
         
-
         newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
     
         compute();
@@ -78,7 +70,6 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         setLabels(labels);
  
         update();    
-
 	}
 
     protected void setLabels(String[] labels) {
@@ -111,16 +102,19 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
 		});
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectLinePolyLine";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) g;
         input[1] = (GeoElement) pi;
@@ -157,7 +151,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         }
     }
         
-    protected void compute() {
+    @Override
+	protected void compute() {
     	
     	//clear the points map
     	newCoords.clear();
@@ -178,18 +173,14 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     		index++;
     	}
     	//other points are undefined
-    	for(;index<outputPoints.size();index++)
+    	for(; index<outputPoints.size(); index++) {
     		outputPoints.getElement(index).setUndefined();
-
-
+    	}
     }
 
-
-
-
+	@Override
 	final public String toString() {
         return app.getPlain("IntersectionPointOfAB",((GeoElement) g).getLabel(),((GeoElement)pi).getLabel());
-    }
-    
+    }  
     
 }

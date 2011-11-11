@@ -140,13 +140,8 @@ public class PropertiesPanelMini extends JFrame implements ActionListener, Chang
 		pane.add(panel);
 
 
-
-
 		pack();
-
 	}
-
-
 
 	public void actionPerformed(ActionEvent e) {
 		//Application.debug(e.getSource().getClass()+"");
@@ -220,16 +215,17 @@ public class PropertiesPanelMini extends JFrame implements ActionListener, Chang
 	        menu.add(menuItem11);
 	        menu.add(menuItem12);
 	        menu.add(menuItem13);
-
-	        
+        
 	      }
 	    
-	      public void paintComponent(Graphics g) {
+	    @Override
+		public void paintComponent(Graphics g) {
 	        Dimension size = getSize();
 
 	        g.setColor(color);
 	        g.fillRect(0,0,size.width,size.height);
-	      }
+	    }
+	    
 		public void mouseClicked(MouseEvent e) {
 			menu.show(this, e.getX(), e.getY());
 		}

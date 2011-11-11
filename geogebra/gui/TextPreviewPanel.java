@@ -340,23 +340,19 @@ public class TextPreviewPanel extends EuclidianView {
 
 		// set geo position in upper left corner (it might need changing after isLaTeX change)
 		locateTextGeo(geo);
-
 	}
-
-
 
 	/**
 	 * Positions the preview geo in the upper left corner of the panel
 	 * two settings are needed to account for differences in the way
 	 * LaTeX and standard text is drawn
 	 */
-	private void locateTextGeo(GeoText geo) {
+	private static void locateTextGeo(GeoText geo) {
 		int xInset = 4;
 		int yInset = geo.isLaTeX() ? 4 : 18 + geo.getFontSize();
 		geo.setAbsoluteScreenLocActive(true);
 		geo.setAbsoluteScreenLoc( xInset, yInset);
 	}
-
 
 	/**
 	 * Prepares the inputValue string for the parser
@@ -368,8 +364,9 @@ public class TextPreviewPanel extends EuclidianView {
 			//System.out.println("=== null input === ");
 			if(previewGeoIndependent.isIndependent()){ 
 				inputValue = previewGeoIndependent.getTextString();
-				if(previewGeoIndependent.getKernel().lookupLabel(inputValue) != null)
+				if(previewGeoIndependent.getKernel().lookupLabel(inputValue) != null) {
 					inputValue = "\"" + inputValue + "\"";            		 		
+				}
 			}
 			else{
 				inputValue = previewGeoIndependent.getCommandDescription(); 
@@ -412,12 +409,9 @@ public class TextPreviewPanel extends EuclidianView {
 		return inputValue;
 	}
 
+	@Override
 	public int getViewID() {
 		return Application.VIEW_TEXT_PREVIEW;
 	}
-
-
-
-
 
 }

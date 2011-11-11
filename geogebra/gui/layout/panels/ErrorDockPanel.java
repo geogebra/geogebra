@@ -34,12 +34,12 @@ public class ErrorDockPanel extends DockPanel {
 		this.app = app;
 	}
 
-	
+	@Override
 	protected JComponent loadComponent() {
 		return new JPanel();
-		
 	}
 	
+	@Override
 	public void updatePanel() {	
 		if(component == null && isVisible()) {
 			component = loadComponent();
@@ -48,6 +48,8 @@ public class ErrorDockPanel extends DockPanel {
 	}
 	
 	//unused methods
+	@Override
 	public final void setFocus(boolean hasFocus) {}
+	@Override
 	protected void closePanel() {}
 }

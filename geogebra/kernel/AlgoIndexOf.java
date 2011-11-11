@@ -20,14 +20,10 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoIndexOf extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement hayStack; //input
 	private GeoElement needle; //input
     private GeoNumeric index; //output	
 	private NumberValue start;
-    
-    
-    
 
     /**
      * Creates new index of algorithm
@@ -70,11 +66,13 @@ public class AlgoIndexOf extends AlgoElement {
         index.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIndexOf";
     }
 
-    protected void setInputOutput(){                
+    @Override
+	protected void setInputOutput(){                
         if (start == null) {
         	input = new GeoElement[2];
         	input[0] = needle;
@@ -100,7 +98,8 @@ public class AlgoIndexOf extends AlgoElement {
         return index;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	    	
     	index.setUndefined();
     	

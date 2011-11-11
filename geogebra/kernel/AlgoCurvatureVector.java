@@ -12,7 +12,6 @@ import geogebra.kernel.cas.AlgoDerivative;
 
 public class AlgoCurvatureVector extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A; // input
     private GeoFunction f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)
     private GeoVector v; // output
@@ -55,18 +54,20 @@ public class AlgoCurvatureVector extends AlgoElement {
         compute();
     }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCurvatureVector";
     }
 
     // for AlgoElement
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = A;
         input[1] = f;
         
-        output = new GeoElement[1];
-        output[0] = v;
+        super.setOutputLength(1);
+        super.setOutput(0, v);
         setDependencies(); // done by AlgoElement
     }
     
@@ -75,7 +76,8 @@ public class AlgoCurvatureVector extends AlgoElement {
     	return v;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	try {
 	       double f1eval = f1.evaluate(A.inhomX);
 	       double f2eval = f2.evaluate(A.inhomX);
@@ -95,6 +97,7 @@ public class AlgoCurvatureVector extends AlgoElement {
 		}
     }
     
+	@Override
 	public void remove() {  
     	super.remove();  
    		A.removeAlgorithm(algoCAS);

@@ -25,10 +25,6 @@ import geogebra.kernel.statistics.AlgoQ3;
  */
 public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private static final int TYPE_QUARTILES = 0;
 	private static final int TYPE_RAW = 1;
 	private int type;
@@ -153,6 +149,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 		return list1;
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoBoxPlot";
 	}

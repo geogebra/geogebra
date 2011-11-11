@@ -24,7 +24,6 @@ import java.util.TreeSet;
 
 public class AlgoSort extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
@@ -44,16 +43,18 @@ public class AlgoSort extends AlgoElement {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoSort";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -61,7 +62,8 @@ public class AlgoSort extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
@@ -71,9 +73,9 @@ public class AlgoSort extends AlgoElement {
 
     	GeoElement geo0 = inputList.get(0); 
     	
-    	Class geoClass = geo0.getClass();
+    	Class<? extends GeoElement> geoClass = geo0.getClass();
     	
-    	TreeSet sortedSet;
+    	TreeSet<GeoElement> sortedSet;
     	
     	if (geo0.isGeoPoint()) {
     		sortedSet = new TreeSet(GeoPoint.getComparatorX());
@@ -112,7 +114,6 @@ public class AlgoSort extends AlgoElement {
         while (iterator.hasNext()) {
      	   outputList.add((GeoElement)(iterator.next()));
         }      
-
     }
   
 }

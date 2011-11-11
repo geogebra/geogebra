@@ -13,10 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 public class AlgoJoin extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoList outputList; //output	
 	private int size, size2;
@@ -33,18 +31,19 @@ public class AlgoJoin extends AlgoElement {
 		outputList.setLabel(label);
 	}
 
-
+	@Override
 	public String getClassName() {
 		return "AlgoJoin";
 	}
 	
+	@Override
 	protected void setInputOutput(){
 		input = new GeoElement[1];
 
 		input[0] = inputList;
 
-		output = new GeoElement[1];
-		output[0] = outputList;
+		super.setOutputLength(1);
+        super.setOutput(0, outputList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -52,6 +51,7 @@ public class AlgoJoin extends AlgoElement {
 		return outputList;
 	}
 
+	@Override
 	protected final void compute() {
 
 		size = inputList.size();
@@ -79,13 +79,10 @@ public class AlgoJoin extends AlgoElement {
 				for (int j=0 ; j < size2 ; j++) {
 					//GeoElement geo2 = list.get(j);
 					//Application.debug(geo.getLabel() + " " + geo2.getClass());
-					outputList.add(list.get(j).copyInternal(cons));
-					
+					outputList.add(list.get(j).copyInternal(cons));					
 				}
-
 			}
 		}
-
 	}
 
 }

@@ -22,7 +22,6 @@ import geogebra.util.GgbMat;
 
 public class AlgoInvert extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
 
@@ -37,16 +36,18 @@ public class AlgoInvert extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoInvert";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -54,7 +55,8 @@ public class AlgoInvert extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	   		
    		GgbMat matrix = new GgbMat(inputList);
    		
@@ -89,9 +91,7 @@ public class AlgoInvert extends AlgoElement {
 	   	}
    		// Invert[{{1,2},{3,4}}]
    		
-   		outputList = matrix.getGeoList(outputList, cons);
-       
-    }
-        
+   		outputList = matrix.getGeoList(outputList, cons);      
+    }       
      
 }

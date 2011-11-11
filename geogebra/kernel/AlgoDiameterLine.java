@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoDiameterLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c; // input
+    private GeoConic c; // input
     private GeoLine g; // input
     private GeoLine diameter; // output
 
@@ -52,22 +48,25 @@ public class AlgoDiameterLine extends AlgoElement {
         diameter.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDiameterLine";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POLAR_DIAMETER;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = g;
         input[1] = c;
 
-        output = new GeoElement[1];
-        output[0] = diameter;
+        super.setOutputLength(1);
+        super.setOutput(0, diameter);
         setDependencies(); // done by AlgoElement
     }
 
@@ -82,12 +81,14 @@ public class AlgoDiameterLine extends AlgoElement {
     }
 
     // calc diameter line of v relativ to c
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         g.getDirection(v);
         c.diameterLine(v, diameter);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("DiameterOfAConjugateToB",c.getLabel(),g.getLabel());

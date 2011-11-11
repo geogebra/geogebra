@@ -23,7 +23,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 
 public class AlgoDefined extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement inputGeo; //input
     private GeoBoolean outputBoolean; //output	
 
@@ -39,16 +38,18 @@ public class AlgoDefined extends AlgoElement {
         outputBoolean.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDefined";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputGeo;
 
-        output = new GeoElement[1];
-        output[0] = outputBoolean;
+        super.setOutputLength(1);
+        super.setOutput(0, outputBoolean);
         setDependencies(); // done by AlgoElement
     }
 
@@ -56,7 +57,8 @@ public class AlgoDefined extends AlgoElement {
         return outputBoolean;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 
     	if (inputGeo.isGeoPoint()) {
     		GeoPointND p = (GeoPointND)inputGeo;

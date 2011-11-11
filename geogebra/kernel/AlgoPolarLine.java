@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoPolarLine extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c;  // input
+    private GeoConic c;  // input
     private GeoPoint P;     // input
     private GeoLine polar;  // output
         
@@ -50,23 +45,25 @@ public class AlgoPolarLine extends AlgoElement {
         polar.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPolarLine";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POLAR_DIAMETER;
     }
-    
-    
+        
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = c;
         
-        output = new GeoElement[1];
-        output[0] = polar;
+        super.setOutputLength(1);
+        super.setOutput(0, polar);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -75,11 +72,13 @@ public class AlgoPolarLine extends AlgoElement {
     GeoLine getLine() { return polar; }
     
     // calc polar line of P relativ to c
-    protected final void compute() {     
+    @Override
+	protected final void compute() {     
         c.polarLine(P, polar);
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("PolarLineOfARelativeToB",P.getLabel(),c.getLabel());

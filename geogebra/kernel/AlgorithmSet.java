@@ -209,9 +209,9 @@ public class AlgorithmSet {
             cur = cur.next;
         }    	
     }
-    
-    
-    public String toString() {
+     
+    @Override
+	public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("AlgorithmSet[");
         
@@ -223,9 +223,7 @@ public class AlgorithmSet {
         }
         sb.append("]");
         return sb.toString();
-    }
-        
-    
+    }          
     
     private class Link {
         AlgoElement algo;
@@ -263,5 +261,3 @@ public class AlgorithmSet {
     	}    	
     }
 }
-
-

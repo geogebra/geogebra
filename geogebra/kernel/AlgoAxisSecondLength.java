@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  *
  * @author  Markus
@@ -27,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoAxisSecondLength extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c;  // input
+    private GeoConic c;  // input
     private GeoNumeric num;     // output                  
     
     AlgoAxisSecondLength(Construction cons, String label,GeoConic c) {
@@ -43,12 +38,14 @@ public class AlgoAxisSecondLength extends AlgoElement {
         num.setLabel(label);            
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAxisSecondLength";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;        
         
@@ -61,7 +58,8 @@ public class AlgoAxisSecondLength extends AlgoElement {
     GeoConic getConic() { return c; }        
     
     // set excentricity
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
         switch (c.type) {
             case GeoConic.CONIC_CIRCLE:                               
             case GeoConic.CONIC_HYPERBOLA:
@@ -74,7 +72,8 @@ public class AlgoAxisSecondLength extends AlgoElement {
         }        
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("SecondAxisLengthOfA",c.getLabel());

@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoAngleConic extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c; // input
+    private GeoConic c; // input
     private GeoAngle angle; // output                  
 
     AlgoAngleConic(Construction cons, String label, GeoConic c) {
@@ -44,16 +40,19 @@ public class AlgoAngleConic extends AlgoElement {
         angle.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngleConic";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGLE;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;
 
@@ -65,17 +64,20 @@ public class AlgoAngleConic extends AlgoElement {
     GeoAngle getAngle() {
         return angle;
     }
+    
     GeoConic getConic() {
         return c;
     }
 
     // compute conic's angle
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // take a look at first eigenvector
         angle.setValue(Math.atan2(c.eigenvec[0].y, c.eigenvec[0].x));
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
     	return app.getPlain("AngleOfA",c.getLabel());
     }
 }

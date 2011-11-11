@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  * Vector v = P - (0, 0)
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoVectorPoint extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P;   // input
+    private GeoPoint P;   // input
     private GeoVector  v;     // output                    
     
     AlgoVectorPoint(Construction cons, String label, GeoPoint P) {
@@ -48,22 +43,25 @@ public class AlgoVectorPoint extends AlgoElement {
         v.setLabel(label);
     }           
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoVectorPoint";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_VECTOR_FROM_POINT;
     }
 
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = P;
-        
-        output = new GeoElement[1];        
-        output[0] = v;        
+              
+        super.setOutputLength(1);
+        super.setOutput(0, v);
         setDependencies(); // done by AlgoElement
     }           
     
@@ -71,7 +69,8 @@ public class AlgoVectorPoint extends AlgoElement {
     public GeoPoint getP() { return P; }    
     
     // calc vector OP   
-    protected final void compute() {                
+    @Override
+	protected final void compute() {                
         if (P.isFinite()) {                    
             v.x = P.inhomX;
             v.y = P.inhomY;        

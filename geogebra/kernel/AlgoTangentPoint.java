@@ -19,7 +19,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoTangentPoint extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint P; // input
     private GeoConic c; // input
     private GeoLine[] tangents; // output  
@@ -79,22 +78,24 @@ public class AlgoTangentPoint extends AlgoElement {
         }
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTangentPoint";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TANGENTS;
     }
-
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = c;
 
-        output = tangents;
+        super.setOutput(tangents);
         setDependencies(); // done by AlgoElement
     }
 
@@ -130,7 +131,8 @@ public class AlgoTangentPoint extends AlgoElement {
      * This is important so the the tangent lines are not
      * switched after loading a file
      */
-    public void initForNearToRelationship() {
+    @Override
+	public void initForNearToRelationship() {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
     	if (!tangents[0].isOnFullLine(tangentPoints[0], Kernel.MIN_PRECISION)) {
@@ -151,7 +153,8 @@ public class AlgoTangentPoint extends AlgoElement {
     }
 
     // calc tangents
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // degenerates should not have any tangents
         if (c.isDegenerate()) {
             tangents[0].setUndefined();
@@ -192,7 +195,8 @@ public class AlgoTangentPoint extends AlgoElement {
         }
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("TangentToAThroughB",c.getLabel(),P.getLabel());

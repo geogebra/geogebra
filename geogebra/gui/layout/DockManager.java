@@ -1144,7 +1144,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		return strBuffer.toString();
 	}
 	
-	private String strRepeat(String str, int times)	{
+	private static String strRepeat(String str, int times)	{
 		StringBuilder strBuffer = new StringBuilder();
 		for(int i = 0; i < times; ++i)
 			strBuffer.append(str);

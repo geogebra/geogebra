@@ -28,7 +28,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoAngularBisectorLines extends AlgoElement {
     
-	private static final long serialVersionUID = 1L;
 	private GeoLine g, h; // input    
     private GeoLine[] bisector; // output   
 
@@ -62,11 +61,13 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         GeoElement.setLabels(labels, bisector);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngularBisectorLines";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGULAR_BISECTOR;
     }
     
@@ -94,12 +95,13 @@ public class AlgoAngularBisectorLines extends AlgoElement {
     }
 
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = g;
         input[1] = h;
 
-        output = bisector;
+        super.setOutput(bisector);
         setDependencies(); // done by AlgoElement
     }
 
@@ -116,11 +118,13 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         return B;
     }
     
-    public boolean isNearToAlgorithm() {
+    @Override
+	public boolean isNearToAlgorithm() {
     	return true;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // calc intersection B of g and h
         GeoVec3D.cross(g, h, B);
         infiniteB = B.isInfinite();
@@ -270,7 +274,8 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("AngleBisectorOfAB",g.getLabel(),h.getLabel());

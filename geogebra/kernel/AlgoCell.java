@@ -25,7 +25,6 @@ import java.util.Iterator;
  */
 public class AlgoCell extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // output
 	protected NumberValue a, b;  // input
     
@@ -49,11 +48,13 @@ public class AlgoCell extends AlgoElement {
         geo.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoCell";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {	
 		// input is the text
 		input = new GeoElement[2];
@@ -77,16 +78,17 @@ public class AlgoCell extends AlgoElement {
      	   geo = new GeoNumeric(cons,Double.NaN);
         }
     
-		// output is a copy of the referenced object
-		output = new GeoElement[1];        
-        output[0] = geo;        
+		// output is a copy of the referenced object   
+        super.setOutputLength(1);
+        super.setOutput(0, geo);
 
         setDependencies();
     }    
     
     public GeoElement getResult() { return geo; }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		updateReferencedObject();    		
         	//}
@@ -128,7 +130,7 @@ public class AlgoCell extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);	
 			if (geo != null) {
-				Iterator it = geo.getAlgoUpdateSet().getIterator();
+				Iterator<AlgoElement> it = geo.getAlgoUpdateSet().getIterator();
 				while (it.hasNext()) {
 					refObject.addToUpdateSetOnly((AlgoElement) it.next());
 				}
@@ -139,7 +141,8 @@ public class AlgoCell extends AlgoElement {
     /**
      * Returns an input array with the text and the referenced geo
      */
-    GeoElement[] getInputForUpdateSetPropagation() {
+    @Override
+	GeoElement[] getInputForUpdateSetPropagation() {
     	if (refObject == null)
     		return input;
     	else

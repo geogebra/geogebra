@@ -28,14 +28,11 @@ import geogebra.main.Application;
 
 public class AlgoListElement extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; // input
 	private NumberValue num;
 	private NumberValue[] num2 = null; // input
 	private GeoElement numGeo;
 	private GeoElement element; // output
-	private boolean shortSyntax;
-
 	/**
 	 * Creates new labeled element algo
 	 * 
@@ -83,12 +80,6 @@ public class AlgoListElement extends AlgoElement {
 
 	/**
 	 * Creates new unlabeed element algo
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param geoList
-	 * @param num2
-	 * @param num
 	 */
 	public AlgoListElement(Construction cons, String label, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {
@@ -98,7 +89,6 @@ public class AlgoListElement extends AlgoElement {
 	public AlgoListElement(Construction cons, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {
 		super(cons);
-		this.shortSyntax = shortSyntax;
 		this.geoList = geoList;		
 		this.num2 = num2;
 		
@@ -139,10 +129,12 @@ public class AlgoListElement extends AlgoElement {
 		
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoListElement";
 	}
 
+	@Override
 	protected void setInputOutput() {
 
 		if (num2 == null) {
@@ -171,6 +163,7 @@ public class AlgoListElement extends AlgoElement {
 		return element;
 	}
 
+	@Override
 	protected final void compute() {
 		if ((numGeo != null && !numGeo.isDefined()) || !geoList.isDefined()) {
 			element.setUndefined();
@@ -233,6 +226,7 @@ public class AlgoListElement extends AlgoElement {
 		}
 	}
 	
+	@Override
 	public String getCommandDescription(boolean real) {
 		
 			return super.getCommandDescription(real);

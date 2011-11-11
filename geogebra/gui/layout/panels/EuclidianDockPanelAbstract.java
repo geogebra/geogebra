@@ -4,13 +4,10 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.layout.DockPanel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 /**
  * Abstract class for all "euclidian" panels. 
@@ -22,7 +19,6 @@ import javax.swing.JPanel;
 public abstract class EuclidianDockPanelAbstract extends DockPanel {
 	/** */
 	private static final long serialVersionUID = 1L;
-	
 	
 	private boolean hasEuclidianFocus;
 
@@ -39,6 +35,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel {
 		super(id, title, toolbar, hasStyleBar, menuOrder, shortcut);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent arg0) {
 		super.mousePressed(arg0);
 		dockManager.setFocusedPanel(this);
@@ -65,6 +62,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel {
 	 * create the focus panel (composed of titleLabel, and, for EuclidianDockPanels, focus icon)
 	 * @return the focus panel
 	 */
+	@Override
 	protected JComponent createFocusPanel(){
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());

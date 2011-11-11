@@ -27,7 +27,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 
 public class AlgoFrequencyPolygon extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList list1, list2; //input
 	private GeoBoolean isCumulative, useDensity; //input
 	private GeoNumeric density;
@@ -92,30 +91,31 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		compute();
 	}
 
-
+	@Override
 	public String getClassName() {
 		return "AlgoFrequencyPolygon";
 	}
 
-	protected void setInputOutput(){
+	@Override
+	protected void setInputOutput() {
 		
 		// handle simple case: input is only two lists when default density is used 
-		if(useDensity == null){
+		if(useDensity == null) {
 			input = new GeoElement[2];
 			input[0] = list1;
 			input[1] = list2;
 			
 		// handle other cases	
-		}else{
+		} else {
 			
 			// standard counts, non-cumulative
-			if(isCumulative == null){
+			if(isCumulative == null) {
 				if(density == null){
 					input = new GeoElement[3];
 					input[0] = list1;		
 					input[1] = list2;
 					input[2] = useDensity;
-				}else{
+				} else {
 					input = new GeoElement[4];
 					input[0] = list1;		
 					input[1] = list2;
@@ -124,14 +124,14 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 				}
 				
 			// cumulative counts	
-			}else{
-				if(density == null){
+			} else {
+				if(density == null) {
 					input = new GeoElement[4];
 					input[0] = isCumulative;
 					input[1] = list1;		
 					input[2] = list2;
 					input[3] = useDensity;
-				}else{
+				} else {
 					input = new GeoElement[5];
 					input[0] = isCumulative;
 					input[1] = list1;		
@@ -146,9 +146,9 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		if(useDensity == null){
+		if(useDensity == null) {
 			algoHistogram = new AlgoHistogram(cons, null, list1, list2,right);
-		}else{
+		} else {
 			algoHistogram = new AlgoHistogram(cons, null, isCumulative, list1,
 					list2, useDensity, density,right);
 		}
@@ -166,34 +166,32 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 
 	
 	private void setOutput() {
-		output = new GeoElement[1];                       
-		output[0] = outputPolyLine;        
+		super.setOutputLength(1);           
+		super.setOutput(0, outputPolyLine);        
 	}
 
 
 	GeoPolyLine getResult() {
 		return outputPolyLine;
 	}
-
-
 	
-	
+	@Override
 	protected final void compute() {
 
 		// update our histogram to get class borders and y values
 		algoHistogram.update();
 		
-		if(!((GeoElement)algoHistogram.getOutput()[0]).isDefined()){
+		if(!((GeoElement)algoHistogram.getOutput()[0]).isDefined()) {
 			outputPolyLine.setUndefined();
 			return;
 		}		
 		double[] leftBorder = algoHistogram.getLeftBorder();
-		if(leftBorder == null || leftBorder.length < 2){
+		if(leftBorder == null || leftBorder.length < 2) {
 			outputPolyLine.setUndefined();
 			return;
 		}		
 		double[] yValue  = algoHistogram.getYValue();
-		if(yValue == null || yValue.length < 2){
+		if(yValue == null || yValue.length < 2) {
 			outputPolyLine.setUndefined();
 			return;
 		}
@@ -201,10 +199,8 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		// if we got this far everything is ok; now define the polyLine 
 		outputPolyLine.setDefined();
 
-	
 		// remember old number of points
-		int oldPointsLength = points == null ? 0 : points.length;
-		
+		int oldPointsLength = points == null ? 0 : points.length;	
 		
 		// create a new point array
 		boolean doCumulative = (isCumulative != null && isCumulative.getBoolean());
@@ -217,13 +213,13 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		if(doCumulative)
 			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
 		for (int i = 0; i < yValue.length-1; i++) {
-			if(doCumulative)
+			if(doCumulative) {
 				points[i+1] = new GeoPoint(cons, null, leftBorder[i+1], yValue[i], 1.0);
-			else
+			} else {
 				points[i] = new GeoPoint(cons, null, (leftBorder[i+1] + leftBorder[i])/2, yValue[i], 1.0);
+			}
 		}	
 		cons.setSuppressLabelCreation(suppressLabelCreation);
-
 		
 		// update the polyLine
 		outputPolyLine.setPoints(points);

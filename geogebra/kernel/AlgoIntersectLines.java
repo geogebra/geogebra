@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoIntersectLines extends AlgoIntersectAbstract {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g, h; // input
+    private GeoLine g, h; // input
     private GeoPoint S; // output       
 
     /** Creates new AlgoJoinPoints */
@@ -55,37 +51,43 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
 		S.addIncidence(h);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoIntersectLines";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = g;
         input[1] = h;
 
-        output = new GeoElement[1];
-        output[0] = S;
+        super.setOutputLength(1);
+        super.setOutput(0, S);
         setDependencies(); // done by AlgoElement
     }
 
     GeoPoint getPoint() {
         return S;
     }
+    
     GeoLine geth() {
         return g;
     }
+    
     GeoLine getg() {
         return h;
     }
 
     // calc intersection S of lines g, h
-    protected final void compute() {   	
+    @Override
+	protected final void compute() {   	
         GeoVec3D.cross(g, h, S); 
               
         // test the intersection point
@@ -97,7 +99,8 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
         }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("IntersectionPointOfAB",g.getLabel(),h.getLabel());

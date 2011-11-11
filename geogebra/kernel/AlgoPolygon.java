@@ -19,8 +19,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 
-
-
 /**
  * Creates a Polygon from a given list of points or point array.
  * 
@@ -29,7 +27,6 @@ import geogebra.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoPolygon extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoPointND [] points;  // input
 	protected GeoList geoList;  // alternative input
     protected GeoPolygon poly;     // output
@@ -96,11 +93,9 @@ public class AlgoPolygon extends AlgoElement {
         		poly.setLabel(labels[0]);
         }
         
-        //END G.Sturr
-        
+        //END G.Sturr        
     }   
-    
-    
+      
     /**
      * create the polygon
      * @param createSegments says if the polygon has to creates its edges (3D only)
@@ -109,11 +104,13 @@ public class AlgoPolygon extends AlgoElement {
     	poly = new GeoPolygon(this.cons, this.points);
     }
         
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPolygon";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POLYGON;
     }
     
@@ -143,7 +140,6 @@ public class AlgoPolygon extends AlgoElement {
     		setOutput();    	
     }
 
-
     protected GeoElement [] createEfficientInput(){
 
     	GeoElement [] efficientInput;
@@ -160,11 +156,11 @@ public class AlgoPolygon extends AlgoElement {
     	}    
 
     	return efficientInput;
-    }
-    
+    }    
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	
     	//efficient inputs are points or list
     	GeoElement [] efficientInput = createEfficientInput();  	
@@ -178,31 +174,29 @@ public class AlgoPolygon extends AlgoElement {
     			input[i]=efficientInput[i];
     		input[efficientInput.length]=polyhedron;
     	}
-    	
-    	
+    	    	
     	setEfficientDependencies(input, efficientInput);
         
     	//set output after, to avoid segments to have this to parent algo
-    	setOutput();
-    	
-    	
-    	
+    	setOutput(); 	
     	
     	// parent of output
         poly.setParentAlgorithm(this);       
         cons.addToAlgorithmList(this); 
     }    
-    
-    
+        
     private void setOutput() {
     	GeoSegmentND [] segments = poly.getSegments();
     	int size = 1;
-    	if (segments!=null)
+    	if (segments!=null) {
     		size+=segments.length;
-        output = new GeoElement[size];                       
-        output[0] = poly;        
+    	}
+    	
+        super.setOutputLength(1);
+        super.setOutput(0, poly);
+        
         for (int i=0; i < size-1; i++) {
-            output[i+1] = (GeoElement) segments[i];
+            super.setOutput(i+1, (GeoElement) segments[i]);
         }
         
         /*
@@ -211,34 +205,36 @@ public class AlgoPolygon extends AlgoElement {
             s+=output[i].getLabel()+", ";
         } 
         Application.debug(s);
-        */
-        
-       
+        */       
     }
     
-    public void update() {
+    @Override
+	public void update() {
         // compute output from input
         compute();
-        output[0].update();
+        super.getOutput(0).update();
     }
+      
+    public GeoPolygon getPoly() { 
+    	return poly; 
+    }  
     
-    
-    public GeoPolygon getPoly() { return poly; }    
     public GeoPoint [] getPoints() {
     	return (GeoPoint[]) points;
     }
     
     public GeoElement getPolyhedron() { return polyhedron; }    
     
-    public void remove() {
+    @Override
+	public void remove() {
         super.remove();
         //if polygon is part of a polyhedron, remove it
         if (polyhedron != null)
             polyhedron.remove();
     }  
-    
-        
-    protected void compute() { 
+       
+    @Override
+	protected void compute() { 
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}
@@ -248,12 +244,9 @@ public class AlgoPolygon extends AlgoElement {
         
         // update region coord sys
         poly.updateRegionCS();
-    }   
+    }      
     
-    
-    
-    protected StringBuilder sb;
-    
+    protected StringBuilder sb;   
 
     protected void createStringBuilder(){
     	
@@ -276,23 +269,21 @@ public class AlgoPolygon extends AlgoElement {
 				sb.append(", ");
 			}
 			sb.append(points[last].getLabel());
-		}
-        
+		}        
 
         if (polyhedron!=null){
             sb.append(' ');
             sb.append(app.getPlain("of"));
             sb.append(' ');
         	sb.append(polyhedron.getLabel());
-        }
-        
+        }       
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
     	createStringBuilder();
     	return  sb.toString();
     }
-    
-    	
+        	
     
 }

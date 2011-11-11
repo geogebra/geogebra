@@ -15,11 +15,9 @@ package geogebra.kernel;
 import geogebra.main.Application;
 import geogebra.util.Unicode;
 import org.apache.commons.math.util.MathUtils;
-import org.mathpiper.builtin.functions.core.Gcd;
 
 public class AlgoSurdText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoNumeric num; //input
     private GeoText text; //output	
     
@@ -46,11 +44,13 @@ public class AlgoSurdText extends AlgoElement {
 		super(cons);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoSurdText";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = num;
 
@@ -63,8 +63,8 @@ public class AlgoSurdText extends AlgoElement {
         return text;
     }
 
-    protected void compute() {
-    	
+    @Override
+	protected void compute() {   	
     	
 		if (input[0].isDefined()) {
 			
@@ -72,25 +72,24 @@ public class AlgoSurdText extends AlgoElement {
 			
 			double decimal = num.getDouble();
 			
-			if ( Kernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION))
+			if ( Kernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal)));
-			else {
-				double[] frac = AlgoFractionText.DecimalToFraction(decimal, Kernel.EPSILON);
-				/*if (frac[1]<10000)
+			} else {
+				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, Kernel.EPSILON);
+				if (frac[1]<10000)
 					Fractionappend(sb, (int)frac[0], (int)frac[1]);
 				else*/
 					PSLQappend(sb, decimal);
 			}
-				
-			
+						
 			text.setTextString(sb.toString());
 			text.setLaTeX(true, false);
 			
 		} else {
 			text.setUndefined();
-		}
-			
+		}			
 	}
+    
     protected void Fractionappend(StringBuilder sb, int numer, int denom) {
 		if (denom<0) {
 			denom= -denom;
@@ -110,6 +109,7 @@ public class AlgoSurdText extends AlgoElement {
 	    	
 		}
     }
+    
     protected void PSLQappend(StringBuilder sb, double num) {
 		double[] numPowers = {num * num, num, 1.0};
 		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
@@ -170,7 +170,6 @@ public class AlgoSurdText extends AlgoElement {
 				}
 			}
 			
-
 			int gcd = MathUtils.gcd(MathUtils.gcd(a,b1),c);
 			if (gcd!=1) {
 				a=a/gcd;
@@ -445,7 +444,6 @@ public class AlgoSurdText extends AlgoElement {
 				
 			
 			for (int j=0; j<n-2; j++) {
-				double a = H[j][j];
 				double b = H[j+1][j];
 				double c = H[j+1][j+1];
 				double d = Math.sqrt(b*b+c*c);

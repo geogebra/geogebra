@@ -23,15 +23,15 @@ public class AlgoLastString extends AlgoFirstString {
 
     AlgoLastString(Construction cons, String label, GeoText inputText, GeoNumeric n) {
         super(cons, label, inputText, n);
-
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLastString";
     }
 
-
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	String str = inputText.getTextString();
     	size = str.length();
     	int outsize = n == null ? 1 : (int)n.getDouble();
@@ -42,9 +42,11 @@ public class AlgoLastString extends AlgoFirstString {
     	} 
        
     	    	
-    	if (outsize == 0) outputText.setTextString(""); // return empty string
-    	
-    	else outputText.setTextString(str.substring(size - outsize));
+    	if (outsize == 0) {
+    		outputText.setTextString(""); // return empty string
+    	} else {
+    		outputText.setTextString(str.substring(size - outsize));
+    	}
    }
   
 }

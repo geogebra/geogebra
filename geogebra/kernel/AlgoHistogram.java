@@ -22,11 +22,6 @@ package geogebra.kernel;
 public class AlgoHistogram extends AlgoFunctionAreaSums {
 		
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Creates histogram
 	 * @param cons construction
 	 * @param label label for the histogram
@@ -42,7 +37,6 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	private AlgoHistogram(Construction cons, double[]vals,double[]borders,int N) {
 		super(cons, vals, borders,N);		
 	}
-	
 
 	/**
 	 * Creates histogram with density scaling factor 
@@ -80,8 +74,8 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 			GeoNumeric density,boolean right) {
 		super(cons, isCumulative, list1, list2, useDensity, density,right);		
 	}
-	
 
+	@Override
 	public String getClassName() {
 		return isRight()?"AlgoHistogramRight":"AlgoHistogram";
 	}

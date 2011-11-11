@@ -29,7 +29,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoAreaPolygon extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPolygon  polygon;  // input
     private GeoNumeric area;     // output           
         
@@ -45,18 +44,19 @@ public class AlgoAreaPolygon extends AlgoElement {
       area.setLabel(label);
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAreaPolygon";
     }
     
-
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_AREA;
-    }
-    
+    }   
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[1];
         input[0] = polygon;
         
@@ -68,7 +68,8 @@ public class AlgoAreaPolygon extends AlgoElement {
     GeoNumeric getArea() { return area; }        
     
     // calc area of conic c 
-    protected final void compute() { 
+    @Override
+	protected final void compute() { 
     	/*
     	if (!polygon.isDefined()) {
     		area.setUndefined();

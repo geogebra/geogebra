@@ -28,7 +28,6 @@ import java.util.ArrayList;
  */
 public class AlgoPolygonRegular extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A, B;  // input
 	private NumberValue num; // input
     private GeoPolygon poly;     // output
@@ -42,11 +41,7 @@ public class AlgoPolygonRegular extends AlgoElement {
     
     /**
      * Creates a new regular polygon algorithm
-     * @param cons
-     * @param labels: labels[0] for polygon, then labels for segments and then for points
-     * @param A
-     * @param B
-     * @param num
+     * @param labels labels[0] for polygon, then labels for segments and then for points
      */
     AlgoPolygonRegular(Construction cons, String [] labels, GeoPoint A, GeoPoint B, NumberValue num) {
         super(cons);
@@ -90,17 +85,19 @@ public class AlgoPolygonRegular extends AlgoElement {
         updateSegmentsAndPointsLabels(points.length);
     }   
         
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPolygonRegular";
     }        
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_REGULAR_POLYGON;
-    }
-    
+    }  
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	input = new GeoElement[3];
 		input[0] = A;
 		input[1] = B;
@@ -124,9 +121,9 @@ public class AlgoPolygonRegular extends AlgoElement {
     	// if init points have no labels, all the points and segments
     	// of the polygon don't get labels either: in this case we only
     	// have the polygon itself as output object
-    	if (!labelPointsAndSegments) {
-    		output = new GeoElement[1];  
-    		output[0] = poly;    		
+    	if (!labelPointsAndSegments) {	
+    		super.setOutputLength(1);
+            super.setOutput(0, poly);
     	}
     	// otherwise: points and segments are also output objects
     	else {
@@ -134,17 +131,17 @@ public class AlgoPolygonRegular extends AlgoElement {
 	    	GeoSegmentND[] segments = poly.getSegments();
 	    	GeoPointND [] points = poly.getPoints();
 	        int size = 1 + segments.length + points.length - 2; 
-	       
-	        output = new GeoElement[size];   
-	        int k = 0;
-	        output[k] = poly;                                  
+	        
+	        super.setOutputLength(size);
+	        int k = 0;    
+	        super.setOutput(k, poly);
 	              
 	        for (int i=0; i < segments.length; i++) {
-	            output[++k] = (GeoElement) segments[i];
+	            super.setOutput(++k, (GeoElement) segments[i]);
 	        }    
 	        
 	        for (int i=2; i < points.length; i++) {
-	            output[++k] = (GeoElement) points[i];            
+	            super.setOutput(++k, (GeoElement) points[i]);
 	        }         
     	}
         
@@ -162,7 +159,8 @@ public class AlgoPolygonRegular extends AlgoElement {
     /**
      * Computes points of regular polygon
      */
-    protected final void compute() {      
+    @Override
+	protected final void compute() {      
     	// check points and number
     	double nd = num.getDouble();
     	if (Double.isNaN(nd)) nd = 2;
@@ -313,7 +311,7 @@ public class AlgoPolygonRegular extends AlgoElement {
     private void removePoint(GeoPoint oldPoint) {    	
     	// remove dependent algorithms (e.g. segments) from update sets	of
     	// objects further up (e.g. polygon) the tree
-		ArrayList algoList = oldPoint.getAlgorithmList();
+		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
 		for (int k=0; k < algoList.size(); k++) {        			
 			AlgoElement algo = (AlgoElement) algoList.get(k);	
 			for (int j=0; j < input.length; j++)
@@ -339,21 +337,22 @@ public class AlgoPolygonRegular extends AlgoElement {
 		algoList.clear();
 		// remove point
 		oldPoint.doRemove(); 
-    }
-    
+    } 
     
     /**
      * Calls doRemove() for all output objects of this
      * algorithm except for keepGeo.
      */
-    void removeOutputExcept(GeoElement keepGeo) {
-    	for (int i=0; i < output.length; i++) {
-            GeoElement geo = output[i];
+    @Override
+	void removeOutputExcept(GeoElement keepGeo) {
+    	for (int i=0; i < super.getOutputLength(); i++) {
+            GeoElement geo = super.getOutput(i);
             if (geo != keepGeo) {
-            	if (geo.isGeoPoint())
+            	if (geo.isGeoPoint()) {
             		removePoint((GeoPoint) geo);
-            	else 
+            	} else {
             		geo.doRemove();
+            	}
             }            	
         }
     }

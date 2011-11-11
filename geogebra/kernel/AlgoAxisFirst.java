@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  *
  * @author  Markus
@@ -27,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoAxisFirst extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c;  // input
+    private GeoConic c;  // input
     private GeoLine axis;     // output          
         
     private GeoVec2D [] eigenvec;    
@@ -54,12 +49,14 @@ public class AlgoAxisFirst extends AlgoElement {
         axis.setLabel(label);            
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAxisFirst";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;        
         
@@ -72,7 +69,8 @@ public class AlgoAxisFirst extends AlgoElement {
     GeoConic getConic() { return c; }        
     
     // calc axes
-    protected final void compute() {                        
+    @Override
+	protected final void compute() {                        
         // axes are lines with directions of eigenvectors
         // through midpoint b        
         
@@ -83,7 +81,8 @@ public class AlgoAxisFirst extends AlgoElement {
         P.setCoords(b.x, b.y, 1.0); 
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("FirstAxisOfA",c.getLabel());

@@ -28,20 +28,18 @@ public class AlgoMax extends AlgoTwoNumFunction {
         
 	/**
 	 * Creates new max algo
-	 * @param cons
-	 * @param label
-	 * @param a
-	 * @param b
 	 */
     AlgoMax(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b); 
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoMax";
     }
       
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		double max = Math.max(a.getDouble(), b.getDouble());
     		num.setValue(max);

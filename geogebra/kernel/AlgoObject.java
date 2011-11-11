@@ -15,7 +15,6 @@ package geogebra.kernel;
 import java.util.Iterator;
 
 
-
 /**
  * Returns the GeoElement from an object's label.
  * @author  Michael, Markus
@@ -23,7 +22,6 @@ import java.util.Iterator;
  */
 public class AlgoObject extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // output
     private GeoText text;     // input            
     
@@ -51,11 +49,13 @@ public class AlgoObject extends AlgoElement {
         geo.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoObject";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {	
 		// input is the text
 		input = new GeoElement[1];
@@ -77,16 +77,17 @@ public class AlgoObject extends AlgoElement {
      	   geo = new GeoNumeric(cons,Double.NaN);
         }
     
-		// output is a copy of the referenced object
-		output = new GeoElement[1];        
-        output[0] = geo;        
+		// output is a copy of the referenced object 
+        super.setOutputLength(1);
+        super.setOutput(0, geo);
 
         setDependencies();
     }    
     
     public GeoElement getResult() { return geo; }
     
-    protected final void compute() {     	    
+    @Override
+	protected final void compute() {     	    
     	// did name of object change?
     	// removed - doesn't update when referenced object deleted
     	//if (currentLabel != text.getTextString() || refObject == null) {
@@ -127,7 +128,7 @@ public class AlgoObject extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);	
 			if (geo != null) {
-				Iterator it = geo.getAlgoUpdateSet().getIterator();
+				Iterator<AlgoElement> it = geo.getAlgoUpdateSet().getIterator();
 				while (it.hasNext()) {
 					refObject.addToUpdateSetOnly((AlgoElement) it.next());
 				}
@@ -138,11 +139,13 @@ public class AlgoObject extends AlgoElement {
     /**
      * Returns an input array with the text and the referenced geo
      */
-    GeoElement[] getInputForUpdateSetPropagation() {
-    	if (refObject == null)
+    @Override
+	GeoElement[] getInputForUpdateSetPropagation() {
+    	if (refObject == null) {
     		return input;
-    	else
+    	} else {
     		return inputForUpdateSetPropagation;
+    	}
     }
 
 }

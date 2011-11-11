@@ -26,7 +26,6 @@ package geogebra.kernel;
 
 public class AlgoResidualPlot extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoFunctionable function;
 	private GeoList outputList; //output	
@@ -49,17 +48,19 @@ public class AlgoResidualPlot extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoResidualPlot";
 	}
 
+	@Override
 	protected void setInputOutput(){
 		input = new GeoElement[2];
 		input[0] = inputList;
 		input[1] = function.toGeoElement();
 
-		output = new GeoElement[1];
-		output[0] = outputList;
+		super.setOutputLength(1);
+        super.setOutput(0, outputList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -72,7 +73,7 @@ public class AlgoResidualPlot extends AlgoElement {
 		return bounds;
 	}
 	
-	
+	@Override
 	protected final void compute() {
 
 		size = inputList.size();

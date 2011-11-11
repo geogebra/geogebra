@@ -41,8 +41,7 @@ public class EquationSolver {
 		//extrFinder = kernel.getExtremumFinder();
     	this.kernel = kernel;
     }
-    
-    
+     
 	/**
 	 * Computes all roots of a polynomial using Laguerre's method for
 	 * degrees > 3.
@@ -95,7 +94,6 @@ public class EquationSolver {
 	 * Computes all roots of a polynomial using Laguerre's method for
 	 * degrees > 3.
 	 * The roots are polished and only distinct roots are returned.
-	 * @param roots: array with the coefficients of the polynomial 
 	 * @return number of realRoots found
 	 */
 	final public int polynomialComplexRoots(double [] real, double complex[]) {			
@@ -134,11 +132,11 @@ public class EquationSolver {
      * A return value of <code>-1</code> is used to distinguish a constant
      * equation, which might be always 0 or never 0, from an equation that
      * has no zeroes.
-     * @param equ the array that contains the quadratic coefficients
+     * @param eqn the array that contains the quadratic coefficients
      * @return the number of roots, or <code>-1</code> if the equation is
      *      a constant
      */
-    final public int solveQuadratic(double eqn[]) {
+    final public static int solveQuadratic(double eqn[]) {
         return solveQuadratic(eqn, eqn);
     }
 
@@ -157,21 +155,21 @@ public class EquationSolver {
      * @return the number of roots, or <code>-1</code> if the equation is
      *  a constant.
      */
-    final public int solveQuadratic(double eqn[], double res[]) {
+    final public static int solveQuadratic(double eqn[], double res[]) {
         double a = eqn[2];
         double b = eqn[1];
         double c = eqn[0];
         int roots = 0;
-        if (Math.abs(a) < kernel.EPSILON) {
+        if (Math.abs(a) < Kernel.EPSILON) {
             // The quadratic parabola has degenerated to a line.
-            if (Math.abs(b) < kernel.EPSILON)
+            if (Math.abs(b) < Kernel.EPSILON)
 				// The line has degenerated to a constant.
 				return -1; 
             res[roots++] = -c / b;
         } else {
             // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
             double d = b * b - 4.0 * a * c;
-            if (Math.abs(d) < kernel.EPSILON) 
+            if (Math.abs(d) < Kernel.EPSILON) 
                res[roots++] = - b /(2.0 * a);
             else {
                 if (d < 0.0)
@@ -195,16 +193,16 @@ public class EquationSolver {
         return roots;
     }
       
-    final public int solveQuadraticComplex(double real[], double complex[]) {
+    final public static int solveQuadraticComplex(double real[], double complex[]) {
         double a = real[2];
         double b = real[1];
         double c = real[0];
         int roots = 0;
         
         
-        if (Math.abs(a) < kernel.EPSILON) {
+        if (Math.abs(a) < Kernel.EPSILON) {
             // The quadratic parabola has degenerated to a line.
-            if (Math.abs(b) < kernel.EPSILON)
+            if (Math.abs(b) < Kernel.EPSILON)
 				// The line has degenerated to a constant.
 				return -1; 
             complex[roots] = 0;
@@ -212,7 +210,7 @@ public class EquationSolver {
         } else {
             // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
             double d = b * b - 4.0 * a * c;
-            if (Math.abs(d) < kernel.EPSILON) {
+            if (Math.abs(d) < Kernel.EPSILON) {
                 complex[roots] = 0;
                 real[roots++] = - b /(2.0 * a);
             }
@@ -262,7 +260,7 @@ public class EquationSolver {
      * @param eqn an array containing coefficients for a cubic
      * @return the number of roots, or -1 if the equation is a constant.
      */
-    final public int solveCubic(double eqn[]) {
+    final public static int solveCubic(double eqn[]) {
         return solveCubic(eqn, eqn);
     }
     
@@ -273,11 +271,11 @@ public class EquationSolver {
 	 * removed sorting of roots
 	 *
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0 */
-    final public int solveCubic(double eqn[], double res[]) {
+    final public static int solveCubic(double eqn[], double res[]) {
 
     	int roots = 0;
     	double d = eqn[3];
-    	if (Math.abs(d) < kernel.EPSILON) {
+    	if (Math.abs(d) < Kernel.EPSILON) {
     		// The cubic has degenerated to quadratic (or line or ...).
     		return solveQuadratic(eqn, res);
     	}
@@ -300,7 +298,7 @@ public class EquationSolver {
 	
     	//Application.debug(Math.abs(CR2 - CQ3)+"");
     	
-    	if (Math.abs(R) < kernel.EPSILON && Math.abs(Q) < kernel.EPSILON ) // if (R == 0 && Q == 0)
+    	if (Math.abs(R) < Kernel.EPSILON && Math.abs(Q) < Kernel.EPSILON ) // if (R == 0 && Q == 0)
     	{
     		res[roots++] = - a / 3 ;
     		res[roots++] = - a / 3 ;
@@ -312,7 +310,7 @@ public class EquationSolver {
     	// |D(CR2-CQ3)|< (|r(aa-3b) - 4qa| + |-3ar -6q| + |9r|)*13122*sqrt(q) / |2a+3| *kernel.EPSILON
     	// for simplicity, it (may be)  about 10* max(CR2,CR3)/|2a+3| * kernel.EPSILON
     	//else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * kernel.EPSILON) // else if (CR2 == CQ3)
-    	else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) *10 / Math.max(1,Math.abs(2*a+3)) * kernel.EPSILON) // else if (CR2 == CQ3) 
+    	else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) *10 / Math.max(1,Math.abs(2*a+3)) * Kernel.EPSILON) // else if (CR2 == CQ3) 
     	{
     		// this test is actually R2 == Q3, written in a form suitable
     	    //     for exact computation with integers 
@@ -577,7 +575,7 @@ public class EquationSolver {
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
-	 * @param eqn: coefficients of polynomial	 
+	 * @param eqn coefficients of polynomial	 
 	 */	
 	private int laguerreAll(double [] eqn) {
 		// for fast evaluation of polynomial (used for root polishing)
@@ -714,7 +712,6 @@ public class EquationSolver {
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
-	 * @param eqn: coefficients of polynomial	 
 	 */	
 	private int laguerreAllComplex(double [] real, double[] complex) {
 	

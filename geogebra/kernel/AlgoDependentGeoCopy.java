@@ -20,7 +20,6 @@ import geogebra.kernel.arithmetic.ExpressionNode;
  */
 public class AlgoDependentGeoCopy extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private ExpressionNode origGeoNode;
     private GeoElement origGeo, copyGeo;     // input, ouput              
     
@@ -50,11 +49,13 @@ public class AlgoDependentGeoCopy extends AlgoElement {
         copyGeo.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "Expression";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = origGeo;
@@ -67,7 +68,8 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     public GeoElement getGeo() { return copyGeo; }
     
     // copy geo
-    protected final void compute() {	
+    @Override
+	protected final void compute() {	
     	try {
     		copyGeo.set(origGeo);
     	} catch (Exception e) {
@@ -75,7 +77,8 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     	}
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
     	// we use the expression as it may add $ signs 
     	// to the label like $A$1
     	return origGeoNode.toString();

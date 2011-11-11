@@ -15,7 +15,6 @@ package geogebra.gui;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.FileBrowserPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.settings.SpreadsheetSettings;
 
@@ -49,7 +48,6 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	private static final long serialVersionUID = 1L;
 
 	private Application app;
-	private Kernel kernel;
 	
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader, 
 	cbShowColumnHeader, cbShowHScrollbar,  cbShowVScrollbar, 
@@ -67,7 +65,6 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	 */
 	public OptionsSpreadsheet(Application app, SpreadsheetView view) {
 		this.app = app;	
-		kernel = app.getKernel();
 		
 		// build GUI
 		initGUI();

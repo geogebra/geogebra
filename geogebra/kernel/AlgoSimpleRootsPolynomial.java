@@ -34,7 +34,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
 		eqnSolver=cons.getEquationSolver();
-		points=new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+		points = new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
 					public GeoPoint newElement() {
 						GeoPoint p=new GeoPoint(cons);
 						//p.setCoords(0, 0, 1);
@@ -134,14 +134,14 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			nrRealRoots=getRoots(roots,eqnSolver);
 		
 		for (int i=0; i<nrRealRoots; ++i) {
-			if (Kernel.isGreater(roots[i], max,kernel.getEpsilon()) || 
-					Kernel.isGreater(min, roots[i], kernel.getEpsilon()))
+			if (Kernel.isGreater(roots[i], max, Kernel.getEpsilon()) || 
+					Kernel.isGreater(min, roots[i], Kernel.getEpsilon()))
 				roots[i] = Double.NaN;
 		}
 		makePoints(roots,nrRealRoots);
 	}
 	
-	private double distancePairSq(double[] p1,double[] p2){
+	private static double distancePairSq(double[] p1,double[] p2){
 		return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]);
 	}
 

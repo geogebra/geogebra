@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
@@ -51,7 +50,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 
-
 /**
  * Dialog to create a new user defined tool
  * 
@@ -86,9 +84,12 @@ implements GeoElementSelectionListener {
 		initLists();						
 		initGUI();
 		Macro appMacro = app.getMacro();
-		if(appMacro!=null)this.setFromMacro(appMacro);
+		if(appMacro!=null) {
+			this.setFromMacro(appMacro);
+		}
 	}
 	
+	@Override
 	public void setVisible(boolean flag) {		
 		super.setVisible(flag);
 		
@@ -115,12 +116,16 @@ implements GeoElementSelectionListener {
 			this.cbOutputAddList = cbOutputAddList;
 		}
 		
+		@Override
 		public void addElement(Object ob) {
-			if (!(ob instanceof GeoElement)) return;
+			if (!(ob instanceof GeoElement)) {
+				return;
+			}
 			
 			GeoElement geo = (GeoElement) ob;
-			if (geo.isIndependent() || contains(geo))
+			if (geo.isIndependent() || contains(geo)) {
 				return;
+			}
 			
 			// add geo to list
 			super.addElement(geo);
@@ -157,6 +162,7 @@ implements GeoElementSelectionListener {
 			this.cbInputAddList = cbInputAddList;
 		}
 		
+		@Override
 		public void addElement(Object ob) {
 			if (!(ob instanceof GeoElement)) return;
 			
@@ -305,7 +311,7 @@ implements GeoElementSelectionListener {
 		}				
 	}
 	
-	private JComboBox removeListeningJComboBox(DefaultComboBoxModel cbModel) {
+	private static JComboBox removeListeningJComboBox(DefaultComboBoxModel cbModel) {
 		// we need to remove the JComboBox as listener from the cbInputAddList
 		// temporarily to avoid multiple additions to inputList
 		ListDataListener [] listeners = cbModel.getListDataListeners();
@@ -320,7 +326,7 @@ implements GeoElementSelectionListener {
 		return cbListener;
 	}
 	
-	private GeoElement [] toGeoElements(DefaultListModel listModel) {
+	private static GeoElement [] toGeoElements(DefaultListModel listModel) {
 		// get output objects
 		int size = listModel.size();		
 		GeoElement [] geos = new GeoElement[size];
@@ -334,6 +340,7 @@ implements GeoElementSelectionListener {
 		// input and output objects combobox						
 		cbOutputAddList = new DefaultComboBoxModel();
 		cbInputAddList = new DefaultComboBoxModel() {
+			@Override
 			public void removeElement(Object geo) {
 				super.removeElement(geo);
 				// remove every input from outputList too
@@ -369,7 +376,7 @@ implements GeoElementSelectionListener {
 	 * @param geo
 	 * @return
 	 */
-	private boolean possibleInput(GeoElement geo) {
+	private static boolean possibleInput(GeoElement geo) {
 		return geo.hasChildren();
 	}
 	
@@ -524,6 +531,7 @@ implements GeoElementSelectionListener {
 		final JComboBox cbAdd = new JComboBox(cbModel);
 		// listener for the combobox
 		MyComboBoxListener ac = new MyComboBoxListener() {
+			@Override
 			public void doActionPerformed(Object source) {				
 				GeoElement geo = (GeoElement) cbAdd.getSelectedItem();		
 				if (geo == null)
@@ -702,12 +710,13 @@ class MyCellRenderer extends DefaultListCellRenderer {
     /* This is the only method defined by ListCellRenderer.  We just
      * reconfigure the Jlabel each time we're called.
      */
-    public Component getListCellRendererComponent(
+    @Override
+	public Component getListCellRendererComponent(
         JList list,
-	Object value,   // value to display
-	int index,      // cell index
-	boolean iss,    // is the cell selected
-	boolean chf)    // the list and the cell have the focus
+        Object value,   // value to display
+        int index,      // cell index
+        boolean iss,    // is the cell selected
+        boolean chf)    // the list and the cell have the focus
     {
         /* The DefaultListCellRenderer class will take care of
          * the JLabels text property, it's foreground and background

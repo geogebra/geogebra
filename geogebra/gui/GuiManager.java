@@ -2894,8 +2894,6 @@ public class GuiManager {
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		NumberValue num = handler.getNum();
-
 		return handler.getNum();
 	}
 
@@ -3350,8 +3348,6 @@ public class GuiManager {
 		return currentKeyboardListener;
 	}
 
-	private boolean ignoreNext = false;
-
 	public void setCurrentTextfield(VirtualKeyboardListener keyboardListener,
 			boolean autoClose) {
 		currentKeyboardListener = keyboardListener;
@@ -3577,7 +3573,7 @@ public class GuiManager {
 		// =======================================
 		// test code 
 		
-		if(app.getShiftDown()){
+		if(Application.getShiftDown()){
 			if(tempPropPanel == null){
 				tempPropPanel =  new PropertiesPanel(app, new GeoGebraColorChooser(app), false);
 				tempPropPanel.setMinimumSize(tempPropPanel.getPreferredSize());

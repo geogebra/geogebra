@@ -24,7 +24,6 @@ import geogebra.kernel.parser.Parser;
  */
 public class AlgoPolynomialFromFunction extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f; // input
     private GeoFunction g; // output         
     private Parser parser;
@@ -41,17 +40,19 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
         g.setLabel(label);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPolynomialFromFunction";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = f;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
@@ -60,7 +61,8 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
     }
 
 //  ON CHANGE: similar code is in AlgoTaylorSeries
-    protected final void compute() {       
+    @Override
+	protected final void compute() {       
         if (!f.isDefined()) {
         	g.setUndefined();
         	return;
@@ -119,8 +121,8 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 		}
 	}
 
-
-    final public String toString() {
+    @Override
+	final public String toString() {
     	return getCommandDescription();
     }
 

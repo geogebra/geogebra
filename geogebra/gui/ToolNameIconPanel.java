@@ -252,6 +252,7 @@ public class ToolNameIconPanel extends JPanel {
 		btIconFile.setEnabled(enabled);
 	}
 	
+	@Override
 	public void requestFocus() {
 		super.requestFocus();
 		

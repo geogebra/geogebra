@@ -14,7 +14,6 @@ package geogebra.kernel;
 
 import geogebra.kernel.arithmetic.NumberValue;
 
-
 /**
  *
  * @author  Michael
@@ -22,11 +21,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoDynamicCoordinates extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private NumberValue x,y; // input
+    private NumberValue x,y; // input
 	private GeoPoint P; // input
     private GeoPoint M; // output        
 
@@ -44,19 +39,21 @@ public class AlgoDynamicCoordinates extends AlgoElement {
         M.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDynamicCoordinates";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = P;
         input[1] = x.toGeoElement();
         input[2] = y.toGeoElement();
 
-        output = new GeoElement[1];
-        output[0] = M;
+        super.setOutputLength(1);
+        super.setOutput(0, M);
         setDependencies(); // done by AlgoElement
     }
 
@@ -69,7 +66,8 @@ public class AlgoDynamicCoordinates extends AlgoElement {
     }
 
     // calc midpoint
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	double xCoord = x.getDouble();
     	double yCoord = y.getDouble();
@@ -81,13 +79,12 @@ public class AlgoDynamicCoordinates extends AlgoElement {
     	}
     	
     	M.setCoords(xCoord, yCoord, 1.0);
-    	
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("DynamicCoordinatesOfA",P.getLabel());
-
     }
 }

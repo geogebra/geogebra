@@ -450,11 +450,13 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
    	frame.addWindowListener(this);	
    	
    	frame.addComponentListener(new ComponentAdapter() {
-          public void componentResized(ComponentEvent event) {
+          @Override
+		public void componentResized(ComponentEvent event) {
           	setFrameBounds(event.getComponent().getBounds());
           }
           
-          public void componentMoved(ComponentEvent event) {
+          @Override
+		public void componentMoved(ComponentEvent event) {
           	setFrameBounds(event.getComponent().getBounds());
           }
       });
@@ -968,14 +970,17 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	/**
 	 * @return If this DockPanel is visible.
 	 */
+	@Override
 	public boolean isVisible() {
 		return visible;
 	}
 	
+	@Override
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
 	
+	@Override
 	public boolean hasFocus() {
 		return hasFocus;
 	}
@@ -1145,6 +1150,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	/**
 	 * @return dock panel information as string for debugging.
 	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[DockPanel,id=");

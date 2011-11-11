@@ -22,9 +22,8 @@ import geogebra.kernel.arithmetic.FunctionVariable;
  */
 public class AlgoSumFunctions  extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-
-    public String getClassName() {
+	@Override
+	public String getClassName() {
         return "AlgoSumFunctions";
     }
 
@@ -63,7 +62,8 @@ public class AlgoSumFunctions  extends AlgoElement {
         resultFun.setLabel(label);
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	if (truncate == null) {
 	        input = new GeoElement[1];
 	        input[0] = geoList;
@@ -85,10 +85,10 @@ public class AlgoSumFunctions  extends AlgoElement {
      */
     public GeoElement getResult() {
         return resultFun;
-    }
-    
+    }  
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	//Sum[{x^2,x^3}]
     	
     	int n = truncate == null ? geoList.size() : (int)truncate.getDouble();
@@ -121,8 +121,7 @@ public class AlgoSumFunctions  extends AlgoElement {
 		if (!geoList.get(0).isGeoFunctionable() || !geoList.get(1).isGeoFunctionable()) {
     		resultFun.setUndefined();
     		return;
-    	}
-		
+    	}		
 		
 	    // add first two:
 	    resultFun = GeoFunction.add(resultFun,((GeoFunctionable)geoList.get(0)).getGeoFunction(), 
@@ -139,7 +138,5 @@ public class AlgoSumFunctions  extends AlgoElement {
 	    	resultFun = GeoFunction.add(resultFun,resultFun, ((GeoFunctionable)geoList.get(i)).getGeoFunction());
 	    }
     }	
-    
-
 
 }

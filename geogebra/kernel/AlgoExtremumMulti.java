@@ -54,8 +54,6 @@ import java.util.ArrayList;
 
 public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	
-	// Constants
-	private static final long 	serialVersionUID 		= 	1L;
 	private static final int	PIXELS_BETWEEN_SAMPLES	=	  5;		// Open for empirical adjustments
     private static final int   	MAX_SAMPLES				=	400;		// -"- (covers a screen up to 2000 pxs...)
     private static final int	MIN_SAMPLES				=	 50;		// -"- (covers up to 50 in a 250 pxs interval...)	;
@@ -78,7 +76,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	this.georight=right.toGeoElement();
     	
     	// make sure root points are not null
-    	int number = labels==null ? 1: Math.max(1,labels.length);
+    	int number = (labels == null ? 1: Math.max(1,labels.length));
     	
     	setInputOutput();
     	
@@ -96,7 +94,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	
     }//constructor
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoExtremumMulti";
     }//getClassName()
     
@@ -104,7 +103,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	return getPoints();
     }//getExtremumPoints()
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = f.toGeoElement();
         input[1] = geoleft;
@@ -113,7 +113,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
         //setOutputLength(1);
         //setOutput(0, E);
         
-        output=getPoints();
+        super.setOutput(getPoints());
 
         noUndefinedPointsInAlgebraView(getPoints());
         
@@ -121,7 +121,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     }//setInputOutput()
     
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 
         double[]	extremums		=	new double[0];
         int			numberOfExtremums=	0;
@@ -172,8 +173,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
      *  Finds a samplesize depending on screen coordinates
      *  Samples n intervals and collects extremums in intervals
      */
-    @SuppressWarnings("unchecked")
-	public final static double[] findExtremums(RealRootFunction rrfunc,double l,double r,int samples){
+    public final static double[] findExtremums(RealRootFunction rrfunc,double l,double r,int samples){
     	double[]	y	=	new double[samples+1];					//n+1 y-values
     	boolean[]	grad=	new boolean[samples];				// n  gradients, true: f'>=0, false: f'<0
     	ArrayList<Double>	xlist=	new ArrayList<Double>();
@@ -298,10 +298,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     		System.out.println("Label: "+gpts[i].getLabel()+"     pt["+i+"]: ("+gpts[i].x+","+gpts[i]+")");
     	}//for
     }//listPoints(GeoPoint[])
-    
-
- 
-    
     
     
 // */ //--- SNIP end ---------------------------------------    

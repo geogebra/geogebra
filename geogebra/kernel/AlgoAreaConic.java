@@ -20,8 +20,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
-
 /**
  * Computes the area of a conic section
  * @author  Markus Hohenwarter
@@ -29,7 +27,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoAreaConic extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoConic  conic;  // input
     private GeoNumeric area;     // output           
         
@@ -45,16 +42,19 @@ public class AlgoAreaConic extends AlgoElement {
       area.setLabel(label);
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAreaConic";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_AREA;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[1];
         input[0] = conic;
         
@@ -66,7 +66,8 @@ public class AlgoAreaConic extends AlgoElement {
     GeoNumeric getArea() { return area; }        
     
     // calc area of conic c 
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	if (!conic.isDefined()) {
     		area.setUndefined();
     		return;

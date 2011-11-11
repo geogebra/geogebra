@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoRotateVector extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoVector A; // input
+    private GeoVector A; // input
     private GeoNumeric angle; // input
     private GeoVector B; // output        
 
@@ -60,17 +56,19 @@ public class AlgoRotateVector extends AlgoElement {
         B.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRotateVector";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ROTATE_BY_ANGLE;
     }
 
-
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = A;
         input[1] = angle;
@@ -105,15 +103,16 @@ public class AlgoRotateVector extends AlgoElement {
     }
 
     // calc rotated Vector
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         B.setCoords(A);
         B.rotate(angle);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("ARotatedByAngleB",A.getLabel(),angle.getLabel());
-
     }
 }

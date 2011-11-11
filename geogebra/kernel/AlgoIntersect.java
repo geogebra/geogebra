@@ -16,7 +16,6 @@ import geogebra.kernel.kernelND.AlgoIntersectND;
 import geogebra.kernel.kernelND.GeoPointND;
 
 
-
 public abstract class AlgoIntersect extends AlgoIntersectND {
 
     public AlgoIntersect(Construction c) {
@@ -27,16 +26,13 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	 * Avoids two intersection points at same position. 
 	 * This is only done as long as the second intersection point doesn't have a label yet.
 	 */
+	@Override
 	protected void avoidDoubleTangentPoint() {
 		GeoPoint [] points = getIntersectionPoints();
 	    if (!points[1].isLabelSet() && points[0].isEqual(points[1])) {
 	    	points[1].setUndefined();	        
 	    }
-	}
-    
-
-    
-    
+	} 
 
     /**
      * Returns the index in output[] of the intersection point
@@ -81,13 +77,14 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
         return minIndex;
     }
 
-    protected abstract GeoPoint[] getIntersectionPoints();
-    protected abstract GeoPoint[] getLastDefinedIntersectionPoints();
+    @Override
+	protected abstract GeoPoint[] getIntersectionPoints();
     
-   
+    @Override
+	protected abstract GeoPoint[] getLastDefinedIntersectionPoints();
 
-
-    protected void setCoords(GeoPointND destination, GeoPointND source){
+    @Override
+	protected void setCoords(GeoPointND destination, GeoPointND source){
     	((GeoPoint) destination).setCoords((GeoPoint) source);
     }
 

@@ -22,7 +22,6 @@ package geogebra.kernel;
 
 public class AlgoPointList extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
@@ -38,16 +37,18 @@ public class AlgoPointList extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPointList";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -55,7 +56,8 @@ public class AlgoPointList extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
@@ -84,9 +86,7 @@ public class AlgoPointList extends AlgoElement {
         	}
         	
         }
-		cons.setSuppressLabelCreation(suppressLabelCreation);
-        
-
+		cons.setSuppressLabelCreation(suppressLabelCreation);       
     }
   
 }

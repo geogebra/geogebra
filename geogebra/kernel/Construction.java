@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
@@ -28,7 +27,6 @@ import geogebra.util.Util;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -501,8 +499,7 @@ public class Construction {
 	 * Adds the given GeoCasCell object to the construction list so that
 	 * it becomes the n-th GeoCasCell in the list. Other cas cells are shifted right.
 	 * 
-	 * @param row number starting at 0
-	 * @return cas cell or null if there are less cas cells in the construction list
+	 * @param n number starting at 0
 	 */
 	public void setCasCellRow(GeoCasCell casCell, int n) {
 		GeoCasCell nthCasCell = getCasCell(n);
@@ -1041,7 +1038,7 @@ public class Construction {
 	 * Adds given GeoCasCell to a table where (label, object) pairs 
 	 * of CAS view variables are stored.
 	 * @param geoCasCell GeoElement to be added, must have assignment variable
-	 * @see #removeCasCellLabel(GeoCasCell)
+	 * @see #removeCasCellLabel(String)
 	 * @see #lookupCasCellLabel(String)
 	 */
 	public void putCasCellLabel(GeoCasCell geoCasCell, String label) {
@@ -1057,7 +1054,7 @@ public class Construction {
 	 * and from the underlying CAS.
 	 * 
 	 * @param variable to be removed	
-	 * @see #putCasCellLabel(GeoCasCell)
+	 * @see #putCasCellLabel(GeoCasCell, String)
 	 */
 	public void removeCasCellLabel(String variable) {
 		removeCasCellLabel(variable, true);	
@@ -1067,9 +1064,8 @@ public class Construction {
 	 * Removes given GeoCasCell from the CAS variable table
 	 * and if wanted from the underlying CAS too.
 	 * 
-	 * @param geoCasCell GeoElement to be removed
 	 * @param unbindInCAS whether variable should be removed from underlying CAS too.
-	 * @see #putCasCellLabel(GeoCasCell)
+	 * @see #putCasCellLabel(GeoCasCell, String)
 	 */
 	public void removeCasCellLabel(String variable, boolean unbindInCAS) {
 		if (geoCasCellTable != null) {
@@ -1240,7 +1236,6 @@ public class Construction {
 	 * Returns GeoCasCell referenced by given row label.
 	 * 
 	 * @param label row reference label, e.g. $5 for 5th row or $ for current row
-	 * @param currentRow to know how to get the previous row for $
 	 * @return referenced row or null
 	 */
 	public GeoCasCell lookupCasRowReference(String label) {
@@ -1614,7 +1609,7 @@ public class Construction {
 	 * @return true iff the label will create new geo when autoCreateGeoElement() is called with it.
 	 * 
 	 */
-	final public boolean willAutoCreateGeoElement(String label) {
+	final public static boolean willAutoCreateGeoElement(String label) {
 		if ("i".equals(label) || "e".equals(label))
 			return true;
 		

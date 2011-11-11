@@ -22,33 +22,31 @@ import java.awt.Point;
  */
 public class AlgoRow extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // input
     private GeoNumeric num;     // output              
         
     /**
      * Creates new row algo
-     * @param cons
-     * @param label
-     * @param geo
      */
     public AlgoRow(Construction cons, String label, GeoElement geo) {
     	super(cons);
         this.geo = geo;  
         
         num = new GeoNumeric(cons); 
-       setInputOutput(); // for AlgoElement
+        setInputOutput(); // for AlgoElement
         
         // compute value of dependent number
         compute();      
         num.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoRow";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = geo;
@@ -65,7 +63,8 @@ public class AlgoRow extends AlgoElement {
     protected GeoNumeric getResult() { return num; }        
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {    	
+    @Override
+	protected final void compute() {    	
     	Point p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.y + 1);
     	else num.setUndefined();

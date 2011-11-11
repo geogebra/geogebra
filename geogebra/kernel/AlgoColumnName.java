@@ -26,7 +26,6 @@ package geogebra.kernel;
  */
 public class AlgoColumnName extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // input
     private GeoText text;     // output              
         
@@ -43,24 +42,27 @@ public class AlgoColumnName extends AlgoElement {
         text.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoColumnName";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = geo;
-        
-        output = new GeoElement[1];        
-        output[0] = text;        
+          
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoText getGeoText() { return text; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {    
+    @Override
+	protected final void compute() {    
     	String col = GeoElement.getSpreadsheetColumnName(geo.label);
     	
     	if (col == null) text.setUndefined();

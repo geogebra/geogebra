@@ -31,7 +31,6 @@ import geogebra.kernel.kernelND.GeoCurveCartesianND;
  */
 public class AlgoCurveCartesian extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private NumberValue[] coords; // input
 	private NumberValue from, to;  // input
     private GeoNumeric localVar;     // input
@@ -82,11 +81,13 @@ public class AlgoCurveCartesian extends AlgoElement {
     	return new GeoCurveCartesian(cons, fun[0], fun[1]);
     }
     
+	@Override
 	public String getClassName() {
 		return "AlgoCurveCartesian";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[coords.length+3];
         
@@ -95,15 +96,16 @@ public class AlgoCurveCartesian extends AlgoElement {
     	input[coords.length] = localVar;
     	input[coords.length+1] = from.toGeoElement();
     	input[coords.length+2] = to.toGeoElement();    	
-        
-        output = new GeoElement[1];        
-        output[0] = curve;        
+           
+        super.setOutputLength(1);
+        super.setOutput(0, curve);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoCurveCartesianND getCurve() { return curve; }        
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 
     	// take care to set the curve undefined
     	// if its predecessors are undefined
@@ -127,7 +129,8 @@ public class AlgoCurveCartesian extends AlgoElement {
     	curve.setInterval(from.getDouble(), to.getDouble());
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         return getCommandDescription();
     }
 }

@@ -38,7 +38,6 @@ import java.util.ArrayList;
  */
 public class AlgoPolygonOperation extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPolygon inPoly0; //input
 	private GeoPolygon inPoly1; //input
 	private GeoPolygon poly; //output	
@@ -89,12 +88,12 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 	}
 
-
+	@Override
 	public String getClassName() {
 		return "AlgoPolygonOperation";
 	}
 
-
+	@Override
 	protected void setInputOutput() {
 
 		input = new GeoElement[2];
@@ -126,8 +125,8 @@ public class AlgoPolygonOperation extends AlgoElement {
 		// of the polygon don't get labels either: in this case we only
 		// have the polygon itself as output object
 		if (!labelPointsAndSegments) {
-			output = new GeoElement[1];
-			output[0] = poly;
+			super.setOutputLength(1);
+	        super.setOutput(0, poly);
 		}
 		// otherwise: points and segments are also output objects
 		else {
@@ -136,26 +135,23 @@ public class AlgoPolygonOperation extends AlgoElement {
 			GeoPointND[] points = poly.getPoints();
 			int size = 1 + segments.length + points.length;
 
-			output = new GeoElement[size];
+			super.setOutputLength(size);
 			int k = 0;
-			output[k] = poly;
+			super.setOutput(k, poly);
 
 			for (int i = 0; i < segments.length; i++) {
-				output[++k] = (GeoElement) segments[i];
+				super.setOutput(++k, (GeoElement) segments[i]);
 			}
 
 			for (int i = 0; i < points.length; i++) {
-				output[++k] = (GeoElement) points[i];
+				super.setOutput(++k, (GeoElement) points[i]);
 			}
 		}
 	}
 
-
 	GeoPolygon getPoly() {
 		return poly;
 	}
-
-
 
 	/**
 	 * Convert array of polygon GeoPoints to an Area object
@@ -178,8 +174,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 		return new Area(gp);	
 	}
 
-
-
+	@Override
 	protected final void compute() {
 
 		ArrayList<Double> xcoord = new ArrayList<Double>();
@@ -197,8 +192,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 			poly.setUndefined();
 		}
 		// if intersection is non-empty perform operation
-		else
-		{
+		else {
 			switch (operationType) {
 			case TYPE_INTERSECTION:
 				a1.intersect(a2);
@@ -359,7 +353,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree
-		ArrayList algoList = oldPoint.getAlgorithmList();
+		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
 		for (int k = 0; k < algoList.size(); k++) {
 			AlgoElement algo = (AlgoElement) algoList.get(k);
 			for (int j = 0; j < input.length; j++)
@@ -384,8 +378,6 @@ public class AlgoPolygonOperation extends AlgoElement {
 		algoList.clear();
 		// remove point
 		oldPoint.doRemove(); 
-
 	}
-
 
 }

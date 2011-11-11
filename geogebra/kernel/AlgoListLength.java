@@ -21,7 +21,6 @@ package geogebra.kernel;
 
 public class AlgoListLength extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoNumeric length; //output	
 
@@ -40,16 +39,18 @@ public class AlgoListLength extends AlgoElement {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoListLength";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = geoList;
 
-        output = new GeoElement[1];
-        output[0] = length;
+        super.setOutputLength(1);
+        super.setOutput(0, length);
         setDependencies(); // done by AlgoElement
     }
 
@@ -57,11 +58,13 @@ public class AlgoListLength extends AlgoElement {
         return length;
     }
 
-    protected final void compute() {
-    	if (geoList.isDefined())
+    @Override
+	protected final void compute() {
+    	if (geoList.isDefined()) {
     		length.setValue(geoList.size());
-    	else 
+    	} else {
     		length.setUndefined();
+    	}
     }
     
 }

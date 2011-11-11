@@ -21,17 +21,13 @@ public class keys {
     *
     * @return java.lang.String
     */
-
    public String getUpperCase() {
       return this.UpperCase;
    }
 
    /**
     * This method sets UpperCase
-    *
-    * @return void
     */
-
    public void setUpperCase(String UpperCase) {
       this.UpperCase = UpperCase;
    }
@@ -42,17 +38,13 @@ public class keys {
     *
     * @return java.lang.String
     */
-
    public String getLowerCase() {
       return this.LowerCase;
    }
 
    /**
     * This method sets UpperCase
-    *
-    * @return void
     */
-
    public void setLowerCase(String LowerCase) {
       this.LowerCase = LowerCase;
    }

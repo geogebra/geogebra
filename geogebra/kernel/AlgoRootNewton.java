@@ -30,7 +30,6 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 
 	public static final int MAX_ITERATIONS = 100;
 	
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f; // input, g for intersection of functions       
     private NumberValue start; // start value for root of f 
     private GeoPoint rootPoint; // output 
@@ -61,18 +60,20 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         super(cons);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRootNewton";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = f;
         input[1] = startGeo;
                 
-        output = new GeoPoint[1];
-        output[0] = rootPoint;
+        super.setOutputLength(1);
+        super.setOutput(0, rootPoint);
         setDependencies();       
     }
 
@@ -80,7 +81,8 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         return rootPoint;
     }
 
-    protected void compute() {
+    @Override
+	protected void compute() {
         if (!(f.isDefined() && startGeo.isDefined())) {
             rootPoint.setUndefined();
         } else {
@@ -155,7 +157,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
        return Double.NaN;
     }
     
-    private boolean checkRoot(Function fun, double root) {
+    private static boolean checkRoot(Function fun, double root) {
     	 // check what we got
         return !Double.isNaN(root) && (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION );
     }
@@ -168,7 +170,8 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     	return RealRootUtil.getDefinedInterval(fun, start - screenWidth, start + screenWidth);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("RootOfAWithInitialValueB",f.getLabel(),startGeo.getLabel());

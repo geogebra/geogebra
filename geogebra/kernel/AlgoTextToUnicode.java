@@ -15,7 +15,6 @@ package geogebra.kernel;
 
 public class AlgoTextToUnicode extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoText text;  // input
     protected GeoList list;     // output           
         
@@ -31,24 +30,26 @@ public class AlgoTextToUnicode extends AlgoElement {
       list.setLabel(label);
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTextToUnicode";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[1];
         input[0] = text;
-
-        
-        output = new GeoElement[1];        
-        output[0] = list;        
+           
+        super.setOutputLength(1);
+        super.setOutput(0, list);
         setDependencies(); // done by AlgoElement
     }    
     
     protected GeoList getResult() { return list; }        
 
-    protected void compute()
+    @Override
+	protected void compute()
     {
     	String t = text.getTextString();
     	

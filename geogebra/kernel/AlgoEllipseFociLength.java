@@ -37,16 +37,19 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 		        super(cons, label, A, B, a);		       
 		    }
 
+	@Override
 	public String getClassName() {
         return "AlgoEllipseFociLength";
     }
 	
+	@Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
     }
     
 	
-	 final public String toString() {
+	 @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(),B.getLabel(),a.toGeoElement().getLabel());	        	      

@@ -27,11 +27,13 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 	  super(cons, label, a, b); 
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoGCD";
     }
       
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		
     		if (a.getDouble() > Long.MAX_VALUE || b.getDouble() > Long.MAX_VALUE || 

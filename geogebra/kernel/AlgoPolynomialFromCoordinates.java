@@ -27,7 +27,6 @@ import java.math.BigDecimal;
  */
 public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; // input
     private GeoFunction g; // output         
    
@@ -41,17 +40,19 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
         g.setLabel(label);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPolynomialFromCoordinates";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
@@ -60,7 +61,8 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
     }
 
 //  ON CHANGE: similar code is in AlgoTaylorSeries
-    protected final void compute() {       
+    @Override
+	protected final void compute() {       
         if (!inputList.isDefined()) {
         	g.setUndefined();
         	return;
@@ -194,7 +196,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			// (coeff) * x^k
 			ExpressionValue partExp;
 			MyDouble coeffMyDouble = null;
-			if (kernel.isEqual(coeff, 1.0)) {
+			if (Kernel.isEqual(coeff, 1.0)) {
 				if (powerExp == null)
 					partExp = new MyDouble(kernel, 1.0);
 				else
@@ -241,10 +243,12 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
     	
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
     	return getCommandDescription();
     }
-    private void polcoe(double x[], double y[], int n, double cof[])
+    
+    private static void polcoe(double x[], double y[], int n, double cof[])
 //  Given arrays x[0..n-1] and y[0..n-1] containing a tabulated function yi = f(xi), this routine
 //  returns an array of coefficients cof[0..n], such that yi = Sigma cofj.xj
 // adapted from Numerical Recipes chap 3.5
@@ -272,7 +276,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
   
   }
     
-    private void polcoeBig(double xx[], double yy[], int n, double coff[])
+    private static void polcoeBig(double xx[], double yy[], int n, double coff[])
 //  Given arrays x[0..n-1] and y[0..n-1] containing a tabulated function yi
 // = f(xi), this routine
 //  returns an array of coefficients cof[0..n], such that yi = Sigma cofj.xj

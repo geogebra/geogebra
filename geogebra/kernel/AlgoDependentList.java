@@ -24,7 +24,6 @@ import java.util.ArrayList;
  */
 public class AlgoDependentList extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;	
 	private ArrayList<GeoElement> listItems; //input GeoElements
     private GeoList geoList;     // output    
     
@@ -60,11 +59,13 @@ public class AlgoDependentList extends AlgoElement {
         compute();              
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentList";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
     	// create input array from listItems array-list
     	// and fill the geoList with these objects
@@ -87,7 +88,8 @@ public class AlgoDependentList extends AlgoElement {
      * Call super.remove() to remove the list.
      * Then remove all unlabeled input objects (= list elements)
      */
-    public void remove() {
+    @Override
+	public void remove() {
     	super.remove();
     	
 		//  removing unlabeled input
@@ -107,11 +109,13 @@ public class AlgoDependentList extends AlgoElement {
     	return geoList; 
     }       
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_CREATE_LIST;
 }
     
-    protected final void compute() {	    	
+    @Override
+	protected final void compute() {	    	
     	geoList.clear();
     	for (int i=0; i < input.length; i++) {    
     		// add input and its siblings to the list
@@ -134,7 +138,9 @@ public class AlgoDependentList extends AlgoElement {
     }   
     
 	private StringBuilder sb; 
-    final public String toString() {
+	
+    @Override
+	final public String toString() {
 
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
@@ -151,7 +157,8 @@ public class AlgoDependentList extends AlgoElement {
         return sb.toString();
     }        
     
-    final public String toRealString() {
+    @Override
+	final public String toRealString() {
 
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);

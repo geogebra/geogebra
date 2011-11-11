@@ -30,11 +30,7 @@ import geogebra.kernel.arithmetic.Polynomial;
  */
 public class AlgoDependentConic extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Equation equation;
+    private Equation equation;
     private ExpressionValue [] ev = new ExpressionValue[6];  // input
     private GeoConic conic;     // output                 
         
@@ -72,23 +68,26 @@ public class AlgoDependentConic extends AlgoElement {
         conic.setLabel(label);                
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentConic";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = equation.getGeoElementVariables();  
-        
-        output = new GeoElement[1];        
-        output[0] = conic;        
+  
+        super.setOutputLength(1);
+        super.setOutput(0, conic);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoConic getConic() { return conic; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {   
+    @Override
+	protected final void compute() {   
     	try {
 	        conic.setCoeffs( 
 	                ((NumberValue) ev[0].evaluate()).getDouble(),
@@ -103,11 +102,13 @@ public class AlgoDependentConic extends AlgoElement {
 		}
     }   
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         return equation.toString();
     }
     
-    public final String toRealString() {
+    @Override
+	public final String toRealString() {
         return equation.toRealString();
     }           
 }

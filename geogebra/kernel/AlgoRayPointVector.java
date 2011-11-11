@@ -20,33 +20,21 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoRayPointVector extends AlgoElement {
 
-    /**
-	 *  
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P; // input
+    private GeoPoint P; // input
     private GeoVector v; // input
     private GeoRay ray; // output       
 
     /**
      * Creates new ray algo
-     * @param cons
-     * @param label
-     * @param P
-     * @param v
      */
     AlgoRayPointVector(
         Construction cons, String label, GeoPoint P, GeoVector v) {
     	this(cons, P, v);
         ray.setLabel(label);
     }
-
     
     /**
      * Creates new ray algo
-     * @param cons
-     * @param P
-     * @param v
      */
     public AlgoRayPointVector(
         Construction cons, GeoPoint P, GeoVector v) {
@@ -59,28 +47,25 @@ public class AlgoRayPointVector extends AlgoElement {
         // compute line through P, Q
         compute();
         setIncidence();
-    }
-    
-    
-    
-    
-    
+    } 
     
     private void setIncidence() {
     	P.addIncidence(ray);
 	}
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRayPointVector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_RAY;
     }
     
-
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = v;
@@ -114,16 +99,17 @@ public class AlgoRayPointVector extends AlgoElement {
     }
 
     // calc the line g through P and Q    
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // g = cross(P, v)
         GeoVec3D.lineThroughPointVector(P, v, ray);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("RayThroughAWithDirectionB",P.getLabel(),v.getLabel());
-
     }
 
 }

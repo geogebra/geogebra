@@ -38,7 +38,6 @@ import java.util.Arrays;
 
 public class AlgoDotPlot extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
@@ -63,11 +62,13 @@ public class AlgoDotPlot extends AlgoElement {
     }
 
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDotPlot";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
@@ -80,7 +81,8 @@ public class AlgoDotPlot extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
@@ -113,9 +115,9 @@ public class AlgoDotPlot extends AlgoElement {
 		for (int i = outputList.size() - 1; i >= size; i--) {
 			GeoElement extraGeo = outputList.get(i);
 			extraGeo.remove();
-			outputList.remove(extraGeo);
-			
+			outputList.remove(extraGeo);			
 		}	
+		
 		int oldListSize = outputList.size();
     	 
                      
@@ -146,8 +148,7 @@ public class AlgoDotPlot extends AlgoElement {
         	 outputList.add(new GeoPoint(cons, null, sortedData[i], k, 1.0));
         }      
 		
-        cons.setSuppressLabelCreation(suppressLabelCreation);
-        
+        cons.setSuppressLabelCreation(suppressLabelCreation); 
     }
   
 }

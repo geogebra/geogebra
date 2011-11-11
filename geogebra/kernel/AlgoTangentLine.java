@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoTangentLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g;  // input
+    private GeoLine g;  // input
     private GeoConic c;  // input
     private GeoLine [] tangents;     // output  
     
@@ -54,14 +49,15 @@ public class AlgoTangentLine extends AlgoElement {
         GeoElement.setLabels(labels, tangents);            
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTangentLine";
     }        
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TANGENTS;
     }
-
     
     AlgoTangentLine(Construction cons, GeoLine g, GeoConic c) {
         super(cons);
@@ -91,12 +87,13 @@ public class AlgoTangentLine extends AlgoElement {
     }   
     
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = g;
         input[1] = c;
-        
-        output = tangents;              
+          
+        super.setOutput(tangents);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -111,12 +108,13 @@ public class AlgoTangentLine extends AlgoElement {
     GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
         if (conic != c) return null;
         
-        if (line == tangents[0])
+        if (line == tangents[0]) {
 			return tangentPoints[0];
-		else if (line == tangents[1])
+        } else if (line == tangents[1]) {
 			return tangentPoints[1];
-		else
+        } else {
             return null;
+        }
     }
     
     /**
@@ -125,7 +123,8 @@ public class AlgoTangentLine extends AlgoElement {
      * This is important so the the tangent lines are not
      * switched after loading a file
      */
-    public void initForNearToRelationship() {
+    @Override
+	public void initForNearToRelationship() {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
     	if (!tangents[0].isOnFullLine(tangentPoints[0], Kernel.MIN_PRECISION)) {
@@ -146,7 +145,8 @@ public class AlgoTangentLine extends AlgoElement {
     }
     
     // calc tangents parallel to g
-    protected final void compute() {               
+    @Override
+	protected final void compute() {               
         // degenerates should not have any tangents
         if (c.isDegenerate()) {
             tangents[0].setUndefined();
@@ -170,7 +170,8 @@ public class AlgoTangentLine extends AlgoElement {
         }                
     }
     
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("TangentToAParallelToB",c.getLabel(),g.getLabel());

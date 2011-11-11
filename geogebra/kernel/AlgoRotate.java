@@ -29,19 +29,11 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoRotate extends AlgoTransformation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Rotateable out;    
+    private Rotateable out;    
     private NumberValue angle; 
     private GeoElement inGeo, outGeo, angleGeo;
     /**
      * Creates new generic rotation algo
-     * @param cons
-     * @param label
-     * @param A
-     * @param angle
      */
     AlgoRotate(Construction cons, String label,
             GeoElement A, NumberValue angle) {
@@ -51,9 +43,6 @@ public class AlgoRotate extends AlgoTransformation {
     
     /**
      * Creates new unlabeled rotation algo
-     * @param cons
-     * @param A
-     * @param angle
      */
     AlgoRotate(Construction cons, GeoElement A, NumberValue angle) {
         super(cons);        
@@ -74,17 +63,19 @@ public class AlgoRotate extends AlgoTransformation {
         	cons.registerEuclidianViewCE(this);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRotate";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ROTATE_BY_ANGLE;
-    }
-    
+    }   
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = inGeo;
         input[1] = angle.toGeoElement();
@@ -98,12 +89,14 @@ public class AlgoRotate extends AlgoTransformation {
      * Returns the rotated object
      * @return rotated object
      */
-    GeoElement getResult() {
+    @Override
+	GeoElement getResult() {
         return outGeo;
     }
 
     // calc rotated point
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
@@ -118,12 +111,13 @@ public class AlgoRotate extends AlgoTransformation {
     }
     
        
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("ARotatedByAngleB",inGeo.getLabel(),angleGeo.getLabel());
-
     }
+    
     @Override
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;

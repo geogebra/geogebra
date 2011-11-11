@@ -26,7 +26,6 @@ package geogebra.kernel;
  */
 public class AlgoConstructionStep extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	//private GeoElement geo;  // input
     protected GeoNumeric num;     // output          
     //private Construction cons;
@@ -45,27 +44,31 @@ public class AlgoConstructionStep extends AlgoElement {
         num.setLabel(label);
    }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoConstructionStep";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[0];
-        
-        output = new GeoElement[1];        
-        output[0] = num;        
+               
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }    
 	
     protected GeoNumeric getResult() { return num; }        
  
-    final public boolean wantsConstructionProtocolUpdate() {
+    @Override
+	final public boolean wantsConstructionProtocolUpdate() {
     	return true;
     }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	//double step=cons.getApplication().getConstructionProtocol().getCurrentStepNumber();
     	double step=kernel.getConstructionStep();
     	//Application.debug("compute"+step+" "+kernel.getConstructionStep());

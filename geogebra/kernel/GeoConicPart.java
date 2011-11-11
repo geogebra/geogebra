@@ -13,6 +13,7 @@ the Free Software Foundation.
 /* 
  * Created on 03.12.2004
  */
+
 package geogebra.kernel;
 
 import geogebra.kernel.Matrix.CoordNearest;
@@ -31,10 +32,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 public class GeoConicPart extends GeoConic
 implements LimitedPath, NumberValue, LineProperties {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	/** conic arc*/
 	public static final int CONIC_PART_ARC = 1;
 	/** conic sector */
@@ -71,14 +68,17 @@ implements LimitedPath, NumberValue, LineProperties {
 		set(conic);
 	}
 	
+	@Override
 	public String getClassName() {	
 		return "GeoConicPart";
  	}
 	
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_CONICPART;
     }
 	
+	@Override
 	protected String getTypeString() {      
 		switch (conic_part_type) {
 			case CONIC_PART_ARC: 
@@ -92,12 +92,14 @@ implements LimitedPath, NumberValue, LineProperties {
 		}                       
 	}  
 	
+	@Override
 	public GeoElement copyInternal(Construction cons) {
 		GeoConicPart ret = new GeoConicPart(cons, conic_part_type);
 		ret.set(this);
 		return ret;
 	}
 	
+	@Override
 	public void set(GeoElement geo) {		
 		super.set(geo);
 		if (!geo.isGeoConicPart()) return;
@@ -119,6 +121,7 @@ implements LimitedPath, NumberValue, LineProperties {
 		keepTypeOnGeometricTransform = cp.keepTypeOnGeometricTransform;		
 	}
 	
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		
@@ -168,6 +171,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	 * Returns wheter c is equal to this conic part
 	 */
 	// Michael Borcherds 2008-05-01
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		
 		if (!geo.isGeoConicPart()) return false;
@@ -210,8 +214,8 @@ implements LimitedPath, NumberValue, LineProperties {
 		// handle conic types
 		switch (type) {
 			case GeoConic.CONIC_CIRCLE:
-				paramStart = kernel.convertToAngleValue(a);
-				paramEnd = kernel.convertToAngleValue(b);		
+				paramStart = Kernel.convertToAngleValue(a);
+				paramEnd = Kernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
 				if (paramExtent < 0) paramExtent += Kernel.PI_2;
 				
@@ -229,8 +233,8 @@ implements LimitedPath, NumberValue, LineProperties {
 				break;
 			
 			case GeoConic.CONIC_ELLIPSE:					
-				paramStart = kernel.convertToAngleValue(a);
-				paramEnd = kernel.convertToAngleValue(b);		
+				paramStart = Kernel.convertToAngleValue(a);
+				paramEnd = Kernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
 				if (paramExtent < 0) paramExtent += Kernel.PI_2;
 				
@@ -281,10 +285,12 @@ implements LimitedPath, NumberValue, LineProperties {
 		}		
 	}
 	
+	@Override
 	final public boolean isDefined() {
 		return value_defined;
 	}		
 	
+	@Override
 	public void setUndefined() {
 		value_defined = false;
 	}
@@ -303,19 +309,23 @@ implements LimitedPath, NumberValue, LineProperties {
 	 * Returns the area
 	 * @return area
 	 */
+	@Override
 	final public double getArea() {
 		return area;
 	}
 	
-    final public String toString() {
+    @Override
+	final public String toString() {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
 		sbToString.append(toValueString());			     
         return sbToString.toString();
     }
+    
 	private StringBuilder sbToString = new StringBuilder(50);
 	
+	@Override
 	final public String toValueString() {
 		if(value_defined)
 			return kernel.format(value);
@@ -338,20 +348,24 @@ implements LimitedPath, NumberValue, LineProperties {
 		keepTypeOnGeometricTransform = flag;
 	}
 	
+	@Override
 	final public boolean isLimitedPath() {
 		return true;
 	}
 	
-    public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
-    	if (allowOutlyingIntersections)
+    @Override
+	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
+    	if (allowOutlyingIntersections) {
 			return isOnFullConic(p, eps);
-		else
+    	} else {
 			return isOnPath(p, eps);
+    	}
     }
 	
 	/** 
 	 * states wheter P lies on this conic part or not 
 	 */
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 		
 		GeoPoint P = (GeoPoint) PI;
@@ -409,6 +423,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	}
 	
 	private PathParameter tempPP;
+	
 	private PathParameter getTempPathParameter() {
 		if (tempPP == null)
 			tempPP = new PathParameter();
@@ -419,12 +434,13 @@ implements LimitedPath, NumberValue, LineProperties {
 	 * Path Interface implementation
 	 */
 	
+	@Override
 	public boolean isClosedPath() {
 		return false;
 	}
 	
-	protected void pointChanged(Coords P, PathParameter pp) {
-		
+	@Override
+	protected void pointChanged(Coords P, PathParameter pp) {	
 		
 		pp.setPathType(type);
 
@@ -510,6 +526,7 @@ implements LimitedPath, NumberValue, LineProperties {
 		}	
 	}
 	
+	@Override
 	protected void pathChanged(Coords P, PathParameter pp) {
 		if(!value_defined){
 			P.setX(Double.NaN);
@@ -579,6 +596,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	 * path (may be Double.NEGATIVE_INFINITY)
 	 * 
 	 */
+	@Override
 	public double getMinParameter() {
 		switch (type) {
 			case CONIC_CIRCLE:
@@ -604,6 +622,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	 * path (may be Double.POSITIVE_INFINITY)
 	 * 
 	 */
+	@Override
 	public double getMaxParameter() {
 		switch (type) {
 			case CONIC_CIRCLE:
@@ -624,6 +643,7 @@ implements LimitedPath, NumberValue, LineProperties {
 		}
 	}
 	
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
@@ -632,6 +652,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	/**
      * returns all class-specific xml tags for saveXML
      */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
         super.getXMLtags(sb);
 		
@@ -658,10 +679,12 @@ implements LimitedPath, NumberValue, LineProperties {
         return getValue();
     }
     
+	@Override
 	public boolean isNumberValue() {
 		return true;
 	}
 	
+	@Override
 	public boolean isGeoConicPart() {
 		return true;
 	}
@@ -695,9 +718,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[2], (GeoElement) points[1]};
 						
 			return geos;					
-		}
-		
-		else if (algoParent instanceof AlgoConicPartCircumcircle) {
+		} else if (algoParent instanceof AlgoConicPartCircumcircle) {
 			GeoPointND [] points ={ (GeoPoint) algoParent.input[0], 
 					 (GeoPoint) algoParent.input[1],  (GeoPoint) algoParent.input[2]};			
 			points = t.transformPoints(points);
@@ -708,9 +729,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			res.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {res, (GeoElement) points[1], (GeoElement) points[2], (GeoElement) points[0]};
 			return geos;
-		}
-				
-		else if (algoParent instanceof AlgoConicPartConicParameters) {
+		} else if (algoParent instanceof AlgoConicPartConicParameters) {
 			AlgoConicPartConicParameters algo = (AlgoConicPartConicParameters) algoParent;			
 						
 			GeoConic transformedConic = t.getTransformedConic(algo.conic);	
@@ -721,9 +740,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			ret.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {ret};
 			return geos;
-		}
-		
-		else if (algoParent instanceof AlgoConicPartConicPoints) {
+		} else if (algoParent instanceof AlgoConicPartConicPoints) {
 			AlgoConicPartConicPoints algo = (AlgoConicPartConicPoints) algoParent;			
 			GeoPointND [] points ={ algo.getStartPoint(), algo.getEndPoint() };			
 			points = t.transformPoints(points);									
@@ -737,9 +754,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {conicPart, (GeoPoint) points[0], (GeoPoint) points[1]};
 			return geos;
-		}
-		
-		else if (algoParent instanceof AlgoSemicircle) {			
+		} else if (algoParent instanceof AlgoSemicircle) {			
 			AlgoElement algo =  algoParent;			
 			GeoPointND [] points ={ ((AlgoSemicircle)algo).getA(), ((AlgoSemicircle)algo).getB() };			
 			points = t.transformPoints(points);
@@ -766,9 +781,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			semCirc.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {semCirc, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
-		}
-		
-		else {
+		} else {
 			//	create CONIC
 			GeoConic transformedConic = t.getTransformedConic(this);
 			transformedConic.setLabel(label);
@@ -776,6 +789,8 @@ implements LimitedPath, NumberValue, LineProperties {
 			return ret;
 		}	
 	}
+	
+	@Override
 	final public GeoElement copy() {
 		return new GeoConicPart(this);
 	}
@@ -786,11 +801,10 @@ implements LimitedPath, NumberValue, LineProperties {
 	 */
 	public void matrixTransform(GeoList geoMatrix) {
 		
-		setUndefined();
-		
+		setUndefined();	
 	}
-	
-	
+		
+	@Override
 	public boolean isInRegion(double x0, double y0) {
 			
 		if(!super.isInRegion(x0, y0))
@@ -817,10 +831,8 @@ implements LimitedPath, NumberValue, LineProperties {
 		double vx = (x0-midpoint.getX())-firstVec.getX(), vy = (y0-midpoint.getY())-firstVec.getY();
 		double lx = secondVec.getX()-firstVec.getX(), ly = secondVec.getY()-firstVec.getY();
 		
-		return (vx*ly-vy*lx>0);
-		
-	}
-	
+		return (vx*ly-vy*lx>0);	
+	}	
 	
 	private double computeArg(double x0, double y0) {
 		double px = x0 - b.x;
@@ -838,10 +850,10 @@ implements LimitedPath, NumberValue, LineProperties {
 		double arg = Math.atan2(halfAxes[0]*py, halfAxes[1]*px2);
 		if (arg < 0)
 			arg += Kernel.PI_2;
-		return arg - paramStart;
-			
+		return arg - paramStart;			
 	}
 
+	@Override
 	protected void moveBackToRegion(GeoPointND pi,RegionParameters rp) {
 		Coords coords = pi.getCoordsInD2(getCoordSys());
 		PathParameter pp = pi.getPathParameter();
@@ -895,21 +907,18 @@ implements LimitedPath, NumberValue, LineProperties {
 		pi.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		pi.updateCoordsFrom2D(false,getCoordSys());
 		pi.updateCoords();
-
-
 	}
 	
+	@Override
 	public void regionChanged(GeoPointND PI){
 		super.regionChanged(PI);
 		PI.updateCoords2D();
 		if(!isInRegion(PI))
-			pointChanged(PI);
-		
+			pointChanged(PI);	
 	}
 	
-	
-	
-    public boolean hasDrawable3D() {
+    @Override
+	public boolean hasDrawable3D() {
     	return true;
     }
     

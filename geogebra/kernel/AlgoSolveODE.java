@@ -14,7 +14,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class AlgoSolveODE extends AlgoElement {
 
-		private static final long serialVersionUID = 1L;
 		private FunctionalNVar f0, f1; // input
 		private GeoNumeric x, y, end, step; // input
 	    //private GeoList g; // output        
@@ -38,12 +37,14 @@ public class AlgoSolveODE extends AlgoElement {
 	        locus.setLabel(label);
 	    }
 	    
-	    public String getClassName() {
+	    @Override
+		public String getClassName() {
 	        return "AlgoSolveODE";
 	    }
 	    
 	    // for AlgoElement
-	    protected void setInputOutput() {
+	    @Override
+		protected void setInputOutput() {
 	        input = new GeoElement[f1 == null ? 5 : 6];
 	    	int i = 0;
 	    	
@@ -54,9 +55,9 @@ public class AlgoSolveODE extends AlgoElement {
 	        input[i++] = end;
 	        input[i++] = step;
 
-	        output = new GeoElement[1];
-	        //output[0] = g;
-	        output[0] = locus;
+	        super.setOutputLength(1);
+	        // super.setOutput(0, g);
+	        super.setOutput(0, locus);
 	        setDependencies(); // done by AlgoElement
 	    }
 
@@ -65,8 +66,9 @@ public class AlgoSolveODE extends AlgoElement {
 	        return locus;
 	    }
 
-	    protected final void compute() {       
-	        if (!((GeoElement)f0).isDefined() || !x.isDefined() || !y.isDefined() || !step.isDefined() || !end.isDefined() || kernel.isZero(step.getDouble())) {
+	    @Override
+		protected final void compute() {       
+	        if (!((GeoElement)f0).isDefined() || !x.isDefined() || !y.isDefined() || !step.isDefined() || !end.isDefined() || Kernel.isZero(step.getDouble())) {
 	        	//g.setUndefined();
 	        	locus.setUndefined();
 	        	return;
@@ -114,7 +116,8 @@ public class AlgoSolveODE extends AlgoElement {
 			
 	    }
 	    
-	    final public String toString() {
+	    @Override
+		final public String toString() {
 	    	return getCommandDescription();
 	    }
 

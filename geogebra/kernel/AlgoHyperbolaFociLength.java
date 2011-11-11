@@ -37,15 +37,17 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
         super(cons, label, A, B, a);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoHyperbolaFociLength";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
-    }
-    
+    }   
 
+	@Override
 	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation

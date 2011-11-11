@@ -10,7 +10,6 @@
  
  */
 
-
 package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
@@ -23,11 +22,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties {			
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private boolean buttonFixed = false;
 	
 	private int fontSize = 0;
@@ -50,54 +44,67 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		this.labelOffsetY = labelOffsetY;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoButton";
 	}
 	
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_BUTTON_ACTION;
     }
 	
-    protected String getTypeString() {
+    @Override
+	protected String getTypeString() {
 		return "Button";
 	}
     
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_BUTTON;
     }
     
+	@Override
 	public GeoElement copy() {
 		return new GeoButton(cons, labelOffsetX, labelOffsetY);
 	}
 	
+	@Override
 	public boolean isGeoButton() {
 		return true;
 	}
 
+	@Override
 	public void resolveVariables() {     
     }
 		
+	@Override
 	public boolean showInEuclidianView() {
 		return true;
 	}
 
+	@Override
 	public boolean showInAlgebraView() {		
 		return false;
 	}
 	
+	@Override
 	public boolean isFixable() {
 		return true;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 	}
 
+	@Override
 	final public void setUndefined() {
 	}
 	
 	final public void setDefined() {
 	}
 
+	@Override
 	final public boolean isDefined() {
 		return true;
 	}			
@@ -106,31 +113,34 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	final public void setMode(int mode) {
 	}
 
-	final public int getMode() {
+	final public static int getMode() {
 		return -1;
 	}
 	
+	@Override
 	public String toValueString() {
 		return "";
 	}
 	
+	@Override
 	final public String toString() {
 		return label;
 	}
 	
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}
 
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}
-
-	
 
 	public double getRealWorldLocX() {
 		return 0;
@@ -143,6 +153,8 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	public boolean isAbsoluteScreenLocActive() {		
 		return true;
 	}
+	
+	@Override
 	public boolean isAbsoluteScreenLocateable() {
 		return true;
 	}
@@ -181,10 +193,12 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 	
     // Michael Borcherds 2008-04-30
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		return false;
 	}
 	
+	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;
@@ -194,6 +208,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	 * Returns whether the value (e.g. equation) should be shown
 	 * as part of the label description
 	 */
+	@Override
 	final public boolean isLabelValueShowable() {
 		return false;
 	}
@@ -243,6 +258,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return true;
 	}
 	
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		// font settings
@@ -252,7 +268,5 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 			sb.append("\"/>\n");
 		}
 	}
-
-
 
 }

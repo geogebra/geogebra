@@ -19,11 +19,6 @@ package geogebra.kernel;
  */
 public class AlgoConicPartConicPoints extends AlgoConicPart {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoPoint startPoint, endPoint;
 	
 	// temp points
@@ -75,19 +70,21 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = conic;      
         input[1] = startPoint;
         input[2] = endPoint;
 
-        output = new GeoElement[1];
-        output[0] = conicPart;
+        super.setOutputLength(1);
+        super.setOutput(0, conicPart);
 
         setDependencies();
     }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	// the temp points P and Q should lie on the conic
     	P.setCoords(startPoint);
     	conic.pointChanged(P);

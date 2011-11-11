@@ -10,10 +10,6 @@ import java.util.ArrayList;
  */
 public class AlgoIntersectSingle extends AlgoIntersect {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	// input
 	private AlgoIntersect algo;
 	private int index; // index of point in algo, can be input directly or be calculated from refPoint
@@ -87,19 +83,23 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	}
 
 	
-    protected boolean showUndefinedPointsInAlgebraView() {
+    @Override
+	protected boolean showUndefinedPointsInAlgebraView() {
     	return true;
     }
 	
+	@Override
 	public String getClassName() {
 		return "AlgoIntersectSingle";
 	}
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
 	
 	// for AlgoElement
+	@Override
 	public void setInputOutput() {
 		
 		if (refPoint==null) {
@@ -116,8 +116,8 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 			input[2] = refPoint; 
 		}
 		
-		output = new GeoPoint[1];
-		output[0] = point;
+        super.setOutputLength(1);
+        super.setOutput(0, point);
 	                   
 		setDependencies(); // done by AlgoElement
 	}
@@ -126,18 +126,22 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		return point;
 	}
 	
+	@Override
 	protected GeoPoint [] getIntersectionPoints() {
-		return (GeoPoint []) output;
+		return (GeoPoint[]) super.getOutput();
 	}
 		
+	@Override
 	protected GeoPoint[] getLastDefinedIntersectionPoints() {	
 		return null;
 	}
 
-    public boolean isNearToAlgorithm() {
+    @Override
+	public boolean isNearToAlgorithm() {
     	return true;
     }
     
+	@Override
 	protected final void initForNearToRelationship() {				
 		parentOutput = algo.getIntersectionPoints();					
 		
@@ -149,6 +153,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		algo.compute();
 	}
 
+	@Override
 	protected void compute() {
 
 		parentOutput = algo.getIntersectionPoints();
@@ -191,22 +196,22 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		}
 	}   
 	
+	@Override
 	public void remove() {
 		super.remove();
 		algo.removeUser(); // this algorithm was a user of algo
 	}
 	
-	  public String toString() {      
+	  @Override
+	public String toString() {      
 	        // Michael Borcherds 2008-03-30
 	        // simplified to allow better Chinese translation
-		  if (refPoint==null)
+		  if (refPoint==null) {
 			  return app.getPlain("IntersectionPointOfAB",input[0].getLabel(),input[1].getLabel());
-		  else
+		  } else {
 			  return app.getPlain("IntersectionPointOfABNearC",
 					  input[0].getLabel(),input[1].getLabel(),input[2].getLabel());
-	    }
-
-
-
+		  }
+	  }
 
 }

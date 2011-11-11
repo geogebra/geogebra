@@ -24,20 +24,12 @@ import geogebra.kernel.arithmetic.MyBoolean;
  */
 public class AlgoCountIf extends AlgoElement {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoFunction boolFun;     // input
 	private GeoList list;
 	private GeoNumeric result; // output
     
 	/**
 	 * Algorithm for handling of a CountIf construct
-	 * @param cons
-	 * @param label
-	 * @param condition
-	 * @param list
 	 */        
     public AlgoCountIf(Construction cons, String label, 
     		GeoFunction boolFun, GeoList list) {
@@ -56,24 +48,27 @@ public class AlgoCountIf extends AlgoElement {
         result.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoCountIf";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];    	
         input[0] = boolFun;
         input[1] = list;
-        
-        output = new GeoElement[1];        
-        output[0] = result;        
+          
+        super.setOutputLength(1);
+        super.setOutput(0, result);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoNumeric getResult() { return result; }
     
-    protected final void compute() {	 
+    @Override
+	protected final void compute() {	 
     	try {
 
     		int count = 0;
@@ -106,7 +101,8 @@ public class AlgoCountIf extends AlgoElement {
     	}
     }   
     
-    final public String toString() {        
+    @Override
+	final public String toString() {        
         return getCommandDescription();
     }
 }

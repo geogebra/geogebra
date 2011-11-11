@@ -26,11 +26,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoCenterConic extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c; // input
+    private GeoConic c; // input
     private GeoPoint midpoint; // output                 
 
     AlgoCenterConic(Construction cons, String label, GeoConic c) {
@@ -43,21 +39,24 @@ public class AlgoCenterConic extends AlgoElement {
         midpoint.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCenterConic";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_MIDPOINT;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;
 
-        output = new GeoElement[1];
-        output[0] = midpoint;
+        super.setOutputLength(1);
+        super.setOutput(0, midpoint);
         setDependencies(); // done by AlgoElement
     }
 
@@ -68,7 +67,8 @@ public class AlgoCenterConic extends AlgoElement {
         return midpoint;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         if (!c.isDefined()) {
             midpoint.setUndefined();
             return;
@@ -89,7 +89,8 @@ public class AlgoCenterConic extends AlgoElement {
         }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("CenterOfA",c.getLabel());

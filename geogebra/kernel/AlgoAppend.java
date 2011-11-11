@@ -14,7 +14,6 @@ package geogebra.kernel;
 
 public class AlgoAppend extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoElement geo; //input
     private GeoList outputList; //output	
@@ -55,11 +54,13 @@ public class AlgoAppend extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAppend";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         
         if (order == ADD_OBJECT_AT_END) {
@@ -79,7 +80,8 @@ public class AlgoAppend extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
    	
@@ -91,15 +93,15 @@ public class AlgoAppend extends AlgoElement {
     	outputList.setDefined(true);
     	outputList.clear();
     	
-        if (order == ADD_OBJECT_AT_START) 
+        if (order == ADD_OBJECT_AT_START) {
         	outputList.add(geo.copyInternal(cons));
-
-        for (int i=0 ; i < size ; i++)
+        }
+        for (int i=0 ; i < size ; i++) {
     		outputList.add(inputList.get(i).copyInternal(cons));
-    	
-        if (order == ADD_OBJECT_AT_END) 
+        }
+        if (order == ADD_OBJECT_AT_END) {
         	outputList.add(geo.copyInternal(cons));
-
+        }
    }
   
 }

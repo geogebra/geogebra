@@ -31,7 +31,6 @@ import java.util.ArrayList;
  */
 public class AlgoIntersectLineConic extends AlgoIntersect {    
 
-	private static final long serialVersionUID = 1L;
 	protected GeoLine g;  // input
 	protected GeoConic c;
 
@@ -62,14 +61,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     protected boolean handlingSpecialCase = false;
     protected int specialCasePointOnCircleIndex = 0; // index of point on line and conic
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectLineConic";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
-    }
-    
+    }   
     
     AlgoIntersectLineConic(Construction cons, GeoLine g, GeoConic c) {
         super(cons);
@@ -142,31 +142,36 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     
     
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = c;
         input[1] = g;
-        
-        output = P;        
+         
+        super.setOutput(P);
         noUndefinedPointsInAlgebraView();
         setDependencies(); // done by AlgoElement
     }    
     
-    protected final GeoPoint [] getIntersectionPoints() {
+    @Override
+	protected final GeoPoint [] getIntersectionPoints() {
         return P;
     }
     
     GeoLine getLine() { return g; }
     GeoConic getConic() { return c; }
-    protected GeoPoint [] getLastDefinedIntersectionPoints() {
+    @Override
+	protected GeoPoint [] getLastDefinedIntersectionPoints() {
         return D;
     }
     
-    public boolean isNearToAlgorithm() {
+    @Override
+	public boolean isNearToAlgorithm() {
     	return true;
     }
     	 
-    protected final void initForNearToRelationship() {   
+    @Override
+	protected final void initForNearToRelationship() {   
     	if (isDefinedAsTangent) return;
     	    	
     	isPermutationNeeded = true; // for non-continuous intersections    	
@@ -178,7 +183,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     }
     
     // calc intersections of conic c and line g
-    protected void compute() {
+    @Override
+	protected void compute() {
     	// within addIncidenceWithProbabilisticChecking(), updateCascade() is called
     	// and we don't what this.compute() to be invoked repeatedly.
     	if (handlingSpecialCase) return;
@@ -242,7 +248,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     	GeoPoint existingIntersection = null;    	
 
     	//find a point from conic c on line g
-    	ArrayList pointsOnConic = c.getPointsOnConic();
+    	ArrayList<GeoPoint> pointsOnConic = c.getPointsOnConic();
 		if (pointsOnConic != null) {
 			//get a point from pointsOnConic to see if it is on g.
 	    	for (int i=0; i < pointsOnConic.size(); ++i ) {
@@ -269,7 +275,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     	
 		// if existingIntersection is still not found, find a point from line g on conic c
 		if (existingIntersection == null) {
-		  	ArrayList pointsOnLine = g.getPointsOnLine();
+		  	ArrayList<GeoPoint> pointsOnLine = g.getPointsOnLine();
 
 		  	
 	    	if (pointsOnLine != null) {
@@ -530,7 +536,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	            
 	            if (ok = testPoints(g, c, sol, Kernel.MIN_PRECISION)) break;
 	            epsilon *= 10.0;
-	            kernel.setEpsilon(epsilon);
+	            Kernel.setEpsilon(epsilon);
 	        }
 	        kernel.resetPrecision();                
     	}
@@ -578,13 +584,12 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
         double delta = Math.min(Kernel.MIN_PRECISION,Math.max(1,Math.abs(2*d)+Math.abs(u)+Math.abs(w))*Kernel.EPSILON);
         
         
-        Kernel kernel = g.kernel;
         // Erzeugende, Asymptote oder Treffgerade
-        if (kernel.isZero(u)) {
+        if (Kernel.isZero(u)) {
             // Erzeugende oder Asymptote
-            if (kernel.isZero(d)) {
+            if (Kernel.isZero(d)) {
                 // Erzeugende
-                if (kernel.isZero(w)) {
+                if (Kernel.isZero(w)) {
                     sol[0].setUndefined();
                     sol[1].setUndefined();
                     return INTERSECTION_PRODUCING_LINE;

@@ -52,6 +52,7 @@ public class DockSplitPane extends JSplitPane {
 	 * Set the left component of this DockSplitPane and remove the divider
 	 * if the left component is null.
 	 */
+	@Override
 	public void setLeftComponent(Component component) {
 		super.setLeftComponent(component);
 		updateDivider();
@@ -61,6 +62,7 @@ public class DockSplitPane extends JSplitPane {
 	 * Set the right component of this DockSplitPane and remove the divider
 	 * if the right component is null.
 	 */
+	@Override
 	public void setRightComponent(Component component) {
 		super.setRightComponent(component);
 		updateDivider();
@@ -95,6 +97,7 @@ public class DockSplitPane extends JSplitPane {
 	 * Update the UI by drawing the divider just if the dividerVisible attribute is 
 	 * set to true.
 	 */
+	@Override
 	public void updateUI() {
 		super.updateUI();
 
@@ -107,7 +110,7 @@ public class DockSplitPane extends JSplitPane {
 	
 	/**
 	 * A helper class used to get the split pane information array
-	 * of the current layout. Use {@link getInfo()} with the root pane
+	 * of the current layout. Use {@link #getInfo(DockSplitPane)} with the root pane
 	 * as parameter to get the array.
 	 * 
 	 * @author Florian Sonner

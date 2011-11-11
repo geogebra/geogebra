@@ -22,11 +22,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoConicPartCircle extends AlgoConicPart {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoPoint center, startPoint, endPoint;	
 
 	private GeoPoint P, Q;			
@@ -85,6 +80,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
     	return center;
     }
     
+	@Override
 	public String getClassName() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
@@ -94,6 +90,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 		}		
 	}
 	
+	@Override
 	public int getRelatedModeID() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
@@ -104,19 +101,21 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	}
 
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = center;      
         input[1] = startPoint;
         input[2] = endPoint;
 
-        output = new GeoElement[1];
-        output[0] = conicPart;
+        super.setOutputLength(1);
+        super.setOutput(0, conicPart);
 
         setDependencies();
     }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	// the temp points P and Q should lie on the conic
     	P.setCoords(startPoint);
     	conic.pointChanged(P);

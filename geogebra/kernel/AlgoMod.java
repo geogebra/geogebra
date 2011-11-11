@@ -41,11 +41,13 @@ public class AlgoMod extends AlgoTwoNumFunction {
 	  super(cons, label, a, b);     
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoMod";
     }       
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		
     		//double mod = Math.round(a.getDouble());

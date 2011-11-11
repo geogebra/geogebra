@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoParabolaPointLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint F;  // input    
+    private GeoPoint F;  // input    
     private GeoLine l;  // input    
     private GeoConic parabola; // output             
             
@@ -48,23 +43,25 @@ public class AlgoParabolaPointLine extends AlgoElement {
         parabola.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoParabolaPointLine";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_PARABOLA;
-    }
-    
+    }   
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = F;
         input[1] = l;
         
-        output = new GeoElement[1];        
-        output[0] = parabola;        
+        super.setOutputLength(1);
+        super.setOutput(0, parabola);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -73,11 +70,13 @@ public class AlgoParabolaPointLine extends AlgoElement {
     GeoLine getLine() { return l; }
     
     // compute parabola with focus F and line l
-    protected final void compute() {                           
+    @Override
+	protected final void compute() {                           
         parabola.setParabola(F, l);
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("ParabolaWithFocusAandDirectrixB",F.getLabel(),l.getLabel());

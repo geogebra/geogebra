@@ -36,7 +36,6 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 	/** maximum time for the computation of one locus point in millis **/
 	public static int MAX_TIME_FOR_ONE_STEP = 500;
 	
-	private static final long serialVersionUID = 1L;
 	private static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
@@ -111,16 +110,19 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 //		}
 //    }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLocus";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_LOCUS;
     }
     
     
     public ArrayList getMoveableInputPoints() {
+    	// TODO ?
     	return null;
     }
     
@@ -177,7 +179,8 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	// it is inefficient to have Q and P as input
     	// let's take all independent parents of Q
     	// and the path as input
@@ -217,7 +220,8 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
         setEfficientDependencies(standardInput, efficientInput);           
     }     
     
-    final public String toString() {    	
+    @Override
+	final public String toString() {    	
         return getCommandDescription();        
     }
 
@@ -227,8 +231,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
      */
     GeoLocus getLocus() {
         return locus;
-    }    
-    
+    }      
    
     private void buildLocusMacroConstruction(TreeSet<ConstructionElement> locusConsElements) {       	
     	// build macro construction
@@ -313,7 +316,8 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
       }
 
     // compute locus line
-    final protected void compute() {
+    @Override
+	final protected void compute() {
     	if (!movingPoint.isDefined() || macroCons == null || !path.toGeoElement().isDefined()) {
     		locus.setUndefined();
     		return;
@@ -333,9 +337,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 		
 		// continuous kernel?
     	continuous = kernel.isContinuous();
-    	macroKernel.setContinuous(continuous);  
-    	
-        
+    	macroKernel.setContinuous(continuous);     	      
      	
     	// update macro construction with current values of global vars 
     	resetMacroConstruction();
@@ -370,8 +372,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     		boolean finishedRun = false;    	
 	        while ( !finishedRun && !maxTimeExceeded &&
 	        		 pointCount <= PathMover.MAX_POINTS && 
-	        		 whileLoops <= MAX_LOOPS) 
-	        {		    	        		        	
+	        		 whileLoops <= MAX_LOOPS) {		    	        		        	
 	        	whileLoops++;	      
 	        		        	
 	        	// lineTo may be false due to a parameter jump
@@ -444,8 +445,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 	       				// draw line back to first point when it's close enough
 	       				insertPoint(QstartPos.inhomX, QstartPos.inhomY, true);	
 	       				finishedRun = true;
-	       			} 
-	       			else {		       			
+	       			} else {		       			
 		       			// decrease step until another step is possible
 		       			while (!pathMover.hasNext() && pathMover.smallerStep());
 		       			
@@ -460,8 +460,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 	        if (maxTimeExceeded) {
 	        	System.err.println("AlgoLocus: max time exceeded");	        	
 	        	return;	        
-	        } 
-	        else {	        
+	        } else {	        
 		        // make sure that Pcopy is back at startPos now
 		        // look at Qcopy at startPos	    	         
 				Pcopy.set((GeoElement) PstartPos);
@@ -517,8 +516,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     		// don't use caching for continuous constructions:
         	// the same position of Pcopy can have different results for Qcopy 
     		Pcopy.updateCascade();    		
-    	} 
-    	else {    	    
+    	} else {    	    
 	    	// NON-CONTINOUS construction    	
 	    	// check if the path parameter's resulting Qcopy is already in cache
 	    	double param = Pcopy.getPathParameter().t;
@@ -679,7 +677,8 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 				  farYmax - farYmin);      	
     }
     
-    public boolean euclidianViewUpdate() {
+    @Override
+	public boolean euclidianViewUpdate() {
       	updateScreenBorders();
   		update(); 
   		return false;

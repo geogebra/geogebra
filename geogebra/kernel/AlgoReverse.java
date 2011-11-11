@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 public class AlgoReverse extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
@@ -42,11 +41,13 @@ public class AlgoReverse extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoReverse";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
@@ -63,7 +64,8 @@ public class AlgoReverse extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined()) {

@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoConicFivePoints extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint[] P; // input  five points      
+    private GeoPoint[] P; // input  five points      
 	private GeoPoint[] Ppert;   
     private GeoConic conic; // output             
     private double delta;
@@ -71,37 +67,41 @@ public class AlgoConicFivePoints extends AlgoElement {
     private void setIncidence() {
 		for (int i=0; i< P.length; ++i) {
 			P[i].addIncidence(conic);
-		}
-		
+		}	
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoConicFivePoints";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_CONIC_FIVE_POINTS;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = P;
 
-        output = new GeoElement[1];
-        output[0] = conic;
+        super.setOutputLength(1);
+        super.setOutput(0, conic);
         setDependencies(); // done by AlgoElement
     }
 
     GeoConic getConic() {
         return conic;
     }
+
     GeoPoint[] getPoints() {
         return P;
     }
 
     // compute conic through five points P[0] ... P[4]
     // with Pl�cker � method
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // compute lines P0 P1, P2 P3, 
         //               P0 P2, P1 P3
         GeoVec3D.cross(P[0], P[1], line[0]);
@@ -209,7 +209,7 @@ public class AlgoConicFivePoints extends AlgoElement {
 
     // compute degenerate conic from lines a, b
     // the result is written into A as a NON-SYMMETRIC Matrix
-    final private void degCone(GeoVec3D a, GeoVec3D b, double[][] A) {
+    final private static void degCone(GeoVec3D a, GeoVec3D b, double[][] A) {
         // A = a . b^t
         A[0][0] = a.x * b.x;
         A[0][1] = a.x * b.y;
@@ -223,7 +223,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     // computes P.A.P, where A is a (possibly not symmetric) 3x3 matrix
-    final private double evalMatrix(double[][] A, GeoPoint P) {
+    final private static double evalMatrix(double[][] A, GeoPoint P) {
         return A[0][0] * P.x * P.x
             + A[1][1] * P.y * P.y
             + A[2][2] * P.z * P.z
@@ -246,7 +246,8 @@ public class AlgoConicFivePoints extends AlgoElement {
         }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("ConicThroughABCDE",P[0].getLabel(),P[1].getLabel(),P[2].getLabel(),P[3].getLabel(),P[4].getLabel());

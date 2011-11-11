@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianView;
+
 /**
  * Find asymptotes
  * 
@@ -20,7 +21,6 @@ import geogebra.euclidian.EuclidianView;
  */
 public class AlgoAsymptoteFunction extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f; // input
     private GeoList g; // output        
     
@@ -38,12 +38,14 @@ public class AlgoAsymptoteFunction extends AlgoElement {
         g.setLabel(label);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAsymptoteFunction";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = f;
 
@@ -56,7 +58,8 @@ public class AlgoAsymptoteFunction extends AlgoElement {
         return g;
     }
 
-    protected final void compute() {       
+    @Override
+	protected final void compute() {       
         if (!f.isDefined()) {
         	g.setUndefined();
         	return;
@@ -81,10 +84,10 @@ public class AlgoAsymptoteFunction extends AlgoElement {
 	    catch (Throwable th) {
 	    	g.setUndefined();
 	    }		
-    }
+    } 
     
-    
-    final public String toString() {
+    @Override
+	final public String toString() {
     	return getCommandDescription();
     }
  

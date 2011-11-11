@@ -42,22 +42,25 @@ public class AlgoPerimeterPoly extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoPerimeterPoly";
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = polygon;
 
-		output = new GeoElement[1];
-		output[0] = circum;
+		super.setOutputLength(1);
+        super.setOutput(0, circum);
 		setDependencies();
 	}
 
 	/**
 	 * Compute circumference by adding up the length of it's segemnts.
 	 */
+	@Override
 	protected final void compute() {
 		if (!polygon.isDefined()) {
 			circum.setUndefined();

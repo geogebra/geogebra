@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class AlgoClasses extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList dataList; //input
 	private GeoNumeric start; //input
 	private GeoNumeric width; //input
@@ -33,8 +32,6 @@ public class AlgoClasses extends AlgoElement {
 		
 		this(cons, dataList, start, width, numClasses);
 		classList.setLabel(label);
-		
-
 	}
 
 	public AlgoClasses(Construction cons, GeoList dataList, GeoNumeric start, GeoNumeric width, GeoNumeric numClasses ) {
@@ -49,12 +46,13 @@ public class AlgoClasses extends AlgoElement {
 				compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoClasses";
 	}
 
+	@Override
 	protected void setInputOutput(){
-
 		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
 
 		tempList.add(dataList);
@@ -71,8 +69,8 @@ public class AlgoClasses extends AlgoElement {
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
-		output = new GeoElement[1];
-		output[0] = classList;
+        super.setOutputLength(1);
+        super.setOutput(0, classList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -80,8 +78,7 @@ public class AlgoClasses extends AlgoElement {
 		return classList;
 	}
 
-
-
+	@Override
 	protected final void compute() {
 
 		// Validate input arguments
@@ -101,7 +98,6 @@ public class AlgoClasses extends AlgoElement {
 
 		classList.setDefined(true);
 		classList.clear();
-
 
 
 		// Get data max and min 

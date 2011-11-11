@@ -27,11 +27,7 @@ package geogebra.kernel;
  */
 public class AlgoRadius extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c;  // input
+    private GeoConic c;  // input
     private GeoNumeric num;     // output                  
     
     AlgoRadius(Construction cons, GeoConic c) {        
@@ -39,8 +35,7 @@ public class AlgoRadius extends AlgoElement {
         this.c = c;                                                              
         num = new GeoNumeric(cons);                
         setInputOutput(); // for AlgoElement                
-        compute();              
-        
+        compute();                     
     }   
     
     AlgoRadius(Construction cons, String label,GeoConic c) {        
@@ -48,17 +43,19 @@ public class AlgoRadius extends AlgoElement {
         num.setLabel(label);            
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRadius";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;        
         
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }       
     
@@ -66,17 +63,19 @@ public class AlgoRadius extends AlgoElement {
     GeoConic getConic() { return c; }        
     
     // set parameter of parabola
-    protected final void compute() {        
-        if (c.type == GeoConic.CONIC_CIRCLE)
+    @Override
+	protected final void compute() {        
+        if (c.type == GeoConic.CONIC_CIRCLE) {
             num.setValue(c.halfAxes[0]);
-        else 
+        } else {
             num.setUndefined();
+        }
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("RadiusOfA",c.getLabel());
-
     }
 }

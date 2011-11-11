@@ -99,7 +99,7 @@ public class Layout implements SettingListener {
 	 * Initialize the default perspectives
 	 * 	 
 	 */
-	private void initializeDefaultPerspectives() {
+	private static void initializeDefaultPerspectives() {
 		defaultPerspectives = new Perspective[5];
 		
 		DockPanelData[] dpData;

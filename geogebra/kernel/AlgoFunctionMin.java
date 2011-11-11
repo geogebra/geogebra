@@ -18,7 +18,6 @@ import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 
 
-
 /**
  * Command: Min[<function>,left-x,right-x]
  * 
@@ -40,7 +39,6 @@ import geogebra.main.Application;
 
 public class AlgoFunctionMin extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunctionable function; 	//input
 	private GeoFunction		f;
 	private NumberValue     left;	  	//input
@@ -72,11 +70,13 @@ public class AlgoFunctionMin extends AlgoElement {
     	
     }//constructor
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFunctionMin";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = function.toGeoElement();
         input[1] = geoleft;
@@ -92,8 +92,8 @@ public class AlgoFunctionMin extends AlgoElement {
         return E;
     }//getNumericalExtremum()
     
-
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         double		l				=	left.getDouble();
         double		r				=	right.getDouble();
         double		min				=	0.0d;    	
@@ -111,14 +111,10 @@ public class AlgoFunctionMin extends AlgoElement {
     	extrFinder = new ExtremumFinder();
 		RealRootFunction fun = f.getRealRootFunctionY();    
 
-		min		   = extrFinder.findMinimum(l,r,fun,5.0E-8);
-
-
+		min = extrFinder.findMinimum(l,r,fun,5.0E-8);
         
         E.setCoords(min,f.evaluate(min),1.0);
-        E.updateRepaint();
-
-        
+        E.updateRepaint();        
 
     }//compute()
     

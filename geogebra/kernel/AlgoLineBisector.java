@@ -38,23 +38,26 @@ public class AlgoLineBisector extends AlgoElement {
         g.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLineBisector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_LINE_BISECTOR;
     }
     
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = A;
         input[1] = B;
         
-        output = new GeoElement[1];        
-        output[0] = g;        
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -66,7 +69,8 @@ public class AlgoLineBisector extends AlgoElement {
     }
     
     // line through P normal to v
-    protected final void compute() { 
+    @Override
+	protected final void compute() { 
         // get inhomogenous coords
         double ax = A.inhomX;
         double ay = A.inhomY;
@@ -80,8 +84,8 @@ public class AlgoLineBisector extends AlgoElement {
         g.z = -(midPoint.x * g.x + midPoint.y * g.y)/2.0;     
     }   
     
-
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LineBisectorAB",A.getLabel(),B.getLabel());

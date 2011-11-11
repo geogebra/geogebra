@@ -65,11 +65,6 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         	c.addToConstructionList(this, false);                 
     }
     
-    
-    	
-    
-    
-
     /**
      * initialize output list
      * @param n Output length 
@@ -87,6 +82,14 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      */
     protected void setOutput(int i, GeoElement geo){
     	output[i] = geo;
+    }
+    
+    /**
+     * sets the output to the given array
+     * @param geo the output to set
+     */
+    protected void setOutput(GeoElement[] geo) {
+    	output = geo;
     }
     
     /**
@@ -405,7 +408,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 //    public static double computeTime, updateTime;
 //    public static double counter;
     
-    public void update() {
+    @Override
+	public void update() {
     	if (stopUpdateCascade) return;
     	 
     	// update input random numbers without label
@@ -584,10 +588,6 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 
     }
     
-    
-    
-    
-       
     public boolean euclidianViewUpdate() {
     	update();
     	return false;
@@ -596,7 +596,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /**
      * Removes algorithm and all dependent objects from construction.
      */
-    public void remove() {      	
+    @Override
+	public void remove() {      	
         cons.removeFromConstructionList(this);                
         cons.removeFromAlgorithmList(this);        
         
@@ -680,7 +681,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /**
      * Tells all views to add all output GeoElements of this algorithm. 
      */
-    final public void notifyAdd() {
+    @Override
+	final public void notifyAdd() {
         for (int i = 0; i < getOutputLength(); ++i) {
             getOutput(i).notifyAdd();
         }
@@ -689,13 +691,15 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /**
      * Tells all views to remove all output GeoElements of this algorithm. 
      */
-    final public void notifyRemove() {
+    @Override
+	final public void notifyRemove() {
         for (int i = 0; i < getOutputLength(); ++i) {
             getOutput(i).notifyRemove();
         }
     }
 
-    final public GeoElement[] getGeoElements() {
+    @Override
+	final public GeoElement[] getGeoElements() {
         return getOutput();
     }
     
@@ -714,11 +718,13 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     	 return true;
     }
     
-    final public boolean isAlgoElement() {
+    @Override
+	final public boolean isAlgoElement() {
         return true;
     }
 
-    final public boolean isGeoElement() {
+    @Override
+	final public boolean isGeoElement() {
         return false;
     }      
 
@@ -726,6 +732,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	 * Returns true iff one of the output geos is shown
 	 * in the construction protocol	 
 	 */
+	@Override
 	final public boolean isConsProtocolBreakpoint() {
 		for (int i=0; i < getOutputLength(); i++) {
 			if (getOutput(i).isConsProtocolBreakpoint())
@@ -739,7 +746,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	 * Note: 0 is only returned for this == obj.
 	 * @overwrite ConstructionElement.compareTo()
 	 */
-    public int compareTo(ConstructionElement obj) {
+    @Override
+	public int compareTo(ConstructionElement obj) {
     	if (this == obj) return 0;
     	
     	ConstructionElement ce = (ConstructionElement) obj;   
@@ -754,7 +762,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * For an algorithm that is not in the construction list, the largest construction
      * index of its inputs is returned.
      */
-    public int getConstructionIndex() {
+    @Override
+	public int getConstructionIndex() {
         int index =  super.getConstructionIndex();
         // algorithm is in construction list
         if (index >= 0) return index;
@@ -770,7 +779,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /**
      * Returns the smallest possible construction index for this object in its construction.
      */
-    public int getMinConstructionIndex() {    	
+    @Override
+	public int getMinConstructionIndex() {    	
         // index must be greater than every input's index
     	int max = 0;
         for (int i=0; i < input.length; ++i) {
@@ -783,7 +793,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /**
      * Returns the largest possible construction index for this object in its construction.
      */ 
-    public int getMaxConstructionIndex() {            	
+    @Override
+	public int getMaxConstructionIndex() {            	
          // index is less than minimum of all dependent algorithm's index of all output
          ArrayList<AlgoElement> algoList;
          int size, index;
@@ -803,7 +814,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * Returns all independent predecessors (of type GeoElement) that this algo depends on.
      * The predecessors are sorted topologically.
      */
-    final public TreeSet<GeoElement> getAllIndependentPredecessors() {
+    @Override
+	final public TreeSet<GeoElement> getAllIndependentPredecessors() {
         //  return predecessors of any output, i.e. the inputs of this algo
         TreeSet<GeoElement> set = new TreeSet<GeoElement>();
         addPredecessorsToSet(set, true);
@@ -875,13 +887,15 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     }
     private ArrayList<GeoPoint> inputPoints;
 
-    final public boolean isIndependent() {
+    @Override
+	final public boolean isIndependent() {
         return false;
     }
 
     protected StringBuilder sbAE = new StringBuilder();
 
-    public String getNameDescription() {
+    @Override
+	public String getNameDescription() {
         sbAE.setLength(0);
         if (getOutput(0).isLabelSet()) sbAE.append(getOutput(0).getNameDescription());
         for (int i = 1; i < getOutputLength(); ++i) {
@@ -893,9 +907,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         return sbAE.toString();
     }
     
-
-  
-    public String getAlgebraDescription() {
+    @Override
+	public String getAlgebraDescription() {
     	 sbAE.setLength(0);
         
         if (getOutput(0).isLabelSet()) sbAE.append(getOutput(0).getAlgebraDescription());       
@@ -920,14 +933,14 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
        }
        return sbAE.toString();
    }
-
-
     
-    public String getDefinitionDescription() {
+    @Override
+	public String getDefinitionDescription() {
         return toString();
     }    
         
-    public String getCommandDescription() {
+    @Override
+	public String getCommandDescription() {
     	return  getCommandDescription(false); 
     }
     public String getCommandDescription(boolean real) {
@@ -962,7 +975,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * see #1377
      * g:X = (-5, 5) + t (4, -3) 
      */
-    private void appendCheckVector(StringBuilder sb, GeoElement geo, boolean real) {
+    private static void appendCheckVector(StringBuilder sb, GeoElement geo, boolean real) {
         String cmd = real? geo.getRealLabel():geo.getLabel();
         if (geo.isGeoVector()) {
         	String vectorCommand = "Vector["; // in XML, so don't want this translated
@@ -973,12 +986,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         	if (needsWrapping) sb.append(']');
         } else {
         	sb.append(cmd);
-        }
-    	
+        }   	
     }
-    
-    
-   
 
     public String toRealString() {
 		return toString();
@@ -1038,6 +1047,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * Returns this algorithm and it's output objects (GeoElement) in XML format.
      * GeoGebra File Format.
      */
+	@Override
 	public void getXML(StringBuilder sb) {
     	getXML(sb, true);
     }
@@ -1054,8 +1064,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         if (!isPrintedInXML) return; 
         
         // turn off eg Arabic digits
-        boolean oldDigitsSetting = kernel.internationalizeDigits;
-        kernel.internationalizeDigits = false;
+        boolean oldDigitsSetting = Kernel.internationalizeDigits;
+        Kernel.internationalizeDigits = false;
         
         // USE INTERNAL COMMAND NAMES IN EXPRESSION        
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
@@ -1078,8 +1088,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         
         kernel.setPrintLocalizedCommandNames(oldValue);      
         
-        kernel.internationalizeDigits = oldDigitsSetting;
-
+        Kernel.internationalizeDigits = oldDigitsSetting;
     }
     
     /**
@@ -1103,7 +1112,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * Returns this algorithm or it's output objects (GeoElement) in I2G format.
      * Intergeo File Format. (Yves Kreis)
      */
-    public void getI2G(StringBuilder sb, int mode) {
+    @Override
+	public void getI2G(StringBuilder sb, int mode) {
         // this is needed for helper commands like 
         // intersect for single intersection points
         if (!isPrintedInXML) return; 
@@ -1284,7 +1294,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         return sb.toString();
     }
 
-	final public String getXMLtypeString(GeoElement geo) {		
+	final public static String getXMLtypeString(GeoElement geo) {		
 		return geo.getClassName().substring(3).toLowerCase(Locale.US);
 	}
 	// <-- Added for Intergeo File Format (Yves Kreis)
@@ -1306,7 +1316,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         return isPrintedInXML;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
     	return getCommandDescription();
     }
     

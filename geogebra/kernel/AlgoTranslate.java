@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.kernel.Matrix.Coords;
-import geogebra.main.Application;
 
 /**
  *
@@ -29,11 +28,7 @@ import geogebra.main.Application;
  */
 public class AlgoTranslate extends AlgoTransformation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Translateable out;   
+    private Translateable out;   
     private GeoElement inGeo, outGeo;
     protected GeoElement v;  // input      
     
@@ -65,20 +60,21 @@ public class AlgoTranslate extends AlgoTransformation {
         
         setInputOutput();               
         compute();               
-    } 
-    
+    }    
      
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTranslate";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TRANSLATE_BY_VECTOR;
     }
-
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = inGeo;        
         input[1] = v;        
@@ -88,10 +84,14 @@ public class AlgoTranslate extends AlgoTransformation {
         setDependencies(); // done by AlgoElement
     }           
         
-    GeoElement getResult() { return outGeo; }
+    @Override
+	GeoElement getResult() { 
+    	return outGeo; 
+    }
         
     // calc translated point
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
@@ -106,9 +106,9 @@ public class AlgoTranslate extends AlgoTransformation {
     	GeoVec3D vec = (GeoVec3D) v;
     	return new Coords(vec.x,vec.y,vec.z);
     }
-
     
-    final public String toString() {
+    @Override
+	final public String toString() {
 
         // Michael Borcherds 2008-03-24 simplified code!
         return app.getPlain("TranslationOfAbyB",inGeo.getLabel(),v.getLabel());
@@ -119,7 +119,7 @@ public class AlgoTranslate extends AlgoTransformation {
 		inGeo = g;
 		outGeo = g2;
 		if(!(outGeo instanceof GeoList))
-			out = (Translateable)outGeo;
-		
+			out = (Translateable)outGeo;		
 	}
+	
 }

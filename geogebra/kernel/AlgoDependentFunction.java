@@ -27,11 +27,7 @@ import geogebra.main.Application;
  */
 public class AlgoDependentFunction extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	protected Function fun;
+    protected Function fun;
     protected GeoFunction f; // output         
     
     private Function expandedFun;    
@@ -74,16 +70,18 @@ public class AlgoDependentFunction extends AlgoElement {
 		super(cons);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoDependentFunction";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = fun.getGeoElementVariables();
 
-        output = new GeoElement[1];
-        output[0] = f;
+        super.setOutputLength(1);
+        super.setOutput(0, f);
         setDependencies(); // done by AlgoElement
     }
 
@@ -91,7 +89,8 @@ public class AlgoDependentFunction extends AlgoElement {
         return f;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // evaluation of function will be done in view (see geogebra.euclidian.DrawFunction)
         
         // check if function is defined
@@ -110,12 +109,12 @@ public class AlgoDependentFunction extends AlgoElement {
             
             try { // needed for eg f(x)=floor(x) f'(x)
             	
-        		boolean internationalizeDigits = kernel.internationalizeDigits;
-        		kernel.internationalizeDigits = false;
+        		boolean internationalizeDigits = Kernel.internationalizeDigits;
+        		Kernel.internationalizeDigits = false;
        	
             	ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel));
 
-        		kernel.internationalizeDigits = internationalizeDigits;
+        		Kernel.internationalizeDigits = internationalizeDigits;
 
             } catch (Exception e) {
             	e.printStackTrace();
@@ -217,7 +216,8 @@ public class AlgoDependentFunction extends AlgoElement {
     }
     
     StringBuilder sb;
-    public String toString() {
+    @Override
+	public String toString() {
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
@@ -230,7 +230,8 @@ public class AlgoDependentFunction extends AlgoElement {
         return sb.toString();
     }
     
-    public String toRealString() {
+    @Override
+	public String toRealString() {
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
@@ -247,7 +248,7 @@ public class AlgoDependentFunction extends AlgoElement {
      * checks to see if this is an nth derivative,
      * and return an appropriate label eg f''' for 3rd derivative
      */
-    private String getDerivativeLabel(Function fun) {
+    private static String getDerivativeLabel(Function fun) {
         ExpressionValue ev = fun.getExpression().getLeft();
         if (ev.isExpressionNode()) {
         	ExpressionNode enL = (ExpressionNode)(fun.getExpression().getLeft());
@@ -264,7 +265,7 @@ public class AlgoDependentFunction extends AlgoElement {
 	        			 NumberValue num = (NumberValue)evR;
 	        			 double val = num.getDouble();
 
-	        			 if (val > 0d && kernel.isInteger(val)) {
+	        			 if (val > 0d && Kernel.isInteger(val)) {
 	        				 
 	        				 // eg f''' if val == 3
 	        				 return geo.getLabel() + geogebra.util.Util.string("'",(int)val); // eg f''''

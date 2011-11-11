@@ -26,7 +26,6 @@ package geogebra.kernel;
 
 public class AlgoSelectedIndex extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoNumeric index; //output	
 
@@ -40,20 +39,20 @@ public class AlgoSelectedIndex extends AlgoElement {
         super(cons);
         this.geoList = geoList;
                
-        index = new GeoNumeric(cons);
-              
+        index = new GeoNumeric(cons);           
 
         setInputOutput();
         compute();
         index.setLabel(label);
     }
 
-
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoSelectedIndex";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	
         input = new GeoElement[1];
         input[0] = geoList;
@@ -71,7 +70,8 @@ public class AlgoSelectedIndex extends AlgoElement {
         return index;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (!geoList.isDefined()) {
     		index.setUndefined();
     		return;

@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoDistancePointObject extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P; // input
+    private GeoPoint P; // input
     private GeoElement g; // input
     private GeoNumeric dist; // output       
     private AlgoClosestPoint closePt;
@@ -54,17 +50,19 @@ public class AlgoDistancePointObject extends AlgoElement {
         dist.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDistancePointObject";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_DISTANCE;
     }
     
-    
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = g;
@@ -85,14 +83,16 @@ public class AlgoDistancePointObject extends AlgoElement {
     }
 
     // calc length of vector v   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(closePt!=null)
     		dist.setValue(closePt.getP().distance(P));
     	else
     		dist.setValue(g.distance(P));
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("DistanceOfAandB",P.getLabel(),g.getLabel());

@@ -30,7 +30,6 @@ import java.util.ArrayList;
  */
 public class AlgoLaTeX extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // input
 	private GeoBoolean substituteVars; 
 	private GeoBoolean showName; 
@@ -70,11 +69,13 @@ public class AlgoLaTeX extends AlgoElement {
 		text.setSerifFont(false);
 	}   
     
+	@Override
 	public String getClassName() {
 		return "AlgoLaTeX";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
 
 		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
@@ -85,27 +86,27 @@ public class AlgoLaTeX extends AlgoElement {
 			geos.add(showName);	
 
 		input = new GeoElement[geos.size()];
-		for(int i=0; i<input.length; i++)
+		for(int i=0; i<input.length; i++) {
 			input[i] = geos.get(i);
+		}
 
-
-        output = new GeoElement[1];        
-        output[0] = text;        
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoText getGeoText() { return text; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	
     	boolean useLaTeX = true;
 		
     	if (!geo.isDefined() 
 				|| (substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
-    		text.setTextString("");
-    		
+    		text.setTextString("");		
     		
 		} else {
     		boolean substitute = substituteVars == null ? true : substituteVars.getBoolean();
@@ -130,8 +131,7 @@ public class AlgoLaTeX extends AlgoElement {
     		}
 
     		text.restorePrintAccuracy();
-		}
-		
+		}	
     	
     	text.setLaTeX(useLaTeX, false);
     	

@@ -297,7 +297,6 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		}
 	}	
 	
-	@SuppressWarnings("unchecked")
 	private boolean containsTool(DefaultMutableTreeNode node, Integer mode) {
         // compare modes
 		Object ob = node.getUserObject();
@@ -443,7 +442,8 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	 */
 	private JTree generateTree() {			
 		final JTree jTree = new JTree() {
-	        protected void setExpandedState(TreePath path, boolean state) {
+	        @Override
+			protected void setExpandedState(TreePath path, boolean state) {
 	            // Ignore all collapse requests of root        	
 	            if (path != getPathForRow(0)) {
 	                super.setExpandedState(path, state);
@@ -463,14 +463,13 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	 * @return toolbar as DefaultMutableTreeNode 
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public DefaultMutableTreeNode generateRootNode(Vector toolbarModes) {
+	public DefaultMutableTreeNode generateRootNode(Vector<Object> toolbarModes) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode();
 		
 		for (int i = 0; i < toolbarModes.size(); i++) {
 			Object ob = toolbarModes.get(i);
 			if (ob instanceof Vector) {
-				Vector menu = (Vector) ob;  
+				Vector<Object> menu = (Vector<Object>) ob;  
 				DefaultMutableTreeNode sub = new DefaultMutableTreeNode();
 				for (int j = 0; j < menu.size(); j++) {
 					sub.add(new DefaultMutableTreeNode(menu.get(j)));
@@ -518,6 +517,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	 * 
 	 */
 	public void treeCollapsed(javax.swing.event.TreeExpansionEvent event) {}
+	
 	/**
 	 * 
 	 */

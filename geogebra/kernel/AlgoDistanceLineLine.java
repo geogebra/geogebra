@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoDistanceLineLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g, h; // input
+    private GeoLine g, h; // input
     private GeoNumeric dist; // output       
 
     AlgoDistanceLineLine(
@@ -51,23 +47,25 @@ public class AlgoDistanceLineLine extends AlgoElement {
         dist.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDistanceLineLine";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_DISTANCE;
     }
     
-    
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = h;
         input[1] = g;
 
-        output = new GeoElement[1];
-        output[0] = dist;
+        super.setOutputLength(1);
+        super.setOutput(0, dist);
         setDependencies(); // done by AlgoElement
     }
 
@@ -82,11 +80,13 @@ public class AlgoDistanceLineLine extends AlgoElement {
     }
 
     // calc length of vector v   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         dist.setValue(g.distance(h));
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("DistanceOfAandB",g.getLabel(),h.getLabel());

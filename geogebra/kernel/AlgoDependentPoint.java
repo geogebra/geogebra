@@ -28,11 +28,7 @@ import geogebra.kernel.arithmetic.VectorValue;
  */
 public class AlgoDependentPoint extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ExpressionNode root;  // input
+    private ExpressionNode root;  // input
     private GeoPoint P;     // output         
     
     private GeoVec2D temp;
@@ -60,14 +56,15 @@ public class AlgoDependentPoint extends AlgoElement {
 
     	// compute value of dependent number
         compute();      
-
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentPoint";
 	}
 	
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = root.getGeoElementVariables();  
         
@@ -83,7 +80,8 @@ public class AlgoDependentPoint extends AlgoElement {
     }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {   
+    @Override
+	protected final void compute() {   
     	try {
 	        temp = ((VectorValue) root.evaluate()).getVector();
 	        if (Double.isInfinite(temp.x) || Double.isInfinite(temp.y)) {
@@ -99,11 +97,13 @@ public class AlgoDependentPoint extends AlgoElement {
 	    }
     }   
     
-    final public String toString() {              
+    @Override
+	final public String toString() {              
         return root.toString();
     }
     
-    final public String toRealString() {              
+    @Override
+	final public String toRealString() {              
         return root.toRealString();
     }
 }

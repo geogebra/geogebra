@@ -15,8 +15,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
-
 /**
  * Creates textfield linked with geo
  * @author Zbynek Konecny
@@ -24,14 +22,12 @@ import geogebra.euclidian.EuclidianConstants;
 
 public class AlgoTextfield extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement inputGeo; //input
     private GeoTextField textfield; //output	
 
     AlgoTextfield(Construction cons, String label, GeoElement inputGeo) {
         super(cons);
         this.inputGeo = inputGeo;
-
                
         textfield = new GeoTextField(cons);
         if(inputGeo != null)
@@ -45,19 +41,22 @@ public class AlgoTextfield extends AlgoElement {
 		textfield.update();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTextfield";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	if(inputGeo == null)
     		input = new GeoElement[0];
     	else{
-        input = new GeoElement[1];
-        input[0] = inputGeo;
+    		input = new GeoElement[1];
+        	input[0] = inputGeo;
     	}
-        output = new GeoElement[1];
-        output[0] = textfield;
+    	
+        super.setOutputLength(1);
+        super.setOutput(0, textfield);
         setDependencies(); // done by AlgoElement
     }
 
@@ -65,12 +64,13 @@ public class AlgoTextfield extends AlgoElement {
         return textfield;
     }
 
-    protected final void compute() {
-
+    @Override
+	protected final void compute() {
     	
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TEXTFIELD_ACTION;
     }
   

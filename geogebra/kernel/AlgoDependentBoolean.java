@@ -23,11 +23,7 @@ import geogebra.kernel.arithmetic.MyBoolean;
  */
 public class AlgoDependentBoolean extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ExpressionNode root;  // input
+    private ExpressionNode root;  // input
     private GeoBoolean bool;     // output              
         
     public AlgoDependentBoolean(Construction cons, String label, ExpressionNode root) {
@@ -42,23 +38,26 @@ public class AlgoDependentBoolean extends AlgoElement {
         bool.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentBoolean";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = root.getGeoElementVariables();
         
-        output = new GeoElement[1];        
-        output[0] = bool;        
+        super.setOutputLength(1);
+        super.setOutput(0, bool);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoBoolean getGeoBoolean() { return bool; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {	
+    @Override
+	protected final void compute() {	
     	try {
     		
     		// needed for eg Sequence[If[liste1(i) < a
@@ -77,12 +76,14 @@ public class AlgoDependentBoolean extends AlgoElement {
     	}
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // was defined as e.g.  c = a & b
         return root.toString();
     }
     
-    final public String toRealString() {
+    @Override
+	final public String toRealString() {
         // was defined as e.g.  c = a & b
         return root.toRealString();
     }

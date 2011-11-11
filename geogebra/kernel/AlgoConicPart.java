@@ -37,6 +37,7 @@ public abstract class AlgoConicPart extends AlgoElement {
         this.type = type;     
     }
     
+	@Override
 	public String getClassName() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
@@ -50,12 +51,14 @@ public abstract class AlgoConicPart extends AlgoElement {
         return conicPart;
     }
    
-    protected void compute() {    	    	
+    @Override
+	protected void compute() {    	    	
     	conicPart.set(conic);
     	conicPart.setParameters(startParam.getDouble(), endParam.getDouble(), true);
     }
 
     
+	@Override
 	public String toString() {
 		return getCommandDescription();
 	}

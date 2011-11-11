@@ -26,7 +26,6 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public abstract class AlgoTwoNumFunction extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected NumberValue a, b;  // input
     protected GeoNumeric num;     // output           
         
@@ -46,20 +45,23 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
         compute();     
       }   
     
-    public abstract String getClassName();
+    @Override
+	public abstract String getClassName();
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[2];
         input[0] = a.toGeoElement();
         input[1] = b.toGeoElement();
         
-        output = new GeoElement[1];        
-        output[0] = num;        
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }    
     
     protected GeoNumeric getResult() { return num; }        
 
-    abstract protected void compute();     
+    @Override
+	abstract protected void compute();     
 }

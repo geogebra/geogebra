@@ -43,7 +43,6 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 public class AlgoNormalQuantilePlot extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoList outputList; //output	
 	private int size;
@@ -65,10 +64,12 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoNormalQuantilePlot";
 	}
 
+	@Override
 	protected void setInputOutput(){
 		input = new GeoElement[1];
 		input[0] = inputList;
@@ -130,9 +131,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		return seg;
 	}
 
-
-
-
+	@Override
 	protected final void compute() {
 
 		// validate
@@ -157,10 +156,8 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		}   
 		Arrays.sort(sortedData);
 
-
 		// create the z values
 		calculateZValues(size);
-
 		
 		// prepare output list. Pre-existing geos will be recycled, 
 		// but extra geos are removed when outputList is too long
@@ -190,7 +187,6 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		outputList.add(getQQLineSegment());
 		
 		cons.setSuppressLabelCreation(suppressLabelCreation);
-
 	}
 
 }

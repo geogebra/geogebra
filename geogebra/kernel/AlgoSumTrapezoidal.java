@@ -22,11 +22,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 		
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Creates new trapezoidal sum
 	 * @param cons construction
 	 * @param label label
@@ -45,6 +40,7 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 		super( a, b, n, AlgoFunctionAreaSums.TYPE_TRAPEZOIDALSUM,vals,borders);		
 	}
 	
+	@Override
 	public String getClassName() {
 		return "AlgoSumTrapezoidal";
 	}

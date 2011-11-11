@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoParabolaParameter extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c;  // input
+    private GeoConic c;  // input
     private GeoNumeric num;     // output                  
     
     AlgoParabolaParameter(Construction cons, String label, GeoConic c) {        
@@ -45,22 +40,24 @@ public class AlgoParabolaParameter extends AlgoElement {
         num.setLabel(label);            
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoParabolaParameter";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_PARABOLA;
     }
-    
-    
+        
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;        
         
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -68,17 +65,18 @@ public class AlgoParabolaParameter extends AlgoElement {
     GeoConic getConic() { return c; }        
     
     // set parameter of parabola
-    protected final void compute() {        
+    @Override
+	protected final void compute() {        
         if (c.type == GeoConic.CONIC_PARABOLA)
             num.setValue(c.p);
         else 
             num.setUndefined();
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("ParameterOfA",c.getLabel());
-
     }
 }

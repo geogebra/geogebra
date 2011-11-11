@@ -30,7 +30,6 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 
 public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunction h;  // input
     private GeoConic c;
 
@@ -68,9 +67,8 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			setRootsPolynomial(r);
 		} else {
 			Kernel ker = cons.getKernel();
-			GeoFunction substituteFunctionX = null;
-			
 			ker.setSilentMode(true);
+			
 			/*try {
 				substituteFunctionX = (GeoFunction) ker.getAlgebraProcessor().processValidExpression(
 					ker.getParser().parseGeoGebraExpression("x"))[0];

@@ -71,15 +71,13 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/**
 	 * This class handles the slider value changes for all three sliders.
 	 */
-	class SliderHandler implements ChangeListener
-	{
+	class SliderHandler implements ChangeListener {
 		/**
 		 * This method is called whenever any of the slider values change.
 		 *
 		 * @param e The ChangeEvent.
 		 */
-		public void stateChanged(ChangeEvent e)
-		{
+		public void stateChanged(ChangeEvent e) {
 			if (internalChange)
 				return;
 			int color = R.getValue() << 16 | G.getValue() << 8 | B.getValue();
@@ -92,15 +90,13 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/**
 	 * This class handles the Spinner values changing.
 	 */
-	class SpinnerHandler implements ChangeListener
-	{
+	class SpinnerHandler implements ChangeListener {
 		/**
 		 * This method is called whenever any of the JSpinners change values.
 		 *
 		 * @param e The ChangeEvent.
 		 */
-		public void stateChanged(ChangeEvent e)
-		{
+		public void stateChanged(ChangeEvent e) {
 			if (internalChange)
 				return;
 			int red = ((Number) RSpinner.getValue()).intValue();
@@ -164,8 +160,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/*****************************************************
 	 * Creates a new DefaultRGBChooserPanel object.
 	 */
-	public DefaultRGBChooserPanel(Application app)
-	{
+	public DefaultRGBChooserPanel(Application app) {
 		super();
 		this.app = app;
 	}
@@ -175,8 +170,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 *
 	 * @return The name displayed in the JTabbedPane.
 	 */
-	public String getDisplayName()
-	{
+	@Override
+	public String getDisplayName() {
 		return "RGB";   
 	}
 
@@ -184,8 +179,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 * This method updates the chooser panel with the new color chosen in the
 	 * JColorChooser.
 	 */
-	public void updateChooser()
-	{
+	@Override
+	public void updateChooser() {
 		Color c = getColorFromModel();
 		int rgb = c.getRGB();
 
@@ -212,7 +207,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 			updatePreviewPanel();
 			setLabels();
 			
-			
 			revalidate();
 			repaint();
 	}
@@ -220,8 +214,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/**
 	 * This method builds the chooser panel.
 	 */
-	protected void buildChooser()
-	{
+	@Override
+	protected void buildChooser() {
 		setLayout(new GridBagLayout());
 
 		redLabel = new JLabel("Red");
@@ -323,8 +317,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 *
 	 * @param chooser The JColorChooser to remove this chooser panel from.
 	 */
-	public void uninstallChooserPanel(JColorChooser chooser)
-	{
+	@Override
+	public void uninstallChooserPanel(JColorChooser chooser) {
 		uninstallListeners();
 		removeAll();
 
@@ -343,8 +337,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 * This method uninstalls any listeners that were added by the chooser
 	 * panel.
 	 */
-	private void uninstallListeners()
-	{
+	private void uninstallListeners() {
 		R.removeChangeListener(colorChanger);
 		G.removeChangeListener(colorChanger);
 		B.removeChangeListener(colorChanger);
@@ -362,8 +355,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 * This method installs any listeners that the chooser panel needs to
 	 * operate.
 	 */
-	private void installListeners()
-	{
+	private void installListeners() {
 		colorChanger = new SliderHandler();
 
 		R.addChangeListener(colorChanger);
@@ -382,8 +374,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 *
 	 * @return The small display icon.
 	 */
-	public Icon getSmallDisplayIcon()
-	{
+	@Override
+	public Icon getSmallDisplayIcon() {
 		return null;
 	}
 
@@ -392,8 +384,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 *
 	 * @return The large display icon.
 	 */
-	public Icon getLargeDisplayIcon()
-	{
+	@Override
+	public Icon getLargeDisplayIcon() {
 		return null;
 	}
 
@@ -402,8 +394,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 *
 	 * @param g The Graphics object to paint with.
 	 */
-	public void paint(Graphics g)
-	{
+	@Override
+	public void paint(Graphics g) {
 		super.paint(g);
 	}
 
@@ -440,6 +432,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 			//this.setBorder(border);
 		}
 
+		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.setColor(this.getBackground());

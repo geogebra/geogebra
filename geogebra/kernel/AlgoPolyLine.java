@@ -18,7 +18,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 
 
 
-
 /**
  * Creates a PolyLine from a given list of points or point array.
  * 
@@ -27,7 +26,6 @@ import geogebra.kernel.kernelND.GeoPointND;
  */
 public class AlgoPolyLine extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoPointND [] points;  // input
 	protected GeoList geoList;  // alternative input
     protected GeoPolyLine poly;     // output
@@ -96,14 +94,15 @@ public class AlgoPolyLine extends AlgoElement {
     	poly = new GeoPolyLine(this.cons, this.points);
     }
         
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPolyLine";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POLYLINE;
-    }
-    
+    } 
     
     /**
      * Update point array of polygon using the given array list
@@ -125,10 +124,10 @@ public class AlgoPolyLine extends AlgoElement {
     	poly.setPoints(points);
     	
     }
-    
-    
+     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	if (geoList != null) {
     		// list as input
 			input = new GeoElement[1];
@@ -150,7 +149,8 @@ public class AlgoPolyLine extends AlgoElement {
         setDependencies();
     }    
     
-    public void update() {
+    @Override
+	public void update() {
         // compute output from input
         compute();
         getOutput(0).update();
@@ -163,18 +163,20 @@ public class AlgoPolyLine extends AlgoElement {
     }
     
  
-    protected void compute() { 
+    @Override
+	protected void compute() { 
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}
     	
         // compute area
         poly.calcLength(); 
-        
     }   
     
     StringBuilder sb;
-    final public String toString() {
+    
+    @Override
+	final public String toString() {
 
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
@@ -196,8 +198,7 @@ public class AlgoPolyLine extends AlgoElement {
 			}
 			sb.append(points[last].getLabel());
 		}
-        
-        
+              
         return  sb.toString();
     }
 }

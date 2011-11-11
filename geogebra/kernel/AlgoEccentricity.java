@@ -17,7 +17,6 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-
 /**
  *
  * @author  Michael
@@ -25,11 +24,7 @@ package geogebra.kernel;
  */
 public class AlgoEccentricity extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c; // input
+    private GeoConic c; // input
     private GeoNumeric num; // output                  
 
     AlgoEccentricity(Construction cons, String label, GeoConic c) {
@@ -41,17 +36,19 @@ public class AlgoEccentricity extends AlgoElement {
         num.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoEccentricity";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;
 
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }
 
@@ -63,7 +60,8 @@ public class AlgoEccentricity extends AlgoElement {
     }
 
     // set excentricity
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         switch (c.type) {
         case GeoConic.CONIC_CIRCLE :
             num.setValue(0.0);
@@ -83,7 +81,8 @@ public class AlgoEccentricity extends AlgoElement {
         }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("EccentricityOfA",c.getLabel());

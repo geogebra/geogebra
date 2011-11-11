@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 public class AlgoFirst extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoElement inputList; //input
 	protected GeoNumeric n; //input
     protected GeoList outputList; //output	
@@ -39,11 +38,13 @@ public class AlgoFirst extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFirst";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	
     	if (n != null) {
 	        input = new GeoElement[2];
@@ -56,8 +57,8 @@ public class AlgoFirst extends AlgoElement {
             input[0] = inputList;
         }    		
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -65,7 +66,8 @@ public class AlgoFirst extends AlgoElement {
         return outputList;
     }
 
-    protected void compute() {
+    @Override
+	protected void compute() {
     	
     	size = ((GeoList)inputList).size();
     	int outsize = n == null ? 1 : (int)n.getDouble();

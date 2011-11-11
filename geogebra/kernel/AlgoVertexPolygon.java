@@ -29,20 +29,12 @@ import geogebra.main.Application;
  */
 public class AlgoVertexPolygon extends AlgoElement {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPolyLineInterface p; // input		
 	private NumberValue index;
 	private GeoPoint oneVertex;
 	protected OutputHandler<GeoElement> outputPoints;
 	/**
 	 * Creates new vertex algo
-	 * 
-	 * @param cons
-	 * @param labels
-	 * @param p
 	 */
 
 	AlgoVertexPolygon(Construction cons, String[] labels, GeoPolyLineInterface p) {
@@ -55,7 +47,6 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 		// set labels dependencies: will be used with
 		// Construction.resolveLabelDependency()
-
 	}
 	
 	protected void setLabels(String[] labels) {
@@ -73,12 +64,6 @@ public class AlgoVertexPolygon extends AlgoElement {
         }	
     }
 
-	/**
-	 * @param cons
-	 * @param label
-	 * @param p
-	 * @param v
-	 */
 	AlgoVertexPolygon(Construction cons, String label, GeoPolyLineInterface p,
 			NumberValue v) {
 
@@ -88,11 +73,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	/**
 	 * Creates new unlabeled vertex algo
-	 * 
-	 * @param cons
-	 * @param p
 	 */
-
 	AlgoVertexPolygon(Construction cons, GeoPolyLineInterface p) {
 		super(cons);
 		this.p = p;
@@ -101,11 +82,6 @@ public class AlgoVertexPolygon extends AlgoElement {
 		compute();
 	}
 
-	/**
-	 * @param cons
-	 * @param p
-	 * @param v
-	 */
 	AlgoVertexPolygon(Construction cons, GeoPolyLineInterface p, NumberValue v) {
 		super(cons);
 		this.p = p;
@@ -115,11 +91,13 @@ public class AlgoVertexPolygon extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoVertex";
 	}
 
 	// for AlgoElement
+	@Override
 	public void setInputOutput() {
 		if(index!=null){
 			input = new GeoElement[2];
@@ -144,20 +122,21 @@ public class AlgoVertexPolygon extends AlgoElement {
 		return p;
 	}
 
-
-
+	@Override
 	public int getOutputLength() {
 		if(index!=null) return 1;
 		return outputPoints.size();
 	}
 
+	@Override
 	protected final void compute() {				
 		if(index != null){
 			int  i = (int)Math.floor(index.getDouble())-1;
-			if(i >= p.getPoints().length||i < 0)
+			if(i >= p.getPoints().length||i < 0) {
 				oneVertex.setUndefined();
-			else 
+			} else {
 				oneVertex.set((GeoElement)p.getPoint(i));
+			}
 			oneVertex.update();
 			return;
 		}
@@ -171,10 +150,12 @@ public class AlgoVertexPolygon extends AlgoElement {
     		point.set(p.getPoint(i));    		
     	}
     	//other points are undefined
-    	for(int i = length;i<outputPoints.size();i++)
+    	for(int i = length;i<outputPoints.size();i++) {
     		outputPoints.getElement(i).setUndefined();
+    	}
 	}
 
+	@Override
 	public final String toString() {
 		return app.getPlain("VertexOfA", ((GeoElement)p).getLabel());
 
@@ -189,6 +170,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		return getOutput();
 	}
 
+	@Override
 	public GeoElement getOutput(int i) {
 		if(index!=null)return oneVertex;
 		return outputPoints.getElement(i);
@@ -200,7 +182,6 @@ public class AlgoVertexPolygon extends AlgoElement {
 	public GeoPoint getOneVertex(){
 		return oneVertex;
 	}
-	
 	
 	 protected OutputHandler<GeoElement> createOutputPoints(){
 	    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {

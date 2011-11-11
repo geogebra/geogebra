@@ -28,8 +28,6 @@ package geogebra.kernel;
 
 public class AlgoMaximize extends AlgoOptimize{
 
-	private static final long serialVersionUID = 1L;
-	
 	/** Constructor for Maximize*/
 	public AlgoMaximize(Construction cons,String label,GeoElement dep,GeoNumeric indep){
 		super(cons,label,dep,indep,AlgoOptimize.MAXIMIZE);
@@ -37,7 +35,8 @@ public class AlgoMaximize extends AlgoOptimize{
 	}//Constructor for Maximize
 	
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
     	return "AlgoMaximize";
     }//getClassName()    
 

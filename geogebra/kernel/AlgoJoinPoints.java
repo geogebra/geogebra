@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoJoinPoints extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P, Q;  // input
+    private GeoPoint P, Q;  // input
     private GeoLine  g;     // output       
         
     /** Creates new AlgoJoinPoints */
@@ -61,23 +56,25 @@ public class AlgoJoinPoints extends AlgoElement {
         Q.addIncidence(g);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoJoinPoints";
     }
 
+	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_JOIN;
 	}
-
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = Q;
-        
-        output = new GeoElement[1];        
-        output[0] = g;        
+         
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -86,13 +83,15 @@ public class AlgoJoinPoints extends AlgoElement {
     GeoPoint getQ() { return Q; }
     
     // calc the line g through P and Q    
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // g = P v Q  <=>  g_n : n = P x Q
         // g = cross(P, Q)
         GeoVec3D.lineThroughPoints(P, Q, g);
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
      
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation

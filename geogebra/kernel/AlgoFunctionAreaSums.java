@@ -289,8 +289,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.leftBorder=borders;
 		N= (int)Math.round(n.getDouble());
 		
-}
-
+	}
 	
 	/**
 	 *  BARCHART
@@ -437,10 +436,6 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.N=N;
 	}
 	
-	
-	
-	
-	
 	/**
 	 *  BarChart [<list of data>, <width>]
 	 * @param cons
@@ -454,8 +449,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		super(cons);
 		
 		type = TYPE_BARCHART_RAWDATA;
-		
-		
+				
 		this.list1 = list1;
 		this.n = n;
 		ngeo = n.toGeoElement();
@@ -466,6 +460,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		sum.setLabel(label);
 		sum.setDrawable(true);
 	}
+	
 	/**
 	 * Constructor for copying BarChart
 	 * @param n
@@ -477,14 +472,12 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		super(n.getKernel().getConstruction(), false);
 		
 		type = TYPE_BARCHART_RAWDATA;
-		
-		
+				
 		this.n = n;
 		this.yval=vals;
 		this.leftBorder=borders;
 		this.N=N;
 	}
-
 		
 	/**
 	 *  HISTOGRAM[ <list of class boundaries>, <list of heights> ]
@@ -518,9 +511,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.yval = vals;
 		this.N=N;
 	}
-		
-	
-	
+			
 	/**
 	 *  Histogram [<list of class boundaries>, <list of raw data>, <useDensity>, <densityFactor>]
 	 * @param cons
@@ -534,7 +525,6 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoBoolean isCumulative,  
 			   GeoList list1, GeoList list2,  GeoBoolean useDensity, GeoNumeric density,boolean right) {
-
 
 		this(cons, isCumulative, list1, list2,  useDensity, density,right);
 		
@@ -577,13 +567,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		
 		this.leftBorder = borders;
 		this.yval = vals;		
-	}
-	
-	
-	
-	
-			
-	
+	}	
 
 	/**
 	 * Discrete distribution bar chart
@@ -642,29 +626,27 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.yval = vals;
 		
 		this.leftBorder = borders;
-		this.N=N;
-		
+		this.N=N;		
 	}
-
 	
 	public boolean isRight(){
 		return histogramRight;
 	}
-
 	
-
+	@Override
 	final public boolean euclidianViewUpdate() {
 		compute();
 		return false;
 	}
 	
+	@Override
 	public abstract String getClassName();
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		
-		switch (type)
-		{
+		switch (type) {
 		case TYPE_UPPERSUM:
 		case TYPE_LOWERSUM:
 		case TYPE_TRAPEZOIDALSUM:
@@ -711,27 +693,27 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			input[1] = list2;		
 			break;
 		case TYPE_HISTOGRAM_DENSITY:
-			if(isCumulative == null){
-				if(densityGeo == null){
+			if(isCumulative == null) {
+				if(densityGeo == null) {
 					input = new GeoElement[3];
 					input[0] = list1;		
 					input[1] = list2;
 					input[2] = useDensityGeo;
-				}else{
+				} else {
 					input = new GeoElement[4];
 					input[0] = list1;		
 					input[1] = list2;
 					input[2] = useDensityGeo;
 					input[3] = densityGeo;
 				}
-			}else{
-				if(densityGeo == null){
+			} else {
+				if(densityGeo == null) {
 					input = new GeoElement[4];
 					input[0] = isCumulative;
 					input[1] = list1;		
 					input[2] = list2;
 					input[3] = useDensityGeo;
-				}else{
+				} else {
 					input = new GeoElement[5];
 					input[0] = isCumulative;
 					input[1] = list1;		
@@ -797,8 +779,6 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	public double [] getValues() {
 		return yval;
 	}
-
-	
 	
 	/**
 	 * Returns the resulting sum
@@ -855,8 +835,8 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	public GeoList getList2(){
 		return list2;
 	}
-	
-	
+		
+	@Override
 	protected final void compute() {	
 		GeoElement geo; // temporary variable	
 		//Application.debug(type);
@@ -1040,8 +1020,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 		case TYPE_BARCHART:
 			if (!(ageo.isDefined() && bgeo.isDefined() 
-					&& list1.isDefined())) 
-			{
+					&& list1.isDefined())) {
 				sum.setUndefined();
 				return;
 			}
@@ -1077,11 +1056,9 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				if (geo.isGeoNumeric())	yval[i] = ((GeoNumeric)geo).getDouble(); 
 				else yval[i]=0;
 				
-				cumSum += yval[i];
-				
+				cumSum += yval[i];			
 			}
-			 
-							
+			 							
 			
 			// calc area of rectangles				
 			sum.setValue(cumSum * STEP);	
@@ -1089,8 +1066,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			break;
 		case TYPE_BARCHART_RAWDATA:
 			// BarChart[{1,1,2,3,3,3,4,5,5,5,5,5,5,5,6,8,9,10,11,12},3]
-			if (!list1.isDefined() || !ngeo.isDefined()) 
-			{
+			if (!list1.isDefined() || !ngeo.isDefined()) {
 				sum.setUndefined();
 				return;
 			}
@@ -1103,8 +1079,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			int rawDataSize = list1.size();
 			
-			if (step < 0 || Kernel.isZero(step) || rawDataSize < 2)
-			{
+			if (step < 0 || Kernel.isZero(step) || rawDataSize < 2) {
 				sum.setUndefined();
 				return;
 			}
@@ -1155,12 +1130,9 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				b = (NumberValue)(new GeoNumeric(cons,maxi + gap));
 				//Application.debug("gap = "+gap);
 			}
-			
-			
+						
 			//Application.debug("N = "+N+" maxi = "+maxi+" mini = "+mini);
-							
-
-			
+										
 				
 			if (yval == null || yval.length < N) {
 				yval = new double[N];
@@ -1172,8 +1144,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			for (int i=0; i < N; i++) {
 				leftBorder[i] = mini - gap + step * i;
 			}
-						
-		
+								
 			// zero frequencies
 			for (int i=0; i < N; i++) yval[i] = 0; 	
 
@@ -1278,8 +1249,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			double start = ((GeoNumeric)(list1.get(0))).getDouble();
 			double end = ((GeoNumeric)(list1.get(N-2))).getDouble();
-			step = ((GeoNumeric)(list1.get(1))).getDouble() - start;
-			
+			step = ((GeoNumeric)(list1.get(1))).getDouble() - start;			
 			
 			
 			//Application.debug("N = "+N+" start = "+start+" end = "+end+" width = "+width);
@@ -1293,10 +1263,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			ageo = new GeoNumeric(cons,start - step / 2);
 			bgeo = new GeoNumeric(cons,end + step / 2);
 			a = (NumberValue)ageo;
-			b = (NumberValue)bgeo;
-			
-							
-				
+			b = (NumberValue)bgeo;													
 				
 			
 			// fill in class boundaries
@@ -1323,8 +1290,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			// area of rectangles = total frequency
 			if(type == TYPE_BARCHART_FREQUENCY_TABLE){
 				sum.setValue(area);					
-			}
-			else{
+			} else{
 				if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()){
 					sum.setValue(Double.POSITIVE_INFINITY);
 				}
@@ -1342,7 +1308,6 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			}
 			N = 3;
 			
-
 				
 				// special case, 2 bars
 			
@@ -1360,13 +1325,12 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				a = (NumberValue)ageo;
 				b = (NumberValue)bgeo;
 				
-				if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()){
+				if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()) {
 					sum.setValue(Double.POSITIVE_INFINITY);
+				} else {
+					sum.setValue(1.0);
 				}
-				else sum.setValue(1.0);
-				sum.updateCascade();
-
-				
+				sum.updateCascade();				
 		 
 		return;
 			
@@ -1405,9 +1369,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			bgeo = new GeoNumeric(cons,end + colWidth / 2);
 			a = (NumberValue)ageo;
 			b = (NumberValue)bgeo;
-			
-							
-				
+														
 			
 			if (yval == null || yval.length < NN-1) {
 				yval = new double[NN-1];
@@ -1445,22 +1407,19 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			sum.setValue(area);	
 			
 			N = NN - 1;
-
 			
 			break;
 			
 		case TYPE_HISTOGRAM:
 		case TYPE_HISTOGRAM_DENSITY:
-			if (!list1.isDefined() || !list2.isDefined()) 
-			{
+			if (!list1.isDefined() || !list2.isDefined()) {
 				sum.setUndefined();
 				return;
 			}
 			
 			N = list1.size();
 
-			if (N < 2)
-			{
+			if (N < 2) {
 				sum.setUndefined();
 				return;
 			}
@@ -1471,16 +1430,11 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			if(useDensityGeo == null){
 				densityFactor = 1;
-			} 
-			else if(!((GeoBoolean)useDensityGeo).getBoolean() )
-			{
+			} else if(!((GeoBoolean)useDensityGeo).getBoolean() ) {
 				densityFactor = -1;
-			} 
-			else 
-			{
+			} else {
 				densityFactor = (density != null) ? density.getDouble() : 1;
-				if(densityFactor <=0 && densityFactor != -1)
-				{
+				if(densityFactor <=0 && densityFactor != -1) {
 					sum.setUndefined();
 					return;
 				}
@@ -1491,8 +1445,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			// eg Histogram[{1,1.5,2,4},{1.0,1.1,1.1,1.2,1.7,1.7,1.8,2.2,2.5,4.0}]
 			// problem: if N-1 = list2.size() then raw data is not assumed
 			// fix for now is to check if other parameters are present, then it must be raw data
-			if (N-1 != list2.size() || useDensityGeo != null || isCumulative !=null)
-			{ 
+			if (N-1 != list2.size() || useDensityGeo != null || isCumulative !=null) { 
 				
 				if (yval == null || yval.length < N) {
 					yval = new double[N];
@@ -1513,8 +1466,12 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				}
 							
 				geo = list1.get(N-1);
-				if (geo.isNumberValue()) b = (NumberValue)geo;
-				else { sum.setUndefined(); return; }
+				if (geo.isNumberValue()) {
+					b = (NumberValue)geo;
+				} else { 
+					sum.setUndefined(); 
+					return; 
+				}
 				leftBorder[N-1] = ((GeoNumeric)geo).getDouble(); 
 				
 				// zero frequencies
@@ -1531,9 +1488,12 @@ implements EuclidianViewCE, AlgoDrawInformation{
 					else { sum.setUndefined(); return; }
 
 					// if datum is outside the range, set undefined					
-					if (datum < leftBorder[0] || datum > leftBorder[N-1]) { sum.setUndefined(); return; }
+					if (datum < leftBorder[0] || datum > leftBorder[N-1]) { 
+						sum.setUndefined(); 
+						return; 
+					}
 
-					if(!this.histogramRight){
+					if(!this.histogramRight) {
 						// fudge to make the last boundary eg 10 <= x <= 20
 						// all others are 10 <= x < 20
 						double oldMaxBorder = leftBorder[N-1];
@@ -1541,8 +1501,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 
 						// check which class this datum is in
 						for (int j=1; j < N; j++) {
-							if (Kernel.isGreater(leftBorder[j],datum)) 
-							{
+							if (Kernel.isGreater(leftBorder[j],datum)) {
 								yval[j-1]++;
 								break;
 							}
@@ -1550,10 +1509,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 
 						leftBorder[N-1] = oldMaxBorder;
 
-					}
-
-					else
-					{
+					} else {
 						// fudge to make the first boundary eg 10 <= x <= 20
 						// all others are 10 < x <= 20 (HistogramRight)
 						double oldMinBorder = leftBorder[0];
@@ -1561,30 +1517,29 @@ implements EuclidianViewCE, AlgoDrawInformation{
 
 						// check which class this datum is in
 						for (int j=1; j < N; j++) {
-							if (Kernel.isGreaterEqual(leftBorder[j],datum)) 
-							{
+							if (Kernel.isGreaterEqual(leftBorder[j],datum)) {
 								yval[j-1]++;
 								break;
 							}
 						}
 						leftBorder[0] = oldMinBorder;
-					}
-
-
+					}					
 				}
-				
-				
+								
 				
 				// turn frequencies into frequency densities
 				// if densityFactor = -1 then do not convert frequency to density
-				if(densityFactor != -1)
-					for (int i=1; i < N; i++)  
+				if(densityFactor != -1) {
+					for (int i=1; i < N; i++) {  
 						yval[i-1] = densityFactor * yval[i-1] / (leftBorder[i] - leftBorder[i-1]);
+					}
+				}
 
 				//convert to cumulative frequencies if cumulative option is set
-				if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()){
-					for (int i=1; i < N; i++)  
+				if(isCumulative != null && ((GeoBoolean)isCumulative).getBoolean()) {
+					for (int i=1; i < N; i++) {  
 						yval[i] += yval[i-1];
+					}
 				}
 				
 				
@@ -1594,14 +1549,11 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				// find maximum frequency
 				// this is used by the stat dialogs
 				freqMax = 0.0;
-				for(int k = 0; k < yval.length; ++k){
+				for(int k = 0; k < yval.length; ++k) {
 						freqMax = Math.max(yval[k], freqMax);
 				}
 				
-
-			}
-			else
-			{ // list2 contains the heights
+			} else { // list2 contains the heights
 				
 				if (yval == null || yval.length < N) {
 					yval = new double[N];
@@ -1627,12 +1579,18 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				yval[N-1] = yval[N-2];
 				
 				geo = list1.get(N-1);
-				if (geo.isNumberValue()) b = (NumberValue)geo;
-				else { sum.setUndefined(); return; }
+				if (geo.isNumberValue()) { 
+					b = (NumberValue)geo;
+				} else { 
+					sum.setUndefined(); 
+					return; 
+				}
 				leftBorder[N-1] = ((GeoNumeric)geo).getDouble(); 
 	
 				cumSum = 0;
-				for (int i=1; i < N; i++) cumSum += (leftBorder[i] - leftBorder[i-1]) * yval[i-1];
+				for (int i=1; i < N; i++) {
+					cumSum += (leftBorder[i] - leftBorder[i-1]) * yval[i-1];
+				}
 				
 				// area of rectangles				
 				sum.setValue(cumSum);	
@@ -1648,10 +1606,11 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			break;
 			
-				}
+		}
 	}
 	
 		
+	@Override
 	public String toString() {
 		return getCommandDescription();
 	}
@@ -1796,8 +1755,6 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				list2.add(new GeoNumeric(cons, prob));
 		}
 		cons.setSuppressLabelCreation(oldSuppress);
-
 	}
-	
 	
 }

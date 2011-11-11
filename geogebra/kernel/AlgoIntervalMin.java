@@ -15,19 +15,17 @@ package geogebra.kernel;
 
 public class AlgoIntervalMin extends AlgoIntervalAbstract {
 
-
 	public AlgoIntervalMin(Construction cons, String label, GeoInterval s) {
 		super(cons, label, s);
 	}
 
-
+	@Override
 	public String getClassName() {
         return "AlgoIntervalMin";
     }
 
-
-    protected final void compute() {
-    	
+    @Override
+	protected final void compute() {    	
     	result.setValue(interval.getMin());
     }
     

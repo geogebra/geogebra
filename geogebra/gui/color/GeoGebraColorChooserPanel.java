@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -627,6 +626,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			}
 		}
 
+		@Override
 		protected void initSwatchCount() {
 			swatchCount = 0;
 		}
@@ -655,6 +655,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			// swatchSize = new Dimension(smallSwatchSize,smallSwatchSize);
 		}
 
+		@Override
 		protected void initSwatchCount() {
 			swatchCount = 0;
 		}

@@ -24,28 +24,27 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
                 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public AlgoIntersectPolynomialLine(Construction cons, GeoFunction f, GeoLine g) {
+    public AlgoIntersectPolynomialLine(Construction cons, GeoFunction f, GeoLine g) {
         super(cons, f, g);                      
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectPolynomialLine";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
     
-    public GeoPoint [] getIntersectionPoints() {
+    @Override
+	public GeoPoint [] getIntersectionPoints() {
         return super.getRootPoints();
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
         return app.getPlain("IntersectionPointOfAB",input[0].getLabel(),input[1].getLabel());

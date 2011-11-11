@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class AlgoFrequencyTable extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList dataList; // input
 	private GeoList classList; // input
 	private GeoBoolean isCumulative; // input
@@ -62,10 +61,12 @@ public class AlgoFrequencyTable extends AlgoElement {
 
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoFrequencyTable";
 	}
 
+	@Override
 	protected void setInputOutput() {
 
 		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
@@ -96,6 +97,7 @@ public class AlgoFrequencyTable extends AlgoElement {
 		return table;
 	}
 
+	@Override
 	protected final void compute() {
 
 		// Validate input arguments

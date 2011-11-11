@@ -30,11 +30,7 @@ import geogebra.kernel.kernelND.GeoPointND;
  */
 public class AlgoCircleThreePoints extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPointND A, B, C; // input    
+    private GeoPointND A, B, C; // input    
     protected GeoConicND circle; // output     
 
     // line bisectors
@@ -91,8 +87,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
             compute();           
             setIncidence();
-    }
-    
+    }    
     
     private void setIncidence() {
     	if (A instanceof GeoPoint)
@@ -115,34 +110,30 @@ public class AlgoCircleThreePoints extends AlgoElement {
         this.B = B;
         this.C = C;	
     }
-
-    
-    
+   
     /**
      * create the object circle
      */
-    protected void createCircle(){
-    	
+    protected void createCircle(){   	
         circle = new GeoConic(cons);
-    }
+    } 
     
-    
-    
-    
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCircleThreePoints";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_CIRCLE_THREE_POINTS;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	setInput();
     	setOutput();
-        setDependencies(); // done by AlgoElement
-   	
+        setDependencies(); // done by AlgoElement 	
     }
     
     protected void setInput() {
@@ -150,13 +141,11 @@ public class AlgoCircleThreePoints extends AlgoElement {
         input[0] = (GeoElement) A;
         input[1] = (GeoElement) B;
         input[2] = (GeoElement) C;
-
     }
     
     protected void setOutput() {
-
-        output = new GeoElement[1];
-        output[0] = circle;
+        super.setOutputLength(1);
+        super.setOutput(0, circle);
      }
 
     
@@ -174,7 +163,8 @@ public class AlgoCircleThreePoints extends AlgoElement {
     }
 
     // compute circle through A, B, C
-    protected void compute() {
+    @Override
+	protected void compute() {
         // A, B or C undefined
         if (!getA().isFinite() || !getB().isFinite() || !getC().isFinite()) {
             circle.setUndefined();
@@ -190,10 +180,10 @@ public class AlgoCircleThreePoints extends AlgoElement {
         cy = ((GeoPoint) getC()).inhomY;
 
         // A = B = C
-        if (kernel.isEqual(ax, bx)
-            && kernel.isEqual(ax, cx)
-            && kernel.isEqual(ay, by)
-            && kernel.isEqual(ay, cy)) {
+        if (Kernel.isEqual(ax, bx)
+            && Kernel.isEqual(ax, cx)
+            && Kernel.isEqual(ay, by)
+            && Kernel.isEqual(ay, cy)) {
             circle.setCircle((GeoPoint) getA(), 0.0); // single point
             return;
         }
@@ -234,7 +224,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
         // A, B, C are collinear: set M to infinite point
         // in perpendicular direction of AB
-        if (kernel.isZero(maxDet)) {
+        if (Kernel.isZero(maxDet)) {
             center.setCoords(-ABy, ABx, 0.0d);
             circle.setCircle(center, (GeoPoint) getA());
         }
@@ -279,7 +269,8 @@ public class AlgoCircleThreePoints extends AlgoElement {
         }
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("CircleThroughABC",A.getLabel(),B.getLabel(),C.getLabel());

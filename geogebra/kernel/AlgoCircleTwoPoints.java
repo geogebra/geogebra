@@ -50,17 +50,20 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
     	((GeoPoint) getP()).addIncidence(getCircle());
     }
     
-    protected GeoQuadricND createSphereND(Construction cons){
+    @Override
+	protected GeoQuadricND createSphereND(Construction cons){
     	GeoConic circle = new GeoConic(cons);
         circle.addPointOnConic((GeoPoint) getP()); //TODO do this in AlgoSphereNDTwoPoints
         return circle;
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCircleTwoPoints";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_CIRCLE_TWO_POINTS;
     }
     
@@ -84,7 +87,8 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
     }
     */
 
-    final public String toString() {
+    @Override
+	final public String toString() {
 
         return app.getPlain("CircleThroughAwithCenterB",
         		((GeoElement) getP()).getLabel(),

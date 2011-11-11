@@ -18,11 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-
-
 public class AlgoStemPlot extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
 	private GeoNumeric scaleAdjustment; //input
 	private GeoText text; //output	
@@ -50,10 +47,12 @@ public class AlgoStemPlot extends AlgoElement {
 		text.setSerifFont(false);
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoStemPlot";
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		input = new GeoElement[scaleAdjustment == null ? 1 : 2];
@@ -62,9 +61,8 @@ public class AlgoStemPlot extends AlgoElement {
 		if (scaleAdjustment != null)
 			input[1] = scaleAdjustment;
 
-
-		output = new GeoElement[1];
-		output[0] = text;
+		super.setOutputLength(1);
+        super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -77,7 +75,7 @@ public class AlgoStemPlot extends AlgoElement {
 	 * value array of index values that define a sub array of non-outlier
 	 * values.
 	 */
-	private int[] getOutlierIndex(double[] data){
+	private static int[] getOutlierIndex(double[] data){
 		
 		// init the outlier indices using the data array bounds
 		int size = data.length;
@@ -142,7 +140,7 @@ public class AlgoStemPlot extends AlgoElement {
 	 * leaf. The data array is adjusted to exclude outliers by applying the index
 	 * values stored in the parameter outlierIndex.
 	 */
-	private ArrayList<ArrayList<Integer>> createStemPlotArray(double[] data, double stemFactor, int[] outlierIndex){
+	private static ArrayList<ArrayList<Integer>> createStemPlotArray(double[] data, double stemFactor, int[] outlierIndex){
 	
 		ArrayList<ArrayList<Integer>> lines = new ArrayList<ArrayList<Integer>>() ;
 		int size = outlierIndex[1];
@@ -201,9 +199,8 @@ public class AlgoStemPlot extends AlgoElement {
 
 		return lines;   	
 	}
-
-
 	
+	@Override
 	protected final void compute() {
 		int size = geoList.size();
 		if (!geoList.isDefined() ||  size == 0) {
@@ -255,7 +252,6 @@ public class AlgoStemPlot extends AlgoElement {
 		for (int i = 0 ; i < stemLines.size() ; i++) {
 			maxSize = Math.max(maxSize, stemLines.get(i).size());
 		}
-
 
 
 		//=============================================
@@ -359,7 +355,6 @@ public class AlgoStemPlot extends AlgoElement {
 		// set to LaTeX
 		text.setTextString(sb.toString());
 		text.setLaTeX(true,false);
-
 	}
 
 }

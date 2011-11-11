@@ -32,8 +32,6 @@ import java.util.Arrays;
  */
 public class AlgoIntersectConics extends AlgoIntersect {
       
-	private static final long serialVersionUID = 1L;
-
 	// number of old distances that are used to 
     // compute the mean distance change of one point
     static final int DIST_MEMORY_SIZE = 8;
@@ -60,10 +58,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
     private EquationSolver eqnSolver;
     private SystemOfEquationsSolver sysSolver;
         
+	@Override
 	public String getClassName() {
 		return "AlgoIntersectConics";
 	}
 	
+	@Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
@@ -121,16 +121,18 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	}
 
 	// for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = A;
         input[1] = B;
         
-        output = P;
+        super.setOutput(P);
         noUndefinedPointsInAlgebraView();
         setDependencies(); // done by AlgoElement
     }    
         
+	@Override
 	protected GeoPoint [] getIntersectionPoints() {
 		return P;
 	}
@@ -138,14 +140,17 @@ public class AlgoIntersectConics extends AlgoIntersect {
     GeoConic getA() { return A; }
     GeoConic getB() { return B; }
 	
+	@Override
 	protected GeoPoint [] getLastDefinedIntersectionPoints() {
 		return D;
 	}
 	
+	@Override
 	public boolean isNearToAlgorithm() {
     	return true;
     }
 	
+	@Override
 	protected final void initForNearToRelationship() {     
 		isPermutationNeeded = true;
     	for (int i=0; i < P.length; i++) {        	 	 
@@ -156,6 +161,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }
 	
 	 // calc intersections of conics A and B
+	@Override
 	protected final void compute() {   
     	// check if conics A and B are defined	   
    	   	if (!(A.isDefined() && B.isDefined())) {
@@ -256,12 +262,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	   	return true;
     }
     
-    private GeoPoint getPointFrom1on2(GeoConic A, GeoConic B) {
+    private static GeoPoint getPointFrom1on2(GeoConic A, GeoConic B) {
     	GeoPoint pointOnConic = null;
     	
     	// check if a point on A is also on B
 		// get points on conic and see if one of them is on line g
-		ArrayList pointsOnConic = A.getPointsOnConic();
+		ArrayList<GeoPoint> pointsOnConic = A.getPointsOnConic();
 		if (pointsOnConic != null) {
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
@@ -486,7 +492,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
         // STANDARD PROCEDURE
         double epsilon = Kernel.STANDARD_PRECISION;
         while (!ok && epsilon <= Kernel.MIN_PRECISION) { 
-            kernel.setEpsilon(epsilon);                        
+            Kernel.setEpsilon(epsilon);                        
             
             // find intersection points conics through intersection points
         	ok = calcIntersectionPoints(conic1, conic2, points, epsilon);  
@@ -513,7 +519,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * Arranges intersection points Q so that all defined
      * intersection points are at the beginning of the array.
      */  
-    private void moveDefinedPointsToFront(GeoPoint [] points) {
+    private static void moveDefinedPointsToFront(GeoPoint [] points) {
     	for (int i=0; i < points.length; i++) {
    			if (points[i].isDefined()) {
          		 // move defined intersection point as far to the front as possible
@@ -583,7 +589,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     /**
      * Tests if at least one point lies on conics A and B.
      */
-    final private boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
+    final private static boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
         boolean foundPoint = false;      
         for (int i=0; i < P.length; i++) {
             if (P[i].isDefined()) {                                         
@@ -817,7 +823,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     /**
      * If A and B have same submatrix S, the intersection points are on
      * a (double) line.
-     * @param points: resulting intersection points
+     * @param points resulting intersection points
      * @return true if points were found
      */
     private boolean intersectConicsWithEqualSubmatrixS(GeoConic A, GeoConic B, GeoPoint [] points) {    	
@@ -848,7 +854,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     /**
      * Divides the given array by its maximum absolute value.
      */
-    private void normalizeArray(double [] array) {
+    private static void normalizeArray(double [] array) {
     	// find max abs value in array
     	double max = 0;
     	for (int i=0; i < array.length; i++) {         	

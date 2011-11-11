@@ -20,8 +20,6 @@ import geogebra.main.Application;
  */
 public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	
-	private static final long serialVersionUID = 1L;
-
 	private GeoPoint A, B, C;	
 	
 	private GeoLine line; // for degenerate case
@@ -64,6 +62,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 		C.addIncidence(conicPart);
 	}
 
+	@Override
 	public String getClassName() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
@@ -73,6 +72,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 		}		
 	}
 	
+	@Override
 	public int getRelatedModeID() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
@@ -83,19 +83,21 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	}
 
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = A;      
         input[1] = B;
         input[2] = C;        
 
-        output = new GeoElement[1];
-        output[0] = conicPart;
+        super.setOutputLength(1);
+        super.setOutput(0, conicPart);
 
         setDependencies();
     }
     
-    protected void compute() {
+    @Override
+	protected void compute() {
     	if (!conic.isDefined()) {
     		conicPart.setUndefined();
     		return;

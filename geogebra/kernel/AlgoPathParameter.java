@@ -39,19 +39,22 @@ public class AlgoPathParameter extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoPathParameter";
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = point;
 
-		output = new GeoElement[1];
-		output[0] = value;
+		super.setOutputLength(1);
+        super.setOutput(0, value);
 		setDependencies();
 	}
 
+	@Override
 	protected final void compute() {
 		if (!point.isDefined() || !point.isPointOnPath()) {
 			value.setUndefined();

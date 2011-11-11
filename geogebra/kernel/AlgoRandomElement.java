@@ -13,8 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
-
 /**
  * random element of a GeoList object.
  * 
@@ -28,7 +26,6 @@ package geogebra.kernel;
 
 public class AlgoRandomElement extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoElement element; //output	
 
@@ -50,12 +47,13 @@ public class AlgoRandomElement extends AlgoElement {
         element.setLabel(label);
     }
 
- 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRandomElement";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	
 	        input = new GeoElement[1];
 	        input[0] = geoList;
@@ -73,7 +71,8 @@ public class AlgoRandomElement extends AlgoElement {
         return element;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (!geoList.isDefined()) {
         	element.setUndefined();
     		return;
@@ -87,7 +86,6 @@ public class AlgoRandomElement extends AlgoElement {
 		} else {
 			element.setUndefined();
 		}
-
     }
     
 }

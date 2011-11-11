@@ -14,7 +14,6 @@ package geogebra.kernel;
 
 public class AlgoInsert extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement inputGeo; //input
 	private GeoList inputList; //input
 	private GeoNumeric n; // input
@@ -23,12 +22,10 @@ public class AlgoInsert extends AlgoElement {
 
     AlgoInsert(Construction cons, String label, GeoElement inputGeo, GeoList inputList, GeoNumeric n) {
         super(cons);
-        
-        
+                
         this.inputGeo = inputGeo;
         this.inputList = inputList;
         this.n = n;
-
                
         outputList = new GeoList(cons);
 
@@ -37,20 +34,21 @@ public class AlgoInsert extends AlgoElement {
         outputList.setLabel(label);
     }
 
-
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoInsert";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         
 	    input[0] = inputGeo;
 	    input[1] = inputList;
 	    input[2] = n;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -58,7 +56,8 @@ public class AlgoInsert extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	//size = inputGeo.size();
     	size = inputList.size();
@@ -89,14 +88,11 @@ public class AlgoInsert extends AlgoElement {
 	    } else {
 	    	outputList.add(inputGeo.copyInternal(cons));
 	    }
-    
-        
+           
         if (insertPoint <= size)
-        for (int i = insertPoint-1 ; i < size ; i++)
+        for (int i = insertPoint-1 ; i < size ; i++) {
     		outputList.add(inputList.get(i).copyInternal(cons));
-    	
-    	
-
+        }
    }
   
 }

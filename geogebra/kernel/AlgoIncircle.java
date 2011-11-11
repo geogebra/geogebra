@@ -22,7 +22,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 
 public class AlgoIncircle extends AlgoElement {
 
-    private static final long serialVersionUID = 1L;
     private GeoPointND A, B, C; // input    
     protected GeoConicND circle; // output     
 
@@ -70,18 +69,21 @@ public class AlgoIncircle extends AlgoElement {
         compute();            
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIncircle";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = (GeoElement) A;
         input[1] = (GeoElement) B;
         input[2] = (GeoElement) C;
-        output = new GeoElement[1];
-        output[0] = (GeoElement) circle;
+
+        super.setOutputLength(1);
+        super.setOutput(0, circle);
         setDependencies(); // done by AlgoElement
     }
     
@@ -99,7 +101,8 @@ public class AlgoIncircle extends AlgoElement {
     }
 
     // compute incircle of triangle A, B, C
-    protected void compute() {
+    @Override
+	protected void compute() {
         // bisector of angle ABC
         double dAB = getA().distance(getB());
         double dAC = getA().distance(getC());
@@ -132,7 +135,8 @@ public class AlgoIncircle extends AlgoElement {
         circle.setCircle(incenter, dist);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("IncircleOfTriangleABC", A.getLabel(), B.getLabel(), C.getLabel());

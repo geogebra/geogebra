@@ -21,11 +21,6 @@ package geogebra.kernel;
  */
 public class AlgoPointsFromList extends AlgoElement {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoList list; // input 
 	private GeoPoint[] points; // output
 
@@ -79,17 +74,19 @@ public class AlgoPointsFromList extends AlgoElement {
 		update();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoPointsFromList";
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 
 		input = new GeoElement[1];
 		input[0] = list;
 
-		output = points;
+		super.setOutput(points);
 		for (int i=1; i < points.length; i++) {
 			points[i].showUndefinedInAlgebraView(false);
 		}
@@ -100,8 +97,7 @@ public class AlgoPointsFromList extends AlgoElement {
 		return points;
 	}
 
-
-
+	@Override
 	protected void compute() {
 		int n;
 		if (!list.isDefined() || (n = list.size()) == 0) {
@@ -142,9 +138,6 @@ public class AlgoPointsFromList extends AlgoElement {
 		if (length > 0) setPoints(x, y, length);
 		
 	}
-
-
-
 
 	// roots array and number of roots
 	final void setPoints(double[] x, double[] y, int number) {
@@ -190,6 +183,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	 * Removes only one single output element if possible. 
 	 * If this is not possible the whole algorithm is removed.
 	 */
+	@Override
 	void remove(GeoElement output) {
 		// only single undefined points may be removed       
 		for (int i = 0; i < points.length; i++) {
@@ -218,7 +212,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				temp[i].setParentAlgorithm(this);
 			}
 			points = temp;
-			output = points;
+			super.setOutput(points);
 		}
 	}
 

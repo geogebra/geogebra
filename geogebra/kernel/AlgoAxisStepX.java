@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  * 
  * @author  
@@ -21,8 +20,7 @@ package geogebra.kernel;
  */
 public class AlgoAxisStepX extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-    protected GeoNumeric num;     // output          
+	protected GeoNumeric num;     // output          
         
     public AlgoAxisStepX(Construction cons, String label) {
     	super(cons);
@@ -39,11 +37,13 @@ public class AlgoAxisStepX extends AlgoElement {
         cons.registerEuclidianViewCE(this);
    }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoAxisStepX";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[0];
         
@@ -54,7 +54,8 @@ public class AlgoAxisStepX extends AlgoElement {
 	
     protected GeoNumeric getResult() { return num; }        
  
-    public boolean euclidianViewUpdate() {
+    @Override
+	public boolean euclidianViewUpdate() {
 
     	compute();
     	
@@ -64,12 +65,13 @@ public class AlgoAxisStepX extends AlgoElement {
    	
     }
     
-    final public boolean wantsEuclidianViewUpdate() {
+    final public static boolean wantsEuclidianViewUpdate() {
     	return true;
     }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	double axisSteps[] = kernel.getApplication().getEuclidianView().getGridDistances();
     	num.setValue(axisSteps[0]);
     }         

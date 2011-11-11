@@ -5,12 +5,10 @@ import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
-import geogebra.main.Application;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 
 /**
  * 
@@ -24,30 +22,24 @@ import java.util.Iterator;
 
 public class Hits extends ArrayList<GeoElement> {
 	
-	
 	private int listCount;
 	protected int polyCount;
 	private int imageCount;
-	
 	
 	protected final int TEST_MOVEABLE = 1;
 	protected final int TEST_ROTATEMOVEABLE = 2;
 
 	
 	
-	
-
 	/** init the hits */
 	public void init(){
 		clear();
 		listCount = 0;
 		polyCount = 0;
 		imageCount = 0;
-		
 	}
 	
-	
-	
+	@Override
 	public Hits clone() {
 
 		Hits ret = (Hits) super.clone();
@@ -59,6 +51,7 @@ public class Hits extends ArrayList<GeoElement> {
 	} 
 	
 	/** adding specifics GeoElements */
+	@Override
 	public boolean add(GeoElement geo){
 		
 		if (!geo.isSelectionAllowed()) return false;
@@ -128,7 +121,6 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 	
-	
 	final public void removeAllDimElements(){
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
 			GeoElement geo = (GeoElement) get(i);
@@ -139,7 +131,6 @@ public class Hits extends ArrayList<GeoElement> {
 				remove(i);
 		}
 	}
-	
 	
 	/**
 	 * A polygon is only kept if none of its sides is also in
@@ -196,8 +187,7 @@ public class Hits extends ArrayList<GeoElement> {
 					it.remove();					
 				}
 			}				
-		}				
-				
+		}						
 	}
 	
 	/**
@@ -219,13 +209,11 @@ public class Hits extends ArrayList<GeoElement> {
 			}				
 		}
 		
-		for (GeoSegmentND d : toRemove)
+		for (GeoSegmentND d : toRemove) {
 			this.remove(d);
+		}
 				
 	}
-	
-	
-	
 	
 	/*
 	 * remove sides of polygons present
@@ -315,19 +303,7 @@ public class Hits extends ArrayList<GeoElement> {
 			if (geo.isGeoImage())
 				remove(i);
 		}
-
 	}
-	
-	
-	
-		
-	
-	
-	
-	
-	
-	
-
 
 	/**
 	 * returns array of independent GeoElements whose visual representation is
@@ -357,9 +333,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return getMoveables(view, TEST_ROTATEMOVEABLE, rotCenter);
 	}
 
-
 	protected Hits getMoveables(EuclidianViewInterface view, int test, GeoPointND rotCenter) {
-
 
 		GeoElement geo;
 		Hits moveableList = new Hits();
@@ -404,7 +378,6 @@ public class Hits extends ArrayList<GeoElement> {
 		return moveableList;
 	}
 
-
 	/**
 	 * returns array of GeoElements of type geoclass whose visual representation
 	 * is at streen coords (x,y). order: points, vectors, lines, conics
@@ -420,12 +393,12 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result 
 	 * @return array of GeoElements NOT of type geoclass out of hits 
 	 */
-	final public Hits getOtherHits(Class geoclass,
+	final public Hits getOtherHits(Class<?> geoclass,
 			Hits result) {
 		return getHits(geoclass, true, result);
 	}
 
-	final public Hits getHits(Class geoclass,
+	final public Hits getHits(Class<?> geoclass,
 			Hits result) {
 		return getHits(geoclass, false, result);
 	}
@@ -459,7 +432,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result Hits in which the result should be stored
 	 * @return result
 	 */
-	final protected Hits getHits(Class geoclass,
+	final protected Hits getHits(Class<?> geoclass,
 			boolean other, Hits result) {
 
 
@@ -487,8 +460,6 @@ public class Hits extends ArrayList<GeoElement> {
 		
 		return result;
 	}
-	
-	
 
 	/**
 	 * Stores all GeoElements of any of type geoclasses to result list.
@@ -500,7 +471,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result Hits in which the result should be stored
 	 * @return result
 	 */
-	final public Hits getHits(Class[] geoclasses,
+	final public Hits getHits(Class<?>[] geoclasses,
 			boolean other, Hits result) {
 
 		result.clear();
@@ -522,7 +493,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param geoclass
 	 * @return first hit of given class
 	 */
-	final public GeoElement getFirstHit(Class geoclass) {
+	final public GeoElement getFirstHit(Class<?> geoclass) {
 
 		for (int i = 0; i < size(); ++i) {
 			if(geoclass.isInstance(get(i)))
@@ -532,7 +503,6 @@ public class Hits extends ArrayList<GeoElement> {
 		return null;
 	}
 	
-
 	/**
 	 * Stores all GeoElements of type GeoPoint, GeoVector, GeoNumeric to result list.
 	 * 
@@ -589,7 +559,6 @@ public class Hits extends ArrayList<GeoElement> {
 			return clone();
 	}
 	
-	
 	/** return hits at the top, limited to a number of nb
 	 * @param nb number of top hits to return
 	 * @return hits at the top, limited to a number of nb
@@ -622,8 +591,6 @@ public class Hits extends ArrayList<GeoElement> {
 		return new Hits();
 	}
 
-
-
 	//for 3D only
 	public Hits getTopHits(int depth, int geoN) {
 		return getTopHits(geoN);
@@ -637,7 +604,6 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
-	
 	final public boolean containsGeoPoint(Hits ret) {
 
 		GeoElement geo;
@@ -651,8 +617,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 	
-	
-	
+	@Override
 	public String toString(){
 		String s = "hits: "+size();
 		GeoElement geo;
@@ -662,8 +627,5 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 		return s;
 	}
-
-
-
 
 }

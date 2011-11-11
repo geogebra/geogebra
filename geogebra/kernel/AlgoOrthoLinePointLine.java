@@ -30,11 +30,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoOrthoLinePointLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P; // input
+    private GeoPoint P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
 
@@ -65,17 +61,19 @@ public class AlgoOrthoLinePointLine extends AlgoElement {
     	P.addIncidence(g);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoOrthoLinePointLine";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ORTHOGONAL;
-    }
-    
+    }  
 
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = l;
@@ -88,19 +86,23 @@ public class AlgoOrthoLinePointLine extends AlgoElement {
     GeoLine getLine() {
         return g;
     }
+    
     GeoPoint getP() {
         return P;
     }
+    
     GeoLine getl() {
         return l;
     }
 
     // calc the line g through P and normal to l   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         GeoVec3D.cross(P, l.x, l.y, 0.0, g);
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(),l.getLabel());

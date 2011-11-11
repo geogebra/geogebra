@@ -15,7 +15,6 @@ package geogebra.kernel;
 
 public abstract class AlgoIntervalAbstract extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoInterval interval; //input
     protected GeoNumeric result; //output	
 
@@ -35,12 +34,13 @@ public abstract class AlgoIntervalAbstract extends AlgoElement {
         compute();
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = interval;
 
-        output = new GeoElement[1];
-        output[0] = result;
+        super.setOutputLength(1);
+        super.setOutput(0, result);
         setDependencies(); // done by AlgoElement
     }
 

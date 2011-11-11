@@ -13,12 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
-
 public class AlgoVerticalText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-    private GeoText text; //output	
+	private GeoText text; //output	
     private GeoText args; //input	
     
     private StringBuffer sb = new StringBuffer();
@@ -36,21 +33,21 @@ public class AlgoVerticalText extends AlgoElement {
 		text.setIsTextCommand(true); // stop editing as text
 		
         setInputOutput();
-        compute();
-        
+        compute();    
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoVerticalText";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
 	    input = new GeoElement[1];
 	    input[0] = args;
 
-
-        output = new GeoElement[1];
-        output[0] = text;
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }
 
@@ -58,7 +55,8 @@ public class AlgoVerticalText extends AlgoElement {
         return text;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (!args.isDefined()) {
     		text.setTextString("");
     		return;

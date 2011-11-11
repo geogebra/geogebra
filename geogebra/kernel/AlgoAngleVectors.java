@@ -22,7 +22,6 @@ import geogebra.euclidian.EuclidianConstants;
 
 public class AlgoAngleVectors extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoVector v, w; // input
     private GeoAngle angle; // output           
 
@@ -42,16 +41,19 @@ public class AlgoAngleVectors extends AlgoElement {
         angle.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngleVectors";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGLE;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = v;
         input[1] = w;
@@ -74,7 +76,8 @@ public class AlgoAngleVectors extends AlgoElement {
     // calc angle between vectors v and w
     // angle in range [0, 2pi) 
     // use normalvector to 
-    protected final void compute() {    	    	    	
+    @Override
+	protected final void compute() {    	    	    	
     	// |v| * |w| * sin(alpha) = det(v, w)
     	// cos(alpha) = v . w / (|v| * |w|)
     	// tan(alpha) = sin(alpha) / cos(alpha)
@@ -85,7 +88,8 @@ public class AlgoAngleVectors extends AlgoElement {
         angle.setValue(value);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("AngleBetweenAB",v.getLabel(),w.getLabel());

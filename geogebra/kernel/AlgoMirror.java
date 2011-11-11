@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.Application;
 
 /**
  *
@@ -30,11 +29,7 @@ import geogebra.main.Application;
  */
 public class AlgoMirror extends AlgoTransformation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Mirrorable out;   
+    private Mirrorable out;   
     private GeoElement inGeo, outGeo; 
     private GeoLine mirrorLine;   
     private GeoPoint mirrorPoint;      
@@ -115,11 +110,13 @@ public class AlgoMirror extends AlgoTransformation {
         	cons.registerEuclidianViewCE(this);
     }           
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoMirror";
     }
     
-    public int getRelatedModeID() { 	   	
+    @Override
+	public int getRelatedModeID() { 	   	
 		if (mirror.isGeoLine()) {
 			return EuclidianConstants.MODE_MIRROR_AT_LINE;
 		} else if (mirror.isGeoPoint()) {
@@ -131,7 +128,8 @@ public class AlgoMirror extends AlgoTransformation {
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = inGeo; 
         input[1] = mirror;
@@ -145,12 +143,13 @@ public class AlgoMirror extends AlgoTransformation {
      * Returns the transformed geo
      * @return transformed geo
      */
-    GeoElement getResult() { 
+    @Override
+	GeoElement getResult() { 
     	return outGeo; 
     }       
 
-    
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
@@ -176,23 +175,24 @@ public class AlgoMirror extends AlgoTransformation {
     	if(inGeo.isRegion() && mirror == mirrorConic){
 			GeoVec2D v = mirrorConic.getTranslationVector();   
 			outGeo.setInverseFill(((Region)inGeo).isInRegion(v.x,v.y) ^ inGeo.isInverseFill());
-		}
-    	
+		}    	
         
-        if (mirror == mirrorLine)
+        if (mirror == mirrorLine) {
         	out.mirror(mirrorLine);
-        else if (mirror == mirrorPoint){
-        	if(outGeo.isGeoFunction())
+        } else if (mirror == mirrorPoint) {
+        	if(outGeo.isGeoFunction()) {
         		((GeoFunction)outGeo).dilate(new MyDouble(kernel,-1), mirrorPoint);
-        	else
+        	} else {
         		out.mirror(mirrorPoint);
+        	}
         }
         else ((ConicMirrorable)out).mirror(mirrorConic);
         if(inGeo.isLimitedPath())
         	this.transformLimitedPath(inGeo, outGeo);
     }       
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
         return app.getPlain("AMirroredAtB",inGeo.getLabel(),mirror.getLabel());
@@ -227,7 +227,9 @@ public class AlgoMirror extends AlgoTransformation {
         	return new GeoList(cons);
 		return geo.copy();
 	}
-    protected void transformLimitedPath(GeoElement a,GeoElement b){
+    
+    @Override
+	protected void transformLimitedPath(GeoElement a,GeoElement b){
     	if(mirror != mirrorConic){
     		super.transformLimitedPath(a, b);
     		return;
@@ -257,8 +259,7 @@ public class AlgoMirror extends AlgoTransformation {
 				arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, false);
 			
 			setTransformedObject(a,b);
-		}
-		else if(a instanceof GeoSegment){
+		} else if(a instanceof GeoSegment) {
 			arc.setParameters(0, Kernel.PI_2, true);
 			transformedPoint.removePath();
 			setTransformedObject(
@@ -285,11 +286,13 @@ public class AlgoMirror extends AlgoTransformation {
 				arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, false);
 			setTransformedObject(a,b);
 		}
-		if(a instanceof GeoConicPart){			
+		if(a instanceof GeoConicPart) {			
 			transformLimitedConic(a,b);
 		}
 	}
-    protected boolean swapOrientation(boolean positiveOrientation) {		
+    
+    @Override
+	protected boolean swapOrientation(boolean positiveOrientation) {		
 		return positiveOrientation;
 	}
 }

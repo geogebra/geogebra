@@ -24,16 +24,12 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoIntersectFunctions extends AlgoRoots {
                 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public AlgoIntersectFunctions(Construction cons, String[] labels, GeoFunction f, GeoFunction g,NumberValue left, NumberValue right) {
+    public AlgoIntersectFunctions(Construction cons, String[] labels, GeoFunction f, GeoFunction g,NumberValue left, NumberValue right) {
         super(cons, labels, f, g,left, right);                      
     }//Constructor
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectFunctions";
     }//getClassName()
     

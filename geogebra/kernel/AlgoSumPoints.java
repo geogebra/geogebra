@@ -24,12 +24,9 @@ import geogebra.kernel.kernelND.GeoPointND;
 
 public class AlgoSumPoints extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     public GeoNumeric Truncate; //input	
     public GeoElement result; //output	
-    
-
     
     public AlgoSumPoints(Construction cons, String label, GeoList geoList) {
         this(cons, label, geoList, null);
@@ -51,11 +48,13 @@ public class AlgoSumPoints extends AlgoElement {
         result.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoSumPoints";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	if (Truncate == null) {
 	        input = new GeoElement[1];
 	        input[0] = geoList;
@@ -66,8 +65,8 @@ public class AlgoSumPoints extends AlgoElement {
              input[1] = Truncate;
     	}
 
-        output = new GeoElement[1];
-        output[0] = result;
+        super.setOutputLength(1);
+        super.setOutput(0, result );
         setDependencies(); // done by AlgoElement
     }
 
@@ -75,8 +74,8 @@ public class AlgoSumPoints extends AlgoElement {
         return result;
     }
     
-
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	// TODO: remove
     	//Application.debug("compute: " + geoList);

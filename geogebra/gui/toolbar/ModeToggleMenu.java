@@ -252,6 +252,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 		addActionListener(this);
 	}
 	
+	@Override
 	public String getToolTipText() {
 		if (showToolTipText)
 			return super.getToolTipText();
@@ -268,6 +269,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 		
 	}
 
+	@Override
 	public void setIcon(Icon icon) {
 		super.setIcon(icon);  
 		iconWidth = icon.getIconWidth();
@@ -280,7 +282,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 		setMaximumSize(dim);		
 	}
 	
-	
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;			
 		Stroke oldStroke = g2.getStroke();
@@ -313,8 +315,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 				g2.fill(gp);
 				g2.setColor(arrowColor);
 				g2.draw(gp);
-			}
-			
+			}		
 		}
 	}
 	
@@ -397,6 +398,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 		}	
 	}
 	
+	@Override
 	public void doClick() {
 		super.doClick();
 		if (!hasFocus())

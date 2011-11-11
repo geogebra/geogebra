@@ -18,11 +18,7 @@ import geogebra.euclidian.EuclidianConstants;
 
 public class AlgoAngleVector extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoVec3D vec; // input
+    private GeoVec3D vec; // input
     private GeoAngle angle; // output          
     
     private double [] coords = new double[2];
@@ -37,16 +33,19 @@ public class AlgoAngleVector extends AlgoElement {
         angle.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngleVector";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGLE;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = vec;
 
@@ -63,14 +62,16 @@ public class AlgoAngleVector extends AlgoElement {
     	return vec;
     }
         
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	vec.getInhomCoords(coords);
         angle.setValue(
         		Math.atan2(coords[1], coords[0])
 			);
     }
 
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("AngleOfA",vec.getLabel());

@@ -22,7 +22,6 @@ import geogebra.util.GgbMat;
 
 public class AlgoDeterminant extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoNumeric num; //output	
 
@@ -37,16 +36,18 @@ public class AlgoDeterminant extends AlgoElement {
         num.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDeterminant";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }
 
@@ -54,7 +55,8 @@ public class AlgoDeterminant extends AlgoElement {
         return num;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	   		
    		GgbMat matrix = new GgbMat(inputList);
    		

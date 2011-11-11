@@ -17,11 +17,7 @@ import geogebra.euclidian.EuclidianConstants;
 
 public class AlgoPointVector extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P;  // input
+    private GeoPoint P;  // input
     private GeoVector v; // input
     private GeoPoint Q;     // output       
         
@@ -38,33 +34,37 @@ public class AlgoPointVector extends AlgoElement {
         Q.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPointVector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_VECTOR_FROM_POINT;
     }
-    
-    
+      
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = v;
         
-        output = new GeoElement[1];        
-        output[0] = Q;        
+        super.setOutputLength(1);
+        super.setOutput(0, Q);
         setDependencies(); // done by AlgoElement
     }    
     
     GeoPoint getQ() { return Q; }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         Q.setCoords(P.inhomX + v.x, P.inhomY + v.y, 1.0);
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
         return app.getPlain("PointAplusB",input[0].getLabel(),input[1].getLabel());

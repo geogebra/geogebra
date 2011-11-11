@@ -16,7 +16,6 @@ package geogebra.kernel;
 
 public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 
-	private static final long serialVersionUID = 1L;
 	private Path path; // input
     private GeoPoint point; // input      
     private GeoPoint P; // output      
@@ -39,12 +38,14 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 		P.setLabel(label);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoClosestPoint";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = path.toGeoElement();
 		input[1] = point.toGeoElement();    		
@@ -57,7 +58,8 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
         return P;
     }
       
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && point.isDefined()) {	  
     		P.setCoords(point);
 	        path.pathChanged(P);
@@ -67,7 +69,8 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     	}
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         return app.getPlain("PointOnAClosestToB", input[0].getLabel(), input[1].getLabel());
     }
 

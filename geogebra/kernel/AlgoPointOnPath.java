@@ -14,13 +14,10 @@ package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.main.Application;
-
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 
-	private static final long serialVersionUID = 1L;
 	private Path path; // input
     private GeoPoint P; // output      
     private NumberValue param;
@@ -75,17 +72,20 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
         setInputOutput(); // for AlgoElement
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoPointOnPath";
     }
 
+	@Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POINT;
     }
     
 	
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	if(param == null){
     		input = new GeoElement[1];
     		input[0] = path.toGeoElement();
@@ -106,7 +106,8 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
         return path;
     }
       
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(param != null){
     		PathParameter pp = P.getPathParameter();
     		//Application.debug(param.getDouble()+" "+path.getMinParameter()+" "+path.getMaxParameter());
@@ -121,7 +122,8 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
     	}
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation        
         return app.getPlain("PointOnA", input[0].getLabel());

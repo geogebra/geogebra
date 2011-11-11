@@ -16,6 +16,7 @@ import geogebra.kernel.kernelND.GeoRayND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra3D.kernel3D.GeoVector3D;
+import geogebra3D.kernel3D.Manager3D;
 
 /**
  * Interface for managing all 3D methods in Kernel. <br/>
@@ -161,7 +162,7 @@ public interface Manager3DInterface {
 				
 
 			/** Prism with vertices (last one is first vertex of second parallel face)
-			 * @param label name
+			 * @param labels names
 			 * @param points vertices
 			 * @return the polyhedron
 			 */
@@ -184,7 +185,7 @@ public interface Manager3DInterface {
 			 public GeoElement [] Prism(String[] labels, GeoPolygon polygon, NumberValue height);
 
 			/** Pyramid with vertices (last one as apex)
-			 * @param label name
+			 * @param labels names
 			 * @param points vertices
 			 * @return the polyhedron
 			 */
@@ -369,10 +370,6 @@ public interface Manager3DInterface {
 
 			 /**
 			  * Calculate the intersection of the line g with the region of p
-			  * @param label
-			  * @param g
-			  * @param p
-			  * @return
 			  */
 			 
 			 public GeoElement[] IntersectionPoint(
@@ -455,9 +452,6 @@ public interface Manager3DInterface {
 
 			 /**
 			  * intersection between 3D line and conic
-			  * @param labels
-			  * @param g
-			  * @param c
 			  * @return two intersection points
 			  */
 			 public GeoPointND[] IntersectLineConic(
@@ -545,8 +539,6 @@ public interface Manager3DInterface {
 			public GeoElement IntersectPlanes(
 					GeoCoordSys2D cs1,
 					GeoCoordSys2D cs2);
-
-			
 			
 			/** 
 			 * Angle named label between three points
@@ -556,22 +548,14 @@ public interface Manager3DInterface {
 				GeoPointND A,
 				GeoPointND B,
 				GeoPointND C);
-
 			
 			/** 
 			 * Length named label of vector v
-			 * @param label 
-			 * @param v 
 			 * @return length of the vector
 			 */
 			public GeoNumeric Length(String label, GeoVector3D v);
 
 			/**
-			 * 
-			 * @param labels
-			 * @param A
-			 * @param B
-			 * @param v
 			 * @return cube with A, B for first points and v for direction
 			 */
 			public GeoElement ArchimedeanSolid(String[] labels, 
@@ -579,8 +563,7 @@ public interface Manager3DInterface {
 					String name);
 			
 			
-			
-			
+				
 			/********************************************************************
 			 * TRANSFORMATIONS
 			 ********************************************************************/

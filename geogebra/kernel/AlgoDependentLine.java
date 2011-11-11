@@ -31,14 +31,9 @@ import geogebra.kernel.arithmetic.Polynomial;
  */
 public class AlgoDependentLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	protected Equation equation;
+    protected Equation equation;
 	protected GeoLine line1;
 	protected GeoLine line2;
-	private NumberValue num;
     protected ExpressionValue [] ev = new ExpressionValue[3];  // input
     protected ExpressionNode root;
     protected GeoLine g;     // output       
@@ -77,11 +72,13 @@ public class AlgoDependentLine extends AlgoElement {
         g.setLabel(label);        
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentLine";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = equation.getGeoElementVariables();     
 			
@@ -94,7 +91,8 @@ public class AlgoDependentLine extends AlgoElement {
     public GeoLine getLine() { return g; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	
 	    	try {
 		        g.x = ((NumberValue) ev[0].evaluate()).getDouble();
@@ -109,11 +107,13 @@ public class AlgoDependentLine extends AlgoElement {
 			}
     }   
           
-    final public String toString() { 
+    @Override
+	final public String toString() { 
     	return equation.toString();
     }
     
-    final public String toRealString() { 
+    @Override
+	final public String toRealString() { 
     	return equation.toRealString();
     } 
     

@@ -28,14 +28,8 @@ import geogebra.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoLengthSegment extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoSegmentND seg; // input
+    private GeoSegmentND seg; // input
     private GeoNumeric num; // output 
-    
-    private double [] coords = new double[2];
     
     AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
         super(cons);
@@ -48,17 +42,19 @@ public class AlgoLengthSegment extends AlgoElement {
         num.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLengthSegment";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = (GeoElement) seg;
 
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }
 
@@ -68,12 +64,14 @@ public class AlgoLengthSegment extends AlgoElement {
     
 
     // calc length of vector v   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
         num.setValue(seg.getLength());
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         return app.getPlain("LengthOfA",((GeoElement) seg).getLabel());
 
     }

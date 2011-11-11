@@ -29,10 +29,6 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoDilate extends AlgoTransformation {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPoint S;
     private Dilateable out;    
     private NumberValue r; 
@@ -82,17 +78,19 @@ public class AlgoDilate extends AlgoTransformation {
            
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDilate";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_DILATE_FROM_POINT;
-    }
-    
+    }    
     
     // for AlgoElement
-    protected void setInputOutput() {    	
+    @Override
+	protected void setInputOutput() {    	
         input = new GeoElement[S==null ? 2:3];
         input[0] = inGeo;
         input[1] = rgeo;
@@ -107,11 +105,13 @@ public class AlgoDilate extends AlgoTransformation {
      * Returns the resulting GeoElement
      * @return the resulting GeoElement
      */
-    GeoElement getResult() {
+    @Override
+	GeoElement getResult() {
         return outGeo;
     }
 
-    protected void setTransformedObject(GeoElement g,GeoElement g2){
+    @Override
+	protected void setTransformedObject(GeoElement g,GeoElement g2){
         inGeo =g;
         outGeo = g2;
         if(!(outGeo instanceof GeoList))
@@ -119,7 +119,8 @@ public class AlgoDilate extends AlgoTransformation {
        }
     
     // calc dilated point
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){    		
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
@@ -135,7 +136,8 @@ public class AlgoDilate extends AlgoTransformation {
         	this.transformLimitedPath(inGeo, outGeo);
     }
        
-   	final public String toString() {
+   	@Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	String sLabel = S == null ? cons.getOrigin().toValueString() : S.getLabel();

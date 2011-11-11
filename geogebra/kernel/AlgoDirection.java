@@ -26,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoDirection extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g; // input
+    private GeoLine g; // input
     private GeoVector v; // output  
 
     /** Creates new AlgoDirection */    
@@ -58,17 +54,19 @@ public class AlgoDirection extends AlgoElement {
         v.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDirection";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = g;
 
-        output = new GeoElement[1];
-        output[0] = v;
+        super.setOutputLength(1);
+        super.setOutput(0, v);
         setDependencies(); // done by AlgoElement
     }
 
@@ -80,12 +78,14 @@ public class AlgoDirection extends AlgoElement {
     }
 
     // direction vector of g
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         v.x = g.y;
         v.y = -g.x;
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("DirectionOfA",g.getLabel());

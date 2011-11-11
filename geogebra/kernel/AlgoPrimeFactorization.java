@@ -22,7 +22,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 
 public class AlgoPrimeFactorization extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private NumberValue num; //input
     private GeoList outputList; //output	    
     
@@ -46,11 +45,13 @@ public class AlgoPrimeFactorization extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFactors";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = num.toGeoElement();
 
@@ -67,9 +68,9 @@ public class AlgoPrimeFactorization extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
-
     	double n = Math.round(num.getDouble());
     	
     	if (n == 1) {
@@ -82,8 +83,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
     		outputList.setUndefined();
     		return;
     	}
-       
-    	      
+           	      
        outputList.setDefined(true);
        outputList.clear();
        
@@ -101,8 +101,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 		}
 		if (n > 1) {
 			setListElement(count++, n,1);
-		}
-       
+		}     
     }
     
     // copied from AlgoInterationList.java

@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoAngularBisectorPoints extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input    
+    private GeoPoint A, B, C; // input    
     private GeoLine bisector; // output   
 
     // temp    
@@ -69,16 +65,19 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
         bisector.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngularBisectorPoints";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGULAR_BISECTOR;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = A;
         input[1] = B;
@@ -102,7 +101,8 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
         return C;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         boolean infiniteB = B.isInfinite();
 
         // compute lines g = B v A, h = B v C                       
@@ -217,7 +217,8 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
         //Application.debug("bisector = (" + bisector.x + ", " + bisector.y + ", " + bisector.z + ")\n");
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("AngleBisectorOfABC",A.getLabel(),B.getLabel(),C.getLabel());

@@ -22,7 +22,6 @@ import java.awt.Point;
  */
 public class AlgoColumn extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // input
     private GeoNumeric num;     // output              
         
@@ -38,24 +37,27 @@ public class AlgoColumn extends AlgoElement {
         num.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoColumn";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = geo;
-        
-        output = new GeoElement[1];        
-        output[0] = num;        
+ 
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }    
     
     protected GeoNumeric getResult() { return num; }        
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {    	
+    @Override
+	protected final void compute() {    	
     	Point p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.x + 1);
     	else num.setUndefined();

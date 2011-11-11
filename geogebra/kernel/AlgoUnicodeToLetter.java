@@ -17,7 +17,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 
 public class AlgoUnicodeToLetter extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected NumberValue a;  // input
     protected GeoText text;     // output           
         
@@ -35,24 +34,26 @@ public class AlgoUnicodeToLetter extends AlgoElement {
       text.setLabel(label);
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoUnicodeToLetter";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[1];
         input[0] = a.toGeoElement();
-        
-        output = new GeoElement[1];        
-        output[0] = text;        
+          
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }    
     
     protected GeoText getResult() { return text; }        
-
       
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	char ss = (char)a.getDouble();
     	text.setTextString(ss+"");

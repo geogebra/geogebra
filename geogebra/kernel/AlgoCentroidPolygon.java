@@ -15,11 +15,7 @@ package geogebra.kernel;
 
 public class AlgoCentroidPolygon extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPolygon p;  // input
+    private GeoPolygon p;  // input
     private GeoPoint centroid; // output                         
         
     AlgoCentroidPolygon(Construction cons, String label,GeoPolygon p) {
@@ -32,28 +28,32 @@ public class AlgoCentroidPolygon extends AlgoElement {
         centroid.setLabel(label);         
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCentroidPolygon";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = p;        
-        
-        output = new GeoElement[1];        
-        output[0] = centroid;
+
+        super.setOutputLength(1);
+        super.setOutput(0, centroid);
         setDependencies(); // done by AlgoElement
     }    
     
     GeoPolygon getPolygon() { return p; }
     GeoPoint getPoint() { return centroid; }    
         
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         p.calcCentroid(centroid);
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("CentroidOfA",p.getLabel());

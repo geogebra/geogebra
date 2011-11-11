@@ -29,7 +29,6 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoDependentNumber extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private ExpressionNode root;  // input
     private GeoNumeric number;     // output              
         
@@ -58,15 +57,16 @@ public class AlgoDependentNumber extends AlgoElement {
         setInputOutput(); // for AlgoElement
         
         // compute value of dependent number
-        compute();      
-        
+        compute();           
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentNumber";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = root.getGeoElementVariables();
         
@@ -80,7 +80,8 @@ public class AlgoDependentNumber extends AlgoElement {
     public ExpressionNode getExpression() { return root; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {    
+    @Override
+	protected final void compute() {    
     	try {
     		NumberValue nv = (NumberValue) root.evaluate();
 	        number.setValue(nv.getDouble());
@@ -89,13 +90,15 @@ public class AlgoDependentNumber extends AlgoElement {
 		}
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // was defined as e.g.  r = 5a - 3b
         // return 5a - 3b
         return root.toString();
     }
     
-    final public String toRealString() {        
+    @Override
+	final public String toRealString() {        
         return root.toRealString();
     }
 }

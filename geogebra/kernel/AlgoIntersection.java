@@ -15,19 +15,16 @@ package geogebra.kernel;
 
 public class AlgoIntersection extends AlgoIntersectAbstract {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoList inputList2; //input
     private GeoList outputList; //output	
     private int size, size2;
 
     AlgoIntersection(Construction cons, String label, GeoList inputList, GeoList inputList2) {
-        super(cons);
-        
+        super(cons);        
         
         this.inputList = inputList;
         this.inputList2 = inputList2;
-
                
         outputList = new GeoList(cons);
 
@@ -36,20 +33,21 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
         outputList.setLabel(label);
     }
 
-
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersection";
     }
 
   
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         
 	    input[0] = inputList;
 	    input[1] = inputList2;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -57,7 +55,8 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	size2 = inputList2.size();
@@ -69,8 +68,7 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
        
     	outputList.setDefined(true);
     	outputList.clear();
-    	
-  	
+    	  	
         for (int i=0 ; i < size2 ; i++) {
         	
         	for (int j = 0 ; j < size ; j++) {
@@ -87,12 +85,9 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
         			if (!alreadyInOutputList) outputList.add(geo.copy());
         			break;
         		}
-        	}
-        		
-        }
-        	
+        	}        		
+        }       	
     }
-
    
   
 }

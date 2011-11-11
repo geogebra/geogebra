@@ -20,11 +20,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import java.awt.Color;
-
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.main.Application;
 
 /**
  * 
@@ -32,8 +28,6 @@ import geogebra.main.Application;
  * @version
  */
 public class GeoAngle extends GeoNumeric {
-
-	private static final long serialVersionUID = 1L;
 
 	//public int arcSize = EuclidianView.DEFAULT_ANGLE_SIZE;
 	private int arcSize;
@@ -83,7 +77,6 @@ public class GeoAngle extends GeoNumeric {
 		return ret;
 	}
 	
-	
 
 	//////////////////////////////////////////
 	// INTERVAL
@@ -100,8 +93,6 @@ public class GeoAngle extends GeoNumeric {
 		"180\u00b0",
 		"360\u00b0"
 	};
-
-	
 	
 	//orders have to be changed both in following arrays
 	public static final int[] INTERVAL_TO_STYLE = {
@@ -117,9 +108,6 @@ public class GeoAngle extends GeoNumeric {
 		2//ANGLE_ISREFLEX		
 	};
 
-	
-	
-	
 	public void setAngleInterval(int index){
 		setAngleStyle(INTERVAL_TO_STYLE[index]);
 	}
@@ -128,8 +116,6 @@ public class GeoAngle extends GeoNumeric {
 		return STYLE_TO_INTERVAL[getAngleStyle()];
 	}
 	
-	
-
 	/** Creates new GeoAngle 
 	 * @param c Construction 
 	 */
@@ -158,14 +144,17 @@ public class GeoAngle extends GeoNumeric {
 		setLabel(label);
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoAngle";
 	}
 
+	@Override
 	protected String getTypeString() {
 		return "Angle";
 	}
 
+	@Override
 	public int getGeoClassType() {
 		return GEO_CLASS_ANGLE;
 	}
@@ -180,19 +169,23 @@ public class GeoAngle extends GeoNumeric {
 		setValue(x);
 	}
 
+	@Override
 	final public boolean isGeoAngle() {
 		return true;
 	}
 	
+	@Override
 	final public boolean isAngle() {
 		return true;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		GeoNumeric num = (GeoNumeric) geo;
 		setValue(num.getValue());
 	}
 
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 
@@ -212,6 +205,7 @@ public class GeoAngle extends GeoNumeric {
 	 * 
 	 * @see #setAngleStyle(int)
 	 */
+	@Override
 	void setValue(double val, boolean changeAnimationValue) {
 		double angVal = calcAngleValue(val);
 		super.setValue(angVal, changeAnimationValue);
@@ -222,7 +216,7 @@ public class GeoAngle extends GeoNumeric {
 	 */
 	private double calcAngleValue(double val) {
 		// limit to [0, 2pi]
-		double angVal = kernel.convertToAngleValue(val);
+		double angVal = Kernel.convertToAngleValue(val);
 
 		rawValue = angVal;
 
@@ -248,18 +242,21 @@ public class GeoAngle extends GeoNumeric {
 
 	// Michael Borcherds 2007-10-21 END
 
+	@Override
 	public void setIntervalMax(double max) {
 		if (max > Kernel.PI_2)
 			return;
 		super.setIntervalMax(max);
 	}
 
+	@Override
 	public void setIntervalMin(double min) {
 		if (min < 0)
 			return;
 		super.setIntervalMin(min);
 	}
 
+	@Override
 	public void setEuclidianVisible(boolean flag) {
 		if (flag && isIndependent()) {
 			setLabelMode(GeoElement.LABEL_NAME_VALUE);
@@ -267,6 +264,7 @@ public class GeoAngle extends GeoNumeric {
 		super.setEuclidianVisible(flag);
 	}
 
+	@Override
 	public GeoElement copy() {
 		GeoAngle angle = new GeoAngle(cons);
 		angle.setValue(rawValue);
@@ -344,12 +342,14 @@ public class GeoAngle extends GeoNumeric {
 		}
 		// we have to reset the value of this angle
 		AlgoElement algoParent = getParentAlgorithm();
-		if (algoParent == null)
+		if (algoParent == null) {
 			// setValue(value);
 			setValue(rawValue);
-		else
+		} else {
 			algoParent.update();
+		}
 	}
+	
 	/**
 	 * Returns angle style. See GeoAngle.ANGLE_*
 	 * 
@@ -357,7 +357,6 @@ public class GeoAngle extends GeoNumeric {
 	 */
 	public int getAngleStyle() {
 		return angleStyle;
-
 	}
 	
 	/**
@@ -376,16 +375,15 @@ public class GeoAngle extends GeoNumeric {
 		return rawValue;
 	}
 
-	
-	
-
 	// Michael Borcherds 2007-10-21 END	
 
+	@Override
 	final public String toValueString() {
 		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep()).toString() : kernel.formatAngle(value).toString();
 	}
 
 	// overwrite
+	@Override
 	final public MyDouble getNumber() {
 		MyDouble ret = new MyDouble(kernel, value);
 		ret.setAngle();
@@ -411,6 +409,7 @@ public class GeoAngle extends GeoNumeric {
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 
 		sb.append("\t<value val=\"");
@@ -447,7 +446,8 @@ public class GeoAngle extends GeoNumeric {
 	/**
 	 * returns some class-specific xml tags for getConstructionRegressionOut
 	 */
-    protected void getXMLtagsMinimal(StringBuilder sb) {
+    @Override
+	protected void getXMLtagsMinimal(StringBuilder sb) {
     	sb.append(regrFormat(rawValue));
     	if (isDrawable() || isSliderable()) {
     		sb.append(" " + regrFormat(arcSize));
@@ -485,6 +485,7 @@ public class GeoAngle extends GeoNumeric {
 	}
 
 	// Michael Borcherds 2007-11-20
+	@Override
 	public void setDecorationType(int type) {
 		if (type >= getDecoTypes().length || type < 0)
 			decorationType = DECORATION_NONE;
@@ -510,21 +511,21 @@ public class GeoAngle extends GeoNumeric {
 		this.emphasizeRightAngle = emphasizeRightAngle;
 	}
 
+	@Override
 	public void setZero() {
 		rawValue = 0;
 	}
+	@Override
 	public boolean isDrawable() {		
 		return isDrawable || (getDrawAlgorithm()!=getParentAlgorithm()) || (isIndependent() && isLabelSet()
 				|| getParentAlgorithm() instanceof AlgoAnglePolygon
 				|| getParentAlgorithm() instanceof AlgoAngleLines
 				|| getParentAlgorithm() instanceof AlgoAnglePoints);		
 	}
-
 	
+	@Override
 	public boolean hasDrawable3D(){
 		return true;
-	}
-	
-	
+	}	
 
 }

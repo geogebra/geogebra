@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  * RootList[{1,2,3}] makes { (1,0) (2,0), (3,0) }. Adapted from AlgoSort
  * @author Michael Borcherds
@@ -22,7 +21,6 @@ package geogebra.kernel;
 
 public class AlgoRootList extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
@@ -38,16 +36,18 @@ public class AlgoRootList extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRootList";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -55,7 +55,8 @@ public class AlgoRootList extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
@@ -72,14 +73,10 @@ public class AlgoRootList extends AlgoElement {
         	GeoElement geo = inputList.get(i);
         	if (geo.isGeoNumeric()) {
         		GeoNumeric num = (GeoNumeric)geo;
-        		outputList.add(new GeoPoint(cons, null, num.getDouble(), 0.0, 1.0));
-        		
-        	}
-        	
+        		outputList.add(new GeoPoint(cons, null, num.getDouble(), 0.0, 1.0));        		
+        	}        	
         }
-		cons.setSuppressLabelCreation(suppressLabelCreation);
-        
-
+		cons.setSuppressLabelCreation(suppressLabelCreation);     
     }
   
 }

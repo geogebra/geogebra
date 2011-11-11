@@ -27,11 +27,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public abstract class AlgoConicFociLength extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	protected GeoPoint A, B; // input    
+    protected GeoPoint A, B; // input    
     protected NumberValue a; // input     
     private GeoElement ageo;
     private GeoConic conic; // output             
@@ -54,17 +50,19 @@ public abstract class AlgoConicFociLength extends AlgoElement {
         conic.setLabel(label);
     }
 
-    public abstract String getClassName();
+    @Override
+	public abstract String getClassName();
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = A;
         input[1] = B;
         input[2] = ageo;
 
-        output = new GeoElement[1];
-        output[0] = conic;
+        super.setOutputLength(1);
+        super.setOutput(0, conic);
         setDependencies(); // done by AlgoElement
     }
 
@@ -79,7 +77,8 @@ public abstract class AlgoConicFociLength extends AlgoElement {
     }
 
     // compute ellipse with foci A, B and length of half axis a
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         conic.setEllipseHyperbola(A, B, a.getDouble());
     }
 

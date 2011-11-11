@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  * Sum[{A,B,C}]
  * @author Michael Borcherds
@@ -22,14 +21,11 @@ package geogebra.kernel;
 
 public class AlgoSumText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     public GeoNumeric Truncate; //input	
     public GeoText result; //output	
     
 	private StringBuilder sb;
-    
-
     
     public AlgoSumText(Construction cons, String label, GeoList geoList) {
         this(cons, label, geoList, null);
@@ -49,11 +45,13 @@ public class AlgoSumText extends AlgoElement {
         result.setIsTextCommand(true);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoSumText";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	if (Truncate == null) {
 	        input = new GeoElement[1];
 	        input[0] = geoList;
@@ -64,17 +62,17 @@ public class AlgoSumText extends AlgoElement {
              input[1] = Truncate;
     	}
 
-        output = new GeoElement[1];
-        output[0] = result;
+        super.setOutputLength(1);
+        super.setOutput(0, result);
         setDependencies(); // done by AlgoElement
     }
 
     public GeoText getResult() {
         return result;
-    }
-    
+    }  
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	// TODO: remove
     	//Application.debug("compute: " + geoList);
@@ -96,11 +94,13 @@ public class AlgoSumText extends AlgoElement {
     	if (!geoList.isDefined() ||  size == 0) {
     		result.setUndefined();
     		return;
+    	}  	
+    	
+    	if (sb == null) {
+    		sb = new StringBuilder();
+    	} else {
+    		sb.setLength(0);
     	}
-    	
-    	
-    	if (sb == null) sb = new StringBuilder();
-    	else sb.setLength(0);
     	
     	for (int i = 0 ; i < size ; i++) {
     		GeoElement p = geoList.get(i);
@@ -110,12 +110,9 @@ public class AlgoSumText extends AlgoElement {
 				result.setUndefined();
 				return;
     		}
-    	}
-   	
+    	} 	
    	
     	result.setTextString(sb.toString());
-   	
-
     }
     
 }

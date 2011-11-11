@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.gui.toolbar;
 
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.layout.DockPanel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
@@ -109,10 +108,8 @@ public class Toolbar extends JToolBar {
 
 	/**
 	 * Sets toolbar mode. This will change the selected toolbar icon.
-	 * @param mode see EuclidianConstants for mode numbers
-	 * 
-	 * @param int mode Mode to set
-	 * @param boolean createTemporaryMode If temporary modes should be
+	 * @param mode Mode to set; see EuclidianConstants for mode numbers
+	 * @param createTemporaryMode If temporary modes should be
 	 * added to the toolbar if the mode is not in the toolbar already.
 	 * If the value is false the mode is set to the default one.
 	 * 

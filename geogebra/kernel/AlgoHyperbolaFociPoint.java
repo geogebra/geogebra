@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoHyperbolaFociPoint extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input    
+    private GeoPoint A, B, C; // input    
     private GeoConic hyperbola; // output             
 
     AlgoHyperbolaFociPoint(
@@ -60,24 +56,27 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
             compute();
         }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoHyperbolaFociPoint";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
     }
     
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = A;
         input[1] = B;
         input[2] = C;
 
-        output = new GeoElement[1];
-        output[0] = hyperbola;
+        super.setOutputLength(1);
+        super.setOutput(0, hyperbola);
         setDependencies(); // done by AlgoElement
     }
 
@@ -92,7 +91,8 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
     }
 
     // compute hyperbola with foci A, B and length of half axis a
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 		double xyA[] = new double[2];
 		double xyB[] = new double[2];
 		double xyC[] = new double[2];
@@ -108,7 +108,8 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
 		hyperbola.setEllipseHyperbola(A, B, length/2);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         return app.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(),B.getLabel(),C.getLabel());               
     }
 }

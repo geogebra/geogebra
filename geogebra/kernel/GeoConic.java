@@ -35,20 +35,12 @@ public class GeoConic extends GeoConicND
 implements Path, Region, Traceable, ConicMirrorable, Transformable, 
 Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTransformable
 {
-	
-	private static final long serialVersionUID = 1L;
-
 
 	/* 
 	 *               ( A[0]  A[3]    A[4] )
 	 *      matrix = ( A[3]  A[1]    A[5] )
 	 *               ( A[4]  A[5]    A[2] )
 	 */
-
-
-	
-
-	
 
 	/**
 	 * Creates a conic
@@ -57,8 +49,6 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 	public GeoConic(Construction c) {
 		super(c,2);	
 	}		
-
-
 	
 	/** 
 	 * Creates new GeoConic with Coordinate System for 3D 
@@ -71,8 +61,7 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 		this(c);
 		setCoeffs(coeffs);
 		setLabel(label);		
-	}	
-	
+	}		
 	
 	/**
 	 * Creates copy of conic in construction of conic
@@ -106,24 +95,22 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 		setLabel(label);
 	}
 
-
-
+	@Override
 	public String getClassName() {
 		return "GeoConic";
 	}
 	
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_CONIC;
     }
-	
 
-
+	@Override
 	public GeoElement copy() {
 		return new GeoConic(this);
 	}
 	
-
-	
+	@Override
 	public boolean isTraceable() {
 		return true;
 	}
@@ -135,13 +122,11 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 	public boolean getTrace() {
 		return trace;
 	}
-	
-	
-	
-	
+
 	/**
 	 * makes this conic a circle with midpoint M through Point P
 	 */
+	@Override
 	final public void setCircle(GeoPoint M, GeoPoint P) {
 		defined = M.isDefined() && P.isDefined() && !P.isInfinite();
 		if (!defined) {			
@@ -426,55 +411,54 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 	}
 
 
-
     ////////////////////////////////////////
     // FOR DRAWING IN 3D
     ////////////////////////////////////////
 
-    public Coords getEigenvec3D(int i){
+    @Override
+	public Coords getEigenvec3D(int i){
     	Coords ret = new Coords(4);
     	ret.set(getEigenvec(i));
     	return ret;
     }
 
-    public boolean hasDrawable3D() {
+    @Override
+	public boolean hasDrawable3D() {
     	return true;
     }
 
-
+	@Override
 	public Coords getLabelPosition(){
 		return new Coords(0, 0, 0, 1);
 	}
 	
+	@Override
+	public Coords getDirection3D(int i){
+		 return new Coords(lines[i].y, -lines[i].x,0,0);	 
+	}
 
-	 public Coords getDirection3D(int i){
-		 return new Coords(lines[i].y, -lines[i].x,0,0);
-		 
-	 }
-
-	 public Coords getOrigin3D(int i){
-
-		 return new Coords(startPoints[i].x, startPoints[i].y, 0, 1);
-
-	 }
+	@Override
+	public Coords getOrigin3D(int i){
+		return new Coords(startPoints[i].x, startPoints[i].y, 0, 1);
+	}
 
 
-	 final public boolean isCasEvaluableObject() {
-		 return true;
-	 }
-	 @Override
-	 protected char getLabelDelimiter(){
-		 return ':';
-	 }
+	@Override
+	final public boolean isCasEvaluableObject() {
+		return true;
+	}
+	
+	@Override
+	protected char getLabelDelimiter(){
+		return ':';
+	}
 
+	private CoordSys coordSys = CoordSys.Identity3D();
 	 
-	 private CoordSys coordSys = CoordSys.Identity3D();
-	 
-	 public CoordSys getCoordSys(){
-		 return coordSys;
-	 }
-
-
+	@Override
+	public CoordSys getCoordSys(){
+		return coordSys;
+	}
 	 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
@@ -503,11 +487,11 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 		matrix[1] = b[1][0]*p01+b[1][1]*p11+b[1][2]*p21;
 		matrix[5] = b[1][0]*p02+b[1][1]*p12+b[1][2]*p22;
 		matrix[2] = b[2][0]*p02+b[2][1]*p12+b[2][2]*p22;
-	this.classifyConic(false);
 	
-	
+		this.classifyConic(false);
 	}
 	
+	@Override
 	public boolean isFillable() {
 		return type != GeoConic.CONIC_LINE;
 	}
@@ -536,12 +520,11 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 		Application.debug(this);
 	}
 	
-	private double evalCoeff(ExpressionValue[][] ev, int i, int j){
+	private static double evalCoeff(ExpressionValue[][] ev, int i, int j){
 		if(ev.length > i && ev[i].length > j&& ev[i][j]!=null){
 			return ((NumberValue)ev[i][j].evaluate()).getDouble();
 		}
 		return 0;
 	}
-
 
 }

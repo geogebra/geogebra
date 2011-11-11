@@ -11,11 +11,13 @@ public class AlgoFirstLocus extends AlgoFirst {
 
 	}
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFirstLocus";
     }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	ArrayList<MyPoint> points = ((GeoLocus)inputList).getPoints();
     	

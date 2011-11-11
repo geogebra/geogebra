@@ -21,7 +21,6 @@ import geogebra.euclidian.EuclidianConstants;
 
 public class AlgoAreaPoints extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint [] P;  // input
     private GeoNumeric area;     // output           
         
@@ -40,16 +39,19 @@ public class AlgoAreaPoints extends AlgoElement {
         compute();      
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAreaPoints";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_AREA;
     }
         
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = P;
         
         setOutputLength(1);        
@@ -62,7 +64,8 @@ public class AlgoAreaPoints extends AlgoElement {
     
     // calc area of polygon P[0], ..., P[n]  
     // angle in range [0, pi]
-    protected final void compute() {      
+    @Override
+	protected final void compute() {      
         area.setValue(GeoPolygon.calcArea(P)); 
     }       
     

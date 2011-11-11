@@ -19,7 +19,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoTextCorner extends AlgoElement 
 implements EuclidianViewCE {
 
-	private static final long serialVersionUID = 1L;
 	private GeoText txt;  // input
     private GeoPoint corner;     // output    
     private NumberValue number;
@@ -36,38 +35,40 @@ implements EuclidianViewCE {
 
         corner = new GeoPoint(cons);                
         setInputOutput(); // for AlgoElement  
-        
-    	
+           	
         compute();              
         corner.setLabel(label);     
-
-      
+    
         cons.registerEuclidianViewCE(this);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTextCorner";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = txt;        
         input[1] = number.toGeoElement();
         
-        output = new GeoElement[1];
-        output[0] = corner;        
+        super.setOutputLength(1);
+        super.setOutput(0, corner);
         setDependencies(); // done by AlgoElement
     }       
          
     GeoPoint getCorner() { return corner; }        
     
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	// determine bounding box size here
 		txt.calculateCornerPoint(corner, (int) number.getDouble());	    	
     }    	   
     
-    public boolean euclidianViewUpdate() {
+    @Override
+	public boolean euclidianViewUpdate() {
     	// update text to update it's bounding box
     	kernel.notifyUpdate(txt);
     	
@@ -80,11 +81,12 @@ implements EuclidianViewCE {
     	return true; //update cascade of dependent objects done in Construction
     }
     
-    final public boolean wantsEuclidianViewUpdate() {
+    final public static boolean wantsEuclidianViewUpdate() {
     	return true;
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         return getCommandDescription();
     }
 	

@@ -10,7 +10,6 @@
  
  */
 
-
 package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianConstants;
@@ -32,10 +31,6 @@ import java.util.HashSet;
 public class GeoBoolean extends GeoElement implements BooleanValue, NumberValue,
 AbsoluteScreenLocateable {			
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private boolean value = false;
 	private boolean isDefined = true;	
 	private boolean checkboxFixed = false;
@@ -52,19 +47,23 @@ AbsoluteScreenLocateable {
 		value = b;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoBoolean";
 	}
 	
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX;
     }
 	
-    protected String getTypeString() {
+    @Override
+	protected String getTypeString() {
 		return "Boolean";
 	}
     
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_BOOLEAN;
     }
     
@@ -80,6 +79,7 @@ AbsoluteScreenLocateable {
     	return new MyBoolean(kernel, value);
     }
 
+	@Override
 	public GeoElement copy() {
 		GeoBoolean ret = new GeoBoolean(cons);
 		ret.setValue(value);		
@@ -90,7 +90,6 @@ AbsoluteScreenLocateable {
 	 * Registers geo as a listener for updates
 	 * of this boolean object. If this object is
 	 * updated it calls geo.updateConditions()
-	 * @param geo
 	 */
 	public void registerConditionListener(GeoElement geo) {
 		if (condListenersShowObject == null)
@@ -104,10 +103,10 @@ AbsoluteScreenLocateable {
 		}
 	}
 	
-	
 	/**
 	 * Calls super.update() and update() for all registered condition listener geos.	 
 	 */
+	@Override
 	public void update() {  	
 		super.update();
 				
@@ -124,6 +123,7 @@ AbsoluteScreenLocateable {
 	 * Tells conidition listeners that their condition is removed
 	 * and calls super.remove()
 	 */
+	@Override
 	public void doRemove() {
 		if (condListenersShowObject != null) {
 			// copy conditionListeners into array
@@ -141,9 +141,11 @@ AbsoluteScreenLocateable {
 		super.doRemove();
 	}
 	
+	@Override
 	public void resolveVariables() {     
     }
 		
+	@Override
 	public boolean showInEuclidianView() {
 		return isIndependent();
 	}
@@ -157,15 +159,18 @@ AbsoluteScreenLocateable {
 		lastLocY += 30;
 	}
 
+	@Override
 	public final boolean showInAlgebraView() {		
 		return true;
 	}
 	
+	@Override
 	public boolean isFixable() {
 		// visible checkbox should not be fixable
 		return isIndependent() && !isSetEuclidianVisible();
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		if (geo.isGeoNumeric()) { // eg SetValue[checkbox, 0]
 			// 1 = true
@@ -179,6 +184,7 @@ AbsoluteScreenLocateable {
 		}
 	}
 
+	@Override
 	final public void setUndefined() {
 		isDefined = false;
 	}
@@ -187,6 +193,7 @@ AbsoluteScreenLocateable {
 		isDefined = true;
 	}
 
+	@Override
 	final public boolean isDefined() {
 		return isDefined;
 	}			
@@ -195,10 +202,11 @@ AbsoluteScreenLocateable {
 	final public void setMode(int mode) {
 	}
 
-	final public int getMode() {
+	final public static int getMode() {
 		return -1;
 	}
 	
+	@Override
 	final public String toValueString() {
 		switch (kernel.getCASPrintForm()) {
 			case ExpressionNode.STRING_TYPE_MATH_PIPER:
@@ -209,6 +217,7 @@ AbsoluteScreenLocateable {
 		}
 	}
 	
+	@Override
 	final public String toString() {
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
@@ -219,6 +228,7 @@ AbsoluteScreenLocateable {
 	}
 	
 	private StringBuilder sbToString;
+	
 	private StringBuilder getSbToString() {
 		if (sbToString == null)
 			sbToString = new StringBuilder();
@@ -228,28 +238,32 @@ AbsoluteScreenLocateable {
 	/**
 	 * interface BooleanValue
 	 */
+	@Override
 	final public boolean isConstant() {
 		return false;
 	}
 
+	@Override
 	final public boolean isLeaf() {
 		return true;
 	}
 
+	@Override
 	final public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> varset = new HashSet<GeoElement>();
 		varset.add(this);
 		return varset;
 	}
 
+	@Override
 	final public ExpressionValue evaluate() {
 		return this;
-	}		
-	
+	}			
 	
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		sb.append("\t<value val=\"");
 		sb.append(value);
@@ -266,30 +280,32 @@ AbsoluteScreenLocateable {
 			sb.append("\"/>\n");	
 		}
 		getScriptTags(sb);
-
 	}	
 
+	@Override
 	public boolean isBooleanValue() {
 		return true;
 	}
 	
+	@Override
 	public boolean isGeoBoolean() {
 		return true;
 	}	
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}
 
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}
-
-	
 
 	public double getRealWorldLocX() {
 		return 0;
@@ -303,6 +319,7 @@ AbsoluteScreenLocateable {
 		return true;
 	}
 	
+	@Override
 	public boolean isAbsoluteScreenLocateable() {
 		return isIndependent();
 	}
@@ -337,21 +354,22 @@ AbsoluteScreenLocateable {
 	}
 	
     // Michael Borcherds 2008-04-30
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type, otherwise check
 		if (geo.isGeoBoolean()) return value == ((GeoBoolean)geo).getBoolean(); else return false;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	
+	@Override
 	public boolean isNumberValue() {
 		return true;
-	}
-	
+	}	
 	
 	/**
 	 * Returns 1 for true and 0 for false.
@@ -368,19 +386,22 @@ AbsoluteScreenLocateable {
 	 * Returns whether the value (e.g. equation) should be shown
 	 * as part of the label description
 	 */
+	@Override
 	final public boolean isLabelValueShowable() {
 		return false;
 	}
 	
+	@Override
 	public boolean canHaveClickScript() {
 		return false;
 	}
 
-
+	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
 	
+	@Override
 	public void moveDependencies(GeoElement oldGeo) {
 		if (oldGeo.isGeoBoolean()
 				&& ((GeoBoolean) oldGeo).condListenersShowObject != null) {

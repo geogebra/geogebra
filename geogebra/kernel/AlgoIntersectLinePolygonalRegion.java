@@ -30,18 +30,12 @@ import java.util.TreeMap;
 
 /**
  * Algo for intersection of a line with the interior of a polygon
- * @author  matthieu
+ * @author matthieu
  * @version 
  */
 public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
-	protected GeoLineND g; // input
+    protected GeoLineND g; // input
 	protected GeoPolygon p; //input	
 	protected OutputHandler<GeoElement> outputSegments; // output 
 	protected OutputHandler<GeoElement> outputPoints;
@@ -50,9 +44,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     
     private TreeMap<Double, Coords> newCoords;
     private TreeMap<Double, Coords[]> newSegmentCoords;
-
-    
-    
+      
     /** 
      * common constructor
      * @param c 
@@ -60,7 +52,6 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
      * @param g
      * @param p
      */
-
     public AlgoIntersectLinePolygonalRegion(Construction c, String[] labels,
 			GeoLineND g, GeoPolygon p) {
 
@@ -124,16 +115,19 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 		});
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectLinePolygonalRegion";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECTION_CURVE;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) g;
         input[1] = p;
@@ -330,7 +324,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     private Color BLUE_VIOLET= new Color(153,0,255);
     private int THICK_LINE_WITHIN_LINE = 4;
     
-    protected void compute() {
+    @Override
+	protected void compute() {
     	
     	//clear the points map
     	newCoords.clear();
@@ -387,6 +382,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 		segment.setObjColor(BLUE_VIOLET);
 	}
 
+	@Override
 	public String toString() {
         return app.getPlain("IntersectionPathsOfAB",((GeoElement) g).getLabel(),p.getLabel());
     }

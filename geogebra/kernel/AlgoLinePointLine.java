@@ -29,11 +29,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoLinePointLine extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P; // input
+    private GeoPoint P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
 
@@ -57,42 +53,49 @@ public class AlgoLinePointLine extends AlgoElement {
 	}
 
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLinePointLine";
     }
 
+	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_PARALLEL;
 	}
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = l;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
     GeoLine getLine() {
         return g;
     }
+    
     GeoPoint getP() {
         return P;
     }
+    
     GeoLine getl() {
         return l;
     }
 
     // calc the line g through P and parallel to l   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // homogenous:
         GeoVec3D.cross(P, l.y, -l.x, 0.0, g);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("LineThroughAParallelToB",P.getLabel(),l.getLabel());

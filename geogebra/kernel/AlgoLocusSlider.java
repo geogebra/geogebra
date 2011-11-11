@@ -31,12 +31,10 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
 	// * locus of Q=(x(B), a) with a= integral[f(x), 0, x(B)] and B is point on x-axis  freezes GeoGebra
 	//   MAX_TIME handling does not solve this yet
 	//
-		
-	
+			
 	/** maximum time for the computation of one locus point in millis **/
 	public static int MAX_TIME_FOR_ONE_STEP = 500;
 	
-	private static final long serialVersionUID = 1L;
 	private static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
@@ -111,16 +109,18 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
 //		}
 //    }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLocusSlider";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_LOCUS;
-    }
-    
+    }   
     
     public ArrayList getMoveableInputPoints() {
+    	// TODO ?
     	return null;
     }
     
@@ -177,7 +177,8 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	// it is inefficient to have Q and P as input
     	// let's take all independent parents of Q
     	// and the path as input
@@ -218,7 +219,8 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
         setEfficientDependencies(standardInput, efficientInput);           
     }     
     
-    final public String toString() {    	
+    @Override
+	final public String toString() {    	
         return getCommandDescription();        
     }
 
@@ -314,7 +316,8 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
       }             
 
     // compute locus line
-    final protected void compute() {    	    
+    @Override
+	final protected void compute() {    	    
     	if (!movingSlider.isDefined() || !movingSlider.isSlider() ||
     		!movingSlider.isAnimatable() || macroCons == null) {    		
     		locus.setUndefined();
@@ -681,7 +684,8 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
 				  farYmax - farYmin);      	
     }
     
-    public boolean euclidianViewUpdate() {
+    @Override
+	public boolean euclidianViewUpdate() {
       	updateScreenBorders();
   		update(); 
   		return false;

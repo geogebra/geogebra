@@ -28,9 +28,7 @@ import java.util.Arrays;
  */
 public abstract class AlgoGeoPointsFunction extends AlgoElement{
 
-	private static final long serialVersionUID = 1L;
-	
-    protected GeoFunction f;			 // For calculation of y-values 
+	protected GeoFunction f;			 // For calculation of y-values 
     
     protected GeoPoint[] points;		// output in subcclass  
 
@@ -39,12 +37,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
 	protected boolean setLabels = false;
 	
     //remove? double[] 		curXValues = new double[30]; // current x-values
-    int 			numberOfXValues;
-
-    //Function yValFunction;
-
-    private GeoPoint tempPoint;
-    
+    int numberOfXValues;
 
     /**
      * Computes all roots of f
@@ -73,7 +66,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
         	super(cons);
         	this.f=f;
         	
-        	tempPoint = new GeoPoint(cons);
+        	new GeoPoint(cons);
             
             //  make sure root points is not null
             int number = 1;
@@ -98,7 +91,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
         update();
     }//setLabels(String[])
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoGeoPointsFunction";
     }//getClassName()
 
@@ -200,7 +194,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
      * Removes only one single output element if possible. 
      * If this is not possible the whole algorithm is removed.
      */
-    void remove(GeoElement output) {
+    @Override
+	void remove(GeoElement output) {
     	// only single undefined points may be removed       
         for (int i = 0; i < points.length; i++) {
         	if (points[i] == output && !points[i].isDefined()) {
@@ -228,7 +223,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
                 temp[i].setParentAlgorithm(this);
             }
             points = temp;
-            output = points;
+            super.setOutput(points);
         }//if
     }//initPoints(n)
     

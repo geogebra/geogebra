@@ -20,8 +20,7 @@ package geogebra.kernel;
  */
 public class AlgoAxisStepY extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-    protected GeoNumeric num;     // output          
+	protected GeoNumeric num;     // output          
         
     public AlgoAxisStepY(Construction cons, String label) {
     	super(cons);
@@ -38,11 +37,13 @@ public class AlgoAxisStepY extends AlgoElement {
         cons.registerEuclidianViewCE(this);
    }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoAxisStepY";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[0];
         
@@ -53,7 +54,8 @@ public class AlgoAxisStepY extends AlgoElement {
 	
     protected GeoNumeric getResult() { return num; }        
  
-    public boolean euclidianViewUpdate() {
+    @Override
+	public boolean euclidianViewUpdate() {
 
     	compute();
     	
@@ -62,12 +64,13 @@ public class AlgoAxisStepY extends AlgoElement {
     	return false;
     }
     
-    final public boolean wantsEuclidianViewUpdate() {
+    final public static boolean wantsEuclidianViewUpdate() {
     	return true;
     }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
     	double axisSteps[] = kernel.getApplication().getEuclidianView().getGridDistances();
     	num.setValue(axisSteps[1]);
     }         

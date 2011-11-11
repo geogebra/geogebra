@@ -12,7 +12,6 @@ package geogebra.kernel;
 
 public class AlgoOsculatingCircleCurve extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A, R;// input A
     private GeoCurveCartesian f;// input
     private GeoVector v;//curvature vector of f in point A 
@@ -43,18 +42,20 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
         circle.setLabel(label);
     }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoOsculatingCircleCurve";
     }
 
     // for AlgoElement
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = A;
         input[1] = f;
         
-        output = new GeoElement[1];
-        output[0] = circle;  
+        super.setOutputLength(1);
+        super.setOutput(0, circle);
         setDependencies(); // done by AlgoElement
     }
     
@@ -63,7 +64,8 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     	return circle;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	// bugfix Michael Borcherds
     	// undefined unless A is a point on f
@@ -81,7 +83,8 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     	circle.setCircle(R, A);	
     }
     
-    public void remove() {
+    @Override
+	public void remove() {
         super.remove();
         f.removeAlgorithm(algo);
         f.removeAlgorithm(cv);

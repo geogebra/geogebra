@@ -17,11 +17,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoImageCorner extends AlgoElement 
 implements EuclidianViewCE {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoImage img;  // input
+    private GeoImage img;  // input
     private GeoPoint corner;     // output    
     private NumberValue number;
     
@@ -36,32 +32,36 @@ implements EuclidianViewCE {
         corner.setLabel(label);           
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoImageCorner";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = img;        
         input[1] = number.toGeoElement();
-        
-        output = new GeoElement[1];
-        output[0] = corner;        
+              
+        super.setOutputLength(1);
+        super.setOutput(0, corner);
         setDependencies(); // done by AlgoElement
     }       
          
     GeoPoint getCorner() { return corner; }        
     
-    protected final void compute() {         	
+    @Override
+	protected final void compute() {         	
 		img.calculateCornerPoint(corner, (int) number.getDouble());	    	
     }
     
-    final public boolean wantsEuclidianViewUpdate() {
+    final public static boolean wantsEuclidianViewUpdate() {
     	return true;
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         return getCommandDescription();
     }
 	

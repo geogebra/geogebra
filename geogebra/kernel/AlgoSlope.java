@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g; // input
+    private GeoLine g; // input
     private GeoNumeric slope; // output       
 
     /** Creates new AlgoDirection 
@@ -52,25 +48,25 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     }
     /**
      * For dummy copy only
-     * @param cons
-     * @param g
      */
     AlgoSlope(GeoLine g) {
         super(g.cons, false);
         this.g = g;
     }
     
+	@Override
 	public String getClassName() {
         return "AlgoSlope";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_SLOPE;
     }
-
-    
+   
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = g;
 
@@ -94,14 +90,17 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     }
 
     // direction vector of g
-    protected final void compute() {
-        if (g.isDefined() && !Kernel.isZero(g.y))
+    @Override
+	protected final void compute() {
+        if (g.isDefined() && !Kernel.isZero(g.y)) {
             slope.setValue(-g.x / g.y);
-        else
+        } else {
             slope.setUndefined();
+        }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("SlopeOfA",g.getLabel());

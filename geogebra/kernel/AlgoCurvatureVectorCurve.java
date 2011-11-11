@@ -13,8 +13,6 @@ import geogebra.kernel.cas.AlgoDerivative;
 
 public class AlgoCurvatureVectorCurve extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-
 	private GeoPoint A; // input
 	private GeoCurveCartesian f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)										
 	private GeoVector v; // output
@@ -62,18 +60,20 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoCurvatureVectorCurve";
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = A;
 		input[1] = f;
 
-		output = new GeoElement[1];
-		output[0] = v;
+        super.setOutputLength(1);
+        super.setOutput(0, v);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -82,6 +82,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		return v;
 	}
 
+	@Override
 	protected final void compute() {
 		try {			
 			double t, t4, x, y, evals, tvalue;
@@ -106,6 +107,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		}
 	}
 	
+	@Override
 	public void remove() {  
     	super.remove();  
    		A.removeAlgorithm(algoCAS);

@@ -15,19 +15,17 @@ package geogebra.kernel;
 
 public class AlgoIntervalMax extends AlgoIntervalAbstract {
 
-
 	public AlgoIntervalMax(Construction cons, String label, GeoInterval s) {
 		super(cons, label, s);
 	}
 
-
+	@Override
 	public String getClassName() {
         return "AlgoIntervalMax";
     }
 
-
-    protected final void compute() {
-    	
+    @Override
+	protected final void compute() {  	
     	result.setValue(interval.getMax());
     }
     

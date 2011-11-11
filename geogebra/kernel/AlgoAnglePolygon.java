@@ -60,16 +60,19 @@ public class AlgoAnglePolygon extends AlgoElement {
         }	
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAnglePolygon";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGLE;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = poly;
         
@@ -84,7 +87,8 @@ public class AlgoAnglePolygon extends AlgoElement {
     }
 
     
-     protected final void compute() {
+     @Override
+	protected final void compute() {
     	int length = poly.getPoints().length;		
 		outputAngles.adjustOutputSize(length >0?length : 1);
 		
@@ -112,7 +116,8 @@ public class AlgoAnglePolygon extends AlgoElement {
     		outputAngles.getElement(i).setUndefined();
     }
 
-   final public String toString() {
+   @Override
+final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("AngleOfA",poly.getLabel());

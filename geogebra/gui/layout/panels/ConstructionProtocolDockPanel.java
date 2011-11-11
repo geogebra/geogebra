@@ -24,10 +24,12 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 		this.setShowStyleBar(true);
 	}
 
+	@Override
 	protected JComponent loadComponent() {
 		return (JComponent) app.getGuiManager().getConstructionProtocolView();
 	}
 
+	@Override
 	protected JComponent loadStyleBar() {
 		return app.getGuiManager().getConstructionProtocolView().getStyleBar();
 	}

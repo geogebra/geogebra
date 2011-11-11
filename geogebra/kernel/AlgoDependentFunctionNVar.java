@@ -23,7 +23,6 @@ import geogebra.main.Application;
  */
 public class AlgoDependentFunctionNVar extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private FunctionNVar fun;
     private GeoFunctionNVar f; // output         
 
@@ -59,12 +58,14 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
 		super(cons);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoDependentFunctionNVar";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = fun.getGeoElementVariables();
 
         setOutputLength(1);
@@ -79,7 +80,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
         return f;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // evaluation of function will be done in view (see geogebra.euclidian.DrawFunction)
         
         // check if function is defined
@@ -94,7 +96,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     }
     
     private StringBuilder sb;
-    public String toString() {    	
+    @Override
+	public String toString() {    	
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
@@ -107,7 +110,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
         return sb.toString();
     }
     
-    public String toRealString() {
+    @Override
+	public String toRealString() {
     	Application.printStacktrace("wrong string");
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);

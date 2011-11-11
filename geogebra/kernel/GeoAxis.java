@@ -14,10 +14,6 @@ package geogebra.kernel;
 
 public class GeoAxis extends GeoLine {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	public static final int X_AXIS = 1;
 	public static final int Y_AXIS = 2;
 	
@@ -54,6 +50,7 @@ public class GeoAxis extends GeoLine {
 	 * the given construction step (this depends on
 	 * this object's construction index).
 	 */
+	@Override
 	protected boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
 		// in order to make the axes available
@@ -61,11 +58,13 @@ public class GeoAxis extends GeoLine {
 		return true;
 	}
 	
+	@Override
 	public String getLabel() {
-		if (kernel.isPrintLocalizedCommandNames())
+		if (kernel.isPrintLocalizedCommandNames()) {
 			return app.getPlain(label);
-		else
+		} else {
 			return label;
+		}
 	}
 	
 	/**
@@ -83,7 +82,8 @@ public class GeoAxis extends GeoLine {
 		return "Line";
 	}
 	
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_AXIS;
     }
 }

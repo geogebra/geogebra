@@ -588,7 +588,9 @@ class ViewMenu extends BaseMenu {
 			}
 		}
 	}
-    public void setPopupMenuVisible(boolean b) {
+	
+    @Override
+	public void setPopupMenuVisible(boolean b) {
     	updateItems();
     	super.setPopupMenuVisible(b);
     }

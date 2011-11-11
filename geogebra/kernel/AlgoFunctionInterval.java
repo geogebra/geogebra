@@ -21,7 +21,6 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoFunctionInterval extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f; // input    
     private NumberValue a, b; // input
     private GeoElement ageo, bgeo;
@@ -58,19 +57,21 @@ public class AlgoFunctionInterval extends AlgoElement {
     }
     
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFunctionInterval";
     }   
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = f;
         input[1] = ageo;
         input[2] = bgeo;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
@@ -78,7 +79,8 @@ public class AlgoFunctionInterval extends AlgoElement {
         return g;
     }
     
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
         if (!(f.isDefined() && ageo.isDefined() && bgeo.isDefined())) 
             g.setUndefined();
                
@@ -121,11 +123,12 @@ public class AlgoFunctionInterval extends AlgoElement {
     	}
     	
     	return equal;
-    }   
-    private ExpressionNode exp, exp2; // current expression of f (needed to notice change of f)
-  
+    } 
+    
+    private ExpressionNode exp, exp2; // current expression of f (needed to notice change of f)  
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("FunctionAonIntervalBC",f.getLabel(),ageo.getLabel(),bgeo.getLabel());

@@ -30,11 +30,7 @@ import geogebra.kernel.kernelND.GeoPointND;
  */
 public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation{
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPointND An, Bn, Cn; // input
+    private GeoPointND An, Bn, Cn; // input
     private GeoAngle angle; // output  
     
     /** standard normal vector */
@@ -64,11 +60,13 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         this.algoAnglePoly = algoAnglePoly;
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAnglePoints";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ANGLE;
     }
     
@@ -120,7 +118,8 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = (GeoElement) An;
         input[1] = (GeoElement) Bn;
@@ -131,14 +130,16 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         setDependencies(); // done by AlgoElement
     }
 
-    public void remove() {
+    @Override
+	public void remove() {
         if (algoAnglePoly != null)
             algoAnglePoly.remove();
         else
             super.remove();
     }
 
-    public int getConstructionIndex() {
+    @Override
+	public int getConstructionIndex() {
         if (algoAnglePoly != null)
 			return algoAnglePoly.getConstructionIndex();
 		else
@@ -164,7 +165,8 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
 
     // calc angle between vectors A-B and C-B    
     // angle in range [0, pi]
-    protected void compute() {
+    @Override
+	protected void compute() {
     	
     	GeoPoint A = (GeoPoint) An;
     	GeoPoint B = (GeoPoint) Bn;
@@ -200,15 +202,15 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         angle.setValue(value);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        if (algoAnglePoly != null) 
+        if (algoAnglePoly != null) {
             return app.getPlain("AngleBetweenABCofD",An.getLabel(),Bn.getLabel(),Cn.getLabel(),algoAnglePoly.getPolygon().getNameDescription());
-        else
+        } else {
            	return app.getPlain("AngleBetweenABC",An.getLabel(),Bn.getLabel(),Cn.getLabel());
-
-
+        }
     }
 }

@@ -29,47 +29,33 @@ import geogebra.kernel.kernelND.GeoPointND;
  */
 public class AlgoMidpoint extends AlgoMidpointND {
       
-
-    /** 
-     * 
-     * @param cons
-     * @param label
-     * @param P
-     * @param Q
-     */
     AlgoMidpoint(Construction cons, String label, GeoPoint P, GeoPoint Q) {
     	this(cons, P, Q);
     	getPoint().setLabel(label);
     }
 	
-    /**
-     * 
-     * @param cons
-     * @param P
-     * @param Q
-     */
     AlgoMidpoint(Construction cons, GeoPoint P, GeoPoint Q) {
         super(cons,P,Q);
     }
 
+	@Override
 	protected GeoPointND newGeoPoint(Construction cons) {
 		
 		return new GeoPoint(cons);
 	}
-
-
-
-
-    
-    protected GeoPoint getPoint() {
+   
+    @Override
+	protected GeoPoint getPoint() {
         return (GeoPoint) super.getPoint();
     }
     
-    protected void copyCoords(GeoPointND point){
+    @Override
+	protected void copyCoords(GeoPointND point){
     	getPoint().setCoords((GeoPoint) point);
     }
     
-    protected void computeMidCoords(){
+    @Override
+	protected void computeMidCoords(){
     	
     	GeoPoint P = (GeoPoint) getP();
         GeoPoint Q = (GeoPoint) getQ();

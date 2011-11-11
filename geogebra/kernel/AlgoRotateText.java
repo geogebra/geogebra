@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  * Handles rotated texts
  * @author Michael
@@ -22,8 +21,7 @@ package geogebra.kernel;
 
 public class AlgoRotateText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-    private GeoText text; //output	
+	private GeoText text; //output	
     private GeoText args; //input	
     private GeoNumeric angle; // input
      
@@ -31,10 +29,6 @@ public class AlgoRotateText extends AlgoElement {
     
     /**
      * Creates new text rotation algo
-     * @param cons
-     * @param label
-     * @param args
-     * @param angle
      */
     AlgoRotateText(Construction cons, String label, GeoText args, GeoNumeric angle) {
     	this(cons,  args, angle);
@@ -43,9 +37,6 @@ public class AlgoRotateText extends AlgoElement {
 
     /**
      * Creates new unlabeled text rotation algo
-     * @param cons
-     * @param args
-     * @param angle
      */
     AlgoRotateText(Construction cons, GeoText args, GeoNumeric angle) {
         super(cons);
@@ -56,15 +47,16 @@ public class AlgoRotateText extends AlgoElement {
 		text.setIsTextCommand(true); // stop editing as text
 		
         setInputOutput();
-        compute();
-        
+        compute();        
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRotateText";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
 	    input = new GeoElement[2];
 	    input[0] = args;
 	    input[1] = angle;
@@ -83,7 +75,8 @@ public class AlgoRotateText extends AlgoElement {
         return text;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (!args.isDefined() || !angle.isDefined() || angle.isInfinite()) {
     		text.setTextString("");
     		return;

@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoJoinPointsRay extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P, Q;  // input
+    private GeoPoint P, Q;  // input
     private GeoRay  ray;     // output       
         
     /** Creates new AlgoJoinPoints */
@@ -55,25 +50,26 @@ public class AlgoJoinPointsRay extends AlgoElement {
     	P.addIncidence(ray);
     	Q.addIncidence(ray);
 	}
-
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoJoinPointsRay";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_RAY;
     }
-    
-    
+       
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = Q;
-        
-        output = new GeoElement[1];        
-        output[0] = ray;        
+         
+        super.setOutputLength(1);
+        super.setOutput(0, ray);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -82,13 +78,15 @@ public class AlgoJoinPointsRay extends AlgoElement {
     GeoPoint getQ() { return Q; }
     
     // calc the line g through P and Q    
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // g = P v Q  <=>  g_n : n = P x Q
         // g = cross(P, Q)
         GeoVec3D.lineThroughPoints(P, Q, ray);        
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation

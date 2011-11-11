@@ -51,7 +51,6 @@ import geogebra.main.Application;
 
 public class AlgoExtremumNumerical extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunctionable function; 	//input
 	private GeoFunction		f;
 	private NumberValue     left;	  	//input
@@ -82,11 +81,13 @@ public class AlgoExtremumNumerical extends AlgoElement {
     	
     }//constructor
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoExtremumNumerical";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = function.toGeoElement();
         input[1] = geoleft;
@@ -103,7 +104,8 @@ public class AlgoExtremumNumerical extends AlgoElement {
     }
 
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         final int   MAXITERATIONS	=	100;                	//Safety net: Stop at 100 if something diverges, no useful solution if >70
         final int	DIVIDER			=	4;						//Size of slice
         boolean     isgoingup		=	true;					//Max or Min...
@@ -123,8 +125,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
     		E.setUndefined();
     		return;
     	}//if input is ok? 
-    	
-    	GeoFunction geofunc = function.getGeoFunction();
     	
     	/// ---  Algorithm --- ///
     	
@@ -214,7 +214,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
         }//if()
     }//debug()       
     
-    private String   info(int i,double l,double m,double r){
+    private String info(int i, double l, double m, double r){
     	return "Iteration "+i+":\n"+l+"     "+m+"     "+r+"     "+f.evaluate(l)+"     "+f.evaluate(m)+"     "+f.evaluate(r);
     }//info()
     

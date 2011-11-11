@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoOrthoLinePointVector extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint P;  // input
+    private GeoPoint P;  // input
     private GeoVector v; // input
     private GeoLine  g;     // output       
         
@@ -55,25 +50,26 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
     private void setIncidence() {
     	P.addIncidence(g);
 	}
-
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoOrthoLinePointVector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ORTHOGONAL;
     }
-    
-    
+       
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = P;
         input[1] = v;
-        
-        output = new GeoElement[1];        
-        output[0] = g;        
+           
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -82,11 +78,13 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
     GeoVector getv() { return v; }
     
     // line through P normal to v
-    protected final void compute() {           
+    @Override
+	protected final void compute() {           
         GeoVec3D.cross(P, -v.y, v.x, 0.0, g);
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(),v.getLabel());

@@ -24,11 +24,7 @@ import geogebra.kernel.arithmetic.Function;
  */
 public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoFunction f; // input
+    private GeoFunction f; // input
     private GeoLine line; // input
     private GeoPoint startPoint, rootPoint;
     
@@ -50,34 +46,37 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         rootPoint.setLabel(label);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectFunctionLineNewton";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
-    }
-    
+    }   
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];      
         input[0] = f;               
         input[1] = line;
         input[2] = startPoint;
         
-        output = new GeoPoint[1];
-        output[0] = rootPoint;      
+        super.setOutputLength(1);
+        super.setOutput(0, rootPoint);
         setDependencies();                  
     }
     
-    protected final void compute() {          	
+    @Override
+	protected final void compute() {          	
         if (!(f.isDefined() && line.isDefined() && startPoint.isDefined())) {           
             rootPoint.setUndefined();
         } else {
             double x;
             //  check for vertical line a*x + c = 0: intersection at x=-c/a 
-            if (kernel.isZero(line.y)) {
+            if (Kernel.isZero(line.y)) {
                 x = -line.z / line.x;                               
             } 
             // standard case
@@ -119,7 +118,8 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         return rootPoint;
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
         return app.getPlain("IntersectionPointOfABWithInitialValueC",input[0].getLabel(),input[1].getLabel(),startPoint.getLabel());

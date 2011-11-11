@@ -25,7 +25,6 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoNumerator extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f; // input
     private GeoFunction g; // output        
     
@@ -39,17 +38,19 @@ public class AlgoNumerator extends AlgoElement {
         g.setLabel(label);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoNumerator";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = f;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
@@ -57,7 +58,8 @@ public class AlgoNumerator extends AlgoElement {
         return g;
     }
 
-    protected final void compute() {       
+    @Override
+	protected final void compute() {       
         if (!f.isDefined()) {
         	g.setUndefined();
         	return;
@@ -100,9 +102,9 @@ public class AlgoNumerator extends AlgoElement {
     }
     
     
-    final public String toString() {
+    @Override
+	final public String toString() {
     	return getCommandDescription();
-    }
- 
+    } 
 
 }

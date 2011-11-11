@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  *
  * @author  Markus
@@ -27,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoUnitVectorLine extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoLine g; // input
+    private GeoLine g; // input
     private GeoVector  u;     // output       
     
     private double length; 
@@ -57,17 +52,19 @@ public class AlgoUnitVectorLine extends AlgoElement {
         u.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoUnitVectorLine";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];        
         input[0] = g;
-        
-        output = new GeoElement[1];        
-        output[0] = u;        
+             
+        super.setOutputLength(1);
+        super.setOutput(0, u);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -75,16 +72,17 @@ public class AlgoUnitVectorLine extends AlgoElement {
     GeoLine getg() { return g; }
     
     // line through P normal to v
-    protected final void compute() {        
+    @Override
+	protected final void compute() {        
         length = GeoVec2D.length(g.x, g.y);
         u.x = g.y / length;
         u.y = -g.x / length;        
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
         return app.getPlain("UnitVectorOfA",g.getLabel());
-
     }
 }

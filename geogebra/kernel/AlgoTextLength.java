@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 public class AlgoTextLength extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoText text; //input
     private GeoNumeric length; //output	
 
@@ -35,16 +34,18 @@ public class AlgoTextLength extends AlgoElement {
         length.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTextLength";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = text;
 
-        output = new GeoElement[1];
-        output[0] = length;
+        super.setOutputLength(1);
+        super.setOutput(0, length);
         setDependencies(); // done by AlgoElement
     }
 
@@ -52,7 +53,8 @@ public class AlgoTextLength extends AlgoElement {
         return length;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (text.isDefined())
     		length.setValue(text.getTextString().length());
     	else 

@@ -20,16 +20,12 @@ package geogebra.kernel;
  */
 public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
         
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public AlgoTurningPointPolynomial(Construction cons, String [] labels, GeoFunction f) {
+    public AlgoTurningPointPolynomial(Construction cons, String [] labels, GeoFunction f) {
         super(cons, labels, f);             
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTurningPointPolynomial";    
     }
             
@@ -37,7 +33,8 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
         return super.getRootPoints();
     }
     
-    protected final void compute() {              
+    @Override
+	protected final void compute() {              
         if (f.isDefined()) {
             yValFunction = f.getFunction();                                                                    
             
@@ -51,7 +48,8 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
         setRootPoints(curRoots, curRealRoots);                  
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("InflectionPointofA",f.getLabel());

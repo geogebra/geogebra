@@ -21,8 +21,6 @@ import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 
 
-
-
 /**
  * Computes Div[a, b]
  * @author  Markus Hohenwarter
@@ -34,12 +32,14 @@ public class AlgoDiv extends AlgoTwoNumFunction {
 	  super(cons, label, a, b);     
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDiv";
     }        
     
     // calc area of conic c 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
 
     		double numerator = a.getDouble();
@@ -49,7 +49,6 @@ public class AlgoDiv extends AlgoTwoNumFunction {
     			num.setUndefined();
     			return;
     		}
-
     		
     		double fraction = numerator / denominator;
     		double integer = Math.round(fraction);	
@@ -63,8 +62,9 @@ public class AlgoDiv extends AlgoTwoNumFunction {
     			double div = Math.ceil(fraction);
         		num.setValue(div); 			
     		}
-    	} else
+    	} else {
     		num.setUndefined();
+    	}
     }       
     
 }

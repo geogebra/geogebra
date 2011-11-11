@@ -285,7 +285,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param toolbar
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
-	private int getViewId(Toolbar toolbar) {
+	private static int getViewId(Toolbar toolbar) {
 		return (toolbar.getDockPanel() != null ? toolbar.getDockPanel().getViewId() : -1);
 	}
 
@@ -343,16 +343,20 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			modeNameLabel.removeMouseListener(helpMouseAdapter);
 		if(modeName != ""){
 			helpMouseAdapter = new MouseAdapter() {
+				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount()>=1){            		
 						app.getGuiManager().openToolHelp(modeName);
 					}
 				}
+				
+				@Override
 				public void mouseEntered(MouseEvent e) {
 					Cursor c = new Cursor ( Cursor.HAND_CURSOR );
 					modeNameLabel.setCursor (c);
-
 				}
+				
+				@Override
 				public void mouseExited(MouseEvent e) {
 					modeNameLabel.setCursor (Cursor.getDefaultCursor());
 				}

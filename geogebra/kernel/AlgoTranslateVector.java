@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  * Vector w = v starting at A
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoTranslateVector extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint A;   // input
+    private GeoPoint A;   // input
     private GeoVec3D v;  // input
     private GeoVector w;     // output        
             
@@ -55,17 +50,19 @@ public class AlgoTranslateVector extends AlgoElement {
         w.setLabel(label);
     }           
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTranslateVector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TRANSLATE_BY_VECTOR;
     }
-
-    
+   
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = v;        
         input[1] = A;        
@@ -80,11 +77,13 @@ public class AlgoTranslateVector extends AlgoElement {
     GeoVector getTranslatedVector() { return w; }
         
     // simply copy v
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         w.setCoords(v);        
     }       
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("TranslationOfAtoB",v.getLabel(),A.getLabel());

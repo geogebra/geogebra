@@ -116,6 +116,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	 * Paint the outline of the region on the window where the selected panel
 	 * would reside if the user drops the panel.
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		if (dndState == null || dndState.getTarget() == null)
 			return;

@@ -19,17 +19,12 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  * Converts a number to an angle.
  */
 public class AlgoAngleNumeric extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoNumeric num;  // input
+    private GeoNumeric num;  // input
     private GeoAngle angle;     // output                  
     
     AlgoAngleNumeric(Construction cons, String label, GeoNumeric num) { 
@@ -41,12 +36,14 @@ public class AlgoAngleNumeric extends AlgoElement {
         angle.setLabel(label);            
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAngleNumeric";
     }
         
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = num;        
         
@@ -59,7 +56,8 @@ public class AlgoAngleNumeric extends AlgoElement {
     GeoNumeric getNumber() { return num; }        
     
     // compute conic's angle
-    protected final void compute() {                
+    @Override
+	protected final void compute() {                
         // copy number to angle
         angle.setValue(num.value);       
     }

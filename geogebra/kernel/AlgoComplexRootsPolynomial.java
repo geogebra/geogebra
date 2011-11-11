@@ -2,7 +2,6 @@ package geogebra.kernel;
 
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.PolyFunction;
-import geogebra.kernel.roots.RealRootFunction;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -16,14 +15,16 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial{
 			GeoFunction f) {
 		super(cons, labels, f);
 	}
-    protected void compute() {
+    @Override
+	protected void compute() {
     	
     	computeComplexRoots();
 
         setRootPoints(curRoots, curComplexRoots, curRealRoots);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoComplexPolynomial";
     }
     
@@ -39,8 +40,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial{
     }
 
     final void calcComplexRoots(Function fun) {  
-    	LinkedList factorList;    	
-		RealRootFunction evalFunction = null; // needed to remove wrong extrema and inflection points 
+    	LinkedList<PolyFunction> factorList;    	
     	
     	// get polynomial factors for this function
 

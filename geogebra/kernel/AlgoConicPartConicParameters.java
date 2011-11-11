@@ -21,11 +21,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoConicPartConicParameters extends AlgoConicPart {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
      * Creates a new arc or sector algorithm.
      * The type is either GeoConicPart.CONIC_PART_ARC or 
      * GeoConicPart.CONIC_PART_ARC       
@@ -46,14 +41,15 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
     }    	
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = conic;      
         input[1] = startParam.toGeoElement();
         input[2] = endParam.toGeoElement();
 
-        output = new GeoElement[1];
-        output[0] = conicPart;
+        super.setOutputLength(1);
+        super.setOutput(0, conicPart);
 
         setDependencies();
     }

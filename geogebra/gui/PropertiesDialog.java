@@ -46,7 +46,6 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -58,7 +57,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-
 
 /**
  * @author Markus Hohenwarter
@@ -421,7 +419,7 @@ public class PropertiesDialog
 		geoTree.setSelected(tempArrayList, addToSelection);
 		//requestFocus();
 	}	
-	private ArrayList tempArrayList = new ArrayList();
+	private ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
 
 	/**
 	 * deletes all selected GeoElements from Kernel	 
@@ -589,7 +587,7 @@ public class PropertiesDialog
 		 * selects object geo in the list of GeoElements	 
 		 * @param addToSelection false => clear old selection 
 		 */
-		public void setSelected(ArrayList geos, boolean addToSelection) {
+		public void setSelected(ArrayList<GeoElement> geos, boolean addToSelection) {
 			TreePath tp = null;	
 					
 			TreeSelectionModel lsm = getSelectionModel();					

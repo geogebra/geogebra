@@ -23,7 +23,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 
 public class AlgoListMin extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoNumeric min; //output	
 
@@ -43,16 +42,18 @@ public class AlgoListMin extends AlgoElement {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoListMin";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = geoList;
 
-        output = new GeoElement[1];
-        output[0] = min;
+        super.setOutputLength(1);
+        super.setOutput(0, min);
         setDependencies(); // done by AlgoElement
     }
 
@@ -60,7 +61,8 @@ public class AlgoListMin extends AlgoElement {
         return min;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		min.setUndefined();

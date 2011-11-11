@@ -48,8 +48,6 @@ public class GeoFunction extends GeoElement
 implements VarString, Path, Translateable, Traceable, Functional, FunctionalNVar, GeoFunctionable,Region,
 CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilateable, Transformable {
 
-	private static final long serialVersionUID = 1L;
-	
 	/** inner function representation */
 	protected Function fun;		
 	/** true if this function should be considered defined */
@@ -133,17 +131,15 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		
 		if (f==null && g!=null) {
 			setInterval(g.intervalMin, g.intervalMax);
-			
+
 			fun = new Function(c.getKernel()) {
-			    public double evaluate(double x) {
-		
-			    	return GeoFunction.this.iPoly.evalPolyAt(
-			    			x,
-			    			substituteFunctions[1].getFunction().evaluate(x));
-			    	
-			    }
+				@Override
+				public double evaluate(double x) {
+
+					return GeoFunction.this.iPoly.evalPolyAt(x,
+							substituteFunctions[1].getFunction().evaluate(x));
+				}
 			};
-			
 				
 			/*	Iterator it = iPoly.poly.getVariables().iterator();
 				ExpressionNode iPolyEN = (ExpressionNode)iPoly.poly.deepCopy(kernel);
@@ -166,62 +162,65 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 				
 			//}
 				
-			//g.getFunction().getFunctionVariable();
-			//TODO: set the correct expression
-			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0))); 
-			
-		} else if (f!=null && g==null) {
+			// g.getFunction().getFunctionVariable();
+			// TODO: set the correct expression
+			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
+
+		} else if (f != null && g == null) {
 			setInterval(f.intervalMin, f.intervalMax);
-			
-			fun = new Function(c.getKernel()) {
-			    public double evaluate(double x) {
-		
-			    	return GeoFunction.this.iPoly.evalPolyAt(
-			    			substituteFunctions[0].getFunction().evaluate(x),
-			    			x);
-			    	
-			    }
-			};
-			//TODO: set the correct expression
-			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0))); 
-			
-			
-		} else if (f!=null && g!=null) {
 
-			setInterval(Math.max(f.intervalMin, g.intervalMin), Math.min(f.intervalMax, g.intervalMax));
-			
 			fun = new Function(c.getKernel()) {
-			    public double evaluate(double x) {
-		
-			    	return GeoFunction.this.iPoly.evalPolyAt(
-			    			substituteFunctions[0].getFunction().evaluate(x),
-			    			substituteFunctions[1].getFunction().evaluate(x));
-			    	
-			    }
+				@Override
+				public double evaluate(double x) {
+
+					return GeoFunction.this.iPoly
+							.evalPolyAt(substituteFunctions[0].getFunction()
+									.evaluate(x), x);
+				}
+			};
+			// TODO: set the correct expression
+			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
+
+		} else if (f != null && g != null) {
+
+			setInterval(Math.max(f.intervalMin, g.intervalMin),
+					Math.min(f.intervalMax, g.intervalMax));
+
+			fun = new Function(c.getKernel()) {
+				@Override
+				public double evaluate(double x) {
+
+					return GeoFunction.this.iPoly.evalPolyAt(
+							substituteFunctions[0].getFunction().evaluate(x),
+							substituteFunctions[1].getFunction().evaluate(x));
+				}
 			};
 
-			//TODO: set the correct expression
-			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0))); 
-			
-		} //else: error
+			// TODO: set the correct expression
+			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
+
+		} // else: error
 	}
 	
-	
+	@Override
 	public void setVisualStyle(GeoElement g){
 		super.setVisualStyle(g);
 		if(g instanceof GeoFunction)
 			setShowOnAxis(((GeoFunction)g).showOnAxis); 
 	}
 	
+	@Override
 	public String getClassName() {
 		return "GeoFunction";
 	}
 	
+	@Override
 	protected String getTypeString() {
 		return isInequality?"Inequality":"Function";
 	}
 	
-    public int getGeoClassType() {
+    @Override
+	public int getGeoClassType() {
     	return GEO_CLASS_FUNCTION;
     }
 
@@ -232,10 +231,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		set(f);
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoFunction(this);
 	}
 	
+	@Override
 	public void set(GeoElement geo) {
 		Function geoFun = ((GeoFunction) geo).getFunction();
 			
@@ -432,6 +433,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 	private GeoFunction derivGeoFun;
 	
+	@Override
 	public ExpressionValue evaluate() {
 		return this;
 	}
@@ -443,6 +445,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		translate(v.getX(), v.getY());
 	}
 	
+	@Override
 	final public boolean isTranslateable() {
 		return fun != null && !isBooleanFunction();
 	}
@@ -506,10 +509,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     private Function includesDivisionByVarFun = null;
     
 
+	@Override
 	public boolean isDefined() {
 		return isDefined && fun != null;
 	}
 	
+	@Override
 	public boolean isFillable(){
 		return isInequality;
 	}
@@ -522,22 +527,25 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		isDefined = defined;
 	}
 
+	@Override
 	public void setUndefined() {
 		isDefined = false;
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {		
 		return isDefined() && (!isBooleanFunction() || isInequality);
 	}
-
 		
 	/**
 	 * @return function description as f(x)=... for real and e.g. f:x>4 for bool
 	 */
+	@Override
 	public String toString() {		
 		sbToString.setLength(0);
 		if(isLabelSet()) {
@@ -553,11 +561,13 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		sbToString.append(toValueString());
 		return sbToString.toString();
 	}
+	
 	/** StringBuilder for temporary string manipulation */
 	protected StringBuilder sbToString = new StringBuilder(80);
 
 	private boolean showOnAxis;
 	
+	@Override
 	public String toValueString() {	
 
 		if (fun != null && isDefined())
@@ -571,6 +581,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @see geogebra.kernel.GeoElement#toOutputValueString()
 	 * needed for eg KeepIf[x!="h",{"h","k","o"}]
 	 */
+	@Override
 	public String toOutputValueString() {	
 		
 		if (isLocalVariable())
@@ -589,20 +600,20 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return app.getPlain("undefined");
 	}
 	
+	@Override
 	public String toLaTeXString(boolean symbolic) {
 		if (fun != null && isDefined())
 			return fun.toLaTeXString(symbolic);
 		else
 			return app.getPlain("undefined");
 	}
-	
-	
 		
 	/**
-	   * save object in xml format
-	   */ 
+	 * save object in xml format
+	 */
+	@Override
 	public final void getXML(StringBuilder sb) {
-		 
+
 		// an indpendent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
@@ -612,11 +623,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			sb.append(label);
 			sb.append("\" exp=\"");
 			sb.append(Util.encodeXML(toString()));
-			// expression   
+			// expression
 			sb.append("\"/>\n");
 		}
-	  		  
-		sb.append("<element"); 
+
+		sb.append("<element");
 		sb.append(" type=\"function\"");
 		sb.append(" label=\"");
 		sb.append(label);
@@ -628,24 +639,23 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		getXMLtags(sb);
 		sb.append(getCaptionXML());
 		sb.append("</element>\n");
-
 	}
 	
 	/**
-	* returns all class-specific xml tags for getXML
-	*/
-		protected void getXMLtags(StringBuilder sb) {
-	   super.getXMLtags(sb);
-	 
-	   //	line thickness and type  
+	 * returns all class-specific xml tags for getXML
+	 */
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+
+		// line thickness and type
 		getLineStyleXML(sb);
-		if(showOnAxis()){
+		if (showOnAxis()) {
 			sb.append("<showOnAxis val=\"true\" />");
 		}
+	}
 
-   }
-
-	/* 
+	/*
 	 * Path interface
 	 */	 
 	public void pointChanged(GeoPointND PI) {			
@@ -683,30 +693,33 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	private void pointChangedBoolean(boolean b, GeoPoint P) {
 		double px;
 		boolean yfun = getVarString().equals("y");
-		if(yfun){
-			if(b)P.x = 0.0;
+		if (yfun) {
+			if (b)
+				P.x = 0.0;
 			px = P.y;
-		}else{
-			if(b)P.y = 0.0;
+		} else {
+			if (b)
+				P.y = 0.0;
 			px = P.x;
 		}
 		double bestDist = Double.MAX_VALUE;
-		getIneqs();			
-		if(!this.evaluateBoolean(px)){		
+		getIneqs();
+		if (!this.evaluateBoolean(px)) {
 			FunctionNVar.IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
-			for(int i=0;i<ineqCount;i++){
-				for(GeoPoint point:ineqs.get(i).getZeros())
-					if(Math.abs(point.x-px)<bestDist){
-						bestDist = Math.abs(point.x-px);
-						if(yfun)
+			for (int i = 0; i < ineqCount; i++) {
+				for (GeoPoint point : ineqs.get(i).getZeros()) {
+					if (Math.abs(point.x - px) < bestDist) {
+						bestDist = Math.abs(point.x - px);
+						if (yfun) {
 							P.y = point.x;
-						else
-							P.x=point.x;
+						} else {
+							P.x = point.x;
+						}
 					}
+				}
 			}
 		}
-		
 	}
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -737,12 +750,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		pointChanged(P);
 	}
 	
+	@Override
 	public boolean isPath() {
 		return true;
 	}
 
-	
-	
 	/**
 	 * Returns the smallest possible parameter value for this
 	 * path (may be Double.NEGATIVE_INFINITY)
@@ -779,26 +791,32 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		return false;
 	}
 
+	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
 	
+	@Override
 	public boolean isNumberValue() {
 		return false;		
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
 
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}
 	
+	@Override
 	public boolean isTraceable() {
 		return true;
 	}
@@ -827,6 +845,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		return this;
 	}
 	
+	@Override
 	public boolean isGeoFunction() {
 		if (fun != null)
 			return !fun.isBooleanFunction();
@@ -834,6 +853,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return true;
 	}
 	
+	@Override
 	public boolean isGeoFunctionable() {
 		return isGeoFunction();
 	}
@@ -922,6 +942,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}*/
 	
     // Michael Borcherds 2009-02-15
+	@Override
 	public boolean isEqual(GeoElement geo) {		
 		if (!geo.isGeoFunction() || geo.getGeoClassType() == GeoElement.GEO_CLASS_INTERVAL)
 			return false;
@@ -991,6 +1012,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
        	//return adf.getFunction();
        	
 	}
+	
 	private static FunctionNVar fromExpr(ExpressionNode sum,
 			HashMap<String, FunctionVariable> varmap,TreeSet<String>varNames) {
 		int size = varmap.size();		
@@ -1074,8 +1096,6 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     	f.initFunction();       	
        	return f;
 	}
-
-	
 	
 	/**
 	 * Subtracts two functions and stores the result to another 
@@ -1139,6 +1159,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
        	return resultFun;
 	}//mult()
 	
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
@@ -1156,39 +1177,53 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	/**
 	 * Returns the limit
-	 * @param x point to evaluate the limit
-	 * @param direction 1 for limit above, -1 for limit below, standard limit otherwise
+	 * 
+	 * @param x
+	 *            point to evaluate the limit
+	 * @param direction
+	 *            1 for limit above, -1 for limit below, standard limit
+	 *            otherwise
 	 * @return the limit
 	 */
 	public double getLimit(double x, int direction) {
-		// get function and function variable string using temp variable prefixes,
+		// get function and function variable string using temp variable
+		// prefixes,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
-		String [] funVarStr = getTempVarCASString(false);
-   	
-	     if (sb == null) sb = new StringBuilder();
-    	else sb.setLength(0);
-	    sb.setLength(0);
-        sb.append("Numeric(Limit");
-        if (direction == -1) sb.append("Above");
-        else if (direction == 1) sb.append("Below");       
-        sb.append('(');
-        sb.append(funVarStr[0]); // function expression
-        sb.append(',');
-        sb.append(funVarStr[1]); // function variable
-        sb.append(',');
-        sb.append(Double.toString(x));
-        sb.append("),");
-        // increase precision to improve problems like http://www.geogebra.org/trac/ticket/1106
-        sb.append("50)");
+		String[] funVarStr = getTempVarCASString(false);
+
+		if (sb == null) {
+			sb = new StringBuilder();
+		} else {
+			sb.setLength(0);
+		}
+		sb.setLength(0);
+		sb.append("Numeric(Limit");
+		if (direction == -1) {
+			sb.append("Above");
+		} else if (direction == 1) {
+			sb.append("Below");
+		}
+		sb.append('(');
+		sb.append(funVarStr[0]); // function expression
+		sb.append(',');
+		sb.append(funVarStr[1]); // function variable
+		sb.append(',');
+		sb.append(Double.toString(x));
+		sb.append("),");
+		// increase precision to improve problems like
+		// http://www.geogebra.org/trac/ticket/1106
+		sb.append("50)");
 
 		try {
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
-			NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(functionOut, false);
+			String functionOut = kernel
+					.evaluateCachedGeoGebraCAS(sb.toString());
+			NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+					functionOut, false);
 			return nv.getDouble();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return Double.NaN;
-	}
+		}
 	}
 
 	/**
@@ -1289,7 +1324,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 				grad = 0;
 			}
 			
-			if (!f.CASError(gradientStrMinus, false) && !Kernel.isZero(grad)) {
+			if (!GeoFunction.CASError(gradientStrMinus, false) && !Kernel.isZero(grad)) {
 				sb.setLength(0);
 		        sb.append("Limit(");
 		        sb.append(funVarStr[0]); // function expression
@@ -1307,7 +1342,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		        interceptStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 				//Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 				
-				if (!f.CASError(interceptStrMinus, false)) {
+				if (!GeoFunction.CASError(interceptStrMinus, false)) {
 					sb.setLength(0);
 					sb.append("y = ");
 					sb.append(gradientStrMinus);
@@ -1325,7 +1360,6 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     	}  catch (Throwable e) {
 			e.printStackTrace();
 		}
-
     }
     
     /**
@@ -1356,7 +1390,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			
 			//Application.debug(sb.toString()+" = "+limit,1);
 			
-		    if (!f.CASError(limit, false)) {
+		    if (!GeoFunction.CASError(limit, false)) {
 		    	   	
 		    	// check not duplicated
 		    	sb.setLength(0);
@@ -1370,9 +1404,8 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
         } catch (Throwable t) {
         	// nothing to do
         }
-
-
     }
+    
     @Override
 	protected char getLabelDelimiter(){
 		return isBooleanFunction()?':':'=';
@@ -1404,7 +1437,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			String verticalAsymptotes = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 			//Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 	    	
-	    	if (!f.CASError(verticalAsymptotes, false) && verticalAsymptotes.length() > 2) {
+	    	if (!GeoFunction.CASError(verticalAsymptotes, false) && verticalAsymptotes.length() > 2) {
 		    	verticalAsymptotes = verticalAsymptotes.replace('{',' ');
 		    	verticalAsymptotes = verticalAsymptotes.replace('}',' ');
 		    	//verticalAsymptotes = verticalAsymptotes.replace('(',' '); // eg (-1)
@@ -1453,7 +1486,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			            try {
 			     		String limit = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 			            //Application.debug("checking for vertical asymptote: "+sb.toString()+" = "+limit,1);
-			            if (limit.equals("?") || !f.CASError(limit, true)) {
+			            if (limit.equals("?") || !GeoFunction.CASError(limit, true)) {
 			            	if (verticalSB.length() > 1) verticalSB.append(',');
 	           	
 			            	verticalSB.append("x=");
@@ -1470,7 +1503,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	    }catch (Throwable t) { t.printStackTrace(); }
 	}
 
-	final private boolean CASError(String str, boolean allowInfinity) {
+	final private static boolean CASError(String str, boolean allowInfinity) {
 		if (str == null || str.length()==0) return true;
 		if (str.equals("?")) return true; // undefined/NaN
 //		if (str.indexOf("%i") > -1 ) return true; // complex answer
@@ -1490,6 +1523,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * Returns this function in currently set CAS print form.
 	 * For example, "a*x^2"
 	 */
+	@Override
 	public String getCASString(boolean symbolic) {
 		return fun.getExpression().getCASstring(symbolic);
 	}
@@ -1563,11 +1597,10 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * for compound paths
 	 * (returns *vertical* distance for functions)
 	 */
+	@Override
 	public double distance(GeoPoint p) {
 		return Math.abs(evaluate(p.inhomX) - p.inhomY);
 	}
-
-	
 
 	public boolean isInRegion(GeoPointND P) {
 		return isInRegion(P.getX2D(),P.getY2D());
@@ -1587,8 +1620,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		} else {
 			P.x = P.x / P.z;			
 		}
-				
-		
+					
 		pointChangedBoolean(false,P);
 		
 		P.z = 1.0;
@@ -1597,24 +1629,25 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		// PathMoverGeneric
 		RegionParameters pp = P.getRegionParameters();
 		pp.setT1(P.x);
-		pp.setT2(P.y);
-		
-		
+		pp.setT2(P.y);		
 	}
 
+	@Override
 	public boolean isRegion(){
 		return isBooleanFunction();
 	}
+	
 	public void regionChanged(GeoPointND P) {
-		pointChangedForRegion(P);
-		
+		pointChangedForRegion(P);		
 	}
+	
 	/**
 	 * Reset all inequalities (slow, involves parser)
 	 */
 	public void resetIneqs(){
 		isInequality = fun.initIneqs(getFunctionExpression(),this);
 	}
+	
 	public IneqTree getIneqs() {
 		if(fun.getIneqs() == null){
 			isInequality = fun.initIneqs(fun.getExpression(),this);			
@@ -1629,6 +1662,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public boolean showOnAxis() {		
 		return showOnAxis;
 	}
+	
 	/**
 	 * For inequalities.
 	 * @param showOnAxis true iff should be drawn on x-Axis only
@@ -1637,14 +1671,17 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		this.showOnAxis=showOnAxis;
 	}
 	
+	@Override
 	public void update(){				
 		super.update();
 	}
 	
+	@Override
 	public boolean isGeoFunctionBoolean(){
 		return isBooleanFunction();
 	}
 	
+	@Override
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
 		return isLaTeXneeded(latexStr);
 	}

@@ -33,6 +33,7 @@ implements ListCellRenderer {
 		this.app = app;	
 	}
 	
+	@Override
 	public Component getTreeCellRendererComponent(
 			JTree tree,
 			Object value,

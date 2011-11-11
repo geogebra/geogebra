@@ -39,22 +39,25 @@ public class AlgoPerimeterLocus extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoPerimeterLocus";
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = locus;
 
-		output = new GeoElement[1];
-		output[0] = circum;
+		super.setOutputLength(1);
+        super.setOutput(0, circum);
 		setDependencies();
 	}
 
 	/**
 	 * Compute circumference by adding up the length of its segemnts.
 	 */
+	@Override
 	protected final void compute() {
 		if (!locus.isDefined()) {
 			circum.setUndefined();

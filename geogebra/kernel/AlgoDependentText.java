@@ -28,11 +28,7 @@ import geogebra.kernel.arithmetic.ExpressionNode;
  */
 public class AlgoDependentText extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ExpressionNode root;  // input
+    private ExpressionNode root;  // input
     private GeoText text;     // output              
         
     public AlgoDependentText(Construction cons, String label, ExpressionNode root) {
@@ -58,11 +54,13 @@ public class AlgoDependentText extends AlgoElement {
         compute();
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentText";
 	}
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TEXT;
     }
 	
@@ -72,18 +70,20 @@ public class AlgoDependentText extends AlgoElement {
     
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = root.getGeoElementVariables();
-        
-        output = new GeoElement[1];        
-        output[0] = text;        
+              
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoText getGeoText() { return text; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {	
+    @Override
+	protected final void compute() {	
     	
     	text.setTemporaryPrintAccuracy();
     	
@@ -106,12 +106,14 @@ public class AlgoDependentText extends AlgoElement {
 	    text.restorePrintAccuracy();
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // was defined as e.g.  text0 = "Radius: " + r
         return root.toString();
     }
     
-    final public String toRealString() {
+    @Override
+	final public String toRealString() {
         // was defined as e.g.  text0 = "Radius: " + r
         return root.toRealString();
     }

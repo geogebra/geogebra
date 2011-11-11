@@ -25,11 +25,7 @@ import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
  */
 public class AlgoRootInterval extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoFunction f; // input    
+    private GeoFunction f; // input    
     private NumberValue a, b; // interval bounds
     private GeoPoint rootPoint; // output 
 
@@ -56,19 +52,21 @@ public class AlgoRootInterval extends AlgoElement {
         rootPoint.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRootInterval";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = f;
         input[1] = aGeo;
         input[2] = bGeo;
 
-        output = new GeoElement[1];
-        output[0] = rootPoint;
+        super.setOutputLength(1);
+        super.setOutput(0, rootPoint);
         setDependencies();
     }
 
@@ -76,7 +74,8 @@ public class AlgoRootInterval extends AlgoElement {
         return rootPoint;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         rootPoint.setCoords(calcRoot(), 0.0, 1.0);
     }
 
@@ -112,7 +111,8 @@ public class AlgoRootInterval extends AlgoElement {
         	return Double.NaN;
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("RootOfAonIntervalBC",f.getLabel(),aGeo.getLabel(),bGeo.getLabel());

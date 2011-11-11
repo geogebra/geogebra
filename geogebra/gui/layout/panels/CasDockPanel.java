@@ -29,6 +29,7 @@ public class CasDockPanel extends DockPanel {
 		this.app = app;
 	}
 	
+	@Override
 	protected JComponent loadComponent() {
 		return app.getGuiManager().getCasView().getCASViewComponent();
 	}
@@ -41,6 +42,7 @@ public class CasDockPanel extends DockPanel {
 	 * Sets the active toolbar and tells the CAS view about this so it
 	 * can ignore mode changes which would otherwise result in cell computations.
 	 */
+	@Override
 	protected void setActiveToolBar(){		
 		app.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(true);
 		super.setActiveToolBar();

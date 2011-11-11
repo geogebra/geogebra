@@ -23,7 +23,6 @@ import java.math.BigInteger;
 
 public class AlgoListGCD extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoNumeric num; //output	
 
@@ -38,16 +37,18 @@ public class AlgoListGCD extends AlgoElement {
         num.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoListGCD";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = geoList;
 
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }
 
@@ -55,7 +56,8 @@ public class AlgoListGCD extends AlgoElement {
         return num;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		num.setUndefined();
@@ -82,9 +84,7 @@ public class AlgoListGCD extends AlgoElement {
     		return;
     	}
     	
-    	num.setValue(result);
-    	
-    	
+    	num.setValue(result);   	
     }
     
 }

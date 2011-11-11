@@ -28,7 +28,6 @@ import geogebra.kernel.arithmetic.ExpressionNode;
  */
 public class AlgoName extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo; // input
 	private GeoText text; // output
 
@@ -55,11 +54,13 @@ public class AlgoName extends AlgoElement {
 		text.setLabel(label);
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoName";
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = geo;
@@ -79,6 +80,7 @@ public class AlgoName extends AlgoElement {
 	}
 
 	// calc the current value of the arithmetic tree
+	@Override
 	protected final void compute() {
 
 		String returnLabel = geo.getRealLabel();

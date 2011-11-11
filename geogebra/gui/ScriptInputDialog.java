@@ -87,7 +87,6 @@ public class ScriptInputDialog extends InputDialog {
 		centerOnScreen();		
 	}
 	
-	
 	public void setGeo(GeoElement geo) {
 		
 		if (global) {
@@ -112,7 +111,6 @@ public class ScriptInputDialog extends InputDialog {
         inputPanel.setText(app.getKernel().getLibraryJavaScript());
 	}
 	
-	
 	public JPanel getInputPanel() {
 		return inputPanel;
 	}
@@ -121,8 +119,7 @@ public class ScriptInputDialog extends InputDialog {
 		return btApply;
 	}
 	
-	
-	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
@@ -165,10 +162,10 @@ public class ScriptInputDialog extends InputDialog {
 	 * "Length of a = " + a + "cm"
 	 * @param geo
 	 */
+	@Override
 	public void insertGeoElement(GeoElement geo) {
 		Application.debug("TODO: unimplemented");
 	}
-	
 	
 	/**
 	 * @return the geo
@@ -177,7 +174,7 @@ public class ScriptInputDialog extends InputDialog {
 		return geo;
 	}
 
-
+	
 	private class TextInputHandler implements InputHandler {
 		
 		private Kernel kernel;
@@ -212,7 +209,7 @@ public class ScriptInputDialog extends InputDialog {
             		getGeo().setClickJavaScript(javaScript);
             	}            
             	return true;
-    }
-
-}
+        }
+	}
+	
 }

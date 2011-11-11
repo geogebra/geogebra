@@ -35,7 +35,6 @@ import geogebra.main.Application;
 
 public abstract class AlgoOptimize extends AlgoElement{
 
-	private static final long serialVersionUID = 1L;
 	public  static final int  MINIMIZE = 0;
 	public  static final int  MAXIMIZE = 1;
 	
@@ -49,7 +48,7 @@ public abstract class AlgoOptimize extends AlgoElement{
 	private 		boolean						isrunning	=	false;		//To stop recursive calls. Both Maximize and Minimize.
 	
 	/** Constructor for Maximize*/
-	public AlgoOptimize(Construction cons,String label,GeoElement dep,GeoNumeric indep,int type){
+	public AlgoOptimize(Construction cons,String label,GeoElement dep,GeoNumeric indep,int type) {
 		super(cons);
 		this.cons=cons;
 		this.dep=dep;
@@ -65,7 +64,8 @@ public abstract class AlgoOptimize extends AlgoElement{
 	
 	
     /** Implementing AlgoElement */
-	protected void setInputOutput(){
+	@Override
+	protected void setInputOutput() {
         /*input = new GeoElement[1];
         input[0] = geoList;
 
@@ -76,17 +76,18 @@ public abstract class AlgoOptimize extends AlgoElement{
 		input[0]=dep;
 		input[1]=indep;
 
-		output=new GeoNumeric[1];
-		output[0]=result;
+		super.setOutputLength(1);
+        super.setOutput(0, result);
 		
         setDependencies(); // done by AlgoElement
     }//setInputOutput()
 	
 	/** Implementing AlgoElement */
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	double old=0.0d,res=0.0;;
 
-    	if(isrunning){return;}   		//do nothing return as fast as possible		
+    	if(isrunning){ return; }   		//do nothing return as fast as possible		
 
    		old=indep.getValue();
    		isrunning=true;
@@ -95,10 +96,10 @@ public abstract class AlgoOptimize extends AlgoElement{
    			result.setUndefined();
    			return;
    		}
-   		if(type==MINIMIZE){
+   		if(type==MINIMIZE) {
    			res=extrFinder.findMinimum(indep.getIntervalMin(),indep.getIntervalMax(),
     									i_am_not_a_real_function,5.0E-8);	//debug("Minimize ("+counter+") found "+res);
-   		}else{
+   		} else {
    			res=extrFinder.findMaximum(indep.getIntervalMin(),indep.getIntervalMax(),
    										i_am_not_a_real_function,5.0E-8);	//debug("Maximize ("+counter+") found "+res);
    		}
@@ -112,27 +113,23 @@ public abstract class AlgoOptimize extends AlgoElement{
 
     }//compute()
     
-    GeoElement getResult(){
+    GeoElement getResult() {
     	return result;
     
     }//getMinimized()
     
-    public abstract String getClassName();
-    
-
-
-    
+    @Override
+	public abstract String getClassName();  
 	
 	private final static boolean	DEBUG	=	true;			//debug or errormsg
 	
-    private final static void debug(String s) {
+    @SuppressWarnings("unused")
+	private final static void debug(String s) {
         if(DEBUG) {
             System.out.println(s);
         }else{
         	Application.debug(s);
         }//if debug or errormsg
     }//debug()
-   	
-
 
 }//abstract class AlgoOptimize

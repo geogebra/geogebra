@@ -19,10 +19,8 @@ import java.util.Iterator;
 import org.apache.commons.math.stat.Frequency;
 
 
-
 public class AlgoUnique extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList dataList; //input
 	private GeoList uniqueList; //output	
 	
@@ -45,17 +43,19 @@ public class AlgoUnique extends AlgoElement {
 
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoUnique";
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		input = new GeoElement[1];
 		input[0] = dataList;
 
-		output = new GeoElement[1];
-		output[0] = uniqueList;
+		super.setOutputLength(1);
+        super.setOutput(0, uniqueList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -63,7 +63,7 @@ public class AlgoUnique extends AlgoElement {
 		return uniqueList;
 	}
 
-
+	@Override
 	protected final void compute() {
 	
 		// Validate input arguments
@@ -73,31 +73,27 @@ public class AlgoUnique extends AlgoElement {
 		}
 
 		if( !( dataList.getElementType() == GeoElement.GEO_CLASS_TEXT 
-				|| dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC )){
+				|| dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC )) {
 			uniqueList.setUndefined();		
 			return;
 		}
 
-
 		uniqueList.setDefined(true);
 		uniqueList.clear();
-
 
 		// Load the data into f, an instance of Frequency class 
 		if(f == null)
 		 f = new Frequency();
 		f.clear();
-		for (int i=0 ; i < dataList.size(); i++){
+		for (int i=0 ; i < dataList.size(); i++) {
 			if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT)
 				f.addValue(((GeoText)dataList.get(i)).toValueString());
 			if(dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC)
 				f.addValue(new MyDouble(kernel, ((GeoNumeric)dataList.get(i)).getDouble()));
 		}
 
-
-
 		// Get the unique value list 	
-		if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT){
+		if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT) {
 			// handle string data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while(itr.hasNext()) {		
@@ -106,7 +102,7 @@ public class AlgoUnique extends AlgoElement {
 				text.setTextString(s);
 				uniqueList.add(text);
 			}
-		}else{
+		} else {
 			// handle numeric data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while(itr.hasNext()) {		

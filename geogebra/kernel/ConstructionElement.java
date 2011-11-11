@@ -235,5 +235,11 @@ implements Comparable<ConstructionElement> {
 	 */
 	public boolean isAlgoDependentCasCell() {
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
 	}   
 }

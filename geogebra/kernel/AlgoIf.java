@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  *
  * @author  Markus
@@ -21,7 +20,6 @@ package geogebra.kernel;
  */
 public class AlgoIf extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoBoolean condition;     // input
 	private GeoElement ifGeo, elseGeo;  // input
 	private GeoElement result; // output
@@ -32,7 +30,7 @@ public class AlgoIf extends AlgoElement {
 	 * @param label
 	 * @param condition
 	 * @param ifGeo
-	 * @param elseGeo: may be null
+	 * @param elseGeo may be null
 	 */        
     public AlgoIf(Construction cons, String label, 
     		GeoBoolean condition, GeoElement ifGeo, GeoElement elseGeo) {
@@ -51,11 +49,13 @@ public class AlgoIf extends AlgoElement {
         result.setLabel(label);
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoIf";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
     	if (elseGeo != null)
     		input = new GeoElement[3];
@@ -65,16 +65,17 @@ public class AlgoIf extends AlgoElement {
         input[1] = ifGeo;
         if (elseGeo != null)
         	input[2] = elseGeo;        	
-        
-        output = new GeoElement[1];        
-        output[0] = result;        
+         
+        super.setOutputLength(1);
+        super.setOutput(0, result);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoElement getGeoElement() { return result; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {	
+    @Override
+	protected final void compute() {	
     	
     	/* TODO do we want this?
     	if (!ifGeo.getClass().isAssignableFrom(elseGeo.getClass()) &&
@@ -98,7 +99,8 @@ public class AlgoIf extends AlgoElement {
     	}
     }   
     
-    final public String toString() {        
+    @Override
+	final public String toString() {        
         return getCommandDescription();
     }
 }

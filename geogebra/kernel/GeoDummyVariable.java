@@ -16,10 +16,12 @@ public class GeoDummyVariable extends GeoNumeric {
 		this.varName = varName;
 	}
 	
+	@Override
 	public String toString() {
 		return kernel.printVariableName(varName);
 	}		
 	
+	@Override
 	public String toValueString() {
 		return toString();	
 	}		

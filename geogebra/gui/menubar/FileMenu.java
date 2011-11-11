@@ -180,6 +180,7 @@ class FileMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						app.setWaitCursor();
 						GeoGebraFrame.createNewWindow(null);
@@ -289,6 +290,7 @@ class FileMenu extends BaseMenu {
 				app.clearSelectedGeos();
 
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						app.setWaitCursor();
 						// copy drawing pad to the system clipboard
@@ -319,6 +321,7 @@ class FileMenu extends BaseMenu {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Thread runner = new Thread() {
+						@Override
 						public void run() {
 							app.setWaitCursor();
 							try {
@@ -434,6 +437,7 @@ class FileMenu extends BaseMenu {
 				try {
 
 					Thread runner = new Thread() {
+						@Override
 						public void run() {
 							app.setWaitCursor();
 							try {
@@ -470,6 +474,7 @@ class FileMenu extends BaseMenu {
 				try {
 
 					Thread runner = new Thread() {
+						@Override
 						public void run() {
 							app.setWaitCursor();
 							try {

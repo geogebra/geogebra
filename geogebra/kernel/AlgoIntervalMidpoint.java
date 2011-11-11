@@ -20,14 +20,13 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 		super(cons, label, s);
 	}
 
-
+	@Override
 	public String getClassName() {
         return "AlgoIntervalMidpoint";
     }
 
-
-    protected final void compute() {
-    	
+    @Override
+	protected final void compute() {   	
     	result.setValue(interval.getMidPoint());
     }
     

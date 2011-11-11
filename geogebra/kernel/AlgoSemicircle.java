@@ -19,10 +19,6 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoSemicircle extends AlgoElement {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A, B;	// input
 	private GeoConicPart conicPart; // output
 	
@@ -74,16 +70,18 @@ public class AlgoSemicircle extends AlgoElement {
         compute();               
     }    	
     
+	@Override
 	public String getClassName() {
 		return "AlgoSemicircle";
 	}
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_SEMICIRCLE;
     }
-
 	
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = A;      
@@ -127,7 +125,8 @@ public class AlgoSemicircle extends AlgoElement {
     	return conic;
     }
     
-    protected void compute() {
+    @Override
+	protected void compute() {
     	if (!conic.isDefined()) {
     		conicPart.setUndefined();
     		return;
@@ -140,7 +139,8 @@ public class AlgoSemicircle extends AlgoElement {
     	conicPart.setParameters(alpha, beta, true);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("SemicircleThroughAandB",A.getLabel(),B.getLabel());

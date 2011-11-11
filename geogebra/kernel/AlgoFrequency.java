@@ -17,12 +17,8 @@ import java.util.Iterator;
 
 import org.apache.commons.math.stat.Frequency;
 
-
-
-
 public class AlgoFrequency extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList dataList; //input
 	private GeoList classList; //input
 	private GeoBoolean isCumulative; //input
@@ -34,20 +30,20 @@ public class AlgoFrequency extends AlgoElement {
 	// for compute
 	private GeoList value = new GeoList(cons);
 
-
-
-
 	AlgoFrequency(Construction cons, String label, GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
 		this(cons, label, isCumulative, classList, dataList, null, null);	
 	}
+	
 	AlgoFrequency(Construction cons, GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
 		this(cons, isCumulative, classList, dataList, null, null);	
 	}
+	
 	AlgoFrequency(Construction cons, String label, GeoBoolean isCumulative, GeoList classList, GeoList dataList, 
 			GeoBoolean useDensity, GeoNumeric density) {
 		this(cons,isCumulative,classList,dataList,useDensity,density);
 		frequency.setLabel(label);
 	}
+	
 	AlgoFrequency(Construction cons, GeoBoolean isCumulative, GeoList classList, GeoList dataList, 
 			GeoBoolean useDensity, GeoNumeric density) {
 		super(cons);
@@ -61,16 +57,14 @@ public class AlgoFrequency extends AlgoElement {
 		frequency = new GeoList(cons);
 		setInputOutput();
 		compute();
-		
-		
 	}
 
-	
-	
+	@Override
 	public String getClassName() {
 		return "AlgoFrequency";
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
@@ -105,10 +99,8 @@ public class AlgoFrequency extends AlgoElement {
 		return value;
 	}
 
-
+	@Override
 	protected final void compute() {
-
-
 
 		// Validate input arguments
 		//=======================================================
@@ -139,8 +131,6 @@ public class AlgoFrequency extends AlgoElement {
 		}
 
 		
-		
-		
 		frequency.setDefined(true);
 		frequency.clear();
 		if(value != null) value.clear();
@@ -160,8 +150,6 @@ public class AlgoFrequency extends AlgoElement {
 				f.addValue(((GeoNumeric)dataList.get(i)).getDouble());
 		}
 
-
-
 		
 		// If classList does not exist, 
 		// get the unique value list and compute frequencies for this list  
@@ -170,7 +158,7 @@ public class AlgoFrequency extends AlgoElement {
 		// handle string data
 		if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT){
 
-			Iterator itr = f.valuesIterator();
+			Iterator<Comparable<?>> itr = f.valuesIterator();
 			String strMax = (String) itr.next();
 			String strMin = strMax;
 			itr = f.valuesIterator();
@@ -182,18 +170,20 @@ public class AlgoFrequency extends AlgoElement {
 				GeoText text = new GeoText(cons);
 				text.setTextString(s);
 				value.add(text);
-				if(classList == null)
-					if( doCumulative)
-						frequency.add(new GeoNumeric(cons,f.getCumFreq((Comparable)s )));
-					else
-						frequency.add(new GeoNumeric(cons,f.getCount((Comparable)s )));
+				if(classList == null) {
+					if( doCumulative) {
+						frequency.add(new GeoNumeric(cons,f.getCumFreq((Comparable<?>)s )));
+					} else {
+						frequency.add(new GeoNumeric(cons,f.getCount((Comparable<?>)s )));
+					}
+				}
 			}
 		}
 
 		// handle numeric data
 		else
 		{
-			Iterator itr = f.valuesIterator();
+			Iterator<Comparable<?>> itr = f.valuesIterator();
 			numMax = (Double) itr.next();
 			numMin = numMax;
 			itr = f.valuesIterator();
@@ -206,19 +196,17 @@ public class AlgoFrequency extends AlgoElement {
 
 				if(classList == null)
 					if( doCumulative)
-						frequency.add(new GeoNumeric(cons,f.getCumFreq((Comparable)n )));
+						frequency.add(new GeoNumeric(cons,f.getCumFreq((Comparable<?>)n )));
 					else
-						frequency.add(new GeoNumeric(cons,f.getCount((Comparable)n )));
+						frequency.add(new GeoNumeric(cons,f.getCount((Comparable<?>)n )));
 			}
 		} 
-
-
 
 		
 		// If classList exists, compute frequencies using the classList
 		//=======================================================
 
-		if(classList != null){
+		if(classList != null) {
 
 			double lowerClassBound = 0 ;
 			double upperClassBound = 0 ;
@@ -238,7 +226,7 @@ public class AlgoFrequency extends AlgoElement {
 			double cumulativeClassFreq = 0;
 			double swap;
 			int length = classList.size();
-			for(int i=1; i < length; i++){
+			for(int i=1; i < length; i++) {
 
 				lowerClassBound = ((GeoNumeric)classList.get(i-1)).getDouble();
 				upperClassBound = ((GeoNumeric)classList.get(i)).getDouble();
@@ -249,12 +237,12 @@ public class AlgoFrequency extends AlgoElement {
 					lowerClassBound = swap;
 					increasing = false;
 				}
-					classFreq = f.getCumFreq((Comparable)upperClassBound) 
-					- f.getCumFreq((Comparable)lowerClassBound) 
-					+ f.getCount((Comparable)lowerClassBound);
+					classFreq = f.getCumFreq((Comparable<?>)upperClassBound) 
+					- f.getCumFreq((Comparable<?>)lowerClassBound) 
+					+ f.getCount((Comparable<?>)lowerClassBound);
 				if((i!=length -1 && increasing) ||
 					(i!=1 && !increasing))
-					classFreq -= f.getCount((Comparable)upperClassBound);
+					classFreq -= f.getCount((Comparable<?>)upperClassBound);
 				
 
 			//	System.out.println(" =================================");
@@ -268,15 +256,11 @@ public class AlgoFrequency extends AlgoElement {
 				
 				// add the frequency to the output GeoList
 				frequency.add(new GeoNumeric(cons, doCumulative?cumulativeClassFreq:classFreq));
-
-
 			}
 
 			// handle the last (highest) class frequency specially
 			// it must also count values equal to the highest class bound  
 			
-			
-
 		}
 	}
 

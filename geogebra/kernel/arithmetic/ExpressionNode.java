@@ -2281,6 +2281,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case FACTORIAL:
 			switch (STRING_TYPE) {
 			case STRING_TYPE_MPREDUCE:
+				// TODO message WWWWWWWWWWWW ?
 				Application.printStacktrace("WWWWWWWWWWWW");
 				sb.append("factorial(");
 				sb.append(leftStr);

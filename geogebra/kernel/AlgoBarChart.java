@@ -21,56 +21,21 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoBarChart extends AlgoFunctionAreaSums {
 		
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param a
-	 * @param b
-	 * @param list1
-	 */
 	public AlgoBarChart(Construction cons, String label,
 			   NumberValue a, NumberValue b, GeoList list1) {
 		super(cons, label, a, b, list1);		
 	}
 
-	/**
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param a
-	 */
 	public AlgoBarChart(Construction cons, String label,
 			GeoList list1, GeoNumeric a) {
 		super(cons, label, list1, a);		
 	}
 
-	/**
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 */
 	public AlgoBarChart(Construction cons, String label,
 			GeoList list1, GeoList list2) {
 		super(cons, label, list1, list2);		
 	}
 
-	/**
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 * @param a
-	 */
 	public AlgoBarChart(Construction cons, String label,
 			GeoList list1, GeoList list2, NumberValue a) {
 		super(cons, label,list1,list2,  a);
@@ -102,6 +67,7 @@ public class AlgoBarChart extends AlgoFunctionAreaSums {
 		super(cons, discreteValueList, discreteProbList, width);
 	}
 	
+	@Override
 	public String getClassName() {
 		return "AlgoBarChart";
 	}

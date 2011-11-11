@@ -22,11 +22,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoSumUpper extends AlgoFunctionAreaSums {
 		
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Creates new upper sum
 	 * @param cons construction
 	 * @param label label
@@ -46,6 +41,7 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 		super( a, b, n, AlgoFunctionAreaSums.TYPE_UPPERSUM,vals,borders);			
 	}
 	
+	@Override
 	public String getClassName() {
 		return "AlgoSumUpper";
 	}

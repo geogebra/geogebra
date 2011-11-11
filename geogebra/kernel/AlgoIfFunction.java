@@ -22,7 +22,6 @@ package geogebra.kernel;
  */
 public class AlgoIfFunction extends AlgoElement {
 	
-	private static final long serialVersionUID = 1L;
 	private GeoFunction boolFun;     // input
 	private GeoFunction ifFun, elseFun;  // input
 	private GeoFunctionConditional result; // output
@@ -53,11 +52,13 @@ public class AlgoIfFunction extends AlgoElement {
         compute();        
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoIfFunction";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
     	if (elseFun != null)
     		input = new GeoElement[3];
@@ -67,15 +68,16 @@ public class AlgoIfFunction extends AlgoElement {
         input[1] = ifFun;
         if (elseFun != null)
         	input[2] = elseFun;        	
-        
-        output = new GeoElement[1];        
-        output[0] = result;        
+
+        super.setOutputLength(1);
+        super.setOutput(0, result);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoFunction getGeoFunction() { return result; }
        
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	for (int i=0; i < input.length; i++) {
     		if (!input[i].isDefined())
     			result.setUndefined();
@@ -87,7 +89,8 @@ public class AlgoIfFunction extends AlgoElement {
     	result.setDefined(true);
     }   
     
-    final public String toString() {        
+    @Override
+	final public String toString() {        
         return getCommandDescription();
     }
 }

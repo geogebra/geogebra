@@ -23,7 +23,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 
 public class AlgoListMax extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoNumeric max; //output	
 
@@ -42,11 +41,13 @@ public class AlgoListMax extends AlgoElement {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoListMax";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = geoList;
 
@@ -59,7 +60,8 @@ public class AlgoListMax extends AlgoElement {
         return max;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		max.setUndefined();

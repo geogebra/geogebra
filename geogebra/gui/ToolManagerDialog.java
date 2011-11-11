@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.gui;
 import geogebra.euclidian.EuclidianConstants;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
@@ -61,6 +60,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		initGUI();
 	}
 	
+	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
 			app.setMoveMode();
@@ -312,6 +312,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		for (int i=0; i < sel.length; i++) {
 			final Macro macro = (Macro) sel[i];				
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						Application.debug("before"+app.hashCode());
 						app.setWaitCursor();
@@ -343,12 +344,13 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 	    /* This is the only method defined by ListCellRenderer.  We just
 	     * reconfigure the Jlabel each time we're called.
 	     */
-	    public Component getListCellRendererComponent(
+	    @Override
+		public Component getListCellRendererComponent(
 	        JList list,
-		Object value,   // value to display
-		int index,      // cell index
-		boolean iss,    // is the cell selected
-		boolean chf)    // the list and the cell have the focus
+	        Object value,   // value to display
+	        int index,      // cell index
+	        boolean iss,    // is the cell selected
+	        boolean chf)    // the list and the cell have the focus
 	    {
 	        /* The DefaultListCellRenderer class will take care of
 	         * the JLabels text property, it's foreground and background

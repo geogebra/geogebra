@@ -32,8 +32,6 @@ import java.util.HashMap;
 public class AlgoMacro extends AlgoElement 
 implements EuclidianViewCE {
 
-	private static final long serialVersionUID = 1L;	
-	
 	private Macro macro; 
 	
 	// macro construction, its input and output used by this algo	
@@ -93,24 +91,29 @@ implements EuclidianViewCE {
 		}
     }         
     
-    public void remove() {
+    @Override
+	public void remove() {
     	macro.unregisterAlgorithm(this);
     	super.remove();    	
     }           
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
 		return "AlgoMacro";
 	}
 	
+	@Override
 	public String getCommandName() {
 		return macro.getCommandName();
 	}
     
+	@Override
 	protected void setInputOutput() {    	             
         setDependencies();
     }       
            	
-    final protected void compute() {
+    @Override
+	final protected void compute() {
     	try {    		
     		// set macro geos to algo geos state
     		setMacroConstructionState();
@@ -130,7 +133,8 @@ implements EuclidianViewCE {
     	}
     }   
     
-    final public String toString() {    	
+    @Override
+	final public String toString() {    	
         return getCommandDescription();
     }	         
     
@@ -144,7 +148,6 @@ implements EuclidianViewCE {
 		}		
 		return false;
 	}		
-
 	
 	/** 
 	 * Sets macro geos to the current state of algo geos.	

@@ -46,16 +46,18 @@ public class AlgoCircumferenceConic extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoCircumferenceConic";
 	}
 	
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = conic;
 
-		output = new GeoElement[1];
-		output[0] = circum;
+        super.setOutputLength(1);
+        super.setOutput(0, circum);
 		setDependencies();
 	}
 
@@ -70,6 +72,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	 * 
 	 * For all other cases circumference is undefined.
 	 */
+	@Override
 	protected final void compute() {
     	if (!conic.isDefined())
     		circum.setUndefined();

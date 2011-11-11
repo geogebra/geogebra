@@ -17,11 +17,7 @@ import geogebra.euclidian.EuclidianConstants;
 
 public class AlgoLineBisectorSegment extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoSegment s;  // input   
+    private GeoSegment s;  // input   
     private GeoLine  g;     // output        
     
     private GeoPoint midPoint;
@@ -40,31 +36,33 @@ public class AlgoLineBisectorSegment extends AlgoElement {
         g.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLineBisectorSegment";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_LINE_BISECTOR;
     }
     
-    
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = s;        
-        
-        output = new GeoElement[1];        
-        output[0] = g;        
+  
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }    
     
     GeoLine getLine() { return g; }
     GeoSegment getSegment() {return s;  }
     
-    
     // line through P normal to v
-    protected final void compute() { 
+    @Override
+	protected final void compute() { 
     	 GeoPoint A = s.getStartPoint();     
     	 GeoPoint B = s.getEndPoint();
     	
@@ -81,7 +79,8 @@ public class AlgoLineBisectorSegment extends AlgoElement {
         g.z = -(midPoint.x * g.x + midPoint.y * g.y)/2.0;     
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LineBisectorOfA",s.getLabel());

@@ -9,7 +9,6 @@ package geogebra.kernel;
 
 public class AlgoAffineRatio extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A, B, C; // input
     private GeoNumeric M; // output
 
@@ -25,12 +24,14 @@ public class AlgoAffineRatio extends AlgoElement {
         M.setLabel(label);
     }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAffineRatio";
     }
 
     // for AlgoElement
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = A;
         input[1] = B;
@@ -45,7 +46,8 @@ public class AlgoAffineRatio extends AlgoElement {
         return M;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         //Check if the points are aligned
         if (GeoPoint.collinear(A, B, C)){
         	if (B.isEqual(C)) {

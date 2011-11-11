@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 public class AlgoTake extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoNumeric m,n; //input
     private GeoList outputList; //output	
@@ -44,18 +43,20 @@ public class AlgoTake extends AlgoElement {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTake";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = inputList;
         input[1] = m;
         input[2] = n;
 
-        output = new GeoElement[1];
-        output[0] = outputList;
+        super.setOutputLength(1);
+        super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -63,7 +64,8 @@ public class AlgoTake extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	if (!m.isDefined() || !n.isDefined()) {
     		// return empty list
@@ -92,8 +94,9 @@ public class AlgoTake extends AlgoElement {
     	outputList.setDefined(true);
     	outputList.clear();
     	
-    	for (int i=start ; i<=end ; i++)
+    	for (int i=start ; i<=end ; i++) {
     		outputList.add(inputList.get(i - 1).copyInternal(cons));
+    	}
    }
   
 }

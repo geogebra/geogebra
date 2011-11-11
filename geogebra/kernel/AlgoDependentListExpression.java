@@ -34,7 +34,6 @@ import geogebra.main.Application;
  */
 public class AlgoDependentListExpression extends AlgoElement {
    
-	private static final long serialVersionUID = 1L;
 	private ExpressionNode root;  // input
     private GeoList list;     // output              
         
@@ -60,11 +59,13 @@ public class AlgoDependentListExpression extends AlgoElement {
         compute();      
     }   
     
+	@Override
 	public String getClassName() {
 		return "AlgoDependentListExpression";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = root.getGeoElementVariables();
         
@@ -84,7 +85,8 @@ public class AlgoDependentListExpression extends AlgoElement {
     ExpressionNode getExpression() { return root; }
     
     // evaluate the current value of the arithmetic tree
-    protected final void compute() {    
+    @Override
+	protected final void compute() {    
 		// get resulting list of ExpressionNodes		    	
     	ExpressionValue evlist = root.evaluate();
     	MyList myList = (evlist instanceof MyList)? (MyList)evlist: ((GeoList)evlist).getMyList();
@@ -253,21 +255,22 @@ public class AlgoDependentListExpression extends AlgoElement {
 					geoFun.set(fun);					
 					geo = geoFun;
 				}
-				list.add(geo);
-				
+				list.add(geo);		
 			}
 			else {
 				Application.debug("unsupported list addition: "+element.getClass()+"");
-
 			}
 		}
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // was defined as e.g.  L = 3 * {a, b, c}  
         return root.toString();
     }
-    final public String toRealString() {
+    
+    @Override
+	final public String toRealString() {
         // was defined as e.g.  L = 3 * {a, b, c}  
         return root.toRealString();
     }

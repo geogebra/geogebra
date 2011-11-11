@@ -420,6 +420,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		// create a popup button and add the list to it
 		btInsertGeo = new PopupMenuButton(app){
 			// update the object list before opening the popup
+			@Override
 			public boolean prepareToShowPopup(){
 				geoList.setListData(getGeoObjectList());
 				int rowCount = Math.min(8,geoList.getModel().getSize());
@@ -434,8 +435,6 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 
 	};
-
-
 
 
 
@@ -461,6 +460,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		recentSymbolTable.setShowSelection(false);
 
 		recentSymbolTable.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				insertString(recentSymbolList.get(recentSymbolTable.getSelectedIndex()), textInputDialog.isLaTeX);
 			}
@@ -492,8 +492,6 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 
 
-
-
 	//=============================================================
 	//      Getters/Setters
 	//=============================================================
@@ -502,6 +500,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		setLabels(app.getPlain("Text"));
 	}
 
+	@Override
 	public void setLabels(String title) {
 
 		if(isIniting) return;
@@ -606,13 +605,12 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 
 
-
-
 	//=============================================================
 	//      Event handlers
 	//=============================================================
 
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -667,7 +665,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		}			
 	}
 
-
+	@Override
 	public void setVisible(boolean isVisible) {	
 		if(!isVisible ){
 			if(textPreviewer != null){
@@ -678,6 +676,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	}
 
 	private class MyKeyListener extends KeyAdapter{
+		@Override
 		public void keyPressed(KeyEvent e){
 			if((e.isControlDown()||Application.isControlDown(e)) && e.getKeyCode() == KeyEvent.VK_SPACE){
 				if(isLaTeX)
@@ -685,7 +684,6 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 			}
 		}
 	}
-
 
 	public void updateFonts(){
 		GuiManager.setFontRecursive(this, app.getPlainFont());
@@ -695,9 +693,6 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		textPreviewer.updateFonts();
 		pack();
 	}
-	
-	
-	
 	
 	
 
@@ -729,8 +724,8 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	}
 
 
+	@Override
 	public void insertGeoElement(GeoElement geo) {
-
 		if (geo == null) return;
 
 		Document d = editor.insertDynamicText(geo.getLabel(), this);
@@ -738,9 +733,6 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		editor.requestFocus();
 		return;
 	}
-
-
-
 
 
 
@@ -846,9 +838,4 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		}   
 	}
 
-
-
-
-
 }
-

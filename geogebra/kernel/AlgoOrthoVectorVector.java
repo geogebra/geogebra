@@ -21,7 +21,6 @@ package geogebra.kernel;
 import geogebra.euclidian.EuclidianConstants;
 
 
-
 /**
  *
  * @author  Markus
@@ -29,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoOrthoVectorVector extends AlgoElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoVector v; // input
+    private GeoVector v; // input
     private GeoVector  n;     // output       
         
     /** Creates new AlgoOrthoVectorVector */
@@ -57,22 +52,25 @@ public class AlgoOrthoVectorVector extends AlgoElement {
         n.setLabel(label);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoOrthoVectorVector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ORTHOGONAL;
     }
     
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];        
         input[0] = v;
         
-        output = new GeoElement[1];        
-        output[0] = n;        
+        super.setOutputLength(1);
+        super.setOutput(0, n);
         setDependencies(); // done by AlgoElement
     }    
     
@@ -80,15 +78,16 @@ public class AlgoOrthoVectorVector extends AlgoElement {
     GeoVector getv() { return v; }
     
     // line through P normal to v
-    protected final void compute() {        
+    @Override
+	protected final void compute() {        
         n.x = -v.y;
         n.y = v.x;        
     }   
     
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("VectorPerpendicularToA",v.getLabel());
-
     }
 }

@@ -22,17 +22,9 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoPointInRegion extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private Region region; // input
     private GeoPoint P; // output       
 
-    /**
-     * @param cons
-     * @param label
-     * @param region
-     * @param x
-     * @param y
-     */
     AlgoPointInRegion(
         Construction cons,
         String label,
@@ -51,16 +43,19 @@ public class AlgoPointInRegion extends AlgoElement {
         P.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoPointInRegion";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POINT_ON_OBJECT;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = region.toGeoElement();
 
@@ -83,7 +78,8 @@ public class AlgoPointInRegion extends AlgoElement {
         return region;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined()) {	    	
 	        region.regionChanged(P);
 	        P.updateCoords();
@@ -92,7 +88,8 @@ public class AlgoPointInRegion extends AlgoElement {
     	}
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("PointInA",input[0].getLabel());

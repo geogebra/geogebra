@@ -146,6 +146,12 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 			}
 			return false;
 		}
+
+		@Override
+		public int hashCode() {
+			// TODO Auto-generated method stub
+			return super.hashCode();
+		}
 	}
 
 	/**

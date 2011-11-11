@@ -28,7 +28,6 @@ import geogebra.util.Unicode;
  */
 public class AlgoSimplifyText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoText textIn;  // input
     private GeoText text;     // output              
         
@@ -42,30 +41,30 @@ public class AlgoSimplifyText extends AlgoElement {
         // compute value of dependent number
         compute();      
         text.setLabel(label);
-    }   
+    }     
     
-    
+	@Override
 	public String getClassName() {
 		return "AlgoSimplifyText";
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		
-
 		input = new GeoElement[1];
 		input[0] = textIn;				
-
-        
-        output = new GeoElement[1];        
-        output[0] = text;        
+                
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoText getGeoText() { return text; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {    
+    @Override
+	protected final void compute() {    
     	
     	// eg Simplify["+1x++x--x+-1x-+1x++x"]
     	
@@ -106,7 +105,6 @@ public class AlgoSimplifyText extends AlgoElement {
     	// replace "-" with unicode minus
     	ret = ret.replaceAll(" -", " "+Unicode.minus);
     	
-    	text.setTextString(ret);
-    	
+    	text.setTextString(ret); 	
     }         
 }

@@ -22,11 +22,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 		
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Creates new rectangle sum
 	 * @param cons construction
 	 * @param label label
@@ -46,6 +41,7 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 		super(f, a, b, n, d, AlgoFunctionAreaSums.TYPE_RECTANGLESUM);		
 	}
 	
+	@Override
 	public String getClassName() {
 		return "AlgoSumRectangle";
 	}

@@ -22,7 +22,6 @@ import geogebra.util.GgbMat;
 
 public class AlgoReducedRowEchelonForm extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
 
@@ -43,16 +42,18 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoReducedRowEchelonForm";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
         setOutputLength(1);
-        setOutput(0,outputList);
+        setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -64,7 +65,8 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	   		
    		GgbMat matrix = new GgbMat(inputList);
    		
@@ -76,9 +78,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
    		matrix.reducedRowEchelonFormImmediate();
    		// ReducedRowEchelonForm[{{1,2},{3,4}}]
    		
-   		outputList = matrix.getGeoList(outputList, cons);
-       
-    }
-        
+   		outputList = matrix.getGeoList(outputList, cons);      
+    }        
      
 }

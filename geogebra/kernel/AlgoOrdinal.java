@@ -14,7 +14,6 @@ package geogebra.kernel;
 
 public class AlgoOrdinal extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoNumeric n;  // input
     protected GeoText text;     // output           
         
@@ -32,24 +31,28 @@ public class AlgoOrdinal extends AlgoElement {
       text.setLabel(label);
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoOrdinal";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[1];
         input[0] = n;
-        
-        output = new GeoElement[1];        
-        output[0] = text;        
+          
+        super.setOutputLength(1);
+        super.setOutput(0, text);
         setDependencies(); // done by AlgoElement
     }    
     
-    protected GeoText getResult() { return text; }        
-
+    protected GeoText getResult() { 
+    	return text; 
+    }        
       
-    protected void compute() {
+    @Override
+	protected void compute() {
     	
     	if (!n.isDefined()) {
     		text.setTextString("");

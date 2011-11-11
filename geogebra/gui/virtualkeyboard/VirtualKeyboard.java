@@ -10,8 +10,6 @@ the Free Software Foundation.
 
  */
 
-
-
 package geogebra.gui.virtualkeyboard;
 
 import geogebra.gui.SetLabels;
@@ -54,8 +52,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-
-
 /**
  * @author Michael Borcherds
  * (based loosely on http://sourceforge.net/projects/virtualkey/ )
@@ -69,8 +65,6 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 	 * List with supported languages.
 	 */
 	
-	
-
 
 	//   private static Boolean Upper     = false;
 
@@ -210,10 +204,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 
 
 		// Event Handling
-		getContentPane().addComponentListener(new ComponentAdapter()
-		{
-			public void componentResized(ComponentEvent e)
-			{
+		getContentPane().addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
 				windowResized();
 			}
 		});
@@ -394,7 +387,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		setColor(MathButton);
 	}
 
-	private void setColor(JToggleButton tb) {
+	private static void setColor(JToggleButton tb) {
 		if (tb.isSelected())
 			tb.setBackground(Color.cyan);
 		else
@@ -828,8 +821,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 
 			Buttons[i][j].addMouseListener(new MouseAdapter() 
 			{
-				public void mousePressed(MouseEvent e)
-				{
+				@Override
+				public void mousePressed(MouseEvent e) {
 					String text = Buttons[i][j].getText();
 					if (text.equals("\u2190")) {
 						startAutoRepeat("<left>");
@@ -843,12 +836,14 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 						startAutoRepeat("<backspace>");
 					} 
 					//Application.debug(Buttons[i][j].getText());
-				}      
-				public void mouseReleased(MouseEvent e)
-				{
+				}    
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
 					stopAutoRepeat();
 				}
 
+				@Override
 				public void mouseExited(MouseEvent e) {
 					stopAutoRepeat();
 

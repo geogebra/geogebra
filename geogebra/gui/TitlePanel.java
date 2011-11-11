@@ -50,7 +50,7 @@ public class TitlePanel extends JPanel {
 
 	private JFormattedTextField dateField;
 
-	private ArrayList listeners = new ArrayList();
+	private ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
 
 	private Construction cons;
 
@@ -103,6 +103,7 @@ public class TitlePanel extends JPanel {
 		dateField.addActionListener(lst);
 
 		FocusAdapter focusListener = new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e) {
 				fireTextFieldUpdate((JTextField) e.getSource());
 			}
@@ -202,7 +203,7 @@ public class TitlePanel extends JPanel {
 	private void notifyListeners() {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++) {
-			((ActionListener) listeners.get(i))
+			listeners.get(i)
 					.actionPerformed(new ActionEvent(this,
 							ActionEvent.ACTION_PERFORMED, "TitleChanged"));
 		}

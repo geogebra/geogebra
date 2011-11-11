@@ -21,7 +21,6 @@ package geogebra.kernel;
 
 public class AlgoRemoveUndefined extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
@@ -43,16 +42,18 @@ public class AlgoRemoveUndefined extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoRemoveUndefined";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
         setOutputLength(1);
-        setOutput(0,outputList);
+        setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
@@ -64,7 +65,8 @@ public class AlgoRemoveUndefined extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
     	size = inputList.size();
     	

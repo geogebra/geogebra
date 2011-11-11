@@ -23,7 +23,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoVectorND;
 
 
-
 /**
  * Vector between two points P and Q.
  * 
@@ -32,7 +31,6 @@ import geogebra.kernel.kernelND.GeoVectorND;
  */
 public class AlgoVector extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPointND P, Q;   // input
     private GeoVectorND  v;     // output     
         
@@ -64,45 +62,36 @@ public class AlgoVector extends AlgoElement {
         compute();                          
         v.setLabel(label);
     }        
-    
-    
-    
+        
     protected GeoVectorND createNewVector(){
     	
-    	return new GeoVector(cons);
-    	
-    }
-    
-    
+    	return new GeoVector(cons);   	
+    }   
+   
     protected GeoPointND newStartPoint(){
     	
     	return new GeoPoint((GeoPoint) P);
- 
     }
     
-    
-    
-    
-    
-    
-    
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoVector";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_VECTOR;
     }
-
     
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) P;
         input[1] = (GeoElement) Q;
         
-        output = new GeoElement[1];        
-        output[0] = (GeoElement) v;        
+        super.setOutputLength(1);
+        super.setOutput(0, (GeoElement) v);
         setDependencies(); // done by AlgoElement
     }           
     
@@ -111,7 +100,8 @@ public class AlgoVector extends AlgoElement {
     public GeoPointND getQ() { return Q; }
     
     // calc the vector between P and Q    
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         if (P.isFinite() && Q.isFinite()) {     
         	     	
            	setCoords();

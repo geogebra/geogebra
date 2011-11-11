@@ -8,7 +8,6 @@ package geogebra.kernel;
  */
 public class AlgoCurvatureCurve extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A; // input
 	private GeoCurveCartesian f;
     private GeoNumeric K; //output
@@ -34,18 +33,20 @@ public class AlgoCurvatureCurve extends AlgoElement {
         compute();
     }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCurvatureCurve";
     }
 
     // for AlgoElement
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = A;
         input[1] = f;
        
-        output = new GeoElement[1];
-        output[0] = K;
+        super.setOutputLength(1);
+        super.setOutput(0, K);
         setDependencies(); // done by AlgoElement
     }
     
@@ -53,7 +54,8 @@ public class AlgoCurvatureCurve extends AlgoElement {
         return K;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (f.isDefined()) {	    	
 	    	double t = f.getClosestParameter(A, f.getMinParameter());	    		        
 	        K.setValue( f.evaluateCurvature(t) );

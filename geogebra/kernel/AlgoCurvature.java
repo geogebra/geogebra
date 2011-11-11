@@ -10,7 +10,6 @@ package geogebra.kernel;
 
 public class AlgoCurvature extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint A; // input
 	private GeoFunction f;
     private GeoNumeric K; //output
@@ -36,18 +35,20 @@ public class AlgoCurvature extends AlgoElement {
         compute();
     }
  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoCurvature";
     }
 
     // for AlgoElement
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = A;
         input[1] = f;
        
-        output = new GeoElement[1];
-        output[0] = K;
+        super.setOutputLength(1);
+        super.setOutput(0, K);
         setDependencies(); // done by AlgoElement
     }
     
@@ -55,13 +56,15 @@ public class AlgoCurvature extends AlgoElement {
         return K;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (f.isDefined())
     		K.setValue( f.evaluateCurvature(A.inhomX) );
     	else     	
     		K.setUndefined();    	
     }   
     
+	@Override
 	public void remove() {  
     	super.remove();  
     }

@@ -17,10 +17,7 @@ public class confParameter {
 
    /**
     * This method sets confParameter.Name
-    *
-    * @return void
     */
-
    public void setName(String Name) {
       this.Name = Name;
    }
@@ -31,17 +28,13 @@ public class confParameter {
     *
     * @return java.lang.String
     */
-
    public String getParam() {
       return this.Param;
    }
 
    /**
     * This method sets confParameter.Parameter
-    *
-    * @return void
     */
-
    public void setParam(String Param) {
       this.Param = Param;
    }

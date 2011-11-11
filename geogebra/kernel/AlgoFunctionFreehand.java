@@ -22,21 +22,18 @@ import geogebra.kernel.arithmetic.FunctionVariable;
  */
 public class AlgoFunctionFreehand extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; // input    
     private GeoFunction g; // output g     
            
     /** Creates new AlgoDependentFunction */
     public AlgoFunctionFreehand(Construction cons, String label, 
-    		GeoList f) 
-    {
+    		GeoList f) {
         this(cons, f);
         g.setLabel(label);
     }
     
     public AlgoFunctionFreehand(Construction cons, 
-    		GeoList f) 
-    {
+    		GeoList f) {
         super(cons);
         this.inputList = f;
             
@@ -51,18 +48,19 @@ public class AlgoFunctionFreehand extends AlgoElement {
         compute();
     }
     
-  
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFunctionFreehand";
     }   
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        super.setOutputLength(1);
+        super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
@@ -70,7 +68,8 @@ public class AlgoFunctionFreehand extends AlgoElement {
         return g;
     }
     
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
         if (!(inputList.isDefined()) || inputList.getElementType() != GeoElement.GEO_CLASS_NUMERIC || inputList.size() < 4){ 
             g.setUndefined();
             return;
@@ -81,15 +80,13 @@ public class AlgoFunctionFreehand extends AlgoElement {
         Function fun = new Function(expr, X);
         g.setFunction(fun);
         g.setDefined(true);
-        g.setInterval(((GeoNumeric)inputList.get(0)).getDouble(), ((GeoNumeric)inputList.get(1)).getDouble());
-       
+        g.setInterval(((GeoNumeric)inputList.get(0)).getDouble(), ((GeoNumeric)inputList.get(1)).getDouble());    
     }
     
-
-    final public String toString() {
+    @Override
+	final public String toString() {
     	if (inputList.size() < 4 || inputList.getElementType() != GeoElement.GEO_CLASS_NUMERIC) return app.getPlain("undefined");
         return app.getPlain("FreehandFunctionOnIntervalAB",kernel.format(((GeoNumeric)inputList.get(0)).getDouble()), kernel.format(((GeoNumeric)inputList.get(1)).getDouble()));
-
     }
 
 }

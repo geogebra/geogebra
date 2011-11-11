@@ -1,6 +1,5 @@
 package geogebra.gui.menubar;
 
-import geogebra.gui.OptionsAdvanced;
 import geogebra.gui.layout.Layout;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.Kernel;

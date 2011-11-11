@@ -28,11 +28,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoConicFromCoeffList extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoList L; // input  A list of 6 coeffs      
+    private GeoList L; // input  A list of 6 coeffs      
     private GeoConic conic; // output             
 
 
@@ -45,16 +41,19 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoConicFivePoints";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_CONIC_FIVE_POINTS;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[] {L};
 
         setOutputLength(1);
@@ -66,12 +65,13 @@ public class AlgoConicFromCoeffList extends AlgoElement {
     GeoConic getConic() {
         return conic;
     }
+    
     GeoList getCoeffList() {
         return L;
     }
 
-
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 		conic.setCoeffs(((GeoNumeric)L.get(0)).getDouble(),
 				((GeoNumeric)L.get(3)).getDouble(),
 				((GeoNumeric)L.get(1)).getDouble(),
@@ -80,10 +80,8 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 				((GeoNumeric)L.get(2)).getDouble());
     }
 
-
-
-
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("ConicFromCoeffList",L.getLabel());

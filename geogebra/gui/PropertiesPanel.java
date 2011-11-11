@@ -118,7 +118,7 @@ import javax.swing.event.ChangeListener;
 	/**
 	 * PropertiesPanel for displaying all gui elements for changing properties
 	 * of currently selected GeoElements. 
-	 * @see update()
+	 * @see #update(Graphics)
 	 * PropertiesPanel
 	 * @author Markus Hohenwarter
 	 */

@@ -37,7 +37,8 @@ public class AlgoDenominator extends AlgoNumerator {
     	return node.right;
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDenominator";
     }
 }

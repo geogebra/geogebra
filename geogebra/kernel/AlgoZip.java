@@ -28,7 +28,6 @@ import geogebra.main.Application;
  */
 public class AlgoZip extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement expression; // input expression dependent on var
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
@@ -46,12 +45,7 @@ public class AlgoZip extends AlgoElement {
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
 	 * 
-	 * @param cons
-	 * @param label
-	 *            label for the list
-	 * @param expression
-	 * @param vars
-	 * @param over
+	 * @param label label for the list
 	 */
 	AlgoZip(Construction cons, String label, GeoElement expression,
 			GeoElement[] vars, GeoList[] over) {
@@ -62,11 +56,6 @@ public class AlgoZip extends AlgoElement {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
-	 * 
-	 * @param cons
-	 * @param expression
-	 * @param vars
-	 * @param over
 	 */
 	AlgoZip(Construction cons, GeoElement expression, GeoElement[] vars,
 			GeoList[] over) {
@@ -85,14 +74,15 @@ public class AlgoZip extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoZip";
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1 + 2 * varCount];
 		input[0] = expression;
@@ -110,6 +100,7 @@ public class AlgoZip extends AlgoElement {
 	 * Returns contents of input array excluding var (var is not input object,
 	 * but must be in input array because of GetCommandDescription method).
 	 */
+	@Override
 	GeoElement[] getInputForUpdateSetPropagation() {
 		GeoElement[] realInput = new GeoElement[varCount + 1];
 		realInput[0] = expression;
@@ -128,6 +119,7 @@ public class AlgoZip extends AlgoElement {
 		return list;
 	}
 
+	@Override
 	protected final void compute() {
 		if (updateRunning)
 			return;
@@ -353,6 +345,7 @@ public class AlgoZip extends AlgoElement {
 		}
 	}
 
+	@Override
 	final public String toString() {
 		return getCommandDescription();
 	}

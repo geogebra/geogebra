@@ -21,7 +21,6 @@ package geogebra.kernel;
 
 public class AlgoTakeString extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoText inputText; //input
 	private GeoNumeric n, m; //input
     private GeoText outputText; //output	
@@ -42,11 +41,13 @@ public class AlgoTakeString extends AlgoElement {
         outputText.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoTakeString";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
     	
     	if (n != null) {
 	        input = new GeoElement[3];
@@ -60,8 +61,8 @@ public class AlgoTakeString extends AlgoElement {
             input[0] = inputText;
         }    		
 
-        output = new GeoElement[1];
-        output[0] = outputText;
+        super.setOutputLength(1);
+        super.setOutput(0, outputText);
         setDependencies(); // done by AlgoElement
     }
 
@@ -69,7 +70,8 @@ public class AlgoTakeString extends AlgoElement {
         return outputText;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 
     	if (!m.isDefined() || !n.isDefined()) {
     		outputText.setTextString("");

@@ -17,7 +17,6 @@ import geogebra.util.Unicode;
 
 public class AlgoFractionText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoNumeric num; //input
     private GeoText text; //output	
     
@@ -41,11 +40,13 @@ public class AlgoFractionText extends AlgoElement {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoFractionText";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = num;
 
@@ -58,7 +59,8 @@ public class AlgoFractionText extends AlgoElement {
         return text;
     }
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
 		if (input[0].isDefined()) {
 			frac = DecimalToFraction(num.getDouble(),Kernel.STANDARD_PRECISION);
 			

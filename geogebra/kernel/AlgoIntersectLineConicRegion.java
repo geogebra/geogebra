@@ -29,8 +29,6 @@ import java.awt.Color;
  */
 public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {    
 
-	private static final long serialVersionUID = 1L;
-	
 	private GeoLine[] lines ; //output
 	private int numberOfPoints;
 	private int numberOfLineParts;
@@ -43,22 +41,24 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	private GeoPoint[] outputPoints;
 	private GeoLine[] outputLines;
 	
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoIntersectLineConicRegion";
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECTION_CURVE;
     }
-    
-    
+       
     AlgoIntersectLineConicRegion(Construction cons, String[] labels, GeoLine g, GeoConic c) {
         super(cons, g, c);
         
         //setLabels(labels);
     }
     
-    protected void initElements() {
+    @Override
+	protected void initElements() {
     	super.initElements();
    	
         for (int i = 0; i<P.length; i++) {
@@ -100,7 +100,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	protected GeoLine[] getIntersectionLines() {
 		GeoLine[] ret = new GeoLine[numberOfOutputLines];
 		for (int i = 0; i<numberOfOutputLines; i++){
-			ret[i] = (GeoLine)output[numberOfPoints+i];
+			ret[i] = (GeoLine) super.getOutput(numberOfPoints + i);
 		}
 		return ret;
 	}
@@ -108,9 +108,12 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	public int getNumOfLineParts() {
 		return numberOfLineParts;
 	}
+	
 	public int getOutputSize() {
 		return numberOfOutputLines;
 	}
+	
+	@Override
 	protected void compute() {
         super.compute();
         
@@ -309,21 +312,21 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	}
 
 	private void refreshOutput() {
-        output = new GeoElement[numberOfPoints+numberOfOutputLines];
+        super.setOutputLength(numberOfPoints + numberOfOutputLines);
         outputPoints =  new GeoPoint[numberOfPoints];
         outputLines =  new GeoLine[numberOfOutputLines];
         
         int index=0;
         for (int i = 0; i<P.length; i++) {
         	if (P[i].isDefined()) {
-        		output[index]=P[i];
+        		super.setOutput(index, P[i]);
         		outputPoints[index]=P[i];
         		index++;
         	}
         }
         for (int i = 0; i<lines.length; i++) {
         	if (lines[i].isDefined()) {
-        		output[index] = lines[i];
+        		super.setOutput(index, lines[i]);
         		outputLines[index-numberOfPoints]=lines[i];
         		index++;
         	}
@@ -331,7 +334,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	}
 
 	// for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = c;
         input[1] = g;
@@ -341,7 +345,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         setDependencies(); // done by AlgoElement
     }    
     
-	private boolean inOpenInterval(double t, double a, double b) {
+	private static boolean inOpenInterval(double t, double a, double b) {
 		return Kernel.isGreater(b, t) && Kernel.isGreater(t, a);
 	}
 	

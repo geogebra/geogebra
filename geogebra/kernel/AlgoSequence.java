@@ -29,7 +29,6 @@ import geogebra.main.Application;
  */
 public class AlgoSequence extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
 	private NumberValue  var_from, var_to, var_step;
@@ -99,8 +98,7 @@ public class AlgoSequence extends AlgoElement {
     	list = new GeoList(cons);       
         setInputOutput(); // for AlgoElement
                             
-        compute();
-    
+        compute();  
     }
 
     /**
@@ -120,12 +118,14 @@ public class AlgoSequence extends AlgoElement {
         list.setLabel(label);
 	}
 
+	@Override
 	public String getClassName() {
         return "AlgoSequence";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	if(isSimple){
     		input = new GeoElement[1];
     		input[0]=var_to_geo;
@@ -154,7 +154,8 @@ public class AlgoSequence extends AlgoElement {
      *  @author Zbynek Konecny
      *  @version 2010-05-13
      */
-    GeoElement[] getInputForUpdateSetPropagation() {
+    @Override
+	GeoElement[] getInputForUpdateSetPropagation() {
     	if(isSimple)
     		return input;
     	GeoElement[] realInput = new GeoElement[input.length-1];
@@ -176,7 +177,8 @@ public class AlgoSequence extends AlgoElement {
         return list;
     }      
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(isSimple){
     		computeSimple();
     		return;
@@ -279,7 +281,7 @@ public class AlgoSequence extends AlgoElement {
 				addElement(i);
 				
 				currentVal += step;
-				if (kernel.isInteger(currentVal)) {
+				if (Kernel.isInteger(currentVal)) {
 					currentVal = Math.round(currentVal);
 				}
 				i++;
@@ -404,7 +406,7 @@ public class AlgoSequence extends AlgoElement {
 			listElement.update();
 			
 			currentVal += step;
-			if (kernel.isInteger(currentVal)) {
+			if (Kernel.isInteger(currentVal)) {
 				currentVal = Math.round(currentVal);
 			}
 			i++;
@@ -438,8 +440,8 @@ public class AlgoSequence extends AlgoElement {
 		}
     }
     
-
-    final public String toString() {
+    @Override
+	final public String toString() {
         return getCommandDescription();
     }
 }

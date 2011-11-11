@@ -25,8 +25,6 @@ import geogebra.kernel.cas.AlgoIntegralDefinite;
  */
 public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInformation{
 
-
-	private static final long serialVersionUID = 1L;
 	private GeoFunction f, g; // input
 	private NumberValue a, b; //input
 	private GeoBoolean evaluate; //input
@@ -42,7 +40,6 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 		this(cons, label,f, g, a, b, null);
         n.setLabel(label);
 	}
-	
 	
 	public AlgoIntegralFunctions(Construction cons, String label, 
 							GeoFunction f, GeoFunction g,
@@ -85,7 +82,7 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 		this.evaluate = evaluate;
 	}
 
-
+	@Override
 	public String getClassName() {
 		return "AlgoIntegralFunctions";
 	}
@@ -100,6 +97,7 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
     }
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		if(evaluate == null){
 		input = new GeoElement[4];
@@ -142,6 +140,7 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 		return b;
 	}
 	
+	@Override
 	protected final void compute() {	
 		if (!f.isDefined() || !g.isDefined() || !ageo.isDefined() || !bgeo.isDefined()) {
 			n.setUndefined();
@@ -159,7 +158,7 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 		n.setValue(intF.getValue() - intG.getValue());		
 	}
 
-
+	@Override
 	final public String toString() {
 		return getCommandDescription();
 	}

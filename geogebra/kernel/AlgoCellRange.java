@@ -25,15 +25,14 @@ import java.util.ArrayList;
  */
 public class AlgoCellRange extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;		
-    private GeoList geoList;     // output list of range    
+	private GeoList geoList;     // output list of range    
     private GeoElement startCell, endCell; // input cells
     private String toStringOutput;
            
     /**
      * Creates an algorithm that produces a list of GeoElements for a range of cells in the spreadsheet.
-     * @param startCell: e.g. A1
-     * @param endCell: e.g. B2
+     * @param startCell e.g. A1
+     * @param endCell e.g. B2
      */
     public AlgoCellRange(Construction cons, String label, GeoElement startCell, GeoElement endCell) {    	    
     	super(cons);    
@@ -45,10 +44,12 @@ public class AlgoCellRange extends AlgoElement {
         geoList.setLabel(label);    	
     }   
     
+	@Override
 	public String getClassName() {
 		return "Expression";
 	}
 	
+	@Override
 	public void remove() {      
        super.remove();                                     
        clearGeoList();    
@@ -64,6 +65,7 @@ public class AlgoCellRange extends AlgoElement {
 	}
         
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		// TODO: change to support $A1, just get the spreadsheet coords based on label
 		
@@ -75,7 +77,7 @@ public class AlgoCellRange extends AlgoElement {
     	toStringOutput = startLabel + ":" + endLabel;
     	
     	// build list with cells in range
-    	ArrayList listItems = initCellRangeList(startCoords, endCoords);   
+    	ArrayList<GeoElement> listItems = initCellRangeList(startCoords, endCoords);   
     	
     	// create dependent geoList for cells in range
     	AlgoDependentList algo = new AlgoDependentList(cons, listItems, true);
@@ -87,8 +89,8 @@ public class AlgoCellRange extends AlgoElement {
 		// needed for XML saving only
         input = algo.input;
 		
-        output = new GeoElement[1];        
-        output[0] = geoList;  
+        super.setOutputLength(1);
+        super.setOutput(0, geoList);
         
         setDependencies();    
         
@@ -106,8 +108,8 @@ public class AlgoCellRange extends AlgoElement {
      * @param startCoords
      * @param endCoords
      */
-    private ArrayList initCellRangeList(Point startCoords, Point endCoords) { 
-    	ArrayList listItems = new ArrayList();   	    					
+    private ArrayList<GeoElement> initCellRangeList(Point startCoords, Point endCoords) { 
+    	ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();   	    					
     	
     	// check if we have valid spreadsheet coordinates
     	boolean validRange = startCoords != null && endCoords != null;
@@ -150,15 +152,18 @@ public class AlgoCellRange extends AlgoElement {
     }       
     
         
-    protected final void compute() {    	    	
+    @Override
+	protected final void compute() {    	    	
     	// nothing to do in compute, update is simply passed on to dependent algos
     }   
     
-    final public String getCommandDescription() {
+    @Override
+	final public String getCommandDescription() {
     	return toStringOutput;
     }
     
-    final public String toString() {
+    @Override
+	final public String toString() {
     	return toStringOutput;
     }        
     
@@ -169,8 +174,7 @@ public class AlgoCellRange extends AlgoElement {
     	Point endCoords = GeoElement.getSpreadsheetCoordsForLabel(endLabel);
 
     	Point[] ret = {startCoords, endCoords};
-    	return ret;
-    	
+    	return ret;  	
     }
     
 }

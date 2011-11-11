@@ -24,8 +24,6 @@ import org.apache.commons.math.special.Gamma;
 //import de.luschny.math.primes.IPrimeIteration;
 
 
-
-
 /**
  * Computes Binomial[a, b]
  * @author  Michael Borcherds 2007-10-09
@@ -33,10 +31,7 @@ import org.apache.commons.math.special.Gamma;
  */
 public class AlgoBinomial extends AlgoTwoNumFunction {
 
-	private static final long serialVersionUID = 1L;
-//	private static double POSITIVE_INFINITY=1f/0f;
-//	private static double LARGEST_INTEGER=9007199254740992d;
-//	private static double factorialtable[]=new double[101]; // initialised to zero;
+	
 	
 	/*
 	public static BigInteger binomial(int n, int k)
@@ -95,7 +90,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	  return binom;
 	}*/
 
-    private double Binom(double n, double r) {
+    private static double Binom(double n, double r) {
 		double INFINITY=Double.POSITIVE_INFINITY;
     	try {
     		if (n==0d && r==0d) return 1d;
@@ -117,11 +112,10 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     	}
     	catch (Exception e) {
     		return INFINITY;
-    	}
-	    
+    	}    
     }
     
-    private double BinomBig(double n, double r) {
+    private static double BinomBig(double n, double r) {
 	    if (r > n/2) r = n - r;
 	    BigInteger ncr=BigInteger.ONE,dd=BigInteger.ONE,nn,rr;
 //	    nn=BigInteger.valueOf((long)n);
@@ -142,7 +136,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	    return ncr.doubleValue();
 	  }
 	
-	private double BinomLog(double n, double r) {
+	private static double BinomLog(double n, double r) {
 		// exact for n<=37
 		// also  if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg Binom2(38,19) is wrong
@@ -153,11 +147,13 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	  super(cons, label, a, b); 
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoBinomial";
     }
     
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
 
     		double nCr=Binom(a.getDouble(), b.getDouble());

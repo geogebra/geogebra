@@ -26,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoAsymptote extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c; // input
+    private GeoConic c; // input
     private GeoLine[] asymptotes; // output          
 
     private GeoVec2D[] eigenvec;
@@ -49,7 +45,8 @@ public class AlgoAsymptote extends AlgoElement {
         GeoElement.setLabels(labels, asymptotes);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoAsymptote";
     }
 
@@ -75,11 +72,12 @@ public class AlgoAsymptote extends AlgoElement {
     }
 
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;
 
-        output = asymptotes;
+        super.setOutput(asymptotes);
         setDependencies(); // done by AlgoElement
     }
 
@@ -91,7 +89,8 @@ public class AlgoAsymptote extends AlgoElement {
     }
 
     // calc asymptotes
-    protected final void compute() {
+    @Override
+	protected final void compute() {
         // only hyperbolas have asymptotes
         switch (c.type) {
             case GeoConic.CONIC_HYPERBOLA :
@@ -124,7 +123,8 @@ public class AlgoAsymptote extends AlgoElement {
         }
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("AsymptoteToA",c.getLabel());

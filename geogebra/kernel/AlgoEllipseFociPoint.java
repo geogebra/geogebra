@@ -31,11 +31,7 @@ import geogebra.euclidian.EuclidianConstants;
  */
 public class AlgoEllipseFociPoint extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input    
+    private GeoPoint A, B, C; // input    
     private GeoConic ellipse; // output             
 
     AlgoEllipseFociPoint(
@@ -63,24 +59,27 @@ public class AlgoEllipseFociPoint extends AlgoElement {
             compute();
         }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoEllipseFociPoint";
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
     }
     
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = A;
         input[1] = B;
         input[2] = C;
 
-        output = new GeoElement[1];
-        output[0] = ellipse;
+        super.setOutputLength(1);
+        super.setOutput(0, ellipse);
         setDependencies(); // done by AlgoElement
     }
 
@@ -95,7 +94,8 @@ public class AlgoEllipseFociPoint extends AlgoElement {
     }
 
     // compute ellipse with foci A, B passing through C
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	
 		double xyA[] = new double[2];
 		double xyB[] = new double[2];
@@ -110,7 +110,8 @@ public class AlgoEllipseFociPoint extends AlgoElement {
         ellipse.setEllipseHyperbola(A, B, length/2);
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         return app.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(),B.getLabel(),C.getLabel());
     }
 }

@@ -26,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoLengthVector extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoVec3D v; // input
+    private GeoVec3D v; // input
     private GeoNumeric num; // output 
     
     private double [] coords = new double[2];
@@ -46,17 +42,19 @@ public class AlgoLengthVector extends AlgoElement {
         num.setLabel(label);
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLengthVector";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = v;
 
-        output = new GeoElement[1];
-        output[0] = num;
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }
 
@@ -68,12 +66,14 @@ public class AlgoLengthVector extends AlgoElement {
     }
 
     // calc length of vector v   
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	v.getInhomCoords(coords);
         num.setValue(GeoVec2D.length(coords[0], coords[1]));
     }
 
-    final public String toString() {
+    @Override
+	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("LengthOfA",v.getLabel());

@@ -37,7 +37,6 @@ implements Comparable<ConstructionElementCycle>{
 	private int cycleIndex;
 	
 	
-	
 	/** return the cycle constituted of P1 and P2
 	 * @param P1
 	 * @param P2
@@ -48,8 +47,8 @@ implements Comparable<ConstructionElementCycle>{
 		cycle.add(P1);cycle.add(P2);
 		return cycle;
 	}
-	
-	
+		
+	@Override
 	public boolean add(ConstructionElement ce){
 		
 		if (minID>ce.getID()){
@@ -80,8 +79,7 @@ implements Comparable<ConstructionElementCycle>{
 			else
 				direction = 1;
 		}
-	}
-	
+	}	
 
 	public int compareTo(ConstructionElementCycle cycle) {
 		
@@ -101,19 +99,16 @@ implements Comparable<ConstructionElementCycle>{
 		//find the first two different elements, return the difference or 0
 		for(int i=0; diff == 0 && i<size(); i++)
 			diff = getCycleNext().compareTo(cycle.getCycleNext());
-		return diff;
-		
-		
+		return diff;		
 	}
 	
+	@Override
 	public boolean equals(Object obj){
 		if (!(obj instanceof ConstructionElementCycle))
 			return false;
 		
 		return compareTo((ConstructionElementCycle) obj)==0;
 	}
-	
-
 
 	private void setCycleFirst() {
 		cycleIndex = minIndex;
@@ -131,9 +126,9 @@ implements Comparable<ConstructionElementCycle>{
 			cycleIndex=0;
 		
 		return ret;
-	}
+	}	
 	
-	
+	@Override
 	public String toString(){
 		
 		StringBuffer sb = new StringBuffer();
@@ -144,9 +139,7 @@ implements Comparable<ConstructionElementCycle>{
 			sb.append(" - ");
 		}
 		
-		return sb.toString();
-		
+		return sb.toString();	
 	}
-
 
 }

@@ -29,7 +29,6 @@ import geogebra.kernel.arithmetic.ExpressionNode;
  */
 public class AlgoText extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement geo;  // input
 	private GeoBoolean substituteVars, latex; // optional input
 	private GeoPoint startPoint, startPointCopy; // optional input
@@ -85,16 +84,18 @@ public class AlgoText extends AlgoElement {
 		compute();      
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoText";
 	}
 
+	@Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TEXT;
     }
 
-	
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 
 		int inputs = 1;
@@ -109,13 +110,14 @@ public class AlgoText extends AlgoElement {
 		if (substituteVars != null) input[i++] = substituteVars;
 		if (latex != null) input[i++] = latex;
 
-		output = new GeoElement[1];        
-		output[0] = text;        
+		super.setOutputLength(1);
+        super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
 	}    
 
 	public GeoText getGeoText() { return text; }
 
+	@Override
 	protected final void compute() {    
 		
 		// undefined text

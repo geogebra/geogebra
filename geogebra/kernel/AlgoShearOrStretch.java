@@ -22,7 +22,6 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 
 
-
 /**
  *
  * @author  Markus
@@ -30,11 +29,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoShearOrStretch extends AlgoTransformation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private MatrixTransformable out;   
+    private MatrixTransformable out;   
     private GeoElement inGeo, outGeo; 
     private GeoVec3D l;
     private NumberValue num;
@@ -78,13 +73,15 @@ public class AlgoShearOrStretch extends AlgoTransformation {
         	cons.registerEuclidianViewCE(this);
     }
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         if(shear)return "AlgoShear";
         return "AlgoStretch";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[num == null?2:3];
         input[0] = inGeo; 
         input[1] = l;
@@ -100,12 +97,13 @@ public class AlgoShearOrStretch extends AlgoTransformation {
      * Returns the resulting element
      * @return resulting element
      */
-    public GeoElement getResult() { 
+    @Override
+	public GeoElement getResult() { 
     	return outGeo; 
-    }       
-   
+    }         
 
-    protected final void compute() {
+    @Override
+	protected final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
@@ -168,14 +166,15 @@ public class AlgoShearOrStretch extends AlgoTransformation {
     
     @Override
     protected void transformLimitedPath(GeoElement a, GeoElement b){
-       	if(!(a instanceof GeoConicPart))
+       	if(!(a instanceof GeoConicPart)) {
        		super.transformLimitedPath(a, b);   	
-       	else
+       	} else {
        		super.transformLimitedConic(a, b);
-       
+       	}  
     }
     
-    protected boolean swapOrientation(boolean posOrientation){
+    @Override
+	protected boolean swapOrientation(boolean posOrientation){
  	   if(shear)
  		   return posOrientation;
  	   return posOrientation ^ (num.getDouble()<0);

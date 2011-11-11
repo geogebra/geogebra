@@ -13,13 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.main.Application;
-import geogebra.util.Unicode;
-import org.apache.commons.math.util.MathUtils;
-import org.mathpiper.builtin.functions.core.Gcd;
 
 public class AlgoSurdTextPoint extends AlgoSurdText {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint p; //input
     private GeoText text; //output	
     
@@ -44,11 +40,13 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
         compute();
     }
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoSurdTextPoint";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = p;
 
@@ -57,13 +55,14 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoText getResult() {
+    @Override
+	GeoText getResult() {
         return text;
     }
 
-    protected final void compute() {
-    	
-    	
+    @Override
+	protected final void compute() {
+    	  	
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
@@ -82,8 +81,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			
 		} else {
 			text.setUndefined();
-		}
-			
+		}			
 	}
     
 }

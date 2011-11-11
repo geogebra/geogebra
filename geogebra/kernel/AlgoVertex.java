@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-
 /**
  *
  * @author  Markus
@@ -27,11 +26,7 @@ package geogebra.kernel;
  */
 public class AlgoVertex extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GeoConic c;  // input
+    private GeoConic c;  // input
     private GeoPoint [] vertex;  // output        
                                   
     transient private double temp1, temp2;
@@ -66,23 +61,26 @@ public class AlgoVertex extends AlgoElement {
         compute();                      
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoVertex";
     }
     
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[1];
         input[0] = c;        
-        
-        output = vertex;        
+         
+        super.setOutput(vertex);
         setDependencies(); // done by AlgoElement
     }    
     
     GeoConic getConic() { return c; }
     GeoPoint [] getVertex() { return vertex; }    
         
-    protected final void compute() {  
+    @Override
+	protected final void compute() {  
         switch (c.type) {
             case GeoConic.CONIC_CIRCLE:                                      
             case GeoConic.CONIC_ELLIPSE:
@@ -127,7 +125,8 @@ public class AlgoVertex extends AlgoElement {
         }
     }
     
-    public final String toString() {
+    @Override
+	public final String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("VertexOfA",c.getLabel());

@@ -15,7 +15,6 @@ package geogebra.kernel;
 
 public class AlgoLetterToUnicode extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	protected GeoText text;  // input
     protected GeoNumeric num;     // output           
         
@@ -31,24 +30,26 @@ public class AlgoLetterToUnicode extends AlgoElement {
       num.setLabel(label);
     }   
   
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLetterToUnicode";
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input =  new GeoElement[1];
         input[0] = text;
-
-        
-        output = new GeoElement[1];        
-        output[0] = num;        
+     
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }    
     
     protected GeoNumeric getResult() { return num; }        
 
-    protected void compute()
+    @Override
+	protected void compute()
     {
       String t = text.getTextString();
       if (t == null || t.length() != 1)
