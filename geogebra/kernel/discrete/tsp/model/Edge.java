@@ -26,7 +26,6 @@ public class Edge {
 	/**
 	 * é ‚ç‚¹é–“ã�«ç›´ç·šã‚’æ��ç”»ã�—ã�¾ã�™ã€‚
 	 * @param g Graphics2D
-	 * @param num æ•°å­—
 	 */
 	public void draw(Graphics2D g) {
 		g.drawLine((int)this.start.getX(), (int)this.start.getY(), (int)this.end.getX(), (int)this.end.getY());

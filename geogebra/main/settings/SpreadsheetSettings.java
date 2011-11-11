@@ -25,14 +25,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private boolean allowToolTips = true;
 	private boolean equalsRequired; 
 
-
 	// file browser settings
 	private String defaultFile; 
 	private String initialURL;
 	private String initialFilePath; 
 	private int initialBrowserMode = -1;
 	private boolean isDefaultBrowser = true;
-
 
 	// row and column size
 	private HashMap<Integer,Integer> widthMap;
@@ -71,8 +69,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public void addWidth(int index, int width){
 		getWidthMap().put(index,width);
-		settingChanged();
-		
+		settingChanged();		
 	}
 	
 	public int preferredColumnWidth(){
@@ -81,10 +78,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public void setPreferredColumnWidth(int prefWidth){
 		this.preferredColumnWidth = prefWidth;
-		settingChanged();
-		
-	}
-	
+		settingChanged();		
+	}	
 	
 	public HashMap<Integer,Integer> getHeightMap(){
 		if(heightMap == null)
@@ -94,8 +89,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public void addHeight(int index, int height){
 		getHeightMap().put(index,height);
-		settingChanged();
-		
+		settingChanged();	
 	}
 	
 	public int preferredRowHeight(){
@@ -106,8 +100,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		this.preferredRowHeight = preferredRowHeight;
 		settingChanged();
 	}
-
-	
 	
 
 	//============================================
@@ -148,7 +140,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-
 	/**
 	 * @return the showRowHeader
 	 */
@@ -165,7 +156,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-
 
 	/**
 	 * @return the showColumnHeader
@@ -184,8 +174,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-
-
 	/**
 	 * @return the showVScrollBar
 	 */
@@ -203,7 +191,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-
 	/**
 	 * @return the showHScrollBar
 	 */
@@ -212,7 +199,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showTitleBar the showTitleBar to set
+	 * @param showHScrollBar the showHScrollBar to set
 	 */
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		if(this.showHScrollBar != showHScrollBar) {
@@ -220,7 +207,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-
 
 	/**
 	 * @return the showBrowserPanel
@@ -230,7 +216,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showTitleBar the showTitleBar to set
+	 * @param showBrowserPanel the showBrowserPanel to set
 	 */
 	public void setShowFileBrowser(boolean showBrowserPanel) {
 		if(this.showBrowserPanel != showBrowserPanel) {
@@ -238,7 +224,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-
 
 	/**
 	 * @return the allowSpecialEditor
@@ -257,7 +242,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-
 	/**
 	 * @return the allowToolTips
 	 */
@@ -266,7 +250,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showTitleBar the showTitleBar to set
+	 * @param allowToolTips the allowToolTips to set
 	 */
 	public void setAllowToolTips(boolean allowToolTips) {
 		if(this.allowToolTips != allowToolTips) {
@@ -274,8 +258,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-
-
 
 	/**
 	 * @return the equalsRequired
@@ -293,7 +275,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-
 
 	/**
 	 * @return the isColumnSelect
@@ -370,8 +351,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-	
-	
+		
 
 	//============================================
 	//  PreferredSize Settings
@@ -393,12 +373,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 	
-
 	
 	//============================================
 	//  File Browser Settings
 	//============================================
-
 
 	/**
 	 * @return the defaultFile
@@ -440,13 +418,14 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param defaultFile the defaultFile to set
+	 * @param initialFilePath the initialFilePath to set
 	 */
 	public void setInitialFilePath(String initialFilePath) {
 		if(this.initialFilePath != null && this.initialFilePath.equals(initialFilePath)) return;
 			this.initialFilePath = initialFilePath;
 			settingChanged();
 	}
+	
 	/**
 	 * @return the initialBrowserMode
 	 */
@@ -464,7 +443,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 	}
 
-
 	/**
 	 * @return the isDefaultBrowser
 	 */
@@ -481,10 +459,5 @@ public class SpreadsheetSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-
-
-
-
-
 
 }

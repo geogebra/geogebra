@@ -1,11 +1,9 @@
 package geogebra.gui.util;
 
-
 import geogebra.euclidian.DrawText;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.GeoText;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 import geogebra.util.ImageManager;
 
 import java.awt.BasicStroke;
@@ -23,7 +21,6 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
@@ -43,14 +40,12 @@ public class GeoGebraIcon {
 		super();
 	}
 
-
 	public static ImageIcon createEmptyIcon(int width, int height){
 
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		ImageIcon ic = new ImageIcon(image);
 		return ic;
 	}
-
 
 	public static ImageIcon createNullSymbolIcon(int width, int height){
 
@@ -69,7 +64,6 @@ public class GeoGebraIcon {
 		return ic;
 	}
 
-
 	public static ImageIcon createFileImageIcon(Application app, String fileName, float alpha, Dimension iconSize){
 
 		int h = iconSize.height;
@@ -82,7 +76,6 @@ public class GeoGebraIcon {
 
 		return ic;
 	}
-
 
 	public static ImageIcon createHGridIcon(Dimension iconSize){
 
@@ -105,7 +98,6 @@ public class GeoGebraIcon {
 		return ic;
 	}
 
-
 	public static ImageIcon createVGridIcon(Dimension iconSize){
 
 		int h = iconSize.height;
@@ -126,7 +118,6 @@ public class GeoGebraIcon {
 
 		return ic;
 	}
-
 
 	/**
 	 * Creates a 16x16 pixel icon representing a tree display of data
@@ -149,20 +140,11 @@ public class GeoGebraIcon {
 			}
 		}
 
-
-
 		ImageIcon ic = new ImageIcon(image);
 		//ensureIconSize(ic, iconSize);
 
 		return ic;
 	}
-
-
-
-
-
-
-
 
 	/**
 	 * Creates a 16x16 pixel icon to represent rightward opening/closing a list display of data 
@@ -192,8 +174,6 @@ public class GeoGebraIcon {
 		return ic;
 	}
 
-
-
 	/**
 	 * Creates a 16x16 pixel icon to represent leftward opening/closing a list display of data 
 	 */
@@ -222,7 +202,6 @@ public class GeoGebraIcon {
 		return ic;
 	}
 
-
 	public static ImageIcon createDownTriangleIcon(int height){
 		int width = 8;
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -240,7 +219,6 @@ public class GeoGebraIcon {
 		ImageIcon ic = new ImageIcon(image);
 		return ic;
 	}
-
 
 	public static ImageIcon createDownTriangleIconRollOver(int height){
 		int width = 8;
@@ -262,10 +240,6 @@ public class GeoGebraIcon {
 		ImageIcon ic = new ImageIcon(image);
 		return ic;
 	}
-
-	
-	
-
 	
 	public static ImageIcon createSymbolTableIcon(Font font, boolean isRollOver){
 
@@ -277,7 +251,6 @@ public class GeoGebraIcon {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setPaint(Color.DARK_GRAY);
 		
-		Color bgColor = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
 		font = font.deriveFont(Font.BOLD, s);
 		g2.setFont(font);	
 		g2.setColor(Color.DARK_GRAY);
@@ -289,12 +262,8 @@ public class GeoGebraIcon {
 		g2.drawLine(s-1,1, s-1, s-1);
 		g2.drawLine(1,s-1, s-1, s-1);
 		ImageIcon ic = new ImageIcon(image);
-		return ic;
-	
-		
-		
-	}
-	
+		return ic;	
+	}	
 	
 	private static void drawCenteredText(Graphics2D graphics, String text, int centerX, int centerY){
 		
@@ -320,14 +289,8 @@ public class GeoGebraIcon {
 		int textX = centerX - stringBounds.width/2;
 		int textY = centerY - visualBounds.height/2 - visualBounds.y;
 
-		graphics.drawString(text, textX, textY);
-
-		
-	}
-	
-	
-	
-	
+		graphics.drawString(text, textX, textY);		
+	}	
 
 	/**
 	 * Creates an icon for a popup list ---  two triangles pointing up and down 
@@ -381,8 +344,6 @@ public class GeoGebraIcon {
 
 		g2.fillPolygon(p);
 
-
-
 		/*
 		g2.drawLine(x, y, x+6, y);
 		g2.drawLine(x+1, y+1, x+5, y+1);
@@ -390,18 +351,9 @@ public class GeoGebraIcon {
 		g2.drawLine(x+3, y+3, x+3, y+3);
 		 */
 
-
-
 		ImageIcon ic = new ImageIcon(image);
 		return ic;
 	}
-
-
-
-
-
-
-
 
 	public static ImageIcon createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
 
@@ -442,10 +394,7 @@ public class GeoGebraIcon {
 		//ensureIconSize(ic, iconSize);
 
 		return ic;
-
 	}
-
-
 
 	public static ImageIcon createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor){
 
@@ -471,9 +420,7 @@ public class GeoGebraIcon {
 		//ensureIconSize(ic, iconSize);
 
 		return ic;
-
 	}
-
 
 	public static ImageIcon createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
 
@@ -504,17 +451,10 @@ public class GeoGebraIcon {
 		//ensureIconSize(ic, iconSize);
 
 		return ic;
-
 	}
 
 	/**
 	 * Creates a 16x16 icon to represent a cell grid background color
-	 * @param symbol
-	 * @param font
-	 * @param iconSize
-	 * @param fgColor
-	 * @param bgColor
-	 * @return
 	 */
 	public static ImageIcon createCellGridIcon( Color fgColor, Color bgColor){
 
@@ -536,9 +476,7 @@ public class GeoGebraIcon {
 		ImageIcon ic = new ImageIcon(image);
 		//ensureIconSize(ic, iconSize);
 		return ic;
-	}
-
-	
+	}	
 	
 	public static ImageIcon createStringIcon(String str, Font font, Dimension iconSize){
 		return createStringIcon( str,  font, false, false, true, iconSize, Color.BLACK, null);
@@ -576,10 +514,7 @@ public class GeoGebraIcon {
 		g2.drawString (str, x, mid_y);
 
 		return new ImageIcon(image);
-
 	}
-
-
 
 	public static ImageIcon createBracketIcon( String[] brackets,Font font, Dimension iconSize, Color fgColor, Color bgColor){
 		/*
@@ -614,16 +549,13 @@ public class GeoGebraIcon {
 		g2.drawString (brackets[0] + "::" + brackets[1], x, mid_y);
 
 		return new ImageIcon(image);
-
 	}
-
 
 	/**
 	 * Draw a LaTeX image in the icon.
 	 */
 	public static ImageIcon createLatexIcon(Application app, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
 		return new ImageIcon(TeXFormula.createBufferedImage(latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3, fgColor, bgColor));
-
 	}
 	
 	public static ImageIcon createLatexIcon(Application app, String latex, boolean serif, Color fgColor, Color bgColor, int height) {
@@ -632,9 +564,6 @@ public class GeoGebraIcon {
 		return ic;
 	}
 	
-	
-
-
 	public static ImageIcon createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor){
 
 		//TODO: PointStyleIcon as a stand alone class
@@ -645,10 +574,7 @@ public class GeoGebraIcon {
 		//ensureIconSize(ic, iconSize);
 
 		return ic;
-
 	}
-
-
 
 	public class PointStyleImage extends BufferedImage {
 
@@ -663,7 +589,6 @@ public class GeoGebraIcon {
 		private BasicStroke[] crossStrokes = new BasicStroke[10];
 		private int h,w;
 
-
 		public PointStyleImage(Dimension d, int pointStyle, int pointSize, Color fgColor, Color bgColor) {
 			super(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 			this.h = d.height;
@@ -672,7 +597,6 @@ public class GeoGebraIcon {
 			this.pointSize = pointSize;
 
 			drawPointStyle(fgColor, bgColor);
-
 		}
 
 
@@ -882,8 +806,6 @@ public class GeoGebraIcon {
 		}
 	}
 
-
-
 	public static ImageIcon ensureIconSize(ImageIcon icon, Dimension iconSize){
 
 		int h = iconSize.height;
@@ -913,7 +835,6 @@ public class GeoGebraIcon {
 
 		return icon;
 	}
-
 	
 	/**
 	 * Draws a LaTeX image in the given ImageIcon.
@@ -941,16 +862,11 @@ public class GeoGebraIcon {
 		draw.drawMultilineLaTeX(g2image, font, bgColor, bgColor);
 
 		latexIcon.setImage(image);
-
 	}
 
 	
 	/**
 	 * Creates a new ImageIcon by joining them together (leftIcon to rightIcon).
-	 * 
-	 * @param leftIcon
-	 * @param rightIcon
-	 * @return
 	 */
 	public static final ImageIcon joinIcons(ImageIcon leftIcon, ImageIcon rightIcon){
 
@@ -968,11 +884,6 @@ public class GeoGebraIcon {
 
 		ImageIcon ic = new ImageIcon(image);
 		return ic;
-	}
-
-	
-	
-	
-	
+	}	
 
 }

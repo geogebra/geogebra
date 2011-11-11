@@ -3,12 +3,9 @@ package geogebra3D.kernel3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
-
 
 /**
  * Algo for cylinder between two end points and given radius.
@@ -27,15 +24,6 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	protected GeoConic3D top;
 	private GeoQuadric3DLimited quadric;
 	
-
-	/**
-	 * 
-	 * @param c
-	 * @param label
-	 * @param origin
-	 * @param secondPoint
-	 * @param r
-	 */
 	public AlgoQuadricLimitedPointPointRadius(Construction c, String[] labels, GeoPointND origin, GeoPointND secondPoint, NumberValue r, int type) {
 		super(c);
 		
@@ -47,13 +35,10 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		quadric.setType(type);
 
 		input = new GeoElement[] {(GeoElement) origin,(GeoElement) secondPoint,(GeoElement) r};
-
 		
 		((GeoElement) origin).addAlgorithm(this);
 		((GeoElement) secondPoint).addAlgorithm(this);
 		((GeoElement) r).addAlgorithm(this);
-		
-		
 		
     	// parent of output
         quadric.setParentAlgorithm(this);       
@@ -71,13 +56,9 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 		//output = new GeoElement[] {quadric,bottom,top,side};
 		setOutput();
-	
-
 		
 		quadric.initLabels(labels);
-		quadric.updatePartsVisualStyle();
-		
-				
+		quadric.updatePartsVisualStyle();			
 	}
 	
 	/**
@@ -87,6 +68,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	
 	abstract protected void createEnds();
 	
+	@Override
 	protected void compute() {
 		
 		//check end points
@@ -116,7 +98,6 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		setQuadric(o,o2,d.mul(1/altitude),r, 0, altitude);
 
 		quadric.calcVolume();
-
 	}
 
 	abstract protected void setQuadric(Coords o1, Coords o2, Coords d, double r, double min, double max);
@@ -127,12 +108,10 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	}
 	
 	//compute and update quadric (for helper algos)
+	@Override
 	public void update() {
         compute();
         quadric.update();
     }
-    
-
-	
 
 }
