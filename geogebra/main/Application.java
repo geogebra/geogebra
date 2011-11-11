@@ -32,7 +32,7 @@ import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.io.MyXMLHandler;
 import geogebra.io.MyXMLio;
-import geogebra.io.layout.DockPanelXml;
+import geogebra.io.layout.DockPanelData;
 import geogebra.io.layout.Perspective;
 import geogebra.kernel.AlgoElement;
 import geogebra.kernel.ConstructionDefaults;
@@ -1464,7 +1464,7 @@ public class Application implements KeyEventDispatcher {
 		
 		boolean justEuclidianVisible = false;
 		
-		for(DockPanelXml panel : docPerspective.getDockPanelInfo()) {
+		for(DockPanelData panel : docPerspective.getDockPanelData()) {
 			if(panel.getViewId() == Application.VIEW_EUCLIDIAN && panel.isVisible()) {
 				justEuclidianVisible = true;
 			}

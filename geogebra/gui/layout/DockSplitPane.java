@@ -1,6 +1,6 @@
 package geogebra.gui.layout;
 
-import geogebra.io.layout.DockSplitPaneXml;
+import geogebra.io.layout.DockSplitPaneData;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -116,17 +116,17 @@ public class DockSplitPane extends JSplitPane {
 	public static class TreeReader
 	{
 		private Application app;
-		private ArrayList<DockSplitPaneXml> splitPaneInfo;
+		private ArrayList<DockSplitPaneData> splitPaneInfo;
 		private int windowWidth;
 		private int windowHeight;
 		
 		public TreeReader(Application app) {
 			this.app = app;
 			
-			splitPaneInfo = new ArrayList<DockSplitPaneXml>();
+			splitPaneInfo = new ArrayList<DockSplitPaneData>();
 		}
 		
-		public DockSplitPaneXml[] getInfo(DockSplitPane rootPane) {
+		public DockSplitPaneData[] getInfo(DockSplitPane rootPane) {
 			splitPaneInfo.clear();
 			
 			if(app.isApplet()) {
@@ -143,8 +143,8 @@ public class DockSplitPane extends JSplitPane {
 
 			saveSplitPane("", rootPane);
 			
-			DockSplitPaneXml[] info = new DockSplitPaneXml[splitPaneInfo.size()];
-			return (DockSplitPaneXml[])splitPaneInfo.toArray(info);
+			DockSplitPaneData[] info = new DockSplitPaneData[splitPaneInfo.size()];
+			return (DockSplitPaneData[])splitPaneInfo.toArray(info);
 		}
 		
 		/**
@@ -163,7 +163,7 @@ public class DockSplitPane extends JSplitPane {
 				dividerLocation = (double)parent.getDividerLocation() / windowHeight;
 			}
 			
-			splitPaneInfo.add(new DockSplitPaneXml(parentLocation, dividerLocation, parent.getOrientation()));
+			splitPaneInfo.add(new DockSplitPaneData(parentLocation, dividerLocation, parent.getOrientation()));
 			
 			if(parentLocation.length() > 0)
 				parentLocation += ",";

@@ -22,12 +22,12 @@ public class Perspective {
 	/**
 	 * The information about every dock split pane
 	 */
-	private DockSplitPaneXml[] splitPaneInfo;
+	private DockSplitPaneData[] splitPaneData;
 	
 	/**
 	 * The information about every dock panel.
 	 */
-	private DockPanelXml[] dockPanelInfo;
+	private DockPanelData[] dockPanelData;
 	
 	/**
 	 * The definition string for the toolbar.
@@ -84,10 +84,10 @@ public class Perspective {
 	 * @param showInputPanelCommands
 	 * @param showInputPanelOnTop
 	 */
-	public Perspective(String id, DockSplitPaneXml[] splitPaneInfo, DockPanelXml[] dockPanelInfo, String toolbarDefinition, boolean showToolBar, boolean showGrid, boolean showAxes, boolean showInputPanel, boolean showInputPanelCommands, boolean showInputPanelOnTop) {
+	public Perspective(String id, DockSplitPaneData[] splitPaneInfo, DockPanelData[] dockPanelInfo, String toolbarDefinition, boolean showToolBar, boolean showGrid, boolean showAxes, boolean showInputPanel, boolean showInputPanelCommands, boolean showInputPanelOnTop) {
 		this.id = id;
-		this.splitPaneInfo = splitPaneInfo;
-		this.setDockPanelInfo(dockPanelInfo);
+		this.splitPaneData = splitPaneInfo;
+		this.setDockPanelData(dockPanelInfo);
 		this.setToolbarDefinition(toolbarDefinition);
 		this.setShowToolBar(showToolBar);
 		this.showAxes = showAxes;
@@ -114,31 +114,31 @@ public class Perspective {
 	}
 	
 	/**
-	 * @param splitPaneInfo The new description of the split panes.
+	 * @param splitPaneData The new description of the split panes.
 	 */
-	public void setSplitPaneInfo(DockSplitPaneXml[] splitPaneInfo) {
-		this.splitPaneInfo = splitPaneInfo;
+	public void setSplitPaneData(DockSplitPaneData[] splitPaneData) {
+		this.splitPaneData = splitPaneData;
 	}
 	
 	/**
 	 * @return The description of all split panes
 	 */
-	public DockSplitPaneXml[] getSplitPaneInfo() {
-		return splitPaneInfo;
+	public DockSplitPaneData[] getSplitPaneData() {
+		return splitPaneData;
 	}
 	
 	/** 
 	 * @return The description of all DockPanels in the window.
 	 */
-	public DockPanelXml[] getDockPanelInfo() {
-		return dockPanelInfo;
+	public DockPanelData[] getDockPanelData() {
+		return dockPanelData;
 	}
 	
 	/**
-	 * @param dockPanelInfo the dockPanelInfo to set
+	 * @param dockPanelData the dockPanelInfo to set
 	 */
-	public void setDockPanelInfo(DockPanelXml[] dockPanelInfo) {
-		this.dockPanelInfo = dockPanelInfo;
+	public void setDockPanelData(DockPanelData[] dockPanelData) {
+		this.dockPanelData = dockPanelData;
 	}
 	
 	/**
@@ -251,17 +251,17 @@ public class Perspective {
 		sb.append("\">\n");
 		
 		sb.append("\t<panes>\n");
-		for(int i = 0; i < splitPaneInfo.length; ++i) {
+		for(int i = 0; i < splitPaneData.length; ++i) {
 			sb.append("\t\t");
-			sb.append(splitPaneInfo[i].getXml());
+			sb.append(splitPaneData[i].getXml());
 			sb.append("\n");
 		}
 		sb.append("\t</panes>\n");
 		
 		sb.append("\t<views>\n");
-		for(int i = 0; i < getDockPanelInfo().length; ++i) {
+		for(int i = 0; i < getDockPanelData().length; ++i) {
 			sb.append("\t\t");
-			sb.append(getDockPanelInfo()[i].getXml());
+			sb.append(getDockPanelData()[i].getXml());
 		}
 		sb.append("\t</views>\n");
 		

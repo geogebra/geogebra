@@ -5,8 +5,8 @@ import geogebra.gui.SetLabels;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.io.layout.DockPanelXml;
-import geogebra.io.layout.DockSplitPaneXml;
+import geogebra.io.layout.DockPanelData;
+import geogebra.io.layout.DockSplitPaneData;
 import geogebra.main.Application;
 
 import java.awt.AWTEvent;
@@ -97,12 +97,12 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * Apply a certain perspective by arranging the dock panels in the requested order.
 	 * 
-	 * @param spInfo
-	 * @param dpInfo
+	 * @param spData
+	 * @param dpData
 	 * 
 	 * @see Layout#applyPerspective(geogebra.io.layout.Perspective)
 	 */
-	public void applyPerspective(DockSplitPaneXml[] spInfo, DockPanelXml[] dpInfo) {		
+	public void applyPerspective(DockSplitPaneData[] spData, DockPanelData[] dpData) {		
 		if(dockPanels != null) {			
 			// hide existing external windows
 			for(DockPanel panel : dockPanels) {
@@ -114,47 +114,47 @@ public class DockManager implements AWTEventListener, SetLabels {
 			}
 			
 			// copy dock panel info settings
-			for(int i = 0; i < dpInfo.length; ++i) {
-				DockPanel panel = getPanel(dpInfo[i].getViewId());
+			for(int i = 0; i < dpData.length; ++i) {
+				DockPanel panel = getPanel(dpData[i].getViewId());
 				
 				if(panel == null) {
 					// TODO insert error panel
 				}else{
-					panel.setToolbarString(dpInfo[i].getToolbarString());
-					panel.setFrameBounds(dpInfo[i].getFrameBounds());
-					panel.setEmbeddedDef(dpInfo[i].getEmbeddedDef());
-					panel.setEmbeddedSize(dpInfo[i].getEmbeddedSize());
-					panel.setShowStyleBar(dpInfo[i].showStyleBar());
-					panel.setOpenInFrame(dpInfo[i].isOpenInFrame());
+					panel.setToolbarString(dpData[i].getToolbarString());
+					panel.setFrameBounds(dpData[i].getFrameBounds());
+					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
+					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
+					panel.setShowStyleBar(dpData[i].showStyleBar());
+					panel.setOpenInFrame(dpData[i].isOpenInFrame());
 					
 					// detach views which were visible, but are not in the new perspective
-					if(panel.isVisible() && !dpInfo[i].isVisible()) {
+					if(panel.isVisible() && !dpData[i].isVisible()) {
 						app.getGuiManager().detachView(panel.getViewId());
 					}
 					
-					panel.setVisible(dpInfo[i].isVisible());
+					panel.setVisible(dpData[i].isVisible());
 				}
 			}
 		}
 		
-		if(spInfo.length > 0) {
-			DockSplitPane[] splitPanes = new DockSplitPane[spInfo.length];
+		if(spData.length > 0) {
+			DockSplitPane[] splitPanes = new DockSplitPane[spData.length];
 			
 			// construct the split panes
-			for(int i = 0; i < spInfo.length; ++i) {
-				splitPanes[i] = new DockSplitPane(spInfo[i].getOrientation());
+			for(int i = 0; i < spData.length; ++i) {
+				splitPanes[i] = new DockSplitPane(spData[i].getOrientation());
 			}
 			
 			// cascade the split panes
 			rootPane = splitPanes[0];
 			
 			// loop through every but the first split pane
-			for(int i = 1; i < spInfo.length; ++i) {
+			for(int i = 1; i < spData.length; ++i) {
 				DockSplitPane currentParent = rootPane;
 				
 				// a similar system as it's used to determine the position of the dock panels (see comment in DockManager::show())
 				// 0: turn left/up, 1: turn right/down
-				String[] directions = spInfo[i].getLocation().split(",");
+				String[] directions = spData[i].getLocation().split(",");
 				
 				// get the parent split pane, the last position is reserved for the location
 				// of the current split pane and therefore ignored here
@@ -175,23 +175,23 @@ public class DockManager implements AWTEventListener, SetLabels {
 			}
 
 			// now insert the dock panels
-			for(int i = 0; i < dpInfo.length; ++i) {
-				DockPanel panel = getPanel(dpInfo[i].getViewId());
+			for(int i = 0; i < dpData.length; ++i) {
+				DockPanel panel = getPanel(dpData[i].getViewId());
 				
 				// skip panels which will not be drawn in the main window
-				if(!dpInfo[i].isVisible())
+				if(!dpData[i].isVisible())
 					continue;
 				
 				// attach view to kernel (being attached multiple times is ignored)
 				app.getGuiManager().attachView(panel.getViewId());
 				
-				if(dpInfo[i].isOpenInFrame()) {
+				if(dpData[i].isOpenInFrame()) {
 					show(panel);
 					continue;
 				}
 				
 				DockSplitPane currentParent = rootPane;
-				String[] directions = dpInfo[i].getEmbeddedDef().split(",");
+				String[] directions = dpData[i].getEmbeddedDef().split(",");
 				
 				/* 
 				 * Get the parent split pane of this dock panel and ignore the last
@@ -219,7 +219,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 				// move toolbar to main container
 				if(panel.hasToolbar()) {
 					ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
-					mainContainer.addToolbar(getPanel(dpInfo[i].getViewId()).getToolbar());
+					mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
 				}
 			}
 			
@@ -227,11 +227,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 			int windowHeight = app.getPreferredSize().height;
 			
 			// set the dividers of the split panes
-			for(int i = 0; i < spInfo.length; ++i) {
-				if(spInfo[i].getOrientation() == DockSplitPane.VERTICAL_SPLIT)
-					splitPanes[i].setDividerLocation((int)(spInfo[i].getDividerLocation() * windowHeight));
+			for(int i = 0; i < spData.length; ++i) {
+				if(spData[i].getOrientation() == DockSplitPane.VERTICAL_SPLIT)
+					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowHeight));
 				else 
-					splitPanes[i].setDividerLocation((int)(spInfo[i].getDividerLocation() * windowWidth));
+					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowWidth));
 				
 				splitPanes[i].updateUI();
 			}

@@ -10,7 +10,7 @@ import java.awt.Rectangle;
  * 
  * @author Florian Sonner
  */
-public class DockPanelXml {
+public class DockPanelData {
 	private int viewId;
 	private boolean isVisible;
 	private boolean openInFrame;
@@ -30,7 +30,7 @@ public class DockPanelXml {
 	 * @param embeddedDef	The definition string for the location of the view in the main window.
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
-	public DockPanelXml(int viewId, String toolbar, boolean isVisible, boolean openInFrame, boolean showStyleBar, Rectangle windowRect, String embeddedDef, int embeddedSize) {
+	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean openInFrame, boolean showStyleBar, Rectangle windowRect, String embeddedDef, int embeddedSize) {
 		this.viewId = viewId;
 		this.toolbarString = toolbar;
 		this.isVisible = isVisible;
@@ -54,7 +54,7 @@ public class DockPanelXml {
 	 * @param embeddedDef	The definition string for the location of the view in the main window.
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
-	public DockPanelXml(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, int windowX, int windowY, int windowWidth, int windowHeight, String embeddedDef, int embeddedSize) {
+	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, int windowX, int windowY, int windowWidth, int windowHeight, String embeddedDef, int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame, showStyleBar, new Rectangle(windowX, windowY, windowWidth, windowHeight), embeddedDef, embeddedSize);
 	}
 	
@@ -69,7 +69,7 @@ public class DockPanelXml {
 	 * @param embeddedDef	The definition string for the location of the view in the main window.
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
-	public DockPanelXml(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, Point windowLoc, Dimension windowSize, String embeddedDef, int embeddedSize) {
+	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, Point windowLoc, Dimension windowSize, String embeddedDef, int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame, showStyleBar, new Rectangle(windowLoc, windowSize), embeddedDef, embeddedSize);
 	}
 
@@ -177,6 +177,6 @@ public class DockPanelXml {
 	 * automatically otherwise.
 	 */
 	public Object clone() {
-		return new DockPanelXml(viewId, toolbarString, isVisible, openInFrame, showStyleBar, frameBounds, embeddedDef, embeddedSize);
+		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame, showStyleBar, frameBounds, embeddedDef, embeddedSize);
 	}
 }

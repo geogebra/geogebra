@@ -6,12 +6,12 @@ package geogebra.io.layout;
  * 
  * @author Florian Sonner
  */
-public class DockSplitPaneXml {
+public class DockSplitPaneData {
 	private String location;
 	private double dividerLocation;
 	private int orientation;
 
-	public DockSplitPaneXml(String location, double dividerLocation, int orientation)
+	public DockSplitPaneData(String location, double dividerLocation, int orientation)
 	{
 		this.location = location;
 		this.dividerLocation = dividerLocation;

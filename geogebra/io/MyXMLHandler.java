@@ -22,8 +22,8 @@ import geogebra.GeoGebra;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.spreadsheet.TraceSettings;
-import geogebra.io.layout.DockPanelXml;
-import geogebra.io.layout.DockSplitPaneXml;
+import geogebra.io.layout.DockPanelData;
+import geogebra.io.layout.DockSplitPaneData;
 import geogebra.io.layout.Perspective;
 import geogebra.kernel.AbsoluteScreenLocateable;
 import geogebra.kernel.Construction;
@@ -229,8 +229,8 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Array lists to store temporary panes and views of a perspective.
 	 */
-	private ArrayList<DockSplitPaneXml> tmp_panes;
-	private ArrayList<DockPanelXml>tmp_views;
+	private ArrayList<DockSplitPaneData> tmp_panes;
+	private ArrayList<DockPanelData>tmp_views;
 	
 	/**
 	 * Backward compatibility for version < 3.03 where no layout component was used.
@@ -1581,12 +1581,12 @@ public class MyXMLHandler implements DocHandler {
 		
 		// construct default xml data in case we're using an old version which didn't
 		// store the layout xml.
-		DockPanelXml[] dpXml = new DockPanelXml[] {
-			new DockPanelXml(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(400, 400), defEV, 200),
-			new DockPanelXml(Application.VIEW_ALGEBRA, null, tmp_showAlgebra, false, false, new Rectangle(200, 400), defAV, 200),
-			new DockPanelXml(Application.VIEW_SPREADSHEET, null, tmp_showSpreadsheet, false, false, new Rectangle(400, 400), defSV, 200)
+		DockPanelData[] dpXml = new DockPanelData[] {
+			new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(400, 400), defEV, 200),
+			new DockPanelData(Application.VIEW_ALGEBRA, null, tmp_showAlgebra, false, false, new Rectangle(200, 400), defAV, 200),
+			new DockPanelData(Application.VIEW_SPREADSHEET, null, tmp_showSpreadsheet, false, false, new Rectangle(400, 400), defSV, 200)
 		};
-		tmp_perspective.setDockPanelInfo(dpXml);
+		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
 		
 		Dimension evSize = app.getSettings().getEuclidian(1).getPreferredSize();
@@ -1618,16 +1618,16 @@ public class MyXMLHandler implements DocHandler {
 			}
 		}
 		
-		DockSplitPaneXml[] spXml;
+		DockSplitPaneData[] spXml;
 		
 		// use two split panes in case all three views are visible
 		if(tmp_showSpreadsheet && tmp_showAlgebra) {
 			int total = (splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? width : height);
 			float relative1 = (float)tmp_sp2 / total;
 			float relative2 = (float)tmp_sp1 / (total - tmp_sp2);
-			spXml = new DockSplitPaneXml[] {
-				new DockSplitPaneXml("", relative1, splitOrientation),
-				new DockSplitPaneXml((splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? "1" : "2"), relative2, splitOrientation)
+			spXml = new DockSplitPaneData[] {
+				new DockSplitPaneData("", relative1, splitOrientation),
+				new DockSplitPaneData((splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? "1" : "2"), relative2, splitOrientation)
 			}; 
 		} else {
 			int total = (splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? width : height);
@@ -1637,8 +1637,8 @@ public class MyXMLHandler implements DocHandler {
 			} else {
 				relative = (float)tmp_sp2 / total;
 			}
-			spXml = new DockSplitPaneXml[] {
-				new DockSplitPaneXml("", relative, splitOrientation)
+			spXml = new DockSplitPaneData[] {
+				new DockSplitPaneData("", relative, splitOrientation)
 			};
 		}
 
@@ -1652,7 +1652,7 @@ public class MyXMLHandler implements DocHandler {
 			height += 50;
 		}
 		
-		tmp_perspective.setSplitPaneInfo(spXml);
+		tmp_perspective.setSplitPaneData(spXml);
 		
 		tmp_perspectives = new ArrayList<Perspective>();
 		tmp_perspectives.add(tmp_perspective);
@@ -2086,13 +2086,13 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspectives.add(tmp_perspective);
 			
 			if(tmp_panes == null) {
-				tmp_panes = new ArrayList<DockSplitPaneXml>();
+				tmp_panes = new ArrayList<DockSplitPaneData>();
 			} else {
 				tmp_panes.clear();
 			}
 			
 			if(tmp_views == null) {
-				tmp_views = new ArrayList<DockPanelXml>();
+				tmp_views = new ArrayList<DockPanelData>();
 			} else {
 				tmp_views.clear();
 			}
@@ -2171,10 +2171,10 @@ public class MyXMLHandler implements DocHandler {
 	}
 	
 	private void endGuiPerspectiveElement() {
-		DockPanelXml[] dpInfo = new DockPanelXml[tmp_views.size()];
-		DockSplitPaneXml[] spInfo = new DockSplitPaneXml[tmp_panes.size()];
-		tmp_perspective.setDockPanelInfo((DockPanelXml[])tmp_views.toArray(dpInfo));
-		tmp_perspective.setSplitPaneInfo((DockSplitPaneXml[])tmp_panes.toArray(spInfo));
+		DockPanelData[] dpInfo = new DockPanelData[tmp_views.size()];
+		DockSplitPaneData[] spInfo = new DockSplitPaneData[tmp_panes.size()];
+		tmp_perspective.setDockPanelData((DockPanelData[])tmp_views.toArray(dpInfo));
+		tmp_perspective.setSplitPaneData((DockSplitPaneData[])tmp_panes.toArray(spInfo));
 	}
 
 	// ====================================
@@ -2221,7 +2221,7 @@ public class MyXMLHandler implements DocHandler {
 			String embeddedDef = (String)attrs.get("location");
 			int embeddedSize = Integer.parseInt((String)attrs.get("size"));
 			
-			tmp_views.add(new DockPanelXml(viewId, toolbar, isVisible, openInFrame, showStyleBar, windowRect, embeddedDef, embeddedSize));
+			tmp_views.add(new DockPanelData(viewId, toolbar, isVisible, openInFrame, showStyleBar, windowRect, embeddedDef, embeddedSize));
 			
 			return true;
 		} catch(Exception e) {
@@ -2258,7 +2258,7 @@ public class MyXMLHandler implements DocHandler {
 			double dividerLocation = Double.parseDouble((String)attrs.get("divider"));
 			int orientation = Integer.parseInt((String)attrs.get("orientation"));
 			
-			tmp_panes.add(new DockSplitPaneXml(location, dividerLocation, orientation));
+			tmp_panes.add(new DockSplitPaneData(location, dividerLocation, orientation));
 			
 			return true;
 		} catch(Exception e) {

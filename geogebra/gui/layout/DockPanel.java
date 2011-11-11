@@ -4,7 +4,7 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.io.layout.DockPanelXml;
+import geogebra.io.layout.DockPanelData;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -874,8 +874,8 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	 * @return The XML container which stores all relevant information for this
 	 *			panel.
 	 */
-	public DockPanelXml createInfo() {
-		return new DockPanelXml(
+	public DockPanelData createInfo() {
+		return new DockPanelData(
 			id, 
 			toolbarString,
 			visible,

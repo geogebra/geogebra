@@ -4,8 +4,8 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.InputDialog;
 import geogebra.gui.InputHandler;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.io.layout.DockPanelXml;
-import geogebra.io.layout.DockSplitPaneXml;
+import geogebra.io.layout.DockPanelData;
+import geogebra.io.layout.DockSplitPaneData;
 import geogebra.io.layout.Perspective;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
@@ -102,58 +102,58 @@ public class Layout implements SettingListener {
 	private void initializeDefaultPerspectives() {
 		defaultPerspectives = new Perspective[5];
 		
-		DockPanelXml[] dpInfo;
-		DockSplitPaneXml[] spInfo;
+		DockPanelData[] dpData;
+		DockSplitPaneData[] spData;
 		
 		String defToolbar;
 
 		// algebra & graphics (default settings of GeoGebra < 3.2)
-		dpInfo = new DockPanelXml[4];
-		dpInfo[0] = new DockPanelXml(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpInfo[1] = new DockPanelXml(Application.VIEW_ALGEBRA, null, true, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
-		dpInfo[2] = new DockPanelXml(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
-		dpInfo[3] = new DockPanelXml(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
+		dpData = new DockPanelData[4];
+		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, true, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
 
-		spInfo = new DockSplitPaneXml[1];
-		spInfo[0] = new DockSplitPaneXml("", 0.25, DockSplitPane.HORIZONTAL_SPLIT);
+		spData = new DockSplitPaneData[1];
+		spData[0] = new DockSplitPaneData("", 0.25, DockSplitPane.HORIZONTAL_SPLIT);
 
 		defToolbar = Toolbar.getAllToolsNoMacros();
 
-		defaultPerspectives[0] = new Perspective("AlgebraAndGraphics", spInfo, dpInfo, defToolbar, true, false, true, true, true, false);
+		defaultPerspectives[0] = new Perspective("AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
 		
 		// basic geometry - just the euclidian view
-		dpInfo = new DockPanelXml[4];
-		dpInfo[0] = new DockPanelXml(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpInfo[1] = new DockPanelXml(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
-		dpInfo[2] = new DockPanelXml(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
-		dpInfo[3] = new DockPanelXml(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
+		dpData = new DockPanelData[4];
+		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
 		
-		defaultPerspectives[1] = new Perspective("BasicGeometry", spInfo, dpInfo, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
+		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
 		
 		// geometry - like basic geometry but with less toolbar entries
-		defaultPerspectives[2] = new Perspective("Geometry", spInfo, dpInfo, defToolbar, true, false, false, false, true, false);
+		defaultPerspectives[2] = new Perspective("Geometry", spData, dpData, defToolbar, true, false, false, false, true, false);
 		
 		// Table & Graphics - spreadsheet and euclidian view
-		spInfo = new DockSplitPaneXml[1];
-		spInfo[0] = new DockSplitPaneXml("", 0.45, DockSplitPane.HORIZONTAL_SPLIT);
+		spData = new DockSplitPaneData[1];
+		spData[0] = new DockSplitPaneData("", 0.45, DockSplitPane.HORIZONTAL_SPLIT);
 		
-		dpInfo = new DockPanelXml[4];
-		dpInfo[0] = new DockPanelXml(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpInfo[1] = new DockPanelXml(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
-		dpInfo[2] = new DockPanelXml(Application.VIEW_SPREADSHEET, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
-		dpInfo[3] = new DockPanelXml(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
+		dpData = new DockPanelData[4];
+		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
+		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
+		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
 		
-		defaultPerspectives[3] = new Perspective("TableAndGraphics", spInfo, dpInfo, defToolbar, true, false, true, false, true, false);
+		defaultPerspectives[3] = new Perspective("TableAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 		
 		// CAS & Graphics - cas and euclidian view
-		dpInfo = new DockPanelXml[4];
-		dpInfo[0] = new DockPanelXml(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpInfo[1] = new DockPanelXml(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
-		dpInfo[2] = new DockPanelXml(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
-		dpInfo[3] = new DockPanelXml(Application.VIEW_CAS, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
+		dpData = new DockPanelData[4];
+		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
+		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
+		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
 		
-		defaultPerspectives[4] = new Perspective("CASAndGraphics", spInfo, dpInfo, defToolbar, true, false, true, false, true, false);
+		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 
 	}
 	
@@ -225,8 +225,8 @@ public class Layout implements SettingListener {
 		app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
 		app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 		
-		dockManager.applyPerspective(perspective.getSplitPaneInfo(), perspective.getDockPanelInfo());
-		// TODO: Apply other settings
+		// change the dock panel layout
+		dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
 		
 		if(!app.isIniting()) {
 			app.updateToolBar();
@@ -281,11 +281,11 @@ public class Layout implements SettingListener {
 
 		// get the information about the split panes
 		DockSplitPane.TreeReader spTreeReader = new DockSplitPane.TreeReader(app);
-		perspective.setSplitPaneInfo(spTreeReader.getInfo(dockManager.getRoot()));
+		perspective.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
 
 		// get the information about the dock panels
 		DockPanel[] panels = dockManager.getPanels();
-		DockPanelXml[] dockPanelInfo = new DockPanelXml[panels.length];
+		DockPanelData[] dockPanelInfo = new DockPanelData[panels.length];
 
 		for (int i = 0; i < panels.length; ++i) {
 			// just the width of the panels isn't updated every time the panel
@@ -299,21 +299,21 @@ public class Layout implements SettingListener {
 				}
 				panels[i].setEmbeddedDef(panels[i].calculateEmbeddedDef());
 			}
-			dockPanelInfo[i] = (DockPanelXml)panels[i].createInfo();
+			dockPanelInfo[i] = (DockPanelData)panels[i].createInfo();
 		}
 
 		// Sort the dock panels as the entries with the smallest amount of
 		// definition should
 		// be read first by the loading algorithm.
-		Arrays.sort(dockPanelInfo, new Comparator<DockPanelXml>() {
-			public int compare(DockPanelXml o1, DockPanelXml o2) {
+		Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
+			public int compare(DockPanelData o1, DockPanelData o2) {
 				int diff = o2.getEmbeddedDef().length()
 						- o1.getEmbeddedDef().length();
 				return diff;
 			}
 		});
 		
-		perspective.setDockPanelInfo(dockPanelInfo);
+		perspective.setDockPanelData(dockPanelInfo);
 
 		perspective.setToolbarDefinition(app.getGuiManager().getToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
