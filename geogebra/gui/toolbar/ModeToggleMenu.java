@@ -261,7 +261,11 @@ implements MouseListener, MouseMotionListener, ActionListener {
 	
 	// set mode
 	public void actionPerformed(ActionEvent e) {
-		menu.setMode(Integer.parseInt(e.getActionCommand()));		
+
+		//don't select mode if popup triangle clicked 
+		if (!popupTriangleClicked || !menu.isPopupShowing()) 
+			menu.setMode(Integer.parseInt(e.getActionCommand()));          
+		
 	}
 
 	public void setIcon(Icon icon) {
@@ -348,6 +352,7 @@ implements MouseListener, MouseMotionListener, ActionListener {
 	public void mousePressed(MouseEvent e) {
 		if (!menu.isPopupShowing() && popupTriangleClicked(e.getX(), e.getY())) {
 			menu.setPopupVisible(true);
+			this.getModel().setArmed(false); 
 		} else {
 			// Display the menu after a specific amount of time as well, start 
 			// a timer for this. The mouseReleased method stops this timer,
