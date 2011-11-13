@@ -45,7 +45,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 	private StatPanelSettings settings;
 
 	// histogram  panel components
-	private JCheckBox ckCumulative, ckManual, ckOverlayNormal,ckOverlayPolygon, ckShowFrequencyTable;
+	private JCheckBox ckCumulative, ckManual, ckOverlayNormal,ckOverlayPolygon, ckShowFrequencyTable, ckShowHistogram;
 	private JRadioButton rbRelative, rbNormalized,  rbFreq ;
 	private JLabel lblFreqType;
 
@@ -192,6 +192,9 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 
 		ckShowFrequencyTable = new JCheckBox();
 		ckShowFrequencyTable.addActionListener(this);
+		
+		ckShowHistogram = new JCheckBox();
+		ckShowHistogram.addActionListener(this);
 
 		ckManual = new JCheckBox();		
 		ckManual.addActionListener(this);
@@ -228,6 +231,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		
 		// create show panel
 		showPanel = new JPanel(new GridBagLayout()); 
+		showPanel.add(ckShowHistogram,c);
 		showPanel.add(ckShowFrequencyTable,c);
 		showPanel.add(ckOverlayPolygon,c);
 		showPanel.add(ckOverlayNormal,c);
@@ -425,6 +429,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		ckOverlayNormal.setText(app.getMenu("NormalCurve"));
 		ckOverlayPolygon.setText(app.getMenu("FrequencyPolygon"));
 		ckShowFrequencyTable.setText(app.getMenu("FrequencyTable"));
+		ckShowHistogram.setText(app.getMenu("Histogram"));
 
 		lblClassRule.setText(app.getMenu("ClassRule") + ":");
 		rbRightRule.setText(app.getMenu("RightClassRule"));
@@ -465,6 +470,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		ckShowGrid.setSelected(settings.showGrid);	
 		ckAutoWindow.setSelected(settings.isAutomaticWindow);
 		ckShowFrequencyTable.setSelected(settings.showFrequencyTable);
+		ckShowHistogram.setSelected(settings.showHistogram);
 
 
 		lblYMin.setVisible(showYSettings);
@@ -592,6 +598,10 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		}
 		else if(source == ckShowFrequencyTable){
 			settings.showFrequencyTable = ckShowFrequencyTable.isSelected();
+			firePropertyChange("settings", true, false);
+		}
+		else if(source == ckShowHistogram){
+			settings.showHistogram = ckShowHistogram.isSelected();
 			firePropertyChange("settings", true, false);
 		}
 		else if(source == rbLeftRule || source == rbRightRule){

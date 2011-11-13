@@ -14,6 +14,7 @@ public class StatPanelSettings extends PlotSettings{
 	public boolean hasOverlayNormal = false;
 	public boolean hasOverlayPolygon = false;
 	public boolean showFrequencyTable = false;
+	public boolean showHistogram = true;
 	public boolean showScatterplotLine = false;
 
 	public double classStart = 0;

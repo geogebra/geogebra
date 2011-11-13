@@ -778,6 +778,13 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 				app.getEuclidianView().remove(listGeo);
 			}
 		}
+		
+		if(histogram != null){
+			histogram.setEuclidianVisible(settings.showHistogram);
+		histogram.updateRepaint();
+		}
+		
+		
 	}
 
 
@@ -985,6 +992,13 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 
 			// update the plot to get a new set of geos that exist in the construction
 			updatePlot(true, false);
+
+			// remove the histogram from the plot geo list if it is not showing
+			if(histogram != null && settings.showHistogram == false){
+				plotGeoList.remove(histogram);
+				histogram.remove();
+				histogram = null;
+			}
 
 			// prepare the new geos to display in the EV (e.g. set labels, auxiliary = false)
 			for(GeoElement geo: plotGeoList){
