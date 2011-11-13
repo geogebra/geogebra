@@ -13,6 +13,7 @@ package geogebra.kernel.implicit;
 
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.kernel.AlgoElement;
+import geogebra.kernel.AlgoPointOnPath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
@@ -32,6 +33,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	private GeoPoint[] ip; //tangent points.
 	private OutputHandler<GeoLine> tangents;
 	
+	private boolean pointOnPath;
 	private AlgoIntersectImplicitpolys algoIntersect;
 	
 	private String[] labels;
@@ -53,14 +55,27 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 		this(c,labels,p);
 		this.R=R;
 		
-		AlgoImplicitPolyTangentCurve algoTangentPoly=
-			new AlgoImplicitPolyTangentCurve(c, p, R, null,false,false);
+		pointOnPath=false;
 		
-		GeoImplicitPoly tangentCurve=algoTangentPoly.getTangentCurve();
-		algoIntersect = new AlgoIntersectImplicitpolys(cons, p,tangentCurve);
-		cons.removeFromConstructionList(algoIntersect);
-		ip = algoIntersect.getIntersectionPoints();
+		if (R.getParentAlgorithm()!=null){
+			if (R.getParentAlgorithm() instanceof AlgoPointOnPath){
+				AlgoPointOnPath a=(AlgoPointOnPath)R.getParentAlgorithm();
+				if (a.getPath()==p){
+					pointOnPath=true; //AlgoPointOnPath (on this curve) 
+				}
+			}
+		}
 		
+		if (!pointOnPath){
+			AlgoImplicitPolyTangentCurve algoTangentPoly=
+				new AlgoImplicitPolyTangentCurve(c, p, R, null,false,false);
+			
+			GeoImplicitPoly tangentCurve=algoTangentPoly.getTangentCurve();
+			algoIntersect = new AlgoIntersectImplicitpolys(cons, p,tangentCurve);
+			cons.removeFromConstructionList(algoIntersect);
+			ip = algoIntersect.getIntersectionPoints();
+		}
+
 		setInputOutput();
 	}
 	
@@ -111,7 +126,6 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
         	return;
         }   
 		
-        ip = algoIntersect.getIntersectionPoints();
         
         tangents.adjustOutputSize(0);
 		
@@ -121,10 +135,18 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 			tangents.adjustOutputSize(n+1);
 			double dfdx = this.p.evalDiffXPolyAt(R.inhomX, R.inhomY);
 			double dfdy = this.p.evalDiffYPolyAt(R.inhomX, R.inhomY);
-			tangents.getElement(n).setCoords(dfdx, dfdy, 
-					-dfdx*R.inhomX - dfdy*R.inhomY);
-			n++;
+			if (!Kernel.isEqual(dfdx,0,1E-5)||!Kernel.isEqual(dfdy,0,1E-5)){
+				tangents.getElement(n).setCoords(dfdx, dfdy, 
+						-dfdx*R.inhomX - dfdy*R.inhomY);
+				n++;
+			}
 		}
+		
+		if(pointOnPath){
+			return;
+		}
+		
+		ip = algoIntersect.getIntersectionPoints();
 		for(int i=0; i<ip.length; i++)
 		{
 			

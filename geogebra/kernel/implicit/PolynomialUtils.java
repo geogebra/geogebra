@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.polynomial.BigPolynomial;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 
@@ -88,7 +89,15 @@ public class PolynomialUtils {
 	}
 	
 	public static double getLeadingCoeff(PolynomialFunction p){
-		return getDegree(p.getCoefficients());
+		return getLeadingCoeff(p.getCoefficients());
+	}
+	
+	public static int getDegree(BigPolynomial poly){
+		for (int i=poly.degree();i>=0;i--){
+			if (!Kernel.isEqual(poly.getCoeff(i).doubleValue(),0.,Kernel.MAX_DOUBLE_PRECISION))
+				return i;
+		}
+		return -1;
 	}
 	
 	public static double eval(double[] c,double x){
@@ -159,7 +168,9 @@ public class PolynomialUtils {
 			q=line[0]+x*line[1]+y*line[2];
 		double lastErr=Double.MAX_VALUE;
 		double err=Math.abs(p)+Math.abs(q);
-		while(err<lastErr&&err>Kernel.STANDARD_PRECISION){
+		int n=0;
+		int MAX_ITERATIONS=20;
+		while(err<10*lastErr&&err>Kernel.STANDARD_PRECISION&&++n<MAX_ITERATIONS){
 			double px,py;
 			double qx,qy;
 			px=p1.evalDiffXPolyAt(x, y);
