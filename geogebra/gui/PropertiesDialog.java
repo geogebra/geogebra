@@ -212,6 +212,10 @@ public class PropertiesDialog
 		setLabels();
 	}
 	
+	public PropertiesPanel getPropertiesPanel(){
+		return propPanel;
+	}
+	
 	public void showSliderTab() {
 		if (propPanel != null)
 			propPanel.showSliderTab();
@@ -511,7 +515,7 @@ public class PropertiesDialog
 	 * @see GeoTreeCellRenderer
 	 * @author Markus Hohenwarter
 	 */
-	private class JTreeGeoElements extends JTree implements View, MouseMotionListener, MouseListener, SetLabels {
+	public class JTreeGeoElements extends JTree implements View, MouseMotionListener, MouseListener, SetLabels {
 	
 		private static final long serialVersionUID = 1L;
 		private DefaultTreeModel treeModel;
@@ -670,7 +674,7 @@ public class PropertiesDialog
 		/**
 		 * Clears the list.
 		 */
-		private void clear() {			
+		public void clear() {			
 			root.removeAllChildren();			
 			treeModel.reload();
 			typeNodesMap.clear();
@@ -961,5 +965,9 @@ public class PropertiesDialog
 	// ignore if the view is dragged around (can't be dragged at all)
     public void beginDrag() {}
     public void endDrag() {}
+
+	public JTreeGeoElements getGeoTree() {		
+		return geoTree;
+	}
 
 } // PropertiesDialog

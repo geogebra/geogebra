@@ -726,7 +726,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	/**
 	 * Display this panel in an external window.
 	 */
-	private void windowPanel() {
+	protected void windowPanel() {
 		// move the toolbar from the main window to the panel
 		if(hasToolbar()) {
 			if(toolbarContainer == null) {
@@ -751,7 +751,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	/**
 	 * Display this panel in the main window.
 	 */
-	private void unwindowPanel() {
+	protected void unwindowPanel() {
 		// hide the frame
 		dockManager.hide(this, false);
 		

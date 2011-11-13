@@ -245,6 +245,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 		attached = true;
+
 	}
 
 	public void detachView() {

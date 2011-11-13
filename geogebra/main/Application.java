@@ -30,6 +30,7 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.properties.PropertiesView;
 import geogebra.io.MyXMLHandler;
 import geogebra.io.MyXMLio;
 import geogebra.io.layout.DockPanelData;
@@ -403,6 +404,7 @@ public class Application implements KeyEventDispatcher {
     public static final int VIEW_EUCLIDIAN_FOR_PLANE = 1024;
     public static final int VIEW_PLOT_PANEL = 2048;
     public static final int VIEW_TEXT_PREVIEW = 4096;
+	public static final int VIEW_PROPERTIES = 4097;
 
 	/**
 	 * The preferred size of this application. Used in case the frame size should be updated.
@@ -1537,6 +1539,13 @@ public class Application implements KeyEventDispatcher {
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (currentSelectionListener != null)
 			currentSelectionListener.geoElementSelected(geo, addToSelection);
+	}
+	
+	
+	private PropertiesView propertiesView;
+	
+	public void setPropertiesView(PropertiesView propertiesView){
+		this.propertiesView=propertiesView;
 	}
 
 	/**
@@ -3438,6 +3447,9 @@ public class Application implements KeyEventDispatcher {
 		if (getEuclidianView().getMode() == EuclidianConstants.MODE_MOVE) {			
 				updateStyleBars();		
 		}
+		
+		if(propertiesView!=null)
+			propertiesView.updateSelection();
 	}
 	
 	

@@ -21,6 +21,7 @@ import geogebra.gui.layout.panels.Euclidian2DockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.layout.panels.ProbabilityCalculatorDockPanel;
+import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.gui.layout.panels.SpreadsheetDockPanel;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.gui.toolbar.Toolbar;
@@ -35,6 +36,7 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.gui.view.functioninspector.FunctionInspector;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.probcalculator.ProbabilityManager;
+import geogebra.gui.view.properties.PropertiesView;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -257,6 +259,10 @@ public class GuiManager {
 
 		// register ProbabilityCalculator view
 		layout.registerPanel(new ProbabilityCalculatorDockPanel(app));
+		
+		// register Properties view
+		layout.registerPanel(new PropertiesDockPanel(app));
+		
 
 	}
 
@@ -323,6 +329,20 @@ public class GuiManager {
 
 		return algebraView;
 	}
+	
+	private PropertiesView propertiesView;
+	
+	public PropertiesView getPropertiesView() {
+
+		if (propertiesView==null){
+			initPropertiesDialog();
+			propertiesView = new PropertiesView(app,propDialog.getGeoTree(),propDialog.getPropertiesPanel());
+		}
+		
+		return propertiesView;
+		
+	}
+
 
 	/**
 	 * 
@@ -600,6 +620,9 @@ public class GuiManager {
 		case Application.VIEW_PROBABILITY_CALCULATOR:
 			attachProbabilityCalculatorView();
 			break;
+		case Application.VIEW_PROPERTIES:
+			attachPropertiesView();
+			break;
 		}
 	}
 
@@ -680,6 +703,16 @@ public class GuiManager {
 		getProbabilityCalculator();
 		probCalculator.detachView();
 	}
+	
+	public void attachPropertiesView() {
+		getPropertiesView();
+		propertiesView.attachView();
+	}
+
+	public void detachPropertiesView() {
+		if (propertiesView != null)
+			propertiesView.detachView();
+	}
 
 	public void setShowAuxiliaryObjects(boolean flag) {
 		if (!hasAlgebraView())
@@ -711,6 +744,7 @@ public class GuiManager {
 			propDialog = new PropertiesDialog(app);
 		}
 	}
+	
 
 	public synchronized void reinitPropertiesDialog() {
 		if (propDialog != null && propDialog.isVisible())
