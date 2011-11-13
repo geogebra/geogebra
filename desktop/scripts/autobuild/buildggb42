@@ -17,6 +17,10 @@ test -r autobuild.conf || {
  exit 1
  }
 . ./autobuild.conf
+
+# Ensuring the geogebra directory exists and points to the right place:
+cd $SVNDIR; ln -s Desktop geogebra 
+
 cd $SVNDIR/geogebra
 
 umask 0002 # trying to ensure g+w rights for all created files automatically
@@ -54,7 +58,7 @@ BCP=../java150-rt.jar
 # 4/4. Creating *.class files
 echo "$0: Creating class files"
 $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BCP\
- -time -proceedOnError -g .  > .ecjlog 2>&1
+ -time -proceedOnError -g ../desktop ../common  > .ecjlog 2>&1
 tail -1 .ecjlog
 echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 

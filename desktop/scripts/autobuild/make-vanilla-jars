@@ -21,7 +21,7 @@ if [ "$SVNDIR" = "" ]; then
  ORIGDIR=`dirname $0`
  WORKDIR=`cd $ORIGDIR/../..; pwd`
 else
- WORKDIR=`cd $SVNDIR/geogebra; pwd`
+ WORKDIR=`cd $SVNDIR/desktop; pwd`
  fi
 
 if [ "$JAVA_HOME" = "" ]; then
@@ -133,7 +133,7 @@ CP=`cd scripts/autobuild; ./classpath`
 # 6/3. Creating *.class files
 echo "$0: Creating class files"
 $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
- -time -proceedOnError -g .  > .ecjlog 2>&1
+ -time -proceedOnError -g ../desktop ../common > .ecjlog 2>&1
 tail -1 .ecjlog
 echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 

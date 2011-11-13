@@ -243,7 +243,8 @@ office@geogebra.org
 			  edu/xtec/adapter/**,
 			  edu/xtec/adapter/impl/**,
 					  **/algo2command.properties,	
-					  **/algo2intergeo.properties"			
+					  **/algo2intergeo.properties,
+					  ../common/**/*.class"
 			excludes="geogebra/*,
 					geogebra/gui/**,
 					geogebra/export/**, 
