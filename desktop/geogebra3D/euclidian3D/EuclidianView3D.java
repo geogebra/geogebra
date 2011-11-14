@@ -1,9 +1,9 @@
 package geogebra3D.euclidian3D;
 
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.DrawableND;
-import geogebra.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidian.Hits;

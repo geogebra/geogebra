@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoNumeric;

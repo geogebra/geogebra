@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.toolbar;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.layout.DockPanel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;

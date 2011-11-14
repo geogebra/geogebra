@@ -18,7 +18,7 @@
 
 package geogebra.kernel;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;

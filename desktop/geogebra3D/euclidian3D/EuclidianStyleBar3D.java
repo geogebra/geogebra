@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianStyleBar;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;

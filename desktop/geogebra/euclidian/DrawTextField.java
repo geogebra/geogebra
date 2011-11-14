@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.GeoButton;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;

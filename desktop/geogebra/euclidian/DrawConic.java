@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.AlgoCirclePointRadius;
 import geogebra.kernel.AlgoCircleThreePoints;

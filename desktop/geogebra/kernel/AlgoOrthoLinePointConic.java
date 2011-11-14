@@ -20,7 +20,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 
 
 /**

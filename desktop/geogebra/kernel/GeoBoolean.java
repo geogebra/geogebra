@@ -12,7 +12,7 @@
 
 package geogebra.kernel;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.arithmetic.BooleanValue;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;

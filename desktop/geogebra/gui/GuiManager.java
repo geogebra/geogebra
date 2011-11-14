@@ -3,7 +3,7 @@ package geogebra.gui;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.cas.view.CASView;
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;

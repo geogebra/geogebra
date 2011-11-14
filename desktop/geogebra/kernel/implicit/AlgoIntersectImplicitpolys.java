@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.AlgoSimpleRootsPolynomial;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;

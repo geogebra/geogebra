@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.GeoElement;

@@ -19,8 +19,8 @@ package geogebra.main;
 
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.DrawEquation;
-import geogebra.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;

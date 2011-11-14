@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.AlgoPointOnPath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.AlgoIntersectAbstract;
 import geogebra.kernel.AlgoIntersectConics;
 import geogebra.kernel.AlgoIntersectLineConic;

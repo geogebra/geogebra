@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.main.Application;
 
 import java.awt.event.KeyEvent;

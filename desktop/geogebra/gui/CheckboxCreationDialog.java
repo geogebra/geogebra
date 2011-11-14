@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.gui;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.CircularDefinitionException;

@@ -1,7 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.cas.GeoGebraCAS;
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;

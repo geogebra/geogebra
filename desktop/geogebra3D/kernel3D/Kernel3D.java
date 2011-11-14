@@ -16,7 +16,7 @@ package geogebra3D.kernel3D;
 
 
 import geogebra.GeoGebra3D;
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.AlgoJoinPointsRay;
 import geogebra.kernel.AlgoJoinPointsSegment;

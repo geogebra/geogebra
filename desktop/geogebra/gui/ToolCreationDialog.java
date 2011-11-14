@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;

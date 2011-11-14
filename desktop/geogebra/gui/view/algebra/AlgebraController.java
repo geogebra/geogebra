@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.algebra;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.kernel.GeoElement;

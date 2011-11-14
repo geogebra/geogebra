@@ -11,7 +11,7 @@ the Free Software Foundation.
  */
 package geogebra.gui;
 
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.AlgoConicPartCircle;
 import geogebra.kernel.AlgoConicPartCircumcircle;

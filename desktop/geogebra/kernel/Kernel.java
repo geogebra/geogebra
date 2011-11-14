@@ -20,7 +20,7 @@ package geogebra.kernel;
 
 import geogebra.GeoGebra;
 import geogebra.cas.GeoGebraCAS;
-import geogebra.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyXMLHandler;
