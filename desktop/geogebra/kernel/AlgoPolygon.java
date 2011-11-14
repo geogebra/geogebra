@@ -192,7 +192,7 @@ public class AlgoPolygon extends AlgoElement {
     		size+=segments.length;
     	}
     	
-        super.setOutputLength(1);
+        super.setOutputLength(size);
         super.setOutput(0, poly);
         
         for (int i=0; i < size-1; i++) {
