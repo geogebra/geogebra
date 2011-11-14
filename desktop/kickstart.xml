@@ -451,7 +451,7 @@ instructions.
 	
 	&lt;classpathentry excluding="build/|icons/|installer/|lib/|scripts/|webstart/|xsd/" kind="src" path=""&gt;
 		&lt;attributes&gt;
-			&lt;attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="geogebra/lib"/&gt;
+			&lt;attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="desktop/lib"/&gt;
 		&lt;/attributes&gt;
         &lt;/classpathentry&gt;
 		
