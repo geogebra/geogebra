@@ -18,7 +18,7 @@ umask 0002 # trying to ensure g+w rights for all created files automatically
 
 cd $SVNDIR
 svn co --force $REPO
-cd geogebra
+cd geogebra/desktop
 
 test -r $UNIX_RT_JAR && cp $UNIX_RT_JAR ../java150-rt.jar
 test -r $MACOSX_RT_JAR && cp $MACOSX_RT_JAR ../java150-rt.jar

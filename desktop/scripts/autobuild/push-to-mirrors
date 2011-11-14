@@ -26,7 +26,7 @@ MYDIR=4.2
 cd $WWWDIR/$MYDIR
 MYVER=`cat unpacked/version.txt`
 
-cat $SVNDIR/geogebra/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR; do
+cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR; do
  echo "Copying files to $RUSER@$IP:$PORT/$DIR..."
  # (Re)creating directories (-n is important to prevent reading data from cat):
  ssh -n -l $RUSER -p $PORT $IP "mkdir -p $DIR; cd $DIR; mkdir -p $MYDIR; cd $MYDIR; mkdir -p jnlp packed unpacked unsigned/packed unsigned/unpacked usb"

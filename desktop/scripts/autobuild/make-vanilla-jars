@@ -21,7 +21,7 @@ if [ "$SVNDIR" = "" ]; then
  ORIGDIR=`dirname $0`
  WORKDIR=`cd $ORIGDIR/../..; pwd`
 else
- WORKDIR=`cd $SVNDIR/desktop; pwd`
+ WORKDIR=`cd $SVNDIR/geogebra/desktop; pwd`
  fi
 
 if [ "$JAVA_HOME" = "" ]; then

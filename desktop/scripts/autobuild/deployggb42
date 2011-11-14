@@ -11,7 +11,7 @@ test -r autobuild.conf || {
  exit 1
  }
 . ./autobuild.conf
-cd $SVNDIR/geogebra
+cd $SVNDIR/geogebra/desktop
 
 # 2. Setting local variables
 MYVER=`cat build/unpacked/version.txt`
@@ -31,15 +31,15 @@ mkdir -p $WWWDIR/$MYDIR || exit 3
 chmod g+rwx $WWWDIR/$MYDIR || exit 3
 
 # 4/1. Copying static files (common code with buildggb42)
-cp -R $SVNDIR/geogebra/webstart/4.2/* $WWWDIR/$MYDIR || exit 4
-cp $SVNDIR/geogebra/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
+cp -R $SVNDIR/geogebra/desktop/webstart/4.2/* $WWWDIR/$MYDIR || exit 4
+cp $SVNDIR/geogebra/desktop/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
 find $WWWDIR/$MYDIR -name .svn | xargs rm -fR
 mkdir -p $WWWDIR/$MYDIR/usb
-cp $SVNDIR/geogebra/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
+cp $SVNDIR/geogebra/desktop/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
 echo "$0: static files copied"
 
 # 4/2. Copying/overwriting JAR files to 4.2 and history/$MYVER:
-cd $SVNDIR/geogebra/build
+cd $SVNDIR/geogebra/desktop/build
 rm -fR $WWWDIR/history/$MYVER || exit 4
 mkdir -p $WWWDIR/history/$MYVER || exit 4
 chmod g+rwx $WWWDIR/history/$MYVER || exit 4
@@ -70,7 +70,7 @@ for i in *.html *.jnlp; do
 # 4/4. Creating a jnlp file for webstart/history (implementing #692), common code with buildggb42:
 MYVER_DASHED=`echo $MYVER | tr . -`
 for i in unpacked debug; do
- cat $SVNDIR/geogebra/scripts/autobuild/history-template.jnlp |\
+ cat $SVNDIR/geogebra/desktop/scripts/autobuild/history-template.jnlp |\
   sed s/MYVER_DASHED/$MYVER_DASHED/g |\
   sed s/MYVER/$MYVER/g |\
   sed s/ENDDIR/$i/g \
@@ -94,48 +94,48 @@ echo "$WARNINGS warnings during chmod'ing web files"
 
 # 6/1. Deploying ggb42maxima as well:
 if [ "$ENABLE_GGB42MAXIMA" = "1" ]; then # Currently we do not provide this package by default:
- cd $SVNDIR/geogebra/scripts/autobuild/windows
+ cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows
  ./ggb42maxima
  fi
 
 # 6/2. Deploying ggb42 as well:
-cd $SVNDIR/geogebra/scripts/autobuild/windows
+cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows
 ./ggb42
 
 # 7. Deploying Linux/generic and Linux/portable as well:
-cd $SVNDIR/geogebra/scripts/autobuild/linux/generic
+cd $SVNDIR/geogebra/desktop/scripts/autobuild/linux/generic
 ./create_geogebra_linux
-cd $SVNDIR/geogebra/scripts/autobuild/linux/portable
+cd $SVNDIR/geogebra/desktop/scripts/autobuild/linux/portable
 ./create_geogebra_portable
 
 # 8. Copying the Mac OS X and the Windows installer version to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
- cd $SVNDIR/geogebra/build/installer
+ cd $SVNDIR/geogebra/desktop/build/installer
  MACOSX_ZIP=GeoGebra_`echo $MYVER | tr . -`.zip
  # GeoGebra_3-9-209-0.zip -> GeoGebra-MacOS-Installer-3-9-209-0.zip (GeoGebra for Mac OSX)
  MACOSX_ZIP_FINAL=GeoGebra-MacOS-Installer-`echo $MYVER | tr . -`.zip
  test -r $MACOSX_ZIP_FINAL || mv $MACOSX_ZIP $MACOSX_ZIP_FINAL
- $SVNDIR/geogebra/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $MACOSX_ZIP_FINAL
 
  WINDOWS_INSTALLER_EXE=GeoGebra-Windows-Installer-`echo $MYVER | tr . -`.exe
- $SVNDIR/geogebra/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_INSTALLER_EXE
  fi
 
 # 9/1. rsync-www on demand:
 if [ "$WWW_REMOTEDIR" != "" ]; then
  echo "$0: Copying all files to $WWW_REMOTEDIR"
- cd $SVNDIR/geogebra/scripts/autobuild
+ cd $SVNDIR/geogebra/desktop/scripts/autobuild
  ./rsync-www 2>&1 >.rsync-www
  fi
 
 # 9/2. Push to mirrors:
-cd $SVNDIR/geogebra/scripts/autobuild
+cd $SVNDIR/geogebra/desktop/scripts/autobuild
 ./push-to-mirrors
 
 # 10. Sending an email to geogebra-dev:
-REVISION=`cat $SVNDIR/geogebra/scripts/autobuild/.revision`
+REVISION=`cat $SVNDIR/geogebra/desktop/scripts/autobuild/.revision`
 MAIL="New version of GeoGebra 4.2 has just been uploaded: $MYVER\n
 http://www.geogebra.org/trac/log/trunk?rev=$REVISION\n
 Automatic message, do not reply"

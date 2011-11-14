@@ -5,7 +5,7 @@ test -r autobuild.conf || {
  }
 . ./autobuild.conf
 
-cd $SVNDIR/geogebra/build/packed
+cd $SVNDIR/geogebra/desktop/build/packed
 mkdir temp
 for i in *.jar.pack.gz; do
  j=`basename $i .pack.gz`

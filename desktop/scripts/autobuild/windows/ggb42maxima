@@ -67,7 +67,7 @@ cp $WINDOWS_MAXIMA_ZIP_FINAL $TARGET_DIR
 
 # 3. Copying to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
-  $SVNDIR/geogebra/scripts/autobuild/googlecode_upload.py -s "GeoGebra $VERSION_STRING for Windows with Maxima Portable $MAXIMAVERSION" \
+  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $VERSION_STRING for Windows with Maxima Portable $MAXIMAVERSION" \
    -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_MAXIMA_ZIP_FINAL
  fi
 

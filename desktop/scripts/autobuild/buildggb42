@@ -18,10 +18,7 @@ test -r autobuild.conf || {
  }
 . ./autobuild.conf
 
-# Ensuring the geogebra directory exists and points to the right place:
-cd $SVNDIR; ln -s desktop geogebra 
-
-cd $SVNDIR/geogebra
+cd $SVNDIR/geogebra/desktop
 
 umask 0002 # trying to ensure g+w rights for all created files automatically
 
@@ -50,7 +47,7 @@ export ANT_OPTS="-Xmx1024m"
 ant delete-classes compile-grammar-cl || exit 3
 
 # 4/2. Setting classpath for ecj (required for Java 5)
-CP=`cd $SVNDIR/geogebra/scripts/autobuild; ./classpath`
+CP=`cd $SVNDIR/geogebra/desktop/scripts/autobuild; ./classpath`
 
 # 4/3. Setting bootclasspath
 BCP=../java150-rt.jar
@@ -66,9 +63,9 @@ echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 ant -f pack.xml geogebra || exit 3
 
 # 4/6. Testing packed jars
-cd $SVNDIR/geogebra/scripts/autobuild
+cd $SVNDIR/geogebra/desktop/scripts/autobuild
 ./test-packed-jars
-cd $SVNDIR/geogebra
+cd $SVNDIR/geogebra/desktop
 
 # 4/7. Creating Windows and Mac OS X installer
 ant -f installer.xml # installer-clean installer-macosx
@@ -101,10 +98,10 @@ cp -R * $WWWDIR/$MYDIR || exit 4
 echo "$0: dynamically generated files copied"
 
 # 6/2. Copying static files
-cp -R $SVNDIR/geogebra/webstart/4.2/* $WWWDIR/$MYDIR || exit 4
-cp $SVNDIR/geogebra/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
+cp -R $SVNDIR/geogebra/desktop/webstart/4.2/* $WWWDIR/$MYDIR || exit 4
+cp $SVNDIR/geogebra/desktop/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
 mkdir -p $WWWDIR/$MYDIR/usb
-cp $SVNDIR/geogebra/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
+cp $SVNDIR/geogebra/desktop/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
 echo "$0: static files copied"
 
 # 6/3. Rewriting *.html and *.jnlp to static URLs:
@@ -137,7 +134,7 @@ for i in *.html *.jnlp; do
 # 6/4. Copying unsigned geogebra.jar and geogebra_main.jar to $WWWDIR/$MYDIR/minimal:
 mkdir -p $WWWDIR/$MYDIR/minimal
 for i in geogebra geogebra_main; do
- cp $SVNDIR/geogebra/build/unsigned/unpacked/$i.jar $WWWDIR/$MYDIR/minimal
+ cp $SVNDIR/geogebra/desktop/build/unsigned/unpacked/$i.jar $WWWDIR/$MYDIR/minimal
  done
  
 # 7. Finally, making sure that all files have group writable permissions
@@ -147,7 +144,7 @@ echo "$0: $WARNINGS warnings during chmod'ing web files"
 # 8. rsync-www on demand
 if [ "$WWW_REMOTEDIR" != "" ]; then
  echo "$0: Copying all files to $WWW_REMOTEDIR"
- cd $SVNDIR/geogebra/scripts/autobuild
+ cd $SVNDIR/geogebra/desktop/scripts/autobuild
  ./rsync-www 2>&1 >.rsync-www
  fi
 
