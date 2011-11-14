@@ -421,7 +421,7 @@ instructions.
 	<target name="info">
 	<echo message="**********************************************************************"/>
 	<echo message="* If you are working with Eclipse, please                            *"/>
-	<echo message="* 1. Click on Package Explorer -> geogebra (first item in the list). *"/>
+	<echo message="* 1. Click on Package Explorer -> desktop (second item in the list). *"/>
 	<echo message="* 2. Right click, Refresh (or just press F5).                        *"/>
 	<echo message="**********************************************************************"/>
 	</target>
