@@ -61,6 +61,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -1596,9 +1597,17 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
-		app.exporting=true;
+		
+		if(!isViewAttached){
+			data.clearView();
+			kernel.notifyAddAll(data);
+			
+			JFrame tempFrame = new JFrame();
+			tempFrame.add(this);
+			tempFrame.pack();
+		}
 		int r=table.getPrintable(PrintMode.FIT_WIDTH, null, null).print(graphics, pageFormat, pageIndex);
-		app.exporting=false;
+				
 		return r;
 	}
 	
