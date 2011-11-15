@@ -5,6 +5,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
 import geogebra.main.Application;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,8 +70,12 @@ public class ScriptManager {
 	
 	// maps between GeoElement and JavaScript function names
 	private HashMap<GeoElement, String> updateListenerMap;
-	private ArrayList<String> addListeners, removeListeners, renameListeners, updateListeners, 
-		clearListeners,	penListeners;
+	private ArrayList<String> addListeners = new ArrayList<String>(), 
+			removeListeners  = new ArrayList<String>(), 
+			renameListeners  = new ArrayList<String>(), 
+			updateListeners  = new ArrayList<String>(), 
+			clearListeners  = new ArrayList<String>(),	
+			penListeners  = new ArrayList<String>();
 	private JavaToJavaScriptView javaToJavaScriptView;
 	
 	/*
@@ -283,7 +288,7 @@ public class ScriptManager {
 		 * @see #registerAddListener(String)
 		 */
 		public void add(GeoElement geo) {
-			if (addListeners != null && geo.isLabelSet()) { 	
+			if (addListeners.size()>0 && geo.isLabelSet()) { 	
 				Object [] args = { geo.getLabel() };
 				notifyListeners(addListeners, args);
 			}
@@ -294,7 +299,7 @@ public class ScriptManager {
 		 * @see #registerRemoveListener(String)
 		 */
 		public void remove(GeoElement geo) {
-			if (removeListeners != null && geo.isLabelSet()) {  
+			if (removeListeners.size()>0 && geo.isLabelSet()) {  
 				Object [] args = { geo.getLabel() };
 				notifyListeners(removeListeners, args);						
 			}			
@@ -332,7 +337,7 @@ public class ScriptManager {
 			
 			app.getGgbApi().lastGeoElementsIteratorSize = 0;	//ulven 29.08.05: should have been a method...
 			updateListenerMap = null;			
-			if (clearListeners != null) {  				
+			if (clearListeners.size()>0) {  				
 				notifyListeners(clearListeners, null);						
 			}
 		}
@@ -342,7 +347,7 @@ public class ScriptManager {
 		 * @see #registerRenameListener(String)
 		 */
 		public void rename(GeoElement geo) {						
-			if (renameListeners != null && geo.isLabelSet()) {
+			if (renameListeners.size()>0 && geo.isLabelSet()) {
 				Object [] args = { geo.getOldLabel(), geo.getLabel() };
 				notifyListeners(renameListeners, args);				
 			}			
@@ -369,7 +374,7 @@ public class ScriptManager {
 			geo.runUpdateScripts();
 			if (!listenersEnabled) return;
 			// update listeners
-			if (updateListeners != null && geo.isLabelSet()) {
+			if (updateListeners.size()>0 && geo.isLabelSet()) {
 				Object [] args = { geo.getLabel() };
 				notifyListeners(updateListeners, args);	
 			}
@@ -471,6 +476,30 @@ public class ScriptManager {
 		if (usb == null) usb = new USBFunctions(this);
 		
 		return usb;
+	}
+
+	public void notifyDraw(String label, ArrayList<Point> penPoints) {			
+		if (!listenersEnabled || penListeners == null || penListeners.size() ==0) 
+			return;
+		int n = penPoints.size();
+		StringBuilder x = new StringBuilder("new Array(");
+		StringBuilder y = new StringBuilder("new Array(");
+		for(int i =0;i<n;i++){
+			x.append(penPoints.get(i).getX()+(i!=n-1?",":")"));
+			y.append(penPoints.get(i).getY()+(i!=n-1?",":")"));
+		}		
+		
+		int size = penListeners.size();
+		for (int i=0; i < size; i++) {	
+			String call = (String) penListeners.get(i)+ 
+			"(\""+label+"\","+x.toString()+","+y.toString()+")";
+			Application.debug(call);
+			CallJavaScript.evalScript(app, (String) penListeners.get(i)+ 
+					"(\""+label+"\","+x.toString()+","+y.toString()+")",null);
+			
+		}		
+		
+		
 	}
 
 

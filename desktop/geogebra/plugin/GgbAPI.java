@@ -1179,6 +1179,14 @@ public class GgbAPI {
 	public synchronized void unregisterObjectUpdateListener(String objName) {
 		app.getScriptManager().unregisterObjectUpdateListener(objName);
 	}
+	
+	public synchronized void registerPenListener(String JSFunctionName) {
+		app.getScriptManager().registerPenListener(JSFunctionName);
+	}
+	
+	public synchronized void unregisterPenListener(String JSFunctionName) {
+		app.getScriptManager().unregisterPenListener(JSFunctionName);
+	}
 
 	public boolean isMoveable(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);

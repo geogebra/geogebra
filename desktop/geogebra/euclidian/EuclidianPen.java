@@ -356,6 +356,8 @@ public class EuclidianPen {
 		//Application.debug(penPoints.size()+"");
 
 		drawPoints(null,penPoints);
+		if(app.getScriptManager()!=null)
+			app.getScriptManager().notifyDraw(lastPenImage.getLabel(),penPoints);
 		penPoints.clear();
 
 	}
