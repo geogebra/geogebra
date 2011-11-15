@@ -1419,4 +1419,22 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 
+	public void drawPen(String label,double[] x, double[] y) {
+		ggbApi.drawPen(label,x,y);
+		
+	}
+
+
+	public void registerPenListener(String JSFunctionName) {
+		app.getScriptManager().registerPenListener(JSFunctionName);
+		
+	}
+
+
+	public void unregisterPenListener(String JSFunctionName) {
+		app.getScriptManager().unregisterPenListener(JSFunctionName);
+		
+	}
+
+
 }

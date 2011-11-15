@@ -69,7 +69,8 @@ public class ScriptManager {
 	
 	// maps between GeoElement and JavaScript function names
 	private HashMap<GeoElement, String> updateListenerMap;
-	private ArrayList<String> addListeners, removeListeners, renameListeners, updateListeners, clearListeners;
+	private ArrayList<String> addListeners, removeListeners, renameListeners, updateListeners, 
+		clearListeners,	penListeners;
 	private JavaToJavaScriptView javaToJavaScriptView;
 	
 	/*
@@ -90,6 +91,9 @@ public class ScriptManager {
 		
 		if (clearListeners != null)
 			clearListeners.clear();
+		
+		if (penListeners != null)
+			penListeners.clear();
 
 	}
 	
@@ -99,20 +103,26 @@ public class ScriptManager {
 	 *  function JSFunctionName is called using the name of the newly created object as a single argument. 
 	 */
 	public synchronized void registerAddListener(String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0)
+		registerGlobalListener(addListeners,JSFunctionName,"registerAddListener");
+	}
+	
+	private void registerGlobalListener(ArrayList<String> listenerList,
+			String jSFunctionName, String string) {
+		if (jSFunctionName == null || jSFunctionName.length() == 0)
 			return;				
 						
 		// init view
 		initJavaScriptView();
 		
 		// init list
-		if (addListeners == null) {
-			addListeners = new ArrayList<String>();			
+		if (listenerList == null) {
+			listenerList = new ArrayList<String>();			
 		}		
-		addListeners.add(JSFunctionName);				
-		Application.debug("registerAddListener: " + JSFunctionName);
+		listenerList.add(jSFunctionName);				
+		Application.debug(string + ": " + jSFunctionName);
+		
 	}
-	
+
 	/**
 	 * Removes a previously registered add listener 
 	 * @see #registerAddListener(String) 
@@ -130,18 +140,7 @@ public class ScriptManager {
 	 * function JSFunctionName is called using the name of the deleted object as a single argument. 	
 	 */
 	public synchronized void registerRemoveListener(String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0)
-			return;				
-						
-		// init view
-		initJavaScriptView();
-		
-		// init list
-		if (removeListeners == null) {
-			removeListeners = new ArrayList<String>();			
-		}		
-		removeListeners.add(JSFunctionName);				
-		Application.debug("registerRemoveListener: " + JSFunctionName);
+		registerGlobalListener(removeListeners,JSFunctionName,"registerRemoveListener");
 	}
 	
 	/**
@@ -161,18 +160,7 @@ public class ScriptManager {
 	 * function JSFunctionName is called using no arguments. 	
 	 */
 	public synchronized void registerClearListener(String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0)
-			return;				
-						
-		// init view
-		initJavaScriptView();
-		
-		// init list
-		if (clearListeners == null) {
-			clearListeners = new ArrayList<String>();			
-		}		
-		clearListeners.add(JSFunctionName);				
-		Application.debug("registerClearListener: " + JSFunctionName);
+		registerGlobalListener(clearListeners,JSFunctionName,"registerClearListener");
 	}
 	
 	/**
@@ -192,18 +180,7 @@ public class ScriptManager {
 	 * function JSFunctionName is called using the name of the deleted object as a single argument. 	
 	 */
 	public synchronized void registerRenameListener(String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0)
-			return;				
-						
-		// init view
-		initJavaScriptView();
-		
-		// init list
-		if (renameListeners == null) {
-			renameListeners = new ArrayList<String>();			
-		}		
-		renameListeners.add(JSFunctionName);				
-		Application.debug("registerRenameListener: " + JSFunctionName);
+		registerGlobalListener(renameListeners,JSFunctionName,"registerRenameListener");
 	}
 	
 	/**
@@ -223,18 +200,7 @@ public class ScriptManager {
 	 * function JSFunctionName is called using the name of the updated object as a single argument. 	
 	 */
 	public synchronized void registerUpdateListener(String JSFunctionName) {
-		if (JSFunctionName == null || JSFunctionName.length() == 0)
-			return;				
-						
-		// init view
-		initJavaScriptView();
-		
-		// init list
-		if (updateListeners == null) {
-			updateListeners = new ArrayList<String>();			
-		}		
-		updateListeners.add(JSFunctionName);				
-		Application.debug("registerUpdateListener: " + JSFunctionName);
+		registerGlobalListener(updateListeners,JSFunctionName,"registerUpdateListener");
 	}
 	
 	/**
@@ -246,7 +212,18 @@ public class ScriptManager {
 			updateListeners.remove(JSFunctionName);
 			Application.debug("unregisterUpdateListener: " + JSFunctionName);
 		}	
-	}	
+	}
+	
+	public synchronized void registerPenListener(String JSFunctionName) {
+		registerGlobalListener(penListeners,JSFunctionName,"registerPenListener");
+	}
+	
+	public synchronized void unregisterPenListener(String JSFunctionName) {
+		if (penListeners != null) {
+			penListeners.remove(JSFunctionName);
+			Application.debug("unregisterPenListener: " + JSFunctionName);
+		}	
+	}
 	
 	/**
 	 * Registers a JavaScript update listener for an object. Whenever the object with 

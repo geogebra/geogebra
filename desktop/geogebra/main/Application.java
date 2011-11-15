@@ -22,6 +22,7 @@ import geogebra.GeoGebra;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.export.WorksheetExportDialog;
@@ -39,6 +40,7 @@ import geogebra.kernel.AlgoElement;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoImage;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.Relation;
@@ -68,6 +70,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
@@ -77,6 +81,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.awt.Transparency;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -6016,6 +6021,29 @@ public class Application implements KeyEventDispatcher {
 		showInputHelpToggle = flag; 
 		getGuiManager().updateAlgebraInput(); 
 		updateMenubar(); 
+	}
+
+	public void drawPen(String label, double[] x, double[] y) {
+		GeoElement ge = kernel.lookupLabel(label);
+		
+		if(ge == null){
+			ge = new GeoImage(kernel.getConstruction());
+			if(label.length()==0)
+				label = null;
+			ge.setLabel(label);
+		}
+		if(!ge.isGeoImage()){
+			debug("Bad drawPen arguments");
+			return;
+		}
+		
+		EuclidianPen p = this.getEuclidianView().getEuclidianController().getPen();
+		ArrayList<Point> ptList = new ArrayList<Point>();
+		for(int i=0;i<x.length;i++){
+			ptList.add(new Point((int)x[i],(int)y[i]));
+		}
+		p.drawPoints((GeoImage)ge,ptList);
+		
 	} 	
 }
 

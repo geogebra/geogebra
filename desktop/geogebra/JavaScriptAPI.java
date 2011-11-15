@@ -474,6 +474,12 @@ public interface JavaScriptAPI {
 	 * @see #setChangeListener
 	 */
 	public void unregisterObjectUpdateListener(String objName);
+	
+	public void drawPen(String label,double[] x, double[] y);
+	
+	public void registerPenListener(String JSFunctionName);
+	
+	public void unregisterPenListener(String JSFunctionName);
 
 
 	

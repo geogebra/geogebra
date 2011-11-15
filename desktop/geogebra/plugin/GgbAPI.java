@@ -55,7 +55,7 @@ import javax.imageio.stream.ImageOutputStream;
    The Api the plugin program can use.
 </pre>
 <ul><h4>Interface:</h4>
-<li>GgbAPI(Allication)      //Application owns it
+<li>GgbAPI(Application)      //Application owns it
 <li>getApplication()
 <li>getKernel()
 <li>getConstruction()
@@ -84,6 +84,7 @@ public class GgbAPI {
    /** Constructor:
     *  Makes the api with a reference to the GeoGebra program.
     *  Called from GeoGebra.
+    *  @param app Application
     */
     public GgbAPI(Application app) {
         this.app=app;
@@ -1186,6 +1187,13 @@ public class GgbAPI {
 		else
 			return geo.isMoveable();
 	}
+
+	public void drawPen(String label, double[] x, double[] y) {
+		app.drawPen(label,x,y);
+		
+	}
+
+	
 
 
 		

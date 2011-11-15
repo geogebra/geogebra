@@ -213,6 +213,7 @@ public class EuclidianPen {
 
 			GraphicsConfiguration gc =
 				gs.getDefaultConfiguration();
+			
 			penImage = gc.createCompatibleImage((int)rect.getWidth(),
 					(int)rect.getHeight(), Transparency.BITMASK);
 			
@@ -335,65 +336,7 @@ public class EuclidianPen {
 
 		
 		if (freehand) {
-			int n = maxX - minX + 1;
-			double [] freehand = new double[n];
-
-			for (int i = 0 ; i < n ; i++) freehand[i] = Double.NaN;
-
-
-			for (int i = 0 ; i < penPoints.size() ; i++) {
-				Point p = penPoints.get(i);
-				if (Double.isNaN(freehand[p.x - minX])) {
-					freehand[p.x - minX] = view.toRealWorldCoordY(p.y);
-				}
-			}
-
-			// fill in any gaps (eg from fast mouse movement)
-			double val = freehand[0];
-			int valIndex = 0;
-			double nextVal = Double.NaN;
-			int nextValIndex = -1;
-			for (int i = 0 ; i < n ; i++) {
-				if (Double.isNaN(freehand[i])) {
-					if(i>nextValIndex){
-						nextValIndex = i;
-						while(nextValIndex<n && Double.isNaN(freehand[nextValIndex]))
-							nextValIndex++;
-					}
-					if(nextValIndex>=n)
-						freehand[i]=val;
-					else{
-						nextVal=freehand[nextValIndex];
-						freehand[i] = 
-						(val*(nextValIndex-i)+nextVal*(i-valIndex))/(nextValIndex-valIndex);
-					}
-				} else {
-					val = freehand[i];
-					valIndex = i;
-				}
-			}
-
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Function[{");
-			sb.append(view.toRealWorldCoordX(minX));
-			sb.append(",");
-			sb.append(view.toRealWorldCoordX(maxX));
-			sb.append(",");
-			for (int i = 0 ; i < n ; i++) {
-				sb.append(freehand[i]);
-				if (i < n-1) sb.append(",");
-			}
-			sb.append("}]");
-
-			app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), true);
-
-			penPoints.clear();
-
-			app.refreshViews(); // clear trace
-
-			minX = Integer.MAX_VALUE;
-			maxX = Integer.MIN_VALUE;
+			mouseReleasedFreehand();
 
 			return;
 		}
@@ -412,9 +355,31 @@ public class EuclidianPen {
 
 		//Application.debug(penPoints.size()+"");
 
-		PolyBezier pb = new PolyBezier(penPoints);
+		drawPoints(null,penPoints);
+		penPoints.clear();
 
-		Graphics2D g2d = (Graphics2D)penImage.getGraphics();
+	}
+
+
+
+
+	public void drawPoints(GeoImage gi,ArrayList<Point> penPoints2) {
+		PolyBezier pb = new PolyBezier(penPoints2);
+		BufferedImage penImage2 = gi == null? penImage:gi.getFillImage();
+		boolean giNeedsInit = false;
+		if(penImage2==null){			
+			giNeedsInit = true;
+			GraphicsEnvironment ge =
+					GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+				GraphicsDevice gs = ge.getDefaultScreenDevice();
+
+				GraphicsConfiguration gc =
+					gs.getDefaultConfiguration();
+			penImage2 = gc.createCompatibleImage(view.getWidth(),
+					view.getHeight(), Transparency.BITMASK);
+		}
+		Graphics2D g2d = (Graphics2D)penImage2.getGraphics();
 		
 		EuclidianView.setAntialiasing(g2d);
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);	
@@ -425,35 +390,39 @@ public class EuclidianPen {
 			g2d.setColor(new Color(0, 0, 0, 0)); // transparent	
 			g2d.setComposite(AlphaComposite.Src);
 		} else {
-			g2d.setStroke(EuclidianView.getStroke(2 * penSize, (penPoints.size() <= 2) ? EuclidianView.LINE_TYPE_FULL : penLineStyle));
+			g2d.setStroke(EuclidianView.getStroke(2 * penSize, (penPoints2.size() <= 2) ? EuclidianView.LINE_TYPE_FULL : penLineStyle));
 			g2d.setColor(penColor);
 		}
 		g2d.draw(pb.gp);
 
-		penPoints.clear();
+		
 
 		EuclidianView ev=(EuclidianView)app.getActiveEuclidianView();
 
 		app.refreshViews(); // clear trace
-		ev.getGraphics().drawImage(penImage, penOffsetX, penOffsetY, null);
+		ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
 
 
-		if (lastPenImage == null && !penWritingToExistingImage) {
-			String fileName = app.createImage(penImage, "penimage.png");
+		if (giNeedsInit || (gi==null && lastPenImage == null && !penWritingToExistingImage)) {
+			String fileName = app.createImage(penImage2, "penimage.png");
 			//Application.debug(fileName);
-
-			GeoImage geoImage = new GeoImage(app.getKernel().getConstruction());
+			GeoImage geoImage = null;
+			if(gi==null)
+				geoImage = new GeoImage(app.getKernel().getConstruction());
+			else
+				geoImage = gi;
 			geoImage.setImageFileName(fileName);
 			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			GeoPoint corner = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY + penImage.getHeight()),1.0));
-			GeoPoint corner2 = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX + penImage.getWidth()),ev.toRealWorldCoordY( penOffsetY + penImage.getHeight()),1.0));
+			GeoPoint corner = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY + penImage2.getHeight()),1.0));
+			GeoPoint corner2 = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX + penImage2.getWidth()),ev.toRealWorldCoordY( penOffsetY + penImage2.getHeight()),1.0));
 			corner.setLabelVisible(false);
 			corner2.setLabelVisible(false);
 			corner.setAuxiliaryObject(!penUsingOffsets);
 			corner2.setAuxiliaryObject(!penUsingOffsets);
 			corner.update();
 			corner2.update();
-			geoImage.setLabel(null);
+			if(gi==null)
+				geoImage.setLabel(null);
 			geoImage.setCorner(corner, 0);
 			geoImage.setCorner(corner2, 1);
 
@@ -487,7 +456,73 @@ public class EuclidianPen {
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
 
+		
+	}
 
+
+
+
+	private void mouseReleasedFreehand() {
+		int n = maxX - minX + 1;
+		double [] freehand = new double[n];
+
+		for (int i = 0 ; i < n ; i++) freehand[i] = Double.NaN;
+
+
+		for (int i = 0 ; i < penPoints.size() ; i++) {
+			Point p = penPoints.get(i);
+			if (Double.isNaN(freehand[p.x - minX])) {
+				freehand[p.x - minX] = view.toRealWorldCoordY(p.y);
+			}
+		}
+
+		// fill in any gaps (eg from fast mouse movement)
+		double val = freehand[0];
+		int valIndex = 0;
+		double nextVal = Double.NaN;
+		int nextValIndex = -1;
+		for (int i = 0 ; i < n ; i++) {
+			if (Double.isNaN(freehand[i])) {
+				if(i>nextValIndex){
+					nextValIndex = i;
+					while(nextValIndex<n && Double.isNaN(freehand[nextValIndex]))
+						nextValIndex++;
+				}
+				if(nextValIndex>=n)
+					freehand[i]=val;
+				else{
+					nextVal=freehand[nextValIndex];
+					freehand[i] = 
+					(val*(nextValIndex-i)+nextVal*(i-valIndex))/(nextValIndex-valIndex);
+				}
+			} else {
+				val = freehand[i];
+				valIndex = i;
+			}
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Function[{");
+		sb.append(view.toRealWorldCoordX(minX));
+		sb.append(",");
+		sb.append(view.toRealWorldCoordX(maxX));
+		sb.append(",");
+		for (int i = 0 ; i < n ; i++) {
+			sb.append(freehand[i]);
+			if (i < n-1) sb.append(",");
+		}
+		sb.append("}]");
+
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), true);
+
+		penPoints.clear();
+
+		app.refreshViews(); // clear trace
+
+		minX = Integer.MAX_VALUE;
+		maxX = Integer.MIN_VALUE;
+		
 	}
 
 

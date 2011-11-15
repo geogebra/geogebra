@@ -583,4 +583,19 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public boolean isMoveable(String objName) {
 		return getAppletImplementation().isMoveable(objName);
 	}
+	
+
+	public void drawPen(String label,double[] x, double[] y) {
+		getAppletImplementation().drawPen(label, x, y);
+		
+	}
+
+	public void registerPenListener(String JSFunctionName) {
+		getAppletImplementation().unregisterPenListener(JSFunctionName);
+		
+	}
+
+	public void unregisterPenListener(String JSFunctionName) {
+		getAppletImplementation().unregisterPenListener(JSFunctionName);		
+	}
 }
