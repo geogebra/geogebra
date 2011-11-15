@@ -1046,6 +1046,7 @@ public abstract class GeoElement
 	}
 
 	public void setBackgroundColor(Color bgCol) {
+		Application.debug(getClass()+" "+bgCol);
 		bgColor = bgCol;
 	}
 
@@ -6274,6 +6275,10 @@ public abstract class GeoElement
 		}
 		
 		// no real latex string
+		return false;
+	}
+	
+	public boolean hasBackgroundColor() {
 		return false;
 	}
 

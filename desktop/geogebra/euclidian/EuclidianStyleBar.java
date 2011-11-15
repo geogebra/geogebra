@@ -9,6 +9,7 @@ import geogebra.kernel.AlgoElement;
 import geogebra.kernel.AlgoTableText;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
+import geogebra.kernel.GeoButton;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoImage;
 import geogebra.kernel.GeoList;
@@ -879,7 +880,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 					boolean geosOK = (geos.length > 0 || mode == EuclidianConstants.MODE_PEN);
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement)geos[i]).getGeoElementForPropertiesDialog();
-						if (geo instanceof GeoImage || geo instanceof GeoText){
+						if (geo instanceof GeoImage || geo instanceof GeoText || geo instanceof GeoButton){
 							geosOK = false;
 							break;
 						}
@@ -944,7 +945,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				boolean geosOK = (geos.length > 0);
 				for (int i = 0; i < geos.length; i++) {
 					GeoElement geo = ((GeoElement)geos[i]).getGeoElementForPropertiesDialog();
-					if (!(geo instanceof GeoText)){
+					if (!(geo instanceof GeoText) && !(geo instanceof GeoButton)){
 						geosOK = false;
 						break;
 					}
@@ -1601,7 +1602,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		Color color = btnTextColor.getSelectedColor();
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = geos.get(i);
-			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()).isGeoText() && geo.getObjectColor() != color){
+			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()) instanceof TextProperties && geo.getObjectColor() != color){
 				geo.setObjColor(color);
 				geo.updateRepaint();
 				needUndo = true;

@@ -18,8 +18,10 @@ import geogebra.kernel.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -29,7 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JButton;
+import javax.swing.Icon;
 import javax.swing.SwingUtilities;
 
 
@@ -50,7 +52,7 @@ public final class DrawButton extends Drawable {
 
 	private Point textSize = new Point(0,0);
 	
-	JButton button;
+	MyButton myButton;
 	ButtonListener bl;
 
 
@@ -61,12 +63,12 @@ public final class DrawButton extends Drawable {
 
 		// action listener for checkBox
 		bl = new ButtonListener();
-		button = new JButton();	
-		button.addItemListener(bl);
-		button.addMouseListener(bl);
-		button.addMouseMotionListener(bl);
-		button.setFocusable(false);	
-		view.add(button);
+		myButton = new MyButton(geoButton);	
+		myButton.addItemListener(bl);
+		myButton.addMouseListener(bl);
+		myButton.addMouseMotionListener(bl);
+		myButton.setFocusable(false);	
+		view.add(myButton);
 		
 		update();
 	}
@@ -85,13 +87,13 @@ public final class DrawButton extends Drawable {
 
 		public void mouseDragged(MouseEvent e) {	
 			dragging = true;			
-			e.translatePoint(button.getX(), button.getY());
+			e.translatePoint(myButton.getX(), myButton.getY());
 			ec.mouseDragged(e);
 			view.setToolTipText(null);
 		}
 
 		public void mouseMoved(MouseEvent e) {				
-			e.translatePoint(button.getX(), button.getY());
+			e.translatePoint(myButton.getX(), myButton.getY());
 			ec.mouseMoved(e);
 			view.setToolTipText(null);
 		}
@@ -99,13 +101,13 @@ public final class DrawButton extends Drawable {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() > 1) return;
 			
-			e.translatePoint(button.getX(), button.getY());
+			e.translatePoint(myButton.getX(), myButton.getY());
 			ec.mouseClicked(e);
 		}
 
 		public void mousePressed(MouseEvent e) {
 			dragging = false;	
-			e.translatePoint(button.getX(), button.getY());
+			e.translatePoint(myButton.getX(), myButton.getY());
 			ec.mousePressed(e);		
 		}
 
@@ -129,7 +131,7 @@ public final class DrawButton extends Drawable {
 			}
 			else {
 				// handle right click and dragging
-				e.translatePoint(button.getX(), button.getY());
+				e.translatePoint(myButton.getX(), myButton.getY());
 				ec.mouseReleased(e);	
 			}
 		}
@@ -147,7 +149,7 @@ public final class DrawButton extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		button.setVisible(isVisible);
+		myButton.setVisible(isVisible);
 		if (!isVisible)
 			return;		
 
@@ -159,12 +161,12 @@ public final class DrawButton extends Drawable {
 				oldCaption = caption;
 				labelDesc = GeoElement.indicesToHTML(caption, true);
 			}	
-			button.setText(labelDesc);
+			myButton.setText(labelDesc);
 		} else {
 			// don't show label
 // Michael Borcherds 2007-10-18 BEGIN changed so that vertical position of checkbox doesn't change when label is shown/hidden
 //			checkBox.setText("");
-			button.setText(" ");
+			myButton.setText(" ");
 // Michael Borcherds 2007-10-18 END
 		}			
 		
@@ -173,13 +175,12 @@ public final class DrawButton extends Drawable {
 		
 		Font vFont = view.getFont();
 		
-		button.setOpaque(true);		
-		button.setFont(app.getFontCanDisplay(button.getText(), false, vFont.getStyle(), fontSize));				
+		myButton.setOpaque(true);		
+		myButton.setFont(app.getFontCanDisplay(myButton.getText(), false, vFont.getStyle(), fontSize));				
 
-		button.setForeground(geo.getObjectColor());
-		Color bgCol = geo.getBackgroundColor();
-		button.setBackground(bgCol != null ? bgCol : view.getBackground());
-		
+		//myButton.setForeground(geo.getObjectColor());
+		//Color bgCol = geo.getBackgroundColor();
+		//myButton.setBackground(Color.red);//bgCol != null ? bgCol : view.getBackground());
 		// set checkbox state		
 		//jButton.removeItemListener(bl);
 		//jButton.setSelected(geo.getBoolean());
@@ -187,10 +188,10 @@ public final class DrawButton extends Drawable {
 		
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;		
-		Dimension prefSize = button.getPreferredSize();
+		Dimension prefSize = myButton.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.width,
 				prefSize.height);
-		button.setBounds(labelRectangle);	}
+		myButton.setBounds(labelRectangle);	}
 
 	private void updateLabel() {
 		xLabel = geo.labelOffsetX;
@@ -205,12 +206,12 @@ public final class DrawButton extends Drawable {
 	final public void draw(Graphics2D g2) {
 
 		if (isVisible) {		
-			button.setSelected(geo.doHighlighting());
+			myButton.setSelected(geo.doHighlighting());
 			// setSelected doesn't seem to do anything in Windows XP
-			if (!Application.MAC_OS) {
-				// but looks ugly in MacOS, see #820
-				button.setBackground(geo.doHighlighting() ? Color.blue : Color.white);
-			}
+			//if (!Application.MAC_OS) {
+			//	// but looks ugly in MacOS, see #820
+			//	button.setBackground(geo.doHighlighting() ? Color.blue : Color.white);
+			//}
 		}
 	}
 
@@ -218,7 +219,7 @@ public final class DrawButton extends Drawable {
 	 * Removes button from view again
 	 */
 	final public void remove() {
-		view.remove(button);
+		view.remove(myButton);
 	}
 	
 	/**

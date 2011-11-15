@@ -268,5 +268,12 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 			sb.append("\"/>\n");
 		}
 	}
+	
+	@Override
+	public boolean hasBackgroundColor() {
+		return true;
+	}
+
+
 
 }

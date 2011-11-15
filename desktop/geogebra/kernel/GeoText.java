@@ -843,5 +843,10 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
  	public boolean hasDrawable3D() {
 		return true;
 	}
+ 	
+	@Override
+	public boolean hasBackgroundColor() {
+		return true;
+	}
 
 }
