@@ -69,24 +69,18 @@ public class AlgoFlatten extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		ArrayList<GeoElement> flattened=flatten(inputList);
-		
-		for (int i=0; i<flattened.size(); i++){
-			outputList.add(flattened.get(i).copyInternal(cons));
-		}
+		flatten(outputList,inputList);
 	}
 	
-	private static ArrayList<GeoElement> flatten(GeoList list){
+	private void flatten(GeoList outputList, GeoList list){
 		int size=list.size();
-		ArrayList<GeoElement> output=new ArrayList<GeoElement>(size);
 		for (int i=0; i<size;i++){
 			GeoElement element=list.get(i);
 			if (element.isGeoList()){
-				output.addAll(flatten((GeoList)element));
+				flatten(outputList, (GeoList)element);
 			} else
-				output.add(element);
+				outputList.add(element.copyInternal(cons));
 		}
-		return output;
 	}
 	
 	final public String toString(){
