@@ -166,7 +166,7 @@ public class CommandDispatcher {
     	//=============================================================
        	Sort, First, Last, Take,
        	RemoveUndefined, Reverse, Element, IndexOf,
-       	Append, Join, Insert,
+       	Append, Join, Flatten, Insert,
        	Sequence, SelectedElement, SelectedIndex, RandomElement,
        	Product, Frequency, Unique, Classes,
        	Zip, Intersection,
@@ -705,6 +705,7 @@ public class CommandDispatcher {
     			case IndexOf: return new CmdIndexOf(kernel);
     			case Append: return new CmdAppend(kernel);
     			case Join: return new CmdJoin(kernel);
+    			case Flatten: return new CmdFlatten(kernel);
     			case Insert: return new CmdInsert(kernel);   
     			case Sequence: return new CmdSequence(kernel);
     			case SelectedElement: return new CmdSelectedElement(kernel);

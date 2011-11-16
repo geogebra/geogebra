@@ -4909,6 +4909,19 @@ public class Kernel {
 		return list2;
 	}
 	
+	/**
+	 * Flatten[list]
+	 * Simon Weitzhofer
+	 */
+	
+	final public GeoList Flatten(String label, GeoList list) {
+		AlgoFlatten algo = new AlgoFlatten(cons, label, list);
+		GeoList list2 = algo.getResult();
+		return list2;
+	}
+	
+	
+	
 	/** 
 	 * Union[list,list]
 	 * Michael Borcherds
