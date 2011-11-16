@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.kernel.GeoButton;
+import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,9 +18,11 @@ import javax.swing.JButton;
 public class MyButton extends JButton {
 
 	private GeoButton geoButton;
+	private EuclidianView view;
 
-	public MyButton(GeoButton button) {
+	public MyButton(GeoButton button, EuclidianView view) {
 		this.geoButton = button;
+		this.view = view;
 	}
 	@Override
 	protected void paintBorder(Graphics g) {
@@ -35,7 +38,7 @@ public class MyButton extends JButton {
 
 		EuclidianView.setAntialiasing(g2);
 
-		g2.setColor(Color.white);
+		g2.setColor(view.getBackground());
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
 
@@ -67,7 +70,9 @@ public class MyButton extends JButton {
 		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, getHeight() / 3, getHeight() / 3);
 
 		g2.setColor(geoButton.getObjectColor());
+		
 		Font f = getFont();
+		
 		g2.setFont(f);
 
 		FontMetrics metrics = getFontMetrics(f);

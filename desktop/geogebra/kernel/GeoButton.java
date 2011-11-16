@@ -14,6 +14,8 @@ package geogebra.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
 
+import java.awt.Font;
+
 
 /**
  * 
@@ -25,6 +27,9 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	private boolean buttonFixed = false;
 	
 	private int fontSize = 0;
+	private int fontStyle = Font.PLAIN;
+
+	private boolean serifFont = false;
 	
 	public GeoButton(Construction c) {
 		super(c);
@@ -221,11 +226,11 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 
 	public int getFontStyle() {
-		return 0;
+		return fontStyle;
 	}
 
 	public void setFontStyle(int fontStyle) {
-		
+		this.fontStyle = fontStyle;
 	}
 
 	public int getPrintDecimals() {
@@ -244,10 +249,11 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 
 	public boolean isSerifFont() {
-		return false;
+		return serifFont ;
 	}
 
 	public void setSerifFont(boolean serifFont) {
+		this.serifFont = serifFont;
 	}
 
 	public boolean useSignificantFigures() {
@@ -261,12 +267,18 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
+
 		// font settings
-		if (fontSize != 0) {
-			sb.append("\t<font size=\"");
+		if (serifFont || fontSize != 0 || fontStyle != 0) {
+			sb.append("\t<font serif=\"");
+			sb.append(serifFont);
+			sb.append("\" size=\"");
 			sb.append(fontSize);
+			sb.append("\" style=\"");
+			sb.append(fontStyle);
 			sb.append("\"/>\n");
 		}
+		
 	}
 	
 	@Override

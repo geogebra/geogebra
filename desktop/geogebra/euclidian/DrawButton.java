@@ -63,7 +63,7 @@ public final class DrawButton extends Drawable {
 
 		// action listener for checkBox
 		bl = new ButtonListener();
-		myButton = new MyButton(geoButton);	
+		myButton = new MyButton(geoButton, view);	
 		myButton.addItemListener(bl);
 		myButton.addMouseListener(bl);
 		myButton.addMouseMotionListener(bl);
@@ -153,30 +153,20 @@ public final class DrawButton extends Drawable {
 		if (!isVisible)
 			return;		
 
-		// show hide label by setting text
-		if (geo.isLabelVisible()) {
-			// get caption to show r
-			String caption = geo.getCaption();
-			if (!caption.equals(oldCaption)) {
-				oldCaption = caption;
-				labelDesc = GeoElement.indicesToHTML(caption, true);
-			}	
-			myButton.setText(labelDesc);
-		} else {
-			// don't show label
-// Michael Borcherds 2007-10-18 BEGIN changed so that vertical position of checkbox doesn't change when label is shown/hidden
-//			checkBox.setText("");
-			myButton.setText(" ");
-// Michael Borcherds 2007-10-18 END
-		}			
+		// get caption to show r
+		String caption = geo.getCaption();
+		if (!caption.equals(oldCaption)) {
+			oldCaption = caption;
+			labelDesc = GeoElement.indicesToHTML(caption, true);
+		}	
+		myButton.setText(labelDesc);
+	
 		
 		int fontSize = view.fontSize + geoButton.getFontSize();
 		Application app = view.getApplication();
 		
-		Font vFont = view.getFont();
-		
 		myButton.setOpaque(true);		
-		myButton.setFont(app.getFontCanDisplay(myButton.getText(), false, vFont.getStyle(), fontSize));				
+		myButton.setFont(app.getFontCanDisplay(myButton.getText(), geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));				
 
 		//myButton.setForeground(geo.getObjectColor());
 		//Color bgCol = geo.getBackgroundColor();
