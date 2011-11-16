@@ -271,8 +271,14 @@ public class CASInputHandler {
 			nrEquations=selectedIndices.length;
 			currentRow=1+(lastRowSelected=selectedIndices[nrEquations-1]);;
 		}
-
-		GeoCasCell cellValue = consoleTable.getGeoCasCell(currentRow);
+		
+		GeoCasCell cellValue;
+		try {
+			cellValue = consoleTable.getGeoCasCell(currentRow);
+		} catch (ArrayIndexOutOfBoundsException e){
+			cellValue = null;
+		}
+		
 		if (cellValue!=null){
 			if (!cellValue.isEmpty() && !oneRowOnly){
 				cellValue= new GeoCasCell(kernel.getConstruction());
