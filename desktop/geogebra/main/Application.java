@@ -235,7 +235,7 @@ public class Application implements KeyEventDispatcher {
 		// supportedLocales.add(new Locale("oc")); // Occitan
 		supportedLocales.add(new Locale("fa")); // Persian
 		supportedLocales.add(new Locale("pl")); // Polish
-		supportedLocales.add(new Locale("pt", "BR")); // Portugese (Brazil)
+		supportedLocales.add(new Locale("pt")); // Portugese (Brazil)
 		supportedLocales.add(new Locale("pt", "PT")); // Portuguese (Portugal)
 		// supportedLocales.add(new Locale("pa")); // Punjabi
 		if(GeoGebra.IS_PRE_RELEASE)
@@ -289,7 +289,7 @@ public class Application implements KeyEventDispatcher {
 		specialLanguageNames.put("gl", "Galician / Galego");
 		specialLanguageNames.put("noNO", "Norwegian / Bokm\u00e5l");
 		specialLanguageNames.put("noNONY", "Norwegian / Nynorsk");
-		specialLanguageNames.put("ptBR", "Portuguese (Brazil) / Portugu\u00EAs (Brasil)");
+		specialLanguageNames.put("pt", "Portuguese (Brazil) / Portugu\u00EAs (Brasil)");
 		specialLanguageNames.put("ptPT", "Portuguese (Portugal) / Portugu\u00EAs (Portugal)");
 		specialLanguageNames.put("si", "Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD"); // better than Sinhalese
 
