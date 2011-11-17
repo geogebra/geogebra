@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoText;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoText;
 
 /**
  * Take first n objects from a list

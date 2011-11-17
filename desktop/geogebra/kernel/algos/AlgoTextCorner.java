@@ -16,10 +16,10 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
 
 public class AlgoTextCorner extends AlgoElement 
 implements EuclidianViewCE {

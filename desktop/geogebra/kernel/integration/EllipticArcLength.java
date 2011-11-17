@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.integration;
 
-import geogebra.kernel.GeoConic;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
+import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.roots.RealRootFunction;
 
 /**

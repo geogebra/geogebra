@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.main;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 
 public interface GeoElementSelectionListener {
 	

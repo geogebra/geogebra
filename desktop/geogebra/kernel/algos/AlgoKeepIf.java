@@ -13,13 +13,13 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyBoolean;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 
 /**
  * Take objects from the middle of a list

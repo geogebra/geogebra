@@ -1,7 +1,7 @@
 package geogebra.euclidian;
 
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
 

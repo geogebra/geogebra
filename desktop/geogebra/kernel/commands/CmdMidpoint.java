@@ -1,13 +1,13 @@
 package geogebra.kernel.commands;
 
 
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoInterval;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoInterval;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoSegment;
 import geogebra.main.MyError;
 
 

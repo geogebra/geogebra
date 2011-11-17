@@ -2,14 +2,14 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.GeoConicPart;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolyLineInterface;
-import geogebra.kernel.GeoRay;
-import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolyLineInterface;
+import geogebra.kernel.geos.GeoRay;
+import geogebra.kernel.geos.GeoSegment;
 
 /**
  * Algorithms for transformations

@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.kernel.algos.ConstructionElement;
+import geogebra.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
 

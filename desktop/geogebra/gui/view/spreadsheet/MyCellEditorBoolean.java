@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.GeoBoolean;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoBoolean;
 import geogebra.main.Application;
 
 import java.awt.Component;

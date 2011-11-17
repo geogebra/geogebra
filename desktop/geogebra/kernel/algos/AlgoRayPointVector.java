@@ -14,11 +14,11 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoRay;
-import geogebra.kernel.GeoVec3D;
-import geogebra.kernel.GeoVector;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoRay;
+import geogebra.kernel.geos.GeoVec3D;
+import geogebra.kernel.geos.GeoVector;
 
 /**
  * Creates ray from point and direction vector

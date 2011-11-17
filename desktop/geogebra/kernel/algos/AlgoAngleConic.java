@@ -20,9 +20,9 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
 
 
 /**

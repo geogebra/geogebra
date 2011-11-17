@@ -19,13 +19,13 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoCurveCartesian;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.kernelND.GeoCurveCartesianND;
 
 /**

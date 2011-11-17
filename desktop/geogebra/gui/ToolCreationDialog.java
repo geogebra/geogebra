@@ -14,10 +14,10 @@ package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.view.algebra.MyComboBoxListener;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.NameDescriptionComparator;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

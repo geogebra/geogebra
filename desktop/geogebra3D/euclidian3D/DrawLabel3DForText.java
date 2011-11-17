@@ -1,8 +1,8 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.euclidian.Drawable;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoText;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoText;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

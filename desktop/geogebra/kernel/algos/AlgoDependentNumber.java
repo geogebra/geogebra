@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoNumeric;
 
 /**
  * Algorithm for dependent numbers, e.g. c = a + b.

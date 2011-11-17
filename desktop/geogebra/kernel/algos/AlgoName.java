@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoText;
 
 /**
  * Returns the name of a GeoElement as a GeoText.

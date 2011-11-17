@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoInterval;
+import geogebra.kernel.geos.GeoInterval;
 
 
 public class AlgoIntervalMin extends AlgoIntervalAbstract {

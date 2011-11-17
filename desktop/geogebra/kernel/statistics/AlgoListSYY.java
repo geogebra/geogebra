@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.statistics;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoList;
 
 /**
  * Syy of a list of Points

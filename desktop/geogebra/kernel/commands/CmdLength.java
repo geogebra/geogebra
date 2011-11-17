@@ -1,17 +1,17 @@
 package geogebra.kernel.commands;
 
 
-import geogebra.kernel.GeoCurveCartesian;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoLocus;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
-import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoLocus;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.MyError;
 

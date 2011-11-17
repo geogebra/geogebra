@@ -2,11 +2,11 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVector;
 import geogebra.kernel.cas.AlgoDerivative;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVector;
 
 
 /**

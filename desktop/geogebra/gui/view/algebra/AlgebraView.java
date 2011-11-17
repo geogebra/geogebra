@@ -22,9 +22,9 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.Gridable;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Component;

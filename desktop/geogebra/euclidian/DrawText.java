@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 

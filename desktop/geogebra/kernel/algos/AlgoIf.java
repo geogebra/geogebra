@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoElement;
 
 
 /**

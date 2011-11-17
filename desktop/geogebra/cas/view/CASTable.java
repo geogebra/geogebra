@@ -5,8 +5,8 @@ package geogebra.cas.view;
 
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
-import geogebra.kernel.GeoCasCell;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

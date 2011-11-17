@@ -11,6 +11,9 @@ the Free Software Foundation.
 */
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+
 /**
  * Represents geos with endpoints (segment, ray, arc, etc.)
  *

@@ -19,20 +19,20 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoConicPart;
-import geogebra.kernel.GeoCurveCartesian;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolyLineInterface;
-import geogebra.kernel.GeoVec3D;
-import geogebra.kernel.GeoVector;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolyLineInterface;
+import geogebra.kernel.geos.GeoVec3D;
+import geogebra.kernel.geos.GeoVector;
 
 
 /**

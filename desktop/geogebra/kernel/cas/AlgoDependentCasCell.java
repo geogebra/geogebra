@@ -1,8 +1,8 @@
 package geogebra.kernel.cas;
 
-import geogebra.kernel.GeoCasCell;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoCasCell;
+import geogebra.kernel.geos.GeoElement;
 
 import java.util.TreeSet;
 

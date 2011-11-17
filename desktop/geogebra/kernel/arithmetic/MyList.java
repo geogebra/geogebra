@@ -18,9 +18,9 @@
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra.util.GgbMat;
 

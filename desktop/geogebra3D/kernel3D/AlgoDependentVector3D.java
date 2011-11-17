@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoVector;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 
 /**

@@ -13,11 +13,11 @@ package geogebra.kernel.statistics;
  */
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.optimization.FitRealFunction;
 
 import org.apache.commons.math.optimization.fitting.CurveFitter;

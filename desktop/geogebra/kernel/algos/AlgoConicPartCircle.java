@@ -14,9 +14,9 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoConicPart;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
 
 
 

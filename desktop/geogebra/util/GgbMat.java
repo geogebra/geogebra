@@ -1,12 +1,12 @@
 package geogebra.util;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;

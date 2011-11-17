@@ -20,15 +20,15 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.kernelND.AlgoIntersectND;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoLineND;

@@ -1,9 +1,9 @@
 package geogebra.main.settings;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.util.Unicode;
 
 import java.awt.Color;

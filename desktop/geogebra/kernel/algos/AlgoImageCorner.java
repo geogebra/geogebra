@@ -14,10 +14,10 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoImage;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoImage;
+import geogebra.kernel.geos.GeoPoint;
 
 public class AlgoImageCorner extends AlgoElement 
 implements EuclidianViewCE {

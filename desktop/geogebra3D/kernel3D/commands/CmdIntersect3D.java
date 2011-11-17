@@ -1,14 +1,14 @@
 package geogebra3D.kernel3D.commands;
 
 
-import geogebra.kernel.GeoElement;
 
-import geogebra.kernel.GeoPolygon;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.commands.CmdIntersect;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoLineND;

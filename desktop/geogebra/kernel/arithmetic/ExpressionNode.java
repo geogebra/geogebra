@@ -22,13 +22,13 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.TextInputDialog;
-import geogebra.kernel.GeoDummyVariable;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoDummyVariable;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra.util.Unicode;

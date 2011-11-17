@@ -20,10 +20,10 @@ package geogebra.euclidian;
 
 import geogebra.euclidian.clipping.ClipLine;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 

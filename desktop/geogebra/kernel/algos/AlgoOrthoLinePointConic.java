@@ -22,12 +22,12 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec3D;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec3D;
 
 
 /**

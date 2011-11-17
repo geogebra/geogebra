@@ -1,5 +1,7 @@
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoElement;
+
 import java.util.Comparator;
 
 /**

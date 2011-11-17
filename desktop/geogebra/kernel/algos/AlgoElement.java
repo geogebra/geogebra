@@ -21,10 +21,10 @@ package geogebra.kernel.algos;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

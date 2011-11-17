@@ -17,9 +17,9 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

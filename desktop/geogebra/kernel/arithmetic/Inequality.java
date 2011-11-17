@@ -14,12 +14,12 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.MyError;
 

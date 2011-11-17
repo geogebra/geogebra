@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

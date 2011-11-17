@@ -1,13 +1,13 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.View;
 
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.NumberValue;
 
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.kernelND.GeoLineND;
 
 import geogebra.kernel.kernelND.GeoPointND;

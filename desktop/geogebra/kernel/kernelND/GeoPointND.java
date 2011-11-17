@@ -1,7 +1,6 @@
 package geogebra.kernel.kernelND;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.LocateableList;
 import geogebra.kernel.Path;
 import geogebra.kernel.PathParameter;
@@ -9,6 +8,7 @@ import geogebra.kernel.Region;
 import geogebra.kernel.RegionParameters;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
 
 
 

@@ -14,10 +14,10 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.algos.AlgoPolyLine;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 

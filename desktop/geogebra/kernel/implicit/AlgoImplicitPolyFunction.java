@@ -2,8 +2,6 @@ package geogebra.kernel.implicit;
 
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
@@ -11,6 +9,8 @@ import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.Polynomial;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 

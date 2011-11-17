@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

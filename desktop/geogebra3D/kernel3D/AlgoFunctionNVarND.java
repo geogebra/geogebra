@@ -1,13 +1,13 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 
 /**

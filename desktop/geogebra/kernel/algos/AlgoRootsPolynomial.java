@@ -14,13 +14,13 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.PolyFunction;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.roots.RealRootFunction;
 
 import java.util.Arrays;

@@ -2,13 +2,13 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.FormulaDimension;
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoImage;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoImage;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Color;

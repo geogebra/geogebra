@@ -8,9 +8,9 @@ import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

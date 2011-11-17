@@ -16,9 +16,9 @@ package geogebra.gui.view.properties;
 
 import geogebra.gui.PropertiesDialog.JTreeGeoElements;
 import geogebra.gui.PropertiesPanel;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

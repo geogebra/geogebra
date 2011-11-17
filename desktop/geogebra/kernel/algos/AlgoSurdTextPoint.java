@@ -14,9 +14,9 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 public class AlgoSurdTextPoint extends AlgoSurdText {

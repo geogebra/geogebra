@@ -19,12 +19,12 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec2D;
-import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec2D;
+import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 

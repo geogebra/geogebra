@@ -1,12 +1,12 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.Inequality;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;

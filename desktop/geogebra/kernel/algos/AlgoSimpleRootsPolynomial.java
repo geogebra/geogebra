@@ -20,9 +20,9 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;

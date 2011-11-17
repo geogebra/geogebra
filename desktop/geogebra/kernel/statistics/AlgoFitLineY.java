@@ -14,11 +14,11 @@ package geogebra.kernel.statistics;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
 
 /**
  * FitLineY of a list.

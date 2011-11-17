@@ -1,7 +1,5 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
@@ -11,6 +9,8 @@ import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.commands.CommandDispatcher;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;

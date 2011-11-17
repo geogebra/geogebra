@@ -1,9 +1,9 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.arithmetic.Inequality;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoPoint;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

@@ -14,14 +14,14 @@ package geogebra.kernel.algos;
 
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoFunctionable;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionable;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 
 /**
  * Sum of functions, may take whole list or just several first elements 

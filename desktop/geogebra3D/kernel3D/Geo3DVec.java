@@ -18,9 +18,6 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec2D;
-import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.ExpressionValue;
@@ -31,6 +28,9 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec2D;
+import geogebra.kernel.geos.GeoVec3D;
 
 import java.util.HashSet;
 

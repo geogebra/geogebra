@@ -16,7 +16,7 @@ import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 import geogebra.util.Util;

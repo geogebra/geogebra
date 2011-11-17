@@ -1,6 +1,6 @@
 package geogebra.kernel.statistics;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoList;
 
 public class AlgoSampleVariance extends AlgoStats1D {
 

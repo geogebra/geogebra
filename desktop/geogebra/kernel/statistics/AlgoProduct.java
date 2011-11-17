@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.statistics;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 
 /**
  * Mean of a list

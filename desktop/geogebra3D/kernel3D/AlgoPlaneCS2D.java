@@ -1,11 +1,11 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;

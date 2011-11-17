@@ -2,10 +2,10 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

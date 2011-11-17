@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.GeoButton;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoElement;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

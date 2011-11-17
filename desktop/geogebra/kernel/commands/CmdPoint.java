@@ -1,14 +1,14 @@
 package geogebra.kernel.commands;
 
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Path;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.main.MyError;
 
 

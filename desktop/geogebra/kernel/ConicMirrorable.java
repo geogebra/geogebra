@@ -1,5 +1,7 @@
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoConic;
+
 /**
  * Represents geos that can be mirrored atline or point
  * 

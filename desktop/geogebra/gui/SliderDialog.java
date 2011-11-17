@@ -14,9 +14,9 @@ package geogebra.gui;
 
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

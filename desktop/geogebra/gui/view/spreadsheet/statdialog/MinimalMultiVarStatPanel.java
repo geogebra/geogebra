@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 
 import javax.swing.table.DefaultTableModel;

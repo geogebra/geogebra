@@ -1,11 +1,11 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Path;
 import geogebra.kernel.Region;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;

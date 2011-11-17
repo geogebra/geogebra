@@ -1,15 +1,15 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoInterval;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Path;
 import geogebra.kernel.Region;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdMidpoint;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoInterval;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.MyError;

@@ -5,11 +5,11 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
-import geogebra.kernel.GeoCasCell;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
 import geogebra.kernel.arithmetic.ValidExpression;
+import geogebra.kernel.geos.GeoCasCell;
+import geogebra.kernel.geos.GeoElement;
 
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;

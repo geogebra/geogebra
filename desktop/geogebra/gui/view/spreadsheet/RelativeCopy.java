@@ -3,13 +3,13 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoImage;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoImage;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Point;

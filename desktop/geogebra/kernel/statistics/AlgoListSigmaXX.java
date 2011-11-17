@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.statistics;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoList;
 
 /**
  * Sum of squares of x-coords of a list of Points

@@ -13,13 +13,13 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDrawInformation;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;

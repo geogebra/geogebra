@@ -1,9 +1,9 @@
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoFunction;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.PolyFunction;
+import geogebra.kernel.geos.GeoFunction;
 
 import java.util.Iterator;
 import java.util.LinkedList;

@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPolygon;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 /**

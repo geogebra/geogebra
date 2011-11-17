@@ -1,9 +1,9 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdAngle;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.MyError;
 

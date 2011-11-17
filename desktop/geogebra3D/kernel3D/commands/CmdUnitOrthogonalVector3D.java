@@ -1,12 +1,12 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdOrthogonalLine;
 import geogebra.kernel.commands.CmdOrthogonalVector;
 import geogebra.kernel.commands.CmdUnitOrthogonalVector;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;

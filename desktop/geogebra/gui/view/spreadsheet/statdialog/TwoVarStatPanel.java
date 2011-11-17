@@ -2,12 +2,12 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoListLength;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.statistics.AlgoMean;
 import geogebra.kernel.statistics.AlgoSampleStandardDeviation;
 import geogebra.kernel.statistics.AlgoStandardDeviation;

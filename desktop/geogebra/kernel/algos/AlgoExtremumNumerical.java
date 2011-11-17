@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoFunctionable;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionable;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
 
 

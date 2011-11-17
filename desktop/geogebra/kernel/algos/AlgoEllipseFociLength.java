@@ -20,8 +20,8 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoPoint;
 
 /**
  * Ellipse for given foci and first semi-axis length

@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 
 
 /**

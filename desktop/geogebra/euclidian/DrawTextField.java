@@ -13,14 +13,14 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.GeoButton;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
-import geogebra.kernel.GeoTextField;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionalNVar;
+import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
 import geogebra.util.Unicode;
 

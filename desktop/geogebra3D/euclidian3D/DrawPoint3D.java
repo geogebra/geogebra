@@ -3,9 +3,9 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.euclidian.Previewable;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.Functional2Var;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;

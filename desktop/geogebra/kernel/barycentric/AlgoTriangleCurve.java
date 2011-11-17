@@ -1,15 +1,15 @@
 package geogebra.kernel.barycentric;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoDummyVariable;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.kernel.geos.GeoDummyVariable;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;

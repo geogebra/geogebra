@@ -18,10 +18,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra.util.Unicode;

@@ -7,7 +7,7 @@ import geogebra.gui.OptionsDialog;
 import geogebra.gui.layout.Layout;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;

@@ -3,8 +3,8 @@ package geogebra3D.euclidianFor3D;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoElement;
 
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects

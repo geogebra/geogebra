@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoElement;
+
 /**
  * Interface for views. A view registered to the kernel gets informed if elements were added, removed or changed.
  */

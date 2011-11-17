@@ -1,9 +1,6 @@
 package geogebra.kernel.implicit;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionValue;
@@ -11,6 +8,9 @@ import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
 import geogebra.main.MyError;
 
 import java.util.HashSet;

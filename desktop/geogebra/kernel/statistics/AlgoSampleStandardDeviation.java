@@ -1,6 +1,6 @@
 package geogebra.kernel.statistics;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoList;
 
 public class AlgoSampleStandardDeviation extends AlgoStats1D {
 

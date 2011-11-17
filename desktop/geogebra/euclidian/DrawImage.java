@@ -18,10 +18,10 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoImage;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoImage;
+import geogebra.kernel.geos.GeoPoint;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

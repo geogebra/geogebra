@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoVec2D;
+import geogebra.kernel.geos.GeoVec2D;
 
 /**
  *

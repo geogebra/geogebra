@@ -18,10 +18,10 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
 
 
 /**

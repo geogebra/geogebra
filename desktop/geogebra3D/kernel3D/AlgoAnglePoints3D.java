@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoAngle;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoAnglePoints;
+import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.kernelND.GeoPointND;
 
 

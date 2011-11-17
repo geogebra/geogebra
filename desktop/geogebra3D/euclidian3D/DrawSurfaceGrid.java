@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.kernel.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 

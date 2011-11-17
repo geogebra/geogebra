@@ -2,8 +2,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Toolkit;

@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.kernelND;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
+import geogebra.kernel.geos.GeoElement;
 
 
 

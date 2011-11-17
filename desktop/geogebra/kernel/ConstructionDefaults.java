@@ -14,6 +14,23 @@ package geogebra.kernel;
 
 import geogebra.GeoGebra;
 import geogebra.euclidian.EuclidianView;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoImage;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoLocus;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.GeoSegment;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

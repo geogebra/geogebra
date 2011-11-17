@@ -1,19 +1,19 @@
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoCurveCartesian;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoFunctionable;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionable;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 

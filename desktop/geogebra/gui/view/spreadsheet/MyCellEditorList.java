@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 
 import java.awt.Color;
 import java.awt.Component;

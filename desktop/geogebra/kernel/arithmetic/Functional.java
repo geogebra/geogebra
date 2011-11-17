@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoFunction;
+import geogebra.kernel.geos.GeoFunction;
 
 
 /**

@@ -13,10 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel.discrete;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoLocus;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
@@ -26,6 +22,10 @@ import geogebra.kernel.discrete.signalprocesser.voronoi.representation.Represent
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.RepresentationInterface;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.triangulation.TriangulationRepresentation;
 import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoLocus;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;

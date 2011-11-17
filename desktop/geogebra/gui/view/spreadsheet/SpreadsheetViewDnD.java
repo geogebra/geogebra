@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
 

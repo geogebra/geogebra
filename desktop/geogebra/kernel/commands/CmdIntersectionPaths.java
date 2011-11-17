@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.main.MyError;
 
 

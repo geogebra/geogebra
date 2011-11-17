@@ -19,14 +19,6 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
-import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyBoolean;
@@ -35,6 +27,14 @@ import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.MyStringBuffer;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.VectorValue;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 
 /**

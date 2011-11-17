@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 
 /**
  *

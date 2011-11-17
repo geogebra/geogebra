@@ -2,9 +2,9 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 
 import geogebra.gui.view.spreadsheet.MyTable;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

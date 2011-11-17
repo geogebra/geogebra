@@ -14,10 +14,10 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoSegment;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoSegment;
 
 
 public class AlgoLineBisectorSegment extends AlgoElement {

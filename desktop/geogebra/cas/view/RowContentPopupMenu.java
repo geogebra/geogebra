@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.kernel.GeoCasCell;
+import geogebra.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 
 import java.awt.Toolkit;

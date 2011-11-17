@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
 /**
  * Represents geos that can be translated 
  *

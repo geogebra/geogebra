@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolyLine;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.Graphics2D;

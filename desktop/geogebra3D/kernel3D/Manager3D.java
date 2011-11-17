@@ -2,13 +2,6 @@ package geogebra3D.kernel3D;
 
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPolygon;
-import geogebra.kernel.GeoSurfaceFinite;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.Path;
@@ -22,6 +15,13 @@ import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.GeoSurfaceFinite;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoDirectionND;

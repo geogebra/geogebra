@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoPoint;
+
 
 /**
  * Path mover for most common paths

@@ -13,12 +13,12 @@ package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPointOnPath;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
 
 /**
  *	Algorithm to calculate all tangents to the implicit polynomial equation

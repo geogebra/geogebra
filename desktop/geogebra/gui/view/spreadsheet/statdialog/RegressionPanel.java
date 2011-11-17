@@ -2,10 +2,10 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.kernel.GeoFunctionable;
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoFunctionable;
+import geogebra.kernel.geos.GeoLine;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

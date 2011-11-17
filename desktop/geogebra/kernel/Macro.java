@@ -17,6 +17,8 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyError;

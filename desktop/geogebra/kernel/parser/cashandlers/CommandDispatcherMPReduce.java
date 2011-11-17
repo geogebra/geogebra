@@ -1,6 +1,5 @@
 package geogebra.kernel.parser.cashandlers;
 
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
@@ -8,6 +7,7 @@ import geogebra.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.Variable;
+import geogebra.kernel.geos.GeoElement;
 
 /**
  * Handles special MPReduce commands to distinguish them from user defined functions

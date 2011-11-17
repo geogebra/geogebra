@@ -20,11 +20,11 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolygon;
-import geogebra.kernel.GeoSegment;
-import geogebra.kernel.GeoVec3D;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.GeoSegment;
+import geogebra.kernel.geos.GeoVec3D;
 
 
 /**

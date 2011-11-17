@@ -21,10 +21,10 @@ package geogebra.kernel.implicit;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.polynomial.BigPolynomial;
 import geogebra.main.Application;
 

@@ -1,8 +1,8 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.LimitedPath;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoElement;
 
 import java.awt.Color;
 

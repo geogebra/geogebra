@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoPoint;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.kernelND.AlgoMidpointND;
 import geogebra.kernel.kernelND.GeoPointND;
 

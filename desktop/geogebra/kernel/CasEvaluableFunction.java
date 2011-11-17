@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoElement;
+
 /**
  * Interface to unify object types that allow evaluation with CAS commands,
  * like getting the derivative of a GeoFunction or GeoCurveCartesian.

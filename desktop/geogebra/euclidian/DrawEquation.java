@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra.util.Unicode;

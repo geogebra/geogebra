@@ -21,14 +21,14 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PointPair;
 import geogebra.kernel.PointPairList;
 import geogebra.kernel.SystemOfEquationsSolver;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;

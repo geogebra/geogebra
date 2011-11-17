@@ -1,10 +1,10 @@
 package geogebra.kernel.commands;
 
-import geogebra.kernel.GeoBoolean;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
 import geogebra.main.MyError;
 
 public class CmdTriangular extends CommandProcessor {

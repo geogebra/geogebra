@@ -13,8 +13,8 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.GeoButton;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Color;

@@ -14,9 +14,9 @@ package geogebra.kernel.cas;
 
 import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoNumeric;
 
 /**
  * Derivative of a function

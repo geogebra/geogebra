@@ -1,9 +1,9 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoPointND;
 
 /**

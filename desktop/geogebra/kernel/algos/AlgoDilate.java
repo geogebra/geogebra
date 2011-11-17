@@ -21,13 +21,13 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Dilateable;
-import geogebra.kernel.GeoConicPart;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolyLine;
-import geogebra.kernel.GeoPolygon;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolyLine;
+import geogebra.kernel.geos.GeoPolygon;
 
 
 /**

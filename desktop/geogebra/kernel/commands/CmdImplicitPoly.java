@@ -1,13 +1,13 @@
 package geogebra.kernel.commands;
 
 import geogebra.kernel.CircularDefinitionException;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
-import geogebra.kernel.GeoList;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 

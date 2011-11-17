@@ -18,9 +18,9 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.GeneralPathClipped;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolygon;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 

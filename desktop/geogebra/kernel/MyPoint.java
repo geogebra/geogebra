@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoVec2D;
+
 
 
 public class MyPoint {

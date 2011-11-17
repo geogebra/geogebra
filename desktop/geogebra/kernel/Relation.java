@@ -21,6 +21,17 @@ package geogebra.kernel;
 import geogebra.kernel.algos.AlgoIntersectConics;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.GeoSegment;
+import geogebra.kernel.geos.GeoVec3D;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 
 /**

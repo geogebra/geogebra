@@ -1,6 +1,6 @@
 package geogebra.plugin.jython;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 public interface PythonScriptInterface {

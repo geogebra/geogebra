@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.lang.reflect.Field;

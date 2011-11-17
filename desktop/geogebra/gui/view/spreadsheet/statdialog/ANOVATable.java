@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

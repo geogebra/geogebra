@@ -1,10 +1,10 @@
 package geogebra.kernel.commands;
 
 import geogebra.kernel.CircularDefinitionException;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.MyError;
 
 /*

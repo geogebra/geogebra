@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoDummyVariable;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoDummyVariable;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.MyParseError;
 
 import java.util.HashSet;

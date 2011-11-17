@@ -14,6 +14,8 @@ package geogebra.kernel;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.main.MyError;
 import geogebra.util.MaxSizeHashMap;
 

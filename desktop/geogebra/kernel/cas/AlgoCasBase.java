@@ -14,8 +14,8 @@ package geogebra.kernel.cas;
 
 import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoElement;
 
 /**
  * Base class for algorithms using the CAS.

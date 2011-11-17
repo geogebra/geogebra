@@ -1,8 +1,8 @@
 package geogebra.kernel.commands;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
 
 class CmdConvexHull extends CmdOneListFunction {
 

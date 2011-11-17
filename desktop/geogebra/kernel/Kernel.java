@@ -72,6 +72,37 @@ import geogebra.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.kernel.discrete.AlgoVoronoi;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoAxis;
+import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoCasCell;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoDummyVariable;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoFunctionable;
+import geogebra.kernel.geos.GeoGebraCASInterface;
+import geogebra.kernel.geos.GeoImage;
+import geogebra.kernel.geos.GeoInterval;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoLocus;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolyLine;
+import geogebra.kernel.geos.GeoPolyLineInterface;
+import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.GeoRay;
+import geogebra.kernel.geos.GeoSegment;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.GeoTextField;
+import geogebra.kernel.geos.GeoVec2D;
+import geogebra.kernel.geos.GeoVec3D;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.kernel.implicit.AlgoImplicitPolyFunction;
@@ -2079,7 +2110,7 @@ public class Kernel {
 		notifyUpdate(kernelConstruction.getAllGeoElements());
 	}*/
 
-	final void notifyAdd(GeoElement geo) {
+	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				if (views[i].getViewID() != Application.VIEW_CONSTRUCTION_PROTOCOL
@@ -2091,7 +2122,7 @@ public class Kernel {
 		notifyRenameListenerAlgos();
 	}
 
-	final void notifyRemove(GeoElement geo) {
+	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				if (views[i].getViewID() != Application.VIEW_CONSTRUCTION_PROTOCOL
@@ -2119,7 +2150,7 @@ public class Kernel {
 		}
 	}
 	
-	final void notifyUpdateAuxiliaryObject(GeoElement geo) {
+	public final void notifyUpdateAuxiliaryObject(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].updateAuxiliaryObject(geo);
@@ -2127,7 +2158,7 @@ public class Kernel {
 		}
 	}
 
-	final  void notifyRename(GeoElement geo) {
+	public final  void notifyRename(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].rename(geo);
@@ -8482,7 +8513,7 @@ public class Kernel {
 	private StringBuilder sbBuildExplicitConicEquation = new StringBuilder(80);
 
 	// y = k x + d
-	final StringBuilder buildExplicitLineEquation(
+	public final StringBuilder buildExplicitLineEquation(
 		double[] numbers,
 		String[] vars,
 		char op) {

@@ -1,8 +1,8 @@
 package geogebra.kernel.commands;
 
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
 
 /*
  * RandomNormal[ <Number>, <Number> ]

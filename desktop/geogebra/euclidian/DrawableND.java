@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 
 /**
  * Class for drawables in any dimension

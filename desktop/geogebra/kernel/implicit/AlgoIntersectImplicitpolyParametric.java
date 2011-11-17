@@ -19,13 +19,13 @@ package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoRoots;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.parser.ParseException;
 import geogebra.main.MyError;
 

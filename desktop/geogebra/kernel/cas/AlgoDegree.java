@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoNumeric;
 /**
  * Try to expand the given function 
  * 

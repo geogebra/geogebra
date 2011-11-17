@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoButton;
+import geogebra.kernel.geos.GeoButton;
 import geogebra.main.Application;
 
 import java.awt.Color;

@@ -1,8 +1,8 @@
 package geogebra.gui.view.probcalculator;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
 import geogebra.main.Application;
 
 import java.util.HashMap;

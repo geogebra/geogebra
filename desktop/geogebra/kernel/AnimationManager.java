@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.GeoElement;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

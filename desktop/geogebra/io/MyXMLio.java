@@ -21,9 +21,9 @@ package geogebra.io;
 import geogebra.GeoGebra;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

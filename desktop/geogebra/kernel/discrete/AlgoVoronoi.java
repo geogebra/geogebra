@@ -13,15 +13,15 @@ the Free Software Foundation.
 package geogebra.kernel.discrete;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoLocus;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.discrete.delauney.Pnt;
 import geogebra.kernel.discrete.delauney.Triangle;
 import geogebra.kernel.discrete.delauney.Triangulation;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoLocus;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.geom.Point2D;

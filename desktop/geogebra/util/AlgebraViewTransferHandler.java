@@ -1,7 +1,7 @@
 package geogebra.util;
 
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.datatransfer.DataFlavor;

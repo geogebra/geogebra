@@ -1,9 +1,9 @@
 package geogebra.gui;
 
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Color;

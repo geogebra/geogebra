@@ -3,12 +3,6 @@ package geogebra3D.kernel3D;
 
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoCurveCartesian;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoPolyLine;
-import geogebra.kernel.GeoPolygon;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Path;
@@ -18,6 +12,12 @@ import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 
+import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPolyLine;
+import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import geogebra3D.euclidian3D.Drawable3D;

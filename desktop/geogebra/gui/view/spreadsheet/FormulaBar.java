@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.inputfield.AutoCompleteTextField;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.AWTException;

@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.kernel.GeoFunctionNVar;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.plots.MarchingCubes;

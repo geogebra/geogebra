@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.geos.GeoPoint;
+
 public interface PathMover {
 	
 	public static final int MIN_STEPS = 128; // 128;

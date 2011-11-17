@@ -1,12 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.algos.AlgoDependentPoint;
@@ -14,6 +8,12 @@ import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Point;

@@ -1,14 +1,14 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoList;
-import geogebra.kernel.GeoNumeric;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoText;
-import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoList;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

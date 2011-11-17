@@ -4,9 +4,9 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoAngle;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.main.Application;
 
 import java.awt.Color;

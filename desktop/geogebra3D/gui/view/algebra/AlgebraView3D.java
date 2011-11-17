@@ -8,7 +8,7 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.GeoElement;
+import geogebra.kernel.geos.GeoElement;
 
 import geogebra3D.Application3D;
 

@@ -18,16 +18,16 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoConicPart;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoSegment;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
+import geogebra.kernel.geos.GeoConic;
+import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoLine;
+import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 

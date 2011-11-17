@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoFunctionNVar;
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.roots.RealRootDerivFunction;
 import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;

@@ -1,15 +1,15 @@
 package geogebra.kernel.barycentric;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunctionNVar;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;

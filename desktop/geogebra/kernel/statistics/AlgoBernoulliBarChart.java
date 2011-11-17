@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.statistics;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoBoolean;
 import geogebra.kernel.algos.AlgoDrawInformation;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoBoolean;
 
 /**
  * @author G. Sturr

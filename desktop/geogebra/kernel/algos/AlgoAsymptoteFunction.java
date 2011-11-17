@@ -14,9 +14,9 @@ package geogebra.kernel.algos;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoFunction;
-import geogebra.kernel.GeoList;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoList;
 
 /**
  * Find asymptotes

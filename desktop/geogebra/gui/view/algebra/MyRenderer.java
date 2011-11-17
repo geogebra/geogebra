@@ -1,8 +1,8 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.euclidian.FormulaDimension;
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Color;
