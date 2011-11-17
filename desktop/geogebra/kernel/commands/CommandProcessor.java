@@ -13,7 +13,6 @@
 package geogebra.kernel.commands;
 
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.AlgoCellRange;
 import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
@@ -43,6 +42,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.Path;
 import geogebra.kernel.Region;
+import geogebra.kernel.algos.AlgoCellRange;
 import geogebra.kernel.arithmetic.BooleanValue;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;

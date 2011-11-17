@@ -13,12 +13,12 @@ the Free Software Foundation.
 package geogebra.kernel.statistics;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.algos.AlgoElement;
 
 /**
  * FitLineY of a list.

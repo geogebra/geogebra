@@ -1,10 +1,10 @@
 package geogebra3D.kernel3D;
 
-import geogebra.kernel.AlgoMacro;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.Functional2Var;

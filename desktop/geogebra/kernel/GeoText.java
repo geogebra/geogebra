@@ -2,6 +2,9 @@ package geogebra.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
+import geogebra.kernel.algos.AlgoDependentText;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoSequence;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyStringBuffer;
 import geogebra.kernel.arithmetic.TextValue;

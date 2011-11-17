@@ -2,7 +2,6 @@ package geogebra3D.kernel3D;
 
 import java.awt.Color;
 
-import geogebra.kernel.AlgoJoinPointsSegment;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
@@ -11,6 +10,7 @@ import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;

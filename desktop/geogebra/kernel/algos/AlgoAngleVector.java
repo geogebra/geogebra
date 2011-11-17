@@ -1,0 +1,84 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+
+package geogebra.kernel.algos;
+
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoAngle;
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoVec3D;
+
+
+
+public class AlgoAngleVector extends AlgoElement {
+
+    private GeoVec3D vec; // input
+    private GeoAngle angle; // output          
+    
+    private double [] coords = new double[2];
+
+    AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
+        super(cons);
+        this.vec = vec;
+        
+        angle = new GeoAngle(cons);
+        setInputOutput(); // for AlgoElement                
+        compute();
+        angle.setLabel(label);
+    }
+
+    @Override
+	public String getClassName() {
+        return "AlgoAngleVector";
+    }
+
+    @Override
+	public int getRelatedModeID() {
+    	return EuclidianConstants.MODE_ANGLE;
+    }
+    
+    // for AlgoElement
+    @Override
+	protected void setInputOutput() {
+        input = new GeoElement[1];
+        input[0] = vec;
+
+        setOutputLength(1);
+        setOutput(0,angle);
+        setDependencies(); // done by AlgoElement
+    }
+
+    GeoAngle getAngle() {
+        return angle;
+    }
+    
+    public GeoVec3D getVec3D() {
+    	return vec;
+    }
+        
+    @Override
+	protected final void compute() {  
+    	vec.getInhomCoords(coords);
+        angle.setValue(
+        		Math.atan2(coords[1], coords[0])
+			);
+    }
+
+    @Override
+	public final String toString() {
+        // Michael Borcherds 2008-03-30
+        // simplified to allow better Chinese translation
+        return app.getPlain("AngleOfA",vec.getLabel());
+
+    }
+}

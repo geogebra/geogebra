@@ -1,7 +1,5 @@
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.AlgoDependentNumber;
-import geogebra.kernel.AlgoListElement;
 import geogebra.kernel.GeoCurveCartesian;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunction;
@@ -13,6 +11,8 @@ import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
+import geogebra.kernel.algos.AlgoDependentNumber;
+import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.main.Application;
 import geogebra.main.MyError;

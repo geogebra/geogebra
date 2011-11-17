@@ -3,7 +3,6 @@ package geogebra.kernel.discrete;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.SparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoBoolean;
 import geogebra.kernel.GeoElement;
@@ -11,6 +10,7 @@ import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoLocus;
 import geogebra.kernel.GeoSegment;
 import geogebra.kernel.MyPoint;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;

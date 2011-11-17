@@ -1,0 +1,113 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+
+package geogebra.kernel.algos;
+
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoFunction;
+import geogebra.kernel.GeoList;
+import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.FunctionVariable;
+import geogebra.kernel.arithmetic.MyBoolean;
+
+
+/**
+ *
+ * @author  Michael
+ * @version 
+ */
+public class AlgoCountIf extends AlgoElement {
+
+	private GeoFunction boolFun;     // input
+	private GeoList list;
+	private GeoNumeric result; // output
+    
+	/**
+	 * Algorithm for handling of a CountIf construct
+	 */        
+    public AlgoCountIf(Construction cons, String label, 
+    		GeoFunction boolFun, GeoList list) {
+    	super(cons);
+    	this.boolFun = boolFun;
+        this.list = list;
+      
+        
+        // create output GeoElement of same type as ifGeo
+        result = new GeoNumeric(cons);
+        
+        setInputOutput(); // for AlgoElement
+        
+        // compute value of dependent number
+        compute();      
+        result.setLabel(label);
+    }   
+    
+	@Override
+	public String getClassName() {
+		return "AlgoCountIf";
+	}
+    
+    // for AlgoElement
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[2];    	
+        input[0] = boolFun;
+        input[1] = list;
+          
+        super.setOutputLength(1);
+        super.setOutput(0, result);
+        setDependencies(); // done by AlgoElement
+    }    
+    
+    public GeoNumeric getResult() { return result; }
+    
+    @Override
+	protected final void compute() {	 
+    	try {
+
+    		int count = 0;
+    		//<Zbynek Konecny 2010-04-15>
+    		/*
+    		 * If val is not numeric, we use the underlying Expression of the function and 
+    		 * plug the list element as variable.
+    		 * Deep copy is needed so that we can plug the value repeatedly.
+    		 */
+    		FunctionVariable var = boolFun.getFunction().getFunctionVariable();
+    		
+    		for (int i = 0 ; i < list.size() ; i++)
+    		{
+    			GeoElement val = list.get(i);
+    			if(val.isGeoNumeric()){
+    				if (boolFun.evaluateBoolean(((GeoNumeric)val).getValue()) ) count++; 
+    			} 
+    			else {
+	    			ExpressionNode ex = (ExpressionNode)boolFun.getFunction().getExpression().deepCopy(kernel);
+	    			ex.replaceAndWrap(var, val.evaluate());
+	    			if (((MyBoolean)ex.evaluate()).getBoolean()) count++;
+    			}
+    		}
+    		//</Zbynek>
+    		result.setValue(count);
+    	
+    	    	
+    	} catch (Exception e) {
+    		result.setUndefined();
+    	}
+    }   
+    
+    @Override
+	final public String toString() {        
+        return getCommandDescription();
+    }
+}

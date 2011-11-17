@@ -1,12 +1,12 @@
 package geogebra.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.AlgoPointOnPath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoCurveCartesian;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.algos.AlgoPointOnPath;
 
 /**
  * @author Victor Franco Espino

@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunction;
 import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.NumberValue;
 /**
  * Find a limit

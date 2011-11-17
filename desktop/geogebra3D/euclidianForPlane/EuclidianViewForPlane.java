@@ -4,12 +4,12 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import geogebra.euclidian.EuclidianController;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoDirectionND;

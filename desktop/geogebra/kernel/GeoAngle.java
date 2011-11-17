@@ -20,6 +20,10 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.algos.AlgoAngleLines;
+import geogebra.kernel.algos.AlgoAnglePoints;
+import geogebra.kernel.algos.AlgoAnglePolygon;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.MyDouble;
 
 /**

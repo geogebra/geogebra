@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra.kernel.kernelND;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.algos.AlgoElement;
 
 
 /**

@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package geogebra.kernel.discrete;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoLocus;
 import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.MyPoint;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VoronoiAlgorithm;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.AbstractRepresentation;

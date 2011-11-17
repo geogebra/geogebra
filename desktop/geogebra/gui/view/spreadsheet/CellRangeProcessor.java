@@ -1,9 +1,5 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.AlgoDependentList;
-import geogebra.kernel.AlgoDependentPoint;
-import geogebra.kernel.AlgoPolyLine;
-import geogebra.kernel.AlgoSort;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionNVar;
@@ -12,6 +8,10 @@ import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoText;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoDependentList;
+import geogebra.kernel.algos.AlgoDependentPoint;
+import geogebra.kernel.algos.AlgoPolyLine;
+import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.main.Application;

@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.cas.error.CASException;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;

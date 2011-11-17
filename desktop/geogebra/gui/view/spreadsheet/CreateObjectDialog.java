@@ -3,10 +3,10 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.euclidian.FormulaDimension;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.AlgoPolyLine;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
 

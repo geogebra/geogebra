@@ -18,6 +18,13 @@ package geogebra.kernel;
 
 import geogebra.kernel.Matrix.CoordNearest;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoCircleTwoPoints;
+import geogebra.kernel.algos.AlgoConicPartCircle;
+import geogebra.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.kernel.algos.AlgoConicPartConicParameters;
+import geogebra.kernel.algos.AlgoConicPartConicPoints;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoSemicircle;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.integration.EllipticArcLength;
@@ -926,10 +933,10 @@ implements LimitedPath, NumberValue, LineProperties {
     	AlgoElement algo = this.getParentAlgorithm();
     	if(algo==null)//should never happen, just to be sure
     		return false; 
-    	if(algo instanceof geogebra.kernel.AlgoConicPartConicPoints)
+    	if(algo instanceof geogebra.kernel.algos.AlgoConicPartConicPoints)
     		return ((AlgoConicPartConicPoints)algo).getStartPoint().isLabelSet() &&
     		((AlgoConicPartConicPoints)algo).getEndPoint().isLabelSet();
-    	if(algo instanceof geogebra.kernel.AlgoConicPartCircumcircle)
+    	if(algo instanceof geogebra.kernel.algos.AlgoConicPartCircumcircle)
     		return algo.getInput()[0].isLabelSet() && algo.getInput()[1].isLabelSet() &&
     		algo.getInput()[2].isLabelSet();	
     	return false;		

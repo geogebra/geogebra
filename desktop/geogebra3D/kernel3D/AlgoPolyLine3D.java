@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.AlgoPolyLine;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.Matrix.CoordSys;
+import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 

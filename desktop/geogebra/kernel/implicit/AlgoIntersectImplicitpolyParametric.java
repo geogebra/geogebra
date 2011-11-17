@@ -18,14 +18,14 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.AlgoRoots;
-import geogebra.kernel.AlgoSimpleRootsPolynomial;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoFunction;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.GeoPoint;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoRoots;
+import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
 import geogebra.kernel.parser.ParseException;
 import geogebra.main.MyError;
 

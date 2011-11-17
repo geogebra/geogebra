@@ -1,9 +1,9 @@
 package geogebra.kernel.implicit;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.algos.AlgoElement;
 
 public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	

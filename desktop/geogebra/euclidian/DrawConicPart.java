@@ -14,15 +14,15 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.clipping.ClipShape;
-import geogebra.kernel.AlgoConicPartCircle;
-import geogebra.kernel.AlgoConicPartCircumcircle;
-import geogebra.kernel.AlgoSemicircle;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoConic;
 import geogebra.kernel.GeoConicPart;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
+import geogebra.kernel.algos.AlgoConicPartCircle;
+import geogebra.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.kernel.algos.AlgoSemicircle;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.Graphics2D;

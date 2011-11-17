@@ -1,15 +1,15 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.kernel.AlgoElement;
-import geogebra.kernel.AlgoListLength;
-import geogebra.kernel.AlgoListMax;
-import geogebra.kernel.AlgoListMin;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunctionable;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.GeoNumeric;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoListLength;
+import geogebra.kernel.algos.AlgoListMax;
+import geogebra.kernel.algos.AlgoListMin;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.statistics.AlgoListMeanX;
 import geogebra.kernel.statistics.AlgoListMeanY;

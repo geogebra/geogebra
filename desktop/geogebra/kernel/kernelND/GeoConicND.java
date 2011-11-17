@@ -1,8 +1,5 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.kernel.AlgoConicFivePoints;
-import geogebra.kernel.AlgoEllipseFociLength;
-import geogebra.kernel.AlgoEllipseFociPoint;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoConic;
 import geogebra.kernel.GeoCurveCartesian;
@@ -24,6 +21,9 @@ import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoConicFivePoints;
+import geogebra.kernel.algos.AlgoEllipseFociLength;
+import geogebra.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;

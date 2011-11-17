@@ -5,12 +5,12 @@ import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.gui.view.spreadsheet.RelativeCopy;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.AlgoDependentList;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoFunction;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.main.Application;
 

@@ -1,9 +1,9 @@
 package geogebra.kernel.implicit;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoList;
+import geogebra.kernel.algos.AlgoElement;
 
 public class AlgoImplicitPolyThroughPoints extends AlgoElement 
 {

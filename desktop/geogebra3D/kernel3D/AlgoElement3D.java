@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.algos.AlgoElement;
 
 
 

@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;

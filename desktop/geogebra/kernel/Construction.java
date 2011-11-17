@@ -14,6 +14,10 @@ package geogebra.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.io.MyXMLio;
+import geogebra.kernel.algos.AlgoDependentNumber;
+import geogebra.kernel.algos.AlgoDistancePoints;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgorithmSet;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.arithmetic.NumberValue;

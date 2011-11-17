@@ -14,6 +14,10 @@ package geogebra.kernel;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.kernel.algos.AlgoDependentList;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoMacro;
+import geogebra.kernel.algos.AlgoMirror;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;

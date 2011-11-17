@@ -1,0 +1,83 @@
+/* 
+ GeoGebra - Dynamic Mathematics for Everyone
+ http://www.geogebra.org
+
+ This file is part of GeoGebra.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by 
+ the Free Software Foundation.
+ 
+ */
+
+package geogebra.kernel.algos;
+
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoNumeric;
+import geogebra.kernel.GeoPoint;
+import geogebra.kernel.Path;
+import geogebra.kernel.PathNormalizer;
+
+
+
+/**
+ * Adapted from AlgoPerimeterPoly
+ */
+public class AlgoPathParameter extends AlgoElement {
+
+	// Take a polygon as input
+	private GeoPoint point;
+
+	// Output is a GeoNumeric (= a number)
+	private GeoNumeric value;
+
+	AlgoPathParameter(Construction cons, String label, GeoPoint point) {
+		this(cons, point);
+		value.setLabel(label);
+	}
+
+	AlgoPathParameter(Construction cons, GeoPoint point) {
+		super(cons);
+		this.point = point;
+
+		value = new GeoNumeric(cons);
+		setInputOutput();
+		compute();
+	}
+
+	@Override
+	public String getClassName() {
+		return "AlgoPathParameter";
+	}
+
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[1];
+		input[0] = point;
+
+		super.setOutputLength(1);
+        super.setOutput(0, value);
+		setDependencies();
+	}
+
+	@Override
+	protected final void compute() {
+		if (!point.isDefined() || !point.isPointOnPath()) {
+			value.setUndefined();
+			return;
+		}
+		
+		Path p = point.getPath();
+		
+		//Application.debug(point.getPathParameter().getT()+" "+p.getMinParameter()+" "+p.getMaxParameter());
+		
+		value.setValue(PathNormalizer.toNormalizedPathParameter(point.getPathParameter().getT(), p.getMinParameter(), p.getMaxParameter()));
+	
+	}
+				
+
+	GeoNumeric getResult() {
+		return value;
+	}	
+}

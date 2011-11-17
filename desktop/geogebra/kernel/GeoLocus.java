@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
+import geogebra.kernel.algos.AlgoLocusSlider;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;

@@ -12,12 +12,6 @@
 
 package geogebra.euclidian;
 
-import geogebra.kernel.AlgoAngleLines;
-import geogebra.kernel.AlgoAnglePoints;
-import geogebra.kernel.AlgoAnglePolygon;
-import geogebra.kernel.AlgoAngleVector;
-import geogebra.kernel.AlgoAngleVectors;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
@@ -27,6 +21,12 @@ import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoAngleLines;
+import geogebra.kernel.algos.AlgoAnglePoints;
+import geogebra.kernel.algos.AlgoAnglePolygon;
+import geogebra.kernel.algos.AlgoAngleVector;
+import geogebra.kernel.algos.AlgoAngleVectors;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 

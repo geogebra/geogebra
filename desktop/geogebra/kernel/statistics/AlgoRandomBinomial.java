@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
-import geogebra.kernel.AlgoTwoNumFunction;
 import geogebra.kernel.Construction;
+import geogebra.kernel.algos.AlgoTwoNumFunction;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.util.MyMath2;
 

@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.kernel.algos.AlgoIntersectConics;
+import geogebra.kernel.algos.AlgoIntersectLineConic;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.main.Application;
 

@@ -1,10 +1,6 @@
 package geogebra3D.kernel3D;
 
 
-import geogebra.kernel.AlgoAnglePoints;
-import geogebra.kernel.AlgoCircleThreePoints;
-import geogebra.kernel.AlgoElement;
-import geogebra.kernel.AlgoPolygon;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
@@ -19,6 +15,10 @@ import geogebra.kernel.Path;
 import geogebra.kernel.Region;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoAnglePoints;
+import geogebra.kernel.algos.AlgoCircleThreePoints;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.NumberValue;

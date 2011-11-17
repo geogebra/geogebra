@@ -1,8 +1,8 @@
 package geogebra.gui;
 
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.AlgoDependentText;
 import geogebra.kernel.GeoText;
+import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
 

@@ -13,6 +13,12 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.kernel.algos.AlgoDirection;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoJoinPointsRay;
+import geogebra.kernel.algos.AlgoRayPointVector;
+import geogebra.kernel.algos.AlgoTranslate;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoRayND;
 

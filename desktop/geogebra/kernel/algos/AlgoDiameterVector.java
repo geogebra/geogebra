@@ -1,0 +1,95 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+
+/*
+ * AlgoDiameterLineVector.java
+ *
+ * Created on 30. August 2001, 21:37
+ */
+
+package geogebra.kernel.algos;
+
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoConic;
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoVector;
+
+
+/**
+ *
+ * @author  Markus
+ * @version 
+ */
+public class AlgoDiameterVector extends AlgoElement {
+
+    private GeoConic c; // input
+    private GeoVector v; // input
+    private GeoLine diameter; // output
+
+    /** Creates new AlgoDiameterVector */
+    AlgoDiameterVector(
+        Construction cons,
+        String label,
+        GeoConic c,
+        GeoVector v) {
+        super(cons);
+        this.v = v;
+        this.c = c;
+        diameter = new GeoLine(cons);
+
+        setInputOutput(); // for AlgoElement
+
+        compute();
+        diameter.setLabel(label);
+    }
+
+    @Override
+	public String getClassName() {
+        return "AlgoDiameterVector";
+    }
+
+    // for AlgoElement
+    @Override
+	protected void setInputOutput() {
+        input = new GeoElement[2];
+        input[0] = v;
+        input[1] = c;
+
+        super.setOutputLength(1);
+        super.setOutput(0, diameter);
+        setDependencies(); // done by AlgoElement
+    }
+
+    GeoVector getVector() {
+        return v;
+    }
+    GeoConic getConic() {
+        return c;
+    }
+    GeoLine getDiameter() {
+        return diameter;
+    }
+
+    // calc diameter line of v relativ to c
+    @Override
+	protected final void compute() {
+        c.diameterLine(v, diameter);
+    }
+
+    @Override
+	final public String toString() {
+        // Michael Borcherds 2008-03-30
+        // simplified to allow better Chinese translation
+        return app.getPlain("DiameterOfAConjugateToB",c.getLabel(),v.getLabel());
+    }
+}

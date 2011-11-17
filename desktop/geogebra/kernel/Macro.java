@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.GeoGebra;
+import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;

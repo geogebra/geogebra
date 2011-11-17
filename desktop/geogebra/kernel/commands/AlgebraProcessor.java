@@ -1,6 +1,5 @@
 package geogebra.kernel.commands;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoAngle;
@@ -21,6 +20,7 @@ import geogebra.kernel.GeoVec2D;
 import geogebra.kernel.GeoVec3D;
 import geogebra.kernel.GeoVector;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.BooleanValue;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.Equation;

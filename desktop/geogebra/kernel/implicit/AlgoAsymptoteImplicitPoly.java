@@ -13,13 +13,13 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoList;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoElement;
 
 import java.util.ArrayList;
 /**

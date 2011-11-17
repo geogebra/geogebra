@@ -1,11 +1,11 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.AlgoAnglePoints;
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.algos.AlgoAnglePoints;
+import geogebra.kernel.algos.AlgoElement;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;

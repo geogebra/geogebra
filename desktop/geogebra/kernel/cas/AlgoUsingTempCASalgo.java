@@ -1,7 +1,7 @@
 package geogebra.kernel.cas;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
+import geogebra.kernel.algos.AlgoElement;
 
 public abstract class AlgoUsingTempCASalgo extends AlgoElement {
 

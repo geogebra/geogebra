@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.kernel.AlgoSphereNDPointRadius;
 import geogebra.kernel.Construction;
+import geogebra.kernel.algos.AlgoSphereNDPointRadius;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoQuadricND;

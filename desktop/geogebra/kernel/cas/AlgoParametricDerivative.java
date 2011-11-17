@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
-import geogebra.kernel.AlgoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.GeoCurveCartesian;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.algos.AlgoElement;
 
 /**
  * Parametric derivative of a curve c. The parametric derivative of a 
