@@ -353,6 +353,7 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 		 segment = (GeoSegment3D) algoSegment.getCS(); 
 		 // refresh color to ensure segments have same color as polygon:
 		 segment.setObjColor(getObjectColor()); 
+		 segment.setFromPolyhedron(true);
 		 
 		 //TODO translation for edge
 		 //segment.setLabel("edge"+startPoint.getLabel()+endPoint.getLabel());
@@ -467,69 +468,104 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	    	}			 
 	 
 	    }
-
+	    
+	    private StringBuffer sb = new StringBuffer();
+	    
 	    private void defaultPolygonsLabels() {
 	    	for (ConstructionElementCycle key : polygonsIndex.keySet()){
-	    		StringBuffer sb = new StringBuffer();
-	    		sb.append("face"); //TODO translation
+	    		
+	    		
 	    		
 	    		//stores points names and find the first
+	    		String label = null;
+	    		boolean allPointsHaveLabelSet = true;
+	    		
 	    		String[] points = new String[key.size()];
 	    		int indexFirstPointName=0;	    		
 	    		int i=0;
-	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext();){
-	    			points[i]=((GeoElement) it.next()).getLabel();
-	    			if (points[i].compareToIgnoreCase(points[indexFirstPointName])<0)
-	    				indexFirstPointName = i;
-	    			i++;
+	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext() && allPointsHaveLabelSet;){
+	    			GeoElement p = (GeoElement) it.next();
+	    			if (!p.isLabelSet()){
+	    				allPointsHaveLabelSet = false;
+	    			}else{
+	    				points[i]=p.getLabel();
+	    				if (points[i].compareToIgnoreCase(points[indexFirstPointName])<0)
+	    					indexFirstPointName = i;
+	    				i++;
+	    			}
+	    		}
+
+	    		if (allPointsHaveLabelSet){
+	    			
+	    			sb.setLength(0);
+		    		sb.append(app.getPlain("Name.face"));
+		    		
+	    			//sets the direction to the next first name
+	    			int indexSecondPointPlus = indexFirstPointName+1;
+	    			if (indexSecondPointPlus==points.length)
+	    				indexSecondPointPlus=0;
+	    			int indexSecondPointMinus = indexFirstPointName-1;
+	    			if (indexSecondPointMinus==-1)
+	    				indexSecondPointMinus=points.length-1;
+
+	    			if (points[indexSecondPointPlus]
+	    					.compareToIgnoreCase(points[indexSecondPointMinus])<0){
+	    				for (int j=indexFirstPointName;j<points.length;j++)
+	    					sb.append(points[j]);
+	    				for (int j=0;j<indexFirstPointName;j++)
+	    					sb.append(points[j]);
+	    			}else{
+	    				for (int j=indexFirstPointName;j>=0;j--)
+	    					sb.append(points[j]);
+	    				for (int j=points.length-1;j>indexFirstPointName;j--)
+	    					sb.append(points[j]);
+	    			}
+	    			
+	    			label = sb.toString();
 	    		}
 	    		
-	    		//sets the direction to the next first name
-	    		int indexSecondPointPlus = indexFirstPointName+1;
-	    		if (indexSecondPointPlus==points.length)
-	    			indexSecondPointPlus=0;
-	    		int indexSecondPointMinus = indexFirstPointName-1;
-	    		if (indexSecondPointMinus==-1)
-	    			indexSecondPointMinus=points.length-1;
 	    		
-	    		if (points[indexSecondPointPlus]
-	    		           .compareToIgnoreCase(points[indexSecondPointMinus])<0){
-	    			for (int j=indexFirstPointName;j<points.length;j++)
-		    			sb.append(points[j]);
-		    		for (int j=0;j<indexFirstPointName;j++)
-		    			sb.append(points[j]);
-	    		}else{
-	    			for (int j=indexFirstPointName;j>=0;j--)
-		    			sb.append(points[j]);
-		    		for (int j=points.length-1;j>indexFirstPointName;j--)
-		    			sb.append(points[j]);
-	    		}
-	    		
-	    		
-	    		polygons.get(polygonsIndex.get(key)).setLabel(sb.toString());
+	    		polygons.get(polygonsIndex.get(key)).setLabel(label);
 	    	}	
 	    }
 
 
 	    private void defaultSegmentLabels() {
 	    	for (ConstructionElementCycle key : segmentsIndex.keySet()){
-	    		StringBuffer sb = new StringBuffer();
-	    		sb.append("edge"); //TODO translation
+	    		
+	    		boolean allPointsHaveLabelSet = true;
+	    		String label = null;
+	    		
 	    		String[] points = new String[2];
 	    		int i=0;
-	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext();){
-	    			points[i]=((GeoElement) it.next()).getLabel();
-	    			i++;
+	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext() && allPointsHaveLabelSet;){
+	    			GeoElement p = (GeoElement) it.next();
+	    			if (!p.isLabelSet()){
+	    				allPointsHaveLabelSet = false;
+	    			}else{
+	    				points[i]=p.getLabel();
+	    				i++;
+	    			}
 	    		}
-	    		//sets the points names in order
-	    		if (points[0].compareToIgnoreCase(points[1])<0){
-	    			sb.append(points[0]);
-	    			sb.append(points[1]);
-	    		}else{
-	    			sb.append(points[1]);
-	    			sb.append(points[0]);
+
+	    		if (allPointsHaveLabelSet){
+
+	    			sb.setLength(0);
+	    			sb.append(app.getPlain("Name.edge"));
+	    			//sets the points names in order
+	    			if (points[0].compareToIgnoreCase(points[1])<0){
+	    				sb.append(points[0]);
+	    				sb.append(points[1]);
+	    			}else{
+	    				sb.append(points[1]);
+	    				sb.append(points[0]);
+	    			}
+
+	    			label = sb.toString();
 	    		}
-	    		segments.get(segmentsIndex.get(key)).setLabel(sb.toString());
+	    		
+	    		
+	    		segments.get(segmentsIndex.get(key)).setLabel(label);
 	    	}	
 	    }
 	 

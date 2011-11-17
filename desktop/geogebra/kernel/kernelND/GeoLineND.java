@@ -75,4 +75,6 @@ public interface GeoLineND extends GeoDirectionND{
 	
 	public GeoPointND getStartPoint();
 
+	public boolean isFromPolyhedron();
+
 }

@@ -1325,4 +1325,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 		super.doRemove();
 	}
 	
+	public boolean isFromPolyhedron(){
+		return false;
+	}
 }

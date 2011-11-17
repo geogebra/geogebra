@@ -1484,5 +1484,12 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public  void toGeoCurveCartesian(GeoCurveCartesian curve){
 		curve.setFromPolyLine(points, true);
     }
+	
+	
+	public boolean isFromPolyhedron(){
+		return false;
+	}
+	
+	
 }
 

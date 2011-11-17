@@ -31,6 +31,7 @@ import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyError;
@@ -2759,7 +2760,17 @@ public abstract class GeoElement
 			} else if (isGeoFunction()) {
 				chars = functionLabels;
 			} else if (isGeoLine() || this instanceof GeoPolyLine) {
-				chars = lineLabels;
+				if (((GeoLineND) this).isFromPolyhedron()){
+					int counter = 0;
+					String str;
+					String name = app.getPlain("Name.edge");
+					do {
+						counter++;			
+						str = name + kernel.internationalizeDigits(counter+"");
+					} while (!cons.isFreeLabel(str));
+					return str;
+				}else
+					chars = lineLabels;
 			} else if (isGeoConic() || isGeoCubic()) {
 				chars = conicLabels;
 			} else if (isGeoVector() || isVector3DValue()) {
@@ -2770,9 +2781,14 @@ public abstract class GeoElement
 			else if (isGeoPolygon()) {
 				int counter = 0;
 				String str;
+				String name;
+				if (((GeoPolygon) this).isFromPolyhedron())
+					name = app.getPlain("Name.face");
+				else
+					name = app.getPlain("Name.polygon");
 				do {
-					counter++;
-					str = app.getPlain("Name.polygon") + kernel.internationalizeDigits(counter+"");;
+					counter++;			
+					str = name + kernel.internationalizeDigits(counter+"");
 				} while (!cons.isFreeLabel(str));
 				return str;
 			}

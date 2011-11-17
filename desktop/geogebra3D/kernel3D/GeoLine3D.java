@@ -162,7 +162,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	
-	
+	public boolean isFromPolyhedron(){
+		return false;
+	}
 	
 	
 	

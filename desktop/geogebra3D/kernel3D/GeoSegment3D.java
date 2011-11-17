@@ -463,4 +463,14 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND, NumberV
 		return true;
 	}
 	
+	
+	private boolean isFromPolyhedron;
+	
+	public boolean isFromPolyhedron(){
+		return isFromPolyhedron;
+	}
+	
+	public void setFromPolyhedron(boolean flag){
+		isFromPolyhedron = flag;
+	}
 }

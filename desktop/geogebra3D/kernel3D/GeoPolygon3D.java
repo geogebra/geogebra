@@ -408,10 +408,17 @@ extends GeoPolygon implements GeoElement3DInterface, Path, GeoCoordSys2D {
 	
 	
 	
+	
+	
 	public boolean isPartOfClosedSurface(){
 		return isPartOfClosedSurface;
 	}
 	
+	
+
+	public boolean isFromPolyhedron(){
+		return isPartOfClosedSurface();
+	}
 	
 	
 	
