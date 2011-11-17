@@ -25,6 +25,7 @@ import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordMatrixUtil;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.kernelND.GeoAxisND;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
@@ -184,7 +185,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	//axis and xOy plane
 	private GeoPlane3D xOyPlane;
-	private GeoAxis3D[] axis;
+	private GeoAxisND[] axis;
 	
 	private DrawPlane3D xOyPlaneDrawable;
 	private DrawAxis3D[] axisDrawable;
@@ -387,7 +388,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 
 		//axis
-		axis = new GeoAxis3D[3];
+		axis = new GeoAxisND[3];
 		axisDrawable = new DrawAxis3D[3];
 		axis[0] = kernel3D.getXAxis3D();
 		axis[1] = kernel3D.getYAxis3D();
@@ -396,7 +397,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		for(int i=0;i<3;i++){
 			axis[i].setLabelVisible(true);
-			axisDrawable[i] = (DrawAxis3D) createDrawable(axis[i]);
+			axisDrawable[i] = (DrawAxis3D) createDrawable((GeoElement) axis[i]);
 		}
 		
 		
@@ -583,8 +584,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 				d = new DrawConicPart3D(this, (GeoConicPart) geo);
 				break;	
 
+			case GeoElement3D.GEO_CLASS_AXIS:	
 			case GeoElement3D.GEO_CLASS_AXIS3D:	
-				d = new DrawAxis3D(this, (GeoAxis3D) geo);	
+				d = new DrawAxis3D(this, (GeoAxisND) geo);	
 				break;	
 
 			case GeoElement3D.GEO_CLASS_CURVECARTESIAN3D:	

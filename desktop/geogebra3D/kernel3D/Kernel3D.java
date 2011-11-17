@@ -30,6 +30,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.kernelND.GeoAxisND;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoLineND;
@@ -102,10 +103,10 @@ public class Kernel3D
 		
 	}
 	
-	public GeoAxis3D getXAxis3D(){
+	public GeoAxisND getXAxis3D(){
 		return ((Construction3D) cons).getXAxis3D();
 	}
-	public GeoAxis3D getYAxis3D(){
+	public GeoAxisND getYAxis3D(){
 		return ((Construction3D) cons).getYAxis3D();
 	}
 	public GeoAxis3D getZAxis3D(){

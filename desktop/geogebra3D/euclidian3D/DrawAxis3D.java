@@ -1,13 +1,11 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.kernelND.GeoAxisND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoAxis3D;
-import geogebra3D.kernel3D.GeoCoordSys1D;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.TreeMap;
@@ -37,7 +35,7 @@ public class DrawAxis3D extends DrawLine3D {
 	 * @param view3D
 	 * @param axis3D
 	 */
-	public DrawAxis3D(EuclidianView3D view3D, GeoAxis3D axis3D){
+	public DrawAxis3D(EuclidianView3D view3D, GeoAxisND axis3D){
 		
 		super(view3D, axis3D);
 		
@@ -54,7 +52,8 @@ public class DrawAxis3D extends DrawLine3D {
     public void drawLabel(Renderer renderer){
 
 
-    	//if (!getView3D().isStarted()) return;
+
+    	//Application.debug(getGeoElement()+": "+getGeoElement().isLabelVisible());
     	
 		if(!getGeoElement().isEuclidianVisible())
 			return;
@@ -63,7 +62,6 @@ public class DrawAxis3D extends DrawLine3D {
     		return;
 
     	
-    	//Application.debug("ici");
     	
     	for(DrawLabel3D label : labels.values())
     		label.draw(renderer);
@@ -86,7 +84,7 @@ public class DrawAxis3D extends DrawLine3D {
     protected void updateLabel(){
     	
   		//draw numbers
-  		GeoAxis3D axis = (GeoAxis3D) getGeoElement();
+  		GeoAxisND axis = (GeoAxisND) getGeoElement();
   		
 		NumberFormat numberFormat = axis.getNumberFormat();
 		double distance = axis.getNumbersDistance();
@@ -114,7 +112,7 @@ public class DrawAxis3D extends DrawLine3D {
     	
     	for(int i=iMin;i<=iMax;i++){
     		double val = i*distance;
-    		Coords origin = ((GeoCoordSys1D) getGeoElement()).getPoint(val);
+    		Coords origin = ((GeoAxisND) getGeoElement()).getPointInD(3,val);
     		
     		//draw numbers
     		String strNum = getView3D().getKernel().formatPiE(val,numberFormat);
@@ -144,10 +142,10 @@ public class DrawAxis3D extends DrawLine3D {
     	
 		
 		// update end of axis label
-		label.update(((GeoAxis3D) getGeoElement()).getAxisLabel(), getView3D().getApplication().getPlainFont(), 
+		label.update(axis.getAxisLabel(), getView3D().getApplication().getPlainFont(), 
 				getGeoElement().getObjectColor(),
-				((GeoCoordSys1D) getGeoElement()).getPoint(minmax[1]),
-				axis.labelOffsetX-4,axis.labelOffsetY-6
+				((GeoAxisND) getGeoElement()).getPointInD(3,minmax[1]),
+				getGeoElement().labelOffsetX-4,getGeoElement().labelOffsetY-6
 		);
 
 		
@@ -168,7 +166,7 @@ public class DrawAxis3D extends DrawLine3D {
     	PlotterBrush brush = getView3D().getRenderer().getGeometryManager().getBrush();
        	brush.setArrowType(PlotterBrush.ARROW_TYPE_SIMPLE);
        	brush.setTicks(PlotterBrush.TICKS_ON);
-       	brush.setTicksDistance( (float) ((GeoAxis3D) getGeoElement()).getNumbersDistance());
+       	brush.setTicksDistance( (float) ((GeoAxisND) getGeoElement()).getNumbersDistance());
        	brush.setTicksOffset((float) (-minmax[0]/(minmax[1]-minmax[0])));
        	super.updateForItSelf(false);
        	brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
@@ -191,15 +189,11 @@ public class DrawAxis3D extends DrawLine3D {
 
 		
 		//update decorations
-		GeoAxis3D axis = (GeoAxis3D) getGeoElement();
+		GeoAxisND axis = (GeoAxisND) getGeoElement();
 		
 
     	//gets the direction vector of the axis as it is drawn on screen
-		/*
-    	Coords v = axis.getCoordSys().getVx().copyVector();
-    	getView3D().toScreenCoords3D(v);
-    	*/
-		Coords v = getView3D().getToScreenMatrix().mul(axis.getCoordSys().getVx());
+		Coords v = getView3D().getToScreenMatrix().mul(axis.getDirectionInD3());
     	v.set(3, 0); //set z-coord to 0
     	//double vScale = v.norm(); //axis scale, used for ticks distance
     	double vScale = getView3D().getScale(); //TODO use different scales for x/y/z
@@ -248,7 +242,7 @@ public class DrawAxis3D extends DrawLine3D {
 
     	return distance;
     	*/
-    	return ((GeoAxis3D) getGeoElement()).getNumbersDistance();
+    	return ((GeoAxisND) getGeoElement()).getNumbersDistance();
     }
     
     

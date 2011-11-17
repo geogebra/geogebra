@@ -1,16 +1,16 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.kernelND.GeoAxisND;
+import geogebra.main.Application;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Color;
 import java.text.NumberFormat;
 
-public class GeoAxis3D extends GeoLine3D {
+public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	
-	public static final int X_AXIS_3D = 1;
-	public static final int Y_AXIS_3D = 2;
-	public static final int Z_AXIS_3D = 3;
+
 	private String axisLabel;
 	
 	// for numbers and ticks
@@ -179,5 +179,8 @@ public class GeoAxis3D extends GeoLine3D {
 	public int getTickSize(){
 		return ticksize;
 	}
+	
+	
+
 
 }

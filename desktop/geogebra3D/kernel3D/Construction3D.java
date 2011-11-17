@@ -1,6 +1,8 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.kernelND.GeoAxisND;
+import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.main.Application;
 
 /**
@@ -15,9 +17,11 @@ public class Construction3D extends Construction {
 	private Kernel3D kernel3D;
 	
 	// axis objects
-	private GeoAxis3D xAxis3D, yAxis3D, zAxis3D;
+	private GeoAxis3D //xAxis3D, yAxis3D, 
+	zAxis3D;
 	private GeoPlane3DConstant xOyPlane;
-	private String xAxis3DLocalName, yAxis3DLocalName, zAxis3DLocalName, xOyPlaneLocalName;
+	private String //xAxis3DLocalName, yAxis3DLocalName, 
+	zAxis3DLocalName, xOyPlaneLocalName;
 
 	
 	/** default constructor
@@ -42,8 +46,6 @@ public class Construction3D extends Construction {
 		super.initAxis();
 		
 		
-		xAxis3D = new GeoAxis3D(this,GeoAxis3D.X_AXIS_3D);
-		yAxis3D = new GeoAxis3D(this,GeoAxis3D.Y_AXIS_3D);
 		zAxis3D = new GeoAxis3D(this,GeoAxis3D.Z_AXIS_3D);
 		
 		xOyPlane = new GeoPlane3DConstant(this,GeoPlane3DConstant.XOY_PLANE);
@@ -51,11 +53,11 @@ public class Construction3D extends Construction {
 	}
 	
 	
-	public GeoAxis3D getXAxis3D(){
-		return xAxis3D;
+	public GeoAxisND getXAxis3D(){
+		return super.getXAxis();
 	}
-	public GeoAxis3D getYAxis3D(){
-		return yAxis3D;
+	public GeoAxisND getYAxis3D(){
+		return super.getYAxis();
 	}
 	public GeoAxis3D getZAxis3D(){
 		return zAxis3D;
@@ -79,14 +81,12 @@ public class Construction3D extends Construction {
 		
 				
 		// add axes labels both in English and current language
-		geoTable.put("xAxis3D", xAxis3D);
-		geoTable.put("yAxis3D", yAxis3D);
+		geoTable.put("xAxis3D", getXAxis());
+		geoTable.put("yAxis3D", getYAxis());
 		geoTable.put("zAxis3D", zAxis3D);
 		geoTable.put("xOyPlane", xOyPlane);
 		
-		if (xAxis3DLocalName != null) {
-			geoTable.put(xAxis3DLocalName, xAxis3D);
-			geoTable.put(yAxis3DLocalName, yAxis3D);
+		if (zAxis3DLocalName != null) {
 			geoTable.put(zAxis3DLocalName, zAxis3D);
 			geoTable.put(xOyPlaneLocalName, xOyPlane);
 		}	
@@ -98,19 +98,13 @@ public class Construction3D extends Construction {
 		super.updateLocalAxesNames();
 		
 		
-		geoTable.remove(xAxis3DLocalName);
-		geoTable.remove(yAxis3DLocalName);
 		geoTable.remove(zAxis3DLocalName);
 		geoTable.remove(xOyPlaneLocalName);
 
 		Application app = getKernel().getApplication();
-		xAxis3DLocalName = app.getPlain("xAxis3D");
-		yAxis3DLocalName = app.getPlain("yAxis3D");
 		zAxis3DLocalName = app.getPlain("zAxis3D");
 		xOyPlaneLocalName = app.getPlain("xOyPlane");
 		
-		geoTable.put(xAxis3DLocalName, xAxis3D);
-		geoTable.put(yAxis3DLocalName, yAxis3D);	
 		geoTable.put(zAxis3DLocalName, zAxis3D);	
 		geoTable.put(xOyPlaneLocalName, xOyPlane);	
 		

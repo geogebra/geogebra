@@ -12,13 +12,18 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-public class GeoAxis extends GeoLine {
-	
-	public static final int X_AXIS = 1;
-	public static final int Y_AXIS = 2;
+import java.awt.Color;
+import java.text.NumberFormat;
+
+import geogebra.kernel.kernelND.GeoAxisND;
+import geogebra.main.Application;
+
+public class GeoAxis extends GeoLine implements GeoAxisND{
 	
 	private GeoPoint origin;
 	private int type;
+	
+	private String axisLabel;
 
 	public GeoAxis(Construction cons, int type) {
 		super(cons);
@@ -31,14 +36,19 @@ public class GeoAxis extends GeoLine {
 			case X_AXIS:
 				setCoords(0, 1, 0);
 				label = "xAxis";
+				setAxisLabel("x");
+				setObjColor(Color.RED);
 				break;
 			
 			case Y_AXIS:
 				setCoords(-1, 0, 0);
 				label = "yAxis";
+				setAxisLabel("y");
+				setObjColor(new Color(0,0.5f,0));
 				break;
 		}
 		setFixed(true);
+		setLabelVisible(false);
 	}
 	
 	public int getType() {
@@ -86,4 +96,91 @@ public class GeoAxis extends GeoLine {
 	public int getGeoClassType() {
     	return GEO_CLASS_AXIS;
     }
+    
+    
+    
+    
+    
+    
+    
+    ///////////////////////////////////////
+    // GEOAXISND INTERFACE
+    ///////////////////////////////////////
+
+	public void setAxisLabel(String label){
+		axisLabel = label;
+	}
+	
+	public String getAxisLabel() {
+		return axisLabel;
+	}
+
+	public String getUnitLabel() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	public int getTickStyle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	public boolean getShowNumbers() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	
+	
+	
+	
+	// for numbers and ticks
+	private NumberFormat numberFormat;
+	private double numbersDistance;
+	private int numbersXOffset, numbersYOffset;
+	private int ticksize = 5; //TODO
+	
+	
+
+	public NumberFormat getNumberFormat() {
+		return numberFormat;
+	}
+
+	public double getNumbersDistance() {
+		return numbersDistance;
+	}
+
+	public int getTickSize() {
+		return ticksize;
+	}
+
+	public void updateDecorations(double distance, NumberFormat numberFormat,
+			int xOffset, int yOffset,
+			int labelXOffset, int labelYOffset){
+		this.numbersDistance = distance;
+		this.numberFormat = numberFormat;
+		this.numbersXOffset = xOffset;
+		this.numbersYOffset = yOffset;
+		setLabelOffset(labelXOffset, labelYOffset);
+
+	}
+
+	public int getNumbersXOffset() {
+		return numbersXOffset;
+	}
+
+	public int getNumbersYOffset() {
+		return numbersYOffset;
+	}
+
+	
+	/**
+	 * overrides GeoElement method : this is a "constant" element, so the label is set
+	 */
+	public boolean isLabelSet() {
+		return true;
+	}	
+	
+
+	
 }
