@@ -8,6 +8,7 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 /**
  * @author ggb3D
@@ -21,8 +22,11 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	
 	private GeoPointND[] bottomPoints;
 	private GeoPointND topPoint;
-	private GeoPolygon bottom;
+	protected GeoPolygon bottom;
 	private NumberValue height;
+	
+	protected boolean bottomAsInput = false;
+	protected int bottomPointLength = -1;
 	
 
 	
@@ -140,6 +144,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		bottom = polygon;
+		bottomAsInput = true;
 		topPoint = point;
 		shift=1; //output points are shifted of 1 to input points
 		
@@ -176,6 +181,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		bottom = polygon;
+		bottomAsInput = true;
 		this.height = height;
 		shift=0; //output points correspond to input points
 		
@@ -256,13 +262,21 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	
 	
 	protected void compute() {
+		
+		//check if bottom points length has changed (e.g. with regular polygon)
+		if (bottomAsInput && bottom.getPointsLength()!=bottomPointLength){
+			Application.debug("bottom.getPointsLength()!=bottomPointLength");
+			
+			bottomPointLength=bottom.getPointsLength();
+		}
+			
+		
+		//recompute the translation from bottom to top
 		if (height==null)
 			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));
-		else{
-			//Coords v = bottom.getMainDirection();
-			//Application.debug(height.getDouble()+"\nv=\n"+v);
+		else
 			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
-		}
+		
 
 	}
 	

@@ -471,6 +471,21 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	    
 	    private StringBuffer sb = new StringBuffer();
 	    
+	    /**
+	     * 
+	     * @param geo
+	     * @return level of usability of the label
+	     */
+	    private int usableLabel(GeoElement geo){
+	    	if (!geo.isLabelSet())
+	    		return 2; //not usable
+	    	else if (geo.getLabel().contains("_"))
+	    		return 1; //usable if only one
+	    	else
+	    		return 0; //usable
+	    		
+	    }
+	    
 	    private void defaultPolygonsLabels() {
 	    	for (ConstructionElementCycle key : polygonsIndex.keySet()){
 	    		
@@ -478,16 +493,15 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	    		
 	    		//stores points names and find the first
 	    		String label = null;
-	    		boolean allPointsHaveLabelSet = true;
+	    		int labelUsability = 0;
 	    		
 	    		String[] points = new String[key.size()];
 	    		int indexFirstPointName=0;	    		
 	    		int i=0;
-	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext() && allPointsHaveLabelSet;){
+	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext() && (labelUsability<2);){
 	    			GeoElement p = (GeoElement) it.next();
-	    			if (!p.isLabelSet()){
-	    				allPointsHaveLabelSet = false;
-	    			}else{
+	    			labelUsability+=usableLabel(p);
+	    			if (labelUsability<2){
 	    				points[i]=p.getLabel();
 	    				if (points[i].compareToIgnoreCase(points[indexFirstPointName])<0)
 	    					indexFirstPointName = i;
@@ -495,7 +509,7 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	    			}
 	    		}
 
-	    		if (allPointsHaveLabelSet){
+	    		if (labelUsability<2){
 	    			
 	    			sb.setLength(0);
 		    		sb.append(app.getPlain("Name.face"));
@@ -533,22 +547,22 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	    private void defaultSegmentLabels() {
 	    	for (ConstructionElementCycle key : segmentsIndex.keySet()){
 	    		
-	    		boolean allPointsHaveLabelSet = true;
+	    		
+	    		int labelUsability = 0;    			    		
 	    		String label = null;
 	    		
 	    		String[] points = new String[2];
 	    		int i=0;
-	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext() && allPointsHaveLabelSet;){
+	    		for(Iterator<ConstructionElement> it = key.iterator();it.hasNext() && (labelUsability<2);){
 	    			GeoElement p = (GeoElement) it.next();
-	    			if (!p.isLabelSet()){
-	    				allPointsHaveLabelSet = false;
-	    			}else{
+	    			labelUsability+=usableLabel(p);
+	    			if (labelUsability<2){
 	    				points[i]=p.getLabel();
 	    				i++;
 	    			}
 	    		}
 
-	    		if (allPointsHaveLabelSet){
+	    		if (labelUsability<2){
 
 	    			sb.setLength(0);
 	    			sb.append(app.getPlain("Name.edge"));

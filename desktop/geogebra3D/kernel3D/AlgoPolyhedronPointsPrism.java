@@ -102,6 +102,11 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		
 	}
 	
+	protected void addBottomPoints(int length){
+		outputPoints.augmentOutputSize(length);
+		
+	}
+	
 	
 	/////////////////////////////////////////////
 	// END OF THE CONSTRUCTION
