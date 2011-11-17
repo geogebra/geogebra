@@ -29,7 +29,7 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
      * The type is either GeoConicPart.CONIC_PART_ARC or 
      * GeoConicPart.CONIC_PART_ARC       
      */
-    AlgoConicPartConicParameters(Construction cons, String label,
+    public AlgoConicPartConicParameters(Construction cons, String label,
     		GeoConic circle, NumberValue startParameter, NumberValue endParameter,
     		int type) {
         super(cons, type);        

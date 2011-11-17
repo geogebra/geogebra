@@ -30,7 +30,7 @@ public class AlgoListMin extends AlgoElement {
 	private GeoList geoList; //input
     private GeoNumeric min; //output	
 
-    AlgoListMin(Construction cons, String label, GeoList geoList) {
+    public AlgoListMin(Construction cons, String label, GeoList geoList) {
         this(cons, geoList);
         
         min.setLabel(label);
@@ -61,12 +61,12 @@ public class AlgoListMin extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getMin() {
+    public GeoNumeric getMin() {
         return min;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		min.setUndefined();

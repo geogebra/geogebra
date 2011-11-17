@@ -58,7 +58,7 @@ public class AlgoFactors extends AlgoElement {
         return g;
     }
 
-    protected final void compute() {       
+    public final void compute() {       
         if (!f.isDefined()) {
         	g.setUndefined();
         	return;

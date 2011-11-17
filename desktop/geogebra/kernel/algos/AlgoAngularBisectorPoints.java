@@ -48,7 +48,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
      * @param A 
      * @param B 
      * @param C */
-    AlgoAngularBisectorPoints(
+    public AlgoAngularBisectorPoints(
         Construction cons,
         String label,
         GeoPoint A,
@@ -95,7 +95,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine getLine() {
+    public GeoLine getLine() {
         return bisector;
     }
     GeoPoint getA() {
@@ -109,7 +109,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         boolean infiniteB = B.isInfinite();
 
         // compute lines g = B v A, h = B v C                       

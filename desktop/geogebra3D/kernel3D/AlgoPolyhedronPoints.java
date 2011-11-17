@@ -261,7 +261,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	}
 	
 	
-	protected void compute() {
+	public void compute() {
 		
 		//check if bottom points length has changed (e.g. with regular polygon)
 		if (bottomAsInput && bottom.getPointsLength()!=bottomPointLength){

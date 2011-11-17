@@ -28,7 +28,7 @@ public class AlgoSurdText extends AlgoElement {
     
     protected StringBuilder sb = new StringBuilder();
     
-    AlgoSurdText(Construction cons, String label, GeoNumeric num) {
+    public AlgoSurdText(Construction cons, String label, GeoNumeric num) {
     	this(cons, num);
         text.setLabel(label);
     }
@@ -64,12 +64,12 @@ public class AlgoSurdText extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoText getResult() {
+    public GeoText getResult() {
         return text;
     }
 
     @Override
-	protected void compute() {   	
+	public void compute() {   	
     	
 		if (input[0].isDefined()) {
 			

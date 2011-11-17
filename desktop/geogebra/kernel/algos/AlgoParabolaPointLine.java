@@ -37,7 +37,7 @@ public class AlgoParabolaPointLine extends AlgoElement {
     private GeoLine l;  // input    
     private GeoConic parabola; // output             
             
-    AlgoParabolaPointLine(Construction cons, String label, GeoPoint F, GeoLine l) {
+    public AlgoParabolaPointLine(Construction cons, String label, GeoPoint F, GeoLine l) {
         super(cons);
         this.F = F;
         this.l = l;                
@@ -70,13 +70,13 @@ public class AlgoParabolaPointLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoConic getParabola() { return parabola; }
+    public GeoConic getParabola() { return parabola; }
     GeoPoint getFocus() { return F; }
     GeoLine getLine() { return l; }
     
     // compute parabola with focus F and line l
     @Override
-	protected final void compute() {                           
+	public final void compute() {                           
         parabola.setParabola(F, l);
     }   
     

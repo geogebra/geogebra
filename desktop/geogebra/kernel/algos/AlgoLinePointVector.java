@@ -38,7 +38,7 @@ public class AlgoLinePointVector extends AlgoElement {
     private GeoLine g; // output       
 
     /** Creates new AlgoJoinPoints */
-    AlgoLinePointVector(
+    public AlgoLinePointVector(
         Construction cons,
         String label,
         GeoPoint P,
@@ -78,7 +78,7 @@ public class AlgoLinePointVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine getLine() {
+    public GeoLine getLine() {
         return g;
     }
     GeoPoint getP() {
@@ -90,7 +90,7 @@ public class AlgoLinePointVector extends AlgoElement {
 
     // calc the line g through P and Q    
     @Override
-	protected final void compute() {
+	public final void compute() {
         // g = cross(P, v)
         GeoVec3D.lineThroughPointVector(P, v, g);
     }

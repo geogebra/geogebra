@@ -33,7 +33,7 @@ public class AlgoListLCM extends AlgoElement {
 	private GeoList geoList; //input
     private GeoNumeric num; //output	
 
-    AlgoListLCM(Construction cons, String label, GeoList geoList) {
+    public AlgoListLCM(Construction cons, String label, GeoList geoList) {
         super(cons);
         this.geoList = geoList;
                
@@ -59,12 +59,12 @@ public class AlgoListLCM extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getLCM() {
+    public GeoNumeric getLCM() {
         return num;
     }
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		num.setUndefined();

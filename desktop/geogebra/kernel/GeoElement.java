@@ -30,6 +30,7 @@ import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.algos.AlgorithmSet;
+import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
@@ -403,7 +404,11 @@ public abstract class GeoElement
 	private String realLabel; //for macro constructions, see setRealLabel() for details
 	private String oldLabel; // see doRenameLabel
 	private String caption;
-	boolean labelWanted = false, labelSet = false, localVarLabelSet = false;
+	public boolean labelWanted = false;
+
+	public boolean labelSet = false;
+
+	boolean localVarLabelSet = false;
 	private boolean euclidianVisible = true;
 	private boolean forceEuclidianVisible = false;
 	protected boolean algebraVisible = true;
@@ -3046,7 +3051,7 @@ public abstract class GeoElement
 	 * not be updated.
 	 * @param algorithm 
 	 */
-	final void addToAlgorithmListOnly(AlgoElement algorithm) {
+	public final void addToAlgorithmListOnly(AlgoElement algorithm) {
 		if (!getAlgorithmList().contains(algorithm))
 			algorithmList.add(algorithm);
 	}
@@ -3057,7 +3062,7 @@ public abstract class GeoElement
 	 * i.e. the dependency graph of the construction.
 	 * @param algorithm 
 	 */
-	final void addToUpdateSetOnly(AlgoElement algorithm) {
+	public final void addToUpdateSetOnly(AlgoElement algorithm) {
 		addToUpdateSets(algorithm);
 	}
 
@@ -3110,7 +3115,7 @@ public abstract class GeoElement
 //		}
 //	}
 
-	protected AlgorithmSet getAlgoUpdateSet() {
+	public AlgorithmSet getAlgoUpdateSet() {
 		if (algoUpdateSet == null)
 			 algoUpdateSet = new AlgorithmSet();
 
@@ -3158,7 +3163,6 @@ public abstract class GeoElement
 	 * Note: no dependent objects are updated.
 	 * @see #updateRepaint()
 	 */
-	@Override
 	public void update() {
 
 		updateGeo();
@@ -5393,7 +5397,7 @@ public abstract class GeoElement
 		return isAlgoMacroOutput;
 	}
 
-	void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
+	public void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
 		this.isAlgoMacroOutput = isAlgoMacroOutput;
 	}
 

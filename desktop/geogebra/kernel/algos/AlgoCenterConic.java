@@ -33,7 +33,7 @@ public class AlgoCenterConic extends AlgoElement {
     private GeoConic c; // input
     private GeoPoint midpoint; // output                 
 
-    AlgoCenterConic(Construction cons, String label, GeoConic c) {
+    public AlgoCenterConic(Construction cons, String label, GeoConic c) {
         super(cons);
         this.c = c;
         midpoint = new GeoPoint(cons);
@@ -67,12 +67,12 @@ public class AlgoCenterConic extends AlgoElement {
     GeoConic getConic() {
         return c;
     }
-    GeoPoint getPoint() {
+    public GeoPoint getPoint() {
         return midpoint;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         if (!c.isDefined()) {
             midpoint.setUndefined();
             return;

@@ -84,7 +84,7 @@ public class AlgoDependentNumber extends AlgoElement {
     
     // calc the current value of the arithmetic tree
     @Override
-	protected final void compute() {    
+	public final void compute() {    
     	try {
     		NumberValue nv = (NumberValue) root.evaluate();
 	        number.setValue(nv.getDouble());

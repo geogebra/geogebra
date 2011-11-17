@@ -62,7 +62,7 @@ public class AlgoPrimeFactors extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	double n = Math.round(num.getDouble());
     	

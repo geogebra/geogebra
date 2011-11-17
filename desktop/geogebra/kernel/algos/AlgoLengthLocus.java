@@ -26,7 +26,7 @@ public class AlgoLengthLocus extends AlgoElement {
 	private GeoLocus locus; //input
     private GeoNumeric length; //output	
 
-    AlgoLengthLocus(Construction cons, String label, GeoLocus locus) {
+    public AlgoLengthLocus(Construction cons, String label, GeoLocus locus) {
         super(cons);
         this.locus = locus;
                
@@ -52,12 +52,12 @@ public class AlgoLengthLocus extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getLength() {
+    public GeoNumeric getLength() {
         return length;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (locus.isDefined())
     		length.setValue(locus.getPointLength());
     	else 

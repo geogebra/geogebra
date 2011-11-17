@@ -29,7 +29,7 @@ public class AlgoIsInteger extends AlgoElement {
 	private GeoNumeric inputGeo; //input
     private GeoBoolean outputBoolean; //output	
 
-    AlgoIsInteger(Construction cons, String label, GeoNumeric inputGeo) {
+    public AlgoIsInteger(Construction cons, String label, GeoNumeric inputGeo) {
         super(cons);
         this.inputGeo = inputGeo;
 
@@ -56,12 +56,12 @@ public class AlgoIsInteger extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoBoolean getResult() {
+    public GeoBoolean getResult() {
         return outputBoolean;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
     }
   

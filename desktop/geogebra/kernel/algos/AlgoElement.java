@@ -20,7 +20,6 @@ package geogebra.kernel.algos;
 
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.ConstructionElement;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoNumeric;
@@ -50,7 +49,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	private static ResourceBundle rbalgo2intergeo;
 	// <-- Added for Intergeo File Format (Yves Kreis)
     
-    protected GeoElement[] input;
+    public GeoElement[] input;
     /** list of output
      * @deprecated (matthieu) use setOutputLength(), setOutput(), getOutputLength(), getOutput() instead
      */
@@ -103,7 +102,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * @param i
      * @return output i
      */
-    protected GeoElement getOutput(int i){
+    public GeoElement getOutput(int i){
     	return output[i];
     }
     
@@ -111,7 +110,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * 
      * @return number of outputs
      */
-    protected int getOutputLength(){
+    public int getOutputLength(){
     	if (output==null)
     		return 0;
     	
@@ -397,7 +396,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     abstract protected  void setInputOutput();
 
     // in compute() the output ist derived from the input
-    abstract protected void compute();       
+    public abstract void compute();       
 
     /**
      * Inits this algorithm for the near-to-relationship. This
@@ -405,7 +404,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * loading a file, so that they have a look at the current
      * location of their output points. 
      */
-    protected void initForNearToRelationship() {}
+    public void initForNearToRelationship() {}
     
     public boolean isNearToAlgorithm() {
     	return false;
@@ -489,7 +488,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         return input;
     }
     
-    GeoElement[] getInputForUpdateSetPropagation() {
+    public GeoElement[] getInputForUpdateSetPropagation() {
         return input;
     }
 
@@ -667,7 +666,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * of one of its outputs. 
      * @param output 
      */
-    void remove(GeoElement output) {
+    public void remove(GeoElement output) {
     	remove();
     }
     
@@ -676,7 +675,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * algorithm except for keepGeo.
      * @param keepGeo 
      */
-    void removeOutputExcept(GeoElement keepGeo) {
+    public void removeOutputExcept(GeoElement keepGeo) {
     	
     	for (int i=0; i < getOutputLength(); i++) {
             GeoElement geo = getOutput(i);
@@ -832,7 +831,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     //  adds all predecessors of this object to the given list
     // the set is kept topologically sorted 
     // @param onlyIndependent: whether only indpendent geos should be added
-    final void addPredecessorsToSet(TreeSet<GeoElement> set, boolean onlyIndependent) {
+    public final void addPredecessorsToSet(TreeSet<GeoElement> set, boolean onlyIndependent) {
         for (int i = 0; i < input.length; i++) {
             GeoElement parent = input[i];
 
@@ -845,7 +844,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         }
     }
     
-    final void addRandomizablePredecessorsToSet(TreeSet<GeoElement> set) {
+    public final void addRandomizablePredecessorsToSet(TreeSet<GeoElement> set) {
         for (int i = 0; i < input.length; i++) {
             GeoElement parent = input[i];
 
@@ -1065,7 +1064,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     	return sb.toString();
     }
     	
-    final void getXML(StringBuilder sb, boolean includeOutputGeos) {  
+    public final void getXML(StringBuilder sb, boolean includeOutputGeos) {  
         // this is needed for helper commands like 
         // intersect for single intersection points
         if (!isPrintedInXML) return; 

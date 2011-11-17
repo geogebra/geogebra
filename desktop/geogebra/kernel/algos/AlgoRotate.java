@@ -51,7 +51,7 @@ public class AlgoRotate extends AlgoTransformation {
     /**
      * Creates new unlabeled rotation algo
      */
-    AlgoRotate(Construction cons, GeoElement A, NumberValue angle) {
+    public AlgoRotate(Construction cons, GeoElement A, NumberValue angle) {
         super(cons);        
         this.angle = angle;
 
@@ -97,13 +97,14 @@ public class AlgoRotate extends AlgoTransformation {
      * @return rotated object
      */
     @Override
+	public
 	GeoElement getResult() {
         return outGeo;
     }
 
     // calc rotated point
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;

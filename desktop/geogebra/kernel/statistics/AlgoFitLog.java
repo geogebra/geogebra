@@ -64,7 +64,7 @@ public class AlgoFitLog extends AlgoElement{
     
     public GeoFunction getFitLog() {return geofunction;}
     
-    protected final void compute() {
+    public final void compute() {
         int size=geolist.size();
         boolean regok=true;
         double a,b;

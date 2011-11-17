@@ -29,7 +29,7 @@ public class AlgoDeterminant extends AlgoElement {
 	private GeoList inputList; //input
     private GeoNumeric num; //output	
 
-    AlgoDeterminant(Construction cons, String label, GeoList inputList) {
+    public AlgoDeterminant(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -55,12 +55,12 @@ public class AlgoDeterminant extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return num;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	   		
    		GgbMat matrix = new GgbMat(inputList);
    		

@@ -40,7 +40,7 @@ public class AlgoCommonTangents extends AlgoElement {
     private GeoPoint[] tangentPoints, tangentPoints2;
     private boolean equalLines = false, equalLines2 = false;
 
-    AlgoCommonTangents(
+    public AlgoCommonTangents(
                        Construction cons,
                        String[] labels,
                        GeoConic c,
@@ -140,7 +140,7 @@ public class AlgoCommonTangents extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine[] getTangents() {
+    public GeoLine[] getTangents() {
         return tangents;
     }
 
@@ -182,7 +182,7 @@ public class AlgoCommonTangents extends AlgoElement {
 
     // calc tangents
     @Override
-	protected final void compute() {
+	public final void compute() {
 
         if( !c.isCircle() || !c2.isCircle() ) {
             for(int i=0; i<4; i++) {

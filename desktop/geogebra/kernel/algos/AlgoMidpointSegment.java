@@ -37,7 +37,7 @@ public class AlgoMidpointSegment extends AlgoElement {
     private GeoPoint P, Q; // endpoints of segment
     
     /** Creates new AlgoVector */
-    AlgoMidpointSegment(Construction cons, String label, GeoSegment segment) {
+    public AlgoMidpointSegment(Construction cons, String label, GeoSegment segment) {
     	this(cons, segment);
     	M.setLabel(label);
     }
@@ -78,13 +78,13 @@ public class AlgoMidpointSegment extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoPoint getPoint() {
+    public GeoPoint getPoint() {
         return M;
     }
 
     // calc midpoint
     @Override
-	protected final void compute() {
+	public final void compute() {
         boolean pInf = P.isInfinite();
         boolean qInf = Q.isInfinite();
 

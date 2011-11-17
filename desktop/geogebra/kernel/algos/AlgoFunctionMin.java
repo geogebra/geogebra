@@ -98,7 +98,7 @@ public class AlgoFunctionMin extends AlgoElement {
     }//getNumericalExtremum()
     
     @Override
-	protected final void compute() {
+	public final void compute() {
         double		l				=	left.getDouble();
         double		r				=	right.getDouble();
         double		min				=	0.0d;    	

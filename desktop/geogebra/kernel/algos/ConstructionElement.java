@@ -10,8 +10,11 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.kernel.algos;
 
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.util.TreeSet;
@@ -28,8 +31,8 @@ implements Comparable<ConstructionElement> {
     public static final int DISPLAY = 2;
 	// <-- Added for Intergeo File Format (Yves Kreis)
     
-	protected transient Construction cons; // parent construction of this element
-	protected transient Kernel kernel;      // parent kernel of this element
+	public transient Construction cons; // parent construction of this element
+	public transient Kernel kernel;      // parent kernel of this element
 	protected transient Application app;  // parent application of this element
 	
 	private int constIndex = -1; // index in construction list 
@@ -77,7 +80,7 @@ implements Comparable<ConstructionElement> {
 	 * Sets construction index in current construction.
 	 * This method should only be called from Construction.
 	 */
-	void setConstructionIndex(int index) {
+	public void setConstructionIndex(int index) {
 		constIndex = index;
 	}
 	
@@ -100,7 +103,7 @@ implements Comparable<ConstructionElement> {
 	 * the given construction step (this depends on
 	 * this object's construction index).
 	 */
-	protected boolean isAvailableAtConstructionStep(int step) {
+	public boolean isAvailableAtConstructionStep(int step) {
 		// Note: this method is overwritten by
 		// GeoAxis in order to make the axes available
 		// in empty constructions too (for step == -1)
@@ -139,7 +142,7 @@ implements Comparable<ConstructionElement> {
     /**
      * Updates this object.
      */
-    abstract void update();
+    public abstract void update();
 		
 	/**
 	  * Notifies all views to remove this object.	 

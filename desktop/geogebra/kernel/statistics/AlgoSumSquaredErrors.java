@@ -71,7 +71,7 @@ public class AlgoSumSquaredErrors extends AlgoElement {
         return sse;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  !function.toGeoElement().isDefined()) {

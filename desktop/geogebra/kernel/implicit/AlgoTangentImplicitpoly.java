@@ -115,7 +115,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	
     
 	@Override
-	protected void compute() {
+	public void compute() {
 		// idea: find intersection points between given curve and
 		// tangent curve
 		// and construct lines through (x_p, y_p) and intersection points, 

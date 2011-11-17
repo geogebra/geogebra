@@ -168,7 +168,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     public static final int INTERSECTION_PASSING_LINE = 6;
     
 
-	protected void compute() {
+	public void compute() {
 		
 		Coords o = g.getStartInhomCoords();
 		Coords d = g.getDirectionInD3();
@@ -310,7 +310,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         return minIndex;
     }*/
 	
-    protected final void initForNearToRelationship() {   
+    public final void initForNearToRelationship() {   
 //TODO
     }
 }

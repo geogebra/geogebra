@@ -30,7 +30,7 @@ public class AlgoTake extends AlgoElement {
     private GeoList outputList; //output	
     private int size;
 
-    AlgoTake(Construction cons, String label, GeoList inputList, GeoNumeric m, GeoNumeric n) {
+    public AlgoTake(Construction cons, String label, GeoList inputList, GeoNumeric m, GeoNumeric n) {
         this(cons, inputList, m, n);
         outputList.setLabel(label);
     }
@@ -65,12 +65,12 @@ public class AlgoTake extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	if (!m.isDefined() || !n.isDefined()) {
     		// return empty list

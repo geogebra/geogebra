@@ -36,7 +36,7 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomVa
 		return "AlgoRandomUniform";
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			num.setValue(a.getDouble() + Math.random() *( b.getDouble() - a.getDouble()));
 		} else

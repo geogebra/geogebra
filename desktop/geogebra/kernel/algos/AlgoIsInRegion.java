@@ -40,7 +40,7 @@ public class AlgoIsInRegion extends AlgoElement {
 	}
 
 	@Override
-	protected void compute() {		
+	public void compute() {		
 		pi.updateCoords2D();
 		result.setValue(region.isInRegion(pi.getX2D(),pi.getY2D()));
 	}

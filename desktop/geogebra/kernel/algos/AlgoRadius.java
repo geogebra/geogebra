@@ -35,7 +35,7 @@ public class AlgoRadius extends AlgoElement {
     private GeoConic c;  // input
     private GeoNumeric num;     // output                  
     
-    AlgoRadius(Construction cons, GeoConic c) {        
+    public AlgoRadius(Construction cons, GeoConic c) {        
         super(cons);
         this.c = c;                                                              
         num = new GeoNumeric(cons);                
@@ -43,7 +43,7 @@ public class AlgoRadius extends AlgoElement {
         compute();                     
     }   
     
-    AlgoRadius(Construction cons, String label,GeoConic c) {        
+    public AlgoRadius(Construction cons, String label,GeoConic c) {        
         this(cons,c);    
         num.setLabel(label);            
     }   
@@ -64,12 +64,12 @@ public class AlgoRadius extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }       
     
-    GeoNumeric getRadius() { return num; }    
+    public GeoNumeric getRadius() { return num; }    
     GeoConic getConic() { return c; }        
     
     // set parameter of parabola
     @Override
-	protected final void compute() {        
+	public final void compute() {        
         if (c.type == GeoConic.CONIC_CIRCLE) {
             num.setValue(c.halfAxes[0]);
         } else {

@@ -58,7 +58,7 @@ public abstract class AlgoCasBase extends AlgoElement {
         return g.toGeoElement();
     }
     
-    protected final void compute() {
+    public final void compute() {
         if (!f.toGeoElement().isDefined()) {
         	g.toGeoElement().setUndefined();
         	return;

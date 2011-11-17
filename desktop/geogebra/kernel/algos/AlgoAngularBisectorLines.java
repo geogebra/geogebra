@@ -59,7 +59,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         GeoElement.setLabels(label, bisector);
     }
 
-    AlgoAngularBisectorLines(
+    public AlgoAngularBisectorLines(
         Construction cons,
         String[] labels,
         GeoLine g,
@@ -112,7 +112,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine[] getLines() {
+    public GeoLine[] getLines() {
         return bisector;
     }
     GeoLine getg() {
@@ -131,7 +131,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         // calc intersection B of g and h
         GeoVec3D.cross(g, h, B);
         infiniteB = B.isInfinite();

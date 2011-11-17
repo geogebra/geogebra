@@ -35,7 +35,7 @@ public class AlgoAngleConic extends AlgoElement {
     private GeoConic c; // input
     private GeoAngle angle; // output                  
 
-    AlgoAngleConic(Construction cons, String label, GeoConic c) {
+    public AlgoAngleConic(Construction cons, String label, GeoConic c) {
         super(cons);
         this.c = c;
         angle = new GeoAngle(cons);
@@ -65,7 +65,7 @@ public class AlgoAngleConic extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoAngle getAngle() {
+    public GeoAngle getAngle() {
         return angle;
     }
     
@@ -75,7 +75,7 @@ public class AlgoAngleConic extends AlgoElement {
 
     // compute conic's angle
     @Override
-	protected final void compute() {
+	public final void compute() {
         // take a look at first eigenvector
         angle.setValue(Math.atan2(c.eigenvec[0].y, c.eigenvec[0].x));
     }

@@ -64,7 +64,7 @@ public class AlgoKimberling extends AlgoElement {
 	private double u(double a){
 		return Math.sqrt(a);
 	}
-	protected final void compute() {
+	public final void compute() {
 		// Check if the points are aligned
 		double c = A.distance(B);
 		double b = C.distance(A);

@@ -23,7 +23,7 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 	protected NumberValue a;  // input
     protected GeoText text;     // output           
         
-    protected AlgoUnicodeToLetter(Construction cons, String label, NumberValue a) {       
+    public AlgoUnicodeToLetter(Construction cons, String label, NumberValue a) {       
 	  super(cons); 
       this.a = a;
 
@@ -53,10 +53,10 @@ public class AlgoUnicodeToLetter extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    protected GeoText getResult() { return text; }        
+    public GeoText getResult() { return text; }        
       
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	char ss = (char)a.getDouble();
     	text.setTextString(ss+"");

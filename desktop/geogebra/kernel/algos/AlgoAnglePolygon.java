@@ -33,7 +33,7 @@ public class AlgoAnglePolygon extends AlgoElement {
     protected OutputHandler<GeoElement> outputAngles;
     private AlgoAnglePoints algoAngle;
 
-    AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {        
+    public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {        
         this(cons, poly);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
@@ -92,7 +92,7 @@ public class AlgoAnglePolygon extends AlgoElement {
 
     
      @Override
-	protected final void compute() {
+	public final void compute() {
     	int length = poly.getPoints().length;		
 		outputAngles.adjustOutputSize(length >0?length : 1);
 		

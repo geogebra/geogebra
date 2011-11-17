@@ -40,7 +40,7 @@ public class AlgoUnitVectorLine extends AlgoElement {
     private double length; 
         
     /** Creates new AlgoOrthoVectorLine */
-    AlgoUnitVectorLine(Construction cons, String label,GeoLine g) {        
+    public AlgoUnitVectorLine(Construction cons, String label,GeoLine g) {        
         super(cons);
         this.g = g;                
         u = new GeoVector(cons); 
@@ -76,12 +76,12 @@ public class AlgoUnitVectorLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoVector getVector() { return u; }    
+    public GeoVector getVector() { return u; }    
     GeoLine getg() { return g; }
     
     // line through P normal to v
     @Override
-	protected final void compute() {        
+	public final void compute() {        
         length = GeoVec2D.length(g.x, g.y);
         u.x = g.y / length;
         u.y = -g.x / length;        

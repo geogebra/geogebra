@@ -69,7 +69,7 @@ public class AlgoFitExp extends AlgoElement {
 		return geofunction;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		int size = geolist.size();
 		boolean regok = true;
 		double a, b;

@@ -144,7 +144,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 		return Math.floor(0.5+Math.exp(Gamma.logGamma(n+1d)-Gamma.logGamma(r+1)-Gamma.logGamma((n-r)+1)));
 	}
 	
-    AlgoBinomial(Construction cons, String label, NumberValue a, NumberValue b) {       
+    public AlgoBinomial(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b); 
     }   
   
@@ -154,7 +154,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     }
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
 
     		double nCr=Binom(a.getDouble(), b.getDouble());

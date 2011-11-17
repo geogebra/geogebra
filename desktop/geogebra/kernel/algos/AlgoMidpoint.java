@@ -31,7 +31,7 @@ import geogebra.kernel.kernelND.GeoPointND;
  */
 public class AlgoMidpoint extends AlgoMidpointND {
       
-    AlgoMidpoint(Construction cons, String label, GeoPoint P, GeoPoint Q) {
+    public AlgoMidpoint(Construction cons, String label, GeoPoint P, GeoPoint Q) {
     	this(cons, P, Q);
     	getPoint().setLabel(label);
     }
@@ -47,7 +47,7 @@ public class AlgoMidpoint extends AlgoMidpointND {
 	}
    
     @Override
-	protected GeoPoint getPoint() {
+	public GeoPoint getPoint() {
         return (GeoPoint) super.getPoint();
     }
     

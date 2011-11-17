@@ -30,7 +30,7 @@ public class AlgoLimitAbove extends AlgoLimit {
         return "AlgoLimitAbove";
     }
      
-    protected final void compute() {       
+    public final void compute() {       
         if (!f.isDefined() || !input[1].isDefined()) {
         	outNum.setUndefined();
         	return;

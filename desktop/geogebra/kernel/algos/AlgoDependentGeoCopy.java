@@ -71,7 +71,7 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     
     // copy geo
     @Override
-	protected final void compute() {	
+	public final void compute() {	
     	try {
     		copyGeo.set(origGeo);
     	} catch (Exception e) {

@@ -63,7 +63,7 @@ public class AlgoStepObject extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
 	
-    protected GeoNumeric getResult() { return num; }        
+    public GeoNumeric getResult() { return num; }        
  
     @Override
 	final public boolean wantsConstructionProtocolUpdate() {
@@ -72,7 +72,7 @@ public class AlgoStepObject extends AlgoElement {
     
     // calc the current value of the arithmetic tree
     @Override
-	protected final void compute() {  
+	public final void compute() {  
     	double step=inputGeo.getConstructionIndex();
     	num.setValue(step+1);
     }         

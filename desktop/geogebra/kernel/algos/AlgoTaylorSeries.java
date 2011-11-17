@@ -84,7 +84,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 
 	// ON CHANGE: similiar code is in AlgoPolynomialForFunction
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (!f.isDefined() || !ageo.isDefined() || !ngeo.isDefined()) {
 			g.setUndefined();
 			return;

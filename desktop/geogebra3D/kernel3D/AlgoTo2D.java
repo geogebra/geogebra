@@ -106,7 +106,7 @@ public class AlgoTo2D extends AlgoElement3D {
     }
     
     // recalc 
-    protected final void compute() {
+    public final void compute() {
     	   
     	
     }

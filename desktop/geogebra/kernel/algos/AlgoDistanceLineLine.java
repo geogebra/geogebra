@@ -35,7 +35,7 @@ public class AlgoDistanceLineLine extends AlgoElement {
     private GeoLine g, h; // input
     private GeoNumeric dist; // output       
 
-    AlgoDistanceLineLine(
+    public AlgoDistanceLineLine(
         Construction cons,
         String label,
         GeoLine g,
@@ -73,7 +73,7 @@ public class AlgoDistanceLineLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getDistance() {
+    public GeoNumeric getDistance() {
         return dist;
     }
     GeoLine getg() {
@@ -85,7 +85,7 @@ public class AlgoDistanceLineLine extends AlgoElement {
 
     // calc length of vector v   
     @Override
-	protected final void compute() {
+	public final void compute() {
         dist.setValue(g.distance(h));
     }
 

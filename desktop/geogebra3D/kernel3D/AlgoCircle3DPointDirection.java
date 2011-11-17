@@ -73,7 +73,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     
 
     
-    protected final void compute() {
+    public final void compute() {
     	
     	
 		//recompute the coord sys

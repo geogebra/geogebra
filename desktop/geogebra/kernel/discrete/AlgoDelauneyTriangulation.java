@@ -29,7 +29,7 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
         return "AlgoDelauneyTriangulation";
     }
     
-    protected final void compute() {
+    public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

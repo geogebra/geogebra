@@ -25,7 +25,7 @@ public class AlgoMinimumSpanningTree extends AlgoHull{
         return "AlgoMinimumSpanningTree";
     }
     
-    protected final void compute() {
+    public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

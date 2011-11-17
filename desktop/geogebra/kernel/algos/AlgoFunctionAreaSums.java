@@ -845,7 +845,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	}
 		
 	@Override
-	protected final void compute() {	
+	public final void compute() {	
 		GeoElement geo; // temporary variable	
 		//Application.debug(type);
 		switch (type)

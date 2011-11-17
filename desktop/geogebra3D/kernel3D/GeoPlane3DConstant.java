@@ -56,7 +56,7 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 
 */
 	
-	protected boolean isAvailableAtConstructionStep(int step) {
+	public boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
 		// in order to make the axes available
 		// in empty constructions too (for step == -1)

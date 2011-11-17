@@ -228,7 +228,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
      * labels[n+1..2n-2] for points (only used for regular polygon)
      * @param labels
      */
-    void initLabels(String [] labels) {    
+    public void initLabels(String [] labels) {    
     	if(cons.isSuppressLabelsActive())
     		return;
     	initLabelsCalled = true;
@@ -984,7 +984,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return true;
 	}
 	
-	protected boolean isInRegion(GeoPointND PI, boolean update){
+	public boolean isInRegion(GeoPointND PI, boolean update){
 		
 		Coords coords = PI.getCoordsInD(2);				
 		return isInRegion(coords.getX()/coords.getZ(),coords.getY()/coords.getZ());		

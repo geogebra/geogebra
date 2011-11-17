@@ -62,7 +62,7 @@ public class AlgoNumerator extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {       
+	public final void compute() {       
         if (!f.isDefined()) {
         	g.setUndefined();
         	return;

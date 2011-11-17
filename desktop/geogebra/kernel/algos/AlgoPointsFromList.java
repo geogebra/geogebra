@@ -34,7 +34,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	private boolean initLabels, setLabels;
 
 
-	AlgoPointsFromList(
+	public AlgoPointsFromList(
 			Construction cons,
 			String[] labels,
 			boolean setLabels,
@@ -104,7 +104,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		int n;
 		if (!list.isDefined() || (n = list.size()) == 0) {
 			setPoints(null, null, 0);
@@ -190,6 +190,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	 * If this is not possible the whole algorithm is removed.
 	 */
 	@Override
+	public
 	void remove(GeoElement output) {
 		// only single undefined points may be removed       
 		for (int i = 0; i < points.length; i++) {

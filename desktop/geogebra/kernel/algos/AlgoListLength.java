@@ -29,7 +29,7 @@ public class AlgoListLength extends AlgoElement {
 	private GeoList geoList; //input
     private GeoNumeric length; //output	
 
-    AlgoListLength(Construction cons, String label, GeoList geoList) {
+    public AlgoListLength(Construction cons, String label, GeoList geoList) {
         this(cons, geoList);
         length.setLabel(label);
     }
@@ -59,12 +59,12 @@ public class AlgoListLength extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getLength() {
+    public GeoNumeric getLength() {
         return length;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (geoList.isDefined()) {
     		length.setValue(geoList.size());
     	} else {

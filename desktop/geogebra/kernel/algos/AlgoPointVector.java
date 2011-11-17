@@ -25,7 +25,7 @@ public class AlgoPointVector extends AlgoElement {
     private GeoVector v; // input
     private GeoPoint Q;     // output       
         
-    AlgoPointVector(Construction cons, String label, GeoPoint P, GeoVector v) {
+    public AlgoPointVector(Construction cons, String label, GeoPoint P, GeoVector v) {
         super(cons);
         this.P = P;
         this.v = v;         
@@ -60,10 +60,10 @@ public class AlgoPointVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoPoint getQ() { return Q; }
+    public GeoPoint getQ() { return Q; }
     
     @Override
-	protected final void compute() {
+	public final void compute() {
         Q.setCoords(P.inhomX + v.x, P.inhomY + v.y, 1.0);
     }   
     

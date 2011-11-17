@@ -30,7 +30,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoDiv extends AlgoTwoNumFunction {  
         
-    AlgoDiv(Construction cons, String label, NumberValue a, NumberValue b) {       
+    public AlgoDiv(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b);     
     }   
   
@@ -41,7 +41,7 @@ public class AlgoDiv extends AlgoTwoNumFunction {
     
     // calc area of conic c 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
 
     		double numerator = a.getDouble();

@@ -53,7 +53,7 @@ public class AlgoZip extends AlgoElement {
 	 * 
 	 * @param label label for the list
 	 */
-	AlgoZip(Construction cons, String label, GeoElement expression,
+	public AlgoZip(Construction cons, String label, GeoElement expression,
 			GeoElement[] vars, GeoList[] over) {
 
 		this(cons, expression, vars, over);
@@ -107,6 +107,7 @@ public class AlgoZip extends AlgoElement {
 	 * but must be in input array because of GetCommandDescription method).
 	 */
 	@Override
+	public
 	GeoElement[] getInputForUpdateSetPropagation() {
 		GeoElement[] realInput = new GeoElement[varCount + 1];
 		realInput[0] = expression;
@@ -126,7 +127,7 @@ public class AlgoZip extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (updateRunning)
 			return;
 		updateRunning = true;

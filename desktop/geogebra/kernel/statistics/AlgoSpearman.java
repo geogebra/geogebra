@@ -92,7 +92,7 @@ public class AlgoSpearman extends AlgoElement {
 		return result;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 
 		if(input.length == 1){
 			// input is single list of points

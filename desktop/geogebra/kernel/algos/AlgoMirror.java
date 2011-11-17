@@ -100,7 +100,7 @@ public class AlgoMirror extends AlgoTransformation {
      * @param p
      * @param c
      */
-    AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPoint p, GeoConic c) {
+    public AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPoint p, GeoConic c) {
         super(cons);
         //this.in = in;      
         mirrorLine = g;
@@ -161,12 +161,13 @@ public class AlgoMirror extends AlgoTransformation {
      * @return transformed geo
      */
     @Override
+	public
 	GeoElement getResult() { 
     	return outGeo; 
     }       
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;

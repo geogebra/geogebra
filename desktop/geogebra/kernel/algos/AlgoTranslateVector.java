@@ -38,7 +38,7 @@ public class AlgoTranslateVector extends AlgoElement {
     private GeoVec3D v;  // input
     private GeoVector w;     // output        
             
-    AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint A) {
+    public AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint A) {
         super(cons);
         this.A = A;        
         this.v = v;
@@ -80,11 +80,11 @@ public class AlgoTranslateVector extends AlgoElement {
         
     GeoPoint getPoint() { return A; }
     GeoVec3D getVector() { return v; }
-    GeoVector getTranslatedVector() { return w; }
+    public GeoVector getTranslatedVector() { return w; }
         
     // simply copy v
     @Override
-	protected final void compute() {
+	public final void compute() {
         w.setCoords(v);        
     }       
     

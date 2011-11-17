@@ -71,7 +71,7 @@ public class AlgoDependentVector3D extends AlgoElement3D {
     public GeoVector3D getVector3D() { return vec; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {   
+    public final void compute() {   
     	try {
 	        temp = ((Vector3DValue) root.evaluate()).getPointAsDouble();
 	        vec.setCoords(temp);

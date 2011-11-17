@@ -94,7 +94,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
     
     
     
-    protected void compute(){
+    public void compute(){
     	
     	if (!((GeoElement) plane).isDefined()){
     		vector.setUndefined();

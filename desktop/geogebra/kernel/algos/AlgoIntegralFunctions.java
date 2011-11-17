@@ -146,7 +146,7 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 	}
 	
 	@Override
-	protected final void compute() {	
+	public final void compute() {	
 		if (!f.isDefined() || !g.isDefined() || !ageo.isDefined() || !bgeo.isDefined()) {
 			n.setUndefined();
 			return;

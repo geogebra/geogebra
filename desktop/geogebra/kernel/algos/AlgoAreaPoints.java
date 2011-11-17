@@ -28,7 +28,7 @@ public class AlgoAreaPoints extends AlgoElement {
 	private GeoPoint [] P;  // input
     private GeoNumeric area;     // output           
         
-    AlgoAreaPoints(Construction cons, String label, GeoPoint [] P) {       
+    public AlgoAreaPoints(Construction cons, String label, GeoPoint [] P) {       
         this(cons, P);
         area.setLabel(label);
     }   
@@ -63,13 +63,13 @@ public class AlgoAreaPoints extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoNumeric getArea() { return area; }
+    public GeoNumeric getArea() { return area; }
     GeoPoint [] getPoints() { return P; }    
     
     // calc area of polygon P[0], ..., P[n]  
     // angle in range [0, pi]
     @Override
-	protected final void compute() {      
+	public final void compute() {      
         area.setValue(GeoPolygon.calcArea(P)); 
     }       
     

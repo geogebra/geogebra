@@ -64,7 +64,7 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
     }
 	
 
-    protected void compute() { 
+    public void compute() { 
     	
     	CoordSys coordsys = poly.getCoordSys();
     	

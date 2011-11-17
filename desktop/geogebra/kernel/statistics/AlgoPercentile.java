@@ -68,7 +68,7 @@ public class AlgoPercentile extends AlgoElement {
 		return result;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 
 		//==========================
 		// validation

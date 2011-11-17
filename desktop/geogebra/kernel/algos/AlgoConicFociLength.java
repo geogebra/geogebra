@@ -70,7 +70,7 @@ public abstract class AlgoConicFociLength extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoConic getConic() {
+    public GeoConic getConic() {
         return conic;
     }
     GeoPoint getFocus1() {
@@ -82,7 +82,7 @@ public abstract class AlgoConicFociLength extends AlgoElement {
 
     // compute ellipse with foci A, B and length of half axis a
     @Override
-	protected final void compute() {
+	public final void compute() {
         conic.setEllipseHyperbola(A, B, a.getDouble());
     }
 

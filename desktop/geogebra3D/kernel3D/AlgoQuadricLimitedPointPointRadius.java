@@ -69,7 +69,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	abstract protected void createEnds();
 	
 	@Override
-	protected void compute() {
+	public void compute() {
 		
 		//check end points
 		if (!((GeoElement) origin).isDefined() || origin.isInfinite()

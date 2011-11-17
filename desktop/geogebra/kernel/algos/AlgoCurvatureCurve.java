@@ -18,7 +18,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	private GeoCurveCartesian f;
     private GeoNumeric K; //output
     
-    AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f){
+    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -56,12 +56,12 @@ public class AlgoCurvatureCurve extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
     
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return K;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (f.isDefined()) {	    	
 	    	double t = f.getClosestParameter(A, f.getMinParameter());	    		        
 	        K.setValue( f.evaluateCurvature(t) );

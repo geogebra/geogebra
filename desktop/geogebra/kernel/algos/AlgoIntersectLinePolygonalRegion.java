@@ -333,7 +333,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     private int THICK_LINE_WITHIN_LINE = 4;
     
     @Override
-	protected void compute() {
+	public void compute() {
     	
     	//clear the points map
     	newCoords.clear();

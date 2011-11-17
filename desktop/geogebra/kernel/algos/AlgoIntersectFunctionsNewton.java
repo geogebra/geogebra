@@ -74,7 +74,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     }
       
     @Override
-	protected final void compute() {      
+	public final void compute() {      
         if (!(f.isDefined() && g.isDefined() && startPoint.isDefined())) {        	
             rootPoint.setUndefined();
         } else {

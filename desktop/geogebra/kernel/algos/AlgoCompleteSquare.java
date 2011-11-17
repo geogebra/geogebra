@@ -41,7 +41,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		
 	}
 	@Override
-	protected void compute() {
+	public void compute() {
 		int degInt;
 		GeoList coefs = null;
 		fv.setVarString(f.getVarString());

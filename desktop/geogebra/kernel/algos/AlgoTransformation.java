@@ -31,7 +31,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 	 * 
 	 * @return the resulting GeoElement
 	 */
-	abstract GeoElement getResult();
+	public abstract GeoElement getResult();
 
 	abstract protected void setTransformedObject(GeoElement g, GeoElement g2);
 

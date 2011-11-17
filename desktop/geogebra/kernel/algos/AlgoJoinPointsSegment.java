@@ -40,7 +40,7 @@ public class AlgoJoinPointsSegment extends AlgoElement {
     private GeoPolygon poly; // for polygons         
 
     /** Creates new AlgoJoinPoints */
-    AlgoJoinPointsSegment(
+    public AlgoJoinPointsSegment(
         Construction cons,
         String label,
         GeoPoint P,
@@ -114,7 +114,7 @@ public class AlgoJoinPointsSegment extends AlgoElement {
         setEfficientDependencies(input, efficientInput);
     }
 
-    GeoSegment getSegment() {
+    public GeoSegment getSegment() {
         return s;
     }
     GeoPoint getP() {
@@ -130,7 +130,7 @@ public class AlgoJoinPointsSegment extends AlgoElement {
 
     // calc the line g through P and Q    
     @Override
-	protected final void compute() {
+	public final void compute() {
         // g = P v Q  <=>  g_n : n = P x Q
         // g = cross(P, Q)
     	GeoVec3D.lineThroughPoints(P, Q, s);      	    
@@ -147,7 +147,7 @@ public class AlgoJoinPointsSegment extends AlgoElement {
     /**
      * Only removes this segment and does not remove parent polygon (if poly != null)
      */
-    void removeSegmentOnly() {
+    public void removeSegmentOnly() {
     	super.remove();    	
     }
 

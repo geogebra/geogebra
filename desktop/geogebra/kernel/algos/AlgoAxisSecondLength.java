@@ -34,7 +34,7 @@ public class AlgoAxisSecondLength extends AlgoElement {
     private GeoConic c;  // input
     private GeoNumeric num;     // output                  
     
-    AlgoAxisSecondLength(Construction cons, String label,GeoConic c) {
+    public AlgoAxisSecondLength(Construction cons, String label,GeoConic c) {
         super(cons);        
         this.c = c;                                                              
         num = new GeoNumeric(cons);                
@@ -59,12 +59,12 @@ public class AlgoAxisSecondLength extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoNumeric getLength() { return num; }    
+    public GeoNumeric getLength() { return num; }    
     GeoConic getConic() { return c; }        
     
     // set excentricity
     @Override
-	protected final void compute() {  
+	public final void compute() {  
         switch (c.type) {
             case GeoConic.CONIC_CIRCLE:                               
             case GeoConic.CONIC_HYPERBOLA:

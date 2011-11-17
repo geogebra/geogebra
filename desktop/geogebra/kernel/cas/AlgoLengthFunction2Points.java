@@ -59,7 +59,7 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
         return length;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	double a = A.inhomX;
     	double b = B.inhomX;
 

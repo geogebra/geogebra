@@ -180,7 +180,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		ArrayList<Double> xcoord = new ArrayList<Double>();
 		ArrayList<Double> ycoord = new ArrayList<Double>();

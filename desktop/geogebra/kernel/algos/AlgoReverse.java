@@ -34,7 +34,7 @@ public class AlgoReverse extends AlgoElement {
      * @param label
      * @param inputList
      */
-    AlgoReverse(Construction cons, String label, GeoList inputList) {
+    public AlgoReverse(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -64,12 +64,12 @@ public class AlgoReverse extends AlgoElement {
      * Returns the reversed list
      * @return reversed list
      */
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined()) {

@@ -126,7 +126,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     
 
     @Override
-	protected final void compute() {
+	public final void compute() {
 
         double[]	extremums		=	new double[0];
         int			numberOfExtremums=	0;

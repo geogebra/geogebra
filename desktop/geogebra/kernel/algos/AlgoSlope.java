@@ -41,7 +41,7 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
      * @param label label for result
      * @param g line
      */
-    AlgoSlope(Construction cons, String label, GeoLine g) {
+    public AlgoSlope(Construction cons, String label, GeoLine g) {
         super(cons);
         this.g = g;
         slope = new GeoNumeric(cons);
@@ -83,7 +83,7 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     /**
      * @return resulting slope
      */
-    GeoNumeric getSlope() {
+    public GeoNumeric getSlope() {
         return slope;
     }
     
@@ -96,7 +96,7 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
 
     // direction vector of g
     @Override
-	protected final void compute() {
+	public final void compute() {
         if (g.isDefined() && !Kernel.isZero(g.y)) {
             slope.setValue(-g.x / g.y);
         } else {

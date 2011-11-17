@@ -56,7 +56,8 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	private boolean showUndefinedInAlgebraView = false;
 	
     private String parameter = "\u03bb";	
-    GeoPoint startPoint, endPoint;    
+    public GeoPoint startPoint;
+	public GeoPoint endPoint;    
     
     //  enable negative sign of first coefficient in implicit equations
 	private static boolean KEEP_LEADING_SIGN = true;
@@ -138,7 +139,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	 * @param P point
 	 * @param eps precision (ratio of allowed error and |x|+|y|)
 	 */
-	final boolean isOnFullLine(GeoPoint P, double eps) {						
+	public final boolean isOnFullLine(GeoPoint P, double eps) {						
 		if (!P.isDefined()) return false;	
 		
 				double simplelength =  Math.abs(x) + Math.abs(y);
@@ -418,7 +419,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
     		P.addIncidence(this);
     }
     
-    final void setEndPoint(GeoPoint Q) {    	
+    public final void setEndPoint(GeoPoint Q) {    	
     	endPoint = Q;
     	if(Q!=null)
     		Q.addIncidence(this);

@@ -127,7 +127,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     }
     
  
-    protected void compute() { 
+    public void compute() { 
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}

@@ -39,7 +39,7 @@ public class AlgoLinePointLine extends AlgoElement {
     private GeoLine g; // output       
 
     /** Creates new AlgoLinePointLine */
-    AlgoLinePointLine(Construction cons, String label, GeoPoint P, GeoLine l) {
+    public AlgoLinePointLine(Construction cons, String label, GeoPoint P, GeoLine l) {
         super(cons);
         this.P = P;
         this.l = l;
@@ -80,7 +80,7 @@ public class AlgoLinePointLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine getLine() {
+    public GeoLine getLine() {
         return g;
     }
     
@@ -94,7 +94,7 @@ public class AlgoLinePointLine extends AlgoElement {
 
     // calc the line g through P and parallel to l   
     @Override
-	protected final void compute() {
+	public final void compute() {
         // homogenous:
         GeoVec3D.cross(P, l.y, -l.x, 0.0, g);
     }

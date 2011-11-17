@@ -30,7 +30,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoHyperbolaFociLength extends AlgoConicFociLength {       
 
-    AlgoHyperbolaFociLength(
+    public AlgoHyperbolaFociLength(
         Construction cons,
         String label,
         GeoPoint A,

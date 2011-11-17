@@ -756,21 +756,21 @@ public class Kernel {
 		cons.notifyEuclidianViewCE();
 	}
 	
-	double getXmax() {
+	public double getXmax() {
 		if (graphicsView2showing)
 			return Math.max(xmax, xmax2);
 		else 
 			return xmax;
 	}
 	
-	double getXmin() {
+	public double getXmin() {
 		if (graphicsView2showing)
 			return Math.min(xmin, xmin2);
 		else
 			return xmin;
 	}
 	
-	double getXscale() {
+	public double getXscale() {
 		if (graphicsView2showing) {
 			// xscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
@@ -782,21 +782,21 @@ public class Kernel {
 			
 	}
 	
-	double getYmax() {
+	public double getYmax() {
 		if (graphicsView2showing)
 			return Math.max(ymax, ymax2);
 		else
 			return ymax;
 	}
 	
-	double getYmin() {
+	public double getYmin() {
 		if (graphicsView2showing)
 			return Math.min(ymin, ymin2);
 		else
 			return ymin;
 	}
 	
-	double getYscale() {
+	public double getYscale() {
 		if (graphicsView2showing)
 			// yscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
@@ -873,7 +873,7 @@ public class Kernel {
 	 * Registers an algorithm that needs to be updated when notifyRename(),
 	 * notifyAdd(), or notifyRemove() is called.	 
 	 */
-	void registerRenameListenerAlgo(AlgoElement algo) {
+	public void registerRenameListenerAlgo(AlgoElement algo) {
 		if (renameListenerAlgos == null) {
 			renameListenerAlgos = new ArrayList<AlgoElement>();
 		}

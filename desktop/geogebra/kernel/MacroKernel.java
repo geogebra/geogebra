@@ -64,7 +64,7 @@ public class MacroKernel extends Kernel  {
 		macroCons.addReservedLabel(label);
 	}
 	
-	void setGlobalVariableLookup(boolean flag) {
+	public void setGlobalVariableLookup(boolean flag) {
 		macroCons.setGlobalVariableLookup(flag);
 	}
 	
@@ -76,22 +76,22 @@ public class MacroKernel extends Kernel  {
 		macroCons.loadXML(xmlString);
 	}	
 
-	final double getXmax() {
+	public final double getXmax() {
 		return parentKernel.getXmax();
 	}
-	final double getXmin() {
+	public final double getXmin() {
 		return parentKernel.getXmin();
 	}
-	final double getXscale() {
+	public final double getXscale() {
 		return parentKernel.getXscale();
 	}
-	final double getYmax() {
+	public final double getYmax() {
 		return parentKernel.getYmax();
 	}
-	final double getYmin() {
+	public final double getYmin() {
 		return parentKernel.getYmin();
 	}
-	final double getYscale() {
+	public final double getYscale() {
 		return parentKernel.getYscale();
 	}
 	

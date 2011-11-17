@@ -73,7 +73,7 @@ public class AlgoCountIf extends AlgoElement {
     public GeoNumeric getResult() { return result; }
     
     @Override
-	protected final void compute() {	 
+	public final void compute() {	 
     	try {
 
     		int count = 0;

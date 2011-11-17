@@ -75,7 +75,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
     }
 	
 	@Override
-	protected void compute(){
+	public void compute(){
 		compute(false);
 	}
 	

@@ -34,7 +34,7 @@ public class AlgoClasses extends AlgoElement {
 
 	// for compute
 
-	AlgoClasses(Construction cons, String label, GeoList dataList, GeoNumeric start, GeoNumeric width, GeoNumeric numClasses ) {
+	public AlgoClasses(Construction cons, String label, GeoList dataList, GeoNumeric start, GeoNumeric width, GeoNumeric numClasses ) {
 		
 		this(cons, dataList, start, width, numClasses);
 		classList.setLabel(label);
@@ -80,12 +80,12 @@ public class AlgoClasses extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return classList;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		// Validate input arguments
 		//=======================================================

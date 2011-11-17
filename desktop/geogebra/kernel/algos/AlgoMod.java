@@ -38,7 +38,7 @@ public class AlgoMod extends AlgoTwoNumFunction {
      * @param a
      * @param b
      */
-    AlgoMod(Construction cons, String label, NumberValue a, NumberValue b) {       
+    public AlgoMod(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b);     
     }   
   
@@ -48,7 +48,7 @@ public class AlgoMod extends AlgoTwoNumFunction {
     }       
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		
     		//double mod = Math.round(a.getDouble());

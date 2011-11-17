@@ -37,11 +37,11 @@ public class AlgoDirection extends AlgoElement {
     private GeoVector v; // output  
 
     /** Creates new AlgoDirection */    
-    AlgoDirection(Construction cons, GeoLine g) {
+    public AlgoDirection(Construction cons, GeoLine g) {
     	this(cons, null, g);
     }
     
-    AlgoDirection(Construction cons, String label, GeoLine g) {
+    public AlgoDirection(Construction cons, String label, GeoLine g) {
         super(cons);
         this.g = g;
         v = new GeoVector(cons);
@@ -77,7 +77,7 @@ public class AlgoDirection extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoVector getVector() {
+    public GeoVector getVector() {
         return v;
     }
     GeoLine getg() {
@@ -86,7 +86,7 @@ public class AlgoDirection extends AlgoElement {
 
     // direction vector of g
     @Override
-	protected final void compute() {
+	public final void compute() {
         v.x = g.y;
         v.y = -g.x;
     }

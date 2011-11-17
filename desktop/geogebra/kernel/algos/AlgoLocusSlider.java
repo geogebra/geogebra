@@ -15,7 +15,6 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.ConstructionElement;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLocus;
@@ -82,7 +81,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
     
    // private Updater updater;
 
-    AlgoLocusSlider(Construction cons,  String label, GeoPoint Q, GeoNumeric P) {
+    public AlgoLocusSlider(Construction cons,  String label, GeoPoint Q, GeoNumeric P) {
         super(cons);
         this.movingSlider = P;
         this.locusPoint = Q;
@@ -239,7 +238,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
      * Returns locus
      * @return locus 
      */
-    GeoLocus getLocus() {
+    public GeoLocus getLocus() {
         return locus;
     }    
     
@@ -328,7 +327,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
 
     // compute locus line
     @Override
-	final protected void compute() {    	    
+	final public void compute() {    	    
     	if (!movingSlider.isDefined() || !movingSlider.isSlider() ||
     		!movingSlider.isAnimatable() || macroCons == null) {    		
     		locus.setUndefined();

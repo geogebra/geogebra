@@ -61,9 +61,9 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	public static double DEFAULT_SLIDER_SPEED = 1;
 	
 	/** value of the number or angle */
-	protected double value;	
+	public double value;	
 
-	protected boolean isDrawable = false;
+	public boolean isDrawable = false;
 	//private boolean isRandomNumber = false;
 	
 	private int slopeTriangleSize = 1;

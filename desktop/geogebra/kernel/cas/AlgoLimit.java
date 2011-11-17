@@ -68,7 +68,7 @@ public class AlgoLimit extends AlgoElement {
     }
 
     // over-ridden in LimitAbove/Below
-    protected void compute() {       
+    public void compute() {       
         if (!f.isDefined() || !input[1].isDefined()) {
         	outNum.setUndefined();
         	return;

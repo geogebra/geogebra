@@ -23,7 +23,7 @@ public class AlgoUnion extends AlgoElement {
 	private GeoList outputList; // output
 	private int size, size2;
 
-	AlgoUnion(Construction cons, String label, GeoList inputList,
+	public AlgoUnion(Construction cons, String label, GeoList inputList,
 			GeoList inputList2) {
 		super(cons);
 
@@ -54,12 +54,12 @@ public class AlgoUnion extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return outputList;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		size = inputList.size();
 		size2 = inputList2.size();

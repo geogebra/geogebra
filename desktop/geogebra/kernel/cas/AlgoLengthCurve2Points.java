@@ -60,7 +60,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
         return length;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	if (!derivative.isDefined()) {
     		length.setUndefined();
     		return;

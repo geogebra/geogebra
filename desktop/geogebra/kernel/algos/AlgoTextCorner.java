@@ -28,7 +28,7 @@ implements EuclidianViewCE {
     private GeoPoint corner;     // output    
     private NumberValue number;
     
-    AlgoTextCorner(Construction cons, String label, GeoText txt, NumberValue number) {        
+    public AlgoTextCorner(Construction cons, String label, GeoText txt, NumberValue number) {        
         super(cons);
         this.txt = txt;   
         this.number = number;
@@ -64,10 +64,10 @@ implements EuclidianViewCE {
         setDependencies(); // done by AlgoElement
     }       
          
-    GeoPoint getCorner() { return corner; }        
+    public GeoPoint getCorner() { return corner; }        
     
     @Override
-	protected final void compute() {  
+	public final void compute() {  
     	// determine bounding box size here
 		txt.calculateCornerPoint(corner, (int) number.getDouble());	    	
     }    	   

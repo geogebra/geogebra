@@ -37,7 +37,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	// Helper to calculate circumference for ellipse
 	private EllipticArcLength ellipticArcLength = null;
 
-	AlgoCircumferenceConic(Construction cons, String label, GeoConic conic) {
+	public AlgoCircumferenceConic(Construction cons, String label, GeoConic conic) {
 		this(cons, conic);
 		circum.setLabel(label);
 	}
@@ -78,7 +78,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	 * For all other cases circumference is undefined.
 	 */
 	@Override
-	protected final void compute() {
+	public final void compute() {
     	if (!conic.isDefined())
     		circum.setUndefined();
     	
@@ -144,7 +144,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	 * 
 	 * @return circumference
 	 */
-	GeoNumeric getCircumference() {
+	public GeoNumeric getCircumference() {
 		return circum;
 	}	
 }

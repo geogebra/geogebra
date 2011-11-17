@@ -78,7 +78,7 @@ public class AlgoHull extends AlgoElement {
         return locus;
     }
 
-    protected void compute() {
+    public void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

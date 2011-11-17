@@ -24,7 +24,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	private GeoPoint p; //input
     private GeoText text; //output	
     
-    AlgoSurdTextPoint(Construction cons, String label, GeoPoint p) {
+    public AlgoSurdTextPoint(Construction cons, String label, GeoPoint p) {
     	this(cons, p);
         text.setLabel(label);
     }
@@ -61,12 +61,13 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
     }
 
     @Override
+	public
 	GeoText getResult() {
         return text;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	  	
 		if (input[0].isDefined()) {
 			

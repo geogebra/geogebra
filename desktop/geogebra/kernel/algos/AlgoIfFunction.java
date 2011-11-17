@@ -82,7 +82,7 @@ public class AlgoIfFunction extends AlgoElement {
     public GeoFunction getGeoFunction() { return result; }
        
     @Override
-	protected final void compute() {
+	public final void compute() {
     	for (int i=0; i < input.length; i++) {
     		if (!input[i].isDefined())
     			result.setUndefined();

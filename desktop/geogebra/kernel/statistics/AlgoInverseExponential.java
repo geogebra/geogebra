@@ -34,7 +34,7 @@ public class AlgoInverseExponential extends AlgoDistribution {
         return "AlgoInverseExponential";
     }
     
-	protected final void compute() {
+	public final void compute() {
     	
     	
     	if (input[0].isDefined() && input[1].isDefined()) {

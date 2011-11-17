@@ -57,11 +57,11 @@ public class AlgoColumn extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    protected GeoNumeric getResult() { return num; }        
+    public GeoNumeric getResult() { return num; }        
     
     // calc the current value of the arithmetic tree
     @Override
-	protected final void compute() {    	
+	public final void compute() {    	
     	Point p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.x + 1);
     	else num.setUndefined();

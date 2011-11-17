@@ -66,7 +66,7 @@ public class AlgoConicCoefficients extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {       
+	public final void compute() {       
         if (!c.isDefined()) {
         	g.setUndefined();
         	return;

@@ -94,7 +94,7 @@ public class AlgoDependentFunction extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         // evaluation of function will be done in view (see geogebra.euclidian.DrawFunction)
         
         // check if function is defined

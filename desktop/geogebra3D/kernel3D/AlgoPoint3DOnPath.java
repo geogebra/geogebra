@@ -74,7 +74,7 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
         return path;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	
     	
     	if (input[0].isDefined()) {	    	

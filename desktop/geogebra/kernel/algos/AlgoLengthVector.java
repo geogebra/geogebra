@@ -37,7 +37,7 @@ public class AlgoLengthVector extends AlgoElement {
     
     private double [] coords = new double[2];
     
-    AlgoLengthVector(Construction cons, String label, GeoVec3D v) {
+    public AlgoLengthVector(Construction cons, String label, GeoVec3D v) {
         super(cons);
         this.v = v;
         num = new GeoNumeric(cons);
@@ -64,7 +64,7 @@ public class AlgoLengthVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getLength() {
+    public GeoNumeric getLength() {
         return num;
     }
     GeoVec3D getv() {
@@ -73,7 +73,7 @@ public class AlgoLengthVector extends AlgoElement {
 
     // calc length of vector v   
     @Override
-	protected final void compute() {
+	public final void compute() {
     	v.getInhomCoords(coords);
         num.setValue(GeoVec2D.length(coords[0], coords[1]));
     }

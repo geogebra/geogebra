@@ -36,7 +36,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
      * @param label
      * @param inputList
      */
-    AlgoRemoveUndefined(Construction cons, String label, GeoList inputList) {
+    public AlgoRemoveUndefined(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -66,12 +66,12 @@ public class AlgoRemoveUndefined extends AlgoElement {
      * Returns the pruned list
      * @return pruned list
      */
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	

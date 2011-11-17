@@ -31,7 +31,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		implicitPoly.setDefined();
 		FunctionNVar f=function.getFunction();
 		FunctionVariable[] fvars=f.getFunctionVariables();

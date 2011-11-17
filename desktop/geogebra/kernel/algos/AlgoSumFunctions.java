@@ -94,7 +94,7 @@ public class AlgoSumFunctions  extends AlgoElement {
     }  
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	//Sum[{x^2,x^3}]
     	
     	int n = truncate == null ? geoList.size() : (int)truncate.getDouble();

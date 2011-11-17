@@ -35,7 +35,7 @@ public class AlgoTDistribution extends AlgoDistribution {
     }
 
     @SuppressWarnings("deprecation")
-	protected final void compute() {
+	public final void compute() {
     	
     	
     	if (input[0].isDefined() && input[1].isDefined()) {

@@ -28,7 +28,7 @@ public class AlgoTextfield extends AlgoElement {
 	private GeoElement inputGeo; //input
     private GeoTextField textfield; //output	
 
-    AlgoTextfield(Construction cons, String label, GeoElement inputGeo) {
+    public AlgoTextfield(Construction cons, String label, GeoElement inputGeo) {
         super(cons);
         this.inputGeo = inputGeo;
                
@@ -63,12 +63,12 @@ public class AlgoTextfield extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoTextField getResult() {
+    public GeoTextField getResult() {
         return textfield;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     }
     

@@ -44,7 +44,7 @@ public class AlgoVertex extends AlgoElement {
         GeoElement.setLabels(label, vertex);            
     }
     
-    AlgoVertex(Construction cons, String [] labels, GeoConic c) {
+    public AlgoVertex(Construction cons, String [] labels, GeoConic c) {
         this(cons, c);
         GeoElement.setLabels(labels, vertex);            
     }
@@ -83,10 +83,10 @@ public class AlgoVertex extends AlgoElement {
     }    
     
     GeoConic getConic() { return c; }
-    GeoPoint [] getVertex() { return vertex; }    
+    public GeoPoint [] getVertex() { return vertex; }    
         
     @Override
-	protected final void compute() {  
+	public final void compute() {  
         switch (c.type) {
             case GeoConic.CONIC_CIRCLE:                                      
             case GeoConic.CONIC_ELLIPSE:

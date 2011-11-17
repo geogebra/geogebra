@@ -30,7 +30,7 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
 
-	AlgoEllipseFociLength(
+	public AlgoEllipseFociLength(
 		        Construction cons,
 		        String label,
 		        GeoPoint A,

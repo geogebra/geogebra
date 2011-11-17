@@ -168,7 +168,7 @@ public class AlgoListElement extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if ((numGeo != null && !numGeo.isDefined()) || !geoList.isDefined()) {
 			element.setUndefined();
 			return;

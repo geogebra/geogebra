@@ -273,7 +273,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     
     }
 
-    protected void compute() {
+    public void compute() {
     	calcLineInPlaneOfPolygon();
     	super.compute();
     }

@@ -30,7 +30,7 @@ public class AlgoOsculatingCircle extends AlgoElement {
     AlgoCurvature algo;
     AlgoCurvatureVector cv;
     
-    AlgoOsculatingCircle(Construction cons, String label, GeoPoint A, GeoFunction f) {
+    public AlgoOsculatingCircle(Construction cons, String label, GeoPoint A, GeoFunction f) {
         this(cons, A, f);
         circle.setLabel(label);
     }
@@ -75,12 +75,12 @@ public class AlgoOsculatingCircle extends AlgoElement {
     }
     
     //Return the resultant circle
-    GeoConic getCircle() {
+    public GeoConic getCircle() {
     	return circle;
     }
 
     @Override
-	protected final void compute() {    	    
+	public final void compute() {    	    
     	// bugfix Michael Borcherds
     	// undefined unless A is a point on f
         if (!f.isOnPath(A, Kernel.MIN_PRECISION)) {

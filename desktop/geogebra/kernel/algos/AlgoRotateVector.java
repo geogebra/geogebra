@@ -108,7 +108,7 @@ public class AlgoRotateVector extends AlgoElement {
 
     // calc rotated Vector
     @Override
-	protected final void compute() {
+	public final void compute() {
         B.setCoords(A);
         B.rotate(angle);
     }

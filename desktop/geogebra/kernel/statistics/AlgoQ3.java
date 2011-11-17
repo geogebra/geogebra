@@ -67,7 +67,7 @@ public class AlgoQ3 extends AlgoElement {
         return Q3;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size < 2) {

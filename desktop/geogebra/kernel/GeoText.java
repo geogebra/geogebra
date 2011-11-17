@@ -332,7 +332,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 	
 	/** used for eg Text["text",(1,2)]
 	* to stop it being editable */
-	boolean isTextCommand = false;
+	public boolean isTextCommand = false;
 	
 	public void setIsTextCommand(boolean isCommand) {
 		this.isTextCommand = isCommand;
@@ -346,7 +346,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 		return isTextCommand;
 	}
 	
-	void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
+	public void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
 		super.setAlgoMacroOutput(true);
 		setIsTextCommand(true);
 	}

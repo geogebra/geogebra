@@ -31,7 +31,7 @@ public class AlgoRootList extends AlgoElement {
     private GeoList outputList; //output	
     private int size;
 
-    AlgoRootList(Construction cons, String label, GeoList inputList) {
+    public AlgoRootList(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -57,12 +57,12 @@ public class AlgoRootList extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

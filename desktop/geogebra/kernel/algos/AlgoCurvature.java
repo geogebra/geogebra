@@ -20,7 +20,7 @@ public class AlgoCurvature extends AlgoElement {
 	private GeoFunction f;
     private GeoNumeric K; //output
     
-    AlgoCurvature(Construction cons, String label, GeoPoint A, GeoFunction f){
+    public AlgoCurvature(Construction cons, String label, GeoPoint A, GeoFunction f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -58,12 +58,12 @@ public class AlgoCurvature extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
     
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return K;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (f.isDefined())
     		K.setValue( f.evaluateCurvature(A.inhomX) );
     	else     	

@@ -49,7 +49,7 @@ public class AlgoPolygonRegular extends AlgoElement {
      * Creates a new regular polygon algorithm
      * @param labels labels[0] for polygon, then labels for segments and then for points
      */
-    AlgoPolygonRegular(Construction cons, String [] labels, GeoPoint A, GeoPoint B, NumberValue num) {
+    public AlgoPolygonRegular(Construction cons, String [] labels, GeoPoint A, GeoPoint B, NumberValue num) {
         super(cons);
         labelsNeedIniting = true;
         
@@ -166,7 +166,7 @@ public class AlgoPolygonRegular extends AlgoElement {
      * Computes points of regular polygon
      */
     @Override
-	protected final void compute() {      
+	public final void compute() {      
     	// check points and number
     	double nd = num.getDouble();
     	if (Double.isNaN(nd)) nd = 2;
@@ -350,6 +350,7 @@ public class AlgoPolygonRegular extends AlgoElement {
      * algorithm except for keepGeo.
      */
     @Override
+	public
 	void removeOutputExcept(GeoElement keepGeo) {
     	for (int i=0; i < super.getOutputLength(); i++) {
             GeoElement geo = super.getOutput(i);

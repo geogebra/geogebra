@@ -110,7 +110,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	}
 		
 	@Override
-	protected void compute() {
+	public void compute() {
 		// check if all input variables are defined
 		boolean inputDefined = true;
 		for (GeoElement geo : input) {

@@ -49,7 +49,7 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
     }
 
   
-    protected final void compute() {
+    public final void compute() {
     	
     	CoordSys coordsys = getCS().getCoordSys();
     	

@@ -41,12 +41,12 @@ public class AlgoFrequencyTable extends AlgoElement {
 	private AlgoFrequency freq;
 	private StringBuilder sb = new StringBuilder();
 
-	AlgoFrequencyTable(Construction cons, String label,
+	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
 		this(cons, label, isCumulative, classList, dataList, null, null);
 	}
 
-	AlgoFrequencyTable(Construction cons, String label,
+	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
 		super(cons);
@@ -100,12 +100,12 @@ public class AlgoFrequencyTable extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoText getResult() {
+	public GeoText getResult() {
 		return table;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		// Validate input arguments
 		// =======================================================

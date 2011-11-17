@@ -41,7 +41,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * Creates new vertex algo
 	 */
 
-	AlgoVertexPolygon(Construction cons, String[] labels, GeoPolyLineInterface p) {
+	public AlgoVertexPolygon(Construction cons, String[] labels, GeoPolyLineInterface p) {
 
 		this(cons, p);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
@@ -68,7 +68,7 @@ public class AlgoVertexPolygon extends AlgoElement {
         }	
     }
 
-	AlgoVertexPolygon(Construction cons, String label, GeoPolyLineInterface p,
+	public AlgoVertexPolygon(Construction cons, String label, GeoPolyLineInterface p,
 			NumberValue v) {
 
 		this(cons, p, v);
@@ -133,7 +133,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {				
+	public final void compute() {				
 		if(index != null){
 			int  i = (int)Math.floor(index.getDouble())-1;
 			if(i >= p.getPoints().length||i < 0) {

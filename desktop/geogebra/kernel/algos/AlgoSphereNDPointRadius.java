@@ -127,7 +127,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 	// compute circle with midpoint M and radius r
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		switch (type) {
 		case TYPE_RADIUS:
 			sphereND.setSphereND(M, r.getDouble());

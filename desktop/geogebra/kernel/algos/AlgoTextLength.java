@@ -28,7 +28,7 @@ public class AlgoTextLength extends AlgoElement {
 	private GeoText text; //input
     private GeoNumeric length; //output	
 
-    AlgoTextLength(Construction cons, String label, GeoText text) {
+    public AlgoTextLength(Construction cons, String label, GeoText text) {
         super(cons);
         this.text = text;
                
@@ -54,12 +54,12 @@ public class AlgoTextLength extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getLength() {
+    public GeoNumeric getLength() {
         return length;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (text.isDefined())
     		length.setValue(text.getTextString().length());
     	else 

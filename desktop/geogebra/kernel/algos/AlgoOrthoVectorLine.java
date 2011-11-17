@@ -40,7 +40,7 @@ public class AlgoOrthoVectorLine extends AlgoElement {
     //private GeoPoint startPoint;
         
     /** Creates new AlgoOrthoVectorLine */
-    AlgoOrthoVectorLine(Construction cons, String label, GeoLine g) {        
+    public AlgoOrthoVectorLine(Construction cons, String label, GeoLine g) {        
         super(cons);
         this.g = g;                
         n = new GeoVector(cons); 
@@ -81,12 +81,12 @@ public class AlgoOrthoVectorLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoVector getVector() { return n; }    
+    public GeoVector getVector() { return n; }    
     GeoLine getg() { return g; }
     
     // line through P normal to v
     @Override
-	protected final void compute() {        
+	public final void compute() {        
         n.x = g.x;
         n.y = g.y;        
     }       

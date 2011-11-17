@@ -29,7 +29,7 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
     }
 
     @Override
-	protected final void compute() {   	
+	public final void compute() {   	
     	result.setValue(interval.getMidPoint());
     }
     

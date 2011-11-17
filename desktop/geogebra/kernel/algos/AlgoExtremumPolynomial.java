@@ -49,7 +49,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         if (f.isDefined()) {
             // TODO: remove
             //Application.debug("*** extremum of " + f);

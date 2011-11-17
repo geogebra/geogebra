@@ -18,7 +18,7 @@ public class AlgoCrossRatio extends AlgoElement {
 	private GeoPoint A, B, C, D; // input
     private GeoNumeric M; // output
     
-    AlgoCrossRatio(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C, GeoPoint D) {
+    public AlgoCrossRatio(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C, GeoPoint D) {
     	super(cons);
         this.A = A;
         this.B = B;
@@ -49,12 +49,12 @@ public class AlgoCrossRatio extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return M;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         //Check if the points are aligned
     	if ( !(A.isEqual(D)) && !(B.isEqual(C)) 
         	 && GeoPoint.collinear(B, C, D) && GeoPoint.collinear(A, C, D) ) {

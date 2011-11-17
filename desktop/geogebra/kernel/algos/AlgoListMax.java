@@ -30,7 +30,7 @@ public class AlgoListMax extends AlgoElement {
 	private GeoList geoList; //input
     private GeoNumeric max; //output	
 
-    AlgoListMax(Construction cons, String label, GeoList geoList) {
+    public AlgoListMax(Construction cons, String label, GeoList geoList) {
     	this(cons, geoList);
         max.setLabel(label);
     }
@@ -60,12 +60,12 @@ public class AlgoListMax extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getMax() {
+    public GeoNumeric getMax() {
         return max;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size == 0) {
     		max.setUndefined();

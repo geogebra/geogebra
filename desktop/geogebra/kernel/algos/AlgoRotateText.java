@@ -35,7 +35,7 @@ public class AlgoRotateText extends AlgoElement {
     /**
      * Creates new text rotation algo
      */
-    AlgoRotateText(Construction cons, String label, GeoText args, GeoNumeric angle) {
+    public AlgoRotateText(Construction cons, String label, GeoText args, GeoNumeric angle) {
     	this(cons,  args, angle);
         text.setLabel(label);
     }
@@ -76,12 +76,12 @@ public class AlgoRotateText extends AlgoElement {
      * Returns the resulting text
      * @return resulting text
      */
-    GeoText getResult() {
+    public GeoText getResult() {
         return text;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (!args.isDefined() || !angle.isDefined() || angle.isInfinite()) {
     		text.setTextString("");
     		return;

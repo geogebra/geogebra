@@ -77,7 +77,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (!b.isDefined() || !c.isDefined() || !f.isDefined()
 				|| !x.isDefined() || !y.isDefined() || !yDot.isDefined()
 				|| !step.isDefined() || !end.isDefined()

@@ -58,7 +58,7 @@ public class AlgoDegree extends AlgoElement {
         return num;
     }
 
-    protected final void compute() {       
+    public final void compute() {       
         if (!f.isDefined()) {
         	num.setUndefined();
         	return;

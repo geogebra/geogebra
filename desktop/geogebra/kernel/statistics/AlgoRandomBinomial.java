@@ -37,7 +37,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 		return "AlgoRandomBinomial";
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		//int frac[] = {0,0};
 		//int [] frac = DecimalToFraction(b.getDouble(),0.00000001);
 		//Application.debug(frac[0]+" "+frac[1]);

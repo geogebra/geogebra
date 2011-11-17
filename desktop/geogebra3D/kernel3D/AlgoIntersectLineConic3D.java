@@ -164,7 +164,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
     
     
 
-	protected void compute() {
+	public void compute() {
 		
 		CoordSys cs = c.getCoordSys();
 		Coords o = g.getStartInhomCoords();
@@ -237,7 +237,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
         return minIndex;
     }*/
 	
-    protected final void initForNearToRelationship() {   
+    public final void initForNearToRelationship() {   
     	//TODO
     }
 }

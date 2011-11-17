@@ -24,7 +24,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	private GeoPoint [] parentOutput;
 
 	// intersection point is the (a) nearest to refPoint
-	AlgoIntersectSingle(String label, AlgoIntersect algo, GeoPoint refPoint) {
+	public AlgoIntersectSingle(String label, AlgoIntersect algo, GeoPoint refPoint) {
 		super(algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
@@ -41,7 +41,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	}
 	
 	// intersection point is index-th intersection point of algo
-	AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
+	public AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
 		super(algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
@@ -145,7 +145,8 @@ public class AlgoIntersectSingle extends AlgoIntersect {
     }
     
 	@Override
-	protected final void initForNearToRelationship() {				
+	public
+	final void initForNearToRelationship() {				
 		parentOutput = algo.getIntersectionPoints();					
 		
 		// tell parent algorithm about the loaded position;
@@ -157,7 +158,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 
 		parentOutput = algo.getIntersectionPoints();
 		

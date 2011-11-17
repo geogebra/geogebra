@@ -30,7 +30,7 @@ public class AlgoLast extends AlgoElement {
     private GeoList outputList; //output	
     private int size;
 
-    AlgoLast(Construction cons, String label, GeoList inputList, GeoNumeric n) {
+    public AlgoLast(Construction cons, String label, GeoList inputList, GeoNumeric n) {
         super(cons);
         this.inputList = inputList;
         this.n=n;
@@ -67,12 +67,12 @@ public class AlgoLast extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	

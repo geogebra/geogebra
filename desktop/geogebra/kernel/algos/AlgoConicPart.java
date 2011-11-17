@@ -24,8 +24,9 @@ import geogebra.kernel.arithmetic.NumberValue;
  */
 public abstract class AlgoConicPart extends AlgoElement {
 
-    GeoConic conic; // input
-    NumberValue startParam, endParam; // input
+    public GeoConic conic; // input
+    public NumberValue startParam; // input
+	public NumberValue endParam;
     GeoConicPart conicPart; // output   
     
     int type;
@@ -55,7 +56,7 @@ public abstract class AlgoConicPart extends AlgoElement {
     }
    
     @Override
-	protected void compute() {    	    	
+	public void compute() {    	    	
     	conicPart.set(conic);
     	conicPart.setParameters(startParam.getDouble(), endParam.getDouble(), true);
     }

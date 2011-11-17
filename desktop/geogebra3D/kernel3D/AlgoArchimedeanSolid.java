@@ -141,7 +141,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		
 		getPolyhedron().setDefined();
 		

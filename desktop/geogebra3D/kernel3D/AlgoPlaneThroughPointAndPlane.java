@@ -50,7 +50,7 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 
 
   
-    protected final void compute() {
+    public final void compute() {
     	
     	
     	

@@ -40,7 +40,7 @@ public class AlgoVector extends AlgoElement {
     private GeoVectorND  v;     // output     
         
     /** Creates new AlgoVector */  
-    protected AlgoVector(Construction cons, String label, GeoPointND P, GeoPointND Q) {
+    public AlgoVector(Construction cons, String label, GeoPointND P, GeoPointND Q) {
         super(cons);
         this.P = P;
         this.Q = Q;         
@@ -106,7 +106,7 @@ public class AlgoVector extends AlgoElement {
     
     // calc the vector between P and Q    
     @Override
-	protected final void compute() {
+	public final void compute() {
         if (P.isFinite() && Q.isFinite()) {     
         	     	
            	setCoords();

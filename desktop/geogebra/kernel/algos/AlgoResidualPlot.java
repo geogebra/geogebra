@@ -40,7 +40,7 @@ public class AlgoResidualPlot extends AlgoElement {
 	private double min, max;
 	
 
-	AlgoResidualPlot(Construction cons, String label, GeoList inputList, GeoFunctionable function2) {
+	public AlgoResidualPlot(Construction cons, String label, GeoList inputList, GeoFunctionable function2) {
 		this(cons, inputList, function2);
 		outputList.setLabel(label);
 	}
@@ -71,7 +71,7 @@ public class AlgoResidualPlot extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return outputList;
 	}
 
@@ -81,7 +81,7 @@ public class AlgoResidualPlot extends AlgoElement {
 	}
 	
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		size = inputList.size();
 		if (!inputList.isDefined() ||  size == 0) {

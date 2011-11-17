@@ -86,7 +86,7 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
         return T;
     }
 
-    protected final void compute() {
+    public final void compute() {
         if (!(f.isDefined() && P.isDefined())) {
             tangent.setUndefined();
             return;

@@ -37,7 +37,7 @@ public class AlgoJoinPointsRay extends AlgoElement {
     private GeoRay  ray;     // output       
         
     /** Creates new AlgoJoinPoints */
-    AlgoJoinPointsRay(Construction cons, String label, GeoPoint P, GeoPoint Q) {
+    public AlgoJoinPointsRay(Construction cons, String label, GeoPoint P, GeoPoint Q) {
         super(cons);
         this.P = P;
         this.Q = Q;                
@@ -78,13 +78,13 @@ public class AlgoJoinPointsRay extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoRay getRay() { return ray; }
-    GeoPoint getP() { return P; }
-    GeoPoint getQ() { return Q; }
+    public GeoRay getRay() { return ray; }
+    public GeoPoint getP() { return P; }
+    public GeoPoint getQ() { return Q; }
     
     // calc the line g through P and Q    
     @Override
-	protected final void compute() {
+	public final void compute() {
         // g = P v Q  <=>  g_n : n = P x Q
         // g = cross(P, Q)
         GeoVec3D.lineThroughPoints(P, Q, ray);        

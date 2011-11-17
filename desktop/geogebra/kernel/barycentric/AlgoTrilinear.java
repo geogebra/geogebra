@@ -65,7 +65,7 @@ public class AlgoTrilinear extends AlgoElement {
 		return point;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		
 		double p1 = P2.distance(P3);
 		double p2 = P1.distance(P3);

@@ -84,7 +84,7 @@ public class AlgoFunctionInterval extends AlgoElement {
     }
     
     @Override
-	protected final void compute() {  
+	public final void compute() {  
         if (!(f.isDefined() && ageo.isDefined() && bgeo.isDefined())) 
             g.setUndefined();
                

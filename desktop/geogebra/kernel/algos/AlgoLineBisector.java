@@ -28,7 +28,7 @@ public class AlgoLineBisector extends AlgoElement {
     private GeoPoint midPoint;
         
     /** Creates new AlgoLineBisector */
-    AlgoLineBisector(Construction cons, String label,GeoPoint A,GeoPoint B) {
+    public AlgoLineBisector(Construction cons, String label,GeoPoint A,GeoPoint B) {
         super(cons);
         this.A = A;
         this.B = B;        
@@ -65,7 +65,7 @@ public class AlgoLineBisector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoLine getLine() { return g; }
+    public GeoLine getLine() { return g; }
     GeoPoint getA() { return A; }
     GeoPoint getB() { return B; }
     GeoPoint getMidPoint() {
@@ -74,7 +74,7 @@ public class AlgoLineBisector extends AlgoElement {
     
     // line through P normal to v
     @Override
-	protected final void compute() { 
+	public final void compute() { 
         // get inhomogenous coords
         double ax = A.inhomX;
         double ay = A.inhomY;

@@ -46,7 +46,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	
 	
 
-	protected void compute() {
+	public void compute() {
 				
 		//check origin
 		if (!getInputQuadric().isDefined()){

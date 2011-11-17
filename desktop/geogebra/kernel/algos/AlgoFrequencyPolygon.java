@@ -178,12 +178,12 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	}
 
 
-	GeoPolyLine getResult() {
+	public GeoPolyLine getResult() {
 		return outputPolyLine;
 	}
 	
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		// update our histogram to get class borders and y values
 		algoHistogram.update();

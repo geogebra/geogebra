@@ -47,7 +47,7 @@ public class AlgoAsymptote extends AlgoElement {
         GeoElement.setLabels(label, asymptotes);
     }
 
-    AlgoAsymptote(Construction cons, String[] labels, GeoConic c) {
+    public AlgoAsymptote(Construction cons, String[] labels, GeoConic c) {
         this(cons, c);
         GeoElement.setLabels(labels, asymptotes);
     }
@@ -88,7 +88,7 @@ public class AlgoAsymptote extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine[] getAsymptotes() {
+    public GeoLine[] getAsymptotes() {
         return asymptotes;
     }
     GeoConic getConic() {
@@ -97,7 +97,7 @@ public class AlgoAsymptote extends AlgoElement {
 
     // calc asymptotes
     @Override
-	protected final void compute() {
+	public final void compute() {
         // only hyperbolas have asymptotes
         switch (c.type) {
             case GeoConic.CONIC_HYPERBOLA :

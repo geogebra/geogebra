@@ -31,7 +31,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	
 	private GeoLine line; // for degenerate case
 
-    AlgoConicPartCircumcircle(Construction cons, String label,
+    public AlgoConicPartCircumcircle(Construction cons, String label,
     		GeoPoint A, GeoPoint B, GeoPoint C,
     		int type) 
     {
@@ -104,7 +104,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     }
     
     @Override
-	protected void compute() {
+	public void compute() {
     	if (!conic.isDefined()) {
     		conicPart.setUndefined();
     		return;

@@ -104,7 +104,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		return poly;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		// Check if the points are aligned
 		
 		double x1 = -A.inhomX;

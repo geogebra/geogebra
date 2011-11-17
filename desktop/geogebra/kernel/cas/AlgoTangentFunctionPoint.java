@@ -109,7 +109,7 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 	}
 
 	// calc tangent at x=a
-	protected final void compute() {
+	public final void compute() {
 		if (!(f.isDefined() && P.isDefined() && deriv.isDefined())) {
 			tangent.setUndefined();
 			return;

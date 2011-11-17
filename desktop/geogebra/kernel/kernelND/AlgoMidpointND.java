@@ -101,7 +101,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
     }
     
     // calc midpoint
-    protected final void compute() {
+    public final void compute() {
     	
                 
         boolean pInf = P.isInfinite();

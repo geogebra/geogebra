@@ -35,7 +35,7 @@ public class AlgoAreaConic extends AlgoElement {
 	private GeoConic  conic;  // input
     private GeoNumeric area;     // output           
         
-    AlgoAreaConic(Construction cons, String label, GeoConic c) {       
+    public AlgoAreaConic(Construction cons, String label, GeoConic c) {       
 	  super(cons); 
       this.conic = c;
       area = new GeoNumeric(cons); 
@@ -68,11 +68,11 @@ public class AlgoAreaConic extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoNumeric getArea() { return area; }        
+    public GeoNumeric getArea() { return area; }        
     
     // calc area of conic c 
     @Override
-	protected final void compute() {  
+	public final void compute() {  
     	if (!conic.isDefined()) {
     		area.setUndefined();
     		return;

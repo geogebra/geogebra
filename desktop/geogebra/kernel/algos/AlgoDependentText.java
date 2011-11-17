@@ -85,7 +85,7 @@ public class AlgoDependentText extends AlgoElement {
     
     // calc the current value of the arithmetic tree
     @Override
-	protected final void compute() {	
+	public final void compute() {	
     	
     	text.setTemporaryPrintAccuracy();
     	

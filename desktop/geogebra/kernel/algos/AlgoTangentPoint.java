@@ -41,7 +41,7 @@ public class AlgoTangentPoint extends AlgoElement {
       GeoElement.setLabels(label, tangents);            
     }*/
 
-    AlgoTangentPoint(
+    public AlgoTangentPoint(
         Construction cons,
         String[] labels,
         GeoPoint P,
@@ -106,7 +106,7 @@ public class AlgoTangentPoint extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine[] getTangents() {
+    public GeoLine[] getTangents() {
         return tangents;
     }
     GeoPoint getPoint() {
@@ -161,7 +161,7 @@ public class AlgoTangentPoint extends AlgoElement {
 
     // calc tangents
     @Override
-	protected final void compute() {
+	public final void compute() {
         // degenerates should not have any tangents
         if (c.isDegenerate()) {
             tangents[0].setUndefined();

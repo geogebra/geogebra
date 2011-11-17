@@ -40,7 +40,7 @@ public class AlgoDirectrix extends AlgoElement {
     private GeoVec2D b;
     private GeoPoint P;
 
-    AlgoDirectrix(Construction cons, String label, GeoConic c) {
+    public AlgoDirectrix(Construction cons, String label, GeoConic c) {
         super(cons);
         this.c = c;
 
@@ -72,7 +72,7 @@ public class AlgoDirectrix extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine getDirectrix() {
+    public GeoLine getDirectrix() {
         return directrix;
     }
     GeoConic getConic() {
@@ -81,7 +81,7 @@ public class AlgoDirectrix extends AlgoElement {
 
     // calc axes
     @Override
-	protected final void compute() {
+	public final void compute() {
         // only parabola has directrix
         if (c.type == GeoConic.CONIC_PARABOLA) {
             // directrix has direction of second eigenvector

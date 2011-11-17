@@ -27,7 +27,7 @@ public class AlgoAngleVector extends AlgoElement {
     
     private double [] coords = new double[2];
 
-    AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
+    public AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
         super(cons);
         this.vec = vec;
         
@@ -58,7 +58,7 @@ public class AlgoAngleVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoAngle getAngle() {
+    public GeoAngle getAngle() {
         return angle;
     }
     
@@ -67,7 +67,7 @@ public class AlgoAngleVector extends AlgoElement {
     }
         
     @Override
-	protected final void compute() {  
+	public final void compute() {  
     	vec.getInhomCoords(coords);
         angle.setValue(
         		Math.atan2(coords[1], coords[0])

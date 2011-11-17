@@ -101,7 +101,7 @@ public class AlgoFitNL extends AlgoElement {
 		return outputfunction;
 	}//getFitNL()
 
-	protected final void compute() {
+	public final void compute() {
 		GeoElement 	geo1	=	null;
 		GeoElement  geo2	=	null;
 		this.datasize		=	pointlist.size();				//Points in dataset

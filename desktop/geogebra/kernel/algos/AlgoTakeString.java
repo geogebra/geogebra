@@ -31,7 +31,7 @@ public class AlgoTakeString extends AlgoElement {
     private GeoText outputText; //output	
     private int size;
 
-    AlgoTakeString(Construction cons, String label, GeoText inputText, GeoNumeric m, GeoNumeric n) {
+    public AlgoTakeString(Construction cons, String label, GeoText inputText, GeoNumeric m, GeoNumeric n) {
         super(cons);
         this.inputText = inputText;
         this.m=m;
@@ -71,12 +71,12 @@ public class AlgoTakeString extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoText getResult() {
+    public GeoText getResult() {
         return outputText;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
 
     	if (!m.isDefined() || !n.isDefined()) {
     		outputText.setTextString("");

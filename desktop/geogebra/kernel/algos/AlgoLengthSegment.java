@@ -34,7 +34,7 @@ public class AlgoLengthSegment extends AlgoElement {
     private GeoSegmentND seg; // input
     private GeoNumeric num; // output 
     
-    AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
+    public AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
         super(cons);
         this.seg = seg;
         num = new GeoNumeric(cons);
@@ -61,14 +61,14 @@ public class AlgoLengthSegment extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getLength() {
+    public GeoNumeric getLength() {
         return num;
     }
     
 
     // calc length of vector v   
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
         num.setValue(seg.getLength());
     }

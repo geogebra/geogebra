@@ -18,7 +18,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial{
 		super(cons, labels, f);
 	}
     @Override
-	protected void compute() {
+	public void compute() {
     	
     	computeComplexRoots();
 

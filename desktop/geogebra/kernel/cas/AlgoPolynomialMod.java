@@ -59,7 +59,7 @@ public class AlgoPolynomialMod extends AlgoElement {
         return g;
     }
 
-    protected final void compute() {       
+    public final void compute() {       
         if (!f1.isDefined() || !f2.isDefined()) {
         	g.setUndefined();
         	return;

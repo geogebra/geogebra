@@ -37,7 +37,7 @@ public class AlgoOrthoVectorVector extends AlgoElement {
     private GeoVector  n;     // output       
         
     /** Creates new AlgoOrthoVectorVector */
-    AlgoOrthoVectorVector(Construction cons, String label, GeoVector v) {        
+    public AlgoOrthoVectorVector(Construction cons, String label, GeoVector v) {        
         super(cons);
         this.v = v;                
         n = new GeoVector(cons); 
@@ -79,12 +79,12 @@ public class AlgoOrthoVectorVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoVector getVector() { return n; }    
+    public GeoVector getVector() { return n; }    
     GeoVector getv() { return v; }
     
     // line through P normal to v
     @Override
-	protected final void compute() {        
+	public final void compute() {        
         n.x = -v.y;
         n.y = v.x;        
     }   

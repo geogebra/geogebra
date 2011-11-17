@@ -59,7 +59,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
         return length;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	double a = t0.getValue();
     	double b = t1.getValue();
 

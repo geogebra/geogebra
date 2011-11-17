@@ -64,11 +64,11 @@ public class AlgoRow extends AlgoElement {
 	 * Returns the row number of the cell
 	 * @return row number of the cell
 	 */
-    protected GeoNumeric getResult() { return num; }        
+    public GeoNumeric getResult() { return num; }        
     
     // calc the current value of the arithmetic tree
     @Override
-	protected final void compute() {    	
+	public final void compute() {    	
     	Point p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.y + 1);
     	else num.setUndefined();

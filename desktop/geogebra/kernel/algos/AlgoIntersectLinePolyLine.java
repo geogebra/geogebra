@@ -61,7 +61,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
      * @param g
      * @param p
      */
-    protected AlgoIntersectLinePolyLine(Construction c, String[] labels, GeoLineND g, GeoPolyLineInterface p) {
+    public AlgoIntersectLinePolyLine(Construction c, String[] labels, GeoLineND g, GeoPolyLineInterface p) {
 
     	super(c);
         
@@ -161,7 +161,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     }
         
     @Override
-	protected void compute() {
+	public void compute() {
     	
     	//clear the points map
     	newCoords.clear();

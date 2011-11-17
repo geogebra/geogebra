@@ -26,7 +26,7 @@ implements EuclidianViewCE {
     private GeoPoint corner;     // output    
     private NumberValue number;
     
-    AlgoImageCorner(Construction cons, String label, GeoImage img, NumberValue number) {        
+    public AlgoImageCorner(Construction cons, String label, GeoImage img, NumberValue number) {        
         super(cons);
         this.img = img;   
         this.number = number;
@@ -54,10 +54,10 @@ implements EuclidianViewCE {
         setDependencies(); // done by AlgoElement
     }       
          
-    GeoPoint getCorner() { return corner; }        
+    public GeoPoint getCorner() { return corner; }        
     
     @Override
-	protected final void compute() {         	
+	public final void compute() {         	
 		img.calculateCornerPoint(corner, (int) number.getDouble());	    	
     }
     

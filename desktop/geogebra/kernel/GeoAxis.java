@@ -61,7 +61,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	 * this object's construction index).
 	 */
 	@Override
-	protected boolean isAvailableAtConstructionStep(int step) {
+	public boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
 		// in order to make the axes available
 		// in empty constructions too (for step == -1)

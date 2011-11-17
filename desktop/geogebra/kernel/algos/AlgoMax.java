@@ -30,7 +30,7 @@ public class AlgoMax extends AlgoTwoNumFunction {
 	/**
 	 * Creates new max algo
 	 */
-    AlgoMax(Construction cons, String label, NumberValue a, NumberValue b) {       
+    public AlgoMax(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b); 
     }   
   
@@ -40,7 +40,7 @@ public class AlgoMax extends AlgoTwoNumFunction {
     }
       
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		double max = Math.max(a.getDouble(), b.getDouble());
     		num.setValue(max);

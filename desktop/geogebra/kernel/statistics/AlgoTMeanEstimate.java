@@ -109,7 +109,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		return a * sd / Math.sqrt(n);
 	}
 
-	protected final void compute() {
+	public final void compute() {
 
 		try 
 		{

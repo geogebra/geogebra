@@ -30,7 +30,7 @@ public class AlgoFirst extends AlgoElement {
     protected GeoList outputList; //output	
     protected int size;
 
-    AlgoFirst(Construction cons, String label, GeoElement inputList, GeoNumeric n) {
+    public AlgoFirst(Construction cons, String label, GeoElement inputList, GeoNumeric n) {
         super(cons);
         this.inputList = inputList;
         this.n=n;
@@ -67,12 +67,12 @@ public class AlgoFirst extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected void compute() {
+	public void compute() {
     	
     	size = ((GeoList)inputList).size();
     	int outsize = n == null ? 1 : (int)n.getDouble();

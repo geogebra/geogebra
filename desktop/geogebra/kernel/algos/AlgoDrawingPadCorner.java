@@ -31,7 +31,7 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 	private GeoPoint corner; // output
 	private NumberValue number, evNum;
 
-	AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
+	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
 			NumberValue evNum) {
 		super(cons);
 		this.number = number;
@@ -70,12 +70,12 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoPoint getCorner() {
+	public GeoPoint getCorner() {
 		return corner;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		// x1 = x1 / invXscale + xZero;
 		// x2 = x2 / invXscale + xZero;

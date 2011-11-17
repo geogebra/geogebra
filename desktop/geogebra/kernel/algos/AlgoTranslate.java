@@ -91,13 +91,14 @@ public class AlgoTranslate extends AlgoTransformation {
     }           
         
     @Override
+	public
 	GeoElement getResult() { 
     	return outGeo; 
     }
         
     // calc translated point
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;

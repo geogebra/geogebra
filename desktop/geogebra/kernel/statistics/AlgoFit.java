@@ -97,7 +97,7 @@ public class AlgoFit extends AlgoElement {
 		return fitfunction;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		GeoElement 	geo1	=	null;
 		GeoElement  geo2	=	null;
 		datasize		=	pointlist.size();				//rows in M and Y

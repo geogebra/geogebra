@@ -35,7 +35,7 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	
 	
 
-	protected void compute() {
+	public void compute() {
 		
 		//check origin
 		if (!((GeoElement) origin).isDefined() || origin.isInfinite()){

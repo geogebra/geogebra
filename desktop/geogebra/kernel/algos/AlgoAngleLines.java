@@ -67,7 +67,7 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
      * @param h second line
      */
     
-    AlgoAngleLines(Construction cons, String label, GeoLine g, GeoLine h) {
+    public AlgoAngleLines(Construction cons, String label, GeoLine g, GeoLine h) {
         this(cons,g,h);
         angle.setLabel(label);
     }
@@ -102,7 +102,7 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
      * Returns the resulting angle
      * @return resulting angle
      */
-    GeoAngle getAngle() {
+    public GeoAngle getAngle() {
         return angle;
     }
     
@@ -125,7 +125,7 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation{
     // calc angle between lines g and h
     // use normalvectors (gx, gy), (hx, hy)
     @Override
-	protected final void compute() {
+	public final void compute() {
      	// |v| * |w| * sin(alpha) = det(v, w)
     	// cos(alpha) = v . w / (|v| * |w|)
     	// tan(alpha) = sin(alpha) / cos(alpha)

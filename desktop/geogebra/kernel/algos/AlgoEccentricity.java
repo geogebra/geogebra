@@ -32,7 +32,7 @@ public class AlgoEccentricity extends AlgoElement {
     private GeoConic c; // input
     private GeoNumeric num; // output                  
 
-    AlgoEccentricity(Construction cons, String label, GeoConic c) {
+    public AlgoEccentricity(Construction cons, String label, GeoConic c) {
         super(cons);
         this.c = c;
         num = new GeoNumeric(cons);
@@ -57,7 +57,7 @@ public class AlgoEccentricity extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getEccentricity() {
+    public GeoNumeric getEccentricity() {
         return num;
     }
     GeoConic getConic() {
@@ -66,7 +66,7 @@ public class AlgoEccentricity extends AlgoElement {
 
     // set excentricity
     @Override
-	protected final void compute() {
+	public final void compute() {
         switch (c.type) {
         case GeoConic.CONIC_CIRCLE :
             num.setValue(0.0);

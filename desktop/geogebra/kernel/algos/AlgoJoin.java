@@ -23,7 +23,7 @@ public class AlgoJoin extends AlgoElement {
 	private GeoList outputList; //output	
 	private int size, size2;
 
-	AlgoJoin(Construction cons, String label, GeoList inputList) {
+	public AlgoJoin(Construction cons, String label, GeoList inputList) {
 		super(cons);
 
 		this.inputList = inputList;
@@ -51,12 +51,12 @@ public class AlgoJoin extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return outputList;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		size = inputList.size();
 

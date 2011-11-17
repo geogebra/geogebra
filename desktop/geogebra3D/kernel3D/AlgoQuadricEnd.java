@@ -65,7 +65,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
 
     
-    protected final void compute() {
+    public final void compute() {
     	
     	
     	if (!quadric.isDefined()){

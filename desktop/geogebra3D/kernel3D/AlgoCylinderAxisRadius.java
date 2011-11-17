@@ -36,7 +36,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	
 	
 
-	protected void compute() {
+	public void compute() {
 		
 
 		if (!((GeoElement) axis).isDefined()){

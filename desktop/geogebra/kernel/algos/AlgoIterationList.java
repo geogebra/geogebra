@@ -33,7 +33,7 @@ public class AlgoIterationList extends AlgoElement {
 	private GeoElement startValueGeo, nGeo;
     private GeoList list; //output	
 
-    AlgoIterationList(Construction cons, String label, 
+    public AlgoIterationList(Construction cons, String label, 
     		GeoFunction f, NumberValue startValue, NumberValue n) {
         super(cons);
         this.f = f;
@@ -66,12 +66,12 @@ public class AlgoIterationList extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return list;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	list.setDefined(true);
     	for (int i=0; i < input.length; i++) {
     		if (!input[i].isDefined()) {

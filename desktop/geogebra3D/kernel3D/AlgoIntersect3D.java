@@ -109,6 +109,6 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
     protected void setCoords(GeoPointND destination, GeoPointND source){
     	((GeoPoint3D) destination).setCoords(((GeoPoint3D) source).getCoords());
     }
-    protected abstract void compute();
-    protected abstract void initForNearToRelationship();
+    public abstract void compute();
+    public abstract void initForNearToRelationship();
 }

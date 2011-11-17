@@ -63,8 +63,9 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    protected GeoNumeric getResult() { return num; }        
+    public GeoNumeric getResult() { return num; }        
 
     @Override
-	abstract protected void compute();     
+	public
+	abstract void compute();     
 }

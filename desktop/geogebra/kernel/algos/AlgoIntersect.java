@@ -41,7 +41,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
      * Returns the index in output[] of the intersection point
      * that is closest to the coordinates (xRW, yRW)
      */
-    protected int getClosestPointIndex(double xRW, double yRW) {
+    public int getClosestPointIndex(double xRW, double yRW) {
         GeoPoint[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;

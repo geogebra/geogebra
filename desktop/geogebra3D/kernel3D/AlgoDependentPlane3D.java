@@ -96,7 +96,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     public GeoPlane3D getPlane() { return p; }
     
     // calc the current value of the arithmetic tree
-    protected final void compute() {  
+    public final void compute() {  
 
     	try {
     		p.setEquation(

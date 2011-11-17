@@ -555,7 +555,7 @@ extends GeoPolygon implements GeoElement3DInterface, Path, GeoCoordSys2D {
 
 	}
 	
-	protected boolean isInRegion(GeoPointND PI, boolean update){
+	public boolean isInRegion(GeoPointND PI, boolean update){
 
 		GeoPoint3D P = (GeoPoint3D) PI;
 		P.updateCoords2D(this,false);

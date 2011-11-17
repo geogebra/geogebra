@@ -118,7 +118,7 @@ public class AlgoDependentList extends AlgoElement {
 }
     
     @Override
-	protected final void compute() {	    	
+	public final void compute() {	    	
     	geoList.clear();
     	for (int i=0; i < input.length; i++) {    
     		// add input and its siblings to the list

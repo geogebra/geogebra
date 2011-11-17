@@ -29,7 +29,7 @@ public class AlgoPointInRegion extends AlgoElement {
 	private Region region; // input
     private GeoPoint P; // output       
 
-    AlgoPointInRegion(
+    public AlgoPointInRegion(
         Construction cons,
         String label,
         Region region,
@@ -71,7 +71,7 @@ public class AlgoPointInRegion extends AlgoElement {
     /** returns the point 
      * @return resulting point 
      */
-    GeoPoint getP() {
+    public GeoPoint getP() {
         return P;        
     }
     /**
@@ -83,7 +83,7 @@ public class AlgoPointInRegion extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined()) {	    	
 	        region.regionChanged(P);
 	        P.updateCoords();

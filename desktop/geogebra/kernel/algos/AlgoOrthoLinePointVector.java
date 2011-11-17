@@ -39,7 +39,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
     private GeoLine  g;     // output       
         
     /** Creates new AlgoJoinPoints */
-    AlgoOrthoLinePointVector(Construction cons, String label,GeoPoint P,GeoVector v) {
+    public AlgoOrthoLinePointVector(Construction cons, String label,GeoPoint P,GeoVector v) {
         super(cons);
         this.P = P;
         this.v = v;                
@@ -79,13 +79,13 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoLine getLine() { return g; }
+    public GeoLine getLine() { return g; }
     GeoPoint getP() { return P; }
     GeoVector getv() { return v; }
     
     // line through P normal to v
     @Override
-	protected final void compute() {           
+	public final void compute() {           
         GeoVec3D.cross(P, -v.y, v.x, 0.0, g);
     }   
     

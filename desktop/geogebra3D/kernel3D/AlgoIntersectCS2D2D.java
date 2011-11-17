@@ -76,7 +76,7 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
 
     
 
-    protected void compute(){
+    public void compute(){
 
     	GeoCoordSys2D cs1 = (GeoCoordSys2D) getCS1();
     	GeoCoordSys2D cs2 = (GeoCoordSys2D) getCS2();

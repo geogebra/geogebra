@@ -17,7 +17,7 @@ package geogebra.kernel;
  */
 public class PathParameter {
 	
-	double t;
+	public double t;
 	private int pathType = -1;
 	
 	public PathParameter() {

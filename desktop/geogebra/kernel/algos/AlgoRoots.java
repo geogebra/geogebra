@@ -163,7 +163,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     }//setInputOutput()
     
     @Override
-	protected final void compute(){
+	public
+	final void compute(){
     	boolean ok=false;
     	switch(type){
     		case TYPE_ROOTS:

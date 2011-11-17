@@ -45,7 +45,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
 
     transient private double bx, by, vx, vy, wx, wy;
 
-    protected AlgoAnglePoints(
+    public AlgoAnglePoints(
         Construction cons,
         String label,
         GeoPointND A,
@@ -171,7 +171,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     // calc angle between vectors A-B and C-B    
     // angle in range [0, pi]
     @Override
-	protected void compute() {
+	public void compute() {
     	
     	GeoPoint A = (GeoPoint) An;
     	GeoPoint B = (GeoPoint) Bn;

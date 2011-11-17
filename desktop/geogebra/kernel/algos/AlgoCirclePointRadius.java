@@ -33,13 +33,13 @@ import geogebra.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius {
 
-	AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
+	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			NumberValue r) {
 
 		super(cons, label, M, r);
 	}
 
-	AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
+	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			GeoSegment segment, boolean dummy) {
 
 		super(cons, label, M, segment, dummy);

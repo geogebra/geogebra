@@ -402,7 +402,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 
 	}
 	
-	protected void compute() {
+	public void compute() {
 		if (c1!=null){
 			p2=new GeoImplicitPoly(c1);
 		}

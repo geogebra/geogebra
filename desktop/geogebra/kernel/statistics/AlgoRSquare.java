@@ -71,7 +71,7 @@ public class AlgoRSquare extends AlgoElement {
         return r2;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  !function.toGeoElement().isDefined()) {

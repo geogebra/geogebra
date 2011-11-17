@@ -64,7 +64,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
     	return inputParallel;
     }
     
-    protected final void compute() {
+    public final void compute() {
     	
     	Coords v = getDirection();
     	

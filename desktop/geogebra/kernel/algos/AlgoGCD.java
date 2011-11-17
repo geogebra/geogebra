@@ -24,7 +24,7 @@ import java.math.BigInteger;
  */
 public class AlgoGCD extends AlgoTwoNumFunction {  
 	
-    AlgoGCD(Construction cons, String label, NumberValue a, NumberValue b) {       
+    public AlgoGCD(Construction cons, String label, NumberValue a, NumberValue b) {       
 	  super(cons, label, a, b); 
     }   
   
@@ -34,7 +34,7 @@ public class AlgoGCD extends AlgoTwoNumFunction {
     }
       
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		
     		if (a.getDouble() > Long.MAX_VALUE || b.getDouble() > Long.MAX_VALUE || 

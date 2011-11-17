@@ -28,7 +28,7 @@ public class AlgoLineBisectorSegment extends AlgoElement {
     private GeoPoint midPoint;
         
     /** Creates new AlgoLineBisector */
-    AlgoLineBisectorSegment(Construction cons, String label, GeoSegment s) {
+    public AlgoLineBisectorSegment(Construction cons, String label, GeoSegment s) {
         super(cons);
         this.s = s;             
         g = new GeoLine(cons); 
@@ -62,12 +62,12 @@ public class AlgoLineBisectorSegment extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoLine getLine() { return g; }
+    public GeoLine getLine() { return g; }
     GeoSegment getSegment() {return s;  }
     
     // line through P normal to v
     @Override
-	protected final void compute() { 
+	public final void compute() { 
     	 GeoPoint A = s.getStartPoint();     
     	 GeoPoint B = s.getEndPoint();
     	

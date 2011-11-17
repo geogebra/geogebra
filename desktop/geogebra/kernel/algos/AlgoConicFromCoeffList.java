@@ -37,7 +37,7 @@ public class AlgoConicFromCoeffList extends AlgoElement {
     private GeoConic conic; // output             
 
 
-    AlgoConicFromCoeffList(Construction cons, String label, GeoList L) {
+    public AlgoConicFromCoeffList(Construction cons, String label, GeoList L) {
         super(cons);
         this.L = L;
         conic = new GeoConic(cons, label, L);
@@ -67,7 +67,7 @@ public class AlgoConicFromCoeffList extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoConic getConic() {
+    public GeoConic getConic() {
         return conic;
     }
     
@@ -76,7 +76,7 @@ public class AlgoConicFromCoeffList extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
 		conic.setCoeffs(((GeoNumeric)L.get(0)).getDouble(),
 				((GeoNumeric)L.get(3)).getDouble(),
 				((GeoNumeric)L.get(1)).getDouble(),

@@ -35,7 +35,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
      * The type is either GeoConicPart.CONIC_PART_ARC or 
      * GeoConicPart.CONIC_PART_ARC       
      */
-    AlgoConicPartCircle(Construction cons, String label,
+    public AlgoConicPartCircle(Construction cons, String label,
     		 GeoPoint center, GeoPoint startPoint, GeoPoint endPoint,
     		int type) {
     	this(cons, center, startPoint, endPoint, type);
@@ -72,15 +72,15 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 		
 	}
 
-	GeoPoint getStartPoint() {
+	public GeoPoint getStartPoint() {
     	return startPoint;
     }
     
-    GeoPoint getEndPoint() {
+    public GeoPoint getEndPoint() {
     	return endPoint;
     }
     
-    GeoPoint getCenter() {
+    public GeoPoint getCenter() {
     	return center;
     }
     
@@ -119,7 +119,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
     }
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	// the temp points P and Q should lie on the conic
     	P.setCoords(startPoint);
     	conic.pointChanged(P);

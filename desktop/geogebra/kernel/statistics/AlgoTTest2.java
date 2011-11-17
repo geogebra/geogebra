@@ -127,7 +127,7 @@ public class AlgoTTest2 extends AlgoElement {
 	}
 
 
-	protected final void compute() {
+	public final void compute() {
 
 
 		if(!(tail.getTextString().equals("<") 

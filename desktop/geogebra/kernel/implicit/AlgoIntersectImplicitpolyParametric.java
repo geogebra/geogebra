@@ -83,7 +83,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 
 		if (!p.isDefined()){
 			return;

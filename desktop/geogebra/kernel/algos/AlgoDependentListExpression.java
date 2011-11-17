@@ -95,7 +95,7 @@ public class AlgoDependentListExpression extends AlgoElement {
     
     // evaluate the current value of the arithmetic tree
     @Override
-	protected final void compute() {    
+	public final void compute() {    
 		// get resulting list of ExpressionNodes		    	
     	ExpressionValue evlist = root.evaluate();
     	MyList myList = (evlist instanceof MyList)? (MyList)evlist: ((GeoList)evlist).getMyList();

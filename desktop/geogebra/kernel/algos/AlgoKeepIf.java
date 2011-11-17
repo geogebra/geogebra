@@ -34,7 +34,7 @@ public class AlgoKeepIf extends AlgoElement {
 	private GeoFunction boolFun;     // input
     private int size;
 
-    AlgoKeepIf(Construction cons, String label, GeoFunction boolFun, GeoList inputList) {
+    public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
     	this.boolFun = boolFun;
@@ -62,12 +62,12 @@ public class AlgoKeepIf extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	

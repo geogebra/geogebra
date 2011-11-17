@@ -88,7 +88,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	       
 	}
     
-    AlgoIntersectConics(Construction cons, GeoConic A, GeoConic B) {           
+    public AlgoIntersectConics(Construction cons, GeoConic A, GeoConic B) {           
     	this(cons);     
     	
         this.A = A;
@@ -143,7 +143,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }    
         
 	@Override
-	protected GeoPoint [] getIntersectionPoints() {
+	public GeoPoint [] getIntersectionPoints() {
 		return P;
 	}
 	
@@ -161,7 +161,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }
 	
 	@Override
-	protected final void initForNearToRelationship() {     
+	public
+	final void initForNearToRelationship() {     
 		isPermutationNeeded = true;
     	for (int i=0; i < P.length; i++) {        	 	 
     	 	 age[i] = 0; 
@@ -172,7 +173,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	
 	 // calc intersections of conics A and B
 	@Override
-	protected final void compute() {   
+	public final void compute() {   
     	// check if conics A and B are defined	   
    	   	if (!(A.isDefined() && B.isDefined())) {
    	   		for (int i=0; i < P.length; i++) {

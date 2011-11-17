@@ -242,7 +242,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable{
 		
 		private int computed;
 		
-		protected void compute() {
+		public void compute() {
 			super.compute();
 			computed++;			
 		}

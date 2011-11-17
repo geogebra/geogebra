@@ -38,7 +38,7 @@ public class AlgoPolarLine extends AlgoElement {
     private GeoLine polar;  // output
         
     /** Creates new AlgoPolarLine */
-    AlgoPolarLine(Construction cons, String label, GeoConic c, GeoPoint P) {
+    public AlgoPolarLine(Construction cons, String label, GeoConic c, GeoPoint P) {
         super(cons);
         this.P = P;
         this.c = c;                
@@ -74,11 +74,11 @@ public class AlgoPolarLine extends AlgoElement {
     
     GeoPoint getPoint() { return P; }    
     GeoConic getConic() { return c; }
-    GeoLine getLine() { return polar; }
+    public GeoLine getLine() { return polar; }
     
     // calc polar line of P relativ to c
     @Override
-	protected final void compute() {     
+	public final void compute() {     
         c.polarLine(P, polar);
     }
     

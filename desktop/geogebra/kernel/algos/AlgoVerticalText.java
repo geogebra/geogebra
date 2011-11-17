@@ -24,7 +24,7 @@ public class AlgoVerticalText extends AlgoElement {
     
     private StringBuffer sb = new StringBuffer();
     
-    AlgoVerticalText(Construction cons, String label, GeoText args) {
+    public AlgoVerticalText(Construction cons, String label, GeoText args) {
     	this(cons,  args);
         text.setLabel(label);
     }
@@ -55,12 +55,12 @@ public class AlgoVerticalText extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoText getResult() {
+    public GeoText getResult() {
         return text;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (!args.isDefined()) {
     		text.setTextString("");
     		return;

@@ -37,7 +37,7 @@ public class AlgoDiameterVector extends AlgoElement {
     private GeoLine diameter; // output
 
     /** Creates new AlgoDiameterVector */
-    AlgoDiameterVector(
+    public AlgoDiameterVector(
         Construction cons,
         String label,
         GeoConic c,
@@ -76,13 +76,13 @@ public class AlgoDiameterVector extends AlgoElement {
     GeoConic getConic() {
         return c;
     }
-    GeoLine getDiameter() {
+    public GeoLine getDiameter() {
         return diameter;
     }
 
     // calc diameter line of v relativ to c
     @Override
-	protected final void compute() {
+	public final void compute() {
         c.diameterLine(v, diameter);
     }
 

@@ -78,7 +78,7 @@ public class AlgoSumText extends AlgoElement {
     }  
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	// TODO: remove
     	//Application.debug("compute: " + geoList);

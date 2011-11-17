@@ -28,7 +28,7 @@ public class AlgoInvert extends AlgoElement {
 	private GeoList inputList; //input
     private GeoList outputList; //output	
 
-    AlgoInvert(Construction cons, String label, GeoList inputList) {
+    public AlgoInvert(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -54,12 +54,12 @@ public class AlgoInvert extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	   		
    		GgbMat matrix = new GgbMat(inputList);
    		

@@ -63,7 +63,7 @@ public class AlgoDilate extends AlgoTransformation {
      * @param r
      * @param S
      */
-    AlgoDilate(Construction cons, 
+    public AlgoDilate(Construction cons, 
     		GeoElement A, NumberValue r, GeoPoint S) {
         super(cons);        
         this.r = r;
@@ -114,6 +114,7 @@ public class AlgoDilate extends AlgoTransformation {
      * @return the resulting GeoElement
      */
     @Override
+	public
 	GeoElement getResult() {
         return outGeo;
     }
@@ -128,7 +129,7 @@ public class AlgoDilate extends AlgoTransformation {
     
     // calc dilated point
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(inGeo.isGeoList()){    		
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;

@@ -126,7 +126,7 @@ implements EuclidianViewCE {
     }       
            	
     @Override
-	final protected void compute() {
+	final public void compute() {
     	try {    		
     		// set macro geos to algo geos state
     		setMacroConstructionState();

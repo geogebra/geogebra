@@ -33,7 +33,7 @@ public class AlgoStemPlot extends AlgoElement {
 
 	private StringBuffer sb = new StringBuffer();
 
-	AlgoStemPlot(Construction cons, String label, GeoList geoList, GeoNumeric scaleAdjustment) {
+	public AlgoStemPlot(Construction cons, String label, GeoList geoList, GeoNumeric scaleAdjustment) {
 		this(cons, geoList, scaleAdjustment);
 		text.setLabel(label);
 	}
@@ -72,7 +72,7 @@ public class AlgoStemPlot extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoText getResult() {
+	public GeoText getResult() {
 		return text;
 	}
 
@@ -207,7 +207,7 @@ public class AlgoStemPlot extends AlgoElement {
 	}
 	
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		int size = geoList.size();
 		if (!geoList.isDefined() ||  size == 0) {
 			text.setTextString("");

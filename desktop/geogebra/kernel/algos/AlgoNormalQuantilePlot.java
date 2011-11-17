@@ -54,7 +54,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	private double[] zValues;
 	private double[] sortedData;
 
-	AlgoNormalQuantilePlot(Construction cons, String label, GeoList inputList) {		
+	public AlgoNormalQuantilePlot(Construction cons, String label, GeoList inputList) {		
 		this(cons, inputList);
 		outputList.setLabel(label);
 	}
@@ -84,7 +84,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return outputList;
 	}
 
@@ -137,7 +137,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		// validate
 		size = inputList.size();

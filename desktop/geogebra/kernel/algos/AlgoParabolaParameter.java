@@ -35,7 +35,7 @@ public class AlgoParabolaParameter extends AlgoElement {
     private GeoConic c;  // input
     private GeoNumeric num;     // output                  
     
-    AlgoParabolaParameter(Construction cons, String label, GeoConic c) {        
+    public AlgoParabolaParameter(Construction cons, String label, GeoConic c) {        
         super(cons);
         this.c = c;                                                              
         num = new GeoNumeric(cons);                
@@ -65,12 +65,12 @@ public class AlgoParabolaParameter extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoNumeric getParameter() { return num; }    
+    public GeoNumeric getParameter() { return num; }    
     GeoConic getConic() { return c; }        
     
     // set parameter of parabola
     @Override
-	protected final void compute() {        
+	public final void compute() {        
         if (c.type == GeoConic.CONIC_PARABOLA)
             num.setValue(c.p);
         else 

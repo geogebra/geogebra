@@ -51,7 +51,7 @@ public class AlgoTangentLine extends AlgoElement {
         GeoElement.setLabels(label, tangents);            
     }
     
-    AlgoTangentLine(Construction cons, String [] labels, GeoLine g, GeoConic c) {
+    public AlgoTangentLine(Construction cons, String [] labels, GeoLine g, GeoConic c) {
         this(cons, g,c);
         GeoElement.setLabels(labels, tangents);            
     }
@@ -104,7 +104,7 @@ public class AlgoTangentLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoLine [] getTangents() { return tangents; }
+    public GeoLine [] getTangents() { return tangents; }
     GeoLine getLine() { return g; }
     GeoConic getConic() { return c; }
     
@@ -153,7 +153,7 @@ public class AlgoTangentLine extends AlgoElement {
     
     // calc tangents parallel to g
     @Override
-	protected final void compute() {               
+	public final void compute() {               
         // degenerates should not have any tangents
         if (c.isDegenerate()) {
             tangents[0].setUndefined();

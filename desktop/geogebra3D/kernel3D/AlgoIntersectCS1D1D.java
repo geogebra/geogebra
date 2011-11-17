@@ -63,7 +63,7 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
     // COMPUTE
     
 
-    protected void compute(){
+    public void compute(){
     	
     	if (!outputIsDefined())
     		return;

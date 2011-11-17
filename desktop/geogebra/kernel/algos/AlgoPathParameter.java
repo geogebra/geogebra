@@ -32,7 +32,7 @@ public class AlgoPathParameter extends AlgoElement {
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric value;
 
-	AlgoPathParameter(Construction cons, String label, GeoPoint point) {
+	public AlgoPathParameter(Construction cons, String label, GeoPoint point) {
 		this(cons, point);
 		value.setLabel(label);
 	}
@@ -62,7 +62,7 @@ public class AlgoPathParameter extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (!point.isDefined() || !point.isPointOnPath()) {
 			value.setUndefined();
 			return;
@@ -77,7 +77,7 @@ public class AlgoPathParameter extends AlgoElement {
 	}
 				
 
-	GeoNumeric getResult() {
+	public GeoNumeric getResult() {
 		return value;
 	}	
 }

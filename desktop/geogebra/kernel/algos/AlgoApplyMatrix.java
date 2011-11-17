@@ -115,7 +115,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
     }       
    
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;

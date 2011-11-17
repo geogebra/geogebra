@@ -63,7 +63,7 @@ public class AlgoHarmonicMean extends AlgoElement {
 		return result;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 
 		//==========================
 		// validation

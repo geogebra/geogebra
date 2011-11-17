@@ -30,7 +30,7 @@ public class AlgoDefined extends AlgoElement {
 	private GeoElement inputGeo; //input
     private GeoBoolean outputBoolean; //output	
 
-    AlgoDefined(Construction cons, String label, GeoElement inputGeo) {
+    public AlgoDefined(Construction cons, String label, GeoElement inputGeo) {
         super(cons);
         this.inputGeo = inputGeo;
 
@@ -57,12 +57,12 @@ public class AlgoDefined extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoBoolean getResult() {
+    public GeoBoolean getResult() {
         return outputBoolean;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
 
     	if (inputGeo.isGeoPoint()) {
     		GeoPointND p = (GeoPointND)inputGeo;

@@ -237,7 +237,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		switch (mode) {
 		case ROOTS:
 			// roots of f
@@ -555,6 +555,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * possible the whole algorithm is removed.
 	 */
 	@Override
+	public
 	void remove(GeoElement output) {
 		// only single undefined points may be removed
 		for (int i = 0; i < rootPoints.length; i++) {

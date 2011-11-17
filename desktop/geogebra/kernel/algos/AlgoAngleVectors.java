@@ -29,7 +29,7 @@ public class AlgoAngleVectors extends AlgoElement {
 	private GeoVector v, w; // input
     private GeoAngle angle; // output           
 
-    AlgoAngleVectors(
+    public AlgoAngleVectors(
         Construction cons,
         String label,
         GeoVector v,
@@ -67,7 +67,7 @@ public class AlgoAngleVectors extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoAngle getAngle() {
+    public GeoAngle getAngle() {
         return angle;
     }
     public GeoVector getv() {
@@ -81,7 +81,7 @@ public class AlgoAngleVectors extends AlgoElement {
     // angle in range [0, 2pi) 
     // use normalvector to 
     @Override
-	protected final void compute() {    	    	    	
+	public final void compute() {    	    	    	
     	// |v| * |w| * sin(alpha) = det(v, w)
     	// cos(alpha) = v . w / (|v| * |w|)
     	// tan(alpha) = sin(alpha) / cos(alpha)

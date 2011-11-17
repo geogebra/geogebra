@@ -115,7 +115,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	
 	
-	protected void compute() {
+	public void compute() {
 
 		super.compute();
 

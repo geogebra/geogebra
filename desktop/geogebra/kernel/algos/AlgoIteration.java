@@ -32,7 +32,7 @@ public class AlgoIteration extends AlgoElement {
 	private GeoElement startValueGeo, nGeo;
     private GeoNumeric result; //output	
 
-    AlgoIteration(Construction cons, String label, 
+    public AlgoIteration(Construction cons, String label, 
     		GeoFunction f, NumberValue startValue, NumberValue n) {
         super(cons);
         this.f = f;
@@ -65,12 +65,12 @@ public class AlgoIteration extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return result;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (!f.isDefined() ||  !startValueGeo.isDefined() || !nGeo.isDefined()) {
     		result.setUndefined();
     		return;

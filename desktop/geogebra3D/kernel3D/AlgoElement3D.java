@@ -44,7 +44,7 @@ import geogebra.kernel.algos.AlgoElement;
     <li> Explain how outputs are computed with the inputs :
     <p>
     <code>
-    protected void compute() { <br> &nbsp;&nbsp;
+    public void compute() { <br> &nbsp;&nbsp;
       // stuff <br> 
     }
     </code>

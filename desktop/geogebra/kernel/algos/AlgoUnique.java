@@ -32,7 +32,7 @@ public class AlgoUnique extends AlgoElement {
 	private Frequency f;
 
 
-	AlgoUnique(Construction cons, String label, GeoList dataList ) {
+	public AlgoUnique(Construction cons, String label, GeoList dataList ) {
 		this(cons, dataList);
 		uniqueList.setLabel(label);
 	}
@@ -64,12 +64,12 @@ public class AlgoUnique extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return uniqueList;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 	
 		// Validate input arguments
 		if (!dataList.isDefined() || dataList.size() == 0) {

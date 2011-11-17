@@ -169,7 +169,7 @@ public class AlgoPolyLine extends AlgoElement {
     
  
     @Override
-	protected void compute() { 
+	public void compute() { 
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}

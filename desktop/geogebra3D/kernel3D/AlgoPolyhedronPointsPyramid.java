@@ -58,7 +58,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 	
-	protected void compute() {
+	public void compute() {
 
 
 		GeoPolyhedron polyhedron = getPolyhedron();

@@ -30,7 +30,7 @@ public class AlgoFlatten extends AlgoElement {
 	private GeoList inputList; //input
 	private GeoList outputList; //output
 
-	AlgoFlatten(Construction cons, String label, GeoList inputList) {
+	public AlgoFlatten(Construction cons, String label, GeoList inputList) {
 		super(cons);
 
 		this.inputList = inputList;
@@ -58,12 +58,12 @@ public class AlgoFlatten extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoList getResult() {
+	public GeoList getResult() {
 		return outputList;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		if (!inputList.isDefined()) {
 			outputList.setUndefined();

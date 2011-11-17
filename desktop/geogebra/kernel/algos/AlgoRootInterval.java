@@ -80,7 +80,7 @@ public class AlgoRootInterval extends AlgoElement {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         rootPoint.setCoords(calcRoot(), 0.0, 1.0);
     }
 

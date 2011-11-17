@@ -51,7 +51,7 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 
 
   
-    protected final void compute() {
+    public final void compute() {
     	
     	CoordSys coordsys = getPlane().getCoordSys();
     	

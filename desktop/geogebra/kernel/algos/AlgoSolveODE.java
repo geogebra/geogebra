@@ -74,7 +74,7 @@ public class AlgoSolveODE extends AlgoElement {
 	    }
 
 	    @Override
-		protected final void compute() {       
+		public final void compute() {       
 	        if (!((GeoElement)f0).isDefined() || !x.isDefined() || !y.isDefined() || !step.isDefined() || !end.isDefined() || Kernel.isZero(step.getDouble())) {
 	        	//g.setUndefined();
 	        	locus.setUndefined();

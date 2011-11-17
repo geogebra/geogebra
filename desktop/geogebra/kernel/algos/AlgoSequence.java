@@ -62,7 +62,7 @@ public class AlgoSequence extends AlgoElement {
      * @param var_to
      * @param var_step
      */
-    AlgoSequence(Construction cons, String label, GeoElement expression, GeoNumeric var, 
+    public AlgoSequence(Construction cons, String label, GeoElement expression, GeoNumeric var, 
     		NumberValue var_from, NumberValue var_to, NumberValue var_step) {
               
         this(cons, expression, var, var_from, var_to, var_step);
@@ -162,6 +162,7 @@ public class AlgoSequence extends AlgoElement {
      *  @version 2010-05-13
      */
     @Override
+	public
 	GeoElement[] getInputForUpdateSetPropagation() {
     	if(isSimple)
     		return input;
@@ -185,7 +186,7 @@ public class AlgoSequence extends AlgoElement {
     }      
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(isSimple){
     		computeSimple();
     		return;

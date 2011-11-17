@@ -31,7 +31,7 @@ public class AlgoFirstString extends AlgoElement {
 	protected GeoText outputText; // output
 	protected int size;
 
-	AlgoFirstString(Construction cons, String label, GeoText inputText,
+	public AlgoFirstString(Construction cons, String label, GeoText inputText,
 			GeoNumeric n) {
 		super(cons);
 		this.inputText = inputText;
@@ -67,12 +67,12 @@ public class AlgoFirstString extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoText getResult() {
+	public GeoText getResult() {
 		return outputText;
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		String str = inputText.getTextString();
 		size = str.length();
 		int outsize = n == null ? 1 : (int) n.getDouble();

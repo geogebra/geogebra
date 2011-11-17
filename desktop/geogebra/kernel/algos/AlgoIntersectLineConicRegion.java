@@ -59,7 +59,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
     	return EuclidianConstants.MODE_INTERSECTION_CURVE;
     }
        
-    AlgoIntersectLineConicRegion(Construction cons, String[] labels, GeoLine g, GeoConic c) {
+    public AlgoIntersectLineConicRegion(Construction cons, String[] labels, GeoLine g, GeoConic c) {
         super(cons, g, c);
         
         //setLabels(labels);
@@ -105,7 +105,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         //paramSet.add(tMax);
     }
 
-	protected GeoLine[] getIntersectionLines() {
+	public GeoLine[] getIntersectionLines() {
 		GeoLine[] ret = new GeoLine[numberOfOutputLines];
 		for (int i = 0; i<numberOfOutputLines; i++){
 			ret[i] = (GeoLine) super.getOutput(numberOfPoints + i);
@@ -122,7 +122,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	}
 	
 	@Override
-	protected void compute() {
+	public void compute() {
         super.compute();
         
         numberOfPoints=0;

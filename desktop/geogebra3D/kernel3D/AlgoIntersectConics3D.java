@@ -190,7 +190,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
     
     
 
-	protected void compute() {
+	public void compute() {
 		
 		CoordSys csA = A.getCoordSys();
 		CoordSys csB = B.getCoordSys();
@@ -272,7 +272,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	}
 	
 
-    protected final void initForNearToRelationship() {   
+    public final void initForNearToRelationship() {   
     	//TODO
     }
 }

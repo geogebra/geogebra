@@ -36,7 +36,7 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomVal
 		return "AlgoRandomNormal";
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			if (b.getDouble() < 0)
 				num.setUndefined();

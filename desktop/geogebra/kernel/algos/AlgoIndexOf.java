@@ -37,7 +37,7 @@ public class AlgoIndexOf extends AlgoElement {
      * @param needle what we want to find
      * @param hayStack GeoList of GeoText in which we want to search
      */
-    AlgoIndexOf(Construction cons, String label, GeoElement needle, GeoElement hayStack) {
+    public AlgoIndexOf(Construction cons, String label, GeoElement needle, GeoElement hayStack) {
         super(cons);
          
         this.hayStack = hayStack;
@@ -58,7 +58,7 @@ public class AlgoIndexOf extends AlgoElement {
      * @param hayStack GeoList of GeoText in which we want to search
      * @param start start index (1 means "search from beginning") 
      */
-    AlgoIndexOf(Construction cons, String label,GeoElement needle,GeoElement hayStack,NumberValue start) {
+    public AlgoIndexOf(Construction cons, String label,GeoElement needle,GeoElement hayStack,NumberValue start) {
         super(cons);
         
         this.hayStack = hayStack;
@@ -99,12 +99,12 @@ public class AlgoIndexOf extends AlgoElement {
      * Returns the resulting index
      * @return the resulting index
      */
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return index;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	    	
     	index.setUndefined();
     	

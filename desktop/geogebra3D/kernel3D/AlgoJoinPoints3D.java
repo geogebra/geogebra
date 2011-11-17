@@ -159,7 +159,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     }
     
 
-    protected void compute() {
+    public void compute() {
     	    
     	if (poly!=null)
     		if (!poly.isDefined())

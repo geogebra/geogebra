@@ -60,7 +60,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
         maxDet;
     transient private int casenr;
 
-    protected AlgoCircleThreePoints(
+    public AlgoCircleThreePoints(
         Construction cons,
         String label,
         GeoPointND A,
@@ -172,7 +172,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
     // compute circle through A, B, C
     @Override
-	protected void compute() {
+	public void compute() {
         // A, B or C undefined
         if (!getA().isFinite() || !getB().isFinite() || !getC().isFinite()) {
             circle.setUndefined();

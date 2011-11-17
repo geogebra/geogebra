@@ -34,7 +34,7 @@ public class AlgoChiSquared extends AlgoDistribution {
         return "AlgoChiSquared";
     }
     
-	protected final void compute() {
+	public final void compute() {
     	
     	
     	if (input[0].isDefined() && input[1].isDefined()) {

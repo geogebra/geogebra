@@ -65,7 +65,7 @@ public class AlgoTriangleCubic extends AlgoElement {
 		return poly;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		// Check if the points are aligned
 		double c = A.distance(B);
 		double b = C.distance(A);

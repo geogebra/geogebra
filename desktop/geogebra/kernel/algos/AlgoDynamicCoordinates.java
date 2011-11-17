@@ -29,7 +29,7 @@ public class AlgoDynamicCoordinates extends AlgoElement {
     private GeoPoint M; // output        
 
 	
-    AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P, NumberValue x, NumberValue y) {
+    public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P, NumberValue x, NumberValue y) {
         super(cons);
         this.P = P;
         this.x = x;
@@ -60,7 +60,7 @@ public class AlgoDynamicCoordinates extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoPoint getPoint() {
+    public GeoPoint getPoint() {
         return M;
     }
 
@@ -70,7 +70,7 @@ public class AlgoDynamicCoordinates extends AlgoElement {
 
     // calc midpoint
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	double xCoord = x.getDouble();
     	double yCoord = y.getDouble();

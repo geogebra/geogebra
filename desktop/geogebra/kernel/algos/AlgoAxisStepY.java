@@ -56,7 +56,7 @@ public class AlgoAxisStepY extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
 	
-    protected GeoNumeric getResult() { return num; }        
+    public GeoNumeric getResult() { return num; }        
  
     @Override
 	public boolean euclidianViewUpdate() {
@@ -74,7 +74,7 @@ public class AlgoAxisStepY extends AlgoElement {
     
     // calc the current value of the arithmetic tree
     @Override
-	protected final void compute() {  
+	public final void compute() {  
     	double axisSteps[] = kernel.getApplication().getEuclidianView().getGridDistances();
     	num.setValue(axisSteps[1]);
     }         

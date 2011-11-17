@@ -30,7 +30,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     AlgoCurvatureCurve algo;
     AlgoCurvatureVectorCurve cv;
     
-    AlgoOsculatingCircleCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f) {
+    public AlgoOsculatingCircleCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f) {
         super(cons);
         this.A = A;
         this.f = f;
@@ -69,12 +69,12 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     }
     
     //Return the resultant circle
-    GeoConic getCircle() {
+    public GeoConic getCircle() {
     	return circle;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	// bugfix Michael Borcherds
     	// undefined unless A is a point on f

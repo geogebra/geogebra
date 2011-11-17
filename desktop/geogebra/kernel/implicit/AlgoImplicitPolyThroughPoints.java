@@ -40,7 +40,7 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		implicitPoly.throughPoints(P);
 	}
 	

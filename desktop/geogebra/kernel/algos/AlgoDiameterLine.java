@@ -40,7 +40,7 @@ public class AlgoDiameterLine extends AlgoElement {
     private GeoVector v;
 
     /** Creates new AlgoJoinPoints */
-    AlgoDiameterLine(Construction cons, String label, GeoConic c, GeoLine g) {
+    public AlgoDiameterLine(Construction cons, String label, GeoConic c, GeoLine g) {
         super(cons);
         this.c = c;
         this.g = g;
@@ -81,13 +81,13 @@ public class AlgoDiameterLine extends AlgoElement {
     GeoConic getConic() {
         return c;
     }
-    GeoLine getDiameter() {
+    public GeoLine getDiameter() {
         return diameter;
     }
 
     // calc diameter line of v relativ to c
     @Override
-	protected final void compute() {
+	public final void compute() {
         g.getDirection(v);
         c.diameterLine(v, diameter);
     }

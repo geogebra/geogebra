@@ -60,7 +60,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		
 		double[] A=c.matrix;
 		if (h.isPolynomialFunction(false)){

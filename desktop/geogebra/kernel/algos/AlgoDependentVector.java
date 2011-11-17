@@ -76,7 +76,7 @@ public class AlgoDependentVector extends AlgoElement {
 
 	// calc the current value of the arithmetic tree
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		try {
 			temp = ((VectorValue) root.evaluate()).getVector();
 			v.x = temp.x;

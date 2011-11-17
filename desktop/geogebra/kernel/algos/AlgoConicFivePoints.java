@@ -43,7 +43,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     private GeoVec3D[] line;
     private int i, j;
 
-    AlgoConicFivePoints(Construction cons, String label, GeoPoint[] P) {
+    public AlgoConicFivePoints(Construction cons, String label, GeoPoint[] P) {
         super(cons);
         this.P = P;
         conic = new GeoConic(cons);
@@ -95,7 +95,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoConic getConic() {
+    public GeoConic getConic() {
         return conic;
     }
 
@@ -106,7 +106,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     // compute conic through five points P[0] ... P[4]
     // with Pl�cker � method
     @Override
-	protected final void compute() {
+	public final void compute() {
         // compute lines P0 P1, P2 P3, 
         //               P0 P2, P1 P3
         GeoVec3D.cross(P[0], P[1], line[0]);

@@ -32,7 +32,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric circum;
 
-	AlgoPerimeterPoly(Construction cons, String label, GeoPolygon polygon) {
+	public AlgoPerimeterPoly(Construction cons, String label, GeoPolygon polygon) {
 		this(cons, polygon);
 		circum.setLabel(label);
 	}
@@ -65,7 +65,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	 * Compute circumference by adding up the length of it's segemnts.
 	 */
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (!polygon.isDefined()) {
 			circum.setUndefined();
 			return;
@@ -84,7 +84,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	 * 
 	 * @return circumference
 	 */
-	GeoNumeric getCircumference() {
+	public GeoNumeric getCircumference() {
 		return circum;
 	}	
 }

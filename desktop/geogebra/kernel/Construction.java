@@ -18,6 +18,7 @@ import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoDistancePoints;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgorithmSet;
+import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -811,7 +812,7 @@ public class Construction {
 	/**
 	 * Updates all algorithms in this construction
 	 */
-	final void updateAllAlgorithms() {
+	public final void updateAllAlgorithms() {
 		// update all algorithms
 
 		// *** algoList.size() can change during the loop
@@ -1210,7 +1211,7 @@ public class Construction {
 	 * @param label label to be looked for
 	 * @return may return null
 	 */
-	GeoElement lookupLabel(String label) {
+	public GeoElement lookupLabel(String label) {
 		return lookupLabel(label, false);
 	}
 	

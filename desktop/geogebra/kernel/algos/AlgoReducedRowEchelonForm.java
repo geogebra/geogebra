@@ -34,7 +34,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
      * @param label label for result
      * @param inputList original matrix
      */
-    AlgoReducedRowEchelonForm(Construction cons, String label, GeoList inputList) {
+    public AlgoReducedRowEchelonForm(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -64,12 +64,12 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
      * Returns the reduced matrix
      * @return reduced matrix
      */
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	   		
    		GgbMat matrix = new GgbMat(inputList);
    		

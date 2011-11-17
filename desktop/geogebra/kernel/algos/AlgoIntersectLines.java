@@ -38,7 +38,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
     private GeoPoint S; // output       
 
     /** Creates new AlgoJoinPoints */
-    AlgoIntersectLines(Construction cons, String label, GeoLine g, GeoLine h) {
+    public AlgoIntersectLines(Construction cons, String label, GeoLine g, GeoLine h) {
         super(cons);
         this.g = g;
         this.h = h;
@@ -79,7 +79,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoPoint getPoint() {
+    public GeoPoint getPoint() {
         return S;
     }
     
@@ -93,7 +93,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
 
     // calc intersection S of lines g, h
     @Override
-	protected final void compute() {   	
+	public final void compute() {   	
         GeoVec3D.cross(g, h, S); 
               
         // test the intersection point

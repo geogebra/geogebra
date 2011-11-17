@@ -68,7 +68,7 @@ public class AlgoLengthVector3D extends AlgoElement {
     }
 
     // calc length of vector v   
-    protected final void compute() {
+    public final void compute() {
     	Coords coords = v.getCoords();
     	coords.calcNorm();
         num.setValue(coords.getNorm());

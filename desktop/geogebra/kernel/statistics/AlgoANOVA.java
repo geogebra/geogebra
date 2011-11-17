@@ -70,7 +70,7 @@ public class AlgoANOVA extends AlgoElement {
 	}
 
 
-	protected final void compute() {
+	public final void compute() {
 
 		int size = geoList.size();
 		//System.out.println(geoList.toOutputValueString());

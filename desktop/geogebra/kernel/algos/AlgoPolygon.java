@@ -46,11 +46,11 @@ public class AlgoPolygon extends AlgoElement {
     protected GeoDirectionND direction;
     
     
-    protected AlgoPolygon(Construction cons, String [] labels, GeoList geoList) {
+    public AlgoPolygon(Construction cons, String [] labels, GeoList geoList) {
     	this(cons, labels, null, geoList);
     }
     
-    protected AlgoPolygon(Construction cons, String [] labels, GeoPointND [] points) {
+    public AlgoPolygon(Construction cons, String [] labels, GeoPointND [] points) {
     	this(cons, labels, points, null);
     }
  
@@ -239,7 +239,7 @@ public class AlgoPolygon extends AlgoElement {
     }  
        
     @Override
-	protected void compute() { 
+	public void compute() { 
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}

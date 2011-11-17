@@ -55,7 +55,7 @@ public class AlgoBarycenter extends AlgoElement {
 		return point;
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		
 		int size = list.size();
 		if(!list.isDefined() || size == 0)

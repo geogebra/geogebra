@@ -17,7 +17,7 @@ public class PointPairList {
 		return head == null;
 	}
 
-	final void clear() {
+	public final void clear() {
 		head = null;
 	}
 
@@ -25,7 +25,7 @@ public class PointPairList {
 	 *  Inserts pair (indexD, indexQ) in ascending order of distance
 	 * where alive points come before others and points Q on path come before others.
 	 */
-	final void insertPointPair(int indexD, boolean isPalive, int indexQ, boolean isQonPath, double distance) {
+	public final void insertPointPair(int indexD, boolean isPalive, int indexQ, boolean isQonPath, double distance) {
 		PointPair newPair = new PointPair(indexD, isPalive, indexQ, isQonPath, distance);
 
 		// insert as head
@@ -88,7 +88,7 @@ public class PointPairList {
 	 * Removes all PointPairs where indexP == pair.indexP or 
 	 * indexQ == pair.indexQ
 	 */
-	final void removeAllPairs(PointPair pair) {
+	public final void removeAllPairs(PointPair pair) {
 		if (head == null) return;
 		while ( head.indexP == pair.indexP || 
 				head.indexQ == pair.indexQ) {
@@ -111,7 +111,7 @@ public class PointPairList {
 		}
 	}
 
-	final PointPair getHead() {
+	public final PointPair getHead() {
 		return head;
 	}
 
@@ -130,40 +130,4 @@ public class PointPairList {
 
 }
 
-//point pair (i, j, dist) stores the point 
-//pair D_i, Q_j and their distance
-class PointPair {
-	int indexP;
-	boolean isPalive;
-	int indexQ;	
-	boolean isQonPath;
-	double dist;
-	
-	PointPair next;
-	
-	PointPair(int i, boolean isPalive, int j, boolean isQjOnPath, double distance) {
-		indexP = i;
-		this.isPalive = isPalive;
-		indexQ = j;
-		isQonPath = isQjOnPath;
-		dist = distance;
-	}
-	
-	/*
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("(");
-		sb.append(indexP);
-		sb.append(", ");
-		sb.append(isPalive);
-		sb.append(", ");
-		sb.append(indexQ);
-		sb.append(", ");
-		sb.append(isQonPath);
-		sb.append(", ");
-		sb.append(dist);
-		sb.append(")\n");
-		return sb.toString();
-	}*/
-} 
 

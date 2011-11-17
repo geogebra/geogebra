@@ -39,7 +39,7 @@ public class AlgoInversePascal extends AlgoDistribution {
     }
 
     
-	protected final void compute() {
+	public final void compute() {
     	
     	
     	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {

@@ -30,7 +30,7 @@ public class AlgoMin extends AlgoTwoNumFunction {
 	/**
 	 * Creates new min algo
 	 */
-    AlgoMin(Construction cons, String label, NumberValue a, NumberValue b) {       
+    public AlgoMin(Construction cons, String label, NumberValue a, NumberValue b) {       
   	  super(cons, label, a, b); 
       }   
     
@@ -45,7 +45,7 @@ public class AlgoMin extends AlgoTwoNumFunction {
     
     // calc minimum of a,b 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		double min = Math.min(a.getDouble(), b.getDouble());
     		num.setValue(min);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class AlgoFirstLocus extends AlgoFirst {
 
-	AlgoFirstLocus(Construction cons, String label, GeoLocus inputLocus,
+	public AlgoFirstLocus(Construction cons, String label, GeoLocus inputLocus,
 			GeoNumeric n) {
 		super(cons, label, inputLocus, n);
 
@@ -23,7 +23,7 @@ public class AlgoFirstLocus extends AlgoFirst {
     }
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	ArrayList<MyPoint> points = ((GeoLocus)inputList).getPoints();
     	

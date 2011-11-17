@@ -165,7 +165,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	}
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		if (type == TYPE_RAW) {
 
 			// list1 = rawData

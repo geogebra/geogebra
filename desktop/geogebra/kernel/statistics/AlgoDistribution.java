@@ -159,7 +159,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 		return num;
 	}
 
-	abstract protected void compute();     
+	public abstract void compute();     
 
 
 

@@ -189,7 +189,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 
 
-	protected final void compute() {
+	public final void compute() {
 
 		try 
 		{

@@ -45,7 +45,7 @@ public class AlgoAxes extends AlgoElement {
         GeoElement.setLabels(label, axes);
     }
 
-    AlgoAxes(Construction cons, String[] labels, GeoConic c) {
+    public AlgoAxes(Construction cons, String[] labels, GeoConic c) {
         this(cons, c);
         GeoElement.setLabels(labels, axes);
     }
@@ -86,7 +86,7 @@ public class AlgoAxes extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine[] getAxes() {
+    public GeoLine[] getAxes() {
         return axes;
     }
     GeoConic getConic() {
@@ -95,7 +95,7 @@ public class AlgoAxes extends AlgoElement {
 
     // calc axes
     @Override
-	protected final void compute() {
+	public final void compute() {
         // axes are lines with directions of eigenvectors
         // through midpoint b        
 

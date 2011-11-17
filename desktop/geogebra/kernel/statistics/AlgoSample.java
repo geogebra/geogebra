@@ -72,7 +72,7 @@ public class AlgoSample extends AlgoElement {
         return outputList;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	
     	int size = (int) num.getDouble();
     	if (!inputList.isDefined() || num.getDouble() < 1 || num.getDouble() > SAMPLE_MAXSIZE) {

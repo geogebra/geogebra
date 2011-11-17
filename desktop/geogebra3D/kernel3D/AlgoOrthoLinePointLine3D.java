@@ -49,7 +49,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
     }
 
   
-    protected final void compute() {
+    public final void compute() {
     	
     	GeoLineND line = getInputLine();
     	Coords o = line.getPointInD(3, 0);

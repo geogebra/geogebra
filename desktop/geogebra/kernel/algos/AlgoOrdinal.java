@@ -22,7 +22,7 @@ public class AlgoOrdinal extends AlgoElement {
 	protected GeoNumeric n;  // input
     protected GeoText text;     // output           
         
-    protected AlgoOrdinal(Construction cons, String label, GeoNumeric list) {       
+    public AlgoOrdinal(Construction cons, String label, GeoNumeric list) {       
 	  super(cons); 
       this.n = list;
 
@@ -52,12 +52,12 @@ public class AlgoOrdinal extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    protected GeoText getResult() { 
+    public GeoText getResult() { 
     	return text; 
     }        
       
     @Override
-	protected void compute() {
+	public void compute() {
     	
     	if (!n.isDefined()) {
     		text.setTextString("");

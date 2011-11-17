@@ -51,7 +51,7 @@ public abstract class AlgoOrthoLineLine extends AlgoElement3D {
     
     protected Coords origin, direction2, origin1, direction1;
 
-	protected void compute() {
+	public void compute() {
 		
 		origin1 = line1.getPointInD(3, 0);
     	direction1 = line1.getPointInD(3, 1).sub(origin1);

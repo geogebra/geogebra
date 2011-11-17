@@ -36,7 +36,7 @@ public class AlgoAreaPolygon extends AlgoElement {
 	private GeoPolygon  polygon;  // input
     private GeoNumeric area;     // output           
         
-    AlgoAreaPolygon(Construction cons, String label, GeoPolygon  polygon) {       
+    public AlgoAreaPolygon(Construction cons, String label, GeoPolygon  polygon) {       
 	  super(cons); 
       this.polygon = polygon;
       area = new GeoNumeric(cons); 
@@ -69,11 +69,11 @@ public class AlgoAreaPolygon extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoNumeric getArea() { return area; }        
+    public GeoNumeric getArea() { return area; }        
     
     // calc area of conic c 
     @Override
-	protected final void compute() { 
+	public final void compute() { 
     	/*
     	if (!polygon.isDefined()) {
     		area.setUndefined();

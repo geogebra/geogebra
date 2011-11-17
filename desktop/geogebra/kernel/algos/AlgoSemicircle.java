@@ -37,7 +37,7 @@ public class AlgoSemicircle extends AlgoElement {
 	 * @param A first endpoint
 	 * @param B second endpoint
 	 */
-    AlgoSemicircle(Construction cons, String label,
+    public AlgoSemicircle(Construction cons, String label,
     		GeoPoint A, GeoPoint B) {
     	this(cons, A, B);
     	conicPart.setLabel(label);
@@ -110,7 +110,7 @@ public class AlgoSemicircle extends AlgoElement {
      * Returns first endpoint
      * @return first endpoint
      */
-    GeoPoint getA() {
+    public GeoPoint getA() {
     	return A;
     }
     
@@ -118,7 +118,7 @@ public class AlgoSemicircle extends AlgoElement {
      * Returns second endpoint
      * @return second endpoint
      */
-    GeoPoint getB() {
+    public GeoPoint getB() {
     	return B;
     }    
     
@@ -131,7 +131,7 @@ public class AlgoSemicircle extends AlgoElement {
     }
     
     @Override
-	protected void compute() {
+	public void compute() {
     	if (!conic.isDefined()) {
     		conicPart.setUndefined();
     		return;

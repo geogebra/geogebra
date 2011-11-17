@@ -24,7 +24,7 @@ public class AlgoTextToUnicode extends AlgoElement {
 	protected GeoText text;  // input
     protected GeoList list;     // output           
         
-    protected AlgoTextToUnicode(Construction cons, String label, GeoText text) {       
+    public AlgoTextToUnicode(Construction cons, String label, GeoText text) {       
 	  super(cons); 
       this.text = text;
 
@@ -52,10 +52,10 @@ public class AlgoTextToUnicode extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    protected GeoList getResult() { return list; }        
+    public GeoList getResult() { return list; }        
 
     @Override
-	protected void compute()
+	public void compute()
     {
     	String t = text.getTextString();
     	

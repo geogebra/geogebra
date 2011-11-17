@@ -131,7 +131,7 @@ public final class AlgoFitLogistic extends AlgoElement{
     
     public GeoFunction getFitLogistic() {return geofunction;}
     
-    protected final void compute() {
+    public final void compute() {
         size=geolist.size();
         error=false;				//General flag
         if(!geolist.isDefined() || (size<3) ) {	//Need three points, at the very least...

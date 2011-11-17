@@ -110,7 +110,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         final int   MAXITERATIONS	=	100;                	//Safety net: Stop at 100 if something diverges, no useful solution if >70
         final int	DIVIDER			=	4;						//Size of slice
         boolean     isgoingup		=	true;					//Max or Min...

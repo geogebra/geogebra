@@ -62,7 +62,7 @@ public class AlgoShortestDistance extends AlgoElement {
         return "AlgoShortestDistance";
     }
     
-    protected final void compute() {
+    public final void compute() {
     	
     	int size = inputList.size();
     	if (!inputList.isDefined() || !weighted.isDefined() ||  size == 0) {

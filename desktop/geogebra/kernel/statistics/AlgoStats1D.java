@@ -99,7 +99,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 	}
 
 
-	protected final void compute() {
+	public final void compute() {
 
 		// TODO: remove
 		//Application.debug("compute: " + geoList);

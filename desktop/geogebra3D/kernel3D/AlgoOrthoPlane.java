@@ -65,7 +65,7 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
     protected abstract Coords getPoint();
 
   
-    protected final void compute() {
+    public final void compute() {
     	
     	CoordSys coordsys = plane.getCoordSys();
     	

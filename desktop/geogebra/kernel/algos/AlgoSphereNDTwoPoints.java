@@ -87,7 +87,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
     // compute circle with midpoint M and radius r
     @Override
-	protected final void compute() {
+	public final void compute() {
         sphereND.setSphereND(M, P);
     }
 

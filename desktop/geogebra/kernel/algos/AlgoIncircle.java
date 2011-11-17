@@ -36,7 +36,7 @@ public class AlgoIncircle extends AlgoElement {
     private GeoPoint heightFoot, incenter;    
     private GeoPoint A1, B1, C1;
 
-    protected AlgoIncircle(
+    public AlgoIncircle(
                            Construction cons,
                            String label,
                            GeoPointND A,
@@ -108,7 +108,7 @@ public class AlgoIncircle extends AlgoElement {
 
     // compute incircle of triangle A, B, C
     @Override
-	protected void compute() {
+	public void compute() {
         // bisector of angle ABC
         double dAB = getA().distance(getB());
         double dAC = getA().distance(getC());

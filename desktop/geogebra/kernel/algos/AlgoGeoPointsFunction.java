@@ -201,6 +201,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
      * If this is not possible the whole algorithm is removed.
      */
     @Override
+	public
 	void remove(GeoElement output) {
     	// only single undefined points may be removed       
         for (int i = 0; i < points.length; i++) {

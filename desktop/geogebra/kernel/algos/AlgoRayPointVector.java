@@ -33,7 +33,7 @@ public class AlgoRayPointVector extends AlgoElement {
     /**
      * Creates new ray algo
      */
-    AlgoRayPointVector(
+    public AlgoRayPointVector(
         Construction cons, String label, GeoPoint P, GeoVector v) {
     	this(cons, P, v);
         ray.setLabel(label);
@@ -85,7 +85,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Returns the ray
      * @return resulting ray
      */
-    GeoRay getRay() {
+    public GeoRay getRay() {
         return ray;
     }
     /**
@@ -106,7 +106,7 @@ public class AlgoRayPointVector extends AlgoElement {
 
     // calc the line g through P and Q    
     @Override
-	protected final void compute() {
+	public final void compute() {
         // g = cross(P, v)
         GeoVec3D.lineThroughPointVector(P, v, ray);
     }

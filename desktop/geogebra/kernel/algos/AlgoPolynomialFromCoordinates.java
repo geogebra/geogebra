@@ -68,7 +68,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 //  ON CHANGE: similar code is in AlgoTaylorSeries
     @Override
-	protected final void compute() {       
+	public final void compute() {       
         if (!inputList.isDefined()) {
         	g.setUndefined();
         	return;

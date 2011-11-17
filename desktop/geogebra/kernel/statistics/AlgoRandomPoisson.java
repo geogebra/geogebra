@@ -61,7 +61,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		return "AlgoRandomPoisson";
 	}
 
-	protected final void compute() {
+	public final void compute() {
 		if (input[0].isDefined()) {
 			double lambda = a.getDouble();
 			if (lambda > 0)

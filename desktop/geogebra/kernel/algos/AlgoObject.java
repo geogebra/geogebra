@@ -92,7 +92,7 @@ public class AlgoObject extends AlgoElement {
     public GeoElement getResult() { return geo; }
     
     @Override
-	protected final void compute() {     	    
+	public final void compute() {     	    
     	// did name of object change?
     	// removed - doesn't update when referenced object deleted
     	//if (currentLabel != text.getTextString() || refObject == null) {
@@ -145,6 +145,7 @@ public class AlgoObject extends AlgoElement {
      * Returns an input array with the text and the referenced geo
      */
     @Override
+	public
 	GeoElement[] getInputForUpdateSetPropagation() {
     	if (refObject == null) {
     		return input;

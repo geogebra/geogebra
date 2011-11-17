@@ -115,7 +115,7 @@ public abstract class AlgoStats2D extends AlgoElement {
     }
     
 
-    final protected void compute() {
+    final public void compute() {
     	double sumx = 0;
     	double sumy = 0;
     	double sumxx = 0;

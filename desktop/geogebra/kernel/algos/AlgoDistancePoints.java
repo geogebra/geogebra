@@ -35,7 +35,7 @@ public class AlgoDistancePoints extends AlgoElement {
     private GeoPointND P, Q; // input
     private GeoNumeric dist; // output       
 
-    AlgoDistancePoints(
+    public AlgoDistancePoints(
         Construction cons,
         String label,
         GeoPointND P,
@@ -74,7 +74,7 @@ public class AlgoDistancePoints extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getDistance() {
+    public GeoNumeric getDistance() {
         return dist;
     }
     /*
@@ -88,7 +88,7 @@ public class AlgoDistancePoints extends AlgoElement {
 
     // calc length of vector v   
     @Override
-	protected final void compute() {
+	public final void compute() {
         dist.setValue(P.distance(Q));
     }
 

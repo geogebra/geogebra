@@ -65,7 +65,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 
 //  ON CHANGE: similar code is in AlgoTaylorSeries
     @Override
-	protected final void compute() {       
+	public final void compute() {       
         if (!f.isDefined()) {
         	g.setUndefined();
         	return;

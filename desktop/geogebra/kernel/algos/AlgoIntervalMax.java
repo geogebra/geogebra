@@ -28,7 +28,7 @@ public class AlgoIntervalMax extends AlgoIntervalAbstract {
     }
 
     @Override
-	protected final void compute() {  	
+	public final void compute() {  	
     	result.setValue(interval.getMax());
     }
     

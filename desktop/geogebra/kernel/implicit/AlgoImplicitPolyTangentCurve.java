@@ -30,7 +30,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	
 
 	@Override
-	protected void compute() {
+	public void compute() {
 		
 		/*
 		 *  calculate tangent curve:

@@ -47,7 +47,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	}
 	
 	
-	protected void compute() {
+	public void compute() {
 		
 		CoordSys coordsys = cs.getCoordSys();
 		

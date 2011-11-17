@@ -115,7 +115,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     
     public GeoSurfaceCartesianND getSurface() { return surface; }        
     
-    protected final void compute() {    
+    public final void compute() {    
     	// the coord-functions don't have to be updated,
     	// so we only set the interval
     	double[] min = new double[from.length];

@@ -114,7 +114,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
     	return true;
     }
     
-	protected final void initForNearToRelationship() {				
+	public final void initForNearToRelationship() {				
 		parentOutput = algo.getIntersectionPoints();					
 		
 		// tell parent algorithm about the loaded position;
@@ -125,7 +125,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		algo.compute();
 	}
 
-	protected void compute() {
+	public void compute() {
 		parentOutput = algo.getIntersectionPoints();
 		
 		if (refPoint!=null)

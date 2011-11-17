@@ -40,7 +40,7 @@ public class AlgoSelectedIndex extends AlgoElement {
      * @param label
      * @param geoList
      */
-    AlgoSelectedIndex(Construction cons, String label, GeoList geoList) {
+    public AlgoSelectedIndex(Construction cons, String label, GeoList geoList) {
         super(cons);
         this.geoList = geoList;
                
@@ -71,12 +71,12 @@ public class AlgoSelectedIndex extends AlgoElement {
      * Returns the selected index
      * @return the selected index
      */
-    GeoElement getElement() {
+    public GeoElement getElement() {
         return index;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (!geoList.isDefined()) {
     		index.setUndefined();
     		return;

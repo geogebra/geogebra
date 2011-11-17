@@ -38,7 +38,7 @@ public class AlgoEllipseFociPoint extends AlgoElement {
     private GeoPoint A, B, C; // input    
     private GeoConic ellipse; // output             
 
-    AlgoEllipseFociPoint(
+    public AlgoEllipseFociPoint(
             Construction cons,
             String label,
             GeoPoint A,
@@ -99,7 +99,7 @@ public class AlgoEllipseFociPoint extends AlgoElement {
 
     // compute ellipse with foci A, B passing through C
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
 		double xyA[] = new double[2];
 		double xyB[] = new double[2];

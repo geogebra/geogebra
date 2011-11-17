@@ -24,7 +24,7 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
     private GeoList outputList; //output	
     private int size, size2;
 
-    AlgoIntersection(Construction cons, String label, GeoList inputList, GeoList inputList2) {
+    public AlgoIntersection(Construction cons, String label, GeoList inputList, GeoList inputList2) {
         super(cons);        
         
         this.inputList = inputList;
@@ -55,12 +55,12 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	size2 = inputList2.size();

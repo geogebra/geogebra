@@ -29,7 +29,7 @@ public class AlgoFractionText extends AlgoElement {
  
     private StringBuilder sb = new StringBuilder();
     
-    AlgoFractionText(Construction cons, String label, GeoNumeric num) {
+    public AlgoFractionText(Construction cons, String label, GeoNumeric num) {
     	this(cons, num);
         text.setLabel(label);
     }
@@ -60,12 +60,12 @@ public class AlgoFractionText extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoText getResult() {
+    public GeoText getResult() {
         return text;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
 		if (input[0].isDefined()) {
 			frac = DecimalToFraction(num.getDouble(),Kernel.STANDARD_PRECISION);
 			

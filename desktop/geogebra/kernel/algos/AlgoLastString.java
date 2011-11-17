@@ -25,7 +25,7 @@ import geogebra.kernel.GeoText;
 public class AlgoLastString extends AlgoFirstString {
 
 
-    AlgoLastString(Construction cons, String label, GeoText inputText, GeoNumeric n) {
+    public AlgoLastString(Construction cons, String label, GeoText inputText, GeoNumeric n) {
         super(cons, label, inputText, n);
     }
 
@@ -35,7 +35,7 @@ public class AlgoLastString extends AlgoFirstString {
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	String str = inputText.getTextString();
     	size = str.length();
     	int outsize = n == null ? 1 : (int)n.getDouble();

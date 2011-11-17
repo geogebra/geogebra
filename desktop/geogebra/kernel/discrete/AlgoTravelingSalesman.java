@@ -22,7 +22,7 @@ public class AlgoTravelingSalesman extends AlgoHull{
         return "AlgoTravelingSalesman";
     }
     
-    protected void compute() {
+    public void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size < 3) {

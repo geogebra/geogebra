@@ -91,7 +91,7 @@ public class AlgoCell extends AlgoElement {
     public GeoElement getResult() { return geo; }
     
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
     		updateReferencedObject();    		
         	//}
@@ -145,6 +145,7 @@ public class AlgoCell extends AlgoElement {
      * Returns an input array with the text and the referenced geo
      */
     @Override
+	public
 	GeoElement[] getInputForUpdateSetPropagation() {
     	if (refObject == null)
     		return input;

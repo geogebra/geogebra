@@ -73,7 +73,7 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 
     
 
-    protected void compute(){
+    public void compute(){
 
 
 

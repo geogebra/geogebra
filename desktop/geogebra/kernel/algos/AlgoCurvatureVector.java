@@ -24,7 +24,7 @@ public class AlgoCurvatureVector extends AlgoElement {
     
     AlgoDerivative algoCAS, algoCAS2;
 
-    AlgoCurvatureVector(Construction cons, String label, GeoPoint A, GeoFunction f){
+    public AlgoCurvatureVector(Construction cons, String label, GeoPoint A, GeoFunction f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -78,12 +78,12 @@ public class AlgoCurvatureVector extends AlgoElement {
     }
     
     //Return the resultant vector
-    GeoVector getVector() {
+    public GeoVector getVector() {
     	return v;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	try {
 	       double f1eval = f1.evaluate(A.inhomX);
 	       double f2eval = f2.evaluate(A.inhomX);

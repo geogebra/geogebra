@@ -61,7 +61,7 @@ public class AlgoTableText extends AlgoElement {
 		return closeString;
 	}
 
-	AlgoTableText(Construction cons, String label, GeoList geoList, GeoText args) {
+	public AlgoTableText(Construction cons, String label, GeoList geoList, GeoText args) {
 		this(cons, geoList, args);
 		text.setLabel(label);
 	}
@@ -102,7 +102,7 @@ public class AlgoTableText extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoText getResult() {
+	public GeoText getResult() {
 		return text;
 	}
 
@@ -180,7 +180,7 @@ public class AlgoTableText extends AlgoElement {
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 
 		int columns = geoList.size();
 

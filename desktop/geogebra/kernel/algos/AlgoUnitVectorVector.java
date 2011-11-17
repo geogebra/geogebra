@@ -39,7 +39,7 @@ public class AlgoUnitVectorVector extends AlgoElement {
     private double length;
         
     /** Creates new AlgoOrthoVectorVector */
-    AlgoUnitVectorVector(Construction cons, String label,GeoVector v) {        
+    public AlgoUnitVectorVector(Construction cons, String label,GeoVector v) {        
         super(cons);
         this.v = v;                
         u = new GeoVector(cons); 
@@ -74,12 +74,12 @@ public class AlgoUnitVectorVector extends AlgoElement {
         return "AlgoUnitVectorVector";
     }
     
-    GeoVector getVector() { return u; }    
+    public GeoVector getVector() { return u; }    
     GeoVector getv() { return v; }
     
     // unit vector of v
     @Override
-	protected final void compute() {
+	public final void compute() {
         length = GeoVec2D.length(v.x, v.y);        
         u.x = v.x / length;
         u.y = v.y / length;

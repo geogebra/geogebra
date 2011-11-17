@@ -44,7 +44,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement {
      * @param label 
      * @param P 
      * @param l */
-    AlgoOrthoLinePointLine(
+    public AlgoOrthoLinePointLine(
         Construction cons,
         String label,
         GeoPoint P,
@@ -88,7 +88,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine getLine() {
+    public GeoLine getLine() {
         return g;
     }
     
@@ -102,7 +102,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement {
 
     // calc the line g through P and normal to l   
     @Override
-	protected final void compute() {
+	public final void compute() {
         GeoVec3D.cross(P, l.x, l.y, 0.0, g);
     }
 

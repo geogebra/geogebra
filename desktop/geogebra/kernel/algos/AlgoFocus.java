@@ -43,7 +43,7 @@ public class AlgoFocus extends AlgoElement {
 		GeoElement.setLabels(label, focus);
 	}
 
-	AlgoFocus(Construction cons, String[] labels, GeoConic c) {
+	public AlgoFocus(Construction cons, String[] labels, GeoConic c) {
 		this(cons, c);
 		GeoElement.setLabels(labels, focus);
 	}
@@ -85,12 +85,12 @@ public class AlgoFocus extends AlgoElement {
 		return c;
 	}
 
-	GeoPoint[] getFocus() {
+	public GeoPoint[] getFocus() {
 		return focus;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		switch (c.type) {
 		case GeoConic.CONIC_CIRCLE:
 			focus[0].setCoords(b.x, b.y, 1.0);

@@ -124,7 +124,7 @@ public class AlgoText extends AlgoElement {
 	public GeoText getGeoText() { return text; }
 
 	@Override
-	protected final void compute() {    
+	public final void compute() {    
 		
 		// undefined text
 		if (!geo.isDefined() || 

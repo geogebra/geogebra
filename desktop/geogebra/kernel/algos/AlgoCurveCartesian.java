@@ -109,7 +109,7 @@ public class AlgoCurveCartesian extends AlgoElement {
     public GeoCurveCartesianND getCurve() { return curve; }        
 
     @Override
-	protected final void compute() {
+	public final void compute() {
 
     	// take care to set the curve undefined
     	// if its predecessors are undefined

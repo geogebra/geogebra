@@ -17,7 +17,7 @@ public class AlgoAffineRatio extends AlgoElement {
 	private GeoPoint A, B, C; // input
     private GeoNumeric M; // output
 
-    AlgoAffineRatio(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C) {
+    public AlgoAffineRatio(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C) {
     	super(cons);
         this.A = A;
         this.B = B;
@@ -47,12 +47,12 @@ public class AlgoAffineRatio extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
     
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return M;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
         //Check if the points are aligned
         if (GeoPoint.collinear(A, B, C)){
         	if (B.isEqual(C)) {

@@ -173,7 +173,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         return b;
     }
 
-    protected final void compute() {
+    public final void compute() {
         if (!f.isDefined() || !ageo.isDefined() || !bgeo.isDefined()) {
             n.setUndefined();
             return;

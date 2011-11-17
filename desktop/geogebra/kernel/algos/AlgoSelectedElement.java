@@ -40,7 +40,7 @@ public class AlgoSelectedElement extends AlgoElement {
      * @param label
      * @param geoList
      */
-    AlgoSelectedElement(Construction cons, String label, GeoList geoList) {
+    public AlgoSelectedElement(Construction cons, String label, GeoList geoList) {
         super(cons);
         this.geoList = geoList;
                
@@ -80,12 +80,12 @@ public class AlgoSelectedElement extends AlgoElement {
      * Returns the selected element
      * @return selected element
      */
-    GeoElement getElement() {
+    public GeoElement getElement() {
         return element;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (!geoList.isDefined()) {
         	element.setUndefined();
     		return;

@@ -50,7 +50,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
      * @param label 
      * @param P 
      * @param l */
-    AlgoOrthoLinePointConic(
+    public AlgoOrthoLinePointConic(
         Construction cons,
         String label,
         GeoPoint P,
@@ -118,7 +118,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
      *  calc the line g through P and normal to l   
      */
     @Override
-	protected final void compute() {
+	public final void compute() {
     	/*
         if(l.getType()==GeoConic.CONIC_ELLIPSE){
         double[] params = l.getZeroGradientParams(P.getCoords());

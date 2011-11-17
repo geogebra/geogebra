@@ -35,7 +35,7 @@ public class AlgoTextElement extends AlgoElement {
 	private GeoElement numGeo;
 	private GeoText textOut; // output
 
-	AlgoTextElement(Construction cons, String label, GeoText text,
+	public AlgoTextElement(Construction cons, String label, GeoText text,
 			NumberValue num) {
 		super(cons);
 		this.text = text;
@@ -67,12 +67,12 @@ public class AlgoTextElement extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoText getText() {
+	public GeoText getText() {
 		return text;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (!numGeo.isDefined() || !text.isDefined()) {
 			textOut.setUndefined();
 			return;

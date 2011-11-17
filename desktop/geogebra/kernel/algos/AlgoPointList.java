@@ -32,7 +32,7 @@ public class AlgoPointList extends AlgoElement {
     private GeoList outputList; //output	
     private int size;
 
-    AlgoPointList(Construction cons, String label, GeoList inputList) {
+    public AlgoPointList(Construction cons, String label, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
                
@@ -58,12 +58,12 @@ public class AlgoPointList extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

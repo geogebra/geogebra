@@ -64,7 +64,7 @@ public class AlgoFitLineX extends AlgoElement {
         return g;
     }
 
-    protected final void compute() {
+    public final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size <= 1) {
      		g.setUndefined();

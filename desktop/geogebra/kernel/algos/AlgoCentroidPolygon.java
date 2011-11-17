@@ -23,7 +23,7 @@ public class AlgoCentroidPolygon extends AlgoElement {
     private GeoPolygon p;  // input
     private GeoPoint centroid; // output                         
         
-    AlgoCentroidPolygon(Construction cons, String label,GeoPolygon p) {
+    public AlgoCentroidPolygon(Construction cons, String label,GeoPolygon p) {
         super(cons);
         this.p = p;       
         centroid = new GeoPoint(cons);  
@@ -50,10 +50,10 @@ public class AlgoCentroidPolygon extends AlgoElement {
     }    
     
     GeoPolygon getPolygon() { return p; }
-    GeoPoint getPoint() { return centroid; }    
+    public GeoPoint getPoint() { return centroid; }    
         
     @Override
-	protected final void compute() {
+	public final void compute() {
         p.calcCentroid(centroid);
     }
     

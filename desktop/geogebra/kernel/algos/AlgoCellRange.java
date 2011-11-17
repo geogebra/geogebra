@@ -157,7 +157,7 @@ public class AlgoCellRange extends AlgoElement {
     
         
     @Override
-	protected final void compute() {    	    	
+	public final void compute() {    	    	
     	// nothing to do in compute, update is simply passed on to dependent algos
     }   
     

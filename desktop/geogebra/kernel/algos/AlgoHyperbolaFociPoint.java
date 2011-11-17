@@ -35,7 +35,7 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
     private GeoPoint A, B, C; // input    
     private GeoConic hyperbola; // output             
 
-    AlgoHyperbolaFociPoint(
+    public AlgoHyperbolaFociPoint(
             Construction cons,
             String label,
             GeoPoint A,
@@ -96,7 +96,7 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
 
     // compute hyperbola with foci A, B and length of half axis a
     @Override
-	protected final void compute() {
+	public final void compute() {
 		double xyA[] = new double[2];
 		double xyB[] = new double[2];
 		double xyC[] = new double[2];

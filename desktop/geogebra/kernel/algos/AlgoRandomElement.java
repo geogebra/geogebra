@@ -39,7 +39,7 @@ public class AlgoRandomElement extends AlgoElement {
      * @param label
      * @param geoList
      */
-    AlgoRandomElement(Construction cons, String label, GeoList geoList) {
+    public AlgoRandomElement(Construction cons, String label, GeoList geoList) {
         super(cons);
         this.geoList = geoList;
 
@@ -71,12 +71,12 @@ public class AlgoRandomElement extends AlgoElement {
      * Returns chosen element
      * @return chosen element
      */
-    GeoElement getElement() {
+    public GeoElement getElement() {
         return element;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if (!geoList.isDefined()) {
         	element.setUndefined();
     		return;

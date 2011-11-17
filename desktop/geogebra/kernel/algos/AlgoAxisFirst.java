@@ -40,7 +40,7 @@ public class AlgoAxisFirst extends AlgoElement {
     private GeoVec2D b;
     private GeoPoint P;
     
-    AlgoAxisFirst(Construction cons, String label,GeoConic c) {    
+    public AlgoAxisFirst(Construction cons, String label,GeoConic c) {    
         super(cons);    
         this.c = c;                               
         
@@ -72,12 +72,12 @@ public class AlgoAxisFirst extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoLine getAxis() { return axis; }    
+    public GeoLine getAxis() { return axis; }    
     GeoConic getConic() { return c; }        
     
     // calc axes
     @Override
-	protected final void compute() {                        
+	public final void compute() {                        
         // axes are lines with directions of eigenvectors
         // through midpoint b        
         

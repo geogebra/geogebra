@@ -25,7 +25,7 @@ public class AlgoInsert extends AlgoElement {
     private GeoList outputList; //output	
     private int size, insertPoint;
 
-    AlgoInsert(Construction cons, String label, GeoElement inputGeo, GeoList inputList, GeoNumeric n) {
+    public AlgoInsert(Construction cons, String label, GeoElement inputGeo, GeoList inputList, GeoNumeric n) {
         super(cons);
                 
         this.inputGeo = inputGeo;
@@ -57,12 +57,12 @@ public class AlgoInsert extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoList getResult() {
+    public GeoList getResult() {
         return outputList;
     }
 
     @Override
-	protected final void compute() {
+	public final void compute() {
     	
     	//size = inputGeo.size();
     	size = inputList.size();

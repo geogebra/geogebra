@@ -49,7 +49,7 @@ public abstract class AlgoIntervalAbstract extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getResult() {
+    public GeoNumeric getResult() {
         return result;
     }
 

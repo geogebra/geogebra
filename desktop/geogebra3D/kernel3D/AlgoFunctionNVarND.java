@@ -171,7 +171,7 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	
 	
 
-	protected void compute() {
+	public void compute() {
 
 		
 		if (inputFunction!=null)

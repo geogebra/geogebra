@@ -41,7 +41,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
         setIncidence();
     }
     
-    AlgoCircleTwoPoints(
+    public AlgoCircleTwoPoints(
             Construction cons,
             String label,
             GeoPoint M,
@@ -86,7 +86,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
 
     // compute circle with midpoint M and radius r
     /*
-    protected final void compute() {
+    public final void compute() {
         circle.setCircle(M, P);
     }
     */

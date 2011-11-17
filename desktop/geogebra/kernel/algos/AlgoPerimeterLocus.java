@@ -31,7 +31,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric circum;
 
-	AlgoPerimeterLocus(Construction cons, String label, GeoLocus locus) {
+	public AlgoPerimeterLocus(Construction cons, String label, GeoLocus locus) {
 		this(cons, locus);
 		circum.setLabel(label);
 	}
@@ -64,7 +64,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	 * Compute circumference by adding up the length of its segemnts.
 	 */
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		if (!locus.isDefined()) {
 			circum.setUndefined();
 			return;
@@ -93,7 +93,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	 * 
 	 * @return circumference
 	 */
-	GeoNumeric getResult() {
+	public GeoNumeric getResult() {
 		return circum;
 	}	
 }

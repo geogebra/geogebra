@@ -45,7 +45,7 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     	return new GeoAngle3D(cons);
     }
 	
-    protected final void compute() {
+    public final void compute() {
     	Coords center = getB().getInhomCoordsInD(3);
     	Coords v1 = getA().getInhomCoordsInD(3).sub(center);
     	Coords v2 = getC().getInhomCoordsInD(3).sub(center);

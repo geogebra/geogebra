@@ -114,7 +114,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
     }
       
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(param != null){
     		PathParameter pp = P.getPathParameter();
     		//Application.debug(param.getDouble()+" "+path.getMinParameter()+" "+path.getMaxParameter());

@@ -126,7 +126,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     }
   
 
-    protected void compute() {
+    public void compute() {
     	
     	//clear the points map
     	newCoords.clear();

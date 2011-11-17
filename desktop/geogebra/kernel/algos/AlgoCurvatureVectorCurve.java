@@ -28,7 +28,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	
     AlgoDerivative algoCAS, algoCAS2;
 
-	AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
+	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
 			GeoCurveCartesian f) {
 		this(cons, A, f);
 
@@ -84,12 +84,12 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	}
 
 	// Return the resultant vector
-	GeoVector getVector() {
+	public GeoVector getVector() {
 		return v;
 	}
 
 	@Override
-	protected final void compute() {
+	public final void compute() {
 		try {			
 			double t, t4, x, y, evals, tvalue;
 

@@ -78,7 +78,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     	return EuclidianConstants.MODE_INTERSECT;
     }   
     
-    AlgoIntersectLineConic(Construction cons, GeoLine g, GeoConic c) {
+    public AlgoIntersectLineConic(Construction cons, GeoLine g, GeoConic c) {
         super(cons);
         this.g = g;
         this.c = c;  
@@ -161,7 +161,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     }    
     
     @Override
-	protected final GeoPoint [] getIntersectionPoints() {
+	public
+	final GeoPoint [] getIntersectionPoints() {
         return P;
     }
     
@@ -178,7 +179,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     }
     	 
     @Override
-	protected final void initForNearToRelationship() {   
+	public
+	final void initForNearToRelationship() {   
     	if (isDefinedAsTangent) return;
     	    	
     	isPermutationNeeded = true; // for non-continuous intersections    	
@@ -191,7 +193,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     
     // calc intersections of conic c and line g
     @Override
-	protected void compute() {
+	public void compute() {
     	// within addIncidenceWithProbabilisticChecking(), updateCascade() is called
     	// and we don't what this.compute() to be invoked repeatedly.
     	if (handlingSpecialCase) return;

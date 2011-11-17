@@ -37,7 +37,7 @@ public class AlgoDistancePointObject extends AlgoElement {
     private GeoElement g; // input
     private GeoNumeric dist; // output       
     private AlgoClosestPoint closePt;
-    AlgoDistancePointObject(
+    public AlgoDistancePointObject(
         Construction cons,
         String label,
         GeoPoint P,
@@ -77,7 +77,7 @@ public class AlgoDistancePointObject extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    GeoNumeric getDistance() {
+    public GeoNumeric getDistance() {
         return dist;
     }
     GeoPoint getP() {
@@ -89,7 +89,7 @@ public class AlgoDistancePointObject extends AlgoElement {
 
     // calc length of vector v   
     @Override
-	protected final void compute() {
+	public final void compute() {
     	if(closePt!=null)
     		dist.setValue(closePt.getP().distance(P));
     	else
