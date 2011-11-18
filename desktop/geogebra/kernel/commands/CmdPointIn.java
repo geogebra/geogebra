@@ -2,9 +2,9 @@ package geogebra.kernel.commands;
 
 
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Region;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.Region;
 import geogebra.main.MyError;
 
 

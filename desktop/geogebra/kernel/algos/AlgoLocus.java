@@ -18,11 +18,11 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.Path;
 import geogebra.main.Application;
 
 import java.awt.geom.Point2D;

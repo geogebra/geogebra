@@ -16,8 +16,6 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.PointProperties;
-import geogebra.kernel.Traceable;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoBoolean;
@@ -26,6 +24,8 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVector;
+import geogebra.kernel.geos.PointProperties;
+import geogebra.kernel.geos.Traceable;
 import geogebra.main.Application;
 
 import java.awt.Color;

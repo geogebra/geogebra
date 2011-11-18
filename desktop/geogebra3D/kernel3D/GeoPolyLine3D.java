@@ -5,7 +5,6 @@ package geogebra3D.kernel3D;
 import geogebra.kernel.Construction;
 
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.CoordSys;
@@ -18,6 +17,7 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.Path;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import geogebra3D.euclidian3D.Drawable3D;

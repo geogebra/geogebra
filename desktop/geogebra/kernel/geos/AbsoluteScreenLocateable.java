@@ -10,9 +10,8 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.kernel.geos;
 
-import geogebra.kernel.geos.GeoElement;
 
 /**
  * Interface for GeoElements that have an absolute screen position

@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.Path;
 import geogebra.kernel.kernelND.GeoPointND;
 
 /**

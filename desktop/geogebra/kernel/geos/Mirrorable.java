@@ -1,8 +1,5 @@
-package geogebra.kernel;
+package geogebra.kernel.geos;
 
-import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
 
 /**
  * Represents geos that can be mirrored atline or point

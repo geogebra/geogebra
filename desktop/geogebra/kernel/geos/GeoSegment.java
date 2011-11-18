@@ -14,8 +14,6 @@ package geogebra.kernel.geos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.LimitedPath;
-import geogebra.kernel.LineProperties;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;

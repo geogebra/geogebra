@@ -10,9 +10,8 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.kernel.geos;
 
-import geogebra.kernel.geos.GeoElement;
 
 /**
  * Interface to unify object types that allow evaluation with CAS commands,

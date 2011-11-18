@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
-import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;

@@ -1,8 +1,8 @@
 package geogebra.kernel.commands;
 
-import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.MyError;
 

@@ -1,4 +1,4 @@
-package geogebra.kernel;
+package geogebra.kernel.geos;
 
 public interface Animatable {
 	

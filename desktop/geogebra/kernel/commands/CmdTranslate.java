@@ -2,13 +2,13 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
+import geogebra.kernel.geos.Translateable;
 import geogebra.main.MyError;
 
 /**

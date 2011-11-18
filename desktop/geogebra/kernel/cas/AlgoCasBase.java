@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
-import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
+import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 
 /**

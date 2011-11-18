@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
-import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
+import geogebra.kernel.geos.CasEvaluableFunction;
 
 /**
  * Factor a function

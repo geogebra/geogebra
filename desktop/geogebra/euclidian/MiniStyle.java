@@ -1,9 +1,9 @@
 package geogebra.euclidian;
 
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.PointProperties;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.PointProperties;
 import geogebra.main.Application;
 
 import java.awt.Color;

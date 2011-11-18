@@ -22,17 +22,10 @@ package geogebra.kernel.geos;
 
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Dilateable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Locateable;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.Mirrorable;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
-import geogebra.kernel.PointRotateable;
-import geogebra.kernel.Transformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.arithmetic.ExpressionNode;

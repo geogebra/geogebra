@@ -20,8 +20,6 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.AbsoluteScreenLocateable;
-import geogebra.kernel.Animatable;
 import geogebra.kernel.AnimationManager;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;

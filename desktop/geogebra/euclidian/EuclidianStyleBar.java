@@ -7,8 +7,6 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.PointProperties;
-import geogebra.kernel.TextProperties;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoTableText;
 import geogebra.kernel.arithmetic.ExpressionNode;
@@ -18,6 +16,8 @@ import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.geos.PointProperties;
+import geogebra.kernel.geos.TextProperties;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 

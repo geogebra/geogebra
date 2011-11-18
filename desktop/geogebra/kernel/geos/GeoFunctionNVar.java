@@ -13,18 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Dilateable;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.Mirrorable;
-import geogebra.kernel.PointRotateable;
-import geogebra.kernel.Region;
 import geogebra.kernel.RegionParameters;
-import geogebra.kernel.Rotateable;
-import geogebra.kernel.Transformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;

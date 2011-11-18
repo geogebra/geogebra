@@ -18,19 +18,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
-import geogebra.kernel.ConicMirrorable;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Dilateable;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Mirrorable;
 import geogebra.kernel.MyPoint;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathMover;
-import geogebra.kernel.PointRotateable;
-import geogebra.kernel.Traceable;
-import geogebra.kernel.Transformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoElement;
@@ -39,6 +31,8 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
+import geogebra.kernel.geos.ConicMirrorable;
+import geogebra.kernel.geos.Dilateable;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -46,6 +40,12 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoUserInputElement;
+import geogebra.kernel.geos.Mirrorable;
+import geogebra.kernel.geos.Path;
+import geogebra.kernel.geos.PointRotateable;
+import geogebra.kernel.geos.Traceable;
+import geogebra.kernel.geos.Transformable;
+import geogebra.kernel.geos.Translateable;
 import geogebra.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;

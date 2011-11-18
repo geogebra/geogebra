@@ -21,10 +21,10 @@ package geogebra3D.kernel3D;
 
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.PointProperties;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.PointProperties;
 import geogebra3D.Test3D;
 import geogebra3D.euclidian3D.Drawable3D;
 

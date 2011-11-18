@@ -20,8 +20,8 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Dilateable;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.Dilateable;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;

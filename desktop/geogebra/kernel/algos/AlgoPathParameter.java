@@ -13,11 +13,11 @@
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.Path;
 
 
 

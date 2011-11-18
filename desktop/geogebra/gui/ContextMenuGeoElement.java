@@ -18,9 +18,8 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Animatable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Traceable;
+import geogebra.kernel.geos.Animatable;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -30,6 +29,7 @@ import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoUserInputElement;
 import geogebra.kernel.geos.GeoVector;
+import geogebra.kernel.geos.Traceable;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.Application;
 

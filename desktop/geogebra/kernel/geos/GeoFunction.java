@@ -12,22 +12,14 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import geogebra.kernel.CasEvaluableFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.Dilateable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.LineProperties;
 import geogebra.kernel.ParametricCurve;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;
-import geogebra.kernel.Region;
 import geogebra.kernel.RegionParameters;
-import geogebra.kernel.Traceable;
-import geogebra.kernel.Transformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.VarString;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoMacro;

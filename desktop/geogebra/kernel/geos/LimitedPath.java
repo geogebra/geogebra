@@ -9,10 +9,9 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.kernel;
+package geogebra.kernel.geos;
 
-import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.Transform;
 
 /**
  * Represents geos with endpoints (segment, ray, arc, etc.)

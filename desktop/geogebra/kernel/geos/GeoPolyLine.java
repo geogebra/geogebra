@@ -13,19 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Dilateable;
-import geogebra.kernel.LineProperties;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.Mirrorable;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;
-import geogebra.kernel.PointRotateable;
-import geogebra.kernel.Rotateable;
-import geogebra.kernel.Traceable;
-import geogebra.kernel.Transformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyDouble;

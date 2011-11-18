@@ -32,6 +32,7 @@ import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
+import geogebra.kernel.geos.Path;
 import geogebra.main.Application;
 
 /**

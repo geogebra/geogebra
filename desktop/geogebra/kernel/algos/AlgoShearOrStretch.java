@@ -20,7 +20,6 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConicPart;
@@ -33,6 +32,7 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
+import geogebra.kernel.geos.Translateable;
 
 
 /**

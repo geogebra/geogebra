@@ -2,11 +2,8 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.AbsoluteScreenLocateable;
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Locateable;
-import geogebra.kernel.TextProperties;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSequence;

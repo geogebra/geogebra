@@ -4,9 +4,9 @@
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Region;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.Region;
 import geogebra.kernel.kernelND.GeoPointND;
 
 

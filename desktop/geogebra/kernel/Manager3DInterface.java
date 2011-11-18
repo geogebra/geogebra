@@ -12,6 +12,8 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSurfaceFinite;
+import geogebra.kernel.geos.Path;
+import geogebra.kernel.geos.Region;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoDirectionND;

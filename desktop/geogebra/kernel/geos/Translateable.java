@@ -10,10 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.kernel.geos;
 
 import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.geos.GeoElement;
 /**
  * Represents geos that can be translated 
  *

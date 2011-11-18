@@ -14,13 +14,13 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Path;
 import geogebra.kernel.PathAlgo;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.Path;
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo {

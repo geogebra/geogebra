@@ -14,16 +14,9 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.AbsoluteScreenLocateable;
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Dilateable;
-import geogebra.kernel.Locateable;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.Mirrorable;
-import geogebra.kernel.PointRotateable;
-import geogebra.kernel.Transformable;
-import geogebra.kernel.Translateable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
