@@ -39,7 +39,7 @@ cd $RSYNC_LOCALDIR
 
 cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors-rsync.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR RSYNC_PASSWORD; do
  echo "Copying files to rsync://$RUSER@$IP:$PORT/$DIR..."
- RSYNC_PASSWORD=$RSYNC_PASSWORD rsync -a webstart rsync://$RUSER@$IP:$PORT/$DIR/
+ RSYNC_PASSWORD=$RSYNC_PASSWORD rsync -avILK --delete webstart rsync://$RUSER@$IP:$PORT/$DIR/
 
  # TODO: Automatic check (by wget)
 
