@@ -15,6 +15,7 @@ public class CASInputHandler {
 	private CASView casView;
 	private Kernel kernel;
 	private CASTable consoleTable;
+	//TODO remove unused objects ?
 	private CASparser casParser;
 
 	private ArrayList<String> changedVars;

@@ -23,16 +23,13 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
 /**
  * adapted from polyline
  * @author  Michael Borcherds
  * @version 
  */
 
-
 public class PolyBezier {   
-    
     
     int n;
         
@@ -45,11 +42,11 @@ public class PolyBezier {
            setNumberOfPoints(n);  
     }
     
-    public PolyBezier(ArrayList al) {
+    public PolyBezier(ArrayList<?> al) {
     	setNumberOfPoints(al.size());
     
     	int i=0;
-    	Iterator it = al.iterator();
+    	Iterator<?> it = al.iterator();
     	while (it.hasNext()) {
     		Point p = (Point)(it.next());
     		x[i] = p.getX();

@@ -17,7 +17,6 @@ import java.text.NumberFormat;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoAxisND;
-import geogebra.main.Application;
 
 public class GeoAxis extends GeoLine implements GeoAxisND{
 	

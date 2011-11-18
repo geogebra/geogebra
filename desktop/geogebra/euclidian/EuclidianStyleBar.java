@@ -992,16 +992,13 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		};
 		btnBgColor.setKeepVisible(true);
 		btnBgColor.addActionListener(this);
-	}
-
-
-	
+	}	
 
 	//=====================================================
 	//           Text Format Buttons
 	//=====================================================
 	
-	private boolean checkGeoText(Object[] geos){
+	private static boolean checkGeoText(Object[] geos){
 		boolean geosOK = (geos.length > 0);
 		for (int i = 0; i < geos.length; i++) {
 			if (!(((GeoElement)geos[i]).getGeoElementForPropertiesDialog() instanceof TextProperties) 
@@ -1016,8 +1013,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 	
 	
 	private void createTextButtons() {	
-
-		
+	
 		//========================
 		// text color  button
 		final Dimension textColorIconSize = new Dimension(20,iconHeight);
@@ -1082,7 +1078,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		btnBold.addActionListener(this);
 
 
-
 		//========================================
 		// italic text button
 		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(app.getPlain("Italic").substring(0,1),
@@ -1127,13 +1122,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		};	
 		btnTextSize.addActionListener(this);
 		btnTextSize.setKeepVisible(false);
-		
-		
-
 	}
 
-	
-	
 	
 	//================================================
 	//      Create TableText buttons
@@ -1172,9 +1162,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 	
 		
 		//==============================
-		// bracket style popup
-
-		
+		// bracket style popup	
 	
 		ImageIcon[] bracketIcons = new ImageIcon[bracketArray.length];
 		for(int i = 0; i<bracketIcons.length; i++){
@@ -1206,9 +1194,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		
 		btnTableTextBracket.addActionListener(this);
 		btnTableTextBracket.setKeepVisible(false);	
-		
-		
-		
+			
 		
 		//====================================
 		// vertical grid lines toggle button
@@ -1238,17 +1224,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				}
 			}
 		};
-		btnTableTextLinesH.addActionListener(this);
-		
-		
-		
-		
-		
-		
+		btnTableTextLinesH.addActionListener(this);		
 	}
 		
-		
-
 	
 	//=====================================================
 	//                 Event Handlers
@@ -1298,11 +1276,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		btnShowGrid.removeActionListener(this);
 		btnShowGrid.setSelected(ev.getShowGrid());
 		btnShowGrid.addActionListener(this);
-
 	}
-
-	
-	
 	
 
 	public void actionPerformed(ActionEvent e) {
@@ -1368,21 +1342,16 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		if(mode != EuclidianConstants.MODE_MOVE)
 			targetGeos.addAll(defaultGeos);
 		else
-			targetGeos.addAll(app.getSelectedGeos());
-
-		
+			targetGeos.addAll(app.getSelectedGeos());		
 		
 		processSource(source,targetGeos);
 		
-		
-
 		if(needUndo){
 			app.storeUndoInfo();
 			needUndo = false;
 		}
 		
-		updateGUI();
-		
+		updateGUI();		
 	}
 
 	/**
@@ -1514,7 +1483,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 	}
 
 
-
 	//==============================================
 	//           Apply Styles
 	//==============================================
@@ -1596,7 +1564,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 	}
 
 
-
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
 		Color color = btnTextColor.getSelectedColor();
@@ -1624,7 +1591,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			}
 		}
 	}
-
 	
 
 	private void applyTextSize(ArrayList<GeoElement> geos) {
@@ -1674,8 +1640,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			needUndo = true;
 		}		
 	}
-	
-	
+		
 	
 	private void applyTableTextFormat(ArrayList<GeoElement> geos) {
 
@@ -1738,17 +1703,13 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			app.storeUndoInfo();
 			needUndo = false;
 		}
-		
-		
+				
 		// TODO update prop panel
 		// see code in PropertiesDialog.applyDefaults
 		//propPanel.updateSelection(selectionList.toArray());
 		
 	}
 
-	
-	
-	
 	
 	public GeoElement redefineGeo(GeoElement geo, String cmdtext) {		
 		GeoElement newGeo = null;
@@ -1784,8 +1745,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		}
 		public void toggle(){
 			this.setSelected(!this.isSelected());
-		}
-		
+		}	
 	}
 
 	/**
@@ -1820,8 +1780,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		btnPen.setToolTipText(app.getPlainTooltip("stylebar.Pen"));
 		btnPenEraser.setToolTipText(app.getPlainTooltip("stylebar.Eraser"));
 		
-		btnCopyVisualStyle.setToolTipText(app.getPlainTooltip("stylebar.CopyVisualStyle"));		
-		
+		btnCopyVisualStyle.setToolTipText(app.getPlainTooltip("stylebar.CopyVisualStyle"));				
 	}	
 
 }

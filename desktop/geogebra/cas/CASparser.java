@@ -23,9 +23,6 @@ import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.parser.ParseException;
-import geogebra.kernel.parser.Parser;
-import geogebra.main.Application;
-
 
 /**
  * Handles parsing and evaluating of input in the CAS view.

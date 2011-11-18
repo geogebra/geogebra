@@ -760,13 +760,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	} 
 	
 	//  Michael Borcherds 2008-03-02 BEGIN
-	private void sendToClipboard(File file)
+	private static void sendToClipboard(File file)
 	{
         FileTransferable ft = new FileTransferable(file);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ft, null);
 		}
 	
-	private void sendToClipboard(Image img)
+	private static void sendToClipboard(Image img)
 	{
 		ImageSelection imgSel = new ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);	

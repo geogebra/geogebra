@@ -152,7 +152,6 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	 * @throws CASException
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression casInput) throws CASException {
-		Kernel kernel = app.getKernel();
 		boolean oldDigits = Kernel.internationalizeDigits;
 		Kernel.internationalizeDigits = false;			
 		
@@ -299,7 +298,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 		return null;
 	}
 	
-	final private String toString(ExpressionValue ev, boolean symbolic) {
+	final private static String toString(ExpressionValue ev, boolean symbolic) {
 		if (symbolic)
 			return ev.toString();
 		else
@@ -312,7 +311,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	 * For example, getCASCommand("Expand.1", {"3*(a+b)"}) returns "ExpandBrackets( 3*(a+b) )" when
 	 * MathPiper is the currently used CAS.
 	 */
-	final synchronized public String getCASCommand(String name, ArrayList args, boolean symbolic) {
+	final synchronized public String getCASCommand(String name, ArrayList<?> args, boolean symbolic) {
 		StringBuilder sbCASCommand = new StringBuilder(80);
 				
 		// build command key as name + ".N"

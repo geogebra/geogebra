@@ -45,12 +45,8 @@ public class CASView extends JComponent implements View, Gridable {
 
 	private GeoGebraCAS cas;
 	private Application app;
-	private JPanel btPanel;
 	private final RowHeader rowHeader;
 	private boolean toolbarIsUpdatedByDockPanel;
-
-
-
 
 	public CASView(Application app) {
 		kernel = app.getKernel();

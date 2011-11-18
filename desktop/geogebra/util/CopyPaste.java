@@ -362,7 +362,6 @@ public class CopyPaste {
 
 		ConstructionElement geo;
 		String label;
-		String reallabel;
 		for (int i = 0; i < conels.size(); i++)
 		{
 			geo = (ConstructionElement) conels.get(i);

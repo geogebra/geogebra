@@ -36,7 +36,7 @@ implements Previewable {
     
     private GeneralPathClipped gp;
     private double [] coords = new double[2];
-	private ArrayList<GeoPoint> points;              
+	private ArrayList<?> points;              
       
     public DrawPolyLine(EuclidianView view, GeoPolyLine poly) {
 		this.view = view; 
@@ -49,7 +49,7 @@ implements Previewable {
     /**
      * Creates a new DrawPolygon for preview.     
      */
-	DrawPolyLine(EuclidianView view, ArrayList points) {
+	DrawPolyLine(EuclidianView view, ArrayList<?> points) {
 		this.view = view; 
     	hitThreshold = view.getCapturingThreshold();
 		this.points = points;

@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class DrawLocus extends Drawable {
 	
- 
 	private GeoLocus locus;    	
     
     boolean isVisible, labelVisible;   
@@ -88,10 +87,8 @@ public class DrawLocus extends Drawable {
             Drawable.drawWithValueStrokePure(gp, g2);
     	}
 	}
-    
-
-    
-    private void buildGeneralPath(ArrayList pointList) {    
+     
+    private void buildGeneralPath(ArrayList<MyPoint> pointList) {    
     	if (gp == null)
     		gp = new GeneralPathClipped(view);
     	else

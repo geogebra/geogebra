@@ -79,9 +79,6 @@ public class DrawAngle extends Drawable implements Previewable {
 	private GeoPoint tempPoint;
 	private boolean drawDot;
 	private GeoPoint [] previewTempPoints;  
-
-
-	private Kernel kernel;
 	
 	// For decoration
 	// added by Lo�c BEGIN
@@ -103,7 +100,6 @@ public class DrawAngle extends Drawable implements Previewable {
 	 */
 	public DrawAngle(EuclidianView view, GeoAngle angle) {
 		this.view = view;
-		kernel = view.getKernel();
 		this.angle = angle;
 		geo = angle;
 
@@ -135,8 +131,6 @@ public class DrawAngle extends Drawable implements Previewable {
 		initPreview();
 	} 
 	
-
-
 	private void init(){
 		AlgoElement algo = geo.getDrawAlgorithm();
 		Construction cons = geo.getConstruction();
@@ -595,8 +589,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		
 		if (isVisible) {
 			if (!show90degrees || view.getRightAngleStyle() != EuclidianView.RIGHT_ANGLE_STYLE_L) {
-					fill(g2, shape, false); // fill using default/hatching/image as appropriate
-	        	
+					fill(g2, shape, false); // fill using default/hatching/image as appropriate        	
 			}
 
 			if (geo.doHighlighting()) {

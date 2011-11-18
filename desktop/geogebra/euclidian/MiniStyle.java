@@ -46,11 +46,7 @@ public class MiniStyle{
 
 		else if(mode == MODE_STANDARD)
 			setStandardDefaults();
-		
-		
 	}
-	
-	
 	
 	//==============================================
 	// set defaults
@@ -74,14 +70,12 @@ public class MiniStyle{
 	}
 	
 	
-
-	
 	//==============================================
 	// methods to apply styles to selected geos
 	
 	public void applyLineStyle() {
 
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -93,7 +87,7 @@ public class MiniStyle{
 	
 	public void applyPointStyle() {
 		
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -109,7 +103,7 @@ public class MiniStyle{
 
 	public void applyLineSize() {
 
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -122,7 +116,7 @@ public class MiniStyle{
 	
 	public void applyColor() {
 		
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -133,7 +127,7 @@ public class MiniStyle{
 
 	public void applyAlpha() {
 
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -148,7 +142,7 @@ public class MiniStyle{
 		if (isBold) fontStyle += 1;
 		if (isItalic) fontStyle += 2;
 		
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -158,13 +152,10 @@ public class MiniStyle{
 			}
 		}
 	}
-
-	
-	
 	
 	public void setAllProperties() {
 
-		ArrayList geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
@@ -181,13 +172,8 @@ public class MiniStyle{
 			geo.update();
 			
 		}
-
 	}
-	
-	
-	
-	
-	
+
 	
 	//==============================================
 	// colors
@@ -200,8 +186,7 @@ public class MiniStyle{
 		return colorList;
 	}
 	
-	
-	private Color[] createStyleBarColorList() {
+	private static Color[] createStyleBarColorList() {
 		
 		Color[]	primaryColors = new Color[] {		
 				new Color(255, 0, 0), // Red
@@ -233,10 +218,6 @@ public class MiniStyle{
 		return c;
 	
 	}
-	
-	
-	
-	
 	
 	
 }

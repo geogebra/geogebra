@@ -446,7 +446,7 @@ public class PrintPreview extends JDialog {
 		}								
 	}
 	
-	private PageFormat getDefaultPageFormat() {
+	private static PageFormat getDefaultPageFormat() {
 		PrinterJob prnJob = PrinterJob.getPrinterJob();	
 		PageFormat pageFormat = prnJob.defaultPage();
 		

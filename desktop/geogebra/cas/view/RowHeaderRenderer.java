@@ -1,6 +1,5 @@
 package geogebra.cas.view;
 
-import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Component;
@@ -15,12 +14,10 @@ public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		
 	private static final long serialVersionUID = 1L;    	    	
 	private CASTable casTable;	
-	private Application app;
 	
 	public RowHeaderRenderer(CASTable casTable) {
 		super("", JLabel.CENTER);		
 		this.casTable = casTable;
-		this.app = casTable.app;
 				
 		setOpaque(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, GeoGebraColorConstants.TABLE_GRID_COLOR));

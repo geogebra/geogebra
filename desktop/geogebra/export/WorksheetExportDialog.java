@@ -889,7 +889,7 @@ public class WorksheetExportDialog extends JDialog {
 						}
 
 						// open html file in browser
-						guiManager.showURLinBrowser(HTMLfile.toURL());
+						guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
 						app.showError("SaveFileFailed");
 						Application.debug(ex.toString());
@@ -1019,7 +1019,7 @@ public class WorksheetExportDialog extends JDialog {
 				try {
 
 					// open html file in browser
-					guiManager.showURLinBrowser(HTMLfile.toURL());
+					guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 				} catch (Exception ex) {
 					app.showError("SaveFileFailed");
 					Application.debug(ex.toString());
@@ -1094,7 +1094,7 @@ public class WorksheetExportDialog extends JDialog {
 				try {
 
 					// open html file in browser
-					guiManager.showURLinBrowser(HTMLfile.toURL());
+					guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 				} catch (Exception ex) {
 					app.showError("SaveFileFailed");
 					Application.debug(ex.toString());
@@ -1800,7 +1800,6 @@ public class WorksheetExportDialog extends JDialog {
 		appletParam(sb, "cache_version", sb2.toString(), type);
 
 		appendGgbAppletParameters(sb, type);
-
 	}
 
 }

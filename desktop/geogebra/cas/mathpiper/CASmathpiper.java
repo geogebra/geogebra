@@ -3,7 +3,6 @@ package geogebra.cas.mathpiper;
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
-import geogebra.cas.GeoGebraCAS;
 import geogebra.cas.error.CASException;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ValidExpression;

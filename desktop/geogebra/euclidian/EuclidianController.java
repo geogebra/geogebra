@@ -824,7 +824,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		refreshHighlighting(null);		
 	}
 
-
 	public Point getMouseLoc(){
 		return mouseLoc;
 	}
@@ -892,11 +891,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}
 	}
 	
-	
-	
 	protected void mouseClickedMode(MouseEvent e, int mode){
 		
-
 		switch (mode) {
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
 			clearSelections();
@@ -945,7 +941,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			app.clearSelectedGeos();
 		} else {					
 			if (ctrlDown) {							
-				GeoElement geo = chooseGeo(geos, true);
 				//boolean selected = geo.is
 				app.toggleSelectedGeo( chooseGeo(geos, true) ); 
 				//app.geoElementSelected(geo, true); // copy definiton to input bar
@@ -1012,8 +1007,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		//view.setDrawMode(EuclidianConstants.DRAW_MODE_DIRECT_DRAW);
 
 	}
-	
-	
+		
 	/**
 	 * 
 	 * @return true if a view button has been pressed (see 3D)
@@ -1268,9 +1262,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			moveMode = MOVE_NONE;			 
 		}
 	}
-
-	
-	
 	
 	protected void handleMousePressedForRotateMode() {	
 		GeoElement geo;
@@ -1407,14 +1398,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			resetMovedGeoPoint();
 			return;
 		}				
-
-		
-
-
+	
         handleMovedElement(geo,selGeos.size()>1);
 
 		view.repaintView();												
 	}
+	
 	public void handleMovedElement(GeoElement geo, boolean multiple){
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
@@ -3976,9 +3965,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					xRW -= transformCoordsOffset[0];
 					yRW -= transformCoordsOffset[1];
 				}
-				break;
-		
-			
+				break;			
 		
 		case EuclidianView.GRID_POLAR:
 				
@@ -4011,9 +3998,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				yRW -= transformCoordsOffset[1];
 			}
 			break;
-		}
-			
-			
+		}	
 
 		default:
 		}
@@ -4129,7 +4114,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}
 	}
 
-
 	// creates or get the new point (used for 3D)
 	protected GeoPointND getNewPoint(Hits hits,
 			boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible, 
@@ -4175,10 +4159,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			}
 		}
 
-
 		GeoPointND point = null;
-
-		
+	
 		//	try to get an intersection point
 		if (createPoint && intersectPossible) {
 			GeoPointND intersectPoint = getSingleIntersectionPoint(hits);
@@ -4197,7 +4179,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				}
 			}
 		}
-
 
 		//Application.debug(hits+"\ncreatePoint="+createPoint+"\ninRegionPossible="+inRegionPossible+"\nchooseGeo="+chooseGeo);
 
@@ -4257,9 +4238,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					createPoint = true;
 					// if inRegionPossible is false, the point is created as a free point
 				}
-
 			}
-
 
 			//check if point lies on path and if we are allowed to place a point
 			// on a path	
@@ -4282,10 +4261,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					}
 				}
 			}
-
 		}
-
-
 
 		//Application.debug("createPoint 3 = "+createPoint);
 
@@ -4307,15 +4283,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 	/** only used in 3D */
 	protected void createNewPoint(GeoPointND sourcePoint){
-
-
 	}
 
 	/** only used in 3D */
 	protected void createNewPointIntersection(GeoPointND intersectionPoint){
 	}
 	
-
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex){
 		GeoPointND ret = kernel.Point(null, kernel.checkDecimalFraction(xRW), kernel.checkDecimalFraction(yRW), complex);
 		return ret;
@@ -4331,19 +4304,15 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			return (GeoPointND) kernel.getManager3D().Point3D(null, path, x, y, z,!forPreviewable);
 		else
 			return createNewPoint2D(forPreviewable, path, x, y, complex);
-
 	}
 	
 	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x, double y, boolean complex){
 		return kernel.Point(null, path, x, y, !forPreviewable, complex);
 	}
-	
-	
-	
+		
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex){
 		return createNewPoint(forPreviewable, region, kernel.checkDecimalFraction(xRW), kernel.checkDecimalFraction(yRW), 0, complex);
-	}
-	
+	}	
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, double x, double y, double z, boolean complex){
 		
@@ -4351,9 +4320,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			return (GeoPointND) kernel.getManager3D().Point3DIn(null, region, new Coords(x, y, z, 1), !forPreviewable);
 		else
 			return createNewPoint2D(forPreviewable, region, x, y, complex);
-
 	}
-	
 
 	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x, double y, boolean complex){
 		GeoPointND ret = kernel.PointIn(null, region, x, y, true, complex);
@@ -5057,8 +5024,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			app.getGuiManager().showFunctionInspector(functions[0]);
 			app.setMoveMode();
 		}
-		
-		
+			
 		return false;
 	}
 	
@@ -5178,7 +5144,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}
 		
 		return ret;
-
 	}
 
 	// get 2 lines, 2 vectors or 3 points
@@ -6891,7 +6856,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return false;
 	}		
 
-	final protected boolean pen() {	
+	final protected static boolean pen() {	
 		//Application.debug(app.getEuclidianView().getHeight()+" "+app.getEuclidianView().getWidth());
 		return false;
 	}		
@@ -6918,7 +6883,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoElement[] getSelectedGeos() {
 		GeoElement[] ret = new GeoElement[selectedGeos.size()];
 		int i = 0;
-		Iterator it = selectedGeos.iterator();
+		Iterator<GeoElement> it = selectedGeos.iterator();
 		while (it.hasNext()) {
 			ret[i] = (GeoElement) it.next();
 			i++;
@@ -7006,7 +6971,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	
 	protected final void getSelectedLinesND(GeoLineND[] lines) {
 		int i = 0;
-		Iterator it = selectedLines.iterator();
+		Iterator<GeoLineND> it = selectedLines.iterator();
 		while (it.hasNext()) {
 			lines[i] = (GeoLineND) it.next();
 			i++;
@@ -7032,7 +6997,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	
 	final protected void getSelectedSegmentsND(GeoSegmentND[] segments) {
 		int i = 0;
-		Iterator it = selectedSegments.iterator();
+		Iterator<GeoSegment> it = selectedSegments.iterator();
 		while (it.hasNext()) {
 			segments[i] = (GeoSegmentND) it.next();
 			i++;
@@ -7059,7 +7024,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	
 	protected final void getSelectedVectorsND(GeoVectorND[] vectors) {
 		int i = 0;
-		Iterator it = selectedVectors.iterator();
+		Iterator<GeoVectorND> it = selectedVectors.iterator();
 		while (it.hasNext()) {
 			vectors[i] = (GeoVectorND) it.next();
 			i++;
@@ -7084,7 +7049,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoConic[] getSelectedConics() {
 		GeoConic[] conics = new GeoConic[selectedConicsND.size()];
 		int i = 0;
-		Iterator it = selectedConicsND.iterator();
+		Iterator<GeoConic> it = selectedConicsND.iterator();
 		while (it.hasNext()) {
 			conics[i] = (GeoConic) it.next();
 			i++;
@@ -7096,7 +7061,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoConic[] getSelectedCircles() {
 		GeoConic[] circles = new GeoConic[selectedConicsND.size()];
 		int i = 0;
-		Iterator it = selectedConicsND.iterator();
+		Iterator<GeoConic> it = selectedConicsND.iterator();
 		while (it.hasNext()) {
 			GeoConic c =(GeoConic) it.next();
 			if(c.isCircle()){
@@ -7111,7 +7076,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoConicND[] getSelectedConicsND() {
 		GeoConicND[] conics = new GeoConicND[selectedConicsND.size()];
 		int i = 0;
-		Iterator it = selectedConicsND.iterator();
+		Iterator<GeoConic> it = selectedConicsND.iterator();
 		while (it.hasNext()) {
 			conics[i] = (GeoConicND) it.next();
 			i++;
@@ -7123,7 +7088,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoDirectionND[] getSelectedDirections() {
 		GeoDirectionND[] directions = new GeoDirectionND[selectedDirections.size()];
 		int i = 0;
-		Iterator it = selectedDirections.iterator();
+		Iterator<GeoDirectionND> it = selectedDirections.iterator();
 		while (it.hasNext()) {
 			directions[i] = (GeoDirectionND) it.next();
 			i++;
@@ -7135,7 +7100,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected Region[] getSelectedRegions() {
 		Region[] regions = new Region[selectedRegions.size()];
 		int i = 0;
-		Iterator it = selectedRegions.iterator();
+		Iterator<Region> it = selectedRegions.iterator();
 		while (it.hasNext()) {
 			regions[i] = (Region) it.next();
 			i++;
@@ -7147,7 +7112,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected Path[] getSelectedPaths() {
 		Path[] paths = new Path[selectedPaths.size()];
 		int i = 0;
-		Iterator it = selectedPaths.iterator();
+		Iterator<Path> it = selectedPaths.iterator();
 		while (it.hasNext()) {
 			paths[i] = (Path) it.next();
 			i++;
@@ -7159,7 +7124,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoImplicitPoly[] getSelectedImplicitpoly() {
 		GeoImplicitPoly[] implicitPoly = new GeoImplicitPoly[selectedImplicitpoly.size()];
 		int i = 0;
-		Iterator it = selectedImplicitpoly.iterator();
+		Iterator<GeoImplicitPoly> it = selectedImplicitpoly.iterator();
 		while (it.hasNext()) {
 			implicitPoly[i] = (GeoImplicitPoly) it.next();
 			i++;
@@ -7171,7 +7136,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoFunction[] getSelectedFunctions() {
 		GeoFunction[] functions = new GeoFunction[selectedFunctions.size()];
 		int i = 0;
-		Iterator it = selectedFunctions.iterator();
+		Iterator<GeoFunction> it = selectedFunctions.iterator();
 		while (it.hasNext()) {
 			functions[i] = (GeoFunction) it.next();
 			i++;
@@ -7184,7 +7149,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected GeoCurveCartesian [] getSelectedCurves() {
 		GeoCurveCartesian [] curves = new GeoCurveCartesian[selectedCurves.size()];
 		int i = 0;
-		Iterator it = selectedCurves.iterator();
+		Iterator<GeoCurveCartesian> it = selectedCurves.iterator();
 		while (it.hasNext()) {
 			curves[i] = (GeoCurveCartesian) it.next();
 			i++;
@@ -7193,7 +7158,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return curves;
 	}
 
-	final protected void clearSelection(ArrayList selectionList) {
+	final protected void clearSelection(ArrayList<?> selectionList) {
 		// unselect
 		selectionList.clear();
 		selectedGeos.clear();
@@ -7206,8 +7171,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedGeos, GeoElement.class);
 	}		
 	
-
-	protected int handleAddSelected(Hits hits, int max, boolean addMore, ArrayList list, Class geoClass) {	
+	protected int handleAddSelected(Hits hits, int max, boolean addMore, ArrayList<?> list, Class<?> geoClass) {	
 		
 		
 		if (selectionPreview)
@@ -7216,15 +7180,15 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			return addToSelectionList(list, hits.getHits(geoClass, handleAddSelectedArrayList), max, addMore,
 					hits.size()==1);
 	}
-	protected int handleAddSelectedRegions(Hits hits, int max, boolean addMore, ArrayList list) {	
-		
-		
+	
+	protected int handleAddSelectedRegions(Hits hits, int max, boolean addMore, ArrayList<?> list) {			
 		if (selectionPreview)
 			return addToHighlightedList(list, hits.getRegionHits(handleAddSelectedArrayList) , max);
 		else
 			return addToSelectionList(list, hits.getRegionHits(handleAddSelectedArrayList), max, addMore,
 					hits.size()==1);
 	}
+	
 	protected Hits handleAddSelectedArrayList = new Hits();
 
 	final protected int addSelectedPoint(Hits hits, int max,
@@ -7263,7 +7227,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 	
 	final protected int addSelectedVector(Hits hits, int max,
-			boolean addMoreThanOneAllowed, Class geoClass) {
+			boolean addMoreThanOneAllowed, Class<?> geoClass) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedVectors, geoClass);
 	}
 
@@ -7391,7 +7355,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return selectedCurves.size();
 	}
 
-
 	/**
 	 * 	selectionList may only contain max objects
 	 * a choose dialog will be shown if not all objects can be added
@@ -7399,8 +7362,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	 * @param addMoreThanOneAllowed it's possible to add several objects
 	 * without choosing
 	 */
-	final protected int addToSelectionList(ArrayList selectionList,
-			ArrayList geos, int max, boolean addMoreThanOneAllowed, boolean tryDeselect) {
+	final protected int addToSelectionList(ArrayList<?> selectionList,
+			ArrayList<GeoElement> geos, int max, boolean addMoreThanOneAllowed, boolean tryDeselect) {
 				
 		if (geos == null)
 			return 0;
@@ -7409,7 +7372,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		// ONLY ONE ELEMENT IN THE EFFECTIVE HITS
 		if (tryDeselect && geos.size()==1)
 			//select or deselect it
-			return addToSelectionList(selectionList, (GeoElement) geos.get(0), max);
+			return addToSelectionList(selectionList, geos.get(0), max);
 
 		//	SEVERAL ELEMENTS
 		// here none of the selected geos should be removed
@@ -7465,7 +7428,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 
 	// selectionList may only contain max objects
-	final protected int addToHighlightedList(ArrayList selectionList,
+	final protected int addToHighlightedList(ArrayList<?> selectionList,
 			ArrayList<GeoElement> geos, int max) {
 		
 		
@@ -7493,7 +7456,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	   specified class (note: subclasses are included)
 	 * 
 	 */
-	private GeoElement chooseGeo(Hits hits, Class geoclass) {
+	private GeoElement chooseGeo(Hits hits, Class<GeoPoint> geoclass) {
 		return chooseGeo(hits.getHits(geoclass, tempArrayList), true);
 	}
 
@@ -7886,6 +7849,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	//	}
 	}	
 	
+	//TODO delete?
 	final private static int eraserSize = 12;
 	private boolean erasing = false;
 	private int penSize = 3;
@@ -7894,7 +7858,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		penSize = size;
 		
 	//	if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-			ArrayList geos = app.getSelectedGeos();
+			ArrayList<GeoElement> geos = app.getSelectedGeos();
 			
 			for (int i = 0 ; i < geos.size() ; i++) {
 				GeoElement geo = (GeoElement)geos.get(i);
@@ -7915,7 +7879,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		penColor = color;
 		
 //		if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-			ArrayList geos = app.getSelectedGeos();
+			ArrayList<GeoElement> geos = app.getSelectedGeos();
 			
 			for (int i = 0 ; i < geos.size() ; i++) {
 				GeoElement geo = (GeoElement)geos.get(i);
@@ -7923,12 +7887,10 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				geo.updateRepaint();
 			}
 	//	}
-
 	}
-	
-	
+		
 	public void setAlpha(float alpha) {	
-			ArrayList geos = app.getSelectedGeos();		
+			ArrayList<GeoElement> geos = app.getSelectedGeos();		
 			for (int i = 0 ; i < geos.size() ; i++) {
 				GeoElement geo = (GeoElement)geos.get(i);
 				geo.setAlphaValue(alpha);
@@ -7936,10 +7898,9 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			}
 	}
 	
-	
 	private void openMiniPropertiesPanel() {
 		if (!app.isUsingFullGui()) return;
-		if (app.isMiniPropertiesActive())
+		if (Application.isMiniPropertiesActive())
 			app.getGuiManager().toggleMiniProperties(true);
 
 	}

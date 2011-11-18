@@ -207,8 +207,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}	    	
     
     protected void drawLocus(GeoLocus g){
-    	ArrayList ll=g.getMyPointList();
-    	Iterator it=ll.iterator();
+    	ArrayList<MyPoint> ll=g.getMyPointList();
+    	Iterator<MyPoint> it=ll.iterator();
 		startBeamer(code);
     	code.append("\\draw");
 		String s=LineOptionCode(g,true);
@@ -654,45 +654,51 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		angExt+=angSt;
 		double r = arcSize /euclidianView.getXscale();
 		// if angle=90 and decoration=little square
-        if (kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianView.RIGHT_ANGLE_STYLE_SQUARE){
-        	r=r/Math.sqrt(2);
-        	double[] x=new double[8];
-        	x[0]=m[0]+r*Math.cos(angSt);
-        	x[1]=m[1]+r*Math.sin(angSt);
-        	x[2]=m[0]+r*Math.sqrt(2)*Math.cos(angSt+Kernel.PI_HALF/2);
-        	x[3]=m[1]+r*Math.sqrt(2)*Math.sin(angSt+Kernel.PI_HALF/2);
-        	x[4]=m[0]+r*Math.cos(angSt+Kernel.PI_HALF);
-        	x[5]=m[1]+r*Math.sin(angSt+Kernel.PI_HALF);
-        	x[6]=m[0];
-        	x[7]=m[1];
-    		startBeamer(codeFilledObject);
-        	codeFilledObject.append("\\draw");
-        	String s=LineOptionCode(geo,true);
-        	if (s.length()!=0){
-            	codeFilledObject.append("["+s+"] ");        		
-        	}
-        	for (int i=0;i<4;i++){
-        		writePoint(x[2*i],x[2*i+1],codeFilledObject);
-        		codeFilledObject.append(" -- ");
-        	}
-        	codeFilledObject.append("cycle; \n");	
-    		endBeamer(codeFilledObject);
+		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+				&& geo.isEmphasizeRightAngle()
+				&& euclidianView.getRightAngleStyle() == EuclidianView.RIGHT_ANGLE_STYLE_SQUARE) {
+			r = r / Math.sqrt(2);
+			double[] x = new double[8];
+			x[0] = m[0] + r * Math.cos(angSt);
+			x[1] = m[1] + r * Math.sin(angSt);
+			x[2] = m[0] + r * Math.sqrt(2)
+					* Math.cos(angSt + Kernel.PI_HALF / 2);
+			x[3] = m[1] + r * Math.sqrt(2)
+					* Math.sin(angSt + Kernel.PI_HALF / 2);
+			x[4] = m[0] + r * Math.cos(angSt + Kernel.PI_HALF);
+			x[5] = m[1] + r * Math.sin(angSt + Kernel.PI_HALF);
+			x[6] = m[0];
+			x[7] = m[1];
+			startBeamer(codeFilledObject);
+			codeFilledObject.append("\\draw");
+			String s = LineOptionCode(geo, true);
+			if (s.length() != 0) {
+				codeFilledObject.append("[" + s + "] ");
+			}
+			for (int i = 0; i < 4; i++) {
+				writePoint(x[2 * i], x[2 * i + 1], codeFilledObject);
+				codeFilledObject.append(" -- ");
+			}
+			codeFilledObject.append("cycle; \n");
+			endBeamer(codeFilledObject);
         }
         // draw arc for the angle
         else {	
        	// set arc in real world coords
-        	double angStDeg=Math.toDegrees(angSt)%360;
-        	double angEndDeg=Math.toDegrees(angExt)%360;
-        	if (angStDeg>angEndDeg) angStDeg=angStDeg-360;
-    		startBeamer(codeFilledObject);
-        	codeFilledObject.append("\\draw [shift={");
-        	writePoint(m[0],m[1],codeFilledObject);
-        	codeFilledObject.append("}");
-        	String s=LineOptionCode(geo,true);    	
-        	if (s.length()!=0){
-        		codeFilledObject.append(","+s+"] ");    		
-        	}
-        	else codeFilledObject.append("] ");
+			double angStDeg = Math.toDegrees(angSt) % 360;
+			double angEndDeg = Math.toDegrees(angExt) % 360;
+			if (angStDeg > angEndDeg)
+				angStDeg = angStDeg - 360;
+			startBeamer(codeFilledObject);
+			codeFilledObject.append("\\draw [shift={");
+			writePoint(m[0], m[1], codeFilledObject);
+			codeFilledObject.append("}");
+			String s = LineOptionCode(geo, true);
+			if (s.length() != 0) {
+				codeFilledObject.append("," + s + "] ");
+			} else {
+				codeFilledObject.append("] ");
+			}
         	codeFilledObject.append("(0,0) -- (");
         	codeFilledObject.append(kernel.format(angStDeg));
         	codeFilledObject.append(":");
@@ -707,104 +713,122 @@ public class GeoGebraToPgf extends GeoGebraExport {
     		endBeamer(codeFilledObject);
 
 		// draw the dot if angle= 90 and decoration=dot
-		if (kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianView.RIGHT_ANGLE_STYLE_DOT){
-			double diameter = geo.lineThickness/euclidianView.getXscale();
-			double radius = arcSize/euclidianView.getXscale()/1.7;
-			double labelAngle = (angSt+angExt) / 2.0;
-			double x1=m[0] + radius * Math.cos(labelAngle);
-			double x2 = m[1] + radius * Math.sin(labelAngle);
-			// draw an ellipse
-			// command:  \draw (0,0) circle diameter
-			startBeamer(code);
+			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+					&& geo.isEmphasizeRightAngle()
+					&& euclidianView.getRightAngleStyle() == EuclidianView.RIGHT_ANGLE_STYLE_DOT) {
+				double diameter = geo.lineThickness / euclidianView.getXscale();
+				double radius = arcSize / euclidianView.getXscale() / 1.7;
+				double labelAngle = (angSt + angExt) / 2.0;
+				double x1 = m[0] + radius * Math.cos(labelAngle);
+				double x2 = m[1] + radius * Math.sin(labelAngle);
+				// draw an ellipse
+				// command: \draw (0,0) circle diameter
+				startBeamer(code);
 				code.append("\\fill");
-				s=LineOptionCode(geo,true);
-				if (s.length()!=0) code.append("["+s+"] ");
-				writePoint(x1,x2,code);
+				s = LineOptionCode(geo, true);
+				if (s.length() != 0)
+					code.append("[" + s + "] ");
+				writePoint(x1, x2, code);
 				code.append(" circle (");
-				code.append(kernel.format(diameter/2));
+				code.append(kernel.format(diameter / 2));
 				code.append(");\n");
 				endBeamer(code);
 			}
-        }
-   		int deco=geo.decorationType;
-		if (deco!=GeoElement.DECORATION_NONE) {
+		}
+		int deco = geo.decorationType;
+		if (deco != GeoElement.DECORATION_NONE) {
 			startBeamer(code);
-			markAngle(geo,r,m,angSt,angExt);
+			markAngle(geo, r, m, angSt, angExt);
 			endBeamer(code);
 		}
-
     }
+    
     protected void drawArrowArc(GeoAngle geo,double[] vertex,double angSt, double angEnd,double r, boolean anticlockwise){
-      	double angStDeg=Math.toDegrees(angSt)%360;
-    	double angEndDeg=Math.toDegrees(angEnd)%360;
-    	if (angStDeg>angEndDeg) angStDeg-=360;
-    	code.append("\\draw [shift={");
-    	writePoint(vertex[0],vertex[1],code);
-    	code.append("},-");
-    	if (anticlockwise) code.append(">");
-    	else code.append("<");
-    	String s=LineOptionCode(geo,false);    	
-    	if (s.length()!=0){
-    		code.append(","+s+"] ");    		
-    	}
-    	else code.append("] ");
-    	code.append("(");
-    	code.append(kernel.format(angStDeg));
-       	code.append(":");    	
+		double angStDeg = Math.toDegrees(angSt) % 360;
+		double angEndDeg = Math.toDegrees(angEnd) % 360;
+		if (angStDeg > angEndDeg)
+			angStDeg -= 360;
+		code.append("\\draw [shift={");
+		writePoint(vertex[0], vertex[1], code);
+		code.append("},-");
+		if (anticlockwise)
+			code.append(">");
+		else
+			code.append("<");
+		String s = LineOptionCode(geo, false);
+		if (s.length() != 0) {
+			code.append("," + s + "] ");
+		} else {
+			code.append("] ");
+		}
+		code.append("(");
+		code.append(kernel.format(angStDeg));
+		code.append(":");
 		code.append(kernel.format(r));
 		code.append(") arc (");
 		code.append(kernel.format(angStDeg));
-       	code.append(":");    	
+		code.append(":");
 		code.append(kernel.format(angEndDeg));
-       	code.append(":");    	
+		code.append(":");
 		code.append(kernel.format(r));
 		code.append(");\n");
-        }
+	}
     
     protected void drawArc(GeoAngle geo,double[] vertex,double angSt, double angEnd,double r ){
-    	double angStDeg=Math.toDegrees(angSt)%360;
-    	double angEndDeg=Math.toDegrees(angEnd)%360;
-    	if (angStDeg>angEndDeg) angStDeg-=360;
-    	if (isBeamer) code.append("  ");
-    	code.append("\\draw [shift={");
-    	writePoint(vertex[0],vertex[1],code);
-    	code.append("}");
-    	String s=LineOptionCode(geo,false);    	
-    	if (s.length()!=0){
-    		code.append(","+s+"] ");    		
-    	}
-    	else code.append("] ");
-    	code.append("(");
-    	code.append(kernel.format(angStDeg));
-       	code.append(":");    	
+		double angStDeg = Math.toDegrees(angSt) % 360;
+		double angEndDeg = Math.toDegrees(angEnd) % 360;
+		if (angStDeg > angEndDeg)
+			angStDeg -= 360;
+		if (isBeamer)
+			code.append("  ");
+		code.append("\\draw [shift={");
+		writePoint(vertex[0], vertex[1], code);
+		code.append("}");
+		String s = LineOptionCode(geo, false);
+		if (s.length() != 0) {
+			code.append("," + s + "] ");
+		} else {
+			code.append("] ");
+		}
+		code.append("(");
+		code.append(kernel.format(angStDeg));
+		code.append(":");
 		code.append(kernel.format(r));
 		code.append(") arc (");
 		code.append(kernel.format(angStDeg));
-       	code.append(":");    	
+		code.append(":");
 		code.append(kernel.format(angEndDeg));
-       	code.append(":");    	
+		code.append(":");
 		code.append(kernel.format(r));
 		code.append(");\n");
-    }
+	}
+    
 	protected void drawTick(GeoAngle geo,double[] vertex,double angle){
-		angle=-angle;
-		double radius=geo.getArcSize();
-		double diff= 2.5 + geo.lineThickness / 4d;
-		double x1=euclidianView.toRealWorldCoordX(vertex[0]+(radius-diff)*Math.cos(angle));
-		double x2=euclidianView.toRealWorldCoordX(vertex[0]+(radius+diff)*Math.cos(angle));
-		double y1=euclidianView.toRealWorldCoordY(vertex[1]+(radius-diff)*Math.sin(angle)*euclidianView.getScaleRatio());
-		double y2=euclidianView.toRealWorldCoordY(vertex[1]+(radius+diff)*Math.sin(angle)*euclidianView.getScaleRatio());
-		if (isBeamer) code.append("  ");
+		angle = -angle;
+		double radius = geo.getArcSize();
+		double diff = 2.5 + geo.lineThickness / 4d;
+		double x1 = euclidianView.toRealWorldCoordX(vertex[0] + (radius - diff)
+				* Math.cos(angle));
+		double x2 = euclidianView.toRealWorldCoordX(vertex[0] + (radius + diff)
+				* Math.cos(angle));
+		double y1 = euclidianView.toRealWorldCoordY(vertex[1] + (radius - diff)
+				* Math.sin(angle) * euclidianView.getScaleRatio());
+		double y2 = euclidianView.toRealWorldCoordY(vertex[1] + (radius + diff)
+				* Math.sin(angle) * euclidianView.getScaleRatio());
+		if (isBeamer) {
+			code.append("  ");
+		}
 		code.append("\\draw");
-	   	String s=LineOptionCode(geo,false);    	
-    	if (s.length()!=0){
-    		code.append("["+s+"] ");    		
-    	}
-    	writePoint(x1,y1,code);
+		String s = LineOptionCode(geo, false);
+		if (s.length() != 0) {
+			code.append("[" + s + "] ");
+		}
+		writePoint(x1, y1, code);
 		code.append(" -- ");
-    	writePoint(x2,y2,code);
+		writePoint(x2, y2, code);
 		code.append(";\n");
 	}
+	
     protected void drawSlider(GeoNumeric geo){
     	boolean horizontal=geo.isSliderHorizontal();
     	double max=geo.getIntervalMax();
@@ -857,8 +881,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	}
     	writePoint(x,y,code);
     	code.append(" -- ");
-    	if (horizontal) x+=width;
-    	else y+=width;
+    	if (horizontal) {
+    		x+=width;
+    	} else {
+    		y+=width;
+    	}
     	writePoint(x,y,code);
     	code.append(";\n");
 		endBeamer(code);
@@ -866,74 +893,74 @@ public class GeoGebraToPgf extends GeoGebraExport {
     
     
     protected void drawPolygon(GeoPolygon geo){
-    	// command: \pspolygon[par](x0,y0)....(xn,yn)
-    	float alpha=geo.getAlphaValue();
-    	if (alpha==0.0f&&geo.getFillType()!=GeoPolygon.FILL_HATCH) return;
+		// command: \pspolygon[par](x0,y0)....(xn,yn)
+		float alpha = geo.getAlphaValue();
+		if (alpha == 0.0f && geo.getFillType() != GeoPolygon.FILL_HATCH)
+			return;
 		startBeamer(codeFilledObject);
-    	codeFilledObject.append("\\fill");
-    	String s=LineOptionCode(geo,true);
-    	if (s.length()!=0){
-    		s="["+s+"] ";
-    		codeFilledObject.append(s);
-    	}
-    	GeoPointND [] points = geo.getPoints();	
-    	for (int i=0;i<points.length;i++){
-    		Coords coords = points[i].getCoordsInD(2);
-            double x = coords.getX(),
-                   y = coords.getY(),
-                   z = coords.getZ();
-     		x=x/z;
-    		y=y/z;
-    		writePoint(x,y,codeFilledObject);
-    		codeFilledObject.append(" -- ");
-    	}
-    	codeFilledObject.append("cycle;\n");
+		codeFilledObject.append("\\fill");
+		String s = LineOptionCode(geo, true);
+		if (s.length() != 0) {
+			s = "[" + s + "] ";
+			codeFilledObject.append(s);
+		}
+		GeoPointND[] points = geo.getPoints();
+		for (int i = 0; i < points.length; i++) {
+			Coords coords = points[i].getCoordsInD(2);
+			double x = coords.getX(), y = coords.getY(), z = coords.getZ();
+			x = x / z;
+			y = y / z;
+			writePoint(x, y, codeFilledObject);
+			codeFilledObject.append(" -- ");
+		}
+		codeFilledObject.append("cycle;\n");
 		endBeamer(codeFilledObject);
     }
     
 	protected void drawText(GeoText geo){
-		boolean isLatex=geo.isLaTeX();
-		String st=geo.getTextString();
-		int style=geo.getFontStyle();
-		int size=geo.getFontSize()+app.getGUIFontSize();
+		boolean isLatex = geo.isLaTeX();
+		String st = geo.getTextString();
+		int style = geo.getFontStyle();
+		int size = geo.getFontSize() + app.getGUIFontSize();
 		GeoPoint gp;
-		double x,y;
-	      // compute location of text		
+		double x, y;
+		// compute location of text
 		if (geo.isAbsoluteScreenLocActive()) {
 			x = geo.getAbsoluteScreenLocX();
-			y = geo.getAbsoluteScreenLocY(); 
+			y = geo.getAbsoluteScreenLocY();
 		} else {
 			gp = (GeoPoint) geo.getStartPoint();
-	        if (gp == null) {
+			if (gp == null) {
 				x = (int) euclidianView.getXZero();
 				y = (int) euclidianView.getYZero();
-	        } else {
-	        	if (!gp.isDefined()) {
-	        		return;
-	        	}
+			} else {
+				if (!gp.isDefined()) {
+					return;
+				}
 				x = euclidianView.toScreenCoordX(gp.inhomX);
-				y = euclidianView.toScreenCoordY(gp.inhomY);        	
-	        }
-	        x += geo.labelOffsetX;
-			y += geo.labelOffsetY; 
+				y = euclidianView.toScreenCoordY(gp.inhomY);
+			}
+			x += geo.labelOffsetX;
+			y += geo.labelOffsetY;
 		}
-		x=euclidianView.toRealWorldCoordX(x);
-		y=euclidianView.toRealWorldCoordY(y-euclidianView.getFont().getSize());
-		int id=st.indexOf("\n");
+		x = euclidianView.toRealWorldCoordX(x);
+		y = euclidianView.toRealWorldCoordY(y
+				- euclidianView.getFont().getSize());
+		int id = st.indexOf("\n");
 		// One line
-		if (id==-1){
+		if (id == -1) {
 			startBeamer(code);
 			code.append("\\draw ");
 			// Color
-			Color geocolor=geo.getObjectColor();
-			if (!geocolor.equals(Color.BLACK)){
+			Color geocolor = geo.getObjectColor();
+			if (!geocolor.equals(Color.BLACK)) {
 				code.append("[color=");
-				ColorCode(geocolor,code);
+				ColorCode(geocolor, code);
 				code.append("]");
 			}
-			writePoint(x,y,code);
+			writePoint(x, y, code);
 			code.append(" node[anchor=north west] {");
-			addText(st,isLatex,style,size);
+			addText(st, isLatex, style, size);
 			code.append("};\n");
 			endBeamer(code);
 		}
@@ -970,29 +997,37 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			endBeamer(code);
 		}
 	}
-	private void addText(String st,boolean isLatex,int style,int size){
-		if (format==FORMAT_LATEX){
-			if (isLatex)code.append("$");
+	
+	private void addText(String st, boolean isLatex, int style, int size) {
+		if (format == FORMAT_LATEX) {
+			if (isLatex)
+				code.append("$");
 			// Replace all backslash symbol with \textbackslash
 			else {
-				st=st.replaceAll("\\\\", "\\\\textbackslash ");
+				st = st.replaceAll("\\\\", "\\\\textbackslash ");
 			}
-			switch(style){
-				case 1:
-					if (isLatex) code.append("\\mathbf{");
-					else code.append("\\textbf{");
-					break;
-				case 2:
-					if (isLatex) code.append("\\mathit{");
-					else code.append("\\textit{");
-					break;
-				case 3:
-					if (isLatex) code.append("\\mathit{\\mathbf{");
-					else code.append("\\textit{\\textbf{");
-					break;
+			switch (style) {
+			case 1:
+				if (isLatex)
+					code.append("\\mathbf{");
+				else
+					code.append("\\textbf{");
+				break;
+			case 2:
+				if (isLatex)
+					code.append("\\mathit{");
+				else
+					code.append("\\textit{");
+				break;
+			case 3:
+				if (isLatex)
+					code.append("\\mathit{\\mathbf{");
+				else
+					code.append("\\textit{\\textbf{");
+				break;
 			}
-		code.append(st);
-		switch(style){
+			code.append(st);
+			switch (style) {
 			case 1:
 			case 2:
 				code.append("}");
@@ -1000,60 +1035,61 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			case 3:
 				code.append("}}");
 				break;
-		}
-		if (isLatex)code.append("$");
-		}
-		else if (format==FORMAT_CONTEXT){
-			if (isLatex)code.append("$");
-			
-			switch(style){
-				case 1:
-					code.append("{\\bf ");
-					break;
-				case 2:
-					 code.append("{\\em ");
-					break;
-				case 3:
-					 code.append("{\\em \\bf");
-					break;
 			}
-		code.append(st);
-		switch(style){
-			case 1:
-			case 2:
-			case 3:
-				code.append("}");
-				break;
-		}
-		if (isLatex)code.append("$");			
-		}
-		else if (format==FORMAT_PLAIN_TEX){
-			if (isLatex)code.append("$");
-			switch(style){
-				case 1:
-					code.append("\\bf{");
-					break;
-				case 2:
-					 code.append("\\it{ ");
-					break;
-				case 3:
-					 code.append("\\it{\\bf{");
-					break;
-			}
-		code.append(st);
-		switch(style){
-			case 1:
-			case 2:
-				code.append("}");
-			case 3:
-				code.append("}}");
-				break;
-		}
-		if (isLatex)code.append("$");			
-		}
-		
-		}
+			if (isLatex)
+				code.append("$");
+		} else if (format == FORMAT_CONTEXT) {
+			if (isLatex)
+				code.append("$");
 
+			switch (style) {
+			case 1:
+				code.append("{\\bf ");
+				break;
+			case 2:
+				code.append("{\\em ");
+				break;
+			case 3:
+				code.append("{\\em \\bf");
+				break;
+			}
+			code.append(st);
+			switch (style) {
+			case 1:
+			case 2:
+			case 3:
+				code.append("}");
+				break;
+			}
+			if (isLatex)
+				code.append("$");
+		} else if (format == FORMAT_PLAIN_TEX) {
+			if (isLatex)
+				code.append("$");
+			switch (style) {
+			case 1:
+				code.append("\\bf{");
+				break;
+			case 2:
+				code.append("\\it{ ");
+				break;
+			case 3:
+				code.append("\\it{\\bf{");
+				break;
+			}
+			code.append(st);
+			switch (style) {
+			case 1:
+			case 2:
+				code.append("}");
+			case 3:
+				code.append("}}");
+				break;
+			}
+			if (isLatex)
+				code.append("$");
+		}
+	}
 	
 	protected void drawGeoConicPart(GeoConicPart geo){
 		double r1=geo.getHalfAxes()[0];
@@ -1083,8 +1119,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		if (s.length()!=0){
 			s=","+s+"] ";
 			code.append(s);
+		} else {
+			code.append("]");
 		}
-		else code.append("]");
 		if (geo.getConicPartType()==GeoConicPart.CONIC_PART_SECTOR){
 			code.append(" (0,0) -- ");
 			StringBuilder sb1=new StringBuilder();
@@ -1115,7 +1152,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append(sb2);
 			code.append("})");
 			code.append(" -- cycle ;\n");
-		}
+		} 
 		else if (geo.getConicPartType()==GeoConicPart.CONIC_PART_ARC){
 			StringBuilder sb1=new StringBuilder();
 			sb1.append(kernel.format(r1));
@@ -1148,6 +1185,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		endBeamer(code);	
 	}
+	
 	private void drawFunction(GeoFunction geo,StringBuilder sb){
 		Function f=geo.getFunction();
 		if (null==f) return;
@@ -1243,8 +1281,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			sb.append("[");
 			sb.append(s);
 		}
-		if (s.length()!=0) sb.append(", ");
-		else sb.append("[");
+		if (s.length()!=0) {
+			sb.append(", ");
+		} else {
+			sb.append("[");
+		}
 		sb.append("smooth,samples=100,domain=");
 		sb.append(start);
 		sb.append(":");
@@ -1261,11 +1302,12 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawFunction(GeoFunction geo){
 		drawFunction(geo,code);
 	}
+	
 	/**
 	 * This method replace the letter "x" by the String substitute
 	 * @param name The function
 	 */
-	private String replaceX(String name,String substitute){
+	private static String replaceX(String name,String substitute){
 		StringBuilder sb=new StringBuilder(name);
 		// If the expression starts with minus -
 		// Insert a "0" (Bug from TikZ /PGF)
@@ -1302,7 +1344,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
  	 *  - rename several functions (done in #ExpressionNode.toString())
  	 *	- rename constants
 	 */
-	private String killSpace(String name){
+	private static String killSpace(String name){
 //		2  x +3 ----> 2*x+3
 		StringBuilder sb=new StringBuilder();
 		boolean operand=false;
@@ -1333,6 +1375,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		renameFunc(sb,"\\pi","3.1415926535");
 		return new String(sb);
 	}
+	
 	/**
 	 * Some Functions are not supported by PGF. This method write a warning in preamble
 	 * @param sb The complete Function
@@ -1360,6 +1403,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		codePreamble.append("% shell-escape    OR    enable-write18 \n");
 		codePreamble.append("% Example: pdflatex --shell-escape file.tex \n\n");
 	}
+	
 	private void addWarningHatch(){
 		if (hatchWarning) return;
 		hatchWarning=true;
@@ -1367,13 +1411,15 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		codePreamble.append("% PGF/Tikz doesn't support very well hatch filling\n");
 		codePreamble.append("% Use PStricks for a perfect hatching export\n\n");
 	}
-	private void renameFunc(StringBuilder sb,String nameFunc,String nameNew){
+	
+	private static void renameFunc(StringBuilder sb,String nameFunc,String nameNew){
 		int ind=sb.indexOf(nameFunc);
 		while(ind>-1){
 			sb.replace(ind,ind+nameFunc.length(),nameNew);
 			ind=sb.indexOf(nameFunc);
 		}
 	}
+	
 	private double maxDefinedValue(GeoFunction f,double a,double b){
 		double x=a;
 		double step=(b-a)/100;
@@ -1387,6 +1433,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		return b;
 	}
+	
 	private double firstDefinedValue(GeoFunction f,double a,double b){
 		double x=a;
 		double step=(b-a)/100;
@@ -1401,6 +1448,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		return b;
 	}
+	
 	protected void drawGeoVector(GeoVector geo){
 		GeoPoint pointStart=geo.getStartPoint();
 		double x1,y1;
@@ -1429,6 +1477,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code.append(";\n");
 		endBeamer(code);
 	}
+	
 	private void drawCircle(GeoConic geo){
 		StringBuilder build=new StringBuilder();
 		if (xunit==yunit){
@@ -1450,8 +1499,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			else build.append(r);
 			build.append("cm);\n");
 			endBeamer(build);
-		}
-		else {
+		} else {
 		// draw an ellipse
 		// command:  \draw[options](x_center,y_center) ellipse (XRadius cm and YRadius cm)
 			double x1=geo.getTranslationVector().getX();
@@ -1471,9 +1519,13 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			build.append("cm);\n");
 			endBeamer(build);
 		}
-		if (geo.getAlphaValue()>0.0f) codeFilledObject.append(build);
-		else code.append(build);
+		if (geo.getAlphaValue()>0.0f) {
+			codeFilledObject.append(build);
+		} else {
+			code.append(build);
+		}
 	}
+	
 	protected void drawGeoConic(GeoConic geo){	
 		switch(geo.getType()){
 		// if conic is a circle
@@ -1630,8 +1682,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * This will generate the Tikz code to draw the GeoPoint gp 
 	 * into the StringBuilder PointCode
 	 * @param gp The choosen GeoPoint
-	 */
-		
+	 */		
 	protected void drawGeoPoint(GeoPoint gp){
 		if (frame.getExportPointSymbol()){
 			double x=gp.getX();
@@ -2488,41 +2539,45 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 
-protected void createFrame() {
-	frame=new PgfFrame(this);
-}
-
-/**
- * Export Implicit plot for polynom degree greater than 2
- */
-protected void drawImplicitPoly(GeoImplicitPoly geo) {
-	code.append("\n%WARNING: PGF/Tikz and Gnuplot don't support implicit curves\n");
-	code.append("%Rather try PSTricks export\n");
-	code.append("%Cannot draw ");
-	code.append(getImplicitExpr(geo));
-	code.append("\n\n");
-}
-protected void drawPolyLine(GeoPolyLine geo){
-	GeoPointND[] path=geo.getPoints();
-	if (path.length<2) return;
-	startBeamer(code);
-	code.append("\\draw ");
-	String s=LineOptionCode(geo,true);
-	if (s.length()!=0) s="["+s+"] ";
-	code.append(s);
-	for(int i=0;i<path.length;i++){
-		Coords coords = path[i].getInhomCoords();
-		double x1=coords.getX();
-		double y1=coords.getY();			
-		writePoint(x1,y1,code);
-		if (i!=path.length-1) 	code.append("-- ");
+	protected void createFrame() {
+		frame = new PgfFrame(this);
 	}
-	code.append(";\n");
-	endBeamer(code);
-}
-@Override
-protected void drawGeoInequalities(GeoFunctionNVar g) {
-	// TODO Auto-generated method stub
-	
-}
+
+	/**
+	 * Export Implicit plot for polynom degree greater than 2
+	 */
+	protected void drawImplicitPoly(GeoImplicitPoly geo) {
+		code.append("\n%WARNING: PGF/Tikz and Gnuplot don't support implicit curves\n");
+		code.append("%Rather try PSTricks export\n");
+		code.append("%Cannot draw ");
+		code.append(getImplicitExpr(geo));
+		code.append("\n\n");
+	}
+
+	protected void drawPolyLine(GeoPolyLine geo) {
+		GeoPointND[] path = geo.getPoints();
+		if (path.length < 2)
+			return;
+		startBeamer(code);
+		code.append("\\draw ");
+		String s = LineOptionCode(geo, true);
+		if (s.length() != 0)
+			s = "[" + s + "] ";
+		code.append(s);
+		for (int i = 0; i < path.length; i++) {
+			Coords coords = path[i].getInhomCoords();
+			double x1 = coords.getX();
+			double y1 = coords.getY();
+			writePoint(x1, y1, code);
+			if (i != path.length - 1)
+				code.append("-- ");
+		}
+		code.append(";\n");
+		endBeamer(code);
+	}
+
+	@Override
+	protected void drawGeoInequalities(GeoFunctionNVar g) {
+		// TODO Auto-generated method stub
+	}
 }

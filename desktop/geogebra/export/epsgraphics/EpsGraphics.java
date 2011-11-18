@@ -170,7 +170,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * This method is called to indicate that a particular method is not
 	 * supported yet. The stack trace is printed to the standard output.
 	 */
-	private void methodNotSupported() {
+	private static void methodNotSupported() {
 		throw new RuntimeException(
 				"Method not currently supported by EpsGraphics2D version "
 						+ VERSION);
@@ -312,7 +312,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Returns a hex string that always contains two characters.
 	 */
-	private String toHexString(int n) {
+	private static String toHexString(int n) {
 		String result = Integer.toString(n, 16);
 		while (result.length() < 2) {
 			result = "0" + result;

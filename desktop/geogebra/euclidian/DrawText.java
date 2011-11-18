@@ -15,7 +15,6 @@ package geogebra.euclidian;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
@@ -24,8 +23,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-
-
 
 /**
  *

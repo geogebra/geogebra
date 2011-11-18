@@ -498,7 +498,7 @@ public final class DrawPoint extends Drawable {
     /*
      * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
      */
-    final private BasicStroke getCrossStroke(int pointSize) {
+    final private static BasicStroke getCrossStroke(int pointSize) {
     	
     	if (pointSize > 9)
     		return new BasicStroke(pointSize/2f); 

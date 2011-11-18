@@ -20,7 +20,6 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
-import geogebra.kernel.View;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoBoxPlot;
@@ -64,7 +63,6 @@ import geogebra.main.settings.EuclidianSettings;
 import geogebra.main.settings.SettingListener;
 import geogebra.util.MyMath;
 import geogebra.util.Unicode;
-import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -1055,7 +1053,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	/*
 	 * whether to clear selection rectangle when mode selected
 	 */
-	final private boolean clearRectangle(int mode) {
+	final private static boolean clearRectangle(int mode) {
 		switch (mode)
 		{
 		case EuclidianConstants.MODE_PEN: return false;
@@ -3197,7 +3195,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @param hits 
 	 * @return list of hits suitable for new point
 	 */
-	final public ArrayList<GeoElement> getHitsForNewPointMode(ArrayList<GeoElement> hits) {	
+	final public static ArrayList<GeoElement> getHitsForNewPointMode(ArrayList<GeoElement> hits) {	
 		if (hits == null) return null;
 		
 		Iterator<GeoElement> it = hits.iterator();
@@ -3333,21 +3331,17 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * returns array of independent GeoElements whose visual representation is
 	 * at streen coords (x,y). order: points, vectors, lines, conics
 	 */
-	final public ArrayList getMoveableHits(Point p) {
+	final public ArrayList<GeoElement> getMoveableHits(Point p) {
 		return getMoveableHits(getHits(p));
 	}
 
 	/**
 	 * returns array of changeable GeoElements out of hits
 	 */
-	final public ArrayList getMoveableHits(ArrayList<GeoElement> hits) {
+	final public ArrayList<GeoElement> getMoveableHits(ArrayList<GeoElement> hits) {
 		return getMoveables(hits, TEST_MOVEABLE, null);
 	}
 	
-
-	
-
-
 	/**
 	 * returns array of changeable GeoElements out of hits that implement
 	 * PointRotateable
@@ -3416,7 +3410,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @param result 
 	 * @return array of GeoElements of type geoclass drawn at coords (x,y)
 	 */
-	final public ArrayList<GeoElement> getHits(Point p, Class geoclass, ArrayList<GeoElement> result) {
+	final public ArrayList<GeoElement> getHits(Point p, Class<GeoPoint> geoclass, ArrayList<GeoElement> result) {
 		return getHits(getHits(p), geoclass, false, result);
 	}
 
@@ -3427,12 +3421,12 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @param result 
 	 * @return array of GeoElements NOT of type geoclass out of hits
 	 */
-	final public ArrayList<GeoElement> getOtherHits(ArrayList<GeoElement> hits, Class geoclass,
+	final public static ArrayList<GeoElement> getOtherHits(ArrayList<GeoElement> hits, Class<GeoPoint> geoclass,
 			ArrayList<GeoElement> result) {
 		return getHits(hits, geoclass, true, result);
 	}
 
-	final public ArrayList<GeoElement> getHits(ArrayList<GeoElement> hits, Class geoclass,
+	final public static ArrayList<GeoElement> getHits(ArrayList<GeoElement> hits, Class<GeoPoint> geoclass,
 			ArrayList<GeoElement> result) {
 		return getHits(hits, geoclass, false, result);
 	}
@@ -3449,7 +3443,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @param result 
 	 * @return either null (if result is emty) or result
 	 */
-	final protected ArrayList<GeoElement> getHits(ArrayList<GeoElement> hits, Class geoclass,
+	final protected static ArrayList<GeoElement> getHits(ArrayList<GeoElement> hits, Class<GeoPoint> geoclass,
 			boolean other, ArrayList<GeoElement> result) {
 		if (hits == null)
 			return null;
@@ -3472,7 +3466,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @return list of points, vectors and numbers
 	 * 
 	 */
-	final protected ArrayList<GeoElement> getRecordableHits(ArrayList<GeoElement> hits, ArrayList<GeoElement> result) {
+	final protected static ArrayList<GeoElement> getRecordableHits(ArrayList<GeoElement> hits, ArrayList<GeoElement> result) {
 		if (hits == null)
 			return null;
 
@@ -3523,7 +3517,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 	protected ArrayList<GeoElement> topHitsList = new ArrayList<GeoElement>();
 
-	final public boolean containsGeoPoint(ArrayList<GeoElement> hits) {
+	final public static boolean containsGeoPoint(ArrayList<GeoElement> hits) {
 		if (hits == null)
 			return false;
 
@@ -5161,9 +5155,6 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		Point mouseLoc = getEuclidianController().mouseLoc;
 		getPreviewDrawable().updateMousePos(toRealWorldCoordX(mouseLoc.x), toRealWorldCoordY(mouseLoc.y));
 	}
-	
-	
-	
 	
 	public void mouseEntered(){
 		

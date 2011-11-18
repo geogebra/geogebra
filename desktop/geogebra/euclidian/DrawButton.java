@@ -17,11 +17,7 @@ import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -31,7 +27,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.Icon;
 import javax.swing.SwingUtilities;
 
 
@@ -151,45 +146,46 @@ public final class DrawButton extends Drawable {
 		isVisible = geo.isEuclidianVisible();
 		myButton.setVisible(isVisible);
 		if (!isVisible)
-			return;		
+			return;
 
 		// get caption to show r
 		String caption = geo.getCaption();
 		if (!caption.equals(oldCaption)) {
 			oldCaption = caption;
 			labelDesc = GeoElement.indicesToHTML(caption, true);
-		}	
+		}
 		myButton.setText(labelDesc);
-	
-		
+
 		int fontSize = view.fontSize + geoButton.getFontSize();
 		Application app = view.getApplication();
-		
-		myButton.setOpaque(true);		
-		myButton.setFont(app.getFontCanDisplay(myButton.getText(), geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));				
 
-		//myButton.setForeground(geo.getObjectColor());
-		//Color bgCol = geo.getBackgroundColor();
-		//myButton.setBackground(Color.red);//bgCol != null ? bgCol : view.getBackground());
-		// set checkbox state		
-		//jButton.removeItemListener(bl);
-		//jButton.setSelected(geo.getBoolean());
-		//jButton.addItemListener(bl);
-		
+		myButton.setOpaque(true);
+		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
+				geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
+
+		// myButton.setForeground(geo.getObjectColor());
+		// Color bgCol = geo.getBackgroundColor();
+		// myButton.setBackground(Color.red);//bgCol != null ? bgCol :
+		// view.getBackground());
+		// set checkbox state
+		// jButton.removeItemListener(bl);
+		// jButton.setSelected(geo.getBoolean());
+		// jButton.addItemListener(bl);
+
 		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;		
+		yLabel = geo.labelOffsetY;
 		Dimension prefSize = myButton.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.width,
 				prefSize.height);
-		myButton.setBounds(labelRectangle);	}
+		myButton.setBounds(labelRectangle);
+	}
 
 	private void updateLabel() {
 		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;		
+		yLabel = geo.labelOffsetY;
 
-		labelRectangle.setBounds(xLabel, yLabel,
-				 ((textSize == null) ? 0 : textSize.x),
-				12);
+		labelRectangle.setBounds(xLabel, yLabel, ((textSize == null) ? 0
+				: textSize.x), 12);
 	}
 
 	@Override

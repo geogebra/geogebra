@@ -29,7 +29,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -43,7 +42,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 
 /**
  * Checkbox for free GeoBoolean object.
@@ -99,7 +97,9 @@ public final class DrawTextField extends Drawable {
 		/**
 		 * Handles click on check box. Changes value of GeoBoolean.
 		 */
+		@SuppressWarnings("unused")
 		public void itemStateChanged(ItemEvent e) {
+			// TODO delete?
 		}
 
 		public void mouseDragged(MouseEvent e) {	
@@ -326,7 +326,9 @@ public final class DrawTextField extends Drawable {
 				prefSize.height);
 		box.setBounds(labelRectangle);	}
 
+	@SuppressWarnings("unused")
 	private void updateLabel() {
+		// TODO delete?
 		/*
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;		

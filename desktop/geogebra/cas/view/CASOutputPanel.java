@@ -22,10 +22,8 @@ public class CASOutputPanel extends JPanel {
 	private JLabel outputSign;
 	private JLabel outputArea;
 	private LaTeXPanel latexPanel; 
-	private Application app;
 
 	public CASOutputPanel(Application app) {
-		this.app = app;
 		setBackground(Color.white);		
 		setLayout(new BorderLayout(5,0));
 		

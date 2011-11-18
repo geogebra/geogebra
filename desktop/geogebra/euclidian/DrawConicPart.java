@@ -62,7 +62,6 @@ implements Previewable {
     //private Drawable degDrawable;
     
     private double [] coords = new double[2];
-    private GeoPoint tempPoint;
     
     // preview
     private ArrayList<GeoPointND> prevPoints;

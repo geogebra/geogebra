@@ -70,6 +70,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean debug  = true;
 
 
@@ -226,7 +227,6 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 
 					// wrap text in quotes
 					text = "\"" + text + "\"";
-
 				}
 
 
@@ -251,11 +251,11 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 				return true;
 
 			} catch (UnsupportedFlavorException ignored) {
+				//TODO
 			} catch (IOException ignored) {
+				//TODO
 			}
 		}
-
-
 
 		// check for ggb file drop
 		boolean ggbFileDropped =  app.getGuiManager().handleGGBFileDrop(t);
@@ -263,7 +263,6 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 
 		return false;
 	}
-
 
 	/**
 	 * Sets the focus to this EV. 
@@ -275,8 +274,6 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 		else
 			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(Application.VIEW_EUCLIDIAN2);
 	}
-
-
 
 	public Transferable createTransferable(JComponent comp) {
 		return null;
@@ -298,7 +295,4 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 		return false;
 	}
 }
-
-
-
 

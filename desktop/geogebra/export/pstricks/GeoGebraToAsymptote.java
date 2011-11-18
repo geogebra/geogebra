@@ -1204,9 +1204,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             endDraw(geo);
         }
     }
-
-    
-    private void renameFunc(StringBuilder sb, String nameFunc, String nameNew){
+  
+    private static void renameFunc(StringBuilder sb, String nameFunc, String nameNew){
         int ind = sb.indexOf(nameFunc);
         while(ind > -1){
             sb.replace(ind, ind + nameFunc.length(), nameNew);
@@ -2599,7 +2598,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     
     // Append the linestyle to PSTricks code
-    private void LinestyleCode(int linestyle,StringBuilder sb) {
+    private static void LinestyleCode(int linestyle,StringBuilder sb) {
         // note: removed 'pt' from linetype commands, seems to work better. 
         switch(linestyle){
             case EuclidianView.LINE_TYPE_DOTTED:
@@ -3264,7 +3263,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
            ceil(x) ---> ceiling(x)
            exp(x)  ---> 2.71828^(x)
  */   
-    private String killSpace(String name){
+    private static String killSpace(String name){
         StringBuilder sb = new StringBuilder();
         boolean operand = false;
         boolean space = false;

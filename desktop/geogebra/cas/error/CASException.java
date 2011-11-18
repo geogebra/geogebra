@@ -1,8 +1,6 @@
 package geogebra.cas.error;
 
 import geogebra.cas.GeoGebraCAS;
-import geogebra.main.Application;
-import geogebra.main.MyError;
 
 /**
  * Base class for all CAS exceptions.

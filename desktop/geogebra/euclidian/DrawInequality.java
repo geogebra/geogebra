@@ -209,7 +209,7 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private boolean matchBorder(GeoElement border, Drawable d) {
+	private static boolean matchBorder(GeoElement border, Drawable d) {
 		if (d instanceof DrawConic && ((DrawConic) d).getConic().equals(border))
 			return true;
 		if (d instanceof DrawImplicitPoly

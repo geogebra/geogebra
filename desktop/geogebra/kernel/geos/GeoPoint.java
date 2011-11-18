@@ -65,8 +65,6 @@ implements VectorValue, PathOrPoint,
 Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable, PointProperties,
 GeoPointND, Animatable, Transformable  {   	
 
-	private static final long serialVersionUID = 1L;
-
 	// don't set point size here as this would overwrite setConstructionDefaults() 
 	// in GeoElement constructor
 	//public int pointSize = EuclidianView.DEFAULT_POINT_SIZE; 

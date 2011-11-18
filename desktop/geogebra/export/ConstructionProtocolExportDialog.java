@@ -286,7 +286,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	        public void run() {    
 	                try {
 	                        // open html file in browser
-	                        app.getGuiManager().showURLinBrowser(HTMLfile.toURL());
+	                        app.getGuiManager().showURLinBrowser(HTMLfile.toURI().toURL());
 	                } catch (Exception ex) {                        
 	                        app.showError("SaveFileFailed");
 	                        Application.debug(ex.toString());

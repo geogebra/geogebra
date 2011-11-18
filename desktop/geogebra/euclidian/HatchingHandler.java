@@ -173,9 +173,6 @@ public class HatchingHandler {
 		//tp = new TexturePaint(getSeamlessTexture(4, 50), tr);
 
 		g2.setPaint(tp);       
-
-
-
 	}
 
 	private static BufferedImage getSeamlessTexture(int n, int pixelsPerPoint) {
@@ -288,7 +285,6 @@ public class HatchingHandler {
 		//Area bottom = new Area(new Line2D.Double(0,0,width,0));
 
 		Rectangle2D all = new Rectangle(0, 0, width, height);
-
 
 		// enable anti-aliasing
 		EuclidianView.setAntialiasing(g2d);

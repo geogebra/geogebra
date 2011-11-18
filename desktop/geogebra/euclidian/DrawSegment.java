@@ -27,7 +27,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

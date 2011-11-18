@@ -11,7 +11,6 @@ public class CASTableCellController implements KeyListener {
 	private CASView view;
 	private CASTable table;
 	private CASTableCellEditor tableCellEditor;
-	private Thread evalThread;
 
 	public CASTableCellController(CASView view) {		
 		this.view = view;

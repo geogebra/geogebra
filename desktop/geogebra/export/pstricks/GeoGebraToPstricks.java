@@ -186,8 +186,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}	
 
     protected void drawLocus(GeoLocus g){
-    	ArrayList ll=g.getMyPointList();
-    	Iterator it=ll.iterator();
+    	ArrayList<MyPoint> ll=g.getMyPointList();
+    	Iterator<MyPoint> it=ll.iterator();
 		startBeamer(code);
     	code.append("\\pscustom");
 		code.append(LineOptionCode(g,true));
@@ -1030,7 +1030,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
  	 *  - rename several functions (done in #ExpressionNode.toString())
  	 *	- rename constants
 	 */
-	private String killSpace(String name){
+	private static String killSpace(String name){
 	//	2  x +3 ----> 2*x+3
 		StringBuilder sb=new StringBuilder();
 		boolean operand=false;
@@ -1063,13 +1063,15 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		renameFunc(sb,"\\pi","PI");
 		return new String(sb);
 	}
-	private void renameFunc(StringBuilder sb,String nameFunc,String nameNew){
+	
+	private static void renameFunc(StringBuilder sb,String nameFunc,String nameNew){
 		int ind=sb.indexOf(nameFunc);
 		while(ind>-1){
 			sb.replace(ind,ind+nameFunc.length(),nameNew);
 			ind=sb.indexOf(nameFunc);
 		}
 	}
+	
 	private double maxDefinedValue(GeoFunction f,double a,double b){
 		double x=a;
 		double step=(b-a)/100;

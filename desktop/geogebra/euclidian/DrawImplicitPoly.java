@@ -27,7 +27,7 @@ import java.awt.geom.Area;
 public class DrawImplicitPoly extends DrawLocus {
 	
 	private GeoImplicitPoly implicitPoly;
-	private int fillSign; //0=>no filling, only curve -1=>fill the negativ part, 1=>fill positiv part
+	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ part, 1=>fill positiv part
 	
 	public DrawImplicitPoly(EuclidianView view,GeoImplicitPoly implicitPoly) {
 		super(view,implicitPoly.locus);

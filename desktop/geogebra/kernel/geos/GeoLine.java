@@ -39,7 +39,6 @@ import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
 import geogebra.util.MyMath;
 
 import java.awt.geom.Point2D;
@@ -50,7 +49,6 @@ implements Path,
 Translateable,PointRotateable, Mirrorable, Dilateable, LineProperties,
 GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	
-	private static final long serialVersionUID = 1L;
 	// modes
     public static final int EQUATION_IMPLICIT = 0;
     public static final int EQUATION_EXPLICIT = 1;

@@ -1,17 +1,14 @@
 package geogebra.euclidian;
 
 import geogebra.kernel.geos.GeoButton;
-import geogebra.main.Application;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.RenderingHints;
 
 import javax.swing.JButton;
 
@@ -40,7 +37,6 @@ public class MyButton extends JButton {
 
 		g2.setColor(view.getBackground());
 		g2.fillRect(0, 0, getWidth(), getHeight());
-
 
 		GradientPaint p;
 

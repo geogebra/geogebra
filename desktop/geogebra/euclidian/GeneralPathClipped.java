@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.euclidian.PathPoint;
 import geogebra.euclidian.clipping.ClipLine;
 
 import java.awt.Rectangle;
@@ -25,7 +26,7 @@ public class GeneralPathClipped implements Shape {
 	private static final float MAX_COORD_VALUE = 10000;
 	private static final double TOLERANCE = 0.01; // pixel distance for equal points 
 	
-	private ArrayList pathPoints;
+	private ArrayList<PathPoint> pathPoints;
 	private GeneralPath gp;
 	private EuclidianView view;
 	private double largestCoord;
@@ -34,7 +35,7 @@ public class GeneralPathClipped implements Shape {
 	
 	public GeneralPathClipped(EuclidianView view) {
 		this.view = view;
-		pathPoints = new ArrayList();
+		pathPoints = new ArrayList<PathPoint>();
 		gp = new GeneralPath();
 		//bounds = new Rectangle();
 		reset();
@@ -289,16 +290,6 @@ public class GeneralPathClipped implements Shape {
 
 	public boolean intersects(double arg0, double arg1, double arg2, double arg3) {
 		return getGeneralPath().intersects(arg0, arg1, arg2, arg3);
-	}
-	
-	private class PathPoint extends Point2D.Double {
-		boolean lineTo;
-		
-		PathPoint(double x, double y, boolean lineTo) {
-			this.x = x;
-			this.y = y;
-			this.lineTo = lineTo;
-		}
 	}
 
 }

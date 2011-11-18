@@ -38,6 +38,7 @@ import javax.swing.ListSelectionModel;
  * Use this modal dialog to let the user choose one string from a 
  * list. 
  */
+// TODO class is unused; will it be used?
 public class ListDialog extends JDialog {  
 	
 	private static final long serialVersionUID = 1L;
@@ -52,17 +53,17 @@ public class ListDialog extends JDialog {
     /**
      * 
      * @param comp
-     * @param data: list of GeoElement objects
+     * @param data list of GeoElement objects
      * @param title
      */
-    public ListDialog(JComponent comp, ArrayList data, String title) {
+    public ListDialog(JComponent comp, ArrayList<GeoElement> data, String title) {
         super(JOptionPane.getFrameForComponent(comp), title, true);		
         
         // list
         listModel = new DefaultListModel();
         list = new JList(listModel);       
         for (int i=0; i < data.size(); i++) {
-        	GeoLabel label = new GeoLabel( (GeoElement) data.get(i));        	
+        	GeoLabel label = new GeoLabel(data.get(i));        	
         	listModel.addElement(label);
         }
                
@@ -120,8 +121,7 @@ public class ListDialog extends JDialog {
         value = newValue;
         list.setSelectedValue(value, true);
     }
-
-    
+   
     private class GeoLabel extends JLabel {
     	
     	private static final long serialVersionUID = 1L;

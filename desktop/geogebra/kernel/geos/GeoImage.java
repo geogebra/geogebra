@@ -33,10 +33,6 @@ public class GeoImage extends GeoElement
 implements Locateable, AbsoluteScreenLocateable,
 		   PointRotateable, Mirrorable, Translateable, Dilateable, MatrixTransformable,Transformable {
 	 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	//private String imageFileName = ""; // image file
 	private GeoPoint [] corners; // corners of the image
 	//private BufferedImage image;	

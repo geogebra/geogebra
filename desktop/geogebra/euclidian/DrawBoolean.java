@@ -36,7 +36,7 @@ public final class DrawBoolean extends Drawable {
 	private boolean isVisible;
 
 	//private JCheckBox checkBox;
-	private boolean hit = false;
+	//private boolean hit = false;
 	private String oldCaption;
 	//private BooleanCheckBoxListener cbl;
 	
