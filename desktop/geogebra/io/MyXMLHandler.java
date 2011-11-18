@@ -1670,6 +1670,20 @@ public class MyXMLHandler implements DocHandler {
 			 * boolean isVisible = parseBoolean((String) ob); }
 			 */
 
+			
+			Iterator<String> it = attrs.keySet().iterator();
+			int colCounter = 0;
+			boolean[] colsVis = new boolean[attrs.keySet().size()];
+			while (it.hasNext()) { 
+				Object ob = attrs.get(it.next()); 
+				boolean isVisible = parseBoolean((String) ob);
+				colsVis[colCounter++] = isVisible;
+				//TODO: data.columns[colCounter] = isVisible
+			}
+			
+			ConstructionProtocolSettings cpSettings = app.getSettings().getConstructionProtocol();
+			cpSettings.setColsVisibility(colsVis);
+			
 			return true;
 		} catch (Exception e) {
 			return false;

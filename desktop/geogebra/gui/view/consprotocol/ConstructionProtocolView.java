@@ -25,6 +25,9 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
+import geogebra.main.settings.AbstractSettings;
+import geogebra.main.settings.ConstructionProtocolSettings;
+import geogebra.main.settings.SettingListener;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -82,7 +85,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-public class ConstructionProtocolView extends JPanel implements Printable, ActionListener {
+public class ConstructionProtocolView extends JPanel implements Printable, ActionListener, SettingListener {
 
 	/**
 	 * 
@@ -195,6 +198,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 		initGUI();
 		initActions();
+
+		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
+		settingsChanged(cps);
+		cps.addListener(this);
 		
 	}
 
@@ -1020,6 +1027,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				return false;
 
 			return initShow;
+		}
+		
+		public void setVisible(boolean isVisible){
+			this.isVisible = isVisible;
 		}
 	}
 
@@ -1971,5 +1982,35 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		kernel.setShowOnlyBreakpoints(!kernel.showOnlyBreakpoints());
 		getData().initView();
 		repaint();
+	}
+	
+	public void settingsChanged(AbstractSettings settings) {
+		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
+		setColsVisibility(cps.getColsVisibility());
+
+		update();
+		getData().initView();
+		repaint();
+		
+	
+	}
+
+	private void setColsVisibility(boolean[] colsVisibility) {
+		TableColumnModel model = table.getColumnModel();
+		
+		
+		for(int i=0; i<colsVisibility.length; i++){
+			TableColumn column = getTableColumns()[i];
+			model.removeColumn(column);
+			if (colsVisibility[i] == true){
+				model.addColumn(column);
+			} 
+			//else {
+			//	model.removeColumn(column);
+			//}
+			data.initView();
+			data.columns[i].setVisible(colsVisibility[i]);
+		}
+		
 	}
 }

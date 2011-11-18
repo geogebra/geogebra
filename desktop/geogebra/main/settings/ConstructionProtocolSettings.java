@@ -25,6 +25,12 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	 * Show the construction protocol button.
 	 */
 	private boolean showConsProtButton = true;
+	
+	/**
+	 * Show the visibility of construction protocol's columns
+	 */
+	private boolean cpColumnsVisible[];
+	
 
 	public ConstructionProtocolSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -100,5 +106,27 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 			this.showConstructionProtocol = flag;
 			settingChanged();
 		}
+	}
+	
+	public void setColVisibility(int col, boolean isVisible){
+		
+	}
+
+	public boolean[] getColsVisibility(){
+		return cpColumnsVisible;
+	}
+	
+	public void setColsVisibility(boolean[] cpColumnsVisible) {
+		// TODO Auto-generated method stub
+	/*	Iterator it = attrs.keySet().iterator();
+		int colCounter = 0;
+		while (it.hasNext()) { 
+			Object ob = attrs.get(it.next()); 
+			boolean isVisible = parseBoolean((String) ob);
+		*/	
+			//TODO: data.columns[colCounter] = isVisible
+		this.cpColumnsVisible = cpColumnsVisible;
+		settingChanged();
+		
 	}
 }
