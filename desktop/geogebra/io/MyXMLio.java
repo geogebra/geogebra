@@ -690,8 +690,10 @@ public class MyXMLio {
 			else
 				ext = "PNG";
 			
+			boolean useCache = true;
 			// circumvent security issues by disabling disk-based caching
 			if(app.isApplet()) {
+				useCache = ImageIO.getUseCache();
 				javax.imageio.ImageIO.setUseCache(false);
 			}
 			
@@ -699,7 +701,7 @@ public class MyXMLio {
 			
 			// restore caching to prevent side-effects
 			if(app.isApplet()) {
-				javax.imageio.ImageIO.setUseCache(true);
+				javax.imageio.ImageIO.setUseCache(useCache);
 			}
 		} catch (Exception e) {
 			Application.debug(e.getMessage());
