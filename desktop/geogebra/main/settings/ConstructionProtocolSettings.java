@@ -29,7 +29,7 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	/**
 	 * Show the visibility of construction protocol's columns
 	 */
-	private boolean cpColumnsVisible[];
+	private boolean cpColumnsVisible[] = {true, true, false, true, false, true, true, false};
 	
 
 	public ConstructionProtocolSettings(LinkedList<SettingListener> listeners) {

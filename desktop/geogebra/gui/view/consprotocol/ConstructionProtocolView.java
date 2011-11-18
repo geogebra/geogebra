@@ -1998,8 +1998,9 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	private void setColsVisibility(boolean[] colsVisibility) {
 		TableColumnModel model = table.getColumnModel();
 		
+		int k = Math.min(colsVisibility.length, data.columns.length);
 		
-		for(int i=0; i<colsVisibility.length; i++){
+		for(int i=0; i<k; i++){
 			TableColumn column = getTableColumns()[i];
 			model.removeColumn(column);
 			if (colsVisibility[i] == true){
