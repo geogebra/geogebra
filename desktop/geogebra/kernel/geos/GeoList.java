@@ -1033,39 +1033,37 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public boolean isMatrix() {
 
-		if (getElementType() != GeoElement.GEO_CLASS_LIST)
+		if (getElementType() != GeoElement.GEO_CLASS_LIST || size() == 0)
 			return false;
 
-		if (size() > 0) {
 
-			GeoElement geo0 = get(0);
-			if (geo0.isGeoList()) {
-				int length = ((GeoList) geo0).size();
-				if (length == 0) {
-					return false;
-				} else {
-					if (size() > 0)
-						for (int i = 0; i < size(); i++) {
-							GeoElement geoi = get(i);
-							// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
-							if (!get(i).isGeoList()
-									|| ((GeoList) geoi).size() == 0
-									|| ((GeoList) geoi).size() != length)
-								return false;
-							else {
-								for (int j=0; j<((GeoList) geoi).size(); j++){
-									GeoElement geoij=((GeoList)geoi).get(j);
-									if (geoij.getGeoClassType() != GeoElement.GEO_CLASS_NUMERIC
-											&& geoij.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTION
-											&& geoij.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTION_NVAR)
-										return false;
-								}
+		GeoElement geo0 = get(0);
+		if (geo0.isGeoList()) {
+			int length = ((GeoList) geo0).size();
+			if (length == 0) {
+				return false;
+			} else {
+				if (size() > 0)
+					for (int i = 0; i < size(); i++) {
+						GeoElement geoi = get(i);
+						// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
+						if (!get(i).isGeoList()
+								|| ((GeoList) geoi).size() == 0
+								|| ((GeoList) geoi).size() != length)
+							return false;
+						else {
+							for (int j=0; j<((GeoList) geoi).size(); j++){
+								GeoElement geoij=((GeoList)geoi).get(j);
+								if (geoij.getGeoClassType() != GeoElement.GEO_CLASS_NUMERIC
+										&& geoij.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTION
+										&& geoij.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTION_NVAR)
+									return false;
 							}
 						}
-				}
+					}
 			}
-
 		}
+
 
 		return true;
 	}
