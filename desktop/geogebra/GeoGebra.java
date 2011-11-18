@@ -19,13 +19,17 @@ import java.net.URL;
 public class GeoGebra extends Object {
 	
 	// GeoGebra version
+	// update lines below when this is updated
 	public static final String BUILD_DATE = "15 November 2011";
-	public static final String VERSION_STRING = "4.1.22.0"; // <- update lines below when this is updated
-	//current 3D: "4.9.9.0"
-	//current ggb42: "4.1.21.0"
+	public static final String VERSION_STRING = "4.1.22.0"; //current ggb42: "4.1.21.0"
+	//public static final String VERSION_STRING = "4.9.10.0"; //current 3D: "4.9.9.0"
 	
+	/* start hacks TODO remove it when release candidate */
 	public static final String PREFERENCES_ROOT = VERSION_STRING.startsWith("4.9") ? 
 			"/geogebra50" : "/geogebra42";
+	// File format versions
+	public static final String XML_FILE_FORMAT = VERSION_STRING.startsWith("4.9") ? "5.0" : "4.2";
+	/* end hacks */
 	
 	public static final String SPLASH_STRING = "splash42beta.png";
 	public static final String SHORT_VERSION_STRING = "4.2"; // used for online archive
@@ -33,7 +37,6 @@ public class GeoGebra extends Object {
 	public static final boolean IS_PRE_RELEASE = true; //!VERSION_STRING.endsWith(".0");
 	
 	// File format versions
-	public static final String XML_FILE_FORMAT = "4.2";
 	public static final String GGB_XSD_FILENAME = "ggb.xsd"; // for ggb files
 	public static final String GGT_XSD_FILENAME = "ggt.xsd"; // for macro files 
 	public static final String I2G_FILE_FORMAT = "0.1.20080731";
