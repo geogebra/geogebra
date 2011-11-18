@@ -737,6 +737,9 @@ public class MyXMLio {
 		sb.append("<geogebra format=\"");
 		sb.append(GeoGebra.XML_FILE_FORMAT);
 		sb.append("\" ");
+		sb.append("version=\"");
+		sb.append(GeoGebra.VERSION_STRING);
+		sb.append("\" ");
 		if (uniqueId != null) {
 			sb.append("id=\"");
 			sb.append(uniqueId); // unique id to identify ggb file
