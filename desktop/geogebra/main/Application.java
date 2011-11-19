@@ -29,6 +29,7 @@ import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
+import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
@@ -70,8 +71,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
@@ -81,7 +80,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
-import java.awt.Transparency;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -497,7 +495,7 @@ public class Application implements KeyEventDispatcher {
 //	private int axesFontSize;
 //	private int euclidianFontSize;
 
-	protected JPanel centerPanel;
+	protected JPanel centerPanel, topPanel, bottomPanel;
 
 	private ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 	
@@ -509,14 +507,15 @@ public class Application implements KeyEventDispatcher {
 	private PythonBridge pythonBridge = null;
 
 	
-
-
-	
 	
 	// GUI elements to support a sidebar help panel for the input bar.
 	// The help panel slides open on a button press from the input bar.
 	private JSplitPane applicationSplitPane;
 
+	private DockBar dockBar;
+
+	
+	
 	public Application(CommandLineArguments args, JFrame frame, boolean undoActive) {
 		this(args, frame, null, null, undoActive);
 	}
@@ -991,43 +990,36 @@ public class Application implements KeyEventDispatcher {
 
 		// full GUI => use layout manager, add other GUI elements as requested 
 		if(isUsingFullGui()) {
-			JPanel topPanel = new JPanel(new BorderLayout());
-			JPanel bottomPanel = new JPanel(new BorderLayout());
+			topPanel = new JPanel(new BorderLayout());
+			bottomPanel = new JPanel(new BorderLayout());
 	
-			if(showAlgebraInput) {
-				if(showInputTop) {
-					topPanel.add(getGuiManager().getAlgebraInput(), BorderLayout.SOUTH);
-				} else {
-					bottomPanel.add(getGuiManager().getAlgebraInput(), BorderLayout.SOUTH);
-				}
-			}
-			
-			// initialize toolbar panel even if it's not used (hack)
-			getGuiManager().getToolbarPanelContainer();
-			
-			if(showToolBar) {
-				if(showToolBarTop) {
-					topPanel.add(getGuiManager().getToolbarPanelContainer(), BorderLayout.NORTH);
-				} else {
-					bottomPanel.add(getGuiManager().getToolbarPanelContainer(), BorderLayout.NORTH);
-				}
-			}
+			updateTopBottomPanels();
 			
 			//==================
 			// G.Sturr 2010-11-14
 			// Create a help panel for the input bar and a JSplitPane to contain it.
 			// The splitPane defaults with the application on the left and null on the right. 
 			// Our help panel will be added/removed as needed by the input bar.
-			applicationSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, centerPanel, null);
-			applicationSplitPane.setBorder(BorderFactory.createEmptyBorder());
-			// help panel is on the right, so set all resize weight to the left pane
-			applicationSplitPane.setResizeWeight(1.0);
-			applicationSplitPane.setDividerSize(0);
+			if(applicationSplitPane == null){
+				applicationSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, centerPanel, null);
+				applicationSplitPane.setBorder(BorderFactory.createEmptyBorder());
+				// help panel is on the right, so set all resize weight to the left pane
+				applicationSplitPane.setResizeWeight(1.0);
+				applicationSplitPane.setDividerSize(0);
+			}
 			
+			if(dockBar == null)
+				dockBar = new DockBar(this);
 			
-			panel.add(topPanel, BorderLayout.NORTH);
-			panel.add(applicationSplitPane, BorderLayout.CENTER);
-			panel.add(bottomPanel, BorderLayout.SOUTH);
+			JPanel subPanel = new JPanel(new BorderLayout());
+			
+			subPanel.add(topPanel, BorderLayout.NORTH);
+			subPanel.add(applicationSplitPane, BorderLayout.CENTER);
+			subPanel.add(bottomPanel, BorderLayout.SOUTH);
+			
+			panel.add(subPanel, BorderLayout.CENTER);
+			panel.add(dockBar, BorderLayout.WEST);
+			
 			
 			// init labels
 			setLabels();
@@ -1072,6 +1064,43 @@ public class Application implements KeyEventDispatcher {
 		}
 	}
 
+	public void updateDockBar(){
+		if(dockBar != null)
+		dockBar.updateViews();
+	}
+
+	/**
+	 * Updates the component layout of the top and bottom panels. These panels
+	 * hold the toolbar and algebra input bar, so this method is called when
+	 * the visibility or arrangement of these components is changed.
+	 */
+	public void updateTopBottomPanels(){
+		if(topPanel == null || bottomPanel == null)
+			return;
+		
+		topPanel.removeAll();
+		bottomPanel.removeAll();
+		
+		if(showAlgebraInput) {
+			if(showInputTop) {
+				topPanel.add(getGuiManager().getAlgebraInput(), BorderLayout.SOUTH);
+			} else {
+				bottomPanel.add(getGuiManager().getAlgebraInput(), BorderLayout.SOUTH);
+			}
+		}
+		
+		// initialize toolbar panel even if it's not used (hack)
+		getGuiManager().getToolbarPanelContainer();
+		
+		if(showToolBar) {
+			if(showToolBarTop) {
+				topPanel.add(getGuiManager().getToolbarPanelContainer(), BorderLayout.NORTH);
+			} else {
+				bottomPanel.add(getGuiManager().getToolbarPanelContainer(), BorderLayout.NORTH);
+			}
+		}
+		topPanel.revalidate();
+	}
 	
 
 	
@@ -3223,6 +3252,7 @@ public class Application implements KeyEventDispatcher {
 		showAlgebraInput = flag;
 		
 		if(update) {
+			updateTopBottomPanels();
 			updateMenubar();
 		}
 	}
@@ -3238,7 +3268,7 @@ public class Application implements KeyEventDispatcher {
 		showInputTop = flag;
 		
 		if(update && !isIniting())
-			updateContentPane();
+			updateTopBottomPanels();
 	}
 
 	public boolean showInputHelpToggle() {
@@ -3256,7 +3286,7 @@ public class Application implements KeyEventDispatcher {
 		showToolBarTop = flag;
 		
 		if(!isIniting())
-			updateContentPane();
+			updateTopBottomPanels();
 	}
 
 	public boolean getShowCPNavNeedsUpdate(){
@@ -3304,7 +3334,7 @@ public class Application implements KeyEventDispatcher {
 		showToolBar = toolbar;
 		
 		if(!isIniting()) {
-			updateContentPane();
+			updateTopBottomPanels();
 			updateMenubar();
 		}
 	}
@@ -3431,6 +3461,7 @@ public class Application implements KeyEventDispatcher {
 
 		getGuiManager().updateMenubar();
 		getGuiManager().updateActions();
+		updateDockBar();
 		System.gc();
 	}
 
@@ -4246,7 +4277,6 @@ public class Application implements KeyEventDispatcher {
 
 	final public void clearSelectedGeos() {
 		clearSelectedGeos(true);
-		updateSelection();
 	}
 
 	public void clearSelectedGeos(boolean repaint) {

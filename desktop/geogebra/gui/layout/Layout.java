@@ -632,6 +632,7 @@ public class Layout implements SettingListener {
 					
 					app.updateMenubar();
 					updateRemoveButton();
+					app.updateDockBar();
 				}
 			}
 		}

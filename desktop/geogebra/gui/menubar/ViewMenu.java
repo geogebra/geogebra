@@ -307,7 +307,6 @@ class ViewMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setShowAlgebraInput(!app.showAlgebraInput(), true);
-				app.updateContentPane();
 			}
 		};
 
@@ -335,7 +334,6 @@ class ViewMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setShowToolBar(!app.showToolBar());
-				app.updateContentPane();
 			}
 		};
 
@@ -344,7 +342,6 @@ class ViewMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setShowToolBarTop(!app.showToolBarTop());
-				app.updateContentPane();
 			}
 		};
 
