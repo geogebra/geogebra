@@ -560,8 +560,8 @@ public class Layout implements SettingListener {
 		
 		private Application app;
 		private Layout layout;
-		private JList<String> list;
-		private DefaultListModel<String> listModel;
+		private JList list;
+		private DefaultListModel listModel;
 		private JButton cancelButton, removeButton;
 		
 		public ManagePerspectivesDialog(Application app, Layout layout) {
@@ -582,13 +582,13 @@ public class Layout implements SettingListener {
 		 */
 		private void buildGUI() {
 			// build list with perspectives
-			listModel = new DefaultListModel<String>();
+			listModel = new DefaultListModel();
 			Perspective[] perspectives = layout.getPerspectives();
 			for(int i = 0; i < perspectives.length; ++i) {
 				listModel.addElement(perspectives[i].getId());
 			}
 			
-			list = new JList<String>(listModel);
+			list = new JList(listModel);
 			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			list.setLayoutOrientation(JList.VERTICAL);
 			list.setVisibleRowCount(6);
