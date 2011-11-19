@@ -46,7 +46,7 @@ public class DialogManager {
 	 * Object which provides an option dialog if requested. Used because
 	 * different option dialogs are needed for GeoGebra 4 and 5.
 	 */
-	private OptionsDialog.Factory optionsDialogProvider;
+	private OptionsDialog.Factory optionsDialogFactory;
 
 	/**
 	 * Dialog to change object properties.
@@ -158,7 +158,7 @@ public class DialogManager {
 	 */
 	public void showOptionsDialog(int tabIndex) {
 		if (optionsDialog == null)
-			optionsDialog = optionsDialogProvider.create(app);
+			optionsDialog = optionsDialogFactory.create(app);
 		else
 			optionsDialog.updateGUI();
 
@@ -464,12 +464,12 @@ public class DialogManager {
 		return textInputDialog;
 	}
 	
-	public OptionsDialog.Factory getOptionsDialogProvider() {
-		return optionsDialogProvider;
+	public OptionsDialog.Factory getOptionsDialogFactory() {
+		return optionsDialogFactory;
 	}
 
-	public void setOptionsDialogProvider(OptionsDialog.Factory optionsDialogProvider) {
-		this.optionsDialogProvider = optionsDialogProvider;
+	public void setOptionsDialogFactory(OptionsDialog.Factory optionsDialogFactory) {
+		this.optionsDialogFactory = optionsDialogFactory;
 	}
 
 	// Added for Intergeo File Format (Yves Kreis) -->

@@ -48,7 +48,7 @@ public class GuiManager3D extends GuiManager {
 	public void initialize() {
 		super.initialize();
 		
-		dialogManager.setOptionsDialogProvider(new OptionsDialog3D.Factory());
+		dialogManager.setOptionsDialogFactory(new OptionsDialog3D.Factory());
 	}
 	
 	/**
