@@ -27,6 +27,7 @@ public class PropertiesDockPanel extends DockPanel {
 		);
 		
 		this.app = app;
+		this.setOpenInFrame(false);
 	}
 
 

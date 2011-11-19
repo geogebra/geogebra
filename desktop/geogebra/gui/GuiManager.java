@@ -335,8 +335,8 @@ public class GuiManager {
 	public PropertiesView getPropertiesView() {
 
 		if (propertiesView==null){
-			initPropertiesDialog();
-			propertiesView = new PropertiesView(app,propDialog.getGeoTree(),propDialog.getPropertiesPanel());
+			//initPropertiesDialog();
+			propertiesView = new PropertiesView(app);
 		}
 		
 		return propertiesView;

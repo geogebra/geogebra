@@ -16,6 +16,7 @@ package geogebra.gui.view.properties;
 
 import geogebra.gui.PropertiesDialog.JTreeGeoElements;
 import geogebra.gui.PropertiesPanel;
+import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
@@ -39,36 +40,41 @@ import javax.swing.JSplitPane;
  */
 public class PropertiesView extends JPanel implements View, GeoElementSelectionListener {
 	
-	private JTreeGeoElements geoTree;
+	//private JTreeGeoElements geoTree;
 	private PropertiesPanel propPanel;
 	private Kernel kernel;
 	private Application app;
 	private boolean attached;
 	
-	public PropertiesView(Application app, JTreeGeoElements geoTree, PropertiesPanel propPanel){
+	public PropertiesView(Application app){
 
 		super(new BorderLayout());
 		
 		this.app = app;
 		app.setPropertiesView(this);
 		this.kernel=app.getKernel();
-		this.geoTree=geoTree;
-		this.propPanel=propPanel;
-		
-		
+		//this.geoTree=geoTree;
+		this.propPanel=new PropertiesPanel(app, new GeoGebraColorChooser(app), false);
+		propPanel.setMinimumSize(propPanel.getPreferredSize());
+			
 		initGUI();
 	}
 	
+	
+	
 	public void initGUI(){
 		
-		geoTree.setFont(app.getPlainFont());		
+		//geoTree.setFont(app.getPlainFont());	
+		add(propPanel);
 	}
 	
 	private void setGeoTreeVisible(){
 		
-		removeAll();
+		//removeAll();
 		
-		//		LIST PANEL		
+		//		LIST PANEL
+		
+		/*
 		JScrollPane listScroller = new JScrollPane(geoTree);			
 		listScroller.setMinimumSize(new Dimension(120, 200));
 		listScroller.setBackground(geoTree.getBackground());
@@ -79,13 +85,14 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 		splitPane.setRightComponent(propPanel);
 		
 		add(splitPane);
+		*/
 	}
 	
 	private void setGeoTreeNotVisible(){
 		
-		removeAll();
+		//removeAll();
 
-		add(propPanel);
+		//add(propPanel);
 	}	
 	
 
@@ -95,13 +102,13 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 
 	public void attachView() {
 		clearView();
-		kernel.notifyAddAll(this);
-		kernel.attach(this);
+	//	kernel.notifyAddAll(this);
+	//	kernel.attach(this);
 		attached = true;
 	}
 
 	public void detachView() {
-		kernel.detach(this);
+	//	kernel.detach(this);
 		clearView();
 		attached = false;
 	}
@@ -132,7 +139,7 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
-		update(geo);
+		//update(geo);
 		
 	}
 
@@ -170,16 +177,23 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 	////////////////////////////////////////////////////////
 
 	public void updateSelection() {
-		propPanel.updateSelection(app.getSelectedGeos().toArray());		
+		
+		if(app.getSelectedGeos().toArray().length > 0){
+			propPanel.updateSelection(app.getSelectedGeos().toArray());
+			this.setVisible(true);
+		}
+		else{
+			this.setVisible(false);	
+		}
 	}
 	
 	private ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
 	
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (geo == null) return;
-		tempArrayList.clear();
-		tempArrayList.add(geo);
-		geoTree.setSelected(tempArrayList, addToSelection);
+	//	tempArrayList.clear();
+	//	tempArrayList.add(geo);
+	//	geoTree.setSelected(tempArrayList, addToSelection);
 		//requestFocus();
 	}
 	
@@ -190,19 +204,19 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 
 	
 	public void windowPanel() {
-		setGeoTreeVisible();
+	//	setGeoTreeVisible();
 		
-		kernel.attach(geoTree);
-		kernel.notifyAddAll(geoTree);	
-		app.setSelectionListenerMode(this);
+	//	kernel.attach(geoTree);
+	//	kernel.notifyAddAll(geoTree);	
+	//	app.setSelectionListenerMode(this);
 	}
 	
 	public void unwindowPanel() {
-		setGeoTreeNotVisible();
+	//	setGeoTreeNotVisible();
 		
-		kernel.detach(geoTree);					
-		geoTree.clear();				
-		app.setSelectionListenerMode(null);
+	//	kernel.detach(geoTree);					
+	//	geoTree.clear();				
+	//	app.setSelectionListenerMode(null);
 	}
 	
 } 
