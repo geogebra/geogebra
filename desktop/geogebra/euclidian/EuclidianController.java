@@ -799,20 +799,20 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 	public void clearSelections() {
 
-		clearSelection(selectedNumbers);
-		clearSelection(selectedNumberValues);
-		clearSelection(selectedPoints);
-		clearSelection(selectedLines);
-		clearSelection(selectedSegments);
-		clearSelection(selectedConicsND);
-		clearSelection(selectedVectors);
-		clearSelection(selectedPolygons);
-		clearSelection(selectedGeos);
-		clearSelection(selectedFunctions);		
-		clearSelection(selectedCurves);
-		clearSelection(selectedLists);
-		clearSelection(selectedPaths);
-		clearSelection(selectedRegions);
+		clearSelection(selectedNumbers, false);
+		clearSelection(selectedNumberValues, false);
+		clearSelection(selectedPoints, false);
+		clearSelection(selectedLines, false);
+		clearSelection(selectedSegments, false);
+		clearSelection(selectedConicsND, false);
+		clearSelection(selectedVectors, false);
+		clearSelection(selectedPolygons, false);
+		clearSelection(selectedGeos, false);
+		clearSelection(selectedFunctions, false);		
+		clearSelection(selectedCurves, false);
+		clearSelection(selectedLists, false);
+		clearSelection(selectedPaths, false);
+		clearSelection(selectedRegions, false);
 
 		app.clearSelectedGeos();
 
@@ -7157,12 +7157,19 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		clearSelection(selectedCurves);
 		return curves;
 	}
+	
+	
+	final protected void clearSelection(ArrayList<?> selectionList){
+		clearSelection(selectionList,true);
+	}
+	
+	final protected void clearSelection(ArrayList<?> selectionList, boolean doUpdateSelection) {
 
-	final protected void clearSelection(ArrayList<?> selectionList) {
 		// unselect
 		selectionList.clear();
 		selectedGeos.clear();
-		app.clearSelectedGeos();	
+		if(doUpdateSelection)
+			app.clearSelectedGeos();	
 		view.repaintView();
 	}
 
