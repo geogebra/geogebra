@@ -46,7 +46,7 @@ public class DialogManager {
 	 * Object which provides an option dialog if requested. Used because
 	 * different option dialogs are needed for GeoGebra 4 and 5.
 	 */
-	private OptionsDialog.Provider optionsDialogProvider;
+	private OptionsDialog.Factory optionsDialogProvider;
 
 	/**
 	 * Dialog to change object properties.
@@ -158,7 +158,7 @@ public class DialogManager {
 	 */
 	public void showOptionsDialog(int tabIndex) {
 		if (optionsDialog == null)
-			optionsDialog = optionsDialogProvider.provide(app);
+			optionsDialog = optionsDialogProvider.create(app);
 		else
 			optionsDialog.updateGUI();
 
@@ -464,11 +464,11 @@ public class DialogManager {
 		return textInputDialog;
 	}
 	
-	public OptionsDialog.Provider getOptionsDialogProvider() {
+	public OptionsDialog.Factory getOptionsDialogProvider() {
 		return optionsDialogProvider;
 	}
 
-	public void setOptionsDialogProvider(OptionsDialog.Provider optionsDialogProvider) {
+	public void setOptionsDialogProvider(OptionsDialog.Factory optionsDialogProvider) {
 		this.optionsDialogProvider = optionsDialogProvider;
 	}
 

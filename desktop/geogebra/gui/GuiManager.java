@@ -179,7 +179,7 @@ public class GuiManager {
 		
 		// init dialog manager
 		dialogManager = new DialogManager(app);
-		dialogManager.setOptionsDialogProvider(new OptionsDialog.Provider());
+		dialogManager.setOptionsDialogProvider(new OptionsDialog.Factory());
 	}
 
 	/**
