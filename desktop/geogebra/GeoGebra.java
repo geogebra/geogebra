@@ -70,9 +70,9 @@ public class GeoGebra extends Object {
     		showSplash = false;
     	}
 
-	if(args.containsArg("regressionFile")) {
-		showSplash = false;
-	}
+			if(args.containsArg("regressionFile")) {
+				showSplash = false;
+			}
     	
     	if (showSplash) {
     	  // Show splash screen
@@ -88,11 +88,11 @@ public class GeoGebra extends Object {
 		  
 		  // Start GeoGebra
 		  try {        			  		
-			  startGeoGebra(args);                	
+			  startGeoGebra(args);               	
 		  } catch (Throwable e) {
-		      e.printStackTrace();
-		      System.err.flush();
-		      System.exit(10);
+	      e.printStackTrace();
+	      System.err.flush();
+	      System.exit(10);
 		  }
 		  
 		  // Hide splash screen

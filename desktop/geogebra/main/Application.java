@@ -593,7 +593,7 @@ public class Application implements KeyEventDispatcher {
 		// GeoGebra may exit. (dockPanel not entirely defined)
 		// This is needed before handleFileArg because
 		// we don't want to redefine the toolbar string from the file.
-		boolean ggtloading = handleFileArgGGTMaybeLoaded(args); 
+		boolean ggtloading = isLoadingTool(args); 
 		if(ggtloading) {
 			if (!isApplet)
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
@@ -737,12 +737,12 @@ public class Application implements KeyEventDispatcher {
 	}
 	
 	/**
-	 * Initialize the gui manager. Needs to be in a separate method to allow the 3D application
-	 * to load its own gui manager. 
+	 * Initialize the gui manager.
 	 */
 	final protected void initGuiManager() {
 		setWaitCursor();
 		guiManager = newGuiManager();
+		guiManager.setLayout(new geogebra.gui.layout.Layout());
 		guiManager.initialize();
 		setDefaultCursor();
 	}
@@ -752,13 +752,7 @@ public class Application implements KeyEventDispatcher {
 	}
 	
 	/**
-	 * Returns this application's GUI manager which is an instance of
-	 * geogebra.gui.ApplicationGUImanager. Loads gui jar file and creates GUI
-	 * manager if needed.
-	 * 
-	 * @return Object to avoid import geogebra.gui.ApplicationGUImanager in
-	 *         Application. Note that the gui jar file may not be loaded at all
-	 *         in applets.
+	 * @return this application's GUI manager.
 	 */
 	final public synchronized GuiManager getGuiManager() {
 		return guiManager;
@@ -799,10 +793,14 @@ public class Application implements KeyEventDispatcher {
 	}
 	
 	final public Font getFont(boolean serif, int style, int size) {
-		String name = serif ? 
-				fontManager.getSerifFont().getFontName() :
-				fontManager.getPlainFont().getFontName();	
-		return FontManager.getFont(name, style, size);
+		return fontManager.getFont(serif, style, size);
+	}
+	
+	/**
+	 * @return the font manager to access fonts for different tasks
+	 */
+	final public FontManager getFontManager() {
+		return fontManager;
 	}
 	
 	/**
@@ -1284,7 +1282,7 @@ public class Application implements KeyEventDispatcher {
 	 * 
 	 * @return true if file is loading and is a ggt file
 	 */
-	private boolean handleFileArgGGTMaybeLoaded(CommandLineArguments args) {
+	private boolean isLoadingTool(CommandLineArguments args) {
 		if(args == null || args.getNoOfFiles() == 0) 
 			return false;
 		String fileArgument = args.getStringValue("file0");
@@ -4435,7 +4433,7 @@ public class Application implements KeyEventDispatcher {
 
 	public void startDispatchingEventsTo(JComponent comp) {
 		if (guiManager != null) {
-			getGuiManager().closeOpenDialogs();
+			getGuiManager().getDialogManager().closeAll();
 		}
 
 		if (glassPaneListener == null) {

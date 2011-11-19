@@ -153,7 +153,7 @@ public class EditMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().showPropertiesDialog();
+				app.getGuiManager().getDialogManager().showPropertiesDialog();
 			}
 		};
 

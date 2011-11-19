@@ -398,10 +398,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 		@Override
 		public void run() {
 			// init properties dialog
-			this.app.getGuiManager().initPropertiesDialog();
+			this.app.getGuiManager().getDialogManager().initPropertiesDialog();
 
 			// init file chooser
-			this.app.getGuiManager().initFileChooser();
+			this.app.getGuiManager().getDialogManager().initFileChooser();
 
 			// init CAS
 			this.app.getKernel().getGeoGebraCAS();

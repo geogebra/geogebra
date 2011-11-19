@@ -39,4 +39,10 @@ public class OptionsDialog3D extends OptionsDialog {
 		
 		euclidianPanel3D.setLabels();
 	}
+	
+	public static class Provider extends OptionsDialog.Provider {
+		public OptionsDialog provide(Application app) {
+			return new OptionsDialog3D(app);
+		}
+	}
 }

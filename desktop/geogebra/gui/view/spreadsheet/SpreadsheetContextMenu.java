@@ -447,7 +447,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 		item = new JMenuItem(app.getMenu("SpreadsheetOptions") + "...",app.getEmptyIcon());
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().showOptionsDialog(OptionsDialog.TAB_SPREADSHEET);
+				app.getGuiManager().getDialogManager().showOptionsDialog(OptionsDialog.TAB_SPREADSHEET);
 			}
 		});	 
 		addItem(item);	
@@ -465,7 +465,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 			item = new JMenuItem(app.getMenu(app.getPlain("Properties"))+"...", app.getImageIcon("document-properties.png"));	 	
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					app.getGuiManager().showPropertiesDialog();	
+					app.getGuiManager().getDialogManager().showPropertiesDialog();	
 				}
 			});	 
 			addItem(item);

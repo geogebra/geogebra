@@ -273,7 +273,7 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().showOptionsDialog(-1);
+				app.getGuiManager().getDialogManager().showOptionsDialog(-1);
 			}
 		};
 	}

@@ -1,0 +1,502 @@
+package geogebra.gui;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.gui.app.MyFileFilter;
+import geogebra.gui.autocompletion.AutoCompletion;
+import geogebra.gui.toolbar.ToolbarConfigDialog;
+import geogebra.gui.util.GeoGebraFileChooser;
+import geogebra.gui.view.functioninspector.FunctionInspector;
+import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoNumeric;
+import geogebra.kernel.geos.GeoText;
+import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
+import geogebra.main.MyResourceBundle;
+
+/**
+ * Class to manage all kind of dialogs, including the file chooser, appearing in GeoGebra. Supports
+ * (explizit) lazy initialization so that dialogs have to be created manually if needed.
+ */
+public class DialogManager {
+	/**
+	 * Application instance.
+	 */
+	protected Application app;
+	
+	/**
+	 * The option dialog where the user can change all application settings.
+	 */
+	private OptionsDialog optionsDialog;
+	
+	/**
+	 * Object which provides an option dialog if requested. Used because
+	 * different option dialogs are needed for GeoGebra 4 and 5.
+	 */
+	private OptionsDialog.Provider optionsDialogProvider;
+
+	/**
+	 * Dialog to change object properties.
+	 */
+	private PropertiesDialog propDialog;
+
+	/**
+	 * Dialog to view properties of a function.
+	 */
+	private FunctionInspector functionInspector;
+	
+	/**
+	 * Dialog for styling text objects.
+	 */
+	private TextInputDialog textInputDialog;
+
+	/**
+	 * Dialog to select new files, either for loading or saving. Various file types are supported.
+	 */
+	private GeoGebraFileChooser fileChooser;
+
+	/**
+	 * Properties for translation of file chooser UI in languages Java doesn't support.
+	 */
+	private ResourceBundle rbJavaUI;
+	
+	/**
+	 * Keep track of the current locale for file chooser UI updating.
+	 */
+	private Locale currentLocale;
+	
+	public DialogManager(Application app) {
+		this.app = app;
+	}
+
+	/**
+	 * Initialize the properties panel.
+	 */
+	public synchronized void initPropertiesDialog() {
+		if (propDialog == null) {
+			propDialog = new PropertiesDialog(app);
+		}
+	}
+
+	/**
+	 * Reinitialize the properties panel.
+	 */
+	public synchronized void reinitPropertiesDialog() {
+		if (propDialog != null && propDialog.isVisible())
+			propDialog.setVisible(false);
+		
+		propDialog = null;
+		propDialog = new PropertiesDialog(app);
+
+	}
+	
+	/**
+	 * Update the fonts used in the dialogs.
+	 */
+	public void updateFonts() {
+		if (functionInspector != null)
+			functionInspector.updateFonts();
+
+		if (textInputDialog != null)
+			textInputDialog.updateFonts();
+
+		if (propDialog != null)
+			// changed to force all panels to be updated
+			reinitPropertiesDialog(); // was propDialog.initGUI();
+
+		if (optionsDialog != null) {
+			GuiManager.setFontRecursive(optionsDialog, app.getPlainFont());
+			SwingUtilities.updateComponentTreeUI(optionsDialog);
+		}
+		
+		if (fileChooser != null) {
+			fileChooser.setFont(app.getPlainFont());
+			SwingUtilities.updateComponentTreeUI(fileChooser);
+		}
+	}
+	
+	/**
+	 * Update labels in the GUI.
+	 */
+	public void setLabels() {
+		if (propDialog != null)
+			// changed to force all language strings to be updated
+			reinitPropertiesDialog(); // was propDialog.initGUI();
+		
+		if (optionsDialog != null)
+			optionsDialog.setLabels();
+
+		if (functionInspector != null)
+			functionInspector.setLabels();
+
+		if (textInputDialog != null)
+			textInputDialog.setLabels();
+		
+		if (fileChooser != null)
+			updateJavaUILanguage();
+	}
+
+	/**
+	 * Displays the options dialog.
+	 * 
+	 * @param tabIndex
+	 *            Index of the tab. Use OptionsDialog.TAB_* constants for this,
+	 *            or -1 for the default, -2 to hide.
+	 */
+	public void showOptionsDialog(int tabIndex) {
+		if (optionsDialog == null)
+			optionsDialog = optionsDialogProvider.provide(app);
+		else
+			optionsDialog.updateGUI();
+
+		if (tabIndex > -1)
+			optionsDialog.showTab(tabIndex);
+
+		optionsDialog.setVisible(tabIndex != -2);
+	}
+
+	/**
+	 * Displays the properties dialog for geos
+	 */
+	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
+		if (!app.letShowPropertiesDialog())
+			return;
+
+		// save the geos list: it will be cleared by setMoveMode()
+		ArrayList<GeoElement> selGeos = null;
+		if (geos == null)
+			geos = app.getSelectedGeos();
+
+		if (geos != null) {
+			tempGeos.clear();
+			tempGeos.addAll(geos);
+			selGeos = tempGeos;
+		}
+
+		app.setMoveMode();
+		app.setWaitCursor();
+
+		// open properties dialog
+		initPropertiesDialog();
+		propDialog.setVisibleWithGeos(selGeos);
+
+		// double-click on slider -> open properties at slider tab
+		if (geos != null && geos.size() == 1
+				&& geos.get(0).isEuclidianVisible()
+				&& geos.get(0) instanceof GeoNumeric)
+			propDialog.showSliderTab();
+
+		app.setDefaultCursor();
+	}
+
+	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();
+
+	public void showPropertiesDialog() {
+		showPropertiesDialog(null);
+	}
+
+	/**
+	 * Displays the configuration dialog for the toolbar
+	 */
+	public void showToolbarConfigDialog() {
+		app.getEuclidianView().resetMode();
+		ToolbarConfigDialog dialog = new ToolbarConfigDialog(app);
+		dialog.setVisible(true);
+	}
+
+	/**
+	 * Displays the rename dialog for geo
+	 */
+	public void showRenameDialog(GeoElement geo, boolean storeUndo,
+			String initText, boolean selectInitText) {
+		if (!app.isRightClickEnabled())
+			return;
+
+		geo.setLabelVisible(true);
+		geo.updateRepaint();
+
+		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
+
+		// Michael Borcherds 2008-03-25
+		// a Chinese friendly version
+		InputDialog id = new InputDialog(app, "<html>"
+				+ app.getPlain("NewNameForA", "<b>" + geo.getNameDescription()
+						+ "</b>") + // eg New name for <b>Segment a</b>
+				"</html>", app.getPlain("Rename"), initText, false, handler,
+				false, selectInitText, null);
+
+		/*
+		 * InputDialog id = new InputDialog( this, "<html>" +
+		 * app.getPlain("NewName") + " " + app.getPlain("for") + " <b>" +
+		 * geo.getNameDescription() + "</b></html>", app.getPlain("Rename"),
+		 * initText, false, handler, true, selectInitText);
+		 */
+
+		id.setVisible(true);
+	}
+
+
+	/**
+	 * Displays the redefine dialog for geo
+	 * 
+	 * @param allowTextDialog
+	 *            whether text dialog should be used for texts
+	 */
+	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
+		if (allowTextDialog && geo.isGeoText() && !geo.isTextCommand()) {
+			showTextDialog((GeoText) geo);
+			return;
+		}
+
+		String str = geo.getRedefineString(false, true);
+
+		InputHandler handler = new RedefineInputHandler(app, geo, str);
+
+		InputDialog id = new InputDialog(app, geo.getNameDescription(),
+				app.getPlain("Redefine"), str, true, handler, geo);
+		id.showSymbolTablePopup(true);
+		id.setVisible(true);
+	}
+
+	/**
+	 * Displays the text dialog for a given text.
+	 */
+	public void showTextDialog(GeoText text) {
+		showTextDialog(text, null);
+	}
+
+	/**
+	 * Creates a new text at given startPoint
+	 */
+	public void showTextCreationDialog(GeoPointND startPoint) {
+		showTextDialog(null, startPoint);
+	}
+
+	private void showTextDialog(GeoText text, GeoPointND startPoint) {
+		app.setWaitCursor();
+
+		if (textInputDialog == null)
+			textInputDialog = (TextInputDialog) createTextDialog(text,
+					startPoint);
+		else
+			((TextInputDialog) textInputDialog).reInitEditor(text, startPoint);
+
+		textInputDialog.setVisible(true);
+		app.setDefaultCursor();
+	}
+
+	public JDialog createTextDialog(GeoText text, GeoPointND startPoint) {
+		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
+		TextInputDialog id = new TextInputDialog(app, app.getPlain("Text"),
+				text, startPoint, 30, 6, isTextMode);
+		return id;
+	}
+
+	/**
+	 * Shows the function inspector dialog. If none exists, a new inspector is
+	 * created.
+	 */
+	public boolean showFunctionInspector(GeoFunction function) {
+		boolean success = true;
+
+		try {
+			if (functionInspector == null) {
+				functionInspector = new FunctionInspector(app, function);
+			} else {
+				functionInspector.insertGeoElement(function);
+			}
+			functionInspector.setVisible(true);
+
+		} catch (Exception e) {
+			success = false;
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
+	/**
+	 * Close all open dialogs.
+	 * 
+	 * @remark Just closes the properties dialog at the moment.
+	 */
+	public void closeAll() {
+		closePropertiesDialog();
+	}
+
+	/**
+	 * Close the properties dialog. Has no side-effects if the dialog has 
+	 * not yet been used or is invisible already.
+	 */
+	public void closePropertiesDialog() {
+		if (propDialog != null && propDialog.isShowing()) {
+			propDialog.cancel();
+		}
+	}
+	
+	/**
+	 * Close the properties dialog if it is not the current selection
+	 * listener. Has no side-effects if the dialog is has not yet been
+	 * used or if if it invisible already. 
+	 * 
+	 * @see #closePropertiesDialog()
+	 */
+	public void closePropertiesDialogIfNotListener() {
+		// close properties dialog
+		// if it is not the current selection listener
+		if (propDialog != null && propDialog.isShowing()
+				&& propDialog != app.getCurrentSelectionListener()) {
+			propDialog.setVisible(false);
+		}
+	}
+
+	public synchronized void initFileChooser() {
+		if (fileChooser == null) {
+			try {
+				setFileChooser(new GeoGebraFileChooser(app,
+						app.getCurrentImagePath())); // non-restricted
+				// Added for Intergeo File Format (Yves Kreis) -->
+				fileChooser.addPropertyChangeListener(
+						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
+						new FileFilterChangedListener());
+				// <-- Added for Intergeo File Format (Yves Kreis)
+			} catch (Exception e) {
+				// fix for java.io.IOException: Could not get shell folder ID
+				// list
+				// Java bug
+				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
+				Application
+						.debug("Error creating GeoGebraFileChooser - using fallback option");
+				setFileChooser(new GeoGebraFileChooser(app,
+						app.getCurrentImagePath(), true)); // restricted version
+			}
+
+			updateJavaUILanguage();
+		}
+	}
+
+	/**
+	 * Loads java-ui.properties and sets all key-value pairs using
+	 * UIManager.put(). This is needed to translate JFileChooser to languages
+	 * not supported by Java natively.
+	 */
+	private void updateJavaUILanguage() {
+		// load properties jar file
+		if (currentLocale == app.getLocale())
+			return;
+
+		// update locale
+		currentLocale = app.getLocale();
+
+		// load javaui properties file for specific locale
+		// next two lines edited by Zbynek Konecny 2010-04-23 to avoid false
+		// exception message
+		String underscoreLocale = "en".equals(currentLocale.getLanguage()) ? ""
+				: "_" + currentLocale;
+		rbJavaUI = MyResourceBundle.loadSingleBundleFile(Application.RB_JAVA_UI
+				+ underscoreLocale);
+		boolean foundLocaleFile = rbJavaUI != null;
+		if (!foundLocaleFile)
+			// fall back on English
+			rbJavaUI = MyResourceBundle
+					.loadSingleBundleFile(Application.RB_JAVA_UI);
+
+		// set or delete all keys in UIManager
+		Enumeration<String> keys = rbJavaUI.getKeys();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			String value = foundLocaleFile ? rbJavaUI.getString(key) : null;
+
+			// set or delete UIManager key entry (set values to null when locale
+			// file not found)
+			UIManager.put(key, value);
+		}
+
+		// update file chooser
+		if (getFileChooser() != null) {
+			getFileChooser().setLocale(currentLocale);
+			SwingUtilities.updateComponentTreeUI(getFileChooser());
+
+			// Unfortunately the preceding line removes the event listener from
+			// the
+			// internal JTextField inside the file chooser. This means that the
+			// listener has to be registered again. (e.g. a simple call to
+			// 'AutoCompletion.install(this);' inside the GeoGebraFileChooser
+			// constructor is not sufficient)
+			AutoCompletion.install(getFileChooser(), true);
+		}
+	}
+	
+	
+	public OptionsDialog getOptionsDialog() {
+		return optionsDialog;
+	}
+	
+	public PropertiesDialog getPropDialog() {
+		return propDialog;
+	}
+	
+	public GeoGebraFileChooser getFileChooser() {
+		return fileChooser;
+	}
+	
+	public void setFileChooser(GeoGebraFileChooser fileChooser) {
+		this.fileChooser = fileChooser;
+	}
+	
+	public FunctionInspector getFunctionInspector() {
+		return functionInspector;
+	}
+	
+	public TextInputDialog getTextInputDialog() {
+		return textInputDialog;
+	}
+	
+	public OptionsDialog.Provider getOptionsDialogProvider() {
+		return optionsDialogProvider;
+	}
+
+	public void setOptionsDialogProvider(OptionsDialog.Provider optionsDialogProvider) {
+		this.optionsDialogProvider = optionsDialogProvider;
+	}
+
+	// Added for Intergeo File Format (Yves Kreis) -->
+	/*
+	 * PropertyChangeListener implementation to handle file filter changes
+	 */
+	private class FileFilterChangedListener implements PropertyChangeListener {
+		public void propertyChange(PropertyChangeEvent evt) {
+			if (getFileChooser().getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
+				String fileName = null;
+				if (getFileChooser().getSelectedFile() != null) {
+					fileName = getFileChooser().getSelectedFile().getName();
+				}
+
+				// fileName = getFileName(fileName);
+
+				if (fileName != null && fileName.indexOf(".") > -1) {
+					fileName = fileName.substring(0, fileName.lastIndexOf("."))
+							+ "."
+							+ ((MyFileFilter) getFileChooser().getFileFilter())
+									.getExtension();
+
+					getFileChooser().setSelectedFile(
+							new File(getFileChooser().getCurrentDirectory(),
+									fileName));
+				}
+			}
+		}
+	}
+}

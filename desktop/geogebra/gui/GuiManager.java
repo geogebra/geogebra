@@ -120,16 +120,10 @@ public class GuiManager {
 	private static final int SPREADSHEET_INI_COLS = 26;
 	private static final int SPREADSHEET_INI_ROWS = 100;
 
-	// Java user interface properties, for translation of JFileChooser
-	private ResourceBundle rbJavaUI;
-
 	public Application app;
 	protected Kernel kernel;
-
-	private OptionsDialog optionsDialog;
-
-	protected PropertiesDialog propDialog;
-	protected ConstructionProtocolNavigation constProtocolNavigation;
+	
+	protected DialogManager dialogManager;
 
 	private AlgebraInput algebraInput;
 	private AlgebraController algebraController;
@@ -138,19 +132,14 @@ public class GuiManager {
 	private SpreadsheetView spreadsheetView;
 	private EuclidianView euclidianView2;
 	private ConstructionProtocolView constructionProtocolView;
-
-	private GeoGebraFileChooser fileChooser;
+	protected ConstructionProtocolNavigation constProtocolNavigation;
 	private GeoGebraMenuBar menuBar;
 
 	private ToolbarContainer toolbarPanel;
 	private String strCustomToolbarDefinition;
-	private Locale currentLocale;
-	private boolean htmlLoaded;// added by Zbynek Konecny, 2010-05-28 (see #126)
+	private boolean htmlLoaded;// see #126
 
 	private Layout layout;
-
-	private FunctionInspector functionInspector;
-	private TextInputDialog textInputDialog;
 
 	private ProbabilityCalculator probCalculator;
 
@@ -174,27 +163,23 @@ public class GuiManager {
 		this.app = app;
 		this.kernel = app.getKernel();
 
-		// the layout component
-		createLayout();
-
-		initAlgebraController(); // needed for keyboard input in EuclidianView
-
 		// this flag prevents closing opened webpage without save (see #126)
 		htmlLoaded = false;
-
 	}
 
-	protected void createLayout() {
-		setLayout(new Layout());
-	}
-
-	protected void setLayout(Layout layout) {
-		this.layout = layout;
-	}
-
+	/**
+	 * Initialize the GUI manager.
+	 */
 	public void initialize() {
+		initAlgebraController(); // needed for keyboard input in EuclidianView
+		
+		// init layout related stuff
 		layout.initialize(app);
 		initLayoutPanels();
+		
+		// init dialog manager
+		dialogManager = new DialogManager(app);
+		dialogManager.setOptionsDialogProvider(new OptionsDialog.Provider());
 	}
 
 	/**
@@ -278,7 +263,7 @@ public class GuiManager {
 	}
 
 	public boolean isPropertiesDialogSelectionListener() {
-		return app.getCurrentSelectionListener() == propDialog;
+		return app.getCurrentSelectionListener() == dialogManager.getPropDialog();
 	}
 
 	public boolean isInputFieldSelectionListener() {
@@ -738,24 +723,14 @@ public class GuiManager {
 		getAlgebraInput();
 		return algebraInput.getTextField();
 	}
-
-	public synchronized void initPropertiesDialog() {
-		if (propDialog == null) {
-			propDialog = new PropertiesDialog(app);
-		}
-	}
 	
-
-	public synchronized void reinitPropertiesDialog() {
-		if (propDialog != null && propDialog.isVisible())
-			propDialog.setVisible(false);
-		propDialog = null;
-		System.gc();
-		propDialog = new PropertiesDialog(app);
-
+	public DialogManager getDialogManager() {
+		return dialogManager;
 	}
 
 	public void doAfterRedefine(GeoElement geo) {
+		PropertiesDialog propDialog = getDialogManager().getPropDialog();
+		
 		// select geoElement with label again
 		if (propDialog != null && propDialog.isShowing()) {
 			// propDialog.setViewActive(true);
@@ -768,6 +743,10 @@ public class GuiManager {
 		if (geo.getSpreadsheetTrace()) {
 			addSpreadsheetTrace(geo);
 		}
+	}
+
+	public void setLayout(Layout layout) {
+		this.layout = layout;
 	}
 
 	public Layout getLayout() {
@@ -945,16 +924,6 @@ public class GuiManager {
 		if (algebraInput != null)
 			algebraInput.updateFonts();
 
-		if (getFileChooser() != null) {
-			getFileChooser().setFont(app.getPlainFont());
-			SwingUtilities.updateComponentTreeUI(getFileChooser());
-		}
-
-		if (optionsDialog != null) {
-			setFontRecursive(optionsDialog, app.getPlainFont());
-			SwingUtilities.updateComponentTreeUI(optionsDialog);
-		}
-
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
 		}
@@ -962,10 +931,6 @@ public class GuiManager {
 		if (menuBar != null) {
 			menuBar.initMenubar();
 		}
-
-		if (propDialog != null)
-			// changed to force all panels to be updated
-			reinitPropertiesDialog(); // was propDialog.initGUI();
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
@@ -978,15 +943,10 @@ public class GuiManager {
 		if (layout.getDockManager() != null)
 			layout.getDockManager().updateFonts();
 
-		if (functionInspector != null)
-			functionInspector.updateFonts();
-
 		if (probCalculator != null)
 			probCalculator.updateFonts();
-
-		if (textInputDialog != null) {
-			textInputDialog.updateFonts();
-		}
+		
+		dialogManager.updateFonts();
 
 		SwingUtilities.updateComponentTreeUI(app.getMainComponent());
 	}
@@ -1032,29 +992,17 @@ public class GuiManager {
 			toolbarPanel.updateHelpText();
 		}
 
-		if (propDialog != null)
-			// changed to force all language strings to be updated
-			reinitPropertiesDialog(); // was propDialog.initGUI();
-
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
 		if (constProtocolNavigation != null)
 			constProtocolNavigation.setLabels();
-		if (getFileChooser() != null)
-			updateJavaUILanguage();
-		if (optionsDialog != null)
-			optionsDialog.setLabels();
 
 		if (virtualKeyboard != null)
 			virtualKeyboard.setLabels();
 
-		if (functionInspector != null)
-			functionInspector.setLabels();
-
-		if (textInputDialog != null)
-			textInputDialog.setLabels();
-
 		layout.getDockManager().setLabels();
+		
+		dialogManager.setLabels();
 
 		if (probCalculator != null)
 			probCalculator.setLabels();
@@ -1176,185 +1124,6 @@ public class GuiManager {
 	}
 
 	/**
-	 * Displays the options dialog.
-	 * 
-	 * @param tabIndex
-	 *            Index of the tab. Use OptionsDialog.TAB_* constants for this,
-	 *            or -1 for the default, -2 to hide.
-	 */
-	public void showOptionsDialog(int tabIndex) {
-		if (optionsDialog == null)
-			optionsDialog = newOptionsDialog();
-		else
-			optionsDialog.updateGUI();
-
-		if (tabIndex > -1)
-			optionsDialog.showTab(tabIndex);
-
-		optionsDialog.setVisible(tabIndex != -2);
-	}
-
-	protected OptionsDialog newOptionsDialog() {
-		return new OptionsDialog(app);
-	}
-
-	/**
-	 * Displays the properties dialog for geos
-	 */
-	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
-		if (!app.letShowPropertiesDialog())
-			return;
-
-		// save the geos list: it will be cleared by setMoveMode()
-		ArrayList<GeoElement> selGeos = null;
-		if (geos == null)
-			geos = app.getSelectedGeos();
-
-		if (geos != null) {
-			tempGeos.clear();
-			tempGeos.addAll(geos);
-			selGeos = tempGeos;
-		}
-
-		app.setMoveMode();
-		app.setWaitCursor();
-
-		// open properties dialog
-		initPropertiesDialog();
-		propDialog.setVisibleWithGeos(selGeos);
-
-		// double-click on slider -> open properties at slider tab
-		if (geos != null && geos.size() == 1
-				&& geos.get(0).isEuclidianVisible()
-				&& geos.get(0) instanceof GeoNumeric)
-			propDialog.showSliderTab();
-
-		app.setDefaultCursor();
-	}
-
-	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();
-
-	public void showPropertiesDialog() {
-		showPropertiesDialog(null);
-	}
-
-	/**
-	 * Displays the configuration dialog for the toolbar
-	 */
-	public void showToolbarConfigDialog() {
-		app.getEuclidianView().resetMode();
-		ToolbarConfigDialog dialog = new ToolbarConfigDialog(app);
-		dialog.setVisible(true);
-	}
-
-	/**
-	 * Displays the rename dialog for geo
-	 */
-	public void showRenameDialog(GeoElement geo, boolean storeUndo,
-			String initText, boolean selectInitText) {
-		if (!app.isRightClickEnabled())
-			return;
-
-		geo.setLabelVisible(true);
-		geo.updateRepaint();
-
-		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
-
-		// Michael Borcherds 2008-03-25
-		// a Chinese friendly version
-		InputDialog id = new InputDialog(app, "<html>"
-				+ app.getPlain("NewNameForA", "<b>" + geo.getNameDescription()
-						+ "</b>") + // eg New name for <b>Segment a</b>
-				"</html>", app.getPlain("Rename"), initText, false, handler,
-				false, selectInitText, null);
-
-		/*
-		 * InputDialog id = new InputDialog( this, "<html>" +
-		 * app.getPlain("NewName") + " " + app.getPlain("for") + " <b>" +
-		 * geo.getNameDescription() + "</b></html>", app.getPlain("Rename"),
-		 * initText, false, handler, true, selectInitText);
-		 */
-
-		id.setVisible(true);
-	}
-
-	/**
-	 * Displays the text dialog for a given text.
-	 */
-	public void showTextDialog(GeoText text) {
-		showTextDialog(text, null);
-	}
-
-	/**
-	 * Creates a new text at given startPoint
-	 */
-	public void showTextCreationDialog(GeoPointND startPoint) {
-		showTextDialog(null, startPoint);
-	}
-
-	private void showTextDialog(GeoText text, GeoPointND startPoint) {
-		app.setWaitCursor();
-
-		if (textInputDialog == null)
-			textInputDialog = (TextInputDialog) createTextDialog(text,
-					startPoint);
-		else
-			((TextInputDialog) textInputDialog).reInitEditor(text, startPoint);
-
-		textInputDialog.setVisible(true);
-		app.setDefaultCursor();
-	}
-
-	public JDialog createTextDialog(GeoText text, GeoPointND startPoint) {
-		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		TextInputDialog id = new TextInputDialog(app, app.getPlain("Text"),
-				text, startPoint, 30, 6, isTextMode);
-		return id;
-	}
-
-	/**
-	 * Displays the redefine dialog for geo
-	 * 
-	 * @param allowTextDialog
-	 *            whether text dialog should be used for texts
-	 */
-	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
-		// doBeforeRedefine();
-
-		if (allowTextDialog && geo.isGeoText() && !geo.isTextCommand()) {
-			showTextDialog((GeoText) geo);
-			return;
-		}
-
-		// Michael Borcherds 2007-12-31 BEGIN
-		// InputHandler handler = new RedefineInputHandler(this, geo);
-		// String str = geo.isIndependent() ? geo.toValueString() : geo
-		// .getCommandDescription();
-
-		String str = geo.getRedefineString(false, true);
-
-		InputHandler handler = new RedefineInputHandler(app, geo, str);
-		// Michael Borcherds 2007-12-31 END
-		/*
-		 * String str = initSB.toString(); // add label to make renaming
-		 * possible too if (str.indexOf('=') == -1) { // no equal sign in
-		 * definition string // functions need either "f(x) =" or "f =" if
-		 * (!geo.isGeoFunction()) initSB.insert(0, geo.getLabel() + " = "); else
-		 * if (str.indexOf('[') == -1) // no command initSB.insert(0,
-		 * geo.getLabel() + "(x) = "); } else { // make sure that initSB does
-		 * not already contain the label, // e.g. like for functions: f(x) = a
-		 * x^2 if (!str.startsWith(geo.getLabel())) { initSB.insert(0,
-		 * geo.getLabel() + ": "); } }
-		 */
-
-		InputDialog id = new InputDialog(app, geo.getNameDescription(),
-				app.getPlain("Redefine"), str, true, handler, geo);
-		id.showSymbolTablePopup(true);
-		id.setVisible(true);
-		// id.selectText();
-	}
-
-	/**
 	 * Creates a new slider at given location (screen coords).
 	 * 
 	 * @return whether a new slider (number) was create or not
@@ -1364,17 +1133,10 @@ public class GuiManager {
 
 		SliderDialog dialog = new SliderDialog(app, x, y);
 		dialog.setVisible(true);
-		/*
-		 * GeoNumeric num = (GeoNumeric) dialog.getResult();
-		 * Application.debug("finish"); if (num != null) { // make sure that we
-		 * show name and value of slider
-		 * num.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-		 * num.setLabelVisible(true); num.update(); }
-		 */
 
 		app.setDefaultCursor();
 
-		return true;// num != null;
+		return true;
 	}
 
 	/**
@@ -1385,16 +1147,7 @@ public class GuiManager {
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
 		ButtonDialog dialog = new ButtonDialog(app, x, y, textfield);
 		dialog.setVisible(true);
-		// GeoJavaScriptButton button = (GeoJavaScriptButton)
-		// dialog.getResult();
-		// Application.debug("finish");
-		// if (button != null) {
-		// // make sure that we show name and value of slider
-		// button.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-		// button.setLabelVisible(true);
-		// button.update();
-		// }
-		return true;// button != null;
+		return true;
 	}
 
 	/**
@@ -1445,29 +1198,6 @@ public class GuiManager {
 
 		app.setDefaultCursor();
 		return ret;
-	}
-
-	/**
-	 * Shows the function inspector dialog. If none exists, a new inspector is
-	 * created.
-	 */
-	public boolean showFunctionInspector(GeoFunction function) {
-		boolean success = true;
-
-		try {
-			if (functionInspector == null) {
-				functionInspector = new FunctionInspector(app, function);
-			} else {
-				functionInspector.insertGeoElement(function);
-			}
-			functionInspector.setVisible(true);
-
-		} catch (Exception e) {
-			success = false;
-			e.printStackTrace();
-		}
-		return success;
-
 	}
 
 	public Color showColorChooser(Color currentColor) {
@@ -1660,83 +1390,6 @@ public class GuiManager {
 
 	}
 
-	public synchronized void initFileChooser() {
-		if (getFileChooser() == null) {
-			try {
-				setFileChooser(new GeoGebraFileChooser(app,
-						app.getCurrentImagePath())); // non-restricted
-				// Added for Intergeo File Format (Yves Kreis) -->
-				getFileChooser().addPropertyChangeListener(
-						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
-						new FileFilterChangedListener());
-				// <-- Added for Intergeo File Format (Yves Kreis)
-			} catch (Exception e) {
-				// fix for java.io.IOException: Could not get shell folder ID
-				// list
-				// Java bug
-				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
-				Application
-						.debug("Error creating GeoGebraFileChooser - using fallback option");
-				setFileChooser(new GeoGebraFileChooser(app,
-						app.getCurrentImagePath(), true)); // restricted version
-			}
-
-			updateJavaUILanguage();
-		}
-	}
-
-	/**
-	 * Loads java-ui.properties and sets all key-value pairs using
-	 * UIManager.put(). This is needed to translate JFileChooser to languages
-	 * not supported by Java natively.
-	 */
-	private void updateJavaUILanguage() {
-		// load properties jar file
-		if (currentLocale == app.getLocale())
-			return;
-
-		// update locale
-		currentLocale = app.getLocale();
-
-		// load javaui properties file for specific locale
-		// next two lines edited by Zbynek Konecny 2010-04-23 to avoid false
-		// exception message
-		String underscoreLocale = "en".equals(currentLocale.getLanguage()) ? ""
-				: "_" + currentLocale;
-		rbJavaUI = MyResourceBundle.loadSingleBundleFile(Application.RB_JAVA_UI
-				+ underscoreLocale);
-		boolean foundLocaleFile = rbJavaUI != null;
-		if (!foundLocaleFile)
-			// fall back on English
-			rbJavaUI = MyResourceBundle
-					.loadSingleBundleFile(Application.RB_JAVA_UI);
-
-		// set or delete all keys in UIManager
-		Enumeration<String> keys = rbJavaUI.getKeys();
-		while (keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			String value = foundLocaleFile ? rbJavaUI.getString(key) : null;
-
-			// set or delete UIManager key entry (set values to null when locale
-			// file not found)
-			UIManager.put(key, value);
-		}
-
-		// update file chooser
-		if (getFileChooser() != null) {
-			getFileChooser().setLocale(currentLocale);
-			SwingUtilities.updateComponentTreeUI(getFileChooser());
-
-			// Unfortunately the preceding line removes the event listener from
-			// the
-			// internal JTextField inside the file chooser. This means that the
-			// listener has to be registered again. (e.g. a simple call to
-			// 'AutoCompletion.install(this);' inside the GeoGebraFileChooser
-			// constructor is not sufficient)
-			AutoCompletion.install(getFileChooser(), true);
-		}
-	}
-
 	/**
 	 * Shows a file open dialog to choose an image file, Then the image file is
 	 * loaded and stored in this application's imageManager.
@@ -1763,9 +1416,11 @@ public class GuiManager {
 			// else
 			{
 				if (imageFile == null) {
-					initFileChooser();
-					getFileChooser().setMode(GeoGebraFileChooser.MODE_IMAGES);
-					getFileChooser().setCurrentDirectory(
+					getDialogManager().initFileChooser();
+					GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
+					
+					fileChooser.setMode(GeoGebraFileChooser.MODE_IMAGES);
+					fileChooser.setCurrentDirectory(
 							app.getCurrentImagePath());
 
 					MyFileFilter fileFilter = new MyFileFilter();
@@ -1777,13 +1432,13 @@ public class GuiManager {
 					if (Util.getJavaVersion() >= 1.5)
 						fileFilter.addExtension("bmp");
 					fileFilter.setDescription(app.getPlain("Image"));
-					getFileChooser().resetChoosableFileFilters();
-					getFileChooser().setFileFilter(fileFilter);
+					fileChooser.resetChoosableFileFilters();
+					fileChooser.setFileFilter(fileFilter);
 
-					int returnVal = getFileChooser().showOpenDialog(
+					int returnVal = fileChooser.showOpenDialog(
 							app.getMainComponent());
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						imageFile = getFileChooser().getSelectedFile();
+						imageFile = fileChooser.getSelectedFile();
 						if (imageFile != null) {
 							app.setCurrentImagePath(imageFile.getParentFile());
 							if (!app.isApplet()) {
@@ -1831,9 +1486,12 @@ public class GuiManager {
 
 		try {
 			app.setWaitCursor();
-			initFileChooser();
-			getFileChooser().setMode(GeoGebraFileChooser.MODE_DATA);
-			getFileChooser().setCurrentDirectory(app.getCurrentImagePath());
+			
+			getDialogManager().initFileChooser();
+			GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
+			
+			fileChooser.setMode(GeoGebraFileChooser.MODE_DATA);
+			fileChooser.setCurrentDirectory(app.getCurrentImagePath());
 
 			MyFileFilter fileFilter = new MyFileFilter();
 			fileFilter.addExtension("txt");
@@ -1841,13 +1499,13 @@ public class GuiManager {
 			fileFilter.addExtension("dat");
 
 			// fileFilter.setDescription(app.getPlain("Image"));
-			getFileChooser().resetChoosableFileFilters();
-			getFileChooser().setFileFilter(fileFilter);
+			fileChooser.resetChoosableFileFilters();
+			fileChooser.setFileFilter(fileFilter);
 
-			int returnVal = getFileChooser().showOpenDialog(
+			int returnVal = fileChooser.showOpenDialog(
 					app.getMainComponent());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				dataFile = getFileChooser().getSelectedFile();
+				dataFile = fileChooser.getSelectedFile();
 				if (dataFile != null) {
 					app.setCurrentImagePath(dataFile.getParentFile());
 					if (!app.isApplet()) {
@@ -1871,8 +1529,8 @@ public class GuiManager {
 
 	// returns true for YES or NO and false for CANCEL
 	public boolean saveCurrentFile() {
-		if (propDialog != null && propDialog.isShowing())
-			propDialog.cancel();
+		getDialogManager().closePropertiesDialog();
+		
 		app.getEuclidianView().reset();
 
 		// use null component for iconified frame
@@ -1916,7 +1574,7 @@ public class GuiManager {
 		app.setWaitCursor();
 
 		// close properties dialog if open
-		closeOpenDialogs();
+		getDialogManager().closeAll();
 
 		boolean success = false;
 		if (app.getCurrentFile() != null) {
@@ -2009,23 +1667,17 @@ public class GuiManager {
 		String fileExtension = fileExtensions[0];
 		// <-- Added for Intergeo File Format (Yves Kreis)
 
-		initFileChooser();
-		getFileChooser().setMode(GeoGebraFileChooser.MODE_GEOGEBRA_SAVE);
-		getFileChooser().setCurrentDirectory(app.getCurrentPath());
+		getDialogManager().initFileChooser();
+		GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
+		
+		fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA_SAVE);
+		fileChooser.setCurrentDirectory(app.getCurrentPath());
 
 		if (dirsOnly)
-			getFileChooser()
-					.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		// set selected file
-		// Modified for Intergeo File Format (Yves Kreis) -->
-		/*
-		 * if (selectedFile == null) { selectedFile =
-		 * removeExtension(fileChooser.getSelectedFile()); }
-		 */
-		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (selectedFile != null) {
-			// Added for Intergeo File Format (Yves Kreis) -->
 			fileExtension = Application.getExtension(selectedFile);
 			int i = 0;
 			while (i < fileExtensions.length
@@ -2035,46 +1687,34 @@ public class GuiManager {
 			if (i >= fileExtensions.length) {
 				fileExtension = fileExtensions[0];
 			}
-			// <-- Added for Intergeo File Format (Yves Kreis)
 			selectedFile = addExtension(selectedFile, fileExtension);
-			getFileChooser().setSelectedFile(selectedFile);
+			fileChooser.setSelectedFile(selectedFile);
 		} else
-			getFileChooser().setSelectedFile(null);
-
-		// Modified for Intergeo File Format (Yves Kreis) -->
-		/*
-		 * MyFileFilter fileFilter = new MyFileFilter();
-		 * fileFilter.addExtension(fileExtension); if (fileDescription != null)
-		 * fileFilter.setDescription(fileDescription);
-		 * fileChooser.resetChoosableFileFilters();
-		 * fileChooser.setFileFilter(fileFilter);
-		 */
-		getFileChooser().resetChoosableFileFilters();
-		MyFileFilter fileFilter;
-		MyFileFilter mainFilter = null;
-		for (int i = 0; i < fileExtensions.length; i++) {
-			fileFilter = new MyFileFilter(fileExtensions[i]);
-			if (fileDescriptions.length >= i && fileDescriptions[i] != null)
-				fileFilter.setDescription(fileDescriptions[i]);
-			getFileChooser().addChoosableFileFilter(fileFilter);
-			if (fileExtension.equals(fileExtensions[i])) {
-				mainFilter = fileFilter;
+			fileChooser.setSelectedFile(null);
+			fileChooser.resetChoosableFileFilters();
+			MyFileFilter fileFilter;
+			MyFileFilter mainFilter = null;
+			for (int i = 0; i < fileExtensions.length; i++) {
+				fileFilter = new MyFileFilter(fileExtensions[i]);
+				if (fileDescriptions.length >= i && fileDescriptions[i] != null)
+					fileFilter.setDescription(fileDescriptions[i]);
+				fileChooser.addChoosableFileFilter(fileFilter);
+				if (fileExtension.equals(fileExtensions[i])) {
+					mainFilter = fileFilter;
+				}
 			}
-		}
-		getFileChooser().setFileFilter(mainFilter);
-		// <-- Modified for Intergeo File Format (Yves Kreis)
+			fileChooser.setFileFilter(mainFilter);
 
 		while (!done) {
 			// show save dialog
-			int returnVal = getFileChooser().showSaveDialog(
+			int returnVal = fileChooser.showSaveDialog(
 					app.getMainComponent());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				file = getFileChooser().getSelectedFile();
+				file = fileChooser.getSelectedFile();
 
 				// Added for Intergeo File Format (Yves Kreis) -->
-				if (getFileChooser().getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
-					fileFilter = (MyFileFilter) getFileChooser()
-							.getFileFilter();
+				if (fileChooser.getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
+					fileFilter = (MyFileFilter)fileChooser.getFileFilter();
 					fileExtension = fileFilter.getExtension();
 				} else {
 					fileExtension = fileExtensions[0];
@@ -2094,7 +1734,7 @@ public class GuiManager {
 
 				// add file extension
 				file = addExtension(file, fileExtension);
-				getFileChooser().setSelectedFile(file);
+				fileChooser.setSelectedFile(file);
 
 				if (promptOverwrite && file.exists()) {
 					// ask overwrite question
@@ -2165,19 +1805,19 @@ public class GuiManager {
 	}
 
 	public void openFile() {
-
-		if (propDialog != null && propDialog.isShowing())
-			propDialog.cancel();
-
+		getDialogManager().closePropertiesDialog();
+		
 		if (app.isSaved() || saveCurrentFile()) {
 			app.setWaitCursor();
 			File oldCurrentFile = app.getCurrentFile();
 
-			initFileChooser();
-			getFileChooser().setMode(GeoGebraFileChooser.MODE_GEOGEBRA);
-			getFileChooser().setCurrentDirectory(app.getCurrentPath());
-			getFileChooser().setMultiSelectionEnabled(true);
-			getFileChooser().setSelectedFile(oldCurrentFile);
+			getDialogManager().initFileChooser();
+			GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
+			
+			fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA);
+			fileChooser.setCurrentDirectory(app.getCurrentPath());
+			fileChooser.setMultiSelectionEnabled(true);
+			fileChooser.setSelectedFile(oldCurrentFile);
 
 			// GeoGebra File Filter
 			MyFileFilter fileFilter = new MyFileFilter();
@@ -2190,10 +1830,10 @@ public class GuiManager {
 			fileFilter.addExtension(Application.FILE_EXT_HTM);
 			fileFilter.setDescription(app.getPlain("ApplicationName") + " "
 					+ app.getMenu("Files"));
-			getFileChooser().resetChoosableFileFilters();
+			fileChooser.resetChoosableFileFilters();
 			// Modified for Intergeo File Format (Yves Kreis & Ingo Schandeler)
 			// -->
-			getFileChooser().addChoosableFileFilter(fileFilter);
+			fileChooser.addChoosableFileFilter(fileFilter);
 
 			// HTML File Filter (for ggbBase64 files)
 			// MyFileFilter fileFilterHTML = new MyFileFilter();
@@ -2209,7 +1849,7 @@ public class GuiManager {
 				i2gFileFilter.addExtension(Application.FILE_EXT_INTERGEO);
 				i2gFileFilter.setDescription("Intergeo " + app.getMenu("Files")
 						+ " [Version " + GeoGebra.I2G_FILE_FORMAT + "]");
-				getFileChooser().addChoosableFileFilter(i2gFileFilter);
+				fileChooser.addChoosableFileFilter(i2gFileFilter);
 			}
 			// fileChooser.setFileFilter(fileFilter);
 			if (GeoGebra.DISABLE_I2G
@@ -2218,23 +1858,23 @@ public class GuiManager {
 							Application.FILE_EXT_GEOGEBRA)
 					|| Application.getExtension(oldCurrentFile).equals(
 							Application.FILE_EXT_GEOGEBRA_TOOL)) {
-				getFileChooser().setFileFilter(fileFilter);
+				fileChooser.setFileFilter(fileFilter);
 			}
 			// <-- Modified for Intergeo File Format (Yves Kreis & Ingo
 			// Schandeler)
 
 			app.setDefaultCursor();
-			int returnVal = getFileChooser().showOpenDialog(
+			int returnVal = fileChooser.showOpenDialog(
 					app.getMainComponent());
 
 			File[] files = null;
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				files = getFileChooser().getSelectedFiles();
+				files = fileChooser.getSelectedFiles();
 			}
 
 			// Modified for Intergeo File Format (Yves Kreis) -->
-			if (getFileChooser().getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
-				fileFilter = (MyFileFilter) getFileChooser().getFileFilter();
+			if (fileChooser.getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
+				fileFilter = (MyFileFilter) fileChooser.getFileFilter();
 				doOpenFiles(files, true, fileFilter.getExtension());
 			} else {
 				// doOpenFiles(files, true);
@@ -2242,7 +1882,7 @@ public class GuiManager {
 			}
 			// <-- Modified for Intergeo File Format (Yves Kreis)
 
-			getFileChooser().setMultiSelectionEnabled(false);
+			fileChooser.setMultiSelectionEnabled(false);
 		}
 	}
 
@@ -2719,34 +2359,6 @@ public class GuiManager {
 			app.getScriptManager().ggbOnInit();
 	}
 
-	// Added for Intergeo File Format (Yves Kreis) -->
-	/*
-	 * PropertyChangeListener implementation to handle file filter changes
-	 */
-	private class FileFilterChangedListener implements PropertyChangeListener {
-		public void propertyChange(PropertyChangeEvent evt) {
-			if (getFileChooser().getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
-				String fileName = null;
-				if (getFileChooser().getSelectedFile() != null) {
-					fileName = getFileChooser().getSelectedFile().getName();
-				}
-
-				// fileName = getFileName(fileName);
-
-				if (fileName != null && fileName.indexOf(".") > -1) {
-					fileName = fileName.substring(0, fileName.lastIndexOf("."))
-							+ "."
-							+ ((MyFileFilter) getFileChooser().getFileFilter())
-									.getExtension();
-
-					getFileChooser().setSelectedFile(
-							new File(getFileChooser().getCurrentDirectory(),
-									fileName));
-				}
-			}
-		}
-	}
-
 	protected boolean initActions() {
 		if (showAxesAction != null)
 			return false;
@@ -2810,9 +2422,7 @@ public class GuiManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				if (propDialog != null && propDialog.isShowing())
-					propDialog.cancel();
-
+				getDialogManager().closePropertiesDialog();
 				undo();
 
 			}
@@ -2823,8 +2433,7 @@ public class GuiManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				if (propDialog != null && propDialog.isShowing())
-					propDialog.cancel();
+				getDialogManager().closePropertiesDialog();
 
 				redo();
 			}
@@ -3252,13 +2861,8 @@ public class GuiManager {
 		return ret;
 	}
 
-	public void setMode(int mode) {
-		// close properties dialog
-		// if it is not the current selection listener
-		if (propDialog != null && propDialog.isShowing()
-				&& propDialog != app.getCurrentSelectionListener()) {
-			propDialog.setVisible(false);
-		}
+	public void setMode(int mode) {		
+		getDialogManager().closePropertiesDialogIfNotListener();
 
 		kernel.notifyModeChanged(mode);
 
@@ -3309,12 +2913,6 @@ public class GuiManager {
 
 	public final String getCustomToolbarDefinition() {
 		return strCustomToolbarDefinition;
-	}
-
-	public void closeOpenDialogs() {
-		// close open windows
-		if (propDialog != null && propDialog.isShowing())
-			propDialog.cancel();
 	}
 
 	public AbstractAction getRedoAction() {
@@ -3578,14 +3176,6 @@ public class GuiManager {
 		}
 	}
 
-	public void setFileChooser(GeoGebraFileChooser fileChooser) {
-		this.fileChooser = fileChooser;
-	}
-
-	public GeoGebraFileChooser getFileChooser() {
-		return fileChooser;
-	}
-
 	private InputBarHelpPanel inputHelpPanel;
 
 	public boolean hasInputHelpPanel() {
@@ -3640,5 +3230,4 @@ public class GuiManager {
 		if (algebraInput != null)
 			algebraInput.initGUI();
 	}
-
 }

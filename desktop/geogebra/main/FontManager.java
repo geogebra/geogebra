@@ -184,12 +184,25 @@ public class FontManager {
 		//System.out.println("Fonts updated: sans: " + sans + ", serif: " + serif);
 	}
 	
+	/**
+	 * Returns a font with the specified attributes.
+	 * 
+	 * @param serif
+	 * @param style
+	 * @param size
+	 */
+	public Font getFont(boolean serif, int style, int size) {
+		String name = serif ? 
+				getSerifFont().getFontName() :
+				getPlainFont().getFontName();	
+		return getFont(name, style, size);
+	}
 	
 	/**
 	 * Gets a font from a HashMap to avoid multiple creations
 	 * of the same font.
 	 */
-	public static Font getFont(String name, int style, int size) {
+	private static Font getFont(String name, int style, int size) {
 		// build font's key name for HashMap
 		key.setLength(0);
 		key.append(name);

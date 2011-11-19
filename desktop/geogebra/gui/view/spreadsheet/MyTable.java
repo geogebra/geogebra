@@ -1275,19 +1275,19 @@ public class MyTable extends JTable implements FocusListener
 			GeoElement geo = (GeoElement) ob;
 			if(geo.isGeoButton()
 					|| geo.isGeoImage()){
-				app.getGuiManager().showPropertiesDialog();
+				app.getGuiManager().getDialogManager().showPropertiesDialog();
 				return true;
 			}
 			if(!view.getShowFormulaBar()){
 				if (!geo.isFixed()) {
 					if (!geo.isGeoText() && 
 							editor.getEditorInitString(geo).length() > MAX_CELL_EDIT_STRING_LENGTH) {
-						app.getGuiManager().showRedefineDialog(geo, false);
+						app.getGuiManager().getDialogManager().showRedefineDialog(geo, false);
 						return true;
 					}
 
 					if (geo.isGeoText() && ((GeoText)geo).isLaTeX() ) {
-						app.getGuiManager().showRedefineDialog(geo, true);
+						app.getGuiManager().getDialogManager().showRedefineDialog(geo, true);
 						return true;
 					}
 				}

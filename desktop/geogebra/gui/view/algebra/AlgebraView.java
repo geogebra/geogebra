@@ -406,7 +406,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		if (!geo.isAlgebraViewEditable()) {
 			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 			geos.add(geo);
-			app.getGuiManager().showPropertiesDialog(geos);
+			app.getGuiManager().getDialogManager().showPropertiesDialog(geos);
 			return;
 		}
 
@@ -415,7 +415,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 													// View closed
 			{
 				if (geo.isRedefineable()) {
-					app.getGuiManager().showRedefineDialog(geo, true);
+					app.getGuiManager().getDialogManager().showRedefineDialog(geo, true);
 				}
 				return;
 			}
@@ -424,7 +424,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 				if (geo.isFixed()) {
 					// app.showMessage(app.getError("AssignmentToFixed"));
 				} else if (geo.isRedefineable()) {
-					app.getGuiManager().showRedefineDialog(geo, true);
+					app.getGuiManager().getDialogManager().showRedefineDialog(geo, true);
 				}
 				return;
 			}

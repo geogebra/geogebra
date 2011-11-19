@@ -56,8 +56,7 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
 	
 	@Override
 	protected void showOptionsDialog(){
-    	app.getGuiManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN3D);
-		//app.getGuiManager().showDrawingPadPropertiesDialog();
+    	app.getGuiManager().getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN3D);
     }
 
 }

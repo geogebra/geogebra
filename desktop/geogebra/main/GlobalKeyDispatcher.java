@@ -142,7 +142,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 					GeoTextField tf = (GeoTextField)geo;
 					tf.setFocus(ch+"");
 				} else {
-					app.getGuiManager().showRenameDialog(geo, true, Character.toString(ch), false);
+					app.getGuiManager().getDialogManager().showRenameDialog(geo, true, Character.toString(ch), false);
 				}
 				return true;
 			}
@@ -345,7 +345,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 				// Ctrl + E: open object properties (needed here for spreadsheet)
 			case KeyEvent.VK_E:
-				app.getGuiManager().showPropertiesDialog();
+				app.getGuiManager().getDialogManager().showPropertiesDialog();
 				consumed = true;								
 				break;
 

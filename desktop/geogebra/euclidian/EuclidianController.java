@@ -861,12 +861,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				
 				if (geo0.isGeoNumeric() && ((GeoNumeric)geo0).isSlider()) {
 					// double-click slider -> Object Properties
-					app.getGuiManager().showPropertiesDialog(hits);
+					app.getGuiManager().getDialogManager().showPropertiesDialog(hits);
 				} else
 				if (!geo0.isFixed() && !(geo0.isGeoBoolean() && geo0.isIndependent()) &&
 						!(geo0.isGeoImage() && geo0.isIndependent())
 						&& !geo0.isGeoButton())
-					app.getGuiManager().showRedefineDialog((GeoElement)hits.get(0), true);
+					app.getGuiManager().getDialogManager().showRedefineDialog((GeoElement)hits.get(0), true);
 			}
 
 		}
@@ -5021,7 +5021,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if(selFunctions() == 1){
 			GeoFunction[] functions = getSelectedFunctions();
 			
-			app.getGuiManager().showFunctionInspector(functions[0]);
+			app.getGuiManager().getDialogManager().showFunctionInspector(functions[0]);
 			app.setMoveMode();
 		}
 			
@@ -6808,7 +6808,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		// got location
 		if (loc != null) {			
-			app.getGuiManager().showTextCreationDialog(loc);	
+			app.getGuiManager().getDialogManager().showTextCreationDialog(loc);	
 			return true;
 		}
 

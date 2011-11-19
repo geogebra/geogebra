@@ -367,4 +367,10 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 
 	public void windowOpened(WindowEvent e) {
 	}
+	
+	public static class Provider {
+		public OptionsDialog provide(Application app) {
+			return new OptionsDialog(app);
+		}
+	}
 }

@@ -45,8 +45,10 @@ public class GuiManager3D extends GuiManager {
 	}
 	
 	@Override
-	protected void createLayout(){
-		setLayout(new Layout());
+	public void initialize() {
+		super.initialize();
+		
+		dialogManager.setOptionsDialogProvider(new OptionsDialog3D.Provider());
 	}
 	
 	/**
@@ -217,15 +219,9 @@ public class GuiManager3D extends GuiManager {
 		InputDialog id = new InputDialogSpherePointRadius(app, title, handler, geoPoint, kernel);
 		id.setVisible(true);
 	}
-
-	@Override
-	protected OptionsDialog newOptionsDialog(){
-		return new OptionsDialog3D(app);
-	}
 	
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
 		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id);
 	}
-
 }
