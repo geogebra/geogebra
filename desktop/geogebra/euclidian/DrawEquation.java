@@ -15,6 +15,7 @@ import java.util.Iterator;
 import javax.swing.JLabel;
 
 import org.scilab.forge.jlatexmath.AlphabetRegistration;
+import org.scilab.forge.jlatexmath.DefaultTeXFont;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
@@ -63,6 +64,9 @@ public class DrawEquation {
 
 			// make sure cache doesn't get too big
 			JLaTeXMathCache.setMaxCachedObjects(100);
+			
+			// disable \magnification{factor} (makes Algebra View not work)
+			DefaultTeXFont.enableMagnification(false);
 
 			Iterator<String> it = Unicode.getCharMapIterator();
 
