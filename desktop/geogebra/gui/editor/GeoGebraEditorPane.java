@@ -76,7 +76,11 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		this.app = app;
 		this.rows = rows;
 		this.cols = cols;
-		addCaretListener(this);
+		
+		// TODO temporarily remove the caretListener 
+		// It causes a np exception with the PropertiesView.... why?
+		//	addCaretListener(this);
+
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		addFocusListener(this);
