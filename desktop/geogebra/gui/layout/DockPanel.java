@@ -717,6 +717,8 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	protected void closePanel() {
 		dockManager.hide(this);
 		dockManager.getLayout().getApplication().updateMenubar();
+
+		app.openDockBar();
 		
 		if(dockManager.getFocusedPanel() == this) {
 			dockManager.setFocusedPanel(null);

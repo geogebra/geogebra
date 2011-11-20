@@ -513,6 +513,11 @@ public class Application implements KeyEventDispatcher {
 	private JSplitPane applicationSplitPane;
 
 	private DockBar dockBar;
+	
+	public void openDockBar() {
+		if(dockBar != null)
+			dockBar.openDockBar();
+	}
 
 	
 	
@@ -1064,7 +1069,7 @@ public class Application implements KeyEventDispatcher {
 
 	public void updateDockBar(){
 		if(dockBar != null)
-		dockBar.updateViews();
+		dockBar.updateViewButtons();
 	}
 
 	/**

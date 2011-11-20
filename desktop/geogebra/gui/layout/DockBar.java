@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.AbstractAction;
@@ -42,10 +43,11 @@ public class DockBar extends JPanel implements ActionListener {
 	private JPanel mainPanel, minimumPanel;
 
 	private AbstractAction[] showViews;
-	private JButton[] viewButtons;
-	private JButton btnToggleMenu, btnToggleInputBar, btnMinimize;
+	private ArrayList<ViewButton> viewButtons;
+	private JButton btnToggleMenu, btnToggleInputBar, btnMinimize, btnKeyboard;
 
 	private boolean isMinimized = true;
+	private ArrayList<Integer> viewList;
 
 
 
@@ -142,11 +144,17 @@ public class DockBar extends JPanel implements ActionListener {
 		//	btnToggleInputBar.setBorderPainted(false);
 		btnToggleInputBar.setPreferredSize(new Dimension(btnSize, 20));
 
+
+		btnKeyboard = new JButton();
+		btnKeyboard.setIcon(GeoGebraIcon.ensureIconSize(app.getImageIcon("spreadsheet_grid.png"), new Dimension(iconSize,iconSize)));
+		
+		btnKeyboard.addActionListener(this);
+		btnKeyboard.setPreferredSize(new Dimension(btnSize, btnSize));
+
 		
 		// view toggle buttons
-		initViewActions();
-		initViewButtons();
-		updateViews();
+		getViewButtonList();
+		updateViewButtons();
 
 	}
 
@@ -158,96 +166,52 @@ public class DockBar extends JPanel implements ActionListener {
 		viewToolBar = new JToolBar();
 		viewToolBar.setFloatable(false);
 		viewToolBar.setOrientation(JToolBar.VERTICAL);
-		
+
 		menuToolBar = new JToolBar();
 		menuToolBar.setFloatable(false);
 		menuToolBar.setOrientation(JToolBar.VERTICAL);	
 		Border outsideBorder = menuToolBar.getBorder();
 		Border insideBorder = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 		menuToolBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-		
+
 		inputToolBar = new JToolBar();
 		inputToolBar.setFloatable(false);
 		inputToolBar.setOrientation(JToolBar.VERTICAL);	
-		
-		
-		
+
+
+
 		// register mouse listeners
 		inputToolBar.addMouseListener(new MyMouseListener());	
 		menuToolBar.addMouseListener(new MyMouseListener());
 		viewToolBar.addMouseListener(new MyMouseListener());
-		
-		
+
+
 		// add buttons
 		initButtons();
 		menuToolBar.add(btnToggleMenu);
 		menuToolBar.add(btnToggleInputBar);
 		//inputToolBar.add(btnMinimize);
-			
+
 	}
 
 
 
-	private void initViewActions() {
+
+	private void getViewButtonList() {
+
+		AbstractAction action;
+
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
-		int viewsInMenu = 0;
-
-		// count visible views first..
-		for(DockPanel panel : dockPanels) {
-			// skip panels with negative order by design
-			if(panel.getMenuOrder() < 0) {
-				continue;
-			}
-			++viewsInMenu;
-		}
-
-		// construct array with menu items
-		showViews = new AbstractAction[viewsInMenu];
-		{
-			int i = 0;
-			AbstractAction action;
-
-			for(DockPanel panel : dockPanels) {
-				// skip panels with negative order by design
-				if(panel.getMenuOrder() < 0) {
-					continue;
-				}
-
-				final int viewId = panel.getViewId();
-
-				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
-					public void actionPerformed(ActionEvent arg0) {
-						app.getGuiManager().setShowView(!app.getGuiManager().showView(viewId), viewId);
-						updateViews();
-					}
-				};
-
-				showViews[i] = action;
-				++i;
-			}
-		}
-	}
-
-	private void initViewButtons() {
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
-		int viewsInMenu = 0;
-
-		// count visible views first..
-		for(DockPanel panel : dockPanels) {
-			// skip panels with negative order by design
-			if(panel.getMenuOrder() < 0) {
-				continue;
-			}
-			++viewsInMenu;
-		}
 
 		// construct array with view buttons
-		viewButtons = new JButton[viewsInMenu];
+		if(viewButtons == null)
+			viewButtons = new ArrayList<ViewButton>();
+		viewButtons.clear();
+
 		{
 			int i = 0;
-			JButton btn;
+			ViewButton btn;
 
 			for(DockPanel panel : dockPanels) {
 				// skip panels with negative order by design
@@ -255,7 +219,15 @@ public class DockBar extends JPanel implements ActionListener {
 					continue;
 				}
 
-				btn = new JButton();
+				final int viewID = panel.getViewId();
+
+				if(!app.getGuiManager().showView(viewID)
+						&& !(viewID == Application.VIEW_PROPERTIES))
+					continue;
+
+
+
+				btn = new ViewButton();
 				btn.setToolTipText(panel.getPlainTitle());
 				//btn.setText("" + panel.getViewId());
 				setButtonIcon(btn, panel);
@@ -264,10 +236,18 @@ public class DockBar extends JPanel implements ActionListener {
 				btn.setMaximumSize(btn.getPreferredSize());
 				//	btn.setBorderPainted(false);
 
-				viewButtons[i] = btn;
 
-				btn.addActionListener(showViews[i]);
-				++i;
+				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
+					public void actionPerformed(ActionEvent arg0) {
+						app.getGuiManager().setShowView(!app.getGuiManager().showView(viewID), viewID);
+						updateViewButtons();
+					}
+				};
+
+				btn.addActionListener(action);			
+				btn.setViewID(viewID);
+
+				viewButtons.add(btn);
 			}
 		}
 	}
@@ -292,7 +272,7 @@ public class DockBar extends JPanel implements ActionListener {
 		else
 			icon = app.getImageIcon("tool.png");
 
-		icon = ImageManager.getScaledIcon(icon, iconSize,iconSize);
+		icon = GeoGebraIcon.ensureIconSize(icon, new Dimension(iconSize,iconSize));
 		btn.setIcon(icon);
 
 		//icon = GeoGebraIcon.joinIcons(GeoGebraIcon.createColorSwatchIcon(1f, new Dimension(6,6), Color.darkGray, Color.green), icon);
@@ -302,54 +282,36 @@ public class DockBar extends JPanel implements ActionListener {
 
 
 
-	public void updateViews() {		
+	public void updateViewButtons() {		
 
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
-		int viewsInMenu = 0;
 
-		// count visible views first..
-		for(DockPanel panel : dockPanels) {
-			// skip panels with negative order by design
-			if(panel.getMenuOrder() < 0) {
-				continue;
-			}
-			++viewsInMenu;
+		viewToolBar.removeAll();
+
+		for(ViewButton btn: viewButtons) {
+
+			viewToolBar.add(btn);
+
+			//btn.setVisible(!app.getGuiManager().showView(btn.getViewID()));
+			btn.setSelected(app.getGuiManager().showView(btn.getViewID()));
+
+		}
+		
+		viewToolBar.add(btnKeyboard);
+	}
+
+	class ViewButton extends JButton{
+		private int viewID;
+
+		public int getViewID() {
+			return viewID;
 		}
 
-		// update views
-		{
-			viewToolBar.removeAll();
-			int i = 0;
-			for(DockPanel panel : dockPanels) {
-				// skip panels with negative order by design
-				if(panel.getMenuOrder() < 0) {
-					continue;
-				}
-
-				viewToolBar.add(viewButtons[i]);
-				//viewToolBar.add(new JToolBar.Separator());
-
-				if(!app.getGuiManager().showView(panel.getViewId())){
-					//	this.add(Box.createRigidArea(new Dimension(0,4)));
-					//	this.add(viewButtons[i]);
-
-				}
-
-				//viewButtons[i].setVisible(!app.getGuiManager().showView(panel.getViewId()));
-				viewButtons[i].setSelected(app.getGuiManager().showView(panel.getViewId()));
-
-
-				if(panel.getViewId() == Application.VIEW_CONSTRUCTION_PROTOCOL)
-					//||panel.getViewId() == Application.VIEW_PROPERTIES)
-					viewButtons[i].setVisible(false);
-				//	else
-				//		viewToolBar.add(Box.createRigidArea(new Dimension(0,4)));
-
-
-				++i;
-			}
+		public void setViewID(int viewID) {
+			this.viewID = viewID;
 		}
+
 	}
 
 
@@ -366,10 +328,31 @@ public class DockBar extends JPanel implements ActionListener {
 			isMinimized = true;
 			updateLayout();
 		}
+		if(source == btnKeyboard){
+			if (Application.isVirtualKeyboardActive() && !app.getGuiManager().showVirtualKeyboard()) {
+
+				// if keyboard is active but hidden, just show it
+				app.getGuiManager().toggleKeyboard(true);
+				//update();
+
+			} else {
+
+				Application.setVirtualKeyboardActive(!Application.isVirtualKeyboardActive());				
+				app.getGuiManager().toggleKeyboard(Application.isVirtualKeyboardActive());
+				//update();
+			}
+		}
 
 	}
 
+	
+	
+	
 
+	public void openDockBar(){
+		isMinimized = false;
+		updateLayout();
+	}
 
 
 	/**
