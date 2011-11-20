@@ -211,7 +211,7 @@ public class ProbabilityManager {
 		String[] inverseCmd = new String[distCount];
 		inverseCmd[DIST_NORMAL] = "InverseNormal";
 		inverseCmd[DIST_STUDENT] = "InverseTDistribution";
-		inverseCmd[DIST_CHISQUARE] = "InverseChiSquare";
+		inverseCmd[DIST_CHISQUARE] = "InverseChiSquared";
 		inverseCmd[DIST_F] = "InverseFDistribution";
 		inverseCmd[DIST_CAUCHY] = "InverseCauchy";
 		inverseCmd[DIST_EXPONENTIAL] = "InverseExponential";
