@@ -1267,7 +1267,10 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		}
 
 		// make result field editable for inverse probability calculation  
-		if(probMode != PROB_INTERVAL){
+		// TODO: remove lognormal and logistic filters when their inverse cmds become available
+		if(probMode != PROB_INTERVAL
+				&& selectedDist != ProbabilityManager.DIST_LOGNORMAL
+				&& selectedDist != ProbabilityManager.DIST_LOGISTIC){
 			fldResult.setBackground(fldLow.getBackground());
 			fldResult.setBorder(fldLow.getBorder());
 			fldResult.setEditable(true);
