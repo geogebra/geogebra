@@ -275,7 +275,9 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		case DRAW_MODE_LINES: // two lines
 			// intersect lines to get vertex
-			m = GeoVec3D.cross(line, line2).get();
+			m = GeoVec3D.cross(line, line2).get();	
+			m[0] = m[0] / m[2];
+			m[1] = m[1] / m[2];
 
 			// first vec
 			line.getDirection(firstVec);
