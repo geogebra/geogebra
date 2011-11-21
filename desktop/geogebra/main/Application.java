@@ -2508,26 +2508,34 @@ public class Application implements KeyEventDispatcher {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();
 		}
+		
+		String ret = null;
 
 		try {
-			return rbsymbol.getString("S."+key);
+			ret = rbsymbol.getString("S."+key);
 		} catch (Exception e) {
-			return null;
 		}
+
+		if ("".equals(ret)) return null;
+		else return ret;
 	}
 
 	final public String getSymbolTooltip(int key) {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();
 		}
+		
+		String ret = null;
 
 		try {
-			return rbsymbol.getString("T."+key);
+			ret = rbsymbol.getString("T."+key);
 		} catch (Exception e) {
-			return null;
 		}
-	}
 
+		if ("".equals(ret)) return null;
+		else return ret;
+	}
+	
 //	final public String reverseGetPlain(String str) {
 //		if (rbplain == null) {			
 //			initPlainResourceBundle();
