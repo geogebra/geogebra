@@ -137,7 +137,7 @@ to ensure availability.
 
 	<target name="winport-geogebra">
 	<mkdir dir="download"/>
-	<get src="http://www.geogebra.org/download/installer/winport/GeoGebra-Windows-Portable-3-9-x-x.zip" dest="download/GeoGebra-Windows-Portable-3-9-x-x.zip" usetimestamp="true"/>
+	<get src="http://www.geogebra.org/download/installer/winport/GeoGebra-Windows-Portable-4-1-x-x.zip" dest="download/GeoGebra-Windows-Portable-4-1-x-x.zip" usetimestamp="true"/>
 	</target>
 
 	<target name="javaapplicationstub-geogebra">
