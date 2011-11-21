@@ -5,9 +5,7 @@
 # FIXME: Filename for this script should be changed.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-GGB42_ZIP=../../../../GeoGebra-Windows-Portable-3-9-x-x.zip
-# This is more portable:
-GGB42_ZIP=../../../installer/download/GeoGebra-Windows-Portable-3-9-x-x.zip
+GGB42_ZIP=../../../installer/download/GeoGebra-Windows-Portable-4-1-x-x.zip
 # You can also add a variable for that into autobuild.conf.
 
 # Please do not edit below this. (FIXME: the above settings should come from the config file.)
