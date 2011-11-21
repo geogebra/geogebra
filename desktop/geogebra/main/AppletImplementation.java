@@ -675,8 +675,16 @@ public class AppletImplementation implements AppletImplementationInterface {
 	/**
 	 * Opens construction given in Base64 format. May be used for loading constructions.
 	 */
-	public synchronized void setBase64(String base64) {
-		ggbApi.setBase64(base64);
+	public synchronized void setBase64(final String base64) {
+		// base64 might contain an image, calls ImageIO etc
+		AccessController.doPrivileged(new PrivilegedAction<Object>() {
+			public Object run() {
+				// perform the security-sensitive operation here
+				ggbApi.setBase64(base64);
+				return null;
+			}
+		});
+		
 	}
 
 	/**
