@@ -19,6 +19,9 @@
  */
 package geogebra.euclidian.clipping;
 
+
+import geogebra.common.euclidian.clipping.MutableInteger;
+
 import java.lang.reflect.Constructor;
 import java.util.Hashtable;
 import java.util.Map;
