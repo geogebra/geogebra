@@ -19,17 +19,32 @@
 #
 # goes to
 #
-# CircleWithCenterAandRadiusB=plain_CircleWithCenterAandRadiusB:%0,%1
+# CircleWithCenterAandRadiusB=CircleWithCenterAandRadiusB_plain:%0,%1
 #
 # @author Zbynek Konecny <zbynek@geogebra.org>
+# @author Ralf Hemmecke <ralf@hemmecke.de>
+
+# The sed expression below does the following:
+# h                         -- store the line
+# s/\([^%]\)[0-9]/\1/g      -- remove digits not prepended by %
+# s/[^%0-9]//g              -- only leave % and digits on the line
+# s/%/,%/g                  -- %0%1 ==> ,%0,%1
+# x                         -- exchange buffer with saved line
+# s/\([^=]*\)=.*/\1=\1_$f/  -- A=something ==> A=A_plain
+# G                         -- append the ,%0,%1 buffer
+# s/\n,/:/                  -- ==> A=A_plain:%0,%1
+# s/:$//                    -- remove colon if there were no %0 in the line
+# The script assumes that %0, %1, etc. are in the right order, i.e.
+#   foo=move %1 to %0
+# on input will give
+#   foo=foo:%1,%0
+# instead of
+#   foo=foo:%0,%1
 
 cd ../geogebra/properties
-for f in menu colors symbols error command plain
-	do	
-		cat $f.properties |grep =|grep -v "#" |grep -v "%0" | sed "s/\([^=]*\)=\(.*\)/\1=\1_$f/" > $f"_ia.properties"
-		cat $f.properties |grep =|grep  "%0" |grep -v "%1" | sed "s/\([^=]*\)=\(.*\)/\1=\1_$f:%0/" >> $f"_ia.properties"
-		cat $f.properties |grep =|grep  "%1" |grep -v "%2" | sed "s/\([^=]*\)=\(.*\)/\1=\1_$f:%0,%1/" >> $f"_ia.properties"
-		cat $f.properties |grep =|grep  "%2" |grep -v "%3" | sed "s/\([^=]*\)=\(.*\)/\1=\1_$f:%0,%1,%2/" >> $f"_ia.properties"
-		cat $f.properties |grep =|grep  "%3" |grep -v "%4" | sed "s/\([^=]*\)=\(.*\)/\1=\1_$f:%0,%1,%2,%3/" >> $f"_ia.properties"
-		cat $f.properties |grep =|grep  "%4" |grep -v "#" | sed "s/\([^=]*\)=\(.*\)/\1=\1_$f:%0,%1,%2,%3/" >> $f"_ia.properties"
-	done
+for f in menu colors symbols error command plain; do
+    grep -v '^[ \t]*#' $f.properties \
+    | sed "h;s/\([^%]\)[0-9]/\1/g;s/[^%0-9]//g;s/%/,%/g;x;s/\([^=]*\)=.*/\1=\1_$f/;G;s/\n,/:/;s/:$//" \
+    | grep = \
+    > $f"_ia.properties"
+done
