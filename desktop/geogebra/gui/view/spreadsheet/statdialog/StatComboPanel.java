@@ -20,6 +20,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -53,7 +55,8 @@ import javax.swing.event.ChangeListener;
  * @author G.Sturr
  * 
  */
-public class StatComboPanel extends JPanel implements ActionListener, StatPanelInterface{
+public class StatComboPanel extends JPanel implements ActionListener, FocusListener,
+StatPanelInterface{
 
 	// ggb fields
 	private Application app;
@@ -501,6 +504,7 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 		fldStart.setMaximumSize(d);
 		fldStart.addActionListener(this);
 		fldStart.setText("" + (int)settings.classStart);
+		fldStart.addFocusListener(this);
 
 		fldWidth = new MyTextField(app);
 		fldWidth.setMaximumSize(d);
@@ -508,7 +512,8 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 		fldWidth.setColumns(4);
 		fldWidth.addActionListener(this);
 		fldWidth.setText("" + (int)settings.classWidth);
-
+		fldWidth.addFocusListener(this);
+		
 		manualClassesPanel = new JToolBar();
 		manualClassesPanel.setFloatable(false);
 		manualClassesPanel.add(lblStart);
@@ -829,7 +834,6 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 			optionsButton.setSelected(false);
 		}
 
-
 	}
 
 	private void doTextFieldActionPerformed(Object source){
@@ -844,7 +848,15 @@ public class StatComboPanel extends JPanel implements ActionListener, StatPanelI
 	}
 
 
+	public void focusLost(FocusEvent e) {
+		Object source = e.getSource();
+		if(source instanceof JTextField)
+			this.doTextFieldActionPerformed(source);
+	}
 
+	public void focusGained(FocusEvent e) { }
+
+	
 
 	public void clearPlotGeoList(){
 		for(GeoElement geo : plotGeoList){
