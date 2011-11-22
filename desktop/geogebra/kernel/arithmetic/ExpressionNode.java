@@ -2079,42 +2079,54 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			 * }//
 			 */
 
+			boolean finished = false;
+
 			// support for sin^2(x) for LaTeX, eg FormulaText[]
-			if (STRING_TYPE == STRING_TYPE_LATEX
-					&& (leftStr.startsWith("\\sin ") || leftStr
-							.startsWith("\\cos "))
-					|| leftStr.startsWith("\\tan ")
-					|| leftStr.startsWith("\\csc ")
-					|| leftStr.startsWith("\\sec ")
-					|| leftStr.startsWith("\\cot ")
-					|| leftStr.startsWith("\\sinh ")
-					|| leftStr.startsWith("\\cosh ")
-					|| leftStr.startsWith("\\tanh ")
-					|| leftStr.startsWith("\\coth ")
-					|| leftStr.startsWith("\\sech ")
-					|| leftStr.startsWith("\\csch ")) {
-				// && rightStr.equals("2")) {
-				int index;
-				try {
-					index = Integer.parseInt(rightStr);
-				} catch (NumberFormatException nfe) {
-					index = Integer.MAX_VALUE;
-				}
+			if (STRING_TYPE == STRING_TYPE_LATEX && left.isExpressionNode()) {
+				switch (((ExpressionNode)left).getOperation()) {
+				// #1592
+				case SIN:
+				case COS:
+				case TAN:
+				case SEC:
+				case CSC:
+				case COT:
+				case SINH:
+				case COSH:
+				case TANH:
+				case SECH:
+				case CSCH:
+				case COTH:
+					int index;
+					try {
+						index = Integer.parseInt(rightStr);
+					} catch (NumberFormatException nfe) {
+						index = Integer.MAX_VALUE;
+					}
 
-				if (index > 0 && index != Integer.MAX_VALUE) {
-					int spaceIndex = leftStr.indexOf(' ');
-					sb.append(leftStr.substring(0, spaceIndex));
-					sb.append(" ^{");
-					sb.append(rightStr);
-					sb.append("}");
-					sb.append(leftStr.substring(spaceIndex + 1)); // everything
-																	// except
-																	// the
-																	// "\\sin "
-					break;
+					if (index > 0 && index != Integer.MAX_VALUE) {
+						int spaceIndex = leftStr.indexOf(' ');
+						sb.append(leftStr.substring(0, spaceIndex));
+						sb.append(" ^{");
+						sb.append(rightStr);
+						sb.append("}");
+						sb.append(leftStr.substring(spaceIndex + 1)); // everything
+																		// except
+																		// the
+																		// "\\sin "
+						
+						finished = true;
+						
+						break;
+					}
+						
+						default:
+							// fall through
 				}
-
-			}// */
+				
+				if (finished) break;
+				
+			}
 
 			switch (STRING_TYPE) {
 			case STRING_TYPE_LATEX:
