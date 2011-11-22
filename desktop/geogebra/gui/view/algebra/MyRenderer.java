@@ -1,6 +1,6 @@
 package geogebra.gui.view.algebra;
 
-import geogebra.euclidian.FormulaDimension;
+import geogebra.common.euclidian.FormulaDimension;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;

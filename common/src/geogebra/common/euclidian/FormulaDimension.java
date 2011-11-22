@@ -1,4 +1,4 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 public class FormulaDimension {
 	

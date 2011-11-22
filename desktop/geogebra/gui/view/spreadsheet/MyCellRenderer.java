@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.euclidian.FormulaDimension;
 import geogebra.euclidian.Drawable;
-import geogebra.euclidian.FormulaDimension;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoBoolean;

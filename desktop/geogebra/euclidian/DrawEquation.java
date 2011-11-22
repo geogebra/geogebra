@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.FormulaDimension;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.MyError;

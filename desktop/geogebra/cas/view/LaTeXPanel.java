@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.euclidian.FormulaDimension;
+import geogebra.common.euclidian.FormulaDimension;
 import geogebra.main.Application;
 
 import java.awt.Dimension;

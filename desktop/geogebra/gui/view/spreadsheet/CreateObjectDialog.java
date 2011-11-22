@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.euclidian.FormulaDimension;
+import geogebra.common.euclidian.FormulaDimension;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.algos.AlgoPolyLine;
