@@ -212,7 +212,7 @@ public class TwoVarStatPanel extends StatTable implements  ActionListener {
 
 			// get statistics
 			meanDifference = StatUtils.meanDifference(sample1, sample2);
-			sdDifference = Math.sqrt(StatUtils.varianceDifference(sample1, sample2, meanDifference)/stats1.getN());
+			sdDifference = Math.sqrt(StatUtils.varianceDifference(sample1, sample2, meanDifference));
 
 		} catch (Exception e) {
 			e.printStackTrace();
