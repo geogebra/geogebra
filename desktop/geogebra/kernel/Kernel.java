@@ -128,6 +128,7 @@ import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
 import geogebra.main.MyError;
+import geogebra.main.Application.CasType;
 import geogebra.util.MaxSizeHashMap;
 import geogebra.util.ScientificFormat;
 import geogebra.util.Unicode;
@@ -639,13 +640,13 @@ public class Kernel {
 		return ggbCAS != null;
 	}
 	
-	public static int DEFAULT_CAS = Application.CAS_MPREDUCE; // default
+	public static CasType DEFAULT_CAS = CasType.MPREDUCE; // default
 
 	/**
 	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
-	 * @param casID Application.CAS_MPREDUCE or CAS_MPREDUCE.CAS_Maxima
+	 * @param casID CasType.MPREDUCE or CAS_MPREDUCE.CAS_Maxima
 	 */
-	public void setDefaultCAS(int casID) {
+	public void setDefaultCAS(CasType casID) {
 		DEFAULT_CAS = casID;
 		if (ggbCAS != null) ggbCAS.setCurrentCAS(DEFAULT_CAS);
 	}
@@ -1087,7 +1088,7 @@ public class Kernel {
 		return result;
 	 }
 	 	
-	final public int getCurrentCAS() {
+	final public CasType getCurrentCAS() {
 		return ((GeoGebraCAS)getGeoGebraCAS()).currentCAS;
 	}
 

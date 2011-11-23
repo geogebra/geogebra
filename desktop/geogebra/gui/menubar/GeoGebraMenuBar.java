@@ -246,7 +246,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		vsb.append(" ");
 		vsb.append(GeoGebra.VERSION_STRING);
 		switch (Kernel.DEFAULT_CAS) {
-		case Application.CAS_MAXIMA:
+		case MAXIMA:
 			vsb.append('m');
 			break;
 			// default: do nothing

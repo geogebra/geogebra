@@ -16,6 +16,7 @@ import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoGebraCASInterface;
+import geogebra.main.Application.CasType;
 import geogebra.main.MyError;
 import geogebra.util.MaxSizeHashMap;
 
@@ -161,14 +162,14 @@ public class MacroKernel extends Kernel  {
 		
 	/**
 	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
-	 * @param casID Application.CAS_MPREDUCE or CAS_MPREDUCE.CAS_Maxima
+	 * @param casID CasType.MPREDUCE or CAS_MPREDUCE.CAS_Maxima
 	 */
-	public void setDefaultCAS(int casID) {
+	public void setDefaultCAS(CasType casID) {
 		parentKernel.setDefaultCAS(DEFAULT_CAS);
 	}
 	
 	/**
-	 * Removes the given variableName from ther underlying CAS.
+	 * Removes the given variableName from their underlying CAS.
 	 */
 	public void unbindVariableInGeoGebraCAS(String variableName) {
 		parentKernel.unbindVariableInGeoGebraCAS(variableName);

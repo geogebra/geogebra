@@ -9,6 +9,7 @@ import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.main.Application;
+import geogebra.main.Application.CasType;
 import geogebra.util.MaxSizeHashMap;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	private CASparser casParser;
 	private CASgeneric cas;
 	private CASmpreduce casMPReduce;
-	public int currentCAS = -1;
+	public CasType currentCAS = CasType.NO_CAS;
 
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
@@ -44,14 +45,14 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	
 	public StringType getCurrentCASstringType() {
 		switch (currentCAS) {
-			case Application.CAS_MAXIMA:
+			case MAXIMA:
 				return StringType.MAXIMA;
 				
-			case Application.CAS_MPREDUCE:
+			case MPREDUCE:
 				return StringType.MPREDUCE;
 				
 			default:
-			case Application.CAS_MATHPIPER:
+			case MATHPIPER:
 				return StringType.MATH_PIPER;	
 		}
 	}
@@ -60,11 +61,11 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	 * Sets the currently used CAS for evaluateGeoGebraCAS().
 	 * @param CAS use CAS_MATHPIPER or CAS_MAXIMA
 	 */
-	public synchronized void setCurrentCAS(int CAS) {
+	public synchronized void setCurrentCAS(CasType CAS) {
 		try {
 			switch (CAS) {
 			/*
-				case Application.CAS_MAXIMA:
+				case MAXIMA:
 					cas = getMaxima();
 					((CASmaxima) cas).initialize();
 					currentCAS = CAS;
@@ -76,7 +77,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 					currentCAS = CAS;
 					break;	
 				/*
-				case Application.CAS_MATHPIPER:
+				case MATHPIPER:
 					cas = getMathPiper();
 					currentCAS = CAS;
 					break;
@@ -85,7 +86,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 			/*
 		}catch (MaximaVersionUnsupportedExecption e){
 			app.showError("CAS.MaximaVersionUnsupported");
-			setCurrentCAS(Application.CAS_MPREDUCE);*/
+			setCurrentCAS(CasType.MPREDUCE);*/
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -110,7 +111,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	
 	/*
 	private CASmathpiper getMathPiper() {
-		if (currentCAS == Application.CAS_MATHPIPER)
+		if (currentCAS.equals(CasType.MATHPIPER))
 			return (CASmathpiper) cas;
 		else
 			return new CASmathpiper(casParser, new CasParserToolsImpl('e'));
@@ -118,7 +119,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	
 	/*
 	private CASmaxima getMaxima() {
-		if (currentCAS == Application.CAS_MAXIMA)
+		if (currentCAS.equals(CasType.MAXIMA))
 			return (CASmaxima) cas;
 		else
 			return new CASmaxima(casParser, new CasParserToolsImpl('b'));
@@ -333,7 +334,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 						if (ev.isListValue()) {
 							// is a list, remove { and }
 							// resp. list( ... ) in mpreduce
-							if (currentCAS==Application.CAS_MPREDUCE)
+							if (currentCAS.equals(CasType.MPREDUCE))
 								sbCASCommand.append(str.substring(22, str.length() - 2));
 							else
 								sbCASCommand.append(str.substring(1, str.length() - 1));

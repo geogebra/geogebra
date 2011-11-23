@@ -5369,11 +5369,9 @@ public class Application implements KeyEventDispatcher {
 		//Application.debug("miniprops active:"+miniPropertiesActive);
 	}
 
+
 	// determines which CAS is being used
-	final public static int CAS_MATHPIPER = 0;//StringType.MATH_PIPER.ordinal();
-	final public static int CAS_MAXIMA = 1;//StringType.MAXIMA.ordinal();
-	final public static int CAS_MPREDUCE = 2;//StringType.MPREDUCE.ordinal();
-		
+	public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
 
 	/*
 	public void setDefaultCAS(int CAS) {
