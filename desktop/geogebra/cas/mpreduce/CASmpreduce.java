@@ -5,8 +5,8 @@ import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
 import geogebra.cas.error.CASException;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.main.Application;
@@ -105,7 +105,7 @@ public class CASmpreduce extends CASgeneric {
 		}
 		
 		// convert parsed input to MPReduce string
-		String mpreduceInput = translateToCAS(casInput, ExpressionNode.STRING_TYPE_MPREDUCE);
+		String mpreduceInput = translateToCAS(casInput, StringType.MPREDUCE);
 		
 		// tell MPReduce whether it should use the keep input flag, 
 		// e.g. important for Substitute
@@ -134,8 +134,8 @@ public class CASmpreduce extends CASgeneric {
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
 			// function definition f(x) := x^2 should return x^2
-			int oldPrintForm = casParser.getKernel().getCASPrintForm();
-			casParser.getKernel().setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA);
+			StringType oldPrintForm = casParser.getKernel().getCASPrintForm();
+			casParser.getKernel().setCASPrintForm(StringType.GEOGEBRA);
 			String ret = casInput.toString();
 			casParser.getKernel().setCASPrintForm(oldPrintForm);
 			return ret;

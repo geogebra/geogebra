@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 
@@ -92,7 +92,7 @@ public class AlgoName extends AlgoElement {
 		} else {
 			// eg Name[a+3]
 			text.setTextString(geo.getRealFormulaString(
-					ExpressionNode.STRING_TYPE_GEOGEBRA, false));
+					StringType.GEOGEBRA, false));
 		}
 	}
 }

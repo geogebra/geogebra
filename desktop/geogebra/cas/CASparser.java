@@ -16,6 +16,7 @@ import geogebra.cas.error.CASException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -116,7 +117,7 @@ public class CASparser {
 	 */
 	public String toGeoGebraString(ExpressionValue ev) throws CASException {
 		try {
-			return toString(ev, ExpressionNode.STRING_TYPE_GEOGEBRA);
+			return toString(ev, StringType.GEOGEBRA);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new CASException(e);
@@ -125,9 +126,9 @@ public class CASparser {
 	
 	/**
 	 * Tries to convert the given CAS string to the given syntax.
-	 * @param STRING_TYPE one of ExpressionNode.STRING_TYPE_GEOGEBRA, STRING_TYPE_GEOGEBRA_XML
+	 * @param STRING_TYPE one of StringType.GEOGEBRA, STRING_TYPE_GEOGEBRA_XML
 	 */
-	public String toString(ExpressionValue ev, int STRING_TYPE) {
+	public String toString(ExpressionValue ev, StringType STRING_TYPE) {
 		String GeoGebraString;
 		
 		if (!ev.isExpressionNode()) {

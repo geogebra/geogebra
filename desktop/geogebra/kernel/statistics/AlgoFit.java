@@ -15,8 +15,8 @@ package geogebra.kernel.statistics;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionValue;
-import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -191,7 +191,7 @@ public class AlgoFit extends AlgoElement {
 		for(int i=0;i<functionsize;i++){
 			sb.append(P.getEntry(i,0));
 			sb.append('*');
-			sb.append(((GeoFunction)functionlist.get(i)).getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, true));
+			sb.append(((GeoFunction)functionlist.get(i)).getFormulaString(StringType.GEOGEBRA, true));
 			if (i != functionsize - 1) {
 				sb.append('+');
 			}

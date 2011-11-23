@@ -1,9 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.FormulaDimension;
-import geogebra.euclidian.Drawable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoImage;
@@ -270,7 +269,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			boolean isSerif = false;
 			if (geo.isDefined() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
-				latexStr = geo.getFormulaString(ExpressionNode.STRING_TYPE_LATEX, true);
+				latexStr = geo.getFormulaString(StringType.LATEX, true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {
 					try {
 						if(geo.isGeoText())

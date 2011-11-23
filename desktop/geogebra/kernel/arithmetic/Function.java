@@ -14,6 +14,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoLine;
@@ -555,14 +556,14 @@ implements ExpressionValue, RealRootFunction, Functional {
         
         // get coefficients as strings
         boolean oldUseTempVarPrefix = kernel.isUseTempVariablePrefix();
-        int oldPrintForm = kernel.getCASPrintForm();
+        StringType oldPrintForm = kernel.getCASPrintForm();
         kernel.setUseTempVariablePrefix(true);
-        kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_MPREDUCE);
+        kernel.setCASPrintForm(StringType.MPREDUCE);
         String function,var;
         
         //See #1322
         try {
-        	function = node.getCASstring(ExpressionNode.STRING_TYPE_MPREDUCE, symbolic); 
+        	function = node.getCASstring(StringType.MPREDUCE, symbolic); 
         	var = fVars[0].toString();
         } catch (NullPointerException e) {
         	// this is not a valid polynomial           
@@ -718,7 +719,7 @@ implements ExpressionValue, RealRootFunction, Functional {
     	StringBuilder sb = new StringBuilder();
     	//  Derivative( y, t )    	
     	sb.append("Derivative(");
-    	sb.append(funY.expression.getCASstring(ExpressionNode.STRING_TYPE_GEOGEBRA, symbolic));
+    	sb.append(funY.expression.getCASstring(StringType.GEOGEBRA, symbolic));
     	sb.append(",");
     	sb.append(varStr);
     	sb.append(")");

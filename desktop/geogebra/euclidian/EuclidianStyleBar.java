@@ -9,7 +9,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoTableText;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoImage;
@@ -1669,7 +1669,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			// create a new TableText cmd
 			cmdText.setLength(0);
 			cmdText.append("TableText[");
-			cmdText.append(((GeoList) input[0]).getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, false));
+			cmdText.append(((GeoList) input[0]).getFormulaString(StringType.GEOGEBRA, false));
 			cmdText.append(",\"");
 			cmdText.append(arg);
 			cmdText.append("\"]");

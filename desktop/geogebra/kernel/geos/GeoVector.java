@@ -393,7 +393,7 @@ Transformable, GeoVectorND {
 		sbBuildValueString.setLength(0);
 
 		switch (kernel.getCASPrintForm()) {
-		case ExpressionNode.STRING_TYPE_MATH_PIPER:
+		case MATH_PIPER:
 			sbBuildValueString.append("{");
 			sbBuildValueString.append(getInhomVec().x);
 			sbBuildValueString.append(", ");
@@ -401,7 +401,7 @@ Transformable, GeoVectorND {
 			sbBuildValueString.append("}");
 			return sbBuildValueString;
 
-		case ExpressionNode.STRING_TYPE_MAXIMA:
+		case MAXIMA:
 			sbBuildValueString.append("[");
 			sbBuildValueString.append(getInhomVec().x);
 			sbBuildValueString.append(", ");
@@ -409,7 +409,7 @@ Transformable, GeoVectorND {
 			sbBuildValueString.append("]");
 			return sbBuildValueString;
 
-		case ExpressionNode.STRING_TYPE_MPREDUCE:
+		case MPREDUCE:
 			sbBuildValueString.append("list(");
 			sbBuildValueString.append(getInhomVec().x);
 			sbBuildValueString.append(",");

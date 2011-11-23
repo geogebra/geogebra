@@ -990,7 +990,7 @@ GeoPointND, Animatable, Transformable  {
 		sbBuildValueString.setLength(0);
 		
 		switch (kernel.getCASPrintForm()) {
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sbBuildValueString.append("{");
 				sbBuildValueString.append(getInhomX());
 				sbBuildValueString.append(", ");
@@ -998,7 +998,7 @@ GeoPointND, Animatable, Transformable  {
 				sbBuildValueString.append("}");
 				return sbBuildValueString;
 		
-			case ExpressionNode.STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				sbBuildValueString.append("[");
 				sbBuildValueString.append(getInhomX());
 				sbBuildValueString.append(", ");
@@ -1006,7 +1006,7 @@ GeoPointND, Animatable, Transformable  {
 				sbBuildValueString.append("]");
 				return sbBuildValueString;
 				
-			case ExpressionNode.STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				if (toStringMode==Kernel.COORD_COMPLEX){
 					sbBuildValueString.append("(");
 					sbBuildValueString.append(getInhomX());

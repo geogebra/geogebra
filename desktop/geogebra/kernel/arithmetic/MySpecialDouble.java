@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.util.Unicode;
 
 import java.math.BigDecimal;
@@ -120,10 +121,10 @@ public class MySpecialDouble extends MyDouble {
 		}
 		
 		// letter constants for pi, e, or degree character
-		int printForm = kernel.getCASPrintForm();						
+		StringType printForm = kernel.getCASPrintForm();						
 		switch (printForm) {
-			//case ExpressionNode.STRING_TYPE_JASYMCA:
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
+			//case JASYMCA:
+			case MATH_PIPER:
 				char ch = strToString.charAt(0);
 				switch (ch) {
 					case Unicode.piChar:	return "Pi";
@@ -131,7 +132,7 @@ public class MySpecialDouble extends MyDouble {
 				} 	
 			break;
 			
-			case ExpressionNode.STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				ch = strToString.charAt(0);
 				switch (ch) {
 					case Unicode.piChar:	return "%pi";
@@ -140,7 +141,7 @@ public class MySpecialDouble extends MyDouble {
 				} 	
 			break;
 			
-			case ExpressionNode.STRING_TYPE_MPREDUCE:								
+			case MPREDUCE:								
 				ch = strToString.charAt(0);
 				switch (ch) {
 					case Unicode.piChar:	return "pi";
@@ -149,7 +150,7 @@ public class MySpecialDouble extends MyDouble {
 				} 	
 			break;
 			
-			case ExpressionNode.STRING_TYPE_LATEX:
+			case LATEX:
 				ch = strToString.charAt(0);
 				switch (ch) {
 					case Unicode.piChar:	return "\\pi";

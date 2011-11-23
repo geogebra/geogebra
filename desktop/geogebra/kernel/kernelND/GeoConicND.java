@@ -1295,14 +1295,14 @@ Translateable
 		String squared;
 		String [] myVars;
 		switch (kernel.getCASPrintForm()) {
-			case ExpressionNode.STRING_TYPE_LATEX:
+			case LATEX:
 				squared = "^{2}";
 				myVars = varsLateX;
 				break;
 				
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
-			case ExpressionNode.STRING_TYPE_MAXIMA:
-			case ExpressionNode.STRING_TYPE_MPREDUCE:	
+			case MATH_PIPER:
+			case MAXIMA:
+			case MPREDUCE:	
 				squared = "^2";
 				myVars = varsCAS;
 				break;

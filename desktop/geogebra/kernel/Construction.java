@@ -21,6 +21,7 @@ import geogebra.kernel.algos.AlgorithmSet;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoDependentCasCell;
 import geogebra.kernel.geos.GeoAxis;
@@ -2214,9 +2215,9 @@ public class Construction {
 		
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		int oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getCASPrintForm();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);	
-		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 
 		// set label to get replaceable XML
 		if (newGeo.isLabelSet()) { // newGeo already exists in construction
@@ -2371,10 +2372,10 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		int oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getCASPrintForm();
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);	
-		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
         kernel.setPrintLocalizedCommandNames(false); 
 		
 		try {
@@ -2424,11 +2425,11 @@ public class Construction {
 		
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		int oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getCASPrintForm();
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);	
-		//kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
-		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA);
+		//kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
+		kernel.setCASPrintForm(StringType.GEOGEBRA);
         kernel.setPrintLocalizedCommandNames(false); 
 		kernel.setTemporaryPrintDecimals(6);
 		kernel.setTemporaryPrintFigures(6);
@@ -2474,10 +2475,10 @@ public class Construction {
 		
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		int oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getCASPrintForm();
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
         kernel.setPrintLocalizedCommandNames(false); 
 
 		try {

@@ -22,7 +22,7 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.algos.AlgoIntegralFunctions;
 import geogebra.kernel.algos.AlgoSlope;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
@@ -114,8 +114,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * generateAllCode: generate Asymptote output by assembling snippets and sanitizing
      */
     public void generateAllCode() {
-        int oldCASPrintform = kernel.getCASPrintForm();
-        kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_PSTRICKS);
+    	StringType oldCASPrintform = kernel.getCASPrintForm();
+        kernel.setCASPrintForm(StringType.PSTRICKS);
         
         // reset global variables
         parabolaCount     = 0; 

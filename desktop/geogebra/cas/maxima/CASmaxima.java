@@ -110,7 +110,7 @@ public class CASmaxima extends CASgeneric {
 	 *
 	public String evaluateGeoGebraCAS(ValidExpression casInput) throws Throwable {
 		// convert parsed input to Maxima string
-		String MaximaString = translateToCAS(casInput, ExpressionNode.STRING_TYPE_MAXIMA);
+		String MaximaString = translateToCAS(casInput, StringType.MAXIMA);
 		
 		// Maxima simplification is turned off by default using simp:false;
 		// We turn it on here using ev(command, simp) when KeepInput is not used

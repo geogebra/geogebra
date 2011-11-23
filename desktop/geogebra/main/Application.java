@@ -43,7 +43,7 @@ import geogebra.kernel.Macro;
 import geogebra.kernel.Relation;
 import geogebra.kernel.View;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.commands.CommandProcessor;
 import geogebra.kernel.geos.GeoAngle;
@@ -5370,9 +5370,9 @@ public class Application implements KeyEventDispatcher {
 	}
 
 	// determines which CAS is being used
-	final public static int CAS_MATHPIPER = ExpressionNode.STRING_TYPE_MATH_PIPER;
-	final public static int CAS_MAXIMA = ExpressionNode.STRING_TYPE_MAXIMA;
-	final public static int CAS_MPREDUCE = ExpressionNode.STRING_TYPE_MPREDUCE;
+	final public static int CAS_MATHPIPER = 0;//StringType.MATH_PIPER.ordinal();
+	final public static int CAS_MAXIMA = 1;//StringType.MAXIMA.ordinal();
+	final public static int CAS_MPREDUCE = 2;//StringType.MPREDUCE.ordinal();
 		
 
 	/*

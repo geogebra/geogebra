@@ -161,9 +161,9 @@ implements ReplaceableValue {
     
     private String toString(boolean symbolic, boolean LaTeX) {    
     	switch (kernel.getCASPrintForm()){
-		case ExpressionNode.STRING_TYPE_MATH_PIPER:
-		case ExpressionNode.STRING_TYPE_MAXIMA:
-		case ExpressionNode.STRING_TYPE_MPREDUCE:
+		case MATH_PIPER:
+		case MAXIMA:
+		case MPREDUCE:
     			// MathPiper command syntax
     			return ((geogebra.cas.GeoGebraCAS) kernel.getGeoGebraCAS()).
     				getCASCommand(name, args, symbolic);    			    	

@@ -7,16 +7,16 @@ import java.util.Set;
 public interface ExpressionNodeConstants {
 
 	
-
-	public static final int STRING_TYPE_GEOGEBRA_XML = 0;
-	public static final int STRING_TYPE_GEOGEBRA = 1;
-	public static final int STRING_TYPE_MAXIMA = 2;
-	public static final int STRING_TYPE_MATH_PIPER = 3;
-	public static final int STRING_TYPE_LATEX = 4;
-	public static final int STRING_TYPE_PSTRICKS = 5;
-	public static final int STRING_TYPE_PGF = 6;
-	public static final int STRING_TYPE_JASYMCA = 7;
-	public static final int STRING_TYPE_MPREDUCE = 8;
+	public enum StringType { 
+		GEOGEBRA_XML
+		,GEOGEBRA
+		,MAXIMA
+		,MATH_PIPER
+		,LATEX
+		,PSTRICKS
+		,PGF
+		,JASYMCA
+		,MPREDUCE};
 	
 	public static final String CAS_ROW_REFERENCE_PREFIX = "$";
 	public static final String UNICODE_PREFIX = "unicode";

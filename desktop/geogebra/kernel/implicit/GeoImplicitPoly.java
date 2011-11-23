@@ -27,7 +27,7 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPointOnPath;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
@@ -296,16 +296,16 @@ Dilateable, Transformable, EuclidianViewCE {
 
 	private void addPow(StringBuilder sb, int i){
 		if (i>1){
-			if (kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_LATEX){
+			if (kernel.getCASPrintForm().equals(StringType.LATEX)){
 				sb.append('^');
 				sb.append('{');
 				sb.append(i);
 				sb.append('}');
-			}else if ((kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_JASYMCA)||
-						(kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_GEOGEBRA_XML)||
-						(kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_MATH_PIPER)||
-						(kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_MAXIMA)||
-						(kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_MPREDUCE)){
+			}else if ((kernel.getCASPrintForm().equals(StringType.JASYMCA))||
+						(kernel.getCASPrintForm().equals(StringType.GEOGEBRA_XML))||
+						(kernel.getCASPrintForm().equals(StringType.MATH_PIPER))||
+						(kernel.getCASPrintForm().equals(StringType.MAXIMA))||
+						(kernel.getCASPrintForm().equals(StringType.MPREDUCE))){
 				sb.append('^');
 				sb.append(i);
 			}else{
@@ -337,7 +337,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				if (i==0&&j==0){
 					if (first)
 						sb.append("0");
-					if (kernel.getCASPrintForm() == ExpressionNode.STRING_TYPE_MATH_PIPER) 
+					if (kernel.getCASPrintForm() .equals(StringType.MATH_PIPER)) 
 						sb.append("== ");
 					else
 						sb.append("= ");

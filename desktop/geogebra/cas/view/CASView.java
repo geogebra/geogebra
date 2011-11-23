@@ -260,10 +260,10 @@ public class CASView extends JComponent implements View, Gridable {
 //
 //		// change kernel settings temporarily
 //		int oldCoordStlye = kernel.getCoordStyle();
-//		int oldPrintForm = kernel.getCASPrintForm();
+//		StringType oldPrintForm = kernel.getCASPrintForm();
 //        boolean oldValue = kernel.isPrintLocalizedCommandNames();
 //		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);	
-//		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+//		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 //        kernel.setPrintLocalizedCommandNames(false); 
 //
 //		sb.append("<casSession>\n");		

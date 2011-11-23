@@ -4,7 +4,7 @@ import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
 import geogebra.cas.error.CASException;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.main.Application;
 
@@ -86,7 +86,7 @@ public class CASmathpiper extends CASgeneric {
 	 */
 	public synchronized String evaluateGeoGebraCAS(ValidExpression casInput) throws CASException {
 		// convert parsed input to MathPiper string
-		String MathPiperString = translateToCAS(casInput, ExpressionNode.STRING_TYPE_MATH_PIPER);
+		String MathPiperString = translateToCAS(casInput, StringType.MATH_PIPER);
 			
 		// EVALUATE input in MathPiper 
 		String result = evaluateMathPiper(MathPiperString);

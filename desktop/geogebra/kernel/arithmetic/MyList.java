@@ -20,6 +20,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
@@ -598,13 +599,13 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();
-		 if (kernel.getCASPrintForm() == ExpressionNode.STRING_TYPE_MAXIMA)
+		 if (kernel.getCASPrintForm() .equals(StringType.MAXIMA))
 		 {
 			 if (isMatrix())
 				 sb.append("matrix(");
 			 else
 				 sb.append("[");
-		 } else if (kernel.getCASPrintForm() == ExpressionNode.STRING_TYPE_MPREDUCE)
+		 } else if (kernel.getCASPrintForm() .equals(StringType.MPREDUCE))
 		 {
 			 if (isMatrix())
 				 sb.append("mat(");
@@ -628,13 +629,13 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 			sb.append(exp.toString());
 		}
 
-		 if (kernel.getCASPrintForm() == ExpressionNode.STRING_TYPE_MAXIMA)
+		 if (kernel.getCASPrintForm() .equals(StringType.MAXIMA))
 		 {
 			 if (isMatrix())
 				 sb.append(")");
 			 else
 				 sb.append("]");
-		 } else if (kernel.getCASPrintForm() == ExpressionNode.STRING_TYPE_MPREDUCE)
+		 } else if (kernel.getCASPrintForm() .equals(StringType.MPREDUCE))
 		 {
 			 sb.append(')');
 			 if (isMatrix()){

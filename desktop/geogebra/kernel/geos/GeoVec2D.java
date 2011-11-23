@@ -587,13 +587,13 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     final public String toString() {
     	if (isImaginaryUnit()){
     		switch (kernel.getCASPrintForm()){
-    			case ExpressionNode.STRING_TYPE_MPREDUCE:
+    			case MPREDUCE:
     				return "i";
     				
     			default:
-//    			case ExpressionNode.STRING_TYPE_GEOGEBRA:
-//    			case ExpressionNode.STRING_TYPE_GEOGEBRA_XML:
-//    			case ExpressionNode.STRING_TYPE_LATEX:
+//    			case GEOGEBRA:
+//    			case GEOGEBRA_XML:
+//    			case LATEX:
     				return Unicode.IMAGINARY;
     		}
     	}

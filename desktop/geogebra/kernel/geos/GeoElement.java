@@ -37,7 +37,7 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.algos.AlgorithmSet;
 import geogebra.kernel.algos.ConstructionElement;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionalNVar;
@@ -2001,7 +2001,7 @@ public abstract class GeoElement
 	}
 
     public String toLaTeXString(boolean symbolic) {
-    	return getFormulaString(ExpressionNode.STRING_TYPE_LATEX, !symbolic);
+    	return getFormulaString(StringType.LATEX, !symbolic);
     	//if (symbolic)
     	//	return toString();
     	//else
@@ -2013,18 +2013,18 @@ public abstract class GeoElement
 	 * For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7" in MathPiper
 	 * or "f(x) := a*x^2", "a:20", "g: 3x + 4y == 7" in Maxima
 	 *
-	 * @param type ExpressionNode.STRING_TYPE_MAXIMA, STRING_TYPE_MATHPIPER
+	 * @param type StringType.MAXIMA, STRING_TYPE_MATHPIPER
      * @return String in the format of the current CAS.
 	 */
-	public String toCasAssignment(int type) {
+	public String toCasAssignment(StringType type) {
 		if (!labelSet) return null;
 		
-		int oldType = kernel.getCASPrintForm();
+		StringType oldType = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(type);
 		String retval;
 		
 		try {
-			if (type == ExpressionNode.STRING_TYPE_GEOGEBRA) {
+			if (type.equals(StringType.GEOGEBRA)) {
 				String body = toValueString();
 				String label = getLabel();				
 				
@@ -4093,13 +4093,13 @@ public abstract class GeoElement
 		// handle non-GeoText prefixed with ":", e.g.  "a: x = 3"
 		}else if(algebraDesc.indexOf(":") > -1 & !geo.isGeoText()){
 			sb.append(algebraDesc.split(":")[0] + ": \\,");
-			sb.append(geo.getFormulaString(ExpressionNode.STRING_TYPE_LATEX, substituteNumbers));
+			sb.append(geo.getFormulaString(StringType.LATEX, substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
 		else if(algebraDesc.indexOf("=") > -1 && !geo.isGeoText()){
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
-			sb.append(geo.getFormulaString(ExpressionNode.STRING_TYPE_LATEX, substituteNumbers));
+			sb.append(geo.getFormulaString(StringType.LATEX, substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
@@ -5420,9 +5420,9 @@ public abstract class GeoElement
 		// use CAS to check f - g = 0
 		try {
 			StringBuilder diffSb = new StringBuilder();
-			diffSb.append(getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, true));
+			diffSb.append(getFormulaString(StringType.GEOGEBRA, true));
 			diffSb.append("-(");
-			diffSb.append(f.getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, true));
+			diffSb.append(f.getFormulaString(StringType.GEOGEBRA, true));
 			diffSb.append(")");
 			String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
 			return (Double.valueOf(diff)==0d);
@@ -5437,23 +5437,23 @@ public abstract class GeoElement
 	 * substituteNumbers determines (for a function) whether you want
 	 * "2*x^2" or "a*x^2"
 	 * returns a string representing the formula of the GeoElement in the following formats:
-	 * getFormulaString(ExpressionNode.STRING_TYPE_MathPiper) eg Sqrt(x)
-	 * getFormulaString(ExpressionNode.STRING_TYPE_LATEX) eg \sqrt(x)
-	 * getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA) eg sqrt(x)
-	 * getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA_XML)
-	 * getFormulaString(ExpressionNode.STRING_TYPE_JASYMCA)
+	 * getFormulaString(StringType.MathPiper) eg Sqrt(x)
+	 * getFormulaString(StringType.LATEX) eg \sqrt(x)
+	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
+	 * getFormulaString(StringType.GEOGEBRA_XML)
+	 * getFormulaString(StringType.JASYMCA)
 	 * @param ExpressionNodeType 
 	 * @param substituteNumbers 
 	 * @return formula string
 	 */
-	public String getFormulaString(int ExpressionNodeType, boolean substituteNumbers)
+	public String getFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
 	{
 
 		/*
 		 * maybe use this
 		 * doesn't work on f=Factor[x^2-1] Expand[f]
-		if (ExpressionNodeType == ExpressionNode.STRING_TYPE_MathPiper
-				 || ExpressionNodeType == ExpressionNode.STRING_TYPE_JASYMCA) {
+		if (ExpressionNodeType .equals(StringType.MathPiper
+				 || ExpressionNodeType .equals(StringType.JASYMCA) {
 
 			ExpressionValue ev;
 			if (!this.isExpressionNode())
@@ -5469,18 +5469,18 @@ public abstract class GeoElement
 		}
 		*/
 
-		int tempCASPrintForm = kernel.getCASPrintForm();
+		StringType tempCASPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(ExpressionNodeType);
 
 		String ret="";
 		if (this.isGeoFunctionConditional()) {
 			GeoFunctionConditional geoFun = (GeoFunctionConditional)this;
-			if (ExpressionNodeType == ExpressionNode.STRING_TYPE_MATH_PIPER) {
+			if (ExpressionNodeType .equals(StringType.MATH_PIPER)) {
 
 			// get in form If(x<3, etc
 			ret = geoFun.toSymbolicString();
 			//Application.debug(ret);
-			} else if (ExpressionNodeType == ExpressionNode.STRING_TYPE_LATEX) {
+			} else if (ExpressionNodeType .equals(StringType.LATEX)) {
 				ret = geoFun.conditionalLaTeX(substituteNumbers);								
 			}
 
@@ -5502,14 +5502,14 @@ public abstract class GeoElement
 	 		}
 		}
 		// matrices
-		else if (this.isGeoList() && ExpressionNodeType == ExpressionNode.STRING_TYPE_LATEX && ((GeoList)this).isMatrix()) {
+		else if (this.isGeoList() && ExpressionNodeType .equals(StringType.LATEX) && ((GeoList)this).isMatrix()) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		// vectors
-		else if (this.isGeoVector() && ExpressionNodeType == ExpressionNode.STRING_TYPE_LATEX) {
+		else if (this.isGeoVector() && ExpressionNodeType .equals(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
 		} // curves
-		else if (this.isGeoCurveCartesian() && ExpressionNodeType == ExpressionNode.STRING_TYPE_LATEX) {
+		else if (this.isGeoCurveCartesian() && ExpressionNodeType .equals(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		else
@@ -5533,7 +5533,7 @@ public abstract class GeoElement
 		
 		kernel.setCASPrintForm(tempCASPrintForm);
 
-		if (ExpressionNodeType == ExpressionNode.STRING_TYPE_LATEX) {
+		if (ExpressionNodeType .equals(StringType.LATEX)) {
 			if ("?".equals(ret)) ret = app.getPlain("undefined");
 			else if ((Unicode.Infinity+"").equals(ret)) ret = "\\infty";
 			else if ((Unicode.MinusInfinity+"").equals(ret)) ret = "-\\infty";
@@ -5543,7 +5543,7 @@ public abstract class GeoElement
 
 	}
 
-	public String getRealFormulaString(int ExpressionNodeType, boolean substituteNumbers)
+	public String getRealFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
 	{
 
 

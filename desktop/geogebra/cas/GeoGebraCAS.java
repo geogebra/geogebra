@@ -4,7 +4,7 @@ import geogebra.cas.error.CASException;
 import geogebra.cas.mpreduce.CASmpreduce;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoGebraCASInterface;
@@ -42,17 +42,17 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 		return cas;
 	}
 	
-	public int getCurrentCASstringType() {
+	public StringType getCurrentCASstringType() {
 		switch (currentCAS) {
 			case Application.CAS_MAXIMA:
-				return ExpressionNode.STRING_TYPE_MAXIMA;
+				return StringType.MAXIMA;
 				
 			case Application.CAS_MPREDUCE:
-				return ExpressionNode.STRING_TYPE_MPREDUCE;
+				return StringType.MPREDUCE;
 				
 			default:
 			case Application.CAS_MATHPIPER:
-				return ExpressionNode.STRING_TYPE_MATH_PIPER;	
+				return StringType.MATH_PIPER;	
 		}
 	}
 	
@@ -462,11 +462,11 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	public boolean isStructurallyEqual(ValidExpression inputVE, String localizedInput) {
 		try {
 			// current input
-			String input1normalized = casParser.toString(inputVE, ExpressionNode.STRING_TYPE_GEOGEBRA_XML);			
+			String input1normalized = casParser.toString(inputVE, StringType.GEOGEBRA_XML);			
 			
 			// new input
 			ValidExpression ve2 = casParser.parseGeoGebraCASInputAndResolveDummyVars(localizedInput);
-			String input2normalized = casParser.toString(ve2, ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+			String input2normalized = casParser.toString(ve2, StringType.GEOGEBRA_XML);
 			
 			// compare if the parsed expressions are equal
 			return input1normalized.equals(input2normalized);

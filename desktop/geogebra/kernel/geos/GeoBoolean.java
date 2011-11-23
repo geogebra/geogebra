@@ -211,7 +211,7 @@ AbsoluteScreenLocateable {
 	@Override
 	final public String toValueString() {
 		switch (kernel.getCASPrintForm()) {
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				return value ? "True" : "False";							
 		
 			default:

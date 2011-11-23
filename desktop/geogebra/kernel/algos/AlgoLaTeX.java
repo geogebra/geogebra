@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
@@ -118,7 +118,7 @@ public class AlgoLaTeX extends AlgoElement {
     		
     		text.setTemporaryPrintAccuracy();
     		
-    		//Application.debug(geo.getFormulaString(ExpressionNode.STRING_TYPE_LATEX, substitute ));
+    		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
     		if(show){
     			text.setTextString(geo.getLaTeXAlgebraDescription(substitute));
     			if(text.getTextString() == null){
@@ -130,7 +130,7 @@ public class AlgoLaTeX extends AlgoElement {
     				// needed for eg Text commands eg FormulaText[Text[
     				text.setTextString(((GeoText)geo).getTextString());
     			} else {
-    				text.setTextString(geo.getFormulaString(ExpressionNode.STRING_TYPE_LATEX, substitute ));   
+    				text.setTextString(geo.getFormulaString(StringType.LATEX, substitute ));   
     			}
     		}
 
@@ -141,7 +141,7 @@ public class AlgoLaTeX extends AlgoElement {
     	
     	/*
     	int tempCASPrintForm = kernel.getCASPrintForm();
-    	kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_LATEX);
+    	kernel.setCASPrintForm(StringType.LATEX);
     	text.setTextString(geo.getCommandDescription());	    	
     	kernel.setCASPrintForm(tempCASPrintForm);*/
     }         

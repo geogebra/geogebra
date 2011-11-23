@@ -134,7 +134,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
         double[] coords;
         
     	switch (kernel.getCASPrintForm()) {
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				coords = getCoords();
 				sb.append("{");
 				sb.append(coords[0]);
@@ -143,7 +143,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
 				sb.append("}");
 				break;
 		
-			case ExpressionNode.STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				coords = getCoords();
 				sb.append("[");
 				sb.append(coords[0]);
@@ -152,7 +152,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
 				sb.append("]");
 				break;
 				
-			case ExpressionNode.STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				/*coords = getCoords();
 				sb.append("list(");
 				sb.append(coords[0]);

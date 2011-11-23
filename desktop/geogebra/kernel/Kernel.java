@@ -29,6 +29,7 @@ import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -247,7 +248,7 @@ public class Kernel {
 	 * how to determine whether to use nf or sf
 	 */
 	
-	private int casPrintForm;		
+	private StringType casPrintForm;		
 	private String casPrintFormPI; // for pi
 	private boolean useTempVariablePrefix;
 	private boolean keepCasNumbers;
@@ -333,7 +334,7 @@ public class Kernel {
 		
 		sf = new ScientificFormat(5, 16, false);
 		
-		setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA);
+		setCASPrintForm(StringType.GEOGEBRA);
 	}
 	
 	/**
@@ -951,28 +952,28 @@ public class Kernel {
 		return casPrintFormPI;
 	}
 	
-	final public void setCASPrintForm(int type) {
+	final public void setCASPrintForm(StringType type) {
 		casPrintForm = type;
 		
 		switch (casPrintForm) {
-		case ExpressionNode.STRING_TYPE_MATH_PIPER:
+		case MATH_PIPER:
 			casPrintFormPI = "Pi";
 			break;
 			
-		case ExpressionNode.STRING_TYPE_MAXIMA:
+		case MAXIMA:
 			casPrintFormPI = "%pi";
 			break;
 			
-		case ExpressionNode.STRING_TYPE_JASYMCA:
-		case ExpressionNode.STRING_TYPE_GEOGEBRA_XML:
+		case JASYMCA:
+		case GEOGEBRA_XML:
 			casPrintFormPI = "pi";
 			break;
 				
-		case ExpressionNode.STRING_TYPE_MPREDUCE:
+		case MPREDUCE:
 			casPrintFormPI = "pi";
 			break;
 		
-		case ExpressionNode.STRING_TYPE_LATEX:
+		case LATEX:
 			casPrintFormPI = "\\pi";
 			break;
 			
@@ -981,7 +982,7 @@ public class Kernel {
 		}
 	}
 	
-	final public int getCASPrintForm() {
+	final public StringType getCASPrintForm() {
 		return casPrintForm;
 	}
 	
@@ -1024,10 +1025,10 @@ public class Kernel {
 	 * @param printForm 
 	 * @return label depending on kernel.getCASPrintForm()
 	 */
-	 final public String printVariableName(int printForm, String label) {
+	 final public String printVariableName(StringType printForm, String label) {
 		 switch(printForm){		
-			case ExpressionNodeConstants.STRING_TYPE_MPREDUCE:
-			case ExpressionNodeConstants.STRING_TYPE_MAXIMA:
+			case MPREDUCE:
+			case MAXIMA:
 				// make sure we don't interfer with reserved names
 				// or command names in the underlying CAS
 				// see http://www.geogebra.org/trac/ticket/1051
@@ -8411,7 +8412,7 @@ public class Kernel {
 		sbBuildImplicitEquation.setLength(0);
 		sbBuildImplicitEquation.append(buildImplicitVarPart(numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN));
 		
-		if (casPrintForm == ExpressionNode.STRING_TYPE_MATH_PIPER && op == '=') {
+		if (casPrintForm .equals(StringType.MATH_PIPER) && op == '=') {
 				sbBuildImplicitEquation.append(" == ");
 		} else {
 				sbBuildImplicitEquation.append(' ');
@@ -8531,7 +8532,7 @@ public class Kernel {
 		if (isZero(q)) {
 			sbBuildExplicitLineEquation.append("x");
 						
-			if (casPrintForm == ExpressionNode.STRING_TYPE_MATH_PIPER) {
+			if (casPrintForm .equals(StringType.MATH_PIPER)) {
 				sbBuildExplicitLineEquation.append(" == ");
 			}
 			else {
@@ -8549,7 +8550,7 @@ public class Kernel {
 
 		// standard case: y-coeff not 0
 		sbBuildExplicitLineEquation.append("y");
-		if (casPrintForm == ExpressionNode.STRING_TYPE_MATH_PIPER) {
+		if (casPrintForm .equals(StringType.MATH_PIPER)) {
 			sbBuildExplicitLineEquation.append(" == ");
 		}
 		else {
@@ -8619,9 +8620,9 @@ public class Kernel {
 		} else {
 			String numberStr = format(x);
 			switch (casPrintForm) {
-				case ExpressionNode.STRING_TYPE_MATH_PIPER:
-				case ExpressionNode.STRING_TYPE_MAXIMA:
-				case ExpressionNode.STRING_TYPE_MPREDUCE:
+				case MATH_PIPER:
+				case MAXIMA:
+				case MPREDUCE:
 					return numberStr + "*";
 					
 				default:
@@ -8746,23 +8747,23 @@ public class Kernel {
 		
 		switch (casPrintForm) {
 			// number formatting for XML string output
-			case ExpressionNode.STRING_TYPE_GEOGEBRA_XML:
+			case GEOGEBRA_XML:
 				if (isLongInteger)
 					return Long.toString(rounded);
 				else
 					return Double.toString(x);		
 		
 			// number formatting for CAS
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:				
-			case ExpressionNode.STRING_TYPE_JASYMCA:		
-			case ExpressionNode.STRING_TYPE_MAXIMA:
-			case ExpressionNode.STRING_TYPE_MPREDUCE:
+			case MATH_PIPER:				
+			case JASYMCA:		
+			case MAXIMA:
+			case MPREDUCE:
 				if (Double.isNaN(x))
 					return " 1/0 ";	
 				else if (Double.isInfinite(x)) {
-					if (casPrintForm == ExpressionNode.STRING_TYPE_MPREDUCE) 
+					if (casPrintForm .equals(StringType.MPREDUCE)) 
 						return (x<0) ? "-infinity" : "infinity";
-					else if (casPrintForm == ExpressionNode.STRING_TYPE_MAXIMA) 
+					else if (casPrintForm .equals(StringType.MAXIMA)) 
 						return (x<0) ? "-inf" : "inf";					
 					else
 						return Double.toString(x); // "Infinity" or "-Infinity"
@@ -8822,7 +8823,7 @@ public class Kernel {
 		for (int i=0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
 			if (ch == 'E') {
-				if (casPrintForm == ExpressionNode.STRING_TYPE_LATEX)
+				if (casPrintForm .equals(StringType.LATEX))
 					sb.append(" \\cdot 10^{");
 				else
 					sb.append("*10^(");
@@ -8833,7 +8834,7 @@ public class Kernel {
 			}
 		}
 		if (Efound) {
-			if (casPrintForm == ExpressionNode.STRING_TYPE_LATEX)
+			if (casPrintForm .equals(StringType.LATEX))
 				sb.append("}");
 			else
 				sb.append(")");
@@ -8950,7 +8951,7 @@ public class Kernel {
 					if (aint == 2 * half) {		
 						// half * pi
 						sbFormat.append(half);
-						if (casPrintForm != ExpressionNode.STRING_TYPE_GEOGEBRA)
+						if (!casPrintForm.equals(StringType.GEOGEBRA))
 							sbFormat.append("*");
 						sbFormat.append(casPrintFormPI);
 						return sbFormat.toString();
@@ -8959,7 +8960,7 @@ public class Kernel {
 					else {		
 						// aint * pi/2
 						sbFormat.append(aint);
-						if (casPrintForm != ExpressionNode.STRING_TYPE_GEOGEBRA)
+						if (!casPrintForm.equals(StringType.GEOGEBRA))
 							sbFormat.append("*");
 						sbFormat.append(casPrintFormPI);
 						sbFormat.append("/2");
@@ -9013,9 +9014,9 @@ public class Kernel {
 	final public StringBuilder formatAngle(double phi, double precision) {
 		sbFormatAngle.setLength(0);
 		switch (casPrintForm) {
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
-			case ExpressionNode.STRING_TYPE_JASYMCA:
-			case ExpressionNode.STRING_TYPE_MPREDUCE: 
+			case MATH_PIPER:
+			case JASYMCA:
+			case MPREDUCE: 
 				if (angleUnit == ANGLE_DEGREE) {
 					sbFormatAngle.append("(");
 					// STANDARD_PRECISION * 10 as we need a little leeway as we've converted from radians
@@ -9051,7 +9052,7 @@ public class Kernel {
 					// STANDARD_PRECISION * 10 as we need a little leeway as we've converted from radians
 					sbFormatAngle.append(format(checkDecimalFraction(phi, precision)));
 					
-					if (casPrintForm == ExpressionNode.STRING_TYPE_GEOGEBRA_XML) {
+					if (casPrintForm .equals(StringType.GEOGEBRA_XML)) {
 						sbFormatAngle.append("*");
 					}
 
@@ -9063,7 +9064,7 @@ public class Kernel {
 					// RADIANS
 					sbFormatAngle.append(format(phi));
 					
-					if (casPrintForm != ExpressionNode.STRING_TYPE_GEOGEBRA_XML) {
+					if (!casPrintForm.equals(StringType.GEOGEBRA_XML)) {
 						sbFormatAngle.append(" rad");
 					}
 					return sbFormatAngle;

@@ -6,6 +6,7 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.ValidExpression;
@@ -243,7 +244,7 @@ public class GeoCasCell extends GeoElement {
 		if (twinGeo != null && twinGeo.isIndependent() && twinGeo.isLabelSet()) {			
 			// Update ASSIGNMENT of twin geo
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8	
-			String assignmentStr = twinGeo.toCasAssignment(ExpressionNode.STRING_TYPE_GEOGEBRA);
+			String assignmentStr = twinGeo.toCasAssignment(StringType.GEOGEBRA);
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {
@@ -1403,8 +1404,8 @@ public class GeoCasCell extends GeoElement {
 		StringBuilder sb = new StringBuilder();
 		switch (kernel.getCASPrintForm()) {
 		// send output to underlying CAS
-		case ExpressionNodeConstants.STRING_TYPE_MPREDUCE:
-		case ExpressionNodeConstants.STRING_TYPE_MAXIMA:
+		case MPREDUCE:
+		case MAXIMA:
 			sb.append(" (");
 			sb.append(outputVE == null ? "?" : outputVE.toString());
 			sb.append(") ");

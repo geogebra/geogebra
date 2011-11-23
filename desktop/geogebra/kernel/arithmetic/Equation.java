@@ -379,7 +379,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // equal sign
         switch (kernel.getCASPrintForm()){
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 		        sb.append(" == ");
 		        break;
 				
@@ -404,7 +404,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // equal sign
         switch (kernel.getCASPrintForm()){
-			case ExpressionNode.STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 		        sb.append(" == ");
 		        break;
 		        

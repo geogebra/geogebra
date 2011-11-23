@@ -21,7 +21,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -145,7 +145,7 @@ public class AlgoText extends AlgoElement {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText)geo).getTextString());
 		} else {
-			text.setTextString(geo.getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, bool));				
+			text.setTextString(geo.getFormulaString(StringType.GEOGEBRA, bool));				
 		}
 		text.setLaTeX(formula, false);
 		text.update();

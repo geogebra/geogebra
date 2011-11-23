@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
@@ -72,8 +73,8 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
         }    
                 
         // get numeric string for function
-        int oldPrintForm = kernel.getCASPrintForm();
-        kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_MPREDUCE);
+        StringType oldPrintForm = kernel.getCASPrintForm();
+        kernel.setCASPrintForm(StringType.MPREDUCE);
         String function = f.getCASString(false);    		
         String var = f.getVarString();
         kernel.setCASPrintForm(oldPrintForm);

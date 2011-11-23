@@ -49,16 +49,16 @@ public class MyArbitraryConstant extends MyDouble {
 	
 	public String toString() {
 		switch (kernel.getCASPrintForm()) {						
-			case ExpressionNode.STRING_TYPE_LATEX:
+			case LATEX:
 				// return e.g. "k_1" 
 				return latexString;
 							
-			case ExpressionNode.STRING_TYPE_MPREDUCE:			
+			case MPREDUCE:			
 				// return e.g. "arbint(2)"
 				return internalString;
 				
 			default:
-				//case ExpressionNode.STRING_TYPE_GEOGEBRA:
+				//case GEOGEBRA:
 				// treat arbitrary constant as 0, 
 				// see #1428 problem with Integral[x^2]
 				return "0";

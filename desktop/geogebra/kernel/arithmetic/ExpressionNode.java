@@ -1064,12 +1064,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * @param symbolic
 	 *            true for variable names, false for values of variables
 	 * @param STRING_TYPE
-	 *            e.g. ExpressionNode.STRING_TYPE_JASYMCA
+	 *            e.g. StringType.JASYMCA
 	 * @return string representation of this node that can be used with given
 	 *         CAS
 	 */
-	final public String getCASstring(int STRING_TYPE, boolean symbolic) {
-		int oldPrintForm = kernel.getCASPrintForm();
+	final public String getCASstring(StringType STRING_TYPE, boolean symbolic) {
+		StringType oldPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(STRING_TYPE);
 
 		String ret = printCASstring(symbolic);
@@ -1354,8 +1354,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 
 		// build latex string
-		int oldPrintForm = kernel.getCASPrintForm();
-		kernel.setCASPrintForm(STRING_TYPE_LATEX);
+		StringType oldPrintForm = kernel.getCASPrintForm();
+		kernel.setCASPrintForm(StringType.LATEX);
 		String ret = operationToString(leftStr, rightStr, !symbolic);
 		kernel.setCASPrintForm(oldPrintForm);
 
@@ -1374,16 +1374,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
-		int STRING_TYPE = kernel.getCASPrintForm();
+		StringType STRING_TYPE = kernel.getCASPrintForm();
 
 		switch (operation) {
 		case NOT:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\neg ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Not ");
 				break;
 				
@@ -1404,16 +1404,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\vee");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Or");
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("or ");
 				break;
 
@@ -1431,16 +1431,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\wedge");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("And");
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("and ");
 				break;
 
@@ -1457,11 +1457,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MPREDUCE:
+			case MATH_PIPER:
+			case JASYMCA:
+			case MPREDUCE:
 				sb.append("=");
 				break;
 
@@ -1478,16 +1478,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\neq");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("!=");
 				break;
 			
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("neq");
 				break;
 
@@ -1504,7 +1504,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\in");
 				break;
@@ -1522,7 +1522,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\subseteq");
 				break;
@@ -1540,7 +1540,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\subset");
 				break;
@@ -1558,7 +1558,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\setminus");
 				break;
@@ -1574,7 +1574,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case LESS:
 			append(sb, leftStr, left, operation, STRING_TYPE);
 			// sb.append(leftStr);
-			if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-< ");
+			if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-< ");
 			else sb.append(" < ");
 			append(sb, rightStr, right, operation, STRING_TYPE);
 			// sb.append(rightStr);
@@ -1583,7 +1583,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case GREATER:
 			append(sb, leftStr, left, operation, STRING_TYPE);
 			// sb.append(leftStr);
-			if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\->");
+			if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\->");
 			else sb.append(" > ");
 			append(sb, rightStr, right, operation, STRING_TYPE);
 			// sb.append(rightStr);
@@ -1594,13 +1594,13 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\leq");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MPREDUCE:
+			case MATH_PIPER:
+			case MPREDUCE:
 				sb.append("<=");
 				break;
 
@@ -1617,13 +1617,13 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\geq");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MPREDUCE:
+			case MATH_PIPER:
+			case MPREDUCE:
 				sb.append(">=");
 				break;
 
@@ -1640,7 +1640,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\parallel");
 				break;
@@ -1658,7 +1658,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\perp");
 				break;
@@ -1676,7 +1676,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// sb.append(leftStr);
 			sb.append(' ');
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				if (kernel.isInsertLineBreaks()) sb.append("\\-");
 				sb.append("\\times");
 				break;
@@ -1691,9 +1691,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case PLUS:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MAXIMA:
+			case JASYMCA:
+			case MATH_PIPER:
+			case MAXIMA:
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(") + (");
@@ -1701,7 +1701,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(')');
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("addition(");
 				sb.append(leftStr);
 				sb.append(',');
@@ -1736,22 +1736,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				if (left.isTextValue()
 						&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 								.isLabelSet()))) {
-					if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
+					if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
 					else sb.append(" + ");
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));
 				} else {
 					if (rightStr.charAt(0) == '-') { // convert + - to -
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
 						else sb.append(" - ");
 						sb.append(rightStr.substring(1));
 					} else if (rightStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic convert + - to -
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
 						else sb.append(" - ");
 						sb.append(rightStr.substring(3));
 					} else {
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
 						else sb.append(" + ");
 						sb.append(rightStr);
 					}
@@ -1762,9 +1762,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case MINUS:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MAXIMA:
+			case JASYMCA:
+			case MATH_PIPER:
+			case MAXIMA:
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(") - (");
@@ -1772,7 +1772,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(')');
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("subtraction(");
 				sb.append(leftStr);
 				sb.append(',');
@@ -1796,22 +1796,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				if (right.isLeaf() || opID(right) >= Operation.MULTIPLY.ordinal()) { // not +, -
 					if (rightStr.charAt(0) == '-') { // convert - - to +
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
 						else sb.append(" + ");
 						sb.append(rightStr.substring(1));
 					} else if (rightStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic convert - - to +
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
 						else sb.append(" + ");
 						sb.append(rightStr.substring(3));
 					} else {
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
 						// fix for changing height in Algebra View plus / minus
 						else sb.append(" - ");
 						sb.append(rightStr);
 					}
 				} else {
 					// fix for changing height in Algebra View plus / minus
-					if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
+					if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
 					else sb.append(" - ");
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
@@ -1870,10 +1870,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					break;
 				}
 
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_LATEX:
+			case JASYMCA:
+			case MATH_PIPER:
+			case MAXIMA:
+			case LATEX:
 
 				boolean nounary = true;
 
@@ -1907,16 +1907,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					boolean multiplicationSpaceNeeded = true;
 					if (nounary) {
 						switch (STRING_TYPE) {						
-						case STRING_TYPE_PGF:
-						case STRING_TYPE_PSTRICKS:
-						case STRING_TYPE_GEOGEBRA_XML:
-						case STRING_TYPE_JASYMCA:
-						case STRING_TYPE_MATH_PIPER:
-						case STRING_TYPE_MAXIMA:
+						case PGF:
+						case PSTRICKS:
+						case GEOGEBRA_XML:
+						case JASYMCA:
+						case MATH_PIPER:
+						case MAXIMA:
 							showMultiplicationSign = true;
 							break;
 							
-						case STRING_TYPE_LATEX:
+						case LATEX:
 							// check if we need a multiplication sign, see #414
 							// digit-digit, e.g. 3 * 5
 							// digit-fraction, e.g. 3 * \frac{5}{2}
@@ -1954,7 +1954,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 							}
 						}
 
-						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append("\\-");
+						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append("\\-");
 						
 						if (showMultiplicationSign) {
 							sb.append(multiplicationSign(STRING_TYPE));
@@ -1972,7 +1972,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 							|| !nounary
 								&& !right.isLeaf()
 								&& opIDright <= Operation.DIVIDE.ordinal() // -(x * a) or -(x / a)
-							|| showMultiplicationSign && STRING_TYPE == STRING_TYPE_GEOGEBRA) // 3 (5)
+							|| showMultiplicationSign && STRING_TYPE.equals(StringType.GEOGEBRA)) // 3 (5)
 					{
 						if (rtlMinus) sb.append(Unicode.RightToLeftMark);
 						sb.append(leftBracket(STRING_TYPE));
@@ -1987,12 +1987,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				else { // right is + or - tree
 					if (nounary) {
 						switch (STRING_TYPE) {
-						case STRING_TYPE_PGF:
-						case STRING_TYPE_PSTRICKS:
-						case STRING_TYPE_GEOGEBRA_XML:
-						case STRING_TYPE_JASYMCA:
-						case STRING_TYPE_MATH_PIPER:
-						case STRING_TYPE_MAXIMA:
+						case PGF:
+						case PSTRICKS:
+						case GEOGEBRA_XML:
+						case JASYMCA:
+						case MATH_PIPER:
+						case MAXIMA:
 							sb.append(multiplicationSign(STRING_TYPE));
 							break;
 
@@ -2007,7 +2007,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				}
 				break;
 			
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				
 				if (isEqualString(left, -1, !valueForm)) {
 					sb.append("-(");
@@ -2026,7 +2026,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case DIVIDE:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\frac{");
 				sb.append(leftStr);
 				sb.append("}{");
@@ -2034,10 +2034,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append("}");
 				break;
 
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MPREDUCE:
+			case JASYMCA:
+			case MATH_PIPER:
+			case MAXIMA:
+			case MPREDUCE:
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(")/(");
@@ -2066,7 +2066,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case POWER:
 			/*
 			 * support for sin^2(x) for display, too slow and hacky if
-			 * (STRING_TYPE == STRING_TYPE_GEOGEBRA &&
+			 * (STRING_TYPE.equals(StringType.GEOGEBRA &&
 			 * leftStr.startsWith("sin(")) { //&& rightStr.equals("2")) { int
 			 * index; try { index = Integer.parseInt(rightStr); } catch
 			 * (NumberFormatException nfe) { index = Integer.MAX_VALUE; }
@@ -2082,7 +2082,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			boolean finished = false;
 
 			// support for sin^2(x) for LaTeX, eg FormulaText[]
-			if (STRING_TYPE == STRING_TYPE_LATEX && left.isExpressionNode()) {
+			if (STRING_TYPE.equals(StringType.LATEX) && left.isExpressionNode()) {
 				switch (((ExpressionNode)left).getOperation()) {
 				// #1592
 				case SIN:
@@ -2129,7 +2129,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			}
 
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 
 				// checks if the basis is leaf and if so
 				// omits the brackets
@@ -2138,10 +2138,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					break;
 				}
 				// else fall through
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MPREDUCE:
+			case JASYMCA:
+			case MATH_PIPER:
+			case MAXIMA:
+			case MPREDUCE:
 				sb.append(leftBracket(STRING_TYPE));
 				sb.append(leftStr);
 				sb.append(rightBracket(STRING_TYPE));
@@ -2174,7 +2174,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 			// right wing
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append('^');
 				
 
@@ -2188,11 +2188,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append('}');
 				break;
 
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_GEOGEBRA_XML:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MPREDUCE:
+			case JASYMCA:
+			case GEOGEBRA_XML:
+			case MATH_PIPER:
+			case MAXIMA:
+			case MPREDUCE:
 				sb.append('^');
 				sb.append('(');
 				sb.append(rightStr);
@@ -2292,7 +2292,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case FACTORIAL:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				// TODO message WWWWWWWWWWWW ?
 				Application.printStacktrace("WWWWWWWWWWWW");
 				sb.append("factorial(");
@@ -2316,22 +2316,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case COS:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\cos \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Cos(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("COS(");
 				break;
 
 			default:
 				sb.append("cos(");
 			}
-			if (STRING_TYPE == STRING_TYPE_PGF)
+			if (STRING_TYPE.equals(StringType.PGF))
 				sb.append("(" + leftStr + ") 180/pi");
 			else
 				sb.append(leftStr);
@@ -2340,22 +2340,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case SIN:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\sin \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Sin(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("SIN(");
 				break;
 
 			default:
 				sb.append("sin(");
 			}
-			if (STRING_TYPE == STRING_TYPE_PGF)
+			if (STRING_TYPE.equals(StringType.PGF))
 				sb.append("(" + leftStr + ") 180/pi");
 			else
 				sb.append(leftStr);
@@ -2365,22 +2365,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case TAN:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\tan \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Tan(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("TAN(");
 				break;
 
 			default:
 				sb.append("tan(");
 			}
-			if (STRING_TYPE == STRING_TYPE_PGF)
+			if (STRING_TYPE.equals(StringType.PGF))
 				sb.append("(" + leftStr + ") 180/pi");
 			else
 				sb.append(leftStr);
@@ -2389,22 +2389,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case CSC:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\csc \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Csc(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("CSC(");
 				break;
 
 			default:
 				sb.append("csc(");
 			}
-			if (STRING_TYPE == STRING_TYPE_PGF)
+			if (STRING_TYPE.equals(StringType.PGF))
 				sb.append("(" + leftStr + ") 180/pi");
 			else
 				sb.append(leftStr);
@@ -2413,22 +2413,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case SEC:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\sec \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Sec(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("SEC(");
 				break;
 
 			default:
 				sb.append("sec(");
 			}
-			if (STRING_TYPE == STRING_TYPE_PGF)
+			if (STRING_TYPE.equals(StringType.PGF))
 				sb.append("(" + leftStr + ") 180/pi");
 			else
 				sb.append(leftStr);
@@ -2437,22 +2437,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case COT:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\cot \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Cot(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("COT(");
 				break;
 
 			default:
 				sb.append("cot(");
 			}
-			if (STRING_TYPE == STRING_TYPE_PGF)
+			if (STRING_TYPE.equals(StringType.PGF))
 				sb.append("(" + leftStr + ") 180/pi");
 			else
 				sb.append(leftStr);
@@ -2461,15 +2461,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case CSCH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\csch \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Csch(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("CSCH(");
 				break;
 
@@ -2482,15 +2482,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case SECH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\sech \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Sech(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("SECH(");
 				break;
 
@@ -2503,15 +2503,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case COTH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\coth \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Coth(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("COTH(");
 				break;
 
@@ -2524,15 +2524,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ARCCOS:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("acos \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcCos(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ACOS(");
 				break;
 
@@ -2545,15 +2545,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ARCSIN:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("asin \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcSin(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ASIN(");
 				break;
 
@@ -2566,15 +2566,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ARCTAN:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("atan \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcTan(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ATAN(");
 				break;
 
@@ -2587,19 +2587,19 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ARCTAN2:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("atan2 \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcTan2(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ATAN2(");
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("myatan2(");
 				break;
 
@@ -2614,15 +2614,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case COSH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\cosh \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Cosh(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("COSH(");
 				break;
 
@@ -2635,15 +2635,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case SINH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\sinh \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Sinh(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("SINH(");
 				break;
 
@@ -2656,15 +2656,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case TANH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\tanh \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Tanh(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("TANH(");
 				break;
 
@@ -2677,15 +2677,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ACOSH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\operatorname{acosh} \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcCosh(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ACOSH(");
 				break;
 
@@ -2698,15 +2698,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ASINH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\operatorname{asinh} \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcSinh(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ASINH(");
 				break;
 
@@ -2719,15 +2719,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ATANH:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\operatorname{atanh} \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("ArcTanh(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("ATANH(");
 				break;
 
@@ -2741,7 +2741,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case EXP:
 			// Application.debug("EXP");
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				
 				// add brackets for eg e^b^c -> e^(b^c)
 				boolean addParentheses = (left.isExpressionNode() && ((ExpressionNode)left).getOperation().equals(Operation.POWER));
@@ -2753,22 +2753,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append('}');
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Exp(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_GEOGEBRA_XML:
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MPREDUCE:
+			case JASYMCA:
+			case GEOGEBRA_XML:
+			case MAXIMA:
+			case MPREDUCE:
 				sb.append("exp(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("EXP(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2790,23 +2790,23 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case LOG:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\ln \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Ln(");
 				break;
 
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_GEOGEBRA_XML:
-			case STRING_TYPE_MPREDUCE:
+			case MAXIMA:
+			case JASYMCA:
+			case GEOGEBRA_XML:
+			case MPREDUCE:
 				sb.append("log(");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
-			case STRING_TYPE_PGF:
+			case PSTRICKS:
+			case PGF:
 			default:
 				sb.append("ln(");
 				break;
@@ -2818,7 +2818,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			
 		case LOGB:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\log_{");
 				sb.append(leftStr);
 				sb.append('}');
@@ -2827,8 +2827,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightBracket(STRING_TYPE));
 				break;
 
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MATH_PIPER:
+			case MAXIMA:
+			case MATH_PIPER:
 				// user defined function
 				sb.append("logB(");
 				sb.append(leftStr);
@@ -2837,7 +2837,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(')');
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(rightStr);
 				sb.append(',');
@@ -2845,8 +2845,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(')');
 				break;
 
-			case STRING_TYPE_PSTRICKS:
-			case STRING_TYPE_PGF:
+			case PSTRICKS:
+			case PGF:
 				// ln(x)/ln(b)
 				sb.append("ln(");
 				sb.append(rightStr);
@@ -2868,16 +2868,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ERF:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\erf");
 				sb.append(leftBracket(STRING_TYPE));
 				sb.append(leftStr);
 				sb.append(rightBracket(STRING_TYPE));
 				break;
 
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MPREDUCE:
+			case MAXIMA:
+			case MATH_PIPER:
+			case MPREDUCE:
 				sb.append("erf(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2894,27 +2894,27 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case LOG10:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\log_{10} \\left(");
 				sb.append(leftStr);
 				sb.append("\\right)");
 				break;
 
-			case STRING_TYPE_PSTRICKS:
+			case PSTRICKS:
 				sb.append("log(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_PGF:
+			case MAXIMA:
+			case MATH_PIPER:
+			case PGF:
 				sb.append("log10("); // user-defined function in Maxima
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(leftStr);
 				sb.append(",10)");
@@ -2930,20 +2930,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case LOG2:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\log_{2} \\left(");
 				sb.append(leftStr);
 				sb.append("\\right)");
 				break;
 
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MATH_PIPER:
+			case MAXIMA:
+			case MATH_PIPER:
 				sb.append("log2("); // user-defined function in Maxima
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(leftStr);
 				sb.append(",2)");
@@ -2959,13 +2959,13 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case SQRT:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\sqrt{");
 				sb.append(leftStr);
 				sb.append('}');
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Sqrt(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2980,14 +2980,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case CBRT:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\sqrt[3]{");
 				sb.append(leftStr);
 				sb.append('}');
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
-			case STRING_TYPE_MPREDUCE:
+			case MATH_PIPER:
+			case MPREDUCE:
 				sb.append("(");
 				sb.append(leftStr);
 				sb.append(")^(1/3)");
@@ -3002,19 +3002,19 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ABS:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\left|");
 				sb.append(leftStr);
 				sb.append("\\right|");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Abs(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("myabs(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3029,17 +3029,17 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case SGN:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\mathrm{sgn}(");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Sign(");
 				break;
 
-			case STRING_TYPE_JASYMCA:
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MPREDUCE:
+			case JASYMCA:
+			case MAXIMA:
+			case MPREDUCE:
 				sb.append("sign(");
 				break;
 
@@ -3056,12 +3056,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		 */
 		case CONJUGATE:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\overline{");
 				sb.append(leftStr);
 				sb.append("}");
 				break;
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Conjugate(");
 				sb.append(leftStr);
 				sb.append(")");
@@ -3075,22 +3075,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ARG:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\arg \\left( ");
 				sb.append(leftStr);
 				sb.append("\\right)");
 				break;
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Arg(");
 				sb.append(leftStr);
 				sb.append(")");
 				break;
-			case STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				sb.append("carg(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("myarg(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3104,13 +3104,13 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case FLOOR:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\left\\lfloor ");
 				sb.append(leftStr);
 				sb.append("\\right\\rfloor ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Floor(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3125,21 +3125,21 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case CEIL:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\left\\lceil ");
 				sb.append(leftStr);
 				sb.append("\\right\\rceil ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Ceil(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 
-			case STRING_TYPE_MAXIMA:
-			case STRING_TYPE_MPREDUCE:
-			case STRING_TYPE_PSTRICKS:
+			case MAXIMA:
+			case MPREDUCE:
+			case PSTRICKS:
 				sb.append("ceiling(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3154,15 +3154,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ROUND:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\mathrm{round} \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Round(");
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("myround(");
 				break;
 				
@@ -3175,11 +3175,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case GAMMA:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\Gamma \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Gamma(");
 				break;
 
@@ -3192,15 +3192,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case GAMMA_INCOMPLETE:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\gamma \\left( ");
 				break;
 
-			case STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				sb.append("gamma_incomplete(");
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("gamma2(");
 
 			default:
@@ -3214,11 +3214,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case GAMMA_INCOMPLETE_REGULARIZED:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("P \\left( ");
 				break;
 
-			case STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				sb.append("gamma_incomplete_regularized(");
 				break;
 
@@ -3233,11 +3233,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case BETA:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\Beta \\left( ");
 				break;
 
-			case STRING_TYPE_MATH_PIPER:
+			case MATH_PIPER:
 				sb.append("Beta(");
 				break;
 
@@ -3252,11 +3252,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case BETA_INCOMPLETE:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("\\Beta \\left( ");
 				break;
 
-			case STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				sb.append("beta_incomplete(");
 				break;
 
@@ -3271,15 +3271,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case BETA_INCOMPLETE_REGULARIZED:
 			switch (STRING_TYPE) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				sb.append("I \\left( ");
 				break;
 
-			case STRING_TYPE_MAXIMA:
+			case MAXIMA:
 				sb.append("beta_incomplete_regularized(");
 				break;
 				
-			case STRING_TYPE_MPREDUCE:
+			case MPREDUCE:
 				sb.append("beta3(");
 				break;
 
@@ -3297,7 +3297,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 			else
 				switch (STRING_TYPE) {
-				case STRING_TYPE_MPREDUCE:
+				case MPREDUCE:
 					sb.append("myrandom()");
 					break;
 				default:
@@ -3318,15 +3318,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((GeoLine) leftEval).x));
 			} else {
 				switch (STRING_TYPE) {
-				case STRING_TYPE_LATEX:
+				case LATEX:
 					sb.append("\\mathrm{x} \\left( ");
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
 					break;
 					
-        		case STRING_TYPE_MATH_PIPER:
-        		case STRING_TYPE_MAXIMA:
-        		case STRING_TYPE_MPREDUCE:
+        		case MATH_PIPER:
+        		case MAXIMA:
+        		case MPREDUCE:
         			// we need to protect x(A) as a constant in the CAS
         			// see http://www.geogebra.org/trac/ticket/662
         			// see http://www.geogebra.org/trac/ticket/922
@@ -3356,15 +3356,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((GeoLine) leftEval).y));
 			} else {
 				switch (STRING_TYPE) {
-				case STRING_TYPE_LATEX:
+				case LATEX:
 					sb.append("\\mathrm{y} \\left( ");
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
 					
-				case STRING_TYPE_MATH_PIPER:
-        		case STRING_TYPE_MAXIMA:
-        		case STRING_TYPE_MPREDUCE:
+				case MATH_PIPER:
+        		case MAXIMA:
+        		case MPREDUCE:
         			// we need to protect x(A) as a constant in the CAS
         			// see http://www.geogebra.org/trac/ticket/662
         			// see http://www.geogebra.org/trac/ticket/922
@@ -3390,15 +3390,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((GeoLine) leftEval).z));
 			} else {
 				switch (STRING_TYPE) {
-				case STRING_TYPE_LATEX:
+				case LATEX:
 					sb.append("\\mathrm{z} \\left( ");
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
 
-				case STRING_TYPE_MATH_PIPER:
-        		case STRING_TYPE_MAXIMA:
-        		case STRING_TYPE_MPREDUCE:
+				case MATH_PIPER:
+        		case MAXIMA:
+        		case MPREDUCE:
         			// we need to protect x(A) as a constant in the CAS
         			// see http://www.geogebra.org/trac/ticket/662
         			// see http://www.geogebra.org/trac/ticket/922
@@ -3488,10 +3488,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 								((MyList) right).getListElement(i));
 					}
 					// add brackets, see http://www.geogebra.org/trac/ticket/1446
-					if (STRING_TYPE != STRING_TYPE_LATEX) 
+					if (!STRING_TYPE.equals(StringType.LATEX)) 
 						sb.append(leftBracket(STRING_TYPE));
 					sb.append(en.toValueString());
-					if (STRING_TYPE != STRING_TYPE_LATEX) 
+					if (!STRING_TYPE.equals(StringType.LATEX))
 						sb.append(rightBracket(STRING_TYPE));
 				} 
 				else {
@@ -3509,7 +3509,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				// rightStr is a list of arguments, e.g. {2, 3}
 				// drop the curly braces { and }
 				// or list( and ) in case of mpreduce
-				if (STRING_TYPE == STRING_TYPE_MPREDUCE)
+				if (STRING_TYPE.equals(StringType.MPREDUCE))
 					sb.append(rightStr.substring(22, rightStr.length() - 2));
 				else
 					sb.append(rightStr.substring(1, rightStr.length() - 1));
@@ -3728,20 +3728,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			return null;
 	}
 
-	private String leftBracket(int type) {
-		return (type == STRING_TYPE_LATEX) ? " \\left( " : "(";
+	private String leftBracket(StringType type) {
+		return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
 	}
 
-	private String rightBracket(int type) {
-		return (type == STRING_TYPE_LATEX) ? " \\right) " : ")";
+	private String rightBracket(StringType type) {
+		return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
 	}
 
-	private String multiplicationSign(int type) {
+	private String multiplicationSign(StringType type) {
 		switch (type) {
-			case STRING_TYPE_LATEX:
+			case LATEX:
 				return " \\cdot ";
 			
-			case STRING_TYPE_GEOGEBRA:
+			case GEOGEBRA:
 				return " "; // space for multiplication
 				
 			default: 
@@ -3749,9 +3749,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 	}
 
-	private String multiplicationSpace(int type) {
+	private String multiplicationSpace(StringType type) {
 		// wide space for multiplicatoin space in LaTeX
-		return (type == STRING_TYPE_LATEX) ? " \\; " : " ";
+		return (type.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
 
 	/**
@@ -3801,7 +3801,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * dictates
 	 */
 	private void append(StringBuilder sb, String str, ExpressionValue ev,
-			Operation op, int STRING_TYPE) {
+			Operation op, StringType STRING_TYPE) {
 		if (ev.isLeaf() || opID(ev) >= op.ordinal()) {
 			sb.append(str);
 		} else {

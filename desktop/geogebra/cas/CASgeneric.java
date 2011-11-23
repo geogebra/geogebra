@@ -3,6 +3,7 @@ package geogebra.cas;
 import geogebra.cas.error.CASException;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.main.MyResourceBundle;
@@ -118,13 +119,13 @@ public abstract class CASgeneric implements SettingListener {
 	/**
 	 * Translates a given expression in the format expected by the cas.
 	 * @param ve the Expression to be translated
-	 * @param casStringType one of ExpressionNode.STRING_TYPE_{MAXIMA, MPREDUCE, MATH_PIPER}
+	 * @param casStringType one of StringType.{MAXIMA, MPREDUCE, MATH_PIPER}
 	 * @return the translated String.
 	 */
-	protected String translateToCAS(ValidExpression ve, int casStringType)
+	protected String translateToCAS(ValidExpression ve, StringType casStringType)
 	{
 		Kernel kernel = ve.getKernel();
-		int oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(casStringType);
 		
 		try {

@@ -3,6 +3,7 @@ package geogebra.kernel.geos;
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ValidExpression;
 
 /*
@@ -10,7 +11,7 @@ import geogebra.kernel.arithmetic.ValidExpression;
  */
 public interface GeoGebraCASInterface {
 
-	public int getCurrentCASstringType();
+	public StringType getCurrentCASstringType();
 
 	public String evaluateRaw(String geoStr) throws Throwable;
 

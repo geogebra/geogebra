@@ -21,7 +21,7 @@ import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.algos.AlgoPolygonRegular;
 import geogebra.kernel.algos.ConstructionElement;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
@@ -498,11 +498,11 @@ public class CopyPaste {
 		beforeSavingToXML(geoslocal, geostohide, false);		
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		int oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getCASPrintForm();
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
         kernel.setPrintLocalizedCommandNames(false);
 		kernel.setSaveScriptsToXML(false);
 		try {
@@ -532,7 +532,7 @@ public class CopyPaste {
 		// SECOND XML SAVE
 		beforeSavingToXML(geoslocalsw, geostohidesw, true);
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
         kernel.setPrintLocalizedCommandNames(false);
 		kernel.setSaveScriptsToXML(false);
 		try {

@@ -14,7 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoElement;
@@ -255,7 +255,7 @@ public final class DrawTextField extends Drawable {
 			
 				// want just a number for eg a=3 but we want variables for eg y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric() && linkedGeo.isIndependent();
-				text = linkedGeo.getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, substituteNos);
+				text = linkedGeo.getFormulaString(StringType.GEOGEBRA, substituteNos);
 			}
 			
 			if (linkedGeo.isGeoText() && text.indexOf("\n") > -1) {

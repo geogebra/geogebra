@@ -14,6 +14,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -579,7 +580,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		if (casEvalExpression != expression) {
 			casEvalExpression = expression;
 			if (symbolic) {
-				casEvalStringSymbolic = expression.getCASstring(ExpressionNode.STRING_TYPE_GEOGEBRA, true);
+				casEvalStringSymbolic = expression.getCASstring(StringType.GEOGEBRA, true);
 			}
 
 			// caching should only be done if the expression doesn't contain
@@ -596,7 +597,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// build command string for CAS
 		String expString = symbolic ? 
 				casEvalStringSymbolic : 
-				expression.getCASstring(ExpressionNode.STRING_TYPE_GEOGEBRA, false);
+				expression.getCASstring(StringType.GEOGEBRA, false);
 		
 		// set back kernel
 		kernel.setUseTempVariablePrefix(oldTempVariableValue);

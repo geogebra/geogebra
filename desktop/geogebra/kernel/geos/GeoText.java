@@ -7,7 +7,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSequence;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.MyStringBuffer;
 import geogebra.kernel.arithmetic.TextValue;
 import geogebra.kernel.kernelND.GeoPointND;
@@ -273,16 +273,16 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 	 * Returns quoted text value string.
 	 */
 	public String toOutputValueString() {	
-		int printForm = kernel.getCASPrintForm();
+		StringType printForm = kernel.getCASPrintForm();
 		
 		sbToString.setLength(0);
-		if (printForm == ExpressionNode.STRING_TYPE_LATEX)
+		if (printForm .equals(StringType.LATEX))
 			sbToString.append("\\text{``");
 		else
 			sbToString.append('\"');
 		if (str != null)
 			sbToString.append(str);
-		if (printForm == ExpressionNode.STRING_TYPE_LATEX)
+		if (printForm .equals(StringType.LATEX))
 			sbToString.append("''}");
 		else
 			sbToString.append('\"');

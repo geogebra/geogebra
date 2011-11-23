@@ -12,7 +12,7 @@ import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
@@ -669,7 +669,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 				it = geos.iterator();
 				while (it.hasNext()) {
-					sb.append(it.next().getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, false));
+					sb.append(it.next().getFormulaString(StringType.GEOGEBRA, false));
 					if (it.hasNext()) sb.append(",");
 				}
 				sb.append('}');

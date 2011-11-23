@@ -4,7 +4,7 @@ import geogebra.common.euclidian.FormulaDimension;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.algos.AlgoPolyLine;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
@@ -609,7 +609,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 			ImageIcon latexIcon = new ImageIcon();
 			//String latexStr = newGeo.getLaTeXAlgebraDescription(true);
 
-			String latexStr = newGeo.getFormulaString(ExpressionNode.STRING_TYPE_LATEX, true);
+			String latexStr = newGeo.getFormulaString(StringType.LATEX, true);
 
 
 			//System.out.println(latexStr);

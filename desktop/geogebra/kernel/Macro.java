@@ -16,7 +16,7 @@ import geogebra.GeoGebra;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.ConstructionElement;
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.geos.Locateable;
@@ -373,9 +373,9 @@ public class Macro {
 	 public static String buildMacroXML(Kernel kernel, Set<ConstructionElement> macroConsElements) {	
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		int oldPrintForm = kernel.getCASPrintForm();        
+		StringType oldPrintForm = kernel.getCASPrintForm();        
 	    kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);                 		
-	    kernel.setCASPrintForm(ExpressionNode.STRING_TYPE_GEOGEBRA_XML);
+	    kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		 
     	// get the XML for all macro construction elements
     	StringBuilder macroConsXML = new StringBuilder(500);

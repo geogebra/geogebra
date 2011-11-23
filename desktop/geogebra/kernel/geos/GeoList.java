@@ -25,6 +25,7 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.AlgoMirror;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -614,9 +615,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			return sbBuildValueString;
 		}
 		
-		if(kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_LATEX)
+		if(kernel.getCASPrintForm().equals(StringType.LATEX))
 			sbBuildValueString.append("\\left\\");
-		if (kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_MPREDUCE)
+		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE))
 			sbBuildValueString.append("list(");
 		else
 			sbBuildValueString.append(STR_OPEN);		
@@ -634,9 +635,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			GeoElement geo = (GeoElement) geoList.get(lastIndex);
 			sbBuildValueString.append(geo.toOutputValueString());
 		}
-		if(kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_LATEX)
+		if(kernel.getCASPrintForm().equals(StringType.LATEX))
 			sbBuildValueString.append("\\right\\");
-		if (kernel.getCASPrintForm()==ExpressionNode.STRING_TYPE_MPREDUCE)
+		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE))
 			sbBuildValueString.append(")");
 		else
 			sbBuildValueString.append(STR_CLOSE);		
@@ -1534,12 +1535,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		 
 		// isMatrix() is rather expensive, and we only need it 
 		// if we're using Maxima, so test for that first
-		int casPrinttype = kernel.getCASPrintForm();
-		if ((casPrinttype != ExpressionNode.STRING_TYPE_MAXIMA && casPrinttype != ExpressionNode.STRING_TYPE_MPREDUCE) || !isMatrix())
+		StringType casPrinttype = kernel.getCASPrintForm();
+		if ((!casPrinttype.equals(StringType.MAXIMA) && !casPrinttype.equals(StringType.MPREDUCE)) || !isMatrix())
 			return super.getCASString(symbolic);
 			
 		StringBuilder sb = new StringBuilder();
-		if (casPrinttype == ExpressionNode.STRING_TYPE_MAXIMA){
+		if (casPrinttype .equals(StringType.MAXIMA)){
 			sb.append("matrix(");
 			for (int i = 0; i < size(); i++) {
 				GeoList geo = (GeoList) get(i);

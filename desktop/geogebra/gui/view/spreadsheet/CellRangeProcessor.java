@@ -659,7 +659,7 @@ public class CellRangeProcessor {
 							//listString.append(geo.getLabel());
 							list.add(geo);
 
-						//listString.append(geo.getFormulaString(ExpressionNode.STRING_TYPE_GEOGEBRA, copyByValue));
+						//listString.append(geo.getFormulaString(StringType.GEOGEBRA, copyByValue));
 						//listString.append(",");
 					}
 

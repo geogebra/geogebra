@@ -17,6 +17,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -318,9 +319,9 @@ public class GeoFunctionConditional extends GeoFunction {
 			return app.getPlain("undefined");
 		
 		// for CAS, translate to CAS format :)
-		if (kernel.getCASPrintForm() ==  ExpressionNode.STRING_TYPE_MATH_PIPER
-				|| kernel.getCASPrintForm() ==  ExpressionNode.STRING_TYPE_MAXIMA
-				|| kernel.getCASPrintForm() == ExpressionNode.STRING_TYPE_MPREDUCE) {
+		if (kernel.getCASPrintForm() .equals(StringType.MATH_PIPER)
+				|| kernel.getCASPrintForm() .equals(StringType.MAXIMA)
+				|| kernel.getCASPrintForm() .equals(StringType.MPREDUCE)) {
 			//TODO: implement if in mpreduce
 			CASgeneric cas = kernel.getGeoGebraCAS().getCurrentCAS();
 			String cmd = cas.getTranslatedCASCommand(elseFun == null ? "If.2" : "If.3");
@@ -467,9 +468,9 @@ public class GeoFunctionConditional extends GeoFunction {
 		StringBuilder sb = new StringBuilder();
 		
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
-			sb.append(getIfFunction().getFormulaString(ExpressionNode.STRING_TYPE_LATEX, substituteNumbers));
+			sb.append(getIfFunction().getFormulaString(StringType.LATEX, substituteNumbers));
 			sb.append(" \\;\\;\\;\\; \\left(");
-			sb.append(getCondFunction().getFormulaString(ExpressionNode.STRING_TYPE_LATEX, substituteNumbers));
+			sb.append(getCondFunction().getFormulaString(StringType.LATEX, substituteNumbers));
 			sb.append(" \\right)");
 			
 		} else {			
