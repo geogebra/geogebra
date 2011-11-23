@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.commands;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
@@ -69,7 +69,7 @@ public class CommandDispatcher {
     public static final int TABLE_ENGLISH = 17;
     
     public static final int TABLE_CAS=18;   
-    private int tableCount = GeoGebra.CAS_VIEW_ENABLED ? 19 : 18;
+    private int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 19 : 18;
     
     
     public String getSubCommandSetName(int index){
@@ -520,7 +520,7 @@ public class CommandDispatcher {
     	// do *after* above loop as we must add only those CAS commands without a ggb equivalent
     	//=============================================================
     	
-    	if (GeoGebra.CAS_VIEW_ENABLED && app.isUsingFullGui() && isCasActive)
+    	if (GeoGebraConstants.CAS_VIEW_ENABLED && app.isUsingFullGui() && isCasActive)
     		initCASCommands();
 
     }
@@ -530,7 +530,7 @@ public class CommandDispatcher {
      */
     public void initCASCommands() {
     	
-    	if (!GeoGebra.CAS_VIEW_ENABLED) return;
+    	if (!GeoGebraConstants.CAS_VIEW_ENABLED) return;
     	
     	isCasActive = true;
     	

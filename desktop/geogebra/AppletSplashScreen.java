@@ -1,5 +1,7 @@
 package geogebra;
 
+import geogebra.common.GeoGebraConstants;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -58,7 +60,7 @@ public class AppletSplashScreen implements ImageObserver {
 				splashScreenImageGraphics = splashScreenImage.getGraphics();
 	
 				// load splash image and animated progress image
-				splashImage = parentApplet.getImage(AppletSplashScreen.class.getResource(GeoGebra.SPLASH_STRING));
+				splashImage = parentApplet.getImage(AppletSplashScreen.class.getResource(GeoGebraConstants.SPLASH_STRING));
 				progressImage = parentApplet.getImage(AppletSplashScreen.class.getResource("spinner.gif"));
 			} else {
 				// we couldn't get splashScreenImageGraphics

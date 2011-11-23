@@ -12,7 +12,7 @@
 
 package geogebra.main;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -77,7 +77,7 @@ public class GeoGebraPreferences {
 	 private  Preferences ggbPrefs;
 	  {
 		  try {
-			  ggbPrefs = Preferences.userRoot().node(GeoGebra.PREFERENCES_ROOT);
+			  ggbPrefs = Preferences.userRoot().node(GeoGebraConstants.PREFERENCES_ROOT);
 		  } catch (Exception e) {
 			  // thrown when running unsigned JAR
 			  ggbPrefs = null;
@@ -240,7 +240,7 @@ public class GeoGebraPreferences {
 	    	String oldVersion = ggbPrefs.get(VERSION, null);
 	    	
 	    	// current factory defaults possibly available?
-	    	if(oldVersion != null && oldVersion.equals(GeoGebra.VERSION_STRING)) {
+	    	if(oldVersion != null && oldVersion.equals(GeoGebraConstants.VERSION_STRING)) {
 	    		factoryDefaultXml  = ggbPrefs.get(XML_FACTORY_DEFAULT, null);
 	    	}
     	}
@@ -250,7 +250,7 @@ public class GeoGebraPreferences {
     	if(factoryDefaultXml == null) {
 	    	factoryDefaultXml = getDefaultPreferences();
 	    	ggbPrefs.put(XML_FACTORY_DEFAULT, factoryDefaultXml);
-	    	ggbPrefs.put(VERSION, GeoGebra.VERSION_STRING);
+	    	ggbPrefs.put(VERSION, GeoGebraConstants.VERSION_STRING);
     	}
     }
     

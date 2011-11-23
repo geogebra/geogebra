@@ -1,6 +1,6 @@
 package geogebra.export;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.kernel.Construction;
 import geogebra.main.Application;
 
@@ -115,7 +115,7 @@ public class GeoGebraTubeExport {
 				stringBuffer.append(URLEncoder.encode(cons.getWorksheetText(1), "UTF-8"));
 				
 				stringBuffer.append("&version=");
-				stringBuffer.append(URLEncoder.encode(GeoGebra.VERSION_STRING, "UTF-8"));
+				stringBuffer.append(URLEncoder.encode(GeoGebraConstants.VERSION_STRING, "UTF-8"));
 
 				int requestLength = stringBuffer.length();
 				/*urlConn.disconnect();

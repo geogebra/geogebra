@@ -1,6 +1,6 @@
 package geogebra.gui.menubar;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.gui.util.HelpAction;
 import geogebra.main.Application;
 
@@ -78,7 +78,7 @@ class HelpMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().showURLinBrowser(
-						GeoGebra.GEOGEBRA_WEBSITE + "forum/");
+						GeoGebraConstants.GEOGEBRA_WEBSITE + "forum/");
 			}
 		};
 		
@@ -88,7 +88,7 @@ class HelpMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().showURLinBrowser(
-						GeoGebra.GEOGEBRA_WEBSITE);
+						GeoGebraConstants.GEOGEBRA_WEBSITE);
 			}
 		};
 
@@ -97,7 +97,7 @@ class HelpMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().showURLinBrowser(
-						GeoGebra.GEOGEBRATUBE_WEBSITE);
+						GeoGebraConstants.GEOGEBRATUBE_WEBSITE);
 			}
 		};
 		

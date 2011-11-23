@@ -14,8 +14,8 @@ package geogebra.main;
 
 import geogebra.AppletImplementationInterface;
 import geogebra.CommandLineArguments;
-import geogebra.GeoGebra;
 import geogebra.GeoGebraAppletPreloader;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.MyBoolean;
@@ -695,7 +695,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
+		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT + "\">\n");
 		ev.getXML(sb,false);
 		sb.append("<construction>\n");
 		sb.append(xmlString);

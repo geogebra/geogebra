@@ -1,5 +1,7 @@
 package geogebra;
 
+import geogebra.common.GeoGebraConstants;
+
 import java.awt.Color;
 
 import javax.swing.JApplet;
@@ -12,7 +14,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 	@Override
 	public void init() {
 		setBackground(Color.white);
-		System.out.println("GeoGebraAppletPreloader " + GeoGebra.VERSION_STRING + " started");
+		System.out.println("GeoGebraAppletPreloader " + GeoGebraConstants.VERSION_STRING + " started");
 		loadAllJarFiles(true);
 	}
 	

@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.GeoGebra;
 import geogebra.cas.GeoGebraCAS;
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -9663,7 +9663,7 @@ public class Kernel {
 	}
 	
 	public String getXMLFileFormat(){
-		return GeoGebra.XML_FILE_FORMAT;
+		return GeoGebraConstants.XML_FILE_FORMAT;
 	}
 	
     private GeoVec2D imaginaryUnit;

@@ -19,6 +19,7 @@ package geogebra.main;
 
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
@@ -178,17 +179,17 @@ public class Application implements KeyEventDispatcher {
 	// supported GUI languages (from properties files)
 	public static ArrayList<Locale> supportedLocales = new ArrayList<Locale>();
 	static {
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("sq")); // Albanian
 		
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("ar")); // Arabic
 		supportedLocales.add(new Locale("eu")); // Basque
 		supportedLocales.add(new Locale("bs")); // Bosnian
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("bg")); // Bulgarian
 		supportedLocales.add(new Locale("ca")); // Catalan
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("zh", "CN")); // Chinese (Simplified)
 		supportedLocales.add(new Locale("zh", "TW")); // Chinese (Traditional)
 		supportedLocales.add(new Locale("hr")); // Croatian
@@ -208,25 +209,25 @@ public class Application implements KeyEventDispatcher {
 		supportedLocales.add(new Locale("el")); // Greek
 		// supportedLocales.add(new Locale("gu")); // Gujarati
 		supportedLocales.add(new Locale("iw")); // Hebrew
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("hi")); // Hindi
 		supportedLocales.add(new Locale("hu")); // Hungarian
 		supportedLocales.add(new Locale("is")); // Icelandic
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("in")); // Indonesian
 		supportedLocales.add(new Locale("it")); // Italian
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("ja")); // Japanese
 		supportedLocales.add(new Locale("kk")); // Kazakh
 		supportedLocales.add(new Locale("ko")); // Korean
 		supportedLocales.add(new Locale("lt")); // Lithuanian
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("ml")); // Malayalam 
 		supportedLocales.add(new Locale("mk")); // Macedonian
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("mr")); // Marathi
 		supportedLocales.add(new Locale("ms")); // Malay
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("ne")); // Nepalese
 		supportedLocales.add(new Locale("no", "NO")); // Norwegian (Bokmal)
 		supportedLocales.add(new Locale("no", "NO", "NY")); // Norwegian(Nynorsk)
@@ -236,11 +237,11 @@ public class Application implements KeyEventDispatcher {
 		supportedLocales.add(new Locale("pt")); // Portugese (Brazil)
 		supportedLocales.add(new Locale("pt", "PT")); // Portuguese (Portugal)
 		// supportedLocales.add(new Locale("pa")); // Punjabi
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("ro")); // Romanian
 		supportedLocales.add(new Locale("ru")); // Russian
 		supportedLocales.add(new Locale("sr")); // Serbian
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("si")); // Sinhala (Sri Lanka)
 
 		
@@ -252,21 +253,21 @@ public class Application implements KeyEventDispatcher {
 		supportedLocales.add(new Locale("ta")); // Tamil
 		
 		// supportedLocales.add(new Locale("te")); // Telugu
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("th")); // Thai
 
 		supportedLocales.add(new Locale("tr")); // Turkish
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("uk")); // Ukrainian
 		// supportedLocales.add(new Locale("ur")); // Urdu
 		supportedLocales.add(new Locale("vi")); // Vietnamese
-		if(GeoGebra.IS_PRE_RELEASE)
+		if(GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("cy")); // Welsh
-		if(GeoGebra.IS_PRE_RELEASE){
+		if(GeoGebraConstants.IS_PRE_RELEASE){
 			supportedLocales.add(new Locale("ia")); // Interlingua
 		}
 
-		if (GeoGebra.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE)
 			supportedLocales.add(new Locale("ji")); // Yiddish
 	}
 
@@ -677,7 +678,7 @@ public class Application implements KeyEventDispatcher {
 							+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
 							+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
 							+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
-							+ (GeoGebra.CAS_VIEW_ENABLED ? "  --showCAS=BOOLEAN\tshow/hide CAS window\n" : "")
+							+ (GeoGebraConstants.CAS_VIEW_ENABLED ? "  --showCAS=BOOLEAN\tshow/hide CAS window\n" : "")
 							+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
 							+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
 							+ "  --fontSize=NUMBER\tset default font size\n"
@@ -690,7 +691,7 @@ public class Application implements KeyEventDispatcher {
 			System.exit(0);
 		}
 		// help debug applets
-		System.out.println("GeoGebra " + GeoGebra.VERSION_STRING + " " +  GeoGebra.BUILD_DATE
+		System.out.println("GeoGebra " + GeoGebraConstants.VERSION_STRING + " " +  GeoGebraConstants.BUILD_DATE
 				+ " Java " + System.getProperty("java.version"));
 		if(args.containsArg("v")) {
 			System.exit(0);
@@ -1158,7 +1159,7 @@ public class Application implements KeyEventDispatcher {
 	public boolean addMacroXML(String xml) {
 		boolean ok=true;
 		try {
-			myXMLio.processXMLString("<geogebra format=\""+GeoGebra.XML_FILE_FORMAT+"\">"+xml+"</geogebra>", false, true);
+			myXMLio.processXMLString("<geogebra format=\""+GeoGebraConstants.XML_FILE_FORMAT+"\">"+xml+"</geogebra>", false, true);
 		} catch (MyError err) {
 			err.printStackTrace();
 			showError(err);
@@ -4162,14 +4163,14 @@ public class Application implements KeyEventDispatcher {
 	
 	final public static boolean isWebstart() {
 		if (codebase == null) initCodeBase();
-		return codebase.toString().startsWith(GeoGebra.GEOGEBRA_ONLINE_WEBSTART_BASE + "jnlp/")
-				|| codebase.toString().startsWith(GeoGebra.GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE + "jnlp/");
+		return codebase.toString().startsWith(GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE + "jnlp/")
+				|| codebase.toString().startsWith(GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE + "jnlp/");
 	}
 	
 	final public static boolean isWebstartDebug() {
 		if (codebase == null) initCodeBase();
-		return codebase.toString().startsWith(GeoGebra.GEOGEBRA_ONLINE_WEBSTART_BASE + "debug")
-				|| codebase.toString().startsWith(GeoGebra.GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE + "debug");
+		return codebase.toString().startsWith(GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE + "debug")
+				|| codebase.toString().startsWith(GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE + "debug");
 	}
 	
 	final public static boolean hasFullPermissions() {

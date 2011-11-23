@@ -11,7 +11,7 @@
 
 package geogebra.export;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.TitlePanel;
@@ -670,7 +670,7 @@ public class WorksheetExportDialog extends JDialog {
 		// left column
 		// include HTML5
 		cbIncludeHTML5 = new JCheckBox(app.getMenu("IncludeHTML5"));
-		if (GeoGebra.IS_PRE_RELEASE) filePanelWest.add(cbIncludeHTML5);
+		if (GeoGebraConstants.IS_PRE_RELEASE) filePanelWest.add(cbIncludeHTML5);
 
 		// download jar files
 		cbOfflineJars = new JCheckBox(app.getPlain("IncludeJARFiles"));
@@ -1220,7 +1220,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		// GeoGebra version
 		sb.append(" version=\"");
-		sb.append(GeoGebra.SHORT_VERSION_STRING);
+		sb.append(GeoGebraConstants.SHORT_VERSION_STRING);
 		sb.append("\" ");
 
 		// base64 encoding
@@ -1616,7 +1616,7 @@ public class WorksheetExportDialog extends JDialog {
 			// add codebase for online applets
 			appendWithLineBreak(sb, "");
 			sb.append("\tcodebase=\"");
-			sb.append(GeoGebra.GEOGEBRA_ONLINE_ARCHIVE_BASE);
+			sb.append(GeoGebraConstants.GEOGEBRA_ONLINE_ARCHIVE_BASE);
 			if (!cbSavePrint.isSelected())
 				sb.append("unsigned/");
 			sb.append("\"");
@@ -1650,7 +1650,7 @@ public class WorksheetExportDialog extends JDialog {
 		// loading image for online applet
 		if (!cbOfflineJars.isSelected()) {
 			appendWithLineBreak(sb, "\t<param name=\"image\" value=\""
-					+ GeoGebra.LOADING_GIF + "\" />");
+					+ GeoGebraConstants.LOADING_GIF + "\" />");
 			appendWithLineBreak(sb, "\t<param name=\"boxborder\" value=\"false\" />");
 			appendWithLineBreak(sb,
 					"\t<param name=\"centerimage\" value=\"true\" />");
@@ -1761,7 +1761,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		// JVM arguments, for Java 1.6.0_10 and later
 		// increase heap memory for applets
-		String javaArgs = "-Xmx" + GeoGebra.MAX_HEAP_SPACE
+		String javaArgs = "-Xmx" + GeoGebraConstants.MAX_HEAP_SPACE
 				+ "m -Djnlp.packEnabled=true";
 		// TODO: include pack.gz files in offline export
 		// if (cbOfflineArchive.isSelected()) {
@@ -1792,7 +1792,7 @@ public class WorksheetExportDialog extends JDialog {
 		// sb.append("\t<param name=\"cache_version\" value=\"");
 		sb2.setLength(0);
 		for (int i = 0; i < Application.JAR_FILES.length; i++) {
-			sb2.append(GeoGebra.VERSION_STRING);
+			sb2.append(GeoGebraConstants.VERSION_STRING);
 			if (i < Application.JAR_FILES.length - 1)
 				sb2.append(", ");
 		}

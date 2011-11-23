@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
@@ -387,7 +387,7 @@ public class ConstructionDefaults {
 	public String getCDXML() {	
 		StringBuilder sb = new StringBuilder();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
+		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT + "\">\n");
 		sb.append("<construction>\n");
 		for (GeoElement geo : defaultGeoElements.values()) {
 			geo.getXML(sb);

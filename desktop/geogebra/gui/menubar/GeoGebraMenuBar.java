@@ -1,6 +1,6 @@
 package geogebra.gui.menubar;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.Layout;
 import geogebra.kernel.Kernel;
@@ -244,7 +244,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		final StringBuilder vsb = new StringBuilder();
 		vsb.append(app.getPlain("ApplicationName"));
 		vsb.append(" ");
-		vsb.append(GeoGebra.VERSION_STRING);
+		vsb.append(GeoGebraConstants.VERSION_STRING);
 		switch (Kernel.DEFAULT_CAS) {
 		case MAXIMA:
 			vsb.append('m');
@@ -266,7 +266,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append("MB, ");
 		sb.append(Application.getCASVersionString());
 		sb.append(")<br>");	
-		sb.append(GeoGebra.BUILD_DATE);
+		sb.append(GeoGebraConstants.BUILD_DATE);
 
 		// license
 		String text = app.loadTextFile(Application.LICENSE_FILE);
@@ -291,7 +291,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 				systemInfo.append("[code]");
 				systemInfo.append(vsb);
 				systemInfo.append(" (");
-				systemInfo.append(GeoGebra.BUILD_DATE);
+				systemInfo.append(GeoGebraConstants.BUILD_DATE);
 				systemInfo.append(")\nJava: ");
 				systemInfo.append(System.getProperty("java.version"));
 				systemInfo.append(")\nCodebase: ");

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.io;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.spreadsheet.TraceSettings;
@@ -91,7 +91,7 @@ import org.xml.sax.SAXException;
 // public class MyXMLHandler extends DefaultHandler {
 public class MyXMLHandler implements DocHandler {
 
-	private static final double FORMAT = Double.parseDouble(GeoGebra.XML_FILE_FORMAT);
+	private static final double FORMAT = Double.parseDouble(GeoGebraConstants.XML_FILE_FORMAT);
 
 	private static final int MODE_INVALID = -1;
 	private static final int MODE_GEOGEBRA = 1;

@@ -10,8 +10,8 @@ package geogebra.plugin;
  the Free Software Foundation.
  
  */
-import geogebra.GeoGebra;
 import geogebra.cas.GeoGebraCAS;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.Construction;
@@ -254,7 +254,7 @@ public class GgbAPI {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
+		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT + "\">\n");
 		sb.append("<construction>\n");
 		sb.append(xmlString);
 		sb.append("</construction>\n");

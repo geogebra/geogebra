@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.export;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.util.FileTransferable;
@@ -474,7 +474,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			
 			geogebra.export.epsgraphics.EpsGraphics g =
 				new geogebra.export.epsgraphics.EpsGraphics(
-					app.getPlain("ApplicationName") + ", " + GeoGebra.GEOGEBRA_WEBSITE,
+					app.getPlain("ApplicationName") + ", " + GeoGebraConstants.GEOGEBRA_WEBSITE,
 					(OutputStream)(new FileOutputStream(file)), 0,0, pixelWidth, pixelHeight, ColorMode.COLOR_RGB);		
 										
 	    	// draw to epsGraphics2D

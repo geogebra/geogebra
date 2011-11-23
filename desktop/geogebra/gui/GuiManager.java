@@ -1,8 +1,8 @@
 package geogebra.gui;
 
 import geogebra.CommandLineArguments;
-import geogebra.GeoGebra;
 import geogebra.cas.view.CASView;
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -233,7 +233,7 @@ public class GuiManager {
 		layout.registerPanel(new AlgebraDockPanel(app));
 
 		// register CAS view
-		if (GeoGebra.CAS_VIEW_ENABLED)
+		if (GeoGebraConstants.CAS_VIEW_ENABLED)
 			layout.registerPanel(new CasDockPanel(app));
 
 		// register EuclidianView2
@@ -1610,7 +1610,7 @@ public class GuiManager {
 		// Added for Intergeo File Format (Yves Kreis) -->
 		String[] fileExtensions;
 		String[] fileDescriptions;
-		if (GeoGebra.DISABLE_I2G) {
+		if (GeoGebraConstants.DISABLE_I2G) {
 			fileExtensions = new String[] { Application.FILE_EXT_GEOGEBRA };
 			fileDescriptions = new String[] { app.getPlain("ApplicationName")
 					+ " " + app.getMenu("Files") };
@@ -1621,7 +1621,7 @@ public class GuiManager {
 					app.getPlain("ApplicationName") + " "
 							+ app.getMenu("Files"),
 					"Intergeo " + app.getMenu("Files") + " [Version "
-							+ GeoGebra.I2G_FILE_FORMAT + "]" };
+							+ GeoGebraConstants.I2G_FILE_FORMAT + "]" };
 		}
 		// <-- Added for Intergeo File Format (Yves Kreis)
 		File file = showSaveDialog(
@@ -1846,15 +1846,15 @@ public class GuiManager {
 			// fileChooser.addChoosableFileFilter(fileFilterHTML);
 
 			// Intergeo File Filter
-			if (!GeoGebra.DISABLE_I2G) {
+			if (!GeoGebraConstants.DISABLE_I2G) {
 				MyFileFilter i2gFileFilter = new MyFileFilter();
 				i2gFileFilter.addExtension(Application.FILE_EXT_INTERGEO);
 				i2gFileFilter.setDescription("Intergeo " + app.getMenu("Files")
-						+ " [Version " + GeoGebra.I2G_FILE_FORMAT + "]");
+						+ " [Version " + GeoGebraConstants.I2G_FILE_FORMAT + "]");
 				fileChooser.addChoosableFileFilter(i2gFileFilter);
 			}
 			// fileChooser.setFileFilter(fileFilter);
-			if (GeoGebra.DISABLE_I2G
+			if (GeoGebraConstants.DISABLE_I2G
 					|| oldCurrentFile == null
 					|| Application.getExtension(oldCurrentFile).equals(
 							Application.FILE_EXT_GEOGEBRA)
@@ -2808,7 +2808,7 @@ public class GuiManager {
 			Application.printStacktrace("Bad getHelpURL call");
 		}
 		try {
-			String url = GeoGebra.GEOGEBRA_WEBSITE + "help/" + localeCode + "/"
+			String url = GeoGebraConstants.GEOGEBRA_WEBSITE + "help/" + localeCode + "/"
 					+ typeStr + "/" + helpItem;
 			Application.debug(url);
 
@@ -2849,7 +2849,7 @@ public class GuiManager {
 			// deliberate 'a' missing
 			if (words[i].toLowerCase(Locale.US).startsWith("geogebr")) {
 				// wrap transletion of GeoGebra to make a link
-				words[i] = "<a href=\"" + GeoGebra.GEOGEBRA_WEBSITE
+				words[i] = "<a href=\"" + GeoGebraConstants.GEOGEBRA_WEBSITE
 						+ "\" target=\"_blank\" >" + words[i] + "</a>";
 			}
 			ret += words[i] + ((i == words.length - 1) ? "" : " ");

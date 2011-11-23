@@ -1,6 +1,6 @@
 package geogebra.gui.inputbar;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.gui.SetLabels;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.SelectionTable;
@@ -650,7 +650,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		StyleConstants.setLeftIndent(attrs, 50);
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
-		if (GeoGebra.CAS_VIEW_ENABLED
+		if (GeoGebraConstants.CAS_VIEW_ENABLED
 				&& !descriptionCAS.equals(cmd + Application.syntaxCAS)) {
 			if (!description.equals(cmd + Application.syntaxStr))
 				try {

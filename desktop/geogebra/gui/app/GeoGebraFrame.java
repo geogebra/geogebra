@@ -18,7 +18,7 @@
 package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.kernel.Macro;
 import geogebra.main.Application;
@@ -456,7 +456,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 					newestVersion = in.readLine();
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
-					Long currentVersionL = versionToLong(GeoGebra.VERSION_STRING);
+					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);
 					Application.debug("current=" + currentVersionL + " newest="
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.ConstructionElement;
@@ -380,7 +380,7 @@ public class Macro {
     	// get the XML for all macro construction elements
     	StringBuilder macroConsXML = new StringBuilder(500);
     	macroConsXML.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-    	macroConsXML.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT  + "\">\n");
+    	macroConsXML.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT  + "\">\n");
     	macroConsXML.append("<construction author=\"\" title=\"\" date=\"\">\n");
     	     	    	      	
     	Iterator<ConstructionElement> it = macroConsElements.iterator();

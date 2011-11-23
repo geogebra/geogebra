@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.io;
 
-import geogebra.GeoGebra;
+import geogebra.common.GeoGebraConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -735,10 +735,10 @@ public class MyXMLio {
 
 	private final void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId) {
 		sb.append("<geogebra format=\"");
-		sb.append(GeoGebra.XML_FILE_FORMAT);
+		sb.append(GeoGebraConstants.XML_FILE_FORMAT);
 		sb.append("\" ");
 		sb.append("version=\"");
-		sb.append(GeoGebra.VERSION_STRING);
+		sb.append(GeoGebraConstants.VERSION_STRING);
 		sb.append("\" ");
 		if (uniqueId != null) {
 			sb.append("id=\"");
@@ -747,9 +747,9 @@ public class MyXMLio {
 		}
 		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
 		if (isMacro)
-			sb.append(GeoGebra.GGT_XSD_FILENAME); //eg	ggt.xsd
+			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); //eg	ggt.xsd
 		else
-			sb.append(GeoGebra.GGB_XSD_FILENAME); //eg	ggb.xsd
+			sb.append(GeoGebraConstants.GGB_XSD_FILENAME); //eg	ggb.xsd
 		sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
 	}
 	
@@ -787,9 +787,9 @@ public class MyXMLio {
 		//addXMLHeader(sb);
 
 		sb.append("<!--\n\tIntergeo File Format Version "
-				+ GeoGebra.I2G_FILE_FORMAT + "\n\twritten by "
+				+ GeoGebraConstants.I2G_FILE_FORMAT + "\n\twritten by "
 				+ app.getPlain("ApplicationName") + " "
-				+ GeoGebra.VERSION_STRING + " (" + GeoGebra.BUILD_DATE
+				+ GeoGebraConstants.VERSION_STRING + " (" + GeoGebraConstants.BUILD_DATE
 				+ ")\n-->\n");
 
 		sb.append("<construction>\n");
