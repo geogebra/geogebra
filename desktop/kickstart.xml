@@ -107,31 +107,11 @@ instructions.
 		<os family="unix" arch="amd64"/>
 	</condition>
 
-
-	<!-- download jlatexmath-minimal.zip directly from Calixte Denizet's repository -->
-	<target name="jlatexmath-calixte">
-	<mkdir dir="lib/download"/>
-	<get src="http://forge.scilab.org/index.php/p/jlatexmath/downloads/253/get/"
-	    dest="lib/download/jlatexmath-minimal.zip" usetimestamp="true"/>
-	<unzip src="download/jlatexmath-minimal.zip" dest="lib/">
-	    <patternset>
-		<include name="jlm_*.jar"/>
-	    </patternset>
-	    <mapper type="glob" from="*.jar" to="*.jar"/>
-	</unzip>
-	<unzip src="lib/download/jlatexmath-minimal.zip" dest="lib/">
-	    <patternset>
-		<include name="jlatexmath-*.jar"/>
-	    </patternset>
-	    <mapper type="glob" from="jlatexmath-minimal-*.jar" to="jlatexmath.jar"/>
-	</unzip>
-	</target>
-
 	<!-- download jlatexmath from GeoGebra repository -->
 	<target name="jlatexmath-geogebra">
-	<get src="http://www.geogebra.org/download/lib/jlatexmath-20111029.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/lib/jlm_cyrillic-20111029.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/lib/jlm_greek-20111029.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
+	<get src="http://www.geogebra.org/download/lib/jlatexmath-2011-11-23.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
+	<get src="http://www.geogebra.org/download/lib/jlm_cyrillic-2011-11-23.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
+	<get src="http://www.geogebra.org/download/lib/jlm_greek-2011-11-23.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- download jython from GeoGebra repository -->
