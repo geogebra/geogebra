@@ -3,10 +3,14 @@ package geogebra.common;
 public interface GeoGebraConstants {
 
 	// GeoGebra version
+	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
+	// as it is read by the build system
 	// update lines below when this is updated
-	public static final String BUILD_DATE = "15 November 2011";
-	public static final String VERSION_STRING = "4.1.22.0"; //current ggb42: "4.1.21.0"
-	//public static final String VERSION_STRING = "4.9.10.0"; //current 3D: "4.9.9.0"
+	public static final String BUILD_DATE = "23 November 2011";
+    public static final String VERSION_STRING = "4.1.23.0"; // <- update lines below when this is updated 
+    //current 3D: "4.9.9.0" 
+    //current ggb42: "4.1.23.0" 
+	
 	/* start hacks TODO remove it when release candidate */
 	public static final String PREFERENCES_ROOT = VERSION_STRING
 			.startsWith("4.9") ? "/geogebra50" : "/geogebra42";
@@ -14,6 +18,7 @@ public interface GeoGebraConstants {
 	public static final String XML_FILE_FORMAT = VERSION_STRING
 			.startsWith("4.9") ? "5.0" : "4.2";
 	/* end hacks */
+	
 	public static final String SPLASH_STRING = "splash42beta.png";
 	public static final String SHORT_VERSION_STRING = "4.2"; // used for online archive
 	public static final boolean CAS_VIEW_ENABLED = true;
