@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 import javax.imageio.IIOImage;
@@ -77,6 +78,20 @@ public class MyImageIO {
 	    writer.dispose();
 
 	}
+	
+    public static BufferedImage read(InputStream input, boolean useCache) throws IOException {
+
+    	boolean oldUseCache = ImageIO.getUseCache();
+		if (oldUseCache != useCache) ImageIO.setUseCache(useCache);
+	
+		BufferedImage ret = ImageIO.read(input);
+	
+		// restore caching to prevent side-effects
+		if (oldUseCache != useCache) ImageIO.setUseCache(oldUseCache);
+		
+		return ret;
+    	
+    }
 
 
 

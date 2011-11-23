@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.MyParseError;
@@ -106,13 +107,13 @@ public class Variable extends ValidExpression implements ExpressionValue {
     		// row and/or column dollar sign present?
     		boolean col$ = name.indexOf('$') == 0;
     		boolean row$ = name.length() > 2 && name.indexOf('$', 1) > -1;
-    		int operation = 0;
+    		Operation operation = Operation.NO_OPERATION;
     		if (row$ && col$)
-    			operation = ExpressionNode.$VAR_ROW_COL;    			 
+    			operation = Operation.$VAR_ROW_COL;    			 
     		else if (row$)
-    			operation = ExpressionNode.$VAR_ROW;  
+    			operation = Operation.$VAR_ROW;  
     		else // if (col$)
-    			operation = ExpressionNode.$VAR_COL;  
+    			operation = Operation.$VAR_COL;  
     
     		// build an expression node that wraps the resolved geo
     		return new ExpressionNode(kernel, geo, operation, null);    		

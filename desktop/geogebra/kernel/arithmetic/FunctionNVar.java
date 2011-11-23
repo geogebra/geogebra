@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -61,7 +62,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	public class IneqTree {
 		private IneqTree left, right;
 		private Inequality ineq;
-		private int operation = ExpressionNode.NO_OPERATION;
+		private Operation operation = Operation.NO_OPERATION;
 
 		/**
 		 * @param right
@@ -97,14 +98,14 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		 * @param operation
 		 *            the operation to set
 		 */
-		public void setOperation(int operation) {
+		public void setOperation(Operation operation) {
 			this.operation = operation;
 		}
 
 		/**
 		 * @return the operation
 		 */
-		public int getOperation() {
+		public Operation getOperation() {
 			return operation;
 		}
 
@@ -810,11 +811,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 	private boolean initIneqs(ExpressionNode fe, FunctionalNVar functional,
 			IneqTree tree, boolean negate) {
-		int op = fe.getOperation();
+		Operation op = fe.getOperation();
 		ExpressionNode leftTree = fe.getLeftTree();
 		ExpressionNode rightTree = fe.getRightTree();
-		if (op == ExpressionNode.GREATER || op == ExpressionNode.GREATER_EQUAL
-				|| op == ExpressionNode.LESS || op == ExpressionNode.LESS_EQUAL) {
+		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)
+				|| op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL)) {
 			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
 					adjustOp(op,negate), getFunction().getFunctionVariables(), functional);
 			if (newIneq.getType() != Inequality.INEQUALITY_INVALID) {
@@ -824,17 +825,17 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				tree.setIneq(newIneq);
 			}
 			return newIneq.getType() != Inequality.INEQUALITY_INVALID;
-		} else if (op == ExpressionNode.AND || op == ExpressionNode.OR
-				|| op == ExpressionNode.EQUAL_BOOLEAN
-				|| op == ExpressionNode.NOT_EQUAL) {
+		} else if (op.equals(Operation.AND) || op.equals(Operation.OR)
+				|| op.equals(Operation.EQUAL_BOOLEAN)
+				|| op.equals(Operation.NOT_EQUAL)) {
 			tree.operation = adjustOp(op,negate);
 			tree.left = new IneqTree();
 			tree.right = new IneqTree();
 			return initIneqs(leftTree, functional, tree.left,negate)
 					&& initIneqs(rightTree, functional, tree.right,negate);
-		} else if (op == ExpressionNode.NOT) {
+		} else if (op.equals(Operation.NOT)) {
 			return initIneqs(leftTree, functional, tree,!negate);
-		}else if (op == ExpressionNode.FUNCTION_NVAR) {
+		}else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar)leftTree.getLeft();
 			IneqTree otherTree = nv.getIneqs();
 			if(otherTree == null || otherTree.getSize()==0){
@@ -851,20 +852,20 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 	}
 
-	private int adjustOp(int op, boolean negate) {
+	private Operation adjustOp(Operation op, boolean negate) {
 		if(negate==false)
 			return op;
 		switch(op){
-			case ExpressionNode.AND: return ExpressionNode.OR;
-			case ExpressionNode.OR: return ExpressionNode.AND;
-			case ExpressionNode.GREATER_EQUAL: return ExpressionNode.LESS;
-			case ExpressionNode.GREATER: return ExpressionNode.LESS_EQUAL;
-			case ExpressionNode.LESS_EQUAL: return ExpressionNode.GREATER;
-			case ExpressionNode.LESS: return ExpressionNode.GREATER_EQUAL;
-			case ExpressionNode.EQUAL_BOOLEAN: return ExpressionNode.NOT_EQUAL;
-			case ExpressionNode.NOT_EQUAL: return ExpressionNode.EQUAL_BOOLEAN;
+			case AND: return Operation.OR;
+			case OR: return Operation.AND;
+			case GREATER_EQUAL: return Operation.LESS;
+			case GREATER: return Operation.LESS_EQUAL;
+			case LESS_EQUAL: return Operation.GREATER;
+			case LESS: return Operation.GREATER_EQUAL;
+			case EQUAL_BOOLEAN: return Operation.NOT_EQUAL;
+			case NOT_EQUAL: return Operation.EQUAL_BOOLEAN;
 		}
-		return -1;
+		return Operation.NO_OPERATION;
 	}
 
 	/**
@@ -935,24 +936,24 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				MyDouble num = (MyDouble) right;
 				double temp;
 				switch (en.getOperation()) {
-				case ExpressionNode.PLUS:
+				case PLUS:
 					temp = num.getDouble() - vx;
 					if (Kernel.isZero(temp)) {
 						expression = expression.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
-						en.setOperation(ExpressionNode.MINUS);
+						en.setOperation(Operation.MINUS);
 						num.set(-temp);
 					} else {
 						num.set(temp);
 					}
 					return;
 
-				case ExpressionNode.MINUS:
+				case MINUS:
 					temp = num.getDouble() + vx;
 					if (Kernel.isZero(temp)) {
 						expression = expression.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
-						en.setOperation(ExpressionNode.PLUS);
+						en.setOperation(Operation.PLUS);
 						num.set(-temp);
 					} else {
 						num.set(temp);
@@ -982,10 +983,10 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		ExpressionNode node;
 		if (vx > 0) {
 			node = new ExpressionNode(kernel, fVars[varNo],
-					ExpressionNode.MINUS, new MyDouble(kernel, vx));
+					Operation.MINUS, new MyDouble(kernel, vx));
 		} else {
 			node = new ExpressionNode(kernel, fVars[varNo],
-					ExpressionNode.PLUS, new MyDouble(kernel, -vx));
+					Operation.PLUS, new MyDouble(kernel, -vx));
 		}
 		return node;
 	}
@@ -999,11 +1000,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		MyDouble ma11 = new MyDouble(kernel, a11);
 
 		ExpressionNode newX = new ExpressionNode(kernel, ma00,
-				ExpressionNode.MULTIPLY, fVars[0]).plus(new ExpressionNode(
-				kernel, ma01, ExpressionNode.MULTIPLY, fVars[1]));
+				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(
+				kernel, ma01, Operation.MULTIPLY, fVars[1]));
 		ExpressionNode newY = new ExpressionNode(kernel, ma10,
-				ExpressionNode.MULTIPLY, fVars[0]).plus(new ExpressionNode(
-				kernel, ma11, ExpressionNode.MULTIPLY, fVars[1]));
+				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(
+				kernel, ma11, Operation.MULTIPLY, fVars[1]));
 		expression = expression.replaceAndWrap(fVars[1], newY);
 		expression = expression.replaceAndWrap(dummy, newX);
 		this.initIneqs(expression, this);
@@ -1020,16 +1021,16 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			for (int j = 0; j < 3; j++)
 				mbTrans[i][j] = new MyDouble(kernel, b[j][i]);
 		ExpressionNode newZ = new ExpressionNode(kernel, mbTrans[2][0],
-				ExpressionNode.MULTIPLY, fVars[0]).plus(
-				new ExpressionNode(kernel, mbTrans[2][1], ExpressionNode.MULTIPLY,
+				Operation.MULTIPLY, fVars[0]).plus(
+				new ExpressionNode(kernel, mbTrans[2][1], Operation.MULTIPLY,
 						fVars[1])).plus(mbTrans[2][2]);
 		ExpressionNode newX = new ExpressionNode(kernel, mbTrans[0][0],
-				ExpressionNode.MULTIPLY, fVars[0]).plus(
-				new ExpressionNode(kernel, mbTrans[0][1], ExpressionNode.MULTIPLY,
+				Operation.MULTIPLY, fVars[0]).plus(
+				new ExpressionNode(kernel, mbTrans[0][1], Operation.MULTIPLY,
 						fVars[1])).plus(mbTrans[0][2]);
 		ExpressionNode newY = new ExpressionNode(kernel, mbTrans[1][0],
-				ExpressionNode.MULTIPLY, fVars[0]).plus(
-				new ExpressionNode(kernel, mbTrans[1][1], ExpressionNode.MULTIPLY,
+				Operation.MULTIPLY, fVars[0]).plus(
+				new ExpressionNode(kernel, mbTrans[1][1], Operation.MULTIPLY,
 						fVars[1])).plus(mbTrans[1][2]);				
 		expression = expression.replaceAndWrap(fVars[1], newY.divide(newZ));
 		expression = expression.replaceAndWrap(dummy, newX.divide(newZ));

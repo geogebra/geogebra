@@ -33,6 +33,7 @@ import geogebra.kernel.algos.AlgoTangentLine;
 import geogebra.kernel.algos.AlgoTangentPoint;
 import geogebra.kernel.arithmetic.Evaluatable;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -1070,17 +1071,17 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 		
 		ExpressionNode xCoord = new ExpressionNode(kernel, 
                 this,
-                ExpressionNode.XCOORD, 
+                Operation.XCOORD, 
                 null);
 
 		ExpressionNode yCoord = new ExpressionNode(kernel, 
                 this,
-                ExpressionNode.YCOORD, 
+                Operation.YCOORD, 
                 null);
 
 		ExpressionNode zCoord = new ExpressionNode(kernel, 
                 this,
-                ExpressionNode.ZCOORD, 
+                Operation.ZCOORD, 
                 null);
 
 		
@@ -1088,25 +1089,25 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 
 		ExpressionNode temp = new ExpressionNode(kernel, 
 				xCoord,
-                ExpressionNode.DIVIDE, 
+                Operation.DIVIDE, 
                 yCoord);
 		
 		temp = new ExpressionNode(kernel, 
 				new MyDouble(kernel, -1.0),
-                ExpressionNode.MULTIPLY, 
+                Operation.MULTIPLY, 
                 temp);
 		
 		temp = new ExpressionNode(kernel, 
                 temp,
-                ExpressionNode.MULTIPLY, 
+                Operation.MULTIPLY, 
                 fv);		
 		
 		temp = new ExpressionNode(kernel, 
                 temp,
-                ExpressionNode.MINUS, 
+                Operation.MINUS, 
                 new ExpressionNode(kernel, 
                 		zCoord,
-                        ExpressionNode.DIVIDE, 
+                        Operation.DIVIDE, 
                         yCoord));		
 		
 		
@@ -1118,12 +1119,12 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 		/*
 		ExpressionNode temp = new ExpressionNode(kernel, 
                 new MyDouble(kernel, -x / y),
-                ExpressionNode.MULTIPLY, 
+                Operation.MULTIPLY, 
                 fv);
 		
 		temp = new ExpressionNode(kernel, 
                 temp, 
-                ExpressionNode.PLUS, 
+                Operation.PLUS, 
                 new MyDouble(kernel, -z / y)
             );*/
 		

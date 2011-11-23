@@ -15,6 +15,7 @@ package geogebra.kernel.arithmetic;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -45,7 +46,7 @@ public class Inequality {
 	/** inequality with one variable, called y */
 	public static final int INEQUALITY_1VAR_Y = 6;
 
-	private int op = ExpressionNode.LESS;
+	private Operation op = Operation.LESS;
 	private int type;
 	private GeoImplicitPoly impBorder;
 	private GeoConic conicBorder;
@@ -73,17 +74,17 @@ public class Inequality {
 	 * @param function
 	 */
 	public Inequality(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs,
-			int op, FunctionVariable[] fv, FunctionalNVar function) {
+			Operation op, FunctionVariable[] fv, FunctionalNVar function) {
 
 		this.op = op;
 		this.kernel = kernel;
 		this.fv = fv;		
 		
-		if (op == ExpressionNode.GREATER || op == ExpressionNode.GREATER_EQUAL) {
-			normal = new ExpressionNode(kernel, lhs, ExpressionNode.MINUS, rhs);
+		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)) {
+			normal = new ExpressionNode(kernel, lhs, Operation.MINUS, rhs);
 
 		} else {
-			normal = new ExpressionNode(kernel, rhs, ExpressionNode.MINUS, lhs);
+			normal = new ExpressionNode(kernel, rhs, Operation.MINUS, lhs);
 		}
 		update();
 	}
@@ -113,8 +114,8 @@ public class Inequality {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
 			ExpressionNode m = new ExpressionNode(kernel, new ExpressionNode(
-					kernel, normal, ExpressionNode.DIVIDE, coef),
-					ExpressionNode.PLUS, fv[1]);
+					kernel, normal, Operation.DIVIDE, coef),
+					Operation.PLUS, fv[1]);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = INEQUALITY_PARAMETRIC_Y;
@@ -123,8 +124,8 @@ public class Inequality {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
 			ExpressionNode m = new ExpressionNode(kernel, new ExpressionNode(
-					kernel, normal, ExpressionNode.DIVIDE, coef),
-					ExpressionNode.PLUS, fv[0]);
+					kernel, normal, Operation.DIVIDE, coef),
+					Operation.PLUS, fv[0]);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = INEQUALITY_PARAMETRIC_X;
@@ -276,7 +277,7 @@ public class Inequality {
 	 * @return true if strict
 	 */
 	public boolean isStrict() {
-		return (op == ExpressionNode.GREATER || op == ExpressionNode.LESS);
+		return (op.equals(Operation.GREATER) || op.equals(Operation.LESS));
 	}
 
 	/**

@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -126,9 +127,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 				diffExp = fVar;
 			} else if (ad > 0) { // (x - a)
 				diffExp = new ExpressionNode(kernel, fVar,
-						ExpressionNode.MINUS, new MyDouble(kernel, ad));
+						Operation.MINUS, new MyDouble(kernel, ad));
 			} else { // (x + a)
-				diffExp = new ExpressionNode(kernel, fVar, ExpressionNode.PLUS,
+				diffExp = new ExpressionNode(kernel, fVar, Operation.PLUS,
 						new MyDouble(kernel, -ad));
 			}
 
@@ -158,10 +159,10 @@ public class AlgoTaylorSeries extends AlgoElement {
 					break;
 				default:
 					powerExp = new ExpressionNode(kernel, new ExpressionNode(
-							kernel, diffExp, ExpressionNode.POWER,
-							new MyDouble(kernel, k)), ExpressionNode.DIVIDE,
+							kernel, diffExp, Operation.POWER,
+							new MyDouble(kernel, k)), Operation.DIVIDE,
 							new ExpressionNode(kernel, new MyDouble(kernel, k),
-									ExpressionNode.FACTORIAL, null));
+									Operation.FACTORIAL, null));
 				}
 
 				// build the expression
@@ -173,7 +174,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				} else {
 					coeffMyDouble = new MyDouble(kernel, coeff);
 					partExp = new ExpressionNode(kernel, coeffMyDouble,
-							ExpressionNode.MULTIPLY, powerExp);
+							Operation.MULTIPLY, powerExp);
 				}
 
 				// add part to series
@@ -184,10 +185,10 @@ public class AlgoTaylorSeries extends AlgoElement {
 						if (coeffMyDouble != null)
 							coeffMyDouble.set(-coeff); // change sign
 						series = new ExpressionNode(kernel, series,
-								ExpressionNode.MINUS, partExp);
+								Operation.MINUS, partExp);
 					} else {
 						series = new ExpressionNode(kernel, series,
-								ExpressionNode.PLUS, partExp);
+								Operation.PLUS, partExp);
 					}
 				}
 			}

@@ -28,6 +28,7 @@ import geogebra.kernel.algos.*;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -9465,19 +9466,19 @@ public class Kernel {
 
 	}
 	
-	final public ExpressionNode handleTrigPower(String image, ExpressionNode en, int type) {
+	final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Operation type) {
 		
 		// sin^(-1)(x) -> ArcSin(x)
 		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
 			//String check = ""+Unicode.Superscript_Minus + Unicode.Superscript_1 + '(';
 			if (image.substring(3, 6).equals(Unicode.superscriptMinusOneBracket)) {
 				switch (type) {
-				case ExpressionNode.SIN:
-					return new ExpressionNode(this, en, ExpressionNode.ARCSIN, null);
-				case ExpressionNode.COS:
-					return new ExpressionNode(this, en, ExpressionNode.ARCCOS, null);
-				case ExpressionNode.TAN:
-					return new ExpressionNode(this, en, ExpressionNode.ARCTAN, null);
+				case SIN:
+					return new ExpressionNode(this, en, Operation.ARCSIN, null);
+				case COS:
+					return new ExpressionNode(this, en, Operation.ARCCOS, null);
+				case TAN:
+					return new ExpressionNode(this, en, Operation.ARCTAN, null);
 				default:
 						throw new Error("Inverse not supported for trig function"); // eg csc^-1(x)
 				}
@@ -9485,7 +9486,7 @@ public class Kernel {
 			else throw new Error("Bad index for trig function"); // eg sin^-2(x)
 		}
 		
-		return new ExpressionNode(this, new ExpressionNode(this, en, type, null), ExpressionNode.POWER, convertIndexToNumber(image));
+		return new ExpressionNode(this, new ExpressionNode(this, en, type, null), Operation.POWER, convertIndexToNumber(image));
 	}
 	
 	

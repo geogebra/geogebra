@@ -15,6 +15,7 @@ the Free Software Foundation.
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -165,12 +166,12 @@ public class AlgoFitSin extends AlgoElement{
                 MyDouble C=new MyDouble(kernel,c);
                 MyDouble D=new MyDouble(kernel,d);
                 FunctionVariable X=new FunctionVariable(kernel);
-                ExpressionValue expr=new ExpressionNode(kernel,C,ExpressionNode.MULTIPLY,X);
-                				expr=new ExpressionNode(kernel,expr,ExpressionNode.PLUS,D);
-                				expr=new ExpressionNode(kernel,expr,ExpressionNode.SIN,null);
-                				expr=new ExpressionNode(kernel,B,ExpressionNode.MULTIPLY,expr);
+                ExpressionValue expr=new ExpressionNode(kernel,C,Operation.MULTIPLY,X);
+                				expr=new ExpressionNode(kernel,expr,Operation.PLUS,D);
+                				expr=new ExpressionNode(kernel,expr,Operation.SIN,null);
+                				expr=new ExpressionNode(kernel,B,Operation.MULTIPLY,expr);
                
-                ExpressionNode node=new ExpressionNode(kernel,A,ExpressionNode.PLUS,expr);
+                ExpressionNode node=new ExpressionNode(kernel,A,Operation.PLUS,expr);
                 Function f=new Function(node,X);
                 geofunction.setFunction(f); 
                 geofunction.setDefined(true);

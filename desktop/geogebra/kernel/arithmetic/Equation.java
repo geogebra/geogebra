@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
@@ -103,7 +104,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 	/**
      * Adds/subtracts/muliplies/divides ev to this equation to get lhs + ev = rhs = ev
      */
-    public void applyOperation(int operation, ExpressionValue ev, boolean switchOrder) {
+    public void applyOperation(Operation operation, ExpressionValue ev, boolean switchOrder) {
     	ExpressionValue left, right;
     	
     	if (ev instanceof Equation) {

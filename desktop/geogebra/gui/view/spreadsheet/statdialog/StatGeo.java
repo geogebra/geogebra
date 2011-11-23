@@ -7,7 +7,6 @@ import geogebra.kernel.algos.AlgoClasses;
 import geogebra.kernel.algos.AlgoDependentListExpression;
 import geogebra.kernel.algos.AlgoDotPlot;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.algos.AlgoFrequencyPolygon;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.algos.AlgoHistogram;
 import geogebra.kernel.algos.AlgoListElement;
@@ -20,6 +19,7 @@ import geogebra.kernel.algos.AlgoStemPlot;
 import geogebra.kernel.algos.AlgoText;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -173,8 +173,8 @@ public class StatGeo   {
 
 
 		else if(isPointList){
-			ExpressionNode enX = new ExpressionNode(kernel, dataList, ExpressionNode.XCOORD, null);
-			ExpressionNode enY = new ExpressionNode(kernel, dataList, ExpressionNode.YCOORD, null);
+			ExpressionNode enX = new ExpressionNode(kernel, dataList, Operation.XCOORD, null);
+			ExpressionNode enY = new ExpressionNode(kernel, dataList, Operation.YCOORD, null);
 			AlgoDependentListExpression listX = new AlgoDependentListExpression(cons, enX);
 			AlgoDependentListExpression listY = new AlgoDependentListExpression(cons, enY);
 
@@ -319,13 +319,13 @@ public class StatGeo   {
 
 		FunctionVariable x = new FunctionVariable(kernel);
 
-		ExpressionNode normal = new ExpressionNode(kernel, x, ExpressionNode.MINUS, meanGeo);
-		normal = new ExpressionNode(kernel, normal, ExpressionNode.DIVIDE, sdGeo);
-		normal = new ExpressionNode(kernel, normal, ExpressionNode.POWER, new MyDouble(kernel,2.0));
-		normal = new ExpressionNode(kernel, normal, ExpressionNode.DIVIDE, new MyDouble(kernel,-2.0));
-		normal = new ExpressionNode(kernel, normal, ExpressionNode.EXP, null);
-		normal = new ExpressionNode(kernel, normal, ExpressionNode.DIVIDE, new MyDouble(kernel,Math.sqrt(2*Math.PI)));
-		normal = new ExpressionNode(kernel, normal, ExpressionNode.DIVIDE, sdGeo);
+		ExpressionNode normal = new ExpressionNode(kernel, x, Operation.MINUS, meanGeo);
+		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
+		normal = new ExpressionNode(kernel, normal, Operation.POWER, new MyDouble(kernel,2.0));
+		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, new MyDouble(kernel,-2.0));
+		normal = new ExpressionNode(kernel, normal, Operation.EXP, null);
+		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, new MyDouble(kernel,Math.sqrt(2*Math.PI)));
+		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
 
 		Function f = new Function(normal, x);		
 		geo = new GeoFunction(cons, f);
@@ -495,7 +495,7 @@ public class StatGeo   {
 			settings.xMax = xMaxData + buffer;
 			settings.yMin = -1.0;
 
-			ExpressionNode en = new ExpressionNode(kernel, dotPlot, ExpressionNode.YCOORD, null);
+			ExpressionNode en = new ExpressionNode(kernel, dotPlot, Operation.YCOORD, null);
 			AlgoDependentListExpression list = new AlgoDependentListExpression(cons, en);
 			AlgoListMax max = new AlgoListMax(cons, (GeoList)list.getGeoElements()[0]);
 

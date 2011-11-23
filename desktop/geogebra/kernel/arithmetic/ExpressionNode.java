@@ -52,7 +52,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	public Application app;
 	public Kernel kernel;
 	public ExpressionValue left, right;
-	public int operation = NO_OPERATION;
+	public Operation operation = Operation.NO_OPERATION;
 	public boolean forceVector = false, forcePoint = false,
 			forceFunction = false;
 
@@ -65,7 +65,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	};
 
 	/** Creates new ExpressionNode */
-	public ExpressionNode(Kernel kernel, ExpressionValue left, int operation,
+	public ExpressionNode(Kernel kernel, ExpressionValue left, Operation operation,
 			ExpressionValue right) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
@@ -105,11 +105,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		return kernel;
 	}
 
-	final public int getOperation() {
+	final public Operation getOperation() {
 		return operation;
 	}
 
-	public void setOperation(int op) {
+	public void setOperation(Operation op) {
 		operation = op;
 	}
 
@@ -141,7 +141,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		right = r;
 		if (right != null)
 			right.setInTree(true); // needed for list operations eg k=2 then k {1,2}
-		leaf = operation == NO_OPERATION; // right is a dummy MyDouble by
+		leaf = operation == Operation.NO_OPERATION; // right is a dummy MyDouble by
 											// default
 	}
 
@@ -366,7 +366,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 					// replace e^x with exp(x)
 					// if e was autocreated
-					operation = EXP;
+					operation = Operation.EXP;
 					left = right;
 					kernel.getConstruction().removeLabel(geo);
 				}
@@ -382,7 +382,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 					// replace 'e' with exp(1) 
 					// if e was autocreated
-					left = new ExpressionNode(kernel, new MyDouble(kernel, 1.0), EXP, null);
+					left = new ExpressionNode(kernel, new MyDouble(kernel, 1.0), Operation.EXP, null);
 					kernel.getConstruction().removeLabel(geo);
 				}
 			} else if (right instanceof NumberValue && ((NumberValue)right).getDouble() == Math.E) {
@@ -391,7 +391,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 					// replace 'e' with exp(1) 
 					// if e was autocreated
-					right = new ExpressionNode(kernel, new MyDouble(kernel, 1.0), EXP, null);
+					right = new ExpressionNode(kernel, new MyDouble(kernel, 1.0), Operation.EXP, null);
 					kernel.getConstruction().removeLabel(geo);
 				}
 			}
@@ -571,7 +571,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * Returns true if this tree includes a division by val
 	 */
 	final public boolean includesDivisionBy(ExpressionValue val) {
-		if (operation == DIVIDE) {
+		if (operation == Operation.DIVIDE) {
 			if (right.contains(val))
 				return true;
 
@@ -715,7 +715,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case XCOORD:
 				if (xVar != null) {
 					replacements++;
-					operation = MULTIPLY;
+					operation = Operation.MULTIPLY;
 					right = left;
 					left = xVar;
 				}
@@ -724,7 +724,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case YCOORD:
 				if (yVar != null) {
 					replacements++;
-					operation = MULTIPLY;
+					operation = Operation.MULTIPLY;
 					right = left;
 					left = yVar;
 				}
@@ -733,7 +733,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case ZCOORD:
 				if (zVar != null) {
 					replacements++;
-					operation = MULTIPLY;
+					operation = Operation.MULTIPLY;
 					right = left;
 					left = zVar;
 				}
@@ -858,7 +858,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	final void makePolynomialTree(Equation equ) {
 		
-		if (operation==ExpressionNodeConstants.FUNCTION_NVAR){
+		if (operation==Operation.FUNCTION_NVAR){
 			if (left instanceof FunctionalNVar && right instanceof MyList){
 				MyList list=((MyList)right); 
 				FunctionNVar func=((FunctionalNVar)left).getFunction();
@@ -886,7 +886,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				right=expr.right;
 				operation=expr.getOperation();
 			}
-		}else if (operation==ExpressionNodeConstants.FUNCTION){
+		}else if (operation==Operation.FUNCTION){
 			if (left instanceof GeoFunction){
 				Function func=((Functional)left).getFunction();
 				ExpressionNode expr=func.getExpression().getCopy(kernel);
@@ -1342,7 +1342,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		String rightStr = null;
 		if (right != null) {
 			rightStr = right.toLaTeXString(symbolic);
-			if ((operation == FUNCTION_NVAR || operation == ELEMENT_OF) &&
+			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF) &&
 				(right instanceof MyList))
 			{
 				// 1 character will be taken from the left and right
@@ -1794,7 +1794,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					break;
 				}
 
-				if (right.isLeaf() || opID(right) >= MULTIPLY) { // not +, -
+				if (right.isLeaf() || opID(right) >= Operation.MULTIPLY.ordinal()) { // not +, -
 					if (rightStr.charAt(0) == '-') { // convert - - to +
 						if (STRING_TYPE == STRING_TYPE_LATEX && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
 						else sb.append(" + ");
@@ -1878,7 +1878,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				boolean nounary = true;
 
 				// left wing
-				if (left.isLeaf() || opID(left) >= MULTIPLY) { // not +, -
+				if (left.isLeaf() || opID(left) >= Operation.MULTIPLY.ordinal()) { // not +, -
 					if (isEqualString(left, -1, !valueForm)) { // unary minus
 						nounary = false;
 						sb.append('-');
@@ -1902,7 +1902,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				// right wing
 				int opIDright = opID(right);
-				if (right.isLeaf() || opIDright >= MULTIPLY) { // not +, -
+				if (right.isLeaf() || opIDright >= Operation.MULTIPLY.ordinal()) { // not +, -
 					boolean showMultiplicationSign = false;
 					boolean multiplicationSpaceNeeded = true;
 					if (nounary) {
@@ -1971,7 +1971,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					if (((rtlMinus = rightStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) || rightStr.charAt(0) == '-') // 2 (-5) or -(-5)
 							|| !nounary
 								&& !right.isLeaf()
-								&& opIDright <= DIVIDE // -(x * a) or -(x / a)
+								&& opIDright <= Operation.DIVIDE.ordinal() // -(x * a) or -(x / a)
 							|| showMultiplicationSign && STRING_TYPE == STRING_TYPE_GEOGEBRA) // 3 (5)
 					{
 						if (rtlMinus) sb.append(Unicode.RightToLeftMark);
@@ -2054,11 +2054,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				// left wing
 				// put parantheses around +, -, *
-				append(sb, leftStr, left, DIVIDE, STRING_TYPE); 
+				append(sb, leftStr, left, Operation.DIVIDE, STRING_TYPE); 
 				sb.append(" / ");
 
 				// right wing
-				append(sb, rightStr, right, POWER, STRING_TYPE); // not +, -, *,
+				append(sb, rightStr, right, Operation.POWER, STRING_TYPE); // not +, -, *,
 																	// /
 			}
 			break;
@@ -2160,8 +2160,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				// left wing
 				if (leftStr.charAt(0) != '-' && // no unary
-						(left.isLeaf() || opID(left) > POWER
-								&& opID(left) != EXP)) { // not +, -, *, /, ^,
+						(left.isLeaf() || opID(left) > Operation.POWER.ordinal()
+								&& opID(left) != Operation.EXP.ordinal())) { // not +, -, *, /, ^,
 															// e^x
 					sb.append(leftStr);
 				} else {
@@ -2179,7 +2179,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				
 
 				// add brackets for eg a^b^c -> a^(b^c)
-				boolean addParentheses = (right.isExpressionNode() && ((ExpressionNode)right).getOperation() == POWER);
+				boolean addParentheses = (right.isExpressionNode() && ((ExpressionNode)right).getOperation().equals(Operation.POWER));
 				
 				sb.append('{');
 				if (addParentheses) sb.append(leftBracket(STRING_TYPE));
@@ -2200,7 +2200,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				break;
 
 			default:
-				if (right.isLeaf() || opID(right) > POWER && opID(right) != EXP) { // not
+				if (right.isLeaf() || opID(right) > Operation.POWER.ordinal() && opID(right) != Operation.EXP.ordinal()) { // not
 																					// +,
 																					// -,
 																					// *,
@@ -2302,7 +2302,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				
 			default:
 				if (leftStr.charAt(0) != '-' && // no unary
-						left.isLeaf() || opID(left) > POWER) { // not +, -, *, /, ^
+						left.isLeaf() || opID(left) > Operation.POWER.ordinal()) { // not +, -, *, /, ^
 					sb.append(leftStr);
 				} else {
 					sb.append(leftBracket(STRING_TYPE));
@@ -2744,7 +2744,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case STRING_TYPE_LATEX:
 				
 				// add brackets for eg e^b^c -> e^(b^c)
-				boolean addParentheses = (left.isExpressionNode() && ((ExpressionNode)left).getOperation() == POWER);
+				boolean addParentheses = (left.isExpressionNode() && ((ExpressionNode)left).getOperation().equals(Operation.POWER));
 				
 				sb.append("e^{");
 				if (addParentheses) sb.append(leftBracket(STRING_TYPE));
@@ -3609,11 +3609,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	static public int opID(ExpressionValue ev) {
 		if (ev.isExpressionNode()){
-			int op = ((ExpressionNode) ev).operation;
+			Operation op = ((ExpressionNode) ev).operation;
 			//input (x>y)==(x+y>3) must be kept
-			if(op == GREATER || op == LESS || op == LESS_EQUAL || op == GREATER_EQUAL)
-				return NOT_EQUAL-1;
-			return op;
+			if(op.equals(Operation.GREATER) || op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL) || op.equals(Operation.GREATER_EQUAL))
+				return Operation.NOT_EQUAL.ordinal() - 1;
+			return op.ordinal();
 		}
 		else
 			return -1;
@@ -3641,7 +3641,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (leaf)
 			return left.isTextValue();
 		else
-			return (operation == PLUS && (left.isTextValue() || right
+			return (operation.equals(Operation.PLUS) && (left.isTextValue() || right
 					.isTextValue()));
 	}
 
@@ -3777,17 +3777,17 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				.getCoefficient(fv);		
 		if (lc == null || rc == null)
 			return null;
-		if (this.operation == PLUS && lc != null && rc != null) {
+		if (this.operation.equals(Operation.PLUS) && lc != null && rc != null) {
 			return lc + rc;
-		} else if (this.operation == MINUS) {
+		} else if (this.operation.equals(Operation.MINUS)) {
 			return lc - rc;
-		} else if (this.operation == MULTIPLY
+		} else if (this.operation.equals(Operation.MULTIPLY)
 				&& !getRightTree().containsObjectType(fv.getClass())) {
 			return lc * ((NumberValue) getRightTree().evaluate()).getDouble();
-		} else if (this.operation == MULTIPLY
+		} else if (this.operation.equals(Operation.MULTIPLY)
 				&& !getLeftTree().containsObjectType(fv.getClass())) {
 			return rc * ((NumberValue) getLeftTree().evaluate()).getDouble();
-		} else if (this.operation == DIVIDE
+		} else if (this.operation.equals(Operation.DIVIDE)
 				&& !getRightTree().containsObjectType(fv.getClass())) {
 			return lc / ((NumberValue) getRightTree().evaluate()).getDouble();
 		} else if ((left.contains(fv) || right.contains(fv)))
@@ -3801,8 +3801,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * dictates
 	 */
 	private void append(StringBuilder sb, String str, ExpressionValue ev,
-			int op, int STRING_TYPE) {
-		if (ev.isLeaf() || opID(ev) >= op) {
+			Operation op, int STRING_TYPE) {
+		if (ev.isLeaf() || opID(ev) >= op.ordinal()) {
 			sb.append(str);
 		} else {
 			sb.append(leftBracket(STRING_TYPE));
@@ -3839,34 +3839,34 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 	
 	public ExpressionNode plus(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,ExpressionNode.PLUS,v2);
+		return new ExpressionNode(kernel,this,Operation.PLUS,v2);
 	}
 	public ExpressionNode multiply(ExpressionValue v2){
-		return new ExpressionNode(kernel,v2,ExpressionNode.MULTIPLY,this);
+		return new ExpressionNode(kernel,v2,Operation.MULTIPLY,this);
 	}
 	public ExpressionNode power(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,ExpressionNode.POWER,v2);
+		return new ExpressionNode(kernel,this,Operation.POWER,v2);
 	}
 	public ExpressionNode divide(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,ExpressionNode.DIVIDE,v2);
+		return new ExpressionNode(kernel,this,Operation.DIVIDE,v2);
 	}
 	public ExpressionNode and(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,ExpressionNode.AND,v2);
+		return new ExpressionNode(kernel,this,Operation.AND,v2);
 	}
 	public ExpressionNode negation(){
-		if(operation==GREATER)
-			return new ExpressionNode(kernel,left,LESS_EQUAL,right);
-		if(operation==GREATER_EQUAL)
-			return new ExpressionNode(kernel,left,LESS,right);
-		if(operation==LESS)
-			return new ExpressionNode(kernel,left,GREATER_EQUAL,right);
-		if(operation==LESS_EQUAL)
-			return new ExpressionNode(kernel,left,GREATER,right);
-		if(operation==EQUAL_BOOLEAN)
-			return new ExpressionNode(kernel,left,NOT_EQUAL,right);
-		if(operation==NOT_EQUAL)
-			return new ExpressionNode(kernel,left,EQUAL_BOOLEAN,right);		
-		return new ExpressionNode(kernel,this,ExpressionNode.NOT,null);
+		if(operation.equals(Operation.GREATER.ordinal()))
+			return new ExpressionNode(kernel,left,Operation.LESS_EQUAL,right);
+		if(operation.equals(Operation.GREATER_EQUAL.ordinal()))
+			return new ExpressionNode(kernel,left,Operation.LESS,right);
+		if(operation.equals(Operation.LESS.ordinal()))
+			return new ExpressionNode(kernel,left,Operation.GREATER_EQUAL,right);
+		if(operation.equals(Operation.LESS_EQUAL.ordinal()))
+			return new ExpressionNode(kernel,left,Operation.GREATER,right);
+		if(operation.equals(Operation.EQUAL_BOOLEAN.ordinal()))
+			return new ExpressionNode(kernel,left,Operation.NOT_EQUAL,right);
+		if(operation.equals(Operation.NOT_EQUAL.ordinal()))
+			return new ExpressionNode(kernel,left,Operation.EQUAL_BOOLEAN,right);		
+		return new ExpressionNode(kernel,this,Operation.NOT,null);
 	}
 
 	public double getDegree(FunctionVariable fv) {
@@ -3878,14 +3878,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			return 0.0;
 
 		}
-		if(operation == POWER && left == fv){
+		if(operation.equals(Operation.POWER) && left == fv){
 			ExpressionValue rt = right.evaluate();
 			if(rt.isNumberValue())
 				return ((NumberValue)rt).getDouble();
 		}
-		if(operation == MULTIPLY)
+		if(operation.equals(Operation.MULTIPLY))
 			return getLeftTree().getDegree(fv)+getRightTree().getDegree(fv);
-		if(operation == PLUS || operation == MINUS)
+		if(operation.equals(Operation.PLUS) || operation.equals(Operation.MINUS))
 			return Math.max(getLeftTree().getDegree(fv),getRightTree().getDegree(fv));
 		return 0;
 		

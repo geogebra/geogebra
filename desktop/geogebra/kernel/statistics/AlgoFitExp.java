@@ -15,6 +15,7 @@ package geogebra.kernel.statistics;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -86,12 +87,12 @@ public class AlgoFitExp extends AlgoElement {
 				// 24.04.08: not: MyDouble E=new MyDouble(kernel,Math.E);
 				FunctionVariable X = new FunctionVariable(kernel);
 				ExpressionValue expr = new ExpressionNode(kernel, B,
-						ExpressionNode.MULTIPLY, X);
-				expr = new ExpressionNode(kernel, expr, ExpressionNode.EXP,
+						Operation.MULTIPLY, X);
+				expr = new ExpressionNode(kernel, expr, Operation.EXP,
 						null); // 24.04.08: changed 2.71..to "e" with the null
 								// trick!
 				ExpressionNode node = new ExpressionNode(kernel, A,
-						ExpressionNode.MULTIPLY, expr);
+						Operation.MULTIPLY, expr);
 				Function f = new Function(node, X);
 				geofunction.setFunction(f);
 				geofunction.setDefined(true);

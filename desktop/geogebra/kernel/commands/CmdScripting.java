@@ -1,9 +1,5 @@
 package geogebra.kernel.commands;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -14,6 +10,7 @@ import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
@@ -30,6 +27,10 @@ import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 import geogebra.main.MyError;
 import geogebra.sound.SoundManager;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class CmdScripting extends CommandProcessor{
 
@@ -1248,7 +1249,7 @@ class CmdSetValue extends CmdScripting {
 				if (val >= 0 && val <= 1) {
 					AlgoDependentNumber al = (AlgoDependentNumber)arg[0].getParentAlgorithm();
 					ExpressionNode en = al.getExpression();
-					if (en.getOperation() == ExpressionNode.RANDOM) {
+					if (en.getOperation().equals(Operation.RANDOM)) {
 						GeoNumeric num = ((GeoNumeric)al.getOutput()[0]);
 						num.setValue(val);
 						num.updateRepaint();

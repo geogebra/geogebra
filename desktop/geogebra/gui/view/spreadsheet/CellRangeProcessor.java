@@ -7,6 +7,7 @@ import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -375,7 +376,7 @@ public class CellRangeProcessor {
 					} else {
 					
 						MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
-						ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+						ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 						point.setForcePoint();
 	
 						pointAlgo = new AlgoDependentPoint(cons, point, false);
@@ -416,7 +417,7 @@ public class CellRangeProcessor {
 					} else {
 					
 						MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
-						ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+						ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 						point.setForcePoint();
 	
 						pointAlgo = new AlgoDependentPoint(cons, point, false);

@@ -14,6 +14,7 @@ import geogebra.kernel.algos.AlgoConicFivePoints;
 import geogebra.kernel.algos.AlgoEllipseFociLength;
 import geogebra.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -3070,18 +3071,18 @@ Translateable
 		double min=0,max=0;
 		if(type == CONIC_CIRCLE){
 			evX = new ExpressionNode(kernel, 
-					new ExpressionNode(kernel,fv,ExpressionNode.COS,null),
-					ExpressionNode.MULTIPLY,
+					new ExpressionNode(kernel,fv,Operation.COS,null),
+					Operation.MULTIPLY,
 					new MyDouble(kernel,halfAxes[0]));
 			evY = new ExpressionNode(kernel, 
-					new ExpressionNode(kernel,fv,ExpressionNode.SIN,null),
-					ExpressionNode.MULTIPLY,
+					new ExpressionNode(kernel,fv,Operation.SIN,null),
+					Operation.MULTIPLY,
 					new MyDouble(kernel,halfAxes[1]));
 			ExpressionNode rwX = new ExpressionNode(kernel, evX,
-					ExpressionNode.PLUS,
+					Operation.PLUS,
 					new MyDouble(kernel,b.x));
 			ExpressionNode rwY = new ExpressionNode(kernel,evY,
-					ExpressionNode.PLUS,
+					Operation.PLUS,
 					new MyDouble(kernel,b.y));
 			curve.setFunctionX(new Function(rwX,fv));
 			curve.setFunctionY(new Function(rwY,fv));
@@ -3091,12 +3092,12 @@ Translateable
 		}
 		if(type == CONIC_ELLIPSE){
 			evX = new ExpressionNode(kernel, 
-					new ExpressionNode(kernel,fv,ExpressionNode.COS,null),
-					ExpressionNode.MULTIPLY,
+					new ExpressionNode(kernel,fv,Operation.COS,null),
+					Operation.MULTIPLY,
 					new MyDouble(kernel,halfAxes[0]));
 			evY = new ExpressionNode(kernel, 
-					new ExpressionNode(kernel,fv,ExpressionNode.SIN,null),
-					ExpressionNode.MULTIPLY,
+					new ExpressionNode(kernel,fv,Operation.SIN,null),
+					Operation.MULTIPLY,
 					new MyDouble(kernel,halfAxes[1]));
 			min = 0;
 			max = 2*Math.PI;
@@ -3104,37 +3105,37 @@ Translateable
 		}
 		else if(type == CONIC_HYPERBOLA){
 			evX = new ExpressionNode(kernel, 
-					new ExpressionNode(kernel,fv,ExpressionNode.COSH,null),
-					ExpressionNode.MULTIPLY,
+					new ExpressionNode(kernel,fv,Operation.COSH,null),
+					Operation.MULTIPLY,
 					new MyDouble(kernel,halfAxes[0]));
 			evY = new ExpressionNode(kernel, 
-					new ExpressionNode(kernel,fv,ExpressionNode.SINH,null),
-					ExpressionNode.MULTIPLY,
+					new ExpressionNode(kernel,fv,Operation.SINH,null),
+					Operation.MULTIPLY,
 					new MyDouble(kernel,halfAxes[1]));
 			min = -2*Math.PI;
 			max = 2*Math.PI;
 		}
 		else if(type == CONIC_PARABOLA){
-			evY = new ExpressionNode(kernel,new ExpressionNode(kernel, fv),ExpressionNode.MULTIPLY,new MyDouble(kernel,Math.sqrt(2*p)));
+			evY = new ExpressionNode(kernel,new ExpressionNode(kernel, fv),Operation.MULTIPLY,new MyDouble(kernel,Math.sqrt(2*p)));
 			evX = new ExpressionNode(kernel, 
 					fv,
-					ExpressionNode.MULTIPLY,
+					Operation.MULTIPLY,
 					fv);
 			min = app.getEuclidianView().getXminForFunctions();
 			max = app.getEuclidianView().getXmaxForFunctions();
 			}
 		else return;
 		ExpressionNode rwX = new ExpressionNode(kernel,new ExpressionNode(kernel, 
-				new ExpressionNode(kernel,evX,ExpressionNode.MULTIPLY,new MyDouble(kernel,eigenvec[0].x)),
-				ExpressionNode.PLUS,
-				new ExpressionNode(kernel,evY,ExpressionNode.MULTIPLY,new MyDouble(kernel,eigenvec[0].y))),
-				ExpressionNode.PLUS,
+				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].x)),
+				Operation.PLUS,
+				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].y))),
+				Operation.PLUS,
 				new MyDouble(kernel,b.x));
 		ExpressionNode rwY = new ExpressionNode(kernel,new ExpressionNode(kernel, 
-				new ExpressionNode(kernel,evX,ExpressionNode.MULTIPLY,new MyDouble(kernel,eigenvec[0].y)),
-				ExpressionNode.PLUS,
-				new ExpressionNode(kernel,evY,ExpressionNode.MULTIPLY,new MyDouble(kernel,-eigenvec[0].x))),
-				ExpressionNode.PLUS,
+				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].y)),
+				Operation.PLUS,
+				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,-eigenvec[0].x))),
+				Operation.PLUS,
 				new MyDouble(kernel,b.y));
 		curve.setFunctionX(new Function(rwX,fv));
 		curve.setFunctionY(new Function(rwY,fv));

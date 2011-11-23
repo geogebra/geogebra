@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D.arithmetic;
 
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.arithmetic.ExpressionValue;
@@ -9,9 +8,7 @@ import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.main.Application;
 import geogebra3D.kernel3D.Geo3DVec;
-import geogebra3D.kernel3D.GeoVector3D;
 
 
 /**
@@ -33,7 +30,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		boolean leaf = expressionNode.leaf; 
 		ExpressionValue left = expressionNode.left; 
 		ExpressionValue right = expressionNode.right; 
-		int operation = expressionNode.operation;
+		Operation operation = expressionNode.operation;
 		//Application app = expressionNode.app;
 		//boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
     	

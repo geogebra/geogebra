@@ -24,6 +24,7 @@ import geogebra.kernel.VarString;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -983,7 +984,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     	ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
        	ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);    
        	
-    	ExpressionNode sum = new ExpressionNode(fun1.getKernel(), left.replaceAndWrap(x1,x), ExpressionNode.PLUS, right.replaceAndWrap(x2,x));
+    	ExpressionNode sum = new ExpressionNode(fun1.getKernel(), left.replaceAndWrap(x1,x), Operation.PLUS, right.replaceAndWrap(x2,x));
     	
     	Function f = new Function(sum,x);
     	
@@ -999,7 +1000,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @param rt
 	 * @return resulting GeoFunction or GeFunctionNvar
 	 */
-	public static FunctionNVar operationSymb(int op, FunctionalNVar lt , FunctionalNVar rt) {
+	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt , FunctionalNVar rt) {
 		Kernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for(int i=0;i<lt.getFunction().getVarNumber();i++)
@@ -1049,14 +1050,14 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			HashMap<String, FunctionVariable> varMap,Kernel kernel) {
 		if(lt instanceof GeoFunction)
 			return new ExpressionNode(kernel,(GeoFunction)lt,
-					ExpressionNode.FUNCTION,varMap.get(lt.getVarString()));
+					Operation.FUNCTION,varMap.get(lt.getVarString()));
 		if(lt instanceof GeoFunctionNVar){
 			MyList varList = new MyList(kernel);
 			for(int i=0;i<lt.getFunction().getVarNumber();i++){
 				varList.addListElement(varMap.get(lt.getFunction().getVarString(i)));
 			}
 			return new ExpressionNode(kernel,(GeoFunctionNVar)lt,
-					ExpressionNode.FUNCTION_NVAR,varList);
+					Operation.FUNCTION_NVAR,varList);
 		}
 		if(lt instanceof FunctionNVar){
 			ExpressionNode ret =((FunctionNVar)lt).getExpression();
@@ -1076,7 +1077,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @param right f op nv for true, nv op f for false
 	 * @return resulting function
 	 */
-	public static FunctionNVar applyNumberSymb(int op, FunctionalNVar fun1, ExpressionValue nv,boolean right) {
+	public static FunctionNVar applyNumberSymb(Operation op, FunctionalNVar fun1, ExpressionValue nv,boolean right) {
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for(int i=0;i<fun1.getFunction().getVarNumber();i++)
@@ -1126,7 +1127,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     	ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
        	ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);    
        	
-    	ExpressionNode sum = new ExpressionNode(fun1.getKernel(), left.replaceAndWrap(x1,x), ExpressionNode.MINUS, right.replaceAndWrap(x2,x));
+    	ExpressionNode sum = new ExpressionNode(fun1.getKernel(), left.replaceAndWrap(x1,x), Operation.MINUS, right.replaceAndWrap(x2,x));
     	
     	Function f = new Function(sum,x);
     	
@@ -1159,7 +1160,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     	ExpressionNode left = new ExpressionNode(kernel,num);
        	ExpressionNode right = fun.getFunctionExpression().getCopy(kernel);    
        	
-    	ExpressionNode product = new ExpressionNode(kernel,left, ExpressionNode.MULTIPLY, right.replaceAndWrap(xold,x));
+    	ExpressionNode product = new ExpressionNode(kernel,left, Operation.MULTIPLY, right.replaceAndWrap(xold,x));
     	
     	Function f = new Function(product,x);
     	
@@ -1588,15 +1589,15 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		FunctionVariable oldX = fun.getFunctionVariable();
 		ExpressionNode newX= new ExpressionNode(kernel,
 				new MyDouble(kernel,1/rd),
-				ExpressionNode.MULTIPLY,
-				new ExpressionNode(kernel,oldX,ExpressionNode.PLUS,new MyDouble(kernel,a*rd-a)));
+				Operation.MULTIPLY,
+				new ExpressionNode(kernel,oldX,Operation.PLUS,new MyDouble(kernel,a*rd-a)));
 		ExpressionNode oldY = fun.getExpression().replaceAndWrap(oldX, newX);
 		if(!isBooleanFunction()){
 			
 		
 		fun.setExpression(new ExpressionNode(kernel,
-				new ExpressionNode(kernel,oldY,ExpressionNode.MULTIPLY,r),
-				ExpressionNode.PLUS,
+				new ExpressionNode(kernel,oldY,Operation.MULTIPLY,r),
+				Operation.PLUS,
 				new MyDouble(kernel,-b*rd+b)));
 		}else
 			fun.setExpression(oldY);

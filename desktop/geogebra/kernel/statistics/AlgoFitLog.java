@@ -16,6 +16,7 @@ the Free Software Foundation.
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -80,9 +81,9 @@ public class AlgoFitLog extends AlgoElement{
                 MyDouble A=new MyDouble(kernel,a);
                 MyDouble B=new MyDouble(kernel,b);
                 FunctionVariable X=new FunctionVariable(kernel);
-                ExpressionValue expr=new ExpressionNode(kernel,X,ExpressionNode.LOG,X);
-                expr=new ExpressionNode(kernel,B,ExpressionNode.MULTIPLY,expr);
-                ExpressionNode node=new ExpressionNode(kernel,A,ExpressionNode.PLUS,expr);
+                ExpressionValue expr=new ExpressionNode(kernel,X,Operation.LOG,X);
+                expr=new ExpressionNode(kernel,B,Operation.MULTIPLY,expr);
+                ExpressionNode node=new ExpressionNode(kernel,A,Operation.PLUS,expr);
                 Function f=new Function(node,X);
                 geofunction.setFunction(f); 
                 geofunction.setDefined(true);

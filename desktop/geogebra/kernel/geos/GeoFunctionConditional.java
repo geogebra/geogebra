@@ -16,6 +16,7 @@ import geogebra.cas.CASgeneric;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -237,14 +238,14 @@ public class GeoFunctionConditional extends GeoFunction {
 	public Function getFunction() {
 		if (uncondFun == null) {
 			ExpressionNode en = new ExpressionNode(kernel, condFun
-					.getFunctionExpression(), ExpressionNode.MULTIPLY, ifFun
+					.getFunctionExpression(), Operation.MULTIPLY, ifFun
 					.getFunctionExpression());
 			if (elseFun != null)
-				en = new ExpressionNode(kernel, en, ExpressionNode.PLUS,
+				en = new ExpressionNode(kernel, en, Operation.PLUS,
 						new ExpressionNode(kernel, new ExpressionNode(kernel,
 								condFun.getFunctionExpression(),
-								ExpressionNode.NOT, null),
-								ExpressionNode.MULTIPLY, elseFun
+								Operation.NOT, null),
+								Operation.MULTIPLY, elseFun
 										.getFunctionExpression()));
 			ExpressionNode en2 = en.getCopy(kernel);
 			en2.replaceAndWrap(condFun.getFunction().getFunctionVariable(), ifFun
@@ -521,7 +522,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		private ExpressionNode condition;
 		
 		public Bounds addRestriction(ExpressionNode e){
-			if(e.getOperation()==ExpressionNode.AND){
+			if(e.getOperation().equals(Operation.AND)){
 				return addRestriction(e.getLeftTree()).addRestriction(e.getRightTree());
 			}
 			Bounds b = new Bounds();
@@ -530,32 +531,32 @@ public class GeoFunctionConditional extends GeoFunction {
 			b.lowerSharp = lowerSharp;
 			b.upperSharp = upperSharp;
 			b.condition = condition;
-			boolean simple = e.getOperation()==ExpressionNode.GREATER||
-			e.getOperation()==ExpressionNode.GREATER_EQUAL||
-			e.getOperation()==ExpressionNode.LESS||
-			e.getOperation()==ExpressionNode.LESS_EQUAL||
-			e.getOperation()==ExpressionNode.EQUAL_BOOLEAN;
+			boolean simple = e.getOperation()==Operation.GREATER||
+			e.getOperation()==Operation.GREATER_EQUAL||
+			e.getOperation()==Operation.LESS||
+			e.getOperation()==Operation.LESS_EQUAL||
+			e.getOperation()==Operation.EQUAL_BOOLEAN;
 						
 			if(simple && e.getLeft() instanceof FunctionVariable && e.getRight() instanceof MyDouble){
 				double d = ((MyDouble)e.getRight()).getDouble();				
-				if(e.getOperation()==ExpressionNode.GREATER && (lower == null || lower<=d))//x > d
+				if(e.getOperation()==Operation.GREATER && (lower == null || lower<=d))//x > d
 					{b.lower = d; b.lowerSharp = true;}
-				else if((e.getOperation()==ExpressionNode.GREATER_EQUAL || e.getOperation()==ExpressionNode.EQUAL_BOOLEAN)&& (lower == null || lower<d))//x > d
+				else if((e.getOperation()==Operation.GREATER_EQUAL || e.getOperation()==Operation.EQUAL_BOOLEAN)&& (lower == null || lower<d))//x > d
 					{b.lower = d; b.lowerSharp = false;}
-				else if(e.getOperation()==ExpressionNode.LESS && (upper == null || upper>=d))//x > d
+				else if(e.getOperation()==Operation.LESS && (upper == null || upper>=d))//x > d
 					{b.upper = d; b.upperSharp = true;}
-				if((e.getOperation()==ExpressionNode.LESS_EQUAL|| e.getOperation()==ExpressionNode.EQUAL_BOOLEAN) && (upper == null || upper>d))//x > d
+				if((e.getOperation()==Operation.LESS_EQUAL|| e.getOperation()==Operation.EQUAL_BOOLEAN) && (upper == null || upper>d))//x > d
 					{b.upper = d; b.upperSharp = false;}
 			}
 			else if(simple && e.getRight() instanceof FunctionVariable && e.getLeft() instanceof MyDouble){
 				double d = ((MyDouble)e.getLeft()).getDouble();
-				if(e.getOperation()==ExpressionNode.LESS && (lower == null || lower<=d))//x > d
+				if(e.getOperation()==Operation.LESS && (lower == null || lower<=d))//x > d
 					{b.lower = d; b.lowerSharp = true;}
-				else if((e.getOperation()==ExpressionNode.LESS_EQUAL || e.getOperation()==ExpressionNode.EQUAL_BOOLEAN) && (lower == null || lower<d))//x > d
+				else if((e.getOperation()==Operation.LESS_EQUAL || e.getOperation()==Operation.EQUAL_BOOLEAN) && (lower == null || lower<d))//x > d
 					{b.lower = d; b.lowerSharp = false;}
-				else if(e.getOperation()==ExpressionNode.GREATER && (upper == null || upper>=d))//x > d
+				else if(e.getOperation()==Operation.GREATER && (upper == null || upper>=d))//x > d
 					{b.upper = d; b.upperSharp = true;}
-				if((e.getOperation()==ExpressionNode.GREATER_EQUAL|| e.getOperation()==ExpressionNode.EQUAL_BOOLEAN) && (upper == null || upper>d))//x > d
+				if((e.getOperation()==Operation.GREATER_EQUAL|| e.getOperation()==Operation.EQUAL_BOOLEAN) && (upper == null || upper>d))//x > d
 					{b.upper = d; b.upperSharp = false;}
 			}else{
 				if(condition==null)
@@ -587,7 +588,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
 		FunctionVariable t = new FunctionVariable(kernel,"t");
-		ExpressionNode en = new ExpressionNode(kernel,this,ExpressionNode.FUNCTION,t);
+		ExpressionNode en = new ExpressionNode(kernel,this,Operation.FUNCTION,t);
 		Function fn = new Function(en,t);
 		curve.setFunctionY(fn);
 		Function varFun = new Function(new ExpressionNode(kernel,t),t);

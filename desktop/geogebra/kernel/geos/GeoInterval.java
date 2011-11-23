@@ -3,6 +3,7 @@ package geogebra.kernel.geos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -120,7 +121,7 @@ public class GeoInterval extends GeoFunction {
 		//return "3 < x < 5";//fun.toValueString();
 
 		ExpressionNode en = fun.getExpression();
-		if (en.operation == ExpressionNode.AND) {
+		if (en.operation.equals(Operation.AND)) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
 
@@ -172,61 +173,61 @@ public class GeoInterval extends GeoFunction {
 
 	private void updateBoundaries() {
 		ExpressionNode en = fun.getExpression();
-		if (en.operation == ExpressionNode.AND) {
+		if (en.operation.equals(Operation.AND)) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
 			ExpressionNode enLeft = (ExpressionNode)left;
 			ExpressionNode enRight = (ExpressionNode)right;
 
-			int opLeft = enLeft.operation;
-			int opRight = enRight.operation;
+			Operation opLeft = enLeft.operation;
+			Operation opRight = enRight.operation;
 
 			ExpressionValue leftLeft = enLeft.left;
 			ExpressionValue leftRight = enLeft.right;
 			ExpressionValue rightLeft = enRight.left;
 			ExpressionValue rightRight = enRight.right;
 
-			if ((opLeft == ExpressionNode.LESS || opLeft == ExpressionNode.LESS_EQUAL)) {
+			if ((opLeft.equals(Operation.LESS) || opLeft.equals(Operation.LESS_EQUAL))) {
 				if (leftLeft instanceof FunctionVariable && leftRight.isNumberValue()) {
-					rightInequality = opLeft == ExpressionNode.LESS ? '<' : Unicode.LESS_EQUAL;
+					rightInequality = opLeft.equals(Operation.LESS) ? '<' : Unicode.LESS_EQUAL;
 					setRightBound(leftRight);
 				}
 				else if (leftRight instanceof FunctionVariable && leftLeft.isNumberValue()) {
-					leftInequality = opLeft == ExpressionNode.LESS ? '<' : Unicode.LESS_EQUAL;
+					leftInequality = opLeft.equals(Operation.LESS) ? '<' : Unicode.LESS_EQUAL;
 					setLeftBound(leftLeft);					
 				}
 
 			} else
-				if ((opLeft == ExpressionNode.GREATER || opLeft == ExpressionNode.GREATER_EQUAL)) {
+				if ((opLeft.equals(Operation.GREATER) || opLeft.equals(Operation.GREATER_EQUAL))) {
 					if (leftLeft instanceof FunctionVariable && leftRight.isNumberValue()) {
-						leftInequality = opLeft == ExpressionNode.GREATER ? '<' : Unicode.LESS_EQUAL;
+						leftInequality = opLeft.equals(Operation.GREATER) ? '<' : Unicode.LESS_EQUAL;
 						setLeftBound(leftRight);
 					}
 					else if (leftRight instanceof FunctionVariable && leftLeft.isNumberValue()) {
-						rightInequality = opLeft == ExpressionNode.GREATER ? '<' : Unicode.LESS_EQUAL;
+						rightInequality = opLeft.equals(Operation.GREATER) ? '<' : Unicode.LESS_EQUAL;
 						setRightBound(leftLeft);
 					}
 
 				}
 
-			if ((opRight == ExpressionNode.LESS || opRight == ExpressionNode.LESS_EQUAL)) {
+			if ((opRight.equals(Operation.LESS) || opRight.equals(Operation.LESS_EQUAL))) {
 				if (rightLeft instanceof FunctionVariable && rightRight.isNumberValue()) {
-					rightInequality = opRight == ExpressionNode.LESS ? '<' : Unicode.LESS_EQUAL;
+					rightInequality = opRight.equals(Operation.LESS) ? '<' : Unicode.LESS_EQUAL;
 					setRightBound(rightRight);
 				}
 				else if (rightRight instanceof FunctionVariable && rightLeft.isNumberValue()) {
-					leftInequality = opRight == ExpressionNode.LESS ? '<' : Unicode.LESS_EQUAL;
+					leftInequality = opRight.equals(Operation.LESS) ? '<' : Unicode.LESS_EQUAL;
 					setLeftBound(rightLeft);
 				}
 
 			} else
-				if ((opRight == ExpressionNode.GREATER || opRight == ExpressionNode.GREATER_EQUAL)) {
+				if ((opRight.equals(Operation.GREATER) || opRight.equals(Operation.GREATER_EQUAL))) {
 					if (rightLeft instanceof FunctionVariable && rightRight.isNumberValue()) {
-						leftInequality = opRight == ExpressionNode.GREATER ? '<' : Unicode.LESS_EQUAL;
+						leftInequality = opRight.equals(Operation.GREATER) ? '<' : Unicode.LESS_EQUAL;
 						setLeftBound(rightRight);
 					}
 					else if (rightRight instanceof FunctionVariable && rightLeft.isNumberValue()) {
-						rightInequality = opRight == ExpressionNode.GREATER ? '<' : Unicode.LESS_EQUAL;
+						rightInequality = opRight.equals(Operation.GREATER) ? '<' : Unicode.LESS_EQUAL;
 						setRightBound(rightLeft);
 					}
 

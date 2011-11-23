@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -156,7 +157,7 @@ public class AlgoDependentFunction extends AlgoElement {
             ExpressionValue leftValue = node.getLeft();
             
             switch (node.getOperation()) {
-                case ExpressionNode.FUNCTION:                                   
+                case FUNCTION:                                   
                     // could be DERIVATIVE node
                     if (leftValue.isExpressionNode()) {
                     	leftValue = expandFunctionDerivativeNodes(leftValue);
@@ -178,7 +179,7 @@ public class AlgoDependentFunction extends AlgoElement {
                 	return funcExpression.replaceAndWrap(x, 
                                     expandFunctionDerivativeNodes(node.getRight()));                    
             
-                case ExpressionNode.DERIVATIVE:                		
+                case DERIVATIVE:                		
                 	// don't expand derivative of GeoFunctionConditional 
                     if (leftValue.isGeoElement() &&
                     	((GeoElement)leftValue).isGeoFunctionConditional()) {
@@ -191,9 +192,9 @@ public class AlgoDependentFunction extends AlgoElement {
                     }
                 
                 // remove spreadsheet $ references, i.e. $A1 -> A1 
-                case ExpressionNode.$VAR_ROW:
-				case ExpressionNode.$VAR_COL:
-				case ExpressionNode.$VAR_ROW_COL:				
+                case $VAR_ROW:
+				case $VAR_COL:
+				case $VAR_ROW_COL:				
 					return leftValue;
                     
                 default: // recursive calls
@@ -208,9 +209,9 @@ public class AlgoDependentFunction extends AlgoElement {
     public static boolean containsFunctions(ExpressionValue ev) {
         if (ev != null && ev.isExpressionNode()) {
             ExpressionNode node = (ExpressionNode) ev;
-            int op = node.getOperation();
-            if (op == ExpressionNode.FUNCTION || 
-                op == ExpressionNode.DERIVATIVE)
+            Operation op = node.getOperation();
+            if (op.equals(Operation.FUNCTION) || 
+                op.equals(Operation.DERIVATIVE))
                 return true;
 			else
 				return containsFunctions(node.getLeft()) || 
@@ -256,7 +257,7 @@ public class AlgoDependentFunction extends AlgoElement {
         ExpressionValue ev = fun.getExpression().getLeft();
         if (ev.isExpressionNode()) {
         	ExpressionNode enL = (ExpressionNode)(fun.getExpression().getLeft());
-        	if (enL.getOperation() == ExpressionNode.DERIVATIVE) {
+        	if (enL.getOperation().equals(Operation.DERIVATIVE)) {
 	        	if (enL.getLeft().isGeoElement()) {
 	
 	        	  GeoElement geo = (GeoElement)enL.getLeft();

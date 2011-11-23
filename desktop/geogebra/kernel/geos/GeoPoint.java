@@ -38,6 +38,7 @@ import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -437,7 +438,7 @@ GeoPointND, Animatable, Transformable  {
 		
 		// expression + expression
 		ExpressionNode en = (ExpressionNode) ev;
-		if (en.getOperation() == ExpressionNode.PLUS && en.getLeft() instanceof GeoNumeric) {		
+		if (en.getOperation().equals(Operation.PLUS) && en.getLeft() instanceof GeoNumeric) {		
 			
 			// left branch needs to be a single number variable: get it
 			// e.g. a + x(D)

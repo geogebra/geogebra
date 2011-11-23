@@ -278,7 +278,10 @@ public class DrawAngle extends Drawable implements Previewable {
 			m = GeoVec3D.cross(line, line2).get();	
 			m[0] = m[0] / m[2];
 			m[1] = m[1] / m[2];
-
+			
+			m[0] = m[0] / m[2];
+			m[1] = m[1] / m[2];
+			
 			// first vec
 			line.getDirection(firstVec);
 			break;

@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.arithmetic.FunctionalNVar;
@@ -27,7 +27,7 @@ public class DrawInequality extends Drawable {
 	private boolean labelVisible;
 
 	private Drawable drawable;
-	private int operation = 0;
+	private Operation operation = Operation.NO_OPERATION;
 	private DrawInequality left, right;
 	private Inequality ineq;
 	private FunctionalNVar function;
@@ -172,20 +172,20 @@ public class DrawInequality extends Drawable {
 	}
 
 	private void updateShape() {
-		if (operation == ExpressionNode.AND) {			
+		if (operation.equals(Operation.AND)) {			
 			setShape(left.getShape());
 			getShape().intersect(right.getShape());
-		} else if (operation == ExpressionNode.OR) {
+		} else if (operation.equals(Operation.OR)) {
 			setShape(left.getShape());
 			getShape().add(right.getShape());
-		} else if (operation == ExpressionNode.EQUAL_BOOLEAN) {
+		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
 			setShape(new Area(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
-		} else if (operation == ExpressionNode.NOT_EQUAL) {
+		} else if (operation.equals(Operation.NOT_EQUAL)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
-		} else if (operation == ExpressionNode.NOT) {
+		} else if (operation.equals(Operation.NOT)) {
 			setShape(new Area(view.getBoundingPath()));
 			getShape().subtract(left.getShape());
 		}		
@@ -225,7 +225,7 @@ public class DrawInequality extends Drawable {
 	public void draw(Graphics2D g2) {
 		if (!isForceNoFill() && !isVisible)
 			return;
-		if (operation == ExpressionNode.NO_OPERATION) {
+		if (operation.equals(Operation.NO_OPERATION)) {
 			if (drawable != null) {
 				drawable.draw(g2);
 			}

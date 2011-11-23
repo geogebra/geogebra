@@ -2,12 +2,12 @@ package geogebra.kernel.parser.cashandlers;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.Variable;
-import geogebra.kernel.geos.GeoElement;
 
 /**
  * Handles special MPReduce commands to distinguish them from user defined functions
@@ -67,12 +67,12 @@ public class CommandDispatcherMPReduce {
 					// derivative of f gives f'
 					ExpressionNode derivative = new ExpressionNode(kernel,
 								new Variable(kernel, funLabel),	// function label "f"
-								ExpressionNode.DERIVATIVE, 
+								Operation.DERIVATIVE, 
 								new MyDouble(kernel, 1));
 					// function of given variable gives f'(t)
 					ret = new ExpressionNode(kernel, 
 							derivative, 
-							ExpressionNode.FUNCTION, 
+							Operation.FUNCTION, 
 							args.getListElement(1)); // Variable "t"
 					break;
 			}

@@ -22,6 +22,7 @@ import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.arithmetic.TextValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic.VectorValue;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoCasCell;
@@ -871,7 +872,7 @@ public class AlgebraProcessor {
 		// check for interval
 		
 		ExpressionNode en = fun.getExpression();
-		if (en.operation == ExpressionNodeConstants.AND) {
+		if (en.operation.equals(Operation.AND)) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
 			
@@ -879,8 +880,8 @@ public class AlgebraProcessor {
 				ExpressionNode enLeft = (ExpressionNode)left;
 				ExpressionNode enRight = (ExpressionNode)right;
 				
-				int opLeft = enLeft.operation;
-				int opRight = enRight.operation;
+				Operation opLeft = enLeft.operation;
+				Operation opRight = enRight.operation;
 				
 				ExpressionValue leftLeft = enLeft.left;
 				ExpressionValue leftRight = enLeft.right;
@@ -892,23 +893,23 @@ public class AlgebraProcessor {
 				int rightDir = 0;
 				
 	
-				if ((opLeft == ExpressionNodeConstants.LESS || opLeft == ExpressionNodeConstants.LESS_EQUAL)) {
+				if ((opLeft.equals(Operation.LESS) || opLeft.equals(Operation.LESS_EQUAL))) {
 					if (leftLeft instanceof FunctionVariable && leftRight.isNumberValue()) leftDir = -1;
 					else if (leftRight instanceof FunctionVariable && leftLeft.isNumberValue()) leftDir = +1;
 					
 				} else
-				if ((opLeft == ExpressionNodeConstants.GREATER || opLeft == ExpressionNodeConstants.GREATER_EQUAL)) {
+				if ((opLeft.equals(Operation.GREATER) || opLeft.equals(Operation.GREATER_EQUAL))) {
 					if (leftLeft instanceof FunctionVariable && leftRight.isNumberValue()) leftDir = +1;
 					else if (leftRight instanceof FunctionVariable && leftLeft.isNumberValue()) leftDir = -1;
 					
 				}
 				
-				if ((opRight == ExpressionNodeConstants.LESS || opRight == ExpressionNodeConstants.LESS_EQUAL)) {
+				if ((opRight.equals(Operation.LESS) || opRight.equals(Operation.LESS_EQUAL))) {
 					if (rightLeft instanceof FunctionVariable && rightRight.isNumberValue()) rightDir = -1;
 					else if (rightRight instanceof FunctionVariable && rightLeft.isNumberValue()) rightDir = +1;
 					
 				} else
-				if ((opRight == ExpressionNodeConstants.GREATER || opRight == ExpressionNodeConstants.GREATER_EQUAL)) {
+				if ((opRight.equals(Operation.GREATER) || opRight.equals(Operation.GREATER_EQUAL))) {
 					if (rightLeft instanceof FunctionVariable && rightRight.isNumberValue()) rightDir = +1;
 					else if (rightRight instanceof FunctionVariable && rightLeft.isNumberValue()) rightDir = -1;
 					
@@ -940,7 +941,7 @@ public class AlgebraProcessor {
 			//Application.debug(left.getClass()+"");
 			//Application.debug(right.getClass()+"");
 			//Application.debug("");
-		} else if (en.operation == ExpressionNodeConstants.FUNCTION) {
+		} else if (en.operation.equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
 			if (left.isLeaf() && left.isGeoElement() &&
@@ -1227,14 +1228,14 @@ public class AlgebraProcessor {
 		ExpressionNode myNode = n;
 		if (myNode.isLeaf()) myNode = myNode.getLeftTree();
 		// leaf (no new label specified): just return the existing GeoElement
-		if (eval.isGeoElement() &&  n.getLabel() == null && !(n.operation == ExpressionNode.ELEMENT_OF)) 
+		if (eval.isGeoElement() &&  n.getLabel() == null && !(n.operation.equals(Operation.ELEMENT_OF))) 
 		{
 			// take care of spreadsheet $ names: don't loose the wrapper ExpressionNode here
 			// check if we have a Variable 
 			switch (myNode.getOperation()) {
-				case ExpressionNode.$VAR_COL:
-				case ExpressionNode.$VAR_ROW:
-				case ExpressionNode.$VAR_ROW_COL:
+				case $VAR_COL:
+				case $VAR_ROW:
+				case $VAR_ROW_COL:
 					// don't do anything here: we need to keep the wrapper ExpressionNode
 					// and must not return the GeoElement here	
 					dollarLabelFound = true;

@@ -23,12 +23,12 @@ the Free Software Foundation; either version 2 of the License, or
  * <BR><BR>
  * Some examples of possible recognized input:<BR>
  * Point   <CODE> P = (3,4) </CODE><BR>
- * Point   <CODE> P = (7; 20�) </CODE><BR>
+ * Point   <CODE> P = (7; 20?) </CODE><BR>
  * Line    <CODE> g: X = (3,4) + t (7,2) </CODE><BR>
  * Line    <CODE> g: y = 3x - 9 </CODE><BR>
  * Line    <CODE> h: 5x + 7y = -2 </CODE><BR>
  * Circle  <CODE> k: (x-5)^2 + (y-2)^2 = 25 </CODE><BR>
- * Circle  <CODE> k: (x-5)� + (y-2)� = 25 </CODE><BR>
+ * Circle  <CODE> k: (x-5)? + (y-2)? = 25 </CODE><BR>
  * Conic   <CODE> c: 5x^2 - 7y^2 + 6xy - 3x + 2y = 7 </CODE>
  * Command <CODE> P = Intersect[ g, h ] </CODE>
  * Number  <CODE> r = 25 </CODE>
@@ -57,6 +57,8 @@ import geogebra.kernel.arithmetic3D.*;
 import geogebra.kernel.parser.cashandlers.*;
 import geogebra.util.Unicode;
 import java.util.*;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+
 
 public class Parser {
 
@@ -441,8 +443,10 @@ ValidExpression buildValidExpression() :
         lhs = expressionnode() <EQUAL> rhs = expressionnode()
         {             
             // maybe it's an assignment, i.e. there is no x, y, or z on the right side
-			if (!rhs.includesPolynomial())			{
-			    // assignment, e.g. z = 23	  			if (lhs.isSingleVariable()) {                                  	               
+			if (!rhs.includesPolynomial())
+			{
+			    // assignment, e.g. z = 23
+	  			if (lhs.isSingleVariable()) {                                  	               
 	                ve = rhs;
 	                ve.setLabel(((Variable)lhs.evaluate()).getName());                         
 	            }
@@ -457,7 +461,9 @@ ValidExpression buildValidExpression() :
 
 				// special case: i = 2 should be an assignment
 				// but an undefined "i" has been read as the imaginary unit already
-				else if (lhs.isImaginaryUnit())				{				  	ve = rhs;
+				else if (lhs.isImaginaryUnit())
+				{
+				  	ve = rhs;
                   	ve.setLabel("i"); 
 				}
               
@@ -741,7 +747,7 @@ Parametric parametric():
      (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
          {                                    
             if (s.kind == MINUS) 
-                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), ExpressionNode.MULTIPLY, v);                    
+                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                    
             return new Parametric(kernel, P, v, par.image );                
          }
     ) 
@@ -943,12 +949,15 @@ ExpressionNode functionExpressionnode():
   		// single or multi-variable function definition
 	   // f(a) =  a^2 + 3
 	   // g(x,y) := x * y
-	   (	     funName = <FUNCTION_LABEL> |  // includes "(" at end
+	   (
+	     funName = <FUNCTION_LABEL> |  // includes "(" at end
 	     funName = <Z_FUNC> // includes "(" at end
 	   ) 
-	   		// local variables, allow function of y and deal with it in GeoFunction constructor	   		(( varName =  <VARX> | varName =  <VARY> | varName = label() )
+	   		// local variables, allow function of y and deal with it in GeoFunction constructor
+	   		(( varName =  <VARX> | varName =  <VARY> | varName = label() )
 	   		  { localVars = new ArrayList<String>(); localVars.add(varName.image); } )
-			// optional second variable						 (<COMMA> ( varName = casVar() )
+			// optional second variable			
+			 (<COMMA> ( varName = casVar() )
 			 { localVars.add(varName.image); } )* 
 			// closing ) and assignment with expressionnode
 	   		 ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode()
@@ -983,8 +992,11 @@ ExpressionNode functionExpressionnode():
 				break;
 
        		  default: // multi variable function
-       			FunctionNVar funn = new FunctionNVar(rhs, funVar);				funn.setLabel(funLabel);				rhs = new ExpressionNode(kernel, funn);
-       			break;    	    }    			   
+       			FunctionNVar funn = new FunctionNVar(rhs, funVar);
+				funn.setLabel(funLabel);
+				rhs = new ExpressionNode(kernel, funn);
+       			break;
+    	    }    			   
        		
        		rhs.setLabel(funLabel);
        		return rhs;
@@ -1060,7 +1072,7 @@ ExpressionNode expressionnode():
     ret = ANDterm()                 
     ( <OR>  f = ANDterm()
         {                
-	         ret = new ExpressionNode(kernel, ret, ExpressionNode.OR, f);                   
+	         ret = new ExpressionNode(kernel, ret, Operation.OR, f);                   
         }
     )*
     { 
@@ -1133,7 +1145,7 @@ ExpressionValue ANDterm():
     ret = COMPAREterm()           
     ( <AND>  f = COMPAREterm() 
         {
-        	ret = new ExpressionNode(kernel, ret, ExpressionNode.AND, f);             
+        	ret = new ExpressionNode(kernel, ret, Operation.AND, f);             
         }     
     )*
     { return ret; }  
@@ -1151,78 +1163,79 @@ ExpressionValue COMPAREterm():
 {
     left = plusminusnode()  
     (         
-       (         (<EQUAL_BOOLEAN>  right = plusminusnode()
+       (
+         (<EQUAL_BOOLEAN>  right = plusminusnode()
     	 {            
     	   if (ExternalCASParsing)
     	       result = new ExpressionNode(kernel, new Equation(kernel, left, right));
     	   else
-           	   result = new ExpressionNode(kernel, left, ExpressionNode.EQUAL_BOOLEAN, right);  
+           	   result = new ExpressionNode(kernel, left, Operation.EQUAL_BOOLEAN, right);  
          }
        )   
      |   
        (<NOT_EQUAL>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.NOT_EQUAL, right);  
+           result = new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);  
          }
        )   
      |   
        (<IS_ELEMENT_OF>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.IS_ELEMENT_OF, right);  
+           result = new ExpressionNode(kernel, left, Operation.IS_ELEMENT_OF, right);  
          }
        )   
      |   
        (<IS_SUBSET_OF>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.IS_SUBSET_OF, right);  
+           result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF, right);  
          }
        )   
      |   
        (<IS_SUBSET_OF_STRICT>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.IS_SUBSET_OF_STRICT, right);  
+           result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF_STRICT, right);  
          }
        )   
      |   
        (<SET_DIFFERENCE>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.SET_DIFFERENCE, right);  
+           result = new ExpressionNode(kernel, left, Operation.SET_DIFFERENCE, right);  
          }
        )   
      |   
        (<LESS>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.LESS, right);  
+           result = new ExpressionNode(kernel, left, Operation.LESS, right);  
          }
        ) 
      |
        (<GREATER>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.GREATER, right);  
+           result = new ExpressionNode(kernel, left, Operation.GREATER, right);  
          }
        ) 
      |
        (<LESS_EQUAL>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.LESS_EQUAL, right);  
+           result = new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);  
          }
        ) 
      |
        (<GREATER_EQUAL>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.GREATER_EQUAL, right);  
+           result = new ExpressionNode(kernel, left, Operation.GREATER_EQUAL, right);  
          }
        ) 
       |
    	    (<PARALLEL>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.PARALLEL, right);  
+           result = new ExpressionNode(kernel, left, Operation.PARALLEL, right);  
          }
          ) 
       |
    	    (<PERPENDICULAR>  right = plusminusnode()
     	 {            
-           result = new ExpressionNode(kernel, left, ExpressionNode.PERPENDICULAR, right);  
+           result = new ExpressionNode(kernel, left, Operation.PERPENDICULAR, right);  
          }
         )
      )                    
@@ -1239,7 +1252,8 @@ ExpressionValue COMPAREterm():
       if (andList != null) {
   		// build AND ExpressionNode tree, e.g. 3 < x && x < 7
         left = andList.get(0);
-        for (int i=1; i < andList.size(); i++) {			left = new ExpressionNode(kernel, left, ExpressionNode.AND, andList.get(i));
+        for (int i=1; i < andList.size(); i++) {
+			left = new ExpressionNode(kernel, left, Operation.AND, andList.get(i));
         }   
       }
       return left;
@@ -1260,9 +1274,9 @@ ExpressionValue plusminusnode():
     (( x = <PLUS> | x = <MINUS> ) f = multterm()
         {                       
             if (x.kind == PLUS) 
-                ret = new ExpressionNode(kernel, ret, ExpressionNode.PLUS, f);  
+                ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);  
             else
-                ret = new ExpressionNode(kernel, ret, ExpressionNode.MINUS, f);  
+                ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);  
         }
     )*
     { 
@@ -1285,15 +1299,15 @@ ExpressionValue multterm():
      ( x = <MULTIPLY> | x = <VECTORPRODUCT> ) f = divterm() 
         {
             if (x.kind == MULTIPLY) {
-                ret = new ExpressionNode(kernel, ret, ExpressionNode.MULTIPLY, f);   
+                ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);   
             } else {
-                ret = new ExpressionNode(kernel, ret, ExpressionNode.VECTORPRODUCT, f);  
+                ret = new ExpressionNode(kernel, ret, Operation.VECTORPRODUCT, f);  
             }
         }
      |
      f = powerdivterm()
         { 
-               ret = new ExpressionNode(kernel, ret, ExpressionNode.MULTIPLY, f);  
+               ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);  
          }	
     )*
     { return ret; }  
@@ -1312,7 +1326,7 @@ ExpressionValue divterm():
     (                 
        <DIVIDE> f = enunary() 
         {
-            ret = new ExpressionNode(kernel, ret, ExpressionNode.DIVIDE, f); 
+            ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f); 
         }	
     )*
     { return ret; }  
@@ -1331,7 +1345,7 @@ ExpressionValue powerdivterm():
     (                 
        <DIVIDE> f = enunary() 
         {
-            ret = new ExpressionNode(kernel, ret, ExpressionNode.DIVIDE, f); 
+            ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f); 
         }	
     )*
     { return ret; }  
@@ -1350,7 +1364,7 @@ ExpressionValue enunary():
 {
     <MINUS> e = enpower()
         { // -e  = -1*e
-          return new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), ExpressionNode.MULTIPLY, e);              
+          return new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, e);              
         }
 |
    <PLUS> e = enpower()
@@ -1377,7 +1391,8 @@ ExpressionValue enpower():
 }
 {	
     ret = enfactorial()         
-    (      	(   
+    (
+      	(   
     	 c = <POWERN> 
         {            
             f = new MyDouble(kernel, c.image);
@@ -1392,8 +1407,9 @@ ExpressionValue enpower():
     	  	<POWER> (c = <MINUS> | c = <PLUS>)? f = enfactorial()
         {
           	// -f  = -1*f
-			if (c != null && c.kind == MINUS)			{			  				
-         		f = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), ExpressionNode.MULTIPLY, f);
+			if (c != null && c.kind == MINUS)
+			{			  				
+         		f = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, f);
          		c = null; // make sure we forget minus for next exponent
             }
         	
@@ -1409,7 +1425,7 @@ ExpressionValue enpower():
 	        	if (en.isLeaf() &&  en.getLeft() instanceof MyDouble) {
 	        		MyDouble num = (MyDouble) en.getLeft();
 	        		if (num.getDouble() == Math.E) {      	
-	        	    	ret = new ExpressionNode(kernel, f, ExpressionNode.EXP, null);        		
+	        	    	ret = new ExpressionNode(kernel, f, Operation.EXP, null);        		
 	        		} 
 	        	}       
         	}
@@ -1421,21 +1437,26 @@ ExpressionValue enpower():
 		if (exponentList == null)
 			return ret;
       
-      	if (MPReduceParsing)      	{      	 
+      	if (MPReduceParsing)
+      	{      	 
 	        // MPReduce: left associative: a^b^c = (a^b)^c
-			for (int i=0; i< exponentList.size(); i++)			{				ExpressionValue exponent = exponentList.get(i);
-				ret = new ExpressionNode(kernel, ret, ExpressionNode.POWER, exponent);
+			for (int i=0; i< exponentList.size(); i++)
+			{
+				ExpressionValue exponent = exponentList.get(i);
+				ret = new ExpressionNode(kernel, ret, Operation.POWER, exponent);
 			}
 		}
-		else		{      		// GeoGebra: right associative: a^b^c = a^(b^c)
+		else
+		{
+      		// GeoGebra: right associative: a^b^c = a^(b^c)
       		int size = exponentList.size();
       		ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
       		for (int i=size-2; i >= 0; i--)
 			{
 				ExpressionValue prevExponent = exponentList.get(i);
-				tempEV = new ExpressionNode(kernel, prevExponent, ExpressionNode.POWER, tempEV);
+				tempEV = new ExpressionNode(kernel, prevExponent, Operation.POWER, tempEV);
 			}
-			ret = new ExpressionNode(kernel, ret, ExpressionNode.POWER, tempEV);
+			ret = new ExpressionNode(kernel, ret, Operation.POWER, tempEV);
 		}
   
       	return ret;
@@ -1455,7 +1476,7 @@ ExpressionValue enfactorial():
 	    en = NOTterm() 
 	    (LOOKAHEAD(<FACTORIAL>) <FACTORIAL> 
 	     {            
-	            en = new ExpressionNode(kernel, en, ExpressionNode.FACTORIAL, null);                    
+	            en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);                    
 	     }      
 	     )?    
 	     { return en; }	    	
@@ -1473,7 +1494,7 @@ ExpressionValue NOTterm():
 	(
 	    ( <NOT> | "!" ) en = enelement() 	    
 	     {            
-	            return new ExpressionNode(kernel, en, ExpressionNode.NOT, null);       
+	            return new ExpressionNode(kernel, en, Operation.NOT, null);       
 	     }      
 	 ) 
 |
@@ -1675,7 +1696,8 @@ ExpressionValue numVecVariable():
         // check for CAS parsing or if z is defined in kernel
         if (GeoGebraCASParsing || kernel.lookupLabel("z") != null) {
  			return new Variable(kernel, c.image);
-		} else {	 		// z is not defined: treat as equation variable for 3D view
+		} else {
+	 		// z is not defined: treat as equation variable for 3D view
     		return new Polynomial(kernel, c.image);
        }
     }
@@ -1692,16 +1714,24 @@ ExpressionValue numVecVariable():
         // should we read e for Euler constant and i for imaginary unit?
 		boolean lookforEulerImaginary = false;
 
-		if (GeoGebraCASParsing)		{
+		if (GeoGebraCASParsing)
+		{
 		  	// leave e and i untouched in GeoGebraCAS view
-		  	lookforEulerImaginary = false;		}
-		else if (ExternalCASParsing)		{	// MPReduce uses e and i for Euler and imaginary constants
-		  	lookforEulerImaginary = MPReduceParsing;		}
-		else		{ 	// GeoGebraCAS or GeoGebra parsing
+		  	lookforEulerImaginary = false;
+		}
+		else if (ExternalCASParsing)
+		{	// MPReduce uses e and i for Euler and imaginary constants
+		  	lookforEulerImaginary = MPReduceParsing;
+		}
+		else
+		{ 	// GeoGebraCAS or GeoGebra parsing
 			// only treat e or i specially when they are undefined in GeoGebra
-			lookforEulerImaginary = kernel.lookupLabel(c.image) == null;		}    	
+			lookforEulerImaginary = kernel.lookupLabel(c.image) == null;
+		}
+    	
         // return defined variables immediately
-		if (lookforEulerImaginary)		{
+		if (lookforEulerImaginary)
+		{
 			// TREAT e and i specially
 			// e for Euler constant
 			if (c.image.equals("e"))
@@ -1712,7 +1742,8 @@ ExpressionValue numVecVariable():
 			else if (c.image.equals("i"))
 			{
 			  	return kernel.getImaginaryUnit();
-			}		}      				
+			}
+		}      				
 
        // standard case for variables
        return new Variable(kernel, c.image);
@@ -1840,16 +1871,19 @@ ExpressionNode numberFunction():
 {           
     c = <X_FUNC> en = expressionOrEquation() ")"
       {
-        if (GeoGebraCASParsing)         {
+        if (GeoGebraCASParsing) 
+        {
           	// GeoGebra CAS view: x(...) is interpreted as a function
           	String funName = c.image.substring(0,c.image.length()-1);
           	Command cmd = new Command(kernel, funName, true, !ExternalCASParsing );
 			cmd.addArgument( en );			
 			return new ExpressionNode(kernel, cmd);
       	}
-      	else      	{
+      	else
+      	{
       	  // standard GeoGebra input bar: x(...) is interpreted as "x-coordinate of"
-      	  return new ExpressionNode(kernel, en, ExpressionNode.XCOORD, null);      	}
+      	  return new ExpressionNode(kernel, en, Operation.XCOORD, null);
+      	}
        }  
 |
      c = <Y_FUNC> en = expressionOrEquation() ")"
@@ -1865,7 +1899,7 @@ ExpressionNode numberFunction():
       	else
       	{
       	  // standard GeoGebra input bar: y(...) is interpreted as "y-coordinate of"
-      	  return new ExpressionNode(kernel, en, ExpressionNode.YCOORD, null);
+      	  return new ExpressionNode(kernel, en, Operation.YCOORD, null);
       	}
        } 
 |
@@ -1885,189 +1919,191 @@ ExpressionNode numberFunction():
       	   	 GeoElement userFun = kernel.lookupLabel("z");
 			 if (userFun instanceof Evaluatable) {
 			    // user defined function z
-				return new ExpressionNode(kernel, userFun, ExpressionNode.FUNCTION, en);
+				return new ExpressionNode(kernel, userFun, Operation.FUNCTION, en);
 	       	 } else {
 				 // internal function z
-				return new ExpressionNode(kernel, en, ExpressionNode.ZCOORD, null);
+				return new ExpressionNode(kernel, en, Operation.ZCOORD, null);
 	         }
       	}
       }   
 |
      <FREEHAND_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.FREEHAND, null); }   
+      { return new ExpressionNode(kernel, en, Operation.FREEHAND, null); }   
 |
      <COS_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.COS, null); }   
+      { return new ExpressionNode(kernel, en, Operation.COS, null); }   
 |
     ( c = <COSN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.COS); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.COS); }  
 |
     <SIN_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.SIN, null); }   
+      { return new ExpressionNode(kernel, en, Operation.SIN, null); }   
 |
     ( c = <SINN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.SIN); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.SIN); }  
 |
     <TAN_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.TAN, null); }  
+      { return new ExpressionNode(kernel, en, Operation.TAN, null); }  
 |
     ( c = <TANN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.TAN); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.TAN); }  
 |
     <CSC_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.CSC, null); }   
+      { return new ExpressionNode(kernel, en, Operation.CSC, null); }   
 |
     ( c = <CSCN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.CSC); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.CSC); }  
 |
     <SEC_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.SEC, null); }  
+      { return new ExpressionNode(kernel, en, Operation.SEC, null); }  
 |
     ( c = <SECN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.SEC); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.SEC); }  
 |
     <COT_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.COT, null); }  
+      { return new ExpressionNode(kernel, en, Operation.COT, null); }  
 |
     ( c = <COTN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.COT); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.COT); }  
 |
     <CSCH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.CSCH, null); }   
+      { return new ExpressionNode(kernel, en, Operation.CSCH, null); }   
 |
     ( c = <CSCHN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.CSCH); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.CSCH); }  
 |
     <SECH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.SECH, null); }  
+      { return new ExpressionNode(kernel, en, Operation.SECH, null); }  
 |
     ( c = <SECHN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.SECH); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.SECH); }  
 |
     <COTH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.COTH, null); }  
+      { return new ExpressionNode(kernel, en, Operation.COTH, null); }  
 |
     ( c = <COTHN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.COTH); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.COTH); }  
 |
     <ACOS_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ARCCOS, null); }   
+      { return new ExpressionNode(kernel, en, Operation.ARCCOS, null); }   
 |
     <ASIN_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ARCSIN, null); }  
+      { return new ExpressionNode(kernel, en, Operation.ARCSIN, null); }  
 |
     <ATAN_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ARCTAN, null); }  
+      { return new ExpressionNode(kernel, en, Operation.ARCTAN, null); }  
 |
     <ATAN2_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ARCTAN2, en2); }  
+      { return new ExpressionNode(kernel, en, Operation.ARCTAN2, en2); }  
 |
     <ERF_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ERF, null ); }  
+      { return new ExpressionNode(kernel, en, Operation.ERF, null ); }  
 |
     <COSH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.COSH, null); }   
+      { return new ExpressionNode(kernel, en, Operation.COSH, null); }   
 |
     ( c = <COSHN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.COSH); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.COSH); }  
 |
     <SINH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.SINH, null); }  
+      { return new ExpressionNode(kernel, en, Operation.SINH, null); }  
 |
     ( c = <SINHN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.SINH); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.SINH); }  
 |
     <TANH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.TANH, null); }  
+      { return new ExpressionNode(kernel, en, Operation.TANH, null); }  
 |
     ( c = <TANHN_FUNC> ) en = expressionOrEquation() ")"
-      { return kernel.handleTrigPower(c.image, en, ExpressionNode.TANH); }  
+      { return kernel.handleTrigPower(c.image, en, Operation.TANH); }  
 |
     <ACOSH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ACOSH, null); }   
+      { return new ExpressionNode(kernel, en, Operation.ACOSH, null); }   
 |
     <ASINH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ASINH, null); }  
+      { return new ExpressionNode(kernel, en, Operation.ASINH, null); }  
 |
     <ATANH_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ATANH, null); }  
+      { return new ExpressionNode(kernel, en, Operation.ATANH, null); }  
 |
     <EXP_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.EXP, null); }  
+      { return new ExpressionNode(kernel, en, Operation.EXP, null); }  
 |
 	LOOKAHEAD (2147483647)
     <LOG_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.LOGB, en2); }
+      { return new ExpressionNode(kernel, en, Operation.LOGB, en2); }
 |
 	LOOKAHEAD (2147483647)
     <GAMMA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.GAMMA_INCOMPLETE, en2); }
+      { return new ExpressionNode(kernel, en, Operation.GAMMA_INCOMPLETE, en2); }
 |
 	// factorial(a) := gamma(a+1) in MPReduce, thus we need gamma(a+1) -> a!
 	LOOKAHEAD (2147483647)
     <GAMMA_FUNC> ev = multterm() <PLUS> c = <FLOAT> ")"
       {
         if (c.image.equals("1")) {
-          // gamma(a+1) -> a!          return new ExpressionNode(kernel, ev, ExpressionNode.FACTORIAL, null);
+          // gamma(a+1) -> a!
+          return new ExpressionNode(kernel, ev, Operation.FACTORIAL, null);
         }
         else {
           // gamma(a+c) unchanged
-          ExpressionNode plus = new ExpressionNode(kernel, ev, ExpressionNode.PLUS,
+          ExpressionNode plus = new ExpressionNode(kernel, ev, Operation.PLUS,
           		new MyDouble(kernel, MyDouble.parseDouble( c.image )));
-          return new ExpressionNode(kernel, plus, ExpressionNode.GAMMA, null);        }
+          return new ExpressionNode(kernel, plus, Operation.GAMMA, null);
+        }
       }  
 | 
     <GAMMA_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.GAMMA, null); }    
+      { return new ExpressionNode(kernel, en, Operation.GAMMA, null); }    
 |
     <GAMMA_REGULARIZED_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.GAMMA_INCOMPLETE_REGULARIZED, en2); }
+      { return new ExpressionNode(kernel, en, Operation.GAMMA_INCOMPLETE_REGULARIZED, en2); }
 |
 	LOOKAHEAD (2147483647)
    <BETA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.BETA, en2); }
+      { return new ExpressionNode(kernel, en, Operation.BETA, en2); }
 |
     <BETA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) < COMMA > ( en3 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, new MyNumberPair(kernel, en, en2), ExpressionNode.BETA_INCOMPLETE, en3); }
+      { return new ExpressionNode(kernel, new MyNumberPair(kernel, en, en2), Operation.BETA_INCOMPLETE, en3); }
 |
     <BETA_REGULARIZED_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) < COMMA > ( en3 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, new MyNumberPair(kernel, en, en2), ExpressionNode.BETA_INCOMPLETE_REGULARIZED, en3); }
+      { return new ExpressionNode(kernel, new MyNumberPair(kernel, en, en2), Operation.BETA_INCOMPLETE_REGULARIZED, en3); }
 | 
     <LOG_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.LOG, null); }
+      { return new ExpressionNode(kernel, en, Operation.LOG, null); }
 |
  	<LG_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.LOG10, null); }  
+      { return new ExpressionNode(kernel, en, Operation.LOG10, null); }  
 |
  	<LD_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.LOG2, null); }  
+      { return new ExpressionNode(kernel, en, Operation.LOG2, null); }  
 |
     <SQRT_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.SQRT, null); }  
+      { return new ExpressionNode(kernel, en, Operation.SQRT, null); }  
 |
     <CBRT_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.CBRT, null); }  
+      { return new ExpressionNode(kernel, en, Operation.CBRT, null); }  
 |
     <ABS_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ABS, null); }     
+      { return new ExpressionNode(kernel, en, Operation.ABS, null); }     
 |
     <SGN_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.SGN, null); }
+      { return new ExpressionNode(kernel, en, Operation.SGN, null); }
 |
     <FLOOR_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.FLOOR, null); }         
+      { return new ExpressionNode(kernel, en, Operation.FLOOR, null); }         
 |
     <CEIL_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.CEIL, null); }               
+      { return new ExpressionNode(kernel, en, Operation.CEIL, null); }               
 | 
     <CONJUGATE_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.CONJUGATE, null); }               
+      { return new ExpressionNode(kernel, en, Operation.CONJUGATE, null); }               
 | 
     <ARG_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ARG, null); }               
+      { return new ExpressionNode(kernel, en, Operation.ARG, null); }               
 | 
     <ROUND_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, ExpressionNode.ROUND, null); }
+      { return new ExpressionNode(kernel, en, Operation.ROUND, null); }
 | 
   <RANDOM_FUNC>
       {  
@@ -2075,10 +2111,11 @@ ExpressionNode numberFunction():
       	 GeoNumeric randNum = new GeoNumeric(cons);
          cons.addRandomGeo(randNum);
          randNum.setValue(Math.random());         
-      	 return new ExpressionNode(kernel, randNum, ExpressionNode.RANDOM, null);
+      	 return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
       }
 |
-	(	  c = <FUNCTION_LABEL> en = expressionnode()
+	(
+	  c = <FUNCTION_LABEL> en = expressionnode()
 		{   
             myList = new MyList(kernel, true);         
             myList.addListElement(en);
@@ -2122,8 +2159,10 @@ ExpressionNode numberFunction():
       		if (geo == null) {
       				// function name does not exist: return command
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
-      				for (int i=0; i < myList.size(); i++)      				{
-      				  cmd.addArgument( (ExpressionNode) myList.getListElement(i) );      				}
+      				for (int i=0; i < myList.size(); i++)
+      				{
+      				  cmd.addArgument( (ExpressionNode) myList.getListElement(i) );
+      				}
       				return new ExpressionNode(kernel, cmd);      						
       			
 //      		  	String [] str = { "UndefinedVariable", funcName };
@@ -2140,13 +2179,13 @@ ExpressionNode numberFunction():
       		
       		if (order > 0) { // derivative
       		      				// n-th derivative of geo
-	      		ExpressionNode derivative =  new ExpressionNode(kernel, geoExp, ExpressionNode.DERIVATIVE, 
+	      		ExpressionNode derivative =  new ExpressionNode(kernel, geoExp, Operation.DERIVATIVE, 
 	      																new MyDouble(kernel, order));
       			if (geo.isGeoFunction()) {// function 
-	      			return new ExpressionNode(kernel, derivative, ExpressionNode.FUNCTION, myList.getListElement(0)); 
+	      			return new ExpressionNode(kernel, derivative, Operation.FUNCTION, myList.getListElement(0)); 
 	      		}
 	      		else if (geo.isGeoCurveCartesian()) {// Cartesian curve 
-      				return new ExpressionNode(kernel, derivative, ExpressionNode.VEC_FUNCTION, myList.getListElement(0)); 
+      				return new ExpressionNode(kernel, derivative, Operation.VEC_FUNCTION, myList.getListElement(0)); 
 	      		}       		
 	      		else {
 	                String [] str = { "FunctionExpected", funcName };
@@ -2155,26 +2194,31 @@ ExpressionNode numberFunction():
       		}
       		else { // no derivative: a(b)
 	      		if (geo instanceof Evaluatable) // function 
-	      			return new ExpressionNode(kernel, geoExp, ExpressionNode.FUNCTION, myList.getListElement(0)); 
+	      			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION, myList.getListElement(0)); 
 				else if (geo instanceof GeoFunctionNVar) {
-				  return new ExpressionNode(kernel, geoExp, ExpressionNode.FUNCTION_NVAR, myList);				}
+				  return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
+				}
 	      		else if (geo.isGeoCurveCartesian()) // vector function
 	      		// at this point we have eg myList={{1,2}}, so we need first element of myList	      	      		
-	      			return new ExpressionNode(kernel, geoExp, ExpressionNode.VEC_FUNCTION, myList.getListElement(0)); 
+	      			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION, myList.getListElement(0)); 
 
 				// disabled, see #1115
 				// doesn't work properly, creates spurious geos
 	      		else if (geo.isGeoList()) // list1(1) to get first element of list1
-	      		{					//return new ExpressionNode(kernel, geoExp, ExpressionNode.ELEMENT_OF, myList); 
+	      		{
+					//return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList); 
 	      			String [] str = { "FunctionExpected", funcName };
 	                throw new MyParseError(app, str);
 				}
 				// a(b) becomes a*b because a is not a function, no list, and no curve
 				// e.g. a(1+x) = a*(1+x) when a is a number
 	      		else 
-	      			return new ExpressionNode(kernel, geoExp, ExpressionNode.MULTIPLY, myList.getListElement(0)); 
+	      			return new ExpressionNode(kernel, geoExp, Operation.MULTIPLY, myList.getListElement(0)); 
 
-//	      		else {// error: no function//	      			String [] str = { "FunctionExpected", funcName };//	                throw new MyParseError(app, str);//	            }
+//	      		else {// error: no function
+//	      			String [] str = { "FunctionExpected", funcName };
+//	                throw new MyParseError(app, str);
+//	            }
 	      	}
       }  
 }

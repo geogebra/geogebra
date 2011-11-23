@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -69,7 +70,7 @@ public class AlgoNumerator extends AlgoElement {
         }    
         
         ExpressionNode root = f.getFunctionExpression();
-        if (root.operation != ExpressionNode.DIVIDE) {
+        if (root.operation != Operation.DIVIDE) {
         	g.setUndefined();
     		return;
     	}    

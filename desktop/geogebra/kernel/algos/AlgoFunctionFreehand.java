@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.geos.GeoElement;
@@ -44,7 +45,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
             
         g = new GeoFunction(cons); // output
         FunctionVariable X=new FunctionVariable(kernel);
-        ExpressionNode expr=new ExpressionNode(kernel, X,ExpressionNode.SIN, null);
+        ExpressionNode expr=new ExpressionNode(kernel, X,Operation.SIN, null);
         Function fun = new Function(expr, X);
         g.setFunction(fun);
         g.setDefined(false);
@@ -81,7 +82,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
         }
                
         FunctionVariable X=new FunctionVariable(kernel);
-        ExpressionNode expr=new ExpressionNode(kernel, X,ExpressionNode.FREEHAND, inputList);
+        ExpressionNode expr=new ExpressionNode(kernel, X,Operation.FREEHAND, inputList);
         Function fun = new Function(expr, X);
         g.setFunction(fun);
         g.setDefined(true);

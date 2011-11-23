@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -194,7 +195,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 				default: powerExp = 				
 					 new ExpressionNode(kernel, 
 							fVar,
-							ExpressionNode.POWER, 
+							Operation.POWER, 
 							new MyDouble(kernel, k));						
 			}
 					
@@ -214,7 +215,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 				else 
 					partExp = new ExpressionNode(kernel, 
 									coeffMyDouble, 
-									ExpressionNode.MULTIPLY, 
+									Operation.MULTIPLY, 
 									powerExp);
 			}								
 	
@@ -227,12 +228,12 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 						coeffMyDouble.set(-coeff); // change sign
 					poly = new ExpressionNode(kernel, 
 											poly, 
-											ExpressionNode.MINUS, 
+											Operation.MINUS, 
 											partExp);
 				} else {
 					poly = new ExpressionNode(kernel, 
 											poly, 
-											ExpressionNode.PLUS, 
+											Operation.PLUS, 
 											partExp);
 				}					
 			}		

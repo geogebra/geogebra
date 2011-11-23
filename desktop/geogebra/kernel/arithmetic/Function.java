@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoLine;
@@ -206,24 +207,24 @@ implements ExpressionValue, RealRootFunction, Functional {
                 MyDouble num = (MyDouble) right;
                 double temp;
                 switch (en.getOperation()) {
-                    case ExpressionNode.PLUS :
+                    case PLUS :
                         temp = kernel.checkDecimalFraction(num.getDouble() - vx);                    
                         if (Kernel.isZero(temp)) {                      
                             expression = expression.replaceAndWrap(en, fVars[0]);                          
                         } else if (temp < 0) {
-                            en.setOperation(ExpressionNode.MINUS);
+                            en.setOperation(Operation.MINUS);
                             num.set(-temp);
                         } else {
                             num.set(temp);
                         }
                         return;
 
-                    case ExpressionNode.MINUS :
+                    case MINUS :
                         temp = kernel.checkDecimalFraction(num.getDouble() + vx);
                         if (Kernel.isZero(temp)) {
                             expression = expression.replaceAndWrap(en, fVars[0]);                      
                         } else if (temp < 0) {
-                            en.setOperation(ExpressionNode.PLUS);
+                            en.setOperation(Operation.PLUS);
                             num.set(-temp);
                         } else {
                             num.set(temp);
@@ -260,13 +261,13 @@ implements ExpressionValue, RealRootFunction, Functional {
             node =
                 new ExpressionNode(kernel,
                 		fVars[0],
-                    ExpressionNode.MINUS,
+                    Operation.MINUS,
                     new MyDouble(kernel,vx));
         } else {
             node =
                 new ExpressionNode(kernel,
                 		fVars[0],
-                    ExpressionNode.PLUS,
+                    Operation.PLUS,
                     new MyDouble(kernel,-vx));
         }
         return node;
@@ -284,24 +285,24 @@ implements ExpressionValue, RealRootFunction, Functional {
             }
             double temp;
             switch (expression.getOperation()) {
-                case ExpressionNode.PLUS :
+                case PLUS :
                     temp = kernel.checkDecimalFraction(num.getDouble() + vy);
                     if (Kernel.isZero(temp)) {
                         expression = expression.getLeftTree();
                     } else if (temp < 0) {
-                        expression.setOperation(ExpressionNode.MINUS);
+                        expression.setOperation(Operation.MINUS);
                         num.set(-temp);
                     } else {
                         num.set(temp);
                     }
                     break;
 
-                case ExpressionNode.MINUS :
+                case MINUS :
                     temp = kernel.checkDecimalFraction(num.getDouble() - vy);
                     if (Kernel.isZero(temp)) {
                         expression = expression.getLeftTree();
                     } else if (temp < 0) {
-                        expression.setOperation(ExpressionNode.PLUS);
+                        expression.setOperation(Operation.PLUS);
                         num.set(-temp);
                     } else {
                         num.set(temp);
@@ -321,13 +322,13 @@ implements ExpressionValue, RealRootFunction, Functional {
             expression =
                 new ExpressionNode(kernel, 
                     expression,
-                    ExpressionNode.PLUS,
+                    Operation.PLUS,
                     new MyDouble(kernel,n));
         } else {
             expression =
                 new ExpressionNode(kernel,
                     expression,
-                    ExpressionNode.MINUS,
+                    Operation.MINUS,
                     new MyDouble(kernel,-n));
         }   
     }
@@ -468,13 +469,13 @@ implements ExpressionValue, RealRootFunction, Functional {
         if (ev.isExpressionNode()) {
             ExpressionNode node = (ExpressionNode) ev;
             switch (node.operation) {
-                case ExpressionNode.MULTIPLY:
+                case MULTIPLY:
                     return addPolynomialFactors(node.getLeft(), l, symbolic, rootFindingSimplification) && 
                                 addPolynomialFactors(node.getRight(), l, symbolic, rootFindingSimplification);
                     
             // try some simplifications of factors for root finding                                
-                case ExpressionNode.POWER:
-                case ExpressionNode.DIVIDE:   
+                case POWER:
+                case DIVIDE:   
                 	if (!rootFindingSimplification) break;
                 	
               	  	// divide: x in denominator: no polynomial
@@ -493,7 +494,7 @@ implements ExpressionValue, RealRootFunction, Functional {
                     		e.printStackTrace();
                     		return false;
                     	}                    	   
-                 		if (node.operation == ExpressionNode.POWER) {                    			
+                 		if (node.operation.equals(Operation.POWER)) {                    			
                 			if (Kernel.isZero(rightVal))
                 				// left^0 = 1
                 				return addPolynomialFactors(new MyDouble(kernel, 1), l, symbolic, rootFindingSimplification);
@@ -512,9 +513,9 @@ implements ExpressionValue, RealRootFunction, Functional {
                     }                   
                     break;                                                             
                                                                             
-                case ExpressionNode.ABS:
-                case ExpressionNode.SGN:
-                case ExpressionNode.SQRT:
+                case ABS:
+                case SGN:
+                case SQRT:
                 	if (!rootFindingSimplification) break;
                 	
                     // these functions can be omitted as f(x) = 0 iff x = 0         
@@ -754,7 +755,7 @@ implements ExpressionValue, RealRootFunction, Functional {
         // variable in our function
         right.replaceAndWrap(b.fVars[0], a.fVars[0]);
         
-        ExpressionNode diffExp= new ExpressionNode(a.kernel, left, ExpressionNode.MINUS, right);
+        ExpressionNode diffExp= new ExpressionNode(a.kernel, left, Operation.MINUS, right);
         c.setExpression(diffExp);
         c.fVars[0] = a.fVars[0];
     }
@@ -780,19 +781,19 @@ implements ExpressionValue, RealRootFunction, Functional {
         if (coeffX > 0) {
             temp = new ExpressionNode(f.kernel, 
                                     f.expression, 
-                                    ExpressionNode.PLUS, 
+                                    Operation.PLUS, 
                                     new ExpressionNode(f.kernel, 
                                         new MyDouble(f.kernel, coeffX),
-                                        ExpressionNode.MULTIPLY, 
+                                        Operation.MULTIPLY, 
                                         f.fVars[0])
                                     );      
         } else {
             temp = new ExpressionNode(f.kernel, 
                                     f.expression, 
-                                    ExpressionNode.MINUS, 
+                                    Operation.MINUS, 
                                     new ExpressionNode(f.kernel, 
                                         new MyDouble(f.kernel, -coeffX),
-                                        ExpressionNode.MULTIPLY, 
+                                        Operation.MULTIPLY, 
                                         f.fVars[0])
                                     );
         }
@@ -802,13 +803,13 @@ implements ExpressionValue, RealRootFunction, Functional {
         if (coeffConst > 0) {
             temp = new ExpressionNode(f.kernel, 
                             temp, 
-                            ExpressionNode.PLUS, 
+                            Operation.PLUS, 
                             new MyDouble(f.kernel, coeffConst)
                         );          
         } else {
             temp = new ExpressionNode(f.kernel, 
                             temp, 
-                            ExpressionNode.MINUS, 
+                            Operation.MINUS, 
                             new MyDouble(f.kernel, -coeffConst)
                         );
         }

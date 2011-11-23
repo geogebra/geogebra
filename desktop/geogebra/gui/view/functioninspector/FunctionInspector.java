@@ -37,6 +37,7 @@ import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.algos.AlgoRoots;
 import geogebra.kernel.algos.AlgoRootsPolynomial;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyVecNode;
@@ -658,8 +659,8 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		value2.add(null );
 
 		// calculate roots
-		ExpressionNode low = new ExpressionNode(kernel, lowPoint, ExpressionNode.XCOORD, null);
-		ExpressionNode high = new ExpressionNode(kernel, highPoint, ExpressionNode.XCOORD, null);				
+		ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
+		ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);				
 		AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
 		cons.removeFromConstructionList(xLow);
 		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
@@ -852,7 +853,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 					MyVecNode vec = new MyVecNode( kernel, new MyDouble(kernel, x), new MyDouble(kernel, y));
 
-					ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+					ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 					point.setForcePoint();
 
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
@@ -1221,9 +1222,9 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 		// X segment
-		ExpressionNode xcoord = new ExpressionNode(kernel, testPoint, ExpressionNode.XCOORD, null);
+		ExpressionNode xcoord = new ExpressionNode(kernel, testPoint, Operation.XCOORD, null);
 		MyVecNode vec = new MyVecNode( kernel, xcoord, new MyDouble(kernel, 0.0));
-		ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+		ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 		point.setForcePoint();
 		AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 		cons.removeFromConstructionList(pointAlgo);
@@ -1240,9 +1241,9 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 		// Y segment
-		ExpressionNode ycoord = new ExpressionNode(kernel, testPoint, ExpressionNode.YCOORD, null);
+		ExpressionNode ycoord = new ExpressionNode(kernel, testPoint, Operation.YCOORD, null);
 		MyVecNode vecy = new MyVecNode( kernel, new MyDouble(kernel, 0.0), ycoord);
-		ExpressionNode pointy = new ExpressionNode(kernel, vecy, ExpressionNode.NO_OPERATION, null);
+		ExpressionNode pointy = new ExpressionNode(kernel, vecy, Operation.NO_OPERATION, null);
 		pointy.setForcePoint();
 		AlgoDependentPoint pointAlgoy = new AlgoDependentPoint(cons, pointy, false);
 		cons.removeFromConstructionList(pointAlgoy);	
@@ -1329,8 +1330,8 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		intervalTabGeoList.add(highPoint);
 
 
-		ExpressionNode low = new ExpressionNode(kernel, lowPoint, ExpressionNode.XCOORD, null);
-		ExpressionNode high = new ExpressionNode(kernel, highPoint, ExpressionNode.XCOORD, null);				
+		ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
+		ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);				
 		AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
 		cons.removeFromConstructionList(xLow);
 		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
@@ -1354,7 +1355,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		integralGeo.setObjColor(DISPLAY_GEO_COLOR);
 		intervalTabGeoList.add(integralGeo);
 		
-		ExpressionNode en = new ExpressionNode(kernel, selectedGeo, ExpressionNode.ABS, null);
+		ExpressionNode en = new ExpressionNode(kernel, selectedGeo, Operation.ABS, null);
 		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons, (Function) en.evaluate());
 		cons.removeFromConstructionList(funAlgo);
 		

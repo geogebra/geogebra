@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoElement;
 
 import java.io.Serializable;
@@ -131,21 +132,21 @@ public class Term implements Comparable, Serializable {
                     if (ben.getLeft().isConstant()) {
                         switch (ben.operation) {
                             // a + (b.left + b.right) = (a + b.left) + b.right
-                            case ExpressionNode.PLUS:                             
+                            case PLUS:                             
                                 return add(add(a, ben.getLeft()), ben.getRight());        
                             // a + (b.left - b.right) = (a + b.left) - b.right
-                            case ExpressionNode.MINUS:                
+                            case MINUS:                
                                 return sub( add(a, ben.getLeft()), ben.getRight() );            
                         }            
                     }
                 } // else                
-                return new ExpressionNode(kernel, a, ExpressionNode.PLUS, b);                  
+                return new ExpressionNode(kernel, a, Operation.PLUS, b);                  
             }            
         }
         else if (bconst)
 			return add(b, a); // get the constant to the left                        
 		else
-			return new ExpressionNode(kernel, a, ExpressionNode.PLUS, b);
+			return new ExpressionNode(kernel, a, Operation.PLUS, b);
     }
     
     ExpressionValue sub(ExpressionValue a, ExpressionValue b) {
@@ -216,22 +217,22 @@ public class Term implements Comparable, Serializable {
                     if (ben.getLeft().isConstant()) {
                         switch (ben.operation) {
                             // a * (b.left * b.right) = (a * b.left) * b.right
-                            case ExpressionNode.MULTIPLY:                
+                            case MULTIPLY:                
                                 return multiply(multiply(a, ben.getLeft()), ben.getRight());                                            
                             // a * (b.left / b.right) = (a * b.left) / b.right
-                            case ExpressionNode.DIVIDE:                
+                            case DIVIDE:                
                                 return divide(multiply(a, ben.getLeft()), ben.getRight());                                            
                         }
                     }
                 }
-                return new ExpressionNode(kernel, a, ExpressionNode.MULTIPLY, b);                  
+                return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);                  
             }            
         }
         else if (bconst)
 			// a * b = b * a
             return multiply(b, a); // get the constant to the left                                    
 		else
-			return new ExpressionNode(kernel, a, ExpressionNode.MULTIPLY, b);
+			return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);
     }
        
     /**
@@ -262,11 +263,11 @@ public class Term implements Comparable, Serializable {
                     ExpressionNode ben = (ExpressionNode) b;                      
                     switch (ben.operation) {
                         // a / (b.left / b.right) = (a / b.left) * b.right                            
-                        case ExpressionNode.DIVIDE:                
+                        case DIVIDE:                
                             return multiply(divide(a, ben.getLeft()), ben.getRight());            
                     }                    
                 }                
-                return new ExpressionNode(kernel, a, ExpressionNode.DIVIDE, b);  
+                return new ExpressionNode(kernel, a, Operation.DIVIDE, b);  
             }            
         }
         else if (bconst) {
@@ -274,9 +275,9 @@ public class Term implements Comparable, Serializable {
             if (bval == 1.0d)
 				return a;
 			else
-				return new ExpressionNode(kernel, a, ExpressionNode.DIVIDE, b);
+				return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
         } else
-			return new ExpressionNode(kernel, a, ExpressionNode.DIVIDE, b);
+			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
     }   
              
     // sort single characters: "yx" -> "xy"
@@ -346,7 +347,7 @@ public class Term implements Comparable, Serializable {
 		else if (ev instanceof ExpressionNode) {
             ExpressionNode n = (ExpressionNode) ev;
             if (n.isLeaf() || 
-                ExpressionNode.opID(n) >= ExpressionNode.MULTIPLY ||
+                ExpressionNode.opID(n) >= Operation.MULTIPLY.ordinal() ||
                 variables.length() == 0)
 				return n.toString();
 			else {

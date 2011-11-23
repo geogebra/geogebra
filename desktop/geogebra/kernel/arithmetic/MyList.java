@@ -19,6 +19,7 @@
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.Kernel;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
@@ -161,7 +162,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	 * @param value value that should be applied to this list using the given operation
 	 * @author Markus Hohenwarter	 
 	 */
-	final public void applyRight(int operation, ExpressionValue value) {
+	final public void applyRight(Operation operation, ExpressionValue value) {
 		apply(operation, value, true);
 	}
 	
@@ -173,7 +174,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	 * @param value value that should be applied to this list using the given operation
 	 * @author Markus Hohenwarter	 
 	 */
-	final public void applyLeft(int operation, ExpressionValue value) {
+	final public void applyLeft(Operation operation, ExpressionValue value) {
 		apply(operation, value, false);
 	}		
 	
@@ -204,12 +205,12 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 				{
 					ExpressionValue leftV=getCell(LHlist,i,row);
 					ExpressionValue rightV=getCell(RHlist,col,i);							
-					tempNode = new ExpressionNode(kernel,leftV,ExpressionNode.MULTIPLY,rightV);
+					tempNode = new ExpressionNode(kernel,leftV,Operation.MULTIPLY,rightV);
 							
 					// multiply two cells...
 					ExpressionValue operationResult = tempNode.evaluate(); 	
 
-					totalNode = new ExpressionNode(kernel,totalVal,ExpressionNode.PLUS,operationResult);
+					totalNode = new ExpressionNode(kernel,totalVal,Operation.PLUS,operationResult);
 					//totalNode.setLeft(operationResult);
 					//totalNode.setRight(totalVal);
 					//totalNode.setOperation(ExpressionNode.PLUS);
@@ -238,7 +239,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	 * @param right true for <this> <operation> <value>, false for <value> <operation> <this>
 	 * @author Markus Hohenwarter	 
 	 */
-	private void apply(int operation, ExpressionValue value, boolean right) {
+	private void apply(Operation operation, ExpressionValue value, boolean right) {
 		int size = size();
 				
 	
@@ -248,7 +249,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		//	Application.debug("apply: " + this + " < op: " + operation + " > " + value);
 		
 		// matrix ^ integer
-		if (right && operation == ExpressionNode.POWER && value.isNumberValue() && isMatrix()) {
+		if (right && operation == Operation.POWER && value.isNumberValue() && isMatrix()) {
 			
 
 			double power = ((NumberValue)value).getDouble();
@@ -298,7 +299,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		// Michael Borcherds 2008-04-14 BEGIN
 //		 check for matrix multiplication eg {{1,3,5},{2,4,6}}*{{11,14},{12,15},{13,16}}
 		//try{
-		if (operation == ExpressionNode.MULTIPLY && valueList != null) 
+		if (operation == Operation.MULTIPLY && valueList != null) 
 		{ 
 			MyList LHlist,RHlist;
 			
@@ -926,26 +927,26 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		ExpressionValue bx = list.getListElement(0);
 		ExpressionValue by = list.getListElement(1);
 		
-		ExpressionNode en = new ExpressionNode(kernel, ax, ExpressionNode.MULTIPLY, by);
-		ExpressionNode en2 = new ExpressionNode(kernel, ay, ExpressionNode.MULTIPLY, bx);
+		ExpressionNode en = new ExpressionNode(kernel, ax, Operation.MULTIPLY, by);
+		ExpressionNode en2 = new ExpressionNode(kernel, ay, Operation.MULTIPLY, bx);
 		ExpressionNode x, y, z;
 		if (list.size() == 2 || size() == 2) {
-			listElements.add(2, new ExpressionNode(kernel, en, ExpressionNode.MINUS, en2));
-			listElements.set(0, new ExpressionNode(kernel, new MyDouble(kernel, 0.0), ExpressionNode.NO_OPERATION, null));
-			listElements.set(1, new ExpressionNode(kernel, new MyDouble(kernel, 0.0), ExpressionNode.NO_OPERATION, null));
+			listElements.add(2, new ExpressionNode(kernel, en, Operation.MINUS, en2));
+			listElements.set(0, new ExpressionNode(kernel, new MyDouble(kernel, 0.0), Operation.NO_OPERATION, null));
+			listElements.set(1, new ExpressionNode(kernel, new MyDouble(kernel, 0.0), Operation.NO_OPERATION, null));
 			return;
 		} else { // size 3
 		
-			z = new ExpressionNode(kernel, en, ExpressionNode.MINUS, en2);
+			z = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 			ExpressionValue az = getListElement(2);
 			ExpressionValue bz = list.getListElement(2);
-			 en = new ExpressionNode(kernel, ay, ExpressionNode.MULTIPLY, bz);
-			en2 = new ExpressionNode(kernel, az, ExpressionNode.MULTIPLY, by);
-			x = new ExpressionNode(kernel, en, ExpressionNode.MINUS, en2);
+			 en = new ExpressionNode(kernel, ay, Operation.MULTIPLY, bz);
+			en2 = new ExpressionNode(kernel, az, Operation.MULTIPLY, by);
+			x = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 			
-			en = new ExpressionNode(kernel, az, ExpressionNode.MULTIPLY, bx);
-			en2 = new ExpressionNode(kernel, ax, ExpressionNode.MULTIPLY, bz);
-			y =  new ExpressionNode(kernel, en, ExpressionNode.MINUS, en2);
+			en = new ExpressionNode(kernel, az, Operation.MULTIPLY, bx);
+			en2 = new ExpressionNode(kernel, ax, Operation.MULTIPLY, bz);
+			y =  new ExpressionNode(kernel, en, Operation.MINUS, en2);
 		}
 		
 			listElements.set(0, x);

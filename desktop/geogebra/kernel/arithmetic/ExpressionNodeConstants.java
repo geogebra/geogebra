@@ -22,25 +22,7 @@ public interface ExpressionNodeConstants {
 	public static final String UNICODE_PREFIX = "unicode";
 	public static final String UNICODE_DELIMITER = "u";  
 	
-	public static final int NO_OPERATION = Integer.MIN_VALUE; 
-    
-	// boolean
-	public static final int NOT_EQUAL = -15;
-	public static final int NOT = -14;
-	public static final int OR = -13;
-    public static final int AND = -12;
-    public static final int EQUAL_BOOLEAN = -11;
-    public static final int LESS = -10;
-    public static final int GREATER = -9;
-    public static final int LESS_EQUAL = -8;
-    public static final int GREATER_EQUAL = -7;    
-    public static final int PARALLEL = -6;  
-    public static final int PERPENDICULAR = -5;
-    public static final int IS_ELEMENT_OF = -4;
-    public static final int IS_SUBSET_OF = -3;
-    public static final int IS_SUBSET_OF_STRICT = -2;
-    public static final int SET_DIFFERENCE = -1;
-    
+	//public static final int NO_OPERATION = Integer.MIN_VALUE; 
     public static final String strNOT = "\u00ac";
     public static final String strAND = "\u2227";
     public static final String strOR = "\u2228";
@@ -55,80 +37,28 @@ public interface ExpressionNodeConstants {
     public static final String strIS_SUBSET_OF = "\u2286";
     public static final String strIS_SUBSET_OF_STRICT = "\u2282";
     public static final String strSET_DIFFERENCE = "\\";
-        
-    // arithmetic
-    public static final int PLUS = 0;
-    public static final int MINUS = 1;
-    public static final int VECTORPRODUCT = 2;
+    
+    public enum Operation { NO_OPERATION, NOT_EQUAL, NOT, OR,AND,EQUAL_BOOLEAN,LESS,GREATER,LESS_EQUAL
+		,GREATER_EQUAL,PARALLEL,PERPENDICULAR ,IS_ELEMENT_OF,IS_SUBSET_OF
+		,IS_SUBSET_OF_STRICT,SET_DIFFERENCE,PLUS,MINUS,VECTORPRODUCT,
     
     // these next three must be adjacent
     // so that brackets work for eg a/(b/c)
     // and are removed in (a/b)/c
     // see case DIVIDE in ExpressionNode
-    public static final int MULTIPLY = 10;
-    public static final int DIVIDE = 11;
-    public static final int POWER = 12;            
+    MULTIPLY,DIVIDE,POWER,
     
-    
-    public static final int FREEHAND = 40;   
-    public static final int COS = 50;   
-    public static final int SIN = 60;   
-    public static final int TAN = 70;   
-    public static final int EXP = 80;   
-    public static final int LOG = 90;   
-    public static final int ARCCOS = 100;   
-    public static final int ARCSIN = 110;   
-    public static final int ARCTAN = 120;   
-    public static final int ARCTAN2 = 130;   
-    public static final int SQRT = 140;   
-    public static final int ABS = 150;   
-    public static final int SGN = 160;   
-    public static final int XCOORD = 170; 
-    public static final int YCOORD = 180;  
-    public static final int ZCOORD = 190;  
-    public static final int COSH = 200;
-    public static final int SINH = 210;
-    public static final int TANH = 220;
-    public static final int ACOSH = 230;
-    public static final int ASINH = 240;
-    public static final int ATANH = 250;
-    public static final int CSC = 260;
-    public static final int SEC = 270;
-    public static final int COT = 280;
-    public static final int CSCH = 290;
-    public static final int SECH = 300;
-    public static final int COTH = 310;
-    public static final int FLOOR = 320;
-    public static final int CEIL = 330;  
-    public static final int FACTORIAL = 340;
-    public static final int ROUND = 350;  
-    public static final int GAMMA = 360;    
-    public static final int GAMMA_INCOMPLETE = 370;    
-    public static final int GAMMA_INCOMPLETE_REGULARIZED = 380;    
-    public static final int BETA = 390;    
-    public static final int BETA_INCOMPLETE = 400;    
-    public static final int BETA_INCOMPLETE_REGULARIZED = 410;    
-    public static final int ERF = 420;
-    public static final int LOG10 = 430;  
-    public static final int LOG2 = 440; 
-    public static final int CBRT = 450;   
-    public static final int RANDOM = 460;
-    public static final int CONJUGATE = 480;
-    public static final int ARG = 490; 
-     
-    public static final int FUNCTION = 500;
-    public static final int FUNCTION_NVAR = 510;
-    public static final int VEC_FUNCTION = 520;
-    public static final int DERIVATIVE = 530;  
-    public static final int ELEMENT_OF = 540;  
+    FREEHAND,COS,SIN,TAN,EXP,LOG,ARCCOS,ARCSIN,ARCTAN,ARCTAN2,SQRT,ABS
+    ,SGN,XCOORD,YCOORD,ZCOORD,COSH,SINH,TANH,ACOSH,ASINH,ATANH,CSC,SEC
+    ,COT,CSCH,SECH,COTH,FLOOR,CEIL,FACTORIAL,ROUND,GAMMA,GAMMA_INCOMPLETE
+    ,GAMMA_INCOMPLETE_REGULARIZED,BETA,BETA_INCOMPLETE,BETA_INCOMPLETE_REGULARIZED
+    ,ERF,LOG10,LOG2,CBRT,RANDOM,CONJUGATE,ARG,FUNCTION,FUNCTION_NVAR,
+    VEC_FUNCTION,DERIVATIVE,ELEMENT_OF,  
     
     // spreadsheet absolute reference using $ signs
-    public static final int $VAR_ROW = 550;
-    public static final int $VAR_COL = 560;
-    public static final int $VAR_ROW_COL = 570;
-	
-    // logarithm for arbitrary base log(b, x)
-    public static final int LOGB = 580;
+    $VAR_ROW,$VAR_COL,$VAR_ROW_COL,
+    
+    LOGB}
     
     /*
      * these should also be documented here:

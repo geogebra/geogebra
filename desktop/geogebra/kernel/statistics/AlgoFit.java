@@ -253,7 +253,7 @@ public class AlgoFit extends AlgoElement {
     		if(ev.isExpressionNode()){
     			n=(ExpressionNode)ev;
     			walk(n.left);    			walk(n.right);
-    			System.out.println("  Op: "+getOpString(n.getOperation()));
+    			System.out.println("  Op: "+n.getOperation().toString());
     			System.out.println();
     		}else if(ev.isGeoElement()){
     			GeoElement geo=(GeoElement)ev;
@@ -274,21 +274,6 @@ public class AlgoFit extends AlgoElement {
     	}//if
     }//walk node tree
     
-    private String getOpString(int i){
-    	switch (i){
-    	case -2147483648: return("noop");
-    	case 0:return("add");
-    	case 1: return("minus");
-    	case 2: return("mullt");
-    	case 3: return("div");
-    	case 4: return("pow");
-    	case 43:return("Func");
-    		default:  break;
-    	}//switch
-    	return ""+i;
-    }//getOpString
-
- 
  
   // --- SNIP --- /// 
 

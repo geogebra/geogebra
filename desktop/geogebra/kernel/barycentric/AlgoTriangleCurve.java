@@ -58,9 +58,9 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 				
 		abcExp[i] =new ExpressionNode(kernel, 
 				new ExpressionNode(kernel,
-				new ExpressionNode(kernel,xcoef[i],MULTIPLY,x),PLUS,
-				new ExpressionNode(kernel,ycoef[i],MULTIPLY,y)
-				),PLUS,constant[i]);
+				new ExpressionNode(kernel,xcoef[i],Operation.MULTIPLY,x),Operation.PLUS,
+				new ExpressionNode(kernel,ycoef[i],Operation.MULTIPLY,y)
+				),Operation.PLUS,constant[i]);
 		}
 		
 		eq = new Equation(kernel, lhs, rhs);

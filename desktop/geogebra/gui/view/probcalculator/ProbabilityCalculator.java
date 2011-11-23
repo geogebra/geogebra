@@ -20,6 +20,7 @@ import geogebra.kernel.algos.AlgoSequence;
 import geogebra.kernel.algos.AlgoTake;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -671,10 +672,10 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			double  firstX = ((GeoNumeric)discreteValueList.get(0)).getDouble();
 			MyDouble offset = new MyDouble(kernel, 1d - firstX);
 
-			ExpressionNode low = new ExpressionNode(kernel, lowPoint, ExpressionNode.XCOORD, null);
-			ExpressionNode high = new ExpressionNode(kernel, highPoint, ExpressionNode.XCOORD, null);				
-			ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low, ExpressionNode.PLUS, offset);
-			ExpressionNode highPlusOffset = new ExpressionNode(kernel, high, ExpressionNode.PLUS, offset);	
+			ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
+			ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);				
+			ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low, Operation.PLUS, offset);
+			ExpressionNode highPlusOffset = new ExpressionNode(kernel, high, Operation.PLUS, offset);	
 			
 			AlgoDependentNumber xLow;
 			if(isCumulative)
@@ -761,8 +762,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				GeoBoolean f = new GeoBoolean(cons);
 				f.setValue(false);
 
-				ExpressionNode low = new ExpressionNode(kernel, lowPoint, ExpressionNode.XCOORD, null);
-				ExpressionNode high = new ExpressionNode(kernel, highPoint, ExpressionNode.XCOORD, null);				
+				ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
+				ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);				
 
 				AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
 				cons.removeFromConstructionList(xLow);
@@ -786,13 +787,13 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				// point on curve 
 				GeoFunction f = (GeoFunction)densityCurve;	
 				ExpressionNode highPointX = new ExpressionNode(kernel, highPoint, 
-						ExpressionNode.XCOORD, null);
+						Operation.XCOORD, null);
 				ExpressionNode curveY = new ExpressionNode(kernel, f,
-						ExpressionNode.FUNCTION, highPointX);
+						Operation.FUNCTION, highPointX);
 		
 				MyVecNode curveVec = new MyVecNode( kernel, highPointX, curveY);
 				ExpressionNode curvePointNode = new ExpressionNode(kernel, curveVec, 
-						ExpressionNode.NO_OPERATION, null);
+						Operation.NO_OPERATION, null);
 				curvePointNode.setForcePoint();
 
 				AlgoDependentPoint pAlgo = new AlgoDependentPoint(cons, curvePointNode, false);
@@ -806,9 +807,9 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				plotGeoList.add(curvePoint);
 
 				// create vertical line segment 
-				ExpressionNode xcoord = new ExpressionNode(kernel, curvePoint, ExpressionNode.XCOORD, null);
+				ExpressionNode xcoord = new ExpressionNode(kernel, curvePoint, Operation.XCOORD, null);
 				MyVecNode vec = new MyVecNode( kernel, xcoord, new MyDouble(kernel, 0.0));
-				ExpressionNode point = new ExpressionNode(kernel, vec, ExpressionNode.NO_OPERATION, null);
+				ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 				point.setForcePoint();
 				AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 				cons.removeFromConstructionList(pointAlgo);
@@ -824,9 +825,9 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				plotGeoList.add(xSegment);
 
 				// create horizontal ray 
-				ExpressionNode ycoord = new ExpressionNode(kernel, curvePoint, ExpressionNode.YCOORD, null);
+				ExpressionNode ycoord = new ExpressionNode(kernel, curvePoint, Operation.YCOORD, null);
 				MyVecNode vecy = new MyVecNode( kernel, new MyDouble(kernel, 0.0), ycoord);
-				ExpressionNode pointy = new ExpressionNode(kernel, vecy, ExpressionNode.NO_OPERATION, null);
+				ExpressionNode pointy = new ExpressionNode(kernel, vecy, Operation.NO_OPERATION, null);
 				pointy.setForcePoint();	
 				GeoVector v = new GeoVector(cons);
 				v.setCoords(-1d, 0d, 1d);
@@ -1670,7 +1671,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			AlgoPascal pascal = new AlgoPascal(cons, nGeo, pGeo, (NumberValue)algo.getGeoElements()[0], new GeoBoolean(cons, isCumulative));
 			cons.removeFromConstructionList(pascal);
 
-			nPlusOne = new ExpressionNode(kernel, n2Geo, ExpressionNode.PLUS, new MyDouble(kernel, 1.0));
+			nPlusOne = new ExpressionNode(kernel, n2Geo, Operation.PLUS, new MyDouble(kernel, 1.0));
 			plusOneAlgo = new AlgoDependentNumber(cons, nPlusOne, false);
 			cons.removeFromConstructionList(plusOneAlgo);
 
@@ -1701,7 +1702,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			AlgoPoisson poisson = new AlgoPoisson(cons, meanGeo, (NumberValue)algo.getGeoElements()[0], new GeoBoolean(cons, isCumulative));
 			cons.removeFromConstructionList(poisson);
 
-			nPlusOne = new ExpressionNode(kernel, maxDiscreteGeo, ExpressionNode.PLUS, new MyDouble(kernel, 1.0));
+			nPlusOne = new ExpressionNode(kernel, maxDiscreteGeo, Operation.PLUS, new MyDouble(kernel, 1.0));
 			plusOneAlgo = new AlgoDependentNumber(cons, nPlusOne, false);
 			cons.removeFromConstructionList(plusOneAlgo);
 

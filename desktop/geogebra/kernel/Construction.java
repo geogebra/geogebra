@@ -20,7 +20,7 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgorithmSet;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoDependentCasCell;
 import geogebra.kernel.geos.GeoAxis;
@@ -1418,7 +1418,7 @@ public class Construction {
 			} else if (geo1 != null && geo1.isNumberValue()) {
 				GeoElement geo2 = kernel.lookupLabel(label.charAt(1)+"");
 				if (geo2 != null && geo2.isNumberValue()) {
-					ExpressionNode node = new ExpressionNode(kernel, ((NumberValue)geo1).evaluate(), ExpressionNodeConstants.MULTIPLY, ((NumberValue)geo2).evaluate());
+					ExpressionNode node = new ExpressionNode(kernel, ((NumberValue)geo1).evaluate(), Operation.MULTIPLY, ((NumberValue)geo2).evaluate());
 					AlgoDependentNumber algo = new AlgoDependentNumber(this, null, node, false);
 					createdGeo = algo.getNumber();
 					fix = false;					
