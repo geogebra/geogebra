@@ -72,6 +72,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -987,7 +989,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	/**
 	 * panel color chooser and preview panel
 	 */
-	private class ColorPanel extends JPanel implements UpdateablePanel,
+	private class ColorPanel extends JPanel implements ActionListener, UpdateablePanel,
 			ChangeListener, SetLabels {
 
 		private static final long serialVersionUID = 1L;
@@ -995,10 +997,13 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		private JLabel previewLabel, currentColorLabel;
 		private PreviewPanel previewPanel;
 		private JPanel opacityPanel;
+		private JRadioButton rbtnForegroundColor, rbtnBackgroundColor;
+		private JButton btnClearBackground;
 
 		private JSlider opacitySlider;
 		private JPanel previewMetaPanel;
 		private boolean allFillable = false;
+		private boolean hasBackground = false;
 		
 		public ColorPanel(GeoGebraColorChooser colChooser) {
 
@@ -1030,6 +1035,19 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				label.setFont(app.getSmallFont());
 			}
 
+			rbtnForegroundColor = new JRadioButton();
+			rbtnBackgroundColor = new JRadioButton();
+			ButtonGroup group = new ButtonGroup();
+			group.add(rbtnForegroundColor);
+			group.add(rbtnBackgroundColor);
+			rbtnForegroundColor.setSelected(true);
+			rbtnBackgroundColor.addActionListener(this);
+			rbtnForegroundColor.addActionListener(this);
+			
+			btnClearBackground = new JButton(app.getImageIcon("delete_small.gif"));
+			btnClearBackground.setFocusPainted(false);
+			btnClearBackground.addActionListener(this);
+			
 			// panel to hold color chooser
 			JPanel colorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			colorPanel.add(colorChooserPanel);
@@ -1043,12 +1061,26 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			previewMetaPanel.add(previewLabel);
 			previewMetaPanel.add(previewPanel);
 			previewMetaPanel.add(currentColorLabel);
+			
 
 			// vertical box panel that stacks the preview and opacity slider
 			// together
-			Box southPanel = Box.createVerticalBox();
-			southPanel.add(previewMetaPanel);
-			southPanel.add(opacityPanel);
+			JPanel southPanel = new JPanel();
+			southPanel.setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.WEST;
+			c.gridx = 0;
+			southPanel.add(previewMetaPanel,c);
+			southPanel.add(opacityPanel,c);
+			c.gridwidth=2;
+			southPanel.add(rbtnForegroundColor,c);
+			c.gridwidth=1;
+			southPanel.add(rbtnBackgroundColor, c);
+			c.gridwidth=GridBagConstraints.REMAINDER;
+			c.insets = new Insets(0,30,0,0);
+			southPanel.add(btnClearBackground, c);
+
+
 
 			// put the sub-panels together
 			setLayout(new BorderLayout());
@@ -1074,7 +1106,6 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				this.setBorder(BorderFactory.createEmptyBorder());
 				this.setBackground(null);
 				this.setOpaque(true);
-
 			}
 
 			/**
@@ -1132,6 +1163,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			opacityPanel.setBorder(BorderFactory.createTitledBorder(app
 					.getMenu("Opacity")));
 			colChooser.setLocale(app.getLocale());
+			rbtnBackgroundColor.setText(app.getMenu("BackgroundColor"));
+			rbtnForegroundColor.setText(app.getMenu("ForegroundColor"));
+			btnClearBackground.setToolTipText(app.getPlain("Remove"));
 		}
 
 		
@@ -1143,43 +1177,83 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			
 			GeoElement geo0 = (GeoElement) geos[0];
 			
-			// check if geos have same color
-			GeoElement temp;
+			
+			// check geos for similar properties 
+			
 			boolean equalObjColor = true;
-
+			boolean equalObjColorBackground = true;
+			allFillable = geo0.isFillable();
+			hasBackground = geo0.isGeoText()
+					|| geo0.isGeoButton();
+			
+			GeoElement temp;
 			for (int i = 1; i < geos.length; i++) {
 				temp = (GeoElement) geos[i];
 				// same object color
 				if (!geo0.getObjectColor().equals(temp.getObjectColor())) {
 					equalObjColor = false;
-					break;
+				}
+				// has fill color
+				if (!((GeoElement) geos[i]).isFillable()) {
+					allFillable = false;
+				}
+				// has background
+				if (!((GeoElement) geos[i]).isGeoText()
+						&& !((GeoElement) geos[i]).isGeoButton()) {
+					hasBackground = false;
 				}
 			}
 
-			// check if geos are all fillable
-			allFillable = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!((GeoElement) geos[i]).isFillable()) {
-					allFillable = false;
-					break;
-				}
+	
+			if(hasBackground){
+				equalObjColorBackground = true;
+
+				if(geo0.getBackgroundColor() == null)
+					// test for all null background color
+					for (int i = 1; i < geos.length; i++) {
+						temp = (GeoElement) geos[i];
+						if (temp.getBackgroundColor() != null) {
+							equalObjColorBackground = false;
+							break;
+						}
+					}
+				else
+					// test for all same background color
+					for (int i = 1; i < geos.length; i++) {
+						temp = (GeoElement) geos[i];
+						// same background color
+						if (!geo0.getBackgroundColor().equals(temp.getBackgroundColor())) {
+							equalObjColorBackground = false;
+							break;
+						}
+					}
 			}
-			
-			
+
+				
 			// initialize selected color and opacity
 			Color selectedColor = null;
+			Color selectedBGColor = null;
 			float alpha = 1;
 			
+			if(equalObjColorBackground){
+				selectedBGColor  = geo0.getBackgroundColor();
+			}
 			
-			// set selectedColor if all selected geos have the same color
-			if (equalObjColor) {
-				if (allFillable) {
-					selectedColor = geo0.getFillColor();
-					alpha = geo0.getAlphaValue();
-				} else {
-					selectedColor = geo0.getObjectColor();
-				}
-			} 
+			if(this.rbtnBackgroundColor.isSelected())
+				selectedColor = selectedBGColor;
+			else{
+				// set selectedColor if all selected geos have the same color
+				if (equalObjColor) {
+					if (allFillable) {
+						selectedColor = geo0.getFillColor();
+						alpha = geo0.getAlphaValue();
+					} else {
+						selectedColor = geo0.getObjectColor();
+					}
+				} 
+			}	
+			
+			
 			
 			// set the preview tool tip and color label text for the chosen color
 			if(selectedColor == null)
@@ -1214,6 +1288,11 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			
 			// set the preview panel (do this after the alpha level is set above)
 			previewPanel.setPreview(selectedColor, alpha);	
+			
+			rbtnBackgroundColor.setVisible(hasBackground);
+			rbtnForegroundColor.setVisible(hasBackground);
+			btnClearBackground.setVisible(rbtnBackgroundColor.isSelected());
+			btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 			
 			return this;
 		}
@@ -1251,16 +1330,37 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			GeoElement geo;
 			for (int i = 0; i < geos.length; i++) {
 				geo = (GeoElement) geos[i];
-				if(!updateAlphaOnly)
-					geo.setObjColor(col);
-				if(allFillable)
-					geo.setAlphaValue(alpha);
+
+				if(hasBackground && rbtnBackgroundColor.isSelected()){
+					geo.setBackgroundColor(col);
+				}
+				else
+				{
+					if(!updateAlphaOnly)
+						geo.setObjColor(col);
+					if(allFillable)
+						geo.setAlphaValue(alpha);
+				}
 				geo.updateVisualStyle();
 			}
 			kernel.notifyRepaint();
 		}
-		
+
 	
+		/**
+		 * Sets the background color of selected GeoElements to null
+		 */
+		private void clearBackgroundColor() {
+	
+			GeoElement geo;
+			for (int i = 0; i < geos.length; i++) {
+				geo = (GeoElement) geos[i];
+					geo.setBackgroundColor(null);
+				geo.updateVisualStyle();
+			}
+			kernel.notifyRepaint();
+		}
+
 		
 
 		// show everything but images
@@ -1290,9 +1390,27 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				updateColor(colChooser.getColor(), alpha, false);
 
 		}
-
+		
+		/**
+		 * action listener implementation for label mode combobox
+		 */
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == rbtnBackgroundColor
+					|| source == rbtnForegroundColor) {
+				update(geos);
+			}
+			
+			if (source == btnClearBackground){ 
+				clearBackgroundColor();
+				update(geos);
+			}
+		}
+		
 	} // ColorPanel
 
+	
+	
 	/**
 	 * panel with label properties
 	 */

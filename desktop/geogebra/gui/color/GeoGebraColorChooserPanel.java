@@ -610,7 +610,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		@Override
 		protected void initValues() {
-			numSwatches = new Dimension(7, 4);
+			numSwatches = new Dimension(6, 4);
 			swatchSize = new Dimension(smallSwatchSize, smallSwatchSize);
 		}
 
