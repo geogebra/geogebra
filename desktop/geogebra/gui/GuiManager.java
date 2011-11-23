@@ -965,6 +965,8 @@ public class GuiManager {
 				((JFrame) comp).setJMenuBar((JMenuBar) menuBar);
 		}
 
+		if(inputHelpPanel != null)
+			inputHelpPanel.setLabels();
 		// update views
 		if (algebraView != null)
 			algebraView.setLabels();
