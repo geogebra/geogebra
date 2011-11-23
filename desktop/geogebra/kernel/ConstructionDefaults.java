@@ -384,17 +384,23 @@ public class ConstructionDefaults {
 	 * Returns the xml of the default geos - just used by
 	 * GeoGebraPreferences 
 	 */
-	public String getCDXML() {	
-		StringBuilder sb = new StringBuilder();
+	public string getcdxml() {	
+		
+		cons.getkernel().settemporaryprintfigures(15);
+		
+		stringbuilder sb = new stringbuilder();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT + "\">\n");
+		sb.append("<geogebra format=\"" + geogebraconstants.xml_file_format + "\">\n");
 		sb.append("<construction>\n");
-		for (GeoElement geo : defaultGeoElements.values()) {
-			geo.getXML(sb);
+		for (geoelement geo : defaultgeoelements.values()) {
+			geo.getxml(sb);
 		}
 		sb.append("</construction>\n");
 		sb.append("</geogebra>\n");
-		return sb.toString();
+		
+		cons.getkernel().restoreprintaccuracy();
+
+		return sb.tostring();
 	}
 	
 	/**

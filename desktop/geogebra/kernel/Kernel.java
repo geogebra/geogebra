@@ -9047,6 +9047,10 @@ public class Kernel {
 					}
 					
 					phi = Math.toDegrees(phi);
+					
+					// make sure 360.0000000002 -> 360
+					phi = checkInteger(phi);
+					
 					if (phi < 0) 
 						phi += 360;	
 					else if (phi > 360)
