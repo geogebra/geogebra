@@ -1081,10 +1081,11 @@ public class Kernel {
 	 */
 	 final public String removeCASVariablePrefix(String str) {
 		// e.g. "ggbtmpvar1a" is changed to "a"
-		String result = str.replace(casVariablePrefix, "");
+		 // need a space so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595
+		String result = str.replace(casVariablePrefix, " ");
 				 
 		// e.g. "ggbtmpvara" needs to be changed to "a"
-		result = result.replace(TMP_VARIABLE_PREFIX, "");
+		result = result.replace(TMP_VARIABLE_PREFIX, " ");
 		return result;
 	 }
 	 	
