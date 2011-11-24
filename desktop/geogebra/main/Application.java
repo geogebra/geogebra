@@ -26,6 +26,7 @@ import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.export.GraphicExportDialog;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
@@ -5216,28 +5217,55 @@ public class Application implements KeyEventDispatcher {
 		
 		clearSelectedGeos();
 		
+		final Application app = this;
+		
 		Thread runner = new Thread() {
 			public void run() {		
 				setWaitCursor();
 				
-				//copy the active euclidian view to the system clipboard
-				Image img=ev.getExportImage(2d);
-				ImageSelection imgSel = new ImageSelection(img);
-				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);	
+				if (!WINDOWS_VISTA_OR_LATER) {
+					
+					// use other method for WinXP or earlier
+					// GraphicExportDialog.exportPNG() doesn't work well on XP eg paste into Paint
+							
+					simpleExportToClipboard(ev);
+					
+				} else {
 
-				// this doesn't work very well
-				// eg can't paste into Paint (WinXP)
-				//GraphicExportDialog export = new GraphicExportDialog(app);
-				//export.setDPI("150");
-				//export.exportPNG(true);
+					GraphicExportDialog export = new GraphicExportDialog(app);
+					export.setDPI("300");
+	
+					if (!export.exportPNG(true, false)) 
+					{
+						// if there's an error (eg memory) just do a simple export
+						simpleExportToClipboard(ev);
+	
+					}
+				}
 
-				
 				setDefaultCursor();
 			}
 		};
 		runner.start();						    			    								
-		
+
 	}
+	
+	private void simpleExportToClipboard(EuclidianView ev) {
+		double scale = 2d;
+		double size = ev.getExportWidth() * ev.getExportHeight();
+
+		// Windows XP clipboard has trouble with images larger than this
+		// at double scale (with scale = 2d)
+		if (size > 750000) {
+			scale = 2.0 * Math.sqrt(750000 / size);
+		}
+
+		// copy drawing pad to the system clipboard
+		Image img = ev.getExportImage(scale);
+		ImageSelection imgSel = new ImageSelection(img);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);		
+	}
+	
 	
 	private static Rectangle screenSize = null;
 	

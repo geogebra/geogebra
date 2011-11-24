@@ -670,10 +670,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 	}		
 
+	final public boolean exportPNG(boolean exportToClipboard) {
+		return exportPNG(exportToClipboard, true);
+	}
+	
 	/**
 	  *  Exports drawing as png with given resolution in dpi
 	  */
-	final public boolean exportPNG(boolean exportToClipboard) {
+	final public boolean exportPNG(boolean exportToClipboard, boolean showError) {
 		//  Michael Borcherds 2008-03-02 BEGIN
 		File file;
 		String tempDir = DownloadManager.getTempDir();
@@ -705,11 +709,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			
 			return true;
 		} catch (Exception ex) {
-			app.showError("SaveFileFailed");
+			if (showError) app.showError("SaveFileFailed");
 			Application.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.showError("SaveFileFailed");
+			if (showError) app.showError("SaveFileFailed");
 			Application.debug(ex.toString());
 			return false;
 		} 
