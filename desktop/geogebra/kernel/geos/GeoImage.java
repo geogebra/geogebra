@@ -22,6 +22,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.util.Util;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -878,6 +879,12 @@ implements Locateable, AbsoluteScreenLocateable,
     		if (corners[i] == null) corners[i] = new GeoPoint(cons);
     		corners[i].setCoords(vec);    			
     	}
+		
+	}
+
+	public void clearFillImage() {
+		this.image=new BufferedImage(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_ARGB);
+		this.updateRepaint();
 		
 	}
 

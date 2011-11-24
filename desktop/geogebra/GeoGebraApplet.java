@@ -147,6 +147,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	/**
 	 * Returns the appletImplementation object.
+	 * @return the applet implementation
 	 */
 	public synchronized AppletImplementationInterface getAppletImplementation() {
 		if (appletIsIniting) {
@@ -586,8 +587,11 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	
 
 	public void drawToImage(String label,double[] x, double[] y) {
-		getAppletImplementation().drawToImage(label, x, y);
-		
+		getAppletImplementation().drawToImage(label, x, y);		
+	}
+	
+	public void clearImage(String label) {
+		getAppletImplementation().clearImage(label);		
 	}
 
 	public void registerPenListener(String JSFunctionName) {

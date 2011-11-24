@@ -6062,24 +6062,7 @@ public class Application implements KeyEventDispatcher {
 		getGuiManager().updateAlgebraInput(); 
 		updateMenubar(); 
 	}
-
-	public void drawToImage(String label, double[] x, double[] y) {
-		GeoElement ge = kernel.lookupLabel(label);
-		
-		if(ge == null){
-			ge = new GeoImage(kernel.getConstruction());
-			if(label.length()==0)
-				label = null;
-			ge.setLabel(label);
-		}
-		if(!ge.isGeoImage()){
-			debug("Bad drawToImage arguments");
-			return;
-		}
-		
-		this.getEuclidianView().drawPoints((GeoImage)ge,x,y);
-		
-	} 	
+	
 }
 
 

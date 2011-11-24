@@ -20,6 +20,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
@@ -1197,7 +1198,31 @@ public class GgbAPI {
 	}
 
 	public void drawToImage(String label, double[] x, double[] y) {
-		app.drawToImage(label,x,y);
+		GeoElement ge = kernel.lookupLabel(label);
+		
+		if(ge == null){
+			ge = new GeoImage(kernel.getConstruction());
+			if(label.length()==0)
+				label = null;
+			ge.setLabel(label);
+		}
+		if(!ge.isGeoImage()){
+			debug("Bad drawToImage arguments");
+			return;
+		}
+		
+		app.getEuclidianView().drawPoints((GeoImage)ge,x,y);
+		
+	}
+
+	public void clearImage(String label) {
+		GeoElement ge = kernel.lookupLabel(label);
+		
+		if(!ge.isGeoImage()){
+			debug("Bad drawToImage arguments");
+			return;
+		}
+		((GeoImage)ge).clearFillImage();
 		
 	}
 

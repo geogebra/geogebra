@@ -1443,6 +1443,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.getScriptManager().unregisterPenListener(JSFunctionName);
 		
 	}
-
+	
+	public void clearImage(String label){
+		ggbApi.clearImage(label);
+	}
 
 }
