@@ -63,6 +63,7 @@ import geogebra.main.settings.EuclidianSettings;
 import geogebra.main.settings.SettingListener;
 import geogebra.util.MyMath;
 import geogebra.util.Unicode;
+import geogebra.util.Util;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -4073,9 +4074,9 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			sb.append("\" show=\"");
 			sb.append(showAxes[i]);
 			sb.append("\" label=\"");
-			sb.append(axesLabels[i] == null ? "" : axesLabels[i]);
+			sb.append(axesLabels[i] == null ? "" : Util.encodeXML(axesLabels[i]));
 			sb.append("\" unitLabel=\"");
-			sb.append(axesUnitLabels[i] == null ? "" : axesUnitLabels[i]);
+			sb.append(axesUnitLabels[i] == null ? "" : Util.encodeXML(axesUnitLabels[i]));
 			sb.append("\" tickStyle=\"");
 			sb.append(axesTickStyles[i]);
 			sb.append("\" showNumbers=\"");
