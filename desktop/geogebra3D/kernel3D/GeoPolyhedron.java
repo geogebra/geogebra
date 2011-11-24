@@ -225,7 +225,7 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	 */
 	public void updateFaces(){
 		
-		
+		/*
 		//remove old faces and edges
 		for (ConstructionElementCycle key : oldPolygons){
 			
@@ -244,7 +244,7 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 				segments.remove(key);
 			}
 		}
-		
+		*/
 		
 		// create missing faces
 		for (ConstructionElementCycle currentFace : polygonsIndex.keySet()){
@@ -277,6 +277,12 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 			}
 			//last segment
 			s[j] = createSegment(endPoint, firstPoint);
+			
+
+			String st = "poly : ";
+			for (int i=0;i<p.length;i++)
+				st+=p[i].getLabel();
+			Application.debug(st);
 			
 			GeoPolygon3D polygon = createPolygon(p);
 			polygons.put(polygonsIndex.get(currentFace), polygon);
@@ -332,6 +338,8 @@ public class GeoPolyhedron extends GeoElement3D {//implements Path {
 	  */
 	
 	 public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint){
+		 
+		 Application.debug(startPoint.getLabel()+endPoint.getLabel());
 		 
 		 ConstructionElementCycle key = 
 			 ConstructionElementCycle.SegmentDescription((GeoElement) startPoint,(GeoElement) endPoint);

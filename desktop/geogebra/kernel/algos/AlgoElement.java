@@ -186,6 +186,10 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 				adjustOutputSize(labels.length);
 		}
 		
+		public void removeFromHandler(){
+			outputHandler.remove(this);
+		}
+		
 		/**
 		 * @param size makes room in this OutputHandler for size Objects.<br />
 		 * if there are currently more objects than size, they become undefined.
@@ -210,12 +214,17 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		}
 		
 		public void augmentOutputSize(int size){
+			augmentOutputSize(size,true);
+		}
+		
+		public void augmentOutputSize(int size, boolean setDependencies){
 			size+=outputList.size();
 			outputList.ensureCapacity(size);
 			for (int i=outputList.size();i<size;i++){
 				T newGeo = fac.newElement();
 				outputList.add(newGeo);
-				setOutputDependencies(newGeo);
+				if (setDependencies)
+					setOutputDependencies(newGeo);
 			}
 			refreshOutput();
 			

@@ -5,6 +5,7 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
 
 /**
  * @author ggb3D
@@ -61,18 +62,18 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		GeoPointND[] bottomPoints = getBottomPoints();
 		GeoPointND topPoint = getTopPoint();
 		
-		int numPoints = bottomPoints.length;
+		bottomPointsLength = bottomPoints.length;
 
 
-		GeoPointND[] points = new GeoPointND[numPoints*2];
-		outputPoints.augmentOutputSize(numPoints-1);
+		GeoPointND[] points = new GeoPointND[bottomPointsLength*2];
+		outputPoints.augmentOutputSize(bottomPointsLength-1);
 		outputPoints.setLabels(null);
-		for(int i=0;i<numPoints;i++)
+		for(int i=0;i<bottomPointsLength;i++)
 			points[i] = bottomPoints[i];
-		points[numPoints] = topPoint;		
-		for(int i=0;i<numPoints-1;i++){
+		points[bottomPointsLength] = topPoint;		
+		for(int i=0;i<bottomPointsLength-1;i++){
 			GeoPoint3D point = outputPoints.getElement(i+1-getShift());
-			points[numPoints+1+i] = point;
+			points[bottomPointsLength+1+i] = point;
 			polyhedron.addPointCreated(point);
 		}
 		
@@ -80,12 +81,12 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		setBottom(polyhedron);
 		
 		//sides of the prism
-		for (int i=0; i<numPoints; i++){
+		for (int i=0; i<bottomPointsLength; i++){
 			polyhedron.startNewFace();
 			polyhedron.addPointToCurrentFace(points[i]);
-			polyhedron.addPointToCurrentFace(points[(i+1)%(numPoints)]);
-			polyhedron.addPointToCurrentFace(points[numPoints + ((i+1)%(numPoints))]);
-			polyhedron.addPointToCurrentFace(points[numPoints + i]);
+			polyhedron.addPointToCurrentFace(points[(i+1)%(bottomPointsLength)]);
+			polyhedron.addPointToCurrentFace(points[bottomPointsLength + ((i+1)%(bottomPointsLength))]);
+			polyhedron.addPointToCurrentFace(points[bottomPointsLength + i]);
 			polyhedron.endCurrentFace();
 		}
 		
@@ -93,8 +94,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		
 		//top of the prism
 		polyhedron.startNewFace();
-		for (int i=0; i<numPoints; i++)
-			polyhedron.addPointToCurrentFace(points[numPoints+i]);
+		for (int i=0; i<bottomPointsLength; i++)
+			polyhedron.addPointToCurrentFace(points[bottomPointsLength+i]);
 		polyhedron.endCurrentFace();
 
 
@@ -105,8 +106,34 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	protected void addBottomPoints(int length){
 		outputPoints.augmentOutputSize(length);
 		
+		//new sides of the prism
+		GeoPolyhedron polyhedron = getPolyhedron();
+		GeoPointND[] bottomPoints = getBottomPoints();
+		int l = bottomPointsLength+length;
+		for (int i=bottomPointsLength; i<l; i++){
+			polyhedron.startNewFace();
+			polyhedron.addPointToCurrentFace(bottomPoints[i]);
+			polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%l]);
+			int index = ((i+1)%l)-getShift();
+			GeoPointND point;
+			if (index==-1)
+				point = getTopPoint();
+			else
+				point = outputPoints.getElement(index);
+			polyhedron.addPointToCurrentFace(point);
+			polyhedron.addPointToCurrentFace(outputPoints.getElement(i-getShift()));
+			polyhedron.endCurrentFace();
+		}
+		
+		polyhedron.updateFaces();
+		
 	}
 	
+	protected void removeBottomPoints(int length){
+		for(int i=bottomPointsLength; i<bottomPointsLength+length; i++)
+			outputPoints.getElement(i-getShift()).setUndefined();
+		
+	}
 	
 	/////////////////////////////////////////////
 	// END OF THE CONSTRUCTION
@@ -126,7 +153,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		Coords v = getUpTranslation();
 		
 		//translate all output points
-		for (int i=0;i<outputPoints.size();i++)
+		for (int i=0;i<bottomPointsLength-getShift();i++)
 			outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(v),true);
 
 		//TODO remove this and replace with tesselation

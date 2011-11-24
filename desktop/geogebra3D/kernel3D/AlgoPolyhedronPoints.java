@@ -26,7 +26,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	private NumberValue height;
 	
 	protected boolean bottomAsInput = false;
-	protected int bottomPointLength = -1;
+	protected int bottomPointsLength = -1;
 	
 
 	
@@ -224,6 +224,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	 */
 	protected abstract void createPolyhedron(GeoPolyhedron polyhedron);
 	
+	protected abstract void addBottomPoints(int length);
+	
+	protected abstract void removeBottomPoints(int length);
 	
 	/**
 	 * sets the bottom of the polyhedron
@@ -264,10 +267,16 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	public void compute() {
 		
 		//check if bottom points length has changed (e.g. with regular polygon)
-		if (bottomAsInput && bottom.getPointsLength()!=bottomPointLength){
-			Application.debug("bottom.getPointsLength()!=bottomPointLength");
-			
-			bottomPointLength=bottom.getPointsLength();
+		if (bottomAsInput && bottom.getPointsLength()!=bottomPointsLength){
+			Application.debug("bottom.getPointsLength()!=bottomPointsLength");
+			int shift = bottom.getPointsLength()-bottomPointsLength;
+			if (shift>0){
+				addBottomPoints(shift);
+				bottomPointsLength+=shift;
+			}else if (shift<0){
+				bottomPointsLength+=shift;
+				removeBottomPoints(-shift);				
+			}
 		}
 			
 		

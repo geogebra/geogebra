@@ -113,6 +113,17 @@ public class AlgoJoinPointsSegment extends AlgoElement {
         //setDependencies();
         setEfficientDependencies(input, efficientInput);
     }
+    
+    public void modifyInputPoints(GeoPoint A, GeoPoint B){
+    	for (int i=0;i<2;i++)
+    		input[i].removeAlgorithm(this);
+    	
+    	P=A;
+    	Q=B;   	
+    	s.setPoints(P, Q);
+    	setInputOutput();   	
+    	
+    }
 
     public GeoSegment getSegment() {
         return s;

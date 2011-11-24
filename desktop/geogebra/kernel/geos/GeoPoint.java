@@ -1814,4 +1814,12 @@ GeoPointND, Animatable, Transformable  {
 					y + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,
 					z);
 		}	
+		
+		
+		public void setParentAlgorithm(AlgoElement algorithm) {
+			super.setParentAlgorithm(algorithm);			
+			if (algorithm != null)
+				setConstructionDefaults(); // set colors to dependent colors
+		
+		}
 }

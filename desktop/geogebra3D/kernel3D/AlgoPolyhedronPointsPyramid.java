@@ -50,6 +50,14 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		
 	}
 	
+	protected void addBottomPoints(int length){
+		
+	}
+	
+	protected void removeBottomPoints(int length){
+		
+	}
+	
 	
 	/////////////////////////////////////////////
 	// END OF THE CONSTRUCTION

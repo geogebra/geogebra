@@ -15,17 +15,27 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.algos.AlgoElement.OutputHandler;
+import geogebra.kernel.algos.AlgoElement.elementFactory;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 import java.util.ArrayList;
 
+/*
+<command name="Polygon">
+<input a0="A" a1="B" a2="n"/>
+<output a0="poly1" a1="a" a2="b" a3="c" a4="d" a5="e" a6="C" a7="D" a8="E"/>
+</command>
+*/
 
 /**
  * Creates a regular Polygon for two points and the number of vertices.
@@ -34,61 +44,148 @@ import java.util.ArrayList;
  */
 public class AlgoPolygonRegular extends AlgoElement {
 
-	private GeoPoint A, B;  // input
+	private final GeoPoint A, B;  // input
 	private NumberValue num; // input
-    private GeoPolygon poly;     // output
-    
-    private GeoPoint [] points;
+	
+	private int numOld = 2;
+	
+	private OutputHandler<GeoPolygon> outputPolygon;
+	private OutputHandler<GeoPoint> outputPoints;
+	private OutputHandler<GeoSegment> outputSegments;
+   
     private GeoPoint centerPoint;	
     private MyDouble rotAngle;
     
     private boolean labelPointsAndSegments;
+    private boolean showNewSegmentsLabels;
+    private boolean showNewPointsLabels;
     private boolean labelsNeedIniting;
     
     /**
      * Creates a new regular polygon algorithm
      * @param labels labels[0] for polygon, then labels for segments and then for points
      */
-    public AlgoPolygonRegular(Construction cons, String [] labels, GeoPoint A, GeoPoint B, NumberValue num) {
-        super(cons);
+    public AlgoPolygonRegular(Construction c, String [] labels, GeoPoint A1, GeoPoint B1, NumberValue num) {
+        super(c);
+        
         labelsNeedIniting = true;
         
-        this.A = A;
-        this.B = B;
+        this.A = A1;
+        this.B = B1;
         this.num = num;  
-                       
+        
         // labels given by user or loaded from file 
         int labelsLength = labels == null ? 0 : labels.length;
 
         // set labels for segments only when points have labels
         labelPointsAndSegments = A.isLabelSet() || B.isLabelSet() || labelsLength > 1;              
-	
+        showNewSegmentsLabels = false;
+        showNewPointsLabels = false;
+        
         // temp center point of regular polygon
-        centerPoint = new GeoPoint(cons);
+        centerPoint = new GeoPoint(c);
         rotAngle = new MyDouble(kernel);   
+        
+
+                      
+        
+        outputPolygon=new OutputHandler<GeoPolygon>(new elementFactory<GeoPolygon>() {
+			public GeoPolygon newElement() {
+				GeoPolygon p=new GeoPolygon(cons);
+				p.setParentAlgorithm(AlgoPolygonRegular.this);
+				return p;
+			}
+		});
+
+        outputSegments=new OutputHandler<GeoSegment>(new elementFactory<GeoSegment>() {
+        	public GeoSegment newElement() {
+        		GeoSegment segment = (GeoSegment) outputPolygon.getElement(0).createSegment(A, B, true);
+        		segment.setAuxiliaryObject(true);
+        		segment.setLabelVisible(showNewSegmentsLabels);
+        		return segment;
+        	}
+		});  
+        
+        if (!labelPointsAndSegments)
+        	outputSegments.removeFromHandler(); //no segments has output
+        
+        outputPoints=new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+			public GeoPoint newElement() {
+				GeoPoint newPoint=new GeoPoint(cons);
+				newPoint.setCoords(0, 0, 1);
+				newPoint.setParentAlgorithm(AlgoPolygonRegular.this);
+				newPoint.setAuxiliaryObject(true);		
+				newPoint.setPointSize(A.pointSize);
+				newPoint.setEuclidianVisible(A.isEuclidianVisible() || B.isEuclidianVisible());
+				newPoint.setAuxiliaryObject(true);
+				newPoint.setLabelVisible(showNewPointsLabels);
+				GeoBoolean conditionToShow = A.getShowObjectCondition();
+				if (conditionToShow == null) conditionToShow = B.getShowObjectCondition();
+				if (conditionToShow != null) {
+					try { ((GeoElement)newPoint).setShowObjectCondition(conditionToShow);}
+					catch (Exception e) {}
+				}
+				return newPoint;
+			}
+		});  
+        
+        if (!labelPointsAndSegments)
+        	outputPoints.removeFromHandler(); //no segments has output
+        
+
+                       
+
                
-        // output
-        points = new GeoPoint[0];
-        poly = new GeoPolygon(cons, points);
-                     
+
+        //create polygon
+        outputPolygon.adjustOutputSize(1);   
+        
+        
+        //create 2 first segments
+        outputSegments.augmentOutputSize(2,false);
+        outputSegments.getElement(0).setAuxiliaryObject(false);
+        modifyInputPoints(outputSegments.getElement(1),B,A);
+    
         // for AlgoElement
         setInputOutput(); 
         
-        // compute poly
-        compute();      
+        GeoPolygon poly = getPoly();
         
+        // compute poly
+        if (labelsLength > 1){
+        	compute((labelsLength+1)/2);//create maybe undefined outputs  
+        	poly.setLabel(labels[0]);
+        	int d = 1;
+        	for (int i=0; i<outputSegments.size(); i++)
+        		outputSegments.getElement(i).setLabel(labels[d+i]);
+        	d += outputSegments.size();
+        	for (int i=0; i<outputPoints.size(); i++)
+        		outputPoints.getElement(i).setLabel(labels[d+i]);
+        }else if (labelsLength == 1) {
+			poly.setLabel(labels[0]);
+        }else {
+			poly.setLabel(null);
+        }
+        
+        labelsNeedIniting = false;
+        
+        update();
+        
+        
+        /*
         if (labelPointsAndSegments) {      
-			poly.initLabels(labels);
+			//poly.initLabels(labels);   	
         } else if (labelsLength == 1) {
 			poly.setLabel(labels[0]);
         } else {
 			poly.setLabel(null);
         }
         
-        labelsNeedIniting = false;
         
+        labelsNeedIniting = false;
+        */
         // make sure that we set all point and segment labels when needed
-        updateSegmentsAndPointsLabels(points.length);
+        //updateSegmentsAndPointsLabels(points.length);
     }   
         
     @Override
@@ -117,75 +214,43 @@ public class AlgoPolygonRegular extends AlgoElement {
         // setOutput(); done in compute
 
         // parent of output
-        poly.setParentAlgorithm(this);       
+        getPoly().setParentAlgorithm(this);       
         cons.addToAlgorithmList(this); 
     }        
 
-    private void setOutput() {    
-    	if (points == null) return;
-    	
-    	// if init points have no labels, all the points and segments
-    	// of the polygon don't get labels either: in this case we only
-    	// have the polygon itself as output object
-    	if (!labelPointsAndSegments) {	
-    		super.setOutputLength(1);
-            super.setOutput(0, poly);
-    	}
-    	// otherwise: points and segments are also output objects
-    	else {
-	    	// size = poly + points (without A, B) + segments
-	    	GeoSegmentND[] segments = poly.getSegments();
-	    	GeoPointND [] points = poly.getPoints();
-	        int size = 1 + segments.length + points.length - 2; 
-	        
-	        super.setOutputLength(size);
-	        int k = 0;    
-	        super.setOutput(k, poly);
-	              
-	        for (int i=0; i < segments.length; i++) {
-	            super.setOutput(++k, (GeoElement) segments[i]);
-	        }    
-	        
-	        for (int i=2; i < points.length; i++) {
-	            super.setOutput(++k, (GeoElement) points[i]);
-	        }         
-    	}
-        
-        
-//    	Application.debug("*** OUTPUT ****************");
-//        for (int i=0; i < output.length; i++) {
-//			Application.debug(" " + i + ": " + output[i].getLongDescription());		     	        	     	
-//		} 
-//    	Application.debug("*****************");
-        
-    }
+ 
     
-    GeoPolygon getPoly() { return poly; }    
+    GeoPolygon getPoly() { return outputPolygon.getElement(0); }    
      
     /**
      * Computes points of regular polygon
      */
-    @Override
-	public final void compute() {      
-    	// check points and number
+    public final void compute() {
+    	
+       	// check points and number
     	double nd = num.getDouble();
+
     	if (Double.isNaN(nd)) nd = 2;
     	
+    	compute((int) Math.round( nd ));
+    }
+    
+	public final void compute(int nd) {  
+    	
+    	
+    	GeoPolygon poly = getPoly();
+    	
     	// get integer number of vertices n
-    	int n = Math.max(2, (int) Math.round( nd ));
+    	int n = Math.max(2, nd);
     	
     	// if number of points changed, we need to update the
     	// points array and the output array
-    	int oldPointNumber = points.length;
-    	if (n != oldPointNumber) {
-    		updatePointsArray(n);
-    		poly.setPoints(points);
-    		setOutput();
-    	}
+    	updateOutput(n);
     	
     	// check if regular polygon is defined
     	if (n < 3 || !A.isDefined() || !B.isDefined()) {
      		poly.setUndefined();
+     		numOld=n;
      		return;
      	}
     	 	  	
@@ -208,113 +273,91 @@ public class AlgoPolygonRegular extends AlgoElement {
     	// now we have the center point of the polygon and
     	// the center angle alpha between two neighbouring points
     	// let's create the points by rotating A around the center point
-    	for (int k=2; k < n; k++) {    		
+    	for (int k=0; k < n-2; k++) {    		
     		// rotate point around center point
-    		points[k].set((GeoElement) A); 
-    		rotAngle.set(k * alpha);
-    		points[k].rotate(rotAngle, centerPoint);      		
+    		outputPoints.getElement(k).set((GeoElement) A); 
+    		rotAngle.set((k+2) * alpha);
+    		outputPoints.getElement(k).rotate(rotAngle, centerPoint);      		
     	}
+    	
+    	GeoPoint[] points = new GeoPoint[n];
+    	points[0]=A;points[1]=B;
+    	for (int i=2; i<n; i++)
+    		points[i]=outputPoints.getElement(i-2);
+
+    	//update new segments
+    	for(int i=numOld-1; i<n; i++){
+    		//Application.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
+            modifyInputPoints(outputSegments.getElement(i),points[i], points[(i+1)%n]);
+        }
+
+    	
+    	
+    	//update polygon	
+    	poly.setPoints(points,null,false); //don't create segments
+    	poly.setSegments(outputSegments.getOutput(new GeoSegment[n]));
     	
     	// compute area of poly
     	poly.calcArea();  
     	//update region coordinate system (Zbynek Konecny, 2010-05-17)
     	poly.updateRegionCS();
-    	// update new points and segments 
-    	if (n != oldPointNumber) {
-    		updateSegmentsAndPointsLabels(oldPointNumber);
-    	}    	    	
+    	
+    	numOld = n;
     }         
     
-    private void updateSegmentsAndPointsLabels(int oldPointNumber) {
-    	if (labelsNeedIniting)
-    		return;
-    	
-    	// set labels only when points have labels
-		labelPointsAndSegments = labelPointsAndSegments || A.isLabelSet() || B.isLabelSet();
-		
-		GeoSegmentND[] segments = poly.getSegments();    	           
-
-		boolean pointsSegmentsShowLabel = labelPointsAndSegments && 
-				(A.isEuclidianVisible() && A.isLabelVisible() || 
-				 B.isEuclidianVisible() && B.isLabelVisible());
-		
-		// set labels for points only if the original points had labels
-		if (labelPointsAndSegments) {
-			for (int i=2; i < points.length; i++) {            	
-				if (!points[i].isLabelSet()) {
-					points[i].setLabel(null); 
-					points[i].setLabelVisible(pointsSegmentsShowLabel);
-				}
-			}
-		}
-		
-		// update all segments and set labels for new segments
-		for (int i=0; i < segments.length; i++) {   
-			GeoElement seg = (GeoElement) segments[i];
-			if (labelPointsAndSegments) {				
-            	if (!seg.isLabelSet()) {
-            		seg.setLabel(null);
-            		seg.setAuxiliaryObject(true);
-            		// show segment label only if label showing for first segment
-            		seg.setLabelVisible(pointsSegmentsShowLabel && segments[0].isLabelVisible());
-            	} 
-            	else {
-            		pointsSegmentsShowLabel = pointsSegmentsShowLabel || seg.isLabelVisible();
-            	}
-			}    			
-        	
-			seg.getParentAlgorithm().update(); 
-        }
+    
+    
+    private void modifyInputPoints(GeoSegment segment, GeoPoint P, GeoPoint Q){
+    	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) segment.getParentAlgorithm();
+    	algo.modifyInputPoints(P,Q);    	
     }
     
     /**
      * Ensures that the pointList holds n points.
      * @param n
      */
-    private void updatePointsArray(int n) {
-    	GeoPoint [] oldPoints = points;	
-    	int oldPointsLength = oldPoints == null ? 0 : oldPoints.length;    	    	
-		if (oldPointsLength < 2) {
-			// init old points array with first two points A and B
-			oldPoints = new GeoPoint[2];
-			oldPoints[0] = A;
-			oldPoints[1] = B;
-			oldPointsLength = 2;
-		}
-		
-		// new points
-		points = new GeoPoint[n];
-        
-		// reuse old points
-        for (int i=0; i < oldPointsLength; i++) {
-        	if (i < points.length) {
-        		// reuse old point
-        		points[i] = oldPoints[i];	
-        	} else {
-        		removePoint(oldPoints[i]);  
-        	}        		        	
-		}
-        
-        // create new points if needed
-        for (int i=oldPointsLength; i < points.length; i++) {
-			GeoPoint newPoint = new GeoPoint(cons);			
-			newPoint.setCoords(0,0,1); // set defined
-			newPoint.setParentAlgorithm(this);
-			newPoint.setPointSize(A.pointSize);
-			newPoint.setEuclidianVisible(A.isEuclidianVisible() || B.isEuclidianVisible());
-			newPoint.setAuxiliaryObject(true);
-			GeoBoolean conditionToShow = A.getShowObjectCondition();
-			if (conditionToShow == null) conditionToShow = B.getShowObjectCondition();
-			if (conditionToShow != null) {
-				try { ((GeoElement)newPoint).setShowObjectCondition(conditionToShow);}
-				catch (Exception e) {}
-			}
-
-			points[i] = newPoint;						 	        	     
-		}    
+    private void updateOutput(int n) {
+    	
+    	int nOld = outputPoints.size()+2;
+    	
+    	//Application.debug("nOld="+nOld+", n="+n);
+    	
+    	if (nOld==n)
+    		return;
+    	
+    	GeoPolygon poly = getPoly();    
+    	
+    	//update points and segments
+    	if (n>nOld){
+    		showNewPointsLabels = labelPointsAndSegments && 
+    				(A.isEuclidianVisible() && A.isLabelVisible() || 
+    				 B.isEuclidianVisible() && B.isLabelVisible());  		
+    		outputPoints.augmentOutputSize(n-nOld,false);
+    		if(labelPointsAndSegments && !labelsNeedIniting)
+    			outputPoints.updateLabels();
+    		
+    		showNewSegmentsLabels = false;
+    		for (int i=0; i<outputSegments.size(); i++)
+    			showNewSegmentsLabels = showNewSegmentsLabels || outputSegments.getElement(i).isLabelVisible();
+    		outputSegments.augmentOutputSize(n-nOld,false);
+    		if(labelPointsAndSegments && !labelsNeedIniting)
+    			outputSegments.updateLabels();
+    	}else{
+    		for(int i=n; i<nOld; i++){
+    			outputPoints.getElement(i-2).setUndefined();
+    			outputSegments.getElement(i).setUndefined();
+    		}
+    		//update last segment
+    		if (n>2)
+    			modifyInputPoints(outputSegments.getElement(n-1),outputPoints.getElement(n-3),A);
+    		else
+    			modifyInputPoints(outputSegments.getElement(n-1),B,A);
+    	}
+    	
     }
     
     private void removePoint(GeoPoint oldPoint) {    	
+    	
     	// remove dependent algorithms (e.g. segments) from update sets	of
     	// objects further up (e.g. polygon) the tree
 		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
@@ -329,6 +372,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 		
 		// remove dependent segment algorithm that are part of this polygon
 		// to make sure we don't remove the polygon as well		
+		GeoPolygon poly = getPoly();
 		for (int k=0; k < algoList.size(); k++) {        			
 			AlgoElement algo = (AlgoElement) algoList.get(k);	
 			// make sure we don't remove the polygon as well
@@ -342,7 +386,8 @@ public class AlgoPolygonRegular extends AlgoElement {
 		
 		algoList.clear();
 		// remove point
-		oldPoint.doRemove(); 
+		oldPoint.doRemove();
+		
     } 
     
     /**
@@ -363,5 +408,6 @@ public class AlgoPolygonRegular extends AlgoElement {
             }            	
         }
     }
+    
        
 }

@@ -1294,6 +1294,7 @@ public abstract class GeoElement
 	 * @param geo
 	 */
 	public void setVisualStyle(GeoElement geo) {
+		
 		// label style
 		labelVisible = geo.labelVisible;
 		labelMode = geo.labelMode;
@@ -1682,8 +1683,10 @@ public abstract class GeoElement
 
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		algoParent = algorithm;
+		/*
 		if (algorithm != null)
 			setConstructionDefaults(); // set colors to dependent colors
+	*/
 	}
 
 	final public AlgoElement getParentAlgorithm() {
@@ -2776,7 +2779,7 @@ public abstract class GeoElement
 
 			} else if (isGeoFunction()) {
 				chars = functionLabels;
-			} else if (isGeoLine() || this instanceof GeoPolyLine) {
+			} else if (isGeoLine()) {
 				if (((GeoLineND) this).isFromPolyhedron()){
 					int counter = 0;
 					String str;
@@ -2788,6 +2791,8 @@ public abstract class GeoElement
 					return str;
 				}else
 					chars = lineLabels;
+			} else if (this instanceof GeoPolyLine) {	
+				chars = lineLabels;
 			} else if (isGeoConic() || isGeoCubic()) {
 				chars = conicLabels;
 			} else if (isGeoVector() || isVector3DValue()) {
