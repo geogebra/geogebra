@@ -32,7 +32,15 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
 		casParser = new CASparser(kernel);
-		setCurrentCAS(Kernel.DEFAULT_CAS);
+		
+		// init CAS in background as this may take a bit
+		// see also http://www.geogebra.org/trac/ticket/1565
+		Thread casIniting = new Thread() {
+			public void run() {
+				setCurrentCAS(Kernel.DEFAULT_CAS);
+			}
+		};
+		casIniting.start();
 	}
 	
 	public CASparser getCASparser() {
