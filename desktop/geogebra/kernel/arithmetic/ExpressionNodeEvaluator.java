@@ -16,6 +16,7 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 import geogebra.main.MyError;
+import geogebra3D.kernel3D.Geo3DVec;
 
 /**
  * @author ggb3D
@@ -64,22 +65,37 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		// matrix * 2D vector
 		if (lt.isListValue()) {
-			if (operation.equals(Operation.MULTIPLY) && rt.isVectorValue()) {
-				MyList myList = ((ListValue) lt).getMyList();
-				boolean isMatrix = myList.isMatrix();
-				int rows = myList.getMatrixRows();
-				int cols = myList.getMatrixCols();
-				if (isMatrix && rows == 2 && cols == 2) {
-					GeoVec2D myVec = ((VectorValue) rt).getVector();
-					// 2x2 matrix
-					myVec.multiplyMatrix(myList);
-
-					return myVec;
-				} else if (isMatrix && rows == 3 && cols == 3) {
-					GeoVec2D myVec = ((VectorValue) rt).getVector();
-					// 3x3 matrix, assume it's affine
-					myVec.multiplyMatrixAffine(myList, rt);
-					return myVec;
+			if (operation.equals(Operation.MULTIPLY)) {
+				if (rt.isVectorValue()) {
+				
+					MyList myList = ((ListValue) lt).getMyList();
+					boolean isMatrix = myList.isMatrix();
+					int rows = myList.getMatrixRows();
+					int cols = myList.getMatrixCols();
+					if (isMatrix && rows == 2 && cols == 2) {
+						GeoVec2D myVec = ((VectorValue) rt).getVector();
+						// 2x2 matrix
+						myVec.multiplyMatrix(myList);
+	
+						return myVec;
+					} else if (isMatrix && rows == 3 && cols == 3) {
+						GeoVec2D myVec = ((VectorValue) rt).getVector();
+						// 3x3 matrix, assume it's affine
+						myVec.multiplyMatrixAffine(myList, rt);
+						return myVec;
+					}
+				} else if (rt.isVector3DValue()) {
+					
+					MyList myList = ((ListValue) lt).getMyList();
+					boolean isMatrix = myList.isMatrix();
+					int rows = myList.getMatrixRows();
+					int cols = myList.getMatrixCols();
+					if (isMatrix && rows == 3 && cols == 3) {
+						Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
+						// 3x3 matrix, assume it's affine
+						myVec.multiplyMatrixAffine(myList, rt);
+						return myVec;
+					}
 				}
 
 			} else if (operation.equals(Operation.VECTORPRODUCT) && rt.isListValue()) {

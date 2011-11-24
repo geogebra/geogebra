@@ -31,6 +31,7 @@ import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
+import geogebra.main.Application;
 
 import java.util.HashSet;
 
@@ -577,14 +578,13 @@ implements Vector3DValue {
 	 {
 			if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3) return;
 		 
-			double a,b,c,d,e,f,g,h,i,x1,y1,z1,xx = x, yy = y, zz = 1;
+			double a,b,c,d,e,f,g,h,i,x1,y1,z1,xx = x, yy = y, zz = z;
 			
-			// use homogeneous coordinates if available
-			if (rt instanceof GeoVec3D) {
-				GeoVec3D p = (GeoVec3D)rt;
-				xx = p.x;
-				yy = p.y;
-				zz = p.z;
+			if (rt instanceof GeoVector3D) {
+				GeoVector3D p = (GeoVector3D)rt;
+				xx = p.getX();
+				yy = p.getY();
+				zz = p.getZ();
 			} 
 			
 			a = ((NumberValue)(MyList.getCell(list,0,0).evaluate())).getDouble();
@@ -597,16 +597,15 @@ implements Vector3DValue {
 			h = ((NumberValue)(MyList.getCell(list,1,2).evaluate())).getDouble();
 			i = ((NumberValue)(MyList.getCell(list,2,2).evaluate())).getDouble();
 	 
-			x1 = a * xx + b * yy + c * zz;
-			y1 = d * xx + e * yy + f * zz;
-			z1 = g * xx + h * yy + i * zz;
-			x=x1 / z1;
-			y=y1 / z1;
+			x = a * xx + b * yy + c * zz;
+			y = d * xx + e * yy + f * zz;
+			z = g * xx + h * yy + i * zz;
 			return;
 	 }
 		public void setZero() {
 			x=0;
 			y=0;
+			z=0;
 		}
 
 		public boolean isVector3DValue() {

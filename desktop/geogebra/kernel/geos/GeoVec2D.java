@@ -20,7 +20,6 @@ package geogebra.kernel.geos;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -28,6 +27,7 @@ import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic.VectorValue;
+import geogebra.main.Application;
 import geogebra.util.Unicode;
 
 import java.util.HashSet;
@@ -742,13 +742,24 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 		 
 			double a,b,c,d,e,f,g,h,i,x1,y1,z1,xx = x, yy = y, zz = 1;
 			
-			// use homogeneous coordinates if available
+			boolean vector = false;
+			
 			if ((rt instanceof GeoPoint) || (rt instanceof GeoLine)) {
 				GeoVec3D p = (GeoVec3D)rt;
+				// use homogeneous coordinates if available
 				xx = p.x;
 				yy = p.y;
 				zz = p.z;
-			} 
+			} else if (rt.isVectorValue()) {
+				GeoVec2D v = ((VectorValue)rt).getVector();
+				xx = v.x;
+				yy = v.y;
+				
+				// consistent with 3D vectors
+				zz = 0; 
+				vector = true;
+				
+			} else Application.debug("error in GeoVec2D");
 			
 			a = ((NumberValue)(MyList.getCell(list,0,0).evaluate())).getDouble();
 			b = ((NumberValue)(MyList.getCell(list,1,0).evaluate())).getDouble();
@@ -760,12 +771,23 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			h = ((NumberValue)(MyList.getCell(list,1,2).evaluate())).getDouble();
 			i = ((NumberValue)(MyList.getCell(list,2,2).evaluate())).getDouble();
 			
-			x1 = a * xx + b * yy + c * zz;
-			y1 = d * xx + e * yy + f * zz;
+			x = a * xx + b * yy + c * zz;
+			y = d * xx + e * yy + f * zz;
 			z1 = g * xx + h * yy + i * zz;
 			
-			x=x1 / z1;
-			y=y1 / z1;
+			if (!vector) {
+				x=x / z1;
+				y=y / z1;
+			} else {
+				if (!Kernel.isZero(z1)) {
+					// for a Vector, if z1!=0 then the answer can't be represented by a 2D vector
+					// so set undefined
+					// won't happen when 3rd row of matrix is (0,0,1)
+					x = Double.NaN;
+					y = Double.NaN;
+				}
+			}
+			
 			return;
 	 }
 		public void setZero() {
