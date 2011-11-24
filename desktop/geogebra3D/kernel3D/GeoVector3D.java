@@ -305,6 +305,8 @@ implements GeoVectorND, Locateable, Vector3DValue{
 		private StringBuilder sb;
 		
 	    public String toLaTeXString(boolean symbolic) {
+	    	Application.printStacktrace(
+	    			"CCCC");
 	    	if (sb == null) sb = new StringBuilder();
 	    	else sb.setLength(0);
 	    	
@@ -482,6 +484,9 @@ implements GeoVectorND, Locateable, Vector3DValue{
 			return getCoordsInD(3);
 		}
 		
+		public  boolean isLaTeXDrawableGeo(String latexStr) {
+			return true;
+		}
 
 
 }
