@@ -585,8 +585,8 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 	
 
-	public void drawPen(String label,double[] x, double[] y) {
-		getAppletImplementation().drawPen(label, x, y);
+	public void drawToImage(String label,double[] x, double[] y) {
+		getAppletImplementation().drawToImage(label, x, y);
 		
 	}
 

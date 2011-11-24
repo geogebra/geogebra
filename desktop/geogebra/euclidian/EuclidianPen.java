@@ -355,17 +355,26 @@ public class EuclidianPen {
 
 		//Application.debug(penPoints.size()+"");
 
-		drawPoints(null,penPoints);
-		if(app.getScriptManager()!=null)
-			app.getScriptManager().notifyDraw(lastPenImage.getLabel(),penPoints);
-		penPoints.clear();
+		doDrawPoints(null,penPoints);
+		if(app.getScriptManager()!=null){
+			double x[]=new double[penPoints.size()],y[]=new double[penPoints.size()];
+			for(int i=0;i<penPoints.size();i++){
+				x[i]=view.toRealWorldCoordX(penPoints.get(i).getX()+ penOffsetX);
+				y[i]=view.toRealWorldCoordY(penPoints.get(i).getY()+ penOffsetY);
+			}
+			//we want to clear the points before notifyDraw throws potential exception
+			penPoints.clear();
+			app.getScriptManager().notifyDraw(lastPenImage.getLabel(),x,y);
+		}
+		else
+			penPoints.clear();
 
 	}
 
 
 
 
-	public void drawPoints(GeoImage gi,ArrayList<Point> penPoints2) {
+	protected void doDrawPoints(GeoImage gi,ArrayList<Point> penPoints2) {
 		PolyBezier pb = new PolyBezier(penPoints2);
 		BufferedImage penImage2 = gi == null? penImage:gi.getFillImage();
 		boolean giNeedsInit = false;

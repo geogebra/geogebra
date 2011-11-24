@@ -5428,4 +5428,45 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		return (Graphics2D) getGraphics();
 		
 	}
+	public void drawPoints(GeoImage ge, double[] x, double[] y) {
+		ArrayList<Point> ptList = new ArrayList<Point>();
+		
+		
+		Application.debug("x0"+x[0]);
+		for(int i=0;i<x.length;i++){
+			int xi = toScreenCoordX(x[i]);
+			int yi = toScreenCoordY(y[i]);
+			if(ge.getCorner(1)!=null){
+				int w = ge.getFillImage().getWidth();
+				int h = ge.getFillImage().getHeight();
+
+				double cx[]=new double[3],cy[]=new double[3];
+				for(int j=0;j<(ge.getCorner(2)!=null?3:2);j++){
+					cx[j]=ge.getCorner(j).x;
+					cy[j]=ge.getCorner(j).y;
+				}
+				if(ge.getCorner(2)==null){
+					cx[2]=cx[0]-h*(cy[1]-cy[0])/w;
+					cy[2]=cy[0]+h*(cx[1]-cx[0])/w;
+				}
+				double dx1=cx[1]-cx[0];
+				double dx2=cx[2]-cx[0];
+				double dy1=cy[1]-cy[0];
+				double dy2=cy[2]-cy[0];
+				double ratio1=((x[i]-cx[0])*dy2-dx2*(y[i]-cy[0]))/(dx1*dy2-dx2*dy1);
+				double ratio2=(-(x[i]-cx[0])*dy1+dx1*(y[i]-cy[0]))/(dx1*dy2-dx2*dy1);				 
+				Application.debug(cx[2]+","+cy[2]+","+h+","+w);
+				xi = (int)Math.round(w*ratio1);
+				yi = (int)Math.round(h*(1-ratio2));
+								
+			}		
+			else if(ge.getCorner(0)!=null){
+				xi = xi - toScreenCoordX(ge.getCorner(0).x);
+				yi = ge.getFillImage().getHeight() + (yi - toScreenCoordY(ge.getCorner(0).y));				
+			}
+			ptList.add(new Point(xi,yi));
+		}
+		this.getEuclidianController().getPen().doDrawPoints(ge, ptList);
+		
+	}
 }

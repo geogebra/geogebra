@@ -1196,8 +1196,8 @@ public class GgbAPI {
 			return geo.isMoveable();
 	}
 
-	public void drawPen(String label, double[] x, double[] y) {
-		app.drawPen(label,x,y);
+	public void drawToImage(String label, double[] x, double[] y) {
+		app.drawToImage(label,x,y);
 		
 	}
 

@@ -1427,8 +1427,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 
-	public void drawPen(String label,double[] x, double[] y) {
-		ggbApi.drawPen(label,x,y);
+	public void drawToImage(String label,double[] x, double[] y) {
+		ggbApi.drawToImage(label,x,y);
 		
 	}
 

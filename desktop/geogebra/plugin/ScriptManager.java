@@ -455,7 +455,7 @@ public class ScriptManager {
 			}
 			sb.append(");");
 			
-			//Application.debug(sb.toString());
+			Application.debug(sb.toString());
 			
 			CallJavaScript.evalScript(app, sb.toString(), null);
 
@@ -478,24 +478,22 @@ public class ScriptManager {
 		return usb;
 	}
 
-	public void notifyDraw(String label, ArrayList<Point> penPoints) {			
+	public void notifyDraw(String label, double[] x, double[] y) {			
 		if (!listenersEnabled || penListeners == null || penListeners.size() ==0) 
 			return;
-		int n = penPoints.size();
-		StringBuilder x = new StringBuilder("new Array(");
-		StringBuilder y = new StringBuilder("new Array(");
-		for(int i =0;i<n;i++){
-			x.append(penPoints.get(i).getX()+(i!=n-1?",":")"));
-			y.append(penPoints.get(i).getY()+(i!=n-1?",":")"));
-		}		
+		int n = x.length;
+		StringBuilder params = new StringBuilder("(\"");
+		params.append(label);
+		params.append("\",new Array(");
+		for(int i =0;i<n;i++)
+			params.append(x[i]+(i!=n-1?",":"),new Array("));
+		for(int i =0;i<n;i++)
+				params.append(y[i]+(i!=n-1?",":"))"));
 		
 		int size = penListeners.size();
-		for (int i=0; i < size; i++) {	
-			String call = (String) penListeners.get(i)+ 
-			"(\""+label+"\","+x.toString()+","+y.toString()+")";
-			Application.debug(call);
+		for (int i=0; i < size; i++) {							
 			CallJavaScript.evalScript(app, (String) penListeners.get(i)+ 
-					"(\""+label+"\","+x.toString()+","+y.toString()+")",null);
+					params.toString(),null);
 			
 		}		
 		

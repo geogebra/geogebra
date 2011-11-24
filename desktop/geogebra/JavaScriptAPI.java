@@ -475,7 +475,7 @@ public interface JavaScriptAPI {
 	 */
 	public void unregisterObjectUpdateListener(String objName);
 	
-	public void drawPen(String label,double[] x, double[] y);
+	public void drawToImage(String label,double[] x, double[] y);
 	
 	public void registerPenListener(String JSFunctionName);
 	

@@ -6063,7 +6063,7 @@ public class Application implements KeyEventDispatcher {
 		updateMenubar(); 
 	}
 
-	public void drawPen(String label, double[] x, double[] y) {
+	public void drawToImage(String label, double[] x, double[] y) {
 		GeoElement ge = kernel.lookupLabel(label);
 		
 		if(ge == null){
@@ -6073,16 +6073,11 @@ public class Application implements KeyEventDispatcher {
 			ge.setLabel(label);
 		}
 		if(!ge.isGeoImage()){
-			debug("Bad drawPen arguments");
+			debug("Bad drawToImage arguments");
 			return;
 		}
 		
-		EuclidianPen p = this.getEuclidianView().getEuclidianController().getPen();
-		ArrayList<Point> ptList = new ArrayList<Point>();
-		for(int i=0;i<x.length;i++){
-			ptList.add(new Point((int)x[i],(int)y[i]));
-		}
-		p.drawPoints((GeoImage)ge,ptList);
+		this.getEuclidianView().drawPoints((GeoImage)ge,x,y);
 		
 	} 	
 }
