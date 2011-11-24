@@ -1820,6 +1820,5 @@ GeoPointND, Animatable, Transformable  {
 			super.setParentAlgorithm(algorithm);			
 			if (algorithm != null)
 				setConstructionDefaults(); // set colors to dependent colors
-		
 		}
 }

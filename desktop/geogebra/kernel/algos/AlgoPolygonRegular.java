@@ -15,8 +15,6 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoElement.OutputHandler;
-import geogebra.kernel.algos.AlgoElement.elementFactory;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
@@ -24,18 +22,9 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
-import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.kernel.kernelND.GeoSegmentND;
-import geogebra.main.Application;
 
 import java.util.ArrayList;
 
-/*
-<command name="Polygon">
-<input a0="A" a1="B" a2="n"/>
-<output a0="poly1" a1="a" a2="b" a3="c" a4="d" a5="e" a6="C" a7="D" a8="E"/>
-</command>
-*/
 
 /**
  * Creates a regular Polygon for two points and the number of vertices.

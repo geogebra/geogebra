@@ -1683,10 +1683,6 @@ public abstract class GeoElement
 
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		algoParent = algorithm;
-		/*
-		if (algorithm != null)
-			setConstructionDefaults(); // set colors to dependent colors
-	*/
 	}
 
 	final public AlgoElement getParentAlgorithm() {

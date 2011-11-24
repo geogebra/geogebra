@@ -1167,4 +1167,9 @@ Translateable
 		this.set((GeoElement)p);
 	}  
 
+	public void setParentAlgorithm(AlgoElement algorithm) {
+		super.setParentAlgorithm(algorithm);			
+		if (algorithm != null)
+			setConstructionDefaults(); // set colors to dependent colors
+	}
 }
