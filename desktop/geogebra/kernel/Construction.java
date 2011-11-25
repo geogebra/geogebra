@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.StringUtil;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoDistancePoints;
@@ -2381,19 +2383,19 @@ public class Construction {
 		try {
 			// save construction elements
 			sb.append("<construction title=\"");
-			sb.append(Util.encodeXML(getTitle()));
+			sb.append(StringUtil.encodeXML(getTitle()));
 			sb.append("\" author=\"");
-			sb.append(Util.encodeXML(getAuthor()));
+			sb.append(StringUtil.encodeXML(getAuthor()));
 			sb.append("\" date=\"");
-			sb.append(Util.encodeXML(getDate()));
+			sb.append(StringUtil.encodeXML(getDate()));
 			sb.append("\">\n");
 
 			// worksheet text
 			if (worksheetTextDefined()) {
 				sb.append("\t<worksheetText above=\"");
-				sb.append(Util.encodeXML(getWorksheetText(0)));
+				sb.append(StringUtil.encodeXML(getWorksheetText(0)));
 				sb.append("\" below=\"");
-				sb.append(Util.encodeXML(getWorksheetText(1)));
+				sb.append(StringUtil.encodeXML(getWorksheetText(1)));
 				sb.append("\"/>\n");
 			}
 

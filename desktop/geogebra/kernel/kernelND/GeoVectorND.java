@@ -1,6 +1,6 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.kernel.CircularDefinitionException;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.kernel.Matrix.Coords;
 
 /**

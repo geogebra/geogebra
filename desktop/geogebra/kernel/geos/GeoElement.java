@@ -19,12 +19,15 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.LaTeXCache;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.TraceSettings;
 import geogebra.kernel.AnimationManager;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.EuclidianViewCE;
@@ -49,9 +52,7 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra.plugin.CallJavaScript;
-import geogebra.util.GeoLaTeXCache;
 import geogebra.util.ImageManager;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -2988,10 +2989,10 @@ public abstract class GeoElement
 
 	}
 	
-	GeoLaTeXCache latexCache = null;
+	LaTeXCache latexCache = null;
 	
-	public GeoLaTeXCache getLaTeXCache() {
-		if (latexCache == null) latexCache = new GeoLaTeXCache();
+	public LaTeXCache getLaTeXCache() {
+		if (latexCache == null) kernel.newLaTeXCache();
 		return latexCache;
 	}
 
@@ -4158,7 +4159,7 @@ public abstract class GeoElement
 					//	write everything before _
 					if (i > startPos) {
 						sbIndicesToHTML.append(
-							Util.toHTMLString(str.substring(startPos, i)));
+							StringUtil.toHTMLString(str.substring(startPos, i)));
 					}
 					startPos = i + 1;
 					depth++;
@@ -4167,7 +4168,7 @@ public abstract class GeoElement
 					if (startPos < length && str.charAt(startPos) != '{') {
 						sbIndicesToHTML.append(subBegin);
 						sbIndicesToHTML.append(
-							Util.toHTMLString(
+							StringUtil.toHTMLString(
 								str.substring(startPos, startPos + 1)));
 						sbIndicesToHTML.append(subEnd);
 						depth--;
@@ -4182,7 +4183,7 @@ public abstract class GeoElement
 					if (depth > 0) {
 						if (i > startPos) {
 							sbIndicesToHTML.append(
-								Util.toHTMLString(str.substring(startPos, i)));
+								StringUtil.toHTMLString(str.substring(startPos, i)));
 						}
 						sbIndicesToHTML.append(subEnd);
 						startPos = i + 1;
@@ -4193,7 +4194,7 @@ public abstract class GeoElement
 		}
 
 		if (startPos < length) {
-			sbIndicesToHTML.append(Util.toHTMLString(str.substring(startPos)));
+			sbIndicesToHTML.append(StringUtil.toHTMLString(str.substring(startPos)));
 		}
 		if (addHTMLtag)
 			sbIndicesToHTML.append("</html>");
@@ -4355,7 +4356,7 @@ public abstract class GeoElement
 		sb.append(" type=\"");
 		sb.append(type);
 		sb.append("\" label=\"");
-		sb.append(Util.encodeXML(label));
+		sb.append(StringUtil.encodeXML(label));
 		if (defaultGeoType >= 0) {
 			sb.append("\" default=\"");
 			sb.append(defaultGeoType);
@@ -4408,7 +4409,7 @@ public abstract class GeoElement
 		if (caption != null && caption.length() > 0 && !caption.equals(label)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\t<caption val=\"");
-			sb.append(Util.encodeXML(caption));
+			sb.append(StringUtil.encodeXML(caption));
 			sb.append("\"/>\n");
 			return sb.toString();
 		}
@@ -4435,7 +4436,7 @@ public abstract class GeoElement
 				sb.append("\t\t\t<");
 				sb.append(type);
 				sb.append(" out=\"true\">");
-				sb.append(Util.encodeXML(label));
+				sb.append(StringUtil.encodeXML(label));
 				sb.append("</");
 				sb.append(type);
 				sb.append(">\n");
@@ -4452,7 +4453,7 @@ public abstract class GeoElement
 			sb.append("\t\t<");
 			sb.append(type);
 			sb.append(" id=\"");
-			sb.append(Util.encodeXML(label));
+			sb.append(StringUtil.encodeXML(label));
 			sb.append("\">\n");
 
 			if (mode == ELEMENTS) {
@@ -4460,7 +4461,7 @@ public abstract class GeoElement
 			} else if (mode == DISPLAY) {
 				// caption text
 				sb.append("\t\t\t<label>");
-				sb.append(Util.encodeXML(caption));
+				sb.append(StringUtil.encodeXML(caption));
 				sb.append("</label>\n");
 			}
 
@@ -4557,17 +4558,17 @@ public abstract class GeoElement
 			if (colFunction!=null && kernel.getSaveScriptsToXML())
 			{
 				sb.append(" dynamicr=\"");
-				sb.append(Util.encodeXML(colFunction.get(0).getLabel()));
+				sb.append(StringUtil.encodeXML(colFunction.get(0).getLabel()));
 				sb.append('\"');
 				sb.append(" dynamicg=\"");
-				sb.append(Util.encodeXML(colFunction.get(1).getLabel()));
+				sb.append(StringUtil.encodeXML(colFunction.get(1).getLabel()));
 				sb.append('\"');
 				sb.append(" dynamicb=\"");
-				sb.append(Util.encodeXML(colFunction.get(2).getLabel()));
+				sb.append(StringUtil.encodeXML(colFunction.get(2).getLabel()));
 				sb.append('\"');
 				if (colFunction.size() == 4) {
 					sb.append(" dynamica=\"");
-					sb.append(Util.encodeXML(colFunction.get(3).getLabel()));
+					sb.append(StringUtil.encodeXML(colFunction.get(3).getLabel()));
 					sb.append('\"');
 				}
 				sb.append(" colorSpace=\"");
@@ -4692,9 +4693,9 @@ public abstract class GeoElement
 		if (isChangeable()) {
 			sb.append("\t<animation");
 			String animStep = animationIncrement == null ? "1" : getAnimationStepObject().getLabel();
-			sb.append(" step=\""+Util.encodeXML(animStep)+"\"");
+			sb.append(" step=\""+StringUtil.encodeXML(animStep)+"\"");
 			String animSpeed = animationSpeedObj == null ? "1" : getAnimationSpeedObject().getLabel();
-			sb.append(" speed=\""+Util.encodeXML(animSpeed)+"\"");
+			sb.append(" speed=\""+StringUtil.encodeXML(animSpeed)+"\"");
 			sb.append(" type=\""+animationType+"\"");
 			sb.append(" playing=\"");
 			sb.append((isAnimating() ? "true" : "false"));
@@ -4819,7 +4820,7 @@ public abstract class GeoElement
 		if (condShowObject != null && kernel.getSaveScriptsToXML()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\t<condition showObject=\"");
-			sb.append(Util.encodeXML(condShowObject.getLabel()));
+			sb.append(StringUtil.encodeXML(condShowObject.getLabel()));
 			sb.append("\"/>\n");
 			return sb.toString();
 		}
@@ -5835,11 +5836,11 @@ public abstract class GeoElement
 	}
 
 	public String getXMLUpdateScript() {
-		return Util.encodeXML(updateScript);
+		return StringUtil.encodeXML(updateScript);
 	}
 
 	public String getXMLClickScript() {
-		return Util.encodeXML(clickScript);
+		return StringUtil.encodeXML(clickScript);
 	}
 
 	private void runGgbScript(String arg,boolean update) {

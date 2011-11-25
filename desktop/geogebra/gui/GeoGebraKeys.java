@@ -1,8 +1,9 @@
 package geogebra.gui;
 
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.awt.event.KeyEvent;
@@ -116,7 +117,7 @@ public class GeoGebraKeys implements KeyListener {
 			if (!e.isAltDown() && numpad)
 				keyString = e.getKeyChar() + "";
 			
-			Application.debug("Key pressed "+Util.toHexString(e.getKeyChar())+" "+keyString);
+			Application.debug("Key pressed "+StringUtil.toHexString(e.getKeyChar())+" "+keyString);
 			
 			// workaround for different Java versions!!
 			if (keyString.equals("minus"))
@@ -304,7 +305,7 @@ Ctrl Alt               {   }
 					insertStr = "\u2079"; // alt-9 -> unicode superscript 9
 					break;
 				default:
-					Application.debug("no key matched "+keyString+" "+Util.toHexString(keyString));
+					Application.debug("no key matched "+keyString+" "+StringUtil.toHexString(keyString));
 				}
 
 			if (!insertStr.equals("")) {

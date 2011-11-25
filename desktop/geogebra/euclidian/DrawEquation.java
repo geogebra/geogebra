@@ -1,10 +1,11 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.FormulaDimension;
+import geogebra.common.util.Unicode;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.Unicode;
+import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -202,7 +203,7 @@ public class DrawEquation {
 																 */, fgColor);
 			else
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
-						font.getSize() + 3, style, fgColor);
+						font.getSize() + 3, style, new AwtColorAdapter(fgColor));
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
 

@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Construction;
@@ -969,7 +970,7 @@ Translateable
 			sb.append("exp=\"");
 			boolean oldValue = kernel.isPrintLocalizedCommandNames();
 			kernel.setPrintLocalizedCommandNames(false);
-			sb.append(Util.encodeXML(getLabel()));
+			sb.append(StringUtil.encodeXML(getLabel()));
 			kernel.setPrintLocalizedCommandNames(oldValue);
 			sb.append("\"");			    	
     	}

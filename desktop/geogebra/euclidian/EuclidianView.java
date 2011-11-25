@@ -13,6 +13,9 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.MyMath;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawableList.DrawableIterator;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -61,9 +64,6 @@ import geogebra.main.Application;
 import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.EuclidianSettings;
 import geogebra.main.settings.SettingListener;
-import geogebra.util.MyMath;
-import geogebra.util.Unicode;
-import geogebra.util.Util;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -3331,6 +3331,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	/**
 	 * returns array of independent GeoElements whose visual representation is
 	 * at streen coords (x,y). order: points, vectors, lines, conics
+	 * @param p 
+	 * @return array of independent GeoElements at given coords
 	 */
 	final public ArrayList<GeoElement> getMoveableHits(Point p) {
 		return getMoveableHits(getHits(p));
@@ -3338,6 +3340,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 	/**
 	 * returns array of changeable GeoElements out of hits
+	 * @param hits hit elements
+	 * @return array of changeable GeoElements out of hits
 	 */
 	final public ArrayList<GeoElement> getMoveableHits(ArrayList<GeoElement> hits) {
 		return getMoveables(hits, TEST_MOVEABLE, null);
@@ -4074,9 +4078,9 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			sb.append("\" show=\"");
 			sb.append(showAxes[i]);
 			sb.append("\" label=\"");
-			sb.append(axesLabels[i] == null ? "" : Util.encodeXML(axesLabels[i]));
+			sb.append(axesLabels[i] == null ? "" : StringUtil.encodeXML(axesLabels[i]));
 			sb.append("\" unitLabel=\"");
-			sb.append(axesUnitLabels[i] == null ? "" : Util.encodeXML(axesUnitLabels[i]));
+			sb.append(axesUnitLabels[i] == null ? "" : StringUtil.encodeXML(axesUnitLabels[i]));
 			sb.append("\" tickStyle=\"");
 			sb.append(axesTickStyles[i]);
 			sb.append("\" showNumbers=\"");

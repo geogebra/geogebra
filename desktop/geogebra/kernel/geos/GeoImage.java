@@ -13,8 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.Matrix.Coords;
@@ -525,7 +526,7 @@ implements Locateable, AbsoluteScreenLocateable,
 			sb.append(" exp=\"");
 			boolean oldValue = kernel.isPrintLocalizedCommandNames();
 			kernel.setPrintLocalizedCommandNames(false);
-			sb.append(Util.encodeXML(corners[number].getLabel()));
+			sb.append(StringUtil.encodeXML(corners[number].getLabel()));
 			kernel.setPrintLocalizedCommandNames(oldValue);
 			sb.append("\"");			    	
     	}

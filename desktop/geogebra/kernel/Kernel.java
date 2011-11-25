@@ -21,13 +21,17 @@ package geogebra.kernel;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.util.LaTeXCache;
+import geogebra.common.util.MaxSizeHashMap;
+import geogebra.common.util.ScientificFormat;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.algos.*;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
@@ -127,11 +131,9 @@ import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 import geogebra.main.Application.CasType;
-import geogebra.util.MaxSizeHashMap;
-import geogebra.util.ScientificFormat;
-import geogebra.util.Unicode;
+import geogebra.main.MyError;
+import geogebra.util.GeoLaTeXCache;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -143,7 +145,7 @@ import java.util.Locale;
 import java.util.Stack;
 import java.util.TreeSet;
 
-public class Kernel {
+public class Kernel extends AbstractKernel{
 	
 	/** CAS variable handling */	
 	private static final String GGBCAS_VARIABLE_PREFIX = "ggbcasvar";
@@ -8185,20 +8187,7 @@ public class Kernel {
 	 * PACKAGE STUFF
 	 ***********************************/
 
-	/** if x is nearly zero, 0.0 is returned,
-	 *  else x is returned
-	 */
-	final public static double chop(double x) {
-		if (isZero(x))
-			return 0.0d;
-		else
-			return x;
-	}
-	
-	/** is abs(x) < epsilon ? */
-	final public static boolean isZero(double x) {
-		return -EPSILON < x && x < EPSILON;
-	}
+
 
 	final static boolean isZero(double[] a) {
 		for (int i = 0; i < a.length; i++) {
@@ -8208,54 +8197,7 @@ public class Kernel {
 		return true;
 	}
 
-	final public static boolean isInteger(double x) {
-		if (x > 1E17)
-			return true;
-		else
-			return isEqual(x, Math.round(x));		
-	}
-
-	/**
-	 * Returns whether x is equal to y	 
-	 * infinity == infinity returns true eg 1/0	 
-	 * -infinity == infinity returns false	 eg -1/0
-	 * -infinity == -infinity returns true
-	 * undefined == undefined returns false eg 0/0	 
-	 */
-	final public static boolean isEqual(double x, double y) {	
-		if (x == y) // handles infinity and NaN cases
-			return true;
-		else
-			return x - EPSILON <= y && y <= x + EPSILON;
-	}
 	
-	final public static boolean isEqual(double x, double y, double eps) {		
-		if (x == y) // handles infinity and NaN cases
-			return true;
-		else
-		return x - eps < y && y < x + eps;
-	}
-	
-	/**
-	 * Returns whether x is greater than y	 	 
-	 */
-	final public static boolean isGreater(double x, double y) {
-		return x > y + EPSILON;
-	}
-	
-	/**
-	 * Returns whether x is greater than y	 	 
-	 */
-	final public static boolean isGreater(double x, double y,double eps) {
-		return x > y + eps;
-	}
-	/**
-	 * Returns whether x is greater than or equal to y	 	 
-	 */
-	final public static boolean isGreaterEqual(double x, double y) {
-		return x + EPSILON > y;
-	}
-
 	// compares double arrays: 
 	// yields true if (isEqual(a[i], b[i]) == true) for all i
 	final static boolean isEqual(double[] a, double[] b) {
@@ -8266,20 +8208,7 @@ public class Kernel {
 		return true;
 	}
 	
-    final public static double convertToAngleValue(double val) {
-		if (val > EPSILON && val < PI_2) return val;
-		
-    	double value = val % PI_2; 
-		if (isZero(value)) {
-			if (val < 1.0) value = 0.0;
-			else value = PI_2; 
-		}
-    	else if (value < 0.0)  {
-    		value += PI_2;
-    	} 
-    	return value;
-    }
-
+    
     /*
 	// calc acos(x). returns 0 for x > 1 and pi for x < -1    
 	final static double trimmedAcos(double x) {
@@ -9678,6 +9607,11 @@ public class Kernel {
     	}
     	
     	return imaginaryUnit;
+    }
+    
+    @Override
+    public LaTeXCache newLaTeXCache(){
+    	return new GeoLaTeXCache();
     }
 
 }

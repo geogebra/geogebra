@@ -231,7 +231,7 @@ public class GeoGebraTubeExport {
 	private String getBase64String() throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		app.getXMLio().writeGeoGebraFile(baos, true);
-		return geogebra.util.Base64.encode(baos.toByteArray(), 0);
+		return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 	}
 	
 	/**

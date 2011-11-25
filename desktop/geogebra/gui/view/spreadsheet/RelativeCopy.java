@@ -1,7 +1,7 @@
 
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.CircularDefinitionException;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoBoolean;

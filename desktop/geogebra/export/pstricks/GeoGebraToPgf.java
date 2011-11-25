@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianView;
@@ -40,7 +41,6 @@ import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.awt.Color;

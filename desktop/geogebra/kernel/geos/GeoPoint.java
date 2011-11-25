@@ -21,6 +21,8 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.AnimationManager;
 import geogebra.kernel.Construction;
@@ -46,7 +48,6 @@ import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.awt.geom.Point2D;
@@ -1155,7 +1156,7 @@ GeoPointND, Animatable, Transformable  {
 			sb.append("exp=\"");
 			boolean oldValue = kernel.isPrintLocalizedCommandNames();
 			kernel.setPrintLocalizedCommandNames(false);
-			sb.append(Util.encodeXML(getLabel()));
+			sb.append(StringUtil.encodeXML(getLabel()));
 			kernel.setPrintLocalizedCommandNames(oldValue);
 			sb.append("\"");			    	
     	}

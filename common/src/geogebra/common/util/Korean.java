@@ -1,4 +1,4 @@
-package geogebra.gui.util;
+package geogebra.common.util;
 
 import java.util.HashMap;
 

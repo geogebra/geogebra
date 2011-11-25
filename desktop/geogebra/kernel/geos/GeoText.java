@@ -1,8 +1,9 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoElement;
@@ -407,9 +408,9 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 		if (isIndependent() && getDefaultGeoType() < 0) {
 			sb.append("<expression");
 			sb.append(" label=\"");
-			sb.append(Util.encodeXML(label));
+			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			sb.append(Util.encodeXML(toOutputValueString()));
+			sb.append(StringUtil.encodeXML(toOutputValueString()));
 			// expression   
 			sb.append("\"/>\n");
 		}
@@ -417,7 +418,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 		sb.append("<element"); 
 		sb.append(" type=\"text\"");
 		sb.append(" label=\"");
-		sb.append(Util.encodeXML(label));
+		sb.append(StringUtil.encodeXML(label));
 		if (getDefaultGeoType() >= 0) {
 			sb.append("\" default=\"");
 			sb.append(getDefaultGeoType());

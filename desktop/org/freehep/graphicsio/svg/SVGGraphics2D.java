@@ -1,7 +1,7 @@
 // Copyright 2000-2006 FreeHEP
 package org.freehep.graphicsio.svg;
 
-import geogebra.util.ScientificFormat;
+import geogebra.common.util.ScientificFormat;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -268,7 +268,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
         // Michael Borcherds 2008-06-06
         // bugfix: added encoding="ISO-8859-1"
-        // as the date can contain accented characters eg június 6
+        // as the date can contain accented characters eg jï¿½nius 6
         os.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
         if (getProperty(VERSION).equals(VERSION_1_1)) {
             // no DTD anymore

@@ -12,6 +12,7 @@
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.TitlePanel;
@@ -1193,7 +1194,7 @@ public class WorksheetExportDialog extends JDialog {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			app.getXMLio().writeGeoGebraFile(baos, false);
-			sb.append(geogebra.util.Base64.encode(baos.toByteArray(), 0));
+			sb.append(geogebra.common.util.Base64.encode(baos.toByteArray(), 0));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -1253,7 +1254,7 @@ public class WorksheetExportDialog extends JDialog {
 	 * appendWithLineBreak(sb, "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 	 * appendWithLineBreak(sb, "<head>"); appendWithLineBreak(sb, "<title>");
 	 * Construction cons = kernel.getConstruction(); String title =
-	 * cons.getTitle(); sb.append(Util.toHTMLString(title));
+	 * cons.getTitle(); sb.append(StringUtil.toHTMLString(title));
 	 * appendWithLineBreak(sb, "</title>"); appendWithLineBreak(sb, "<body>");
 	 * 
 	 * appendWithLineBreak(sb, "<script type=\"text/javascript\">");
@@ -1286,7 +1287,7 @@ public class WorksheetExportDialog extends JDialog {
 	 * appendWithLineBreak(sb, "<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 	 * appendWithLineBreak(sb, "<head>"); appendWithLineBreak(sb, "<title>");
 	 * Construction cons = kernel.getConstruction(); String title =
-	 * cons.getTitle(); sb.append(Util.toHTMLString(title));
+	 * cons.getTitle(); sb.append(StringUtil.toHTMLString(title));
 	 * appendWithLineBreak(sb, "</title>");
 	 * 
 	 * appendWithLineBreak(sb, " <style type=\"text/css\">");
@@ -1343,7 +1344,7 @@ public class WorksheetExportDialog extends JDialog {
 		Construction cons = kernel.getConstruction();
 		String title = cons.getTitle();
 		if (!title.equals("")) {
-			sb.append(Util.toHTMLString(title));
+			sb.append(StringUtil.toHTMLString(title));
 		} else {
 			sb.append("GeoGebra Gadget");
 		}
@@ -1353,7 +1354,7 @@ public class WorksheetExportDialog extends JDialog {
 		sb.append(sizePanel.getSelectedWidth());
 		sb.append("\" scrolling=\"false\" ");
 		sb.append("author=\"");
-		sb.append(Util.toHTMLString(cons.getAuthor()));
+		sb.append(StringUtil.toHTMLString(cons.getAuthor()));
 		sb.append("\" author_email=\"xxx@google.com\" ");
 		appendWithLineBreak(
 				sb,
@@ -1423,10 +1424,10 @@ public class WorksheetExportDialog extends JDialog {
 		Construction cons2 = app2.getKernel().getConstruction();
 		String title = cons2.getTitle();
 		if (!title.equals("")) {
-			sb.append(Util.toHTMLString(title));
+			sb.append(StringUtil.toHTMLString(title));
 			sb.append(" - ");
 		}
-		sb.append(Util.toHTMLString(app2.getPlain("ApplicationName") + " "
+		sb.append(StringUtil.toHTMLString(app2.getPlain("ApplicationName") + " "
 				+ app2.getPlain("DynamicWorksheet")));
 		appendWithLineBreak(sb, "</title>");
 		// charset
@@ -1503,7 +1504,7 @@ public class WorksheetExportDialog extends JDialog {
 	private void appendText(StringBuilder sb, String text) {
 		if (text != null) {
 			appendWithLineBreak(sb, "<p>");
-			sb.append(Util.toHTMLString(text));
+			sb.append(StringUtil.toHTMLString(text));
 			appendWithLineBreak(sb, "</p>");
 		}
 	}
@@ -1512,7 +1513,7 @@ public class WorksheetExportDialog extends JDialog {
 		// header with title
 		if (!title.equals("")) {
 			sb.append("<h2>");
-			sb.append(Util.toHTMLString(title));
+			sb.append(StringUtil.toHTMLString(title));
 			appendWithLineBreak(sb, "</h2>");
 		}
 	}
@@ -1568,7 +1569,7 @@ public class WorksheetExportDialog extends JDialog {
 		sb.append("<p>");
 		sb.append("<span style=\"font-size:small\">");
 		if (line != null) {
-			sb.append(Util.toHTMLString(line));
+			sb.append(StringUtil.toHTMLString(line));
 			sb.append(", ");
 		}
 		sb.append(guiManager.getCreatedWithHTML(JSXGraph));

@@ -244,7 +244,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
     }
    	
    	byte[]	macrofile	=app.getMacroFileAsByteArray();
-   	String	macrostring =geogebra.util.Base64.encode(macrofile,0);
+   	String	macrostring =geogebra.common.util.Base64.encode(macrofile,0);
    	
    	set(TOOLS_FILE_GGT,macrostring);
    	
@@ -273,7 +273,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    		if(ggtString.equals(ERROR)){
    			debug("problem with getting GGT...");
    		}else{
-   			byte [] ggtFile = geogebra.util.Base64.decode(ggtString);
+   			byte [] ggtFile = geogebra.common.util.Base64.decode(ggtString);
    			app.loadMacroFileFromByteArray(ggtFile, true);
    		}//if error
        	    		
@@ -343,7 +343,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 		   b64=new StringBuffer();
 		   java.io.ByteArrayOutputStream baos=new java.io.ByteArrayOutputStream();
 		   app.getXMLio().writeGeoGebraFile(baos,false);
-		   b64.append(geogebra.util.Base64.encode(baos.toByteArray(),0));
+		   b64.append(geogebra.common.util.Base64.encode(baos.toByteArray(),0));
 	   }catch(Exception e){e.printStackTrace();}
 	   if(b64!=null){
 		   return b64.toString();

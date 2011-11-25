@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 package geogebra.gui.inputfield;
 
-import geogebra.util.AutoCompleteDictionary;
+import geogebra.common.util.AutoCompleteDictionary;
 
 /**
  * Defines the API that autocomplete components must implement

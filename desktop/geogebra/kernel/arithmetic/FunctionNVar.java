@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.util.MaxSizeHashMap;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -21,8 +23,6 @@ import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.MaxSizeHashMap;
-import geogebra.util.MyMath;
 
 import java.util.HashSet;
 import java.util.Set;

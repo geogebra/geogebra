@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -314,7 +315,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			sb.append(Util.encodeXML(toXMLString()));
+			sb.append(StringUtil.encodeXML(toXMLString()));
 			// expression   
 			sb.append("\"/>\n");
 		}

@@ -1,5 +1,6 @@
 package geogebra.kernel.geos;
 
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
@@ -8,7 +9,6 @@ import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.util.Unicode;
 /**
  * Boolean function of the type a(<|<=)x(<|<=)b
  * @author Markus Hohenwarter

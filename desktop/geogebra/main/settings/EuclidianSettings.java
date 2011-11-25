@@ -1,10 +1,10 @@
 package geogebra.main.settings;
 
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.util.Unicode;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,8 +1,8 @@
 package geogebra3D.euclidian3D;
 
 
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.euclidian.Previewable;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoPointND;

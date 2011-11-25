@@ -13,6 +13,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionalNVar;
@@ -22,7 +23,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 
 import java.awt.Color;
 import java.awt.Container;

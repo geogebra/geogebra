@@ -84,7 +84,7 @@ SOFTWARE, EVEN IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH
 DAMAGES.  */
 
 
-package geogebra.util;
+package geogebra.common.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

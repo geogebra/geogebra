@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.kernel.CircularDefinitionException;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathParameter;

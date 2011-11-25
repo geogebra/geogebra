@@ -10,9 +10,11 @@ the Free Software Foundation.
 
  */
 
-package geogebra.util;
+package geogebra.common.util;
 
-import geogebra.kernel.Kernel;
+//import geogebra.AbstracKernel.AbstracKernel;
+
+import geogebra.common.kernel.AbstractKernel;
 
 import java.math.BigDecimal;
 
@@ -39,13 +41,13 @@ public final class MyMath {
 			return -Math.pow(-a, ONE_THIRD);
 	}
 
-	final public static double sgn(Kernel kernel, double a) {
+	final public static double sgn(AbstractKernel AbstracKernel, double a) {
 
 		// bugfix for graph f(x) = sgn(sqrt(1 - x))
 		if (Double.isNaN(a))
 			return Double.NaN;
 
-		if (Kernel.isZero(a))
+		if (AbstractKernel.isZero(a))
 			return 0.0;
 		else if (a > 0.0)
 			return 1.0;
@@ -93,7 +95,7 @@ public final class MyMath {
 
 	final public static double csc(double a) {
 		double sin = Math.sin(a);
-		if (Kernel.isZero(sin)) return Double.NaN;
+		if (AbstractKernel.isZero(sin)) return Double.NaN;
 		
 		return 1/sin;
 	}
@@ -102,14 +104,14 @@ public final class MyMath {
 		
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
-		if (Kernel.isZero(cos)) return Double.NaN;
+		if (AbstractKernel.isZero(cos)) return Double.NaN;
 		
 		return 1/cos;
 	}
 
 	final public static double cot(double a) {
 		double sin = Math.sin(a);
-		if (Kernel.isZero(sin)) return Double.NaN; // not infinity (1/0)
+		if (AbstractKernel.isZero(sin)) return Double.NaN; // not infinity (1/0)
 		return Math.cos(a) / sin;
 	}
 

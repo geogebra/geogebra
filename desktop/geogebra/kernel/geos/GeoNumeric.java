@@ -19,6 +19,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.AnimationManager;
 import geogebra.kernel.Construction;
@@ -526,12 +527,12 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		sb.append("\t<slider");
 		if (intervalMinActive) {
 			sb.append(" min=\"");
-			sb.append(Util.encodeXML(getIntervalMinObject().getLabel()));
+			sb.append(StringUtil.encodeXML(getIntervalMinObject().getLabel()));
 			sb.append("\"");
 		}
 		if (intervalMaxActive) {
 			sb.append(" max=\"");
-			sb.append(Util.encodeXML(getIntervalMaxObject().getLabel()));
+			sb.append(StringUtil.encodeXML(getIntervalMaxObject().getLabel()));
 			sb.append("\"");
 		}
 		

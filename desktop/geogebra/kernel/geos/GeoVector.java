@@ -20,7 +20,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import geogebra.kernel.CircularDefinitionException;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
@@ -35,7 +36,6 @@ import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -23,7 +24,6 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.algos.AlgoSlope;

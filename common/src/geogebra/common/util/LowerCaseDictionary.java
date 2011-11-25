@@ -1,6 +1,4 @@
-package geogebra.util;
-
-import geogebra.gui.util.Korean;
+package geogebra.common.util;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

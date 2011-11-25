@@ -1,5 +1,6 @@
 package geogebra.kernel.geos;
 
+import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.kernel.Construction;
 import geogebra.util.Util;
@@ -64,7 +65,7 @@ public class GeoTextField extends GeoButton {
 		if (linkedGeo != null) {
    	
 			sb.append("\t<linkedGeo exp=\"");
-			sb.append(Util.encodeXML(linkedGeo.getLabel()));
+			sb.append(StringUtil.encodeXML(linkedGeo.getLabel()));
 			sb.append("\"");			    		    	
 			sb.append("/>\n");
 		}

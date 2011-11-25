@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
@@ -27,7 +28,6 @@ import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
-import geogebra.util.MyMath;
 
 import java.util.ArrayList;
 

@@ -1,15 +1,15 @@
 package geogebra.gui.inputfield;
+import geogebra.common.util.AutoCompleteDictionary;
+import geogebra.common.util.Korean;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.gui.util.Korean;
 import geogebra.kernel.Macro;
 import geogebra.kernel.commands.MyException;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 import geogebra.main.MyError;
-import geogebra.util.AutoCompleteDictionary;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

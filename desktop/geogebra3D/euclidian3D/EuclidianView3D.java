@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.DrawableND;
 import geogebra.euclidian.EuclidianPen;
@@ -34,7 +35,6 @@ import geogebra.kernel.kernelND.GeoRayND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoAxis3D;

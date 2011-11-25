@@ -1,6 +1,6 @@
 package geogebra.main;
 
-import geogebra.util.Unicode;
+import geogebra.common.util.Unicode;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;

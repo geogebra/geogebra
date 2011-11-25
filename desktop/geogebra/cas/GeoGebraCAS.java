@@ -2,6 +2,7 @@ package geogebra.cas;
 
 import geogebra.cas.error.CASException;
 import geogebra.cas.mpreduce.CASmpreduce;
+import geogebra.common.util.MaxSizeHashMap;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -10,7 +11,6 @@ import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.main.Application;
 import geogebra.main.Application.CasType;
-import geogebra.util.MaxSizeHashMap;
 
 import java.util.ArrayList;
 import java.util.Map;

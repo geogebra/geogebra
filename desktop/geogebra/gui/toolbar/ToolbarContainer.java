@@ -1,5 +1,6 @@
 package geogebra.gui.toolbar;
 
+import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
 import geogebra.main.Application;
 import geogebra.util.Util;
@@ -417,7 +418,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				len += fm.stringWidth(word);
 			}
 
-			sbToolName.append(Util.toHTMLString(word));
+			sbToolName.append(StringUtil.toHTMLString(word));
 			start = end;
 			end = nextEnd;
 			nextEnd = iterator.next();
@@ -434,7 +435,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		if (line < maxLines && fm.stringWidth(helpText) < panelWidth) {
 			++line;
 			sbToolHelp.append("<br>");
-			sbToolHelp.append(Util.toHTMLString(helpText));
+			sbToolHelp.append(StringUtil.toHTMLString(helpText));
 		}
 		else {			
 			sbToolHelp.append(": ");
@@ -460,7 +461,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					len += fm.stringWidth(word);
 				}
 
-				sbToolHelp.append(Util.toHTMLString(word));
+				sbToolHelp.append(StringUtil.toHTMLString(word));
 				start = end;
 				end = iterator.next();
 			}

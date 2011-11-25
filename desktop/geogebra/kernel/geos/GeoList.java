@@ -12,9 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
@@ -665,9 +666,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		if (isIndependent() && getDefaultGeoType() < 0) {
 			sb.append("<expression");
 			sb.append(" label =\"");
-			sb.append(Util.encodeXML(label));
+			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			sb.append(Util.encodeXML(toValueString()));
+			sb.append(StringUtil.encodeXML(toValueString()));
 			sb.append("\"/>\n");
 		}
 

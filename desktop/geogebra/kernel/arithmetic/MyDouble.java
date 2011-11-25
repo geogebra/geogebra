@@ -18,13 +18,13 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.util.MyMath;
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoVec2D;
-import geogebra.util.MyMath;
 import geogebra.util.MyMath2;
-import geogebra.util.Unicode;
 
 import java.util.HashSet;
 

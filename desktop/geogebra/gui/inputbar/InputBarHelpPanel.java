@@ -1,6 +1,7 @@
 package geogebra.gui.inputbar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.util.LowerCaseDictionary;
 import geogebra.gui.SetLabels;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.SelectionTable;
@@ -8,7 +9,6 @@ import geogebra.gui.util.TableSymbols;
 import geogebra.kernel.commands.CommandProcessor;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
-import geogebra.util.LowerCaseDictionary;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.util.Unicode;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.TextInputDialog;
 import geogebra.kernel.Kernel;
@@ -31,7 +32,6 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.Unicode;
 
 import java.util.HashSet;
 import java.util.Iterator;

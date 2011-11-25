@@ -838,7 +838,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		if (fileStr.startsWith("base64://")) {
 			byte[] zipFile;
 			try {
-				zipFile = geogebra.util.Base64.decode(fileStr
+				zipFile = geogebra.common.util.Base64.decode(fileStr
 						.substring(9));
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,4 +1,4 @@
-package geogebra.util;
+package geogebra.common.util;
 
 import java.util.Iterator;
 import java.util.List;

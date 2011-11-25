@@ -1,6 +1,7 @@
 package geogebra.gui;
 
 
+import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -10,7 +11,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

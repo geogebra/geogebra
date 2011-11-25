@@ -1,5 +1,6 @@
 package geogebra.kernel.kernelND;
 
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
@@ -32,7 +33,6 @@ import geogebra.kernel.geos.Path;
 import geogebra.kernel.geos.Translateable;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
-import geogebra.util.MyMath;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;

@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 
 
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.Drawable;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.TitlePanel;
@@ -1766,12 +1767,12 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
 		sb.append("<head>\n");
 		sb.append("<title>");
-		sb.append(Util.toHTMLString(app.getPlain("ApplicationName")));
+		sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
 		sb.append(" - ");
 		sb.append(app.getPlain("ConstructionProtocol"));
 		sb.append("</title>\n");
 		sb.append("<meta keywords = \"");
-		sb.append(Util.toHTMLString(app.getPlain("ApplicationName")));
+		sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
 		sb.append(" export\">");
 		String css = app.getSetting("cssConstructionProtocol");
 		if (css != null) {
@@ -1788,7 +1789,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		String title = cons.getTitle();
 		if (!title.equals("")) {
 			sb.append("<h1>");
-			sb.append(Util.toHTMLString(title));
+			sb.append(StringUtil.toHTMLString(title));
 			sb.append("</h1>\n");
 		}
 
@@ -1807,7 +1808,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 		if (line != null) {
 			sb.append("<h3>");
-			sb.append(Util.toHTMLString(line));
+			sb.append(StringUtil.toHTMLString(line));
 			sb.append("</h3>\n");
 		}
 
@@ -1817,9 +1818,9 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			sb.append("<img src=\"");
 			sb.append(imgFile.getName());
 			sb.append("\" alt=\"");
-			sb.append(Util.toHTMLString(app.getPlain("ApplicationName")));
+			sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
 			sb.append(' ');
-			sb.append(Util.toHTMLString(app.getPlain("DrawingPad")));
+			sb.append(StringUtil.toHTMLString(app.getPlain("DrawingPad")));
 			sb.append("\" border=\"1\">\n");
 			sb.append("</p>\n");
 		}
@@ -1840,7 +1841,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				TableColumn tk = colModel.getColumn(nCol);
 				title = (String) tk.getIdentifier();
 				sb.append("<th>");
-				sb.append(Util.toHTMLString(title));
+				sb.append(StringUtil.toHTMLString(title));
 				sb.append("</th>\n");
 			}
 

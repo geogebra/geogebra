@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package geogebra.gui.virtualkeyboard;
 
+import geogebra.common.util.Unicode;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
 import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.KeyboardSettings;
 import geogebra.main.settings.SettingListener;
-import geogebra.util.Unicode;
 
 import java.awt.Color;
 import java.awt.Dimension;

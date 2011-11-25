@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
@@ -40,7 +42,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.util.HashMap;
@@ -633,7 +634,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			sb.append(Util.encodeXML(toString()));
+			sb.append(StringUtil.encodeXML(toString()));
 			// expression
 			sb.append("\"/>\n");
 		}

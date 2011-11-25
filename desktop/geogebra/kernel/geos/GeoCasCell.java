@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.cas.error.CASException;
+import geogebra.common.util.StringUtil;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
@@ -1243,7 +1244,7 @@ public class GeoCasCell extends GeoElement {
 		sb.append("<cascell");
 		if (assignmentVar != null) {
 			sb.append(" caslabel=\"");
-			sb.append(Util.encodeXML(assignmentVar));
+			sb.append(StringUtil.encodeXML(assignmentVar));
 			sb.append("\" ");
 		}
 		sb.append(">\n");
@@ -1272,23 +1273,23 @@ public class GeoCasCell extends GeoElement {
 			sb.append("\t\t\t");
 			sb.append("<expression");
 			sb.append(" value=\"");
-			sb.append(Util.encodeXML(input));
+			sb.append(StringUtil.encodeXML(input));
 			sb.append("\" ");
 			
 			if (evalVE != inputVE) {
 				if (!"".equals(prefix)) {
 					sb.append(" prefix=\"");
-					sb.append(Util.encodeXML(prefix));
+					sb.append(StringUtil.encodeXML(prefix));
 					sb.append("\" ");
 				}
 				
 				sb.append(" eval=\"");
-				sb.append(Util.encodeXML(getEvalText()));
+				sb.append(StringUtil.encodeXML(getEvalText()));
 				sb.append("\" ");
 				
 				if (!"".equals(postfix)) {
 					sb.append(" postfix=\"");
-					sb.append(Util.encodeXML(postfix));
+					sb.append(StringUtil.encodeXML(postfix));
 					sb.append("\" ");
 				}
 			}
@@ -1306,7 +1307,7 @@ public class GeoCasCell extends GeoElement {
 			sb.append("<expression");
 			
 			sb.append(" value=\"");
-			sb.append(Util.encodeXML(getOutput()));
+			sb.append(StringUtil.encodeXML(getOutput()));
 			sb.append("\"");
 			if (isError()) {
 				sb.append(" error=\"true\"");
@@ -1314,13 +1315,13 @@ public class GeoCasCell extends GeoElement {
 			
 			if (!"".equals(evalCmd)) {
 				sb.append(" evalCommand=\"");
-				sb.append(Util.encodeXML(evalCmd));
+				sb.append(StringUtil.encodeXML(evalCmd));
 				sb.append("\" ");
 			}
 			
 			if (!"".equals(evalComment)) {
 				sb.append(" evalComment=\"");
-				sb.append(Util.encodeXML(evalComment));
+				sb.append(StringUtil.encodeXML(evalComment));
 				sb.append("\" ");
 			}
 			

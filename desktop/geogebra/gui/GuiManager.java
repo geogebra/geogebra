@@ -4,6 +4,9 @@ import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.Base64;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -59,8 +62,6 @@ import geogebra.main.GeoGebraPreferences;
 import geogebra.main.MyError;
 import geogebra.main.MyResourceBundle;
 import geogebra.main.settings.KeyboardSettings;
-import geogebra.util.Base64;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -2827,7 +2828,7 @@ public class GuiManager {
 		String ret;
 
 		// if (!JSXGraph)
-		ret = Util.toHTMLString(app.getPlain("CreatedWithGeoGebra")); // MRB
+		ret = StringUtil.toHTMLString(app.getPlain("CreatedWithGeoGebra")); // MRB
 																		// 2008-06-14
 																		// added
 																		// Util.toHTMLString

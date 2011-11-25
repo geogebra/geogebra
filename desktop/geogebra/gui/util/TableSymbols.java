@@ -1,8 +1,8 @@
 package geogebra.gui.util;
 
+import geogebra.common.util.Unicode;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
-import geogebra.util.Unicode;
 
 import java.util.ArrayList;
 

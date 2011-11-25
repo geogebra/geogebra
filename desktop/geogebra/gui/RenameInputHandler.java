@@ -1,12 +1,12 @@
 package geogebra.gui;
 
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra.util.CopyPaste;
-import geogebra.util.Unicode;
 
 import java.util.Arrays;
 import java.util.HashSet;

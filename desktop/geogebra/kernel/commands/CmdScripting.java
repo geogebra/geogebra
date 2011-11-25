@@ -1,10 +1,10 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.RenameInputHandler;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.algos.AlgoDependentNumber;

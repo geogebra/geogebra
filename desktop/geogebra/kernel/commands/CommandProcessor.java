@@ -12,8 +12,9 @@
 
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.Unicode;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MyPoint;
@@ -55,7 +56,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyError;
 import geogebra.util.ImageManager;
-import geogebra.util.Unicode;
 
 import java.awt.Image;
 import java.awt.Point;

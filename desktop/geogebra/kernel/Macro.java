@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.util.StringUtil;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.ConstructionElement;
@@ -611,13 +612,13 @@ public class Macro {
 	 */
     public void getXML(StringBuilder sb) {               
         sb.append("<macro cmdName=\"");
-        sb.append(Util.encodeXML(cmdName));         
+        sb.append(StringUtil.encodeXML(cmdName));         
         sb.append("\" toolName=\"");
-        sb.append(Util.encodeXML(toolName));
+        sb.append(StringUtil.encodeXML(toolName));
         sb.append("\" toolHelp=\"");
-        sb.append(Util.encodeXML(toolHelp));  
+        sb.append(StringUtil.encodeXML(toolHelp));  
         sb.append("\" iconFile=\""); 
-        sb.append(Util.encodeXML(iconFileName));  
+        sb.append(StringUtil.encodeXML(iconFileName));  
         sb.append("\" showInToolBar=\"");
         sb.append(showInToolBar);
         sb.append("\" copyCaptions=\"");
@@ -631,7 +632,7 @@ public class Macro {
 	        sb.append(" a");
 	        sb.append(i);                
 	        sb.append("=\"");
-	        sb.append(Util.encodeXML(macroInputLabels[i]));                                                           
+	        sb.append(StringUtil.encodeXML(macroInputLabels[i]));                                                           
 	        sb.append("\"");
         }
         sb.append("/>\n");
@@ -643,7 +644,7 @@ public class Macro {
 	        sb.append(" a");
 	        sb.append(i);                
 	        sb.append("=\"");
-	        sb.append(Util.encodeXML(macroOutputLabels[i]));                                                           
+	        sb.append(StringUtil.encodeXML(macroOutputLabels[i]));                                                           
 	        sb.append("\"");
         }        
         sb.append("/>\n");            

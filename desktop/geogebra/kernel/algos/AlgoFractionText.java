@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
-import geogebra.util.Unicode;
 
 
 public class AlgoFractionText extends AlgoElement {

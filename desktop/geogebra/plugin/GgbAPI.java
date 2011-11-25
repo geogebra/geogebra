@@ -185,7 +185,7 @@ public class GgbAPI {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			app.getXMLio().writeGeoGebraFile(baos, includeThumbnail);
-			return geogebra.util.Base64.encode(baos.toByteArray(), 0);
+			return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -238,7 +238,7 @@ public class GgbAPI {
 	public synchronized void setBase64(String base64) {
 		byte[] zipFile;
 		try {
-			zipFile = geogebra.util.Base64.decode(base64);
+			zipFile = geogebra.common.util.Base64.decode(base64);
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -1096,7 +1096,7 @@ public class GgbAPI {
 		    MyImageIO.writeImage(writer, img, DPI);
 		    
 		    byte[] image = baos.toByteArray();
-			String ret = geogebra.util.Base64.encode(baos.toByteArray(), 0);
+			String ret = geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 	    
 			baos.close();
 			

@@ -21,9 +21,11 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.LowerCaseDictionary;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.export.GraphicExportDialog;
@@ -45,12 +47,10 @@ import geogebra.kernel.Macro;
 import geogebra.kernel.Relation;
 import geogebra.kernel.View;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.commands.CommandProcessor;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.settings.Settings;
 import geogebra.plugin.GgbAPI;
@@ -60,8 +60,6 @@ import geogebra.plugin.jython.PythonBridge;
 import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
 import geogebra.util.ImageManager;
-import geogebra.util.LowerCaseDictionary;
-import geogebra.util.Unicode;
 import geogebra.util.Util;
 
 import java.awt.AWTKeyStroke;
@@ -1343,7 +1341,7 @@ public class Application implements KeyEventDispatcher {
 					} else if (lowerCase.startsWith("base64://")) {
 						
 						// substring to strip off base64://
-						byte [] zipFile = geogebra.util.Base64.decode(fileArgument.substring(9));
+						byte [] zipFile = geogebra.common.util.Base64.decode(fileArgument.substring(9));
 						success = loadXML(zipFile);
 						
 						if(success && !isMacroFile) {
@@ -3158,9 +3156,9 @@ public class Application implements KeyEventDispatcher {
     	
     	StringBuilder sbTooltip = new StringBuilder();
 		sbTooltip.append("<html><b>");
-		sbTooltip.append(Util.toHTMLString(getToolName(mode)));
+		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
 		sbTooltip.append("</b><br>");		
-		sbTooltip.append(Util.toHTMLString(getToolHelp(mode)));
+		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
 		sbTooltip.append("</html>");
 		
 		tooltipFlag = false;

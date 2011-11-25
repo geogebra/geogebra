@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.util.StringUtil;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
@@ -1171,13 +1172,13 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         if (/*output != null &&*/ getOutputLength() == 1) {
             if (getOutput(0).isLabelSet()) {
                 sb.append(" label=\"");
-                labelStr = Util.encodeXML(getOutput(0).getLabel());
+                labelStr = StringUtil.encodeXML(getOutput(0).getLabel());
                 sb.append(labelStr);
                 sb.append("\"");
             }
         } 
         // add expression       
-        String expStr = Util.encodeXML(toExpString());
+        String expStr = StringUtil.encodeXML(toExpString());
         sb.append(" exp=\"");                    
         sb.append(expStr);
         sb.append("\"");
@@ -1224,7 +1225,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
                 // attribute name is input No. 
                 sb.append("=\"");
                 
-                String cmd = Util.encodeXML(input[i].getLabel());
+                String cmd = StringUtil.encodeXML(input[i].getLabel());
                 
                 // ensure a vector stays a vector!  
                 // eg g:X = (-5, 5) + t (4, -3) 
@@ -1254,7 +1255,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
                 // attribute name is output No. 
                 sb.append("=\"");     
                 if (getOutput(i).isLabelSet()) 
-                	sb.append(Util.encodeXML(getOutput(i).getLabel()));
+                	sb.append(StringUtil.encodeXML(getOutput(i).getLabel()));
                	sb.append("\"");            
             }
             
@@ -1278,7 +1279,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
             for (int i = 0; i < getOutputLength(); i++) {
             	type = getXMLtypeString(getOutput(i));
                 sb.append("\t\t\t<" + type + " out=\"true\">");
-                sb.append(Util.encodeXML(getOutput(i).getLabel()));
+                sb.append(StringUtil.encodeXML(getOutput(i).getLabel()));
                 sb.append("</" + type + ">\n");
             }
         //}
@@ -1289,17 +1290,17 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
             	cmdname.equals("line_perpendicular_to_line_through_point")) {
         		type = getXMLtypeString(input[1]);
         		sb.append("\t\t\t<" + type + ">");
-        		sb.append(Util.encodeXML(input[1].getLabel()));                 
+        		sb.append(StringUtil.encodeXML(input[1].getLabel()));                 
         		sb.append("</" + type + ">\n");
         		type = getXMLtypeString(input[0]);
         		sb.append("\t\t\t<" + type + ">");
-        		sb.append(Util.encodeXML(input[0].getLabel()));                 
+        		sb.append(StringUtil.encodeXML(input[0].getLabel()));                 
         		sb.append("</" + type + ">\n");
         	} else {
         		for (int i = 0; i < input.length; i++) {
             		type = getXMLtypeString(input[i]);
             		sb.append("\t\t\t<" + type + ">");
-            		sb.append(Util.encodeXML(input[i].getLabel()));                 
+            		sb.append(StringUtil.encodeXML(input[i].getLabel()));                 
             		sb.append("</" + type + ">\n");
             	}
             }

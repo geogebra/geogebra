@@ -1,6 +1,6 @@
 package geogebra.kernel.algos;
 
-import geogebra.kernel.CircularDefinitionException;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.kernel.Construction;
 import geogebra.kernel.cas.AlgoDerivative;
 import geogebra.kernel.geos.GeoElement;
