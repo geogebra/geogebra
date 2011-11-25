@@ -16,24 +16,30 @@ import geogebra.kernel.geos.GeoElement;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Queue;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.Timer;
 
 /**
- * 
+ * Proof of concept
+ * This class will collect update events in a time slice and bundles
+ * them in a Set and after the time slice it will handle them to its
+ * attached view. (Multiple updates of the same GeoElement in a time
+ * slice are only handled down once at the end of the time slice.)
  * @author Lucas Binter
  */
 public class ThreadedView implements View {
   private View view;
   private int fps;
   private Timer updateTimer;
-  private Queue<GeoElement> updateQueue;
+  private Set<GeoElement> updateSet;
 
   public ThreadedView(View handledView, int framesPerSecond) {
     view = handledView;
     fps = framesPerSecond;
     updateTimer = new Timer(1000 / fps, updateListener);
+    updateSet = new HashSet<GeoElement>();
   }
 
   public void add(GeoElement geo) {
@@ -50,7 +56,9 @@ public class ThreadedView implements View {
 
   public void update(final GeoElement geo) {
     if (updateTimer.isRunning()) {
-      updateQueue.add(geo);
+      synchronized (updateSet) {
+        updateSet.add(geo);
+      }
     } else {
       updateTimer.start();
       view.update(geo);
@@ -86,12 +94,28 @@ public class ThreadedView implements View {
   }
 
   ActionListener updateListener = new ActionListener() {
+    boolean isWorking = false;
+
     public void actionPerformed(ActionEvent e) {
-      if (updateQueue.isEmpty()) {
+      if (updateSet.isEmpty()) {
+        return;
+      }
+      if (isWorking) {
+        updateTimer.start();
         return;
       }
       updateTimer.start();
-      view.update(updateQueue.poll());
+      isWorking = true;
+      GeoElement[] work;
+      synchronized (updateSet) {
+        work = new GeoElement[updateSet.size()];
+        updateSet.toArray(work);
+        updateSet.clear();
+      }
+      for (GeoElement geo : work) {
+        view.update(geo);
+      }
+      isWorking = false;
     }
   };
 }
