@@ -13,6 +13,7 @@ the Free Software Foundation.
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.MyError;
@@ -42,7 +43,7 @@ public class CmdFitPoly extends CommandProcessor{
 
             default :
                 // try to create list of points
-           	 GeoList list = wrapInList(kernel, arg, arg.length - 1, GeoElement.GEO_CLASS_POINT);
+           	 GeoList list = wrapInList(kernel, arg, arg.length - 1, GeoClass.POINT);
                 if (list != null) {
                	 GeoElement[] ret = { kernel.FitPoly(c.getLabel(), list, (NumberValue) arg[arg.length - 1])};
                     return ret;             	     	 

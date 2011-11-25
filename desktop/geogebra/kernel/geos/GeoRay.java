@@ -34,11 +34,6 @@ import geogebra.kernel.kernelND.GeoRayND;
  */
 final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true;
 	
@@ -64,8 +59,8 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		return "Ray";
 	}
 
-	public int getGeoClassType() {
-		return GEO_CLASS_RAY;
+	public GeoClass getGeoClassType() {
+		return GeoClass.RAY;
 	}
 
 	 

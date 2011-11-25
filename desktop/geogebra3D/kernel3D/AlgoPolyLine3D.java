@@ -16,13 +16,10 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.algos.AlgoPolyLine;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.kernel.kernelND.GeoSegmentND;
-
-
-
 
 /**
  * Creates a PolyLine from a given list of points or point array.
@@ -30,10 +27,7 @@ import geogebra.kernel.kernelND.GeoSegmentND;
  * @author  Michael Borcherds
  * @version 
  */
-public class AlgoPolyLine3D extends AlgoPolyLine {
-
-	private static final long serialVersionUID = 1L;
-    
+public class AlgoPolyLine3D extends AlgoPolyLine { 
        
     public AlgoPolyLine3D(Construction cons, String [] labels, GeoList geoList) {
     	this(cons, labels, null, geoList);
@@ -100,7 +94,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
      */
     private void updatePointArray(GeoList pointList) {
     	// check if we have a point list
-    	if (pointList.getElementType() != GeoElement.GEO_CLASS_POINT) {
+    	if (pointList.getElementType() != GeoClass.POINT) {
     		poly.setUndefined();
     		return;
     	}
@@ -181,13 +175,5 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 
     	return efficientInput;
     }
-    
-    private void setOutput() {
-                     
-        output[0] = poly;        
-        
-       
-    }
-    
-    
+  
 }

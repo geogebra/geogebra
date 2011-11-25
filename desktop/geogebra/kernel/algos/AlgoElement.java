@@ -23,6 +23,7 @@ import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
@@ -725,7 +726,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * @return whether all outputs have the same type
      */
     final public boolean hasSingleOutputType() {
-    	int type = getOutput(0).getGeoClassType();
+    	GeoClass type = getOutput(0).getGeoClassType();
     	
     	 for (int i = 1; i < getOutputLength(); ++i) {
             if (getOutput(i).getGeoClassType() != type)

@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.MyError;
@@ -46,7 +47,7 @@ class CmdANOVA extends CommandProcessor {
 			}
 
 		default:
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoElement.GEO_CLASS_LIST);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
 				GeoElement[] ret = { kernel.ANOVATest(c.getLabel(), list) };
 				return ret;

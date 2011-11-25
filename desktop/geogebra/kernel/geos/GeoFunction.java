@@ -42,7 +42,6 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.Util;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -232,8 +231,8 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 	
     @Override
-	public int getGeoClassType() {
-    	return GEO_CLASS_FUNCTION;
+	public GeoClass getGeoClassType() {
+    	return GeoClass.FUNCTION;
     }
 
 	/** copy constructor 
@@ -956,12 +955,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     // Michael Borcherds 2009-02-15
 	@Override
 	public boolean isEqual(GeoElement geo) {		
-		if (!geo.isGeoFunction() || geo.getGeoClassType() == GeoElement.GEO_CLASS_INTERVAL)
+		if (!geo.isGeoFunction() || geo.getGeoClassType() == GeoClass.INTERVAL)
 			return false;
 				
 		// return return geo.isEqual(this); rather than false
 		// in case we improve checking in GeoFunctionConditional in future
-		if (geo.getGeoClassType() == GeoElement.GEO_CLASS_FUNCTIONCONDITIONAL)
+		if (geo.getGeoClassType() == GeoClass.FUNCTIONCONDITIONAL)
 			return geo.isEqual(this);
 		else
 			return isDifferenceZeroInCAS(geo);				

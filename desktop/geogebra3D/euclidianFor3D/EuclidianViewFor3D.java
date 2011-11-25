@@ -30,7 +30,7 @@ public class EuclidianViewFor3D extends EuclidianView {
 		
 		//try 3D geos
 		switch (geo.getGeoClassType()) {
-		case GeoElement.GEO_CLASS_ANGLE3D:
+		case ANGLE3D:
 			d = new DrawAngleFor3D(this, (GeoAngle) geo);
 			break;
 		}

@@ -178,8 +178,8 @@ GeoPointND, Animatable, Transformable  {
 	}
     
     @Override
-	public int getGeoClassType() {
-    	return GEO_CLASS_POINT;
+	public GeoClass getGeoClassType() {
+    	return GeoClass.POINT;
     }
     
     public GeoPoint(GeoPoint point) {

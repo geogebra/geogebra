@@ -36,8 +36,8 @@ public class GeoScriptAction extends GeoElement  {
 	
 
 	@Override
-	public int getGeoClassType() {
-		return -1;
+	public GeoClass getGeoClassType() {
+		return GeoClass.DEFAULT;
 	}
 
 	@Override

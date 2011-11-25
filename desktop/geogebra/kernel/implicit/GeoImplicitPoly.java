@@ -33,6 +33,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.ConicMirrorable;
 import geogebra.kernel.geos.Dilateable;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -178,8 +179,8 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 
 	@Override
-	public int getGeoClassType() {
-		return GEO_CLASS_IMPLICIT_POLY;
+	public GeoClass getGeoClassType() {
+		return GeoClass.IMPLICIT_POLY;
 	}
 
 	@Override
@@ -1339,8 +1340,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						}
 					}
 				}
-			} 
-			
+			} 	
 		}
 
 		
@@ -1348,7 +1348,6 @@ Dilateable, Transformable, EuclidianViewCE {
 		private final static double MIN_STEP_SIZE=0.1; //Pixel on Screen
 		private final static double START_STEP_SIZE=0.5;
 		private final static double MAX_STEP_SIZE=1;
-		private final static double MIN_PATH_GAP=1;  
 		private final static double SING_RADIUS=1; 
 		private final static double NEAR_SING=1E-3;
 		private final static int MAX_STEPS=10000;

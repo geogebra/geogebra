@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-
 import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.PathMover;
@@ -23,11 +22,7 @@ import geogebra.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
-
-
 public class GeoLocus extends GeoElement implements Path, Traceable {
-
-	private static final long serialVersionUID = 1L;
 
 	public static final int MAX_PATH_RUNS = 10;
 				
@@ -79,7 +74,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	 * Adds a new point (x,y) to the end of the point list of this locus.	 
 	 * @param x
 	 * @param y
-	 * @param lineTo: true to draw a line to (x,y); false to only move to (x,y)
+	 * @param lineTo true to draw a line to (x,y); false to only move to (x,y)
 	 */
 	public void insertPoint(double x, double y, boolean lineTo) { 
 		myPointList.add(new MyPoint(x, y, lineTo));	
@@ -110,8 +105,8 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		return "Locus";
 	}
     
-    public int getGeoClassType() {
-    	return GEO_CLASS_LOCUS;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.LOCUS;
     }
 	
 	/**

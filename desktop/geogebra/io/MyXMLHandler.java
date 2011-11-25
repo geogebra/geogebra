@@ -40,6 +40,7 @@ import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoCasCell;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -844,7 +845,7 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	// <AlgebraView>
 	// ====================================
-	private void startAlgebraViewElement(String eName, LinkedHashMap<String, String> attrs) {
+	private static void startAlgebraViewElement(String eName, LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
 		switch (eName.charAt(0)) {
@@ -1018,7 +1019,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleEvSize(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleEvSize(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
 		// removed, needed to resize applet correctly
 		//if (app.isApplet())
 		//	return true;
@@ -1209,7 +1210,7 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleLineStyle(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleLineStyle(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
 		try {
 			ev.setAxesLineStyle(Integer.parseInt((String) attrs.get("axes")));
 			ev.setGridLineStyle(Integer.parseInt((String) attrs.get("grid")));
@@ -1219,7 +1220,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleGrid(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleGrid(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
 		// <grid distX="2.0" distY="4.0"/>
 		try {
 			double[] dists = new double[3];
@@ -1334,9 +1335,7 @@ public class MyXMLHandler implements DocHandler {
 				boolean isPositive = Boolean.parseBoolean(posAxis);
 				ev.setPositiveAxis(axis,isPositive);
 			}
-			
-				
-			
+					
 			return true;
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -1732,9 +1731,7 @@ public class MyXMLHandler implements DocHandler {
 				cpSettings.setShowPlayButton(playButton);
 				cpSettings.setPlayDelay(playDelay);
 				cpSettings.setShowConstructionProtocol(showProtButton);
-				app.setShowConstructionProtocolNavigation(show);
-				
-				
+				app.setShowConstructionProtocolNavigation(show);			
 			}
 			
 			
@@ -1798,7 +1795,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private boolean handleGuiSettings(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleGuiSettings(Application app, LinkedHashMap<String, String> attrs) {
 		try {
 			boolean ignoreDocument = !((String)attrs.get("ignoreDocument")).equals("false");
 			app.getSettings().getLayout().setIgnoreDocumentLayout(ignoreDocument);
@@ -1956,7 +1953,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private boolean handleWindowSize(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleWindowSize(Application app, LinkedHashMap<String, String> attrs) {
 		try {
 			Dimension size = new Dimension(
 				Integer.parseInt((String)attrs.get("width")),
@@ -1970,7 +1967,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleFont(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleFont(Application app, LinkedHashMap<String, String> attrs) {
 		try {			
 			int guiSize = Integer.parseInt((String) attrs.get("size"));			
 
@@ -1994,7 +1991,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 	
-	private boolean handleMenuFont(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleMenuFont(Application app, LinkedHashMap<String, String> attrs) {
 		try {			
 			int guiSize = Integer.parseInt((String) attrs.get("size"));
 			if (guiSize <= 0) {
@@ -2016,7 +2013,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleTooltipSettings(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleTooltipSettings(Application app, LinkedHashMap<String, String> attrs) {
 		try {
 			String ttl = (String) attrs.get("language");
 			if (ttl != null) {
@@ -2053,7 +2050,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleMouse(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleMouse(Application app, LinkedHashMap<String, String> attrs) {
 		try {			
 			app.reverseMouseWheel(!((String)attrs.get("reverseWheel")).equals("false"));
 
@@ -2063,7 +2060,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleLabelingStyle(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleLabelingStyle(Application app, LinkedHashMap<String, String> attrs) {
 		try {
 			int style = Integer.parseInt((String) attrs.get("val"));
 			app.setLabelingStyle(style);
@@ -2464,7 +2461,7 @@ public class MyXMLHandler implements DocHandler {
 				// create algorithm for dependent cell
 				// this also creates twinGeo if necessary
 				// output is not computed again, see AlgoDependenCasCell constructor
-				kernel.DependentCasCell(geoCasCell);
+				Kernel.DependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
 			System.err.println("error when processing <cellpair>: " + e.getMessage());
@@ -2648,9 +2645,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setYmaxObject(n, true);
 			}
 			//ev.updateBounds();
-		}
-		
-		
+		}		
 	}
 
 	// called when <element> is encountered
@@ -2702,7 +2697,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 		
 		// use default point style on points
-		if(geo.getGeoClassType() == GeoElement.GEO_CLASS_POINT && ggbFileFormat < 3.3) {
+		if(geo.getGeoClassType() == GeoClass.POINT && ggbFileFormat < 3.3) {
 			((PointProperties)geo).setPointStyle(docPointStyle);
 		}
 
@@ -3100,7 +3095,7 @@ public class MyXMLHandler implements DocHandler {
 	/*
 	 * expects r, g, b attributes to build a color
 	 */
-	private Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
+	private static Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt((String) attrs.get("r"));
 			int green = Integer.parseInt((String) attrs.get("g"));
@@ -3114,7 +3109,7 @@ public class MyXMLHandler implements DocHandler {
 	/*
 	 * expects r, g, b, alpha attributes to build a color
 	 */
-	private Color handleColorAlphaAttrs(LinkedHashMap<String, String> attrs) {
+	private static Color handleColorAlphaAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt((String) attrs.get("r"));
 			int green = Integer.parseInt((String) attrs.get("g"));

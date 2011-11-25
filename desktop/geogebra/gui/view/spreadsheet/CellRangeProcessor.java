@@ -9,6 +9,7 @@ import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.MyVecNode;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
@@ -217,7 +218,7 @@ public class CellRangeProcessor {
 		cons.setSuppressLabelCreation(true);
 		for(CellRange cr : rangeList){
 			for(int col=cr.getMinColumn(); col<=cr.getMaxColumn(); col++){
-				tempGeo.add(createListFromColumn(col, copyByValue, false, false, GeoElement.GEO_CLASS_NUMERIC));
+				tempGeo.add(createListFromColumn(col, copyByValue, false, false, GeoClass.NUMERIC));
 			}
 		}
 		cons.setSuppressLabelCreation(oldSuppress);
@@ -280,7 +281,7 @@ public class CellRangeProcessor {
 	 * pairs are joined vertically or horizontally and gets the row column
 	 * indices needed to traverse the cells.
 	 */
-	private void getPointListDimensions(ArrayList<CellRange> rangeList, PointDimension pd) {
+	private static void getPointListDimensions(ArrayList<CellRange> rangeList, PointDimension pd) {
 
 		pd.doHorizontalPairs = true;
 
@@ -465,7 +466,7 @@ public class CellRangeProcessor {
 	 * @param leftToRight
 	 * @return
 	 */
-	private String pointString(GeoElement leftCoord, GeoElement rightCoord, boolean byValue, boolean leftToRight) {
+	private static String pointString(GeoElement leftCoord, GeoElement rightCoord, boolean byValue, boolean leftToRight) {
 
 		// return null and exit if either coordinate is null or non-numeric 
 		if (leftCoord == null || rightCoord == null || !leftCoord.isGeoNumeric() || !rightCoord.isGeoNumeric()) 
@@ -614,9 +615,8 @@ public class CellRangeProcessor {
 
 	/** Creates a GeoList from the cells in an array of cellranges. Empty cells are ignored */
 	public GeoElement createList(ArrayList<CellRange> rangeList,  boolean scanByColumn, boolean copyByValue, 
-			boolean isSorted, boolean doStoreUndo, Integer geoTypeFilter, boolean setLabel) {
+			boolean isSorted, boolean doStoreUndo, GeoClass geoTypeFilter, boolean setLabel) {
 
-		GeoElement[] geos = null;
 		//StringBuilder listString = new StringBuilder();
 		
 		GeoList geoList = null;
@@ -726,11 +726,8 @@ public class CellRangeProcessor {
 	public GeoElement createListFromFrequencyTable(CellRange cr,  boolean scanByColumn, boolean copyByValue, 
 			boolean isSorted, boolean doStoreUndo, Integer geoTypeFilter, boolean setLabel) {
 
-		double value;
 		int freq;
-		ArrayList<Double> valueList= new ArrayList<Double>();
 
-		GeoElement[] geos = null;
 		GeoElement valueGeo, freqGeo;
 		GeoList geoList = new GeoList(cons);
 
@@ -768,27 +765,23 @@ public class CellRangeProcessor {
 		if (setLabel)
 			geoList.setLabel(null);
 
-		if(geoList != null)
+		if(geoList != null) {
 			return geoList;
-		else 
+		} else {
 			return null;
-
+			}
 	}
 	
-	
-	
-	
-
 	/** Creates a list from all cells in a spreadsheet column */
 	public GeoElement createListFromColumn(int column, boolean copyByValue, boolean isSorted,
-			boolean storeUndoInfo, Integer geoTypeFilter) {
+			boolean storeUndoInfo, GeoClass geoTypeFilter) {
 
 		ArrayList<CellRange> rangeList = new ArrayList<CellRange>();
 		CellRange cr = new CellRange(table,column,-1);
 		cr.setActualRange();
 		rangeList.add(cr);
 
-		return  createList(rangeList,  true, copyByValue, isSorted, storeUndoInfo, geoTypeFilter, true) ;
+		return createList(rangeList,  true, copyByValue, isSorted, storeUndoInfo, geoTypeFilter, true) ;
 	}
 
 	/** Returns true if all cell ranges in the list are columns */
@@ -800,7 +793,6 @@ public class CellRangeProcessor {
 		return isAllColumns;
 	}
 
-
 	/**
 	 * Creates a string expression for a matrix where each sub-list is a list
 	 * of cells in the columns spanned by the range list
@@ -811,7 +803,7 @@ public class CellRangeProcessor {
 		sb.append("{");
 		for(CellRange cr : rangeList){
 			for(int col=cr.getMinColumn(); col<=cr.getMaxColumn(); col++){
-				tempGeo = createListFromColumn(col, copyByValue, false, false, GeoElement.GEO_CLASS_NUMERIC);
+				tempGeo = createListFromColumn(col, copyByValue, false, false, GeoClass.NUMERIC);
 				sb.append(tempGeo.getCommandDescription());
 				sb.append(",");
 				tempGeo.remove();
@@ -821,9 +813,7 @@ public class CellRangeProcessor {
 		sb.append("}");
 
 		return sb.toString();
-
 	}
-
 	
 	/**
 	 * Creates a string expression for a matrix formed by the cell range with
@@ -1160,20 +1150,14 @@ public class CellRangeProcessor {
 
 				//geos[0].setLabel(GeoElement.getSpreadsheetCellName(c, r));
 				geos[0].setAuxiliaryObject(true);
-
-
 			}
 		}
-
 	}
-
-
 
 	//Experimental ---- merging ctrl-selected cells 
 
-	private void consolidateRangeList(ArrayList<CellRange> rangeList){
+	private static void consolidateRangeList(ArrayList<CellRange> rangeList){
 
-		ArrayList<Point> columnList = new ArrayList<Point>();
 		ArrayList<ArrayList<Point>> matrix = new ArrayList<ArrayList<Point>>();
 		int minRow = rangeList.get(0).getMinRow();
 		int maxRow = rangeList.get(0).getMaxRow();
@@ -1196,38 +1180,33 @@ public class CellRangeProcessor {
 					matrix.add(col, new ArrayList<Point>());
 					matrix.get(col).add(new Point(cr.getMinColumn(),cr.getMaxColumn()));
 				} else {
-					Point p = matrix.get(col).get(1);
+					// Point p = matrix.get(col).get(1);
 					//	if(cr.getMinColumn()>)
 					//	insertPoint(matrix, new Point(new Point(cr.getMinColumn(),cr.getMaxColumn())));
 				}
-
 			}
 
 
 			// convert our matrix to a CellRange list
 			for(int col = minColumn; col <= maxColumn; col++){
 				if(matrix.contains(col)){
-
+					// TODO ?
 				}
 			}
-
 		}
-
 	}
-
-
 
 	public String getCellRangeString(CellRange range){
 
 		String s = "";
 
-		if(range.isColumn()){
+		if(range.isColumn()) {
 			s = app.getCommand("Column") + " " + GeoElement.getSpreadsheetColumnName(range.getMinColumn());
 
-		}else if(range.isRow()){
+		} else if(range.isRow()) {
 			s = app.getCommand("Row") + " " + (range.getMinRow() + 1);
 
-		}else{
+		} else {
 			s = GeoElement.getSpreadsheetCellName(range.getMinColumn(), range.getMinRow());
 			s += ":";
 			s += GeoElement.getSpreadsheetCellName(range.getMaxColumn(),range.getMaxRow());
@@ -1235,10 +1214,6 @@ public class CellRangeProcessor {
 
 		return s;
 	}
-
-
-
-
 
 
 }

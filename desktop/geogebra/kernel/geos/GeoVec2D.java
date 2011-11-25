@@ -28,6 +28,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.main.Application;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
@@ -205,7 +206,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      * those of vector v. 
      */
     final public boolean isEqual(GeoVec2D v) {                   
-        return kernel.isEqual(x, v.x) && kernel.isEqual(y, v.y);                   
+        return AbstractKernel.isEqual(x, v.x) && AbstractKernel.isEqual(y, v.y);                   
     }
     
     /** Yields true if this vector and v are linear dependent 
@@ -214,7 +215,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      */
     final public boolean linDep(GeoVec2D v) {
         // v = l* w  <=>  det(v, w) = o
-        return kernel.isZero(det(this, v));                   
+        return AbstractKernel.isZero(det(this, v));                   
     }
     
     /** calculates the determinant of u and v.
@@ -700,13 +701,13 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 	 
 	 /** multiplies 2D vector by a 2x2 matrix
 	  * 
-	  * @param 2x2 matrix
+	  * @param list 2x2 matrix
 	  */
 	 public void multiplyMatrix(MyList list)
 	 {
 			if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2) return;
 		 
-			double a,b,c,d,x1,y1;
+			double a,b,c,d;
 			
 			a = ((NumberValue)(MyList.getCell(list,0,0).evaluate())).getDouble();
 			b = ((NumberValue)(MyList.getCell(list,1,0).evaluate())).getDouble();
@@ -723,7 +724,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			x=x1; 
 			y=y1;		
 	 }
-	 public boolean isMatrixTransformable(){
+	 public static boolean isMatrixTransformable(){
 		 return true;
 	 }
 	 public GeoElement toGeoElement(){
@@ -733,14 +734,14 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 	  *  a b c
 	  *  d e f
 	  *  g h i
-	  * @param 3x3 matrix
-	  * @param GeoVec3D (as ExpressionValue) to get homogeneous coords from
+	  * @param list 3x3 matrix
+	  * @param rt GeoVec3D (as ExpressionValue) to get homogeneous coords from
 	  */
 	 public void multiplyMatrixAffine(MyList list, ExpressionValue rt)
 	 {
 			if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3) return;
 		 
-			double a,b,c,d,e,f,g,h,i,x1,y1,z1,xx = x, yy = y, zz = 1;
+			double a,b,c,d,e,f,g,h,i,z1,xx = x, yy = y, zz = 1;
 			
 			boolean vector = false;
 			

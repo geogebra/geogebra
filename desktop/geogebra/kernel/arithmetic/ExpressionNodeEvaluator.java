@@ -1,10 +1,12 @@
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -861,7 +863,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 				// get constant coefficent of given polynomial
 				double exponent = ((Polynomial) rt).getConstantCoeffValue();
-				if ((kernel.isInteger(exponent) && (int) exponent >= 0)) {
+				if ((AbstractKernel.isInteger(exponent) && (int) exponent >= 0)) {
 					poly = new Polynomial(kernel, (Polynomial) lt);
 					poly.power((int) exponent);
 					return poly;
@@ -907,7 +909,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (rt.isGeoElement()) {
 					GeoList list = (GeoList)rt;
 					int n = list.size() - 3;
-					if (n >= 1 && list.getElementType() == GeoElement.GEO_CLASS_NUMERIC) {
+					if (n >= 1 && list.getElementType() == GeoClass.NUMERIC) {
 						double min = ((GeoNumeric)(list.get(0))).getDouble();
 						double max = ((GeoNumeric)(list.get(1))).getDouble();
 						

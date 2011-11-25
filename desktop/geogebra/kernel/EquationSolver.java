@@ -33,13 +33,11 @@ public class EquationSolver {
 	private static final double LAGUERRE_EPS = 1E-5;
 	private LaguerreSolver laguerreSolver;
 	private UnivariateRealSolver rootFinderBrent, rootFinderNewton; 
-	private Kernel kernel;
 	
     public EquationSolver(Kernel kernel) {		
 		// we need someone to polish our roots
 		//rootPolisher = new RealRoot();
 		//extrFinder = kernel.getExtremumFinder();
-    	this.kernel = kernel;
     }
      
 	/**

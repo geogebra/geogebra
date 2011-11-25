@@ -435,7 +435,7 @@ public class ConstructionDefaults {
 		int type = DEFAULT_LINE;
 		
 		switch (geo.getGeoClassType()) {
-		case GeoElement.GEO_CLASS_POINT:
+		case POINT:
 			GeoPoint p = (GeoPoint) geo;
 			
 			if(p.getMode() == Kernel.COORD_COMPLEX) {
@@ -452,19 +452,19 @@ public class ConstructionDefaults {
 			}
 			break;
 
-		case GeoElement.GEO_CLASS_ANGLE:
+		case ANGLE:
 			type = DEFAULT_ANGLE;	
 			break;
 
-		case GeoElement.GEO_CLASS_BOOLEAN:
+		case BOOLEAN:
 			type = DEFAULT_BOOLEAN;
 			break;	
 
-		case GeoElement.GEO_CLASS_CONIC:			
+		case CONIC:			
 			type = DEFAULT_CONIC;
 			break;
 
-		case GeoElement.GEO_CLASS_CONICPART:
+		case CONICPART:
 			GeoConicPart conicPart = (GeoConicPart) geo;
 			if (conicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR) {
 				type = DEFAULT_CONIC_SECTOR;
@@ -473,49 +473,49 @@ public class ConstructionDefaults {
 			}
 			break;
 
-		case GeoElement.GEO_CLASS_FUNCTION_NVAR:
+		case FUNCTION_NVAR:
 				type = DEFAULT_INEQUALITY;				
 			break;
-		case GeoElement.GEO_CLASS_FUNCTION:
+		case FUNCTION:
 			if(((GeoFunction)geo).isBooleanFunction())
 				type = DEFAULT_INEQUALITY_1VAR; 
 			else
 				type = DEFAULT_FUNCTION;
 			break;
-		case GeoElement.GEO_CLASS_INTERVAL:
-		case GeoElement.GEO_CLASS_FUNCTIONCONDITIONAL:
+		case INTERVAL:
+		case FUNCTIONCONDITIONAL:
 			type = DEFAULT_FUNCTION;
 			break;
 
-		case GeoElement.GEO_CLASS_IMAGE:
+		case IMAGE:
 			type = DEFAULT_IMAGE;
 			break;
 
-		case GeoElement.GEO_CLASS_LIST:
+		case LIST:
 			type = DEFAULT_LIST;
 			break;	
 
-		case GeoElement.GEO_CLASS_LOCUS:
+		case LOCUS:
 			type = DEFAULT_LOCUS;
 			break;
 
-		case GeoElement.GEO_CLASS_NUMERIC:
+		case NUMERIC:
 			type = DEFAULT_NUMBER;
 			break;
 
-		case GeoElement.GEO_CLASS_POLYGON: 
+		case POLYGON: 
 			type = DEFAULT_POLYGON;
 			break;
 
-		case GeoElement.GEO_CLASS_TEXT:
+		case TEXT:
 			type = DEFAULT_TEXT;
 			break;
 
-		case GeoElement.GEO_CLASS_VECTOR:
+		case VECTOR:
 			type = DEFAULT_VECTOR;
 			break;	
 
-		case GeoElement.GEO_CLASS_SEGMENT:
+		case SEGMENT:
 			type = DEFAULT_SEGMENT;
 			break;	
 
@@ -523,9 +523,7 @@ public class ConstructionDefaults {
 		}		
 		
 		return type;
-
-	}
-	
+	}	
 	
 	protected void setMaxLayerUsed(GeoElement geo, Application app){
 		if (app != null) {
@@ -649,16 +647,7 @@ public class ConstructionDefaults {
 		setDefaultLineThickness(lineThickness);
 		setDefaultPointSize(pointSize);
 		setDefaultAngleSize(angleSize);
-		setDefaultFilling(filling);
-		
-		
-		
-		
-		
-		
-		
-		
-
+		setDefaultFilling(filling);	
 	}
 	
 	public void setDefaultAngleSize(int angleSize) {
@@ -672,7 +661,7 @@ public class ConstructionDefaults {
 					
 			switch (geo.getGeoClassType()) {
 			
-				case GeoElement.GEO_CLASS_ANGLE:					
+				case ANGLE:					
 					((GeoAngle) geo).setArcSize(angleSize);
 					break;				
 			}
@@ -689,14 +678,13 @@ public class ConstructionDefaults {
 			
 				
 			switch (geo.getGeoClassType()) {
-			case GeoElement.GEO_CLASS_POINT:
+			case POINT:
 				((GeoPoint) geo).setPointSize(pointSize); 
 				break;
 				
-			case GeoElement.GEO_CLASS_LIST:
+			case LIST:
 				((GeoList) geo).setPointSize(pointSize); 
-				break;
-				
+				break;	
 			}
 		}		
 	}
@@ -715,7 +703,7 @@ public class ConstructionDefaults {
 					
 			switch (geo.getGeoClassType()) {
 				
-			case GeoElement.GEO_CLASS_LIST:
+			case LIST:
 				((GeoList) geo).setLineThickness(lineThickness); 
 				break;
 			}

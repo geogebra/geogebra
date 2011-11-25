@@ -318,52 +318,52 @@ implements EuclidianViewCE {
 	private void initSpecialReferences(GeoElement macroGeo, GeoElement algoGeo) {
 		
 		switch (macroGeo.getGeoClassType()) {				
-		case GeoElement.GEO_CLASS_INTERVAL:
-		case GeoElement.GEO_CLASS_FUNCTION:
+		case INTERVAL:
+		case FUNCTION:
 				initFunction(((GeoFunction) algoGeo).getFunction());
 				break;
 				
-			case GeoElement.GEO_CLASS_FUNCTIONCONDITIONAL:
+			case FUNCTIONCONDITIONAL:
 				// done by set() in GeoFunctionConditional 
 				// actually a GeoFunctionConditional consists of three GeoFunction objects,
 				// so initFunction() is eventually used for them
 				break;
 											
-			case GeoElement.GEO_CLASS_LIST:
+			case LIST:
 				initList((GeoList) macroGeo, (GeoList) algoGeo);
 				break;									
 										
-			case GeoElement.GEO_CLASS_LINE:						
-			case GeoElement.GEO_CLASS_LINEAR_INEQUALITY:						
+			case LINE:						
+			case LINEAR_INEQUALITY:						
 				initLine((GeoLine) macroGeo, (GeoLine) algoGeo);
 				break;	
 				
-			case GeoElement.GEO_CLASS_POLYGON:
+			case POLYGON:
 				initPolygon((GeoPolygon) macroGeo, (GeoPolygon) algoGeo);
 				break;					
 				
-			case GeoElement.GEO_CLASS_CONIC:
+			case CONIC:
 				initConic((GeoConic) macroGeo, (GeoConic) algoGeo);
 				break;
 
-			case GeoElement.GEO_CLASS_TEXT:				
-			case GeoElement.GEO_CLASS_VECTOR:
-			case GeoElement.GEO_CLASS_IMAGE:
+			case TEXT:				
+			case VECTOR:
+			case IMAGE:
 				initLocateable((Locateable) macroGeo, (Locateable) algoGeo);
 				break;
 
 			default:
 			// no special treatment necessary at the moment
-				// case GeoElement.GEO_CLASS_ANGLE:								
-				// case GeoElement.GEO_CLASS_BOOLEAN:				
-				// case GeoElement.GEO_CLASS_CONICPART:
-				// case GeoElement.GEO_CLASS_LOCUS:
-				// case GeoElement.GEO_CLASS_NUMERIC:
-				// case GeoElement.GEO_CLASS_POINT:	
-				// case GeoElement.GEO_CLASS_AXIS:
-				// case GeoElement.GEO_CLASS_RAY:
-				// case GeoElement.GEO_CLASS_SEGMENT:
-				// case GeoElement.GEO_CLASS_POLYGON:
+				// case ANGLE:								
+				// case BOOLEAN:				
+				// case CONICPART:
+				// case LOCUS:
+				// case NUMERIC:
+				// case POINT:	
+				// case AXIS:
+				// case RAY:
+				// case SEGMENT:
+				// case POLYGON:
 		}						
 	}		
 	

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * GeoVec3D.java
@@ -19,82 +19,66 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Matrix.Coords;
-import geogebra.main.Application;
 
 /**
- *
- * @author  Markus + ggb3D
- * @version 
+ * 
+ * @author Markus + ggb3D
+ * @version
  */
-public abstract class GeoVec4D extends GeoVec implements GeoCoords4D{
+public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 
-    public GeoVec4D(Construction c) {  this(c,4);  }
-    public GeoVec4D(Construction c, int n) {super(c,n);}  
+	public GeoVec4D(Construction c) {
+		this(c, 4);
+	}
 
-    /** Creates new GeoVec4D with coordinates (x,y,z,w) and label */
-    public GeoVec4D(Construction c, double x, double y, double z, double w) {  
-     	super(c,new double[] {x,y,z,w});   
-       
-    }                 
-    
-    /** Copy constructor */
-    public GeoVec4D(Construction c, GeoVec4D v) {   
-    	super(c); 	
-        set(v);
-    }
-    
+	public GeoVec4D(Construction c, int n) {
+		super(c, n);
+	}
 
-    
-    
-    public void setCoords(double x, double y, double z, double w){
-     	setCoords(new double[] {x,y,z,w});
-    }
-    
+	/** Creates new GeoVec4D with coordinates (x,y,z,w) and label */
+	public GeoVec4D(Construction c, double x, double y, double z, double w) {
+		super(c, new double[] { x, y, z, w });
 
-    public double getX(){
-    	return getCoords().get(1);
-    }
-    public double getY(){
-    	return getCoords().get(2);
-    }
-    public double getZ(){
-    	return getCoords().get(3);
-    }
-    public double getW(){
-    	return getCoords().get(4);
-    }
-    
+	}
 
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * returns all class-specific xml tags for saveXML
-     * Geogebra File Format
-     */
+	/** Copy constructor */
+	public GeoVec4D(Construction c, GeoVec4D v) {
+		super(c);
+		set(v);
+	}
+
+	public void setCoords(double x, double y, double z, double w) {
+		setCoords(new double[] { x, y, z, w });
+	}
+
+	public double getX() {
+		return getCoords().get(1);
+	}
+
+	public double getY() {
+		return getCoords().get(2);
+	}
+
+	public double getZ() {
+		return getCoords().get(3);
+	}
+
+	public double getW() {
+		return getCoords().get(4);
+	}
+
+	/**
+	 * returns all class-specific xml tags for saveXML Geogebra File Format
+	 */
 	protected void getXMLtags(StringBuilder sb) {
-        super.getXMLtags(sb);
-        
-        sb.append("\t<coords");
-                sb.append(" x=\"" + getX() + "\"");
-                sb.append(" y=\"" + getY() + "\"");
-                sb.append(" z=\"" + getZ() + "\"");
-                sb.append(" w=\"" + getW() + "\"");
-        sb.append("/>\n");
+		super.getXMLtags(sb);
 
-    }
+		sb.append("\t<coords");
+		sb.append(" x=\"" + getX() + "\"");
+		sb.append(" y=\"" + getY() + "\"");
+		sb.append(" z=\"" + getZ() + "\"");
+		sb.append(" w=\"" + getW() + "\"");
+		sb.append("/>\n");
+
+	}
 }
-
-
-
-
-
-
-
-
-

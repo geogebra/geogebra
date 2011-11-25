@@ -21,7 +21,6 @@ import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.util.Util;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -408,8 +407,8 @@ implements Locateable, AbsoluteScreenLocateable,
 		return "Image";
 	}
 	
-    public int getGeoClassType() {
-    	return GEO_CLASS_IMAGE;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.IMAGE;
     }
 	
 	/**

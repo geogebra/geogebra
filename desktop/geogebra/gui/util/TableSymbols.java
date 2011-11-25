@@ -247,7 +247,6 @@ public class TableSymbols {
 		"\u222D", //TRIPLE INTEGRAL
 		"\u222E", //CONTOUR INTEGRAL
 		"\u221E", //INFINITY
-
 	};
 
 

@@ -42,9 +42,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		
 		this.plane = plane;
 		updateMatrix();
-		
-		
-		
+			
 		//TODO
 		initView(true);
 		setShowAxes(false, true);
@@ -67,20 +65,20 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
 		// prevent not implemented type to be displayed (TODO remove)
 		switch (geo.getGeoClassType()){
-		case GeoElement.GEO_CLASS_POINT:
-		case GeoElement.GEO_CLASS_POINT3D:
-		case GeoElement.GEO_CLASS_SEGMENT:
-		case GeoElement.GEO_CLASS_SEGMENT3D:
-		case GeoElement.GEO_CLASS_LINE:
-		case GeoElement.GEO_CLASS_LINE3D:
-		case GeoElement.GEO_CLASS_RAY:
-		case GeoElement.GEO_CLASS_RAY3D:
-		case GeoElement.GEO_CLASS_VECTOR:
-		case GeoElement.GEO_CLASS_VECTOR3D:
-		case GeoElement.GEO_CLASS_POLYGON:
-		case GeoElement.GEO_CLASS_POLYGON3D:
-		case GeoElement.GEO_CLASS_CONIC:
-		case GeoElement.GEO_CLASS_CONIC3D:
+		case POINT:
+		case POINT3D:
+		case SEGMENT:
+		case SEGMENT3D:
+		case LINE:
+		case LINE3D:
+		case RAY:
+		case RAY3D:
+		case VECTOR:
+		case VECTOR3D:
+		case POLYGON:
+		case POLYGON3D:
+		case CONIC:
+		case CONIC3D:
 			break;
 		default:
 			return false;
@@ -130,19 +128,18 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		//return plane.getCoordSys().getDrawingMatrix();
 	}
 	
-	private CoordMatrix4x4 planeMatrix, reverseMatrix, transformedMatrix;
+	private CoordMatrix4x4 planeMatrix, transformedMatrix;
+	//private CoordMatrix4x4 reverseMatrix;
 	private CoordMatrix4x4 transform = CoordMatrix4x4.IDENTITY;
 	
 	public void updateMatrix(){
 		planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
 		
-		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);
-		
+		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);	
 	}
 	
 	public void setTransform(Coords directionView3D, CoordMatrix toScreenMatrix){
 		
-
 		//front or back view
 		double p = plane.getCoordSys().getNormal().dotproduct(directionView3D);
 		double reverse = 1;
@@ -210,8 +207,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		
 		
 		//TODO only if new matrix != old matrix
-		updateAllDrawables(true);
-		
+		updateAllDrawables(true);	
 	}
 	
 	@Override

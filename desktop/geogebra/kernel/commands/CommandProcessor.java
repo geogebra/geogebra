@@ -14,56 +14,21 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.util.Unicode;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.MyPoint;
-import geogebra.kernel.algos.AlgoCellRange;
-import geogebra.kernel.arithmetic.BooleanValue;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.MySpecialDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Variable;
-import geogebra.kernel.geos.CasEvaluableFunction;
-import geogebra.kernel.geos.Dilateable;
-import geogebra.kernel.geos.GeoAngle;
-import geogebra.kernel.geos.GeoBoolean;
-import geogebra.kernel.geos.GeoButton;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoCurveCartesian;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoFunctionNVar;
-import geogebra.kernel.geos.GeoFunctionable;
-import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.GeoPolyLineInterface;
-import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoSegment;
-import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.geos.GeoVec3D;
-import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.geos.Path;
-import geogebra.kernel.geos.Region;
-import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.ImageManager;
 
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.regex.Matcher;
 
 /**
  * Resolves arguments of the command, checks their validity and creates
@@ -350,7 +315,7 @@ public abstract class CommandProcessor {
 	 * @param geo
 	 * @return change dependent error
 	 */
-	final MyError chDepErr(Application app, GeoElement geo) {
+	final static MyError chDepErr(Application app, GeoElement geo) {
 		String[] strs = { "ChangeDependent", geo.getLongDescription() };
 		return new MyError(app, strs);
 	}
@@ -386,12 +351,12 @@ public abstract class CommandProcessor {
 	 * @date Jan 26, 2008
 	 */
 	public static GeoList wrapInList(Kernel kernel, GeoElement[] args,
-			int length, int type) {
+			int length, GeoClass type) {
 		Construction cons = kernel.getConstruction();
 		boolean correctType = true;
 		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
 		for (int i = 0; i < length; i++) {
-			if (type < 0 || args[i].getGeoClassType() == type)
+			if (type != GeoClass.DEFAULT || args[i].getGeoClassType() == type)
 				geoElementList.add(args[i]);
 			else {
 				correctType = false;

@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoBoolean;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -117,14 +118,14 @@ public class AlgoFrequency extends AlgoElement {
 			return; 		
 		}
 
-		if( !( dataList.getElementType() == GeoElement.GEO_CLASS_TEXT 
-				|| dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC )){
+		if( !( dataList.getElementType() == GeoClass.TEXT 
+				|| dataList.getElementType() == GeoClass.NUMERIC )){
 			frequency.setUndefined();		
 			return;
 		}
 
 		if(classList != null){
-			if(classList.getElementType() != GeoElement.GEO_CLASS_NUMERIC || classList.size() < 2){
+			if(classList.getElementType() != GeoClass.NUMERIC || classList.size() < 2){
 				frequency.setUndefined();		
 				return; 		
 			}
@@ -151,9 +152,9 @@ public class AlgoFrequency extends AlgoElement {
 
 		Frequency f = new Frequency();
 		for (int i=0 ; i < dataList.size() ; i++){
-			if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT)
+			if(dataList.getElementType() == GeoClass.TEXT)
 				f.addValue(((GeoText)dataList.get(i)).toValueString());
-			if(dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC)
+			if(dataList.getElementType() == GeoClass.NUMERIC)
 				f.addValue(((GeoNumeric)dataList.get(i)).getDouble());
 		}
 
@@ -163,7 +164,7 @@ public class AlgoFrequency extends AlgoElement {
 		//=======================================================
 
 		// handle string data
-		if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT){
+		if(dataList.getElementType() == GeoClass.TEXT){
 
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			String strMax = (String) itr.next();

@@ -131,7 +131,6 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		setLabels();
-
 	}
 
 	@Override
@@ -239,7 +238,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 		if (source == btnHelpToggle) { 
 			if(btnHelpToggle.isSelected()){
-				if(!app.getShiftDown()){
+				if(!Application.getShiftDown()){
 					InputBarHelpPanel helpPanel = (InputBarHelpPanel) app.getGuiManager().getInputHelpPanel();
 					helpPanel.setLabels();
 					helpPanel.setCommands();

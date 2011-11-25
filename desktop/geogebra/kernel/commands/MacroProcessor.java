@@ -34,7 +34,7 @@ public class MacroProcessor extends CommandProcessor {
 		GeoElement [] arg = resArgs(c);
 		Macro macro = c.getMacro();
 				
-		Class [] macroInputTypes = macro.getInputTypes();		
+		Class<? extends GeoElement> [] macroInputTypes = macro.getInputTypes();		
 		
 		// wrong number of arguments
 		if (arg.length != macroInputTypes.length) {

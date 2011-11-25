@@ -29,14 +29,12 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
@@ -114,8 +112,8 @@ public class MyTable extends JTable implements FocusListener
 
 
 	// Used for rendering headers with ctrl-select
-	protected HashSet selectedColumnSet = new HashSet();
-	protected HashSet selectedRowSet = new HashSet();
+	protected HashSet<Integer> selectedColumnSet = new HashSet<Integer>();
+	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
 
 
 	// Selection type
@@ -416,11 +414,11 @@ public class MyTable extends JTable implements FocusListener
 				&& kernel.getAlgebraStyle()==Kernel.ALGEBRA_STYLE_VALUE){
 
 			switch (oneClickEditMap.get(p).getGeoClassType()){
-			case GeoElement.GEO_CLASS_BOOLEAN:
+			case BOOLEAN:
 				return getEditorBoolean();
-			case GeoElement.GEO_CLASS_BUTTON:
+			case BUTTON:
 				return getEditorButton();
-			case GeoElement.GEO_CLASS_LIST:
+			case LIST:
 				return getEditorList();					
 			}
 		}
@@ -626,7 +624,7 @@ public class MyTable extends JTable implements FocusListener
 
 
 		// update the geo selection list
-		ArrayList list = new ArrayList();
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 		for (int i = 0; i < selectedCellRanges.size(); i++) {
 			list.addAll(0,(selectedCellRanges.get(i)).toGeoList());
 		}
@@ -660,9 +658,6 @@ public class MyTable extends JTable implements FocusListener
 
 	}
 
-
-
-
 	private void printSelectionParameters(){
 		System.out.println("----------------------------------");
 		System.out.println("minSelectionColumn = " + minSelectionColumn );
@@ -690,10 +685,6 @@ public class MyTable extends JTable implements FocusListener
 		getColumnModel().getSelectionModel().setSelectionInterval(column, column);
 		getSelectionModel().setSelectionInterval(row, row);
 	}
-
-
-
-
 
 	/*
 	public void setSelectionRectangle(CellRange cr){
@@ -743,19 +734,18 @@ public class MyTable extends JTable implements FocusListener
 
 	 */
 
-
 	public  boolean setSelection(String cellName){
 
 		if(cellName == null) 
 			return setSelection(-1,-1,-1,-1);
 
 		Point newCell = GeoElement.spreadsheetIndices(cellName);
-		if(newCell.x != -1 && newCell.y != -1)
+		if(newCell.x != -1 && newCell.y != -1) {
 			return setSelection(newCell.x, newCell.y);
-		else 
+		} else { 
 			return false;
+		}
 	}
-
 
 
 	public  boolean setSelection(int c, int r){
@@ -1773,7 +1763,6 @@ public class MyTable extends JTable implements FocusListener
 
 		if(cr.isColumn() || cr.isRow()) return;
 
-		boolean success = true;
 		boolean isOK = true;
 		GeoElement targetCell = null;
 		CellRange targetRange;
@@ -1819,13 +1808,9 @@ public class MyTable extends JTable implements FocusListener
 			app.setMoveMode();
 			setSelection(targetRange);
 			repaint();
-
 		}
-
 	}
-
-
-
+	
 	/**
 	 * Stops the autofunction from updating and creates a new geo for the target
 	 * cell based on the current autofunction mode.
@@ -1841,10 +1826,7 @@ public class MyTable extends JTable implements FocusListener
 			changeSelection(coords.y, coords.x, false, false);
 			repaint();
 		}
-
 	}
-
-
 
 	/**
 	 * Creates an autofunction in the given target cell based on the current
@@ -1879,11 +1861,6 @@ public class MyTable extends JTable implements FocusListener
 		return success;
 	}
 
-
-
-
-
-
 	/**
 	 * Updates the autofunction by recalculating the autofunction value as the
 	 * user drags the mouse to create a selection. The current autofunction
@@ -1910,16 +1887,12 @@ public class MyTable extends JTable implements FocusListener
 		String expr = cmd + "[" + cellRangeString + "]";
 
 		// Evaluate the autofunction and put the result in targetCell
-		if(!selectedCellRanges.get(0).contains(targetCell))
+		if(!selectedCellRanges.get(0).contains(targetCell)) {
 			((GeoNumeric)targetCell).setValue(table.kernel.getAlgebraProcessor().evaluateToDouble(expr));
-		else
+		} else {
 			((GeoNumeric)targetCell).setUndefined();
-
+		}
 	}
-
-
-
-
 
 	//===========================================
 	// copy/paste/cut/delete methods
@@ -1940,9 +1913,7 @@ public class MyTable extends JTable implements FocusListener
 		return copyPasteCut.cut(minSelectionColumn, minSelectionRow, maxSelectionColumn, maxSelectionRow);
 	}
 
-
-
-	private Cursor createCursor(Image cursorImage, boolean center){
+	private static Cursor createCursor(Image cursorImage, boolean center){
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Point cursorHotSpot;
 		if(center){
@@ -1953,7 +1924,6 @@ public class MyTable extends JTable implements FocusListener
 		Cursor cursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot, null);
 		return cursor;
 	}
-
 
 
 }

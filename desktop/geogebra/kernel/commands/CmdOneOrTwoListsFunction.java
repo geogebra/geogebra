@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.MyError;
@@ -53,17 +54,14 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
         	 
         	if (arg[0].isVectorValue()) {
                 // try to create list of points (eg FitExp[])
-              	 GeoList list = wrapInList(kernel, arg, arg.length, GeoElement.GEO_CLASS_POINT);
+              	 GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
                    if (list != null) {
                   	 GeoElement[] ret = { doCommand(c.getLabel(), list)};
                        return ret;             	     	 
-                   } 
-        		
+                   } 		
         	}
 			throw argNumErr(app, c.getName(), n);
 		}
-		
-
 	}
 	
     abstract protected GeoElement doCommand(String a, GeoList b);     

@@ -18,13 +18,10 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-
-
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.PointProperties;
 import geogebra3D.Test3D;
 import geogebra3D.euclidian3D.Drawable3D;
 
@@ -118,23 +115,19 @@ import geogebra3D.euclidian3D.Drawable3D;
 	</li>
 	<li> {@link Kernel3D} to add a method to create this new element 
 	</li> 
-	<li> {@link Test3D#Test3D(Kernel3D, geogebra.euclidian.EuclidianView)} to test it
+	<li> {@link Test3D#Test3D(Kernel3D, geogebra.euclidian.EuclidianView, geogebra3D.euclidian3D.EuclidianView3D, geogebra3D.Application3D)} to test it
 	</li> 
 	</ul>
-
-   
+ 
  * 
  * 
  *
  * @author  ggb3D
  * 
  */
-public abstract class GeoElement3D
-	extends GeoElement implements GeoElement3DInterface{
-	
-	
-	
-	
+public abstract class GeoElement3D extends GeoElement implements
+		GeoElement3DInterface {
+
 	/** matrix used as orientation by the {@link Drawable3D} */
 	private CoordMatrix4x4 m_drawingMatrix = null;
 	
@@ -146,11 +139,7 @@ public abstract class GeoElement3D
 	
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
-	
-	
-	
-	
-	
+		
 
 	
 	/********************************************************/
@@ -160,7 +149,6 @@ public abstract class GeoElement3D
 	public GeoElement3D(Construction c) {
 		super(c);		
 	}
-
 	
 	/**
 	 * it's a 3D GeoElement.
@@ -169,7 +157,6 @@ public abstract class GeoElement3D
 	public boolean isGeoElement3D(){
 		return true;
 	}
-
 	
 	/** returns a 4x4 matrix for drawing the {@link Drawable3D} 
 	 * @return the drawing matrix*/
@@ -177,18 +164,13 @@ public abstract class GeoElement3D
 		return m_drawingMatrix;
 	}
 	
-	
-
 	abstract public Coords getLabelPosition();
 	
 	/** sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
 	 * @param a_drawingMatrix the drawing matrix*/
 	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix){
 		this.m_drawingMatrix = a_drawingMatrix;
-	}	
-	
-	
-	
+	}		
 	
 	// link to 2D GeoElement
     /**
@@ -199,15 +181,13 @@ public abstract class GeoElement3D
     	return (geo2D!=null);
     }
     
-
     /**
      * return the 2D GeoElement linked to
      * @return 2D GeoElement
      */
     public GeoElement getGeoElement2D(){ 
     	return geo2D; 
-    }
-    
+    }    
     
     /**
      * set the 2D GeoElement linked to
@@ -216,8 +196,7 @@ public abstract class GeoElement3D
     public void setGeoElement2D(GeoElement geo){ 
     	this.geo2D = geo;
     }
-	
-	
+		
     /** set the alpha value to alpha for openGL
      * @param alpha alpha value
      */
@@ -225,17 +204,12 @@ public abstract class GeoElement3D
 		if ( alpha < 0.0f || alpha > 1.0f)
 			return;
 		alphaValue = alpha;
-
 	}
-	
 	
 	//TODO remove this
 	public Coords getMainDirection(){ return null;};
 
 
-
-	
-	
 	////////////////////////////
 	// for toString()
 	
@@ -259,11 +233,6 @@ public abstract class GeoElement3D
 	
 	public boolean isVector3DValue() {
 		return false;
-	}
-	
-	
-	
-	
-	
+	}	
 
 }

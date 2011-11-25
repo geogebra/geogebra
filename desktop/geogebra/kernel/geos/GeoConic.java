@@ -104,8 +104,8 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 	}
 	
     @Override
-	public int getGeoClassType() {
-    	return GEO_CLASS_CONIC;
+	public GeoClass getGeoClassType() {
+    	return GeoClass.CONIC;
     }
 
 	@Override

@@ -103,8 +103,8 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 		return "Line";
 	}
     
-    public int getGeoClassType() {
-    	return GEO_CLASS_LINE;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.LINE;
     }
       
     public GeoElement copy() {
@@ -188,8 +188,8 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
     	
     	// for a line we are done here: the point is on the line
     	// for rays and segments we need to continue
-    	int classType = getGeoClassType();
-    	if (classType == GEO_CLASS_LINE)
+    	GeoClass classType = getGeoClassType();
+    	if (classType == GeoClass.LINE)
     		return true;
     	
     	// idea: calculate path parameter and check
@@ -207,13 +207,13 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 		
 		boolean result;
 		switch (classType) {
-			case GEO_CLASS_SEGMENT:
+			case SEGMENT:
 				// segment: parameter in [0,1]
 				result =   pp.t >= -eps && 
 							pp.t <= 1 + eps;				
 				break;
 				
-			case GEO_CLASS_RAY:
+			case RAY:
 				// ray: parameter > 0
 				result =   pp.t >= -eps;					
 				break;
@@ -229,9 +229,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 		
 		return result;
     }
-    
-    
-    
+     
     public boolean isOnPath(Coords Pnd, double eps) {    	
     	Coords P2d = Pnd.getCoordsIn2DView();
     	return isOnFullLine(P2d, eps);    	
@@ -525,7 +523,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
         return isAsymptote;
     }
     
-    
+ 
 /***********************************************************
  * MOVEMENTS
  ***********************************************************/

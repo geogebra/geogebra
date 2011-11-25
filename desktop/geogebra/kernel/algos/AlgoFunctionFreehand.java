@@ -17,6 +17,7 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
@@ -76,7 +77,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
     
     @Override
 	public final void compute() {  
-        if (!(inputList.isDefined()) || inputList.getElementType() != GeoElement.GEO_CLASS_NUMERIC || inputList.size() < 4){ 
+        if (!(inputList.isDefined()) || inputList.getElementType() != GeoClass.NUMERIC || inputList.size() < 4){ 
             g.setUndefined();
             return;
         }
@@ -91,7 +92,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
     
     @Override
 	final public String toString() {
-    	if (inputList.size() < 4 || inputList.getElementType() != GeoElement.GEO_CLASS_NUMERIC) return app.getPlain("undefined");
+    	if (inputList.size() < 4 || inputList.getElementType() != GeoClass.NUMERIC) return app.getPlain("undefined");
         return app.getPlain("FreehandFunctionOnIntervalAB",kernel.format(((GeoNumeric)inputList.get(0)).getDouble()), kernel.format(((GeoNumeric)inputList.get(1)).getDouble()));
     }
 

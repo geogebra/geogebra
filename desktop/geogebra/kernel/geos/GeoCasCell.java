@@ -11,7 +11,6 @@ import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.ValidExpression;
-import geogebra.util.Util;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1336,8 +1335,8 @@ public class GeoCasCell extends GeoElement {
 	}
 
 	@Override
-	public int getGeoClassType() {		
-		return GEO_CLASS_CAS_CELL;
+	public GeoClass getGeoClassType() {		
+		return GeoClass.CAS_CELL;
 	}
 
 	@Override

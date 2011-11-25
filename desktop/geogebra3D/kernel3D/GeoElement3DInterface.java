@@ -5,8 +5,6 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.Drawable3D;
 
-
-
 /**
  * GeoElement3D's common interface, used for special cases 
  * where the GeoElement3D must extend a GeoElement (e.g. GeoPolygon3D extends GeoPolygon).
@@ -27,7 +25,6 @@ public interface GeoElement3DInterface {
 	 * @param a_drawingMatrix the drawing matrix*/
 	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix);
 	
-
 	
 	// link to 2D GeoElement
     /**
@@ -56,11 +53,5 @@ public interface GeoElement3DInterface {
      * @return a direction for view 
      */
 	public Coords getMainDirection();
-
-
-	
-
-	
-
 
 }

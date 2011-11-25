@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.MyError;
@@ -46,7 +47,7 @@ class CmdJoin extends CommandProcessor {
 		default:
 			// try to create list of numbers
 			GeoList list = wrapInList(kernel, arg, arg.length,
-					GeoElement.GEO_CLASS_LIST);
+					GeoClass.LIST);
 			if (list != null) {
 				GeoElement[] ret = { kernel.Join(c.getLabel(), list) };
 				return ret;

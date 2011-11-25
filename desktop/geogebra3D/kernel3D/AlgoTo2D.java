@@ -22,9 +22,6 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 
-
-
-
 /**
  *
  * @author  ggb3D
@@ -32,7 +29,6 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoTo2D extends AlgoElement3D {
 
-	private static final long serialVersionUID = 1L;
 	private GeoElement3D in;  // input
     private GeoElement out; // output 
 
@@ -49,8 +45,7 @@ public class AlgoTo2D extends AlgoElement3D {
     	this.in=in;
           
     	switch(in.getGeoClassType()){
-    	case GeoElement3D.GEO_CLASS_SEGMENT3D:
-    		
+    	case SEGMENT3D:
     		GeoPoint P1 = new GeoPoint(cons);
     		GeoPoint P2 = new GeoPoint(cons);
     		P1.setCoords(0,0,1);
@@ -79,12 +74,10 @@ public class AlgoTo2D extends AlgoElement3D {
     protected void setInputOutput() {
   	
     	input = new GeoElement3D[1];
-    	input[0] = in;
-
-    	            	
+    	input[0] = in;      	
     	
-        output = new GeoElement[1];
-        output[0] = out;
+        setOutputLength(1);
+        setOutput(0, out);
  	
     	// set dependencies
         input[0].addAlgorithm(this);
@@ -93,9 +86,7 @@ public class AlgoTo2D extends AlgoElement3D {
         // parent of output
         out.setParentAlgorithm(this);       
         cons.addToAlgorithmList(this); 
-
     }
-
 
     GeoElement3D getIn() {
         return in;
@@ -107,15 +98,11 @@ public class AlgoTo2D extends AlgoElement3D {
     
     // recalc 
     public final void compute() {
-    	   
-    	
-    }
-
-    
+    	// TODO ?
+    	// otherwise comment empty statement
+    } 
   
-    final public String toString() {
-    
-        
+    final public String toString() {     
         return  null;
     }
 }

@@ -36,6 +36,7 @@ import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
@@ -3613,61 +3614,61 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		Drawable d = null;
 
 		switch (geo.getGeoClassType()) {
-		case GeoElement.GEO_CLASS_BOOLEAN:
+		case BOOLEAN:
 			d = new DrawBoolean(this, (GeoBoolean) geo);			
 			break;
 		
-		case GeoElement.GEO_CLASS_BUTTON:
+		case BUTTON:
 
 			d = new DrawButton(this, (GeoButton) geo);			
 			break;
 		
-		case GeoElement.GEO_CLASS_TEXTFIELD:
+		case TEXTFIELD:
 
 			d = new DrawTextField(this, (GeoTextField) geo);	
 			break;
 		
-		case GeoElement.GEO_CLASS_POINT:
-		case GeoElement.GEO_CLASS_POINT3D:
+		case POINT:
+		case POINT3D:
 			d = new DrawPoint(this, (GeoPointND) geo);			
 			break;					
 
-		case GeoElement.GEO_CLASS_SEGMENT:
-		case GeoElement.GEO_CLASS_SEGMENT3D:
+		case SEGMENT:
+		case SEGMENT3D:
 			d = new DrawSegment(this, (GeoSegmentND) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_RAY:
-		case GeoElement.GEO_CLASS_RAY3D:
+		case RAY:
+		case RAY3D:
 			d = new DrawRay(this, (GeoRayND) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_LINE:
-		case GeoElement.GEO_CLASS_LINE3D:
+		case LINE:
+		case LINE3D:
 			d = new DrawLine(this, (GeoLineND) geo);
 			break;		
 
-		case GeoElement.GEO_CLASS_POLYGON:
-		case GeoElement.GEO_CLASS_POLYGON3D:
+		case POLYGON:
+		case POLYGON3D:
 			d = new DrawPolygon(this, (GeoPolygon) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_POLYLINE:
+		case POLYLINE:
 			d = new DrawPolyLine(this, (GeoPolyLine) geo);
 			break;
 			
-		case GeoElement.GEO_CLASS_FUNCTION_NVAR:
+		case FUNCTION_NVAR:
 			if(((GeoFunctionNVar) geo).isBooleanFunction()) {
 				d = new DrawInequality(this, (GeoFunctionNVar) geo);
 			}
 			break;
-		case GeoElement.GEO_CLASS_INTERVAL:
+		case INTERVAL:
 			if(((GeoFunction) geo).isBooleanFunction()) {
 				d = new DrawInequality(this, (GeoFunction) geo);
 			}
 			break;
 
-		case GeoElement.GEO_CLASS_ANGLE:
+		case ANGLE:
 			if (geo.isIndependent()) {
 				// independent number may be shown as slider
 				d = new DrawSlider(this, (GeoNumeric) geo);
@@ -3687,7 +3688,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			break;
 			
 
-		case GeoElement.GEO_CLASS_NUMERIC:
+		case NUMERIC:
 			AlgoElement algo = geo.getDrawAlgorithm();
 			if (algo == null) {
 				// independent number may be shown as slider
@@ -3722,26 +3723,26 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			}
 			break;
 
-		case GeoElement.GEO_CLASS_VECTOR:
-		case GeoElement.GEO_CLASS_VECTOR3D:
+		case VECTOR:
+		case VECTOR3D:
 			d = new DrawVector(this, (GeoVectorND) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_CONICPART:
+		case CONICPART:
 			d = new DrawConicPart(this, (GeoConicPart) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_CONIC:
-		case GeoElement.GEO_CLASS_CONIC3D:
+		case CONIC:
+		case CONIC3D:
 			d = new DrawConic(this, (GeoConicND) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_IMPLICIT_POLY:
+		case IMPLICIT_POLY:
 			d = new DrawImplicitPoly(this, (GeoImplicitPoly) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_FUNCTION:
-		case GeoElement.GEO_CLASS_FUNCTIONCONDITIONAL:
+		case FUNCTION:
+		case FUNCTIONCONDITIONAL:
 			if(((GeoFunction) geo).isBooleanFunction()) {
 				d = new DrawInequality(this,(FunctionalNVar) geo);
 			}
@@ -3749,24 +3750,24 @@ implements EuclidianViewInterface, Printable, SettingListener {
 				d = new DrawParametricCurve(this, (ParametricCurve) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_TEXT:
+		case TEXT:
 			GeoText text = (GeoText) geo;
 			d = new DrawText(this, text);				
 			break;
 
-		case GeoElement.GEO_CLASS_IMAGE:
+		case IMAGE:
 			d = new DrawImage(this, (GeoImage) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_LOCUS:
+		case LOCUS:
 			d = new DrawLocus(this, (GeoLocus) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_CURVE_CARTESIAN:
+		case CURVE_CARTESIAN:
 			d = new DrawParametricCurve(this, (GeoCurveCartesian) geo);
 			break;
 
-		case GeoElement.GEO_CLASS_LIST:
+		case LIST:
 			d = new DrawList(this, (GeoList) geo);
 			break;
 		}
@@ -3787,7 +3788,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 		switch (geo.getGeoClassType()) {
 
-		case GeoElement.GEO_CLASS_ANGLE:
+		case ANGLE:
 			if (geo.isIndependent()) {				
 				drawLayers[layer].add(d);
 			} else {				
@@ -3799,7 +3800,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			}
 			break;
 
-		case GeoElement.GEO_CLASS_IMAGE:
+		case IMAGE:
 			if (!bgImageList.contains(d))
 				drawLayers[layer].add(d);
 			break;
@@ -3825,26 +3826,26 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 		if (d != null) {
 			switch (geo.getGeoClassType()) {
-			//case GeoElement.GEO_CLASS_BOOLEAN:
+			//case BOOLEAN:
 				//drawLayers[layer].remove(d);
 				// remove checkbox
 				// not needed now it's not drawn by the view
 				//((DrawBoolean) d).remove();
 				//break;
 			
-			case GeoElement.GEO_CLASS_BUTTON:
+			case BUTTON:
 				drawLayers[layer].remove(d);
 				// remove button
 				((DrawButton) d).remove();
 				break;
 				
-			case GeoElement.GEO_CLASS_TEXTFIELD:
+			case TEXTFIELD:
 				drawLayers[layer].remove(d);
 				// remove button
 				((DrawTextField) d).remove();
 				break;
 			
-			case GeoElement.GEO_CLASS_LIST:
+			case LIST:
 				drawLayers[layer].remove(d);
 				// remove sub-drawables
 				((DrawList) d).remove();
@@ -4218,9 +4219,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		double factor=0.03d; // don't want objects at edge
 		double xGap = 0;
 		
-		TreeSet<GeoElement> allFunctions = kernel.getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_FUNCTION);
-		
-		
+		TreeSet<GeoElement> allFunctions = kernel.getConstruction().getGeoSetLabelOrder(GeoClass.FUNCTION);
+				
 		int noVisible = 0;
 		// count no of visible functions
 		Iterator<GeoElement> it = allFunctions.iterator();

@@ -28,6 +28,7 @@ import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
@@ -5632,7 +5633,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (selLines() == 1) {			
 			GeoLine line = getSelectedLines()[0];						
 
-			String strLocale = app.getLocale().toString();
 			GeoNumeric slope;
 			/*
 			if (strLocale.equals("de_AT")) {
@@ -5998,21 +5998,21 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			GeoElement geo = (GeoElement) selGeos.get(i);
 
 			switch (geo.getGeoClassType()) {			
-			case GeoElement.GEO_CLASS_SEGMENT:
-			case GeoElement.GEO_CLASS_RAY:
+			case SEGMENT:
+			case RAY:
 				// remove start and end point of segment
 				GeoLine line = (GeoLine) geo;						
 				tempArrayList.remove(line.getStartPoint());
 				tempArrayList.remove(line.getEndPoint());									
 				break;
 
-			case GeoElement.GEO_CLASS_CONICPART:
+			case CONICPART:
 				GeoConicPart cp = (GeoConicPart) geo;
 				ArrayList<GeoPoint> ip = cp.getParentAlgorithm().getInputPoints();
 				tempArrayList.removeAll(ip);
 				break;
 
-			case GeoElement.GEO_CLASS_POLYGON:
+			case POLYGON:
 				// remove points and segments of poly
 				GeoPolygon poly = (GeoPolygon) geo;
 				GeoPointND [] points = poly.getPoints();
@@ -6025,7 +6025,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				}
 				break;					
 
-			case GeoElement.GEO_CLASS_POLYLINE:
+			case POLYLINE:
 				// remove points and segments of poly
 				GeoPolyLine polyl = (GeoPolyLine) geo;
 				points = polyl.getPoints();
@@ -6470,7 +6470,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			if (selPoints() > 1) 
 			{					
 				GeoPoint[] points = getSelectedPoints();
-				list = geogebra.kernel.commands.CommandProcessor.wrapInList(kernel,points, points.length, GeoElement.GEO_CLASS_POINT);
+				list = geogebra.kernel.commands.CommandProcessor.wrapInList(kernel,points, points.length, GeoClass.POINT);
 				if (list != null) {
 					ret[0] = kernel.FitLineY(null, list);
 					return ret;             	     	 
@@ -7909,7 +7909,6 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (!app.isUsingFullGui()) return;
 		if (Application.isMiniPropertiesActive())
 			app.getGuiManager().toggleMiniProperties(true);
-
 	}
 
 	private void closeMiniPropertiesPanel() {

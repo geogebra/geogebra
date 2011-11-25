@@ -32,7 +32,6 @@ import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
-import geogebra.main.Application;
 import geogebra.util.Util;
 
 import java.util.ArrayList;
@@ -49,8 +48,6 @@ import java.util.TreeSet;
  */
 public class GeoNumeric extends GeoElement 
 implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
-	
-	private static final long serialVersionUID = 1L;
 	
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	private static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;	
@@ -120,8 +117,8 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		return "Numeric";
 	}
     
-    public int getGeoClassType() {
-    	return GEO_CLASS_NUMERIC;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.NUMERIC;
     }
 
 	/**
@@ -237,8 +234,8 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		int count = 0;
 		
 		// get all number and angle sliders		
-		TreeSet<GeoElement> numbers = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_NUMERIC);
-		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_ANGLE);		
+		TreeSet<GeoElement> numbers = cons.getGeoSetLabelOrder(GeoClass.NUMERIC);
+		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoClass.ANGLE);		
 		if (numbers != null) {
 			if (angles != null)
 				numbers.addAll(angles);
@@ -387,7 +384,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	/** dummy implementation of mode 
 	 * @return -1 (allways) 
 	 */
-	final public int getMode() {
+	final public static int getMode() {
 		return -1;
 	}
 

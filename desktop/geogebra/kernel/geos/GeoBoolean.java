@@ -16,7 +16,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.BooleanValue;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyBoolean;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -65,8 +64,8 @@ AbsoluteScreenLocateable {
 	}
     
     @Override
-	public int getGeoClassType() {
-    	return GEO_CLASS_BOOLEAN;
+	public GeoClass getGeoClassType() {
+    	return GeoClass.BOOLEAN;
     }
     
     public void setValue(boolean val) {

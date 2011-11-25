@@ -9,6 +9,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.arithmetic.NumberValue;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
@@ -185,7 +186,7 @@ public class StatDialogController {
 						copyByValue, 
 						false, 
 						doStoreUndo, 
-						GeoElement.GEO_CLASS_NUMERIC, false);
+						GeoClass.NUMERIC, false);
 
 				break;
 
@@ -198,7 +199,7 @@ public class StatDialogController {
 							copyByValue, 
 							isSorted, 
 							doStoreUndo, 
-							GeoElement.GEO_CLASS_POINT, false);
+							GeoClass.POINT, false);
 				}
 				
 				else{
@@ -440,21 +441,21 @@ public class StatDialogController {
 		removeStatGeo(dataSelected);
 		removeStatGeo(geoRegression);
 
-		if(sd.comboStatPanel != null)
+		if(sd.comboStatPanel != null) {
 			sd.comboStatPanel.removeGeos();
+		}
 
-		if(sd.comboStatPanel2 != null)
+		if(sd.comboStatPanel2 != null) {
 			sd.comboStatPanel2.removeGeos();
-
+		}
 	}
 
-	private void removeStatGeo(GeoElement statGeo){
+	private static void removeStatGeo(GeoElement statGeo){
 		if(statGeo != null){
 			statGeo.remove();
 			statGeo = null;
 		}
 	}
-
 
 	public SummaryStatistics getSummaryStatistics(GeoList dataList){
 

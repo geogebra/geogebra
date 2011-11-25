@@ -29,6 +29,7 @@ import geogebra.kernel.cas.AlgoDependentCasCell;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoCasCell;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
@@ -100,7 +101,7 @@ public class Construction {
 	// a map for sets with all labeled GeoElements in alphabetical order of
 	// specific types
 	// (points, lines, etc.)
-	private HashMap<Integer,TreeSet<GeoElement>> geoSetsTypeMap;	
+	private HashMap<GeoClass,TreeSet<GeoElement>> geoSetsTypeMap;	
 
 	// list of Macro commands used in this construction
 	private ArrayList<Macro> usedMacros;
@@ -171,7 +172,7 @@ public class Construction {
 		geoSetConsOrder = new TreeSet<GeoElement>();
 		geoSetWithCasCells = new TreeSet<GeoElement>();
 		geoSetLabelOrder = new TreeSet<GeoElement>(new LabelComparator());
-		geoSetsTypeMap = new HashMap<Integer,TreeSet<GeoElement>>();
+		geoSetsTypeMap = new HashMap<GeoClass,TreeSet<GeoElement>>();
 		euclidianViewCE = new ArrayList<EuclidianViewCE>();
 
 		if (parentConstruction != null)
@@ -389,11 +390,10 @@ public class Construction {
 	 * Returns a set with all labeled GeoElement objects of a specific type in
 	 * alphabetical order of their labels.
 	 * 
-	 * @param geoClassType
-	 *            : use GeoElement.GEO_CLASS_* constants
+	 * @param geoClassType use {@link GeoClass} constants
 	 * @return Set of elements of given type.
 	 */
-	final public TreeSet<GeoElement> getGeoSetLabelOrder(int geoClassType) {
+	final public TreeSet<GeoElement> getGeoSetLabelOrder(GeoClass geoClassType) {
 		TreeSet<GeoElement> typeSet = (TreeSet<GeoElement>) geoSetsTypeMap.get(geoClassType);
 		if (typeSet == null) {
 			typeSet = createTypeSet(geoClassType);
@@ -1132,7 +1132,7 @@ public class Construction {
 		geoSetLabelOrder.add(geo);
 
 		// get ordered type set
-		int type = geo.getGeoClassType();
+		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
 		if (typeSet == null) {
 			typeSet = createTypeSet(type);
@@ -1148,7 +1148,7 @@ public class Construction {
 		 */
 	}
 
-	private TreeSet<GeoElement> createTypeSet(int type) {
+	private TreeSet<GeoElement> createTypeSet(GeoClass type) {
 		TreeSet<GeoElement> typeSet = new TreeSet<GeoElement>(new LabelComparator());
 		geoSetsTypeMap.put(type, typeSet);
 		return typeSet;
@@ -1160,7 +1160,7 @@ public class Construction {
 		geoSetLabelOrder.remove(geo);
 
 		// set ordered type set
-		int type = geo.getGeoClassType();
+		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
 		if (typeSet != null)
 			typeSet.remove(geo);

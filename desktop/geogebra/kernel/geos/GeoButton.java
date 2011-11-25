@@ -66,8 +66,8 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
     
     @Override
-	public int getGeoClassType() {
-    	return GEO_CLASS_BUTTON;
+	public GeoClass getGeoClassType() {
+    	return GeoClass.BUTTON;
     }
     
 	@Override

@@ -29,8 +29,6 @@ import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
-import geogebra.util.Util;
-
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c. 
@@ -98,8 +96,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return isInequality ? "Inequality":"FunctionNVar";
 	}
 	
-    public int getGeoClassType() {
-    	return GEO_CLASS_FUNCTION_NVAR;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.FUNCTION_NVAR;
     }
 
 	/** copy constructor 

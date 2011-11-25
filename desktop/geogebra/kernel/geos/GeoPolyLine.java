@@ -33,7 +33,6 @@ import java.util.HashSet;
 public class GeoPolyLine extends GeoElement implements NumberValue, Path, Traceable, LineProperties,Transformable,
 Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dilateable,GeoPolyLineInterface{
 	
-	private static final long serialVersionUID = 1L;
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;
 	/** array of vertices */
@@ -51,7 +50,6 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		this(cons, points);
 		setLabel(label);
 	}
-	
 
 	/**
 	 * @param cons
@@ -68,20 +66,17 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 
 	}
 
-
 	public String getClassName() {
 		return "GeoPolyLine";
 	}
 	
     protected String getTypeString() {
-    		return "PolyLine";
-	    			
+    		return "PolyLine";	    			
 	}
     
-    public int getGeoClassType() {
-    	return GEO_CLASS_POLYLINE;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.POLYLINE;
     }
-	
     
 	/** return number for points
 	 * @return number for points
@@ -125,12 +120,9 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		}	
 	}
 	
-	
-
 	public boolean isFillable() {
 		return false;
-	}
-	
+	}	
 
 	/*
 	 * overwrite methods
@@ -154,7 +146,6 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 	   //return defined;
 	   return true;
    }
-   
    
 	// Michael Borcherds 2008-04-30
 	final public boolean isEqual(GeoElement geo) {
@@ -261,7 +252,6 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		//return false;
 	}
 	
-
 	// dummy segment to use in calculations
 	private GeoSegment seg = new GeoSegment(cons);
 
@@ -407,67 +397,70 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		setDefined();
 	}
 
-
 	/**
 	 * Set vertices of the polyline
 	 * @param points new vertices
 	 */
 	public void setPoints(GeoPointND[] points) {
-		this.points = points;
-		
+		this.points = points;		
 	}
 
-
-
 	public void rotate(NumberValue r) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).rotate(r);	
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).rotate(r);
+		}
 	}
 
 	public void rotate(NumberValue r, GeoPoint S) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).rotate(r,S);	
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).rotate(r,S);
+		}
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).matrixTransform(a00, a01, a10, a11);		
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).matrixTransform(a00, a01, a10, a11);
+		}
 		calcLength();
 		
 	}
 
 	public void translate(Coords v) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).translate(v);		
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).translate(v);
+		}
 	}
 
 	public void dilate(NumberValue r, GeoPoint S) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).dilate(r,S);		
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).dilate(r,S);
+		}
 		calcLength();
 	}
 	
 	public void mirror(GeoPoint Q) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).mirror(Q);		
-		
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).mirror(Q);
+		}		
 	}
 
 	public void mirror(GeoLine g) {
-		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).mirror(g);				
+		for(int i=0;i<points.length;i++) {
+			((GeoPoint)points[i]).mirror(g);
+		}
 	}
 
 
 	public boolean isAllVertexLabelsSet() {
-		for(int i=0;i<points.length;i++)
-			if(!((GeoPoint)points[i]).isLabelSet())return false;
+		for(int i=0;i<points.length;i++) {
+			if(!((GeoPoint)points[i]).isLabelSet()) return false;
+		}
 		return true;
 	}
 
 
 	public boolean isVertexCountFixed() {		
-		if(getParentAlgorithm().getInput().length<3)return false;
+		if(getParentAlgorithm().getInput().length<3) return false;
 		return true;
 	}
 	
@@ -487,11 +480,10 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		}
 		public void matrixTransform(double a00, double a01, double a02, double a10,
 				double a11, double a12, double a20, double a21, double a22) {
-			for(int i=0;i<points.length;i++)
+			for(int i=0;i<points.length;i++) {
 				((GeoPoint)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
-			
+			}
 		}
-
 
 		public GeoPoint getPoint(int i) {
 			return (GeoPoint)points[i];
@@ -506,8 +498,5 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 			return this;
 		}
 		
-		
-
-	
 
 }

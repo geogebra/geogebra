@@ -3,7 +3,6 @@ package geogebra.kernel.geos;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.kernel.Construction;
-import geogebra.util.Util;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -42,8 +41,8 @@ public class GeoTextField extends GeoButton {
 		return "TextField";
 	}
     
-    public int getGeoClassType() {
-    	return GEO_CLASS_TEXTFIELD;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.TEXTFIELD;
     }
     
 	public boolean isTextField() {
@@ -95,9 +94,11 @@ public class GeoTextField extends GeoButton {
 	public void setFocus(final String str) {
 		textField.requestFocus();
 		if (str != null) {
-            SwingUtilities.invokeLater( new Runnable(){ public void
-            	run() { textField.setText(str);} });
-			
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					textField.setText(str);
+				}
+			});
 		}
 	}
 	
@@ -113,7 +114,6 @@ public class GeoTextField extends GeoButton {
 	public GeoElement copy() {
 		return new GeoTextField(cons, labelOffsetX, labelOffsetY);
 	}
-	
 	
 
 }

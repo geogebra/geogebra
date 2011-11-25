@@ -84,6 +84,7 @@ import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoCasCell;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
@@ -218,7 +219,7 @@ public class Kernel extends AbstractKernel{
 	 * Specifies whether possible line breaks are to be marked
 	 * in the String representation of {@link ExpressionNode ExpressionNodes}.
 	 */
-	private boolean insertLineBreaks = false;
+	protected boolean insertLineBreaks = false;
 
 	// angle unit: degree, radians
 	private int angleUnit = Kernel.ANGLE_DEGREE;
@@ -721,7 +722,7 @@ public class Kernel extends AbstractKernel{
 	 * less or equal STANDARD_PRECISION.
 	 * @param printPrecision
 	 */
-	private void setEpsilonForPrintPrecision(double printPrecision) {
+	private static void setEpsilonForPrintPrecision(double printPrecision) {
 		if (printPrecision < STANDARD_PRECISION) {
 			setEpsilon(printPrecision);
 		} else {
@@ -733,11 +734,11 @@ public class Kernel extends AbstractKernel{
 		return EPSILON;
 	}
 
-	final public void setMinPrecision() {
+	final public static void setMinPrecision() {
 		setEpsilon(MIN_PRECISION);
 	}
 
-	final public void resetPrecision() {
+	final public static void resetPrecision() {
 		setEpsilon(STANDARD_PRECISION);
 	}
 	
@@ -1244,81 +1245,81 @@ public class Kernel extends AbstractKernel{
 	 */
 	
 	
-	public int getClassType(String type) throws MyError {   
+	public GeoClass getClassType(String type) throws MyError {   
     	switch (type.charAt(0)) {
 		case 'a': //angle    			
-			return GeoElement.GEO_CLASS_ANGLE;	    			     		    			
+			return GeoClass.ANGLE;	    			     		    			
 			
 		case 'b': //angle
 			if (type.equals("boolean"))
-				return GeoElement.GEO_CLASS_BOOLEAN;
+				return GeoClass.BOOLEAN;
 			else
-    			return GeoElement.GEO_CLASS_BUTTON; // "button"
+    			return GeoClass.BUTTON; // "button"
 		
 		case 'c': // conic
 			if (type.equals("conic"))
-				return GeoElement.GEO_CLASS_CONIC;   
+				return GeoClass.CONIC;   
 			else if (type.equals("conicpart"))    					
-				return GeoElement.GEO_CLASS_CONICPART;
+				return GeoClass.CONICPART;
 			else if (type.equals("circle")) { // bug in GeoGebra 2.6c
-				return GeoElement.GEO_CLASS_CONIC;
+				return GeoClass.CONIC;
 			}
 			
 		case 'd': // doubleLine 			// bug in GeoGebra 2.6c
-			return GeoElement.GEO_CLASS_CONIC;   			
+			return GeoClass.CONIC;   			
 			
 		case 'e': // ellipse, emptyset	//  bug in GeoGebra 2.6c
-			return GeoElement.GEO_CLASS_CONIC;    			
+			return GeoClass.CONIC;    			
 				
 		case 'f': // function
-			return GeoElement.GEO_CLASS_FUNCTION;
+			return GeoClass.FUNCTION;
 		
 		case 'h': // hyperbola			//  bug in GeoGebra 2.6c
-			return GeoElement.GEO_CLASS_CONIC;   			
+			return GeoClass.CONIC;   			
 			
 		case 'i': // image,implicitpoly
 			if (type.equals("image"))    				
-				return GeoElement.GEO_CLASS_IMAGE;
+				return GeoClass.IMAGE;
 			else if (type.equals("intersectinglines")) //  bug in GeoGebra 2.6c
-				return GeoElement.GEO_CLASS_CONIC;
+				return GeoClass.CONIC;
 			else if (type.equals("implicitpoly"))
-				return GeoElement.GEO_CLASS_IMPLICIT_POLY;
+				return GeoClass.IMPLICIT_POLY;
 		
 		case 'l': // line, list, locus
 			if (type.equals("line"))
-				return GeoElement.GEO_CLASS_LINE;
+				return GeoClass.LINE;
 			else if (type.equals("list"))
-				return GeoElement.GEO_CLASS_LIST;    					
+				return GeoClass.LIST;    					
 			else 
-				return GeoElement.GEO_CLASS_LOCUS;
+				return GeoClass.LOCUS;
 		
 		case 'n': // numeric
-			return GeoElement.GEO_CLASS_NUMERIC;
+			return GeoClass.NUMERIC;
 			
 		case 'p': // point, polygon
 			if (type.equals("point"))
-				return GeoElement.GEO_CLASS_POINT;
+				return GeoClass.POINT;
 			else if (type.equals("polygon"))
-				return GeoElement.GEO_CLASS_POLYGON;
+				return GeoClass.POLYGON;
 			else if (type.equals("polyline"))
-				return GeoElement.GEO_CLASS_POLYLINE;
+				return GeoClass.POLYLINE;
 			else // parabola, parallelLines, point //  bug in GeoGebra 2.6c
-				return GeoElement.GEO_CLASS_CONIC;
+				return GeoClass.CONIC;
 			
 		case 'r': // ray
-			return GeoElement.GEO_CLASS_RAY;
+			return GeoClass.RAY;
 			
 		case 's': // segment    			
-			return GeoElement.GEO_CLASS_SEGMENT;	    			    			
+			return GeoClass.SEGMENT;	    			    			
 			
 		case 't': 
 			if (type.equals("text"))
-				return GeoElement.GEO_CLASS_TEXT; // text
+				return GeoClass.TEXT; // text
 			else
-    			return GeoElement.GEO_CLASS_TEXTFIELD; // textfield
+    			return GeoClass.TEXTFIELD; // textfield
 			
 		case 'v': // vector
-			return GeoElement.GEO_CLASS_VECTOR;
+			return GeoClass.VECTOR;
 		
 		default:    			
 			throw new MyError(cons.getApplication(), "Kernel: GeoElement of type "
@@ -7876,7 +7877,8 @@ public class Kernel extends AbstractKernel{
 		GeoPoint [] g = algo.getRootPoints();
 		return g;
 	}	
-	final public GeoPoint [] RootMultiple(String [] labels, GeoFunction f) {
+	
+	final public static GeoPoint [] RootMultiple(String [] labels, GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) return null;
 		
@@ -9085,7 +9087,7 @@ public class Kernel extends AbstractKernel{
 			return x;
 	}
 	
-	final public double checkDecimalFraction(double x) {
+	final public static double checkDecimalFraction(double x) {
 		return checkDecimalFraction(x, 1);
 	}
 
@@ -9303,7 +9305,7 @@ public class Kernel extends AbstractKernel{
 
 	/**
 	 * Returns whether silent mode is turned on.
-	 * @see setSilentMode()
+	 * @see #setSilentMode(boolean)
 	 */
 	public final boolean isSilentMode() {
 		return silentMode;
@@ -9319,7 +9321,7 @@ public class Kernel extends AbstractKernel{
 
 	/**
 	 * Returns whether unkown variables are resolved as GeoDummyVariable objects.
-	 * @see setSilentMode()
+	 * @see #setSilentMode(boolean)
 	 */
 	public final boolean isResolveUnkownVarsAsDummyGeos() {
 		return resolveUnkownVarsAsDummyGeos;
@@ -9355,7 +9357,7 @@ public class Kernel extends AbstractKernel{
 	
 	/** return all points of the current construction */
 	public TreeSet<GeoElement> getPointSet(){
-		return getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_POINT);
+		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
 	}
 	
 	/**
@@ -9391,7 +9393,6 @@ public class Kernel extends AbstractKernel{
 	final public GeoNumeric convertIndexToNumber(String str) {
 		
 		int i = 0;
-		char c;
 		while (i < str.length() && !Unicode.isSuperscriptDigit(str.charAt(i)))
 			i++;
 		
@@ -9540,8 +9541,7 @@ public class Kernel extends AbstractKernel{
 					return -1;
 				else
 					return 1;
-			}
-			
+			}		
 		};
 		
 		return ret;

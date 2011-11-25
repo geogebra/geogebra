@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
@@ -44,7 +45,7 @@ class CmdConic extends CommandProcessor {
 			if (arg[0].isNumberValue()) {
 				// try to create list of numbers
 				GeoList list = wrapInList(kernel, arg, arg.length,
-						GeoElement.GEO_CLASS_NUMERIC);
+						GeoClass.NUMERIC);
 				if (list != null) {
 					ret = kernel.Conic(c.getLabel(), list);
 					return ret;

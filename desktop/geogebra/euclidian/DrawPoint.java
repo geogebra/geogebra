@@ -309,29 +309,28 @@ public final class DrawPoint extends Drawable {
     private void drawClippedSection(GeoElement geo, Graphics2D g2) {
    	
     	switch (geo.getGeoClassType()) {
-    	case GeoElement.GEO_CLASS_LINE:
+    	case LINE:
     		drawable = new DrawLine(view, (GeoLine)geo);
     		break;
-    	case GeoElement.GEO_CLASS_SEGMENT:
+    	case SEGMENT:
     		drawable = new DrawSegment(view, (GeoSegment)geo);
     		break;
-    	case GeoElement.GEO_CLASS_CONIC:
+    	case CONIC:
     		drawable = new DrawConic(view, (GeoConic)geo);
     		break;
-    	case GeoElement.GEO_CLASS_FUNCTION:
+    	case FUNCTION:
     		drawable = new DrawParametricCurve(view, (GeoFunction)geo);
     		break;
-    	case GeoElement.GEO_CLASS_AXIS:
+    	case AXIS:
     		drawable = null;
     		break;
-    	case GeoElement.GEO_CLASS_CONICPART:
+    	case CONICPART:
     		drawable = new DrawConicPart(view, (GeoConicPart)geo);
     		break;
     		
     		default:
     			drawable = null;
     			Application.debug("unsupported type for restriced drawing "+geo.getClass()+"");
-
     	}
    		
     	if (drawable != null) {
@@ -347,8 +346,7 @@ public final class DrawPoint extends Drawable {
 			drawable.draw(g2);
 			geo.forceEuclidianVisible(false);
 			g2.setClip(null);
-    	}
-    	
+    	} 	
     }
 
     final public void draw(Graphics2D g2) {   
@@ -507,7 +505,6 @@ public final class DrawPoint extends Drawable {
 			crossStrokes[pointSize] = new BasicStroke(pointSize/2f); 
 		
 		return crossStrokes[pointSize];
-
     }
     
     private int getSelectionDiamaterMin() {

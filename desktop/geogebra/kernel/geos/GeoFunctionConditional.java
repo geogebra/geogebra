@@ -124,8 +124,8 @@ public class GeoFunctionConditional extends GeoFunction {
 		return "Function";
 	}		
 	
-    public int getGeoClassType() {
-    	return GEO_CLASS_FUNCTIONCONDITIONAL;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.FUNCTIONCONDITIONAL;
     }
     
     public boolean isDefined() {
@@ -385,7 +385,7 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	final public boolean isEqual(GeoElement geo) {
 
-		if (geo.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTIONCONDITIONAL)
+		if (geo.getGeoClassType() != GeoClass.FUNCTIONCONDITIONAL)
 			return false;
 		
 		GeoFunctionConditional geoFun = (GeoFunctionConditional)geo;

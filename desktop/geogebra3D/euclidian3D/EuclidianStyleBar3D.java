@@ -144,7 +144,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view perspective button	
-		btnViewDefault = new MyToggleButton(app.getImageIcon("view_default.gif"),iconHeight){
+		btnViewDefault = new MyToggleButton(app.getImageIcon("view_default.gif"), iconHeight) {
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -156,7 +156,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view xy button	
-		btnViewXY = new MyToggleButton(app.getImageIcon("view_xy.gif"),iconHeight){
+		btnViewXY = new MyToggleButton(app.getImageIcon("view_xy.gif"), iconHeight) {
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -167,7 +167,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view xz button	
-		btnViewXZ = new MyToggleButton(app.getImageIcon("view_xz.gif"),iconHeight){
+		btnViewXZ = new MyToggleButton(app.getImageIcon("view_xz.gif"), iconHeight) {
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -178,7 +178,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view yz button	
-		btnViewYZ = new MyToggleButton(app.getImageIcon("view_yz.gif"),iconHeight){
+		btnViewYZ = new MyToggleButton(app.getImageIcon("view_yz.gif"), iconHeight) {
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  

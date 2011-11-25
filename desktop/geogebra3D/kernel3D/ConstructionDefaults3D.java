@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D;
 
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.geos.GeoAngle;
@@ -11,8 +10,6 @@ import geogebra.main.Application;
 
 import java.awt.Color;
 
-
-
 /**
  * 3D subclass for {@link ConstructionDefaults}
  *
@@ -21,7 +18,6 @@ import java.awt.Color;
  */
 public class ConstructionDefaults3D extends ConstructionDefaults {
 
-	
 	// DEFAULT GeoElement types	
 	/** default angle 3D type */	
 	public static final int DEFAULT_ANGLE3D = 3001;
@@ -35,7 +31,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default point 3D in region type */	
 	public static final int DEFAULT_POINT3D_IN_REGION = 3013;
 
-	
 	/** default line 3D type */	
 	public static final int DEFAULT_LINE3D = 3100;
 	public static final int DEFAULT_LINE3D_INTERSECTION = 3150;
@@ -55,14 +50,11 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	public static final int DEFAULT_CONIC3D_INTERSECTION = 3155;
 	/** default curve 3D type */	
 	public static final int DEFAULT_CURVECARTESIAN3D = 3106;
-	
-	
-	
+		
 	/** default plane 3D type */	
 	public static final int DEFAULT_PLANE3D = 3200;
 	/** default polygon 3D type */	
-	public static final int DEFAULT_POLYGON3D = 3201;
-	
+	public static final int DEFAULT_POLYGON3D = 3201;	
 	
 	/** default polyhedron type */
 	public static final int DEFAULT_POLYHEDRON = 3300;
@@ -75,10 +67,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	/** default surface type */
 	public static final int DEFAULT_SURFACECARTESIAN3D = 3304;
-
-	
-	
-	
 	
 	
 	// DEFAULT COLORs
@@ -132,13 +120,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	// axes TODO use gui
 	public static final Color colXAXIS = Color.red;
 	public static final Color colYAXIS = Color.green;
-	public static final Color colZAXIS = Color.blue;
-	
-	
-
-	
-	
-	
+	public static final Color colZAXIS = Color.blue;	
 	
 	
 	/**
@@ -149,11 +131,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		super(cons);
 		//Application.debug("ConstructionDefaults3D");
 	}
-	
-	
-	
-	
-	
 	
 	public void createDefaultGeoElements() {
 		super.createDefaultGeoElements();
@@ -254,8 +231,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_VECTOR3D, vector);		
 		
 		
-		
-		
 		// conic
 		GeoConic3D conic = new GeoConic3D(cons);	
 		conic.setLocalVariableLabel("Conic3D");
@@ -278,8 +253,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		curve.setObjColor(colCurveCartesian3D);
 		defaultGeoElements.put(DEFAULT_CURVECARTESIAN3D, curve);
 		
-		
-		
+			
 		// plane
 		GeoPlane3D plane = new GeoPlane3D(cons);	
 		plane.setLocalVariableLabel("Plane3D");
@@ -296,8 +270,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polygon.setObjColor(colPolygon3D);
 		polygon.setAlphaValue(DEFAULT_POLYGON3D_ALPHA);
 		defaultGeoElements.put(DEFAULT_POLYGON3D, polygon);
-
-		
+	
 		
 		// polyhedron
 		GeoPolyhedron polyhedron = new GeoPolyhedron(cons);	
@@ -334,18 +307,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setObjColor(colQuadric);
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
-	
-	
-
-
 	}
-	
-	
-	
+		
 	public int getDefaultType(GeoElement geo){
 
 		switch (geo.getGeoClassType()) {
-		case GeoElement3D.GEO_CLASS_POINT3D:
+		case POINT3D:
 			if (geo.isIndependent()) {
 				return DEFAULT_POINT3D_FREE;
 			} else {
@@ -358,78 +325,60 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 					return DEFAULT_POINT3D_DEPENDENT;
 			}
 			
-		case GeoElement.GEO_CLASS_ANGLE3D:
+		case ANGLE3D:
 			return DEFAULT_ANGLE3D;
 			
-		case GeoElement3D.GEO_CLASS_LINE3D: 
+		case LINE3D: 
 			if (((GeoLine3D)geo).isIntersection())
 				return DEFAULT_LINE3D_INTERSECTION;
 			else
 				return DEFAULT_LINE3D;
-		case GeoElement3D.GEO_CLASS_SEGMENT3D: 
+		case SEGMENT3D: 
 			if (((GeoSegment3D)geo).isIntersection())
 				return DEFAULT_SEGMENT3D_INTERSECTION;
 			else
 				return DEFAULT_SEGMENT3D;
-		case GeoElement3D.GEO_CLASS_RAY3D: 
+		case RAY3D: 
 			if (((GeoRay3D)geo).isIntersection())
 				return DEFAULT_RAY3D_INTERSECTION;
 			else
 				return DEFAULT_RAY3D;
-		case GeoElement3D.GEO_CLASS_AXIS3D: 
+		case AXIS3D: 
 			return DEFAULT_AXIS3D;
-		case GeoElement3D.GEO_CLASS_VECTOR3D: 
-			return DEFAULT_VECTOR3D;
-			
-		case GeoElement3D.GEO_CLASS_CONIC3D: 
+		case VECTOR3D: 
+			return DEFAULT_VECTOR3D;		
+		case CONIC3D: 
 			if (((GeoConic3D)geo).isIntersection())
 				return DEFAULT_CONIC3D_INTERSECTION;
 			else
 				return DEFAULT_CONIC3D;
-		case GeoElement3D.GEO_CLASS_CURVECARTESIAN3D: 
-			return DEFAULT_CURVECARTESIAN3D;
-			
-			
-			
-		
-		case GeoElement3D.GEO_CLASS_PLANE3D: 
+		case CURVECARTESIAN3D: 
+			return DEFAULT_CURVECARTESIAN3D;	
+		case PLANE3D: 
 			return DEFAULT_PLANE3D;
-		case GeoElement3D.GEO_CLASS_POLYGON3D: 
-			return DEFAULT_POLYGON3D;
-			
-			
-		case GeoElement3D.GEO_CLASS_POLYHEDRON:
+		case POLYGON3D: 
+			return DEFAULT_POLYGON3D;			
+		case POLYHEDRON:
 			return DEFAULT_POLYHEDRON;
-		case GeoElement3D.GEO_CLASS_QUADRIC:
-		case GeoElement3D.GEO_CLASS_QUADRIC_PART:
+		case QUADRIC:
+		case QUADRIC_PART:
 			return DEFAULT_QUADRIC;
-		case GeoElement3D.GEO_CLASS_QUADRIC_LIMITED:
+		case QUADRIC_LIMITED:
 			return DEFAULT_QUADRIC_LIMITED;
-		case GeoElement.GEO_CLASS_FUNCTION_NVAR:
+		case FUNCTION_NVAR:
 			return DEFAULT_FUNCTION_NVAR;
-		case GeoElement.GEO_CLASS_SURFACECARTESIAN3D:
-			return DEFAULT_SURFACECARTESIAN3D;
-			
+		case SURFACECARTESIAN3D:
+			return DEFAULT_SURFACECARTESIAN3D;		
 			
 		default:
 			return super.getDefaultType(geo);
 		}
 	}
-	
-	
-
-
 
 	protected void setMaxLayerUsed(GeoElement geo, Application app){
 		//update only if  not a 3D object
 		//if (!geo.isGeoElement3D())
 			super.setMaxLayerUsed(geo, app);
-
 	}
 	
-	
-	
-	
-	
-
 }

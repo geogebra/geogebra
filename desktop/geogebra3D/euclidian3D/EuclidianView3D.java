@@ -1,6 +1,5 @@
 package geogebra3D.euclidian3D;
 
-
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.Drawable;
@@ -37,7 +36,6 @@ import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoAxis3D;
 import geogebra3D.kernel3D.GeoConic3D;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 import geogebra3D.kernel3D.GeoElement3D;
@@ -70,7 +68,6 @@ import java.util.TreeSet;
 
 import javax.swing.JPanel;
 
-
 /**
  * Class for 3D view
  * @author matthieu
@@ -78,11 +75,7 @@ import javax.swing.JPanel;
  */
 public class EuclidianView3D extends JPanel implements Printable, EuclidianViewInterface {
 
-	
-
 	private static final long serialVersionUID = -8414195993686838278L;
-	
-	
 	
 	//private Kernel kernel;
 	private Kernel3D kernel3D;
@@ -158,10 +151,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	private double b = ANGLE_ROT_XOY;//angles (in degrees)
 	private double aOld, bOld;
 	private double aNew, bNew;
-	
-	
 
-	
 
 	//picking and hits
 	private Hits3D hits = new Hits3D(); //objects picked from openGL
@@ -222,11 +212,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public static final int PREVIEW_POINT_DEPENDENT = 4;
 	/** already existing point under the cursor */
 	public static final int PREVIEW_POINT_ALREADY = 5;
-	
-	
+		
 	
 	private int cursor3DType = PREVIEW_POINT_NONE;
-
 	
 	private static final int CURSOR_DEFAULT = 0;
 	private static final int CURSOR_DRAG = 1;
@@ -239,9 +227,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	private boolean hasMouse = false;
 	
 	
-	
-	// animation
-	
+	// animation	
 	/** tells if the view is under animation for scale */
 	private boolean animatedScale = false;
 	/** starting and ending scales */
@@ -270,29 +256,17 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	/** tells if the view is under animation for rotation */
 	private boolean animatedRot = false;
 
-	
-	
-	
-	
-	
 	/** says if the view is frozen (see freeze()) */
 	private boolean isFrozen = false;
-	
-	
-	
+		
 	/**  selection rectangle  TODO */
 	protected Rectangle selectionRectangle = new Rectangle();
-
-
 	
 	/**
 	 * common constructor
 	 * @param ec controller on this
 	 */
 	public EuclidianView3D(EuclidianController3D ec){
-
-		
-
 		
 		this.euclidianController3D = ec;
 		this.kernel3D = (Kernel3D) ec.getKernel();
@@ -304,8 +278,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		initView(false);
 	}
-	
-	
+		
 	public Application getApplication() {
 		return app;
 	}
@@ -325,16 +298,13 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		renderer = new Renderer(this);
 		renderer.setDrawable3DLists(drawable3DLists);
 		
-		
-		
+			
         //JPanel canvas = this;
 		
         Component canvas = renderer.canvas;
 		setLayout(new BorderLayout());
 		add(BorderLayout.CENTER, canvas);
-		
-		
-		
+						
 		attachView();
 		
 		// register Listener
@@ -343,8 +313,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		canvas.addMouseWheelListener(euclidianController3D);
 		canvas.setFocusable(true);
 		
-		
-		
+				
 		//previewables
 		//kernel3D.setSilentMode(true);
 		cursor3D = new GeoPoint3D(kernel3D.getConstruction());
@@ -353,10 +322,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//cursor3D.setLabelOffset(5, -5);
 		//cursor3D.setEuclidianVisible(false);
 		cursor3D.setMoveNormalDirection(EuclidianView3D.vz);
-		//kernel3D.setSilentMode(false);
-		
-		
-		
+		//kernel3D.setSilentMode(false);		
 		
 		initAxisAndPlane();
 		
@@ -367,50 +333,31 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		xminObject = new GeoNumeric(kernel3D.getConstruction());
 		xmaxObject = new GeoNumeric(kernel3D.getConstruction());
 		yminObject = new GeoNumeric(kernel3D.getConstruction());
-		ymaxObject = new GeoNumeric(kernel3D.getConstruction());
-		
-		
-		
+		ymaxObject = new GeoNumeric(kernel3D.getConstruction());	
 	}
-	
-	
-	
-
-	
-	
 	
 	/**
 	 * init the axis and xOy plane
 	 */
 	public void initAxisAndPlane(){
-		
-		
-
-
 		//axis
 		axis = new GeoAxisND[3];
 		axisDrawable = new DrawAxis3D[3];
 		axis[0] = kernel3D.getXAxis3D();
 		axis[1] = kernel3D.getYAxis3D();
 		axis[2] = kernel3D.getZAxis3D();
-		
-		
+				
 		for(int i=0;i<3;i++){
 			axis[i].setLabelVisible(true);
 			axisDrawable[i] = (DrawAxis3D) createDrawable((GeoElement) axis[i]);
-		}
-		
+		}	
 		
 		//plane	
 		xOyPlane = kernel3D.getXOYPlane();
 		xOyPlane.setEuclidianVisible(true);
 		xOyPlane.setGridVisible(true);
 		xOyPlane.setPlateVisible(false);
-		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);
-
-		
-		
-			
+		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);			
 	}
 
 	// POINT_CAPTURING_STICKY_POINTS locks onto these points
@@ -419,24 +366,19 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return null;
 	}
 	
-	
 	/** return the 3D kernel
 	 * @return the 3D kernel
 	 */
 	public Kernel3D getKernel(){
 		return kernel3D;
 	}
-	
-	
-	
-	
+
 	/**
 	 * @return controller
 	 */
 	public EuclidianController3D getEuclidianController(){
 		return euclidianController3D;
 	}
-	
 	
 	/**
 	 * @return gl renderer
@@ -445,8 +387,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return renderer;
 	}
 	
-	
-
 	/**
 	 * adds a GeoElement3D to this view
 	 */	
@@ -480,14 +420,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			}
 		}
 	}
-	
-	
+		
 	/**
 	 * add the drawable to the lists of drawables
 	 * @param d
 	 */
-	public void addToDrawable3DLists(Drawable3D d){
-		
+	public void addToDrawable3DLists(Drawable3D d){	
 		/*
 		if (d.getGeoElement().getLabel().equals("a")){
 			Application.debug("d="+d);
@@ -523,28 +461,28 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			switch (geo.getGeoClassType()) {
 
 			// 2D also shown in 3D
-			case GeoElement3D.GEO_CLASS_LIST:
+			case LIST:
 				d = new DrawList3D(this, (GeoList) geo);
 				break;				
 
 				// 3D stuff
-			case GeoElement.GEO_CLASS_POINT:
-			case GeoElement3D.GEO_CLASS_POINT3D:
+			case POINT:
+			case POINT3D:
 				d = new DrawPoint3D(this, (GeoPointND) geo);
 				break;									
 
-			case GeoElement3D.GEO_CLASS_VECTOR:
-			case GeoElement3D.GEO_CLASS_VECTOR3D:
+			case VECTOR:
+			case VECTOR3D:
 				d = new DrawVector3D(this, (GeoVectorND) geo);
 				break;									
 
-			case GeoElement.GEO_CLASS_SEGMENT:
-			case GeoElement3D.GEO_CLASS_SEGMENT3D:
+			case SEGMENT:
+			case SEGMENT3D:
 				d = new DrawSegment3D(this, (GeoSegmentND) geo);
 				break;									
 
 
-			case GeoElement3D.GEO_CLASS_PLANE3D:
+			case PLANE3D:
 				if (geo instanceof GeoPlane3DConstant)
 					d = new DrawPlaneConstant3D(this, (GeoPlane3D) geo,
 							axisDrawable[AXIS_X],axisDrawable[AXIS_Y]);
@@ -554,62 +492,59 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 				break;		
 				
 
-			case GeoElement3D.GEO_CLASS_POLYGON:
-			case GeoElement3D.GEO_CLASS_POLYGON3D:
+			case POLYGON:
+			case POLYGON3D:
 				d = new DrawPolygon3D(this, (GeoPolygon) geo);
 				break;									
 
-			case GeoElement3D.GEO_CLASS_POLYLINE:
-			case GeoElement3D.GEO_CLASS_POLYLINE3D:
+			case POLYLINE:
+			case POLYLINE3D:
 				d = new DrawPolyLine3D(this, (GeoPolyLine) geo);
 				break;									
 
 				
-			case GeoElement.GEO_CLASS_LINE:	
-			case GeoElement3D.GEO_CLASS_LINE3D:	
+			case LINE:	
+			case LINE3D:	
 				d = new DrawLine3D(this, (GeoLineND) geo);	
 				break;									
 
-			case GeoElement.GEO_CLASS_RAY:
-			case GeoElement3D.GEO_CLASS_RAY3D:
+			case RAY:
+			case RAY3D:
 				d = new DrawRay3D(this, (GeoRayND) geo);					
 				break;	
 
-			case GeoElement3D.GEO_CLASS_CONIC:					
-			case GeoElement3D.GEO_CLASS_CONIC3D:					
+			case CONIC:					
+			case CONIC3D:					
 				d = new DrawConic3D(this, (GeoConicND) geo);
 				break;	
 				
-			case GeoElement3D.GEO_CLASS_CONICPART:					
+			case CONICPART:					
 				d = new DrawConicPart3D(this, (GeoConicPart) geo);
 				break;	
 
-			case GeoElement3D.GEO_CLASS_AXIS:	
-			case GeoElement3D.GEO_CLASS_AXIS3D:	
+			case AXIS:	
+			case AXIS3D:	
 				d = new DrawAxis3D(this, (GeoAxisND) geo);	
 				break;	
 
-			case GeoElement3D.GEO_CLASS_CURVECARTESIAN3D:	
+			case CURVECARTESIAN3D:	
 				d = new DrawCurve3D(this, (GeoCurveCartesian3D) geo);	
 				break;				
 				
-			case GeoElement.GEO_CLASS_ANGLE:
-			case GeoElement.GEO_CLASS_ANGLE3D:
+			case ANGLE:
+			case ANGLE3D:
 				d = new DrawAngle3D(this, (GeoAngle) geo);
 				break;
 
-
-
-
-			case GeoElement3D.GEO_CLASS_QUADRIC:					
+			case QUADRIC:					
 				d = new DrawQuadric3D(this, (GeoQuadric3D) geo);
 				break;									
 
-			case GeoElement3D.GEO_CLASS_QUADRIC_PART:					
+			case QUADRIC_PART:					
 				d = new DrawQuadric3DPart(this, (GeoQuadric3DPart) geo);
 				break;	
 
-			case GeoElement.GEO_CLASS_FUNCTION_NVAR:
+			case FUNCTION_NVAR:
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch(geoFun.getVarNumber()){
 				case 2:
@@ -620,46 +555,26 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 					break;
 				}
 				break;	
-				
-				
-			case GeoElement3D.GEO_CLASS_SURFACECARTESIAN3D:	
+								
+			case SURFACECARTESIAN3D:	
 				d = new DrawSurface3D(this, (GeoSurfaceCartesian3D) geo);
 				break;	
 				
-
-			case GeoElement3D.GEO_CLASS_TEXT:
+			case TEXT:
 				d = new DrawText3D(this,(GeoText) geo);
 				break;
-
 			}
-			
-								
-
-
 		}
-
 		
 		if (d != null) 			
 			drawable3DMap.put(geo, d);
 		
-		
 		return d;
 	}
-	
-	
-	
-	
 	
 	public DrawableND createDrawableND(GeoElement geo) {
 		return createDrawable(geo);
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * converts the vector to scene coords
@@ -669,8 +584,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		changeCoords(mInv,vInOut);		
 	}
 	
-	
-	final private void changeCoords(CoordMatrix mat, Coords vInOut){
+	final private static void changeCoords(CoordMatrix mat, Coords vInOut){
 		Coords v1 = vInOut.getCoordsLast1();
 		vInOut.set(mat.mul(v1));		
 	}
@@ -717,7 +631,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//scaling
 		CoordMatrix m4 = CoordMatrix.ScaleMatrix(new double[] {getXscale(),getYscale(),getZscale()});		
 		
-
 		//translation
 		CoordMatrix m5 = CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});
 		
@@ -727,8 +640,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		updateEye();
 			
-		//Application.debug("Zero = ("+getXZero()+","+getYZero()+","+getZZero()+")");
-		
+		//Application.debug("Zero = ("+getXZero()+","+getYZero()+","+getZZero()+")");	
 	}
 	
 	private void updateEye(){
@@ -786,15 +698,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		else if (this.b<-EuclidianController3D.ANGLE_MAX)
 			this.b=-EuclidianController3D.ANGLE_MAX;
 		
-		
-
 		updateMatrix();
 
 		setViewChangedByRotate();
 		setWaitForUpdate();
 	}
-	
-	
+		
 	/** Sets coord system from mouse move */
 	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {	
 		switch(mode){
@@ -809,10 +718,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			setWaitForUpdate();
 			break;
 		}
-	}
-
-
-	
+	}	
 
 	/* TODO interaction - note : methods are called by EuclidianRenderer3D.viewOrtho() 
 	 * to re-center the scene */
@@ -838,11 +744,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public void setZZero(double val) { 
 		ZZero=val; 
 	}
-	
-	
+		
 	public double getXRot(){ return a;}
 	public double getZRot(){ return b;}
-	
 	
 
 	/**  @return min-max value for x-axis (linked to grid)*/
@@ -881,7 +785,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return scale;
 	}
 
-	
 	/** remembers the origins values (xzero, ...) */
 	public void rememberOrigins(){
 		aOld = a;
@@ -889,20 +792,11 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		XZeroOld = XZero;
 		YZeroOld = YZero;
 	}
-
-	
-	
-	
-	
-
 	
 	
 	//////////////////////////////////////
 	// update
 	
-	
-
-
 	/** update the drawables for 3D view */
 	public void update(){
 		
@@ -963,25 +857,16 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			for (GeoElement geo : geosToBeAdded.values())
 				addNow(geo);
 			geosToBeAdded.clear();
-
-			
-		
-			
-			
 			
 			viewChangedOwnDrawables();
 			setWaitForUpdateOwnDrawables();
-			
-			
-			
+						
 			waitForUpdate = false;
 		}
 
-
 		// update decorations
 		pointDecorations.update();
-	}
-	
+	}	
 	
 	/** 
 	 * tell the view that it has to be updated
@@ -991,13 +876,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		waitForUpdate = true;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	private boolean isStarted = false;
 	
 	/**
@@ -1006,11 +884,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public boolean isStarted(){
 		return isStarted;
 	}
-	
-	
+		
 	public void paint(Graphics g){
-		
-		
+				
 		if (!isStarted){
 			//Application.debug("ici");
 			isStarted = true;
@@ -1021,10 +897,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//setWaitForUpdate();
 		if (isFrozen)
 			super.paint(g);
-	}
-	
-	
-	
+	}	
 	
 	//////////////////////////////////////
 	// toolbar and euclidianController3D
@@ -1036,48 +909,37 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		getStyleBar().setMode(mode);
 	}
 	
-	
-	
-	
-	
-
-	
-	
 	//////////////////////////////////////
 	// picking
-	
-	private Coords pickPoint = new Coords(0,0,0,1);
+
+	private Coords pickPoint = new Coords(0, 0, 0, 1);
 	private Coords viewDirectionPersp = new Coords(4);
-	
-	/** (x,y) 2D screen coords -> 3D physical coords 
-	 * @param x 
-	 * @param y 
-	 * @return 3D physical coords of the picking point */
-	public Coords getPickPoint(int x, int y){			
-		
-		
+
+	/**
+	 * (x,y) 2D screen coords -> 3D physical coords
+	 * 
+	 * @param x
+	 * @param y
+	 * @return 3D physical coords of the picking point
+	 */
+	public Coords getPickPoint(int x, int y) {
+
 		Dimension d = new Dimension();
 		this.getSize(d);
-		
-		if (d!=null){
-			
-			pickPoint.setX(x+renderer.getLeft());
-			pickPoint.setY(-y+renderer.getTop());
 
-			if (projection==PROJECTION_PERSPECTIVE||projection==PROJECTION_ANAGLYPH){
-				viewDirectionPersp = pickPoint.sub(renderer.getPerspEye());
-				toSceneCoords3D(viewDirectionPersp);
-				viewDirectionPersp.normalize();
-			}
-			
-			return pickPoint.copyVector();
-		}else
-			return null;
-		
-		
+		pickPoint.setX(x + renderer.getLeft());
+		pickPoint.setY(-y + renderer.getTop());
+
+		if (projection == PROJECTION_PERSPECTIVE
+				|| projection == PROJECTION_ANAGLYPH) {
+			viewDirectionPersp = pickPoint.sub(renderer.getPerspEye());
+			toSceneCoords3D(viewDirectionPersp);
+			viewDirectionPersp.normalize();
+		}
+
+		return pickPoint.copyVector();
 	}
-	
-	
+
 	/** p scene coords, (dx,dy) 2D mouse move -> 3D physical coords 
 	 * @param p 
 	 * @param dx 
@@ -1096,29 +958,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			viewDirectionPersp.normalize();
 		}
 
-		return pickPoint.copyVector();
-		
-	}
-	
-
-		
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		return pickPoint.copyVector();	
+	}	
 	
 	/**
 	 * attach the view to the kernel
@@ -1155,11 +996,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			
 			//for GeoList : remove all 3D drawables linked to it
 			if (geo.isGeoList()){
-				if (d!=null)
+				if (d!=null) {
 					for (DrawableND d1 : ((DrawList3D) d).getDrawables3D()){
 						if (d1.createdByDrawList())
 							remove((Drawable3D) d1);
 					}
+				}
 			}
 		}
 		
@@ -1172,15 +1014,11 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	 */
 	public void remove(Drawable3D d) {
 		setWaitForUpdate();
-		drawable3DListToBeRemoved.add(d);
-		
+		drawable3DListToBeRemoved.add(d);		
 	}
 
-
 	public void rename(GeoElement geo) {
-		// TODO Raccord de méthode auto-généré
-
-		
+		// TODO Raccord de méthode auto-généré		
 	}
 
 	public void repaintView() {
@@ -1190,8 +1028,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//update();
 		//setWaitForUpdate();
 		
-		//Application.debug("repaint View3D");
-		
+		//Application.debug("repaint View3D");		
 	}
 
 	public void reset() {
@@ -1203,8 +1040,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		setViewChanged();
 		setWaitForUpdate();
 		
-		//update();
-		
+		//update();		
 	}
 
 	public void update(GeoElement geo) {
@@ -1231,8 +1067,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	private void updateAllDrawables(){
 		for (Drawable3D d:drawable3DMap.values())
 			update(d);
-		setWaitForUpdateOwnDrawables();
-		
+		setWaitForUpdateOwnDrawables();		
 	}
 	
 	/**
@@ -1254,23 +1089,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
 	//////////////////////////////////////////////
 	// EuclidianViewInterface
-
-
-
-
 
 	public Drawable getDrawableFor(GeoElement geo) {
 		// TODO Auto-generated method stub
@@ -1287,104 +1107,30 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return null;
 	}
 
-
-
-
-
-
-
-
-
-
 	public double getGridDistances(int i) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public int getGridType() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public Hits getHits() {
 		//return hits;
 		return hits.clone();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public double getInvXscale() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public double getInvYscale() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public GeoElement getLabelHit(Point p) {
 		
@@ -1403,110 +1149,31 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return hits.getLabelHit();
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public Previewable getPreviewDrawable() {
 		
 		return previewDrawable;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public Rectangle getSelectionRectangle() {
 		return selectionRectangle;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public boolean getShowMouseCoords() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public boolean getShowXaxis() {
 		return axis[AXIS_X].isEuclidianVisible();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
 	public boolean getShowYaxis() {
 		return axis[AXIS_Y].isEuclidianVisible();
 	}
 
-
-
-
 	public void setShowAxis(int axis, boolean flag, boolean update){
 		this.axis[axis].setEuclidianVisible(flag);
 	}
-
 
 	public void setShowAxes(boolean flag, boolean update){
 		setShowAxis(AXIS_X, flag, false);
@@ -1514,16 +1181,13 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		setShowAxis(AXIS_Z, flag, true);
 	}
 
-	
-	
 	/** sets the visibility of xOy plane
 	 * @param flag
 	 */
 	public void setShowPlane(boolean flag){
 		getxOyPlane().setEuclidianVisible(flag);
 	}
-	
-	
+		
 	/** sets the visibility of xOy plane plate
 	 * @param flag
 	 */
@@ -1537,9 +1201,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public void setShowGrid(boolean flag){
 		getxOyPlane().setGridVisible(flag);
 	}
-	
-	
-
 
 	public int getViewHeight() {
 		return getHeight();
@@ -1550,83 +1211,25 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return getWidth();
 	}
 
-
-
-
-
-
-
-	
-
-
-
 	public boolean hitAnimationButton(MouseEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
 	public boolean isGridOrAxesShown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public void repaintEuclidianView() {
 		//Application.debug("repaintEuclidianView");
 		
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public void resetMode() {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
-
-
-
-
-
-
 
 
 	//////////////////////////////////////////////////
@@ -1670,11 +1273,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		animatedScaleTimeFactor = 0.005; //it will take about 1/2s to achieve it
 		
-		//this.storeUndo = storeUndo;
-
-		
-	}
-	
+		//this.storeUndo = storeUndo;		
+	}	
 	
 	/** sets a continued animation for rotation
 	 * if delay is too long, no animation
@@ -1700,17 +1300,14 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			rotSpeed=0.1;
 		else if (rotSpeed<-0.1)
 			rotSpeed=-0.1;
-			
-		
-			
+					
 		animatedContinueRot = true;
 		animatedRot = false;
 		animatedRotSpeed = -rotSpeed;
 		animatedRotTimeStart = System.currentTimeMillis() - delay;
 		bOld = b;
 		aOld = a;
-	}
-	
+	}	
 	
 	/**
 	 * start a rotation animation to be in the vector direction
@@ -2323,7 +1920,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return new DrawPolygon3D(this, selectedPoints);
 	}	
 	
-	public Previewable createPreviewConic(int mode, ArrayList selectedPoints){
+	public Previewable createPreviewConic(int mode, ArrayList<GeoPointND> selectedPoints){
 		return null;
 	}
 
@@ -2337,7 +1934,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}	
 
 	/**
-	 * @param selectedPolygon
 	 * @return a preview right prism (basis and height)
 	 */
 	@SuppressWarnings("rawtypes")
@@ -3211,8 +2807,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		axesTickStyles[axis]=tickStyle;
 	}
 
-
-
 	
 	/////////////////////////////
 	// OPTIONS
@@ -3224,69 +2818,41 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return 0;
 	}
 
-
-
-
-
 	public int toScreenCoordY(double maxY) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
-
-
-
-	@SuppressWarnings("unchecked")
-	public Previewable createPreviewParallelLine(ArrayList selectedPoints,
-			ArrayList selectedLines) {
+	public Previewable createPreviewParallelLine(ArrayList<GeoPointND> selectedPoints,
+			ArrayList<GeoLineND> selectedLines) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
-
-
-	@SuppressWarnings("unchecked")
-	public Previewable createPreviewPerpendicularLine(ArrayList selectedPoints,
-			ArrayList selectedLines) {
+	public Previewable createPreviewPerpendicularLine(ArrayList<GeoPointND> selectedPoints,
+			ArrayList<GeoLineND> selectedLines) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
-
-
-	@SuppressWarnings("unchecked")
 	public Previewable createPreviewPerpendicularBisector(
-			ArrayList selectedPoints) {
+			ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
-
-
-	@SuppressWarnings("unchecked")
-	public Previewable createPreviewAngleBisector(ArrayList selectedPoints) {
+	public Previewable createPreviewAngleBisector(ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Previewable createPreviewPolyLine(ArrayList selectedPoints) {
+	public Previewable createPreviewPolyLine(ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
-	
-	
 	public void setAxisCross(int axis, double cross) {
 		axisCross[axis] = cross;
-		
 	}
 
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
@@ -3432,68 +2998,51 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 	}
 
-
 	public void setAutomaticGridDistance(boolean flag) {
 		automaticGridDistance = flag;
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
-		setAxesIntervals(getZscale(), 1);
-		
+		setAxesIntervals(getZscale(), 1);	
 	}
 
 
-	private void setAxesIntervals(double yscale, int i) {
-		Application.printStacktrace("TODO");
-		
+	private static void setAxesIntervals(double yscale, int i) {
+		Application.printStacktrace("TODO");		
 	}
-
 
 	public void setRealWorldCoordSystem(double min, double max, double ymin,
 			double ymax) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
-
 
 	public void updateBackground() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
-
 
 	public void setGridDistances(double[] dist) {
 		gridDistances = dist;
 		setAutomaticGridDistance(false);
 	}
 
-
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
-
 
 	public void setAxesTickStyles(int[] styles) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
-
 
 	public boolean[] getDrawBorderAxes() {
 		return drawBorderAxes;
 	}
 
-
 	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
-		this.drawBorderAxes = drawBorderAxes;
-		
+		this.drawBorderAxes = drawBorderAxes;		
 	}
-
 
 	public boolean[] isAutomaticAxesNumberingDistance() {
 		return automaticAxesNumberingDistances;
 	}
-
 
 	public double[] getAxesNumberingDistances() {
 		return axesNumberingDistances;
@@ -3535,10 +3084,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		boolean repaintNeeded = euclidianController3D.refreshHighlighting(geos);
 		if (repaintNeeded)
 			getKernel().notifyRepaint();
-	}
-	
-	
-	
+	}	
 	
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer){
 		getApplication().getEuclidianView().changeLayer(geo, oldlayer, newlayer);
@@ -3549,7 +3095,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 	/**
@@ -3643,11 +3188,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 	
-	
-	
-	
-	
-	
 	/////////////////////////////////////////////////
 	// UPDATE VIEW : ZOOM, TRANSLATE, ROTATE
 	/////////////////////////////////////////////////
@@ -3656,11 +3196,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	private boolean viewChangedByTranslate = true;
 	private boolean viewChangedByRotate = true;
 
-
-
 	private int pointCapturingMode;
-
-
 
 	private int pointStyle;
 	
@@ -3686,10 +3222,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		viewChangedByRotate = false;
 	}
 	
-	
-	
-	
-	
 	/**
 	 * Returns point capturing mode.
 	 */
@@ -3707,9 +3239,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	final public int getPointStyle() {
 		return pointStyle;
 	}
-	
-	
-	
+		
 	/** 
 	 * Get styleBar 
 	 */
@@ -3722,7 +3252,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return styleBar;
 	}
 
-
 	public String getFromPlaneString(){
 		return "space";
 	}
@@ -3732,11 +3261,10 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 
 
-	public Previewable createPreviewAngle(ArrayList selectedPoints) {
+	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
 	public boolean isDefault2D(){
 		return false;

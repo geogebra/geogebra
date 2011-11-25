@@ -110,8 +110,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public int getGeoClassType() {
-		return GEO_CLASS_CURVE_CARTESIAN;
+	public GeoClass getGeoClassType() {
+		return GeoClass.CURVE_CARTESIAN;
 	}
 
 	/**

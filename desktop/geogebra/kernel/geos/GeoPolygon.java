@@ -33,7 +33,6 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -46,8 +45,6 @@ import java.util.HashSet;
  */
 public class GeoPolygon extends GeoElement implements NumberValue, Path, Region, GeoSurfaceFinite, Traceable,Rotateable,PointRotateable,
 MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLineInterface, Transformable{
-	
-	private static final long serialVersionUID = 1L;
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 100;
@@ -118,9 +115,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public void setCoordSys(CoordSys cs) {
 		
 	}
-	
-	
-	
 
 	public String getClassName() {
 		return "GeoPolygon";
@@ -148,12 +142,9 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
     	}    	    			
 	}
     
-    public int getGeoClassType() {
-    	return GEO_CLASS_POLYGON;
+    public GeoClass getGeoClassType() {
+    	return GeoClass.POLYGON;
     }
-	
-    
-    
     
     /**
      * set the vertices to points
@@ -162,8 +153,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
     public void setPoints(GeoPointND [] points) {
     	setPoints(points,null,true);
     }
-
-    	
+  	
     /**
      * set the vertices to points (cs is only used for 3D stuff)
      * @param points the vertices
@@ -190,8 +180,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 //        Application.debug("********************");
 //		}
 	}    
-    
-    
+   
     
     ///////////////////////////////
     // ggb3D 2009-03-08 - start
@@ -204,8 +193,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			return 0;
 		return points.length;
 	}
-	
-	
+		
 	/**
 	 * return the x-coordinate of the i-th vertex
 	 * @param i number of vertex
@@ -228,7 +216,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
     // ggb3D 2009-03-08 - end
     ///////////////////////////////
 	
-
 
     /**
      * Inits the labels of this polygon, its segments and its points.
@@ -290,8 +277,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	        	defaultSegmentLabels();
 	        }
     	}    	
-    	
-
     }
     
     /**
@@ -328,7 +313,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
      * If the lower case label of the point is already used, an indexed label
      * is created.
      */
-    private void setLabel(GeoSegmentND s, GeoPointND p) {
+    private static void setLabel(GeoSegmentND s, GeoPointND p) {
         if (!p.isLabelSet() || p.getLabel() == null) {
         	s.setLabel(null);
         } else {
@@ -371,18 +356,19 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		setDefined();
 		
 		// create missing segments
-        for (int i=0; i < segments.length; i++) {
-        	GeoPointND startPoint = points[i];
-        	GeoPointND endPoint = points[(i+1) % points.length];
-        	
-        	if (segments[i] == null) {
-         		segments[i] = createSegment(startPoint, endPoint, i == 0 ? isEuclidianVisible() : segments[0].isEuclidianVisible());
-        	}     
-        }         
-        
-    }
-	 
-	 
+		for (int i = 0; i < segments.length; i++) {
+			GeoPointND startPoint = points[i];
+			GeoPointND endPoint = points[(i + 1) % points.length];
+
+			if (segments[i] == null) {
+				segments[i] = createSegment(
+						startPoint,
+						endPoint,
+						(i == 0 ? isEuclidianVisible() : segments[0]
+								.isEuclidianVisible()));
+			}
+		}
+	}
 
 	 /**
 	  * remove an old segment
@@ -1172,15 +1158,9 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public boolean asBoundary() {
 		return asBoundary;
 	}
-	
 
-
-	
-	
-	
-	
 	/** returns true if the segment ((x1,y1),(x2,y2)) intersects [Ox) */
-	private int intersectOx(double x1, double y1, double x2, double y2){
+	private static int intersectOx(double x1, double y1, double x2, double y2){
 		
 		double eps = Kernel.STANDARD_PRECISION;
 		
@@ -1215,7 +1195,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		}
 	}
 	
-	
 	/**
 	 * returns all class-specific xml tags for getXML
 	 * GeoGebra File Format
@@ -1229,9 +1208,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		getBreakpointXML(sb);		
 		getScriptTags(sb);
 	}
-	
-	
-	
 
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
@@ -1259,14 +1235,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public boolean getTrace() {
 		return trace;
 	}
-	
-	
+
 	
 	/////////////////////
 	// 3D stuff
 	/////////////////////
-
-
 
 	/**
 	 * Returns the i-th 3D point of this polygon.
@@ -1281,8 +1254,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
   		v.setW(1);
   		return v;
   		*/
-	}
-	
+	}	
 
 	/** if this is a part of a closed surface
 	 * @return if this is a part of a closed surface
@@ -1308,8 +1280,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		}
 		return new Coords(x/getPointsLength(), y/getPointsLength(), z/getPointsLength(), 1);
 	}
-	
-	
+		
 	
 	////////////////////////////////////////
 	// GEOCOORDSYS2D INTERFACE
@@ -1329,8 +1300,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords, Coords willingDirection) {
 		return willingCoords.projectPlaneThruVIfPossible(getCoordSys().getMatrixOrthonormal(),oldCoords,willingDirection);
-	}
-	
+	}	
 	
 	
 	//////////////////////////////////////////////////////
@@ -1375,7 +1345,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	}
 	
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec, Coords endPosition, 
-			Coords viewDirection, ArrayList updateGeos, ArrayList tempMoveObjectList){
+			Coords viewDirection, ArrayList<GeoElement> updateGeos, ArrayList<GeoElement> tempMoveObjectList){
 		
 		GeoNumeric var = getCoordParentNumber();
 				
@@ -1394,9 +1364,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			var.setValue(startValue+val/ld);
 			addChangeableCoordParentNumberToUpdateList(var, updateGeos, tempMoveObjectList);
 			return true;
-		}
-		
-		
+		}	
 	}
 
 	public void rotate(NumberValue r) {
@@ -1436,7 +1404,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			((GeoPoint)points[i]).mirror(g);				
 	}
 
-
 	/**
 	 * Returns true iff all vertices are labeled
 	 * @return true iff all vertices are labeled
@@ -1458,11 +1425,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		if(getParentAlgorithm().getInput().length<3)return false;
 		return true;
 	}
-
 	
-	
-
-
 	public Coords getDirectionInD3(){
 		return new Coords(0,0,1,0);
 	}
@@ -1474,24 +1437,22 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	private EuclidianView euclidianViewForPlane;
 	
 	public void createView2D(){
-		euclidianViewForPlane = app.createEuclidianViewForPlane(this);
-	
+		euclidianViewForPlane = app.createEuclidianViewForPlane(this);	
 	}
 	
 	public void update(){
 		super.update();
 		if (euclidianViewForPlane!=null){
 			euclidianViewForPlane.updateForPlane();
-		}
-			
+		}		
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
-		
+			((GeoPoint)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);		
 	}
+	
 	public  void toGeoCurveCartesian(GeoCurveCartesian curve){
 		curve.setFromPolyLine(points, true);
     }

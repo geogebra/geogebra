@@ -14,8 +14,6 @@ import geogebra.kernel.geos.Translateable;
 import geogebra.kernel.kernelND.GeoCoordSys;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
-import geogebra3D.Application3D;
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 GeoLineND, GeoCoordSys,

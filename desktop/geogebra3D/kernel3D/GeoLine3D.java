@@ -1,10 +1,9 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
-import geogebra.kernel.Matrix.CoordSys;
 import geogebra.kernel.Matrix.Coords;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoPointND;
 
@@ -28,16 +27,13 @@ public class GeoLine3D extends GeoCoordSys1D {
 	final void setStartPoint(GeoPointND P) {        	
     	startPoint = P;	    	
     }
-    
-	
+    	
 	protected GeoCoordSys1D create(Construction cons){
 		return new GeoLine3D(cons);
-	}
-	
+	}	
 
-	public int getGeoClassType() {
-		
-		return GEO_CLASS_LINE3D;
+	public GeoClass getGeoClassType() {		
+		return GeoClass.LINE3D;
 	}
 
 	protected String getTypeString() {
@@ -45,15 +41,10 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return "Line3D";
 	}
 
-
-
 	public boolean isEqual(GeoElement Geo) {
 		// TODO Raccord de méthode auto-généré
 		return false;
 	}
-
-
-
 
 	public boolean showInAlgebraView() {
 		// TODO Raccord de méthode auto-généré
@@ -64,12 +55,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return true;
 	}
 
-
 	public String toValueString() {
 		return buildValueString().toString();
 	}
-	
-
 	
 	final public String toString() {
 
@@ -80,7 +68,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 		sbToString.append(buildValueString());
 		return sbToString.toString();   
 	}
-
 
 	private StringBuilder buildValueString() {	
 		String parameter = "\u03bb";
@@ -107,9 +94,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 		
 		return sbToString;  
 	}
-	
-	
-	
 
 	public String getClassName() {
 		// TODO Raccord de méthode auto-généré
@@ -118,23 +102,10 @@ public class GeoLine3D extends GeoCoordSys1D {
 	
 	final public boolean isGeoLine() {
 		return true;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	//Path3D interface
 	
-	
-
-
-
 	public PathMover createPathMover() {
 		// TODO Auto-generated method stub
 		return null;
@@ -152,23 +123,14 @@ public class GeoLine3D extends GeoCoordSys1D {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
-	
-	
-	
+		
 	public boolean isValidCoord(double x){
 		return true;
 	}
 
-	
 	public boolean isFromPolyhedron(){
 		return false;
 	}
-	
-	
-	
-	
 	
 	
 }

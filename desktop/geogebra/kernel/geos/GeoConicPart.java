@@ -89,8 +89,8 @@ implements LimitedPath, NumberValue, LineProperties {
  	}
 	
     @Override
-	public int getGeoClassType() {
-    	return GEO_CLASS_CONICPART;
+	public GeoClass getGeoClassType() {
+    	return GeoClass.CONICPART;
     }
 	
 	@Override

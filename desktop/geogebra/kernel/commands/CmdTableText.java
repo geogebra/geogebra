@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoText;
@@ -42,7 +43,7 @@ class CmdTableText extends CommandProcessor {
 							(GeoList) arg[0], null) };
 					return ret;
 				} else {
-					list = wrapInList(kernel, arg, arg.length, -1);
+					list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
 					if (list != null) {
 						GeoElement[] ret = { kernel.TableText(c.getLabel(),
 								list, null) };
@@ -66,7 +67,7 @@ class CmdTableText extends CommandProcessor {
 							(GeoList) arg[0], (GeoText) arg[1]) };
 					return ret;
 				} else {
-					list = wrapInList(kernel, arg, arg.length - 1, -1);
+					list = wrapInList(kernel, arg, arg.length - 1, GeoClass.DEFAULT);
 					if (list != null) {
 						GeoElement[] ret = { kernel.TableText(c.getLabel(),
 								list, (GeoText) arg[1]) };
@@ -77,7 +78,7 @@ class CmdTableText extends CommandProcessor {
 			}
 			if (ok[0] = (arg[0].isGeoList()) && (arg[1].isGeoList())) {
 				// two lists, no alignment
-				GeoList list = wrapInList(kernel, arg, arg.length, -1);
+				GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
 					GeoElement[] ret = { kernel.TableText(c.getLabel(), list,
 							null) };
@@ -95,14 +96,14 @@ class CmdTableText extends CommandProcessor {
 			// try to create list of numbers
 			GeoList list;
 			if (arg[arg.length - 1].isGeoText()) {
-				list = wrapInList(kernel, arg, arg.length - 1, -1);
+				list = wrapInList(kernel, arg, arg.length - 1, GeoClass.DEFAULT);
 				if (list != null) {
 					GeoElement[] ret = { kernel.TableText(c.getLabel(), list,
 							(GeoText) arg[arg.length - 1]) };
 					return ret;
 				}
 			} else {
-				list = wrapInList(kernel, arg, arg.length, -1);
+				list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
 					GeoElement[] ret = { kernel.TableText(c.getLabel(), list,
 							null) };

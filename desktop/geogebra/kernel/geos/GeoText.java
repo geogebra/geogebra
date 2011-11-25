@@ -22,7 +22,6 @@ import java.util.Comparator;
 public class GeoText extends GeoElement
 implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 
-	private static final long serialVersionUID = 1L;
 	private String str; 	
 	private GeoPointND startPoint; // location of Text on screen
 	private boolean isLaTeX; // text is a LaTeX formula
@@ -322,8 +321,8 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 		return "Text";
 	}
 
-	public int getGeoClassType() {
-		return GEO_CLASS_TEXT;
+	public GeoClass getGeoClassType() {
+		return GeoClass.TEXT;
 	}    
 	
 	public boolean isMoveable() {

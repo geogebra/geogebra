@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
@@ -33,7 +34,6 @@ import java.util.HashSet;
 final public class GeoSegment extends GeoLine implements LimitedPath, NumberValue, LineProperties,
 GeoSegmentND {
 
-	private static final long serialVersionUID = 1L;
 	// GeoSegment is constructed by AlgoJoinPointsSegment 
 	//private GeoPoint A, B;
 	private double length;
@@ -131,8 +131,8 @@ GeoSegmentND {
 		return "Segment";
 	}
 	 
-	public int getGeoClassType() {
-		return GEO_CLASS_SEGMENT;
+	public GeoClass getGeoClassType() {
+		return GeoClass.SEGMENT;
 	}
 
 	/**
@@ -191,7 +191,7 @@ GeoSegmentND {
 		if (defined) {
 			length = startPoint.distance(endPoint);
 			
-			if (kernel.isZero(length)) length = 0;
+			if (AbstractKernel.isZero(length)) length = 0;
 		}
 		else {
 			length = Double.NaN;	

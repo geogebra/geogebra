@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Color;

@@ -24,7 +24,6 @@ import geogebra.kernel.geos.Locateable;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyError;
-import geogebra.util.Util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,7 +49,7 @@ public class Macro {
 	//private String macroConsXML;
 	private GeoElement [] macroInput, macroOutput; // input and output objects 
 	private String [] macroInputLabels, macroOutputLabels;
-	private Class [] inputTypes;
+	private Class<? extends GeoElement> [] inputTypes;
 	
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<AlgoElement>();	
 		
@@ -253,12 +252,12 @@ public class Macro {
     		// add input element to macroConsOrigElements
     		// we handle some special cases for input types like segment, polygons, etc.
     		switch (input[i].getGeoClassType()) {
-    			case GeoElement.GEO_CLASS_SEGMENT:    				
-    			case GeoElement.GEO_CLASS_RAY:
-    			case GeoElement.GEO_CLASS_POLYGON:
-    			case GeoElement.GEO_CLASS_FUNCTION:
-    			case GeoElement.GEO_CLASS_INTERVAL:
-    			case GeoElement.GEO_CLASS_CURVE_CARTESIAN://added by Zbynek Konecny, 2010-05-25 (http://www.geogebra.org/forum/viewtopic.php?t=7275)
+    			case SEGMENT:    				
+    			case RAY:
+    			case POLYGON:
+    			case FUNCTION:
+    			case INTERVAL:
+    			case CURVE_CARTESIAN://added by Zbynek Konecny, 2010-05-25 (http://www.geogebra.org/forum/viewtopic.php?t=7275)
     				// add parent algo and its input objects to macroConsOrigElements
     				addSpecialInputElement(input[i], macroConsOrigElements);
     				break;    				    			
@@ -477,7 +476,7 @@ public class Macro {
 	 * as input for this macro.
 	 * @return types of input objects
 	 */
-	final public Class [] getInputTypes() {	
+	final public Class<? extends GeoElement> [] getInputTypes() {	
 		return inputTypes;
 	}			
 	

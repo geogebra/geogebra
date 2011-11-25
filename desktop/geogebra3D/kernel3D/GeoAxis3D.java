@@ -1,15 +1,14 @@
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.kernelND.GeoAxisND;
-import geogebra.main.Application;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Color;
 import java.text.NumberFormat;
 
-public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
-	
+public class GeoAxis3D extends GeoLine3D implements GeoAxisND {	
 
 	private String axisLabel;
 	
@@ -19,12 +18,10 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	private int numbersXOffset, numbersYOffset;
 	private int ticksize = 5; //TODO
 
-
 	public GeoAxis3D(Construction cons) {
 		super(cons);
 	}
-	
-	
+		
 	public GeoAxis3D(Construction c, int type){
 		this(c);
 		
@@ -53,12 +50,8 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		}
 		
 		setFixed(true);
-		setLabelVisible(false);
-		
-	}
-	
-	
-	
+		setLabelVisible(false);		
+	}	
 
 	public boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
@@ -67,24 +60,18 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return true;
 	}
 
-
-
-
 	public boolean isDefined() {
 		return true;
 	}
 
-	public int getGeoClassType() {
-		
-		return GEO_CLASS_AXIS3D;
+	public GeoClass getGeoClassType() {
+		return GeoClass.AXIS3D;
 	}
-	
-	
+		
 	public String toValueString() {
 		return label;
 	}
-	
-	
+		
 	/** return label of the axis (e.g. x, y, z ...)
 	 * @return label of the axis
 	 */
@@ -99,7 +86,6 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		axisLabel = label;
 	}
 
-	
 	/**
 	 * overrides GeoElement method : this is a "constant" element, so the label is set
 	 */
@@ -123,8 +109,6 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
 	
 	/** update decorations (ticks, numbers, labels)
 	 * @param distance

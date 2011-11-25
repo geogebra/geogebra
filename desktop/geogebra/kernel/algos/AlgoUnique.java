@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.MyDouble;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -22,7 +23,6 @@ import geogebra.kernel.geos.GeoText;
 import java.util.Iterator;
 
 import org.apache.commons.math.stat.Frequency;
-
 
 public class AlgoUnique extends AlgoElement {
 
@@ -77,8 +77,8 @@ public class AlgoUnique extends AlgoElement {
 			return; 		
 		}
 
-		if( !( dataList.getElementType() == GeoElement.GEO_CLASS_TEXT 
-				|| dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC )) {
+		if( !( dataList.getElementType() == GeoClass.TEXT 
+				|| dataList.getElementType() == GeoClass.NUMERIC )) {
 			uniqueList.setUndefined();		
 			return;
 		}
@@ -91,14 +91,14 @@ public class AlgoUnique extends AlgoElement {
 		 f = new Frequency();
 		f.clear();
 		for (int i=0 ; i < dataList.size(); i++) {
-			if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT)
+			if(dataList.getElementType() == GeoClass.TEXT)
 				f.addValue(((GeoText)dataList.get(i)).toValueString());
-			if(dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC)
+			if(dataList.getElementType() == GeoClass.NUMERIC)
 				f.addValue(new MyDouble(kernel, ((GeoNumeric)dataList.get(i)).getDouble()));
 		}
 
 		// Get the unique value list 	
-		if(dataList.getElementType() == GeoElement.GEO_CLASS_TEXT) {
+		if(dataList.getElementType() == GeoClass.TEXT) {
 			// handle string data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while(itr.hasNext()) {		

@@ -334,67 +334,8 @@ public abstract class GeoElement
 	'\u03a7',
 	'\u03a8',
 	'\u03a9'};
-
-
-	// GeoElement types
-	public static final int GEO_CLASS_ANGLE = 1;
-	public static final int GEO_CLASS_AXIS = 2;
-	public static final int GEO_CLASS_BOOLEAN = 3;
-	public static final int GEO_CLASS_BUTTON = 4;
-	public static final int GEO_CLASS_TEXTFIELD = 5;
-	public static final int GEO_CLASS_CONIC = 6;
-	public static final int GEO_CLASS_CONICPART = 7;
-	public static final int GEO_CLASS_FUNCTION = 8;
-	public static final int GEO_CLASS_INTERVAL = 9;
-	public static final int GEO_CLASS_FUNCTIONCONDITIONAL = 10;
-	public static final int GEO_CLASS_IMAGE = 11;
-	public static final int GEO_CLASS_LINE = 12;
-	public static final int GEO_CLASS_LIST = 13;
-	public static final int GEO_CLASS_LOCUS = 14;
-	public static final int GEO_CLASS_NUMERIC = 15;
-	public static final int GEO_CLASS_POINT = 16;
-	public static final int GEO_CLASS_POLYGON = 17;
-	public static final int GEO_CLASS_RAY = 18;
-	public static final int GEO_CLASS_SEGMENT = 19;
-	public static final int GEO_CLASS_TEXT = 20;
-	public static final int GEO_CLASS_VECTOR = 21;
-	public static final int GEO_CLASS_CURVE_CARTESIAN = 22;
-	public static final int GEO_CLASS_CURVE_POLAR = 23;
-	public static final int GEO_CLASS_IMPLICIT_POLY = 24;
-	public static final int GEO_CLASS_FUNCTION_NVAR = 25;
-	public static final int GEO_CLASS_POLYLINE = 26;
-	public static final int GEO_CLASS_LINEAR_INEQUALITY = 27;
 	
-	// Call cell type
-	public static final int GEO_CLASS_CAS_CELL = 1001;
-
-	// 3D types
-	public static final int GEO_CLASS_ANGLE3D = 3001;
-
-	public static final int GEO_CLASS_POINT3D = 3010;
-	public static final int GEO_CLASS_VECTOR3D = 3011;
-	public static final int GEO_CLASS_SEGMENT3D = 3110;
-	public static final int GEO_CLASS_LINE3D = 3120;
-	public static final int GEO_CLASS_RAY3D = 3121;
-	public static final int GEO_CLASS_CONIC3D = 3122;
-	public static final int GEO_CLASS_AXIS3D = 3123;
-	public static final int GEO_CLASS_CURVECARTESIAN3D = 3124;
-
-	public static final int GEO_CLASS_POLYGON3D = 3211;
-	public static final int GEO_CLASS_PLANE3D = 3220;
-	public static final int GEO_CLASS_QUADRIC = 3230;
-	public static final int GEO_CLASS_QUADRIC_PART = 3231;
-	public static final int GEO_CLASS_QUADRIC_LIMITED = 3232;
-	public static final int GEO_CLASS_POLYLINE3D = 3260;
-	public static final int GEO_CLASS_POLYHEDRON = 3310;
 	
-	public static final int GEO_CLASS_SURFACECARTESIAN3D = 3320;
-
-
-
-
-
-
 	public static final int LABEL_NAME = 0;
 	public static final int LABEL_NAME_VALUE = 1;
 	public static final int LABEL_VALUE = 2;
@@ -678,10 +619,10 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns the GEO_CLASS_ type integer
-	 * @return GEO_CLASS_ type integer
+	 * Returns the {@link GeoClass}
+	 * @return GeoClass
 	 */
-	public abstract int getGeoClassType();
+	public abstract GeoClass getGeoClassType();
 
 	/**
 	 * every subclass implements it's own copy method
@@ -1124,54 +1065,54 @@ public abstract class GeoElement
 
 		switch (getGeoClassType())
 		{
-		case  GEO_CLASS_AXIS:
+		case  AXIS:
 			typePriority = 10; break;
-		case  GEO_CLASS_IMAGE:
-		case GEO_CLASS_TEXTFIELD:
-		case GEO_CLASS_BUTTON:
-		case  GEO_CLASS_BOOLEAN:
+		case IMAGE:
+		case TEXTFIELD:
+		case BUTTON:
+		case BOOLEAN:
 			typePriority = 20; break;
-		case  GEO_CLASS_LIST:
+		case  LIST:
 			typePriority = 40; break;
-		case  GEO_CLASS_POLYGON :
-		case  GEO_CLASS_POLYGON3D :
+		case  POLYGON :
+		case  POLYGON3D :
 			typePriority = 50; break;
-		case  GEO_CLASS_POLYLINE :
+		case  POLYLINE :
 			typePriority = 51; break;
-		case  GEO_CLASS_IMPLICIT_POLY :
+		case  IMPLICIT_POLY :
 			typePriority = 60; break;
-		case  GEO_CLASS_CONIC:
-		case  GEO_CLASS_CONICPART:
+		case  CONIC:
+		case  CONICPART:
 			typePriority = 70; break;
-		case  GEO_CLASS_ANGLE :
-		case  GEO_CLASS_NUMERIC:
+		case  ANGLE :
+		case  NUMERIC:
 			typePriority = 80; break;
-		case  GEO_CLASS_INTERVAL: // not drawable
-		case  GEO_CLASS_FUNCTION:
-		case  GEO_CLASS_FUNCTIONCONDITIONAL:
-		case  GEO_CLASS_CURVE_CARTESIAN :
-		case  GEO_CLASS_CURVE_POLAR:
+		case  INTERVAL: // not drawable
+		case  FUNCTION:
+		case  FUNCTIONCONDITIONAL:
+		case  CURVE_CARTESIAN :
+		case  CURVE_POLAR:
 			typePriority = 90; break;
-		case  GEO_CLASS_LINE:
-		case  GEO_CLASS_LINE3D:
+		case  LINE:
+		case  LINE3D:
 			typePriority = 100; break;
-		case  GEO_CLASS_LINEAR_INEQUALITY:
+		case  LINEAR_INEQUALITY:
 			typePriority = 101; break;
-		case  GEO_CLASS_FUNCTION_NVAR:
+		case  FUNCTION_NVAR:
 			typePriority = 102; break;
-		case  GEO_CLASS_RAY:
-		case  GEO_CLASS_SEGMENT:
-		case  GEO_CLASS_RAY3D:
-		case  GEO_CLASS_SEGMENT3D:
+		case  RAY:
+		case  SEGMENT:
+		case  RAY3D:
+		case  SEGMENT3D:
 			typePriority = 110; break;
-		case  GEO_CLASS_VECTOR:
+		case  VECTOR:
 			typePriority = 120; break;
-		case  GEO_CLASS_LOCUS:
+		case  LOCUS:
 			typePriority = 130; break;
-		case  GEO_CLASS_POINT:
-		case  GEO_CLASS_POINT3D:
+		case  POINT:
+		case  POINT3D:
 			typePriority = 140; break;
-		case  GEO_CLASS_TEXT:
+		case  TEXT:
 			typePriority = 150; break;
 		default: // shouldn't occur
 			Application.debug("missing case in getDrawingPriority()");
@@ -1252,7 +1193,7 @@ public abstract class GeoElement
 		}
 
 		//if (isGeoPoint() && geo.isGeoPoint()) {
-		if (getGeoClassType()==GeoElement.GEO_CLASS_POINT && geo.getGeoClassType()==GeoElement.GEO_CLASS_POINT) {
+		if (getGeoClassType()==GeoClass.POINT && geo.getGeoClassType()==GeoClass.POINT) {
 			((GeoPoint) this).setSpreadsheetTrace(((GeoPoint) geo).getSpreadsheetTrace());
 		}
 
@@ -1770,7 +1711,7 @@ public abstract class GeoElement
 	public boolean hasMoveableInputPoints(EuclidianViewInterface view) {
 		// allow only moving of certain object types
 		switch (getGeoClassType()) {
-			case GEO_CLASS_CONIC:
+			case CONIC:
 				
 				// special case for Circle[A, r]
 				if (getParentAlgorithm() instanceof AlgoCirclePointRadius) {
@@ -1779,20 +1720,20 @@ public abstract class GeoElement
 				
 				// fall through
 				
-			case GEO_CLASS_CONICPART:
-			case GEO_CLASS_IMAGE:
-			case GEO_CLASS_LINE:
-			case GEO_CLASS_LINEAR_INEQUALITY:
-			case GEO_CLASS_RAY:
-			case GEO_CLASS_SEGMENT:
-			case GEO_CLASS_TEXT:
+			case CONICPART:
+			case IMAGE:
+			case LINE:
+			case LINEAR_INEQUALITY:
+			case RAY:
+			case SEGMENT:
+			case TEXT:
 				return hasOnlyFreeInputPoints(view) && containsOnlyMoveableGeos(getFreeInputPoints(view));
 
-			case GEO_CLASS_POLYGON:
-			case GEO_CLASS_POLYLINE:
+			case POLYGON:
+			case POLYLINE:
 				return containsOnlyMoveableGeos(getFreeInputPoints(view));
 
-			case GEO_CLASS_VECTOR:
+			case VECTOR:
 				if (hasOnlyFreeInputPoints(view) && containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 					// check if first free input point is start point of vector
 					ArrayList<GeoPoint> freeInputPoints = getFreeInputPoints(view);
@@ -4083,7 +4024,7 @@ public abstract class GeoElement
 		String algebraDesc = geo.getAlgebraDescription();
 		StringBuilder sb = new StringBuilder();
 		
-		if(geo.isGeoList() && ((GeoList)geo).getElementType()==GEO_CLASS_TEXT)
+		if(geo.isGeoList() && ((GeoList)geo).getElementType()==GeoClass.TEXT)
 			return null;
 		// handle undefined
 		if(!geo.isDefined()){

@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
@@ -51,7 +52,7 @@ class CmdPolynomial extends CommandProcessor {
 			// Markus Hohenwarter 2008-01-26 BEGIN
 			// try to create list of points
 			GeoList list = wrapInList(kernel, arg, arg.length,
-					GeoElement.GEO_CLASS_POINT);
+					GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { kernel.PolynomialFunction(c.getLabel(),
 						list) };

@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -56,7 +57,7 @@ class CmdStemPlot extends CommandProcessor {
 
 		default:
 
-			GeoList list = wrapInList(kernel, arg, arg.length, -1);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
 			if (list != null) {
 				GeoElement[] ret2 = { kernel.StemPlot(c.getLabel(), list) };
 				return ret2;

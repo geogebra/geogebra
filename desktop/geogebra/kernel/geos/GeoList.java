@@ -32,7 +32,6 @@ import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -45,11 +44,10 @@ import java.util.ArrayList;
 public class GeoList extends GeoElement implements ListValue, LineProperties,
 		PointProperties, TextProperties, Traceable, Path, Transformable {
 
-	public final static int ELEMENT_TYPE_MIXED = -1;
+	public final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
 	public boolean trace;
 
-	private static final long serialVersionUID = 1L;
 	private static String STR_OPEN = "{";
 	private static String STR_CLOSE = "}";
 
@@ -62,7 +60,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private boolean isDefined = true;
 	private boolean isDrawable = true;
-	private int elementType = ELEMENT_TYPE_MIXED;
+	private GeoClass elementType = ELEMENT_TYPE_MIXED;
 
 	/**
 	 * Whether this lists show all properties in the properties dialog. This is
@@ -108,8 +106,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return "List";
 	}
 
-	public int getGeoClassType() {
-		return GEO_CLASS_LIST;
+	public GeoClass getGeoClassType() {
+		return GeoClass.LIST;
 	}
 
 	/**
@@ -117,7 +115,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * 
 	 * @return ELEMENT_TYPE_MIXED or GeoElement.GEO_CLASS_xx constant
 	 */
-	public int getElementType() {
+	public GeoClass getElementType() {
 		return elementType;
 	}
 
@@ -380,7 +378,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
-	private void setElementEuclidianVisible(GeoElement geo, boolean visible) {
+	private static void setElementEuclidianVisible(GeoElement geo, boolean visible) {
 		if (!geo.isLabelSet() && !geo.isGeoNumeric())
 			geo.setEuclidianVisible(visible);
 	}
@@ -1028,7 +1026,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public boolean isMatrix() {
 
-		if (getElementType() != GeoElement.GEO_CLASS_LIST || size() == 0)
+		if (getElementType() != GeoClass.LIST || size() == 0)
 			return false;
 
 
@@ -1038,7 +1036,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			if (length == 0) {
 				return false;
 			} else {
-				if (size() > 0)
+				if (size() > 0) {
 					for (int i = 0; i < size(); i++) {
 						GeoElement geoi = get(i);
 						// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
@@ -1049,16 +1047,16 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 						else {
 							for (int j=0; j<((GeoList) geoi).size(); j++){
 								GeoElement geoij=((GeoList)geoi).get(j);
-								if (geoij.getGeoClassType() != GeoElement.GEO_CLASS_NUMERIC
-										&& geoij.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTION
-										&& geoij.getGeoClassType() != GeoElement.GEO_CLASS_FUNCTION_NVAR)
+								if (geoij.getGeoClassType() != GeoClass.NUMERIC
+										&& geoij.getGeoClassType() != GeoClass.FUNCTION
+										&& geoij.getGeoClassType() != GeoClass.FUNCTION_NVAR)
 									return false;
 							}
 						}
 					}
+				}
 			}
 		}
-
 
 		return true;
 	}
@@ -1586,11 +1584,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		
 		
 		// check for matrix
-		if (getElementType() == GeoElement.GEO_CLASS_LIST) return true;
+		if (getElementType() == GeoClass.LIST) return true;
 		
 		// don't check getGeoElementForPropertiesDialog
 		// as we want matrices to use latex
-		if (getElementType() == GeoElement.GEO_CLASS_NUMERIC) return false;
+		if (getElementType() == GeoClass.NUMERIC) return false;
 		
 		return  super.isLaTeXDrawableGeo(latexStr);
 	}

@@ -78,8 +78,8 @@ public class GeoInterval extends GeoFunction {
 		return "Interval";
 	}
 
-	public int getGeoClassType() {
-		return GEO_CLASS_INTERVAL;
+	public GeoClass getGeoClassType() {
+		return GeoClass.INTERVAL;
 	}
 	
 	private StringBuilder sbToString2;

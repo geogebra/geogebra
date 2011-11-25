@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -20,36 +21,35 @@ import geogebra.kernel.geos.GeoText;
 
 import java.util.ArrayList;
 
-
-
-
 public class AlgoClasses extends AlgoElement {
 
-	private GeoList dataList; //input
-	private GeoNumeric start; //input
-	private GeoNumeric width; //input
-	private GeoNumeric numClasses; //input
+	private GeoList dataList; // input
+	private GeoNumeric start; // input
+	private GeoNumeric width; // input
+	private GeoNumeric numClasses; // input
 
-	private GeoList classList;  //output	
+	private GeoList classList; // output
 
 	// for compute
 
-	public AlgoClasses(Construction cons, String label, GeoList dataList, GeoNumeric start, GeoNumeric width, GeoNumeric numClasses ) {
-		
+	public AlgoClasses(Construction cons, String label, GeoList dataList,
+			GeoNumeric start, GeoNumeric width, GeoNumeric numClasses) {
+
 		this(cons, dataList, start, width, numClasses);
 		classList.setLabel(label);
 	}
 
-	public AlgoClasses(Construction cons, GeoList dataList, GeoNumeric start, GeoNumeric width, GeoNumeric numClasses ) {
-				super(cons);
-				this.dataList = dataList;
-				this.start = start;
-				this.width = width;
-				this.numClasses = numClasses;
+	public AlgoClasses(Construction cons, GeoList dataList, GeoNumeric start,
+			GeoNumeric width, GeoNumeric numClasses) {
+		super(cons);
+		this.dataList = dataList;
+		this.start = start;
+		this.width = width;
+		this.numClasses = numClasses;
 
-				classList = new GeoList(cons);
-				setInputOutput();
-				compute();
+		classList = new GeoList(cons);
+		setInputOutput();
+		compute();
 	}
 
 	@Override
@@ -58,25 +58,25 @@ public class AlgoClasses extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
 
 		tempList.add(dataList);
 
-		if(start !=null)
+		if (start != null)
 			tempList.add(start);
-		
-		if(width !=null)
+
+		if (width != null)
 			tempList.add(width);
 
-		if(numClasses !=null)
+		if (numClasses != null)
 			tempList.add(numClasses);
 
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
 
-        super.setOutputLength(1);
-        super.setOutput(0, classList);
+		super.setOutputLength(1);
+		super.setOutput(0, classList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -88,84 +88,82 @@ public class AlgoClasses extends AlgoElement {
 	public final void compute() {
 
 		// Validate input arguments
-		//=======================================================
+		// =======================================================
 
 		if (!dataList.isDefined() || dataList.size() == 0) {
-			classList.setUndefined();		
-			return; 		
-		}
-
-		if( !( dataList.getElementType() == GeoElement.GEO_CLASS_TEXT 
-				|| dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC )){
-			classList.setUndefined();		
+			classList.setUndefined();
 			return;
 		}
 
+		if (!(dataList.getElementType() == GeoClass.TEXT || dataList
+				.getElementType() == GeoClass.NUMERIC)) {
+			classList.setUndefined();
+			return;
+		}
 
 		classList.setDefined(true);
 		classList.clear();
 
-
-		// Get data max and min 
-		//=======================================================
+		// Get data max and min
+		// =======================================================
 
 		double minGeoValue = 0;
-		double maxGeoValue = 0; 
+		double maxGeoValue = 0;
 		String minGeoString;
-		String maxGeoString; 
+		String maxGeoString;
 
-		if(dataList.getElementType() == GeoElement.GEO_CLASS_NUMERIC){
-			minGeoValue = ((GeoNumeric)dataList.get(0)).getDouble();
-			maxGeoValue = ((GeoNumeric)dataList.get(0)).getDouble();
-			for (int i=1; i < dataList.size(); i++) {
-				double geoValue = ((GeoNumeric)dataList.get(i)).getDouble();
+		if (dataList.getElementType() == GeoClass.NUMERIC) {
+			minGeoValue = ((GeoNumeric) dataList.get(0)).getDouble();
+			maxGeoValue = ((GeoNumeric) dataList.get(0)).getDouble();
+			for (int i = 1; i < dataList.size(); i++) {
+				double geoValue = ((GeoNumeric) dataList.get(i)).getDouble();
 				minGeoValue = Math.min(geoValue, minGeoValue);
 				maxGeoValue = Math.max(geoValue, maxGeoValue);
 			}
 
-		}else{
-			minGeoString = ((GeoText)dataList.get(0)).toValueString();
-			maxGeoString = ((GeoText)dataList.get(0)).toValueString();
-			for (int i=1; i < dataList.size(); i++) {
-				String geoString = ((GeoText)dataList.get(i)).toValueString();
-				if(geoString.compareTo(minGeoString) < 0) minGeoString = geoString;
-				if(geoString.compareTo(maxGeoString) < 0) maxGeoString = geoString;
+		} else {
+			minGeoString = ((GeoText) dataList.get(0)).toValueString();
+			maxGeoString = ((GeoText) dataList.get(0)).toValueString();
+			for (int i = 1; i < dataList.size(); i++) {
+				String geoString = ((GeoText) dataList.get(i)).toValueString();
+				if (geoString.compareTo(minGeoString) < 0)
+					minGeoString = geoString;
+				if (geoString.compareTo(maxGeoString) < 0)
+					maxGeoString = geoString;
 			}
 		}
 
-		
-		// Create class list using number of classes	
-		//=======================================================
-	
-		if(input.length == 2){
+		// Create class list using number of classes
+		// =======================================================
+
+		if (input.length == 2) {
 
 			int n = (int) numClasses.getDouble();
-			if(n < 1)
+			if (n < 1)
 				classList.setUndefined();
-			
-			double width = (maxGeoValue - minGeoValue)/n;
-			for(int i = 0; i < n; i++){
-				classList.add(new GeoNumeric(cons, minGeoValue + i*width));
+
+			double width = (maxGeoValue - minGeoValue) / n;
+			for (int i = 0; i < n; i++) {
+				classList.add(new GeoNumeric(cons, minGeoValue + i * width));
 			}
-			classList.add(new GeoNumeric(cons,maxGeoValue));
+			classList.add(new GeoNumeric(cons, maxGeoValue));
 
 		}
 
-		
-		// Create class list using start and width 	
-		//=======================================================
-		if(input.length == 3){
+		// Create class list using start and width
+		// =======================================================
+		if (input.length == 3) {
 			double value = start.getDouble();
-			classList.add(new GeoNumeric(cons,value));
-			while (value < maxGeoValue){
+			classList.add(new GeoNumeric(cons, value));
+			while (value < maxGeoValue) {
 				value = value + width.getDouble();
-				//System.out.println("value: " + value + "max: " + maxGeoValue);
-				classList.add(new GeoNumeric(cons,value));
+				// System.out.println("value: " + value + "max: " +
+				// maxGeoValue);
+				classList.add(new GeoNumeric(cons, value));
 			}
-			if(classList.size()<2)
+			if (classList.size() < 2)
 				classList.setUndefined();
 		}
 	}
-
 
 }

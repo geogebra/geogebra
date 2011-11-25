@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.ExpressionValue;
@@ -28,10 +29,10 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
-import geogebra.main.Application;
 
 import java.util.HashSet;
 
@@ -187,7 +188,7 @@ implements Vector3DValue {
      * those of vector v. 
      */
     final public boolean equals(GeoVec2D v) {                   
-        return kernel.isEqual(x, v.x) && kernel.isEqual(y, v.y);                   
+        return AbstractKernel.isEqual(x, v.x) && AbstractKernel.isEqual(y, v.y);                   
     }
     
     /** Yields true if this vector and v are linear dependent 
@@ -481,7 +482,7 @@ implements Vector3DValue {
     
     final public ExpressionValue evaluate() { return this; }
     
-    final public HashSet getVariables() { return null; }
+    final public HashSet<GeoElement> getVariables() { return null; }
     
     final public void setMode(int mode) {
         this.mode = mode;
@@ -547,7 +548,7 @@ implements Vector3DValue {
 	 
 	 /** multiplies 2D vector by a 2x2 matrix
 	  * 
-	  * @param 2x2 matrix
+	  * @param list 2x2 matrix
 	  */
 	 public void multiplyMatrix(MyList list)
 	 {
@@ -571,14 +572,14 @@ implements Vector3DValue {
 	  *  a b c
 	  *  d e f
 	  *  g h i
-	  * @param 3x3 matrix
-	  * @param GeoVec3D (as ExpressionValue) to get homogeneous coords from
+	  * @param list 3x3 matrix
+	  * @param rt GeoVec3D (as ExpressionValue) to get homogeneous coords from
 	  */
 	 public void multiplyMatrixAffine(MyList list, ExpressionValue rt)
 	 {
 			if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3) return;
 		 
-			double a,b,c,d,e,f,g,h,i,x1,y1,z1,xx = x, yy = y, zz = z;
+			double a,b,c,d,e,f,g,h,i,xx = x, yy = y, zz = z;
 			
 			if (rt instanceof GeoVector3D) {
 				GeoVector3D p = (GeoVector3D)rt;
@@ -612,12 +613,12 @@ implements Vector3DValue {
 			return true;
 		}
 
-		public MyVec3DNode get3DVecNode() {
+		public static MyVec3DNode get3DVecNode() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		public Coords get3DVector() {
+		public static Coords get3DVector() {
 			// TODO Auto-generated method stub
 			return null;
 		}

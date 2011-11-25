@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordSys;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
@@ -115,7 +116,7 @@ public class AlgoPolyLine extends AlgoElement {
      */
     private void updatePointArray(GeoList pointList) {
     	// check if we have a point list
-    	if (pointList.getElementType() != GeoElement.GEO_CLASS_POINT) {
+    	if (pointList.getElementType() != GeoClass.POINT) {
     		poly.setUndefined();
     		return;
     	}

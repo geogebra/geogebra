@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
@@ -29,7 +30,6 @@ import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoDependentVector;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.VectorValue;
@@ -49,18 +49,13 @@ final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
 Transformable, GeoVectorND {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoPoint startPoint;
 
 	// for path interface we use a segment
 	private GeoSegment pathSegment;
 	private GeoPoint pathStartPoint, pathEndPoint;
 	private boolean waitingForStartPoint = false;
-	private HashSet waitingPointSet;
+	private HashSet<GeoPointND> waitingPointSet;
 
 	/** Creates new GeoVector */
 	public GeoVector(Construction c) {
@@ -76,8 +71,8 @@ Transformable, GeoVectorND {
 		return "Vector";
 	}
 
-	public int getGeoClassType() {
-		return GEO_CLASS_VECTOR;
+	public GeoClass getGeoClassType() {
+		return GeoClass.VECTOR;
 	}   
 
 	final public boolean isCasEvaluableObject() {
@@ -244,7 +239,7 @@ Transformable, GeoVectorND {
 				updatePathSegment();
 
 				GeoPoint P;
-				Iterator it = waitingPointSet.iterator();
+				Iterator<GeoPointND> it = waitingPointSet.iterator();
 				while (it.hasNext()) {
 					P = (GeoPoint) it.next();
 					pathSegment.pointChanged(P);					
@@ -300,7 +295,7 @@ Transformable, GeoVectorND {
 		GeoVector v = (GeoVector)geo;
 
 		if (!(isFinite() && v.isFinite())) return false;                                        
-		else return kernel.isEqual(x, v.x) && kernel.isEqual(y, v.y);                                            
+		else return AbstractKernel.isEqual(x, v.x) && AbstractKernel.isEqual(y, v.y);                                            
 	}
 
 
@@ -539,7 +534,7 @@ Transformable, GeoVectorND {
 	public void pointChanged(GeoPointND P) {
 		if (startPoint == null && waitingForStartPoint) {
 			// remember waiting points
-			if (waitingPointSet == null) waitingPointSet = new HashSet();
+			if (waitingPointSet == null) waitingPointSet = new HashSet<GeoPointND>();
 			waitingPointSet.add(P);
 			return;
 		}

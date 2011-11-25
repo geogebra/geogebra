@@ -35,6 +35,7 @@ import geogebra.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
@@ -2880,7 +2881,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			
 			// repopulate model with names of points from the geoList's model
 			// take all points from construction
-			TreeSet<GeoElement> points = kernel.getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_POINT);
+			TreeSet<GeoElement> points = kernel.getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
 			if (points.size() != cbModel[0].getSize() - 1) {			
 				// clear models
 				for (int k=0; k<3; k++) {					
@@ -3867,8 +3868,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 		
 		public void setEditPanel(TextEditPanel tep) {
-			this.editPanel = tep;
-			
+			this.editPanel = tep;		
 		}
 
 		public void setLabels() {
@@ -5408,7 +5408,6 @@ class SliderPanel
 	
 	private Application app;
 	private AnimationStepPanel stepPanel;
-	private TextfieldSizePanel textFieldSizePanel;
 	private AnimationSpeedPanel speedPanel;
 	private Kernel kernel;
 	private PropertiesPanel propPanel;
@@ -6684,15 +6683,12 @@ class GraphicsViewLocationPanel
 	
 	private Kernel kernel;
 	private Application app;
-	private EuclidianView ev;
 	private PropertiesPanel propPanel;
 
 	public GraphicsViewLocationPanel(Application app, PropertiesPanel propPanel) {
 		this.app = app;
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
-
-		ev = app.getEuclidianView();
 				
 		cbGraphicsView = new JCheckBox();
 		cbGraphicsView2 = new JCheckBox();		

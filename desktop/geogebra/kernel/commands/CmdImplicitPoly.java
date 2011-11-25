@@ -5,6 +5,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
+import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
@@ -64,7 +65,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 			if (arg[0].isNumberValue()) {
 				// try to create list of numbers
 				GeoList list = wrapInList(kernel, arg, arg.length,
-						GeoElement.GEO_CLASS_NUMERIC);
+						GeoClass.NUMERIC);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
 					return ret;
@@ -72,12 +73,11 @@ public class CmdImplicitPoly extends CommandProcessor {
 			} else if (arg[0].isVectorValue()) {
 				// try to create list of points (eg FitExp[])
 				GeoList list = wrapInList(kernel, arg, arg.length,
-						GeoElement.GEO_CLASS_POINT);
+						GeoClass.POINT);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
 					return ret;
 				}
-
 			}
 			throw argNumErr(app, c.getName(), n);
 		}
