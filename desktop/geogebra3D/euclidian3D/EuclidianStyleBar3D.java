@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianStyleBar;
+import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.kernel.geos.GeoElement;
@@ -143,7 +144,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view perspective button	
-		btnViewDefault = new MyToggleButton(app.getImageIcon("view_default.gif")){
+		btnViewDefault = new MyToggleButton(app.getImageIcon("view_default.gif"),iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -155,7 +156,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view xy button	
-		btnViewXY = new MyToggleButton(app.getImageIcon("view_xy.gif")){
+		btnViewXY = new MyToggleButton(app.getImageIcon("view_xy.gif"),iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -166,7 +167,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view xz button	
-		btnViewXZ = new MyToggleButton(app.getImageIcon("view_xz.gif")){
+		btnViewXZ = new MyToggleButton(app.getImageIcon("view_xz.gif"),iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -177,7 +178,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		
 		//========================================
 		// view yz button	
-		btnViewYZ = new MyToggleButton(app.getImageIcon("view_yz.gif")){
+		btnViewYZ = new MyToggleButton(app.getImageIcon("view_yz.gif"),iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
