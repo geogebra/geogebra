@@ -19,16 +19,16 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.util.StringUtil;
-import geogebra.gui.view.algebra.AlgebraView;
+
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -1385,7 +1385,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	 * remove all outputs from algebra view
 	 */
 	public void removeOutputFromAlgebraView(){
-		AlgebraView av = app.getAlgebraView();
+		View av = app.getAlgebraView();
 		if (av != null)
 			for (int i=0; i<getOutputLength();i++)
 				av.remove(getOutput(i));

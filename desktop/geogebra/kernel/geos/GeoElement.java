@@ -20,6 +20,7 @@ package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -34,7 +35,6 @@ import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoCirclePointRadius;
-import geogebra.kernel.algos.AlgoDrawInformation;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;

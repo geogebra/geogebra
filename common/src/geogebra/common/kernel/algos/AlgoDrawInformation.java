@@ -1,4 +1,4 @@
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 /**
  * Algos that contain information needed for object drawing

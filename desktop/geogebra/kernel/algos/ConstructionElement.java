@@ -17,6 +17,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
+
 import java.util.TreeSet;
 
 public abstract class ConstructionElement 

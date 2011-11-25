@@ -21,6 +21,7 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -142,7 +143,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 
-public class Application implements KeyEventDispatcher {
+public class Application extends AbstractApplication implements KeyEventDispatcher {
 	
 	// disabled parts
 	private static final boolean PRINT_DEBUG_MESSAGES = true;
