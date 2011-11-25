@@ -887,12 +887,12 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
             // calulate the min and max x-coords of what actually needs to be drawn
 			// do subsampling only in this region
-			EuclidianView ev = app.getEuclidianView();
-            double visibleMin = Math.max(Math.min(ad, bd), ev.getXmin());
-            double visibleMax = Math.min(Math.max(ad, bd), ev.getXmax());	
+			
+            double visibleMin = Math.max(Math.min(ad, bd), app.getXmin());
+            double visibleMax = Math.min(Math.max(ad, bd), app.getXmax());	
             
             // subsample every 5 pixels
-            double noOfSamples = Math.abs(ev.toScreenCoordXd(visibleMax) - ev.toScreenCoordX(visibleMin)) / SAMPLE_PIXELS;
+            double noOfSamples = app.countPixels(visibleMin, visibleMax) / SAMPLE_PIXELS;
             
 			double subStep = Math.abs(visibleMax - visibleMin) / noOfSamples;	
 			boolean doSubSamples = !Kernel.isZero(subStep) && Math.abs(STEP) > subStep;	

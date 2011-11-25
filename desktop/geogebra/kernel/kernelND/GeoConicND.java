@@ -3121,8 +3121,8 @@ Translateable
 					fv,
 					Operation.MULTIPLY,
 					fv);
-			min = app.getEuclidianView().getXminForFunctions();
-			max = app.getEuclidianView().getXmaxForFunctions();
+			min = app.getXminForFunctions();
+			max = app.getXmaxForFunctions();
 			}
 		else return;
 		ExpressionNode rwX = new ExpressionNode(kernel,new ExpressionNode(kernel, 

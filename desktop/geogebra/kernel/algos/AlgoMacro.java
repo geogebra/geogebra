@@ -211,8 +211,8 @@ implements EuclidianViewCE {
 	 */
 	private void createOutputObjects() {		
 		setOutputLength(macroOutput.length);								 						
-		EuclidianView ev = app.getEuclidianView();
-		int layer = ev == null ? 0 :ev.getMaxLayerUsed();
+		
+		int layer = app.getMaxLayerUsed();
 		for (int i=0; i < macroOutput.length; i++) {  
 			// copy output object of macro and make the copy part of this construction
 			setOutput(i,macroOutput[i].copyInternal(cons));

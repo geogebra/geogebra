@@ -651,7 +651,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 				setObjColor(ConstructionDefaults.colPoint);
 			// move from Dependent to Independent in AlgebraView
 			if (app.isUsingFullGui())
-				((AlgebraView) (app.getGuiManager().getAlgebraView()))
+				((AlgebraView) (app.getAlgebraView()))
 						.rename((GeoElement) this);
 		}
 

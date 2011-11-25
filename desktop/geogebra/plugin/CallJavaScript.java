@@ -1,12 +1,13 @@
 package geogebra.plugin;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class CallJavaScript {
-	public static void evalScript(Application app, String script, String arg) {
+	public static void evalScript(AbstractApplication app, String script, String arg) {
 		// Application.debug(app.getKernel().getLibraryJavaScript() + script);
 		Context cx = Context.enter();
 		// Initialize the standard objects (Object, Function, etc.)
@@ -16,7 +17,7 @@ public class CallJavaScript {
 
 		// initialise the JavaScript variable applet so that we can call
 		// GgbApi functions, eg ggbApplet.evalCommand()
-		GeoGebraGlobal.initStandardObjects(app, scope, arg, false);
+		GeoGebraGlobal.initStandardObjects((Application)app, scope, arg, false);
 
 		// JavaScript to execute
 		// String s = "ggbApplet.evalCommand('F=(2,3)')";
@@ -28,7 +29,7 @@ public class CallJavaScript {
 			Context.setCachingEnabled(false);
 		}
 		// Now evaluate the string we've collected.
-		Object result = cx.evaluateString(scope, app.getKernel()
+		Object result = cx.evaluateString(scope, ((Application)app).getKernel()
 				.getLibraryJavaScript() + script, app.getPlain("ErrorAtLine"),
 				1, null);
 

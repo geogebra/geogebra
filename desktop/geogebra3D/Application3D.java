@@ -175,7 +175,8 @@ public class Application3D extends Application{
 	 * @return create a new euclidian view for the plane
 	 */
 	@Override
-	public EuclidianView createEuclidianViewForPlane(GeoCoordSys2D plane){
+	public EuclidianView createEuclidianViewForPlane(Object o){
+		GeoCoordSys2D plane = (GeoCoordSys2D) o;
 		// create new view for plane and controller
 		EuclidianController ec = new EuclidianControllerForPlane(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);

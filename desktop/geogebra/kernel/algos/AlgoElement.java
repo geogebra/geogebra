@@ -1385,7 +1385,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	 * remove all outputs from algebra view
 	 */
 	public void removeOutputFromAlgebraView(){
-		View av = app.getAlgebraView();
+		View av = (View) app.getAlgebraView();
 		if (av != null)
 			for (int i=0; i<getOutputLength();i++)
 				av.remove(getOutput(i));

@@ -594,8 +594,8 @@ public class GeoFunctionConditional extends GeoFunction {
 		curve.setFunctionY(fn);
 		Function varFun = new Function(new ExpressionNode(kernel,t),t);
 		curve.setFunctionX(varFun);
-		double min = app.getEuclidianView().getXminForFunctions();
-		double max = app.getEuclidianView().getXmaxForFunctions();
+		double min = app.getXminForFunctions();
+		double max = app.getXmaxForFunctions();
 		curve.setInterval(min, max);   
 		curve.setHideRangeInFormula(true);
 	}

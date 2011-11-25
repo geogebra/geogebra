@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
-import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
@@ -20,7 +19,7 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.roots.RealRootFunction;
-import geogebra.main.Application;
+//import geogebra.main.Application;
 
 import java.util.ArrayList;
 
@@ -160,9 +159,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     					m=m*2;
     				}//
     			}while( m<MAX_SAMPLES );
-    			if(m>MAX_SAMPLES) Application.debug("We have probably lost some extremums...");
+    			if(m>MAX_SAMPLES) app.debugNotStatic("We have probably lost some extremums...");
     		}catch(Exception e){
-    			Application.debug("Exception in compute() "+e.toString());
+    			app.debugNotStatic("Exception in compute() "+e.toString());
     		}//try-catch
     	    if(numberOfExtremums==0){
     	    	setPoints(new double[1],0);
@@ -239,10 +238,10 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	//pixels_in_visible_interval=...
     	//n=pixels_in_visible_interval/PIXELS_BETWEEN_SAMPLES;
     	
-    	EuclidianView ev	=	app.getEuclidianView();
-    	double visiblemax	=	ev.getXmax();
-    	double visiblemin	=	ev.getXmin();
-    	double visiblepixs	=	ev.toScreenCoordXd(visiblemax)-ev.toScreenCoordXd(visiblemin);
+    	
+    	double visiblemax	=	app.getXmax();
+    	double visiblemin	=	app.getXmin();
+    	double visiblepixs	=	app.countPixels(visiblemin, visiblemax);
     	//debug("Visible pixels: "+visiblepixs);
     	double pixsininterval=	visiblepixs*(r-l)/(visiblemax-visiblemin);
     	//debug("Pixels in interval: "+pixsininterval);
@@ -270,14 +269,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	
     }//Test constructor
 
-    
-	private static final boolean DEBUG	= true;
-	
-    private final static void debug(String s) {
-        if(DEBUG) {
-        	Application.debug(s);
-        }//if()
-    }//debug()       
+    	        
     
     private final static void listArray(double[] a){
     	int l=a.length;

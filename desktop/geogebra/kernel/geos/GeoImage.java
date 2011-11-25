@@ -204,7 +204,7 @@ implements Locateable, AbsoluteScreenLocateable,
 				
 		this.imageFileName = fileName;
 														
-		image = app.getExternalImage(fileName);	
+		image = (BufferedImage)app.getExternalImage(fileName);	
 		if (image != null) {
 			pixelWidth = image.getWidth();
 			pixelHeight = image.getHeight();

@@ -26,7 +26,6 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.TraceSettings;
 import geogebra.kernel.AnimationManager;
 import geogebra.kernel.Construction;
@@ -1042,9 +1041,7 @@ public abstract class GeoElement
 		if (layer > EuclidianView.MAX_LAYERS) layer = EuclidianView.MAX_LAYERS;
 		else if (layer < 0) layer = 0;
 	
-		EuclidianViewInterface ev = app.getActiveEuclidianView();//app.getEuclidianView();
-		if (ev != null)
-			ev.changeLayer(this,this.layer,layer);
+		app.changeLayer(this,this.layer,layer);
 		
 		this.layer=layer;
 	}
@@ -1532,7 +1529,7 @@ public abstract class GeoElement
 		switch (tooltipMode) {
 		default:
 		//case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!(app.isUsingFullGui() && app.getGuiManager().showView(Application.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui() && app.showView(Application.VIEW_ALGEBRA))) {
 				return false;
 			} else
 				return isAlgebraVisible(); // old behaviour
@@ -1552,7 +1549,7 @@ public abstract class GeoElement
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!alwaysOn)
-			if (!(app.isUsingFullGui() && app.getGuiManager().showView(Application.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui() && app.showView(Application.VIEW_ALGEBRA))) {
 				return "";
 			}
 			// else fall through:
@@ -3135,7 +3132,7 @@ public abstract class GeoElement
 		
 		//G.Sturr 2010-6-26
 		if(getSpreadsheetTrace() && app.isUsingFullGui()){
-			app.getGuiManager().traceToSpreadsheet(this);
+			app.traceToSpreadsheet(this);
 
 		}
 		//END G.Sturr		
@@ -4601,8 +4598,7 @@ public abstract class GeoElement
 
 		// trace to spreadsheet
 		if (app.isUsingFullGui() && isSpreadsheetTraceable() && getSpreadsheetTrace()) {
-			sb.append( ((SpreadsheetView) app.getGuiManager().getSpreadsheetView())
-					.getTraceManager().getTraceXML(this));
+			sb.append( app.getTraceXML(this));
 		}
 
 		/* --- old version
@@ -5559,7 +5555,7 @@ public abstract class GeoElement
 	 */
 	public void resetTraceColumns() {
 		if (app.isUsingFullGui())
-			app.getGuiManager().resetTraceColumn(this);
+			app.resetTraceColumn((Object)this);
 	}
 
 	/** @return if geos of this type can be traced to the spreadsheet */
@@ -5757,7 +5753,7 @@ public abstract class GeoElement
 			else
 				this.updateScript = script;
 		}
-		app.getScriptManager().initJavaScriptViewWithoutJavascript();
+		app.initJavaScriptViewWithoutJavascript();
 	}
 
 	public boolean canHaveUpdateScript() {
@@ -5821,10 +5817,10 @@ public abstract class GeoElement
 			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
 				if (arg == null) {
 					Object [] args = { };
-					app.getApplet().callJavaScript("ggb"+getLabel(), args);
+					app.callJavaScript("ggb"+getLabel(), args);
 				} else {
 					Object [] args = { arg };
-					app.getApplet().callJavaScript("ggb"+getLabel(), args);
+					app.callJavaScript("ggb"+getLabel(), args);
 				}
 			} else {
 				CallJavaScript.evalScript(app, update ? updateScript:clickScript, arg);
@@ -6018,10 +6014,10 @@ public abstract class GeoElement
 		if (image != null) return image;
 
 		if (imageFileName.startsWith("/geogebra")) {
-			Image im = app.getImageManager().getImageResource(imageFileName);
+			Image im = ((Application)app).getImageManager().getImageResource(imageFileName);
 			image = ImageManager.toBufferedImage(im);
 		} else {
-			image = app.getExternalImage(imageFileName);
+			image = ((Application)app).getExternalImage(imageFileName);
 		}
 
 		return image;
@@ -6054,11 +6050,11 @@ public abstract class GeoElement
 		this.imageFileName = fileName;
 
 		if (fileName.startsWith("/geogebra")) { // internal image
-			Image im = app.getImageManager().getImageResource(imageFileName);
+			Image im = ((Application)app).getImageManager().getImageResource(imageFileName);
 			image = ImageManager.toBufferedImage(im);
 
 		} else {
-			image = app.getExternalImage(fileName);
+			image = ((Application)app).getExternalImage(fileName);
 		}
 	}
 

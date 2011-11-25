@@ -38,6 +38,7 @@ import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
+import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.io.MyXMLHandler;
 import geogebra.io.MyXMLio;
 import geogebra.io.layout.DockPanelData;
@@ -167,14 +168,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 			"jlm_cyrillic.jar",  // Cyrillic Unicode codeblock (for LaTeX texts)
 			"geogebra_properties.jar" };
 	
-	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
 	
-	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
-	public static final String WIKI_MANUAL = "Manual:Main Page";
-	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
-	public static final String WIKI_EXPORT_WORKSHEET = "Export_Worksheet_Dialog";
-	public static final String WIKI_ADVANCED = "Advanced Features";
-	public static final String WIKI_TEXT_TOOL = "Insert Text Tool";
 
 	// supported GUI languages (from properties files)
 	public static ArrayList<Locale> supportedLocales = new ArrayList<Locale>();
@@ -394,22 +388,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 	
 	private boolean useFullGui = false;
 	
-	public static final int VIEW_NONE = 0;
-	public static final int VIEW_EUCLIDIAN = 1;
-	public static final int VIEW_ALGEBRA = 2;
-	public static final int VIEW_SPREADSHEET = 4;
-	public static final int VIEW_CAS = 8;
-	public static final int VIEW_EUCLIDIAN2 = 16;
-	public static final int VIEW_CONSTRUCTION_PROTOCOL = 32;
-	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
-	public static final int VIEW_FUNCTION_INSPECTOR = 128;
-	public static final int VIEW_INSPECTOR = 256;
-    public static final int VIEW_EUCLIDIAN3D = 512;
-    public static final int VIEW_EUCLIDIAN_FOR_PLANE = 1024;
-    public static final int VIEW_PLOT_PANEL = 2048;
-    public static final int VIEW_TEXT_PREVIEW = 4096;
-	public static final int VIEW_PROPERTIES = 4097;
-
+	
 	/**
 	 * The preferred size of this application. Used in case the frame size should be updated.
 	 */
@@ -4338,12 +4317,12 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		removeSelectedGeo(geo, true);
 	}
 
-	final public void removeSelectedGeo(GeoElement geo, boolean repaint) {
+	final public void removeSelectedGeo(Object geo, boolean repaint) {
 		if (geo == null)
 			return;
 
 		selectedGeos.remove(geo);
-		geo.setSelected(false);
+		((GeoElement)geo).setSelected(false);
 		if (repaint)
 			kernel.notifyRepaint();
 		updateSelection();
@@ -5682,7 +5661,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 
 
 	//TODO remove this after ggb v>=5 (replace with same from Application3D)
-	public EuclidianView createEuclidianViewForPlane(GeoCoordSys2D plane) {
+	public EuclidianView createEuclidianViewForPlane(Object plane) {
 		return null;
 	}
 	
@@ -6089,7 +6068,80 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		getGuiManager().updateAlgebraInput(); 
 		updateMenubar(); 
 	}
+	public void callJavaScript(String jsFunction, Object [] args){
+		
+	}
 	
+	public boolean showView(int view){
+		return getGuiManager().showView(view);
+	}
+	//TODO: change parameter to GeoElement once it is ported
+	public void traceToSpreadsheet(Object ge){
+		getGuiManager().traceToSpreadsheet((GeoElement)ge);
+	}
+	//TODO: change parameter to GeoElement once it is ported
+	public void resetTraceColumn(Object ge){
+		getGuiManager().resetTraceColumn((GeoElement)ge);
+	}
+	public void initJavaScriptViewWithoutJavascript(){
+		getScriptManager().initJavaScriptViewWithoutJavascript();
+	}
+	//TODO: change parameter to GeoElement once it is ported
+	public String getTraceXML(Object ge){
+		return ((SpreadsheetView) getGuiManager().getSpreadsheetView())
+				.getTraceManager().getTraceXML((GeoElement)ge);
+	}
+	public void changeLayer(Object ge, int layer, int layer2) {
+		EuclidianViewInterface ev = getActiveEuclidianView();//app.getEuclidianView();
+		if (ev != null)
+			ev.changeLayer((GeoElement)ge,((GeoElement)ge).layer,layer);
+		
+		
+	}
+	@Override
+	public double getXmin() {
+		// TODO Auto-generated method stub
+		return getEuclidianView().getXmin();
+	}
+
+	@Override
+	public double getXmax() {
+		// TODO Auto-generated method stub
+		return getEuclidianView().getXmax();
+	}
+
+
+	@Override
+	public double getXminForFunctions() {
+		// TODO Auto-generated method stub
+		return getEuclidianView().getXminForFunctions();
+	}
+
+	@Override
+	public double getXmaxForFunctions() {
+		// TODO Auto-generated method stub
+		return getEuclidianView().getXmaxForFunctions();
+	}
+	public int getMaxLayerUsed(){
+		EuclidianView ev = getEuclidianView();
+		return ev == null ? 0 :ev.getMaxLayerUsed();
+	}
+
+
+
+	@Override
+	public double countPixels(double min, double max) {
+		EuclidianView ev = getEuclidianView();
+		return ev.toScreenCoordXd(max)-ev.toScreenCoordXd(min);
+	}
+
+
+
+	@Override
+	public void debugNotStatic(Object s) {
+		Application.debug(s);
+		
+	}
 }
 
 

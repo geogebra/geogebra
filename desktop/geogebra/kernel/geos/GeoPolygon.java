@@ -1437,7 +1437,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	private EuclidianView euclidianViewForPlane;
 	
 	public void createView2D(){
-		euclidianViewForPlane = app.createEuclidianViewForPlane(this);	
+		euclidianViewForPlane = (EuclidianView)app.createEuclidianViewForPlane(this);	
 	}
 	
 	public void update(){

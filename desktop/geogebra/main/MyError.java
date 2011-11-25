@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.main;
 
+import geogebra.common.main.AbstractApplication;
+
 
 
 /**
@@ -31,25 +33,25 @@ public class MyError extends java.lang.Error {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected Application app;
+	protected AbstractApplication app;
     private String [] strs;
     private String commandName = null;
     
     /** Creates new MyError */
-    public MyError(Application app, String errorName) {
+    public MyError(AbstractApplication app, String errorName) {
         // set localized message
         super(errorName);
         this.app = app;
     }
     
-    public MyError(Application app, String errorName, String commandName) {
+    public MyError(AbstractApplication app, String errorName, String commandName) {
         // set localized message
         super(errorName);
         this.app = app;
         this.commandName = commandName;
     }
     
-    public MyError(Application app, String [] strs) {
+    public MyError(AbstractApplication app, String [] strs) {
         this.app = app;
         // set localized message        
         this.strs = strs;

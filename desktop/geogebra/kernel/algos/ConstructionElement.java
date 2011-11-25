@@ -15,7 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 
 import java.util.TreeSet;
@@ -34,7 +34,7 @@ implements Comparable<ConstructionElement> {
     
 	public transient Construction cons; // parent construction of this element
 	public transient Kernel kernel;      // parent kernel of this element
-	protected transient Application app;  // parent application of this element
+	protected transient AbstractApplication app;  // parent application of this element
 	
 	private int constIndex = -1; // index in construction list 
 	
