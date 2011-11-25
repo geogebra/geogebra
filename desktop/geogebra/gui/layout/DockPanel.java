@@ -244,7 +244,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
 		this.isAlone = false;
-		this.setMinimumSize(new Dimension(5,5));
+		this.setMinimumSize(new Dimension(100,100));
 		setLayout(new BorderLayout());
 	}
 	
