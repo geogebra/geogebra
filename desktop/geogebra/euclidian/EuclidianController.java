@@ -21,6 +21,7 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPolygon;
+import geogebra.kernel.algos.AlgoTranslate;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.Dilateable;
@@ -1424,6 +1425,77 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		else if (!movedGeoElement.isMoveable(view)) {
 			
 			translateableGeos = null;
+			GeoVector vec = null;
+			boolean sameVector = true;
+
+			// allow dragging of Translate[Object, vector] if 'vector' is independent
+			if (movedGeoElement.isGeoPolygon()) {
+				GeoPolygon poly = (GeoPolygon) movedGeoElement;
+				GeoPointND[] pts = poly.getPoints();
+
+				// get vector for first point
+				AlgoElement algo = (AlgoElement) ((GeoElement)pts[0]).getParentAlgorithm();
+				if (algo instanceof AlgoTranslate) {
+					GeoElement[] input = algo.getInput();				
+					vec = (GeoVector) input[1];
+
+					// now check other points are translated by the same vector
+					for (int i = 1 ; i < pts.length ; i++) {
+						algo =  ((GeoElement)pts[i]).getParentAlgorithm();
+						if (!(algo instanceof AlgoTranslate)) {
+							sameVector = false;
+							break;							
+						}
+						input = algo.getInput();
+
+						GeoVector vec2 = (GeoVector) input[1];
+						if (vec != vec2) {
+							sameVector = false;
+							break;
+						}
+
+					}
+
+				}
+			} else if (movedGeoElement.isGeoSegment() || movedGeoElement.isGeoRay()) {
+				GeoLine line = (GeoLine) movedGeoElement;
+				GeoPoint start = line.getStartPoint();
+				GeoPoint end = line.getEndPoint();
+				
+				if (start != null && end != null) {
+					// get vector for first point
+					AlgoElement algo = start.getParentAlgorithm();
+					AlgoElement algo2 = end.getParentAlgorithm();
+					if (algo instanceof AlgoTranslate && algo2 instanceof AlgoTranslate) {
+						GeoElement[] input = algo.getInput();				
+						vec = (GeoVector) input[1];
+						GeoElement[] input2 = algo2.getInput();				
+						GeoVector vec2 = (GeoVector) input2[1];
+						
+						// now check if points are translated by the same vector
+						if (vec != vec2) {
+							sameVector = false;
+						}
+							
+						
+					}
+				}
+			} else if (movedGeoElement.isTranslateable()) {
+				AlgoElement algo = movedGeoElement.getParentAlgorithm();
+				if (algo instanceof AlgoTranslate) {
+					GeoElement[] input = algo.getInput();				
+					vec = (GeoVector) input[1];
+				}
+			}
+			if (vec != null && sameVector && vec.isIndependent()) {
+				transformCoordsOffset[0]=xRW - vec.x;
+				transformCoordsOffset[1]=yRW - vec.y;
+				movedGeoVector = vec;
+				moveMode = MOVE_VECTOR;
+				return;
+			}
+
+
 			// point with changeable coord parent numbers
 			if (movedGeoElement.hasChangeableCoordParentNumbers()) {
 				movedGeoElement.recordChangeableCoordParentNumbers();
@@ -1848,6 +1920,26 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (!DRAGGING_OCCURED) {
 			
 			DRAGGING_OCCURED = true;			
+			
+			if (mode == EuclidianConstants.MODE_TRANSLATE_BY_VECTOR && selGeos() == 0) {
+				view.setHits(mouseLoc);
+
+				Hits hits = view.getHits().getTopHits();
+				
+				GeoElement topHit = hits.get(0);
+
+				if (topHit.isTranslateable()) {
+					GeoVector vec = kernel.Vector(null, 0, 0);
+					vec.setEuclidianVisible(false);
+					kernel.Translate(null, hits.get(0), vec);
+					transformCoordsOffset[0] = xRW;
+					transformCoordsOffset[1] = yRW;
+					app.setMode(EuclidianConstants.MODE_MOVE);
+					movedGeoVector = vec;
+					moveMode = MOVE_VECTOR;
+					return;
+				}
+			}
 
 			// Michael Borcherds 2007-10-07 allow right mouse button to drag points
 			// mathieu : also if it's mode point, we can drag the point
@@ -3542,7 +3634,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	final protected void moveVector(boolean repaint) {
 		GeoPoint P = movedGeoVector.getStartPoint();
 		if (P == null) {
-			movedGeoVector.setCoords(xRW, yRW, 0.0);
+			movedGeoVector.setCoords(xRW- transformCoordsOffset[0], yRW - transformCoordsOffset[1], 0.0);
 		} else {
 			movedGeoVector.setCoords(xRW - P.inhomX, yRW - P.inhomY, 0.0);
 		}
