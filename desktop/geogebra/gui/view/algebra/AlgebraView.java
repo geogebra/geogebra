@@ -20,7 +20,7 @@ package geogebra.gui.view.algebra;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
@@ -28,8 +28,9 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 	private MyRenderer renderer;
 	private MyDefaultTreeCellEditor editor;
-	private AutoCompleteTextField editTF;
+	private MathTextField editTF;
 
 	// store all pairs of GeoElement -> node in the Tree
 	private HashMap<GeoElement, DefaultMutableTreeNode> nodeTable = new HashMap<GeoElement, DefaultMutableTreeNode>(
@@ -264,8 +265,9 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 	private void initTreeCellRendererEditor() {
 		renderer = newMyRenderer(app);
-		editTF = new AutoCompleteTextField(0, app, true);
-		editTF.setAutoComplete(false);
+		editTF = new MathTextField(app);
+		editTF.enableColoring(false);
+		editTF.setShowSymbolTableIcon(true);
 		editor = new MyDefaultTreeCellEditor(this, renderer, new MyCellEditor(
 				editTF, app));
 
@@ -775,6 +777,8 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		return renderLaTeX;
 	}
 
+	
+	
 	/**
 	 * inner class MyEditor handles editing of tree nodes
 	 * 
@@ -786,6 +790,9 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		public MyDefaultTreeCellEditor(AlgebraView tree,
 				DefaultTreeCellRenderer renderer, DefaultCellEditor editor) {
 			super(tree, renderer, editor);
+			// editor container that expands to fill the width of the tree's enclosing panel
+			editingContainer = new WideEditorContainer();
+			setPreferredSize(editingContainer.getPreferredSize());
 		}
 
 		/*
@@ -877,8 +884,88 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 			}
 		}
 
+
+		/**
+		 * Overrides getTreeCellEditor so that a custom
+		 * DefaultTreeCellEditor.EditorContainer class can be called to adjust
+		 * the container width.
+		 */
+		@Override
+		public Component getTreeCellEditorComponent(JTree tree, Object value,
+				boolean isSelected, boolean expanded, boolean leaf, int row) {
+
+			Component c = super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+			((WideEditorContainer) editingContainer).updateContainer(tree,
+					lastPath, offset, editingComponent);
+			return c;
+
+		}
+
+		 	
+		/**
+		 * Extends DefaultTreeCellEditor.EditorContainer to allow full-width editor fields.
+		 */
+		class WideEditorContainer extends DefaultTreeCellEditor.EditorContainer {
+			JTree tree;
+			TreePath lastPath;
+			int offset;
+			Component editingComponent;
+
+			
+			/**
+			 * Overrides doLayout so that the editor component width is resized
+			 * to extend the full width of the tree's enclosing panel
+			 */
+			@Override
+			public void doLayout() {
+				if (editingComponent != null) {
+					// get component preferred size
+					Dimension eSize = editingComponent.getPreferredSize();
+					
+					// expand component width to extend to the enclosing container bounds
+					int n = lastPath.getPathCount();
+					Rectangle r = new Rectangle();
+					r = tree.getParent().getBounds();
+					eSize.width = r.width - (offset * n);
+					
+					// only show the symbol table icon if the editor is wide enough
+					((MathTextField)editingComponent).setShowSymbolTableIcon(eSize.width > 100);
+					
+					// set the component size and location
+					editingComponent.setSize(eSize);
+					editingComponent.setLocation(offset, 0);
+					editingComponent.setBounds(offset, 0, eSize.width, eSize.height);
+					setSize(new Dimension(eSize.width + offset, eSize.height));
+				}
+			}
+
+			/**
+			 * Overrides getPreferredSize to prevent extra large heights when
+			 * other tree nodes contain tall LaTeX images
+			 */
+			@Override
+			public Dimension getPreferredSize(){
+				Dimension d = super.getPreferredSize();
+				if(editingComponent != null)
+					d.height = editingComponent.getHeight();
+				return d;
+			}
+			
+			void updateContainer(JTree tree, TreePath lastPath, int offset,
+					Component editingComponent) {
+				this.tree = tree;
+				this.lastPath = lastPath;
+				this.offset = offset;
+				this.editingComponent = editingComponent;
+			}
+		}
+
+		
 	} // MyDefaultTreeCellEditor
 
+
+	
+	
 	public int getViewID() {
 		return Application.VIEW_ALGEBRA;
 	}
