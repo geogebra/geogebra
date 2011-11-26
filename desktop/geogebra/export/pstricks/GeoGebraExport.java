@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.DrawLine;
 import geogebra.euclidian.DrawPoint;
@@ -951,7 +952,7 @@ public abstract class GeoGebraExport implements ActionListener{
     	for (int step=0;step<construction.steps();step++){
     		if (increment) beamerSlideNumber=step+2;
     		else beamerSlideNumber=step+1;
-    		GeoElement[] geos=construction.getConstructionElement(step).getGeoElements();
+    		GeoElementInterface[] geos=construction.getConstructionElement(step).getGeoElements();
     		for (int j=0;j<geos.length;j++){
             	GeoElement g = (GeoElement)(geos[j]);
             	drawGeoElement(g,false,false);    

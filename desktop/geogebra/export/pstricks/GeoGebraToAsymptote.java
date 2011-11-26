@@ -8,6 +8,7 @@ the Free Software Foundation.
 
 package geogebra.export.pstricks;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
@@ -177,7 +178,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // generate point list 
         if(pairName) {
             for (int step = 0; step < construction.steps(); step++){
-                GeoElement[] geos = construction.getConstructionElement(step).getGeoElements();
+                GeoElementInterface[] geos = construction.getConstructionElement(step).getGeoElements();
                 for (int j = 0; j < geos.length; j++){
                     GeoElement g = (GeoElement)(geos[j]);
                     if (g.isEuclidianVisible() && g.isGeoPoint()) 

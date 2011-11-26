@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 
 
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.Drawable;
 import geogebra.export.WorksheetExportDialog;
@@ -574,7 +575,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						//if (colName.equals("Breakpoint")) {
 						if (colName.equals("H")) {
 							RowData rd = data.getRow(row);
-							GeoElement geo = rd.geo;
+							GeoElementInterface geo = rd.geo;
 							boolean newVal = !geo.isConsProtocolBreakpoint();
 							geo.setConsProtocolBreakpoint(newVal);
 
@@ -797,7 +798,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			RowData rd = data.getRow(row);
 			int index = rd.geo.getConstructionIndex();
 			if (useColors)
-				comp.setForeground(rd.geo.getObjectColor());
+				comp.setForeground(((GeoElement)rd.geo).getObjectColor());
 			else
 				comp.setForeground(Color.black);
 
@@ -900,13 +901,13 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		int index; // construction index of line: may be different
 					// to geo.getConstructionIndex() as not every
 					// geo is shown in the protocol
-		GeoElement geo;
+		GeoElementInterface geo;
 		ImageIcon toolbarIcon;
 		String name, algebra, definition, command, caption;
 		boolean includesIndex;
 		Boolean consProtocolVisible;
 
-		public RowData(GeoElement geo) {
+		public RowData(GeoElementInterface geo) {
 			this.geo = geo;
 			updateAll();
 		}
@@ -944,10 +945,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			int m;
 			// Markus' idea to find the correct icon:
 			// 1) check if an object has a parent algorithm:
-			if (geo.getParentAlgorithm() != null) {
+			if (((GeoElement)geo).getParentAlgorithm() != null) {
 				// 2) if it has a parent algorithm and its modeID returned
 				// is > -1, then use this one:
-				m = geo.getParentAlgorithm().getRelatedModeID();
+				m = ((GeoElement)geo).getParentAlgorithm().getRelatedModeID();
 			}
 			// 3) otherwise use the modeID of the GeoElement itself:
 			else
@@ -1109,7 +1110,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 			// reorder rows in this view
 			ConstructionElement ce = kernel.getConstructionElement(toIndex);
-			GeoElement[] geos = ce.getGeoElements();
+			GeoElementInterface[] geos = ce.getGeoElements();
 			for (int i = 0; i < geos.length; ++i) {
 				remove(geos[i]);
 				add(geos[i]);
@@ -1118,7 +1119,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public GeoElement getGeoElement(int row) {
-			return ((RowData) rowList.get(row)).geo;
+			return (GeoElement) ((RowData) rowList.get(row)).geo;
 		}
 
 		public int getConstructionIndex(int row) {
@@ -1201,7 +1202,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors)
-					return ((RowData) rowList.get(nRow)).geo.getObjectColor();
+					return ((GeoElement)((RowData) rowList.get(nRow)).geo).getObjectColor();
 				else
 					return Color.black;
 			} catch (Exception e) {
@@ -1293,10 +1294,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				int m;
 				// Markus' idea to find the correct icon:
 				// 1) check if an object has a parent algorithm:
-				if (((RowData) rowList.get(nRow)).geo.getParentAlgorithm() != null) {
+				GeoElement ge = (GeoElement)((RowData) rowList.get(nRow)).geo;
+				if (ge.getParentAlgorithm() != null) {
 					// 2) if it has a parent algorithm and its modeID returned
 					// is > -1, then use this one:
-					m = ((RowData) rowList.get(nRow)).geo.getParentAlgorithm()
+					m = ge.getParentAlgorithm()
 							.getRelatedModeID();
 				}
 				// 3) otherwise use the modeID of the GeoElement itself:
@@ -1397,7 +1399,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		 * View Implementation *
 		 ***********************/
 
-		public void add(GeoElement geo) {
+		public void add(GeoElementInterface geo) {
 			if (!geo.isLabelSet()
 					|| (kernel.showOnlyBreakpoints() && !geo
 							.isConsProtocolBreakpoint()))
@@ -1431,7 +1433,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			}
 		}
 
-		public void remove(GeoElement geo) {
+		public void remove(GeoElementInterface geo) {
 			RowData row = (RowData) geoMap.get(geo);
 			// lookup row for GeoElement
 			if (row != null) {
@@ -1600,6 +1602,16 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 		public int getViewID() {
 			return Application.VIEW_CONSTRUCTION_PROTOCOL;
+		}
+
+		public void add(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void remove(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 

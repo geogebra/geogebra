@@ -14,7 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 
 
@@ -158,7 +158,7 @@ implements Comparable<ConstructionElement> {
 	/**
 	 * Returns an array with all GeoElements of this construction element.
 	 */
-	public abstract GeoElement [] getGeoElements();
+	public abstract GeoElementInterface [] getGeoElements();
 	
 	public abstract boolean isGeoElement();
 	
