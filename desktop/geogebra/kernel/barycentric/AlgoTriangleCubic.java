@@ -1,11 +1,11 @@
 package geogebra.kernel.barycentric;
 
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;

@@ -12,8 +12,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
@@ -290,8 +294,8 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return lhs.contains(ev) || rhs.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Equation(kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
+		return new Equation((Kernel)kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
 	}
 
 	public ExpressionValue evaluate() {		

@@ -13,14 +13,14 @@
 package geogebra.cas;
 
 import geogebra.cas.error.CASException;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.parser.ParseException;

@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
@@ -20,7 +21,6 @@ import geogebra.kernel.algos.AlgoSequence;
 import geogebra.kernel.algos.AlgoTake;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.arithmetic.NumberValue;

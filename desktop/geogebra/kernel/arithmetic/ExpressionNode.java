@@ -20,6 +20,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.util.Unicode;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.TextInputDialog;
@@ -155,12 +160,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			return new ExpressionNode(kernel, right);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		return getCopy(kernel);
 	}
 
 	/** copy the whole tree structure except leafs */
-	public ExpressionNode getCopy(Kernel kernel) {
+	public ExpressionNode getCopy(AbstractKernel kernel) {
 		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
@@ -171,7 +176,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			rev = copy(right, kernel);
 
 		if (lev != null) {
-			newNode = new ExpressionNode(kernel, lev, operation, rev);
+			newNode = new ExpressionNode((Kernel)kernel, lev, operation, rev);
 			newNode.leaf = leaf;
 		} else
 			// something went wrong
@@ -186,7 +191,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 
 	/** deep copy except for GeoElements */
-	public static ExpressionValue copy(ExpressionValue ev, Kernel kernel) {
+	public static ExpressionValue copy(ExpressionValue ev, AbstractKernel kernel) {
 		if (ev == null)
 			return null;
 

@@ -12,11 +12,15 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -267,8 +271,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return kernel;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new FunctionNVar(this, kernel);
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
+		return new FunctionNVar(this, (Kernel)kernel);
 	}
 
 	/**

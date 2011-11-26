@@ -1,11 +1,11 @@
 package geogebra.kernel.barycentric;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;

@@ -18,9 +18,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
+import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoVec2D;
@@ -39,16 +42,16 @@ implements NumberValue, Comparable {
     private double val;
     private boolean isAngle = false;    
     
-    protected Kernel kernel;
+    protected AbstractKernel kernel;
     
     public static double LARGEST_INTEGER = 9007199254740992.0; // 0x020000000000000
     
-    public MyDouble(Kernel kernel) {
+    public MyDouble(AbstractKernel kernel) {
     	this(kernel, 0.0);
     }
     
     /** Creates new MyDouble */
-    public MyDouble(Kernel kernel, double x) {
+    public MyDouble(AbstractKernel kernel, double x) {
     	this.kernel = kernel;
         val = x;                      
     }
@@ -63,7 +66,7 @@ implements NumberValue, Comparable {
      * called from the parser 
      * power must be a string of unicode superscript digits
      */
-	public MyDouble(Kernel kernel, String power) {
+	public MyDouble(AbstractKernel kernel, String power) {
     	this.kernel = kernel;
 
     	int sign = 1;
@@ -116,7 +119,7 @@ implements NumberValue, Comparable {
              
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		 MyDouble ret = new MyDouble(this);
 		 ret.kernel = kernel;
 		 return ret;
@@ -248,7 +251,7 @@ implements NumberValue, Comparable {
      * make sure cos(2790 degrees) gives zero
      */
     private void checkZero() {
-    	if (Kernel.isZero(val)) val = 0;
+    	if (AbstractKernel.isZero(val)) val = 0;
     }
   
     /**
@@ -258,7 +261,7 @@ implements NumberValue, Comparable {
    final public MyDouble tan() {  		
 	    // Math.tan() gives a very large number for tan(pi/2)
 	    // but should be undefined for pi/2, 3pi/2, 5pi/2, etc.
-   		if (Kernel.isEqual(Math.abs(val) % Math.PI, Kernel.PI_HALF)) {
+   		if (AbstractKernel.isEqual(Math.abs(val) % Math.PI, AbstractKernel.PI_HALF)) {
    			val = Double.NaN;
    		} else {
    			val = Math.tan(val);
@@ -268,10 +271,10 @@ implements NumberValue, Comparable {
   		return this; 
   	}
   	
-    final public MyDouble acos() { isAngle = kernel.arcusFunctionCreatesAngle; set(Math.acos(val)); return this;  }
-    final public MyDouble asin() { isAngle = kernel.arcusFunctionCreatesAngle; set(Math.asin(val)); return this;  }
-    final public MyDouble atan() { isAngle = kernel.arcusFunctionCreatesAngle; set(Math.atan(val)); return this;  }
-    final public MyDouble atan2(NumberValue y) { isAngle = kernel.arcusFunctionCreatesAngle; set(Math.atan2(val, y.getDouble())); return this;  }
+    final public MyDouble acos() { isAngle = kernel.getInverseTrigReturnsAngle(); set(Math.acos(val)); return this;  }
+    final public MyDouble asin() { isAngle = kernel.getInverseTrigReturnsAngle(); set(Math.asin(val)); return this;  }
+    final public MyDouble atan() { isAngle = kernel.getInverseTrigReturnsAngle(); set(Math.atan(val)); return this;  }
+    final public MyDouble atan2(NumberValue y) { isAngle = kernel.getInverseTrigReturnsAngle(); set(Math.atan2(val, y.getDouble())); return this;  }
     
     final public MyDouble log() {  val = Math.log(val);  isAngle = false; return this; }
     final public MyDouble log(NumberValue base) {  val = Math.log(val) / Math.log(base.getDouble());  isAngle = false; return this; }
@@ -287,8 +290,8 @@ implements NumberValue, Comparable {
     final public MyDouble floor() {  
     	// angle in degrees
     	// kernel.checkInteger() needed otherwise floor(60�) gives 59�
-		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
-			set(Kernel.PI_180 * Math.floor( kernel.checkInteger(val * Kernel.CONST_180_PI)));	
+		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
+			set(AbstractKernel.PI_180 * Math.floor( kernel.checkInteger(val * AbstractKernel.CONST_180_PI)));	
 		}
 		else {		
 			// number or angle in radians
@@ -300,8 +303,8 @@ implements NumberValue, Comparable {
     final public MyDouble ceil() {
     	// angle in degrees
     	// kernel.checkInteger() needed otherwise ceil(241�) fails
-		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
-			set(Kernel.PI_180 * Math.ceil(kernel.checkInteger(val * Kernel.CONST_180_PI)));		
+		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
+			set(AbstractKernel.PI_180 * Math.ceil(kernel.checkInteger(val * AbstractKernel.CONST_180_PI)));		
 		}
 		else {		
 			// number or angle in radians
@@ -312,8 +315,8 @@ implements NumberValue, Comparable {
 	
 	final public MyDouble round() {
 		// angle in degrees
-		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
-			set( Kernel.PI_180 * MyDouble.round(val * Kernel.CONST_180_PI) );		
+		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
+			set( AbstractKernel.PI_180 * MyDouble.round(val * AbstractKernel.CONST_180_PI) );		
 		}
 		else {		
 			// number or angle in radians
@@ -475,7 +478,7 @@ implements NumberValue, Comparable {
     }
     
 	final public GeoElement toGeoElement() {
-		GeoNumeric num = new GeoNumeric(kernel.getConstruction());
+		GeoNumeric num = new GeoNumeric((Construction)kernel.getConstruction());
 		num.setValue(val);
 		return num;
 	}
@@ -634,7 +637,7 @@ implements NumberValue, Comparable {
 		return toValueString();
 	}
 	
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 
@@ -645,7 +648,7 @@ implements NumberValue, Comparable {
 	public int compareTo(Object arg0) {
 		if (arg0 instanceof MyDouble) {
 			MyDouble d = (MyDouble)arg0;
-			if (Kernel.isEqual(val, d.getDouble())) return 0;
+			if (AbstractKernel.isEqual(val, d.getDouble())) return 0;
 			return val - d.getDouble() < 0 ? -1 : 1;
 		}
 		return 0;
@@ -656,7 +659,7 @@ implements NumberValue, Comparable {
 		if (d == null) return false;
 		
 		if (d instanceof MyDouble) {
-			return Kernel.isEqual(((MyDouble)d).getDouble(), val);
+			return AbstractKernel.isEqual(((MyDouble)d).getDouble(), val);
 		} 
 		return false;
 	}

@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.ConstructionElement;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.geos.Locateable;

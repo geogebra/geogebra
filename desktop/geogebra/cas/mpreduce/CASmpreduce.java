@@ -4,11 +4,12 @@ import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
 import geogebra.cas.error.CASException;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.main.Application;
 
 import java.util.Set;
@@ -96,7 +97,7 @@ public class CASmpreduce extends CASgeneric {
 		boolean keepInput = casInput.isKeepInputUsed();
 		if (keepInput) {
 			// remove KeepInput[] command and take argument	
-			Command cmd = casInput.getTopLevelCommand();
+			AbstractCommand cmd = casInput.getTopLevelCommand();
 			if (cmd != null && cmd.getName().equals("KeepInput")) {
 				// use argument of KeepInput as casInput
 				if (cmd.getArgumentNumber() > 0)

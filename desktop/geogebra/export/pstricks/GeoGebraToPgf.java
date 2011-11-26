@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
@@ -17,7 +18,6 @@ import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.algos.AlgoIntegralFunctions;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.algos.AlgoSlope;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoAngle;

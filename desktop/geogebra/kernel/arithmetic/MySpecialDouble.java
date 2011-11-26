@@ -12,9 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 
 import java.math.BigDecimal;
 

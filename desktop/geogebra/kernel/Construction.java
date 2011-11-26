@@ -13,7 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.algos.AlgoDependentNumber;
@@ -22,8 +25,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgorithmSet;
 import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoDependentCasCell;
 import geogebra.kernel.geos.GeoAxis;
@@ -60,7 +61,7 @@ import java.util.regex.Matcher;
  * 
  * @author Markus Hohenwarter
  */
-public class Construction {
+public class Construction extends AbstractConstruction{
 
 	/** Added for Intergeo File Format (Yves Kreis) -->
 	 writes the <elements> and the <constraints> part */

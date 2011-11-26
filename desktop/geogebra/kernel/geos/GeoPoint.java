@@ -21,6 +21,8 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -40,8 +42,6 @@ import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.VectorValue;

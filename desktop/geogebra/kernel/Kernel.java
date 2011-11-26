@@ -22,6 +22,8 @@ import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.ScientificFormat;
@@ -32,8 +34,6 @@ import geogebra.io.MyXMLHandler;
 import geogebra.kernel.algos.*;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -222,7 +222,7 @@ public class Kernel extends AbstractKernel{
 	protected boolean insertLineBreaks = false;
 
 	// angle unit: degree, radians
-	private int angleUnit = Kernel.ANGLE_DEGREE;
+	//private int angleUnit = Kernel.ANGLE_DEGREE;
 	
 	// rounding hack, see format()
 	private static final double ROUND_HALF_UP_FACTOR_DEFAULT = 1.0 + 1E-15;
@@ -252,7 +252,7 @@ public class Kernel extends AbstractKernel{
 	 * how to determine whether to use nf or sf
 	 */
 	
-	private StringType casPrintForm;		
+	
 	private String casPrintFormPI; // for pi
 	private boolean useTempVariablePrefix;
 	private boolean keepCasNumbers;
@@ -944,51 +944,7 @@ public class Kernel extends AbstractKernel{
 	//end G.Sturr
 	
 	
-	final public void setAngleUnit(int unit) {
-		angleUnit = unit;
-	}
-
-	final public int getAngleUnit() {
-		return angleUnit;
-	}
 	
-	final public String getPiString() {
-		return casPrintFormPI;
-	}
-	
-	final public void setCASPrintForm(StringType type) {
-		casPrintForm = type;
-		
-		switch (casPrintForm) {
-		case MATH_PIPER:
-			casPrintFormPI = "Pi";
-			break;
-			
-		case MAXIMA:
-			casPrintFormPI = "%pi";
-			break;
-			
-		case JASYMCA:
-		case GEOGEBRA_XML:
-			casPrintFormPI = "pi";
-			break;
-				
-		case MPREDUCE:
-			casPrintFormPI = "pi";
-			break;
-		
-		case LATEX:
-			casPrintFormPI = "\\pi";
-			break;
-			
-			default:
-				casPrintFormPI = Unicode.PI_STRING;
-		}
-	}
-	
-	final public StringType getCASPrintForm() {
-		return casPrintForm;
-	}
 	
 	/**
 	 * Returns whether all variable names are currently prefixed 
@@ -8345,7 +8301,7 @@ public class Kernel extends AbstractKernel{
 		sbBuildImplicitEquation.setLength(0);
 		sbBuildImplicitEquation.append(buildImplicitVarPart(numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN));
 		
-		if (casPrintForm .equals(StringType.MATH_PIPER) && op == '=') {
+		if (getCASPrintForm().equals(StringType.MATH_PIPER) && op == '=') {
 				sbBuildImplicitEquation.append(" == ");
 		} else {
 				sbBuildImplicitEquation.append(' ');
@@ -8455,7 +8411,7 @@ public class Kernel extends AbstractKernel{
 		double[] numbers,
 		String[] vars,
 		char op) {
-
+		StringType casPrintForm  = getCASPrintForm();
 		double d, dabs, q = numbers[1];		
 		sbBuildExplicitLineEquation.setLength(0);
 		
@@ -8552,7 +8508,7 @@ public class Kernel extends AbstractKernel{
 				return "-";
 		} else {
 			String numberStr = format(x);
-			switch (casPrintForm) {
+			switch (getCASPrintForm()) {
 				case MATH_PIPER:
 				case MAXIMA:
 				case MPREDUCE:
@@ -8677,7 +8633,7 @@ public class Kernel extends AbstractKernel{
 		long rounded = Math.round(x);
 		if (x == rounded && x >= Long.MIN_VALUE && x < Long.MAX_VALUE)
 			isLongInteger = true;
-		
+		StringType casPrintForm = getCASPrintForm();
 		switch (casPrintForm) {
 			// number formatting for XML string output
 			case GEOGEBRA_XML:
@@ -8747,34 +8703,7 @@ public class Kernel extends AbstractKernel{
 			}								
 	}
 	
-	/**
-	 * Converts 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20} depending on current print form
-	 */
-	public String convertScientificNotation(String scientificStr) { 
-		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
-		boolean Efound = false;
-		for (int i=0; i < scientificStr.length(); i++) {
-			char ch = scientificStr.charAt(i);
-			if (ch == 'E') {
-				if (casPrintForm .equals(StringType.LATEX))
-					sb.append(" \\cdot 10^{");
-				else
-					sb.append("*10^(");
-				Efound = true;
-			} 
-			else if (ch != '+'){
-				sb.append(ch);
-			}
-		}
-		if (Efound) {
-			if (casPrintForm .equals(StringType.LATEX))
-				sb.append("}");
-			else
-				sb.append(")");
-		}				
-		
-		return sb.toString();
-	}
+	
 	
 	
 	/**
@@ -8884,7 +8813,7 @@ public class Kernel extends AbstractKernel{
 					if (aint == 2 * half) {		
 						// half * pi
 						sbFormat.append(half);
-						if (!casPrintForm.equals(StringType.GEOGEBRA))
+						if (!getCASPrintForm().equals(StringType.GEOGEBRA))
 							sbFormat.append("*");
 						sbFormat.append(casPrintFormPI);
 						return sbFormat.toString();
@@ -8893,7 +8822,7 @@ public class Kernel extends AbstractKernel{
 					else {		
 						// aint * pi/2
 						sbFormat.append(aint);
-						if (!casPrintForm.equals(StringType.GEOGEBRA))
+						if (!getCASPrintForm().equals(StringType.GEOGEBRA))
 							sbFormat.append("*");
 						sbFormat.append(casPrintFormPI);
 						sbFormat.append("/2");
@@ -8939,78 +8868,7 @@ public class Kernel extends AbstractKernel{
 	}
 	private StringBuilder sbFormatSigned = new StringBuilder(40);
 
-	final public StringBuilder formatAngle(double phi) {
-		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted from radians
-		return formatAngle(phi, 10);
-	}
 	
-	final public StringBuilder formatAngle(double phi, double precision) {
-		sbFormatAngle.setLength(0);
-		switch (casPrintForm) {
-			case MATH_PIPER:
-			case JASYMCA:
-			case MPREDUCE: 
-				if (angleUnit == ANGLE_DEGREE) {
-					sbFormatAngle.append("(");
-					// STANDARD_PRECISION * 10 as we need a little leeway as we've converted from radians
-					sbFormatAngle.append(format(checkDecimalFraction(Math.toDegrees(phi), precision)));
-					sbFormatAngle.append("*");
-					sbFormatAngle.append("\u00b0");
-					sbFormatAngle.append(")");
-				} else {
-					sbFormatAngle.append(format(phi));					
-				}
-				return sbFormatAngle;				
-				
-			default:
-				// STRING_TYPE_GEOGEBRA_XML
-				// STRING_TYPE_GEOGEBRA
-
-				if (Double.isNaN(phi)) {
-					sbFormatAngle.append("?");
-					return sbFormatAngle;
-				}		
-				
-				if (angleUnit == ANGLE_DEGREE) {
-					boolean rtl = app.isRightToLeftDigits();
-					if (rtl) {
-						sbFormatAngle.append(Unicode.degreeChar);
-					}
-					
-					phi = Math.toDegrees(phi);
-					
-					// make sure 360.0000000002 -> 360
-					phi = checkInteger(phi);
-					
-					if (phi < 0) 
-						phi += 360;	
-					else if (phi > 360)
-						phi = phi % 360;
-					// STANDARD_PRECISION * 10 as we need a little leeway as we've converted from radians
-					sbFormatAngle.append(format(checkDecimalFraction(phi, precision)));
-					
-					if (casPrintForm .equals(StringType.GEOGEBRA_XML)) {
-						sbFormatAngle.append("*");
-					}
-
-					if (!rtl) sbFormatAngle.append(Unicode.degreeChar);
-
-					return sbFormatAngle;
-				} 
-				else {
-					// RADIANS
-					sbFormatAngle.append(format(phi));
-					
-					if (!casPrintForm.equals(StringType.GEOGEBRA_XML)) {
-						sbFormatAngle.append(" rad");
-					}
-					return sbFormatAngle;
-				}
-		}
-		
-		
-	}
-	private StringBuilder sbFormatAngle = new StringBuilder(40);
 
 	final private static char sign(double x) {
 		if (x > 0)
@@ -9068,40 +8926,7 @@ public class Kernel extends AbstractKernel{
 	 * eg 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned, 
 	 * otherwise x is returned.
 	 */	
-	/**
-	 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
-	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
-	 * otherwise x is returned.
-	 */
-	final public static double checkDecimalFraction(double x, double precision) {
-		
-		//Application.debug(precision+" ");
-		precision = Math.pow(10, Math.floor(Math.log(Math.abs(precision))/Math.log(10)));
-		
-		double fracVal = x * INV_MIN_PRECISION;
-		double roundVal = Math.round(fracVal);
-		//Application.debug(precision+" "+x+" "+fracVal+" "+roundVal+" "+isEqual(fracVal, roundVal, precision)+" "+roundVal / INV_MIN_PRECISION);
-		if (isEqual(fracVal, roundVal, STANDARD_PRECISION * precision))
-			return roundVal / INV_MIN_PRECISION;
-		else
-			return x;
-	}
 	
-	final public static double checkDecimalFraction(double x) {
-		return checkDecimalFraction(x, 1);
-	}
-
-	/**
-	 * Checks if x is very close (1E-8) to an integer. If it is,
-	 * the integer value is returned, otherwise x is returnd.
-	 */	
-	final public static double checkInteger(double x) {		
-		double roundVal = Math.round(x);
-		if (Math.abs(x - roundVal) < EPSILON)
-			return roundVal;
-		else
-			return x;
-	}
 			
 	/*******************************************************
 	 * SAVING
@@ -9146,7 +8971,7 @@ public class Kernel extends AbstractKernel{
 		
 		// angle unit
 		sb.append("\t<angleUnit val=\"");
-		sb.append(angleUnit == Kernel.ANGLE_RADIANT ? "radiant" : "degree");
+		sb.append(getAngleUnit() == Kernel.ANGLE_RADIANT ? "radiant" : "degree");
 		sb.append("\"/>\n");
 		
 		// algebra style
@@ -9514,13 +9339,7 @@ public class Kernel extends AbstractKernel{
 		
 	}
 
-	public void setInverseTrigReturnsAngle(boolean selected) {
-		arcusFunctionCreatesAngle = selected;
-	}
 	
-	public boolean getInverseTrigReturnsAngle() {
-		return arcusFunctionCreatesAngle;
-	}
 	
 	
 	/**

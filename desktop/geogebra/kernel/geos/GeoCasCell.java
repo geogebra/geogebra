@@ -1,16 +1,17 @@
 package geogebra.kernel.geos;
 
 import geogebra.cas.error.CASException;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.ValidExpression;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,7 +47,7 @@ public class GeoCasCell extends GeoElement {
 
 
 	// internal command names used in the input expression
-	private HashSet <Command> commands;
+	private HashSet <AbstractCommand> commands;
 	private String assignmentVar;
 	private boolean includesRowReferences;
 	private boolean includesNumericCommand;
@@ -421,18 +422,18 @@ public class GeoCasCell extends GeoElement {
 		if (ve == null) return;
 		
 		// get all command names
-		commands = new HashSet<Command>();
+		commands = new HashSet<AbstractCommand>();
 		ve.addCommands(commands);
 		if (commands.isEmpty()) {
 			commands = null;
 		} else {
-			for (Command cmd : commands) {
+			for (AbstractCommand cmd : commands) {
 				String cmdName = cmd.getName();
 				// Numeric used
 				includesNumericCommand = includesNumericCommand || "Numeric".equals(cmdName);
 				
 				// if command not known to CAS
-				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)) {
+				if (!kernel.getGeoGebraCAS().isCommandAvailable((Command)cmd)) {
 					if (kernel.lookupCasCellLabel(cmdName) != null ||
 						kernel.lookupLabel(cmdName) != null) 
 					{
@@ -528,7 +529,7 @@ public class GeoCasCell extends GeoElement {
 		if (commands == null) return exp;
 		
 		String translatedExp = exp;
-		Iterator<Command> it = commands.iterator();
+		Iterator<AbstractCommand> it = commands.iterator();
 		while (it.hasNext()) {
 			String internalCmd = it.next().getName();
 			String localCmd = cons.getApplication().getCommand(internalCmd);

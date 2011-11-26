@@ -19,8 +19,12 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -39,8 +43,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.algos.AlgorithmSet;
 import geogebra.kernel.algos.ConstructionElement;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -79,7 +81,7 @@ import java.util.regex.Pattern;
  */
 public abstract class GeoElement
 	extends ConstructionElement
-	implements ExpressionValue {
+	implements ExpressionValue, GeoElementInterface {
 
 	public boolean isVector3DValue() {
 			return false;
@@ -692,7 +694,7 @@ public abstract class GeoElement
 	}*/
 
 
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		//default implementation: changed in some subclasses
 		return copy();
 	}

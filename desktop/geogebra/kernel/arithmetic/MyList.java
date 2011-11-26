@@ -18,9 +18,13 @@
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
@@ -720,10 +724,10 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		return false;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		// copy arguments
 		int size = listElements.size();
-		MyList c = new MyList(kernel, size());
+		MyList c = new MyList((Kernel)kernel, size());
 
 		for (int i = 0; i < size; i++) {
 			c.addListElement(((ExpressionValue) listElements.get(i))

@@ -14,7 +14,7 @@ the Free Software Foundation.
  * Used as internal return type in Parser.
  * Stores a label. 
  */ 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import java.util.Set;
 import java.util.Vector;
@@ -113,7 +113,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 	
-	public Command getTopLevelCommand() {
+	public AbstractCommand getTopLevelCommand() {
 		return null;
 	}
 	
@@ -159,7 +159,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		 return " \\, :=  \\, ";
 	 }
 	 
-	  public void addCommands(Set<Command> cmds) {
+	  public void addCommands(Set<AbstractCommand> cmds) {
 		// do nothing, see Command, ExpressionNode classes
 	  }
 	  

@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ValidExpression;
 
 /**
  * Makes it possible to switch between the Extended form and the Input form (Exactly the way the user entered it)

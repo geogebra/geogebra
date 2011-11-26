@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
 
 import java.util.HashSet;
@@ -63,8 +66,8 @@ public class Parametric extends ValidExpression {
 		return P.contains(ev) || v.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Parametric(kernel, (ExpressionNode) P.deepCopy(kernel), (ExpressionNode) v.deepCopy(kernel), parameter);
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
+		return new Parametric((Kernel)kernel, (ExpressionNode) P.deepCopy(kernel), (ExpressionNode) v.deepCopy(kernel), parameter);
 	}
 
 	public ExpressionValue evaluate() {

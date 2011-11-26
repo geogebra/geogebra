@@ -18,11 +18,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic3D;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.ReplaceableValue;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.MyParseError;
 import geogebra3D.kernel3D.Geo3DVec;
@@ -56,8 +57,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		setCoords(x, y, z);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new MyVec3DNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel),
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
+		return new MyVec3DNode((Kernel)kernel, x.deepCopy(kernel), y.deepCopy(kernel),
 				z.deepCopy(kernel));
 	}
 

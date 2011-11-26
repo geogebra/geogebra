@@ -3,7 +3,7 @@ package geogebra.cas.maxima;
 
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
-import geogebra.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 
 
 public class CASmaxima extends CASgeneric {

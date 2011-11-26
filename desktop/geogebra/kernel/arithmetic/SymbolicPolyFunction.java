@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.main.Application;
 
 

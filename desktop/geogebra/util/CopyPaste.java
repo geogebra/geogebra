@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.util;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -21,7 +22,6 @@ import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.algos.AlgoPolygonRegular;
 import geogebra.kernel.algos.ConstructionElement;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;

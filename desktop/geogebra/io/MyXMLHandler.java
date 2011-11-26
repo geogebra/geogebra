@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.spreadsheet.TraceSettings;
@@ -33,7 +34,6 @@ import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.kernel.geos.GeoAngle;

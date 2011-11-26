@@ -82,4 +82,5 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract Object getAlgebraView();
 	public abstract void debugNotStatic(Object s);
 	public abstract Object createEuclidianViewForPlane(Object o);
+	public abstract boolean isRightToLeftDigits();	
 }

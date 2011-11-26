@@ -2,13 +2,13 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSequence;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.MyStringBuffer;
 import geogebra.kernel.arithmetic.TextValue;
 import geogebra.kernel.kernelND.GeoPointND;

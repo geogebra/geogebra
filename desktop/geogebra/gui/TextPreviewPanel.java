@@ -1,5 +1,7 @@
 package geogebra.gui;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
@@ -8,10 +10,8 @@ import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyStringBuffer;
 import geogebra.kernel.arithmetic.TextValue;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.TokenMgrError;

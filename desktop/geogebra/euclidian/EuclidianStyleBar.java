@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
@@ -10,7 +11,6 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoTableText;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoImage;

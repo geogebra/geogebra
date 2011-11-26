@@ -22,6 +22,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -30,7 +31,6 @@ import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoDependentVector;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.kernelND.GeoPointND;

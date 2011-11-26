@@ -1,9 +1,9 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.arithmetic3D.Vector3DValue;

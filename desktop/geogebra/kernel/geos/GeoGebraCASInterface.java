@@ -2,9 +2,9 @@ package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.kernel.arithmetic.ValidExpression;
 
 /*
  * needed for minimal applets

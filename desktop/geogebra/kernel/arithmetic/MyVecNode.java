@@ -18,6 +18,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVec2D;
@@ -50,8 +54,8 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
         setCoords(x,y);
     }                      
     
-    public ExpressionValue deepCopy(Kernel kernel) {
-        return new MyVecNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
+    public ExpressionValue deepCopy(AbstractKernel kernel) {
+        return new MyVecNode((Kernel)kernel, x.deepCopy(kernel), y.deepCopy(kernel));
     }
     
     public void resolveVariables() {    	

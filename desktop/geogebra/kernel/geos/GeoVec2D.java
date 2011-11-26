@@ -20,15 +20,15 @@ package geogebra.kernel.geos;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.main.Application;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
@@ -82,7 +82,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     	return mode == Kernel.COORD_COMPLEX && x == 0 && y == 1;
     }
     
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		return new GeoVec2D(this);
 	}   
 	

@@ -18,8 +18,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.MyParseError;
@@ -43,8 +46,8 @@ public class Variable extends ValidExpression implements ExpressionValue {
         this.kernel = kernel;
     }      
     
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Variable(kernel, name);
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
+		return new Variable((Kernel)kernel, name);
 	}
     
     public String getName() { return toString(); }

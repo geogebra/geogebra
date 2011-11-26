@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
 import geogebra.main.MyError;
 
@@ -51,8 +54,8 @@ public class Polynomial extends ValidExpression implements Serializable, Express
         //Application.debug("poly copy constructor output: " + this);        
     }
     
-    public ExpressionValue deepCopy(Kernel kernel) {
-        return new Polynomial(kernel, this);
+    public ExpressionValue deepCopy(AbstractKernel kernel) {
+        return new Polynomial((Kernel)kernel, this);
     }
     
     public Term getTerm(int i) {

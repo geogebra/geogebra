@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
 
 import java.util.HashSet;
@@ -71,8 +74,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return false;
     }
 
-    public ExpressionValue deepCopy(Kernel kernel) {
-        return new MyBoolean(kernel, value);
+    public ExpressionValue deepCopy(AbstractKernel kernel) {
+        return new MyBoolean((Kernel)kernel, value);
     }
 
     public ExpressionValue evaluate() {

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
@@ -27,7 +28,6 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.algos.AlgoPolygonRegular;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoCoordSys2D;

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -34,7 +35,6 @@ import geogebra.kernel.algos.AlgoTangentLine;
 import geogebra.kernel.algos.AlgoTangentPoint;
 import geogebra.kernel.arithmetic.Evaluatable;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.MyDouble;

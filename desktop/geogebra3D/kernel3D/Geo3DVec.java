@@ -19,14 +19,14 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoElement;
@@ -83,7 +83,7 @@ implements Vector3DValue {
         mode = v.mode;
     }
     
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		return new Geo3DVec(this);
 	}   
 	

@@ -1,7 +1,7 @@
 package geogebra.util;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;

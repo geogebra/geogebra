@@ -14,7 +14,6 @@ package geogebra.kernel.algos;
 
 
 import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
@@ -288,7 +287,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	
 	public AlgoFunctionAreaSums(NumberValue a, NumberValue b, NumberValue n,
 			   int type,double[]vals,double[]borders) {
-		super(a.getKernel().getConstruction(), false);
+		super((Construction)a.getKernel().getConstruction(), false);
 		this.type = type;
 		
 		this.a = a;
@@ -337,7 +336,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	 * @param N 
 	 */
 	protected AlgoFunctionAreaSums(NumberValue a, NumberValue b, double[]vals,double[]borders,int N) {
-		super(a.getKernel().getConstruction(), false);
+		super(((Kernel)a.getKernel()).getConstruction(), false);
 		type = TYPE_BARCHART;	
 		this.a = a;
 		this.b = b;					
@@ -434,7 +433,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	 * @param N 
 	 */
 	protected AlgoFunctionAreaSums(NumberValue width,double[]vals,double[]borders,int N) {
-		super(width.getKernel().getConstruction(), false);
+		super(((Kernel)width.getKernel()).getConstruction(), false);
 		
 		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;		
 		

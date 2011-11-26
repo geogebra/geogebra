@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
@@ -20,7 +21,6 @@ import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.Transform;
 import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;

@@ -18,6 +18,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
@@ -34,7 +39,7 @@ import java.util.Set;
  * @author  Markus
  * @version 
  */
-public class Command extends ValidExpression 
+public class Command extends AbstractCommand 
 implements ReplaceableValue {
     
      
@@ -281,8 +286,8 @@ implements ReplaceableValue {
         return allowEvaluationForTypeCheck && evaluate().isTextValue();
     }   
 
-    public ExpressionValue deepCopy(Kernel kernel) {
-        Command c = new Command(kernel, name, false);
+    public ExpressionValue deepCopy(AbstractKernel kernel) {
+        Command c = new Command((Kernel)kernel, name, false);
         // copy arguments     
         int size = args.size();
         for (int i=0; i < size; i++) {
@@ -365,7 +370,7 @@ implements ReplaceableValue {
 		return true;
 	}
     
-    public Command getTopLevelCommand() {
+    public AbstractCommand getTopLevelCommand() {
 		return this;
 	}
 

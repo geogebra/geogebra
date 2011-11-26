@@ -1,6 +1,6 @@
 package geogebra.util;
 
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
@@ -12,7 +12,7 @@ import org.apache.commons.math.special.Gamma;
  * important for minimal applets
  */
 public class MyMath2 {
-	final public static double gammaIncomplete(double a, double x, Kernel kernel) {
+	final public static double gammaIncomplete(double a, double x, AbstractKernel kernel) {
 
 		try {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html
@@ -96,10 +96,10 @@ public class MyMath2 {
 		factorialTable[4] = 24.0;
 	}
 
-	final public static double gamma(double x, Kernel kernel) {
+	final public static double gamma(double x, AbstractKernel kernel) {
 
 		// Michael Borcherds 2008-05-04
-		if (x <= 0 && Kernel.isEqual(x, Math.round(x)))
+		if (x <= 0 && AbstractKernel.isEqual(x, Math.round(x)))
 			return Double.NaN; // negative integers
 
 		// Michael Borcherds 2007-10-15 BEGIN added case for x<0 otherwise no

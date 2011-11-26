@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
@@ -27,8 +29,6 @@ import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPointOnPath;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.ConicMirrorable;

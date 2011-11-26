@@ -2,12 +2,12 @@ package geogebra.cas.view;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
-import geogebra.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoElement;
 

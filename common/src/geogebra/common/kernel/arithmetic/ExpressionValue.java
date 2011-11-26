@@ -16,10 +16,10 @@ the Free Software Foundation.
  * Created on 03. Oktober 2001, 10:09
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
-import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.AbstractKernel;
+
 
 import java.util.HashSet;
 
@@ -44,14 +44,14 @@ public interface ExpressionValue {
 	public boolean isInTree(); // used in ExpressionNode tree
 	public void setInTree(boolean flag);
 	public boolean contains(ExpressionValue ev);
-	public ExpressionValue deepCopy(Kernel kernel);
+	public ExpressionValue deepCopy(AbstractKernel kernel);
     public ExpressionValue evaluate();
-    public HashSet<GeoElement> getVariables();   
+    public HashSet getVariables();   
     public String toValueString();
     public String toOutputValueString();
     public String toLaTeXString(boolean symbolic);   
     public void resolveVariables();
 	public String toRealString();
-	public Kernel getKernel();
+	public AbstractKernel getKernel();
 }
 
