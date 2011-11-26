@@ -30,6 +30,8 @@ if [ "$JAVA_HOME" = "" ]; then
  
 CLEAN=0
 GRAMMAR=1
+VERBOSE=0
+CLASSES=1
 
 BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
 set_bootclasspath
@@ -48,6 +50,8 @@ while [ $# -gt 0 ]; do
    echo "  -b [file]                 Set bootclasspath for ecj ($BOOTCLASSPATH)"
    echo "  -j [dir]                  Java home directory ($JAVA_HOME)"
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
+   echo "  -nc, --no-classes         Do not (re)compile classes"
+   echo "  -v, --verbose             Be verbose whenever possible"
    exit 0
    ;;
 
@@ -81,6 +85,14 @@ while [ $# -gt 0 ]; do
 
   -ng | --no-grammar)
    GRAMMAR=0
+   ;;
+   
+  -nc | --no-classes)
+   CLASSES=0
+   ;;
+   
+  -v | --verbose)
+   VERBOSE=1
    ;;
 
   *)
@@ -117,28 +129,36 @@ export ANT_OPTS="-Xmx1024m"
 
 # 6. Building
 
+if [ "$VERBOSE" = 1 ]; then
+ ANT="ant -v"
+else
+ ANT="ant"
+ fi
+
 # 6/1. Cleanup on demand
 if [ $CLEAN = 1 ]; then
- ant delete-classes
+ $ANT delete-classes
  fi
 
 # 6/2. Compiling grammar
 if [ $GRAMMAR = 1 ]; then
- ant compile-grammar-cl
+ $ANT compile-grammar-cl
  fi
 
 # 6/2. Setting classpath for ecj (required for Java 5)
 CP=`cd scripts/autobuild; ./classpath`
 
 # 6/3. Creating *.class files
-echo "$0: Creating class files"
-$JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
- -time -proceedOnError -g ../desktop ../common > .ecjlog 2>&1
-tail -1 .ecjlog
-echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
+if [ $CLASSES = 1 ]; then
+ echo "$0: (Re)creating class files"
+ $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
+  -time -proceedOnError -g ../desktop ../common > .ecjlog 2>&1
+ tail -1 .ecjlog
+ echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
+ fi
 
 # 6/4. Packaging
-ant ggb-jar-files || exit 3
+$ANT ggb-jar-files || exit 3
 
 # 7. Finish
 BUILDDIR=`cd $WORKDIR/build; pwd`

@@ -234,6 +234,7 @@ office@geogebra.org
 
 	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
 	<target name="ggb-main-jar" depends="clean" description="create unsigned geogebra_main.jar">
+		<symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/>
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
@@ -243,8 +244,7 @@ office@geogebra.org
 			  edu/xtec/adapter/**,
 			  edu/xtec/adapter/impl/**,
 					  **/algo2command.properties,	
-					  **/algo2intergeo.properties,
-					  ../common/**/*.class"
+					  **/algo2intergeo.properties"
 			excludes="geogebra/*,
 					geogebra/gui/**,
 					geogebra/export/**, 
@@ -270,9 +270,12 @@ office@geogebra.org
 					org/apache/log4j/**, 
 			com/bric/**,
 			com/quantimegroup/**,
+			scripts/**,
+			**/*.tmp,
 				    tutor/**,
 					meta-inf/**"		
 		/>
+		<symlink action="delete" link="${src.dir}/geogebra/common"/>
 	</target>
 
 	<target name="ggb-export-jar" depends="clean" description="create unsigned geogebra_export.jar">
