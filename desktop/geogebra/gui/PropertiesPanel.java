@@ -1184,8 +1184,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			boolean equalObjColor = true;
 			boolean equalObjColorBackground = true;
 			allFillable = geo0.isFillable();
-			hasBackground = geo0.isGeoText()
-					|| geo0.isGeoButton();
+			hasBackground = geo0.hasBackgroundColor();
 			
 			GeoElement temp;
 			for (int i = 1; i < geos.length; i++) {
@@ -1199,8 +1198,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					allFillable = false;
 				}
 				// has background
-				if (!((GeoElement) geos[i]).isGeoText()
-						&& !((GeoElement) geos[i]).isGeoButton()) {
+				if (!((GeoElement) geos[i]).hasBackgroundColor()) {
 					hasBackground = false;
 				}
 			}
