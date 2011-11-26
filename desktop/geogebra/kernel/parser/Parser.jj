@@ -48,6 +48,7 @@ package geogebra.kernel.parser;
 import geogebra.*;
 import geogebra.main.*;
 import geogebra.kernel.*;
+import geogebra.common.kernel.arithmetic.*;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoNumeric;
@@ -57,7 +58,7 @@ import geogebra.kernel.arithmetic3D.*;
 import geogebra.kernel.parser.cashandlers.*;
 import geogebra.common.util.Unicode;
 import java.util.*;
-import geogebra.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 
 
 public class Parser {
