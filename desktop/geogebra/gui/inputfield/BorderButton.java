@@ -1,11 +1,7 @@
 package geogebra.gui.inputfield;
 
-import geogebra.gui.util.GeoGebraIcon;
-
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
@@ -15,13 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
 
 /**
  * Extended Border class that adds simulated buttons to the right border of a JTextField.
@@ -47,12 +38,17 @@ implements MouseListener, MouseMotionListener{
 	private boolean isMouseOverIconRegion = false;
 	
 	private int maxIconCount = 4;
-	
 
+
+	/**************************************
+	 * Constructs a BorderButton
+	 * @param borderOwner
+	 */
 	public BorderButton(Component borderOwner) {
 
 		this.borderOwner = borderOwner;
 
+		// register our mouseListener, making sure it is the first one added
 		MouseListener[] ml = borderOwner.getMouseListeners();
 		for(int i=0; i < ml.length; i++)
 			borderOwner.removeMouseListener(ml[i]);
@@ -60,6 +56,7 @@ implements MouseListener, MouseMotionListener{
 		for(int i=0; i < ml.length; i++)
 			borderOwner.addMouseListener(ml[i]);
 		
+		// register mouseMotionListener
 		borderOwner.addMouseMotionListener(this);
 		
 		icon = new ImageIcon[maxIconCount];
@@ -94,10 +91,6 @@ implements MouseListener, MouseMotionListener{
 				iconRect[i].width = icon[i].getIconWidth();
 				iconRect[i].height = icon[i].getIconHeight();
 
-			//	g.setColor(Color.GRAY);
-			//	if(isMouseOverIcon[i])
-			//		g.drawRect(iconRect[i].x, iconRect[i].y, iconRect[i].width-1, iconRect[i].height-1);
-
 				offset += icon[i].getIconWidth() + hGap;
 			}
 		}
@@ -112,6 +105,7 @@ implements MouseListener, MouseMotionListener{
 	public void setIconVisible(int index, boolean isVisible){
 		if(index < 0 || index > maxIconCount) return;
 		isVisibleIcon[index] = isVisible;
+		this.borderOwner.validate();
 	}
 
 	public boolean isIconVisible(int index){
@@ -192,7 +186,7 @@ implements MouseListener, MouseMotionListener{
 	/**************************************************************
 	 * TODO  Main --- for testing, remove later
 	 **************************************************************/
-
+/*
 	private static void createAndShowGUI() {
 		//Create and set up the window.
 		JFrame frame = new JFrame("Test");
@@ -241,8 +235,7 @@ implements MouseListener, MouseMotionListener{
 		});
 	}
 
-
-
+*/
 
 
 

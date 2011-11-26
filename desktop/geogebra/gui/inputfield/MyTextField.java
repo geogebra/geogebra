@@ -1,21 +1,17 @@
 package geogebra.gui.inputfield;
 
+import geogebra.gui.SetLabels;
 import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.gui.util.SymbolTable;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -26,13 +22,11 @@ import java.awt.font.TextLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.swing.text.BadLocationException;
 
 /**
  * Extends JTextField to add these features:
@@ -43,15 +37,15 @@ import javax.swing.text.BadLocationException;
  *    is triggered by either a mouse click or ctrl-up
  * 
  */
-public class MyTextField extends JTextField implements ActionListener, FocusListener, VirtualKeyboardListener, CaretListener {
+public class MyTextField extends JTextField implements ActionListener, FocusListener, 
+VirtualKeyboardListener, CaretListener, SetLabels {
 
 	private Application app;
 
 	// symbol table popup fields
-	private JPopupMenu popup;
+	private SymbolTablePopup tablePopup;
 	private MyTextField thisField = this;
-	private SymbolTable symbolTable;
-	private int caretPosition; // restores caret position when popup is done 
+	
 	private ImageIcon icon = GeoGebraIcon.createSymbolTableIcon(this.getFont(), false);
 	private ImageIcon rollOverIcon = GeoGebraIcon.createSymbolTableIcon(this.getFont(), true);
 	private boolean showSymbolTableIcon = false;
@@ -186,12 +180,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		String cmd = e.getActionCommand();
 		if(cmd.equals(0 + BorderButton.cmdSuffix)){
 
-			if(popup == null)
-				createPopup();
-			symbolTable.updateFonts();
-			caretPosition = thisField.getCaretPosition();
-			Dimension d  = popup.getPreferredSize();
-			popup.show(thisField, thisField.getX() + thisField.getWidth() - d.width, - d.height);
+			getTablePopup().showPopup(true);		
 		}
 	}
 
@@ -218,7 +207,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));            
 			setText(sb.toString());
-			if (pos < sb.length()) setCaretPosition(pos);
+			setCaretPosition(start);
 		}
 
 
@@ -255,17 +244,7 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		//	setCaretPosition(newPos); 
 	}
 
-	/** 
-	 * Creates an instance of JPopupMenu and adds a symbol table to it.
-	 */
-	private void createPopup(){
-		popup = new JPopupMenu();
-		popup.setFocusable(false);
-		symbolTable = new SymbolTable(app, this);
-		popup.add(symbolTable);
-		popup.setBorder(BorderFactory.createLineBorder(SystemColor.controlShadow));
-	}
-
+	
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
 	 * @param showSymbolTableIcon
@@ -274,30 +253,16 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 
-	/** 
-	 * Gets the pixel location of the caret. Used to locate the popup. 
-	 * */
-	private Point getCaretPixelPosition(){
-		int position = thisField.getCaretPosition();  
-		Rectangle r;
-		try {
-			r = thisField.modelToView(position);
-		} catch (BadLocationException e) {
-			return null;
-		}  
-		return new Point(r.x, r.y - popup.getPreferredSize().height-10);
-	}
+	
 
-	/** 
-	 * Hides the popup and inserts selected symbol. (Called by symbol table
-	 * on Enter key press). 
-	 * */
-	public void handlePopupSelection(){	
-		popup.setVisible(false);
-		setCaretPosition(caretPosition);
-		insertString((String) symbolTable.getSelectedValue());
+	
+	private SymbolTablePopup getTablePopup(){
+		if(tablePopup == null)
+			tablePopup = new SymbolTablePopup(app, this);
+		return tablePopup;
 	}
-
+	
+	
 	/**
 	 * Overrides processKeyEvents so that the symbol table popup can be
 	 * triggered by ctrl-up.
@@ -307,49 +272,19 @@ public class MyTextField extends JTextField implements ActionListener, FocusList
 		int keyCode = e.getKeyCode(); 
 
 		if ((e.isControlDown()||Application.isControlDown(e)) && keyCode == KeyEvent.VK_UP){
-			caretPosition = thisField.getCaretPosition();
-			if(popup == null)
-				createPopup();
-			symbolTable.updateFonts();
-			popup.show(thisField, getCaretPixelPosition().x, getCaretPixelPosition().y);
+			getTablePopup().showPopup(false);
 			return;
 		}
 
-		if(popup != null && popup.isShowing() && e.getID()==KeyEvent.KEY_PRESSED){
-
-			switch(keyCode){
-
-			case KeyEvent.VK_ENTER:
-				handlePopupSelection();
-				return;
-
-			case KeyEvent.VK_ESCAPE:
-				popup.setVisible(false);
-				return;
-
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_RIGHT:
-
-				int row = symbolTable.getSelectedRow();
-				int column = symbolTable.getSelectedColumn();
-				if(keyCode == KeyEvent.VK_RIGHT && column != symbolTable.getColumnCount()-1) ++column;	
-				if(keyCode == KeyEvent.VK_LEFT && column >= 0) --column;	
-				if(keyCode == KeyEvent.VK_DOWN && row != symbolTable.getRowCount()-1) ++row;
-				if(keyCode == KeyEvent.VK_UP && row >= 0) --row; 
-
-				symbolTable.changeSelection(row, column, false, false);
-				return;	
-
-			default:
-				popup.setVisible(false);
-				return;
-			}
-		}
 		super.processKeyEvent(e);
 	}
 
+
+	public void setLabels(){
+		tablePopup.setLabels();
+	}
+
+	
 	private float pos = 0;
 	private int scrollOffset = 0;
 	private int width = 0, height = 0, textBottom, fontHeight;
