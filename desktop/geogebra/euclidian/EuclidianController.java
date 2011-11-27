@@ -1928,7 +1928,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				
 				GeoElement topHit = hits.get(0);
 
-				if (topHit.isTranslateable()) {
+				if (topHit.isTranslateable() || topHit.isGeoPolygon()) {
 					GeoVector vec = kernel.Vector(null, 0, 0);
 					vec.setEuclidianVisible(false);
 					vec.setAuxiliaryObject(true);
