@@ -29,6 +29,7 @@ import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
+import geogebra.main.Application;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c. 
@@ -591,7 +592,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * @param P
 	 */
 	private void tryLocateInEV(GeoPointND P) {
-		EuclidianView ev = kernel.getApplication().getEuclidianView();
+		EuclidianView ev = ((Application) kernel.getApplication()).getEuclidianView();
 		boolean found = false;
 		for (int i = 0; !found && i < ev.getWidth() / SEEK_DENSITY; i++)
 			for (int j = 0; !found && j < ev.getHeight() / SEEK_DENSITY; j++) {

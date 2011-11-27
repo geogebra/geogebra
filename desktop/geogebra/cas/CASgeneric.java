@@ -3,6 +3,7 @@ package geogebra.cas;
 import geogebra.cas.error.CASException;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -17,7 +18,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public abstract class CASgeneric implements SettingListener {
+public abstract class CASgeneric implements CASGenericInterface,SettingListener {
 	
 	/**
 	 * Timeout for CAS in milliseconds.

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -80,7 +81,7 @@ public class AlgoCoefficients extends AlgoElement {
 		String functionOut;
 		try {
 			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
-			g.set(kernel.getAlgebraProcessor().evaluateToList(functionOut));	
+			g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToList(functionOut));	
 			g.setDefined(true);	
 		} catch (Throwable e) {
 			g.setUndefined();

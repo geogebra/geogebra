@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.util.StringUtil;
@@ -257,7 +258,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return;
 		} else {
 			isDefined = geo.isDefined();
-			fun = new Function(geoFun, kernel);		
+			fun = new Function(geoFun, ((Kernel)kernel));		
 		}			
 	
 		// macro OUTPUT
@@ -775,9 +776,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public double getMinParameter() {
 		if (interval)
-			return Math.max(kernel.getViewsXMin(this), intervalMin);
+			return Math.max(((Kernel)kernel).getViewsXMin(this), intervalMin);
 		else
-			return kernel.getViewsXMin(this);
+			return ((Kernel)kernel).getViewsXMin(this);
 	}
 	
 	/**
@@ -789,9 +790,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public double getMaxParameter() {
 		if (interval)
-			return Math.min(kernel.getViewsXMax(this), intervalMax);
+			return Math.min(((Kernel)kernel).getViewsXMax(this), intervalMax);
 		else
-			return kernel.getViewsXMax(this);
+			return ((Kernel)kernel).getViewsXMax(this);
 	}
 	
 	public PathMover createPathMover() {
@@ -975,7 +976,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public static GeoFunction add(GeoFunction resultFun, GeoFunction fun1, GeoFunction fun2) {
 		
-		Kernel kernel = fun1.getKernel();
+		AbstractKernel kernel = fun1.getKernel();
 		
     	FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
     	FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
@@ -1001,7 +1002,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @return resulting GeoFunction or GeFunctionNvar
 	 */
 	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt , FunctionalNVar rt) {
-		Kernel kernel = lt.getFunction().getKernel();
+		AbstractKernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for(int i=0;i<lt.getFunction().getVarNumber();i++)
 			varNames.add(lt.getFunction().getVarString(i));
@@ -1047,7 +1048,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 
 	private static ExpressionNode toExpr(FunctionalNVar lt,
-			HashMap<String, FunctionVariable> varMap,Kernel kernel) {
+			HashMap<String, FunctionVariable> varMap,AbstractKernel kernel) {
 		if(lt instanceof GeoFunction)
 			return new ExpressionNode(kernel,(GeoFunction)lt,
 					Operation.FUNCTION,varMap.get(lt.getVarString()));
@@ -1078,7 +1079,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @return resulting function
 	 */
 	public static FunctionNVar applyNumberSymb(Operation op, FunctionalNVar fun1, ExpressionValue nv,boolean right) {
-		Kernel kernel = fun1.getFunction().getKernel();
+		AbstractKernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for(int i=0;i<fun1.getFunction().getVarNumber();i++)
 			varNames.add(fun1.getFunction().getVarString(i));		
@@ -1117,7 +1118,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public static GeoFunction subtract(GeoFunction resultFun, GeoFunction fun1, GeoFunction fun2) {
 		
-		Kernel kernel = fun1.getKernel();
+		AbstractKernel kernel = fun1.getKernel();
 		
     	FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
     	FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
@@ -1150,7 +1151,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public static GeoFunction mult(GeoFunction resultFun, double number, GeoFunction fun) {
 		
-		Kernel kernel = fun.getKernel();
+		AbstractKernel kernel = fun.getKernel();
 		geogebra.kernel.arithmetic.MyDouble num = new geogebra.kernel.arithmetic.MyDouble(kernel,number);
 		
     	FunctionVariable xold = fun.getFunction().getFunctionVariable();
@@ -1226,9 +1227,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		sb.append("50)");
 
 		try {
-			String functionOut = kernel
+			String functionOut = ((Kernel)kernel)
 					.evaluateCachedGeoGebraCAS(sb.toString());
-			NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+			NumberValue nv = ((Kernel)kernel).getAlgebraProcessor().evaluateToNumeric(
 					functionOut, false);
 			return nv.getDouble();
 		} catch (Throwable e) {
@@ -1325,12 +1326,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	        sb.append(Unicode.Infinity);
 	        sb.append(')');
 
-			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString());
+			gradientStrMinus = ((Kernel)kernel).evaluateCachedGeoGebraCAS(sb.toString());
 			//Application.debug(sb.toString()+" = "+gradientStrMinus,1);
 			
 			double grad;
 			try {
-				grad = kernel.getAlgebraProcessor().evaluateToDouble(gradientStrMinus, true);
+				grad = ((Kernel)kernel).getAlgebraProcessor().evaluateToDouble(gradientStrMinus, true);
 			} catch (Exception e) {
 				grad = 0;
 			}
@@ -1479,7 +1480,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		    			//Application.debug(verticalAsymptotesArray[i]+"");
 		    			if (verticalAsymptotesArray[i].trim().equals("")) isInRange = false; // was complex root
 		    			//isInRange = parentFunction.evaluateCondition(Double.parseDouble(verticalAsymptotesArray[i]));
-		    			else isInRange = parentFunction.evaluateCondition(kernel.getAlgebraProcessor().evaluateToNumeric(verticalAsymptotesArray[i], true).getDouble());
+		    			else isInRange = parentFunction.evaluateCondition(((Kernel)kernel).getAlgebraProcessor().evaluateToNumeric(verticalAsymptotesArray[i], true).getDouble());
 		    		} catch (Exception e) {Application.debug("Error parsing: "+verticalAsymptotesArray[i]);}
 		    		if (reverseCondition) isInRange = !isInRange;
 		    		

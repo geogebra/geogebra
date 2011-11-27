@@ -31,21 +31,21 @@ public class Polynomial extends ValidExpression implements Serializable, Express
 	private static final long serialVersionUID = 1L;
     
     private ArrayList<Term> terms = new ArrayList<Term>();
-    private Kernel kernel;
+    private AbstractKernel kernel;
 
-    public Polynomial(Kernel kernel) { this.kernel = kernel;}        
+    public Polynomial(AbstractKernel kernel) { this.kernel = kernel;}        
             
-    public Polynomial(Kernel kernel, Term t) {
+    public Polynomial(AbstractKernel kernel, Term t) {
         this(kernel);
         terms.add( t );        
     }
     
-    public Polynomial(Kernel kernel, String vars) {
+    public Polynomial(AbstractKernel kernel, String vars) {
         this(kernel);
         terms.add( new Term(kernel, 1.0d, vars) );        
     }
        
-    public Polynomial(Kernel kernel, Polynomial poly) {   
+    public Polynomial(AbstractKernel kernel, Polynomial poly) {   
         this(kernel);
         //Application.debug("poly copy constructor input: " + poly);        
         for (int i=0; i < poly.length(); i++) {
@@ -55,7 +55,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     }
     
     public ExpressionValue deepCopy(AbstractKernel kernel) {
-        return new Polynomial((Kernel)kernel, this);
+        return new Polynomial(kernel, this);
     }
     
     public Term getTerm(int i) {
@@ -553,7 +553,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
 		return toValueString();
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 } // end of class Polynomial

@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
+import geogebra.main.Application;
 
 
 /**
@@ -76,7 +77,7 @@ public class AlgoAxisStepX extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {  
-    	double axisSteps[] = kernel.getApplication().getEuclidianView().getGridDistances();
+    	double axisSteps[] = ((Application)kernel.getApplication()).getEuclidianView().getGridDistances();
     	num.setValue(axisSteps[0]);
     }         
 }

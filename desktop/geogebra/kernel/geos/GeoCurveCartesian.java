@@ -193,8 +193,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	public void set(GeoElement geo) {
 		GeoCurveCartesian geoCurve = (GeoCurveCartesian) geo;
 
-		funX = new Function(geoCurve.funX, kernel);
-		funY = new Function(geoCurve.funY, kernel);
+		funX = new Function(geoCurve.funX, (Kernel)kernel);
+		funY = new Function(geoCurve.funY, (Kernel)kernel);
 		startParam = geoCurve.startParam;
 		endParam = geoCurve.endParam;
 		isDefined = geoCurve.isDefined;
@@ -663,7 +663,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		// to find minimum
 		double left = Math.max(startParam, minParam - step);
 		double right = Math.min(endParam, minParam + step);
-		ExtremumFinder extFinder = kernel.getExtremumFinder();
+		ExtremumFinder extFinder = ((Kernel)kernel).getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
 				Kernel.MIN_PRECISION);
 

@@ -29,6 +29,13 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
     public static final int VIEW_TEXT_PREVIEW = 4096;
 	public static final int VIEW_PROPERTIES = 4097;
 
+	// For eg Hebrew and Arabic. 	
+		public static char unicodeDecimalPoint = '.';
+		public static char unicodeComma = ','; // \u060c for Arabic comma
+		public static char unicodeZero = '0';
+	
+		public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
+		
 	public abstract ResourceBundle initAlgo2IntergeoBundle();
 	public abstract ResourceBundle initAlgo2CommandBundle();
 	public abstract String getCommand(String cmdName);
@@ -82,5 +89,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract Object getAlgebraView();
 	public abstract void debugNotStatic(Object s);
 	public abstract Object createEuclidianViewForPlane(Object o);
-	public abstract boolean isRightToLeftDigits();	
+	public abstract boolean isRightToLeftDigits();
+	public abstract boolean isShowingEuclidianView2();
+	
 }

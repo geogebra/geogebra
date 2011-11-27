@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.FormulaDimension;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
@@ -250,11 +251,11 @@ public class DrawEquation {
 		}
 	}
 
-	final public static FormulaDimension drawEquation(Application app,
+	final public static FormulaDimension drawEquation(AbstractApplication app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
 			Font font, boolean serif, Color fgColor, Color bgColor,
 			boolean useCache) {
-		return drawEquation(app, geo, g2, x, y, text, font, serif, fgColor,
+		return drawEquation((Application)app, geo, g2, x, y, text, font, serif, fgColor,
 				bgColor, useCache, null, null);
 	}
 

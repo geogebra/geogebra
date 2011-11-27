@@ -39,7 +39,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
     public AlgoAsymptoteImplicitPoly(Construction c, String label, GeoImplicitPoly ip) {
     	super(c);
         this.ip = ip;            
-        solver = getKernel().getEquationSolver();
+        solver = ((Kernel) getKernel()).getEquationSolver();
         
 //    	lines=new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
 //			public GeoLine newElement() {

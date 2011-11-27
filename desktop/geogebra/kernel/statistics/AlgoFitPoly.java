@@ -14,6 +14,7 @@ the Free Software Foundation.
 
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
@@ -78,7 +79,7 @@ public class AlgoFitPoly extends AlgoElement{
             geofunction.setUndefined();
             return;
         }else{
-        	RegressionMath regMath = kernel.getRegressionMath();
+        	RegressionMath regMath = ((Kernel) kernel).getRegressionMath();
             switch(par){
             case RegressionMath.LINEAR:          //24.04.08: moved up linear case from default
             	   	regok=regMath.doLinear(geolist);

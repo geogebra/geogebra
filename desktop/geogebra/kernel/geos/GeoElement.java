@@ -24,6 +24,8 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.CASGenericInterface;
+import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.StringUtil;
@@ -1573,7 +1575,7 @@ public abstract class GeoElement
 			coords.x++;
 			label = getSpreadsheetCellName(coords.x, coords.y);
 			if (label == null) return "";
-			GeoElement geo = kernel.lookupLabel(label);
+			GeoElement geo = ((Kernel)kernel).lookupLabel(label);
 			return (geo == null) ? "" : geo.toValueString();
 		}
 
@@ -1923,7 +1925,7 @@ public abstract class GeoElement
 
 		// tell animation manager
 		if (oldValue != animating) {
-			AnimationManager am = kernel.getAnimatonManager();
+			AnimationManager am = ((Kernel)kernel).getAnimatonManager();
 			if (animating)
 				am.addAnimatedGeo(this);
 			else
@@ -1979,7 +1981,7 @@ public abstract class GeoElement
 				String body = getCASString(false);
 				String casLabel = getLabel();
 				
-				CASgeneric cas = kernel.getGeoGebraCAS().getCurrentCAS();
+				CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 				if (this instanceof FunctionalNVar) {
 					String params = ((FunctionalNVar) this).getFunction().getVarString();
 					retval = cas.translateFunctionDeclaration(casLabel, params, body);
@@ -2124,7 +2126,7 @@ public abstract class GeoElement
 			// until they are shown in one of the views to get a label
 			if (isVisible()) {
 				// newLabel is used already: rename the using geo
-				GeoElement geo = kernel.lookupLabel(newLabel);
+				GeoElement geo = ((Kernel)kernel).lookupLabel(newLabel);
 				if (geo != null) {
 					geo.doRenameLabel(getFreeLabel(newLabel));
 				}
@@ -2573,7 +2575,7 @@ public abstract class GeoElement
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 
-		kernel.notifyRename(this); // tell views
+		((Kernel)kernel).notifyRename(this); // tell views
 		updateCascade();
 	}
 
@@ -2938,7 +2940,7 @@ public abstract class GeoElement
 
 	@Override
 	final public void notifyAdd() {
-		kernel.notifyAdd(this);
+		((Kernel)kernel).notifyAdd(this);
 
 		//		Application.debug("add " + label);
 		// printUpdateSets();
@@ -2946,21 +2948,21 @@ public abstract class GeoElement
 
 	@Override
 	final public void notifyRemove() {
-		kernel.notifyRemove(this);
+		((Kernel)kernel).notifyRemove(this);
 
 		//Application.debug("remove " + label);
 		//printUpdateSets();
 	}
 
 	final public void notifyUpdate() {
-		kernel.notifyUpdate(this);
+		((Kernel)kernel).notifyUpdate(this);
 
 		//	Application.debug("update " + label);
 		//	printUpdateSets();
 	}
 
 	final public void notifyUpdateAuxiliaryObject() {
-		kernel.notifyUpdateAuxiliaryObject(this);
+		((Kernel)kernel).notifyUpdateAuxiliaryObject(this);
 
 		//		Application.debug("add " + label);
 		//	printUpdateSets();
@@ -3115,7 +3117,7 @@ public abstract class GeoElement
 
 		updateGeo();
 
-		kernel.notifyUpdate(this);
+		((Kernel)kernel).notifyUpdate(this);
 	}
 	
 	final private void updateGeo() {
@@ -3161,7 +3163,7 @@ public abstract class GeoElement
 		}
 		
 		try {
-			GeoGebraCASInterface cas = kernel.getGeoGebraCAS();
+			GeoGebraCasInterfaceSlim cas = ((Kernel)kernel).getGeoGebraCAS();
 			String geoStr = toCasAssignment(cas.getCurrentCASstringType());
 			if (geoStr != null) {
 				// TODO: remove
@@ -3349,7 +3351,7 @@ public abstract class GeoElement
 	 */
 	final public void updateRepaint() {
 		updateCascade();
-		kernel.notifyRepaint();
+		((Kernel)kernel).notifyRepaint();
 	}
 	
 	/**
@@ -3357,7 +3359,7 @@ public abstract class GeoElement
 	 */
 	public void updateVisualStyle() {
 		//updateGeo();
-		kernel.notifyUpdateVisualStyle(this);
+		((Kernel)kernel).notifyUpdateVisualStyle(this);
 		//updateDependentObjects();
 		//kernel.notifyRepaint();
 	}
@@ -3365,7 +3367,7 @@ public abstract class GeoElement
 	public void updateVisualStyleRepaint() {
 		
 		updateVisualStyle();
-		kernel.notifyRepaint();
+		((Kernel)kernel).notifyRepaint();
 	}
 	
 	
@@ -3513,11 +3515,11 @@ public abstract class GeoElement
 	 * @param geo 
 	 * @return true if this object is dependent on geo.
 	 */
-	public boolean isChildOf(GeoElement geo) {
+	public boolean isChildOf(GeoElementInterface geo) {
 		if (geo == null || isIndependent())
 			return false;
 		else
-			return geo.isParentOf(this);
+			return ((GeoElement)geo).isParentOf(this);
 	}
 
 	/**
@@ -5217,8 +5219,8 @@ public abstract class GeoElement
 			else if (isAbsoluteScreenLocateable()) {
 				AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) this;
 				if (screenLoc.isAbsoluteScreenLocActive()) {
-					int vxPixel = (int) Math.round(kernel.getXscale() * rwTransVec.getX());
-					int vyPixel = -(int) Math.round(kernel.getYscale() * rwTransVec.getY());
+					int vxPixel = (int) Math.round(((Kernel)kernel).getXscale() * rwTransVec.getX());
+					int vyPixel = -(int) Math.round(((Kernel)kernel).getYscale() * rwTransVec.getY());
 					int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
 					int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
 					screenLoc.setAbsoluteScreenLoc(x, y);
@@ -5365,7 +5367,7 @@ public abstract class GeoElement
 			diffSb.append("-(");
 			diffSb.append(f.getFormulaString(StringType.GEOGEBRA, true));
 			diffSb.append(")");
-			String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
+			String diff = ((Kernel)kernel).evaluateGeoGebraCAS(diffSb.toString());
 			return (Double.valueOf(diff)==0d);
 		}
 		catch (Throwable e) { 
@@ -5786,7 +5788,7 @@ public abstract class GeoElement
 
 		String ggbScript = update ? updateScript : clickScript;
 
-		AlgebraProcessor ab = kernel.getAlgebraProcessor();
+		AlgebraProcessor ab = ((Kernel)kernel).getAlgebraProcessor();
 		String script[] = (arg == null) ? ggbScript.split("\n") :
 			ggbScript.replaceAll("%0", arg).split("\n");
 

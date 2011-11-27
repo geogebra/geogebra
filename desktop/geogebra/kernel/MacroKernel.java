@@ -17,7 +17,8 @@ import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoGebraCASInterface;
-import geogebra.main.Application.CasType;
+import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.main.MyError;
 
 import java.util.LinkedHashMap;
@@ -142,7 +143,7 @@ public class MacroKernel extends Kernel  {
 	/**
 	 * Returns the parent kernel's GeoGebraCAS object.
 	 */
-	public GeoGebraCASInterface getGeoGebraCAS() {
+	public GeoGebraCasInterfaceSlim getGeoGebraCAS() {
 		return parentKernel.getGeoGebraCAS();
 	}
 	
@@ -178,14 +179,14 @@ public class MacroKernel extends Kernel  {
 	/**
 	 * @return Hash map for caching CAS results from parent kernel.
 	 */
-	protected MaxSizeHashMap<String, String> getCasCache() {
+	public MaxSizeHashMap<String, String> getCasCache() {
 		return parentKernel.getCasCache();
 	}
 	
 	/**
 	 * @return Whether parent kernel is already using CAS caching.
 	 */
-	protected boolean hasCasCache() {
+	public boolean hasCasCache() {
 		return parentKernel.hasCasCache();
 	}
 	

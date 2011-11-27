@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -84,7 +85,7 @@ public class AlgoPolynomialDiv extends AlgoElement {
 			}
 			else {
 				// read result back into function
-				g.set(kernel.getAlgebraProcessor().evaluateToFunction(functionOut, false));		
+				g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToFunction(functionOut, false));		
 			}
 	    } catch (Throwable th) {
 	    	g.setUndefined();

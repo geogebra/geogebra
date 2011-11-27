@@ -201,7 +201,7 @@ public final class DrawTextField extends Drawable {
 				} 
 				
 				try {
-					linkedGeo = geo.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo, defineText, false, true);
+					linkedGeo = ((Kernel) geo.getKernel()).getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo, defineText, false, true);
 				} catch (Exception e1) {
 					geo.getKernel().getApplication().showError(e1.getMessage());
 					updateText();

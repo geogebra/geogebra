@@ -477,7 +477,7 @@ GeoSegmentND {
 			GeoPointND [] points = {getStartPoint(), getEndPoint()};
 			points = t.transformPoints(points);	
 			// create SEGMENT
-			GeoElement segment = (GeoElement) kernel.SegmentND(label, points[0], points[1]);
+			GeoElement segment = (GeoElement) ((Kernel) kernel).SegmentND(label, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
 			return geos;	

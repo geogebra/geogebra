@@ -25,6 +25,7 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
+import geogebra.main.Application;
 
 
 /******************* 
@@ -112,7 +113,7 @@ public final class AlgoFitLogistic extends AlgoElement{
     
     public AlgoFitLogistic(Construction cons, GeoList geolist) {
         super(cons);
-        app=kernel.getApplication();
+        app=(Application) kernel.getApplication();
         k=app.getKernel();
         this.geolist=geolist;
         geofunction=new GeoFunction(cons);

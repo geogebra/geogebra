@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 
@@ -33,7 +33,7 @@ implements Comparable<ConstructionElement> {
 	// <-- Added for Intergeo File Format (Yves Kreis)
     
 	public transient Construction cons; // parent construction of this element
-	public transient Kernel kernel;      // parent kernel of this element
+	public transient AbstractKernel kernel;      // parent kernel of this element
 	protected transient AbstractApplication app;  // parent application of this element
 	
 	private int constIndex = -1; // index in construction list 
@@ -56,7 +56,7 @@ implements Comparable<ConstructionElement> {
 		return cons;
 	}
 	
-	public final Kernel getKernel() {
+	public final AbstractKernel getKernel() {
 		return kernel;
 	}
 

@@ -19,15 +19,14 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.kernel.kernelND.GeoSurfaceCartesianND;
 
 /**
@@ -67,7 +66,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 		FunctionNVar[] fun = new FunctionNVar[coords.length];
 
 		for (int i=0;i<coords.length;i++){
-			exp[i]= kernel.convertNumberValueToExpressionNode(coords[i]);
+			exp[i]= ((Kernel) kernel).convertNumberValueToExpressionNode(coords[i]);
 			for (int j=0;j<localVar.length; j++)
 				exp[i].replaceAndWrap(localVar[j], funVar[j]);
 			fun[i] = new FunctionNVar(exp[i], funVar);

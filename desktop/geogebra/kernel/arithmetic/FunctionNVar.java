@@ -53,7 +53,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	protected boolean isConstantFunction = false;
 
 	/** kernel */
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 
 	private StringBuilder sb = new StringBuilder(80);
 
@@ -226,7 +226,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param kernel
 	 *            kernel
 	 */
-	public FunctionNVar(Kernel kernel) {
+	public FunctionNVar(AbstractKernel kernel) {
 		this.kernel = kernel;
 
 	}
@@ -238,7 +238,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 *            source function
 	 * @param kernel
 	 */
-	public FunctionNVar(FunctionNVar f, Kernel kernel) {
+	public FunctionNVar(FunctionNVar f, AbstractKernel kernel) {
 		expression = f.expression.getCopy(kernel);
 		fVars = f.fVars; // no deep copy of function variable
 		isBooleanFunction = f.isBooleanFunction;
@@ -267,7 +267,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * @return kernel
 	 */
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 
@@ -636,9 +636,9 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 			// parse result
 			if (getVarNumber() == 1) {
-				resultFun = kernel.getParser().parseFunction(sb.toString());
+				resultFun = ((Kernel)kernel).getParser().parseFunction(sb.toString());
 			} else {
-				resultFun = kernel.getParser().parseFunctionNVar(sb.toString());
+				resultFun = ((Kernel)kernel).getParser().parseFunctionNVar(sb.toString());
 			}
 
 			resultFun.initFunction();			
@@ -821,7 +821,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		ExpressionNode rightTree = fe.getRightTree();
 		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)
 				|| op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL)) {
-			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
+			Inequality newIneq = new Inequality((Kernel)kernel, leftTree, rightTree,
 					adjustOp(op,negate), getFunction().getFunctionVariables(), functional);
 			if (newIneq.getType() != Inequality.INEQUALITY_INVALID) {
 				if (newIneq.getType() != Inequality.INEQUALITY_1VAR_X

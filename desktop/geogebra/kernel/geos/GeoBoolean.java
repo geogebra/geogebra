@@ -115,7 +115,7 @@ AbsoluteScreenLocateable {
 		if (condListenersShowObject != null) {
 			for (int i=0; i < condListenersShowObject.size(); i++) {
 				GeoElement geo = (GeoElement) condListenersShowObject.get(i);		
-				kernel.notifyUpdate(geo);					
+				((Kernel) kernel).notifyUpdate(geo);					
 			}		
 		}
 	}
@@ -135,7 +135,7 @@ AbsoluteScreenLocateable {
 			for (int i=0; i < geos.length; i++) {		
 				GeoElement geo = (GeoElement) geos[i];
 				geo.removeCondition(this);				
-				kernel.notifyUpdate(geo);			
+				((Kernel) kernel).notifyUpdate(geo);			
 			}			
 		}
 		

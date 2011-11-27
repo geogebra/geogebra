@@ -27,9 +27,9 @@ import java.util.HashSet;
 public class MyStringBuffer extends ValidExpression implements TextValue {
     
     private StringBuilder sb;
-    private Kernel kernel;
+    private AbstractKernel kernel;
     
-    public MyStringBuffer(Kernel kernel, String str) {
+    public MyStringBuffer(AbstractKernel kernel, String str) {
         sb = new StringBuilder(str);
         this.kernel = kernel;
     }
@@ -132,7 +132,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return false;
 	}
 	
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 }

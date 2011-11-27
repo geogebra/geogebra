@@ -2,15 +2,17 @@ package geogebra.cas;
 
 import geogebra.cas.error.CASException;
 import geogebra.cas.mpreduce.CASmpreduce;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.main.Application;
-import geogebra.main.Application.CasType;
+import geogebra.common.main.AbstractApplication.CasType;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,7 +23,7 @@ import java.util.Map;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoGebraCAS implements GeoGebraCASInterface {
+public class GeoGebraCAS implements GeoGebraCASInterface, GeoGebraCasInterfaceSlim {
 
 	private Application app;
 	private CASparser casParser;
@@ -439,7 +441,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface {
 	 * @param cmd command with name and number of arguments
 	 * @return whether command is available
 	 */
-	final public boolean isCommandAvailable(Command cmd) {
+	final public boolean isCommandAvailable(AbstractCommand cmd) {
 		StringBuilder sbCASCommand = new StringBuilder();
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".");

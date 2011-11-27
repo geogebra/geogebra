@@ -37,12 +37,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     private Polynomial leftPoly, rightPoly; // polynomial in normalForm   
     private Polynomial normalForm; // polynomial in normalForm
     private boolean isFunctionDependent; //Equation depends (non-constant) on functions (set in InitEquation)
-    protected Kernel kernel;
+    protected AbstractKernel kernel;
    
     /** check whether ExpressionNodes are evaluable to instances of Polynomial
      * or NumberValue and build an Equation out of them
      */
-    public Equation(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs) {
+    public Equation(AbstractKernel kernel, ExpressionValue lhs, ExpressionValue rhs) {
     	if (lhs.isExpressionNode())
     		this.lhs = (ExpressionNode) lhs;
     	else
@@ -150,9 +150,9 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     	
 
     	// replace GeoDummyVariables for "x", "y", "z" which may be coming from CAS view
-    	replaceGeoDummyVariables("x", new Polynomial(kernel, "x"));
-		replaceGeoDummyVariables("y", new Polynomial(kernel, "y"));
-		replaceGeoDummyVariables("z", new Polynomial(kernel, "z"));
+    	replaceGeoDummyVariables("x", new Polynomial((Kernel)kernel, "x"));
+		replaceGeoDummyVariables("y", new Polynomial((Kernel)kernel, "y"));
+		replaceGeoDummyVariables("z", new Polynomial((Kernel)kernel, "z"));
            
         // resolve variables in lhs         
         if (lhs.isLeaf() && lhs.getLeft().isVariable()) {
@@ -184,7 +184,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         rightPoly = (Polynomial) rightEN.evaluate();	      
         		
         // bring to normal form left - right = 0
-        normalForm = new Polynomial(kernel, rightPoly);
+        normalForm = new Polynomial((Kernel)kernel, rightPoly);
         normalForm.multiply(-1.0d);
         normalForm.add(leftPoly);             		   		   
     }
@@ -459,7 +459,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return didReplacement;
 	}
 	
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
  

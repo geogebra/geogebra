@@ -16,6 +16,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -63,7 +64,7 @@ implements ExpressionValue, RealRootFunction, Functional {
      * do this later.    
      * @param kernel 
      */ 
-    public Function(Kernel kernel) {
+    public Function(AbstractKernel kernel) {
        super(kernel);
        fVars = new FunctionVariable[1];
     }
@@ -74,7 +75,7 @@ implements ExpressionValue, RealRootFunction, Functional {
      * @param f source function
      * @param kernel
      */
-    public Function(Function f, Kernel kernel) {   
+    public Function(Function f, AbstractKernel kernel) {   
         super(f.expression.getCopy(kernel));
         fVars = f.fVars; // no deep copy of function variable            
         isBooleanFunction = f.isBooleanFunction;
@@ -83,7 +84,7 @@ implements ExpressionValue, RealRootFunction, Functional {
         this.kernel = kernel;
     }
     
-    public ExpressionValue deepCopy(Kernel kernel) {
+    public ExpressionValue deepCopy(AbstractKernel kernel) {
         return new Function(this, kernel);        
     }   
     
@@ -574,7 +575,7 @@ implements ExpressionValue, RealRootFunction, Functional {
              kernel.setUseTempVariablePrefix(oldUseTempVarPrefix);
         }
         
-        String [] strCoeffs = kernel.getPolynomialCoeffs(function, var);
+        String [] strCoeffs = ((Kernel)kernel).getPolynomialCoeffs(function, var);
         
         if (strCoeffs == null)
 			// this is not a valid polynomial           
@@ -615,7 +616,7 @@ implements ExpressionValue, RealRootFunction, Functional {
      */
     private ExpressionNode evaluateToExpressionNode(String str) {
          try {
-            ExpressionNode en = kernel.getParser().parseExpression(str);
+            ExpressionNode en = ((Kernel)kernel).getParser().parseExpression(str);
             en.resolveVariables();
             return en;
          }
@@ -643,7 +644,7 @@ implements ExpressionValue, RealRootFunction, Functional {
      */
     public GeoFunction getGeoDerivative(int n) {
     	if (geoDeriv == null)
-    		geoDeriv = new GeoFunction(kernel.getConstruction());
+    		geoDeriv = new GeoFunction((Construction)kernel.getConstruction());
     	
     	Function deriv = getDerivative(n);
     	geoDeriv.setFunction(deriv);
@@ -704,7 +705,7 @@ implements ExpressionValue, RealRootFunction, Functional {
 		
 		// get variable string with tmp prefix, 
 		// e.g. "t" becomes "ggbtmpvart" here
-		Kernel kernel = funX.kernel;
+		AbstractKernel kernel = funX.kernel;
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
 		String varStr = funX.fVars[0].toString();

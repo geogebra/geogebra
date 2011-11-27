@@ -47,23 +47,23 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     
     private int mode; // POLAR or CARTESIAN  
     
-    private Kernel kernel;
+    private AbstractKernel kernel;
     
     
     /** Creates new GeoVec2D */
-    public GeoVec2D(Kernel kernel) {
+    public GeoVec2D(AbstractKernel kernel) {
     	this.kernel = kernel;
     }
     
     /** Creates new GeoVec2D with coordinates (x,y)*/
-    public GeoVec2D(Kernel kernel, double x, double y) {
+    public GeoVec2D(AbstractKernel kernel, double x, double y) {
     	this(kernel);
         this.x = x;
         this.y = y;
     }
     
     /** Creates new GeoVec2D with coordinates (a[0],a[1])*/
-    public GeoVec2D(Kernel kernel, double [] a) {
+    public GeoVec2D(AbstractKernel kernel, double [] a) {
     	this(kernel);
         x = a[0];
         y = a[1];
@@ -823,7 +823,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			
 		}
 		
-		public Kernel getKernel() {
+		public AbstractKernel getKernel() {
 			return kernel;
 		}
 

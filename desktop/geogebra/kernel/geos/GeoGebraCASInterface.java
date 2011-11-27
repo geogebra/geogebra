@@ -2,9 +2,9 @@ package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.kernel.arithmetic.Command;
 
 /*
  * needed for minimal applets
@@ -23,7 +23,7 @@ public interface GeoGebraCASInterface {
 
 	public boolean isStructurallyEqual(ValidExpression inputVE, String newInput);
 
-	public boolean isCommandAvailable(Command cmd);
+	public boolean isCommandAvailable(AbstractCommand cmd);
 
 	public String[] getPolynomialCoeffs(String exp, String variable);
 

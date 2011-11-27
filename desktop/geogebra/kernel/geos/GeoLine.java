@@ -1135,7 +1135,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 			// don't create a label for the new dependent function
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			ret = kernel.DependentFunction(null, fun);
+			ret = ((Kernel) kernel).DependentFunction(null, fun);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else 
 		{

@@ -1,11 +1,14 @@
 package geogebra.kernel.geos;
 
 import geogebra.cas.error.CASException;
+import geogebra.cas.GeoGebraCAS;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
@@ -36,7 +39,7 @@ public class GeoCasCell extends GeoElement {
 	// input variables of this cell
 	private TreeSet <String> invars, functionvars;
 	// defined input GeoElements of this cell
-	private TreeSet<GeoElement> inGeos;
+	private TreeSet<GeoElementInterface> inGeos;
 	private boolean isCircularDefinition;	
 
 	// twin geo, e.g. GeoCasCell m := 8 creates GeoNumeric m = 8
@@ -405,7 +408,7 @@ public class GeoCasCell extends GeoElement {
 	 */
 	private ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue) {
 		try {			
-			return kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(inValue);
+			return ((GeoGebraCAS)kernel.getGeoGebraCAS()).getCASparser().parseGeoGebraCASInputAndResolveDummyVars(inValue);
 		}catch (Throwable e) {
 			return null;
 		} 
@@ -434,13 +437,13 @@ public class GeoCasCell extends GeoElement {
 				
 				// if command not known to CAS
 				if (!kernel.getGeoGebraCAS().isCommandAvailable((Command)cmd)) {
-					if (kernel.lookupCasCellLabel(cmdName) != null ||
+					if (((Kernel) kernel).lookupCasCellLabel(cmdName) != null ||
 						kernel.lookupLabel(cmdName) != null) 
 					{
 						// treat command name as defined user function name
 						getInVars().add(cmdName);
 					}
-					else if (kernel.getAlgebraProcessor().isCommandAvailable(cmdName)) {
+					else if (((Kernel)kernel).getAlgebraProcessor().isCommandAvailable(cmdName)) {
 						// command is known to GeoGebra: use possible fallback
 						useGeoGebraFallback = true;
 					}
@@ -487,7 +490,7 @@ public class GeoCasCell extends GeoElement {
 		// check for circular definition
 		isCircularDefinition = false;
 		if (inGeos != null) {
-			for (GeoElement inGeo : inGeos) {
+			for (GeoElementInterface inGeo : inGeos) {				
 				if (inGeo.isChildOf(this)) {
 					isCircularDefinition = true;
 					setError("CircularDefinition");
@@ -678,24 +681,24 @@ public class GeoCasCell extends GeoElement {
 	 * 
 	 * @return input GeoElements including GeoCasCell objects
 	 */
-	public TreeSet<GeoElement> getGeoElementVariables() {
+	public TreeSet<GeoElementInterface> getGeoElementVariables() {
 		if (inGeos == null) {
 			inGeos = updateInputGeoElements(invars);
 		}
 		return inGeos;		
 	}
 	
-	private TreeSet<GeoElement> updateInputGeoElements(TreeSet<String> invars) {
+	private TreeSet<GeoElementInterface> updateInputGeoElements(TreeSet<String> invars) {
 		if (invars == null || invars.isEmpty())
 			return null;
 		
 		// list to collect geo variables
-		TreeSet<GeoElement> geoVars = new TreeSet<GeoElement>();
+		TreeSet<GeoElementInterface> geoVars = new TreeSet<GeoElementInterface>();
 			
 		// go through all variables
 		for (String varLabel : invars) {
 			// lookup GeoCasCell first
-			GeoElement geo = kernel.lookupCasCellLabel(varLabel);
+			GeoElementInterface geo = ((Kernel) kernel).lookupCasCellLabel(varLabel);
 			
 			if (geo == null) {
 				// try row reference lookup
@@ -703,7 +706,7 @@ public class GeoCasCell extends GeoElement {
 				if (varLabel.equals(ExpressionNode.CAS_ROW_REFERENCE_PREFIX)) {			
 					geo = row > 0 ? cons.getCasCell(row-1) : cons.getLastCasCell();
 				} else {
-					geo = kernel.lookupCasRowReference(varLabel);
+					geo = ((Kernel) kernel).lookupCasRowReference(varLabel);
 				}
 				if (geo != null)
 					includesRowReferences = true;
@@ -731,7 +734,7 @@ public class GeoCasCell extends GeoElement {
 	 * Replaces GeoDummyVariable objects in inputVE by the found inGeos.
 	 * This is important for row references and renaming of inGeos to work.
 	 */
-	private ValidExpression resolveInputReferences(ValidExpression ve, TreeSet<GeoElement> inGeos) {
+	private ValidExpression resolveInputReferences(ValidExpression ve, TreeSet<GeoElementInterface> inGeos) {
 		if (ve == null) return ve;
 		
 		ValidExpression ret;
@@ -754,11 +757,11 @@ public class GeoCasCell extends GeoElement {
 		
 		// replace GeoDummyVariable occurances for each geo
 		if (inGeos != null) {
-			for (GeoElement inGeo : inGeos) {
-				boolean success = node.replaceGeoDummyVariables(inGeo.getLabel(), inGeo);
+			for (GeoElementInterface inGeo : inGeos) {
+				boolean success = node.replaceGeoDummyVariables(inGeo.getLabel(), (GeoElement)inGeo);
 				if (!success) {
 					// try $ row reference
-					node.replaceGeoDummyVariables(ExpressionNode.CAS_ROW_REFERENCE_PREFIX, inGeo);
+					node.replaceGeoDummyVariables(ExpressionNode.CAS_ROW_REFERENCE_PREFIX, (GeoElement)inGeo);
 				}
 			}		
 		}		
@@ -799,7 +802,7 @@ public class GeoCasCell extends GeoElement {
 
 		// replace function variables in tree
 		for (String varLabel : invars) {			
-			GeoElement geo = kernel.lookupLabel(varLabel);
+			GeoElement geo = (GeoElement)kernel.lookupLabel(varLabel);
 			if (geo != null) {
 				// look for GeoDummyVariable objects with name of function variable and	replace them		
 				fun.getExpression().replaceGeoDummyVariables(varLabel, geo);	
@@ -1100,7 +1103,7 @@ public class GeoCasCell extends GeoElement {
 		
 		try {
 			// evaluate in GeoGebra
-			GeoElement [] ggbEval = kernel.getAlgebraProcessor().doProcessValidExpression(ve);
+			GeoElement [] ggbEval = ((Kernel) kernel).getAlgebraProcessor().doProcessValidExpression(ve);
 			if (ggbEval != null) {
 				return ggbEval[0];
 			} else {
@@ -1168,7 +1171,7 @@ public class GeoCasCell extends GeoElement {
 			
 			try {
 				// process inputExp in GeoGebra					
-				GeoElement [] geos = kernel.getAlgebraProcessor().
+				GeoElement [] geos = ((Kernel) kernel).getAlgebraProcessor().
 					processAlgebraCommandNoExceptionHandling( evalVE.toAssignmentString(), false, false, false );
 				
 				//GeoElement evalGeo = silentEvalInGeoGebra(evalVE);

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
@@ -49,7 +50,7 @@ public class AlgoObject extends AlgoElement {
         compute();  
         
         // register as rename listener algorithm
-        kernel.registerRenameListenerAlgo(this);
+        ((Kernel) kernel).registerRenameListenerAlgo(this);
         
         geo.setLabel(label);
     }   
@@ -124,7 +125,7 @@ public class AlgoObject extends AlgoElement {
 		*/
 		
 		// lookup new object for new label
-		refObject = kernel.lookupLabel(currentLabel);
+		refObject = (GeoElement)kernel.lookupLabel(currentLabel);
 		inputForUpdateSetPropagation[1] = refObject;			
 		
 		// change dependencies for this newly referenced object

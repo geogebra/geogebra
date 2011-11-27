@@ -36,17 +36,17 @@ public class Term implements Comparable, Serializable {
     
     ExpressionValue coefficient; // hast to evaluate() to NumberValue
     private StringBuilder variables;
-    private Kernel kernel;
+    private AbstractKernel kernel;
     
-    public Term(Kernel kernel, ExpressionValue coeff, String vars) {
+    public Term(AbstractKernel kernel, ExpressionValue coeff, String vars) {
         this(kernel, coeff, new StringBuilder(vars));
     }
     
-    public Term(Kernel kernel, double coeff, String vars) {
+    public Term(AbstractKernel kernel, double coeff, String vars) {
         this(kernel, new MyDouble(kernel, coeff), new StringBuilder(vars));
     }
     
-    public Term(Kernel kernel, ExpressionValue coeff, StringBuilder vars) {
+    public Term(AbstractKernel kernel, ExpressionValue coeff, StringBuilder vars) {
         this.kernel = kernel;
         coefficient = coeff;
         variables = vars;

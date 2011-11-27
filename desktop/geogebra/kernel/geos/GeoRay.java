@@ -217,7 +217,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 			GeoPointND [] points = {algo.getP(), algo.getQ()};
 			points = t.transformPoints(points);	
 			if(t.isAffine()){
-				GeoElement ray = (GeoElement) kernel.RayND(label, points[0], points[1]);
+				GeoElement ray = (GeoElement) ((Kernel) kernel).RayND(label, points[0], points[1]);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {ray, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
@@ -251,7 +251,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				
 				// ray through transformed point with direction of transformed line
-				GeoElement ray = kernel.Ray(label, (GeoPoint) points[0], direction);
+				GeoElement ray = ((Kernel) kernel).Ray(label, (GeoPoint) points[0], direction);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
 				return geos;

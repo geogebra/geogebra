@@ -33,7 +33,7 @@ public class CommandDispatcherMPReduce {
 		
 		try {
 			ExpressionValue ret = null;
-			Kernel kernel = args.getKernel();
+			Kernel kernel = (Kernel) args.getKernel();
 			
 			switch (commands.valueOf(cmdName)) {
 				case arbcomplex:

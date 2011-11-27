@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -54,14 +55,14 @@ public class AlgoCurveCartesian extends AlgoElement {
     	// we need to create Function objects for the coord NumberValues,
 		// so let's get the expressions of xcoord and ycoord and replace
 		// the localVar by a functionVar		
-		FunctionVariable funVar = new FunctionVariable(kernel);
+		FunctionVariable funVar = new FunctionVariable((Kernel)kernel);
 		funVar.setVarString(localVar.label);
 		
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
 		Function[] fun = new Function[coords.length];
 
 		for (int i=0;i<coords.length;i++){
-			exp[i]= kernel.convertNumberValueToExpressionNode(coords[i]);
+			exp[i]= ((Kernel)kernel).convertNumberValueToExpressionNode(coords[i]);
 			exp[i].replaceAndWrap(localVar, funVar);
 			fun[i] = new Function(exp[i], funVar);
 		}

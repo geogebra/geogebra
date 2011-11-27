@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -81,7 +82,7 @@ public class AlgoFactors extends AlgoElement {
 			}
 			else {
 				// read result back into list
-				g.set(kernel.getAlgebraProcessor().evaluateToList(listOut));
+				g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToList(listOut));
 			}
 	    } catch (Throwable th) {
 	    	g.setUndefined();

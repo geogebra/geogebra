@@ -128,7 +128,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 	}//gradient(x,pars)
 	
 	public void setFunction(Function f) throws Exception{
-		kernel=f.getKernel();
+		kernel=(Kernel) f.getKernel();
 		FunctionVariable fvar=f.getFunctionVariable();
 
 		java.util.HashSet<GeoElement> hash= f.getVariables();		//Get a,b,c,... to array

@@ -70,10 +70,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	};
 
 	/** Creates new ExpressionNode */
-	public ExpressionNode(Kernel kernel, ExpressionValue left, Operation operation,
+	public ExpressionNode(AbstractKernel kernel, ExpressionValue left, Operation operation,
 			ExpressionValue right) {
-		this.kernel = kernel;
-		app = kernel.getApplication();
+		this.kernel = (Kernel)kernel;
+		app = (Application)kernel.getApplication();
 
 		this.operation = operation;
 		setLeft(left);
@@ -86,9 +86,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	/** for only one leaf */
 	// for wrapping ExpressionValues as ValidExpression
-	public ExpressionNode(Kernel kernel, ExpressionValue leaf) {
-		this.kernel = kernel;
-		app = kernel.getApplication();
+	public ExpressionNode(AbstractKernel kernel, ExpressionValue leaf) {
+		this.kernel = (Kernel)kernel;
+		app = (Application)kernel.getApplication();
 
 		setLeft(leaf);
 		this.leaf = true;		

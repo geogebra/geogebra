@@ -27,9 +27,9 @@ import java.util.HashSet;
 public class MyBoolean extends ValidExpression implements BooleanValue {
     
     private boolean value;
-    private Kernel kernel;
+    private AbstractKernel kernel;
     
-    public MyBoolean(Kernel kernel, boolean value) {
+    public MyBoolean(AbstractKernel kernel, boolean value) {
         this.value = value;
         this.kernel = kernel;
     }
@@ -131,7 +131,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
 		return toValueString();
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 }

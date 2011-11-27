@@ -23,6 +23,7 @@ package geogebra.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -426,7 +427,7 @@ GeoPointND, Animatable, Transformable  {
 	private GeoNumeric getCoordNumber(ExpressionValue ev, boolean allowPlusNode) throws Throwable {
 		// simple variable "a"
 		if (ev.isLeaf()) {
-			GeoElement geo = kernel.lookupLabel(ev.isGeoElement() ? ((GeoElement)ev).getLabel() : ev.toString(), false);
+			GeoElementInterface geo = kernel.lookupLabel(ev.isGeoElement() ? ((GeoElement)ev).getLabel() : ev.toString(), false);
 			if (geo != null && geo.isGeoNumeric()) return (GeoNumeric) geo;
 			else return null;
 		}

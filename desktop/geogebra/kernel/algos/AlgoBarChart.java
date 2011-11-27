@@ -82,7 +82,7 @@ public class AlgoBarChart extends AlgoFunctionAreaSums {
 			return new AlgoBarChart((NumberValue)getA().deepCopy(kernel),
 					(NumberValue)getB().deepCopy(kernel),getValues().clone(),getLeftBorder().clone(),N);
 		case TYPE_BARCHART_FREQUENCY_TABLE:
-			return new AlgoBarChart(kernel.getConstruction(), getValues().clone(),getLeftBorder().clone(),N);
+			return new AlgoBarChart((Construction)kernel.getConstruction(), getValues().clone(),getLeftBorder().clone(),N);
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
 			return new AlgoBarChart((NumberValue)getA().deepCopy(kernel),getValues().clone(),getLeftBorder().clone(),N);
 		default: //TYPE_BARCHART_RAWDATA

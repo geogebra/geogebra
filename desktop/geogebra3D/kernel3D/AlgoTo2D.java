@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 
@@ -52,7 +53,7 @@ public class AlgoTo2D extends AlgoElement3D {
     		P2.setCoords(1,0,1);
 
     		kernel.setSilentMode(true);
-    		out = (GeoElement) kernel.Segment(null, P1, P2);
+    		out = (GeoElement) ((Kernel) kernel).Segment(null, P1, P2);
     		kernel.setSilentMode(false);
     		
     		break;

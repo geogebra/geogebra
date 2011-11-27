@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
@@ -44,7 +45,7 @@ import java.util.HashSet;
  */
 public class MyList extends ValidExpression implements ListValue, ReplaceableValue {
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private int matrixRows = -1;  // -1 means not calculated, 0 means not a matrix
 	private int matrixCols = -1;  //
 
@@ -57,7 +58,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	 * Creates new MyList
 	 * @param kernel
 	 */
-	public MyList(Kernel kernel) {
+	public MyList(AbstractKernel kernel) {
 		this(kernel, 20);
 	}
 
@@ -66,7 +67,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	 * @param kernel
 	 * @param size length of the list
 	 */
-	public MyList(Kernel kernel, int size) {
+	public MyList(AbstractKernel kernel, int size) {
 		this.kernel = kernel;
 		listElements = new ArrayList<ExpressionValue>(size);
 	}
@@ -336,7 +337,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		ExpressionNode tempNode = new ExpressionNode(kernel, (ExpressionValue) listElements.get(0));
 		tempNode.setOperation(operation);
 		
-		boolean b = kernel.getConstruction().isSuppressLabelsActive();
+		boolean b = ((Construction)kernel.getConstruction()).isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		for (int i = 0; i < size; i++) {	
 			//try {				
@@ -441,8 +442,8 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		GgbMat g = new GgbMat(this);
 		Application.debug(g);
 		g.inverseImmediate();
-		GeoList gl = new GeoList(kernel.getConstruction());
-		g.getGeoList(gl, kernel.getConstruction());
+		GeoList gl = new GeoList((Construction)kernel.getConstruction());
+		g.getGeoList(gl, (Construction)kernel.getConstruction());
 		return gl.getMyList();	
 	}
 	/**
@@ -965,7 +966,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 

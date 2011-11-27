@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -83,11 +84,11 @@ public class AlgoNumerator extends AlgoElement {
         	Function fun = new Function((ExpressionNode)ev, f.getFunction().getFunctionVariable());
         	g.setFunction(fun);
         } else if (ev instanceof FunctionVariable) {
-        	g.set(kernel.getAlgebraProcessor().evaluateToFunction("x", false));
+        	g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToFunction("x", false));
         }
         else if (ev.isNumberValue()) {
         	double val = ((NumberValue)ev).getDouble();
-        	g.set(kernel.getAlgebraProcessor().evaluateToFunction(""+val, false));
+        	g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToFunction(""+val, false));
         }
         else
         {

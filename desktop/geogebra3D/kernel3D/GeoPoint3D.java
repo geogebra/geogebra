@@ -946,7 +946,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec(kernel, getX(), getY(), getZ());
+		return new Geo3DVec((Kernel)kernel, getX(), getY(), getZ());
 	}
 
 	// ////////////////////////////////

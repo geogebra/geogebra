@@ -132,7 +132,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		public void reset() {
 		}
 
-		Construction cons = kernel.getConstruction();
+		Construction cons = (Construction) kernel.getConstruction();
 
 		public boolean requiresDenseOutput() {
 			return false;

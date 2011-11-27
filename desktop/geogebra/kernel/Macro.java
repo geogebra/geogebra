@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.algos.AlgoElement;
@@ -370,7 +371,7 @@ public class Macro {
 	 * @param macroConsElements
 	 * @return XML string of macro construction
 	 */
-	 public static String buildMacroXML(Kernel kernel, Set<ConstructionElement> macroConsElements) {	
+	 public static String buildMacroXML(AbstractKernel kernel, Set<ConstructionElement> macroConsElements) {	
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
 		StringType oldPrintForm = kernel.getCASPrintForm();        

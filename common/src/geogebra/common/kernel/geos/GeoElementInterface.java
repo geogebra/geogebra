@@ -1,5 +1,7 @@
 package geogebra.common.kernel.geos;
 
+import java.util.List;
+
 public interface GeoElementInterface {
 	public boolean needsReplacingInExpressionNode();
 	public String getLabel();
@@ -27,6 +29,10 @@ public interface GeoElementInterface {
 	public int getRelatedModeID();
 	public void update();
 	public boolean setCaption(String string);
-	public String getNameDescriptionHTML(boolean b, boolean c);	
+	public String getNameDescriptionHTML(boolean b, boolean c);
+	public boolean isChildOf(GeoElementInterface parent);
+	public int getMinConstructionIndex();
+	public boolean isGeoNumeric();
+	public List<Integer> getViewSet();	
 	
 }

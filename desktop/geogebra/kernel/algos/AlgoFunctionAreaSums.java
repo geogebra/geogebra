@@ -477,7 +477,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	 * @param N 
 	 */
 	protected AlgoFunctionAreaSums(GeoNumeric n,double[]vals,double[]borders,int N) {		
-		super(n.getKernel().getConstruction(), false);
+		super((Construction)n.getKernel().getConstruction(), false);
 		
 		type = TYPE_BARCHART_RAWDATA;
 				
@@ -1687,7 +1687,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				dist = new PascalDistributionImpl(n, p);
 				
 				first = 0;
-				last = (int)Math.max(1,kernel.getXmax()+1);
+				last = (int)Math.max(1,((Kernel)kernel).getXmax()+1);
 				break;
 			case TYPE_BARCHART_ZIPF:
 				if(!(p1geo.isDefined() && p2geo.isDefined()))
@@ -1705,7 +1705,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				double lambda = p1.getDouble();
 				dist = new PoissonDistributionImpl(lambda);
 				first = 0;
-				last = (int)Math.max(1,kernel.getXmax()+1);
+				last = (int)Math.max(1,((Kernel)kernel)                                                                                                                                                                                               .getXmax()+1);
 				break;
 				
 			case TYPE_BARCHART_HYPERGEOMETRIC:

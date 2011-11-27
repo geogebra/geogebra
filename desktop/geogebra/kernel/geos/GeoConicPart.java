@@ -776,9 +776,9 @@ implements LimitedPath, NumberValue, LineProperties {
 			
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
-				semCirc = kernel.Semicircle(label, (GeoPoint) points[1], (GeoPoint) points[0]);
+				semCirc = ((Kernel) kernel).Semicircle(label, (GeoPoint) points[1], (GeoPoint) points[0]);
 			} else if(t.isSimilar()) {
-				semCirc = kernel.Semicircle(label, (GeoPoint) points[0], (GeoPoint) points[1]);
+				semCirc = ((Kernel) kernel).Semicircle(label, (GeoPoint) points[0], (GeoPoint) points[1]);
 			} else {
 				
 				GeoConic orgConic = ((AlgoSemicircle)algo).getConic();

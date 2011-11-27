@@ -15,6 +15,7 @@ package geogebra.kernel.statistics;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
@@ -43,7 +44,7 @@ public class AlgoFitGrowth extends AlgoElement {
 	public AlgoFitGrowth(Construction cons, String label, GeoList geolist) {
 		super(cons);
 
-		regMath = kernel.getRegressionMath();
+		regMath = ((Kernel)kernel).getRegressionMath();
 
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
@@ -83,9 +84,9 @@ public class AlgoFitGrowth extends AlgoElement {
 				b=Math.exp(b);
 				MyDouble A = new MyDouble(kernel, a);
 				MyDouble B = new MyDouble(kernel, b);
-				FunctionVariable X = new FunctionVariable(kernel);
-				ExpressionValue expr = new ExpressionNode(kernel, B,Operation.POWER, X);
-				ExpressionNode node = new ExpressionNode(kernel, A,Operation.MULTIPLY, expr);
+				FunctionVariable X = new FunctionVariable((Kernel)kernel);
+				ExpressionValue expr = new ExpressionNode((Kernel)kernel, B,Operation.POWER, X);
+				ExpressionNode node = new ExpressionNode((Kernel)kernel, A,Operation.MULTIPLY, expr);
 				Function f = new Function(node, X);
 				geofunction.setFunction(f);
 				geofunction.setDefined(true);

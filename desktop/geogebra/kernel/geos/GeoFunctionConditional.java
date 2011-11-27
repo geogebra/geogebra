@@ -15,6 +15,7 @@ package geogebra.kernel.geos;
 import geogebra.cas.CASgeneric;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -323,7 +324,7 @@ public class GeoFunctionConditional extends GeoFunction {
 				|| kernel.getCASPrintForm() .equals(StringType.MAXIMA)
 				|| kernel.getCASPrintForm() .equals(StringType.MPREDUCE)) {
 			//TODO: implement if in mpreduce
-			CASgeneric cas = kernel.getGeoGebraCAS().getCurrentCAS();
+			CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 			String cmd = cas.getTranslatedCASCommand(elseFun == null ? "If.2" : "If.3");
 			if (symbolic) {
 				cmd = cmd.replace("%0", condFun.toSymbolicString());

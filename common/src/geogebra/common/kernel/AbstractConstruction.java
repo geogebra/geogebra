@@ -1,5 +1,8 @@
 package geogebra.common.kernel;
 
-public class AbstractConstruction {
+public abstract class AbstractConstruction {
+
+	public abstract void setSuppressLabelCreation(boolean silentMode);
+
 
 }

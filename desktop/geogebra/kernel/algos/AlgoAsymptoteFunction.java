@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.euclidian.EuclidianView;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -83,7 +84,7 @@ public class AlgoAsymptoteFunction extends AlgoElement {
 		    sb.append("}");
 			
 		    //Application.debug(sb.toString());
-			g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));	
+			g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToList(sb.toString()));	
 	    }
 	    catch (Throwable th) {
 	    	g.setUndefined();

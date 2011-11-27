@@ -1905,10 +1905,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		return rightToLeftDigits;
 	}
 
-	// For eg Hebrew and Arabic. 
-	public static char unicodeZero = '0';
-	public static char unicodeDecimalPoint = '.';
-	public static char unicodeComma = ','; // \u060c for Arabic comma
+	
 	//public static char unicodeThousandsSeparator = ','; // \u066c for Arabic
 
 	// for Basque and Hungarian you have to say "A point" instead of "point A"
@@ -5378,7 +5375,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 
 
 	// determines which CAS is being used
-	public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
+	
 
 	/*
 	public void setDefaultCAS(int CAS) {

@@ -166,7 +166,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 */
 	public void setDrawable(boolean flag) {
 		isDrawable = flag;
-		if (isDrawable && kernel.isNotifyViewsActive() && kernel.isAllowVisibilitySideEffects() ) {
+		if (isDrawable && ((Kernel) kernel).isNotifyViewsActive() && kernel.isAllowVisibilitySideEffects() ) {
 			setEuclidianVisible(true);
 		}						
 	}
@@ -178,7 +178,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		// number with given min and max
 		if (isIndependent()) {			
 			if (visible) {		
-				GeoNumeric num = kernel.getDefaultNumber(isAngle());				
+				GeoNumeric num = ((Kernel) kernel).getDefaultNumber(isAngle());				
 				// make sure the slider value is not fixed 
 				setFixed(false);
 				if (!intervalMinActive && !(intervalMin instanceof GeoNumeric)) {
@@ -326,7 +326,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	
 	public double getAnimationStep() {
 		if(getAnimationStepObject() == null){
-			GeoNumeric num = kernel.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = ((Kernel) kernel).getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());		
 		}
 		return super.getAnimationStep();
@@ -334,7 +334,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 
 	public double getAnimationSpeed() {
 		if(getAnimationSpeedObject() == null){
-			GeoNumeric num = kernel.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = ((Kernel) kernel).getDefaultNumber(isGeoAngle());
 			setAnimationSpeed(num.getAnimationSpeed());
 		}
 		return super.getAnimationSpeed();
@@ -798,7 +798,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 			// don't create a label for the new dependent function
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			ret = kernel.DependentFunction(null, fun);
+			ret = ((Kernel) kernel).DependentFunction(null, fun);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else {
 			ret = new GeoFunction(cons);

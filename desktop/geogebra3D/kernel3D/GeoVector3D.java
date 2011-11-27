@@ -185,7 +185,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		switch (kernel.getCoordStyle()) {
+		switch (((Kernel) kernel).getCoordStyle()) {
 		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
@@ -249,7 +249,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	}
 
 	private void setCoordSep() {
-		switch (kernel.getCoordStyle()) {
+		switch (((Kernel) kernel).getCoordStyle()) {
 		case Kernel.COORD_STYLE_AUSTRIAN:
 			sbBuildValueString.append(" | ");
 			break;
@@ -407,7 +407,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec(kernel, v.getX(), v.getY(), v.getZ());
+		return new Geo3DVec((Kernel)kernel, v.getX(), v.getY(), v.getZ());
 	}
 
 	public double[] getPointAsDouble() {

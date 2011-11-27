@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.NumberValue;
@@ -80,7 +81,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
         kernel.setCASPrintForm(oldPrintForm);
         
         // expand expression and get polynomial coefficients
-        String [] strCoeffs = kernel.getPolynomialCoeffs(function, var);
+        String [] strCoeffs = ((Kernel) kernel).getPolynomialCoeffs(function, var);
         if (strCoeffs == null) {
         	 g.setDefined(false);
         	 return;

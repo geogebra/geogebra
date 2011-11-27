@@ -96,7 +96,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			double nroots = 0;
 			double res[] = new double[2];
 			if (c.getType()==GeoConicND.CONIC_CIRCLE || c.getType()==GeoConicND.CONIC_ELLIPSE) {
-				nroots = kernel.getEquationSolver().solveQuadratic(new double[]
+				nroots = ((Kernel) kernel).getEquationSolver().solveQuadratic(new double[]
 				          {- A[5] * A[5] + A[1] * A[2],
 						2 * (A[1] * A[4] - A[3] * A[5]),
 						 A[0] * A[1] - A[3] * A[3]}

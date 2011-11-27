@@ -709,7 +709,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 						// automatically start animation when animating was turned on
 						if (geo.isAnimating())
-							geo.getKernel().getAnimatonManager().startAnimation();	
+							((Kernel) geo.getKernel()).getAnimatonManager().startAnimation();	
 					}       	
 				});
 				addItem(cbItem);            	

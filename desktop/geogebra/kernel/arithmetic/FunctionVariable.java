@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * @author Markus Hohenwarter
@@ -21,11 +21,11 @@ public class FunctionVariable extends MyDouble {
 	
 	private String varStr = "x";
 	
-	public FunctionVariable(Kernel kernel) {
+	public FunctionVariable(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
-	public FunctionVariable(Kernel kernel, String varStr) {
+	public FunctionVariable(AbstractKernel kernel, String varStr) {
 		super(kernel);
 		setVarString(varStr);
 	}

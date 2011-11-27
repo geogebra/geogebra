@@ -13,6 +13,7 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;
+import geogebra.kernel.Kernel;
 import geogebra.main.MyError;
 
 
@@ -388,8 +389,8 @@ public class AlgoTriangleCubic extends AlgoElement {
 		equation = equation.replace("b", "" + b);
 		equation = equation.replace("c", "" + c);
 		
-		Parser parser = getKernel().getParser();
-		AlgebraProcessor algebraProcessor = getKernel().getAlgebraProcessor();
+		Parser parser = ((Kernel) getKernel()).getParser();
+		AlgebraProcessor algebraProcessor = ((Kernel) getKernel()).getAlgebraProcessor();
 		
 	 	ValidExpression ve = null;
 		try{ 

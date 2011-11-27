@@ -16,6 +16,7 @@ the Free Software Foundation.
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Construction;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
@@ -73,7 +74,7 @@ public class AlgoFitPow extends AlgoElement{
             geofunction.setUndefined();
             return;
         }else{
-        	RegressionMath regMath = kernel.getRegressionMath();
+        	RegressionMath regMath = ((Kernel) kernel).getRegressionMath();
             regok=regMath.doPow(geolist);
             if(regok){
                 a=regMath.getP1();

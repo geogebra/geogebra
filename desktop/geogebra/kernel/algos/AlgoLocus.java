@@ -16,6 +16,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
 import geogebra.kernel.PathMover;
@@ -244,7 +245,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
    
     private void buildLocusMacroConstruction(TreeSet<ConstructionElement> locusConsElements) {       	
     	// build macro construction
-    	macroKernel = new MacroKernel(kernel); 
+    	macroKernel = new MacroKernel((Kernel)kernel); 
     	macroKernel.setGlobalVariableLookup(true);
     	
     	// tell the macro construction about reserved names:
@@ -261,7 +262,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     	
     	try {    	
     		// get XML for macro construction of P -> Q        	
-        	String locusConsXML = Macro.buildMacroXML(kernel, locusConsElements);  
+        	String locusConsXML = Macro.buildMacroXML((Kernel)kernel, locusConsElements);  
 
     		macroKernel.loadXML(locusConsXML);
     	
@@ -661,15 +662,15 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     }    
     
     private void updateScreenBorders() {
-    	xmax = kernel.getXmax();
-    	xmin = kernel.getXmin();
-    	ymax = kernel.getYmax();
-    	ymin = kernel.getYmin();
+    	xmax = ((Kernel)kernel).getXmax();
+    	xmin = ((Kernel)kernel).getXmin();
+    	ymax = ((Kernel)kernel).getYmax();
+    	ymin = ((Kernel)kernel).getYmin();
     	
     	double widthRW = xmax - xmin;
     	double heightRW = ymax - ymin;    	
-    	maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(); // widthRW / 100;
-    	maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(); // heightRW / 100;   
+    	maxXdist = MAX_X_PIXEL_DIST / ((Kernel)kernel).getXscale(); // widthRW / 100;
+    	maxYdist = MAX_Y_PIXEL_DIST / ((Kernel)kernel).getYscale(); // heightRW / 100;   
 
     	// we take a bit more than the screen
     	// itself so that we don't loose locus

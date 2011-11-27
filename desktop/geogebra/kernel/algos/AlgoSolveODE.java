@@ -131,7 +131,7 @@ public class AlgoSolveODE extends AlgoElement {
 	    StepHandler stepHandler = new StepHandler() {
 	        public void reset() {}
 	        
-	        Construction cons = kernel.getConstruction();
+	        Construction cons = (Construction) kernel.getConstruction();
 	                
 	        public boolean requiresDenseOutput() { return false; }
 	                

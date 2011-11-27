@@ -17,6 +17,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.algos.AlgoDependentNumber;
@@ -2092,9 +2093,9 @@ public class Construction extends AbstractConstruction{
 	private boolean updateConstructionOrder(GeoCasCell casCell) {
 		// collect all predecessors of casCell
 		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
-		for (GeoElement directInput : casCell.getGeoElementVariables()) {
-			allPred.addAll(directInput.getAllPredecessors());
-			allPred.add(directInput);
+		for (GeoElementInterface directInput : casCell.getGeoElementVariables()) {
+			allPred.addAll(((GeoElement) directInput).getAllPredecessors());
+			allPred.add((GeoElement) directInput);
 		}
 		
 		// Find max construction index of casCell's predecessors 
