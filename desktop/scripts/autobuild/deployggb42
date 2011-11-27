@@ -78,12 +78,18 @@ for i in unpacked debug; do
  done
  
 # 4/5. Superfast webstart:
-mkdir -p $WWWDIR/$MYDIR/jnlp
+mkdir -p $WWWDIR/$MYDIR/jnlp/unsigned
 cd $WWWDIR/$MYDIR/unpacked
 for i in *.jar; do
  cd $WWWDIR/$MYDIR/jnlp
  ln -s ../unpacked/$i
  ln -s ../packed/$i.pack.gz
+ done
+cd $WWWDIR/$MYDIR/unsigned/unpacked
+for i in *.jar; do
+ cd $WWWDIR/$MYDIR/jnlp/unsigned
+ ln -s ../../unsigned/unpacked/$i
+ ln -s ../../unsigned/packed/$i.pack.gz
  done
 
 echo "$0: JAR files copied to 4.2 and history/$MYVER"
