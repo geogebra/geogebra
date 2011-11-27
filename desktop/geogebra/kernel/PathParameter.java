@@ -20,6 +20,9 @@ public class PathParameter {
 	public double t;
 	private int pathType = -1;
 	
+	private boolean isDefined; //tells if parameters have been fed with "real" numbers
+
+	
 	public PathParameter() {
 		t = Double.NaN;
 	}
@@ -50,6 +53,14 @@ public class PathParameter {
 	}
 
 	public final void setT(double t) {
+		if (Double.isNaN(t)){
+			isDefined=false;
+			return;
+		}
+		
 		this.t = t;
+		isDefined=true;
 	}
+	
+	
 }

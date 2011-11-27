@@ -17,6 +17,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.Region;
+import geogebra.main.Application;
 
 
 /**
@@ -84,6 +85,7 @@ public class AlgoPointInRegion extends AlgoElement {
 
     @Override
 	public final void compute() {
+    	
     	if (input[0].isDefined()) {	    	
 	        region.regionChanged(P);
 	        P.updateCoords();

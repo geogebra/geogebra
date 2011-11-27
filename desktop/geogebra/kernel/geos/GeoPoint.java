@@ -538,9 +538,9 @@ GeoPointND, Animatable, Transformable  {
 	}     
 	
     @Override
-	public void setUndefined() {   
+	public void setUndefined() { 
     	super.setUndefined();
-    	isDefined = false;
+    	isDefined = false; 
     }       
 
 	@Override

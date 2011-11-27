@@ -285,11 +285,15 @@ public class AlgoPolygonRegular extends AlgoElement {
     	//update polygon	
     	poly.setPoints(points,null,false); //don't create segments
     	poly.setSegments(outputSegments.getOutput(new GeoSegment[n]));
+
     	
     	// compute area of poly
     	poly.calcArea();  
-    	//update region coordinate system (Zbynek Konecny, 2010-05-17)
-    	poly.updateRegionCS();
+    	
+
+    	//update region coordinate system
+    	poly.updateRegionCS(A,B,outputPoints.getElement(0));
+    	
     	
     	numOld = n;
     }         

@@ -33,6 +33,7 @@ import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -1028,6 +1029,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		if (rp.isOnPath())
 			pathChanged(P);
 		else{
+			//Application.debug(rp.getT1()+ "," + rp.getT2());
 			//pointChangedForRegion(P);
 			double xu = p1.inhomX - p0.inhomX;
 			double yu = p1.inhomY - p0.inhomY;				
@@ -1096,7 +1098,12 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	
 
 	
-
+	final public void updateRegionCS(GeoPoint p0, GeoPoint p1, GeoPoint p2) {
+		this.p0=p0;
+		this.p1=p1;
+		this.p2=p2;
+		numCS = 3;
+	}
 	
 	
 	/**
@@ -1138,9 +1145,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			//thirdPoint++;
 			//Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
 		}
-		
-		//Application.debug(this+"\n p0 = "+p0.getLabel()+"\n p1 = "+p1.getLabel()+"\n p2 = "+p2.getLabel());
-
 			
 			
 	}

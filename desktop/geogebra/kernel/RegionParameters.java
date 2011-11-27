@@ -22,6 +22,8 @@ public class RegionParameters {
 	
 	private double t1, t2;
 	
+	private boolean isDefined; //tells if parameters have been fed with "real" numbers
+	
 	private Coords normal; //normal on the region at this place
 	
 	/** says if the point is on the path defined by the frontier of the region */
@@ -69,14 +71,27 @@ public class RegionParameters {
 
 	public final void setT1(double t1) {
 		//Application.printStacktrace(""+t1);
+		if (isNaN(t1))
+			return;
 		this.t1 = t1;
+		isDefined = true; //assume that setT1() is called before setT2()
 	}
 	public final double getT2() {
 		return t2;
 	}
 
 	public final void setT2(double t2) {
+		if (isNaN(t2))
+			return;
 		this.t2 = t2;
+	}
+	
+	private final boolean isNaN(double t){
+		if (Double.isNaN(t)){
+			isDefined=false;
+			return true;
+		}
+		return false;
 	}
 	
 	
