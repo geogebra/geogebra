@@ -177,6 +177,12 @@ public class AlgoTableText extends AlgoElement {
 			else if (optionsStr.indexOf("r") > -1)
 				justification = "r";
 		}
+		
+    	if (openBracket.equals("\\left.") && closeBracket.equals("\\right.")) {
+    		openBracket = "";
+    		closeBracket = "";
+    	}
+
 	}
 
 	@Override
