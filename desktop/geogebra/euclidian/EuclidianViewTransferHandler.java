@@ -126,7 +126,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 		GeoPoint startPoint = new GeoPoint(cons);
 
 		double x = ev.toRealWorldCoordX(mousePos.x);
-		double y = ev.toRealWorldCoordX(mousePos.y);
+		double y = ev.toRealWorldCoordY(mousePos.y);
 
 		startPoint.setCoords(x,y, 1.0);
 
