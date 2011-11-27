@@ -22,7 +22,6 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
@@ -101,7 +100,7 @@ implements ReplaceableValue {
     	if (i >= args.size())
     		return null;
     	
-    	ExpressionValue ev = ((ExpressionNode) args.get(i)).getLeft();
+    	ExpressionValue ev = args.get(i).getLeft();
     	if (ev instanceof Variable)
     		return ((Variable) ev).getName();
     	else if (ev instanceof GeoElement) {
@@ -187,7 +186,7 @@ implements ReplaceableValue {
     			sbToString.append('[');
 		        int size = args.size();
 		        for (int i = 0; i < size; i++) {
-		        	sbToString.append( toString((ExpressionValue) args.get(i), symbolic, LaTeX));
+		        	sbToString.append( toString(args.get(i), symbolic, LaTeX));
 		        	sbToString.append(',');
 		        }
 		        sbToString.setCharAt(sbToString.length()-1, ']');		        
@@ -197,7 +196,7 @@ implements ReplaceableValue {
     }
     private StringBuilder sbToString;  
     
-    private String toString(ExpressionValue ev, boolean symbolic, boolean LaTeX) {
+    private static String toString(ExpressionValue ev, boolean symbolic, boolean LaTeX) {
     	if (LaTeX) {
     		return ev.toLaTeXString(symbolic);
     	}
@@ -234,7 +233,7 @@ implements ReplaceableValue {
     	// CAS parsing case: we need to resolve arguments also
     	if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 	        for (int i=0; i < args.size(); i++) {        
-	            ((ExpressionValue) args.get(i)).resolveVariables();        
+	            args.get(i).resolveVariables();        
 	        }
 	        
 	        // avoid evaluation of command
@@ -325,18 +324,19 @@ implements ReplaceableValue {
         HashSet set = new HashSet();
        int size = args.size();
         for (int i=0; i < size; i++) {
-            HashSet s = ((ExpressionNode)args.get(i)).getVariables();
+            HashSet s = args.get(i).getVariables();
             if (s != null) set.addAll(s);
         } 
         return set;
     }
 
-    public void addCommands(Set commands) {
+    @Override
+    public void addCommands(Set<AbstractCommand> commands) {
     	commands.add(this);
     	
     	int size = args.size();
         for (int i=0; i < size; i++) {
-            ((ExpressionNode)args.get(i)).addCommands(commands);
+            args.get(i).addCommands(commands);
         } 
 	}
 
@@ -380,7 +380,7 @@ implements ReplaceableValue {
 	
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
         for (int i=0; i < args.size(); i++) {
-        	ExpressionNode en = (ExpressionNode)args.get(i);
+        	ExpressionNode en = args.get(i);
             en = en.replaceAndWrap(oldOb, newOb);
             args.set(i, en);
         }     	

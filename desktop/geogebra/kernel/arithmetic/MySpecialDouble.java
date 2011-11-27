@@ -71,7 +71,6 @@ public class MySpecialDouble extends MyDouble {
 	
 	/**
 	 * Copy constructor.
-	 * @param md
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
@@ -162,8 +161,7 @@ public class MySpecialDouble extends MyDouble {
 		}					
 		
 		return strToString;	
-	}
-	
+	}	
 	
 
 }

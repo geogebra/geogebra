@@ -16,6 +16,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.geos.GeoElement;
 
 import java.util.HashSet;
 
@@ -74,8 +75,8 @@ public class Parametric extends ValidExpression {
 		return null;
 	}
 
-	public HashSet getVariables() {
-		HashSet vars = new HashSet();
+	public HashSet<GeoElement> getVariables() {
+		HashSet<GeoElement> vars = new HashSet<GeoElement>();
 		vars.addAll(P.getVariables());
 		vars.addAll(v.getVariables());
 		return vars;

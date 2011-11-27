@@ -18,6 +18,7 @@ the Free Software Foundation.
  
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Kernel;
@@ -85,7 +86,7 @@ public class Term implements Comparable, Serializable {
     }             
     
     boolean hasIntegerCoeff() {
-        return kernel.isInteger( ((NumberValue)coefficient.evaluate()).getDouble());
+        return AbstractKernel.isInteger( ((NumberValue)coefficient.evaluate()).getDouble());
     }             
     
     int degree() {

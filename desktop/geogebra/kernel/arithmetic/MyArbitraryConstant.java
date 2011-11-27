@@ -65,7 +65,7 @@ public class MyArbitraryConstant extends MyDouble {
 		}					
 	}
 
-	private String build(String str1, String str2, String str3) {
+	private static String build(String str1, String str2, String str3) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(str1);
 		sb.append(str2);

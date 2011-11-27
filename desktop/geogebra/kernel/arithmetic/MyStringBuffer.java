@@ -21,7 +21,7 @@ import java.util.HashSet;
 
 /**
  * Helper class to evaluate expressions  with GeoText objects in it.
- * @see ExpressionNode.evaluate()
+ * @see ExpressionNode#evaluate()
  * @author Markus Hohenwarter
  */
 public class MyStringBuffer extends ValidExpression implements TextValue {

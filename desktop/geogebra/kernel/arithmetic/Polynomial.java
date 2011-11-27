@@ -30,7 +30,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
 	
 	private static final long serialVersionUID = 1L;
     
-    private ArrayList terms = new ArrayList();
+    private ArrayList<Term> terms = new ArrayList<Term>();
     private Kernel kernel;
 
     public Polynomial(Kernel kernel) { this.kernel = kernel;}        
@@ -49,7 +49,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
         this(kernel);
         //Application.debug("poly copy constructor input: " + poly);        
         for (int i=0; i < poly.length(); i++) {
-            append(new Term( (Term) poly.terms.get(i) ));
+            append(new Term( poly.terms.get(i) ));
         }
         //Application.debug("poly copy constructor output: " + this);        
     }
@@ -59,7 +59,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     }
     
     public Term getTerm(int i) {
-        return (Term) terms.get(i);
+        return terms.get(i);
     }
         
     int length() {
@@ -76,7 +76,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     boolean isVar(String var) {
         if (length() != 1) return false;
         try {
-            Term t = (Term) terms.get(0);
+            Term t = terms.get(0);
             return (t.getVars().equals(var) && 
                         t.getCoefficient().isConstant() &&
                         ((NumberValue) t.getCoefficient().evaluate()).getDouble() == 1.0);
@@ -135,7 +135,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
      * store result in this Polynomial
      */ 
     public void multiply(Polynomial e) {        
-        ArrayList temp = new ArrayList();
+        ArrayList<Term> temp = new ArrayList<Term>();
         int i, j;
         Term ti, newTerm;
         
@@ -159,7 +159,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
      */
     public void multiply(ExpressionValue number) {       
        for (int i=0; i < length(); i++) {       
-            ((Term) terms.get(i)).multiply(number);
+            terms.get(i).multiply(number);
        }       
     }
     
@@ -233,10 +233,10 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     public boolean hasOnlyConstantCoeffs() {
         simplify();
         boolean isConst = true;      
-        Iterator i = terms.iterator();
+        Iterator<Term> i = terms.iterator();
        
         while( i.hasNext() ) {
-            isConst = isConst && ((Term)i.next()).hasNoVars();
+            isConst = isConst && i.next().hasNoVars();
         }
         return isConst;
     }
@@ -244,9 +244,9 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     public boolean isInteger() {
         boolean isInt = true;
         Term t;
-        Iterator i = terms.iterator();       
+        Iterator<Term> i = terms.iterator();       
         while( i.hasNext() ) {
-            t = (Term)i.next();
+            t = i.next();
             isInt = isInt && 
                     t.hasNoVars() &&
                     kernel.isInteger( ((NumberValue)t.getCoefficient().evaluate()).getDouble() );
@@ -297,13 +297,13 @@ public class Polynomial extends ValidExpression implements Serializable, Express
      */
     void simplify() {        
         //Application.debug("simplify " + this);
-        ArrayList list;        
+        ArrayList<Term> list;        
         Object [] t;
         Term ti, tj;
         String vars;
         int i, j, len;                
                         
-        list = new ArrayList(); // for the simplified terms
+        list = new ArrayList<Term>(); // for the simplified terms
         t = terms.toArray(); // copy term references to array
         len = t.length;
         
@@ -345,9 +345,9 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     }   
 
     boolean contains(String var) {        
-        Iterator i = terms.iterator();        
+        Iterator<Term> i = terms.iterator();        
         while (i.hasNext()) {        	
-            if (((Term) i.next()).contains(var)) return true;
+            if (i.next().contains(var)) return true;
         }
         return false;
     }
@@ -363,9 +363,9 @@ public class Polynomial extends ValidExpression implements Serializable, Express
         
         if (terms.size() == 0) return -1;
         
-        Iterator i = terms.iterator();                              
+        Iterator<Term> i = terms.iterator();                              
         while (i.hasNext()) {
-            varLen = ((Term)i.next()).degree();
+            varLen = i.next().degree();
             if (varLen > deg) 
                 deg = varLen;
         }
@@ -378,9 +378,9 @@ public class Polynomial extends ValidExpression implements Serializable, Express
     public boolean isFreeOf(char var) {
         if (terms.size() == 0) return true;
         
-        Iterator i = terms.iterator();                              
+        Iterator<Term> i = terms.iterator();                              
         while (i.hasNext()) {
-        	Term t = ((Term)i.next());
+        	Term t = i.next();
             if (t.degree(var) > 0) return false;
         }
         
@@ -398,9 +398,9 @@ public class Polynomial extends ValidExpression implements Serializable, Express
         
         if (terms.size() == 0) return -1;
         
-        Iterator i = terms.iterator();                              
+        Iterator<Term> i = terms.iterator();                              
         while (i.hasNext()) {
-        	Term t = ((Term)i.next());
+        	Term t = i.next();
             varLen = t.degree('x');
             if (varLen > deg) 
                 deg = varLen;
@@ -425,7 +425,7 @@ public class Polynomial extends ValidExpression implements Serializable, Express
         boolean first = true;
                                 
         for (int i=0; i < size; i++) {        
-            termStr = ((Term)terms.get(i)).toString();   
+            termStr = terms.get(i).toString();   
             if (termStr != null && termStr.length() > 0) {            
                 if (first) {
                     sb.append(termStr);
@@ -460,19 +460,19 @@ public class Polynomial extends ValidExpression implements Serializable, Express
 	 */
 	public ExpressionValue[][] getCoeff(){
 		simplify(); 
-		Iterator it=terms.iterator();
+		Iterator<Term> it=terms.iterator();
 		//TODO implement support for z as var
 		int degX=0;
 		int degY=0;
 		while(it.hasNext()){
-			Term t=(Term)it.next();
+			Term t=it.next();
 			degX=Math.max(degX,t.degree('x'));
 			degY=Math.max(degY,t.degree('y'));
 		}
 		ExpressionValue[][] coeff=new ExpressionValue[degX+1][degY+1];
 		it=terms.iterator();		
 		while(it.hasNext()){
-			Term t=(Term)it.next();
+			Term t=it.next();
 			coeff[t.degree('x')][t.degree('y')]=t.getCoefficient();
 		}
 		return coeff;
@@ -481,18 +481,18 @@ public class Polynomial extends ValidExpression implements Serializable, Express
            
     public HashSet getVariables() {
         HashSet temp, vars = new HashSet();
-        Iterator i = terms.iterator();        
+        Iterator<Term> i = terms.iterator();        
         while (i.hasNext()) {
-            temp = ((Term) i.next()).getCoefficient().getVariables();
+            temp = i.next().getCoefficient().getVariables();
             if (temp != null) vars.addAll(temp);
         }
         return vars;        
     }
     
     public void resolveVariables() {    
-    	Iterator i = terms.iterator();        
+    	Iterator<Term> i = terms.iterator();        
         while (i.hasNext()) {
-            ((Term) i.next()).getCoefficient().resolveVariables();            
+            i.next().getCoefficient().resolveVariables();            
         }      
     }
 

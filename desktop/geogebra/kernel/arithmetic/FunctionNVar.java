@@ -712,7 +712,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param order
 	 * @return
 	 */
-	private String handleDeriv(String casResult) {
+	private static String handleDeriv(String casResult) {
 		if (casResult.indexOf("Deriv[") < 0)
 			return casResult;
 
@@ -857,7 +857,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 	}
 
-	private Operation adjustOp(Operation op, boolean negate) {
+	private static Operation adjustOp(Operation op, boolean negate) {
 		if(negate==false)
 			return op;
 		switch(op){

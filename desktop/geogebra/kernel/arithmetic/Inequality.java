@@ -226,7 +226,7 @@ public class Inequality {
 		cons.setSuppressLabelCreation(true);
 		funBorder = new GeoFunction(cons);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));		
-		zeros = kernel.RootMultiple(null, funBorder);
+		zeros = Kernel.RootMultiple(null, funBorder);
 		/*for(int i=0;i<zeros.length;i++){
 			Application.debug(zeros[i]);
 		}*/

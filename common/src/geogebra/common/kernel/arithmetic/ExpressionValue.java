@@ -46,6 +46,7 @@ public interface ExpressionValue {
 	public boolean contains(ExpressionValue ev);
 	public ExpressionValue deepCopy(AbstractKernel kernel);
     public ExpressionValue evaluate();
+    // TODO change return type to HashSet<GeoElement> asap
     public HashSet getVariables();   
     public String toValueString();
     public String toOutputValueString();

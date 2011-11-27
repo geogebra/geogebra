@@ -127,8 +127,8 @@ public class Variable extends ValidExpression implements ExpressionValue {
     	}
     }
     
-    public HashSet getVariables() {
-        HashSet ret = new HashSet();
+    public HashSet<GeoElement> getVariables() {
+        HashSet<GeoElement> ret = new HashSet<GeoElement>();
         ret.add(resolve());
         return ret;
     }

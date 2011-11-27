@@ -270,7 +270,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				ExpressionValue eval = node.evaluate();
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
-					if (kernel.isInteger(((NumberValue) eval).getDouble()))
+					if (AbstractKernel.isInteger(((NumberValue) eval).getDouble()))
 						left = eval;
 				} else {
 					left = eval;
@@ -285,7 +285,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				ExpressionValue eval = node.evaluate();
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
-					if (kernel.isInteger(((NumberValue) eval).getDouble()))
+					if (AbstractKernel.isInteger(((NumberValue) eval).getDouble()))
 						right = eval;
 				} else {
 					right = eval;
@@ -3733,15 +3733,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			return null;
 	}
 
-	private String leftBracket(StringType type) {
+	private static String leftBracket(StringType type) {
 		return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
 	}
 
-	private String rightBracket(StringType type) {
+	private static String rightBracket(StringType type) {
 		return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
 	}
 
-	private String multiplicationSign(StringType type) {
+	private static String multiplicationSign(StringType type) {
 		switch (type) {
 			case LATEX:
 				return " \\cdot ";
@@ -3754,7 +3754,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 	}
 
-	private String multiplicationSpace(StringType type) {
+	private static String multiplicationSpace(StringType type) {
 		// wide space for multiplicatoin space in LaTeX
 		return (type.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
@@ -3805,7 +3805,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * appends a string to sb, brackets are put around it if the order of operation
 	 * dictates
 	 */
-	private void append(StringBuilder sb, String str, ExpressionValue ev,
+	private static void append(StringBuilder sb, String str, ExpressionValue ev,
 			Operation op, StringType STRING_TYPE) {
 		if (ev.isLeaf() || opID(ev) >= op.ordinal()) {
 			sb.append(str);

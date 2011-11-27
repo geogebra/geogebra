@@ -137,7 +137,7 @@ implements NumberValue, Comparable {
 		if (isAngle) {
 			// convert to angle value first, see issue 87
 			// http://code.google.com/p/geogebra/issues/detail?id=87
-			double angleVal = kernel.convertToAngleValue(val);
+			double angleVal = AbstractKernel.convertToAngleValue(val);
 			return kernel.formatAngle(angleVal).toString();
 		} else {
 			return kernel.format(val);
@@ -291,11 +291,11 @@ implements NumberValue, Comparable {
     	// angle in degrees
     	// kernel.checkInteger() needed otherwise floor(60�) gives 59�
 		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
-			set(AbstractKernel.PI_180 * Math.floor( kernel.checkInteger(val * AbstractKernel.CONST_180_PI)));	
+			set(AbstractKernel.PI_180 * Math.floor(AbstractKernel.checkInteger(val * AbstractKernel.CONST_180_PI)));	
 		}
 		else {		
 			// number or angle in radians
-			set(Math.floor(kernel.checkInteger(val))); 
+			set(Math.floor(AbstractKernel.checkInteger(val))); 
 		}				
 		return this;
     }
@@ -304,11 +304,11 @@ implements NumberValue, Comparable {
     	// angle in degrees
     	// kernel.checkInteger() needed otherwise ceil(241�) fails
 		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
-			set(AbstractKernel.PI_180 * Math.ceil(kernel.checkInteger(val * AbstractKernel.CONST_180_PI)));		
+			set(AbstractKernel.PI_180 * Math.ceil(AbstractKernel.checkInteger(val * AbstractKernel.CONST_180_PI)));		
 		}
 		else {		
 			// number or angle in radians
-			set( Math.ceil(kernel.checkInteger(val)));
+			set( Math.ceil(AbstractKernel.checkInteger(val)));
 		}				
 		return this;
     }

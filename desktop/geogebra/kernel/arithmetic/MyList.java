@@ -260,7 +260,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 			double power = ((NumberValue)value).getDouble();
 			//Application.debug("matrix ^ "+power);
 			
-			if ( !kernel.isInteger(power)) {
+			if ( !AbstractKernel.isInteger(power)) {
 				listElements.clear();
 				return;
 			}

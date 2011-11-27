@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -180,7 +181,7 @@ implements ExpressionValue, RealRootFunction, Functional {
         if (!Kernel.isZero(vy)) {                       
             if (isLeaf && left != fVars[0]) { // special case f(x) = constant               
                 MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
-                c.set(kernel.checkDecimalFraction(c.getDouble() + vy));
+                c.set(AbstractKernel.checkDecimalFraction(c.getDouble() + vy));
                 expression.setLeft(c);
             } else {                
                 // f(x) = f(x) + vy
@@ -210,7 +211,7 @@ implements ExpressionValue, RealRootFunction, Functional {
                 double temp;
                 switch (en.getOperation()) {
                     case PLUS :
-                        temp = kernel.checkDecimalFraction(num.getDouble() - vx);                    
+                        temp = AbstractKernel.checkDecimalFraction(num.getDouble() - vx);                    
                         if (Kernel.isZero(temp)) {                      
                             expression = expression.replaceAndWrap(en, fVars[0]);                          
                         } else if (temp < 0) {
@@ -222,7 +223,7 @@ implements ExpressionValue, RealRootFunction, Functional {
                         return;
 
                     case MINUS :
-                        temp = kernel.checkDecimalFraction(num.getDouble() + vx);
+                        temp = AbstractKernel.checkDecimalFraction(num.getDouble() + vx);
                         if (Kernel.isZero(temp)) {
                             expression = expression.replaceAndWrap(en, fVars[0]);                      
                         } else if (temp < 0) {
@@ -256,7 +257,7 @@ implements ExpressionValue, RealRootFunction, Functional {
     // node for (x - vx)
     final private ExpressionNode shiftXnode(double vx) {
     	
-    	vx = kernel.checkDecimalFraction(vx);
+    	vx = AbstractKernel.checkDecimalFraction(vx);
     	
         ExpressionNode node;        
         if (vx > 0) {
@@ -282,13 +283,13 @@ implements ExpressionValue, RealRootFunction, Functional {
         try { // is there a constant number to the right
             MyDouble num = (MyDouble) expression.getRight();
             if (num == fVars[0]) { // right side might be the function variable
-                addNumber(kernel.checkDecimalFraction(vy));
+                addNumber(AbstractKernel.checkDecimalFraction(vy));
                 return;
             }
             double temp;
             switch (expression.getOperation()) {
                 case PLUS :
-                    temp = kernel.checkDecimalFraction(num.getDouble() + vy);
+                    temp = AbstractKernel.checkDecimalFraction(num.getDouble() + vy);
                     if (Kernel.isZero(temp)) {
                         expression = expression.getLeftTree();
                     } else if (temp < 0) {
@@ -300,7 +301,7 @@ implements ExpressionValue, RealRootFunction, Functional {
                     break;
 
                 case MINUS :
-                    temp = kernel.checkDecimalFraction(num.getDouble() - vy);
+                    temp = AbstractKernel.checkDecimalFraction(num.getDouble() - vy);
                     if (Kernel.isZero(temp)) {
                         expression = expression.getLeftTree();
                     } else if (temp < 0) {
@@ -546,7 +547,6 @@ implements ExpressionValue, RealRootFunction, Functional {
      * @param symbolic true for symbolic coefficients (SymbolicPolyFunction), false for numeric coefficients (PolyFunction)
      */
     private PolyFunction expandToPolyFunction(ExpressionValue ev, boolean symbolic) {
-    	PolyFunction ret = null;
     	ExpressionNode node;
         if (ev.isExpressionNode()) {
             node = (ExpressionNode) ev;
