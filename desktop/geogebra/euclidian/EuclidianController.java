@@ -1931,6 +1931,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				if (topHit.isTranslateable()) {
 					GeoVector vec = kernel.Vector(null, 0, 0);
 					vec.setEuclidianVisible(false);
+					vec.setAuxiliaryObject(true);
 					kernel.Translate(null, hits.get(0), vec);
 					transformCoordsOffset[0] = xRW;
 					transformCoordsOffset[1] = yRW;
