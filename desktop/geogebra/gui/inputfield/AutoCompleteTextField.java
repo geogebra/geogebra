@@ -218,8 +218,6 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 
 	boolean ctrlC = false;
 
-	private boolean isVisibleHistoryButton;
-
 	@Override
 	public void keyPressed(KeyEvent e) {        
 		int keyCode = e.getKeyCode(); 

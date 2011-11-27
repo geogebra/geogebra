@@ -92,8 +92,12 @@ public class CASInputPanel extends JPanel {
 		return inputArea;
 	}
 
-	public void setInputAreaFocused() {
-		boolean success = inputArea.requestFocusInWindow();
+	/**
+	 * 
+	 * @return true if the InputArea has been set focused successfully, false otherwise
+	 */
+	public boolean setInputAreaFocused() {
+		return inputArea.requestFocusInWindow();
 	}
 
 	final public void setFont(Font ft) {

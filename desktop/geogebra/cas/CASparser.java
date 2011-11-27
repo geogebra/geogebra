@@ -43,7 +43,7 @@ public class CASparser {
 	
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
-	 * @throws Throwable when something goes wrong
+	 * @throws CASException something goes wrong
 	 */
 	public ValidExpression parseGeoGebraCASInput(String exp) throws CASException {
 		try {
@@ -236,7 +236,7 @@ public class CASparser {
 
 	/**
 	 * Reverse operation of removeSpecialChars().
-	 * @see ExpressionNode.operationToString() for XCOORD, YCOORD
+	 * @see ExpressionNode#operationToString() for XCOORD, YCOORD
 	 */
 	public String insertSpecialChars(String str) {
 		int prefixLen = ExpressionNode.UNICODE_PREFIX.length();

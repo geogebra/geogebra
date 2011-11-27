@@ -58,7 +58,6 @@ public class JavascriptContext extends ViewContext {
     }
 
     private View view;
-    private Application app;
     private List<Integer> typeToDefault = new ArrayList<Integer>();
 
     private static final Map<String, Color> colorMap = new HashMap<String, Color>();
@@ -109,7 +108,6 @@ public class JavascriptContext extends ViewContext {
      */
     public JavascriptContext(Application app) {
         super();
-        this.app = app;
         tokenFont = app.getPlainFont();
         genColors();
         genAttributes();

@@ -284,10 +284,12 @@ public class HistoryPopup implements ListSelectionListener{
 	 */
 	private class HistoryListCellRenderer extends DefaultListCellRenderer {
 
-		private Color bgColor;
-		//private Color listSelectionBackground = MyTable.SELECTED_BACKGROUND_COLOR;
-		private Color listBackground = Color.white;
+		/*
+		private Color bgColor; 
+		private Color listSelectionBackground = MyTable.SELECTED_BACKGROUND_COLOR; 
+		private Color listBackground = Color.white; 
 		private Color rolloverBackground = Color.lightGray;
+		*/
 
 		// create grid lines with this border
 		private Border gridBorder = BorderFactory.createCompoundBorder(

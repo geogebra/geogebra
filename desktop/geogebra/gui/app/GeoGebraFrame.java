@@ -19,6 +19,7 @@ package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
+import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.kernel.Macro;
 import geogebra.main.Application;
@@ -408,7 +409,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 
 			// init JLaTeXMath
 			Graphics2D g2d = this.app.getEuclidianView().getTempGraphics2D();
-			app.getDrawEquation().drawEquation(this.app, null,
+			app.getDrawEquation();
+			DrawEquation.drawEquation(this.app, null,
 					g2d, 0, 0, "x^{2}",
 					g2d.getFont(), false, Color.BLACK, Color.WHITE, false);
 

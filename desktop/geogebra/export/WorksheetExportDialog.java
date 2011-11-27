@@ -111,7 +111,7 @@ public class WorksheetExportDialog extends JDialog {
 			cbAllowRescaling, cbRemoveLinebreaks, cbOpenButton, cbOfflineJars,
 			cbIncludeHTML5;
 	private JComboBox cbFileType, cbAllWorksheets;
-	private JButton exportButton, uploadButton, helpButton;
+	private JButton exportButton, helpButton;
 	private GraphicSizePanel sizePanel;
 	private boolean kernelChanged = false;
 	private JTabbedPane tabbedPane;

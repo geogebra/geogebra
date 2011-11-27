@@ -74,7 +74,6 @@ public class ColorChooserButton extends JButton{
 			@Override
 			public void mousePressed(MouseEvent e) {
 				Point locButton = getLocation();
-				int h = e.getX() - locButton.x;
 				
 				// trigger popup if the mouse is over the right side of the button
 				if(e.getX() >= 20 &&  e.getX() <=38) { 

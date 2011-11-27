@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.euclidian.FormulaDimension;
+import geogebra.euclidian.DrawEquation;
 import geogebra.main.Application;
 
 import java.awt.Dimension;
@@ -51,7 +52,8 @@ public class LaTeXPanel extends JPanel {
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
 							RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		FormulaDimension fd =  app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, app.getPlainFont(), false, getForeground(), getBackground(), true);	
+		app.getDrawEquation();
+		FormulaDimension fd =  DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, app.getPlainFont(), false, getForeground(), getBackground(), true);	
 
 		return new Dimension(fd.width, fd.height + fd.depth);
 	}
@@ -68,13 +70,15 @@ public class LaTeXPanel extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		if (app.exporting){
+			app.getDrawEquation();
 			//draw full resolution image directly on g
-			app.getDrawEquation().drawEquation(app, null, (Graphics2D) g, 0, 0, latex, app.getPlainFont(), false, getForeground(), getBackground(), true);
-		}else{
+			DrawEquation.drawEquation(app, null, (Graphics2D) g, 0, 0, latex, app.getPlainFont(), false, getForeground(), getBackground(), true);
+		} else {
 			// draw part of image that contains equation
-			if (image != null && equSize != null)
-				g.drawImage(image, 0, 0, equSize.width, equSize.height, 
-									0, 0, equSize.width, equSize.height, null);	
+			if (image != null && equSize != null) {
+				g.drawImage(image, 0, 0, equSize.width, equSize.height, 0, 0,
+						equSize.width, equSize.height, null);
+			}
 		}
 	}
 

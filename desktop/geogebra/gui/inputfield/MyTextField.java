@@ -201,7 +201,6 @@ VirtualKeyboardListener, CaretListener, SetLabels {
 
 		//    clear selection if there is one
 		if (start != end) {
-			int pos = getCaretPosition();
 			String oldText = getText();
 			StringBuilder sb = new StringBuilder();
 			sb.append(oldText.substring(0, start));

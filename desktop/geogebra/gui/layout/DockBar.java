@@ -3,7 +3,6 @@ package geogebra.gui.layout;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
-import geogebra.util.ImageManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,13 +41,10 @@ public class DockBar extends JPanel implements ActionListener {
 	private JToolBar viewToolBar, menuToolBar, inputToolBar;
 	private JPanel mainPanel, minimumPanel;
 
-	private AbstractAction[] showViews;
 	private ArrayList<ViewButton> viewButtons;
 	private JButton btnToggleMenu, btnToggleInputBar, btnMinimize, btnKeyboard;
 
 	private boolean isMinimized = true;
-	private ArrayList<Integer> viewList;
-
 
 
 	/*******************************************************
@@ -205,12 +201,12 @@ public class DockBar extends JPanel implements ActionListener {
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 
 		// construct array with view buttons
+		// TODO initializing the viewButtons make no sense immediately before the list is cleared...?
 		if(viewButtons == null)
 			viewButtons = new ArrayList<ViewButton>();
 		viewButtons.clear();
 
 		{
-			int i = 0;
 			ViewButton btn;
 
 			for(DockPanel panel : dockPanels) {

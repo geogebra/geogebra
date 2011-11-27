@@ -65,7 +65,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	private Application app;
-	private JComboBox cbFormat, cbDPI, cbTransparent;
+	private JComboBox cbFormat, cbDPI;
 	private JLabel sizeLabel;
 	private JButton cancelButton;
 		

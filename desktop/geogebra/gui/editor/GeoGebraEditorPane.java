@@ -87,9 +87,6 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		addKeyListener(new GeoGebraKeys(app));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void setEditorKit(String kitString) {
 		String str = getText();
 		if ("geogebra".equalsIgnoreCase(kitString)) {

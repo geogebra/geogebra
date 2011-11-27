@@ -153,8 +153,12 @@ public abstract class CASTableCell extends JPanel{
 		return outputPanel.getOutput();
 	}
 
-	public void setInputAreaFocused() {
-		inputPanel.setInputAreaFocused();
+	/**
+	 * 
+	 * @return true if the InputArea has been set focused successfully, false otherwise
+	 */
+	public boolean setInputAreaFocused() {
+		return inputPanel.setInputAreaFocused();
 	}	
 	
 	public JTextComponent getInputArea() {
