@@ -210,7 +210,7 @@ office@geogebra.org
 	</target>
 
 	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
-	<target name="ggb-jar-index3D" depends="ggb-jar-files3D" description="create index in geogegebra.jar">
+	<target name="ggb-jar-index3D" depends="ggb-jar-files3D" description="create index in geogebra.jar">
 		<exec executable="jar" dir="${build.dir}">
 			<arg value="i"/>
 			<arg value="geogebra.jar"/>
@@ -231,10 +231,16 @@ office@geogebra.org
 		</exec>
 	</target>
 
-
 	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
 	<target name="ggb-main-jar" depends="clean" description="create unsigned geogebra_main.jar">
-		<symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/>
+		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
+		<mkdir dir="${src.dir}/geogebra/common"/>
+		<copy todir="${src.dir}/geogebra/common">
+			<fileset dir="${src.dir}/../common/src/geogebra/common">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
@@ -275,7 +281,9 @@ office@geogebra.org
 				    tutor/**,
 					meta-inf/**"		
 		/>
-		<symlink action="delete" link="${src.dir}/geogebra/common"/>
+
+		<!--symlink action="delete" link="${src.dir}/geogebra/common"/-->
+		<delete dir="${src.dir}/geogebra/common"/>
 	</target>
 
 	<target name="ggb-export-jar" depends="clean" description="create unsigned geogebra_export.jar">
