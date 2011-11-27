@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdScripting;
@@ -24,11 +25,11 @@ public class GeoScriptAction extends GeoElement  {
 	
 	private CmdScripting action;
 	private Command command;
-	public GeoScriptAction(Construction c) {
+	public GeoScriptAction(AbstractConstruction c) {
 		super(c);
 		// TODO Auto-generated constructor stub
 	}
-	public GeoScriptAction(Construction cons, CmdScripting cmdScripting,Command command) {
+	public GeoScriptAction(AbstractConstruction cons, CmdScripting cmdScripting,Command command) {
 		this(cons);
 		action = cmdScripting;
 		this.command = command;

@@ -286,7 +286,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 				GeoText text = (GeoText)geos[0];
 				if (!text.isTextCommand() && text.getStartPoint() == null) {
 
-					Construction cons = text.getConstruction();
+					Construction cons = (Construction) text.getConstruction();
 					EuclidianView ev = app.getEuclidianView();
 
 					boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();

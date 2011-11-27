@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
@@ -48,7 +49,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 	
-	public GeoText(Construction c) {
+	public GeoText(AbstractConstruction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -61,12 +62,12 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 		setAuxiliaryObject(true);
 	}  
 	
-	public GeoText(Construction c, String label, String value) {
+	public GeoText(AbstractConstruction c, String label, String value) {
 		this(c, value);
 		setLabel(label);
 	}  
 	
-	public GeoText(Construction c, String value) {
+	public GeoText(AbstractConstruction c, String value) {
 		this(c);
 		setTextString(value);
 	}  

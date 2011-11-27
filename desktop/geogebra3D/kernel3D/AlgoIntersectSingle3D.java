@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.EuclidianConstants;
 
 
+import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.kernelND.GeoPointND;
@@ -30,7 +31,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 
 	// intersection point is the (a) nearest to refPoint
 	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, GeoPointND refPoint) {
-		super(algo.getConstruction());
+		super((Construction) algo.getConstruction());
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
 		this.refPoint = refPoint;
@@ -46,7 +47,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 	
 	// intersection point is index-th intersection point of algo
 	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, int index) {
-		super(algo.getConstruction());
+		super((Construction) algo.getConstruction());
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
 		

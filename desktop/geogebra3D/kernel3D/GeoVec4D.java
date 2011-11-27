@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 
 /**
@@ -27,16 +28,16 @@ import geogebra.kernel.Construction;
  */
 public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 
-	public GeoVec4D(Construction c) {
+	public GeoVec4D(AbstractConstruction c) {
 		this(c, 4);
 	}
 
-	public GeoVec4D(Construction c, int n) {
+	public GeoVec4D(AbstractConstruction c, int n) {
 		super(c, n);
 	}
 
 	/** Creates new GeoVec4D with coordinates (x,y,z,w) and label */
-	public GeoVec4D(Construction c, double x, double y, double z, double w) {
+	public GeoVec4D(AbstractConstruction c, double x, double y, double z, double w) {
 		super(c, new double[] { x, y, z, w });
 
 	}

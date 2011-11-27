@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathParameter;
@@ -27,7 +28,7 @@ Translateable{
 
 	private boolean isIntersection = false;
 
-	public GeoCoordSys1D(Construction c){
+	public GeoCoordSys1D(AbstractConstruction c){
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -38,13 +39,13 @@ Translateable{
 		coordsys = new CoordSys(1);
 	}
 	
-	public GeoCoordSys1D(Construction c, Coords O, Coords V){
+	public GeoCoordSys1D(AbstractConstruction c, Coords O, Coords V){
 		this(c);
 		setCoord(O,V);
 	}
 	
 	
-	public GeoCoordSys1D(Construction c, GeoPointND O, GeoPointND I){
+	public GeoCoordSys1D(AbstractConstruction c, GeoPointND O, GeoPointND I){
 		this(c);
 		setCoord(O,I);
 	}	
@@ -135,7 +136,7 @@ Translateable{
 	
 
 	final public GeoElement copy() {
-		GeoCoordSys1D geo = create(cons);
+		GeoCoordSys1D geo = create((Construction)cons);
 		geo.setCoord(this);
 		return geo;
 	}

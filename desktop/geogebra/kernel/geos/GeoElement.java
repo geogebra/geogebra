@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.cas.CASgeneric;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
@@ -512,7 +513,7 @@ public abstract class GeoElement
 	/** Creates new GeoElement for given construction
 	 * @param c Construction
 	 */
-	public GeoElement(Construction c) {
+	public GeoElement(AbstractConstruction c) {
 		super(c);
 		
 		// this.geoID = geoCounter++;
@@ -525,7 +526,7 @@ public abstract class GeoElement
 		//isConsProtBreakpoint = cons.showOnlyBreakpoints();
 
 		// ensure all new objects are in the top layer
-		Application app = c.getApplication();
+		Application app = (Application)c.getApplication();
 		if (app != null) {
 			EuclidianView ev = app.getEuclidianView();
 			if (ev != null)
@@ -643,7 +644,7 @@ public abstract class GeoElement
 	 * @param cons construction
 	 * @return copy in given construction
 	 */
-	public GeoElement copyInternal(Construction cons) {
+	public GeoElement copyInternal(AbstractConstruction cons) {
 		// default implementation: changed in some subclasses
 		GeoElement geoCopy = copy();
 		geoCopy.setConstruction(cons);
@@ -841,7 +842,7 @@ public abstract class GeoElement
 
 	public void setConstructionDefaults() {
 		if (useVisualDefaults) {
-			ConstructionDefaults consDef = cons.getConstructionDefaults();
+			ConstructionDefaults consDef = ((Construction) cons).getConstructionDefaults();
 			if (consDef != null) {
 				consDef.setDefaultVisualStyles(this, false);
 			}
@@ -2301,7 +2302,7 @@ public abstract class GeoElement
 		if (!labelSet && isIndependent()) {
 			//	add independent object to list of all Construction Elements
 			// dependent objects are represented by their parent algorithm
-			cons.addToConstructionList(this, true);
+			((Construction) cons).addToConstructionList(this, true);
 		}
 
 		/*
@@ -2882,12 +2883,12 @@ public abstract class GeoElement
 
 		// remove this object from List
 		if (isIndependent())
-			cons.removeFromConstructionList(this);
+			((Construction) cons).removeFromConstructionList(this);
 
 		// remove Listeners
 		AlgoElement algo = getParentAlgorithm();
 		if (algo instanceof EuclidianViewCE) {
-			cons.unregisterEuclidianViewCE(algo);
+			((Construction) cons).unregisterEuclidianViewCE(algo);
 		}
 
 		if (condShowObject != null) {

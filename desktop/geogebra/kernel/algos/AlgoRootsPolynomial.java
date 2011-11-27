@@ -123,7 +123,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	public AlgoRootsPolynomial(GeoFunction f) {
-		super(f.cons);
+		super((Construction)f.cons);
 		this.f = f;
 
 		tempPoint = new GeoPoint(cons);
@@ -131,7 +131,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// set mode
 		mode = MULTIPLE_ROOTS;
 
-		eqnSolver = cons.getEquationSolver();
+		eqnSolver = ((Construction) cons).getEquationSolver();
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);

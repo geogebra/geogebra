@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
@@ -87,7 +88,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// if this point is removed, the Locateables have to be notified
 	private LocateableList locateableList;
 
-	public GeoPoint3D(Construction c) {
+	public GeoPoint3D(AbstractConstruction c) {
 		super(c, 4);
 		setUndefined();
 	}
@@ -95,18 +96,18 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	/**
 	 * Creates new GeoPoint
 	 */
-	public GeoPoint3D(Construction c, String label, double x, double y,
+	public GeoPoint3D(AbstractConstruction c, String label, double x, double y,
 			double z, double w) {
 		super(c, x, y, z, w); // GeoVec4D constructor
 		setLabel(label);
 
 	}
 
-	public GeoPoint3D(Construction c, String label, Coords v) {
+	public GeoPoint3D(AbstractConstruction c, String label, Coords v) {
 		this(c, label, v.get(1), v.get(2), v.get(3), v.get(4));
 	}
 
-	public GeoPoint3D(Construction c, Path path) {
+	public GeoPoint3D(AbstractConstruction c, Path path) {
 		super(c, 4);
 		setPath(path);
 	}
@@ -639,10 +640,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			AlgoElement parent = getParentAlgorithm();
 			int index = parent.getConstructionIndex();
 			getRegion().toGeoElement().removeAlgorithm(parent);
-			getConstruction().removeFromAlgorithmList(parent);
+			((Construction) getConstruction()).removeFromAlgorithmList(parent);
 			setParentAlgorithm(null);
-			getConstruction().removeFromConstructionList(parent);
-			getConstruction().addToConstructionList(this, index);
+			((Construction) getConstruction()).removeFromConstructionList(parent);
+			((Construction) getConstruction()).addToConstructionList(this, index);
 
 			// remove the region
 			setRegion(null);

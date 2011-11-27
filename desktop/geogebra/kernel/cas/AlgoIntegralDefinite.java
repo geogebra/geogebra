@@ -120,7 +120,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
 
     public AlgoIntegralDefinite(GeoFunction f, NumberValue a,
 			NumberValue b, GeoBoolean evaluate) {
-    	super(f.getConstruction(), false);
+    	super((Construction)f.getConstruction(), false);
     	this.f = f;         
          this.a = a;
          this.b = b;

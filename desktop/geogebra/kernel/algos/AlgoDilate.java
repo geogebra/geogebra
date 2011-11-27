@@ -137,7 +137,7 @@ public class AlgoDilate extends AlgoTransformation {
         outGeo.set(inGeo);
         if(S==null){
         	//Application.debug(cons.getOrigin());
-        	out.dilate(r, cons.getOrigin());
+        	out.dilate(r, ((Construction) cons).getOrigin());
         }
         else
         	out.dilate(r, S);
@@ -149,7 +149,7 @@ public class AlgoDilate extends AlgoTransformation {
 	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	String sLabel = S == null ? cons.getOrigin().toValueString() : S.getLabel();
+    	String sLabel = S == null ? ((Construction) cons).getOrigin().toValueString() : S.getLabel();
     	return app.getPlain("ADilatedByFactorBfromC",inGeo.getLabel(),rgeo.getLabel(),sLabel);
 
     }

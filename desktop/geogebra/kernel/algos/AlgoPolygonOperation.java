@@ -109,7 +109,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
 		}
-		cons.addToAlgorithmList(this);
+		((Construction) cons).addToAlgorithmList(this);
 
 		// setOutput(); done in compute
 		// there we just set something to be sure that getOutput doesn't return null.
@@ -117,7 +117,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 		setOutput(0,poly);
 		// parent of output
 		poly.setParentAlgorithm(this);
-		cons.addToAlgorithmList(this);
+		((Construction) cons).addToAlgorithmList(this);
 
 	}
 
@@ -286,7 +286,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 
 		boolean pointsSegmentsShowLabel = (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
-		|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
+		|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && ((Construction) cons).getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
 
 		// set labels for points only if the original points had labels
 		if (labelPointsAndSegments) {

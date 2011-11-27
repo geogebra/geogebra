@@ -1,5 +1,6 @@
 package geogebra.kernel.kernelND;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.Coords;
@@ -76,7 +77,7 @@ public abstract class GeoQuadricND extends GeoElement {
 	 * @param c
 	 * @param dimension dimension of the space (2D or 3D)
 	 */
-	public GeoQuadricND(Construction c, int dimension) {
+	public GeoQuadricND(AbstractConstruction c, int dimension) {
 		super(c);
 		
 		// moved from GeoElement's constructor

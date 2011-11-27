@@ -1,6 +1,7 @@
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
@@ -25,7 +26,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 
 	// intersection point is the (a) nearest to refPoint
 	public AlgoIntersectSingle(String label, AlgoIntersect algo, GeoPoint refPoint) {
-		super(algo.cons);
+		super((Construction) algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
 		this.refPoint = refPoint;
@@ -42,7 +43,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	
 	// intersection point is index-th intersection point of algo
 	public AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
-		super(algo.cons);
+		super((Construction) algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
 		

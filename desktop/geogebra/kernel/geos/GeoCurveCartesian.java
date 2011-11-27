@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
@@ -74,7 +75,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            construction
 	 * 
 	 */
-	public GeoCurveCartesian(Construction c) {
+	public GeoCurveCartesian(AbstractConstruction c) {
 		super(c);
 	}
 
@@ -88,7 +89,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @param fy
 	 *            y-coord function
 	 */
-	public GeoCurveCartesian(Construction c, Function fx, Function fy) {
+	public GeoCurveCartesian(AbstractConstruction c, Function fx, Function fy) {
 		super(c);
 		setFunctionX(fx);
 		setFunctionY(fy);

@@ -3676,7 +3676,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 				d = new DrawAngle(this, (GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
-						Color col = geo.getConstruction()
+						Color col = ((Construction) geo.getConstruction())
 								.getConstructionDefaults().getDefaultGeo(
 										ConstructionDefaults.DEFAULT_ANGLE)
 								.getObjectColor();
@@ -3707,7 +3707,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			}
 			if (d != null) {
 				if (!geo.isColorSet()) {
-					ConstructionDefaults consDef = geo.getConstruction()
+					ConstructionDefaults consDef = ((Construction) geo.getConstruction())
 							.getConstructionDefaults();
 					if (geo.isIndependent()) {
 						Color col = consDef.getDefaultGeo(

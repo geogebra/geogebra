@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -99,7 +100,7 @@ GeoPointND, Animatable, Transformable  {
      * create an undefined GeoPoint
      * @param c
      */
-    public GeoPoint(Construction c) {     	 
+    public GeoPoint(AbstractConstruction c) {     	 
     	super(c);
     	setAnimationType(ANIMATION_INCREASING);
     	setUndefined();
@@ -114,17 +115,17 @@ GeoPointND, Animatable, Transformable  {
      * @param y 
      * @param z 
      */  
-    public GeoPoint(Construction c, String label, double x, double y, double z) {               
+    public GeoPoint(AbstractConstruction c, String label, double x, double y, double z) {               
         this(c, x, y, z); 
         setLabel(label);
     }
     
-    public GeoPoint(Construction c, double x, double y, double z) {               
+    public GeoPoint(AbstractConstruction c, double x, double y, double z) {               
         super(c, x, y, z); // GeoVec3D constructor
     	setAnimationType(ANIMATION_INCREASING);
     }
     
-    public GeoPoint(Construction c, Path path) {
+    public GeoPoint(AbstractConstruction c, Path path) {
 		super(c);
     	setAnimationType(ANIMATION_INCREASING);
 		this.path = path;	

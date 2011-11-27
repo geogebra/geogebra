@@ -98,7 +98,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	protected void setOutput(){
 		
 		updateOutput();
-        cons.addToAlgorithmList(this);  
+        ((Construction) cons).addToAlgorithmList(this);  
 		
 	}
 	

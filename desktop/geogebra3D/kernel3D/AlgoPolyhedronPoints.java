@@ -300,7 +300,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	private void setOutput(){
 		
 		updateOutput();
-        cons.addToAlgorithmList(this);  
+        ((Construction) cons).addToAlgorithmList(this);  
 		
 	}
 	

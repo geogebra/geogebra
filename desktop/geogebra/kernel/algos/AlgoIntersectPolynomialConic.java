@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.PolyFunction;
@@ -72,7 +73,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			//Application.debug("r = "+r.toString());
 			setRootsPolynomial(r);
 		} else {
-			Kernel ker = cons.getKernel();
+			AbstractKernel ker = cons.getKernel();
 			ker.setSilentMode(true);
 			
 			/*try {
@@ -91,7 +92,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			
 			GeoImplicitPoly iPoly = new GeoImplicitPoly(cons);
 			c.toGeoImplicitPoly(iPoly);
-			GeoFunction paramEquation = new GeoFunction(cons, iPoly, null, h);
+			GeoFunction paramEquation = new GeoFunction((Construction) cons, iPoly, null, h);
 			
 			double nroots = 0;
 			double res[] = new double[2];
@@ -111,11 +112,11 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 					res[0] = res[1];
 					res[1] = temp;
 				}
-				algo = new AlgoRoots(cons, paramEquation, 
+				algo = new AlgoRoots((Construction)cons, paramEquation, 
 						new GeoNumeric(cons, Math.max(res[1]-Kernel.MIN_PRECISION,h.getMinParameter())),
 						new GeoNumeric(cons, Math.min(res[0]+Kernel.MIN_PRECISION,h.getMaxParameter())));
 			} else { 
-				algo = new AlgoRoots(cons, paramEquation, 
+				algo = new AlgoRoots((Construction)cons, paramEquation, 
 						new GeoNumeric(cons, h.getMinParameter()),
 						new GeoNumeric(cons, h.getMaxParameter()));
 			}

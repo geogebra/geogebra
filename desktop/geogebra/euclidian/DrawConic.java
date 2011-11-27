@@ -1170,7 +1170,7 @@ final public class DrawConic extends Drawable implements Previewable {
     
     private void initPreview() {
 		//	init the conic for preview			    	
-		Construction cons = previewTempPoints[0].getConstruction();
+		Construction cons = (Construction) previewTempPoints[0].getConstruction();
 		isPreview = true;
 		
 		switch (previewMode) {			

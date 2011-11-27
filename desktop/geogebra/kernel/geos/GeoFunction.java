@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
@@ -85,7 +86,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * Creates new function
 	 * @param c construction
 	 */
-	public GeoFunction(Construction c) {
+	public GeoFunction(AbstractConstruction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -116,7 +117,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		fun = f;				
 		fun.initFunction();
 		if(fun.isBooleanFunction()){
-			GeoElement ge = cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
+			GeoElement ge = ((Construction) cons).getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
 			setVisualStyle(ge);
 			setAlphaValue(ge.getAlphaValue());
 			//initialize inequlaities to make sure that drawable is made when necessary

@@ -160,19 +160,21 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	}
 
 	public AlgoBoxPlot copy() {
-		return new AlgoBoxPlot(cons, leftBorder.clone(),
+		return new AlgoBoxPlot((Construction)cons, leftBorder.clone(),
 					(NumberValue) a.deepCopy(kernel), (NumberValue) b
 							.deepCopy(kernel));		
 	}
 
 	@Override
 	public void compute() {
+		Construction cons = (Construction) this.cons;
 		if (type == TYPE_RAW) {
-
+			
 			// list1 = rawData
 			if (tempList == null)
 				tempList = new GeoList(cons);
 			tempList.clear();
+			
 			AlgoListMin min2 = new AlgoListMin(cons, list1);
 			cons.removeFromConstructionList(min2);
 			tempList.add(min2.getMin());

@@ -99,13 +99,13 @@ public class AlgoIntersectImplicitpolyParametric extends
 			if (!f.isPolynomialFunction(false)) {
 				
 				
-				Kernel ker = cons.getKernel();
+				Kernel ker = (Kernel) cons.getKernel();
 				
 				ker.setSilentMode(true);
 				
-				GeoFunction paramEquation = new GeoFunction(cons, p, null, f);
+				GeoFunction paramEquation = new GeoFunction((Construction)cons, p, null, f);
 				
-				AlgoRoots algo = new AlgoRoots(cons, paramEquation, 
+				AlgoRoots algo = new AlgoRoots((Construction)cons, paramEquation, 
 						new GeoNumeric(cons, f.getMinParameter()),
 						new GeoNumeric(cons, f.getMaxParameter()));
 				

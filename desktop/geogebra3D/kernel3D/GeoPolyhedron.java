@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionElementCycle;
 import geogebra.kernel.Matrix.Coords;
@@ -78,7 +79,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	 * @param c
 	 *            construction
 	 */
-	public GeoPolyhedron(Construction c) {
+	public GeoPolyhedron(AbstractConstruction c) {
 		super(c);
 
 		// moved from GeoElement's constructor
@@ -271,8 +272,8 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	public GeoPolygon3D createPolygon(GeoPointND[] points) {
 		GeoPolygon3D polygon;
 
-		AlgoPolygon3D algo = new AlgoPolygon3D(cons, null, points, false, this);
-		cons.removeFromConstructionList(algo);
+		AlgoPolygon3D algo = new AlgoPolygon3D((Construction) cons, null, points, false, this);
+		((Construction) cons).removeFromConstructionList(algo);
 
 		polygon = (GeoPolygon3D) algo.getPoly();
 		// refresh color to ensure segments have same color as polygon:
@@ -331,9 +332,9 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		GeoSegment3D segment;
 
-		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
+		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D((Construction)cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
-		cons.removeFromConstructionList(algoSegment);
+		((Construction) cons).removeFromConstructionList(algoSegment);
 
 		segment = (GeoSegment3D) algoSegment.getCS();
 		// refresh color to ensure segments have same color as polygon:
@@ -934,7 +935,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		// prevent from removing this when redefine a prism (see
 		// AlgoJoinPoints3D and AlgoPolygon)
-		if (this != getConstruction().getKeepGeo())
+		if (this != ((Construction) getConstruction()).getKeepGeo())
 			super.remove();
 	}
 

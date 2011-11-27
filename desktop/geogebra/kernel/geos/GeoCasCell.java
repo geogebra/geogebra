@@ -2,6 +2,7 @@ package geogebra.kernel.geos;
 
 import geogebra.cas.error.CASException;
 import geogebra.cas.GeoGebraCAS;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -59,7 +60,7 @@ public class GeoCasCell extends GeoElement {
 	private String evalCmd, evalComment;
 	private int row = -1; // for CAS view, set by Construction
 
-	public GeoCasCell(Construction c) {
+	public GeoCasCell(AbstractConstruction c) {
 		super(c);
 		
 		input = "";
@@ -290,7 +291,7 @@ public class GeoCasCell extends GeoElement {
 		
 		if (!isEmpty()) {
 			// make sure we put this casCell into the construction set
-			cons.addToGeoSetWithCasCells(this);			
+			((Construction) cons).addToGeoSetWithCasCells(this);			
 		}
 		return true;
 	}	
@@ -601,7 +602,7 @@ public class GeoCasCell extends GeoElement {
 		if (assignmentVar != null) {
 			if (twinGeo != null)
 				twinGeo.rename(assignmentVar);		
-			cons.putCasCellLabel(this, assignmentVar);
+			((Construction) cons).putCasCellLabel(this, assignmentVar);
 		} else {
 			// remove twinGeo if we had one
 			setTwinGeo(null);
@@ -704,7 +705,7 @@ public class GeoCasCell extends GeoElement {
 				// try row reference lookup
 				// $ for previous row
 				if (varLabel.equals(ExpressionNode.CAS_ROW_REFERENCE_PREFIX)) {			
-					geo = row > 0 ? cons.getCasCell(row-1) : cons.getLastCasCell();
+					geo = row > 0 ? ((Construction) cons).getCasCell(row-1) : ((Construction) cons).getLastCasCell();
 				} else {
 					geo = ((Kernel) kernel).lookupCasRowReference(varLabel);
 				}
@@ -992,7 +993,7 @@ public class GeoCasCell extends GeoElement {
 		// set Label of twinGeo
 		twinGeo.setLabel(assignmentVar);
 		// set back CAS cell label
-		cons.putCasCellLabel(this, assignmentVar);
+		((Construction) cons).putCasCellLabel(this, assignmentVar);
 		
 		return true;
 	}
@@ -1445,7 +1446,7 @@ public class GeoCasCell extends GeoElement {
 		}		
 		
 		super.doRemove();	
-	    cons.removeFromGeoSetWithCasCells(this);
+	    ((Construction) cons).removeFromGeoSetWithCasCells(this);
 		setTwinGeo(null);						
 	}	
 

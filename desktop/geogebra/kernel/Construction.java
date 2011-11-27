@@ -98,7 +98,7 @@ public class Construction extends AbstractConstruction{
 	private TreeSet<GeoElement> geoSetWithCasCells; 
 	
 	// list of random numbers or lists
-	private TreeSet<GeoElement> randomElements;
+	private TreeSet<GeoElementInterface> randomElements;
 
 	// a map for sets with all labeled GeoElements in alphabetical order of
 	// specific types
@@ -1032,7 +1032,8 @@ public class Construction extends AbstractConstruction{
 	 * @see #removeLabel(GeoElement)
 	 * @see #lookupLabel(String)
 	 */
-	public void putLabel(GeoElement geo) {
+	public void putLabel(GeoElementInterface geoI) {
+		GeoElement geo = (GeoElement) geoI;
 		if (supressLabelCreation || geo.label == null)
 			return;
 
@@ -1046,7 +1047,8 @@ public class Construction extends AbstractConstruction{
 	 * @param geo GeoElement to be removed
 	 * @see #putLabel(GeoElement)
 	 */
-	public void removeLabel(GeoElement geo) {
+	public void removeLabel(GeoElementInterface geoI) {
+		GeoElement geo = (GeoElement) geoI;
 		geo.unbindVariableInCAS();		
 		geoTable.remove(geo.label);
 		removeFromGeoSets(geo);		
@@ -2638,9 +2640,9 @@ public class Construction extends AbstractConstruction{
 	 * Adds a number to the set of random numbers of this construction.
 	 * @param num Element to be added
 	 */
-	public void addRandomGeo(GeoElement num) {
+	public void addRandomGeo(GeoElementInterface num) {
 		if (randomElements == null) 
-			randomElements = new TreeSet<GeoElement>();
+			randomElements = new TreeSet<GeoElementInterface>();
 		randomElements.add(num);
 		num.setRandomGeo(true);
 	}
@@ -2649,7 +2651,7 @@ public class Construction extends AbstractConstruction{
 	 * Removes a number from the set of random numbers of this construction.
 	 * @param num Element to be removed
 	 */
-	public void removeRandomGeo(GeoElement num) {
+	public void removeRandomGeo(GeoElementInterface num) {
 		if (randomElements != null) 
 			randomElements.remove(num);
 		num.setRandomGeo(false);
@@ -2661,7 +2663,7 @@ public class Construction extends AbstractConstruction{
     final public void updateAllRandomGeos() {    	
     	if (randomElements == null) return;
     	
-    	Iterator<GeoElement> it = randomElements.iterator();
+    	Iterator<GeoElementInterface> it = randomElements.iterator();
     	while (it.hasNext()) {
     		GeoElement num = (GeoElement) it.next();
     		num.updateRandomGeo();

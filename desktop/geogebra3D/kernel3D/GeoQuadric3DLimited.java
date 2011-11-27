@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import java.awt.Color;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -34,11 +35,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	 * 
 	 * @param c
 	 */
-	public GeoQuadric3DLimited(Construction c) {
+	public GeoQuadric3DLimited(AbstractConstruction c) {
 		this(c, null, null);
 	}
 
-	public GeoQuadric3DLimited(Construction c, GeoPointND bottomPoint,
+	public GeoQuadric3DLimited(AbstractConstruction c, GeoPointND bottomPoint,
 			GeoPointND topPoint) {
 
 		super(c, 3);

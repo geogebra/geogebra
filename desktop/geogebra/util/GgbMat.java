@@ -1,5 +1,6 @@
 package geogebra.util;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.MyList;
@@ -175,7 +176,7 @@ public class GgbMat extends Array2DRowRealMatrix {
 	/*
 	 * returns GgbMatrix as a GeoList eg { {1,2}, {3,4} }
 	 */
-	public GeoList getGeoList(GeoList outputList, Construction cons) {
+	public GeoList getGeoList(GeoList outputList, AbstractConstruction cons) {
 
 		if (isUndefined) {
 			outputList.setDefined(false);

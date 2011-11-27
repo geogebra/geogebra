@@ -302,7 +302,7 @@ implements Previewable {
 	
 	private void initPreview() {
 		//	init the conicPart for preview			
-		Construction cons = previewTempPoints[0].getConstruction();
+		Construction cons = (Construction) previewTempPoints[0].getConstruction();
 		int arcMode;
 		switch (previewMode) {
 			case EuclidianConstants.MODE_SEMICIRCLE:

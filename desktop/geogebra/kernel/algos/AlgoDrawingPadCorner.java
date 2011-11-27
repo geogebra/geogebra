@@ -82,7 +82,7 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 
 		EuclidianView ev;
 
-		Application app = cons.getApplication();
+		Application app = (Application)cons.getApplication();
 
 		if (evNum == null || evNum.getDouble() == 1.0)
 			ev = app.getEuclidianView();
@@ -91,7 +91,7 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 				corner.setUndefined();
 				return;
 			} else
-				ev = cons.getApplication().getEuclidianView2();
+				ev = ((Application) cons.getApplication()).getEuclidianView2();
 		}
 
 		double width = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);

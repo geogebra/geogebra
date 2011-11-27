@@ -86,7 +86,7 @@ public class AlgoTo2D extends AlgoElement3D {
 
         // parent of output
         out.setParentAlgorithm(this);       
-        cons.addToAlgorithmList(this); 
+        ((Construction) cons).addToAlgorithmList(this); 
     }
 
     GeoElement3D getIn() {

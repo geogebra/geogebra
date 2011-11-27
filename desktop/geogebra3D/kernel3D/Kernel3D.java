@@ -339,15 +339,15 @@ public class Kernel3D extends Kernel {
 			return new GeoPoint3D((GeoPointND) geo);
 
 		case LINE:
-			GeoCoordSys1D ret = new GeoLine3D(geo.getConstruction());
+			GeoCoordSys1D ret = new GeoLine3D((Construction)geo.getConstruction());
 			ret.set(geo);
 			return ret;
 		case SEGMENT:
-			ret = new GeoSegment3D(geo.getConstruction());
+			ret = new GeoSegment3D((Construction)geo.getConstruction());
 			ret.set(geo);
 			return ret;
 		case RAY:
-			ret = new GeoRay3D(geo.getConstruction());
+			ret = new GeoRay3D((Construction)geo.getConstruction());
 			ret.set(geo);
 			return ret;
 

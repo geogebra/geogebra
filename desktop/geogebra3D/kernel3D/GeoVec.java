@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordMatrix;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
@@ -35,7 +36,7 @@ public abstract class GeoVec extends GeoElement3D {
 
 	private int m_length;
 
-	public GeoVec(Construction c) {
+	public GeoVec(AbstractConstruction c) {
 		super(c);
 
 		// moved from GeoElement's constructor
@@ -45,7 +46,7 @@ public abstract class GeoVec extends GeoElement3D {
 
 	}
 
-	public GeoVec(Construction c, int n) {
+	public GeoVec(AbstractConstruction c, int n) {
 		this(c);
 		m_length = n;
 		v = new Coords(n);
@@ -53,7 +54,7 @@ public abstract class GeoVec extends GeoElement3D {
 	}
 
 	/** Creates new GeoVec with coordinates coords[] and label */
-	public GeoVec(Construction c, double[] coords) {
+	public GeoVec(AbstractConstruction c, double[] coords) {
 		this(c, coords.length);
 		setCoords(coords);
 	}

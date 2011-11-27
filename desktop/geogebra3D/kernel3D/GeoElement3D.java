@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
@@ -146,7 +147,7 @@ public abstract class GeoElement3D extends GeoElement implements
 
 	/** Creates new GeoElement for given construction 
 	 * @param c construction*/
-	public GeoElement3D(Construction c) {
+	public GeoElement3D(AbstractConstruction c) {
 		super(c);		
 	}
 	

@@ -1,8 +1,9 @@
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextField;
-import geogebra.kernel.Construction;
+import geogebra.main.Application;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -15,16 +16,16 @@ public class GeoTextField extends GeoButton {
 	
 	AutoCompleteTextField textField;
 	
-	public GeoTextField(Construction c) {
+	public GeoTextField(AbstractConstruction c) {
 		
 		super(c);
 		
-		textField = new AutoCompleteTextField(defaultLength, c.getApplication());
+		textField = new AutoCompleteTextField(defaultLength, (Application) c.getApplication());
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
 	}
-	public GeoTextField(Construction cons, int labelOffsetX, int labelOffsetY) {
+	public GeoTextField(AbstractConstruction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;

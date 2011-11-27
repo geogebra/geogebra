@@ -1,8 +1,38 @@
 package geogebra.common.kernel;
 
+
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
+
+
 public abstract class AbstractConstruction {
 
 	public abstract void setSuppressLabelCreation(boolean silentMode);
+
+	public abstract AbstractKernel getKernel();
+
+	public abstract AbstractApplication getApplication();
+
+	public abstract boolean isSuppressLabelsActive();
+
+	public abstract void removeRandomGeo(GeoElementInterface geoNumeric);
+
+	public abstract void addRandomGeo(GeoElementInterface geoNumeric);
+
+	public abstract boolean isFreeLabel(String newLabel);
+	
+	public abstract void putLabel(GeoElementInterface geo);
+	
+	public abstract void removeLabel(GeoElementInterface geo);
+	public abstract String getIndexLabel(String prefix);
+	public abstract int steps();
+	public abstract void removeCasCellLabel(String variable);
+	public abstract void removeCasCellLabel(String variable,boolean b);
+
+	
+	
+	
+	
 
 
 }

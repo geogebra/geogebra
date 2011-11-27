@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.CoordMatrix4x4;
 import geogebra.kernel.Matrix.Coords;
@@ -31,7 +32,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * 
 	 * @param c
 	 */
-	public GeoSurfaceCartesian3D(Construction c) {
+	public GeoSurfaceCartesian3D(AbstractConstruction c) {
 		super(c);
 	}
 

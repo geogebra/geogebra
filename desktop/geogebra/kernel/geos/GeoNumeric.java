@@ -19,7 +19,9 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.AnimationManager;
@@ -87,11 +89,11 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 * Creates new GeoNumeric
 	 * @param c Construction 
 	 */
-	public GeoNumeric(Construction c) {
+	public GeoNumeric(AbstractConstruction c) {
 		this(c, true);
 	}
 
-	public GeoNumeric(Construction c, boolean setDefaults) {
+	public GeoNumeric(AbstractConstruction c, boolean setDefaults) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -137,7 +139,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 * @param c Cons
 	 * @param x Number value
 	 */
-	public GeoNumeric(Construction c, double x) {
+	public GeoNumeric(AbstractConstruction c, double x) {
 		this(c);
 
 		value = x;
@@ -234,8 +236,8 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		int count = 0;
 		
 		// get all number and angle sliders		
-		TreeSet<GeoElement> numbers = cons.getGeoSetLabelOrder(GeoClass.NUMERIC);
-		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoClass.ANGLE);		
+		TreeSet<GeoElement> numbers = ((Construction) cons).getGeoSetLabelOrder(GeoClass.NUMERIC);
+		TreeSet<GeoElement> angles = ((Construction) cons).getGeoSetLabelOrder(GeoClass.ANGLE);		
 		if (numbers != null) {
 			if (angles != null)
 				numbers.addAll(angles);

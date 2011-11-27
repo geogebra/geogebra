@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.EuclidianView;
@@ -77,7 +78,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param c the construction
 	 * @param points vertices 
 	 */
-	public GeoPolygon(Construction c, GeoPointND[] points) {
+	public GeoPolygon(AbstractConstruction c, GeoPointND[] points) {
 		this(c,points,null,true);
 	}
 	
@@ -87,7 +88,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param cs for 3D stuff : 2D coord sys
 	 * @param createSegments says if the polygon has to creates its edges
 	 */	
-	public GeoPolygon(Construction c, GeoPointND[] points, CoordSys cs, boolean createSegments) {
+	public GeoPolygon(AbstractConstruction c, GeoPointND[] points, CoordSys cs, boolean createSegments) {
 		this(c);
 		//Application.printStacktrace("poly");
 		this.createSegments=createSegments;
@@ -100,7 +101,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * Creates new GeoPolygon
 	 * @param cons construction
 	 */
-	public GeoPolygon(Construction cons) {
+	public GeoPolygon(AbstractConstruction cons) {
 		super(cons);
 		
 		// moved from GeoElement's constructor
@@ -393,8 +394,8 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	  */
 	 public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint, boolean euclidianVisible){
 
-		 AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, (GeoPoint) startPoint, (GeoPoint) endPoint, this);            
-		 cons.removeFromConstructionList(algoSegment);  
+		 AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment((Construction)cons, (GeoPoint) startPoint, (GeoPoint) endPoint, this);            
+		 ((Construction) cons).removeFromConstructionList(algoSegment);  
 		 
 		 return createSegment(algoSegment.getSegment(), euclidianVisible);
 	 }
@@ -571,7 +572,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		System.arraycopy(points, 0, pointsForPolyLine, 0, points.length);
 		pointsForPolyLine[points.length]=pointsForPolyLine[0];
 		
-		GeoPolyLine pl = new GeoPolyLine(this.getConstruction(), pointsForPolyLine);
+		GeoPolyLine pl = new GeoPolyLine((Construction)this.getConstruction(), pointsForPolyLine);
 		
 		this.getConstruction().getKernel().setSilentMode(false);
 		

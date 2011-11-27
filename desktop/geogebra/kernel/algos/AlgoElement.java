@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.util.StringUtil;
 
 import geogebra.kernel.Construction;
@@ -62,15 +63,15 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     private boolean isPrintedInXML = true;
     private boolean stopUpdateCascade = false;
     
-    public AlgoElement(Construction c) {
+    public AlgoElement(AbstractConstruction c) {
         this(c, true);               
     }
 
-    protected AlgoElement(Construction c, boolean addToConstructionList) {
+    protected AlgoElement(AbstractConstruction c, boolean addToConstructionList) {
         super(c);     
         
         if (addToConstructionList)
-        	c.addToConstructionList(this, false);                 
+        	((Construction) c).addToConstructionList(this, false);                 
     }
     
     /**
@@ -525,7 +526,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     protected void doSetDependencies() {
      	setRandomUnlabeledInput();
         setOutputDependencies();           
-        cons.addToAlgorithmList(this);  
+        ((Construction) cons).addToAlgorithmList(this);  
     }
     
     /**
@@ -595,7 +596,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     	// every algorithm with an image as output
     	// should be notified about view changes
     	if (output.isGeoImage())
-    		cons.registerEuclidianViewCE(this);
+    		((Construction) cons).registerEuclidianViewCE(this);
 
     	//  make sure that every output has same construction as this algorithm
     	// this is important for macro constructions that have input geos from
@@ -615,8 +616,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      */
     @Override
 	public void remove() {      	
-        cons.removeFromConstructionList(this);                
-        cons.removeFromAlgorithmList(this);        
+        ((Construction) cons).removeFromConstructionList(this);                
+        ((Construction) cons).removeFromAlgorithmList(this);        
         
         // delete dependent objects          
         for (int i = 0; i < getOutputLength(); i++) {
@@ -1324,9 +1325,9 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     public void setPrintedInXML(boolean flag) {
         isPrintedInXML = flag;
         if (flag)
-            cons.addToConstructionList(this, true);
+            ((Construction) cons).addToConstructionList(this, true);
         else 
-            cons.removeFromConstructionList(this);
+            ((Construction) cons).removeFromConstructionList(this);
     }
     
     protected boolean isPrintedInXML() {

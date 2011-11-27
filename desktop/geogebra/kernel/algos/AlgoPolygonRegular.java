@@ -198,13 +198,13 @@ public class AlgoPolygonRegular extends AlgoElement {
         for (int i = 0; i < input.length; i++) {
             input[i].addAlgorithm(this);
         }
-        cons.addToAlgorithmList(this);
+        ((Construction) cons).addToAlgorithmList(this);
 
         // setOutput(); done in compute
 
         // parent of output
         getPoly().setParentAlgorithm(this);       
-        cons.addToAlgorithmList(this); 
+        ((Construction) cons).addToAlgorithmList(this); 
     }        
 
  

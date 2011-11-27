@@ -85,8 +85,8 @@ public class AlgoCellRange extends AlgoElement {
     	ArrayList<GeoElement> listItems = initCellRangeList(startCoords, endCoords);   
     	
     	// create dependent geoList for cells in range
-    	AlgoDependentList algo = new AlgoDependentList(cons, listItems, true);
-    	cons.removeFromConstructionList(algo);
+    	AlgoDependentList algo = new AlgoDependentList((Construction)cons, listItems, true);
+    	((Construction) cons).removeFromConstructionList(algo);
         geoList = algo.getGeoList();
 		
 		
@@ -137,7 +137,7 @@ public class AlgoCellRange extends AlgoElement {
     			
     			// create missing object in cell range
     			if (geo == null) {
-    				geo = cons.createSpreadsheetGeoElement(startCell, cellLabel);    				
+    				geo = ((Construction)cons).createSpreadsheetGeoElement(startCell, cellLabel);    				
     			}
     			
     			// we got the cell object, add it to the list

@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathParameter;
@@ -52,7 +53,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * @param createSegments
 	 *            says if the polygon has to creates its edges
 	 */
-	public GeoPolygon3D(Construction c, GeoPointND[] points, CoordSys cs2D,
+	public GeoPolygon3D(AbstractConstruction c, GeoPointND[] points, CoordSys cs2D,
 			boolean createSegments) {
 		super(c, points, cs2D, createSegments);
 
@@ -68,11 +69,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * @param points
 	 *            vertices
 	 */
-	public GeoPolygon3D(Construction c, GeoPointND[] points) {
+	public GeoPolygon3D(AbstractConstruction c, GeoPointND[] points) {
 		this(c, points, null, true);
 	}
 
-	public GeoPolygon3D(Construction cons) {
+	public GeoPolygon3D(AbstractConstruction cons) {
 		super(cons);
 	}
 
@@ -122,9 +123,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				&& !((GeoElement) endPoint).isGeoElement3D())
 			return super.createSegment(startPoint, endPoint, euclidianVisible);
 
-		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
+		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D((Construction)cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
-		cons.removeFromConstructionList(algoSegment);
+		((Construction) cons).removeFromConstructionList(algoSegment);
 
 		return createSegment((GeoSegmentND) algoSegment.getCS(),
 				euclidianVisible);

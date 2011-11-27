@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 
@@ -46,7 +47,7 @@ public class MyPoint {
 		return GeoVec2D.length(p.x - x, p.y - y);
 	}
 
-	public GeoPoint getGeoPoint(Construction cons) {
+	public GeoPoint getGeoPoint(AbstractConstruction cons) {
 		return new GeoPoint(cons, null, x, y, 1.0);
 	}
 }

@@ -29,8 +29,8 @@ public class AlgoQuadricLimitedPointPointRadiusCylinder extends AlgoQuadricLimit
 	}
 	
 	protected void createEnds(){
-		AlgoQuadricEnds algo2 = new AlgoQuadricEnds(cons, getQuadric());
-		cons.removeFromConstructionList(algo2);
+		AlgoQuadricEnds algo2 = new AlgoQuadricEnds((Construction)cons, getQuadric());
+		((Construction) cons).removeFromConstructionList(algo2);
 		bottom = algo2.getSection1();
 		top = algo2.getSection2();
 

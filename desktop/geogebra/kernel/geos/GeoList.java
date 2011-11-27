@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.StringUtil;
@@ -71,11 +72,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds 2008-04-02
 
-	public GeoList(Construction c) {
+	public GeoList(AbstractConstruction c) {
 		this(c, 20);
 	}
 
-	private GeoList(Construction c, int size) {
+	private GeoList(AbstractConstruction c, int size) {
 		super(c);
 		
 		// moved from GeoElement's constructor

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.PathMover;
@@ -31,7 +32,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	// coords of points on locus
 	private ArrayList<MyPoint> myPointList;		
 	
-	public GeoLocus(Construction c) {
+	public GeoLocus(AbstractConstruction c) {
 		super(c);				
 		
 		// moved from GeoElement's constructor

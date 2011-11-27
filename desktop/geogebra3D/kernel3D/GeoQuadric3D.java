@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -35,7 +36,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
 
-	public GeoQuadric3D(Construction c) {
+	public GeoQuadric3D(AbstractConstruction c) {
 		super(c, 3);
 
 		// TODO merge with 2D eigenvec

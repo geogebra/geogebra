@@ -13,6 +13,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -38,12 +39,12 @@ AbsoluteScreenLocateable {
 	
 	private ArrayList<GeoElement> condListenersShowObject;
 		
-	public GeoBoolean(Construction c) {
+	public GeoBoolean(AbstractConstruction c) {
 		super(c);			
 		setEuclidianVisible(false);
 	}
 
-	public GeoBoolean(Construction cons, boolean b) {
+	public GeoBoolean(AbstractConstruction cons, boolean b) {
 		this(cons);
 		value = b;
 	}

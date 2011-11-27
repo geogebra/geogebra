@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 
 import geogebra.kernel.Kernel;
@@ -52,7 +53,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	 * @param points
 	 *            vertices
 	 */
-	public GeoPolyLine3D(Construction c, GeoPointND[] points) {
+	public GeoPolyLine3D(AbstractConstruction c, GeoPointND[] points) {
 		super(c, points);
 	}
 

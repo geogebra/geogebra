@@ -133,7 +133,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	
 	private void init(){
 		AlgoElement algo = geo.getDrawAlgorithm();
-		Construction cons = geo.getConstruction();
+		Construction cons = (Construction) geo.getConstruction();
 		tempPoint = new GeoPoint(cons);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 
@@ -726,7 +726,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
     private void initPreview() {
 		//	init the conic for preview			    	
-		Construction cons = previewTempPoints[0].getConstruction();
+		Construction cons = (Construction)previewTempPoints[0].getConstruction();
 		
 				AlgoAnglePoints algo = new AlgoAnglePoints(cons, 
 						previewTempPoints[0], 

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Matrix.CoordMatrixUtil;
@@ -100,9 +101,9 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
     			cs2.getCoordSys().getMatrixOrthonormal());
 
     	// update line
-    	Construction c = cs1.toGeoElement().getConstruction();
+    	AbstractConstruction c = cs1.toGeoElement().getConstruction();
     	c.getKernel().setSilentMode(true);
-    	GeoLine3D l = new GeoLine3D(c, intersection[0], intersection[1]);
+    	GeoLine3D l = new GeoLine3D((Construction)c, intersection[0], intersection[1]);
     	c.getKernel().setSilentMode(false);
     	return l;
     }

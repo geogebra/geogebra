@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
@@ -46,7 +47,7 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 	 * @param label
 	 * @param points vertices 
 	 */
-	public GeoPolyLine(Construction cons, String label, GeoPointND[] points) {
+	public GeoPolyLine(AbstractConstruction cons, String label, GeoPointND[] points) {
 		this(cons, points);
 		setLabel(label);
 	}
@@ -55,7 +56,7 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 	 * @param cons
 	 * @param points
 	 */
-	public GeoPolyLine(Construction cons, GeoPointND[] points) {
+	public GeoPolyLine(AbstractConstruction cons, GeoPointND[] points) {
 		super(cons);
 		this.points = points;
 		

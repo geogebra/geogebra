@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.Construction;
@@ -80,7 +81,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	public GeoLocus locus;
 	public Polynomial poly;
 
-	public GeoImplicitPoly(Construction c) {
+	public GeoImplicitPoly(AbstractConstruction c) {
 		super(c);
 		degX=-1;
 		degY=-1;
@@ -88,16 +89,16 @@ Dilateable, Transformable, EuclidianViewCE {
 		locus=new GeoLocus(c);
 		locus.setDefined(true);
 		calcPath=true;
-		c.registerEuclidianViewCE(this);
+		((Construction) c).registerEuclidianViewCE(this);
 	}
 	
-	private GeoImplicitPoly(Construction c, String label,double[][] coeff,boolean calcPath){
+	private GeoImplicitPoly(AbstractConstruction c, String label,double[][] coeff,boolean calcPath){
 		this(c);
 		setLabel(label);
 		this.calcPath=calcPath;
 		setCoeff(coeff,calcPath);
 		if (!calcPath)
-			c.unregisterEuclidianViewCE(this);
+			((Construction) c).unregisterEuclidianViewCE(this);
 	}
 	
 	protected GeoImplicitPoly(Construction c, String label,double[][] coeff){
@@ -138,7 +139,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	 */
 	public void preventPathCreation(){
 		calcPath=false;
-		cons.unregisterEuclidianViewCE(this);
+		((Construction) cons).unregisterEuclidianViewCE(this);
 	}
 	
 	
@@ -798,7 +799,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 	
 	final public double distance(GeoPoint p) {
-		AlgoClosestPoint algo = new AlgoClosestPoint(cons, "", this, p);
+		AlgoClosestPoint algo = new AlgoClosestPoint((Construction) cons, "", this, p);
 		algo.remove();
 		GeoPoint pointOnCurve = (GeoPoint) algo.getP();
 		return p.distance(pointOnCurve);

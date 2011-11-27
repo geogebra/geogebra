@@ -98,7 +98,7 @@ public class AlgoAnglePolygon extends AlgoElement {
 		
 		
 		for (int i =0; i<length; i++){
-			algoAngle = new AlgoAnglePoints(cons,poly.getPoint((i+1)%length), poly.getPoint(i),
+			algoAngle = new AlgoAnglePoints((Construction) cons,poly.getPoint((i+1)%length), poly.getPoint(i),
 					poly.getPoint((i+length-1)%length));
 			
     		GeoAngle angle = (GeoAngle) outputAngles.getElement(i);
@@ -113,7 +113,7 @@ public class AlgoAnglePolygon extends AlgoElement {
 				}
     		}
     		angle.setDrawAlgorithm(algoAngle.copy());
-    		cons.removeFromConstructionList(algoAngle);
+    		((Construction) cons).removeFromConstructionList(algoAngle);
     	}
     	//other points are undefined
     	for(int i = length;i<outputAngles.size();i++)

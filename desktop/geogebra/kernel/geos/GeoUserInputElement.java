@@ -12,8 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.kernel.Construction;
+
 
 /**
  * Makes it possible to switch between the Extended form and the Input form (Exactly the way the user entered it)
@@ -26,7 +27,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 	private boolean inputForm;
 	private boolean validInputForm;
 
-	public GeoUserInputElement(Construction c) {
+	public GeoUserInputElement(AbstractConstruction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -37,7 +38,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 		validInputForm=true;
 	}
 	
-	public GeoUserInputElement(Construction c,ValidExpression userInput) {
+	public GeoUserInputElement(AbstractConstruction c,ValidExpression userInput) {
 		this(c);
 		this.userInput=userInput;
 	}

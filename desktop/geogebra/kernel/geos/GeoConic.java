@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
@@ -49,7 +50,7 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 	 * Creates a conic
 	 * @param c construction
 	 */
-	public GeoConic(Construction c) {
+	public GeoConic(AbstractConstruction c) {
 		super(c,2);	
 	}		
 	
@@ -59,7 +60,7 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 	 * @param label label
 	 * @param coeffs coefficients
 	 */
-	public GeoConic(Construction c, String label, double[] coeffs) {
+	public GeoConic(AbstractConstruction c, String label, double[] coeffs) {
 
 		this(c);
 		setCoeffs(coeffs);
@@ -75,7 +76,7 @@ Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTr
 		set(conic);
 	}
 	
-	public GeoConic(Construction c, String label, GeoList coeffList) {
+	public GeoConic(AbstractConstruction c, String label, GeoList coeffList) {
 		this(c);
 		
 		int numberCount = 0;

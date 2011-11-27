@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.MyDouble;
@@ -25,7 +26,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 	 * 
 	 * @param c
 	 */
-	public GeoQuadric3DPart(Construction c) {
+	public GeoQuadric3DPart(AbstractConstruction c) {
 		super(c);
 	}
 

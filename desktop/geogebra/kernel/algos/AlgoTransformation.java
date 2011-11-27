@@ -1,5 +1,6 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
@@ -67,7 +68,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 		return geo.copy();
 	}
 
-	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
+	protected GeoElement copyInternal(AbstractConstruction cons, GeoElement geo) {
 		return geo.copyInternal(cons);
 	}
 
@@ -111,8 +112,8 @@ public abstract class AlgoTransformation extends AlgoElement implements
 			((GeoConicPart) b).setParameters(0, Kernel.PI_2, true);
 			if (pt == null) {
 				transformedPoint = new GeoPoint(cons);
-				pt = new AlgoClosestPoint(cons, arc, transformedPoint);
-				cons.removeFromConstructionList(pt);
+				pt = new AlgoClosestPoint((Construction) cons, arc, transformedPoint);
+				((Construction) cons).removeFromConstructionList(pt);
 			}
 			transformedPoint.removePath();
 			setTransformedObject(((GeoConicPart) a).getPointParam(0),

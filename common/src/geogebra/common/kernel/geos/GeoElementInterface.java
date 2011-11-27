@@ -33,6 +33,7 @@ public interface GeoElementInterface {
 	public boolean isChildOf(GeoElementInterface parent);
 	public int getMinConstructionIndex();
 	public boolean isGeoNumeric();
-	public List<Integer> getViewSet();	
+	public List<Integer> getViewSet();
+	public void setRandomGeo(boolean b);	
 	
 }

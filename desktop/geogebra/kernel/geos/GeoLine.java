@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
@@ -68,12 +69,12 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	private static boolean KEEP_LEADING_SIGN = true;
     private static final String [] vars = { "x", "y" };
     
-    public GeoLine(Construction c) { 
+    public GeoLine(AbstractConstruction c) { 
     	super(c); 
     	setMode( GeoLine.EQUATION_IMPLICIT );
     }
     
-    public GeoLine(Construction c, int mode) { 
+    public GeoLine(AbstractConstruction c, int mode) { 
     	super(c); 
     	setMode( mode );
     }

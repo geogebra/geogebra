@@ -13,6 +13,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 
 import java.awt.Font;
@@ -32,7 +33,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	private boolean serifFont = false;
 	
-	public GeoButton(Construction c) {
+	public GeoButton(AbstractConstruction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -44,7 +45,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		setAuxiliaryObject(true);
 	}
 
-	public GeoButton(Construction cons, int labelOffsetX, int labelOffsetY) {
+	public GeoButton(AbstractConstruction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.kernel.Construction;
@@ -93,7 +94,7 @@ GeoSegmentND {
 	 * @param A first endpoint
 	 * @param B second endpoint
 	 */
-	public GeoSegment(Construction c, GeoPoint A, GeoPoint B) {
+	public GeoSegment(AbstractConstruction c, GeoPoint A, GeoPoint B) {
 		this(c);
 		setPoints(A, B);
 	}
@@ -102,7 +103,7 @@ GeoSegmentND {
 	 * common constructor
 	 * @param c
 	 */
-	public GeoSegment(Construction c){
+	public GeoSegment(AbstractConstruction c){
 		super(c);
 	}
 	

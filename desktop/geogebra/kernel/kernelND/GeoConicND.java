@@ -1,5 +1,6 @@
 package geogebra.kernel.kernelND;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
@@ -188,7 +189,7 @@ Translateable
 	 * @param c
 	 * @param dimension
 	 */
-	public GeoConicND(Construction c, int dimension) {
+	public GeoConicND(AbstractConstruction c, int dimension) {
 		super(c, dimension);
 		toStringMode = EQUATION_IMPLICIT;
 	}
@@ -481,7 +482,7 @@ Translateable
 
 					double[] eqn = { abspy, -p+px, 0, -p/2 };
 					double[] roots = {0, 0, 0};
-					cons.getEquationSolver().solveCubic(eqn,roots);
+					((Construction) cons).getEquationSolver().solveCubic(eqn,roots);
 					if(roots[0]>0) {
 						pp.setT(roots[0]);
 					} else if (roots[1]>0) {
@@ -527,7 +528,7 @@ Translateable
 			double hc_2 = ha*ha + hb*hb;
 			eqn = new double[]{bpy*bpy, -2*bpy*hc_2, bpy*bpy+hc_2*hc_2-ha*ha*abspx*abspx, -2*bpy*hc_2, hc_2*hc_2 };
 		}
-			cons.getEquationSolver().solveQuartic(eqn,roots);
+			((Construction) cons).getEquationSolver().solveQuartic(eqn,roots);
 			return roots;
 		}
 
@@ -2224,7 +2225,7 @@ Translateable
 			eigenval[0] = detS;
 			eigenval[1] = - (matrix[0] + matrix[1]); // -spurS
 			eigenval[2] = 1.0d;
-			cons.getEquationSolver().solveQuadratic(eigenval, eigenval);
+			((Construction) cons).getEquationSolver().solveQuadratic(eigenval, eigenval);
 	
 			// set first eigenvector
 			eigenvecX = -matrix[3];
