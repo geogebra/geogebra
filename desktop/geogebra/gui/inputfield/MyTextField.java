@@ -280,7 +280,8 @@ VirtualKeyboardListener, CaretListener, SetLabels {
 
 
 	public void setLabels(){
-		tablePopup.setLabels();
+		if(tablePopup != null)
+			tablePopup.setLabels();
 	}
 
 	
