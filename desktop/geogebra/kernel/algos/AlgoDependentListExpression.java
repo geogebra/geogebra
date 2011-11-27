@@ -104,6 +104,8 @@ public class AlgoDependentListExpression extends AlgoElement {
     		list.setUndefined();
     		return;
     	}
+    	
+    	list.setDefined(true);
 
 		int evalListSize = myList.size();
 		int cachedListSize = list.getCacheSize();    		
