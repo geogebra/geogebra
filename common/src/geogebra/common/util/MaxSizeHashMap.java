@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 
 public class MaxSizeHashMap<V, T> extends LinkedHashMap<V,T> {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int maxSize;
 	
 	public MaxSizeHashMap(int maxSize) {		
