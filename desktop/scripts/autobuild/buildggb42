@@ -27,13 +27,19 @@ if [ "$1" != "" ]; then
  echo "$0: Using revision $1"
  fi
 
-# 2. Updating source files
+# 2/1. Updating source files
 rm -fR org # not sure why SVN cannot handle this properly (org/mathpiper), http://stackoverflow.com/questions/1608836/folders-skipped-when-updating-svn
 ant -f pack.xml delete-sources # FIXME: delete-sources must work for common as well
 $SVN_COMMAND $REVISION_PARAM update --accept theirs-full --force .. > .svn-update
 $SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revision
 WARNINGS=`chmod -R g+rw $SVNDIR/geogebra 2>&1 | wc -l | awk '{print $1}'`
 echo "$0: $WARNINGS warnings during chmod'ing source files"
+
+# 2/2. Downloading newest 3rd party libraries and installer tools
+ant -f kickstart.xml geogebra5-packager-commandline
+cd installer
+ant
+cd ..
 
 # 3. Setting global variables
 export JAVA_HOME
