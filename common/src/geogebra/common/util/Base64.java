@@ -86,11 +86,12 @@ DAMAGES.  */
 
 package geogebra.common.util;
 
-import java.io.ByteArrayOutputStream;
+import geogebra.common.main.AbstractApplication;
+
 import java.io.IOException;
 
 public final class Base64
-{
+{	
 
   // No constructor.
   private Base64() { }
@@ -212,13 +213,12 @@ public final class Base64
    */
   public static byte[] decode(String b64) throws IOException
   {
-    ByteArrayOutputStream result = new ByteArrayOutputStream(b64.length() / 3);
-    int state = 0, i;
+    int state = 0, i,j=0;
     byte temp = 0;
-
+    byte[] result = new byte[b64.length() / 3];
     for (i = 0; i < b64.length(); i++)
       {
-        if (Character.isWhitespace(b64.charAt(i)))
+        if (AbstractApplication.isWhitespace(b64.charAt(i)))
           {
             continue;
           }
@@ -241,21 +241,21 @@ public final class Base64
 
           case 1:
             temp |= (byte) (pos - BASE_64.indexOf('A') >>> 4);
-            result.write(temp);
+            result[j]=temp;j++;
             temp = (byte) ((pos - BASE_64.indexOf('A') & 0x0f) << 4);
             state = 2;
             break;
 
           case 2:
             temp |= (byte) ((pos - BASE_64.indexOf('A') & 0x7f) >>> 2);
-            result.write(temp);
+            result[j]=temp;j++;
             temp = (byte) ((pos - BASE_64.indexOf('A') & 0x03) << 6);
             state = 3;
             break;
 
           case 3:
             temp |= (byte) (pos - BASE_64.indexOf('A') & 0xff);
-            result.write(temp);
+            result[j]=temp;j++;
             state = 0;
             break;
 
@@ -309,6 +309,6 @@ public final class Base64
           }
       }
 
-    return result.toByteArray();
+    return result;
   }
 }

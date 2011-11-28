@@ -199,5 +199,10 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	}
 	public abstract String translateCommand(String name);
 	
+	@SuppressWarnings("deprecation")
+	public static boolean isWhitespace(char charAt) {
+		return Character.isSpace(charAt);
+	}
+	
 
 }
