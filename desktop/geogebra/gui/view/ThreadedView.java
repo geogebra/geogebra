@@ -11,7 +11,8 @@ the Free Software Foundation.
  */
 package geogebra.gui.view;
 
-import geogebra.kernel.View;
+import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.kernel.geos.GeoElement;
 
 import java.awt.event.ActionEvent;
@@ -118,4 +119,34 @@ public class ThreadedView implements View {
       isWorking = false;
     }
   };
+  
+  public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
+
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
+		
+	}
 }

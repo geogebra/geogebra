@@ -1,6 +1,6 @@
 package geogebra;
 
-import geogebra.kernel.View;
+import geogebra.common.kernel.View;
 import geogebra.main.Application;
 import geogebra.plugin.GgbAPI;
 

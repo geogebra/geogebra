@@ -17,6 +17,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -5472,6 +5473,36 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			ptList.add(new Point(xi,yi));
 		}
 		this.getEuclidianController().getPen().doDrawPoints(ge, ptList);
+		
+	}
+	
+	public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
+
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
 		
 	}
 }

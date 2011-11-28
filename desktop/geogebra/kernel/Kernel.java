@@ -22,6 +22,7 @@ import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;

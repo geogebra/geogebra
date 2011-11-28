@@ -12,9 +12,11 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputDialog;
@@ -27,7 +29,6 @@ import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.algos.AlgoCurvature;
 import geogebra.kernel.algos.AlgoDependentFunction;
 import geogebra.kernel.algos.AlgoDependentNumber;
@@ -1634,6 +1635,36 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 	public int getViewID() {
 		return Application.VIEW_FUNCTION_INSPECTOR;
+	}
+	
+	public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
+
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
+		
 	}
 
 }

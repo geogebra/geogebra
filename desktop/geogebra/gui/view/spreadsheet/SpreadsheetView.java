@@ -1,11 +1,12 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.settings.AbstractSettings;
@@ -1567,6 +1568,34 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 				{spreadsheet.getCorner(JScrollPane.UPPER_LEFT_CORNER), spreadsheet.getColumnHeader()},
 				{spreadsheet.getRowHeader(),table}};
 	}
+	public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
 
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
+		
+	}
 
 }

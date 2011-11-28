@@ -18,12 +18,13 @@ the Free Software Foundation.
 
 package geogebra.gui.view.algebra;
 
+import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
@@ -998,6 +999,36 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { this } };
+	}
+
+	public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
+
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
+		
 	}
 
 	/**

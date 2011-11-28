@@ -10,20 +10,20 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementInterface;
 
 /**
  * Interface for views. A view registered to the kernel gets informed if elements were added, removed or changed.
  */
 public interface View {
-	public void add(GeoElement geo);
-	public void remove(GeoElement geo);
-	public void rename(GeoElement geo);
-	public void update(GeoElement geo);	 
-	public void updateVisualStyle(GeoElement geo);	 
-	public void updateAuxiliaryObject(GeoElement geo);
+	public void add(GeoElementInterface geo);
+	public void remove(GeoElementInterface geo);
+	public void rename(GeoElementInterface geo);
+	public void update(GeoElementInterface geo);	 
+	public void updateVisualStyle(GeoElementInterface geo);	 
+	public void updateAuxiliaryObject(GeoElementInterface geo);
 	public void repaintView();
 	public void reset(); 
 	public void clearView();

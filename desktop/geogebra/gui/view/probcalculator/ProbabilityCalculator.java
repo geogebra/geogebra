@@ -1,9 +1,11 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
@@ -11,7 +13,6 @@ import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.algos.AlgoBarChart;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoDependentPoint;
@@ -2201,5 +2202,34 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 	}
 
+	public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
+
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
+		
+	}
 
 }

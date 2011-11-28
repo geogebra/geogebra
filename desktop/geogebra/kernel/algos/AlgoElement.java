@@ -21,13 +21,13 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 
-import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;

@@ -1,8 +1,8 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.View;
 
 import geogebra.kernel.algos.AlgoElement;
 

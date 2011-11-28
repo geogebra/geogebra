@@ -2,12 +2,13 @@ package geogebra.cas.view;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoElement;
 
@@ -494,5 +495,35 @@ public class CASView extends JComponent implements View, Gridable {
 
 	public Component[][] getPrintComponents() {
 		return new Component[][]{{rowHeader,consoleTable}};
+	}
+	
+	public void add(GeoElementInterface geo) {
+		add((GeoElement)geo);
+		
+	}
+
+	public void remove(GeoElementInterface geo) {
+		remove((GeoElement)geo);
+		
+	}
+
+	public void rename(GeoElementInterface geo) {
+		rename((GeoElement)geo);
+		
+	}
+
+	public void update(GeoElementInterface geo) {
+		update((GeoElement)geo);
+		
+	}
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+		updateVisualStyle((GeoElement)geo);
+		
+	}
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+		updateAuxiliaryObject((GeoElement)geo);
+		
 	}
 }

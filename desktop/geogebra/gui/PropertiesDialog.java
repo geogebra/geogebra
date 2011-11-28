@@ -13,12 +13,13 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
@@ -550,6 +551,36 @@ public class PropertiesDialog
 			addMouseMotionListener(this);
 			addMouseListener(this);
 		}				
+		
+		public void add(GeoElementInterface geo) {
+			add((GeoElement)geo);
+			
+		}
+
+		public void remove(GeoElementInterface geo) {
+			remove((GeoElement)geo);
+			
+		}
+
+		public void rename(GeoElementInterface geo) {
+			rename((GeoElement)geo);
+			
+		}
+
+		public void update(GeoElementInterface geo) {
+			update((GeoElement)geo);
+			
+		}
+
+		public void updateVisualStyle(GeoElementInterface geo) {
+			updateVisualStyle((GeoElement)geo);
+			
+		}
+
+		public void updateAuxiliaryObject(GeoElementInterface geo) {
+			updateAuxiliaryObject((GeoElement)geo);
+			
+		}
 
 		public void setLabels() {
 			root.setUserObject(app.getPlain("Objects"));

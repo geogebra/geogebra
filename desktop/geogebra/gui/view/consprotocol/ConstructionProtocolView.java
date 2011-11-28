@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 
 
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
@@ -22,7 +23,6 @@ import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
@@ -1488,7 +1488,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			}
 		}
 
-		public void rename(GeoElement geo) {
+		public void rename(GeoElementInterface geo) {
 			// renaming may affect multiple rows
 			// so let's update whole table
 			updateAll();
@@ -1534,7 +1534,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			fireTableRowsUpdated(0, size - 1);
 		}
 
-		final public void update(GeoElement geo) {
+		final public void update(GeoElementInterface geo) {
 			RowData row = (RowData) geoMap.get(geo);
 			if (row != null) {
 				// remove row if only breakpoints
@@ -1559,11 +1559,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 		
 
-		final public void updateVisualStyle(GeoElement geo) {
+		final public void updateVisualStyle(GeoElementInterface geo) {
 			update(geo);
 		}
 
-		final public void updateAuxiliaryObject(GeoElement geo) {
+		final public void updateAuxiliaryObject(GeoElementInterface geo) {
 			// update(geo);
 		}
 
