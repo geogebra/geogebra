@@ -275,7 +275,7 @@ public final class Base64
           case 2:
             for ( ; i < b64.length(); i++)
               {
-                if (!Character.isWhitespace(b64.charAt(i)))
+                if (!AbstractApplication.isWhitespace(b64.charAt(i)))
                   {
                     break;
                   }
@@ -293,7 +293,7 @@ public final class Base64
             for ( ; i < b64.length(); i++)
               {
                 // We should only see whitespace after this.
-                if (!Character.isWhitespace(b64.charAt(i)))
+                if (!AbstractApplication.isWhitespace(b64.charAt(i)))
                   {
                     System.err.println(b64.charAt(i));
                     throw new IOException("malformed Base64 sequence");
