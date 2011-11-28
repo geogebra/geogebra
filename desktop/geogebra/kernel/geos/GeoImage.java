@@ -102,6 +102,9 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 	
     public int getRelatedModeID() {
+    	
+    	return EuclidianConstants.MODE_IMAGE;
+    	/*
     	switch (this.image.getType()){
     	case 5:
     		return EuclidianConstants.MODE_IMAGE;
@@ -109,7 +112,7 @@ implements Locateable, AbsoluteScreenLocateable,
     		return EuclidianConstants.MODE_PEN;
     	default:
     		return -1;	
-    	}
+    	}*/
     }
 	
 	private void initTempPoints() {
