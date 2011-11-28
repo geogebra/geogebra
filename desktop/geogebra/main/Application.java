@@ -61,6 +61,7 @@ import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManager;
 import geogebra.plugin.jython.PythonBridge;
 import geogebra.sound.SoundManager;
+import geogebra.util.DebugPrinterDesktop;
 import geogebra.util.DownloadManager;
 import geogebra.util.ImageManager;
 import geogebra.util.Util;
@@ -517,7 +518,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
-
+		Application.dbg = new DebugPrinterDesktop();
 		if (args != null) handleHelpVersionArgs(args);
 		
 		isApplet = appletImpl != null;

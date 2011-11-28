@@ -1,10 +1,8 @@
 package geogebra.common.main;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.util.DebugPrinter;
 
-import java.io.PrintStream;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -131,7 +129,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public static void debug(Object s, boolean showTime, boolean showMemory, int level) {
 		doDebug(s.toString(), showTime, showMemory, level);
 	}
-	
+	public static DebugPrinter dbg;	
 	// Michael Borcherds 2008-06-22
 	private static void doDebug(String s, boolean showTime, boolean showMemory, int level) {
 		if (s == null) s = "<null>";
@@ -150,52 +148,14 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 		sb.append("]");
 
 		if (showTime) {
-			Calendar calendar = new GregorianCalendar();
-			int min = calendar.get(Calendar.MINUTE);
-			String minS = (min < 10) ? "0" + min : "" + min;
-			int sec = calendar.get(Calendar.SECOND);
-			String secS = (sec < 10) ? "0" + sec : "" + sec;
-	
-			sb.append(" at ");
-			sb.append(calendar.get(Calendar.HOUR));
-			sb.append(":");
-			sb.append(minS);
-			sb.append(":");
-			sb.append(secS);
-		}
+			dbg.getTimeInfo(sb);	}
 		
 		if (showMemory) {
-			System.gc(); System.gc(); System.gc(); System.gc();
-
-		    long usedK = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 ;
-
-			sb.append("\n free memory: ");
-			sb.append(Runtime.getRuntime().freeMemory());
-			sb.append(" total memory: ");
-			sb.append(Runtime.getRuntime().totalMemory());
-			sb.append(" max memory: ");
-			sb.append(Runtime.getRuntime().maxMemory());
-			sb.append("\n used memory (total-free): ");
-			sb.append(usedK + "K");			
+			dbg.getMemoryInfo(sb);
 			
+						
 		}
-			
-		PrintStream debug = System.out;
-		
-		if (level > 0) debug = System.err;
-
-		// multi line message
-		if (s.indexOf("\n") > -1) {
-			debug.println(sb.toString());
-			debug.println(s);
-			debug.println("*** END Message.");
-		}
-		// one line message
-		else {
-			debug.println(sb.toString());
-			debug.print("\t");
-			debug.println(s);
-		}
+		dbg.print(s,sb.toString(),level);
 	}
 	public abstract String translateCommand(String name);
 	
