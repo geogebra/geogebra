@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -643,16 +644,16 @@ public class Construction extends AbstractConstruction{
 	 * @param algo to be added
 	 * @see #updateConstruction()
 	 */
-	public void addToAlgorithmList(AlgoElement algo) {
-		algoList.add(algo);
+	public void addToAlgorithmList(AlgoElementInterface algo) {
+		algoList.add((AlgoElement)algo);
 	}
 
 	/**
 	 * Removes the given algorithm from this construction's algorithm list
 	 * @param algo algo to be removed
 	 */
-	public void removeFromAlgorithmList(AlgoElement algo) {
-		algoList.remove(algo);
+	public void removeFromAlgorithmList(AlgoElementInterface algo) {
+		algoList.remove((AlgoElement)algo);
 	}
 
 	/**

@@ -27,7 +27,6 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 
-import geogebra.kernel.Construction;
 import geogebra.kernel.View;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
@@ -528,7 +527,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     protected void doSetDependencies() {
      	setRandomUnlabeledInput();
         setOutputDependencies();           
-        ((Construction) cons).addToAlgorithmList(this);  
+        cons.addToAlgorithmList(this);  
     }
     
     /**
@@ -598,7 +597,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     	// every algorithm with an image as output
     	// should be notified about view changes
     	if (output.isGeoImage())
-    		((Construction) cons).registerEuclidianViewCE(this);
+    		cons.registerEuclidianViewCE(this);
 
     	//  make sure that every output has same construction as this algorithm
     	// this is important for macro constructions that have input geos from
@@ -619,7 +618,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     @Override
 	public void remove() {      	
         cons.removeFromConstructionList(this);                
-        ((Construction) cons).removeFromAlgorithmList(this);        
+        cons.removeFromAlgorithmList(this);        
         
         // delete dependent objects          
         for (int i = 0; i < getOutputLength(); i++) {

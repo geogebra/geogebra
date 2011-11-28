@@ -1,6 +1,7 @@
 package geogebra.common.kernel;
 
 
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
@@ -33,9 +34,13 @@ public abstract class AbstractConstruction {
 	public abstract void addToConstructionList(ConstructionElement geoElement, boolean b);
 	public abstract void removeFromConstructionList(ConstructionElement geoElement);
 
+	public abstract void registerEuclidianViewCE(EuclidianViewCE algo);
 	public abstract void unregisterEuclidianViewCE(EuclidianViewCE algo);
 
 	public abstract AbstractConstructionDefaults getConstructionDefaults();
+
+	public abstract void addToAlgorithmList(AlgoElementInterface algoElement);
+	public abstract void removeFromAlgorithmList(AlgoElementInterface algoElement);
 	
 	
 	
