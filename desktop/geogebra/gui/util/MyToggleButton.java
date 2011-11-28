@@ -1,6 +1,8 @@
 package geogebra.gui.util;
 
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,12 +14,18 @@ public class MyToggleButton extends JButton {
 		Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
 		setIcon(GeoGebraIcon.ensureIconSize(icon, d));
 		this.setRolloverEnabled(true);
+		
+		this.addMouseListener(new MouseAdapter(){
+			public void mousePressed(MouseEvent e){
+				toggle();
+			}
+		});		
 	}
 
 	public void update(Object[] geos) {
 	}
 
-	public void toggle() {
+	private void toggle() {
 		this.setSelected(!this.isSelected());
 	}
 }

@@ -1391,19 +1391,15 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			}
 		}
 		else if (source == btnBold) {
-			btnBold.toggle();
 			applyFontStyle(targetGeos);			
 		}
 		else if (source == btnItalic) {
-			btnItalic.toggle();
 			applyFontStyle(targetGeos);			
 		}
 		else if (source == btnTextSize) {
 			applyTextSize(targetGeos);			
 		}
 		else if (source == btnHideShowLabel) {
-			btnHideShowLabel.toggle();
-			
 			applyHideShowLabel(targetGeos);	
 			updateStyleBar();
 		}
@@ -1415,11 +1411,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			applyTableTextFormat(targetGeos);			
 		}
 		else if (source == btnTableTextLinesH ) {
-			btnTableTextLinesH.toggle();
 			applyTableTextFormat(targetGeos);			
 		}
 		else if (source ==  btnTableTextLinesV) {
-			btnTableTextLinesV.toggle();
 			applyTableTextFormat(targetGeos);			
 		}
 		else if (source == btnTableTextBracket ) {
@@ -1432,7 +1426,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			
 		}
 		else if (source == btnPenEraser) {
-			btnPenEraser.toggle();
 			
 			// add code here to toggle between pen and eraser mode;			
 			
