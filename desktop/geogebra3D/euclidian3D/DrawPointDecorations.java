@@ -1,8 +1,8 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoPoint3D;
 

@@ -1,5 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.gui.view.spreadsheet.CellRange;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTable;
@@ -8,8 +10,6 @@ import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;

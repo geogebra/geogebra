@@ -1,5 +1,8 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -19,11 +22,8 @@ import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.algos.AlgoRayPointVector;
 import geogebra.kernel.algos.AlgoSequence;
 import geogebra.kernel.algos.AlgoTake;
-import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyVecNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
@@ -1511,7 +1511,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			boolean oldEnableUndo = cons.isUndoEnabled();
 			cons.setUndoEnabled(false);
 
-			GeoElement[] geos = kernel.getAlgebraProcessor()
+			GeoElement[] geos = (GeoElement[]) kernel.getAlgebraProcessor()
 			.processAlgebraCommandNoExceptions(text, false);	
 
 			cons.setUndoEnabled(oldEnableUndo);

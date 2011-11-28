@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
@@ -134,7 +135,7 @@ public class AlgoObject extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);	
 			if (geo != null) {
-				Iterator<AlgoElement> it = geo.getAlgoUpdateSet().getIterator();
+				Iterator<AlgoElementInterface> it = geo.getAlgoUpdateSet().getIterator();
 				while (it.hasNext()) {
 					refObject.addToUpdateSetOnly((AlgoElement) it.next());
 				}

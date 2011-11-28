@@ -1,9 +1,9 @@
 package geogebra.kernel.barycentric;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -52,9 +52,9 @@ public class AlgoTrilinear extends AlgoElement {
 		input[0] = P1;
 		input[1] = P2;
 		input[2] = P3;
-		input[3] = v1.toGeoElement();
-		input[4] = v2.toGeoElement();
-		input[5] = v3.toGeoElement();
+		input[3] = (GeoElement)v1.toGeoElement();
+		input[4] = (GeoElement)v2.toGeoElement();
+		input[5] = (GeoElement)v3.toGeoElement();
 		
 		setOutputLength(1);
 		setOutput(0, point);

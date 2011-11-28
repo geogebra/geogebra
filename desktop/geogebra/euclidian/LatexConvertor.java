@@ -21,7 +21,7 @@ public class LatexConvertor implements ExternalConverter {
 		   cons.setSuppressLabelCreation(true);
 		   GeoElement[] geos;
 		   try {
-			   geos = env.processAlgebraCommandNoExceptionHandling(externalCode, false, false, true);
+			   geos = (GeoElement[]) env.processAlgebraCommandNoExceptionHandling(externalCode, false, false, true);
 		   }
 		   catch (Exception e) {
 			   cons.setSuppressLabelCreation(oldLabelMode);

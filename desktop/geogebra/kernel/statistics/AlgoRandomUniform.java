@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoTwoNumFunction;
-import geogebra.kernel.arithmetic.NumberValue;
 
 /**
  * Computes RandomNormal[a, b]

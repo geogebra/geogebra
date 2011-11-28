@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 
@@ -66,14 +66,14 @@ public class AlgoDerivative extends AlgoCasBase {
         
         input = new GeoElement[length];
         length = 0;
-        input[0] = f.toGeoElement();
+        input[0] = (GeoElement)f.toGeoElement();
         if (var != null)
             input[++length] = var;
         if (order != null)
-            input[++length] = order.toGeoElement();
+            input[++length] = (GeoElement)order.toGeoElement();
 
         setOutputLength(1);
-        setOutput(0, g.toGeoElement());
+        setOutput(0, (GeoElement)g.toGeoElement());
         setDependencies(); // done by AlgoElement
     }  
     

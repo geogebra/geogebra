@@ -1,18 +1,18 @@
 package geogebra.kernel.implicit;
 
 
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 
 public class AlgoImplicitPolyFunction extends AlgoElement {

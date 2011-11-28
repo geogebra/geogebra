@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -50,7 +50,7 @@ public class AlgoPrimeFactors extends AlgoElement {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[1];
-        input[0] = num.toGeoElement();
+        input[0] = (GeoElement)num.toGeoElement();
 
         super.setOutputLength(1);
         super.setOutput(0, outputList);

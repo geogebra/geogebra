@@ -3,11 +3,11 @@ package geogebra3D.kernel3D;
 import java.awt.Color;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoQuadricND;

@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.geos.GeoConic;

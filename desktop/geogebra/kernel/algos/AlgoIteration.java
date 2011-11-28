@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoNumeric;
@@ -37,9 +37,9 @@ public class AlgoIteration extends AlgoElement {
         super(cons);
         this.f = f;
         this.startValue = startValue;
-        startValueGeo = startValue.toGeoElement();
+        startValueGeo = (GeoElement)startValue.toGeoElement();
         this.n = n;
-        nGeo = n.toGeoElement();
+        nGeo = (GeoElement)n.toGeoElement();
                
         result = new GeoNumeric(cons);
 

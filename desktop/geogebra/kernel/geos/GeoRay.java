@@ -13,13 +13,14 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.Transform;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.kernel.algos.AlgoDirection;
 import geogebra.kernel.algos.AlgoElement;

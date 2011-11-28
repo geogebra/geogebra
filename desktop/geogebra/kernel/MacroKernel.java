@@ -18,8 +18,8 @@ import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
-import geogebra.main.MyError;
 
 import java.util.LinkedHashMap;
 

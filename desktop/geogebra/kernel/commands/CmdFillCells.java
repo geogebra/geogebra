@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoCellRange;
@@ -9,7 +10,6 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.awt.Point;
 import java.util.ArrayList;

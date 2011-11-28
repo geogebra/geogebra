@@ -2,10 +2,10 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.FormulaDimension;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;

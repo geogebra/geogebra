@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoNumeric;
@@ -56,7 +56,7 @@ public class AlgoLimit extends AlgoElement {
     protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = f;
-        input[1] = num.toGeoElement();
+        input[1] = (GeoElement)num.toGeoElement();
 
         output = new GeoElement[1];
         output[0] = outNum;

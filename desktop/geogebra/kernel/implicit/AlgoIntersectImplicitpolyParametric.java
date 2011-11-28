@@ -18,6 +18,7 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoRoots;
@@ -27,7 +28,6 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.parser.ParseException;
-import geogebra.main.MyError;
 
 import java.util.ArrayList;
 import java.util.List;

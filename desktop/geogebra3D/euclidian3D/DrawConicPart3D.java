@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;

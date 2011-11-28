@@ -1,11 +1,12 @@
 package geogebra.kernel.barycentric;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -14,7 +15,6 @@ import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;
 import geogebra.kernel.Kernel;
-import geogebra.main.MyError;
 
 
 /**
@@ -55,7 +55,7 @@ public class AlgoTriangleCubic extends AlgoElement {
 		input[0] = A;
 		input[1] = B;
 		input[2] = C;
-		input[3] = n.toGeoElement();
+		input[3] = (GeoElement)n.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, poly);

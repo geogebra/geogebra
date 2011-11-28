@@ -22,6 +22,11 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
@@ -31,12 +36,8 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.LocateableList;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.RegionParameters;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.CoordSys;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.Path;
@@ -913,11 +914,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		}
 	}
 
-	private static TreeSet<AlgoElement> tempSet;
+	private static TreeSet<AlgoElementInterface> tempSet;
 
-	protected static TreeSet<AlgoElement> getTempSet() {
+	protected static TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}

@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
@@ -1172,7 +1173,7 @@ public class GeoCasCell extends GeoElement {
 			
 			try {
 				// process inputExp in GeoGebra					
-				GeoElement [] geos = ((Kernel) kernel).getAlgebraProcessor().
+				GeoElement [] geos = (GeoElement[])kernel.getAlgebraProcessor().
 					processAlgebraCommandNoExceptionHandling( evalVE.toAssignmentString(), false, false, false );
 				
 				//GeoElement evalGeo = silentEvalInGeoGebra(evalVE);

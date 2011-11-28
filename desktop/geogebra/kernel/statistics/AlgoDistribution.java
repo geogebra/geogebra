@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
@@ -137,12 +137,12 @@ public abstract class AlgoDistribution extends AlgoElement {
 
 		// build array list of possible arguments
 		ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
-		inputList.add(a.toGeoElement());
-		inputList.add(b.toGeoElement());
+		inputList.add((GeoElement)a.toGeoElement());
+		inputList.add((GeoElement)b.toGeoElement());
 		if(c!=null)
-		inputList.add(c.toGeoElement());
+		inputList.add((GeoElement)c.toGeoElement());
 		if(d!=null)
-			inputList.add(d.toGeoElement());		
+			inputList.add((GeoElement)d.toGeoElement());		
 		if (isCumulative != null) 
 			inputList.add(isCumulative.toGeoElement());
 

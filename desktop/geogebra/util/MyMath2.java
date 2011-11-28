@@ -1,6 +1,7 @@
 package geogebra.util;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.util.AbstractMyMath2;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
@@ -11,7 +12,7 @@ import org.apache.commons.math.special.Gamma;
  * moved functions from MyMath as they use org.apache
  * important for minimal applets
  */
-public class MyMath2 {
+public class MyMath2 extends AbstractMyMath2{
 	final public static double gammaIncomplete(double a, double x, AbstractKernel kernel) {
 
 		try {

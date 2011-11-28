@@ -1,17 +1,17 @@
 package geogebra.kernel.implicit;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.main.MyError;
 
 import java.util.HashSet;
 import java.util.Set;

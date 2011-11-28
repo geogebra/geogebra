@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVector;
 
@@ -78,7 +78,7 @@ public class AlgoDependentVector extends AlgoElement {
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) root.evaluate()).getVector();
+			temp = (GeoVec2D)((VectorValue) root.evaluate()).getVector();
 			v.x = temp.x;
 			v.y = temp.y;
 		} catch (Exception e) {

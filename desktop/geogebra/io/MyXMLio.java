@@ -851,7 +851,7 @@ public class MyXMLio {
 	 * undo.
 	 */
 	public synchronized StringBuilder getUndoXML(Construction c) {
-		Application app = c.getApplication();
+		Application app = (Application) c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);

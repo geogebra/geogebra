@@ -13,6 +13,9 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -29,13 +32,10 @@ import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.algos.AlgoSlope;
 import geogebra.kernel.algos.AlgoTransformation;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
@@ -5698,7 +5698,7 @@ class SliderPanel
 			for (int i = 0; i < geos.length; i++) {
 				GeoNumeric num = (GeoNumeric) geos[i];
 				boolean dependsOnListener = false;
-				GeoElement geoValue = value.toGeoElement();
+				GeoElement geoValue = (GeoElement)value.toGeoElement();
 				if(num.getMinMaxListeners()!=null)
 					for(GeoNumeric listener : num.getMinMaxListeners()){
 						if(geoValue.isChildOrEqual(listener)) 

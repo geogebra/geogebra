@@ -22,9 +22,16 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -38,15 +45,11 @@ import geogebra.kernel.PathMover;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.RegionParameters;
-import geogebra.kernel.Matrix.CoordSys;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
@@ -67,7 +70,7 @@ import java.util.TreeSet;
 final public class GeoPoint extends GeoVec3D 
 implements VectorValue, PathOrPoint,
 Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable, PointProperties,
-GeoPointND, Animatable, Transformable  {   	
+GeoPointND, Animatable, Transformable, GeoPointInterface  {   	
 
 	// don't set point size here as this would overwrite setConstructionDefaults() 
 	// in GeoElement constructor
@@ -1204,10 +1207,10 @@ GeoPointND, Animatable, Transformable  {
 		}			
 	}
 	
-	private static volatile TreeSet<AlgoElement> tempSet;	
-	protected static TreeSet<AlgoElement> getTempSet() {
+	private static volatile TreeSet<AlgoElementInterface> tempSet;	
+	protected static TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}
@@ -1732,7 +1735,7 @@ GeoPointND, Animatable, Transformable  {
 				//get all "randomizable" predecessors of this and geo
 				TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
 				ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
-				TreeSet<AlgoElement> tempSet = new TreeSet<AlgoElement>();
+				TreeSet<AlgoElementInterface> tempSet = new TreeSet<AlgoElementInterface>();
 				
 				predList.addAll(pred);
 				pred.addAll(geo.getAllRandomizablePredecessors());
@@ -1752,8 +1755,8 @@ GeoPointND, Animatable, Transformable  {
 						predGeo.randomizeForProbabilisticChecking();
 					}
 					
-					GeoElement.updateCascadeUntil(predList, new TreeSet<AlgoElement>(), this.algoParent);
-					GeoElement.updateCascadeUntil(predList, new TreeSet<AlgoElement>(), geo.algoParent);
+					GeoElement.updateCascadeUntil(predList, new TreeSet<AlgoElementInterface>(), this.algoParent);
+					GeoElement.updateCascadeUntil(predList, new TreeSet<AlgoElementInterface>(), geo.algoParent);
 					/*
 					if (!this.isFixed())
 						this.updateCascade();
@@ -1823,5 +1826,9 @@ GeoPointND, Animatable, Transformable  {
 			super.setParentAlgorithm(algorithm);			
 			if (algorithm != null)
 				setConstructionDefaults(); // set colors to dependent colors
+		}
+		
+		public boolean movePoint(Coords a,Coords b){
+			return super.movePoint(a, b);
 		}
 }

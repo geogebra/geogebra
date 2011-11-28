@@ -13,13 +13,14 @@ the Free Software Foundation.
 package geogebra.kernel.commands;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class CommandDispatcher {
     /** kernel **/
 	protected Kernel kernel;
     private Construction cons;
-    private Application app;
+    private AbstractApplication app;
     
     private boolean isCasActive = false;
     

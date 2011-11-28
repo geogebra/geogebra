@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.main.MyError;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
@@ -20,7 +21,6 @@ import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.PointProperties;
 import geogebra.kernel.geos.TextProperties;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -99,7 +99,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		
 		this.ev = ev;
 		ec = ev.getEuclidianController(); 
-		app = ev.getApplication();
+		app = (Application)ev.getApplication();
 		cons = app.getKernel().getConstruction();
 		
 		// init handling of default geos
@@ -194,7 +194,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		if(mode == EuclidianConstants.MODE_MOVE){
 
 			boolean hasGeosInThisView = false;
-			for(GeoElement geo: ev.getApplication().getSelectedGeos()){
+			for(GeoElement geo: ((Application) ev.getApplication()).getSelectedGeos()){
 				if(isVisibleInThisView(geo) && geo.isEuclidianVisible() ){
 					hasGeosInThisView = true;
 					break;
@@ -207,7 +207,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				}
 			}
 			if(hasGeosInThisView) { 
-				activeGeoList = ev.getApplication().getSelectedGeos();
+				activeGeoList = ((Application) ev.getApplication()).getSelectedGeos();
 				
 				// we also update stylebars according to just created geos
 				activeGeoList.addAll(ec.getJustCreatedGeos());
@@ -449,7 +449,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				app.getImageIcon("mode_point_16.gif"),
 				app.getImageIcon("mode_copyvisualstyle_16.png")
 		};
-		btnMode = new PopupMenuButton(ev.getApplication(), modeArray, -1,1,
+		btnMode = new PopupMenuButton((Application)ev.getApplication(), modeArray, -1,1,
 				new Dimension(20,iconHeight), SelectionTable.MODE_ICON);
 		btnMode.addActionListener(this);
 		btnMode.setKeepVisible(false);
@@ -458,7 +458,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		
 		//========================================
 		// pen button
-		btnPen = new MyToggleButton(ev.getApplication().getImageIcon("applications-graphics.png"), iconHeight){
+		btnPen = new MyToggleButton(((Application) ev.getApplication()).getImageIcon("applications-graphics.png"), iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 					this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE) || mode == EuclidianConstants.MODE_PEN);	  
@@ -470,7 +470,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		
 		//========================================
 		// delete button
-		btnDelete = new MyToggleButton(ev.getApplication().getImageIcon("delete_small.gif"), iconHeight){
+		btnDelete = new MyToggleButton(((Application) ev.getApplication()).getImageIcon("delete_small.gif"), iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 					this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)  || mode == EuclidianConstants.MODE_DELETE);	  
@@ -482,7 +482,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		
 		//========================================
 		// hide/show labels button
-		btnLabel = new MyToggleButton(ev.getApplication().getImageIcon("mode_copyvisualstyle_16.png"), iconHeight){
+		btnLabel = new MyToggleButton(((Application) ev.getApplication()).getImageIcon("mode_copyvisualstyle_16.png"), iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 					this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE) || mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);	  
@@ -495,7 +495,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		//========================================
 		// visual style button
 		
-		btnCopyVisualStyle = new MyToggleButton(ev.getApplication().getImageIcon("mode_copyvisualstyle_16.png"), iconHeight){
+		btnCopyVisualStyle = new MyToggleButton(((Application) ev.getApplication()).getImageIcon("mode_copyvisualstyle_16.png"), iconHeight){
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible( (geos.length > 0 && mode == EuclidianConstants.MODE_MOVE) || mode == EuclidianConstants.MODE_VISUAL_STYLE);	  
@@ -1097,7 +1097,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				app.getImageIcon("format-justify-center.png"),
 				app.getImageIcon("format-justify-right.png")
 		};
-		btnTableTextJustify = new PopupMenuButton(ev.getApplication(), justifyIcons, 1,-1,
+		btnTableTextJustify = new PopupMenuButton((Application)ev.getApplication(), justifyIcons, 1,-1,
 				new Dimension(20,iconHeight), SelectionTable.MODE_ICON){
 			@Override
 			public void update(Object[] geos) {
@@ -1126,7 +1126,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				bracketIcons[i] = GeoGebraIcon.createStringIcon(bracketArray[i], app.getPlainFont(), true, false, true, new Dimension(30,iconHeight) , Color.BLACK, null);
 		}
 		
-		btnTableTextBracket = new PopupMenuButton(ev.getApplication(), bracketIcons, 2,-1,
+		btnTableTextBracket = new PopupMenuButton((Application)ev.getApplication(), bracketIcons, 2,-1,
 				new Dimension(30,iconHeight), SelectionTable.MODE_ICON){
 			@Override
 			public void update(Object[] geos) {

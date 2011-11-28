@@ -12,9 +12,9 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoAngleLines;
 import geogebra.kernel.algos.AlgoAnglePoints;
 import geogebra.kernel.algos.AlgoAnglePolygon;

@@ -2,6 +2,7 @@ package geogebra.gui;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
@@ -16,7 +17,6 @@ import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.TokenMgrError;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.awt.Color;
 import java.awt.Dimension;

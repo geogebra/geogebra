@@ -4,6 +4,8 @@ import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.MyError;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -46,7 +48,6 @@ import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -59,7 +60,6 @@ import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.main.MyError;
 import geogebra.main.MyResourceBundle;
 import geogebra.main.settings.KeyboardSettings;
 import geogebra.util.Util;
@@ -2629,7 +2629,7 @@ public class GuiManager {
 		private NumberValue num = null;
 
 		public boolean processInput(String inputString) {
-			GeoElement[] result = kernel.getAlgebraProcessor()
+			GeoElement[] result = (GeoElement[]) kernel.getAlgebraProcessor()
 					.processAlgebraCommand(inputString, false);
 			boolean success = result != null && result[0].isNumberValue();
 			if (success) {

@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.algos.AlgoIntersectConics;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;
@@ -122,7 +122,7 @@ public class Relation extends java.lang.Object {
      * (equal, unequal)
      */
     final private String relation(NumberValue a, NumberValue b) {
-        String str = equalityString(a.toGeoElement(), b.toGeoElement(), 
+        String str = equalityString((GeoElement)a.toGeoElement(), (GeoElement)b.toGeoElement(), 
         							kernel.isEqual(a.getDouble(), b.getDouble()));
         return str;
     }

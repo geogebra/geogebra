@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -56,7 +56,7 @@ public class AlgoListElement extends AlgoElement {
 		super(cons);
 		this.geoList = geoList;
 		this.num = num;
-		numGeo = num.toGeoElement();
+		numGeo = (GeoElement)num.toGeoElement();
 
 		int initIndex = Math.max(0, (int) Math.round(num.getDouble()) - 1);
 
@@ -149,7 +149,7 @@ public class AlgoListElement extends AlgoElement {
 			input = new GeoElement[num2.length+1];
 			input[0] = geoList;
 			for(int i=0;i<num2.length;i++){				
-				input[i+1] = num2[i].toGeoElement();
+				input[i+1] = (GeoElement)num2[i].toGeoElement();
 			}
 		}
 
@@ -193,7 +193,7 @@ public class AlgoListElement extends AlgoElement {
 		} else {
 
 			for(int k=0;k<num2.length;k++)
-				if(!num2[k].toGeoElement().isDefined()) {
+				if(!((GeoElement)num2[k].toGeoElement()).isDefined()) {
 				element.setUndefined();
 				return;
 			}

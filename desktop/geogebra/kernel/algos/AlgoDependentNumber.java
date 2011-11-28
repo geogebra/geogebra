@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoNumeric;
 

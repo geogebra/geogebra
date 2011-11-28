@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
-import geogebra.main.MyError;
 
 /**
  *Simplify

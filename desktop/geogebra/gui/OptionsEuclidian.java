@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.TableSymbols;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

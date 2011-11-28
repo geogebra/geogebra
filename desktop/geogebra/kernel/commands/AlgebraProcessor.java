@@ -1,28 +1,30 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.BooleanValue;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.MyStringBuffer;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Parametric;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.arithmetic.TextValue;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoCasCell;
@@ -45,12 +47,11 @@ import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class AlgebraProcessor {
+public class AlgebraProcessor extends AbstractAlgebraProcessor {
 	
 	protected Kernel kernel;
 	private Construction cons;
@@ -107,8 +108,8 @@ public class AlgebraProcessor {
 	}
 	
 
-	final public GeoElement[] processCommand(Command c, boolean labelOutput) throws MyError {
-		return cmdDispatcher.processCommand(c, labelOutput);
+	final public GeoElement[] processCommand(AbstractCommand c, boolean labelOutput) throws MyError {
+		return cmdDispatcher.processCommand((Command)c, labelOutput);
 	}
 	
 	/**
@@ -1405,7 +1406,7 @@ public class AlgebraProcessor {
 		ExpressionValue evaluate) {
 		String label = n.getLabel();				        
 		
-		GeoVec2D p = ((VectorValue) evaluate).getVector();
+		GeoVec2D p = (GeoVec2D)((VectorValue) evaluate).getVector();
 		
 		boolean polar = p.getMode() == Kernel.COORD_POLAR;		
 		

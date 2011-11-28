@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
@@ -9,7 +10,6 @@ import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
@@ -923,7 +923,7 @@ public class CellRangeProcessor {
 		try {
 			expr = createMatrixExpression( column1, column2, row1, row2, copyByValue, transpose);
 			//Application.debug(expr);
-			geos = table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
+			geos = (GeoElement[])table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
 		} 
 		catch (Exception ex) {
 			Application.debug("creating matrix failed "+ expr);
@@ -963,7 +963,7 @@ public class CellRangeProcessor {
 			text.append(",\"|_\"]");
 
 			//Application.debug(text);
-			geos = table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(text.toString(), false);
+			geos = (GeoElement[])table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(text.toString(), false);
 
 		} 
 		catch (Exception ex) {
@@ -1145,7 +1145,7 @@ public class CellRangeProcessor {
 				text += GeoElement.getSpreadsheetCellName(c, r1);
 				text += ")";
 
-				geos = table.kernel.getAlgebraProcessor()
+				geos = (GeoElement[])table.kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptions(text,false);
 
 				//geos[0].setLabel(GeoElement.getSpreadsheetCellName(c, r));

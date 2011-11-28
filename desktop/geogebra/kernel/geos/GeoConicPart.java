@@ -17,6 +17,11 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Matrix.CoordNearest;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMover;
@@ -25,8 +30,6 @@ import geogebra.kernel.PathParameter;
 import geogebra.kernel.RegionParameters;
 import geogebra.kernel.Transform;
 import geogebra.kernel.TransformMirror;
-import geogebra.kernel.Matrix.CoordNearest;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.kernel.algos.AlgoConicPartCircle;
 import geogebra.kernel.algos.AlgoConicPartCircumcircle;
@@ -34,8 +37,6 @@ import geogebra.kernel.algos.AlgoConicPartConicParameters;
 import geogebra.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSemicircle;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.integration.EllipticArcLength;
 import geogebra.kernel.kernelND.GeoPointND;
 

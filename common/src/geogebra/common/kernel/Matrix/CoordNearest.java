@@ -1,4 +1,4 @@
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
 /**
  * Used to find the nearest point of a given point.

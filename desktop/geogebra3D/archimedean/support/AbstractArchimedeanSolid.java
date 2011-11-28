@@ -1,8 +1,8 @@
 package geogebra3D.archimedean.support;
 
-import geogebra.kernel.Matrix.CoordMatrix;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.Coords;
 
 import java.util.ArrayList;
 import java.util.Arrays;

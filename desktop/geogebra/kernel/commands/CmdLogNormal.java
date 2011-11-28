@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.main.MyError;
 
 /*
  * LogNormal distribution
@@ -47,12 +47,12 @@ class CmdLogNormal extends CommandProcessor {
 					kernel.restorePrintAccuracy();
 					
 					if (cumulative) {
-						GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand( "If[x<0,0,1/2 erf((ln(x)-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2]", true );
+						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "If[x<0,0,1/2 erf((ln(x)-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2]", true );
 						
 						return ret;
 						
 					} else {
-						GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand( "If[x<0,0,1/(x sqrt(2 * pi) * abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]", true );
+						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "If[x<0,0,1/(x sqrt(2 * pi) * abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]", true );
 						
 						return ret;
 					}
@@ -65,7 +65,7 @@ class CmdLogNormal extends CommandProcessor {
 					String sd = arg[1].getLabel();
 					String x = arg[2].getLabel();
 					kernel.restorePrintAccuracy();
-					GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand( "1/2 erf((ln(If["+x+"<0,0,"+x+"])-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2", true );
+					GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "1/2 erf((ln(If["+x+"<0,0,"+x+"])-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2", true );
 					return ret;
 					
 				}  else

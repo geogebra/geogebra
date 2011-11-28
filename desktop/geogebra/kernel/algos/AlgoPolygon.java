@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.CoordSys;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Matrix.CoordSys;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;

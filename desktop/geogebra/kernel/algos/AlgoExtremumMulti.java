@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
@@ -74,9 +74,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	super(cons,labels,!cons.isSuppressLabelsActive(),function);			//set f,g,l null
     	this.f=function;
     	this.left=left;
-    	this.geoleft=left.toGeoElement();
+    	this.geoleft=(GeoElement)left.toGeoElement();
     	this.right=right;
-    	this.georight=right.toGeoElement();
+    	this.georight=(GeoElement)right.toGeoElement();
     	
     	// make sure root points are not null
     	int number = (labels == null ? 1: Math.max(1,labels.length));

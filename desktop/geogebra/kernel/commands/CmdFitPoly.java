@@ -10,13 +10,13 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
-import geogebra.main.MyError;
 
 /** 
  * FitPoly[<List of points>,<degree>]

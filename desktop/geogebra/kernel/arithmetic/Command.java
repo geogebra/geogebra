@@ -22,13 +22,13 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,14 +46,14 @@ implements ReplaceableValue {
     private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
     private String name; // internal command name (in English)
     
-    private Kernel kernel;
-    private Application app;
+    private AbstractKernel kernel;
+    private AbstractApplication app;
     private GeoElement[] evalGeos; // evaluated Elements
     private Macro macro; // command may correspond to a macro 
     private boolean allowEvaluationForTypeCheck = true;
     
     /** Creates new Command */
-    public Command(Kernel kernel, String name, boolean translateName) {    
+    public Command(AbstractKernel kernel, String name, boolean translateName) {    
     	this(kernel, name, translateName, true);
     }
     
@@ -65,7 +65,7 @@ implements ReplaceableValue {
      * @param translateName
      * @param allowEvaluationForTypeCheck whether this command is allowed to be evaluated in type checks like isTextValue()
      */
-    public Command(Kernel kernel, String name, boolean translateName, boolean allowEvaluationForTypeCheck) {
+    public Command(AbstractKernel kernel, String name, boolean translateName, boolean allowEvaluationForTypeCheck) {
         this.kernel = kernel;
         app = kernel.getApplication();
         this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
@@ -84,7 +84,7 @@ implements ReplaceableValue {
         }               
     }
     
-    public Kernel getKernel() {
+    public AbstractKernel getKernel() {
         return kernel;
     }
     
@@ -207,7 +207,7 @@ implements ReplaceableValue {
     
     public GeoElement [] evaluateMultiple() {
             GeoElement [] geos = null;
-            geos = kernel.getAlgebraProcessor().processCommand(this, false);          
+            geos = (GeoElement []) kernel.getAlgebraProcessor().processCommand(this, false);          
             return geos;
      }
     
@@ -286,7 +286,7 @@ implements ReplaceableValue {
     }   
 
     public ExpressionValue deepCopy(AbstractKernel kernel) {
-        Command c = new Command((Kernel)kernel, name, false);
+        Command c = new Command(kernel, name, false);
         // copy arguments     
         int size = args.size();
         for (int i=0; i < size; i++) {

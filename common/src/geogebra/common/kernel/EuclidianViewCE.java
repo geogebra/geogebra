@@ -1,4 +1,4 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 public interface EuclidianViewCE {
 	

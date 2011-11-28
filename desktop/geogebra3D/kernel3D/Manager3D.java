@@ -1,19 +1,19 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoAnglePoints;
 import geogebra.kernel.algos.AlgoCircleThreePoints;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.arithmetic.Equation;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoAngle;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;

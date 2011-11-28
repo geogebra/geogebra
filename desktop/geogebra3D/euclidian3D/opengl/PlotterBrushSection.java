@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 
 
 

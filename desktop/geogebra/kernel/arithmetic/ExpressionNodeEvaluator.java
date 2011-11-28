@@ -1,14 +1,21 @@
 package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.Evaluatable;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyBoolean;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -19,7 +26,6 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 import geogebra3D.kernel3D.Geo3DVec;
 
 /**
@@ -77,13 +83,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					int rows = myList.getMatrixRows();
 					int cols = myList.getMatrixCols();
 					if (isMatrix && rows == 2 && cols == 2) {
-						GeoVec2D myVec = ((VectorValue) rt).getVector();
+						GeoVec2D myVec = (GeoVec2D)((VectorValue) rt).getVector();
 						// 2x2 matrix
 						myVec.multiplyMatrix(myList);
 	
 						return myVec;
 					} else if (isMatrix && rows == 3 && cols == 3) {
-						GeoVec2D myVec = ((VectorValue) rt).getVector();
+						GeoVec2D myVec = (GeoVec2D)((VectorValue) rt).getVector();
 						// 3x3 matrix, assume it's affine
 						myVec.multiplyMatrixAffine(myList, rt);
 						return myVec;
@@ -344,19 +350,19 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// vector + vector
 			else if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.add(vec, ((VectorValue) rt).getVector(), vec);
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
+				GeoVec2D.add(vec, (GeoVec2D)((VectorValue) rt).getVector(), vec);
 				return vec;
 			}
 			// vector + number (for complex addition)
 			else if (lt.isVectorValue() && rt.isNumberValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 				GeoVec2D.add(vec, ((NumberValue) rt), vec);
 				return vec;
 			}
 			// number + vector (for complex addition)
 			else if (lt.isNumberValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector();
+				vec = (GeoVec2D)((VectorValue) rt).getVector();
 				GeoVec2D.add(vec, ((NumberValue) lt), vec);
 				return vec;
 			}
@@ -367,7 +373,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					ExpressionValue ev = list.getListElement(0);
 					if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
 												// + point
-						vec = ((VectorValue) rt).getVector();
+						vec = (GeoVec2D)((VectorValue) rt).getVector();
 						GeoVec2D.add(vec, ((ListValue) lt), vec);
 						return vec;
 					}
@@ -386,7 +392,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					ExpressionValue ev = list.getListElement(0);
 					if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
 												// + point
-						vec = ((VectorValue) lt).getVector();
+						vec = (GeoVec2D)((VectorValue) lt).getVector();
 						GeoVec2D.add(vec, ((ListValue) rt), vec);
 						return vec;
 					}
@@ -445,8 +451,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// vector - vector
 			else if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.sub(vec, ((VectorValue) rt).getVector(), vec);
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
+				GeoVec2D.sub(vec, (GeoVec2D)((VectorValue) rt).getVector(), vec);
 				return vec;
 			}
 			// 3D vector - 3D vector
@@ -457,25 +463,25 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			 */
 			// vector - number (for complex subtraction)
 			else if (lt.isVectorValue() && rt.isNumberValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 				GeoVec2D.sub(vec, ((NumberValue) rt), vec);
 				return vec;
 			}
 			// number - vector (for complex subtraction)
 			else if (lt.isNumberValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector();
+				vec = (GeoVec2D)((VectorValue) rt).getVector();
 				GeoVec2D.sub(((NumberValue) lt), vec, vec);
 				return vec;
 			}
 			// list - vector
 			else if (lt.isListValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector();
+				vec = (GeoVec2D)((VectorValue) rt).getVector();
 				GeoVec2D.sub(vec, ((ListValue) lt), vec, false);
 				return vec;
 			}
 			// vector - list
 			else if (rt.isListValue() && lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 				GeoVec2D.sub(vec, ((ListValue) rt), vec, true);
 				return vec;
 			}
@@ -529,7 +535,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 				// number * vector
 				else if (rt.isVectorValue()) {
-					vec = ((VectorValue) rt).getVector();
+					vec = (GeoVec2D)((VectorValue) rt).getVector();
 					GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
 					return vec;
 				}
@@ -572,22 +578,22 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (lt.isVectorValue()) {
 				// vector * number
 				if (rt.isNumberValue()) {
-					vec = ((VectorValue) lt).getVector();
+					vec = (GeoVec2D)((VectorValue) lt).getVector();
 					GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
 					return vec;
 				}
 				// vector * vector (inner/dot product)
 				else if (rt.isVectorValue()) {
-					vec = ((VectorValue) lt).getVector();
+					vec = (GeoVec2D)((VectorValue) lt).getVector();
 					if (vec.getMode() == Kernel.COORD_COMPLEX) {
 
 						// complex multiply
 
-						GeoVec2D.complexMultiply(vec, ((VectorValue) rt).getVector(), vec);
+						GeoVec2D.complexMultiply(vec, (GeoVec2D)((VectorValue) rt).getVector(), vec);
 						return vec;
 					} else {
 						num = new MyDouble(kernel);
-						GeoVec2D.inner(vec, ((VectorValue) rt).getVector(), num);
+						GeoVec2D.inner(vec, (GeoVec2D)((VectorValue) rt).getVector(), num);
 						return num;
 					}
 				}
@@ -644,7 +650,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 				// vector / number
 				else if (lt.isVectorValue()) {
-					vec = ((VectorValue) lt).getVector();
+					vec = (GeoVec2D)((VectorValue) lt).getVector();
 					GeoVec2D.div(vec, ((NumberValue) rt).getDouble(), vec);
 					return vec;
 				} else if (lt instanceof GeoFunction) {
@@ -675,15 +681,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// vector / vector (complex division Michael Borcherds 2007-12-09)
 			else if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.complexDivide(vec, ((VectorValue) rt).getVector(), vec);
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
+				GeoVec2D.complexDivide(vec, (GeoVec2D)((VectorValue) rt).getVector(), vec);
 				return vec;
 
 			}
 			// number / vector (complex division Michael Borcherds 2007-12-09)
 			else if (lt.isNumberValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) rt).getVector(); // just to initialise vec
-				GeoVec2D.complexDivide((NumberValue) lt, ((VectorValue) rt).getVector(), vec);
+				vec = (GeoVec2D)((VectorValue) rt).getVector(); // just to initialise vec
+				GeoVec2D.complexDivide((NumberValue) lt, (GeoVec2D)((VectorValue) rt).getVector(), vec);
 				return vec;
 
 			}
@@ -697,8 +703,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		case VECTORPRODUCT:
 			if (lt.isVectorValue() && rt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
-				vec2 = ((VectorValue) rt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
+				vec2 = (GeoVec2D)((VectorValue) rt).getVector();
 				num = new MyDouble(kernel);
 				GeoVec2D.vectorProduct(vec, vec2, num);
 				return num;
@@ -785,7 +791,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 				num = ((NumberValue) rt).getNumber();
 
 				if (vec.getMode() == Kernel.COORD_COMPLEX) {
@@ -815,8 +821,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
-				vec = ((VectorValue) lt).getVector();
-				vec2 = ((VectorValue) rt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
+				vec2 = (GeoVec2D)((VectorValue) rt).getVector();
 
 				// complex power
 
@@ -830,7 +836,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// throw new MyError(app, str);
 				// }
 				num = ((NumberValue) lt).getNumber();
-				vec = ((VectorValue) rt).getVector();
+				vec = (GeoVec2D)((VectorValue) rt).getVector();
 
 				// real ^ complex
 
@@ -1155,7 +1161,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, Operation.EXP, null), ""));
 			} else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				// complex e^z
 
@@ -1175,7 +1181,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, Operation.LOG, null), ""));
 			} else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				// complex natural log(z)
 
@@ -1282,7 +1288,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, Operation.SQRT, null), ""));
 			} else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				// complex sqrt
 				GeoVec2D.complexSqrt(vec, vec);
@@ -1301,7 +1307,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, Operation.CBRT, null), ""));
 			} else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				// complex cbrt
 				GeoVec2D.complexCbrt(vec, vec);
@@ -1317,7 +1323,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue())
 				return ((NumberValue) lt).getNumber();
 			else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				// complex cbrt
 				GeoVec2D.complexConjugate(vec, vec);
@@ -1330,7 +1336,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		case ARG:
 			if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				MyDouble ret = new MyDouble(kernel, GeoVec2D.arg(vec));
 				ret.setAngle();
@@ -1350,7 +1356,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, Operation.ABS, null), ""));
 			} else if (lt.isVectorValue()) {
-				vec = ((VectorValue) lt).getVector();
+				vec = (GeoVec2D)((VectorValue) lt).getVector();
 
 				// complex Abs(z)
 				// or magnitude of point
@@ -1708,7 +1714,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (lt.isVectorValue() && rt.isVectorValue()) {
 			VectorValue vec1 = (VectorValue) lt;
 			VectorValue vec2 = (VectorValue) rt;
-			return new MyBoolean(kernel, vec1.getVector().isEqual(vec2.getVector()));
+			return new MyBoolean(kernel, ((GeoVec2D)vec1.getVector()).isEqual((GeoVec2D)vec2.getVector()));
 		} else if (lt.isVector3DValue() && rt.isVector3DValue()) {
 			Vector3DValue vec1 = (Vector3DValue) lt;
 			Vector3DValue vec2 = (Vector3DValue) rt;

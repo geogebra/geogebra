@@ -22,6 +22,7 @@ import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -4639,105 +4640,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		return pluginmanager;
 	}// getPluginManager()
 	
-	public static void debug(Object s) {
-		if(s==null)
-			doDebug("<null>", false, false, 0);
-		else
-			doDebug(s.toString(), false, false, 0);
-	}
 	
-	public static void debug(Object s[]) {
-		debug(s, 0);
-	}
-	
-	static StringBuilder debugSb = null;
-	
-	public static void debug(Object[] s, int level) {
-		if (debugSb == null) debugSb = new StringBuilder(); 
-		else debugSb.setLength(0);
-		
-		for (int i = 0 ; i < s.length ; i++) {
-			debugSb.append(s[i]);
-			debugSb.append('\n');
-		}
-		
-		debug(debugSb, level);
-	}
-	
-	public static void debug(Object s, int level) {
-		doDebug(s.toString(), false, false, level);
-	}
-	
-	public static void debug(Object s, boolean showTime, boolean showMemory, int level) {
-		doDebug(s.toString(), showTime, showMemory, level);
-	}
-	
-	// Michael Borcherds 2008-06-22
-	private static void doDebug(String s, boolean showTime, boolean showMemory, int level) {
-		if (s == null) s = "<null>";
-		Throwable t = new Throwable();
-		StackTraceElement[] elements = t.getStackTrace();
-
-		// String calleeMethod = elements[0].getMethodName();
-		String callerMethodName = elements[2].getMethodName();
-		String callerClassName = elements[2].getClassName();
-		
-		StringBuilder sb = new StringBuilder("*** Message from ");
-		sb.append("[");
-		sb.append(callerClassName);
-		sb.append(".");
-		sb.append(callerMethodName);
-		sb.append("]");
-
-		if (showTime) {
-			Calendar calendar = new GregorianCalendar();
-			int min = calendar.get(Calendar.MINUTE);
-			String minS = (min < 10) ? "0" + min : "" + min;
-			int sec = calendar.get(Calendar.SECOND);
-			String secS = (sec < 10) ? "0" + sec : "" + sec;
-	
-			sb.append(" at ");
-			sb.append(calendar.get(Calendar.HOUR));
-			sb.append(":");
-			sb.append(minS);
-			sb.append(":");
-			sb.append(secS);
-		}
-		
-		if (showMemory) {
-			System.gc(); System.gc(); System.gc(); System.gc();
-
-		    long usedK = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 ;
-
-			sb.append("\n free memory: ");
-			sb.append(Runtime.getRuntime().freeMemory());
-			sb.append(" total memory: ");
-			sb.append(Runtime.getRuntime().totalMemory());
-			sb.append(" max memory: ");
-			sb.append(Runtime.getRuntime().maxMemory());
-			sb.append("\n used memory (total-free): ");
-			sb.append(usedK + "K");			
-			
-		}
-			
-		PrintStream debug = System.out;
-		
-		if (level > 0) debug = System.err;
-
-		// multi line message
-		if (s.indexOf("\n") > -1) {
-			debug.println(sb.toString());
-			debug.println(s);
-			debug.println("*** END Message.");
-		}
-		// one line message
-		else {
-			debug.println(sb.toString());
-			debug.print("\t");
-			debug.println(s);
-		}
-	}
-
 	// Michael Borcherds 2008-06-22
 	public static void printStacktrace(String message) {
 		try {

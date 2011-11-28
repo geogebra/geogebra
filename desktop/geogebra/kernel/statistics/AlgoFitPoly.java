@@ -13,10 +13,10 @@ the Free Software Foundation.
 */
 
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
@@ -50,7 +50,7 @@ public class AlgoFitPoly extends AlgoElement{
         super(cons);
         this.geolist=geolist;
         this.degree=degree;
-        geodegree=degree.toGeoElement();
+        geodegree=(GeoElement)degree.toGeoElement();
         geofunction=new GeoFunction(cons);
         setInputOutput();
         compute();

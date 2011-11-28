@@ -10,7 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
+
+
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ import java.util.Iterator;
  */
 public class AlgorithmSet {
 
-	private HashMap<AlgoElement,AlgoElement> hashMap;
+	private HashMap<AlgoElementInterface,AlgoElementInterface> hashMap;
 	
     private Link head, tail;
     private int size;   
@@ -56,14 +58,14 @@ public class AlgorithmSet {
      * @return true = the algo was added, false = the algo was already in the set
      * @param algo algo to be added
      */
-    final public boolean add(AlgoElement algo) {   
+    final public boolean add(AlgoElementInterface algo) {   
     	if (contains(algo))
     		return false;
     	    	
     	// empty list?
         if (head == null) {
         	if (hashMap == null) {
-        		hashMap = new HashMap<AlgoElement,AlgoElement>();
+        		hashMap = new HashMap<AlgoElementInterface,AlgoElementInterface>();
         	}        	
         	hashMap.put(algo, algo);
           			
@@ -87,7 +89,7 @@ public class AlgorithmSet {
          */
                        
         // check if algo needs to be inserted right after a certain parentAlgo
-        AlgoElement parentAlgo = algo.getUpdateAfterAlgo();
+        AlgoElementInterface parentAlgo = algo.getUpdateAfterAlgo();
         
         // Standard case: insert at end of list
         if (parentAlgo == null || parentAlgo == tail.algo || !contains(parentAlgo)) {  
@@ -130,7 +132,7 @@ public class AlgorithmSet {
      * @return true iff this set contains algo.
      * @param algo
      */
-    final public boolean contains(AlgoElement algo) {
+    final public boolean contains(AlgoElementInterface algo) {
         if (size == 0 || algo == null) return false;
         
         return hashMap.get(algo) != null;        
@@ -141,7 +143,7 @@ public class AlgorithmSet {
      * @return true if found and removed, false if not found
      * @param algo algo to be removed
      */
-    final public boolean remove(AlgoElement algo) {
+    final public boolean remove(AlgoElementInterface algo) {
     	Object remObj = hashMap.remove(algo);
     	if (remObj == null) {
     		return false;
@@ -187,7 +189,7 @@ public class AlgorithmSet {
      * is reached.
      * @param lastAlgoToUpdate last algorithm to update
      */
-    final public void updateAllUntil(AlgoElement lastAlgoToUpdate) {
+    final public void updateAllUntil(AlgoElementInterface lastAlgoToUpdate) {
         Link cur = head;
         while (cur != null) {        	
         	cur.algo.update();        	
@@ -202,7 +204,7 @@ public class AlgorithmSet {
      * Adds all algorithms in this set to the given collection
      * @param collection
      */
-    final public void addAllToCollection(Collection<AlgoElement> collection) {
+    final public void addAllToCollection(Collection<AlgoElementInterface> collection) {
     	Link cur = head;
         while (cur != null) {
         	collection.add(cur.algo);
@@ -226,10 +228,10 @@ public class AlgorithmSet {
     }          
     
     private class Link {
-        AlgoElement algo;
+        AlgoElementInterface algo;
         Link next;      
         
-        Link(AlgoElement a, Link n) {
+        Link(AlgoElementInterface a, Link n) {
             algo = a; next = n;
         }
     }
@@ -242,7 +244,7 @@ public class AlgorithmSet {
     	return new AlgorithmSetIterator();
     }       
     
-    private class AlgorithmSetIterator implements Iterator<AlgoElement> {
+    private class AlgorithmSetIterator implements Iterator<AlgoElementInterface> {
     	private Link cur = head;
     	
     	public void remove() {
@@ -254,8 +256,8 @@ public class AlgorithmSet {
     		return cur != null;
     	}
     	
-    	public AlgoElement next() {
-    		AlgoElement ret = cur.algo;
+    	public AlgoElementInterface next() {
+    		AlgoElementInterface ret = cur.algo;
     		cur = cur.next; 
     		return ret;
     	}    	

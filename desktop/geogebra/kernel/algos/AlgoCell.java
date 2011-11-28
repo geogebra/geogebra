@@ -12,9 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 
@@ -62,8 +63,8 @@ public class AlgoCell extends AlgoElement {
 	protected void setInputOutput() {	
 		// input is the text
 		input = new GeoElement[2];
-		input[0] = a.toGeoElement();
-		input[1] = b.toGeoElement();
+		input[0] = (GeoElement)a.toGeoElement();
+		input[1] = (GeoElement)b.toGeoElement();
 		
 		// input for updateSet propagation is text and reference object
 		inputForUpdateSetPropagation = new GeoElement[3];
@@ -134,7 +135,7 @@ public class AlgoCell extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);	
 			if (geo != null) {
-				Iterator<AlgoElement> it = geo.getAlgoUpdateSet().getIterator();
+				Iterator<AlgoElementInterface> it = geo.getAlgoUpdateSet().getIterator();
 				while (it.hasNext()) {
 					refObject.addToUpdateSetOnly((AlgoElement) it.next());
 				}

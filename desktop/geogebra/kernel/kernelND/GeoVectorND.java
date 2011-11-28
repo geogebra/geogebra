@@ -1,7 +1,7 @@
 package geogebra.kernel.kernelND;
 
 import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 
 /**
  * Simple common interface for GeoVector and GeoVector3D

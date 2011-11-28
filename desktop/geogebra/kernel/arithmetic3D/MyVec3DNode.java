@@ -20,12 +20,12 @@ package geogebra.kernel.arithmetic3D;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.MyParseError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.main.MyParseError;
 import geogebra3D.kernel3D.Geo3DVec;
 
 import java.util.HashSet;

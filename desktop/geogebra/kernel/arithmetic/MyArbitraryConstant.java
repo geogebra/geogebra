@@ -1,5 +1,6 @@
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 

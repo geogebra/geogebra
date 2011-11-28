@@ -16,18 +16,16 @@ the Free Software Foundation.
  * Created on 07. Oktober 2001, 12:23
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoVec2D;
-import geogebra.util.MyMath2;
+import geogebra.common.util.AbstractMyMath2;
+
 
 import java.util.HashSet;
 
@@ -278,7 +276,7 @@ implements NumberValue, Comparable {
     
     final public MyDouble log() {  val = Math.log(val);  isAngle = false; return this; }
     final public MyDouble log(NumberValue base) {  val = Math.log(val) / Math.log(base.getDouble());  isAngle = false; return this; }
-    final public MyDouble erf() {  val = MyMath2.erf(0.0, 1.0, val);  isAngle = false; return this; }
+    final public MyDouble erf() {  val = AbstractMyMath2.erf(0.0, 1.0, val);  isAngle = false; return this; }
     final public MyDouble log10() {  val = Math.log(val)/MyMath.LOG10;  isAngle = false; return this; }
     final public MyDouble log2() {  val = Math.log(val)/MyMath.LOG2;  isAngle = false; return this; }
     
@@ -421,13 +419,13 @@ implements NumberValue, Comparable {
 	}
 	
 	final public MyDouble factorial() {
-		val = MyMath2.factorial(val);
+		val = AbstractMyMath2.factorial(val);
 		isAngle = false;
 		return this;
 	}
 	
 	final public MyDouble gamma() {
-		val = MyMath2.gamma(val, kernel);
+		val = AbstractMyMath2.gamma(val, kernel);
 		isAngle = false;
 		return this;
 	}	
@@ -477,10 +475,9 @@ implements NumberValue, Comparable {
         return val;
     }
     
-	final public GeoElement toGeoElement() {
-		GeoNumeric num = new GeoNumeric((Construction)kernel.getConstruction());
-		num.setValue(val);
-		return num;
+	final public GeoElementInterface toGeoElement() {
+		GeoNumericInterface num = kernel.newNumeric();
+		return (GeoElementInterface)num;
 	}
     
 	public boolean isNumberValue() {
@@ -602,33 +599,33 @@ implements NumberValue, Comparable {
 	}
 
 	public ExpressionValue gammaIncompleteRegularized(NumberValue lt) {
-		val = MyMath2.gammaIncompleteRegularized(lt.getDouble(), val);
+		val = AbstractMyMath2.gammaIncompleteRegularized(lt.getDouble(), val);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
-		val = MyMath2.gammaIncomplete(lt.getDouble(), val, kernel);
+		val = AbstractMyMath2.gammaIncomplete(lt.getDouble(), val, kernel);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue beta(NumberValue lt) {
-		val = MyMath2.beta(val, lt.getDouble());
+		val = AbstractMyMath2.beta(val, lt.getDouble());
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue betaIncomplete(VectorValue lt) {
-		GeoVec2D vec = lt.getVector();
-		val = MyMath2.betaIncomplete(vec.x, vec.y, val);
+		GeoVec2DInterface vec = lt.getVector();
+		val = AbstractMyMath2.betaIncomplete(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
-		GeoVec2D vec = lt.getVector();
-		val = MyMath2.betaIncompleteRegularized(vec.x, vec.y, val);
+		GeoVec2DInterface vec = lt.getVector();
+		val = AbstractMyMath2.betaIncompleteRegularized(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}

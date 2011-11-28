@@ -1,6 +1,6 @@
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Class describing 1D, 2D and 3D coordinate systems.
@@ -284,7 +284,7 @@ public class CoordSys {
 		switch(getMadeCoordSys()){
 		case 0: //add first vector
 			//check if v==0
-			if (!Kernel.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)){	
+			if (!AbstractKernel.isEqual(v.norm(), 0, AbstractKernel.STANDARD_PRECISION)){	
 				setVx(v);
 				setMadeCoordSys(1);
 			}
@@ -293,7 +293,7 @@ public class CoordSys {
 			//calculate normal vector to check if v1 depends to vx
 			Coords vn = getVx().crossProduct(v);
 			//check if vn==0
-			if (!Kernel.isEqual(vn.norm(), 0, Kernel.STANDARD_PRECISION)){	
+			if (!AbstractKernel.isEqual(vn.norm(), 0, AbstractKernel.STANDARD_PRECISION)){	
 				setVy(v);
 				setVz(getVx().crossProduct(getVy()));
 				setMadeCoordSys(2);
@@ -314,9 +314,9 @@ public class CoordSys {
 	public void makeEquationVector(){
 		equationVector.set(getVx().crossProduct(getVy()), 1);
 		equationVector.set(4, 0);
-		if (equationVector.getX()<Kernel.EPSILON
-				&& equationVector.getY()<Kernel.EPSILON
-				&& equationVector.getZ()<Kernel.EPSILON)
+		if (equationVector.getX()<AbstractKernel.EPSILON
+				&& equationVector.getY()<AbstractKernel.EPSILON
+				&& equationVector.getZ()<AbstractKernel.EPSILON)
 			equationVector=equationVector.mul(-1);
 			
 		double d = equationVector.dotproduct(getOrigin());
@@ -402,7 +402,7 @@ public class CoordSys {
 			//compute Vy and Vz
 			Coords vy = (new Coords(new double[] {0,0,1,0})).crossProduct(getVx());
 			// check if vy=0 (if so, vx is parallel to Oz)
-			if (vy.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+			if (vy.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
 				setVy(new Coords(new double[] {1,0,0,0}));
 				setVz(new Coords(new double[] {0,1,0,0}));
 			}else{
@@ -434,7 +434,7 @@ public class CoordSys {
 				vz = new Coords(0,0,1,0);
 				vx = getVz().crossProduct(vz);
 				//if (!Kernel.isEqual(vx.norm(), 0, Kernel.STANDARD_PRECISION)){
-				if (!vx.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+				if (!vx.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
 					vx.normalize();
 					vy = getVz().crossProduct(vx);
 					vy.normalize();

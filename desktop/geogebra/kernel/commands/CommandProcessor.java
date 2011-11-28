@@ -13,20 +13,20 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MySpecialDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Variable;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.ArrayList;
 
@@ -148,7 +148,7 @@ public abstract class CommandProcessor {
 		}
 
 		// add local variable name to construction
-		Construction cmdCons = c.getKernel().getConstruction();
+		Construction cmdCons = (Construction) c.getKernel().getConstruction();
 		GeoNumeric num = new GeoNumeric(cmdCons);
 		cmdCons.addLocalVariable(localVarName, num);
 
@@ -199,7 +199,7 @@ public abstract class CommandProcessor {
 		}
 
 		// add local variable name to construction
-		Construction cmdCons = c.getKernel().getConstruction();
+		Construction cmdCons = (Construction) c.getKernel().getConstruction();
 		GeoNumeric[] num = new GeoNumeric[varPos.length];
 		for (int i = 0; i < varPos.length; i++) {
 			num[i] = new GeoNumeric(cmdCons);

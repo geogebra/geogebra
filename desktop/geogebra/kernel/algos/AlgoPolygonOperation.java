@@ -23,6 +23,7 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
@@ -63,7 +64,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 		super(cons);
 
-		ev = cons.getApplication().getEuclidianView();
+		ev = ((Application) cons.getApplication()).getEuclidianView();
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;

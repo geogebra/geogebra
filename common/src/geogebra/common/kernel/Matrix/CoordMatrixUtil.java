@@ -1,6 +1,6 @@
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * @author ggb3D
@@ -26,7 +26,7 @@ public final class CoordMatrixUtil {
 		
 		// if v1 and v2 are parallel, return infinite points v1 and v2
 		Coords vn = v1.crossProduct(v2);
-		if (vn.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+		if (vn.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
 			//Application.debug("v1="+v1.toString()+"\nv2="+v2.toString());
 			return  new Coords[] {v1.copyVector().normalize(),
 					v2.copyVector().normalize(), new Coords(new double[] {Double.NaN,Double.NaN})};
@@ -180,7 +180,7 @@ public final class CoordMatrixUtil {
 	static final public Coords lineEquationVector(Coords origin, Coords direction){
 				
 		//if lines is not in the plane, return null
-		if (!Kernel.isZero(origin.getZ()) || !Kernel.isZero(direction.getZ()))
+		if (!AbstractKernel.isZero(origin.getZ()) || !AbstractKernel.isZero(direction.getZ()))
 			return null;
 		
 		double x = -direction.getY();

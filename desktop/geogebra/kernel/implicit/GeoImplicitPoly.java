@@ -19,22 +19,23 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
-import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.PathMover;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPointOnPath;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.ConicMirrorable;
 import geogebra.kernel.geos.Dilateable;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -733,9 +734,9 @@ Dilateable, Transformable, EuclidianViewCE {
 						double[][] iX=new double[][]{{(b*ay-a*by)/det,-ay/det},{by/det}};
 						double[][] iY=new double[][]{{-(b*ax-a*bx)/det,ax/det},{-bx/det}};
 						
-						Iterator<AlgoElement> it=algoUpdateSet.getIterator();
+						Iterator<AlgoElementInterface> it=algoUpdateSet.getIterator();
 						while(it!=null&&it.hasNext()){
-							AlgoElement elem=it.next();
+							AlgoElementInterface elem=it.next();
 							if (elem instanceof AlgoPointOnPath && isIndependent()){
 								GeoPoint point=((AlgoPointOnPath)elem).getP();
 								if (!Kernel.isZero(point.getZ())){
@@ -1326,9 +1327,9 @@ Dilateable, Transformable, EuclidianViewCE {
 				}
 			}
 			if (algoUpdateSet!=null){
-				Iterator<AlgoElement> it=algoUpdateSet.getIterator();
+				Iterator<AlgoElementInterface> it=algoUpdateSet.getIterator();
 				while(it.hasNext()){
-					AlgoElement elem=it.next();
+					AlgoElement elem=(AlgoElement)it.next();
 					if (elem instanceof AlgoPointOnPath){
 						for (int i=0;i<elem.getInput().length;i++){
 							if (elem.getInput()[i]==this){

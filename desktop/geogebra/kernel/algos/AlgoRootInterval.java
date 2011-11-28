@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Function;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
@@ -47,8 +47,8 @@ public class AlgoRootInterval extends AlgoElement {
         this.f = f;
         this.a = a;
         this.b = b;
-        aGeo = a.toGeoElement();
-        bGeo = b.toGeoElement();
+        aGeo = (GeoElement)a.toGeoElement();
+        bGeo = (GeoElement)b.toGeoElement();
 
         // output
         rootPoint = new GeoPoint(cons);

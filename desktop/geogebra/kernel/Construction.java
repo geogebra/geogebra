@@ -15,23 +15,26 @@ package geogebra.kernel;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.algos.AlgorithmSet;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoDistancePoints;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.algos.AlgorithmSet;
-import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoDependentCasCell;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoCasCell;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
@@ -40,8 +43,6 @@ import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.main.Application;
-import geogebra.main.MyError;
-import geogebra.util.Util;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -258,7 +259,7 @@ public class Construction extends AbstractConstruction{
 		geoTable.remove(xAxisLocalName);
 		geoTable.remove(yAxisLocalName);
 
-		Application app = kernel.getApplication();
+		AbstractApplication app = kernel.getApplication();
 		xAxisLocalName = app.getPlain("xAxis");
 		yAxisLocalName = app.getPlain("yAxis");
 		geoTable.put(xAxisLocalName, xAxis);
@@ -277,7 +278,7 @@ public class Construction extends AbstractConstruction{
 	 * Returns current application
 	 * @return current application
 	 */
-	public Application getApplication() {
+	public AbstractApplication getApplication() {
 		return kernel.getApplication();
 	}
 
@@ -2264,7 +2265,7 @@ public class Construction extends AbstractConstruction{
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			restoreCurrentUndoInfo();
-			Application.debug("replace failed: oldXML string not found:\n" + oldXML);
+			AbstractApplication.debug("replace failed: oldXML string not found:\n" + oldXML);
 			//Application.debug("consXML=\n" + consXML);
 			throw new MyError(getApplication(), "ReplaceFailed");
 		}

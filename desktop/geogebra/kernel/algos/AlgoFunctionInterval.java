@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionConditional;
@@ -45,8 +45,8 @@ public class AlgoFunctionInterval extends AlgoElement {
         this.f = f;
         this.a = a;
         this.b = b;         
-        ageo = a.toGeoElement();
-        bgeo = b.toGeoElement();
+        ageo = (GeoElement)a.toGeoElement();
+        bgeo = (GeoElement)b.toGeoElement();
             
         //g = new GeoFunction(cons); // output
         //g = new GeoFunction(cons); // output

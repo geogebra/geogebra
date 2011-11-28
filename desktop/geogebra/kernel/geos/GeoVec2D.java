@@ -21,14 +21,15 @@ package geogebra.kernel.geos;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.arithmetic.ListValue;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.main.Application;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
@@ -40,7 +41,8 @@ import org.apache.commons.math.complex.Complex;
  * @author  Markus
  * @version 
  */
-final public class GeoVec2D extends ValidExpression implements MatrixTransformable, VectorValue {        
+final public class GeoVec2D extends ValidExpression implements MatrixTransformable, VectorValue,
+	GeoVec2DInterface {        
 
     public double x = Double.NaN;
     public double y = Double.NaN;    
@@ -752,7 +754,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 				yy = p.y;
 				zz = p.z;
 			} else if (rt.isVectorValue()) {
-				GeoVec2D v = ((VectorValue)rt).getVector();
+				GeoVec2D v = (GeoVec2D) ((VectorValue)rt).getVector();
 				xx = v.x;
 				yy = v.y;
 				

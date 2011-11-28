@@ -13,12 +13,12 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 
+import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -220,10 +220,10 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.b = b;			
 		this.n = n;
 		this.d = d;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
-		ngeo = n.toGeoElement();
-		dgeo = d.toGeoElement();
+		ageo = (GeoElement)a.toGeoElement();
+		bgeo = (GeoElement)b.toGeoElement();
+		ngeo = (GeoElement)n.toGeoElement();
+		dgeo = (GeoElement)d.toGeoElement();
 			
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement	
@@ -241,10 +241,10 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.b = b;			
 		this.n = n;
 		this.d = d;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
-		ngeo = n.toGeoElement();
-		dgeo = d.toGeoElement();
+		ageo = (GeoElement)a.toGeoElement();
+		bgeo = (GeoElement)b.toGeoElement();
+		ngeo = (GeoElement)n.toGeoElement();
+		dgeo = (GeoElement)d.toGeoElement();
 		N= (int)Math.round(n.getDouble());
 
 	}
@@ -274,9 +274,9 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.a = a;
 		this.b = b;			
 		this.n = n;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
-		ngeo = n.toGeoElement();
+		ageo = (GeoElement)a.toGeoElement();
+		bgeo = (GeoElement)b.toGeoElement();
+		ngeo = (GeoElement)n.toGeoElement();
 			
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement	
@@ -317,8 +317,8 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.a = a;
 		this.b = b;			
 		this.list1 = list1;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
+		ageo = (GeoElement)a.toGeoElement();
+		bgeo = (GeoElement)b.toGeoElement();
 		
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement	
@@ -417,7 +417,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.list1 = list1;
 		this.list2 = list2;
 		this.width = width;
-		widthGeo = width.toGeoElement();
+		widthGeo = (GeoElement)width.toGeoElement();
 
 		
 		sum = new GeoNumeric(cons); // output
@@ -438,7 +438,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;		
 		
 		this.width = width;
-		widthGeo = width.toGeoElement();
+		widthGeo = (GeoElement)width.toGeoElement();
 		this.yval=vals;
 		this.leftBorder=borders;
 		this.N=N;
@@ -596,11 +596,11 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
-		p1geo = p1.toGeoElement();
+		p1geo = (GeoElement)p1.toGeoElement();
 		if(p2 != null)
-			p2geo = p2.toGeoElement();
+			p2geo = (GeoElement)p2.toGeoElement();
 		if(p3 != null)
-			p3geo = p3.toGeoElement();
+			p3geo = (GeoElement)p3.toGeoElement();
 		this.isCumulative = isCumulative;
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement	
@@ -623,11 +623,11 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
-		p1geo = p1.toGeoElement();
+		p1geo = (GeoElement)p1.toGeoElement();
 		if(p2 != null)
-			p2geo = p2.toGeoElement();
+			p2geo =(GeoElement) p2.toGeoElement();
 		if(p3 != null)
-			p3geo = p3.toGeoElement();
+			p3geo = (GeoElement)p3.toGeoElement();
 		this.isCumulative = isCumulative;	
 		this.a = a;
 		this.b = b;

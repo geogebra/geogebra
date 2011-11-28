@@ -19,16 +19,16 @@
 package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.ReplaceableValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
-import geogebra.main.Application;
 import geogebra.util.GgbMat;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		listElements = new ArrayList<ExpressionValue>(size);
 	}
 
-	public MyList(Kernel kernel, boolean isFlatList) {
+	public MyList(AbstractKernel kernel, boolean isFlatList) {
 		this(kernel);
 		
 		if (isFlatList) {
@@ -273,7 +273,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 			}
 			if(power<0){
 				listElements = this.invert().listElements;
-				Application.debug(this);
+				AbstractApplication.debug(this);
 				power *= -1;
 				if(power==1){
 					MyList RHlist=(MyList)this.deepCopy(kernel);
@@ -337,7 +337,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		ExpressionNode tempNode = new ExpressionNode(kernel, (ExpressionValue) listElements.get(0));
 		tempNode.setOperation(operation);
 		
-		boolean b = ((Construction)kernel.getConstruction()).isSuppressLabelsActive();
+		boolean b = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		for (int i = 0; i < size; i++) {	
 			//try {				
@@ -440,10 +440,10 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	
 	public MyList invert(){
 		GgbMat g = new GgbMat(this);
-		Application.debug(g);
+		AbstractApplication.debug(g);
 		g.inverseImmediate();
-		GeoList gl = new GeoList((Construction)kernel.getConstruction());
-		g.getGeoList(gl, (Construction)kernel.getConstruction());
+		GeoList gl = new GeoList(kernel.getConstruction());
+		g.getGeoList(gl, kernel.getConstruction());
 		return gl.getMyList();	
 	}
 	/**
@@ -728,7 +728,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		// copy arguments
 		int size = listElements.size();
-		MyList c = new MyList((Kernel)kernel, size());
+		MyList c = new MyList(kernel, size());
 
 		for (int i = 0; i < size; i++) {
 			c.addListElement(((ExpressionValue) listElements.get(i))
@@ -741,7 +741,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		HashSet<GeoElement> varSet = new HashSet<GeoElement>();
 		int size = listElements.size();
 		for (int i = 0; i < size; i++) {
-			HashSet<GeoElement> s = ((ExpressionValue) listElements.get(i)).getVariables();
+			HashSet<GeoElement> s = listElements.get(i).getVariables();
 			if (s != null)
 				varSet.addAll(s);
 		}
@@ -883,7 +883,7 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	 * @param list2
 	 * @return set difference of the lists
 	 */
-	public static MyList setDifference(Kernel kernel, MyList list1, MyList list2) {
+	public static MyList setDifference(AbstractKernel kernel, MyList list1, MyList list2) {
 
 		if (list2.size() == 0) return list1;
 		

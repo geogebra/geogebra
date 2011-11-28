@@ -1,6 +1,8 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -11,7 +13,6 @@ import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
@@ -886,10 +887,10 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		return false;
 	}
 
-	private TreeSet<AlgoElement> tempSet;	
-	private TreeSet<AlgoElement> getTempSet() {
+	private TreeSet<AlgoElementInterface> tempSet;	
+	private TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}

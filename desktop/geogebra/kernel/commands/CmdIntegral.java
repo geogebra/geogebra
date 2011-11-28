@@ -1,14 +1,14 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.main.MyError;
 
 /**
  * Integral[ <GeoFunction> ] Integral[ <GeoFunction>, <Number a>, <Number b> ]

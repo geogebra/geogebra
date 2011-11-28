@@ -1,9 +1,9 @@
 package geogebra3D.gui;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.InputDialogRadius;
 import geogebra.gui.InputHandler;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;

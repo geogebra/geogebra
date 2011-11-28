@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
@@ -60,7 +60,7 @@ public class AlgoSample extends AlgoElement {
     protected void setInputOutput(){
         input = new GeoElement[replacement == null ? 2 : 3];
         input[0] = inputList;
-        input[1] = num.toGeoElement();
+        input[1] = (GeoElement)num.toGeoElement();
         if (replacement != null) input[2] = replacement;
 
         setOutputLength(1);

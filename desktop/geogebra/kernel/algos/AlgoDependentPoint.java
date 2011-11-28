@@ -18,10 +18,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 
@@ -87,7 +87,7 @@ public class AlgoDependentPoint extends AlgoElement {
     @Override
 	public final void compute() {   
     	try {
-	        temp = ((VectorValue) root.evaluate()).getVector();
+	        temp = (GeoVec2D)((VectorValue) root.evaluate()).getVector();
 	        if (Double.isInfinite(temp.x) || Double.isInfinite(temp.y)) {
 	        	P.setUndefined();
 	        } else {

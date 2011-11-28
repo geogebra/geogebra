@@ -14,9 +14,11 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.main.MyError;
 
 import java.io.Serializable;
 import java.util.ArrayList;

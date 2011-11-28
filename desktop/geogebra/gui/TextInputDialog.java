@@ -12,6 +12,8 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.MyError;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
@@ -19,13 +21,11 @@ import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbols;
 import geogebra.gui.util.TableSymbolsLaTeX;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
-import geogebra.main.MyError;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -786,7 +786,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 			boolean createText = editGeo == null;
 			if (createText) {
 				GeoElement [] ret = 
-					kernel.getAlgebraProcessor().processAlgebraCommand(inputValue, false);
+						(GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand(inputValue, false);
 				if (ret != null && ret[0].isTextValue()) {
 					GeoText t = (GeoText) ret[0];
 					t.setLaTeX(isLaTeX, true);  

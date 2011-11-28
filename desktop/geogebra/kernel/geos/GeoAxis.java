@@ -15,6 +15,7 @@ package geogebra.kernel.geos;
 import java.awt.Color;
 import java.text.NumberFormat;
 
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoAxisND;
 

@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 
@@ -52,8 +52,8 @@ public class AlgoDynamicCoordinates extends AlgoElement {
 	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = P;
-        input[1] = x.toGeoElement();
-        input[2] = y.toGeoElement();
+        input[1] = (GeoElement)x.toGeoElement();
+        input[2] = (GeoElement)y.toGeoElement();
 
         super.setOutputLength(1);
         super.setOutput(0, M);

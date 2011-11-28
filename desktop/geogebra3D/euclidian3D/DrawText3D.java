@@ -3,8 +3,8 @@ package geogebra3D.euclidian3D;
 
 import java.awt.Font;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;

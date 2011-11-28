@@ -10,8 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
-
+package geogebra.common.kernel.geos;
 
 /**
  * Interface to unify object types that allow evaluation with CAS commands,
@@ -31,5 +30,5 @@ public interface CasEvaluableFunction {
 		
 	public String toSymbolicString();
 	public String getVarString();
-	public GeoElement toGeoElement();
+	public GeoElementInterface toGeoElement();
 }

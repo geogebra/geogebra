@@ -1,13 +1,13 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.main.MyError;
 import geogebra.util.ImageManager;
 
 import java.awt.Image;

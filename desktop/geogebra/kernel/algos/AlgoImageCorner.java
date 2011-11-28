@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoPoint;
@@ -47,7 +47,7 @@ implements EuclidianViewCE {
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = img;        
-        input[1] = number.toGeoElement();
+        input[1] = (GeoElement)number.toGeoElement();
               
         super.setOutputLength(1);
         super.setOutput(0, corner);

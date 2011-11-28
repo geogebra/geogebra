@@ -10,10 +10,10 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.main.AbstractApplication;
 
 
 
@@ -381,7 +381,7 @@ public class Coords
 		for (int i=0; i<len; i++){
 			double v=val[i]*normInv;
 			//check if v is near to be one direction vector
-			if (checkOneDirection && Kernel.isEqual(Math.abs(v), 1)){
+			if (checkOneDirection && AbstractKernel.isEqual(Math.abs(v), 1)){
 				if (v<0)
 					ret.val[i]=-1;
 				else
@@ -465,7 +465,7 @@ public class Coords
 		Coords inPlaneCoords, globalCoords;
 		
 		
-		if  (Kernel.isEqual((m.getVx().crossProduct(m.getVy())).dotproduct(m.getVz()),0,Kernel.STANDARD_PRECISION)){
+		if  (AbstractKernel.isEqual((m.getVx().crossProduct(m.getVy())).dotproduct(m.getVz()),0,AbstractKernel.STANDARD_PRECISION)){
 			//direction of projection is parallel to the plane : point is infinite
 			//Application.printStacktrace("infinity");
 			inPlaneCoords = new Coords(new double[] {0,0,-1,0});
@@ -509,7 +509,7 @@ public class Coords
 		
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
-		if (Kernel.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION))
+		if (AbstractKernel.isEqual(v3.dotproduct(v), 0.0, AbstractKernel.STANDARD_PRECISION))
 			return projectPlane(m);
 		
 		// if not, use v for direction
@@ -535,7 +535,7 @@ public class Coords
 		
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
-		if (Kernel.isZero(v3.dotproduct(v))){
+		if (AbstractKernel.isZero(v3.dotproduct(v))){
 			Coords firstProjection = oldCoords.projectLine(this, v)[0];
 			return firstProjection.projectPlane(m);
 		}
@@ -579,7 +579,7 @@ public class Coords
 		
 		Coords V3 = V.crossProduct(V2);
 		
-		if (Kernel.isEqual(V3.norm(), 0.0, Kernel.STANDARD_PRECISION)){
+		if (AbstractKernel.isEqual(V3.norm(), 0.0, AbstractKernel.STANDARD_PRECISION)){
 			return this.copyVector();
 		}else{
 			CoordMatrix m = new CoordMatrix(4,4);
@@ -604,7 +604,7 @@ public class Coords
 		
 		Coords V3 = V.crossProduct(V2);
 		
-		if (Kernel.isEqual(V3.norm(), 0.0, Kernel.STANDARD_PRECISION)){
+		if (AbstractKernel.isEqual(V3.norm(), 0.0, AbstractKernel.STANDARD_PRECISION)){
 			return new Coords[] {O, new Coords(new double[] {0,this.sub(O).norm()})};
 		}else{
 			CoordMatrix m = new CoordMatrix(4,4);
@@ -653,7 +653,7 @@ public class Coords
 		
 		int r = rows;
 		
-		if (Kernel.isEqual(val[r-1], 1))
+		if (AbstractKernel.isEqual(val[r-1], 1))
 			return this;
 				
 		Coords result=new Coords(r);
@@ -706,14 +706,14 @@ public class Coords
 	public boolean equalsForKernel(Coords v, double precision){
 		int len = getLength();
 		for(int i=0;i<len;i++)
-			if (!Kernel.isEqual(val[i], v.val[i], precision))
+			if (!AbstractKernel.isEqual(val[i], v.val[i], precision))
 				return false;
 		
 		return true;
 	}
 	
 	public boolean isEqual(Coords v){
-		return equalsForKernel(v, Kernel.EPSILON);
+		return equalsForKernel(v, AbstractKernel.EPSILON);
 	}
 	
 	/**
@@ -724,7 +724,7 @@ public class Coords
 	public boolean isZero(){
 		int len = getLength();
 		for(int i=0;i<len;i++)
-			if (!Kernel.isEqual(val[i], 0, Kernel.EPSILON))
+			if (!AbstractKernel.isEqual(val[i], 0, AbstractKernel.EPSILON))
 				return false;
 		return true;
 	}
@@ -738,7 +738,7 @@ public class Coords
 	public boolean equalsForKernel(double val, double precision){
 		int len = getLength();
 		for(int i=0;i<len;i++)
-			if (!Kernel.isEqual(this.val[i], val, precision))
+			if (!AbstractKernel.isEqual(this.val[i], val, precision))
 				return false;
 		
 		return true;
@@ -793,7 +793,7 @@ public class Coords
 		v1.val[0]=3.0;
 		v1.val[1]=4.0;
 		
-		Application.debug("v1.v1 = "+v1.dotproduct(v1));
+		AbstractApplication.debug("v1.v1 = "+v1.dotproduct(v1));
 	}
 	
 	/**
@@ -814,7 +814,7 @@ public class Coords
 			return new Coords(getX(),0,getY());
 		default:
 			for (int i = 3; i<=dim; i++) {
-				if(Double.isNaN(get(i)) || !Kernel.isZero(get(i)))
+				if(Double.isNaN(get(i)) || !AbstractKernel.isZero(get(i)))
 					return new Coords(Double.NaN,Double.NaN,Double.NaN);
 			}
 			// get(3) to get(dim) are all zero

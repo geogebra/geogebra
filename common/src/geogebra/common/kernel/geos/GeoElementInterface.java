@@ -1,5 +1,7 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
+
 import java.util.List;
 
 public interface GeoElementInterface {
@@ -34,6 +36,11 @@ public interface GeoElementInterface {
 	public int getMinConstructionIndex();
 	public boolean isGeoNumeric();
 	public List<Integer> getViewSet();
-	public void setRandomGeo(boolean b);	
+	public void setRandomGeo(boolean b);
+	public boolean isAnimating();
+	public boolean isGeoList();
+	public boolean isDefined();
+	public void setLabel(String label);
+	public GeoElementInterface copyInternal(AbstractConstruction cons);	
 	
 }

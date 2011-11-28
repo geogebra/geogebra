@@ -1,8 +1,9 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
@@ -10,7 +11,6 @@ import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.MyError;
 
 /**
  * Tangent[ <GeoPoint>, <GeoConic> ] Tangent[ <GeoLine>, <GeoConic> ] Tangent[

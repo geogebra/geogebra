@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoCirclePointRadius;
 import geogebra.kernel.algos.AlgoCircleThreePoints;
 import geogebra.kernel.algos.AlgoCircleTwoPoints;

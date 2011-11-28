@@ -18,10 +18,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
@@ -99,7 +99,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
         input[0] = inGeo; 
         input[1] = l;
         if(num!=null)
-        	input[2] = num.toGeoElement();
+        	input[2] = (GeoElement)num.toGeoElement();
         
         setOutputLength(1);        
         setOutput(0,outGeo);        

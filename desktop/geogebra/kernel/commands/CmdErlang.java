@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.main.MyError;
 
 	/**
 	 *Erlang Distribution
@@ -59,7 +59,7 @@ import geogebra.main.MyError;
 							command = "If[x<0,0,(("+l+")^("+k+")x^("+k+"-1)exp(-("+l+")x))/("+k+"-1)!]";
 						}						
 						
-						GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand(command, true);
+						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand(command, true);
 						return ret;
 
 
@@ -70,7 +70,7 @@ import geogebra.main.MyError;
 						String l = arg[1].getLabel();
 						String x = arg[2].getLabel();
 						kernel.restorePrintAccuracy();
-						GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand("If[x<0,0,(("+l+")^("+k+")("+x+")^("+k+"-1)exp(-("+l+")("+x+")))/("+k+"-1)!]", true);
+						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand("If[x<0,0,(("+l+")^("+k+")("+x+")^("+k+"-1)exp(-("+l+")("+x+")))/("+k+"-1)!]", true);
 						return ret;
 					} else
 						throw argErr(app, c.getName(), arg[2]);

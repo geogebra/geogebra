@@ -1,7 +1,9 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -11,7 +13,6 @@ import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -25,7 +26,6 @@ import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.statistics.SetRandomValue;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
-import geogebra.main.MyError;
 import geogebra.sound.SoundManager;
 
 import java.awt.Color;

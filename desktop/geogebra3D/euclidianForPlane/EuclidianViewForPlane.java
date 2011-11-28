@@ -3,10 +3,10 @@ package geogebra3D.euclidianForPlane;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.EuclidianController;
-import geogebra.kernel.Matrix.CoordMatrix;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;

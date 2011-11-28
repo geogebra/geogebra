@@ -18,13 +18,13 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.kernelND.GeoSurfaceCartesianND;
@@ -100,11 +100,11 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
         input = new GeoElement[coords.length+3*localVar.length];
         
         for (int i=0;i<coords.length;i++)
-        	input[i] = coords[i].toGeoElement();
+        	input[i] = (GeoElement)coords[i].toGeoElement();
         for (int i=0;i<localVar.length;i++){
         	input[coords.length+3*i] = localVar[i];
-        	input[coords.length+3*i+1] = from[i].toGeoElement();
-        	input[coords.length+3*i+2] = to[i].toGeoElement(); 
+        	input[coords.length+3*i+1] = (GeoElement)from[i].toGeoElement();
+        	input[coords.length+3*i+2] = (GeoElement)to[i].toGeoElement(); 
         }
         
         output = new GeoElement[1];        

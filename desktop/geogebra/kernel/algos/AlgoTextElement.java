@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 
@@ -40,7 +40,7 @@ public class AlgoTextElement extends AlgoElement {
 		super(cons);
 		this.text = text;
 		this.num = num;
-		numGeo = num.toGeoElement();
+		numGeo = (GeoElement)num.toGeoElement();
 
 		textOut = new GeoText(cons);
 		textOut.setIsTextCommand(true);

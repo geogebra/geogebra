@@ -1,5 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -18,11 +20,9 @@ import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoResidualPlot;
 import geogebra.kernel.algos.AlgoStemPlot;
 import geogebra.kernel.algos.AlgoText;
-import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;

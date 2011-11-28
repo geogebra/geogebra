@@ -1,5 +1,6 @@
 package geogebra.kernel;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.algos.AlgoApplyMatrix;
 import geogebra.kernel.algos.AlgoDilate;
 import geogebra.kernel.algos.AlgoMirror;
@@ -8,7 +9,6 @@ import geogebra.kernel.algos.AlgoRotatePoint;
 import geogebra.kernel.algos.AlgoShearOrStretch;
 import geogebra.kernel.algos.AlgoTransformation;
 import geogebra.kernel.algos.AlgoTranslate;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;

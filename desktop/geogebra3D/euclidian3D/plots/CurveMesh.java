@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D.plots;
 
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.CurveTriList;
 import geogebra3D.euclidian3D.TriListElem;

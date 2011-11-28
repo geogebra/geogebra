@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -32,7 +33,7 @@ import geogebra.kernel.geos.GeoVec3D;
  * @author  Markus
  * @version 
  */
-public class AlgoJoinPointsSegment extends AlgoElement {
+public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPointsSegmentInterface {
 
 	private GeoPoint P, Q; // input
     private GeoSegment s; // output: GeoSegment subclasses GeoLine 

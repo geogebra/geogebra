@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoPointND;
@@ -68,7 +68,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		this.M = M;
 		this.r = r;
-		rgeo = r.toGeoElement();
+		rgeo = (GeoElement)r.toGeoElement();
 		sphereND = createSphereND(cons);
 
 		setInputOutput(); // for AlgoElement

@@ -14,10 +14,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.AppletImplementation;
@@ -57,11 +57,11 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 	protected void setInputOutput() {
 		if (evNum == null) {
 			input = new GeoElement[1];
-			input[0] = number.toGeoElement();
+			input[0] = (GeoElement)number.toGeoElement();
 		} else {
 			input = new GeoElement[2];
-			input[0] = evNum.toGeoElement();
-			input[1] = number.toGeoElement();
+			input[0] = (GeoElement)evNum.toGeoElement();
+			input[1] = (GeoElement)number.toGeoElement();
 
 		}
 

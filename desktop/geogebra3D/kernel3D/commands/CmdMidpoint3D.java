@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdMidpoint;
@@ -12,7 +13,6 @@ import geogebra.kernel.geos.Path;
 import geogebra.kernel.geos.Region;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
-import geogebra.main.MyError;
 
 
 

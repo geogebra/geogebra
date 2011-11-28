@@ -1,6 +1,11 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.CoordMatrixUtil;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.DrawableND;
@@ -9,12 +14,7 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidian.Hits;
 import geogebra.euclidian.Previewable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.CoordMatrix;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.CoordMatrixUtil;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;

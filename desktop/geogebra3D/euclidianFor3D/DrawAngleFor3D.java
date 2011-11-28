@@ -1,9 +1,9 @@
 package geogebra3D.euclidianFor3D;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoAnglePoints;
 import geogebra.kernel.geos.GeoAngle;
 

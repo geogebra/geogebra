@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.io;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
@@ -29,7 +30,6 @@ import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.LinkedHashMap;
 

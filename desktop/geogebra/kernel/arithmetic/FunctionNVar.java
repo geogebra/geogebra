@@ -13,20 +13,23 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.main.MyError;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -272,7 +275,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		return new FunctionNVar(this, (Kernel)kernel);
+		return new FunctionNVar(this, kernel);
 	}
 
 	/**
@@ -821,7 +824,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		ExpressionNode rightTree = fe.getRightTree();
 		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)
 				|| op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL)) {
-			Inequality newIneq = new Inequality((Kernel)kernel, leftTree, rightTree,
+			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
 					adjustOp(op,negate), getFunction().getFunctionVariables(), functional);
 			if (newIneq.getType() != Inequality.INEQUALITY_INVALID) {
 				if (newIneq.getType() != Inequality.INEQUALITY_1VAR_X
@@ -910,11 +913,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	public void translate(double vx, double vy) {
 
 		// translate x
-		if (!Kernel.isZero(vx)) {
+		if (!AbstractKernel.isZero(vx)) {
 			translateX(expression, vx, 0);
 
 		}
-		if (!Kernel.isZero(vy)) {
+		if (!AbstractKernel.isZero(vy)) {
 			translateX(expression, vy, 1);
 
 		}
@@ -955,7 +958,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 				case MINUS:
 					temp = num.getDouble() + vx;
-					if (Kernel.isZero(temp)) {
+					if (AbstractKernel.isZero(temp)) {
 						expression = expression.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
 						en.setOperation(Operation.PLUS);

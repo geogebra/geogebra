@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 
 /**
@@ -47,20 +47,20 @@ public abstract class AlgoCasBase extends AlgoElement {
     // for AlgoElement
     protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = f.toGeoElement();
+        input[0] = (GeoElement)f.toGeoElement();
 
         setOutputLength(1);
-        setOutput(0, g.toGeoElement());
+        setOutput(0, (GeoElement)g.toGeoElement());
         setDependencies(); // done by AlgoElement
     }
 
     public GeoElement getResult() {
-        return g.toGeoElement();
+        return (GeoElement) g.toGeoElement();
     }
     
     public final void compute() {
         if (!f.toGeoElement().isDefined()) {
-        	g.toGeoElement().setUndefined();
+        	((GeoElement) g.toGeoElement()).setUndefined();
         	return;
         }    
 

@@ -19,7 +19,14 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.CoordMatrixUtil;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.Evaluatable;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -27,19 +34,13 @@ import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;
-import geogebra.kernel.Matrix.CoordMatrix;
-import geogebra.kernel.Matrix.CoordMatrixUtil;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoAsymptote;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoTangentLine;
 import geogebra.kernel.algos.AlgoTangentPoint;
-import geogebra.kernel.arithmetic.Evaluatable;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 

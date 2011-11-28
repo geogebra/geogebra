@@ -1,9 +1,9 @@
 package geogebra.kernel.barycentric;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 
@@ -47,7 +47,7 @@ public class AlgoKimberling extends AlgoElement {
 		input[0] = A;
 		input[1] = B;
 		input[2] = C;
-		input[3] = n.toGeoElement();
+		input[3] = (GeoElement)n.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, M);

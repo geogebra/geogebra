@@ -16,10 +16,9 @@ the Free Software Foundation.
  * Created on 03. Oktober 2001, 10:09
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementInterface;
 
 /**
  *
@@ -30,6 +29,6 @@ public interface NumberValue extends ExpressionValue {
     public MyDouble getNumber();
     public boolean isAngle();
     public double getDouble(); 
-    public GeoElement toGeoElement();
+    public GeoElementInterface toGeoElement();
 }
 

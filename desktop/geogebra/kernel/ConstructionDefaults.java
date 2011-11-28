@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.AbstractConstructionDefaults;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoBoolean;
@@ -44,7 +46,7 @@ import java.util.Set;
  * Manages default settings for GeoElement objects in a construction.
  * @author Markus Hohenwarter
  */
-public class ConstructionDefaults {
+public class ConstructionDefaults extends AbstractConstructionDefaults{
 	
 	// DEFAULT GeoElement types
 	// PLEASE DON'T USE RANGE 3000-3999 (used by GeoGebra 3D)
@@ -540,16 +542,17 @@ public class ConstructionDefaults {
 	 * @param geo The element which needs new default visual styles
 	 * @param isReset If the visual styles should be reset
 	 */
-	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
+	final public void setDefaultVisualStyles(GeoElementInterface geoI, boolean isReset) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		//int type = DEFAULT_LINE;
+		GeoElement geo = (GeoElement)geoI;
 		int type = getDefaultType(geo);
 			
 		
 		// default
 		GeoElement defaultGeo = getDefaultGeo(type);
-		Application app = cons.getApplication();
+		Application app = (Application) cons.getApplication();
 		
 		if (defaultGeo != null) {
 			geo.setAllVisualProperties(defaultGeo, isReset);

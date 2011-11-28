@@ -1,6 +1,7 @@
 package geogebra.kernel.commands;
 
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoCurveCartesian;
@@ -13,7 +14,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.kernelND.GeoSegmentND;
-import geogebra.main.MyError;
 
 /**
  * Length[ <GeoVector> ] Length[ <GeoPoint> ] Length[ <GeoList> ] Victor Franco

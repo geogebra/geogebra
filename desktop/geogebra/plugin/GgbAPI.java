@@ -12,11 +12,11 @@ package geogebra.plugin;
  */
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.euclidian.EuclidianView;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
@@ -28,6 +28,7 @@ import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.geos.PointProperties;
 import geogebra.kernel.geos.Traceable;
 import geogebra.main.Application;
+import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
@@ -273,7 +274,7 @@ public class GgbAPI {
 		GeoElement [] result;
 		
 		if (cmdString.indexOf('\n') == -1) {
-			result = kernel.getAlgebraProcessor().processAlgebraCommand(cmdString, false);
+			result = (GeoElement[]) kernel.getAlgebraProcessor().processAlgebraCommand(cmdString, false);
 			// return success
 			return result != null;
 			
@@ -282,7 +283,7 @@ public class GgbAPI {
 		boolean ret = true;
 		String[] cmdStrings = cmdString.split("[\\n]+");
 		for (int i = 0 ; i < cmdStrings.length ; i++) {
-			result = kernel.getAlgebraProcessor().processAlgebraCommand(cmdStrings[i], false);
+			result = (GeoElement[]) kernel.getAlgebraProcessor().processAlgebraCommand(cmdStrings[i], false);
 			ret = ret & (result != null);
 		}
 		
@@ -581,7 +582,7 @@ public class GgbAPI {
 	public synchronized String getColor(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return "";		
-		return "#" + geogebra.util.Util.toHexString(geo.getObjectColor());		
+		return "#" + geogebra.common.util.StringUtil.toHexString(new AwtColorAdapter(geo.getObjectColor()));		
 	}	
 	
 	public synchronized int getLineThickness(String objName) {

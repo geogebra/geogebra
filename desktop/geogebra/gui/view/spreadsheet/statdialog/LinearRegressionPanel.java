@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

@@ -1,8 +1,8 @@
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.kernel.Construction;
-import geogebra.kernel.EuclidianViewCE;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;

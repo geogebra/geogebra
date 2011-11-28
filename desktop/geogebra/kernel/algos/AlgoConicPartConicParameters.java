@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;
@@ -49,8 +49,8 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = conic;      
-        input[1] = startParam.toGeoElement();
-        input[2] = endParam.toGeoElement();
+        input[1] = (GeoElement)startParam.toGeoElement();
+        input[2] = (GeoElement)endParam.toGeoElement();
 
         super.setOutputLength(1);
         super.setOutput(0, conicPart);

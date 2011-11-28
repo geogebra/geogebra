@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -193,7 +193,7 @@ public class AlgoPolygonRegular extends AlgoElement {
     	input = new GeoElement[3];
 		input[0] = A;
 		input[1] = B;
-		input[2] = num.toGeoElement();    	
+		input[2] = (GeoElement)num.toGeoElement();    	
 		// set dependencies
         for (int i = 0; i < input.length; i++) {
             input[i].addAlgorithm(this);

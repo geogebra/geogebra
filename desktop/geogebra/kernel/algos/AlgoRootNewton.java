@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Function;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
@@ -51,7 +51,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         super(cons);
         this.f = f;
         this.start = start;
-        startGeo = start.toGeoElement();
+        startGeo = (GeoElement)start.toGeoElement();
 
         // output
         rootPoint = new GeoPoint(cons);

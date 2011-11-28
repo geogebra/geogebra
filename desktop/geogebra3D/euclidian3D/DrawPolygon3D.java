@@ -3,9 +3,9 @@
 
 
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.Previewable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;

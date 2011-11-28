@@ -1,6 +1,6 @@
 package geogebra3D.archimedean.support;
 
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 
 /**
  * Simple class for expressing 3D points.

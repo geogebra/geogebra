@@ -11,9 +11,13 @@ import geogebra.common.util.ScientificFormat;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoListInterface;
+import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.kernel.AbstractAnimationManager;
 
 
 
@@ -1763,4 +1767,15 @@ public abstract class AbstractKernel {
 	
 	public abstract double[] getViewBoundsForGeo(GeoElementInterface geo);
 	public abstract void notifyUpdate(GeoElementInterface geo);
+	public abstract AbstractAnimationManager getAnimatonManager();
+	public abstract void notifyRename(GeoElementInterface geoElement);
+	public abstract void notifyRemove(GeoElementInterface geoElement);
+	public abstract void notifyUpdateVisualStyle(GeoElementInterface geoElement);
+	public abstract void notifyUpdateAuxiliaryObject(GeoElementInterface geoElement);
+	public abstract void notifyAdd(GeoElementInterface geoElement);
+	
+	public abstract AbstractAlgebraProcessor getAlgebraProcessor();
+	
+	public abstract GeoNumericInterface newNumeric();
+	public abstract GeoListInterface newList();
 }

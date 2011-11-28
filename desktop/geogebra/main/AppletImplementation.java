@@ -16,9 +16,9 @@ import geogebra.AppletImplementationInterface;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebraAppletPreloader;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.MyBoolean;
 import geogebra.plugin.GgbAPI;
 
 import java.awt.BorderLayout;

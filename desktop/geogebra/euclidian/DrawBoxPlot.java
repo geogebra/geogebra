@@ -1,7 +1,7 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.algos.AlgoBoxPlot;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;

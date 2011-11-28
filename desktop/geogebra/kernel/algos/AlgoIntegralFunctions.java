@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
@@ -57,8 +57,8 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 		this.a = a;
 		this.b = b;
 		this.evaluate = evaluate;
-		ageo = a.toGeoElement();		
-		bgeo = b.toGeoElement();
+		ageo = (GeoElement)a.toGeoElement();		
+		bgeo = (GeoElement)b.toGeoElement();
 		
 		
 		// helper algorithms for integral f and g		

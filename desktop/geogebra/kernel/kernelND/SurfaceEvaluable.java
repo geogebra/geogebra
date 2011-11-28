@@ -1,6 +1,6 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 
 public interface SurfaceEvaluable {
 

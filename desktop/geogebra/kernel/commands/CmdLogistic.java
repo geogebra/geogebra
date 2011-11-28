@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.main.MyError;
 
 /*
  * Logistic Distribution
@@ -47,12 +47,12 @@ class CmdLogistic extends CommandProcessor {
 					kernel.restorePrintAccuracy();
 					
 					if (cumulative) {
-						GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand( "1/(1+exp(-(x-("+m+"))/abs("+s+")))", true );
+						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "1/(1+exp(-(x-("+m+"))/abs("+s+")))", true );
 						
 						return ret;
 						
 					} else {
-						GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand( "exp(-(x-("+m+"))/abs("+s+"))/(abs("+s+")*(1+exp(-(x-("+m+"))/abs("+s+")))^2)", true );
+						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "exp(-(x-("+m+"))/abs("+s+"))/(abs("+s+")*(1+exp(-(x-("+m+"))/abs("+s+")))^2)", true );
 						
 						return ret;
 					}
@@ -65,7 +65,7 @@ class CmdLogistic extends CommandProcessor {
 					String s = arg[1].getLabel();
 					String x = arg[2].getLabel();
 					kernel.restorePrintAccuracy();
-					GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))", true );
+					GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))", true );
 					return ret;
 					
 				}  else

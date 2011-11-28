@@ -14,11 +14,14 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoListInterface;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Construction;
 import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathNormalizer;
@@ -30,7 +33,6 @@ import geogebra.kernel.algos.AlgoMirror;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
@@ -43,7 +45,7 @@ import java.util.ArrayList;
  * List of GeoElements
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
-		PointProperties, TextProperties, Traceable, Path, Transformable {
+		PointProperties, TextProperties, Traceable, Path, Transformable,GeoListInterface {
 
 	public final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -452,8 +454,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		System.gc();
 	}
 
-	public final void add(GeoElement geo) {
+	public final void add(GeoElementInterface geoI) {
 		// add geo to end of list
+		GeoElement geo = (GeoElement)geoI;
 		geoList.add(geo);
 
 		/*

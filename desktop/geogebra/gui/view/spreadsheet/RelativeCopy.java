@@ -649,7 +649,7 @@ public class RelativeCopy {
 			}
 
 			// evaluate input text without an error dialog in case of unquoted text
-			newValues = kernel.getAlgebraProcessor()
+			newValues = (GeoElement[])kernel.getAlgebraProcessor()
 			.processAlgebraCommandNoExceptionHandling(text, false, false, false);
 
 			// check if text was the label of an existing geo 
@@ -660,7 +660,7 @@ public class RelativeCopy {
 				// make sure we create a copy of this existing or auto-created geo 
 				// by providing the new cell name in the beginning
 				text = name + " = " + text;		
-				newValues = kernel.getAlgebraProcessor()
+				newValues = (GeoElement[])kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptions(text, false);
 			}
 
@@ -704,7 +704,7 @@ public class RelativeCopy {
 		catch (Exception e) {
 			// create text if something went wrong
 			text = "\"" + text + "\"";
-			newValues = kernel.getAlgebraProcessor()
+			newValues = (GeoElement[]) kernel.getAlgebraProcessor()
 			.processAlgebraCommandNoExceptions(text, false);
 			newValues[0].setLabel(name);
 			newValues[0].setEuclidianVisible(false);

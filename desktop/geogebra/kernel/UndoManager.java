@@ -54,7 +54,7 @@ public class UndoManager {
 		c.setXMLio(xmlio);
 		undoInfoList = new LinkedList();		
 
-		app = c.getApplication();
+		app = (Application) c.getApplication();
 	}
 	
 

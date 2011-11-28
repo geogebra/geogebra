@@ -1,12 +1,12 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
-import geogebra.main.MyError;
 
 /**
  * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
@@ -62,7 +62,7 @@ class CmdZip extends CommandProcessor {
 		int numArgs = c.getArgumentNumber();
 		vars = new GeoElement[numArgs / 2];
 		over = new GeoList[numArgs / 2];
-		Construction cmdCons = c.getKernel().getConstruction();
+		Construction cmdCons = (Construction)c.getKernel().getConstruction();
 
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
 			String localVarName = c.getVariableName(varPos);

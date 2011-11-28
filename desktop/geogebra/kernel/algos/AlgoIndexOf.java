@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -87,7 +87,7 @@ public class AlgoIndexOf extends AlgoElement {
         	input = new GeoElement[3];
             input[0] = needle;        	
             input[1] = hayStack;
-            input[2] = start.toGeoElement();
+            input[2] = (GeoElement)start.toGeoElement();
         }
 
         setOutputLength(1);

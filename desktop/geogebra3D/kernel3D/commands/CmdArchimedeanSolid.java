@@ -2,13 +2,13 @@ package geogebra3D.kernel3D.commands;
 
 import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CommandProcessor;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoDirectionND;
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.MyError;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.GeoVector3D;
 import geogebra3D.kernel3D.Kernel3D;

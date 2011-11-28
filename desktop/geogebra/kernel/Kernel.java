@@ -22,9 +22,17 @@ import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoListInterface;
+import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
@@ -39,8 +47,6 @@ import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.barycentric.AlgoBarycenter;
 import geogebra.kernel.barycentric.AlgoKimberling;
@@ -79,13 +85,11 @@ import geogebra.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.kernel.discrete.AlgoVoronoi;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoCasCell;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
@@ -133,7 +137,6 @@ import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 import geogebra.util.GeoLaTeXCache;
 
 import java.text.DecimalFormat;
@@ -1526,24 +1529,24 @@ public class Kernel extends AbstractKernel{
 		notifyUpdate(kernelConstruction.getAllGeoElements());
 	}*/
 
-	public final void notifyAdd(GeoElement geo) {
+	public final void notifyAdd(GeoElementInterface geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				if (views[i].getViewID() != Application.VIEW_CONSTRUCTION_PROTOCOL
 					|| isNotifyConstructionProtocolViewAboutAddRemoveActive())
-					views[i].add(geo);
+					views[i].add((GeoElement)geo);
 			}
 		}
 		
 		notifyRenameListenerAlgos();
 	}
 
-	public final void notifyRemove(GeoElement geo) {
+	public final void notifyRemove(GeoElementInterface geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				if (views[i].getViewID() != Application.VIEW_CONSTRUCTION_PROTOCOL
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive())
-					views[i].remove(geo);
+					views[i].remove((GeoElement)geo);
 			}
 		}
 		
@@ -1558,26 +1561,26 @@ public class Kernel extends AbstractKernel{
 		}
 	}
 	
-	public final void notifyUpdateVisualStyle(GeoElement geo) {
+	public final void notifyUpdateVisualStyle(GeoElementInterface geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				views[i].updateVisualStyle(geo);
+				views[i].updateVisualStyle((GeoElement)geo);
 			}
 		}
 	}
 	
-	public final void notifyUpdateAuxiliaryObject(GeoElement geo) {
+	public final void notifyUpdateAuxiliaryObject(GeoElementInterface geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				views[i].updateAuxiliaryObject(geo);
+				views[i].updateAuxiliaryObject((GeoElement)geo);
 			}
 		}
 	}
 
-	public final  void notifyRename(GeoElement geo) {
+	public final  void notifyRename(GeoElementInterface geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				views[i].rename(geo);
+				views[i].rename((GeoElement)geo);
 			}
 		}
 		
@@ -2045,7 +2048,7 @@ public class Kernel extends AbstractKernel{
 	 * Converts a NumberValue object to an ExpressionNode object. 
 	 */
 	public ExpressionNode convertNumberValueToExpressionNode(NumberValue nv) {
-		GeoElement geo = nv.toGeoElement();
+		GeoElement geo = (GeoElement)nv.toGeoElement();
 		AlgoElement algo = geo.getParentAlgorithm();
 		
 		if (algo != null && algo instanceof AlgoDependentNumber) {
@@ -8069,5 +8072,17 @@ public class Kernel extends AbstractKernel{
     public GeoGebraCasInterfaceSlim newGeoGebraCAS(){
     	return new geogebra.cas.GeoGebraCAS(this);
     }
+
+	@Override
+	public GeoNumericInterface newNumeric() {
+		// TODO remove this once GeoNumeric is ported
+		return new GeoNumeric(getConstruction());
+	}
+
+	@Override
+	public GeoListInterface newList() {
+		// TODO remove this once GeoNumeric is ported
+		return new GeoList(getConstruction());
+	}
 
 }

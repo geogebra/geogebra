@@ -1,4 +1,5 @@
 package geogebra.gui.inputfield;
+import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
@@ -9,7 +10,6 @@ import geogebra.kernel.commands.MyException;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
-import geogebra.main.MyError;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

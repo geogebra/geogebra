@@ -915,7 +915,7 @@ public abstract class Drawable extends DrawableND {
 			return;
 		Construction cons = view.getKernel().getConstruction();
 		if (cons.getApplication().isUsingFullGui())
-			cons.getApplication().getGuiManager().traceToSpreadsheet(geo);
+			((Application) cons.getApplication()).getGuiManager().traceToSpreadsheet(geo);
 	}
 
 	protected void fill(Graphics2D g2, Shape shape, boolean usePureStroke) {

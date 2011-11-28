@@ -1,12 +1,12 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.main.MyError;
 
 /**
  *Cauchy Distribution
@@ -61,7 +61,7 @@ class CmdCauchy extends CommandProcessor {
 					}
 					
 					
-					GeoElement[] ret = kernel.getAlgebraProcessor().processAlgebraCommand(command, true);
+					GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand(command, true);
 					return ret;
 
 

@@ -16,9 +16,8 @@ the Free Software Foundation.
  * Created on 04. Oktober 2001, 09:29
  */
 
-package geogebra.main;
+package geogebra.common.main;
 
-import geogebra.common.main.AbstractApplication;
 
 
 

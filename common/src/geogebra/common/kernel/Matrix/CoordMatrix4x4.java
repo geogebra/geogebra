@@ -1,6 +1,6 @@
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -347,7 +347,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		rot.set(3,3,1);
 		rot.set(4,4,1);
 		
-		Application.debug(rot);
+		AbstractApplication.debug(rot);
 								
 		return rot.mul(this);			
 			
@@ -367,7 +367,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		rot.set(3,3,1);
 		rot.set(4,4,1);
 		
-		Application.debug(rot);
+		AbstractApplication.debug(rot);
 								
 		return rot.mul(this);			
 			

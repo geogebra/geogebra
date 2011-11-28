@@ -1,9 +1,10 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.View;
 
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
@@ -11,7 +12,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.kernelND.GeoLineND;
 
 import geogebra.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -378,7 +378,7 @@ public interface EuclidianViewInterface extends View{
 	
 	
 	public EuclidianController getEuclidianController();
-	public Application getApplication();
+	public AbstractApplication getApplication();
 	public int getPointStyle();
 	public void repaint();
 	public void setPointCapturing(int mode);

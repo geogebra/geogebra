@@ -1,13 +1,13 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.CasEvaluableFunction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.main.MyError;
 
 /**
  * Derivative[ <GeoFunction> ] Derivative[ <GeoFunctionNVar>, <var> ]
@@ -36,7 +36,7 @@ class CmdDerivative extends CommandProcessor {
 			if (arg[0] instanceof CasEvaluableFunction) {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
 				if (label == null)
-					label = getDerivLabel(f.toGeoElement(), 1);
+					label = getDerivLabel((GeoElement)f.toGeoElement(), 1);
 				GeoElement[] ret = { kernel.Derivative(label, f, null, null) };
 				return ret;
 			} else
@@ -52,7 +52,7 @@ class CmdDerivative extends CommandProcessor {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
 				if (label == null) {
 					int iorder = (int) Math.round(order);
-					label = getDerivLabel(f.toGeoElement(), iorder);
+					label = getDerivLabel((GeoElement)f.toGeoElement(), iorder);
 				}
 				GeoElement[] ret = { kernel.Derivative(label, f, null,
 						(NumberValue) arg[1]) };

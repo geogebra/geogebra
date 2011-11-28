@@ -233,7 +233,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 				//---------------------------------
 				// create GeoText 
 
-				GeoElement[] ret = ev.getApplication().getKernel().getAlgebraProcessor()
+				GeoElement[] ret = (GeoElement[]) ev.getApplication().getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(text, true);
 
 				if (ret != null && ret[0].isTextValue()) {

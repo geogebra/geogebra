@@ -1,8 +1,8 @@
 package geogebra3D.euclidianForPlane;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.Path;
 import geogebra.kernel.geos.Region;

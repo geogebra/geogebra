@@ -1,5 +1,8 @@
 package geogebra.kernel;
 
+import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.Animatable;
 import geogebra.kernel.geos.GeoElement;
@@ -11,7 +14,7 @@ import java.util.TreeSet;
 
 import javax.swing.Timer;
 
-public class AnimationManager implements ActionListener {
+public class AnimationManager extends AbstractAnimationManager implements ActionListener {
 
 	public final static int STANDARD_ANIMATION_TIME = 10; // secs
 	public final static int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
@@ -136,9 +139,9 @@ public class AnimationManager implements ActionListener {
 	 * Adds geo to the list of animated GeoElements.
 	 * @param geo the GeoElement to add
 	 */
-	final public synchronized void addAnimatedGeo(GeoElement geo) {
-		if (geo.isAnimating() && !animatedGeos.contains(geo)) {
-			animatedGeos.add(geo);
+	final public synchronized void addAnimatedGeo(GeoElementInterface geo) {
+		if (geo.isAnimating() && !animatedGeos.contains((GeoElement)geo)) {
+			animatedGeos.add((GeoElement)geo);
 			// if (animatedGeos.size() == 1) removed, might have geos with
 			// variable controlling speed
 			updateNeedToShowAnimationButton();
@@ -149,7 +152,7 @@ public class AnimationManager implements ActionListener {
 	 * Removes geo from the list of animated GeoElements.
 	 *  @param geo the GeoElement to remove
 	 */
-	final public synchronized void removeAnimatedGeo(GeoElement geo) {
+	final public synchronized void removeAnimatedGeo(GeoElementInterface geo) {
 		if (animatedGeos.remove(geo) && animatedGeos.size() == 0) {
 			stopAnimation();
 		}
@@ -197,11 +200,11 @@ public class AnimationManager implements ActionListener {
 		}
 	}
 
-	private TreeSet<AlgoElement> tempSet;
+	private TreeSet<AlgoElementInterface> tempSet;
 
-	private TreeSet<AlgoElement> getTempSet() {
+	private TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}

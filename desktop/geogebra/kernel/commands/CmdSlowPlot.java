@@ -1,10 +1,10 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.main.MyError;
 
 /**
  *SlowPlot
@@ -55,7 +55,7 @@ class CmdSlowPlot extends CommandProcessor {
 
 				kernel.getAnimatonManager().startAnimation();
 				try {
-					return kernel.getAlgebraProcessor()
+					return (GeoElement[])kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(
 									sb.toString(), true, false, true);
 				} catch (Exception e) {

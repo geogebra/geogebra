@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 //import geogebra.kernel.AlgoElement;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Function;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
@@ -77,9 +77,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	super(cons,labels,!cons.isSuppressLabelsActive(),function);			//Ancestor gets first function for points!
     	this.f=function;
     	this.left=left;
-    	this.geoleft=left.toGeoElement();
+    	this.geoleft=(GeoElement)left.toGeoElement();
     	this.right=right;
-    	this.georight=right.toGeoElement();
+    	this.georight=(GeoElement)right.toGeoElement();
     	
     	type=TYPE_ROOTS;
     	    	
@@ -95,9 +95,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	super(cons,function);			//Ancestor gets first function for points!
     	this.f=function;
     	this.left=left;
-    	this.geoleft=left.toGeoElement();
+    	this.geoleft=(GeoElement)left.toGeoElement();
     	this.right=right;
-    	this.georight=right.toGeoElement();
+    	this.georight=(GeoElement)right.toGeoElement();
     	
     	type=TYPE_ROOTS;
     	    	
@@ -115,9 +115,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	this.f1=function;
     	this.f2=function2;
     	this.left=left;
-    	this.geoleft=left.toGeoElement();
+    	this.geoleft=(GeoElement)left.toGeoElement();
     	this.right=right;
-    	this.georight=right.toGeoElement();
+    	this.georight=(GeoElement)right.toGeoElement();
     	
     	type=TYPE_INTERSECTIONS;
     	    	

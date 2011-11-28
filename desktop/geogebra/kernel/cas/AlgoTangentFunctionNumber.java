@@ -19,8 +19,8 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
@@ -52,7 +52,7 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
         GeoFunction f) {
         super(cons);
         this.n = n;
-        ngeo = n.toGeoElement();
+        ngeo = (GeoElement)n.toGeoElement();
         this.f = f;
 
         tangent = new GeoLine(cons);

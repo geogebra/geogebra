@@ -14,17 +14,17 @@ package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.geos.Locateable;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.ArrayList;
 import java.util.Iterator;

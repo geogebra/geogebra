@@ -21,7 +21,10 @@ package geogebra.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.AnimationManager;
@@ -31,10 +34,7 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
-import geogebra.util.Util;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -49,7 +49,7 @@ import java.util.TreeSet;
  * @version
  */
 public class GeoNumeric extends GeoElement 
-implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
+implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
 	
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	private static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;	
@@ -1127,7 +1127,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 */
 	public GeoElement getIntervalMinObject() {
 		if (intervalMin == null) return null;
-		return intervalMin.toGeoElement();
+		return (GeoElement)intervalMin.toGeoElement();
 	}
 	
 	/**
@@ -1136,7 +1136,7 @@ implements NumberValue,  AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 */
 	public GeoElement getIntervalMaxObject() {
 		if (intervalMax == null) return null;
-		return intervalMax.toGeoElement();
+		return (GeoElement)intervalMax.toGeoElement();
 	}
 
 	public boolean canHaveClickScript() {

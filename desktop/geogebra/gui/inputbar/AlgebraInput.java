@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.inputbar;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.AutoCompleteTextField;
@@ -23,7 +24,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
@@ -269,7 +269,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			app.setScrollToShow(true);
 			GeoElement[] geos;
 			try {
-				geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
+				geos = (GeoElement[])app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
 			} catch (Exception ee) {
 				inputField.showError(ee);
 				return;

@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 
 
+import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.Drawable;
@@ -22,7 +23,6 @@ import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
-import geogebra.kernel.algos.ConstructionElement;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
@@ -30,6 +30,7 @@ import geogebra.main.GeoGebraColorConstants;
 import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.ConstructionProtocolSettings;
 import geogebra.main.settings.SettingListener;
+import geogebra.util.AwtColorAdapter;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -1879,7 +1880,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						Color color = data.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
-							sb.append(Util.toHexString(color));
+							sb.append(StringUtil.toHexString(new AwtColorAdapter(color)));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");

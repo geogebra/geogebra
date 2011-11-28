@@ -7,6 +7,7 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.Unicode;
@@ -15,7 +16,6 @@ import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MyPoint;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoAngleLines;
 import geogebra.kernel.algos.AlgoAnglePoints;
 import geogebra.kernel.algos.AlgoAngleVector;

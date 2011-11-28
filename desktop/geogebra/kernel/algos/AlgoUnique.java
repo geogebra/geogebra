@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;

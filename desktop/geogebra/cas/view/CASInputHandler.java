@@ -1114,7 +1114,7 @@ public class CASInputHandler {
 	 * Evaluates expression with GeoGebra and returns the resulting string.
 	 */
 	private synchronized String evalInGeoGebra(String casInput) throws Throwable {
-		GeoElement [] ggbEval = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(casInput, false, false, true);
+		GeoElement [] ggbEval = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(casInput, false, false, true);
 
 		if (ggbEval.length == 1) {
 			return ggbEval[0].toValueString();

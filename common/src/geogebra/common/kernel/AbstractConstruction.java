@@ -1,6 +1,7 @@
 package geogebra.common.kernel;
 
 
+import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 
@@ -29,6 +30,12 @@ public abstract class AbstractConstruction {
 	public abstract void removeCasCellLabel(String variable);
 	public abstract void removeCasCellLabel(String variable,boolean b);
 
+	public abstract void addToConstructionList(ConstructionElement geoElement, boolean b);
+	public abstract void removeFromConstructionList(ConstructionElement geoElement);
+
+	public abstract void unregisterEuclidianViewCE(EuclidianViewCE algo);
+
+	public abstract AbstractConstructionDefaults getConstructionDefaults();
 	
 	
 	

@@ -10,14 +10,14 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoNumeric;
-import geogebra.main.Application;
+import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoListInterface;
+import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -123,7 +123,7 @@ public class CoordMatrix
 	 * TODO doc
 	 * @param inputList
 	 */
-	public CoordMatrix(GeoList inputList) {
+	public CoordMatrix(GeoListInterface inputList) {
 
     	int cols = inputList.size();
     	if (!inputList.isDefined() || cols == 0) {
@@ -131,7 +131,7 @@ public class CoordMatrix
     		return;
     	} 
     	
-    	GeoElement geo = inputList.get(0);
+    	GeoElementInterface geo = inputList.get(0);
     	
     	if (!geo.isGeoList()) {
 			setIsSingular(true);
@@ -139,7 +139,7 @@ public class CoordMatrix
     	}
     	
 
-   		int rows = ((GeoList)geo).size();
+   		int rows = ((GeoListInterface)geo).size();
    		
    		if (rows == 0) {
 			setIsSingular(true);
@@ -148,7 +148,7 @@ public class CoordMatrix
    		
    		initialise(rows,cols);
 		
-		GeoList columnList;
+		GeoListInterface columnList;
    		
    		for (int r = 0 ; r < rows ; r++) {
    			geo = inputList.get(r);
@@ -156,7 +156,7 @@ public class CoordMatrix
    				setIsSingular(true);
    				return;   		
    			}
-   			columnList = (GeoList)geo;
+   			columnList = (GeoListInterface)geo;
    			if (columnList.size() != columns) {
    				setIsSingular(true);
    				return;   		
@@ -168,7 +168,7 @@ public class CoordMatrix
    	   				return;   		
    	   			}
    	   			
-   	   			set(r + 1, c + 1, ((GeoNumeric)geo).getValue());
+   	   			set(r + 1, c + 1, ((GeoNumericInterface)geo).getValue());
    	   		}
    		}
    		
@@ -372,7 +372,7 @@ public class CoordMatrix
 	 * @param cons 
 	 * @return eg { {1,2}, {3,4} }
 	 */
-	public GeoList getGeoList(GeoList outputList, Construction cons) {
+	public GeoListInterface getGeoList(GeoListInterface outputList, AbstractConstruction cons) {
 		
 		if (isSingular) {
 	        outputList.setDefined(false);
@@ -383,11 +383,13 @@ public class CoordMatrix
         outputList.setDefined(true);
 		
 	   		for (int r = 0 ; r < rows ; r++) {  	   			
-   			GeoList columnList = new GeoList(cons);
+   			GeoListInterface columnList = cons.getKernel().newList();
    	   		for (int c = 0 ; c < columns ; c++) {
-   	   			columnList.add(new GeoNumeric(cons, get(r + 1, c + 1)));  	   			
+   	   			GeoNumericInterface num = cons.getKernel().newNumeric();
+   	   			num.setValue(get(r + 1, c + 1));
+   	   			columnList.add((GeoElementInterface)num);  	   			
    	   		}
-   	   		outputList.add(columnList);
+   	   		outputList.add((GeoElementInterface)columnList);
    		}
    		
    		return outputList;
@@ -511,7 +513,7 @@ public class CoordMatrix
 	/** prints the matrix to the screen */
 	public void SystemPrint(){
 		
-		Application.debug(toString());
+		AbstractApplication.debug(toString());
 	}
 	
 	
@@ -522,7 +524,7 @@ public class CoordMatrix
 			
 			for(int j=1;j<=getColumns();j++){
 				double v = get(i,j);
-				if (Kernel.isZero(v))
+				if (AbstractKernel.isZero(v))
 					v=0;
 				s+="  "+v;
 			}
@@ -716,7 +718,7 @@ public class CoordMatrix
 
 		double d = this.det();
 		
-		if (Kernel.isEqual(d, 0.0, Kernel.STANDARD_PRECISION)){			
+		if (AbstractKernel.isEqual(d, 0.0, AbstractKernel.STANDARD_PRECISION)){			
 			ret.setIsSingular(true);
 			return ret;
 		}
@@ -830,7 +832,7 @@ public class CoordMatrix
 		m1.set(3, 1, 4.0);
 		m1.set(3, 2, 3.0);
 		m1.transpose();
-		Application.debug("m1");
+		AbstractApplication.debug("m1");
 		m1.SystemPrint();
 		
 		CoordMatrix m2 = new CoordMatrix(3,4);
@@ -841,28 +843,28 @@ public class CoordMatrix
 		m2.set(2, 4, 3.0);
 		m2.set(3, 4, 1.0);
 		m2.set(3, 2, -1.0);
-		Application.debug("m2");		
+		AbstractApplication.debug("m2");		
 		m2.SystemPrint();
 		
 
 		CoordMatrix m4 = m1.add(m2);
-		Application.debug("m4");
+		AbstractApplication.debug("m4");
 		m4.SystemPrint();
 
 		CoordMatrix m5 = m1.mul(m2);
-		Application.debug("m5");
+		AbstractApplication.debug("m5");
 		m5.SystemPrint();
 		
-		Application.debug("subMatrix");
+		AbstractApplication.debug("subMatrix");
 		m5.subMatrix(2,3).SystemPrint();
 		
 		m1.set(1, 2, -2.0);m1.set(3, 1, -9.0);m1.set(3, 2, -8.0);
-		Application.debug("m1");
+		AbstractApplication.debug("m1");
 		m1.SystemPrint();
-		Application.debug("det m1 = "+m1.det());
+		AbstractApplication.debug("det m1 = "+m1.det());
 		
 		
-		Application.debug("inverse");
+		AbstractApplication.debug("inverse");
 		CoordMatrix m4inv = m4.inverse();
 		m4inv.SystemPrint();
 		m4.mul(m4inv).SystemPrint();

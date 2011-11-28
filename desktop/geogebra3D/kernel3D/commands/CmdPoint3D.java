@@ -1,12 +1,12 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdPoint;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.Path;
 import geogebra.kernel.geos.Region;
-import geogebra.main.MyError;
 import geogebra3D.kernel3D.Kernel3D;
 
 

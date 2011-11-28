@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolyLineInterface;
@@ -105,7 +105,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	public void setInputOutput() {
 		if(index!=null){
 			input = new GeoElement[2];
-			input[1] = index.toGeoElement();			
+			input[1] = (GeoElement)index.toGeoElement();			
 			setOutputLength(1);
 			setOutput(0,oneVertex);
 		}else{

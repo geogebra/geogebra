@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -86,12 +86,12 @@ public class AlgoSequence extends AlgoElement {
         this.expression = expression;
         this.var = var;
         this.var_from = var_from;
-        var_from_geo = var_from.toGeoElement();
+        var_from_geo = (GeoElement)var_from.toGeoElement();
         this.var_to = var_to;
-        var_to_geo = var_to.toGeoElement(); 
+        var_to_geo = (GeoElement)var_to.toGeoElement(); 
         this.var_step = var_step;          
         if (var_step != null)
-        	var_step_geo = var_step.toGeoElement();
+        	var_step_geo = (GeoElement)var_step.toGeoElement();
         	
     	expressionParentAlgo = expression.getParentAlgorithm();
     	expIsFunctionOrCurve = expression.isGeoFunction() || expression.isGeoCurveCartesian() 
@@ -119,7 +119,7 @@ public class AlgoSequence extends AlgoElement {
 		super(cons);
 		isSimple = true;
 		var_to = upTo;
-		var_to_geo = var_to.toGeoElement(); 
+		var_to_geo = (GeoElement)var_to.toGeoElement(); 
 		list = new GeoList(cons);       
 		setInputOutput();     
         compute();

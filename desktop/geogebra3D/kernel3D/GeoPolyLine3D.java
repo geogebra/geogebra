@@ -1,15 +1,15 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.kernel.Construction;
 
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathParameter;
-import geogebra.kernel.Matrix.CoordMatrix4x4;
-import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.arithmetic.NumberValue;
 
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;

@@ -19,8 +19,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.Dilateable;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;
@@ -70,7 +70,7 @@ public class AlgoDilate extends AlgoTransformation {
         this.S = S;
 
         inGeo = A;
-        rgeo = r.toGeoElement();
+        rgeo = (GeoElement)r.toGeoElement();
         if(A instanceof GeoPolygon || A instanceof GeoPolyLine || A.isLimitedPath()){
         	outGeo = inGeo.copyInternal(cons);
         	out = (Dilateable) outGeo;

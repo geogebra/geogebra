@@ -14,8 +14,14 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
@@ -27,7 +33,6 @@ import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathParameter;
 import geogebra.kernel.RegionParameters;
 import geogebra.kernel.VarString;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
@@ -36,14 +41,11 @@ import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.Functional;
 import geogebra.kernel.arithmetic.FunctionalNVar;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1153,7 +1155,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public static GeoFunction mult(GeoFunction resultFun, double number, GeoFunction fun) {
 		
 		AbstractKernel kernel = fun.getKernel();
-		geogebra.kernel.arithmetic.MyDouble num = new geogebra.kernel.arithmetic.MyDouble(kernel,number);
+		geogebra.common.kernel.arithmetic.MyDouble num = new geogebra.common.kernel.arithmetic.MyDouble(kernel,number);
 		
     	FunctionVariable xold = fun.getFunction().getFunctionVariable();
     	FunctionVariable x =  new FunctionVariable(kernel);

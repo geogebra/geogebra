@@ -13,14 +13,14 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 
@@ -52,8 +52,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 		this.a = a;
 		this.n = n;
 
-		ageo = a.toGeoElement();
-		ngeo = n.toGeoElement();
+		ageo = (GeoElement)a.toGeoElement();
+		ngeo = (GeoElement)n.toGeoElement();
 
 		g = new GeoFunction(cons); // output
 		setInputOutput(); // for AlgoElement

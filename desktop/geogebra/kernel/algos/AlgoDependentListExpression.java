@@ -19,14 +19,14 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyBoolean;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.ExpressionNode;
-import geogebra.kernel.arithmetic.MyBoolean;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.MyStringBuffer;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -141,7 +141,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 			
 			// point 
 			else if (element.isVectorValue()) {
-				GeoVec2D vec = ((VectorValue) element).getVector();   				
+				GeoVec2D vec = (GeoVec2D)((VectorValue) element).getVector();   				
 				
 				// try to use cached element of same type
 				if (i < cachedListSize) {

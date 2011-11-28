@@ -19,8 +19,9 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoSegment;
@@ -31,7 +32,7 @@ import geogebra.kernel.kernelND.GeoQuadricND;
  * @author Markus added TYPE_SEGMENT Michael Borcherds 2008-03-14
  * @version
  */
-public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius {
+public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements AlgoCirclePointRadiusInterface {
 
 	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			NumberValue r) {

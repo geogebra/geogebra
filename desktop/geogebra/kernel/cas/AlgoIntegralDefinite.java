@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -97,8 +97,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         n = new GeoNumeric(cons); // output
         this.a = a;
         this.b = b;
-        ageo = a.toGeoElement();
-        bgeo = b.toGeoElement();
+        ageo = (GeoElement)a.toGeoElement();
+        bgeo = (GeoElement)b.toGeoElement();
         this.evaluate = evaluate;   
         
                

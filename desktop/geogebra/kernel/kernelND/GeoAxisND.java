@@ -1,6 +1,6 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 
 import java.text.NumberFormat;
 

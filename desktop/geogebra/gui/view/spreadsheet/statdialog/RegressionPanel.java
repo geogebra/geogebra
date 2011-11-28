@@ -1,9 +1,9 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.main.Application;

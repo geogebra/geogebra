@@ -16,7 +16,9 @@ the Free Software Foundation.
  * Created on 04. Oktober 2001, 09:29
  */
 
-package geogebra.main;
+package geogebra.common.main;
+
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -33,11 +35,11 @@ public class MyParseError extends MyError {
 	private static final long serialVersionUID = 1L;
 
 	/** Creates new MyError */
-    public MyParseError(Application app, String errorName) {        
+    public MyParseError(AbstractApplication app, String errorName) {        
         super(app, errorName);
     }
     
-    public MyParseError(Application app, String [] str) {
+    public MyParseError(AbstractApplication app, String [] str) {
         // set localized message        
         super(app, str);
     }        

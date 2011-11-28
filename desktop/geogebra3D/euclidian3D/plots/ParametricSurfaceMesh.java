@@ -3,7 +3,7 @@ package geogebra3D.euclidian3D.plots;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.SurfaceTriList;
 import geogebra3D.euclidian3D.TriList;

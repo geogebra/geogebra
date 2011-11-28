@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionable;
@@ -71,9 +71,9 @@ public class AlgoExtremumNumerical extends AlgoElement {
     	this.function=function;
     	this.f=function.getGeoFunction();
     	this.left=left;
-    	this.geoleft=left.toGeoElement();
+    	this.geoleft=(GeoElement)left.toGeoElement();
     	this.right=right;
-    	this.georight=right.toGeoElement();
+    	this.georight=(GeoElement)right.toGeoElement();
     	
     	E=new GeoPoint(cons);					//Put an extremum point in the user interface from the very start
     	E.setCoords(0.0,0.0,1.0);

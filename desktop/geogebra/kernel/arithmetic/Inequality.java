@@ -12,8 +12,13 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -23,7 +28,6 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.MyError;
 
 /**
  * stores left and right hand side of an inequality as Expressions
@@ -53,7 +57,7 @@ public class Inequality {
 	private GeoConic conicBorder;
 	private GeoFunction funBorder;
 	private GeoElement border;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private boolean isAboveBorder;
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
@@ -74,7 +78,7 @@ public class Inequality {
 	 * @param fv
 	 * @param function
 	 */
-	public Inequality(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs,
+	public Inequality(AbstractKernel kernel, ExpressionValue lhs, ExpressionValue rhs,
 			Operation op, FunctionVariable[] fv, FunctionalNVar function) {
 
 		this.op = op;
@@ -221,7 +225,7 @@ public class Inequality {
 	}
 	
 	private void init1varFunction(int varIndex) {
-		Construction cons = kernel.getConstruction();
+		AbstractConstruction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		funBorder = new GeoFunction(cons);

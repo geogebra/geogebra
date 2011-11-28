@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
@@ -11,7 +12,6 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.MyError;
 
 /**
  * (2nd argument is the mirror) Mirror[ <GeoPoint>, <GeoPoint> ]

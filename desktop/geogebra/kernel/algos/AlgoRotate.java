@@ -19,8 +19,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -55,7 +55,7 @@ public class AlgoRotate extends AlgoTransformation {
         super(cons);        
         this.angle = angle;
 
-        angleGeo = angle.toGeoElement();
+        angleGeo = (GeoElement)angle.toGeoElement();
         inGeo = A;
         
         
@@ -85,7 +85,7 @@ public class AlgoRotate extends AlgoTransformation {
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = inGeo;
-        input[1] = angle.toGeoElement();
+        input[1] = (GeoElement)angle.toGeoElement();
 
         setOutputLength(1);
         setOutput(0,outGeo);

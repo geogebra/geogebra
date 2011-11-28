@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.util.MyMath2;
@@ -48,7 +48,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
   // for AlgoElement
   protected void setInputOutput() {
       input =  new GeoElement[1];
-      input[0] = a.toGeoElement();
+      input[0] = (GeoElement)a.toGeoElement();
       
       output = new GeoElement[1];        
       output[0] = num;        

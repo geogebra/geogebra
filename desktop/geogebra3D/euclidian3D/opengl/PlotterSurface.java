@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.arithmetic.Functional2Var;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra3D.euclidian3D.plots.MarchingCubes;

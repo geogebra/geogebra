@@ -1,13 +1,14 @@
 package geogebra3D.kernel3D.arithmetic;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.arithmetic.VectorValue;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
+import geogebra.kernel.geos.GeoVec2D;
 import geogebra3D.kernel3D.Geo3DVec;
 
 
@@ -60,12 +61,12 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         			return vec3D;
         		}else if (rt.isVectorValue()){
         			Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
-        			Geo3DVec.add(vec3D, ((VectorValue)rt).getVector(), vec3D);
+        			Geo3DVec.add(vec3D, (GeoVec2D)((VectorValue)rt).getVector(), vec3D);
         			return vec3D;
         		}
         	} else if  (lt.isVectorValue() && rt.isVector3DValue()) { 
         		Geo3DVec vec3D = ((Vector3DValue)rt).get3DVec();
-        		Geo3DVec.add(((VectorValue)lt).getVector(), vec3D, vec3D);
+        		Geo3DVec.add((GeoVec2D)((VectorValue)lt).getVector(), vec3D, vec3D);
         		return vec3D;
         	}  
         	break;
@@ -79,12 +80,12 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         			return vec3D;
         		}else if (rt.isVectorValue()){
         			Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
-        			Geo3DVec.sub(vec3D, ((VectorValue)rt).getVector(), vec3D);
+        			Geo3DVec.sub(vec3D, (GeoVec2D)((VectorValue)rt).getVector(), vec3D);
         			return vec3D;
         		}
         	} else if  (lt.isVectorValue() && rt.isVector3DValue()) { 
         		Geo3DVec vec3D = ((Vector3DValue)rt).get3DVec();
-        		Geo3DVec.sub(((VectorValue)lt).getVector(), vec3D, vec3D);
+        		Geo3DVec.sub((GeoVec2D)((VectorValue)lt).getVector(), vec3D, vec3D);
         		return vec3D;
         	}  
         	break;

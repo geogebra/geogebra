@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -46,7 +46,7 @@ public abstract class AlgoConicFociLength extends AlgoElement {
         this.A = A;
         this.B = B;
         this.a = a;
-        ageo = a.toGeoElement();
+        ageo = (GeoElement)a.toGeoElement();
         conic = new GeoConic(cons);
         setInputOutput(); // for AlgoElement
 

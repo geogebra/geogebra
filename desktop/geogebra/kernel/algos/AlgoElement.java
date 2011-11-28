@@ -19,17 +19,19 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 
 import geogebra.kernel.Construction;
-import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.View;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,7 +47,7 @@ import java.util.TreeSet;
  * @author  Markus
  * @version 
  */
-public abstract class AlgoElement extends ConstructionElement implements EuclidianViewCE {
+public abstract class AlgoElement extends ConstructionElement implements EuclidianViewCE, AlgoElementInterface {
 	 
     private static ResourceBundle rbalgo2command;
 	// Added for Intergeo File Format (Yves Kreis) -->
@@ -71,7 +73,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         super(c);     
         
         if (addToConstructionList)
-        	((Construction) c).addToConstructionList(this, false);                 
+        	c.addToConstructionList(this, false);                 
     }
     
     /**
@@ -369,7 +371,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * ggbApplet.getCommandString(objName);
 	 * ggbApplet.getValueString(objName);
      */
-    final public static void initAlgo2CommandBundle(Application app) {
+    final public static void initAlgo2CommandBundle(AbstractApplication app) {
         if (rbalgo2command == null) {
         	rbalgo2command = app.initAlgo2CommandBundle();
         }
@@ -481,10 +483,10 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		GeoElement.updateCascade(geos, getTempSet(), true);
 	}
 	
-	private static TreeSet<AlgoElement> tempSet;	
-	private static TreeSet<AlgoElement> getTempSet() {
+	private static TreeSet<AlgoElementInterface> tempSet;	
+	private static TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}   
@@ -616,7 +618,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      */
     @Override
 	public void remove() {      	
-        ((Construction) cons).removeFromConstructionList(this);                
+        cons.removeFromConstructionList(this);                
         ((Construction) cons).removeFromAlgorithmList(this);        
         
         // delete dependent objects          
@@ -1082,8 +1084,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         if (!isPrintedInXML) return; 
         
         // turn off eg Arabic digits
-        boolean oldDigitsSetting = Kernel.internationalizeDigits;
-        Kernel.internationalizeDigits = false;
+        boolean oldDigitsSetting = AbstractKernel.internationalizeDigits;
+        AbstractKernel.internationalizeDigits = false;
         
         // USE INTERNAL COMMAND NAMES IN EXPRESSION        
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
@@ -1106,7 +1108,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         
         kernel.setPrintLocalizedCommandNames(oldValue);      
         
-        Kernel.internationalizeDigits = oldDigitsSetting;
+        AbstractKernel.internationalizeDigits = oldDigitsSetting;
     }
     
     /**
@@ -1325,9 +1327,9 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     public void setPrintedInXML(boolean flag) {
         isPrintedInXML = flag;
         if (flag)
-            ((Construction) cons).addToConstructionList(this, true);
+            cons.addToConstructionList(this, true);
         else 
-            ((Construction) cons).removeFromConstructionList(this);
+            cons.removeFromConstructionList(this);
     }
     
     protected boolean isPrintedInXML() {

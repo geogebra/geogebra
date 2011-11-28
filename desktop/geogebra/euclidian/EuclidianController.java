@@ -13,23 +13,23 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
-import geogebra.kernel.Matrix.Coords;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.algos.AlgoTranslate;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.geos.Dilateable;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
-import geogebra.kernel.geos.GeoClass;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
@@ -6807,7 +6807,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					} else {
 						// great, we got our number
 						if (num.isGeoElement())
-							selectedGeos.add(num.toGeoElement());
+							selectedGeos.add((GeoElement)num.toGeoElement());
 					}
 				}	
 
@@ -6824,7 +6824,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					} else {
 						// great, we got our angle
 						if (num.isGeoElement())
-							selectedGeos.add(num.toGeoElement());
+							selectedGeos.add((GeoElement)num.toGeoElement());
 					}
 				}	
 

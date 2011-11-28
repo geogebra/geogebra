@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -39,9 +41,7 @@ import geogebra.kernel.algos.AlgoRoots;
 import geogebra.kernel.algos.AlgoRootsPolynomial;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
-import geogebra.kernel.arithmetic.MyDouble;
 import geogebra.kernel.arithmetic.MyVecNode;
-import geogebra.kernel.arithmetic.NumberValue;
 import geogebra.kernel.cas.AlgoDerivative;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.cas.AlgoLengthFunction;

@@ -18,46 +18,47 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import geogebra.cas.CASgeneric;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgorithmSet;
+import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.spreadsheet.TraceSettings;
-import geogebra.kernel.AnimationManager;
-import geogebra.kernel.Construction;
-import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.EuclidianViewCE;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.Matrix.Coords;
-import geogebra.kernel.algos.AlgoCirclePointRadius;
-import geogebra.kernel.algos.AlgoDynamicCoordinates;
+import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.kernel.algos.AlgorithmSet;
-import geogebra.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionalNVar;
-import geogebra.kernel.arithmetic.MyDouble;
-import geogebra.kernel.arithmetic.NumberValue;
-import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
-import geogebra.main.MyError;
 import geogebra.plugin.CallJavaScript;
+import geogebra.util.AwtColorAdapter;
 import geogebra.util.ImageManager;
-import geogebra.util.Util;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -369,7 +370,7 @@ public abstract class GeoElement
 	private boolean isAlgoMacroOutput; // is an output object of a macro construction
 	protected boolean fixed = false;
 	public int labelMode = LABEL_NAME;
-	public int toStringMode = Kernel.COORD_CARTESIAN; // cartesian or polar
+	public int toStringMode = AbstractKernel.COORD_CARTESIAN; // cartesian or polar
 	protected Color objColor = Color.black;
 	protected Color bgColor = null; // none by default
 	protected Color selColor = objColor;
@@ -539,9 +540,9 @@ public abstract class GeoElement
 			viewFlags.add(ev.getViewID());
 			// if ev isn't Graphics or Graphics 2, then also add 1st 2D euclidian view
 			if (!(ev.isDefault2D()))
-				viewFlags.add(Application.VIEW_EUCLIDIAN);
+				viewFlags.add(AbstractApplication.VIEW_EUCLIDIAN);
 		}else{
-			viewFlags.add(Application.VIEW_EUCLIDIAN);
+			viewFlags.add(AbstractApplication.VIEW_EUCLIDIAN);
 		}
 	}
 
@@ -657,7 +658,7 @@ public abstract class GeoElement
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPoint [] copyPoints(Construction cons, GeoPointND [] points) {
+	public static GeoPoint [] copyPoints(AbstractConstruction cons, GeoPointND [] points) {
 		GeoPoint [] pointsCopy = new GeoPoint[points.length];
 		for (int i=0; i < points.length; i++) {
 			pointsCopy[i] = (GeoPoint) ((GeoPoint) points[i]).copyInternal(cons);
@@ -673,7 +674,7 @@ public abstract class GeoElement
 	 * @return copy of points in construction cons
 	 */
 	public static GeoPointND [] copyPointsND(
-			Construction cons,
+			AbstractConstruction cons,
 			GeoPointND [] points) {
 		GeoPointND [] pointsCopy = new GeoPointND[points.length];
 		for (int i=0; i < points.length; i++) {
@@ -842,7 +843,7 @@ public abstract class GeoElement
 
 	public void setConstructionDefaults() {
 		if (useVisualDefaults) {
-			ConstructionDefaults consDef = ((Construction) cons).getConstructionDefaults();
+			AbstractConstructionDefaults consDef = cons.getConstructionDefaults();
 			if (consDef != null) {
 				consDef.setDefaultVisualStyles(this, false);
 			}
@@ -1010,7 +1011,7 @@ public abstract class GeoElement
 	}
 
 	public void setBackgroundColor(Color bgCol) {
-		Application.debug(getClass()+" "+bgCol);
+		AbstractApplication.debug(getClass()+" "+bgCol);
 		bgColor = bgCol;
 	}
 
@@ -1117,7 +1118,7 @@ public abstract class GeoElement
 		case  TEXT:
 			typePriority = 150; break;
 		default: // shouldn't occur
-			Application.debug("missing case in getDrawingPriority()");
+			AbstractApplication.debug("missing case in getDrawingPriority()");
 			typePriority = 160;
 		}
 
@@ -1534,7 +1535,7 @@ public abstract class GeoElement
 		switch (tooltipMode) {
 		default:
 		//case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!(app.isUsingFullGui() && app.showView(Application.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui() && app.showView(AbstractApplication.VIEW_ALGEBRA))) {
 				return false;
 			} else
 				return isAlgebraVisible(); // old behaviour
@@ -1554,7 +1555,7 @@ public abstract class GeoElement
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!alwaysOn)
-			if (!(app.isUsingFullGui() && app.showView(Application.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui() && app.showView(AbstractApplication.VIEW_ALGEBRA))) {
 				return "";
 			}
 			// else fall through:
@@ -1576,7 +1577,7 @@ public abstract class GeoElement
 			coords.x++;
 			label = getSpreadsheetCellName(coords.x, coords.y);
 			if (label == null) return "";
-			GeoElement geo = ((Kernel)kernel).lookupLabel(label);
+			GeoElement geo = (GeoElement) kernel.lookupLabel(label);
 			return (geo == null) ? "" : geo.toValueString();
 		}
 
@@ -1716,7 +1717,7 @@ public abstract class GeoElement
 			case CONIC:
 				
 				// special case for Circle[A, r]
-				if (getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+				if (getParentAlgorithm() instanceof AlgoCirclePointRadiusInterface) {
 					return containsOnlyMoveableGeos(getFreeInputPoints(view));					
 				}
 				
@@ -1768,7 +1769,7 @@ public abstract class GeoElement
 			return false;
 		else {
 			// special case for edge of polygon
-			if ( algoParent instanceof AlgoJoinPointsSegment && view.getFreeInputPoints(algoParent).size() == 2) return true;
+			if ( algoParent instanceof AlgoJoinPointsSegmentInterface && view.getFreeInputPoints(algoParent).size() == 2) return true;
 
 			return view.getFreeInputPoints(algoParent).size() == algoParent.input.length;
 		}
@@ -1831,13 +1832,13 @@ public abstract class GeoElement
 	public GeoElement getAnimationStepObject() {
 		if(animationIncrement == null)
 			return null;
-		return animationIncrement.toGeoElement();
+		return (GeoElement)animationIncrement.toGeoElement();
 	}
 
 	public GeoElement getAnimationSpeedObject() {
 		if (animationSpeedObj == null)
 			return null;
-		return animationSpeedObj.toGeoElement();
+		return (GeoElement)animationSpeedObj.toGeoElement();
 	}
 
 	/**
@@ -1872,7 +1873,7 @@ public abstract class GeoElement
 	public void setAnimationSpeed(double speed) {
 		initAnimationSpeedObject();
 
-		GeoElement speedObj = animationSpeedObj.toGeoElement();
+		GeoElement speedObj = (GeoElement)animationSpeedObj.toGeoElement();
 		if (speedObj.isGeoNumeric() && speedObj.isIndependent()) {
 			((GeoNumeric)speedObj).setValue(speed);
 		}
@@ -1926,7 +1927,7 @@ public abstract class GeoElement
 
 		// tell animation manager
 		if (oldValue != animating) {
-			AnimationManager am = ((Kernel)kernel).getAnimatonManager();
+			AbstractAnimationManager am = kernel.getAnimatonManager();
 			if (animating)
 				am.addAnimatedGeo(this);
 			else
@@ -2127,7 +2128,7 @@ public abstract class GeoElement
 			// until they are shown in one of the views to get a label
 			if (isVisible()) {
 				// newLabel is used already: rename the using geo
-				GeoElement geo = ((Kernel)kernel).lookupLabel(newLabel);
+				GeoElement geo = (GeoElement)kernel.lookupLabel(newLabel);
 				if (geo != null) {
 					geo.doRenameLabel(getFreeLabel(newLabel));
 				}
@@ -2302,7 +2303,7 @@ public abstract class GeoElement
 		if (!labelSet && isIndependent()) {
 			//	add independent object to list of all Construction Elements
 			// dependent objects are represented by their parent algorithm
-			((Construction) cons).addToConstructionList(this, true);
+			cons.addToConstructionList(this, true);
 		}
 
 		/*
@@ -2470,7 +2471,7 @@ public abstract class GeoElement
 	 * used to set a cell to another geo
 	 * used by FillCells[] etc
 	 */
-	public static void setSpreadsheetCell(Application app, int row, int col, GeoElement cellGeo) {
+	public static void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElement cellGeo) {
 		String cellName = GeoElement.getSpreadsheetCellName(col, row);
 
 		if (sb == null)
@@ -2501,10 +2502,10 @@ public abstract class GeoElement
 
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), false);
 
-			GeoElement cell = app.getKernel().lookupLabel(cellName);
+			GeoElementInterface cell = app.getKernel().lookupLabel(cellName);
 			if (cell != null) {
-				cell.setVisualStyle(cellGeo);
-				cell.setAuxiliaryObject(true);
+				((GeoElement)cell).setVisualStyle(cellGeo);
+				((GeoElement)cell).setAuxiliaryObject(true);
 			}
 
 	}
@@ -2576,7 +2577,7 @@ public abstract class GeoElement
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 
-		((Kernel)kernel).notifyRename(this); // tell views
+		kernel.notifyRename(this); // tell views
 		updateCascade();
 	}
 
@@ -2714,7 +2715,7 @@ public abstract class GeoElement
 				}
 
 				GeoPointND point = (GeoPointND)this;
-				if (point.getMode() == Kernel.COORD_COMPLEX)
+				if (point.getMode() == AbstractKernel.COORD_COMPLEX)
 					chars = complexLabels;
 
 			} else if (isGeoFunction()) {
@@ -2883,12 +2884,12 @@ public abstract class GeoElement
 
 		// remove this object from List
 		if (isIndependent())
-			((Construction) cons).removeFromConstructionList(this);
+			cons.removeFromConstructionList(this);
 
 		// remove Listeners
 		AlgoElement algo = getParentAlgorithm();
 		if (algo instanceof EuclidianViewCE) {
-			((Construction) cons).unregisterEuclidianViewCE(algo);
+			cons.unregisterEuclidianViewCE(algo);
 		}
 
 		if (condShowObject != null) {
@@ -2941,7 +2942,7 @@ public abstract class GeoElement
 
 	@Override
 	final public void notifyAdd() {
-		((Kernel)kernel).notifyAdd(this);
+		kernel.notifyAdd(this);
 
 		//		Application.debug("add " + label);
 		// printUpdateSets();
@@ -2949,21 +2950,21 @@ public abstract class GeoElement
 
 	@Override
 	final public void notifyRemove() {
-		((Kernel)kernel).notifyRemove(this);
+		kernel.notifyRemove(this);
 
 		//Application.debug("remove " + label);
 		//printUpdateSets();
 	}
 
 	final public void notifyUpdate() {
-		((Kernel)kernel).notifyUpdate(this);
+		kernel.notifyUpdate(this);
 
 		//	Application.debug("update " + label);
 		//	printUpdateSets();
 	}
 
 	final public void notifyUpdateAuxiliaryObject() {
-		((Kernel)kernel).notifyUpdateAuxiliaryObject(this);
+		kernel.notifyUpdateAuxiliaryObject(this);
 
 		//		Application.debug("add " + label);
 		//	printUpdateSets();
@@ -3118,7 +3119,7 @@ public abstract class GeoElement
 
 		updateGeo();
 
-		((Kernel)kernel).notifyUpdate(this);
+		kernel.notifyUpdate(this);
 	}
 	
 	final private void updateGeo() {
@@ -3164,7 +3165,7 @@ public abstract class GeoElement
 		}
 		
 		try {
-			GeoGebraCasInterfaceSlim cas = ((Kernel)kernel).getGeoGebraCAS();
+			GeoGebraCasInterfaceSlim cas = kernel.getGeoGebraCAS();
 			String geoStr = toCasAssignment(cas.getCurrentCASstringType());
 			if (geoStr != null) {
 				// TODO: remove
@@ -3224,11 +3225,11 @@ public abstract class GeoElement
 			} 
 			else {
 				// join both algoUpdateSets and update all algorithms	
-				TreeSet<AlgoElement> tempAlgoSet = getTempSet();
+				TreeSet<AlgoElementInterface> tempAlgoSet = getTempSet();
 				tempAlgoSet.clear();
 				algoUpdateSet.addAllToCollection(tempAlgoSet);
 				secondGeo.algoUpdateSet.addAllToCollection(tempAlgoSet);
-				for (AlgoElement algo : tempAlgoSet) {
+				for (AlgoElementInterface algo : tempAlgoSet) {
 					algo.update();
 				}		
 			}
@@ -3251,7 +3252,7 @@ public abstract class GeoElement
 	 * 
 	 * @param updateCascadeAll
 	 */
-	final static public synchronized void updateCascade(ArrayList<?> geos, TreeSet<AlgoElement> tempSet, boolean updateCascadeAll) {		
+	final static public synchronized void updateCascade(ArrayList<?> geos, TreeSet<AlgoElementInterface> tempSet, boolean updateCascadeAll) {		
 				// only one geo: call updateCascade()
 		if (geos.size() == 1) {
 			ConstructionElement ce = (ConstructionElement) geos.get(0);
@@ -3283,7 +3284,7 @@ public abstract class GeoElement
 
 		// now we have one nice algorithm set that we can update
 		if (tempSet.size() > 0) {
-			Iterator<AlgoElement> it = tempSet.iterator();
+			Iterator<AlgoElementInterface> it = tempSet.iterator();
 			while (it.hasNext()) {
 				AlgoElement algo = (AlgoElement) it.next();
 				algo.update();
@@ -3299,7 +3300,7 @@ public abstract class GeoElement
 	 *
 	 * @param tempSet a temporary set that is used to collect all algorithms that need to be updated
 	 */
-	final static public void updateCascadeUntil(ArrayList<?> geos, TreeSet<AlgoElement> tempSet, AlgoElement lastAlgo) {		
+	final static public void updateCascadeUntil(ArrayList<?> geos, TreeSet<AlgoElementInterface> tempSet, AlgoElement lastAlgo) {		
 				// only one geo: call updateCascade()
 		if (geos.size() == 1) {
 			ConstructionElement ce = (ConstructionElement) geos.get(0);
@@ -3331,7 +3332,7 @@ public abstract class GeoElement
 
 		// now we have one nice algorithm set that we can update
 		if (tempSet.size() > 0) {
-			Iterator<AlgoElement> it = tempSet.iterator();
+			Iterator<AlgoElementInterface> it = tempSet.iterator();
 			while (it.hasNext()) {
 				AlgoElement algo = (AlgoElement) it.next();
 				
@@ -3352,7 +3353,7 @@ public abstract class GeoElement
 	 */
 	final public void updateRepaint() {
 		updateCascade();
-		((Kernel)kernel).notifyRepaint();
+		kernel.notifyRepaint();
 	}
 	
 	/**
@@ -3360,7 +3361,7 @@ public abstract class GeoElement
 	 */
 	public void updateVisualStyle() {
 		//updateGeo();
-		((Kernel)kernel).notifyUpdateVisualStyle(this);
+		kernel.notifyUpdateVisualStyle(this);
 		//updateDependentObjects();
 		//kernel.notifyRepaint();
 	}
@@ -3368,7 +3369,7 @@ public abstract class GeoElement
 	public void updateVisualStyleRepaint() {
 		
 		updateVisualStyle();
-		((Kernel)kernel).notifyRepaint();
+		kernel.notifyRepaint();
 	}
 	
 	
@@ -3490,9 +3491,9 @@ public abstract class GeoElement
 	 */
 	public boolean isParentOf(GeoElement geo) {
 		if (algoUpdateSet != null) {
-			Iterator<AlgoElement> it = algoUpdateSet.getIterator();
+			Iterator<AlgoElementInterface> it = algoUpdateSet.getIterator();
 			while (it.hasNext()) {
-				AlgoElement algo = (AlgoElement) it.next();
+				AlgoElementInterface algo = (AlgoElementInterface) it.next();
 				for (int i = 0; i < algo.getOutputLength(); i++) {
 					if (geo == algo.getOutput(i)) // child found
 						return true;
@@ -3539,7 +3540,7 @@ public abstract class GeoElement
 	public TreeSet<GeoElement> getAllChildren() {
 		TreeSet<GeoElement> set = new TreeSet<GeoElement>();
 		if (algoUpdateSet != null) {
-			Iterator<AlgoElement> it = algoUpdateSet.getIterator();
+			Iterator<AlgoElementInterface> it = algoUpdateSet.getIterator();
 			while (it.hasNext()) {
 				AlgoElement algo = (AlgoElement) it.next();
 				for (int i = 0; i < algo.getOutputLength(); i++) {
@@ -3780,7 +3781,7 @@ public abstract class GeoElement
 
 			if (colored) {
 				sbLongDescHTML.append("<b><font color=\"#");
-				sbLongDescHTML.append(Util.toHexString(getAlgebraColor()));
+				sbLongDescHTML.append(StringUtil.toHexString(new AwtColorAdapter(getAlgebraColor())));
 				sbLongDescHTML.append("\">");
 			}
 			sbLongDescHTML.append(indicesToHTML(label, false));
@@ -4231,7 +4232,7 @@ public abstract class GeoElement
 
 		if (colored) {
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
-			sbNameDescriptionHTML.append(Util.toHexString(getAlgebraColor()));
+			sbNameDescriptionHTML.append(StringUtil.toHexString(new AwtColorAdapter(getAlgebraColor())));
 			sbNameDescriptionHTML.append("\">");
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label, false));
@@ -4279,8 +4280,8 @@ public abstract class GeoElement
 		kernel.setPrintLocalizedCommandNames(false);
 
 		// make sure numbers are not put in XML in eg Arabic
-		boolean oldI8NValue = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;	
+		boolean oldI8NValue = AbstractKernel.internationalizeDigits;
+		AbstractKernel.internationalizeDigits = false;	
 
 		getElementOpenTagXML(sb);
 		
@@ -4290,7 +4291,7 @@ public abstract class GeoElement
 		getElementCloseTagXML(sb);
 
 		kernel.setPrintLocalizedCommandNames(oldValue);
-		Kernel.internationalizeDigits = oldI8NValue;
+		AbstractKernel.internationalizeDigits = oldI8NValue;
 	}
 	
 	protected void getElementOpenTagXML(StringBuilder sb) {
@@ -4456,12 +4457,12 @@ public abstract class GeoElement
 
 
 			int EVs = 0;
-			if (!isVisibleInView(Application.VIEW_EUCLIDIAN)) {
+			if (!isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN)) {
 				//Application.debug("visible in ev1");
 				EVs += 1; // bit 0
 			}
 
-			if (isVisibleInView(Application.VIEW_EUCLIDIAN2)) {
+			if (isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN2)) {
 				EVs += 2; // bit 1
 			}
 
@@ -5126,7 +5127,7 @@ public abstract class GeoElement
 			 * eg Image with one corner, Rigid Polygon
 			 * and stops grid-lock working properly
 			 * but is needed for eg dragging (a + x(A), b + x(B)) */
-			Application.debug((geo.getParentAlgorithm() == null)+" "+size+" "+geo.getClassName());
+			AbstractApplication.debug((geo.getParentAlgorithm() == null)+" "+size+" "+geo.getClassName());
 			Coords position = (size == 1) && (geo.getParentAlgorithm() != null) ? endPosition : null;
 			moved = geo.moveObject(rwTransVec, position, viewDirection, moveObjectsUpdateList) || moved;
 		}
@@ -5140,11 +5141,11 @@ public abstract class GeoElement
 		return moved;
 	}
 	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
-	private static volatile TreeSet<AlgoElement> tempSet;
+	private static volatile TreeSet<AlgoElementInterface> tempSet;
 
-	protected static TreeSet<AlgoElement> getTempSet() {
+	protected static TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}
@@ -5174,9 +5175,9 @@ public abstract class GeoElement
 			double y =  point.inhomY + rwTransVec.getY();
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION)
+			if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION)
 				x  = kernel.checkDecimalFraction(x);
-			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION)
+			if (Math.abs(rwTransVec.getY()) > AbstractKernel.MIN_PRECISION)
 				y = kernel.checkDecimalFraction(y);
 
 			// set translated point coords
@@ -5200,10 +5201,10 @@ public abstract class GeoElement
 			// point
 			if (isGeoPoint()) {
 
-				if (getParentAlgorithm() instanceof AlgoDynamicCoordinates) {
-					GeoPoint p = ((AlgoDynamicCoordinates)getParentAlgorithm()).getParentPoint();
+				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
+					GeoPointInterface p = ((AlgoDynamicCoordinatesInterface)getParentAlgorithm()).getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
-					geo = p;
+					geo = (GeoElement)p;
 				} else {
 					movedGeo = movePoint(rwTransVec, endPosition);
 				}
@@ -5220,8 +5221,8 @@ public abstract class GeoElement
 			else if (isAbsoluteScreenLocateable()) {
 				AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) this;
 				if (screenLoc.isAbsoluteScreenLocActive()) {
-					int vxPixel = (int) Math.round(((Kernel)kernel).getXscale() * rwTransVec.getX());
-					int vyPixel = -(int) Math.round(((Kernel)kernel).getYscale() * rwTransVec.getY());
+					int vxPixel = (int) Math.round(kernel.getXscale() * rwTransVec.getX());
+					int vyPixel = -(int) Math.round(kernel.getYscale() * rwTransVec.getY());
 					int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
 					int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
 					screenLoc.setAbsoluteScreenLoc(x, y);
@@ -5368,7 +5369,7 @@ public abstract class GeoElement
 			diffSb.append("-(");
 			diffSb.append(f.getFormulaString(StringType.GEOGEBRA, true));
 			diffSb.append(")");
-			String diff = ((Kernel)kernel).evaluateGeoGebraCAS(diffSb.toString());
+			String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
 			return (Double.valueOf(diff)==0d);
 		}
 		catch (Throwable e) { 
@@ -5789,7 +5790,7 @@ public abstract class GeoElement
 
 		String ggbScript = update ? updateScript : clickScript;
 
-		AlgebraProcessor ab = ((Kernel)kernel).getAlgebraProcessor();
+		AbstractAlgebraProcessor ab = kernel.getAlgebraProcessor();
 		String script[] = (arg == null) ? ggbScript.split("\n") :
 			ggbScript.replaceAll("%0", arg).split("\n");
 
@@ -6055,11 +6056,11 @@ public abstract class GeoElement
 		this.imageFileName = fileName;
 
 		if (fileName.startsWith("/geogebra")) { // internal image
-			Image im = ((Application)app).getImageManager().getImageResource(imageFileName);
+			Image im = ((ImageManager) ((AbstractApplication)app).getImageManager()).getImageResource(imageFileName);
 			image = ImageManager.toBufferedImage(im);
 
 		} else {
-			image = ((Application)app).getExternalImage(fileName);
+			image = (BufferedImage)((AbstractApplication)app).getExternalImage(fileName);
 		}
 	}
 
@@ -6113,7 +6114,7 @@ public abstract class GeoElement
 	public double distance(GeoPointND p) {
 		if (p instanceof GeoPoint)
 			return distance((GeoPoint) p);
-		Application.debug("TODO : distance from "+getClassName()+" to ND point");
+		AbstractApplication.debug("TODO : distance from "+getClassName()+" to ND point");
 		return Double.POSITIVE_INFINITY;
 	}
 

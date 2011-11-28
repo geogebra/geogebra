@@ -1,4 +1,4 @@
-package geogebra.kernel.Matrix;
+package geogebra.common.kernel.Matrix;
 
 
 public class Coords3D{

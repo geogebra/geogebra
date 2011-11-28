@@ -1,12 +1,12 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.main.MyError;
 
 /**
  *SolveODE
