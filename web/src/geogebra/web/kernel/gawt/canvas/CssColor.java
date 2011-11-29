@@ -61,7 +61,8 @@ public class CssColor {
 	    this.colorStr = colorStr;
 	  }
 	  
-	  public String toString() {
+	  @Override
+	public String toString() {
 	    return this.colorStr;
 	  }
 

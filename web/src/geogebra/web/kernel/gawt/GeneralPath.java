@@ -415,7 +415,8 @@ public final class GeneralPath implements Shape, Cloneable {
     }
 
     //AR @Override
-    public Object clone() {
+    @Override
+	public Object clone() {
     	GeneralPath p = new GeneralPath();
     	p.typeSize = typeSize;
     	p.pointSize = pointSize;

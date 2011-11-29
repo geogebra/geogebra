@@ -226,7 +226,7 @@ public class Area implements Shape, Cloneable {
 		return new Area(t.createTransformedShape(this));
 	}
 
-	//AR @Override
+	@Override
     public Object clone() {
 		Area area = new Area();
 		copy(this, area);
@@ -972,7 +972,7 @@ public class Area implements Shape, Cloneable {
 	    rulesSize = resultRulesPos;
 	}
 	
-	private IntersectPoint getNextIntersectPoint(IntersectPoint[] iPoints,
+	private static IntersectPoint getNextIntersectPoint(IntersectPoint[] iPoints,
 			                                        IntersectPoint isectPoint, 
 			                                        boolean isCurrentArea) {
 	    int endIndex = isectPoint.getEndIndex(isCurrentArea);
@@ -1007,7 +1007,7 @@ public class Area implements Shape, Cloneable {
 		return (nextIsectPoint != null) ? nextIsectPoint : firstIsectPoint;
 	}
 
-	private IntersectPoint getPrevIntersectPoint(IntersectPoint[] iPoints,
+	private static IntersectPoint getPrevIntersectPoint(IntersectPoint[] iPoints,
 			                                     IntersectPoint isectPoint, 
 			                                     boolean isCurrentArea) {
 
@@ -1043,9 +1043,8 @@ public class Area implements Shape, Cloneable {
 
 		return (predIsectPoint != null) ? predIsectPoint : firstIsectPoint;
 	}
-
 	
-	private int includeCoordsAndRules(int offset, int length, int[] rules,
+	private static int includeCoordsAndRules(int offset, int length, int[] rules,
 			                          int[] offsets, int[] resultRules, 
 			                          int[] resultOffsets, double[] resultCoords, 
 			                          double[] coords, int resultRulesPos,
@@ -1181,7 +1180,7 @@ public class Area implements Shape, Cloneable {
 		return newArray;
 	}
 
-	private void copy(Area src, Area dst) {
+	private static void copy(Area src, Area dst) {
 		dst.coordsSize = src.coordsSize;
 		dst.coords = new double[src.coords.length];
 		for (int i = 0; i < src.coords.length; i++)
@@ -1264,7 +1263,7 @@ public class Area implements Shape, Cloneable {
         return -1;
     }
 
-    private void reverseCopy(double[] coords) {
+    private static void reverseCopy(double[] coords) {
     	double[] temp = new double[coords.length];
     	System.arraycopy(coords, 0, temp, 0, coords.length);
     	

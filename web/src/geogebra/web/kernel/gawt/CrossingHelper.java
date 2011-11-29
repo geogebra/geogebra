@@ -29,7 +29,7 @@ public class CrossingHelper {
 
     private double[][] coords;
     private int[] sizes;
-    private List<IntersectPoint> isectPoints = new ArrayList();
+    private List<IntersectPoint> isectPoints = new ArrayList<IntersectPoint>();
 
     public CrossingHelper(double[][] coords, int[] sizes) {
         this.coords = coords;
@@ -47,7 +47,7 @@ public class CrossingHelper {
 
         sort(coords[0], pointCount1, coords[1], pointCount2, indices);
         // the set for the shapes edges storing
-        List<Edge> edges = new ArrayList();
+        List<Edge> edges = new ArrayList<Edge>();
         Edge edge;
         int begIndex, endIndex;
         int areaNumber;
@@ -111,7 +111,7 @@ public class CrossingHelper {
         return isectPoints.toArray(new IntersectPoint[isectPoints.size()]);
     }
 
-    private boolean removeEdge(List<Edge> edges,  int begIndex, int endIndex) {
+    private static boolean removeEdge(List<Edge> edges,  int begIndex, int endIndex) {
 
         for (Edge edge : edges) {
             if (edge.reverseCompare(begIndex, endIndex)) {
