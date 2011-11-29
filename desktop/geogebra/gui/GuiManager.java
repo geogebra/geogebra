@@ -1,6 +1,7 @@
 package geogebra.gui;
 
 import geogebra.CommandLineArguments;
+import geogebra.GeoGebra;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -2738,11 +2739,11 @@ public class GuiManager {
 			} catch (Exception e) {
 			}
 
-		openHelp(internalCmd, HELP_COMMAND);
+		openHelp(internalCmd, Help.COMMAND);
 	}
 
 	public void openHelp(String page) {
-		openHelp(page, HELP_GENERIC);
+		openHelp(page, Help.GENERIC);
 	}
 
 	public void openToolHelp(String page) {
@@ -2755,10 +2756,10 @@ public class GuiManager {
 				options[0]); // default button title
 
 		if (n == 1)
-			openHelp(page, HELP_TOOL);
+			openHelp(app.getEnglishMenu(page), Help.TOOL);
 	}
 
-	private void openHelp(String page, int type) {
+	private void openHelp(String page, Help type) {
 		try {
 			URL helpURL = getHelpURL(type, page);
 			showURLinBrowser(helpURL);
@@ -2781,44 +2782,70 @@ public class GuiManager {
 		}
 	}
 
-	private static final int HELP_COMMAND = 0;
-	private static final int HELP_TOOL = 1;
-	private static final int HELP_GENERIC = 2;
+	private enum Help {COMMAND, TOOL, GENERIC };
 
-	private URL getHelpURL(int type, String pageName) {
-		// try to get help for given language
-		// eg http://www.geogebra.org/help/en/FitLogistic
-		String localeCode = app.getLocale().toString();
+    private URL getHelpURL(Help type, String pageName)  {
+    	// try to get help for given language
+    	// eg http://www.geogebra.org/help/en_GB/FitLogistic
+    	
+    	StringBuilder urlSB = new StringBuilder();
+    	StringBuilder urlOffline = new StringBuilder();
+    	
+    	urlOffline.append(Application.getCodeBaseFolder());
+    	urlOffline.append("help/");
+    	urlOffline.append(app.getLocale().getLanguage()); // eg en
+    	urlOffline.append("/");
+    	
+    	urlSB.append(GeoGebra.GEOGEBRA_WEBSITE);
+    	urlSB.append("help/");
+    	urlSB.append(app.getLocale().toString()); // eg en_GB
+    	
+    		    	
+    	switch(type){
+    	case COMMAND:
+       	 	pageName = app.getEnglishCommand(pageName);
+       	 	String pageNameOffline = pageName.replace(":","%3A").replace(" ", "_");
+    		urlSB.append("/cmd/");
+    		urlSB.append(pageName);
+    		
+    		urlOffline.append(pageNameOffline);
+    		urlOffline.append("_Command.html");
+    		break;
+    	case TOOL:
+          	pageNameOffline = pageName.replace(":","%3A").replace(" ", "_");
+    		urlSB.append("/tool/");
+    		urlSB.append(pageName);
 
-		String helpItem = "";
-		String typeStr = "";
-		switch (type) {
-		case HELP_COMMAND:
-			helpItem = app.getEnglishCommand(pageName);
-			typeStr = "cmd";
-			break;
-		case HELP_TOOL:
-			helpItem = app.getEnglishMenu(pageName);
-			typeStr = "tool";
-			break;
-		case HELP_GENERIC:
-			helpItem = pageName;
-			typeStr = "article";
-			break;
-		default:
-			Application.printStacktrace("Bad getHelpURL call");
-		}
+    		urlOffline.append(pageNameOffline);
+    		urlOffline.append("_Tool.html");
+    		break;
+    	case GENERIC:	    		
+          	pageNameOffline = pageName.replace(":","%3A").replace(" ", "_");
+    		urlSB.append("/article/");
+    		urlSB.append(pageName);
+
+    		urlOffline.append(pageNameOffline);
+    		urlOffline.append(".html");
+    		break;
+    	default:
+    		Application.printStacktrace("Bad getHelpURL call");
+    	}
 		try {
-			String url = GeoGebraConstants.GEOGEBRA_WEBSITE + "help/" + localeCode + "/"
-					+ typeStr + "/" + helpItem;
-			Application.debug(url);
+			//Application.debug(urlOffline.toString());
+			//Application.debug(urlSB.toString());
+			
+			String offlineStr = urlOffline.toString();
+			
+			File file = new File(Application.WINDOWS ? offlineStr.replaceAll("[/\\\\]+", "\\" + "\\") : offlineStr);  // replace slashes with backslashes
 
-			return getEscapedUrl(url);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+			if (file.exists()) return getEscapedUrl("file:///"+offlineStr);
+			else return getEscapedUrl(urlSB.toString());
+        } catch (Exception e) {     
+        	e.printStackTrace();
+        }
+        return null;
+    }
+
 
 	/**
 	 * Returns text "Created with <ApplicationName>" and link to application
