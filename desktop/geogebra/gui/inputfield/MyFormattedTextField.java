@@ -12,6 +12,8 @@ import javax.swing.JFormattedTextField;
 
 public class MyFormattedTextField extends JFormattedTextField implements FocusListener, VirtualKeyboardListener {
 	
+	private static final long serialVersionUID = 1L;
+	
 	GuiManager guiManager;
 	
 	public MyFormattedTextField(GuiManager guiManager) {

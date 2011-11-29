@@ -27,6 +27,8 @@ import javax.swing.ImageIcon;
 
 public class ColorPopupMenuButton extends PopupMenuButton implements ActionListener{
 
+	private static final long serialVersionUID = 1L;
+
 	private Application app;
 
 	public static final int COLORSET_DEFAULT = 0;
@@ -160,28 +162,5 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 		}
 		return a;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

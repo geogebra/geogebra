@@ -16,6 +16,8 @@ import java.awt.event.KeyListener;
 
 public class MathTextField extends MyTextField implements KeyListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	private GeoGebraKeys ggbKeys;
 	
 	public MathTextField(Application app) {

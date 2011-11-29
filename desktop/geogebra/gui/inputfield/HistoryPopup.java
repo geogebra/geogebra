@@ -284,6 +284,8 @@ public class HistoryPopup implements ListSelectionListener{
 	 */
 	private class HistoryListCellRenderer extends DefaultListCellRenderer {
 
+		private static final long serialVersionUID = 1L;
+		
 		/*
 		private Color bgColor; 
 		private Color listSelectionBackground = MyTable.SELECTED_BACKGROUND_COLOR; 

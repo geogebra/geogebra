@@ -10,13 +10,11 @@ the Free Software Foundation.
 
  */
 
-
-
 package geogebra.gui.view.properties;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.gui.PropertiesDialog.JTreeGeoElements;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.PropertiesPanel;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.kernel.Kernel;
@@ -25,13 +23,9 @@ import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 
 /**
  * View for properties
@@ -41,9 +35,10 @@ import javax.swing.JSplitPane;
  */
 public class PropertiesView extends JPanel implements View, GeoElementSelectionListener {
 	
+	private static final long serialVersionUID = 1L;
+	
 	//private JTreeGeoElements geoTree;
 	private PropertiesPanel propPanel;
-	private Kernel kernel;
 	private Application app;
 	private boolean attached;
 	
@@ -53,7 +48,6 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 		
 		this.app = app;
 		app.setPropertiesView(this);
-		this.kernel=app.getKernel();
 		//this.geoTree=geoTree;
 		this.propPanel=new PropertiesPanel(app, new GeoGebraColorChooser(app), false);
 		propPanel.setMinimumSize(propPanel.getPreferredSize());
@@ -169,7 +163,7 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 	}
 
 	public int getViewID() {
-		return Application.VIEW_PROPERTIES;
+		return AbstractApplication.VIEW_PROPERTIES;
 	}
 
 
@@ -188,7 +182,7 @@ public class PropertiesView extends JPanel implements View, GeoElementSelectionL
 		}
 	}
 	
-	private ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
+	// private ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
 	
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (geo == null) return;

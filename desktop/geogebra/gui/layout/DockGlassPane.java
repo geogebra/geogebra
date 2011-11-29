@@ -9,10 +9,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -178,7 +180,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 			previewRect.setSize(target.getSize());
 			
 			// calculate the preview rectangle
-			if(orientation == DockSplitPane.VERTICAL_SPLIT) {
+			if(orientation == JSplitPane.VERTICAL_SPLIT) {
 				if(leftPercent < maxDist) {
 					if(leftPercent < maxDist / 2) {
 						dndState.setRegion(DnDState.LEFT_OUT);
@@ -283,7 +285,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	 */
 	public void eventDispatched(AWTEvent event) {
 		if(event instanceof MouseEvent) {
-			if(event.getID() == MouseEvent.MOUSE_DRAGGED && ((MouseEvent)event).getModifiers() == MouseEvent.BUTTON1_MASK)
+			if(event.getID() == MouseEvent.MOUSE_DRAGGED && ((MouseEvent)event).getModifiers() == InputEvent.BUTTON1_MASK)
 				mouseDragged((MouseEvent)event);
 			else if(event.getID() == MouseEvent.MOUSE_RELEASED)
 				stopDrag();

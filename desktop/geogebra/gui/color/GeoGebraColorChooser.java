@@ -10,7 +10,6 @@ import javax.swing.UIManager;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.DefaultColorSelectionModel;
 
-
 /**
  * Extends JColorChooser to do the following:
  * 1) Replace the default color chooser panels with an instance of GeoGebraColorChooserPanel
@@ -21,6 +20,8 @@ import javax.swing.colorchooser.DefaultColorSelectionModel;
  *
  */
 public class GeoGebraColorChooser extends JColorChooser{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Application app;
 	

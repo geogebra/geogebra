@@ -12,14 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
-	private Kernel kernel;
 	private ProbabilityCalculator probCalc;
 	private ProbabilityManager probManager;
 	private StatTable statTable;
@@ -33,7 +35,6 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	
 	public ProbabilityTable(Application app, ProbabilityCalculator probCalc){
 		this.app = app;
-		kernel = app.getKernel();
 		this.probCalc = probCalc;
 		this.probManager = probCalc.getProbManager();
 
@@ -43,7 +44,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 		statTable.getTable().setColumnSelectionAllowed(false);
 		statTable.getTable().setRowSelectionAllowed(true);
 		statTable.getTable().getSelectionModel().addListSelectionListener(this);
-		statTable.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		statTable.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
 		// blank table

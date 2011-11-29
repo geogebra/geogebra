@@ -22,7 +22,7 @@ import java.util.List;
 public class FileTransferable implements Transferable {
     DataFlavor[] dataFlavors = { DataFlavor.javaFileListFlavor};
     
-    List files = new LinkedList();
+    List<File> files = new LinkedList<File>();
  
     public FileTransferable(File file) {
     	files.add(file);

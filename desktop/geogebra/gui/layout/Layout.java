@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.InputDialog;
 import geogebra.gui.InputHandler;
@@ -32,7 +33,9 @@ import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 /**
@@ -109,13 +112,13 @@ public class Layout implements SettingListener {
 
 		// algebra & graphics (default settings of GeoGebra < 3.2)
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, true, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
-		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
-		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, true, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
 
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.25, DockSplitPane.HORIZONTAL_SPLIT);
+		spData[0] = new DockSplitPaneData("", 0.25, JSplitPane.HORIZONTAL_SPLIT);
 
 		defToolbar = Toolbar.getAllToolsNoMacros();
 
@@ -123,10 +126,10 @@ public class Layout implements SettingListener {
 		
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
-		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
-		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
 		
 		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
@@ -136,22 +139,22 @@ public class Layout implements SettingListener {
 		
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.45, DockSplitPane.HORIZONTAL_SPLIT);
+		spData[0] = new DockSplitPaneData("", 0.45, JSplitPane.HORIZONTAL_SPLIT);
 		
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
-		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
-		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
 		
 		defaultPerspectives[3] = new Perspective("TableAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 		
 		// CAS & Graphics - cas and euclidian view
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(Application.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
-		dpData[2] = new DockPanelData(Application.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
-		dpData[3] = new DockPanelData(Application.VIEW_CAS, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
 		
 		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 
@@ -292,7 +295,7 @@ public class Layout implements SettingListener {
 			// is updated, so we have to take care of this by ourself
 			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
 				DockSplitPane parent = panels[i].getParentSplitPane();
-				if (parent.getOrientation() == DockSplitPane.HORIZONTAL_SPLIT) {
+				if (parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 					panels[i].setEmbeddedSize(panels[i].getWidth());
 				} else {
 					panels[i].setEmbeddedSize(panels[i].getHeight());
@@ -376,7 +379,7 @@ public class Layout implements SettingListener {
 		if(index >= 0 && index < perspectives.size()) {
 			perspectives.remove(index);
 		} else {
-			Application.debug("Invalid perspective index: " + index);
+			AbstractApplication.debug("Invalid perspective index: " + index);
 		}
 	}
 	
@@ -593,7 +596,7 @@ public class Layout implements SettingListener {
 			list.setLayoutOrientation(JList.VERTICAL);
 			list.setVisibleRowCount(6);
 			
-			JScrollPane listSP = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			JScrollPane listSP = new JScrollPane(list, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			listSP.setPreferredSize(new Dimension(150, 200));
 			
 			// build button panel to remove perspectives and to close this dialog

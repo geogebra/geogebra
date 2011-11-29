@@ -1,9 +1,10 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.Layout;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 
@@ -29,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class GeoGebraMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1736020764918189176L;
@@ -119,7 +121,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * Update the menubar.
 	 */
 	public void updateMenubar() {
-		Application.debug("update menu");
+		AbstractApplication.debug("update menu");
 		fileMenu.update();
 		editMenu.update();
 		viewMenu.update();
@@ -203,17 +205,17 @@ public class GeoGebraMenuBar extends JMenuBar {
 						
 						DockManager dm=app.getGuiManager().getLayout().getDockManager();
 						
-						if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_CAS))
+						if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CAS))
 							new geogebra.export.PrintPreview(app, app.getGuiManager().getCasView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_CONSTRUCTION_PROTOCOL))
+						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL))
 							new geogebra.export.PrintPreview(app, app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_SPREADSHEET))
+						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_SPREADSHEET))
 							new geogebra.export.PrintPreview(app, app.getGuiManager().getSpreadsheetView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_EUCLIDIAN2))
+						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN2))
 							new geogebra.export.PrintPreview(app, app.getEuclidianView2(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_ALGEBRA))
+						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_ALGEBRA))
 							new geogebra.export.PrintPreview(app, app.getGuiManager().getAlgebraView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(Application.VIEW_EUCLIDIAN))
+						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN))
 							new geogebra.export.PrintPreview(app, app.getEuclidianView(), PageFormat.LANDSCAPE);
 						//if there is no view in focus (e.g. just closed the focused view),
 						// it prints the GeoGebra main window
@@ -221,7 +223,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 							new geogebra.export.PrintPreview(app, (Printable) app.getMainComponent(), PageFormat.LANDSCAPE);
 						
 					} catch (Exception e) {
-						Application.debug("Print preview not available");
+						AbstractApplication.debug("Print preview not available");
 					} finally{
 						app.setDefaultCursor();						
 					}
@@ -245,7 +247,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		vsb.append(app.getPlain("ApplicationName"));
 		vsb.append(" ");
 		vsb.append(GeoGebraConstants.VERSION_STRING);
-		switch (Kernel.DEFAULT_CAS) {
+		switch (AbstractKernel.DEFAULT_CAS) {
 		case MAXIMA:
 			vsb.append('m');
 			break;
@@ -273,8 +275,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 		// We may want to modify the window size when the license file changes:
 		JTextArea textArea = new JTextArea(24, 72); // window size fine tuning (rows, cols)
 		JScrollPane scrollPane = new JScrollPane(textArea,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		textArea.setEditable(false);
 		// not sure if Monospaced is installed everywhere:
 		textArea.setFont(new Font("Monospaced",Font.PLAIN,12));
@@ -286,6 +288,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 		
 		// copy system information to clipboard
 		systemInfoPanel.add(new JButton(new AbstractAction(app.getPlain("SystemInformation")) {
+	
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent arg0) {
 				StringBuilder systemInfo = new StringBuilder();
 				systemInfo.append("[code]");

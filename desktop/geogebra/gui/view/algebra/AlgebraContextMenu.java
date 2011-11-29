@@ -56,7 +56,8 @@ public class AlgebraContextMenu extends JPopupMenu {
         addSeparator();
         
         title.addMouseListener(new MouseAdapter() {
-        	public void mouseClicked(MouseEvent e) {
+        	@Override
+			public void mouseClicked(MouseEvent e) {
         		setVisible(false);
         	}
         });

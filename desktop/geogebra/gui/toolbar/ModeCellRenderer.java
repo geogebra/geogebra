@@ -25,6 +25,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 public class ModeCellRenderer extends DefaultTreeCellRenderer
 implements ListCellRenderer {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	
 	public ModeCellRenderer(Application app) {

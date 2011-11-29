@@ -38,7 +38,7 @@ public class JavascriptContext extends ViewContext {
     public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(14);
     
     static {
-        TOKENS.put("Default", JavascriptLexerConstants.DEFAULT);
+        TOKENS.put("Default", LexerConstants.DEFAULT);
         TOKENS.put("Operator", JavascriptLexerConstants.OPERATOR);
         TOKENS.put("Constante", JavascriptLexerConstants.CONSTANTE);
         TOKENS.put("Number", JavascriptLexerConstants.NUMBER);
@@ -53,8 +53,8 @@ public class JavascriptContext extends ViewContext {
         TOKENS.put("Object Name", JavascriptLexerConstants.OBJECTNAME);
         TOKENS.put("Comments", JavascriptLexerConstants.COMMENTS);
         TOKENS.put("Function", JavascriptLexerConstants.FUNCTION);
-        TOKENS.put("White", JavascriptLexerConstants.WHITE);
-        TOKENS.put("Tabulation", JavascriptLexerConstants.TAB);        
+        TOKENS.put("White", LexerConstants.WHITE);
+        TOKENS.put("Tabulation", LexerConstants.TAB);        
     }
 
     private View view;
@@ -120,7 +120,7 @@ public class JavascriptContext extends ViewContext {
      */
     public void genAttribute(String keyword, int type) {
         tokenAttrib[TOKENS.get(keyword)] = type;
-        if (TOKENS.get(keyword) == JavascriptLexerConstants.DEFAULT) {
+        if (TOKENS.get(keyword) == LexerConstants.DEFAULT) {
             for (Integer i : typeToDefault) {
                 tokenAttrib[i] = tokenAttrib[0];
             }
@@ -177,7 +177,7 @@ public class JavascriptContext extends ViewContext {
 
         tokenColors[TOKENS.get(name)] = color;
 
-        if (TOKENS.get(name) == JavascriptLexerConstants.DEFAULT) {
+        if (TOKENS.get(name) == LexerConstants.DEFAULT) {
             for (Integer i : typeToDefault) {
                 tokenColors[i] = tokenColors[0];
             }

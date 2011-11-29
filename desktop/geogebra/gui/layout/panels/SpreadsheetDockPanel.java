@@ -1,6 +1,7 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
@@ -19,7 +20,7 @@ public class SpreadsheetDockPanel extends DockPanel {
 	 */
 	public SpreadsheetDockPanel(Application app) {
 		super(
-			Application.VIEW_SPREADSHEET, 		// view id
+			AbstractApplication.VIEW_SPREADSHEET, 		// view id
 			"Spreadsheet", 						// view title phrase
 			getDefaultToolbar(),				// toolbar string
 			true,								// style bar?

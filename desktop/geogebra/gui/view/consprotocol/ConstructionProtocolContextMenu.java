@@ -19,7 +19,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.table.TableColumn;
 
 public class ConstructionProtocolContextMenu extends JPopupMenu {
-	//private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Application app;
 	private Kernel kernel;
@@ -54,7 +55,8 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
         addSeparator();
         
         title.addMouseListener(new MouseAdapter() {
-        	public void mouseClicked(MouseEvent e) {
+        	@Override
+			public void mouseClicked(MouseEvent e) {
         		setVisible(false);
         	}
         });

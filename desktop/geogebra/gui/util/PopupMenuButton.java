@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -32,6 +33,8 @@ import javax.swing.event.ChangeListener;
  */
 public class PopupMenuButton extends JButton implements ChangeListener{
 
+	private static final long serialVersionUID = 1L;
+	
 	private int mode;
 	private Object[] data;	
 	private Application app;
@@ -44,11 +47,9 @@ public class PopupMenuButton extends JButton implements ChangeListener{
 
 	private JSlider mySlider;
 
-
 	private Color fgColor;
 	private int fontStyle = 0;
 	
-
 
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
@@ -176,8 +177,8 @@ public class PopupMenuButton extends JButton implements ChangeListener{
 
 
 		// place text to the left of drop down icon
-		this.setHorizontalTextPosition(JButton.LEFT); 
-		this.setHorizontalAlignment(JButton.LEFT);
+		this.setHorizontalTextPosition(SwingConstants.LEFT); 
+		this.setHorizontalAlignment(SwingConstants.LEFT);
 
 
 		// create selection table

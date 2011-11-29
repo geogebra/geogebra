@@ -32,7 +32,7 @@ public static void openURL(String url) {
 		  	 
 		  // since Java 6:
 		  // java.awt.Desktop.getDesktop().browse(uri)
-		  Class desktopClass = Class.forName("java.awt.Desktop");
+		  Class<?> desktopClass = Class.forName("java.awt.Desktop");
 	      Method getDesktop = desktopClass.getDeclaredMethod("getDesktop", null);   
 	      Method browse = desktopClass.getDeclaredMethod("browse", new Class[] {URI.class});   
 	      Object desktopObj = getDesktop.invoke(null, null);     
@@ -48,7 +48,7 @@ public static void openURL(String url) {
   //String osName = System.getProperty("os.name");
   try {
      if (Application.MAC_OS) { // Michael Borcherds 2008-03-21
-        Class fileMgr = Class.forName("com.apple.eio.FileManager");
+        Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
         Method openURL = fileMgr.getDeclaredMethod("openURL",
            new Class[] {String.class});
         openURL.invoke(null, new Object[] {url});

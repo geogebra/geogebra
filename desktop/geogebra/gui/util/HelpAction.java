@@ -22,6 +22,9 @@ import javax.swing.ImageIcon;
  *
  */
 public class HelpAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	private String articleName;
 	public HelpAction(Application app, ImageIcon icon, String name, String articleName){
@@ -31,6 +34,7 @@ public class HelpAction extends AbstractAction {
 	}
 	public void actionPerformed(ActionEvent e) {
 		Thread runner = new Thread() {
+			@Override
 			public void run() {
 				app.getGuiManager().openHelp(articleName);
 			}

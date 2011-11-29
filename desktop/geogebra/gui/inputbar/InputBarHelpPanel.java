@@ -1,6 +1,7 @@
 package geogebra.gui.inputbar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.gui.SetLabels;
 import geogebra.gui.util.GeoGebraIcon;
@@ -61,6 +62,8 @@ import javax.swing.tree.TreeSelectionModel;
 public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		ActionListener, FocusListener, SetLabels {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	private InputBarHelpPanel thisPanel;
 	private Color bgColor = Color.WHITE;
@@ -180,7 +183,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		JPanel corner = new JPanel(new FlowLayout());
 		corner.setBackground(this.getBackground());
-		scroller.setCorner(JScrollPane.LOWER_RIGHT_CORNER, corner);
+		scroller.setCorner(ScrollPaneConstants.LOWER_RIGHT_CORNER, corner);
 
 		syntaxHelpPanel.add(scroller, BorderLayout.CENTER);
 		// syntaxHelpPanel.add(titlePanel,BorderLayout.NORTH);
@@ -689,6 +692,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private class MyRenderer extends DefaultTreeCellRenderer {
 
+		private static final long serialVersionUID = 1L;
+		
 		private Color selectionColor, rollOverColor;
 
 		public MyRenderer() {
@@ -764,7 +769,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			if (selectedCommand != null) {
 				app.getGuiManager().openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null)
-				app.getGuiManager().openHelp(Application.WIKI_OPERATORS);
+				app.getGuiManager().openHelp(AbstractApplication.WIKI_OPERATORS);
 			else
 				app.getGuiManager().openHelp("InputBar");
 		}
@@ -813,6 +818,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	}
 
 	private class MyJTree extends JTree {
+
+		private static final long serialVersionUID = 1L;
+		
 		public int rollOverRow = -1;
 
 		public MyJTree(TreeModel tm) {

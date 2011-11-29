@@ -233,6 +233,9 @@ class ViewMenu extends BaseMenu {
 		
 		// Arnaud Delobelle 12 Oct 2011 TODO localize "Python Window" string
 		showPythonAction = new AbstractAction("Python Window") {
+
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
 				app.getPythonBridge().toggleWindow();
 				update();
@@ -505,6 +508,9 @@ class ViewMenu extends BaseMenu {
 				final int viewId = panel.getViewId();
 				
 				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
+			
+					private static final long serialVersionUID = 1L;
+
 					public void actionPerformed(ActionEvent arg0) {
 						app.getGuiManager().setShowView(!app.getGuiManager().showView(viewId), viewId);
 					}

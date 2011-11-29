@@ -25,7 +25,9 @@ import javax.swing.text.ViewFactory;
  */
 public class LaTeXEditorKit extends DefaultEditorKit {
 	
-	 /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The mimetype for a LaTeX code
      */
     public static final String MIMETYPE = "text/latex";

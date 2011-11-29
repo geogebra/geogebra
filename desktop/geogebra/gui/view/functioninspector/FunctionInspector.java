@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputDialog;
@@ -102,6 +103,8 @@ public class FunctionInspector extends InputDialog
 implements View, MouseListener, ListSelectionListener, 
 KeyListener, ActionListener, SpecialNumberFormatInterface {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Color DISPLAY_GEO_COLOR = Color.RED;
 	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
 
@@ -407,6 +410,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						app.getGuiManager().openHelp("Function_Inspector_Tool");
 					}
@@ -416,11 +420,8 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		});	
 		btnHelp.setFocusable(false);
 
-
 		createBtnAddColumn();
-
 	}
-
 
 	private void createBtnAddColumn() {
 		columnNames = new String[4];
@@ -923,6 +924,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	//  Action and Other Event Handlers
 	// =====================================
 
+	@Override
 	public void actionPerformed(ActionEvent e) {	
 		Object source = e.getSource();
 
@@ -993,6 +995,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 
+	@Override
 	public void setVisible(boolean isVisible) {	
 
 		if (isVisible) {
@@ -1108,6 +1111,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		// TODO: not working directly yet, currently the listener
 		// is in InputDialog, so an overridden insertGeoElement() is used instead
 	}
+	@Override
 	public void insertGeoElement(GeoElement geo) {
 		if(geo == null 
 				|| !geo.isGeoFunction())
@@ -1472,6 +1476,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!isModal()) {
 			//if(app.getMode() == EuclidianConstants.MODE_FUNCTION_INSPECTOR)
@@ -1626,7 +1631,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 	}
 
-	private void processCellGeo(GeoElement geo, int column, int row){
+	private static void processCellGeo(GeoElement geo, int column, int row){
 		geo.setLabel(GeoElement.getSpreadsheetCellName(column, row));
 		geo.setEuclidianVisible(false);
 		geo.setAuxiliaryObject(true);
@@ -1634,7 +1639,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	}
 
 	public int getViewID() {
-		return Application.VIEW_FUNCTION_INSPECTOR;
+		return AbstractApplication.VIEW_FUNCTION_INSPECTOR;
 	}
 	
 	public void add(GeoElementInterface geo) {

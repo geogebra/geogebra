@@ -295,10 +295,6 @@ public class ProbabilityManager {
 	/**
 	 * Returns the appropriate plot dimensions for a given distribution and parameter set. 
 	 * Plot dimensions are returned as an array of double: {xMin, xMax, yMin, yMax} 	 
-	 *   
-	 * @param distType
-	 * @param parms
-	 * @return
 	 */
 	protected double[] getPlotDimensions(int selectedDist, double [] parms, GeoElement densityCurve, boolean isCumulative){
 
@@ -490,7 +486,7 @@ public class ProbabilityManager {
 	 */
 	public double probability(double value, double [] parms, int distType, boolean isCumulative ){
 
-		String[] cmd = this.getCommand();
+		String[] cmd = ProbabilityManager.getCommand();
 		double prob = 0;
 
 		try {
@@ -518,9 +514,6 @@ public class ProbabilityManager {
 		return prob;
 	}
 
-
-
-	
 
 	/**
 	 * Returns an interval probability for the given distribution and probability mode.
@@ -602,7 +595,7 @@ public class ProbabilityManager {
 	 */
 	protected double inverseProbability(int distType, double prob, double[] parms){
 
-		String[] inverseCmd = this.getInverseCommand();
+		String[] inverseCmd = ProbabilityManager.getInverseCommand();
 		double result = 0;
 
 

@@ -1,6 +1,5 @@
 package geogebra.gui.util;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -1260,7 +1259,7 @@ class LZWEncoder {
     }
   }
 
-  final int MAXCODE(int n_bits) {
+  final static int MAXCODE(int n_bits) {
     return (1 << n_bits) - 1;
   }
 

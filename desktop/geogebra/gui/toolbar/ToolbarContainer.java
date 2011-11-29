@@ -3,7 +3,6 @@ package geogebra.gui.toolbar;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

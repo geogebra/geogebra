@@ -54,6 +54,10 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		// "columns" button
 		
 		btnColumns = new PopupMenuButton(app){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
 			public boolean prepareToShowPopup(){
 				JCheckBoxMenuItem item;
 				removeAllMenuItems();
@@ -84,6 +88,10 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		// PopupMenuButton without selection table, add JMenuItems directly.
 		 
 		btnOptions = new PopupMenuButton(app){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
 			public boolean prepareToShowPopup(){
 				miShowOnlyBreakpoints.setSelected(app.getKernel().showOnlyBreakpoints());
 				miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
@@ -140,6 +148,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
+					@Override
 					public void run() {
 						app.getGuiManager().openHelp("Construction_Protocol");
 					}

@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.properties.PropertiesView;
 import geogebra.main.Application;
@@ -18,7 +19,7 @@ public class PropertiesDockPanel extends DockPanel {
 	 */
 	public PropertiesDockPanel(Application app) {
 		super(
-			Application.VIEW_PROPERTIES,	// view id 
+			AbstractApplication.VIEW_PROPERTIES,	// view id 
 			"Properties", 			// view title phrase
 			null,						// toolbar string
 			false,						// style bar?
@@ -30,8 +31,7 @@ public class PropertiesDockPanel extends DockPanel {
 		this.setOpenInFrame(false);
 	}
 
-
-	
+	@Override
 	protected JComponent loadComponent() {
 		
 		PropertiesView view = app.getGuiManager().getPropertiesView();
@@ -44,16 +44,16 @@ public class PropertiesDockPanel extends DockPanel {
 		return view;
 	}
 	
+	@Override
 	protected void windowPanel() {
 		super.windowPanel();
-		app.getGuiManager().getPropertiesView().windowPanel();
-		
+		app.getGuiManager().getPropertiesView().windowPanel();		
 	}
 	
+	@Override
 	protected void unwindowPanel() {
 		super.unwindowPanel();
 		app.getGuiManager().getPropertiesView().unwindowPanel();
-		
 	}
 
 }

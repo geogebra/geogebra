@@ -38,7 +38,7 @@ public class GeoGebraContext extends ViewContext {
 	public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(14);
 
 	static {
-		TOKENS.put("Default", GeoGebraLexerConstants.DEFAULT);
+		TOKENS.put("Default", LexerConstants.DEFAULT);
 		TOKENS.put("Operator", GeoGebraLexerConstants.OPERATOR);
 		TOKENS.put("Constante", GeoGebraLexerConstants.CONSTANTE);
 		TOKENS.put("Number", GeoGebraLexerConstants.NUMBER);
@@ -47,10 +47,10 @@ public class GeoGebraContext extends ViewContext {
 		TOKENS.put("Built-in function", GeoGebraLexerConstants.BUILTINFUNCTION);
 		TOKENS.put("Function", GeoGebraLexerConstants.FUNCTION);
 		TOKENS.put("Command", GeoGebraLexerConstants.COMMAND);
-		TOKENS.put("Unknown", GeoGebraLexerConstants.UNKNOWN);
+		TOKENS.put("Unknown", LexerConstants.UNKNOWN);
 		TOKENS.put("Variable", GeoGebraLexerConstants.VARIABLE);
-		TOKENS.put("White", GeoGebraLexerConstants.WHITE);
-		TOKENS.put("Tabulation", GeoGebraLexerConstants.TAB);
+		TOKENS.put("White", LexerConstants.WHITE);
+		TOKENS.put("Tabulation", LexerConstants.TAB);
 	}
 
 	private View view;
@@ -124,7 +124,7 @@ public class GeoGebraContext extends ViewContext {
 	 */
 	public void genAttribute(String keyword, int type) {
 		tokenAttrib[TOKENS.get(keyword)] = type;
-		if (TOKENS.get(keyword) == GeoGebraLexerConstants.DEFAULT) {
+		if (TOKENS.get(keyword) == LexerConstants.DEFAULT) {
 			for (Integer i : typeToDefault) {
 				tokenAttrib[i] = tokenAttrib[0];
 			}
@@ -184,7 +184,7 @@ public class GeoGebraContext extends ViewContext {
 
 		tokenColors[TOKENS.get(name)] = color;
 
-		if (TOKENS.get(name) == GeoGebraLexerConstants.DEFAULT) {
+		if (TOKENS.get(name) == LexerConstants.DEFAULT) {
 			for (Integer i : typeToDefault) {
 				tokenColors[i] = tokenColors[0];
 			}

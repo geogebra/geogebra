@@ -22,6 +22,8 @@ import javax.swing.text.JTextComponent;
  */
 public class AlgebraInputTransferHandler extends TransferHandler implements Transferable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	private JTextComponent ta;
 
@@ -49,6 +51,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	/**
 	 * Ensures that transfers are done in COPY mode
 	 */
+	@Override
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.COPY;
 	}
@@ -56,6 +59,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	/**
 	 * Returns true if any element of the DataFlavor parameter array is a supported flavor.
 	 */
+	@Override
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
 
 		for (int i = 0, n = flavor.length; i < n; i++) {
@@ -73,6 +77,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	/**
 	 * Handles data import.
 	 */
+	@Override
 	public boolean importData(JComponent comp, Transferable t) {
 
 		// handle text
@@ -125,6 +130,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	}
 
 
+	@Override
 	public Transferable createTransferable(JComponent comp) {
 		return null;
 	}

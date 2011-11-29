@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 
 public abstract class MyComboBoxListener extends MouseAdapter implements ActionListener {
 		
+	@Override
 	public void mousePressed(MouseEvent e) {
 		Object src = e.getSource();
 
@@ -19,6 +20,7 @@ public abstract class MyComboBoxListener extends MouseAdapter implements ActionL
 		}		
 	}		
 	
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		Object src = e.getSource();
 		if (src instanceof JComboBox) {

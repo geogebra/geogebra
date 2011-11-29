@@ -20,7 +20,7 @@ public class LaTeXContext extends ViewContext {
     public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(14);
     
     static {
-        TOKENS.put("Default", LaTeXLexerConstants.DEFAULT);
+        TOKENS.put("Default", LexerConstants.DEFAULT);
         TOKENS.put("Ampersand", LaTeXLexerConstants.AMP);
         TOKENS.put("SubSup", LaTeXLexerConstants.SUBSUP);
         TOKENS.put("Dollar", LaTeXLexerConstants.DOLLAR);
@@ -28,8 +28,8 @@ public class LaTeXContext extends ViewContext {
         TOKENS.put("OpenClose", LaTeXLexerConstants.OPENCLOSE);
         TOKENS.put("Command", LaTeXLexerConstants.COMMAND);
         TOKENS.put("Comments", LaTeXLexerConstants.COMMENTS);
-        TOKENS.put("White", LaTeXLexerConstants.WHITE);
-        TOKENS.put("Tabulation", LaTeXLexerConstants.TAB);        
+        TOKENS.put("White", LexerConstants.WHITE);
+        TOKENS.put("Tabulation", LexerConstants.TAB);        
     }
 
     private View view;
@@ -81,7 +81,7 @@ public class LaTeXContext extends ViewContext {
      */
     public void genAttribute(String keyword, int type) {
         tokenAttrib[TOKENS.get(keyword)] = type;
-        if (TOKENS.get(keyword) == LaTeXLexerConstants.DEFAULT) {
+        if (TOKENS.get(keyword) == LexerConstants.DEFAULT) {
             for (Integer i : typeToDefault) {
                 tokenAttrib[i] = tokenAttrib[0];
             }
@@ -138,7 +138,7 @@ public class LaTeXContext extends ViewContext {
 
         tokenColors[TOKENS.get(name)] = color;
 
-        if (TOKENS.get(name) == LaTeXLexerConstants.DEFAULT) {
+        if (TOKENS.get(name) == LexerConstants.DEFAULT) {
             for (Integer i : typeToDefault) {
                 tokenColors[i] = tokenColors[0];
             }

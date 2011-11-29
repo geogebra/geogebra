@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.Application;
@@ -35,7 +36,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	 */
 	public EuclidianDockPanel(Application app, String toolbar) {
 		super(
-			Application.VIEW_EUCLIDIAN,	// view id 
+			AbstractApplication.VIEW_EUCLIDIAN,	// view id 
 			"DrawingPad", 				// view title
 			toolbar,						// toolbar string
 			true,						// style bar?

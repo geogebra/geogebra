@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolCreationDialog;
 import geogebra.gui.ToolManagerDialog;
 import geogebra.gui.toolbar.Toolbar;
@@ -98,7 +99,7 @@ class ToolsMenu extends BaseMenu {
 							modeMenus[menuIndex].add(item);
 						}
 					} else {
-						Application
+						AbstractApplication
 								.debug("Nested default toolbar not supported");
 					}
 				}

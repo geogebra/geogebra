@@ -1,6 +1,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.euclidian.FormulaDimension;
+import geogebra.euclidian.DrawEquation;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
@@ -51,6 +52,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 		this.view = view;
 	}
 
+	@Override
 	public Component getTreeCellRendererComponent(
 			JTree tree,
 			Object value,
@@ -180,7 +182,8 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		FormulaDimension d = new FormulaDimension();
-		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
+		app.getDrawEquation();
+		d = DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
 				bgColor, true);
 
 		// Now use this size and draw again to get the final image
@@ -192,7 +195,8 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
+		app.getDrawEquation();
+		DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
 				bgColor, true);
 
 		latexIcon.setImage(image);

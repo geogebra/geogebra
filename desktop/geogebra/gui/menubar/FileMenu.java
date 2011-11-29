@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.Application;
 
@@ -343,7 +344,7 @@ class FileMenu extends BaseMenu {
 								d.setVisible(true);
 
 							} catch (Exception e) {
-								Application
+								AbstractApplication
 										.debug("GraphicExportDialog not available");
 							}
 							app.setDefaultCursor();
@@ -367,7 +368,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.AnimationExportDialog(app);
 				} catch (Exception ex) {
-					Application.debug("AnimationExportDialog not available");
+					AbstractApplication.debug("AnimationExportDialog not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -384,7 +385,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.pstricks.GeoGebraToPstricks(app);
 				} catch (Exception ex) {
-					Application.debug("GeoGebraToPstricks not available");
+					AbstractApplication.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -400,7 +401,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.pstricks.GeoGebraToPgf(app);
 				} catch (Exception ex) {
-					Application.debug("GeoGebraToPGF not available");
+					AbstractApplication.debug("GeoGebraToPGF not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -417,7 +418,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.pstricks.GeoGebraToAsymptote(app);
 				} catch (Exception ex) {
-					Application.debug("GeoGebraToAsymptote not available");
+					AbstractApplication.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -447,7 +448,7 @@ class FileMenu extends BaseMenu {
 
 								d.setVisible(true);
 							} catch (Exception e) {
-								Application
+								AbstractApplication
 										.debug("WorksheetExportDialog not available");
 								e.printStackTrace();
 							}
@@ -487,7 +488,7 @@ class FileMenu extends BaseMenu {
 								exporter.uploadWorksheet();
 								
 							} catch (Exception e) {
-								Application.debug("Uploading failed");
+								AbstractApplication.debug("Uploading failed");
 								e.printStackTrace();
 							}
 							app.setDefaultCursor();

@@ -1,4 +1,5 @@
 package geogebra.gui.inputfield;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
@@ -345,7 +346,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 							options,  //the titles of buttons
 							options[0]); //default button title
 
-					if (n == 1) app.getGuiManager().openHelp(Application.WIKI_MANUAL);
+					if (n == 1) app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
 
 				} else {
 					int pos = getCaretPosition();
@@ -359,10 +360,10 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 					if (closest != null)// && lowerCurWord.equals(closest.toLowerCase()))		                
 						showCommandHelp(app.getInternalCommand(closest));
 					else
-						app.getGuiManager().openHelp(Application.WIKI_MANUAL);
+						app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
 
 				}
-			} else app.getGuiManager().openHelp(Application.WIKI_MANUAL);
+			} else app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
 
 			e.consume();
 			break;
@@ -720,7 +721,7 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 					syntaxes.add(macro.toString());
 				} else {
 					//syntaxes.add(cmdInt + "[]");
-					Application.debug("Can't find syntax for: "+cmd);
+					AbstractApplication.debug("Can't find syntax for: "+cmd);
 				}
 
 				continue;

@@ -25,7 +25,9 @@ import javax.swing.text.ViewFactory;
  */
 public class GeoGebraEditorKit extends DefaultEditorKit {
 	
-	 /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The mimetype for a GeoGebra code
      */
     public static final String MIMETYPE = "text/geogebra";

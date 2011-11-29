@@ -44,6 +44,8 @@ import javax.swing.text.BadLocationException;
 public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		MouseListener, MouseMotionListener, FocusListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	private static final int GEOGEBRA = 0;
 	private static final int LATEX = 1;
 	private static final int JAVASCRIPT = 2;

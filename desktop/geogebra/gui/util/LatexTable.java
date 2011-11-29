@@ -18,8 +18,8 @@ import javax.swing.SwingConstants;
 
 public class LatexTable extends SelectionTable implements MenuElement{
 
-
-	private Application app;
+	private static final long serialVersionUID = 1L;
+	
 	private TextInputDialog inputDialog;
 	private String[] latexArray;
 	private PopupMenuButton popupButton;
@@ -30,7 +30,6 @@ public class LatexTable extends SelectionTable implements MenuElement{
 			String[] latexArray, int rows, int columns, int mode ){
 
 		super(app, latexArray, rows,columns, new Dimension(24,24), mode);
-		this.app = app;
 		this.inputDialog = textInputDialog;
 		this.latexArray = latexArray;
 		this.popupButton = popupButton;

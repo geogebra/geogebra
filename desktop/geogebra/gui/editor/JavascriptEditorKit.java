@@ -32,7 +32,9 @@ import javax.swing.text.ViewFactory;
  */
 public class JavascriptEditorKit extends DefaultEditorKit {
 	
-	 /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The mimetype for a GeoGebra code
      */
     public static final String MIMETYPE = "text/javascript";
@@ -93,7 +95,9 @@ public class JavascriptEditorKit extends DefaultEditorKit {
      */
     public static class JavascriptDocument extends PlainDocument implements DocumentListener {
     
-    	private GeoGebraEditorPane textcomponent;
+		private static final long serialVersionUID = 1L;
+		
+		private GeoGebraEditorPane textcomponent;
     	
     	/**
     	 * Default constructor

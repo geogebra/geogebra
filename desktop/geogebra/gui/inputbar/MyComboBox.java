@@ -13,6 +13,8 @@ import javax.swing.event.PopupMenuListener;
  */
 public class MyComboBox extends JComboBox implements PopupMenuListener {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int popupWidth = 400;
 
 	public MyComboBox() {

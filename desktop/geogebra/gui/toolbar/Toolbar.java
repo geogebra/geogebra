@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.toolbar;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
@@ -193,10 +194,10 @@ public class Toolbar extends JToolBar {
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
-				Application.debug("invalid toolbar string: "
+				AbstractApplication.debug("invalid toolbar string: "
 						+ dockPanel.getToolbarString());
 			} else {
-				Application.debug("invalid toolbar string: "
+				AbstractApplication.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			}
 			toolbarVec = parseToolbarString(getDefaultToolbarString());

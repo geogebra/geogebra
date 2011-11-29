@@ -130,7 +130,8 @@ public class FullWidthLayout implements LayoutManager {
     /**
      * The class name and vertical gap as string.
      */
-    public String toString() {
+    @Override
+	public String toString() {
     	return getClass().getName() + "[vgap=" + vgap + "]";
     }
 }

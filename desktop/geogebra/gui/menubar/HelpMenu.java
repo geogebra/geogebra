@@ -1,6 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.util.HelpAction;
 import geogebra.main.Application;
 
@@ -66,10 +67,10 @@ class HelpMenu extends BaseMenu {
 	private void initActions()
 	{
 		helpAction = new HelpAction(app, app
-				.getImageIcon("help.png"),app.getMenu("Help"),Application.WIKI_MANUAL);
+				.getImageIcon("help.png"),app.getMenu("Help"),AbstractApplication.WIKI_MANUAL);
 					
 		
-		tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),Application.WIKI_TUTORIAL);
+		tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),AbstractApplication.WIKI_TUTORIAL);
 					
 
 		forumAction = new AbstractAction("GeoGebra Forum", new ImageIcon(app

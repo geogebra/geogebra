@@ -44,6 +44,9 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * 
  */
 public class ColorChooserButton extends JButton{
+
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Generic mode. Preview icon shows a square filled with the current color.
 	 */
@@ -162,6 +165,9 @@ public class ColorChooserButton extends JButton{
 	 ************************************************************/
 	
 	public class ColorChooserPopup extends JPopupMenu {
+
+		private static final long serialVersionUID = 1L;
+		
 		private SwatchPanel swatchPanel;
 
 		public ColorChooserPopup() {
@@ -227,6 +233,9 @@ public class ColorChooserButton extends JButton{
 		 * Draw a swatch panel and handle mouse events in the panel. 
 		*/
 		class SwatchPanel extends JPanel implements ActionListener {			
+
+			private static final long serialVersionUID = 1L;
+			
 			private Color[] colors;
 
 			public SwatchPanel() {
@@ -303,6 +312,9 @@ public class ColorChooserButton extends JButton{
 			 * @author Florian Sonner
 			 */
 			class SwatchButton extends JButton {
+
+				private static final long serialVersionUID = 1L;
+				
 				private Color color;
 				
 				public SwatchButton(Color color) {					

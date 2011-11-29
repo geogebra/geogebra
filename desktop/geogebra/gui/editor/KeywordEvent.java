@@ -21,7 +21,9 @@ import java.util.EventObject;
  */
 public class KeywordEvent extends EventObject {
 
-    private int start;
+	private static final long serialVersionUID = 1L;
+	
+	private int start;
     private int length;
     private int type;
     private EventObject event;

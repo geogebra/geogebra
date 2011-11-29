@@ -1,5 +1,6 @@
 package geogebra.gui.util;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.io.MyXMLio;
 import geogebra.main.Application;
 
@@ -31,6 +32,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * An enhanced file chooser for GeoGebra which can be used
@@ -156,7 +158,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 				&& mode != MODE_GEOGEBRA_SAVE 
 				&& mode != MODE_DATA) 
 		{
-			Application.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
+			AbstractApplication.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
 			mode = MODE_GEOGEBRA;
 		}
 		
@@ -299,8 +301,8 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 			dataPreviewPanel.setMargin(new Insets(5,5,5,5));
 			dataPreviewPanel.setText(app.getPlain("PreviewUnavailable"));
 			JScrollPane scroller = new JScrollPane(dataPreviewPanel);
-			scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+			scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			
 			return scroller;
 		}
@@ -496,7 +498,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 				// This is thrown if you select .ico files
 				img = null;
 			} catch (Throwable t) {
-				Application.debug(t.getClass() + "");
+				AbstractApplication.debug(t.getClass() + "");
 				img = null;
 			}
 		}
@@ -524,6 +526,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 			/**
 			 * Paint the preview area.
 			 */
+			@Override
 			public void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g;
 				

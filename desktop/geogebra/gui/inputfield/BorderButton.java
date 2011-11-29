@@ -24,6 +24,8 @@ import javax.swing.border.AbstractBorder;
 public class BorderButton extends AbstractBorder
 implements MouseListener, MouseMotionListener{
 
+	private static final long serialVersionUID = 1L;
+
 	private Component borderOwner;
 
 	public static final String cmdSuffix = "BorderButtonAction";
@@ -237,9 +239,4 @@ implements MouseListener, MouseMotionListener{
 
 */
 
-
-
 }
-
-
-

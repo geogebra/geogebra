@@ -1,5 +1,6 @@
 package geogebra.gui.util;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
@@ -55,19 +56,19 @@ public class TableSymbols {
 				//{ "\u03a8" , app.getPlain("GreekCharacterA", "\u03a8" ) },  //uppercaseGreekPSI
 				{ "\u03a9" , app.getPlain("GreekCharacterA", "\u03a9" ) },  //uppercaseGreekOMEGA
 				{ "\u221e" , app.getMenu("Symbol.Infinity" )},   
-				{ ExpressionNode.strVECTORPRODUCT , app.getMenu("Symbol.VectorProduct" )},   
-				{ ExpressionNode.strEQUAL_BOOLEAN , app.getMenu("Symbol.BooleanEqual" )},   
-				{ ExpressionNode.strNOT_EQUAL , app.getMenu("Symbol.NotEqual" )},   
-				{ ExpressionNode.strLESS_EQUAL , app.getMenu("Symbol.LessThanEqualTo" )},   
-				{ ExpressionNode.strGREATER_EQUAL , app.getMenu("Symbol.GreaterThanEqualTo" )},   
-				{ ExpressionNode.strNOT , app.getMenu("Symbol.Negation" )},   
-				{ ExpressionNode.strAND , app.getMenu("Symbol.And" )},   
-				{ ExpressionNode.strOR , app.getMenu("Symbol.Or" )},   
-				{ ExpressionNode.strPARALLEL , app.getMenu("Symbol.Parallel" )},   
-				{ ExpressionNode.strPERPENDICULAR , app.getMenu("Symbol.Perpendicular" )},   
-				{ ExpressionNode.strIS_ELEMENT_OF , app.getMenu("Symbol.ElementOf" )},   
-				{ ExpressionNode.strIS_SUBSET_OF , app.getMenu("Symbol.Subset" )},   
-				{ ExpressionNode.strIS_SUBSET_OF_STRICT , app.getMenu("Symbol.StrictSubset" )},   
+				{ ExpressionNodeConstants.strVECTORPRODUCT , app.getMenu("Symbol.VectorProduct" )},   
+				{ ExpressionNodeConstants.strEQUAL_BOOLEAN , app.getMenu("Symbol.BooleanEqual" )},   
+				{ ExpressionNodeConstants.strNOT_EQUAL , app.getMenu("Symbol.NotEqual" )},   
+				{ ExpressionNodeConstants.strLESS_EQUAL , app.getMenu("Symbol.LessThanEqualTo" )},   
+				{ ExpressionNodeConstants.strGREATER_EQUAL , app.getMenu("Symbol.GreaterThanEqualTo" )},   
+				{ ExpressionNodeConstants.strNOT , app.getMenu("Symbol.Negation" )},   
+				{ ExpressionNodeConstants.strAND , app.getMenu("Symbol.And" )},   
+				{ ExpressionNodeConstants.strOR , app.getMenu("Symbol.Or" )},   
+				{ ExpressionNodeConstants.strPARALLEL , app.getMenu("Symbol.Parallel" )},   
+				{ ExpressionNodeConstants.strPERPENDICULAR , app.getMenu("Symbol.Perpendicular" )},   
+				{ ExpressionNodeConstants.strIS_ELEMENT_OF , app.getMenu("Symbol.ElementOf" )},   
+				{ ExpressionNodeConstants.strIS_SUBSET_OF , app.getMenu("Symbol.Subset" )},   
+				{ ExpressionNodeConstants.strIS_SUBSET_OF_STRICT , app.getMenu("Symbol.StrictSubset" )},   
 				//{ "\u2220" , app.getMenu("Symbol.Angle" )},   
 				{ "\u2221" , app.getMenu("Symbol.AngleMeasure" )},   
 				{ Unicode.Superscript_2+"" , app.getMenu("Symbol.Square" )},   //exponents^2
@@ -1504,7 +1505,7 @@ public class TableSymbols {
 		"\u03c0", // pi	
 		Unicode.EULER_STRING, // e
 		"\u221e", // infinity
-		ExpressionNode.strVECTORPRODUCT, //  "\u2297", // vector product (circled times)
+		ExpressionNodeConstants.strVECTORPRODUCT, //  "\u2297", // vector product (circled times)
 		"sqrt(x)",
 		"cbrt(x)",
 		"abs(x)",
@@ -1529,18 +1530,18 @@ public class TableSymbols {
 		"round(x)",
 		"gamma(x)",
 		"random()",
-		ExpressionNode.strEQUAL_BOOLEAN,
-		ExpressionNode.strNOT_EQUAL,
-		ExpressionNode.strLESS_EQUAL,
-		ExpressionNode.strGREATER_EQUAL,
-		ExpressionNode.strNOT,
-		ExpressionNode.strAND,
-		ExpressionNode.strOR, 
-		ExpressionNode.strPARALLEL,
-		ExpressionNode.strPERPENDICULAR,
-		ExpressionNode.strIS_ELEMENT_OF,
-		ExpressionNode.strIS_SUBSET_OF,
-		ExpressionNode.strIS_SUBSET_OF_STRICT,
+		ExpressionNodeConstants.strEQUAL_BOOLEAN,
+		ExpressionNodeConstants.strNOT_EQUAL,
+		ExpressionNodeConstants.strLESS_EQUAL,
+		ExpressionNodeConstants.strGREATER_EQUAL,
+		ExpressionNodeConstants.strNOT,
+		ExpressionNodeConstants.strAND,
+		ExpressionNodeConstants.strOR, 
+		ExpressionNodeConstants.strPARALLEL,
+		ExpressionNodeConstants.strPERPENDICULAR,
+		ExpressionNodeConstants.strIS_ELEMENT_OF,
+		ExpressionNodeConstants.strIS_SUBSET_OF,
+		ExpressionNodeConstants.strIS_SUBSET_OF_STRICT,
 	};
 
 
@@ -1553,22 +1554,20 @@ public class TableSymbols {
 		"\u00b3",                // exponents ^3 
 		"\u00b0",                // degree			
 		"\u221e",                // infinity
-		ExpressionNode.strVECTORPRODUCT, //  "\u2297", // vector product (circled times)
-		ExpressionNode.strEQUAL_BOOLEAN,
-		ExpressionNode.strNOT_EQUAL,
-		ExpressionNode.strLESS_EQUAL,
-		ExpressionNode.strGREATER_EQUAL,
-		ExpressionNode.strNOT,
-		ExpressionNode.strAND,
-		ExpressionNode.strOR, 
-		ExpressionNode.strPARALLEL,
-		ExpressionNode.strPERPENDICULAR,
-		ExpressionNode.strIS_ELEMENT_OF,
-		ExpressionNode.strIS_SUBSET_OF,
-		ExpressionNode.strIS_SUBSET_OF_STRICT,
-
+		ExpressionNodeConstants.strVECTORPRODUCT, //  "\u2297", // vector product (circled times)
+		ExpressionNodeConstants.strEQUAL_BOOLEAN,
+		ExpressionNodeConstants.strNOT_EQUAL,
+		ExpressionNodeConstants.strLESS_EQUAL,
+		ExpressionNodeConstants.strGREATER_EQUAL,
+		ExpressionNodeConstants.strNOT,
+		ExpressionNodeConstants.strAND,
+		ExpressionNodeConstants.strOR, 
+		ExpressionNodeConstants.strPARALLEL,
+		ExpressionNodeConstants.strPERPENDICULAR,
+		ExpressionNodeConstants.strIS_ELEMENT_OF,
+		ExpressionNodeConstants.strIS_SUBSET_OF,
+		ExpressionNodeConstants.strIS_SUBSET_OF_STRICT,
 	};
-
 
 
 }

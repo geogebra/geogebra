@@ -21,6 +21,8 @@ import javax.swing.table.TableColumn;
 
 public class InspectorTable extends JTable{
 
+	private static final long serialVersionUID = 1L;
+	
 	Application app;
 	FunctionInspector inspector;
 
@@ -151,6 +153,8 @@ public class InspectorTable extends JTable{
 
 	private class MyCellRenderer extends DefaultTableCellRenderer  {
 
+		private static final long serialVersionUID = 1L;
+		
 		private JTextField tf;
 		private Border editCellBorder;
 		private JTable table;
@@ -168,6 +172,8 @@ public class InspectorTable extends JTable{
 			
 
 		}
+		
+		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, 
 				boolean isSelected, boolean hasFocus, final int row, int column) {
 
@@ -224,13 +230,15 @@ public class InspectorTable extends JTable{
 	// ====================================================
 
 	private class MyEditor extends DefaultCellEditor {
+		
+		private static final long serialVersionUID = 1L;
+
 		public MyEditor() {
 			super(new MyTextField(app));
 			this.setClickCountToStart(1);
-			
-
 		}
 
+		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
 				int row, int column) {
 			JTextField editor = (JTextField) super.getTableCellEditorComponent(table, value, isSelected,
@@ -240,7 +248,7 @@ public class InspectorTable extends JTable{
 			return editor;
 		}
 
-
+		@Override
 		public boolean stopCellEditing() {
 			boolean isStopped = super.stopCellEditing();
 
@@ -256,11 +264,6 @@ public class InspectorTable extends JTable{
 
 			return isStopped; 
 		}
-
 	}
-
-
-	
-
 
 }

@@ -36,6 +36,8 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
  */
 public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	protected Application app;
 	protected GeoGebraColorChooser enclosingChooser;
 	protected GeoGebraColorChooserPanel myChooser;
@@ -334,9 +336,6 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 	}
 
-	
-	
-	
 
 	/**********************************************************
 	 * 
@@ -344,6 +343,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * 
 	 **********************************************************/
 	class SwatchPanel extends JPanel {
+
+		private static final long serialVersionUID = 1L;
 
 		protected Color[] colors;
 
@@ -608,6 +609,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 */
 	class RecentSwatchPanel extends SwatchPanel {
 
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void initValues() {
 			numSwatches = new Dimension(6, 4);
@@ -648,6 +651,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * 
 	 */
 	class CustomSwatchPanel extends SwatchPanel {
+
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		protected void initValues() {
@@ -712,6 +717,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 */
 	class PrimarySwatchPanel extends SwatchPanel {
 
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void initValues() {
 			numSwatches = new Dimension(2, 9);
@@ -729,6 +736,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * colors to be picked which will move to the recent swatch panel.
 	 */
 	class MainSwatchPanel extends SwatchPanel {
+
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		protected void initValues() {

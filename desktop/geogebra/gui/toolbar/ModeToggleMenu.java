@@ -222,10 +222,9 @@ public class ModeToggleMenu extends JPanel {
 
 class MyJToggleButton extends JToggleButton 
 implements MouseListener, MouseMotionListener, ActionListener {
-	/**
-	 * 
-	 */
-	//private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1L;
+	
 	private int BORDER = 6;
 	private int iconWidth, iconHeight;
 	private GeneralPath gp;

@@ -185,6 +185,8 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	 */
 	private class HistoryListCellRenderer extends DefaultListCellRenderer {
 
+		private static final long serialVersionUID = 1L;
+		
 		private Color bgColor;
 		//private Color listSelectionBackground = MyTable.SELECTED_BACKGROUND_COLOR;
 		private Color listBackground = Color.white;

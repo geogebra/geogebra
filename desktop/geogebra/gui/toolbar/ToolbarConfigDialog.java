@@ -29,6 +29,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 public class ToolbarConfigDialog extends JDialog implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
 	
 	private Application app;	
 	public ToolbarConfigPanel confPanel;

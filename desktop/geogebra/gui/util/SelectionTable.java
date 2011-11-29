@@ -36,6 +36,8 @@ import javax.swing.table.TableColumn;
  */
 public class SelectionTable extends JTable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	private MyCellRenderer renderer;
 	private DefaultTableModel model;
@@ -277,12 +279,14 @@ public class SelectionTable extends JTable{
 
 	private class RollOverListener extends MouseInputAdapter {
 
+		@Override
 		public void mouseExited(MouseEvent e) {
 			rollOverRow = -1;
 			rollOverColumn = -1;
 			repaint();
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e) {
 			int row = rowAtPoint(e.getPoint());
 			int column = columnAtPoint(e.getPoint());
@@ -383,9 +387,10 @@ public class SelectionTable extends JTable{
 
 	class MyCellRenderer extends JLabel implements TableCellRenderer {
 
+		private static final long serialVersionUID = 1L;
+		
 		private Border normalBorder, selectedBorder, rollOverBorder, paddingBorder;
 		private Color selectionColor, rollOverColor;
-		private int index;
 
 		public MyCellRenderer() {
 

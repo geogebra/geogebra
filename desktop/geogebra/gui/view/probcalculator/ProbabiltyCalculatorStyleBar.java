@@ -14,6 +14,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.MenuElement;
+import javax.swing.SwingConstants;
 
 /**
  * StyleBar for the ProbabilityCalculator view
@@ -22,6 +23,8 @@ import javax.swing.MenuElement;
  */
 public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionListener{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	private ProbabilityCalculator probCalc;
 	protected int iconHeight = 18;
@@ -103,8 +106,8 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 	private void buildOptionsButton(){
 
 		btnRounding = new JButton(app.getImageIcon("triangle-down.png"));	
-		btnRounding.setHorizontalTextPosition(JButton.LEFT); 
-		btnRounding.setHorizontalAlignment(JButton.LEFT);
+		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT); 
+		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
 		roundingPopup = createRoundingPopup();
 		
 		btnRounding.addActionListener(new ActionListener(){
@@ -117,7 +120,6 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		updateMenuDecimalPlaces(roundingPopup);
 	
 	}
-
 
 
 	/**
@@ -159,10 +161,6 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 	}
 	
 	
-	
-	
-	
-
 	/**
 	 * Create a set of radio buttons automatically.
 	 * 
@@ -229,11 +227,6 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		}
 	}
 	
-	
-	
-	
-	
-
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
@@ -263,7 +256,6 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 				app.showError(e.toString());
 			}
 		}
-
 	}
 
 }

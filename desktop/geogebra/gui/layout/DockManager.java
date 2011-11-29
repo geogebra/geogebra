@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
+import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -228,7 +229,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			// set the dividers of the split panes
 			for(int i = 0; i < spData.length; ++i) {
-				if(spData[i].getOrientation() == DockSplitPane.VERTICAL_SPLIT)
+				if(spData[i].getOrientation() == JSplitPane.VERTICAL_SPLIT)
 					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowHeight));
 				else 
 					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowWidth));
@@ -298,9 +299,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 		if(dndRegion == DnDState.LEFT || dndRegion == DnDState.LEFT_OUT ||
 			dndRegion == DnDState.RIGHT || dndRegion == DnDState.RIGHT_OUT)
 		{
-			newSplitPane.setOrientation(DockSplitPane.HORIZONTAL_SPLIT);
+			newSplitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		} else {
-			newSplitPane.setOrientation(DockSplitPane.VERTICAL_SPLIT);
+			newSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		}
 		
 		if(dndState.isRegionOut() && (target.getParent() == sourceParent || target == source)) {
@@ -492,9 +493,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 			// Get the location of our new DockPanel (ignore last entry)
 			for(int i = 0; i < locations.length - 1; ++i) {			
 				// The orientation of the current pane does not match the stored orientation, skip this
-				if(currentPane.getOrientation() == DockSplitPane.HORIZONTAL_SPLIT && (locations[i] == 0 || locations[i] == 2)) {
+				if(currentPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT && (locations[i] == 0 || locations[i] == 2)) {
 					continue;
-				} else if(currentPane.getOrientation() == DockSplitPane.VERTICAL_SPLIT && (locations[i] == 1 || locations[i] == 3)) {
+				} else if(currentPane.getOrientation() == JSplitPane.VERTICAL_SPLIT && (locations[i] == 1 || locations[i] == 3)) {
 					continue;
 				}
 				
@@ -519,9 +520,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 			DockSplitPane newSplitPane = new DockSplitPane();
 			
 			if(lastPos == 0 || lastPos == 2) {
-				newSplitPane.setOrientation(DockSplitPane.VERTICAL_SPLIT);
+				newSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			} else {
-				newSplitPane.setOrientation(DockSplitPane.HORIZONTAL_SPLIT);
+				newSplitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 			}
 			
 			// the size (height / width depending upon lastPos) of the parent element,
@@ -579,7 +580,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			if(lastPos == 0 || lastPos == 3) {
 				newSplitPane.setDividerLocation(size);
 			} else {
-				if(newSplitPane.getOrientation() == DockSplitPane.HORIZONTAL_SPLIT) {
+				if(newSplitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 					newSplitPane.setDividerLocation(newSplitPane.getWidth() - size);
 				} else {
 					newSplitPane.setDividerLocation(newSplitPane.getHeight() - size);
@@ -649,7 +650,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			DockSplitPane parent = panel.getParentSplitPane();
 			
 			// Save settings
-			if(parent.getOrientation() == DockSplitPane.HORIZONTAL_SPLIT) {
+			if(parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 				panel.setEmbeddedSize(panel.getWidth());
 			} else {
 				panel.setEmbeddedSize(panel.getHeight());
@@ -1036,7 +1037,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	}
 	
 	private void scale(float scaleX, float scaleY, DockSplitPane splitPane) {
-		splitPane.setDividerLocation((int)(splitPane.getDividerLocation() * (splitPane.getOrientation() == DockSplitPane.VERTICAL_SPLIT ? scaleX : scaleY)));
+		splitPane.setDividerLocation((int)(splitPane.getDividerLocation() * (splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT ? scaleX : scaleY)));
 		
 		if(splitPane.getLeftComponent() != null && splitPane.getLeftComponent() instanceof DockSplitPane) {
 			scale(scaleX, scaleY, (DockSplitPane)splitPane.getLeftComponent());

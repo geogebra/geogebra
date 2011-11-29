@@ -31,6 +31,8 @@ import javax.swing.LookAndFeel;
  */
 public class HelpOnKeywordPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	private static HelpOnKeywordPanel instance;
 	private static JTextArea textarea;
 

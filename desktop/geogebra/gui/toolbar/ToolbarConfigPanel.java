@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -45,6 +46,8 @@ import javax.swing.tree.TreeSelectionModel;
  *
  */
 public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.event.ActionListener, javax.swing.event.TreeExpansionListener {	
+	
+	private static final long serialVersionUID = 1L;
 	
 	private static final int SCROLL_PANEL_WIDTH = 300;
 	private static final int SCROLL_PANEL_HEIGHT = 400;
@@ -82,8 +85,8 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		setToolbar(null, app.getGuiManager().getToolbarDefinition());	
 		
 		configScrollPane = new JScrollPane(tree);
-		configScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		configScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		configScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		configScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		//configScrollPane.setSize(150, 150);	
 		JPanel scrollSpacePanel = new JPanel();
 		scrollSpacePanel.setLayout(new BorderLayout(0, 0));
@@ -150,8 +153,8 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		lsm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		toolList.setBackground(SystemColor.text);
 		modeScrollPane = new JScrollPane(toolList);		
-		modeScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		modeScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		modeScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		modeScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		toolList.setCellRenderer(new ModeCellRenderer(app));
 		toolList.setSelectedIndex(0);
 		//
@@ -442,7 +445,10 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	 */
 	private JTree generateTree() {			
 		final JTree jTree = new JTree() {
-	        @Override
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
 			protected void setExpandedState(TreePath path, boolean state) {
 	            // Ignore all collapse requests of root        	
 	            if (path != getPathForRow(0)) {

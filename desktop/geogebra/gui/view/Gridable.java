@@ -20,8 +20,6 @@ package geogebra.gui.view;
 
 import java.awt.Component;
 
-import javax.swing.JComponent;
-
 import geogebra.main.Application;
 
 /**

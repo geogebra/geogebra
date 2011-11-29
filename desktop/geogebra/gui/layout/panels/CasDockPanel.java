@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
@@ -18,7 +19,7 @@ public class CasDockPanel extends DockPanel {
 	 */
 	public CasDockPanel(Application app) {
 		super(
-			Application.VIEW_CAS, 	// view id
+			AbstractApplication.VIEW_CAS, 	// view id
 			"CAS", 					// view title phrase 
 			getDefaultToolbar(),	// toolbar string
 			false,					// style bar?

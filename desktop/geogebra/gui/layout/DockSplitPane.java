@@ -21,7 +21,7 @@ public class DockSplitPane extends JSplitPane {
 	private boolean dividerVisible;
 	
 	public DockSplitPane() {
-		this(DockSplitPane.HORIZONTAL_SPLIT);
+		this(JSplitPane.HORIZONTAL_SPLIT);
 	}
 	
 	public DockSplitPane(int newOrientation) {
@@ -160,7 +160,7 @@ public class DockSplitPane extends JSplitPane {
 			double dividerLocation = 0.2;
 			
 			// get relative divider location depending on the current orientation
-			if(parent.getOrientation() == DockSplitPane.HORIZONTAL_SPLIT) {
+			if(parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 				dividerLocation = (double)parent.getDividerLocation() / windowWidth;
 			} else {
 				dividerLocation = (double)parent.getDividerLocation() / windowHeight;

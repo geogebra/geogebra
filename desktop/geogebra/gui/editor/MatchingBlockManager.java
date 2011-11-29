@@ -443,7 +443,8 @@ public class MatchingBlockManager {
          * What to do when the event occured
          * @param e the event
          */
-        public void caughtKeyword(KeywordEvent e) {
+        @Override
+		public void caughtKeyword(KeywordEvent e) {
             if (lr) {
                 searchMatchingBlock(e.getType(), e.getStart());
             } else {

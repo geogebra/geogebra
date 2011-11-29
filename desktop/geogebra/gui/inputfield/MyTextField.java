@@ -23,6 +23,7 @@ import java.awt.font.TextLayout;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
@@ -39,6 +40,8 @@ import javax.swing.event.CaretListener;
  */
 public class MyTextField extends JTextField implements ActionListener, FocusListener, 
 VirtualKeyboardListener, CaretListener, SetLabels {
+
+	private static final long serialVersionUID = 1L;
 
 	private Application app;
 
@@ -341,7 +344,7 @@ VirtualKeyboardListener, CaretListener, SetLabels {
 		pos = 0;		
 
 		// adjust if right-aligned
-		if (getHorizontalAlignment() == JTextField.RIGHT) {
+		if (getHorizontalAlignment() == SwingConstants.RIGHT) {
 			pos = Math.max(0,getHorizontalVisibility().getExtent() - getLength(text));
 		}
 

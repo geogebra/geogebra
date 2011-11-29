@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.gui.view.consprotocol;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
 import geogebra.main.settings.AbstractSettings;
@@ -66,7 +67,6 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
-	 * @param internalNavigation: true if navigation bar is part of the protocol window
 	 */
 	public ConstructionProtocolNavigation(ConstructionProtocolView prot) {
 		this.prot = prot;			
@@ -179,8 +179,8 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		btOpenWindow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//app.getGuiManager().showConstructionProtocol();
-				if(!app.getGuiManager().showView(Application.VIEW_CONSTRUCTION_PROTOCOL))
-					app.getGuiManager().setShowView(true, Application.VIEW_CONSTRUCTION_PROTOCOL);
+				if(!app.getGuiManager().showView(AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL))
+					app.getGuiManager().setShowView(true, AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL);
 			}				
 		});
 		

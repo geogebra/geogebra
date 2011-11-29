@@ -34,6 +34,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
@@ -849,7 +850,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 			
 			parentDSP = (DockSplitPane)parent;
 			
-			if(parentDSP.getOrientation() == DockSplitPane.HORIZONTAL_SPLIT) {
+			if(parentDSP.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 				if(current == parentDSP.getLeftComponent()) // left
 					defType = 3;
 				else // right

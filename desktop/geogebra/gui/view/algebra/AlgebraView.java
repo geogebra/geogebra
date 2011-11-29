@@ -20,6 +20,7 @@ package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MathTextField;
@@ -140,7 +141,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	/** Creates new AlgebraView */
 	public AlgebraView(AlgebraController algCtrl) {
 
-		Application.debug("XXX creating Algebra View XXX", 1);
+		AbstractApplication.debug("XXX creating Algebra View XXX", 1);
 
 		app = algCtrl.getApplication();
 		kernel = algCtrl.getKernel();
@@ -907,6 +908,9 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		 * Extends DefaultTreeCellEditor.EditorContainer to allow full-width editor fields.
 		 */
 		class WideEditorContainer extends DefaultTreeCellEditor.EditorContainer {
+
+			private static final long serialVersionUID = 1L;
+			
 			JTree tree;
 			TreePath lastPath;
 			int offset;
@@ -968,7 +972,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	
 	
 	public int getViewID() {
-		return Application.VIEW_ALGEBRA;
+		return AbstractApplication.VIEW_ALGEBRA;
 	}
 
 	public Application getApplication() {

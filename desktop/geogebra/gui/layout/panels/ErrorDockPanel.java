@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
@@ -20,7 +21,7 @@ public class ErrorDockPanel extends DockPanel {
 	 */
 	public ErrorDockPanel(Application app, int viewId) {
 		super(
-			Application.VIEW_NONE,	// view id 
+			AbstractApplication.VIEW_NONE,	// view id 
 			"ErrorWindow (viewId="+viewId+")", 			// view title phrase
 			null,						// toolbar string
 			false,						// style bar?

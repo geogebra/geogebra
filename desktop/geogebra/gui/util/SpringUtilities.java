@@ -1,7 +1,7 @@
 package geogebra.gui.util;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.TitleLabel;
-import geogebra.main.Application;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -22,9 +22,9 @@ public class SpringUtilities {
      * minimum, preferred, and maximum sizes.
      */
     public static void printSizes(Component c) {
-        Application.debug("minimumSize = " + c.getMinimumSize());
-        Application.debug("preferredSize = " + c.getPreferredSize());
-        Application.debug("maximumSize = " + c.getMaximumSize());
+        AbstractApplication.debug("minimumSize = " + c.getMinimumSize());
+        AbstractApplication.debug("preferredSize = " + c.getPreferredSize());
+        AbstractApplication.debug("maximumSize = " + c.getMaximumSize());
     }
 
     /**
@@ -49,7 +49,7 @@ public class SpringUtilities {
         try {
             layout = (SpringLayout)parent.getLayout();
         } catch (ClassCastException exc) {
-            Application.debug("The first argument to makeGrid must use SpringLayout.");
+            AbstractApplication.debug("The first argument to makeGrid must use SpringLayout.");
             return;
         }
 
@@ -152,7 +152,7 @@ public class SpringUtilities {
         try {
             layout = (SpringLayout)parent.getLayout();
         } catch (ClassCastException exc) {
-            Application.debug("The first argument to makeCompactGrid must use SpringLayout.");
+            AbstractApplication.debug("The first argument to makeCompactGrid must use SpringLayout.");
             return;
         }
 

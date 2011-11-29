@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
@@ -21,7 +22,7 @@ public class AlgebraDockPanel extends DockPanel {
 	 */
 	public AlgebraDockPanel(Application app) {
 		super(
-			Application.VIEW_ALGEBRA,	// view id 
+			AbstractApplication.VIEW_ALGEBRA,	// view id 
 			"AlgebraWindow", 			// view title phrase
 			null,						// toolbar string
 			true,						// style bar?

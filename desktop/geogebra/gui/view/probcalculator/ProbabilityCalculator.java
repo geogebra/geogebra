@@ -1,11 +1,13 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
@@ -78,6 +80,7 @@ import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -92,6 +95,8 @@ import javax.swing.event.ChangeListener;
  */
 public class ProbabilityCalculator extends JPanel 
 implements View, ActionListener, FocusListener, ChangeListener, SettingListener   {
+
+	private static final long serialVersionUID = 1L;
 
 	// enable/disable integral ---- use for testing
 	private boolean hasIntegral = true; 
@@ -227,14 +232,13 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 
-
 	public void setProbabilityCalculator(int distributionType, double[] parameters, boolean isCumulative){
 
 		this.selectedDist = distributionType;
 		this.isCumulative = isCumulative;
 		this.parameters = parameters;
 		if(parameters == null)
-			this.parameters = probManager.getDefaultParameterMap().get(selectedDist);	
+			this.parameters = ProbabilityManager.getDefaultParameterMap().get(selectedDist);	
 
 		//this.buildLayout();
 		//isIniting = true;
@@ -715,11 +719,11 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			//System.out.println(text);
 			if(isLineGraph){
-				discreteIntervalGraph.setObjColor(this.COLOR_PDF_FILL);
+				discreteIntervalGraph.setObjColor(ProbabilityCalculator.COLOR_PDF_FILL);
 				discreteIntervalGraph.setLineThickness(thicknessBarChart+2);
 			}
 			else{
-				discreteIntervalGraph.setObjColor(this.COLOR_PDF_FILL);
+				discreteIntervalGraph.setObjColor(ProbabilityCalculator.COLOR_PDF_FILL);
 				discreteIntervalGraph.setAlphaValue(opacityDiscreteInterval);
 				discreteIntervalGraph.setLineThickness(thicknessBarChart);
 			}
@@ -926,10 +930,10 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 
 
-	private TreeSet tempSet;
-	private TreeSet getTempSet() {
+	private TreeSet<AlgoElementInterface> tempSet;
+	private TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet();
+			tempSet = new TreeSet<AlgoElementInterface>();
 		}
 		return tempSet;
 	}
@@ -1034,7 +1038,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				}
 				else if(selectedDist != this.reverseDistributionMap.get(comboDistribution.getSelectedItem())){
 					selectedDist = this.reverseDistributionMap.get(comboDistribution.getSelectedItem());
-					parameters = probManager.getDefaultParameterMap().get(selectedDist);
+					parameters = ProbabilityManager.getDefaultParameterMap().get(selectedDist);
 					this.setProbabilityCalculator(selectedDist, parameters, isCumulative);
 				}
 			this.requestFocus();
@@ -1164,7 +1168,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		// set visibility and text of the parameter labels and fields
 		for(int i = 0; i < maxParameterCount; ++i ){
 
-			boolean hasParm = i < probManager.getParmCount()[selectedDist];
+			boolean hasParm = i < ProbabilityManager.getParmCount()[selectedDist];
 
 			lblParameterArray[i].setVisible(hasParm);
 			fldParameterArray[i].setVisible(hasParm);
@@ -1559,7 +1563,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		// add the geo to our view and remove it from EV		
 		geo.addView(plotPanel.getViewID());
 		plotPanel.add(geo);
-		geo.removeView(Application.VIEW_EUCLIDIAN);
+		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 		app.getEuclidianView().remove(geo);
 	}
 
@@ -1829,13 +1833,15 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 	static class ListSeparatorRenderer extends JLabel implements ListCellRenderer {
 
+		private static final long serialVersionUID = 1L;
+		
 		public static final String SEPARATOR = "---";
 		JSeparator separator;
 
 		public ListSeparatorRenderer() {
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));
-			separator = new JSeparator(JSeparator.HORIZONTAL);
+			separator = new JSeparator(SwingConstants.HORIZONTAL);
 		}
 
 		public Component getListCellRendererComponent(JList list, Object value,
@@ -1890,7 +1896,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	private void setSliderDefaults(){
-		for(int i = 0; i < probManager.getParmCount()[selectedDist]; i++){
+		for(int i = 0; i < ProbabilityManager.getParmCount()[selectedDist]; i++){
 			// TODO: this is breaking the discrete distributions
 			//sliderArray[i].setValue((int) probManager.getDefaultParameterMap().get(selectedDist)[i]);
 		}
@@ -1982,10 +1988,10 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				if(app.getShiftDown())
-					exportGeosToEV(Application.VIEW_EUCLIDIAN2);
+				if(Application.getShiftDown())
+					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN2);
 				else
-					exportGeosToEV(Application.VIEW_EUCLIDIAN);
+					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN);
 			}
 		};
 
@@ -2148,14 +2154,14 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			// set the EV location and auxiliary = false for all of the new geos
 			for(GeoElement geo: newGeoList){
 				geo.setAuxiliaryObject(false);
-				if(viewID == Application.VIEW_EUCLIDIAN){
-					geo.addView(Application.VIEW_EUCLIDIAN);
-					geo.removeView(Application.VIEW_EUCLIDIAN2);
+				if(viewID == AbstractApplication.VIEW_EUCLIDIAN){
+					geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
+					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
 					geo.update();
 				}
-				else if(viewID == Application.VIEW_EUCLIDIAN2){
-					geo.addView(Application.VIEW_EUCLIDIAN2);
-					geo.removeView(Application.VIEW_EUCLIDIAN);
+				else if(viewID == AbstractApplication.VIEW_EUCLIDIAN2){
+					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
+					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 					geo.update();
 				}
 			}
@@ -2189,13 +2195,13 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 
 	public int getViewID() {
-		return Application.VIEW_PROBABILITY_CALCULATOR;
+		return AbstractApplication.VIEW_PROBABILITY_CALCULATOR;
 	}
 
 
 
 	public void settingsChanged(AbstractSettings settings) {
-		Application.debug("settings changed");
+		AbstractApplication.debug("settings changed");
 
 		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculator(pcSettings.getDistributionType(), pcSettings.getParameters(), pcSettings.isCumulative());

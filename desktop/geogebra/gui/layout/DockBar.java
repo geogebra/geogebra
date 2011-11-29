@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
@@ -21,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -32,6 +34,8 @@ import javax.swing.border.Border;
  */
 public class DockBar extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	private static final int btnSize = 36;
 	private static final int iconSize = btnSize - 10;
 
@@ -71,6 +75,7 @@ public class DockBar extends JPanel implements ActionListener {
 	 * Mouse listener to handle minimizing the dock.
 	 */
 	class MyMouseListener extends MouseAdapter {
+		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getClickCount()>0){
 				isMinimized = true;
@@ -161,18 +166,18 @@ public class DockBar extends JPanel implements ActionListener {
 		// create toolbars
 		viewToolBar = new JToolBar();
 		viewToolBar.setFloatable(false);
-		viewToolBar.setOrientation(JToolBar.VERTICAL);
+		viewToolBar.setOrientation(SwingConstants.VERTICAL);
 
 		menuToolBar = new JToolBar();
 		menuToolBar.setFloatable(false);
-		menuToolBar.setOrientation(JToolBar.VERTICAL);	
+		menuToolBar.setOrientation(SwingConstants.VERTICAL);	
 		Border outsideBorder = menuToolBar.getBorder();
 		Border insideBorder = BorderFactory.createEmptyBorder(10, 0, 10, 0);
 		menuToolBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 
 		inputToolBar = new JToolBar();
 		inputToolBar.setFloatable(false);
-		inputToolBar.setOrientation(JToolBar.VERTICAL);	
+		inputToolBar.setOrientation(SwingConstants.VERTICAL);	
 
 
 
@@ -218,7 +223,7 @@ public class DockBar extends JPanel implements ActionListener {
 				final int viewID = panel.getViewId();
 
 				if(!app.getGuiManager().showView(viewID)
-						&& !(viewID == Application.VIEW_PROPERTIES))
+						&& !(viewID == AbstractApplication.VIEW_PROPERTIES))
 					continue;
 
 
@@ -234,6 +239,9 @@ public class DockBar extends JPanel implements ActionListener {
 
 
 				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
+	
+					private static final long serialVersionUID = 1L;
+
 					public void actionPerformed(ActionEvent arg0) {
 						app.getGuiManager().setShowView(!app.getGuiManager().showView(viewID), viewID);
 						updateViewButtons();
@@ -253,17 +261,17 @@ public class DockBar extends JPanel implements ActionListener {
 
 		ImageIcon icon;
 
-		if(panel.getViewId() == Application.VIEW_EUCLIDIAN)
+		if(panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN)
 			icon = app.getImageIcon("euclidian.png");
-		else if(panel.getViewId() == Application.VIEW_EUCLIDIAN2)
+		else if(panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN2)
 			icon = app.getImageIcon("euclidian.png");
-		else if(panel.getViewId() == Application.VIEW_CAS)
+		else if(panel.getViewId() == AbstractApplication.VIEW_CAS)
 			icon = app.getImageIcon("xy_table.png");
-		else if(panel.getViewId() == Application.VIEW_SPREADSHEET)
+		else if(panel.getViewId() == AbstractApplication.VIEW_SPREADSHEET)
 			icon = app.getImageIcon("spreadsheet.png");
-		else if(panel.getViewId() == Application.VIEW_ALGEBRA)
+		else if(panel.getViewId() == AbstractApplication.VIEW_ALGEBRA)
 			icon = app.getImageIcon("font.png");
-		else if(panel.getViewId() == Application.VIEW_PROPERTIES)
+		else if(panel.getViewId() == AbstractApplication.VIEW_PROPERTIES)
 			icon = app.getImageIcon("document-properties.png");
 		else
 			icon = app.getImageIcon("tool.png");
@@ -298,6 +306,9 @@ public class DockBar extends JPanel implements ActionListener {
 	}
 
 	class ViewButton extends JButton{
+
+		private static final long serialVersionUID = 1L;
+		
 		private int viewID;
 
 		public int getViewID() {
@@ -364,16 +375,19 @@ public class DockBar extends JPanel implements ActionListener {
 			minimumPanel = new JPanel();
 			minimumPanel.setMinimumSize(new Dimension(6,0));
 			minimumPanel.addMouseListener(new MouseAdapter() {
+				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount()>0){
 						isMinimized = false;
 						updateLayout();
 					}
 				}
+				@Override
 				public void mouseEntered(MouseEvent e) {
 					minimumPanel.setBackground(Color.LIGHT_GRAY);
 					//restorePanel.setBorder(hoverBorder);
 				}
+				@Override
 				public void mouseExited(MouseEvent e) {
 					minimumPanel.setBackground(null);
 					minimumPanel.setBorder(border);
