@@ -31,14 +31,13 @@ import geogebra.common.util.StringUtil;
 
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPointInterface;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import java.util.TreeSet;
 
 /**
@@ -873,39 +872,39 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	 * Returns all moveable input points of this algorithm.	 
      * @return list of moveable input points
 	 */   
-    public ArrayList<GeoPoint> getFreeInputPoints() {
+    public ArrayList<GeoPointInterface> getFreeInputPoints() {
 		if (freeInputPoints == null) {				
-			freeInputPoints = new ArrayList<GeoPoint>(input.length);
+			freeInputPoints = new ArrayList<GeoPointInterface>(input.length);
 			
 			// don't use free points from dependent algos with expression trees 			
 			if (!getClassName().startsWith("AlgoDependent")) {							
 				for (int i=0; i < input.length; i++) {				
 					if (input[i].isGeoPoint() && input[i].isIndependent())
-						freeInputPoints.add((GeoPoint)input[i]);	
+						freeInputPoints.add((GeoPointInterface)input[i]);	
 				}				
 			}
 		}
 	
 		return freeInputPoints;
     }
-    private ArrayList<GeoPoint> freeInputPoints;
+    private ArrayList<GeoPointInterface> freeInputPoints;
     
     /**
 	 * Returns all input points of this algorithm.	 
      * @return list of input points
 	 */
-    public ArrayList<GeoPoint> getInputPoints() {	
+    public ArrayList<GeoPointInterface> getInputPoints() {	
     	if (inputPoints == null) {
-			inputPoints = new ArrayList<GeoPoint>(input.length);
+			inputPoints = new ArrayList<GeoPointInterface>(input.length);
 			for (int i=0; i < input.length; i++) {			
 				if (input[i].isGeoPoint() )
-					inputPoints.add((GeoPoint) input[i]);			
+					inputPoints.add((GeoPointInterface) input[i]);			
 			}	
     	}
 		
 		return inputPoints;
     }
-    private ArrayList<GeoPoint> inputPoints;
+    private ArrayList<GeoPointInterface> inputPoints;
 
     @Override
 	final public boolean isIndependent() {

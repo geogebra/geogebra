@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -1502,8 +1503,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * allow lists like this to be dragged {Segment[A, B], Segment[B, C], (3.92,
 	 * 4)}
 	 */
-	public ArrayList<GeoPoint> getFreeInputPoints(EuclidianViewInterface view) {
-		ArrayList<GeoPoint> al = new ArrayList<GeoPoint>();
+	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterface view) {
+		ArrayList<GeoPointInterface> al = new ArrayList<GeoPointInterface>();
 		
 		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo = (GeoElement) geoList.get(i);
@@ -1514,11 +1515,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 					al.add(p);
 
 			} else {
-				ArrayList<GeoPoint> al2 = geo.getFreeInputPoints(view);
+				ArrayList<GeoPointInterface> al2 = geo.getFreeInputPoints(view);
 
 				if (al2 != null)
 					for (int j = 0; j < al2.size(); j++) {
-						GeoPoint p = al2.get(j);
+						GeoPointInterface p = al2.get(j);
 						// make sure duplicates aren't added
 						if (!al.contains(p))
 							al.add(p);

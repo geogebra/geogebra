@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.euclidian.EuclidianController;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoElement;
@@ -273,11 +274,11 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}	
 
 	@Override
-	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
-		ArrayList<GeoPoint> list = algoParent.getFreeInputPoints();
-		ArrayList<GeoPoint> ret = new ArrayList<GeoPoint>();	
-		for (GeoPoint p : list)
-			if (!hasForParent(p))
+	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent){
+		ArrayList<GeoPointInterface> list = algoParent.getFreeInputPoints();
+		ArrayList<GeoPointInterface> ret = new ArrayList<GeoPointInterface>();	
+		for (GeoPointInterface p : list)
+			if (!hasForParent((GeoElement)p))
 				ret.add(p);
 		return ret;
 	}	

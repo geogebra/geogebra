@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.main.AbstractApplication;
 
 import geogebra.kernel.algos.AlgoElement;
@@ -415,7 +416,7 @@ public interface EuclidianViewInterface extends View{
 	 * @param algoParent
 	 * @return free input points of the algoElement
 	 */
-	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent);
+	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent);
 	
 	/**
 	 * 

@@ -7,6 +7,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.DrawableND;
@@ -3282,7 +3283,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 
-	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
+	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 	

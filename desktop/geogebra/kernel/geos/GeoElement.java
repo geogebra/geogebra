@@ -71,7 +71,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
+//import java.util.Locale;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -1742,10 +1742,10 @@ public abstract class GeoElement
 			case VECTOR:
 				if (hasOnlyFreeInputPoints(view) && containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 					// check if first free input point is start point of vector
-					ArrayList<GeoPoint> freeInputPoints = getFreeInputPoints(view);
+					ArrayList<GeoPointInterface> freeInputPoints = getFreeInputPoints(view);
 					if (freeInputPoints.size() > 0) {
-						GeoPoint firstInputPoint = freeInputPoints.get(0);
-						GeoPoint startPoint = ((GeoVector) this).getStartPoint();
+						GeoPointInterface firstInputPoint = freeInputPoints.get(0);
+						GeoPointInterface startPoint = ((GeoVector) this).getStartPoint();
 						return (firstInputPoint == startPoint);
 					}
 				}
@@ -1760,7 +1760,7 @@ public abstract class GeoElement
 	 * @param view 
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPoint> getFreeInputPoints(EuclidianViewInterface view) {
+	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterface view) {
 		if (algoParent == null)
 			return null;
 		else
@@ -1778,7 +1778,7 @@ public abstract class GeoElement
 		}
 	}
 
-	private static boolean containsOnlyMoveableGeos(ArrayList<GeoPoint> geos) {
+	private static boolean containsOnlyMoveableGeos(ArrayList<GeoPointInterface> geos) {
 		if (geos == null || geos.size() == 0)
 			return false;
 
@@ -4260,7 +4260,7 @@ public abstract class GeoElement
 	 *******************************************************/
 
 	final public String getXMLtypeString() {
-		return getClassName().substring(3).toLowerCase(Locale.US);
+		return app.toLowerCase(getClassName().substring(3));
 	}
 
 	public String getI2GtypeString() {

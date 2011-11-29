@@ -161,5 +161,9 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 		return Character.isSpace(charAt);
 	}
 	
+	public String toLowerCase(String substring) {
+		return substring.toLowerCase();		
+	}
+	
 
 }

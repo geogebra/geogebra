@@ -18,6 +18,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Construction;
@@ -850,15 +851,15 @@ implements Locateable, AbsoluteScreenLocateable,
 		return true;
 	}
 	
-	private ArrayList<GeoPoint> al = null;
+	private ArrayList<GeoPointInterface> al = null;
 
 	/**
 	 * Returns all free parent points of this GeoElement.	 
 	 */
-	public ArrayList<GeoPoint> getFreeInputPoints(EuclidianViewInterface view) {		
+	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterface view) {		
 			if (hasAbsoluteLocation()) return null;
 			
-			if (al == null) al = new ArrayList<GeoPoint>();
+			if (al == null) al = new ArrayList<GeoPointInterface>();
 			else al.clear();
 			
 			for (int i = 0 ; i < corners.length ; i++) {

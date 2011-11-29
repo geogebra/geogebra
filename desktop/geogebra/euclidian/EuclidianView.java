@@ -18,6 +18,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
@@ -5326,7 +5327,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	}
 	
 
-	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
+	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 

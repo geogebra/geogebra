@@ -6037,7 +6037,9 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		return ev.toScreenCoordXd(max)-ev.toScreenCoordXd(min);
 	}
 
-	
+	public String toLowerCase(String substring) {
+		return substring.toLowerCase(Locale.US);		
+	}	
 
 	
 	public String getLanguage(){

@@ -17,6 +17,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -6101,7 +6102,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 			case CONICPART:
 				GeoConicPart cp = (GeoConicPart) geo;
-				ArrayList<GeoPoint> ip = cp.getParentAlgorithm().getInputPoints();
+				ArrayList<GeoPointInterface> ip = cp.getParentAlgorithm().getInputPoints();
 				tempArrayList.removeAll(ip);
 				break;
 
