@@ -7,16 +7,17 @@ package geogebra.web.kernel.gawt;
 public class BasicStroke {
 
 	// Constants
-	public static final String BEVEL = "bevel";
-	public static final String BUTT = "butt";
-	public static final String MITER = "miter";
-	public static final String ROUND = "round";
-	public static final String SQUARE = "square";
-
+	public static final String CAP_BUTT = "butt";
+	public static final String CAP_ROUND = "round";
+	public static final String CAP_SQUARE = "square";
+	public static final String JOIN_BEVEL = "bevel";
+	public static final String JOIN_MITER = "miter";
+	public static final String JOIN_ROUND ="round";
 	// Private fields
-	private final float lineWidth;
-//	private final String lineCap;
-//	private final String lineJoin;
+	private float lineWidth = 1;
+	private String lineCap = CAP_BUTT;
+	private String lineJoin = JOIN_MITER;
+	private float miterLimit = 10;
 
 	// Constructors
 	public BasicStroke() {
@@ -24,13 +25,18 @@ public class BasicStroke {
 	}
 
 	public BasicStroke(float width) {
-		this(width, BUTT, MITER);
+		this(width, CAP_BUTT, JOIN_MITER);
 	}
 
 	public BasicStroke(float lineWidth, String lineCap, String lineJoin) {
 		this.lineWidth = lineWidth;
-//		this.lineCap = lineCap;
-//		this.lineJoin = lineJoin;
+		this.lineCap = lineCap;
+		this.lineJoin = lineJoin;
+	}
+
+	public BasicStroke(float width, String endCap, String lineJoin2,
+			float miterLimit2, float[] dash, float f) {
+		
 	}
 
 	// Methods
@@ -44,16 +50,18 @@ public class BasicStroke {
 		return lineWidth;
 	}
 
-	//FIXME: Gabor, please evaluate
 	public String getLineCap() {
-		// return lineCap;
-		return ROUND;
+		return lineCap;
 	}
 
-	//FIXME: Gabor, please evaluate
+
 	public String getLineJoin() {
-		// return lineJoin;
-		return ROUND;
+		return lineJoin;
+	}
+	
+	public float getMiterLimit() {
+		// TODO Auto-generated method stub
+		return miterLimit;
 	}
 
 }
