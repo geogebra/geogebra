@@ -1,7 +1,7 @@
 package geogebra.common.util;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
@@ -13,7 +13,7 @@ import java.util.TreeSet;
  * default sorting.
  * All lookups are case insensitive!
  */
-public class LowerCaseDictionary extends Hashtable<String, String> implements AutoCompleteDictionary {
+public class LowerCaseDictionary extends HashMap<String, String> implements AutoCompleteDictionary {
 	
   private static final long serialVersionUID = 1L;
 

@@ -2377,7 +2377,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = ((Macro) macros.get(i)).getCommandName();
-			if (!commandDict.contains(cmdName))
+			if (!commandDict.containsValue(cmdName))
 				commandDict.addEntry(cmdName);
 		}
 	}
