@@ -1,5 +1,6 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -89,7 +90,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 */
 	public void updateStates() {
 		toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-		toggleTypeTreeMode.setSelected(algebraView.getTreeMode() == AlgebraView.MODE_TYPE);
+		toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
 //		toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
 	}
 	
@@ -99,7 +100,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	public void updateLabels() {
 		toggleAuxiliary.setToolTipText(app.getPlainTooltip("AuxiliaryObjects"));
 		
-		if(algebraView.getTreeMode() == AlgebraView.MODE_TYPE) {
+		if(algebraView.getTreeMode().equals(SortMode.TYPE)) {
 			toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("TreeModeDependency"));
 		} else {
 			toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("TreeModeType"));
@@ -116,8 +117,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
 			
 		} else if(e.getSource() == toggleTypeTreeMode) {
-			algebraView.setTreeMode((algebraView.getTreeMode() != AlgebraView.MODE_TYPE) ? AlgebraView.MODE_TYPE : AlgebraView.MODE_DEPENDENCY);
-			toggleTypeTreeMode.setSelected(algebraView.getTreeMode() == AlgebraView.MODE_TYPE);
+			algebraView.setTreeMode((!algebraView.getTreeMode().equals(SortMode.TYPE)) ? SortMode.TYPE : SortMode.DEPENDENCY);
+			toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
 			updateLabels();
 
 		}

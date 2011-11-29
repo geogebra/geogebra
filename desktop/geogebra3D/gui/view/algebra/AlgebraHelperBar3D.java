@@ -1,12 +1,13 @@
 package geogebra3D.gui.view.algebra;
 
+import geogebra.gui.view.algebra.AlgebraHelperBar;
+import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraView.SortMode;
+import geogebra.main.Application;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
-
-import geogebra.gui.view.algebra.AlgebraHelperBar;
-import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.main.Application;
 
 /**
  * Helper bar for algebra view in 3D
@@ -46,7 +47,7 @@ public class AlgebraHelperBar3D extends AlgebraHelperBar {
 	@Override
 	public void updateLabels() {
 		super.updateLabels();
-		if(algebraView.getTreeMode() == AlgebraView.MODE_VIEW) {
+		if(algebraView.getTreeMode().equals(SortMode.VIEW)) {
 			treeModeView.setToolTipText(app.getPlainTooltip("TreeModeDependency"));
 		} else {
 			treeModeView.setToolTipText(app.getPlainTooltip("TreeModeView"));
@@ -57,8 +58,8 @@ public class AlgebraHelperBar3D extends AlgebraHelperBar {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == treeModeView) {
-			algebraView.setTreeMode((algebraView.getTreeMode() != AlgebraView.MODE_VIEW) ? AlgebraView.MODE_VIEW : AlgebraView.MODE_DEPENDENCY);
-			treeModeView.setSelected(algebraView.getTreeMode() == AlgebraView.MODE_VIEW);
+			algebraView.setTreeMode((!algebraView.getTreeMode().equals(SortMode.VIEW)) ? SortMode.VIEW : SortMode.DEPENDENCY);
+			treeModeView.setSelected(algebraView.getTreeMode().equals(SortMode.VIEW));
 			toggleTypeTreeMode.setSelected(false);
 			updateLabels();
 		} else  {

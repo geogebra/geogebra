@@ -51,7 +51,7 @@ public class AlgebraView3D extends AlgebraView {
 	@Override
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo){
 		
-		if(treeMode != MODE_VIEW)
+		if(!treeMode.equals(SortMode.VIEW))
 			return super.getParentNode(geo);
 		
 		DefaultMutableTreeNode parent;
@@ -95,7 +95,7 @@ public class AlgebraView3D extends AlgebraView {
 	@Override
 	protected void clearTree() {
 		
-		if(treeMode != MODE_VIEW){
+		if(!treeMode.equals(SortMode.VIEW)){
 			super.clearTree();
 			return;
 		}
@@ -109,7 +109,7 @@ public class AlgebraView3D extends AlgebraView {
 	@Override
 	protected void initModel() {	
 		
-		if(treeMode != MODE_VIEW){
+		if(!treeMode.equals(SortMode.VIEW)){
 			super.initModel();
 			return;
 		}
@@ -139,7 +139,7 @@ public class AlgebraView3D extends AlgebraView {
 	@Override
 	protected void setTreeLabels(){
 		
-		if(treeMode != MODE_VIEW){
+		if(!treeMode.equals(SortMode.VIEW)){
 			super.setTreeLabels();
 			return;
 		}

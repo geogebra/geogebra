@@ -59,24 +59,24 @@ import javax.swing.tree.TreePath;
 public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 	private static final long serialVersionUID = 1L;
-
-	/**
+	
+	/**DEPENDENCY:
 	 * Tree mode where the objects are categorized by their dependency (free,
 	 * dependent, auxiliary) -- default value
-	 */
-	public static final int MODE_DEPENDENCY = 0;
-
-	/**
+	 * TYPE:
 	 * Tree mode where the objects are categorized by their type (points,
 	 * circles, ..)
+	 * VIEW:
+     * Tree mode where the objects are categorized by the view on which their
+	 * value is computed (xOyPlane, space, ...)
+	 * ORDER:
+	 * Construction Protocol order
 	 */
-	public static final int MODE_TYPE = 1;
+	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER };
 
 	/**
-	 * Tree mode where the objects are categorized by the view on which their
-	 * value is computed (xOyPlane, space, ...)
 	 */
-	public static final int MODE_VIEW = 2;
+	//public static final int MODE_VIEW = 2;
 
 	protected Application app; // parent appame
 	private Kernel kernel;
@@ -119,7 +119,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
-	protected int treeMode;
+	protected SortMode treeMode;
 
 	// TODO Should we show auxiliary objects?
 	private GeoElement selectedGeoElement;
@@ -148,7 +148,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		algCtrl.setView(this);
 		this.algebraController = algCtrl;
 		// this is the default value
-		treeMode = MODE_DEPENDENCY;
+		treeMode = SortMode.DEPENDENCY;
 
 		// cell renderer (tooltips) and editor
 		ToolTipManager.sharedInstance().registerComponent(this);
@@ -197,7 +197,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 */
 	protected void initModel() {
 		// build default tree structure
-		if (treeMode == MODE_DEPENDENCY) {
+		if (treeMode == SortMode.DEPENDENCY) {
 			// don't re-init anything
 			if (rootDependency == null) {
 				rootDependency = new DefaultMutableTreeNode();
@@ -310,7 +310,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		if (flag) {
 			clearView();
 
-			if (getTreeMode() == MODE_DEPENDENCY) {
+			if (getTreeMode().equals(SortMode.DEPENDENCY)) {
 				model.insertNodeInto(auxiliaryNode, rootDependency,
 						rootDependency.getChildCount());
 			}
@@ -321,7 +321,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 			// just remove that leaf, but for type-based categorization those
 			// auxiliary nodes might be scattered across the whole tree,
 			// therefore we just rebuild the tree
-			if (getTreeMode() == MODE_DEPENDENCY) {
+			if (getTreeMode().equals(SortMode.DEPENDENCY)) {
 				if (auxiliaryNode.getParent() != null) {
 					model.removeNodeFromParent(auxiliaryNode);
 				}
@@ -335,7 +335,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	/**
 	 * @return The display mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
-	public int getTreeMode() {
+	public SortMode getTreeMode() {
 		return treeMode;
 	}
 
@@ -343,8 +343,8 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * @param value
 	 *            Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
 	 */
-	public void setTreeMode(int value) {
-		if (getTreeMode() == value) {
+	public void setTreeMode(SortMode value) {
+		if (getTreeMode().equals(value)) {
 			return;
 		}
 
@@ -466,7 +466,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * set labels on the tree
 	 */
 	protected void setTreeLabels() {
-		if (getTreeMode() == MODE_DEPENDENCY) {
+		if (getTreeMode().equals(SortMode.DEPENDENCY)) {
 			indNode.setUserObject(app.getPlain("FreeObjects"));
 			model.nodeChanged(indNode);
 
@@ -494,7 +494,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible()) {
 			// don't add auxiliary objects if the tree is categorized by type
-			if (getTreeMode() != MODE_DEPENDENCY && !showAuxiliaryObjects()
+			if (!getTreeMode().equals(SortMode.DEPENDENCY) && !showAuxiliaryObjects()
 					&& geo.isAuxiliaryObject()) {
 				return;
 			}
@@ -522,7 +522,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo) {
 		DefaultMutableTreeNode parent;
 
-		if (treeMode == MODE_DEPENDENCY) {
+		if (treeMode.equals(SortMode.DEPENDENCY)) {
 			if (geo.isAuxiliaryObject()) {
 				parent = auxiliaryNode;
 			} else if (geo.isIndependent()) {
@@ -675,7 +675,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * remove all from the tree
 	 */
 	protected void clearTree() {
-		if (getTreeMode() == MODE_DEPENDENCY) {
+		if (getTreeMode().equals(SortMode.DEPENDENCY)) {
 			indNode.removeAllChildren();
 			depNode.removeAllChildren();
 			auxiliaryNode.removeAllChildren();
@@ -721,7 +721,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		nodeTable.remove(node.getUserObject());
 
 		// remove the type branch if there are no more children
-		if (treeMode == MODE_TYPE) {
+		if (treeMode.equals(SortMode.TYPE)) {
 			String typeString = ((GeoElement) node.getUserObject())
 					.getObjectType();
 			DefaultMutableTreeNode parent = (DefaultMutableTreeNode) typeNodesMap
