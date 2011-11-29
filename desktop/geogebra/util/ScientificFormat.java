@@ -1,4 +1,7 @@
-package geogebra.common.util;
+package geogebra.util;
+
+import geogebra.common.util.DoubleWithError;
+import geogebra.common.util.ScientificFormatAdapter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -23,7 +26,7 @@ import java.util.Locale;
  * @version $Id: ScientificFormat.java,v 1.4 2009-06-22 02:18:22 hohenwarter Exp $
  */
 
-public class ScientificFormat extends Format
+public class ScientificFormat extends Format implements ScientificFormatAdapter
 {
    /**
     * The number of significant digits the number is formatted to is recorded by sigDigit.

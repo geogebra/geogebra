@@ -36,6 +36,7 @@ import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.util.NumberFormatAdapter;
+import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -139,6 +140,7 @@ import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
 import geogebra.util.GeoLaTeXCache;
 import geogebra.util.NumberFormatDesktop;
+import geogebra.util.ScientificFormat;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -8087,6 +8089,10 @@ public class Kernel extends AbstractKernel{
 	
 	public NumberFormatAdapter getNumberFormat(){
 		return new NumberFormatDesktop();
+	}
+	
+	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
+		return new ScientificFormat(a, b, c);
 	}
 
 }

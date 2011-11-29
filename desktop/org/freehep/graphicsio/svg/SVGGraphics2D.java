@@ -1,7 +1,7 @@
 // Copyright 2000-2006 FreeHEP
 package org.freehep.graphicsio.svg;
 
-import geogebra.common.util.ScientificFormat;
+import geogebra.util.ScientificFormat;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

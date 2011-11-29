@@ -6,7 +6,7 @@ import java.util.Stack;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
-import geogebra.common.util.ScientificFormat;
+import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
@@ -54,7 +54,7 @@ public abstract class AbstractKernel {
 		public static final int STANDARD_PRINT_DECIMALS = 2; 
 		private double PRINT_PRECISION = 1E-2;
 		private NumberFormatAdapter nf;
-		private ScientificFormat sf;
+		private ScientificFormatAdapter sf;
 		public boolean useSignificantFigures = false;
 		
 		 // style of point/vector coordinates
@@ -132,11 +132,12 @@ public abstract class AbstractKernel {
 			nf = this.getNumberFormat();
 			nf.setGroupingUsed(false);
 			
-			sf = new ScientificFormat(5, 16, false);
-			
+			sf = this.getScientificFormat(5, 16, false);
+
 			setCASPrintForm(StringType.GEOGEBRA);
 		}
 		public abstract NumberFormatAdapter getNumberFormat();
+		public abstract ScientificFormatAdapter getScientificFormat(int a, int b, boolean c);
 		public void setSaveScriptsToXML(boolean flag) {
 			saveScriptsToXML = flag;
 		}

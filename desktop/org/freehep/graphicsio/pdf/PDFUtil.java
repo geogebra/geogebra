@@ -1,7 +1,7 @@
 // Copyright 2004, FreeHEP.
 package org.freehep.graphicsio.pdf;
 
-import geogebra.common.util.ScientificFormat;
+import geogebra.util.ScientificFormat;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
