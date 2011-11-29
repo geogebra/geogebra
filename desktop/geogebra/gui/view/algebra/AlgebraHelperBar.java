@@ -1,12 +1,17 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.main.Application;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 /**
@@ -38,6 +43,10 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 *  - Categorize objects by their type 
 	 */
 	protected JButton toggleTypeTreeMode;
+
+	private PopupMenuButton btnTextSize;
+
+	private JPopupMenu menu;
 
 	/**
 	 * Button to toggle LaTeX rendering
@@ -76,13 +85,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode = new JButton(app.getImageIcon("tree.png"));
 		toggleTypeTreeMode.addActionListener(this);
 		add(toggleTypeTreeMode);
-		
-//		addSeparator();
-//
-//		toggleLaTeX = new JButton(GeoGebraIcon.createLatexIcon(app, "\\sqrt{a}", true, Color.black, null, 16));
-//		toggleLaTeX.addActionListener(this);
-//		add(toggleLaTeX);
-		
+
 	}
 	
 	/**
@@ -105,7 +108,9 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		} else {
 			toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("TreeModeType"));
 		}
-//		toggleLaTeX.setToolTipText(app.getPlainTooltip("SimpleFormulas"));
+		if (menu != null) {
+			buildMenu();
+		}
 	}
 
 	/**
@@ -117,14 +122,70 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
 			
 		} else if(e.getSource() == toggleTypeTreeMode) {
-			algebraView.setTreeMode((!algebraView.getTreeMode().equals(SortMode.TYPE)) ? SortMode.TYPE : SortMode.DEPENDENCY);
-			toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
-			updateLabels();
+			
+			if (menu == null) {
+				buildMenu();
+			}
+			
+			if (menu.isVisible()) menu.setVisible(false);
+			else menu.show(toggleTypeTreeMode, toggleTypeTreeMode.getX(), toggleTypeTreeMode.getY());
+
 
 		}
 //		else if(e.getSource() == toggleLaTeX) {
 //			algebraView.setRenderLaTeX(!algebraView.isRenderLaTeX());
 //			toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
 //		}
+	}
+	
+	private void buildMenu() {
+		menu = new JPopupMenu();
+		
+		menu.add(new JLabel(app.getPlain("SortBy")+":"));
+		
+		JMenuItem mi = new JMenuItem();		
+		mi.setFont(app.getPlainFont());
+		mi.setBackground(Color.white);
+		mi.setText(app.getPlain("Dependency"));				
+		mi.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				algebraView.setTreeMode(SortMode.DEPENDENCY);
+			}
+		});
+		menu.add(mi);
+		
+		mi = new JMenuItem();		
+		mi.setFont(app.getPlainFont());
+		mi.setBackground(Color.white);
+		mi.setText(app.getPlain("ObjectType"));				
+		mi.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				algebraView.setTreeMode(SortMode.TYPE);
+			}
+		});
+		menu.add(mi);
+		
+		mi = new JMenuItem();		
+		mi.setFont(app.getPlainFont());
+		mi.setBackground(Color.white);
+		mi.setText(app.getPlain("Layer"));				
+		mi.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				algebraView.setTreeMode(SortMode.LAYER);
+			}
+		});
+		menu.add(mi);
+		
+		mi = new JMenuItem();		
+		mi.setFont(app.getPlainFont());
+		mi.setBackground(Color.white);
+		mi.setText(app.getPlain("ConstructionOrder"));				
+		mi.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				algebraView.setTreeMode(SortMode.ORDER);
+			}
+		});
+		menu.add(mi);
+		
 	}
 }
