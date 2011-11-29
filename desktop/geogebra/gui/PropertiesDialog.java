@@ -752,7 +752,7 @@ public class PropertiesDialog
 			
 			// add geo to type node   
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(geo);
-			pos = AlgebraView.getInsertPosition(typeNode, geo);
+			pos = AlgebraView.getInsertPosition(typeNode, geo, AlgebraView.SortMode.DEPENDENCY);
 			treeModel.insertNodeInto(newNode, typeNode, pos);
 			
 			// make sure something is selected

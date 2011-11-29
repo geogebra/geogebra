@@ -115,6 +115,11 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * Nodes for tree mode MODE_TYPE
 	 */
 	private HashMap<String, DefaultMutableTreeNode> typeNodesMap;
+	
+	/* for Mode.ORDER */
+	//private DefaultMutableTreeNode orderNode;
+	private DefaultMutableTreeNode rootOrder;
+	
 
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
@@ -197,7 +202,8 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 */
 	protected void initModel() {
 		// build default tree structure
-		if (treeMode == SortMode.DEPENDENCY) {
+		switch (treeMode) {
+		case DEPENDENCY:
 			// don't re-init anything
 			if (rootDependency == null) {
 				rootDependency = new DefaultMutableTreeNode();
@@ -220,7 +226,22 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 							rootDependency.getChildCount());
 				}
 			}
-		} else {
+		break;
+		case ORDER:
+			if (rootOrder == null) {
+				rootOrder = new DefaultMutableTreeNode();
+			}
+			
+			// always try to remove the auxiliary node
+			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+				removeAuxiliaryNode();
+			}
+
+			// set the root
+			model.setRoot(rootOrder);
+			break;
+			
+		case TYPE:
 			// don't re-init anything
 			if (rootType == null) {
 				rootType = new DefaultMutableTreeNode();
@@ -466,7 +487,9 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * set labels on the tree
 	 */
 	protected void setTreeLabels() {
-		if (getTreeMode().equals(SortMode.DEPENDENCY)) {
+		switch(getTreeMode()) {
+		case DEPENDENCY:
+		
 			indNode.setUserObject(app.getPlain("FreeObjects"));
 			model.nodeChanged(indNode);
 
@@ -475,13 +498,18 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 			auxiliaryNode.setUserObject(app.getPlain("AuxiliaryObjects"));
 			model.nodeChanged(auxiliaryNode);
-		} else {
+			break;
+		case TYPE:
 			DefaultMutableTreeNode node;
 			for (String key : typeNodesMap.keySet()) {
 				node = typeNodesMap.get(key);
 				node.setUserObject(app.getPlain(key));
 				model.nodeChanged(node);
 			}
+			break;
+		case ORDER:
+			model.nodeChanged(rootOrder);
+			break;
 		}
 	}
 
@@ -504,7 +532,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 			parent = getParentNode(geo);
 
 			// add node to model (alphabetically ordered)
-			int pos = getInsertPosition(parent, geo);
+			int pos = getInsertPosition(parent, geo, treeMode);
 
 			model.insertNodeInto(node, parent, pos);
 			nodeTable.put(geo, node);
@@ -522,7 +550,8 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo) {
 		DefaultMutableTreeNode parent;
 
-		if (treeMode.equals(SortMode.DEPENDENCY)) {
+		switch (treeMode) {
+		case DEPENDENCY:
 			if (geo.isAuxiliaryObject()) {
 				parent = auxiliaryNode;
 			} else if (geo.isIndependent()) {
@@ -530,7 +559,8 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 			} else {
 				parent = depNode;
 			}
-		} else {
+		break;
+		case TYPE:
 			// get type node
 			String typeString = geo.getObjectType();
 			parent = (DefaultMutableTreeNode) typeNodesMap.get(typeString);
@@ -554,20 +584,43 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 				model.insertNodeInto(parent, rootType, pos);
 			}
+			break;
+		case ORDER:
+			parent = rootOrder;
+
+			break;
+			default:
+				parent = null;
 		}
 
 		return parent;
+	}
+	
+	private static boolean compare(GeoElement geo1, GeoElement geo2, SortMode mode) {
+		switch (mode) {
+		
+		case ORDER:
+			
+			return geo1.getConstructionIndex() > geo2.getConstructionIndex();
+			
+			default: // alphabetical
+				
+				return GeoElement.compareLabels(geo1.getLabel(), geo2.getLabel()) > 0;
+		
+		}
+		
 	}
 
 	/**
 	 * Gets the insert position for newGeo to insert it in alphabetical order in
 	 * parent node. Note: all children of parent must have instances of
 	 * GeoElement as user objects.
+	 * @param mode 
 	 */
 	final public static int getInsertPosition(DefaultMutableTreeNode parent,
-			GeoElement newGeo) {
+			GeoElement newGeo, SortMode mode) {
 		// label of inserted geo
-		String newLabel = newGeo.getLabel();
+		//String newLabel = newGeo.getLabel();
 
 		// standard case: binary search
 		int left = 0;
@@ -578,17 +631,19 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		// bigger then last?
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 				.getLastChild();
-		String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
-		if (GeoElement.compareLabels(newLabel, nodeLabel) > 0)
+		//String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
+		GeoElement geo2 = ((GeoElement) node.getUserObject());
+		if (compare(newGeo, geo2, mode))
 			return right;
 
 		// binary search
 		while (right > left) {
 			int middle = (left + right) / 2;
 			node = (DefaultMutableTreeNode) parent.getChildAt(middle);
-			nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
+			//nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
+			geo2 = ((GeoElement) node.getUserObject());
 
-			if (GeoElement.compareLabels(newLabel, nodeLabel) < 0) {
+			if (!compare(newGeo, geo2, mode)) {
 				right = middle;
 			} else {
 				left = middle + 1;
@@ -675,13 +730,18 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * remove all from the tree
 	 */
 	protected void clearTree() {
-		if (getTreeMode().equals(SortMode.DEPENDENCY)) {
+		switch (getTreeMode()) {
+		case DEPENDENCY:
 			indNode.removeAllChildren();
 			depNode.removeAllChildren();
 			auxiliaryNode.removeAllChildren();
-		} else {
+		break;
+		case TYPE:
 			rootType.removeAllChildren();
 			typeNodesMap.clear();
+			break;
+		case ORDER:
+			rootOrder.removeAllChildren();
 		}
 	}
 
@@ -801,7 +861,6 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		 * CellEditorListener implementation
 		 */
 		public void editingCanceled(ChangeEvent event) {
-			System.out.println("canceled");
 		}
 
 		public void editingStopped(ChangeEvent event) {
