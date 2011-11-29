@@ -685,6 +685,12 @@ public class Construction extends AbstractConstruction{
 				&& ce.getMinConstructionIndex() <= toIndex
 				&& toIndex <= ce.getMaxConstructionIndex();
 		if (change) {
+			
+			if (ce instanceof GeoElement) {
+				// TODO: update Algebra View
+				Application.debug("TODO: update Algebra View");
+			}
+			
 			// move the construction element
 			ceList.remove(fromIndex);
 			ceList.add(toIndex, ce);

@@ -1050,6 +1050,9 @@ public abstract class GeoElement
 		app.changeLayer(this,this.layer,layer);
 		
 		this.layer=layer;
+		
+		// TODO: update Algebra View
+		Application.debug("TODO: update Algebra View");
 	}
 
 	// Michael Borcherds 2008-02-23
