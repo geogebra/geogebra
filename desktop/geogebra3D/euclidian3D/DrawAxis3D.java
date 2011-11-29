@@ -1,13 +1,12 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.kernel.kernelND.GeoAxisND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.TreeMap;
 
 /**
@@ -86,7 +85,7 @@ public class DrawAxis3D extends DrawLine3D {
   		//draw numbers
   		GeoAxisND axis = (GeoAxisND) getGeoElement();
   		
-		NumberFormat numberFormat = axis.getNumberFormat();
+		NumberFormatAdapter numberFormat = axis.getNumberFormat();
 		double distance = axis.getNumbersDistance();
 		
 		//Application.debug("drawMinMax="+getDrawMin()+","+getDrawMax());
@@ -216,7 +215,7 @@ public class DrawAxis3D extends DrawLine3D {
     	double maxPix = 100; // only one tick is allowed per maxPix pixels
 		double units = maxPix / vScale;
 		
-		NumberFormat numberFormat = NumberFormat.getInstance(Locale.ENGLISH);
+		NumberFormatAdapter numberFormat = getView3D().getKernel().getNumberFormat();
 		//TODO see EuclidianView::setAxesIntervals	and Kernel::axisNumberDistance	
 		double distance = getView3D().getKernel().axisNumberDistance(units, numberFormat);
 

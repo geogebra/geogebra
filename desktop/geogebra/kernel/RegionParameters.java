@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.main.Application;
 
 /**
  * @author Mathieu Blossier

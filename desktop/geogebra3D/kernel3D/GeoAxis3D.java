@@ -1,19 +1,19 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoAxisND;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Color;
-import java.text.NumberFormat;
 
 public class GeoAxis3D extends GeoLine3D implements GeoAxisND {	
 
 	private String axisLabel;
 	
 	// for numbers and ticks
-	private NumberFormat numberFormat;
+	private NumberFormatAdapter numberFormat;
 	private double numbersDistance;
 	private int numbersXOffset, numbersYOffset;
 	private int ticksize = 5; //TODO
@@ -118,7 +118,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	 * @param labelXOffset 
 	 * @param labelYOffset 
 	 */
-	public void updateDecorations(double distance, NumberFormat numberFormat,
+	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
 			int xOffset, int yOffset,
 			int labelXOffset, int labelYOffset){
 		this.numbersDistance = distance;
@@ -138,7 +138,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	/**
 	 * @return number format
 	 */
-	public NumberFormat getNumberFormat(){
+	public NumberFormatAdapter getNumberFormat(){
 		return numberFormat;
 	}
 	

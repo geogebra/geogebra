@@ -18,6 +18,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -98,7 +99,6 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -326,9 +326,9 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	int width = Application.getScreenSize().width;
 	int height = Application.getScreenSize().height;
 
-	protected NumberFormat[] axesNumberFormat;
+	protected NumberFormatAdapter[] axesNumberFormat;
 
-	protected NumberFormat printScaleNF;
+	protected NumberFormatAdapter printScaleNF;
 	NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 	/**
 	 * @return the xminObject
@@ -566,13 +566,13 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		this.showAxes[1] = showAxes[1];
 		this.showGrid = showGrid;
 
-		axesNumberFormat = new NumberFormat[2];
-		axesNumberFormat[0] = NumberFormat.getInstance(Locale.ENGLISH);
-		axesNumberFormat[1] = NumberFormat.getInstance(Locale.ENGLISH);
+		axesNumberFormat = new NumberFormatAdapter[2];
+		axesNumberFormat[0] = kernel.getNumberFormat();
+		axesNumberFormat[1] = kernel.getNumberFormat();
 		axesNumberFormat[0].setGroupingUsed(false);
 		axesNumberFormat[1].setGroupingUsed(false);
 
-		printScaleNF = NumberFormat.getInstance(Locale.ENGLISH);
+		printScaleNF = kernel.getNumberFormat();
 		printScaleNF.setGroupingUsed(false);
 		printScaleNF.setMaximumFractionDigits(5);
 

@@ -1,10 +1,9 @@
 package geogebra.common.kernel;
 
 
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Stack;
 
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.ScientificFormat;
@@ -54,7 +53,7 @@ public abstract class AbstractKernel {
 	// print precision
 		public static final int STANDARD_PRINT_DECIMALS = 2; 
 		private double PRINT_PRECISION = 1E-2;
-		private NumberFormat nf;
+		private NumberFormatAdapter nf;
 		private ScientificFormat sf;
 		public boolean useSignificantFigures = false;
 		
@@ -130,13 +129,14 @@ public abstract class AbstractKernel {
 			kernelID = kernelInstances;
 			casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 			
-			nf = NumberFormat.getInstance(Locale.ENGLISH);
+			nf = this.getNumberFormat();
 			nf.setGroupingUsed(false);
 			
 			sf = new ScientificFormat(5, 16, false);
 			
 			setCASPrintForm(StringType.GEOGEBRA);
 		}
+		public abstract NumberFormatAdapter getNumberFormat();
 		public void setSaveScriptsToXML(boolean flag) {
 			saveScriptsToXML = flag;
 		}
@@ -257,7 +257,7 @@ public abstract class AbstractKernel {
 		}
 		private StringBuilder sbFormatSigned = new StringBuilder(40);
 		
-		final public String formatPiERaw(double x, NumberFormat numF) {		
+		final public String formatPiERaw(double x, NumberFormatAdapter numF) {		
 			// PI
 			if (x == Math.PI) {
 				return casPrintFormPI;
@@ -497,7 +497,7 @@ public abstract class AbstractKernel {
 		/**
 		 * calls formatPiERaw() and converts to localised digits if appropriate
 		 */
-		final public String formatPiE(double x, NumberFormat numF) {	
+		final public String formatPiE(double x, NumberFormatAdapter numF) {	
 			if (AbstractApplication.unicodeZero != '0') {
 				
 				String num = formatPiERaw(x, numF);

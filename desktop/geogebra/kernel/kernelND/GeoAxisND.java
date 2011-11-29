@@ -1,8 +1,6 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.common.kernel.Matrix.CoordMatrix;
-
-import java.text.NumberFormat;
+import geogebra.common.util.NumberFormatAdapter;
 
 public interface GeoAxisND extends GeoLineND{
 	
@@ -22,10 +20,10 @@ public interface GeoAxisND extends GeoLineND{
 	public boolean getShowNumbers();
 	
 
-	public NumberFormat getNumberFormat();
+	public NumberFormatAdapter getNumberFormat();
 	public double getNumbersDistance();
 	public int getTickSize();
-	public void updateDecorations(double distance, NumberFormat numberFormat,
+	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
 			int xOffset, int yOffset, int i, int j);
 	public int getNumbersXOffset();
 	public int getNumbersYOffset(); 

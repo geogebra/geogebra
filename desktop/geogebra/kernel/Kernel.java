@@ -35,8 +35,8 @@ import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.LaTeXCache;
-import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -99,7 +99,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoFunctionable;
-import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoInterval;
 import geogebra.kernel.geos.GeoLine;
@@ -139,9 +138,9 @@ import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
 import geogebra.util.GeoLaTeXCache;
+import geogebra.util.NumberFormatDesktop;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -7620,7 +7619,7 @@ public class Kernel extends AbstractKernel{
 	// FORMAT FOR NUMBERS
 	////////////////////////////////////////////////
 	
-	public double axisNumberDistance(double units, NumberFormat numberFormat){
+	public double axisNumberDistance(double units, NumberFormatAdapter numberFormat){
 
 		// calc number of digits
 		int exp = (int) Math.floor(Math.log(units) / Math.log(10));
@@ -8084,6 +8083,10 @@ public class Kernel extends AbstractKernel{
 	public GeoListInterface newList() {
 		// TODO remove this once GeoNumeric is ported
 		return new GeoList(getConstruction());
+	}
+	
+	public NumberFormatAdapter getNumberFormat(){
+		return new NumberFormatDesktop();
 	}
 
 }

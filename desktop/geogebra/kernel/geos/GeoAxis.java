@@ -16,6 +16,7 @@ import java.awt.Color;
 import java.text.NumberFormat;
 
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoAxisND;
 
@@ -130,14 +131,14 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	
 	
 	// for numbers and ticks
-	private NumberFormat numberFormat;
+	private NumberFormatAdapter numberFormat;
 	private double numbersDistance;
 	private int numbersXOffset, numbersYOffset;
 	private int ticksize = 5; //TODO
 	
 	
 
-	public NumberFormat getNumberFormat() {
+	public NumberFormatAdapter getNumberFormat() {
 		return numberFormat;
 	}
 
@@ -149,7 +150,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 		return ticksize;
 	}
 
-	public void updateDecorations(double distance, NumberFormat numberFormat,
+	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
 			int xOffset, int yOffset,
 			int labelXOffset, int labelYOffset){
 		this.numbersDistance = distance;
