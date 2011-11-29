@@ -925,7 +925,6 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 			super(tree, renderer, editor);
 			// editor container that expands to fill the width of the tree's enclosing panel
 			editingContainer = new WideEditorContainer();
-			setPreferredSize(editingContainer.getPreferredSize());
 		}
 
 		/*
