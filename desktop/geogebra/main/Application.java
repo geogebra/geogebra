@@ -25,6 +25,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LowerCaseDictionary;
+import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
@@ -2123,8 +2124,8 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 
 
 	// Michael Borcherds 2008-02-23
-	public boolean languageIs(Locale locale, String lang) {
-		return locale.getLanguage().equals(lang);
+	public boolean languageIs(String lang) {
+		return getLocale().getLanguage().equals(lang);
 	}
 
 	StringBuilder testCharacters = new StringBuilder();
@@ -2198,12 +2199,12 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		return Locale.ENGLISH;
 	}
 
-	public ResourceBundle initAlgo2CommandBundle() {
+	public ResourceBundleAdapter initAlgo2CommandBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
 	}
 
 	// Added for Intergeo File Format (Yves Kreis) -->
-	public ResourceBundle initAlgo2IntergeoBundle() {
+	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
 	}
 
@@ -6036,12 +6037,11 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		return ev.toScreenCoordXd(max)-ev.toScreenCoordXd(min);
 	}
 
+	
 
-
-	@Override
-	public void debugNotStatic(Object s) {
-		Application.debug(s);
-		
+	
+	public String getLanguage(){
+		return getLocale().getLanguage();
 	}
 }
 

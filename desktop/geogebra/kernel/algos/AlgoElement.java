@@ -26,6 +26,7 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
 
 import geogebra.kernel.geos.GeoElement;
@@ -48,9 +49,9 @@ import java.util.TreeSet;
  */
 public abstract class AlgoElement extends ConstructionElement implements EuclidianViewCE, AlgoElementInterface {
 	 
-    private static ResourceBundle rbalgo2command;
+    private static ResourceBundleAdapter rbalgo2command;
 	// Added for Intergeo File Format (Yves Kreis) -->
-	private static ResourceBundle rbalgo2intergeo;
+	private static ResourceBundleAdapter rbalgo2intergeo;
 	// <-- Added for Intergeo File Format (Yves Kreis)
     
     public GeoElement[] input;

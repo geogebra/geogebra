@@ -35,7 +35,7 @@ public class GeoCasCell extends GeoElement {
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;
 	private String localizedInput;
-	private Locale currentLocale;
+	private String currentLanguage;
 	private boolean suppressOutput = false;
 	
 	// input variables of this cell
@@ -126,7 +126,7 @@ public class GeoCasCell extends GeoElement {
 	public String getInput() {
 		if (kernel.isPrintLocalizedCommandNames()) {
 			// input with localized command names
-			if (currentLocale != kernel.getApplication().getLocale()) {
+			if (!currentLanguage.equals(kernel.getApplication().getLanguage())) {
 				updateLocalizedInput();
 			}
 			return localizedInput;
@@ -299,7 +299,7 @@ public class GeoCasCell extends GeoElement {
 	
 	private void updateLocalizedInput() {
 		// for efficiency: localized input with local command names
-		currentLocale = cons.getApplication().getLocale();
+		currentLanguage = cons.getApplication().getLanguage();
 		localizedInput = localizeInput(input);
 	}
 	

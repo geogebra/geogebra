@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.main;
 
+import geogebra.common.util.ResourceBundleAdapter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -24,7 +26,7 @@ import java.util.ResourceBundle;
  * network connections when used with an applet.
  */
 
-public class MyResourceBundle extends PropertyResourceBundle {	
+public class MyResourceBundle extends PropertyResourceBundle implements ResourceBundleAdapter{	
 		
 	
 	public MyResourceBundle(InputStream in) throws IOException {	

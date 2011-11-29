@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -159,9 +160,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     					m=m*2;
     				}//
     			}while( m<MAX_SAMPLES );
-    			if(m>MAX_SAMPLES) app.debugNotStatic("We have probably lost some extremums...");
+    			if(m>MAX_SAMPLES) AbstractApplication.debug("We have probably lost some extremums...");
     		}catch(Exception e){
-    			app.debugNotStatic("Exception in compute() "+e.toString());
+    			AbstractApplication.debug("Exception in compute() "+e.toString());
     		}//try-catch
     	    if(numberOfExtremums==0){
     	    	setPoints(new double[1],0);

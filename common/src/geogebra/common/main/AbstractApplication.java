@@ -2,9 +2,7 @@ package geogebra.common.main;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.util.DebugPrinter;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
+import geogebra.common.util.ResourceBundleAdapter;
 
 public abstract class AbstractApplication {
 public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
@@ -39,8 +37,8 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	
 		public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
 		
-	public abstract ResourceBundle initAlgo2IntergeoBundle();
-	public abstract ResourceBundle initAlgo2CommandBundle();
+	public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
+	public abstract ResourceBundleAdapter initAlgo2CommandBundle();
 	public abstract String getCommand(String cmdName);
 	public abstract String getPlain(String cmdName);
 	public abstract String getPlain(String cmdName,String param);
@@ -59,8 +57,8 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract boolean showView(int view);
 	public abstract void callJavaScript(String jsFunction, Object [] args);
 	public abstract boolean isUsingLocalizedLabels();
-	public abstract Locale getLocale();
-	public abstract boolean languageIs(Locale l,String s);
+	public abstract String getLanguage();
+	public abstract boolean languageIs(String s);
 	public abstract boolean letRedefine();
 	public abstract String translationFix(String s);
 	public abstract void traceToSpreadsheet(Object o);
@@ -89,8 +87,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract double getXmaxForFunctions();
 	public abstract double countPixels(double min, double max);
 	public abstract int getMaxLayerUsed();
-	public abstract Object getAlgebraView();
-	public abstract void debugNotStatic(Object s);
+	public abstract Object getAlgebraView();	
 	public abstract Object createEuclidianViewForPlane(Object o);
 	public abstract boolean isRightToLeftDigits();
 	public abstract boolean isShowingEuclidianView2();		

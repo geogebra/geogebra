@@ -2703,9 +2703,9 @@ public abstract class GeoElement
 				// Michael Borcherds 2008-02-23
 				// use Greek upper case for labeling points if lenguage is Greek (el)
 				if(app.isUsingLocalizedLabels()) {
-					if (app.languageIs(app.getLocale(), "el")) {
+					if (app.languageIs("el")) {
 						chars=greekUpperCase;
-					} else if(app.languageIs(app.getLocale(), "ar")) {
+					} else if(app.languageIs("ar")) {
 						chars=arabic;
 					} else {
 						chars = pointLabels;
@@ -5735,7 +5735,7 @@ public abstract class GeoElement
 		//Application.debug(script);
 		if (clickJavaScript) {
 			if(app.getScriptingLanguage()==null){
-				app.setScriptingLanguage(app.getLocale().getLanguage());
+				app.setScriptingLanguage(app.getLanguage());
 			}
 			this.clickScript = script;
 		} else {
@@ -5750,7 +5750,7 @@ public abstract class GeoElement
 		if (!canHaveUpdateScript()) return;
 		if (updateJavaScript) {
 			if(app.getScriptingLanguage()==null){
-				app.setScriptingLanguage(app.getLocale().getLanguage());
+				app.setScriptingLanguage(app.getLanguage());
 			}
 			this.updateScript = script;
 		} else {
