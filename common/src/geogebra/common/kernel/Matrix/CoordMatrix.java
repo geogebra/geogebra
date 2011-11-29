@@ -508,15 +508,13 @@ public class CoordMatrix
 				
 	}
 	
-	
-	
 	/** prints the matrix to the screen */
 	public void SystemPrint(){
 		
 		AbstractApplication.debug(toString());
 	}
 	
-	
+	@Override
 	public String toString(){
 		String s="";
 		
@@ -532,15 +530,7 @@ public class CoordMatrix
 		}
 		
 		return s;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	/** returns false if one value equals NaN 
 	 * @return false if one value equals NaN */
@@ -585,10 +575,8 @@ public class CoordMatrix
 			}
 		}
 		
-		return result;
-		
+		return result;		
 	}
-	
 	
 	//matrix addition
 	/** returns this + m 
@@ -610,7 +598,6 @@ public class CoordMatrix
 		
 	}
 	
-	
 	//vector multiplication
 	/** returns this * v 
 	 * @param v vector
@@ -628,8 +615,7 @@ public class CoordMatrix
 				result.set(i,r);
 		}
 		
-		return result;
-		
+		return result;		
 	}
 	
 	//matrix multiplication
@@ -656,11 +642,9 @@ public class CoordMatrix
 		this.mul(m,result);
 		
 		
-		return result;
-		
+		return result;		
 	}
-	
-	
+		
 	/** this * m -> result
 	 * @param m matrix
 	 * @param result resulting matrix
@@ -748,8 +732,7 @@ public class CoordMatrix
 		CoordMatrix mInv = this.inverse(); //TODO: use gauss pivot to optimize
 		if (mInv==null)
 			return null;
-		return mInv.mul(v);		
-		
+		return mInv.mul(v);				
 	}
 	
 	/*
@@ -869,11 +852,6 @@ public class CoordMatrix
 		m4inv.SystemPrint();
 		m4.mul(m4inv).SystemPrint();
 		m4inv.mul(m4).SystemPrint();
-	}
-	
-	
-	
-	
-	
+	}	
 
 }

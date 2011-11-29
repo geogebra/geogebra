@@ -60,7 +60,8 @@ public class MyError extends java.lang.Error {
     	return commandName;
     }
         
-    public String getLocalizedMessage() {              
+    @Override
+	public String getLocalizedMessage() {              
         if (strs == null) 
             return app.getError(getMessage());
         else {
@@ -73,7 +74,8 @@ public class MyError extends java.lang.Error {
         }
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder sb = new StringBuilder();
         
         sb.append(getClass().toString() + ": ");

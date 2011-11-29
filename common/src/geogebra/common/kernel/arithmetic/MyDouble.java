@@ -130,7 +130,7 @@ implements NumberValue, Comparable {
     public void resolveVariables() {    	
     }
 
-    
+	@Override
 	public String toString() {
 		if (isAngle) {
 			// convert to angle value first, see issue 87

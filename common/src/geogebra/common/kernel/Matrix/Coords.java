@@ -15,9 +15,6 @@ package geogebra.common.kernel.Matrix;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.main.AbstractApplication;
 
-
-
-
 /**
  * 
  * A Ggb3DVector is composed of {x1,x2,...,xn} coordinates in double precision.
@@ -123,6 +120,7 @@ public class Coords
 		calcNorm=calcSqNorm=true;
 	}
 	
+	@Override
 	public void set(double val0){
 		super.set(val0);
 		calcNorm=calcSqNorm=true;
@@ -494,8 +492,7 @@ public class Coords
 		CoordMatrix m1 = new CoordMatrix(4,4);
 		m1.set(new Coords[] {m.getColumn(1), m.getColumn(2), v, m.getColumn(4)});
 		
-		return projectPlane(m1);
-		
+		return projectPlane(m1);	
 	}	
 	
 	/** returns this projected on the plane represented by the matrix, with vector v used for direction.  
@@ -516,8 +513,7 @@ public class Coords
 		CoordMatrix m1 = new CoordMatrix(4,4);
 		m1.set(new Coords[] {m.getColumn(1), m.getColumn(2), v, m.getColumn(4)});
 		
-		return projectPlane(m1);
-		
+		return projectPlane(m1);		
 	}		
 	
 	/** returns this projected on the plane represented by the matrix, with vector v used for direction.  
@@ -544,12 +540,8 @@ public class Coords
 		CoordMatrix m1 = new CoordMatrix(4,4);
 		m1.set(new Coords[] {m.getColumn(1), m.getColumn(2), v, m.getColumn(4)});
 		
-		return projectPlane(m1);
-		
-	}		
-	
-	
-	
+		return projectPlane(m1);		
+	}				
 	
 	/** calculates projection of this on the 3D-line represented by the matrix {V O}.
 	 * @param O origin of the line
@@ -563,11 +555,8 @@ public class Coords
 		CoordMatrix OH = N.mul(parameter);
 		Coords H = O.add(OH).getColumn(1); //TODO optimize
 		
-		return new Coords[] {H,new Coords(new double[] {parameter/V.norm(), parameter})};
-		
-	}
-	
-	
+		return new Coords[] {H,new Coords(new double[] {parameter/V.norm(), parameter})};		
+	}	
 	
 	/** calculates projection of this as far as possible to the 3D-line represented by the matrix {V O}
 	 *  regarding V2 direction.
@@ -776,9 +765,9 @@ public class Coords
 	public Coords add(Coords v){
 		
 		return (Coords) super.add(v);
-		
 	}
 	
+	@Override
 	public Coords mul(double val0){
 		
 		return (Coords) super.mul(val0);
