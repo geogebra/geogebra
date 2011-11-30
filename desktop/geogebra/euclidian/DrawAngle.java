@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
@@ -366,7 +367,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		double r = arcSize * view.invXscale;
 
 		// check whether we need to take care for a special 90 degree angle appearance
-		show90degrees = view.getRightAngleStyle() != EuclidianView.RIGHT_ANGLE_STYLE_NONE &&
+		show90degrees = view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE &&
 						angle.isEmphasizeRightAngle() &&  
 						Kernel.isEqual(angExt, Kernel.PI_HALF);
 		
@@ -381,7 +382,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// SPECIAL case for 90 degree angle, by Loic and Markus
 		if (show90degrees) {						
 			switch (view.getRightAngleStyle()) {									
-			case EuclidianView.RIGHT_ANGLE_STYLE_SQUARE:
+			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 				// set 90 degrees square									
 				if (square == null) 
 					square = new GeneralPath();
@@ -396,7 +397,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				shape = square;
 				break;								
 				
-			case EuclidianView.RIGHT_ANGLE_STYLE_L:
+			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
 				// Belgian offset |_						
 				if (square == null) 
 					square = new GeneralPath();
@@ -411,7 +412,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				
 				break;								
 				
-				case EuclidianView.RIGHT_ANGLE_STYLE_DOT:					
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:					
 					//	set 90 degrees dot			
 					drawDot = true;
 					
@@ -593,7 +594,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	final public void draw(Graphics2D g2) {
 		
 		if (isVisible) {
-			if (!show90degrees || view.getRightAngleStyle() != EuclidianView.RIGHT_ANGLE_STYLE_L) {
+			if (!show90degrees || view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L) {
 					fill(g2, shape, false); // fill using default/hatching/image as appropriate        	
 			}
 
@@ -612,7 +613,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			// special handling of 90 degree dot
 			if (show90degrees) {
 				switch (view.getRightAngleStyle()) {
-					case EuclidianView.RIGHT_ANGLE_STYLE_DOT:
+					case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 						g2.fill(dot90degree);
 						break;
 						

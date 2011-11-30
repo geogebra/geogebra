@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.EuclidianView;
@@ -76,7 +77,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	
 	public void drawHidden(Renderer renderer){
 		
-		renderer.getTextures().setDashFromLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		renderer.getTextures().setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		drawOutline(renderer);		
 
 	} 

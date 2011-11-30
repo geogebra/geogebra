@@ -1,5 +1,6 @@
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 
 import java.awt.BasicStroke;
@@ -43,7 +44,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		// get the selected point style
-		pointStyle = value == null ? EuclidianView.POINT_STYLE_DOT : ((Integer) value).intValue();
+		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT : ((Integer) value).intValue();
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);
@@ -73,15 +74,15 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		getPath();
 
 		switch (pointStyle) {
-		case EuclidianView.POINT_STYLE_PLUS:
-		case EuclidianView.POINT_STYLE_CROSS:
+		case EuclidianStyleConstants.POINT_STYLE_PLUS:
+		case EuclidianStyleConstants.POINT_STYLE_CROSS:
 			// draw cross like: X or +
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(line1);
 			g2.draw(line2);
 			break;
 
-		case EuclidianView.POINT_STYLE_EMPTY_DIAMOND:
+		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
 			// draw diamond
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(line1);
@@ -90,11 +91,11 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			g2.draw(line4);
 			break;
 
-		case EuclidianView.POINT_STYLE_FILLED_DIAMOND:
-		case EuclidianView.POINT_STYLE_TRIANGLE_NORTH:
-		case EuclidianView.POINT_STYLE_TRIANGLE_SOUTH:
-		case EuclidianView.POINT_STYLE_TRIANGLE_EAST:
-		case EuclidianView.POINT_STYLE_TRIANGLE_WEST:
+		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 			// draw diamond
 			g2.setStroke(crossStrokes[pointSize]);
 			// drawWithValueStrokePure(gp, g2);
@@ -102,13 +103,13 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			g2.fill(gp);
 			break;
 
-		case EuclidianView.POINT_STYLE_CIRCLE:
+		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 			// draw a circle
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(circle);
 			break;
 
-		// case EuclidianView.POINT_STYLE_CIRCLE:
+		// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 		default:
 			// draw a dot
 			g2.fill(circle);
@@ -137,7 +138,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		double root3over2 = Math.sqrt(3.0) / 2.0;
 
 		switch (pointStyle) {
-		case EuclidianView.POINT_STYLE_FILLED_DIAMOND:
+		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
 
 			double xR = coords[0] + pointSize;
 			double yB = coords[1] + pointSize;
@@ -155,11 +156,11 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;
 
-		case EuclidianView.POINT_STYLE_TRIANGLE_SOUTH:
-		case EuclidianView.POINT_STYLE_TRIANGLE_NORTH:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
 
 			double direction = 1.0;
-			if (pointStyle == EuclidianView.POINT_STYLE_TRIANGLE_NORTH)
+			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH)
 				direction = -1.0;
 
 			if (gp == null) {
@@ -179,11 +180,11 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;
 
-		case EuclidianView.POINT_STYLE_TRIANGLE_EAST:
-		case EuclidianView.POINT_STYLE_TRIANGLE_WEST:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 
 			direction = 1.0;
-			if (pointStyle == EuclidianView.POINT_STYLE_TRIANGLE_WEST)
+			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST)
 				direction = -1.0;
 
 			if (gp == null) {
@@ -203,7 +204,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;
 
-		case EuclidianView.POINT_STYLE_EMPTY_DIAMOND:
+		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
 			xR = coords[0] + pointSize;
 			yB = coords[1] + pointSize;
 
@@ -224,7 +225,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;
 
-		case EuclidianView.POINT_STYLE_PLUS:
+		case EuclidianStyleConstants.POINT_STYLE_PLUS:
 			xR = coords[0] + pointSize;
 			yB = coords[1] + pointSize;
 
@@ -239,7 +240,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;
 
-		case EuclidianView.POINT_STYLE_CROSS:
+		case EuclidianStyleConstants.POINT_STYLE_CROSS:
 			xR = coords[0] + pointSize;
 			yB = coords[1] + pointSize;
 
@@ -254,7 +255,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;
 
-		case EuclidianView.POINT_STYLE_CIRCLE:
+		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 			if (crossStrokes[pointSize] == null)
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
 			break;

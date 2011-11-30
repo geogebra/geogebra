@@ -1,5 +1,6 @@
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.io.MyXMLHandler;
@@ -715,13 +716,13 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 			if (app.hasEuclidianView2())
 				app.getEuclidianView2().setBooleanSize(26);
 		} else if (source == rightAngleRadio1) {
-			app.getEuclidianView().setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_NONE);
+			app.getEuclidianView().setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
 		} else if (source == rightAngleRadio2) {
-			app.getEuclidianView().setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_SQUARE);
+			app.getEuclidianView().setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
 		} else if (source == rightAngleRadio3) {
-			app.getEuclidianView().setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
+			app.getEuclidianView().setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 		} else if (source == rightAngleRadio4) {
-			app.getEuclidianView().setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_L);
+			app.getEuclidianView().setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
 		} else if (source == coordinatesRadio1) {
 			app.getKernel().setCoordStyle(0);
 			app.getKernel().updateConstruction();

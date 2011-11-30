@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
@@ -465,11 +466,11 @@ public abstract class GeoElement
 
 	// line thickness and line type: s
 	/** note: line thickness in Drawable is calculated as lineThickness / 2.0f*/
-	public int lineThickness = EuclidianView.DEFAULT_LINE_THICKNESS;
-	/** line type (full, dashed, ...) see EuclidianView.LINE_TYPE*/
-	public int lineType = EuclidianView.DEFAULT_LINE_TYPE;
+	public int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+	/** line type (full, dashed, ...) see EuclidianStyleConstants.LINE_TYPE*/
+	public int lineType = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
 	/** line type for hidden parts (for 3D) */
-	public int lineTypeHidden = EuclidianView.DEFAULT_LINE_TYPE_HIDDEN;
+	public int lineTypeHidden = EuclidianStyleConstants.DEFAULT_LINE_TYPE_HIDDEN;
 
 	// decoration types
 	public int decorationType = DECORATION_NONE;

@@ -1,6 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1004,9 +1005,9 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 		// construction defaults
 		ConstructionDefaults cd = app.getKernel().getConstruction().getConstructionDefaults();
-		cd.setDefaultLineThickness(EuclidianView.DEFAULT_LINE_THICKNESS + incr);
-		cd.setDefaultPointSize(EuclidianView.DEFAULT_POINT_SIZE + incr);
-		cd.setDefaultAngleSize(EuclidianView.DEFAULT_ANGLE_SIZE + angleSizeIncr);
+		cd.setDefaultLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS + incr);
+		cd.setDefaultPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE + incr);
+		cd.setDefaultAngleSize(EuclidianStyleConstants.DEFAULT_ANGLE_SIZE + angleSizeIncr);
 		// blackWhiteMode: set defaults for new GeoElements
 		cd.setBlackWhiteMode(blackWhiteMode);
 

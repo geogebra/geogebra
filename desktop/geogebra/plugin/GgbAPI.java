@@ -12,6 +12,7 @@ package geogebra.plugin;
  */
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.euclidian.EuclidianView;
 import geogebra.io.MyImageIO;
@@ -592,7 +593,7 @@ public class GgbAPI {
 	}	
 	
 	public synchronized void setLineThickness(String objName, int thickness) {
-		if (thickness == -1) thickness = EuclidianView.DEFAULT_LINE_THICKNESS;
+		if (thickness == -1) thickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		if (thickness < 1 || thickness > 13) return;
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return;		

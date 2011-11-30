@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Path;
@@ -26,7 +27,6 @@ import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.PathNormalizer;
@@ -908,7 +908,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return super.getLineType();
 	}
 
-	public int pointSize = EuclidianView.DEFAULT_POINT_SIZE;
+	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int pointStyle = -1; // use global option if -1
 
 	public void setPointSize(int size) {

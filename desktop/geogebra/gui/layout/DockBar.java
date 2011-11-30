@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
@@ -131,9 +132,9 @@ public class DockBar extends JPanel implements ActionListener {
 
 		btnMinimize = new JButton();
 		final Dimension iconDim = new Dimension(iconSize,iconSize);
-		btnMinimize.setIcon(GeoGebraIcon.createPointStyleIcon(EuclidianView.POINT_STYLE_TRIANGLE_WEST, 3, iconDim, Color.DARK_GRAY, null));
+		btnMinimize.setIcon(GeoGebraIcon.createPointStyleIcon(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST, 3, iconDim, Color.DARK_GRAY, null));
 		//btnMinimize.setRolloverEnabled(true);
-		//btnMinimize.setRolloverIcon(GeoGebraIcon.createPointStyleIcon(EuclidianView.POINT_STYLE_TRIANGLE_WEST, 3, iconSize, Color.BLACK, null));
+		//btnMinimize.setRolloverIcon(GeoGebraIcon.createPointStyleIcon(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST, 3, iconSize, Color.BLACK, null));
 		btnMinimize.addActionListener(this);
 		btnMinimize.setBorderPainted(false);
 		btnMinimize.setPreferredSize(new Dimension(btnSize, btnSize));

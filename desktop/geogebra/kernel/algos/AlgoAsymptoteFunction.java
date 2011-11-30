@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Construction;
@@ -36,7 +37,7 @@ public class AlgoAsymptoteFunction extends AlgoElement {
         this.f = f;            	
     	
         g = new GeoList(cons);    	
-		g.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+		g.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 	
         setInputOutput(); // for AlgoElement        
         compute();

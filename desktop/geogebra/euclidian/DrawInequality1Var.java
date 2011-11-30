@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -75,7 +76,7 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianView.getStroke(geo.lineThickness / 2.0f,
-						EuclidianView.LINE_TYPE_FULL));
+						EuclidianStyleConstants.LINE_TYPE_FULL));
 				Drawable.drawWithValueStrokePure(circle[i], g2);
 				if (!ineq.isStrict()) {
 					g2.fill(circle[i]);

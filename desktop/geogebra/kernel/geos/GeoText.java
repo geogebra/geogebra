@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
@@ -673,9 +674,9 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 		
 		// needed for eg \sqrt in latex
 		if ((fontStyle & Font.BOLD) != 0)
-			lineThickness = EuclidianView.DEFAULT_LINE_THICKNESS * 2;
+			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2;
 		else
-			lineThickness = EuclidianView.DEFAULT_LINE_THICKNESS;
+			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 			
 	}
 	final public int getPrintDecimals() {

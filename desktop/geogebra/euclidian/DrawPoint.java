@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
@@ -167,7 +168,7 @@ public final class DrawPoint extends Drawable {
     	double root3over2;
     	
         switch (pointStyle) {	       		        
-    	case EuclidianView.POINT_STYLE_FILLED_DIAMOND:        		
+    	case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:        		
     	    double xR = coords[0] + pointSize;        		
     		double yB = coords[1] + pointSize;
     		
@@ -181,11 +182,11 @@ public final class DrawPoint extends Drawable {
     		gp.closePath();
     		break;
     		
-    	case EuclidianView.POINT_STYLE_TRIANGLE_SOUTH:        		
-    	case EuclidianView.POINT_STYLE_TRIANGLE_NORTH:
+    	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:        		
+    	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
     		
     		double direction = 1.0;
-    		if (pointStyle == EuclidianView.POINT_STYLE_TRIANGLE_NORTH)
+    		if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH)
     			direction = -1.0;
     		
     		if (gp == null) {
@@ -199,11 +200,11 @@ public final class DrawPoint extends Drawable {
     		gp.closePath();
     		break;
     		
-    	case EuclidianView.POINT_STYLE_TRIANGLE_EAST:        		
-    	case EuclidianView.POINT_STYLE_TRIANGLE_WEST:
+    	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:        		
+    	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
     		
     		direction = 1.0;
-    		if (pointStyle == EuclidianView.POINT_STYLE_TRIANGLE_WEST)
+    		if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST)
     			direction = -1.0;
     		
     		if (gp == null) {
@@ -217,7 +218,7 @@ public final class DrawPoint extends Drawable {
     		gp.closePath();
     		break;
     		
-    	case EuclidianView.POINT_STYLE_EMPTY_DIAMOND:        		
+    	case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:        		
     	    xR = coords[0] + pointSize;        		
     		yB = coords[1] + pointSize;
     		
@@ -235,7 +236,7 @@ public final class DrawPoint extends Drawable {
     		line4.setLine(xR, (yB + yUL)/2, (xUL+xR)/2, yUL);
     		break;
     		        	
-    	case EuclidianView.POINT_STYLE_PLUS:        		
+    	case EuclidianStyleConstants.POINT_STYLE_PLUS:        		
     	    xR = coords[0] + pointSize;        		
     		yB = coords[1] + pointSize;
     		
@@ -247,7 +248,7 @@ public final class DrawPoint extends Drawable {
     		line2.setLine(xUL, (yB + yUL)/2, xR, (yB + yUL)/2);
     		break;
     		        	
-    	case EuclidianView.POINT_STYLE_CROSS:        		
+    	case EuclidianStyleConstants.POINT_STYLE_CROSS:        		
     	    xR = coords[0] + pointSize;        		
     		yB = coords[1] + pointSize;
     		
@@ -259,10 +260,10 @@ public final class DrawPoint extends Drawable {
     		line2.setLine(xUL, yB, xR, yUL); 
     		break;
     		        	
-        	case EuclidianView.POINT_STYLE_CIRCLE:
+        	case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
         		break;
         		
-        	// case EuclidianView.POINT_STYLE_DOT:
+        	// case EuclidianStyleConstants.POINT_STYLE_DOT:
         	//default:			        		        			        		    
         }    
         
@@ -377,8 +378,8 @@ public final class DrawPoint extends Drawable {
         		pointStyle = view.getPointStyle();
         	
             switch (pointStyle) {
-        	case EuclidianView.POINT_STYLE_PLUS:            		                     
-        	case EuclidianView.POINT_STYLE_CROSS:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_PLUS:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_CROSS:            		                     
          		// draw cross like: X or +     
                 g2.setPaint(geo.getObjectColor());
                 g2.setStroke(getCrossStroke(pointSize));            
@@ -386,7 +387,7 @@ public final class DrawPoint extends Drawable {
                 g2.draw(line2);             		
         		break;
         		
-        	case EuclidianView.POINT_STYLE_EMPTY_DIAMOND:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:            		                     
          		// draw diamond    
                 g2.setPaint(geo.getObjectColor());
                 g2.setStroke(getCrossStroke(pointSize));            
@@ -396,11 +397,11 @@ public final class DrawPoint extends Drawable {
                 g2.draw(line4);             		
         		break;
         		
-        	case EuclidianView.POINT_STYLE_FILLED_DIAMOND:            		                     
-        	case EuclidianView.POINT_STYLE_TRIANGLE_NORTH:            		                     
-        	case EuclidianView.POINT_STYLE_TRIANGLE_SOUTH:            		                     
-        	case EuclidianView.POINT_STYLE_TRIANGLE_EAST:            		                     
-        	case EuclidianView.POINT_STYLE_TRIANGLE_WEST:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:            		                     
+        	case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:            		                     
          		// draw diamond    
                 g2.setPaint(geo.getObjectColor());
                 g2.setStroke(getCrossStroke(pointSize));  
@@ -410,14 +411,14 @@ public final class DrawPoint extends Drawable {
         		
 
         		
-            	case EuclidianView.POINT_STYLE_CIRCLE:
+            	case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
             		// draw a circle            		
         			g2.setPaint(geo.getObjectColor());	
         			g2.setStroke(getCrossStroke(pointSize));
         			g2.draw(circle);  										                                                               		
            		break;
             	
-           		// case EuclidianView.POINT_STYLE_CIRCLE:
+           		// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
             	default:
             		// draw a dot            			
         			g2.setPaint(geo.getObjectColor());	
@@ -451,13 +452,13 @@ public final class DrawPoint extends Drawable {
     	int pointStyle = P.getPointStyle();
     	
 		switch (pointStyle) {
-	     	case EuclidianView.POINT_STYLE_CIRCLE:
+	     	case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 	 			g2.setStroke(getCrossStroke(pointSize));
 	 			g2.draw(circle);  										                                                               		
 	    		break;
 	     	
-	     	case EuclidianView.POINT_STYLE_CROSS:
-	     	default: // case EuclidianView.POINT_STYLE_CIRCLE:	     		
+	     	case EuclidianStyleConstants.POINT_STYLE_CROSS:
+	     	default: // case EuclidianStyleConstants.POINT_STYLE_CIRCLE:	     		
 	 			g2.fill(circle);  										           	     	
 	     }    		       
     }

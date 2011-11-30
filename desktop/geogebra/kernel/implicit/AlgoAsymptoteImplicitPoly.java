@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
@@ -54,7 +55,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 
         setInputOutput(); // for AlgoElement        
 
-        g.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+        g.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
         compute();
         
         g.setLabel(label);
@@ -361,7 +362,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 
         
 //		g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));	
-//		g.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+//		g.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
     }
     
 //    /**

@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoImage;
@@ -110,7 +111,7 @@ public class EuclidianPen {
 	public void setDefaults(){
 		  penSize = 3; 
 		  eraserSize = 16;
-		  penLineStyle = EuclidianView.LINE_TYPE_FULL;
+		  penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		  penColor = Color.black;	
 	}
 	
@@ -397,11 +398,11 @@ public class EuclidianPen {
 
 
 		if (erasing) {
-			g2d.setStroke(EuclidianView.getStroke(2 * eraserSize, EuclidianView.LINE_TYPE_FULL));
+			g2d.setStroke(EuclidianView.getStroke(2 * eraserSize, EuclidianStyleConstants.LINE_TYPE_FULL));
 			g2d.setColor(new Color(0, 0, 0, 0)); // transparent	
 			g2d.setComposite(AlphaComposite.Src);
 		} else {
-			g2d.setStroke(EuclidianView.getStroke(2 * penSize, (penPoints2.size() <= 2) ? EuclidianView.LINE_TYPE_FULL : penLineStyle));
+			g2d.setStroke(EuclidianView.getStroke(2 * penSize, (penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL : penLineStyle));
 			g2d.setColor(penColor);
 		}
 		g2d.draw(pb.gp);

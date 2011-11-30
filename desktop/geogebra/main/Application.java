@@ -21,6 +21,7 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.View;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -460,9 +461,9 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 
 	// moved to Application from EuclidianView as the same value is used across multiple EVs 
 	public int maxLayerUsed = 0;
-	public int pointStyle = EuclidianView.POINT_STYLE_DOT;
+	public int pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 	public int booleanSize=13;
-	public int rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
+	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 
 	private boolean rightClickEnabled = true;
 	private boolean chooserPopupsEnabled = true;	
@@ -1813,12 +1814,12 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 	}
 	
 	public void updateRightAngleStyle() {
-        if (rightAngleStyle != EuclidianView.RIGHT_ANGLE_STYLE_NONE) {
+        if (rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
 	        if (getLocale().getLanguage().equals("de") ||
         		getLocale().getLanguage().equals("hu")) {
-	        	rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_DOT;
+	        	rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
 	        } else {
-	        	rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
+	        	rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 	        }
         }
 	}
@@ -5205,7 +5206,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 			g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);	
 
 			g.setColor(Color.DARK_GRAY);
-			g.setStroke(EuclidianView.getStroke(2,  EuclidianView.LINE_TYPE_FULL ));
+			g.setStroke(EuclidianView.getStroke(2,  EuclidianStyleConstants.LINE_TYPE_FULL ));
 			
 			g.drawOval(10 * size / 48, 10 * size / 48, 30 * size / 48, 30 * size / 48);
 			

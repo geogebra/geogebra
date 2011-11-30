@@ -1,5 +1,6 @@
 package geogebra.main.settings;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -32,12 +33,12 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Line style of axes.
 	 */
-	private int axesLineStyle = EuclidianView.AXES_LINE_TYPE_ARROW;
+	private int axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
 	
 	/**
 	 * Line style of grid.
 	 */
-	private int gridLineStyle = EuclidianView.LINE_TYPE_DASHED_SHORT;
+	private int gridLineStyle = EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT;
 	
 	/**
 	 * Various distances between lines of the grid.
@@ -64,8 +65,8 @@ public class EuclidianSettings extends AbstractSettings {
 		axisNumberingDistanceX = Double.NaN;
 		axisNumberingDistanceY = Double.NaN;
 
-		setGridLineStyle(EuclidianView.LINE_TYPE_DASHED_SHORT);
-		setAxesLineStyle(EuclidianView.AXES_LINE_TYPE_ARROW);
+		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(Color.black); // Michael Borcherds 2008-01-26 was darkgray
 		setGridColor(Color.lightGray);
 		setBackground(Color.white);
@@ -80,8 +81,8 @@ public class EuclidianSettings extends AbstractSettings {
 		axesUnitLabels[1] = null;
 		piAxisUnit[0] = false;
 		piAxisUnit[1] = false;
-		axesTickStyles[0] = EuclidianView.AXES_TICK_STYLE_MAJOR;
-		axesTickStyles[1] = EuclidianView.AXES_TICK_STYLE_MAJOR;
+		axesTickStyles[0] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
+		axesTickStyles[1] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
 
 		// for axes labeling with numbers
 		automaticAxesNumberingDistances[0] = true;
@@ -254,8 +255,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected boolean[] piAxisUnit = { false, false, false };
 
-	protected int[] axesTickStyles = { EuclidianView.AXES_TICK_STYLE_MAJOR,
-			EuclidianView.AXES_TICK_STYLE_MAJOR };
+	protected int[] axesTickStyles = { EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };

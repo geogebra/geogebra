@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
@@ -202,9 +203,9 @@ implements ComponentListener, DragGestureListener, DragSourceListener {
 
 
 		if(plotSettings.showArrows){
-			setAxesLineStyle(EuclidianView.AXES_LINE_TYPE_ARROW);
+			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		}else{
-			setAxesLineStyle(EuclidianView.AXES_LINE_TYPE_FULL);
+			setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 		}
 
 		setDrawBorderAxes(plotSettings.isEdgeAxis);

@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
@@ -143,7 +144,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			labelRadius=size/1.7;
 			
 			//90°
-			boolean show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianView.RIGHT_ANGLE_STYLE_NONE &&
+			boolean show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE &&
 					angle.isEmphasizeRightAngle() &&  
 					Kernel.isEqual(a, Kernel.PI_HALF);
 			

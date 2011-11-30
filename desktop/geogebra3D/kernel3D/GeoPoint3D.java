@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.LocateableList;
@@ -58,7 +59,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		PointProperties, Vector3DValue, Translateable {
 
 	private boolean isInfinite, isDefined;
-	public int pointSize = EuclidianView.DEFAULT_POINT_SIZE;
+	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 
 	// mouse moving
 	private Coords willingCoords = null; // = new Ggb3DVector( new double[]

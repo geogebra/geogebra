@@ -36,7 +36,7 @@ import geogebra.kernel.algos.AlgoElement;
  */
 public class GeoAngle extends GeoNumeric {
 
-	//public int arcSize = EuclidianView.DEFAULT_ANGLE_SIZE;
+	//public int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private int arcSize;
 
 	// allow angle > pi

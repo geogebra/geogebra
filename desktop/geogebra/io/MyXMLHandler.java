@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -979,7 +980,7 @@ public class MyXMLHandler implements DocHandler {
 				if (strPointStyle != null) {
 					docPointStyle = Integer.parseInt(strPointStyle);
 				} else {
-					docPointStyle = EuclidianView.POINT_STYLE_DOT;
+					docPointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 				}
 				
 				// TODO save as default construction (F.S.)
@@ -1008,7 +1009,7 @@ public class MyXMLHandler implements DocHandler {
 			if (strRightAngleStyle == null)
 				// before v3.0 the default was a dot to show a right angle
 				//ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
-				app.rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_DOT;
+				app.rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
 			else
 				//ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
 				app.rightAngleStyle = Integer.parseInt(strRightAngleStyle);
@@ -1305,8 +1306,8 @@ public class MyXMLHandler implements DocHandler {
 				ev.setAxisTickStyle(axis, tickStyle);
 			} else {
 				// before v3.0 the default tickStyle was MAJOR_MINOR
-				//ev.getAxesTickStyles()[axis] = EuclidianView.AXES_TICK_STYLE_MAJOR_MINOR;
-				ev.setAxisTickStyle(axis, EuclidianView.AXES_TICK_STYLE_MAJOR_MINOR);
+				//ev.getAxesTickStyles()[axis] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR;
+				ev.setAxisTickStyle(axis, EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR);
 			}
 			
 			

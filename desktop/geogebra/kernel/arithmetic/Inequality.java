@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -193,9 +194,9 @@ public class Inequality {
 		if (funBorder != null)
 			border = funBorder;
 		if (isStrict()) {
-			border.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else
-			border.setLineType(EuclidianView.LINE_TYPE_FULL);
+			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 	}
 
 	private void setAboveBorderFromConic() {
@@ -237,9 +238,9 @@ public class Inequality {
 		cons.setSuppressLabelCreation(supress);
 		border = funBorder;
 		if (isStrict()) {
-			border.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else
-			border.setLineType(EuclidianView.LINE_TYPE_FULL);
+			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 
 	}
 

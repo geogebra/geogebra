@@ -55,7 +55,7 @@ public class Test3D{
 		
 		app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 
-		//view2D.setAxesLineStyle(EuclidianView.AXES_LINE_TYPE_ARROW);
+		//view2D.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		//view2D.showAxes(true, true);
 		view2D.setCoordSystem(100,view2D.getYZero(),view2D.getXscale(),view2D.getYscale());
 		

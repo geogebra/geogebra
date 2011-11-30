@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
@@ -107,8 +108,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
 
 
-	protected int[] axesTickStyles = { AXES_TICK_STYLE_MAJOR,
-			AXES_TICK_STYLE_MAJOR, AXES_TICK_STYLE_MAJOR };
+	protected int[] axesTickStyles = { EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR, EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 	
 
 	private double[] axisCross = {0,0,0};

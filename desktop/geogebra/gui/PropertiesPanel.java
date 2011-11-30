@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -3665,7 +3666,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			renderer.setPreferredSize(new Dimension(18,18));		
 			cbStyle = new JComboBox(EuclidianView.getPointStyles());
 			cbStyle.setRenderer(renderer);
-			cbStyle.setMaximumRowCount(EuclidianView.MAX_POINT_STYLE+1);
+			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE+1);
 			cbStyle.setBackground(getBackground());
 			cbStyle.addActionListener(this);
 			
@@ -4913,19 +4914,19 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 			buttons = new JRadioButton[3];
 
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_NONE]
+			buttons[EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE]
 			        = new JRadioButton(app.getMenu("Hidden.Invisible"));			
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_NONE]
+			buttons[EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE]
 					.setActionCommand("none");
 
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_DASHED]
+			buttons[EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED]
 			        = new JRadioButton(app.getMenu("Hidden.Dashed"));			
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_DASHED]
+			buttons[EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED]
 					.setActionCommand("dashed");
 
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN]
+			buttons[EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN]
 			        = new JRadioButton(app.getMenu("Hidden.Unchanged"));	
-			buttons[EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN]
+			buttons[EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN]
 					.setActionCommand("asNotHidden");
 
 			ButtonGroup buttonGroup = new ButtonGroup();
@@ -4972,12 +4973,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 		public void actionPerformed(ActionEvent e) {
 
-			int type = EuclidianView.LINE_TYPE_HIDDEN_NONE;
+			int type = EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE;
 
 			if (e.getActionCommand() == "dashed") {
-				type = EuclidianView.LINE_TYPE_HIDDEN_DASHED;
+				type = EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED;
 			} else if (e.getActionCommand() == "asNotHidden") {
-				type = EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN;
+				type = EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN;
 			}
 
 			GeoElement geo;

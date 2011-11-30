@@ -33,12 +33,6 @@ import java.util.ArrayList;
 
 public interface EuclidianViewInterface extends View{
 	
-	public static final int AXES_TICK_STYLE_MAJOR_MINOR = 0;
-
-	public static final int AXES_TICK_STYLE_MAJOR = 1;
-
-	public static final int AXES_TICK_STYLE_NONE = 2;
-	
 	/** reference to x axis*/
 	public static final int AXIS_X = 0; 
 	/** reference to y axis*/	

@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElementInterface;
@@ -600,7 +601,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		lowPoint.setObjColor(COLOR_POINT);
 		lowPoint.setPointSize(4);
-		lowPoint.setPointStyle(EuclidianView.POINT_STYLE_TRIANGLE_NORTH);
+		lowPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		lowPoint.setLayer(5);
 		plotGeoList.add(lowPoint);
 
@@ -614,7 +615,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		highPoint.setObjColor(COLOR_POINT);
 		highPoint.setPointSize(4);
-		highPoint.setPointStyle(EuclidianView.POINT_STYLE_TRIANGLE_NORTH);
+		highPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		highPoint.setLayer(5);
 		plotGeoList.add(highPoint);
 
@@ -824,7 +825,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				xSegment = (GeoSegment)seg1.getGeoElements()[0];
 				xSegment.setObjColor(Color.blue);
 				xSegment.setLineThickness(3);
-				xSegment.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+				xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 				xSegment.setEuclidianVisible(true);
 				xSegment.setFixed(true);
 				plotGeoList.add(xSegment);
@@ -842,7 +843,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				ySegment = (GeoRay)seg2.getGeoElements()[0];
 				ySegment.setObjColor(Color.red);
 				ySegment.setLineThickness(3);
-				ySegment.setLineType(EuclidianView.LINE_TYPE_FULL);
+				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				ySegment.setEuclidianVisible(true);
 				ySegment.setFixed(true);
 				plotGeoList.add(ySegment);

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.FormulaDimension;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
@@ -871,11 +872,11 @@ public abstract class Drawable extends DrawableND {
 
 			float width = lineThickness / 2.0f;
 			objStroke = EuclidianView.getStroke(width, lineType);
-			decoStroke = EuclidianView.getStroke(width, EuclidianView.LINE_TYPE_FULL);
+			decoStroke = EuclidianView.getStroke(width, EuclidianStyleConstants.LINE_TYPE_FULL);
 			selStroke =
 				EuclidianView.getStroke(
-					width + EuclidianView.SELECTION_ADD,
-					EuclidianView.LINE_TYPE_FULL);
+					width + EuclidianStyleConstants.SELECTION_ADD,
+					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != geo.lineType) {
 			if(!forcedLineType)
 				lineType = geo.lineType;

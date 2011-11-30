@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -1239,7 +1240,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		xSegment = (GeoSegment)seg1.getGeoElements()[0];
 		xSegment.setObjColor(DISPLAY_GEO_COLOR);
 		xSegment.setLineThickness(3);
-		xSegment.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+		xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		xSegment.setEuclidianVisible(true);
 		xSegment.setFixed(true);
 		pointTabGeoList.add(xSegment);
@@ -1259,7 +1260,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		ySegment = (GeoSegment)seg2.getGeoElements()[0];
 		ySegment.setObjColor(DISPLAY_GEO_COLOR);
 		ySegment.setLineThickness(3);
-		ySegment.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		ySegment.setEuclidianVisible(true);
 		ySegment.setFixed(true);
 		pointTabGeoList.add(ySegment);
@@ -1380,7 +1381,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		minPoint = new GeoPoint(cons);
 		minPoint.setEuclidianVisible(false);
 		minPoint.setPointSize(4);
-		minPoint.setPointStyle(EuclidianView.POINT_STYLE_FILLED_DIAMOND);
+		minPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
 		minPoint.setObjColor(DISPLAY_GEO_COLOR.darker());
 		minPoint.setLayer(f.getLayer()+1);
 		minPoint.setFixed(true);
@@ -1389,7 +1390,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		maxPoint = new GeoPoint(cons);
 		maxPoint.setEuclidianVisible(false);
 		maxPoint.setPointSize(4);
-		maxPoint.setPointStyle(EuclidianView.POINT_STYLE_FILLED_DIAMOND);
+		maxPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
 		maxPoint.setObjColor(DISPLAY_GEO_COLOR.darker());
 		maxPoint.setLayer(f.getLayer()+1);
 		maxPoint.setFixed(true);

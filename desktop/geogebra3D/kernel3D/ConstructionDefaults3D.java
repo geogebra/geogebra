@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
@@ -143,8 +144,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	
 		// free point
 		GeoPoint3D freePoint = new GeoPoint3D(cons);	
-		freePoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		freePoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		freePoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point3D" + strFree);
 		freePoint.setObjColor(colPoint);
 		//freePoint.setLabelOffset(5, -5);
@@ -152,8 +153,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		
 		// dependent point
 		GeoPoint3D depPoint = new GeoPoint3D(cons);	
-		depPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		depPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		depPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point3D" + strDependent);
 		depPoint.setObjColor(colDepPoint);
 		//depPoint.setLabelOffset(5, -5);
@@ -161,8 +162,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		
 		// point on path
 		GeoPoint3D pathPoint = new GeoPoint3D(cons);	
-		pathPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		pathPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		pathPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("Point3DOn");
 		pathPoint.setObjColor(colPathPoint);
 		//pathPoint.setLabelOffset(5, -5);
@@ -170,8 +171,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		
 		// point in region
 		GeoPoint3D regionPoint = new GeoPoint3D(cons);	
-		regionPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		regionPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		regionPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("Point3DInRegion");
 		regionPoint.setObjColor(colRegionPoint);
 		//regionPoint.setLabelOffset(5, -5);
@@ -179,39 +180,39 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		
 		// line
 		GeoLine3D line = new GeoLine3D(cons);
-		//line.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		line.setLocalVariableLabel("Line3D");
 		defaultGeoElements.put(DEFAULT_LINE3D, line);		
 		
 		// segment
 		GeoSegment3D segment = new GeoSegment3D(cons);
-		//segment.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		segment.setLocalVariableLabel("Segment3D");
 		defaultGeoElements.put(DEFAULT_SEGMENT3D, segment);		
 
 		// ray
 		GeoRay3D ray = new GeoRay3D(cons);
-		//ray.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//ray.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		ray.setLocalVariableLabel("Ray3D");
 		defaultGeoElements.put(DEFAULT_RAY3D, ray);		
 	
 		// line intersection
 		GeoLine3D lineIntersection = new GeoLine3D(cons);
-		//line.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		lineIntersection.setLocalVariableLabel("Line3D" + strIntersection);
 		lineIntersection.setObjColor(colIntersectionLine);
 		defaultGeoElements.put(DEFAULT_LINE3D_INTERSECTION, lineIntersection);		
 		
 		// segment intersection
 		GeoSegment3D segmentIntersection = new GeoSegment3D(cons);
-		//segment.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		segmentIntersection.setLocalVariableLabel("Segment3D" + strIntersection);
 		lineIntersection.setObjColor(colIntersectionLine);
 		defaultGeoElements.put(DEFAULT_SEGMENT3D_INTERSECTION, segmentIntersection);		
 
 		// ray intersection
 		GeoRay3D rayIntersection = new GeoRay3D(cons);
-		//ray.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//ray.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		rayIntersection.setLocalVariableLabel("Ray3D" + strIntersection);
 		lineIntersection.setObjColor(colIntersectionLine);
 		defaultGeoElements.put(DEFAULT_RAY3D_INTERSECTION, rayIntersection);		
@@ -219,13 +220,13 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		
 		// axis
 		GeoAxis3D axis = new GeoAxis3D(cons);
-		//axis.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+		//axis.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		axis.setLocalVariableLabel("Axis3D");
 		defaultGeoElements.put(DEFAULT_AXIS3D, axis);		
 		
 		// vector 3D
 		GeoVector3D vector = new GeoVector3D(cons);
-		//vector.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//vector.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		vector.setObjColor(colVector);
 		vector.setLocalVariableLabel("Vector3D");
 		defaultGeoElements.put(DEFAULT_VECTOR3D, vector);		
@@ -234,7 +235,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// conic
 		GeoConic3D conic = new GeoConic3D(cons);	
 		conic.setLocalVariableLabel("Conic3D");
-		//conic.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//conic.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		conic.setObjColor(colConic3D);
 		defaultGeoElements.put(DEFAULT_CONIC3D, conic);
 		
@@ -249,7 +250,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// curve
 		GeoCurveCartesian3D curve = new GeoCurveCartesian3D(cons);	
 		curve.setLocalVariableLabel("Curve3D");
-		//curve.setLineType(EuclidianView.LINE_TYPE_DASHED_LONG);
+		//curve.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		curve.setObjColor(colCurveCartesian3D);
 		defaultGeoElements.put(DEFAULT_CURVECARTESIAN3D, curve);
 		
@@ -261,7 +262,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		plane.setAlphaValue(DEFAULT_PLANE3D_ALPHA);
 		plane.setLineThickness(DEFAULT_PLANE3D_GRID_THICKNESS);
 		plane.setFading(DEFAULT_PLANE3D_FADING);
-		//plane.setLineType(EuclidianView.LINE_TYPE_DASHED_SHORT);
+		//plane.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		defaultGeoElements.put(DEFAULT_PLANE3D, plane);
 		
 		// polygon

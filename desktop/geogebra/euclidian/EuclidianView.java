@@ -13,6 +13,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -140,106 +141,47 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 	public static final double YZERO_STANDARD = 315;
 
-	public static final int LINE_TYPE_FULL = 0;
-
-	public static final int LINE_TYPE_DASHED_SHORT = 10;
-
-	public static final int LINE_TYPE_DASHED_LONG = 15;
-
-	public static final int LINE_TYPE_DOTTED = 20;
-
-	public static final int LINE_TYPE_DASHED_DOTTED = 30;
-
+	// need to clip just outside the viewing area when drawing eg vectors
+		// as a near-horizontal thick vector isn't drawn correctly otherwise
+		public static final int CLIP_DISTANCE = 5;
+		
+		public static final int POINT_CAPTURING_OFF = 0;
+		public static final int POINT_CAPTURING_ON = 1;
+		public static final int POINT_CAPTURING_ON_GRID = 2;
+		public static final int POINT_CAPTURING_AUTOMATIC = 3;
+		public static final int POINT_CAPTURING_STICKY_POINTS = 4;
+		
+		public static final int TOOLTIPS_AUTOMATIC = 0;
+		public static final int TOOLTIPS_ON = 1;
+		public static final int TOOLTIPS_OFF = 2;
+		
 	public static final Integer[] getLineTypes() {
-		Integer[] ret = { new Integer(LINE_TYPE_FULL),
-				new Integer(LINE_TYPE_DASHED_LONG),
-				new Integer(LINE_TYPE_DASHED_SHORT),
-				new Integer(LINE_TYPE_DOTTED),
-				new Integer(LINE_TYPE_DASHED_DOTTED) };
+		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED) };
 		return ret;
 	}
 	
-	// need to clip just outside the viewing area when drawing eg vectors
-	// as a near-horizontal thick vector isn't drawn correctly otherwise
-	public static final int CLIP_DISTANCE = 5;
-	
-	public static final int AXES_LINE_TYPE_FULL = 0;
 
-	public static final int AXES_LINE_TYPE_ARROW = 1;
-
-	public static final int AXES_LINE_TYPE_FULL_BOLD = 2;
-
-	public static final int AXES_LINE_TYPE_ARROW_BOLD = 3;
-
-
-
-	public static final int POINT_STYLE_DOT = 0;
-	public static final int POINT_STYLE_CROSS = 1;
-	public static final int POINT_STYLE_CIRCLE = 2;
-	public static final int POINT_STYLE_PLUS = 3;
-	public static final int POINT_STYLE_FILLED_DIAMOND = 4;
-	public static final int POINT_STYLE_EMPTY_DIAMOND = 5;
-	public static final int POINT_STYLE_TRIANGLE_NORTH = 6;
-	public static final int POINT_STYLE_TRIANGLE_SOUTH = 7;
-	public static final int POINT_STYLE_TRIANGLE_EAST = 8;
-	public static final int POINT_STYLE_TRIANGLE_WEST = 9;
-	public static final int MAX_POINT_STYLE = 9;
 
 	// G.Sturr added 2009-9-21 
 	public static final Integer[] getPointStyles() {
-		Integer[] ret = { new Integer(POINT_STYLE_DOT),
-				new Integer(POINT_STYLE_CROSS),
-				new Integer(POINT_STYLE_CIRCLE),
-				new Integer(POINT_STYLE_PLUS),
-				new Integer(POINT_STYLE_FILLED_DIAMOND),
-				new Integer(POINT_STYLE_EMPTY_DIAMOND),
-				new Integer(POINT_STYLE_TRIANGLE_NORTH),
-				new Integer(POINT_STYLE_TRIANGLE_SOUTH),
-				new Integer(POINT_STYLE_TRIANGLE_EAST),
-				new Integer(POINT_STYLE_TRIANGLE_WEST)	
+		Integer[] ret = { new Integer(EuclidianStyleConstants.POINT_STYLE_DOT),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_CROSS),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_CIRCLE),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_PLUS),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST)	
 				};
 		return ret;
 	}
-	//end		
-	
-	public static final int RIGHT_ANGLE_STYLE_NONE = 0;
-
-	public static final int RIGHT_ANGLE_STYLE_SQUARE = 1;
-
-	public static final int RIGHT_ANGLE_STYLE_DOT = 2;
-
-	public static final int RIGHT_ANGLE_STYLE_L = 3; // Belgian style
-
-	public static final int DEFAULT_POINT_SIZE = 3;
-
-	public static final int DEFAULT_LINE_THICKNESS = 2;
-
-	public static final int DEFAULT_ANGLE_SIZE = 30;
-
-	public static final int DEFAULT_LINE_TYPE = LINE_TYPE_FULL;
-	
-	
-	public static final int LINE_TYPE_HIDDEN_NONE = 0;
-	
-	public static final int LINE_TYPE_HIDDEN_DASHED = 1;
-	
-	public static final int LINE_TYPE_HIDDEN_AS_NOT_HIDDEN = 2;
-	
-	public static final int DEFAULT_LINE_TYPE_HIDDEN = LINE_TYPE_HIDDEN_DASHED;
-
-	public static final float SELECTION_ADD = 2.0f;
-
-	// ggb3D 2008-10-27 : mode constants moved to EuclidianConstants.java
-	
-	public static final int POINT_CAPTURING_OFF = 0;
-	public static final int POINT_CAPTURING_ON = 1;
-	public static final int POINT_CAPTURING_ON_GRID = 2;
-	public static final int POINT_CAPTURING_AUTOMATIC = 3;
-	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
-	
-	public static final int TOOLTIPS_AUTOMATIC = 0;
-	public static final int TOOLTIPS_ON = 1;
-	public static final int TOOLTIPS_OFF = 2;
+	//end			
 	
 	protected int tooltipsInThisView = TOOLTIPS_AUTOMATIC;
 	
@@ -258,7 +200,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
 
 	protected static MyBasicStroke selStroke = new MyBasicStroke(
-			1.0f + SELECTION_ADD);
+			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	// protected static MyBasicStroke thinStroke = new MyBasicStroke(1.0f);
 
@@ -467,8 +409,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 	protected boolean[] piAxisUnit = { false, false };
 
-	protected int[] axesTickStyles = { AXES_TICK_STYLE_MAJOR,
-			AXES_TICK_STYLE_MAJOR };
+	protected int[] axesTickStyles = { EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true };
@@ -644,12 +586,12 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	public void updateRightAngleStyle(Locale locale) {				
 		// change rightAngleStyle for German to
         // EuclidianView.RIGHT_ANGLE_STYLE_DOT
-        if (getRightAngleStyle() != RIGHT_ANGLE_STYLE_NONE) {
+        if (getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
 	        if (locale.getLanguage().equals("de") ||
 	        	locale.getLanguage().equals("hu")) {
-	        	setRightAngleStyle(RIGHT_ANGLE_STYLE_DOT);
+	        	setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 	        } else {
-	        	setRightAngleStyle(RIGHT_ANGLE_STYLE_SQUARE);
+	        	setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
 	        }
         }
 	}
@@ -659,8 +601,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		setPreferredSize(null);
 		
 		// init grid's line type
-		setGridLineStyle(LINE_TYPE_DASHED_SHORT);
-		setAxesLineStyle(AXES_LINE_TYPE_ARROW);
+		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(Color.black); // Michael Borcherds 2008-01-26 was darkgray
 		setGridColor(Color.lightGray);
 		setBackground(Color.white);
@@ -681,8 +623,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		axesUnitLabels[1] = null;
 		piAxisUnit[0] = false;
 		piAxisUnit[1] = false;
-		axesTickStyles[0] = AXES_TICK_STYLE_MAJOR;
-		axesTickStyles[1] = AXES_TICK_STYLE_MAJOR;
+		axesTickStyles[0] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
+		axesTickStyles[1] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
 
 		// for axes labeling with numbers
 		automaticAxesNumberingDistances[0] = true;
@@ -819,10 +761,10 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	 * @param style 
 	 */
 	public void setPointStyle(int style) {
-		if (style > 0 && style <= MAX_POINT_STYLE)
+		if (style > 0 && style <= EuclidianStyleConstants.MAX_POINT_STYLE)
 			app.pointStyle = style;
 		else
-			app.pointStyle = POINT_STYLE_DOT;
+			app.pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 		
 		updateAllDrawables(true);
 	}
@@ -840,7 +782,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	}
 
 	public void setToolTipText(String plain) {
-		if (tooltipsInThisView == TOOLTIPS_ON || tooltipsInThisView == TOOLTIPS_AUTOMATIC)
+		if (tooltipsInThisView == TOOLTIPS_ON || 
+				tooltipsInThisView == TOOLTIPS_AUTOMATIC)
 			super.setToolTipText(plain);
 	}
 
@@ -896,26 +839,26 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		float[] dash;
 
 		switch (type) {
-		case EuclidianView.LINE_TYPE_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			dash = new float[2];
 			dash[0] = width; // dot
 			dash[1] = 3.0f; // space
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_SHORT:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
 			dash = new float[2];
 			dash[0] = 4.0f + width;
 			// short dash
 			dash[1] = 4.0f; // space
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_LONG:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
 			dash = new float[2];
 			dash[0] = 8.0f + width; // long dash
 			dash[1] = 8.0f; // space
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
 			dash = new float[4];
 			dash[0] = 8.0f + width; // dash
 			dash[1] = 4.0f; // space before dot
@@ -923,7 +866,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			dash[3] = dash[1]; // space after dot
 			break;
 
-		default: // EuclidianView.LINE_TYPE_FULL
+		default: // EuclidianStyleConstants.LINE_TYPE_FULL
 			dash = null;
 		}
 
@@ -2223,13 +2166,13 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		int xoffset, yoffset;
 		
 		
-		boolean bold = axesLineType == AXES_LINE_TYPE_FULL_BOLD
-						|| axesLineType == AXES_LINE_TYPE_ARROW_BOLD;
-		boolean drawArrowsx = (axesLineType == AXES_LINE_TYPE_ARROW
-								|| axesLineType == AXES_LINE_TYPE_ARROW_BOLD)
+		boolean bold = axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_FULL_BOLD
+						|| axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD;
+		boolean drawArrowsx = (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW
+								|| axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD)
 								&& !(positiveAxes[0] && xmax < axisCross[1]);
-		boolean drawArrowsy = (axesLineType == AXES_LINE_TYPE_ARROW
-				|| axesLineType == AXES_LINE_TYPE_ARROW_BOLD)
+		boolean drawArrowsy = (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW
+				|| axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD)
 				&& !(positiveAxes[1] && ymax < axisCross[0]);
 		// AXES_TICK_STYLE_MAJOR_MINOR = 0;
 		// AXES_TICK_STYLE_MAJOR = 1;

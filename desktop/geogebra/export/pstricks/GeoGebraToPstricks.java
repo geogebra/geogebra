@@ -7,6 +7,7 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -573,7 +574,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		angExt+=angSt;
 		double r = arcSize /euclidianView.getXscale();
 		// if angle=90� and decoration=little square
-        if (Kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianView.RIGHT_ANGLE_STYLE_SQUARE){
+        if (Kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE){
         	r=r/Math.sqrt(2);
         	double[] x=new double[8];
         	x[0]=m[0]+r*Math.cos(angSt);
@@ -625,7 +626,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code.append(")\\closepath}\n");
 		endBeamer(code);
 		// draw the dot if angle= 90 and decoration=dot
-		if (Kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianView.RIGHT_ANGLE_STYLE_DOT){
+		if (Kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT){
 			double diameter = geo.lineThickness/euclidianView.getXscale();
 			double radius = arcSize/euclidianView.getXscale()/1.7;
 			double labelAngle = (angSt+angExt) / 2.0;
@@ -1535,10 +1536,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("cm,yunit=");
 		codeBeginPic.append(sci2dec(yunit));
 		codeBeginPic.append("cm,algebraic=true,dotstyle=o,dotsize=");
-		codeBeginPic.append(EuclidianView.DEFAULT_POINT_SIZE);
+		codeBeginPic.append(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		codeBeginPic.append("pt 0");
 		codeBeginPic.append(",linewidth=");
-		codeBeginPic.append(kernel.format(EuclidianView.DEFAULT_LINE_THICKNESS/2*0.8));
+		codeBeginPic.append(kernel.format(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS/2*0.8));
 		codeBeginPic.append("pt,arrowsize=3pt 2,arrowinset=0.25}\n");
     }
     
@@ -1663,7 +1664,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(kernel.format(Dy));
 		codeBeginPic.append(",ticksize=-2pt 0,subticks=2");
 		codeBeginPic.append("]{-");
-		if (euclidianView.getAxesLineStyle()==EuclidianView.AXES_LINE_TYPE_ARROW)
+		if (euclidianView.getAxesLineStyle()==EuclidianStyleConstants.AXES_LINE_TYPE_ARROW)
 		codeBeginPic.append(">");
 		codeBeginPic.append("}(0,0)(");
 		codeBeginPic.append(kernel.format(xmin));
@@ -1692,7 +1693,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		boolean coma=false;
 		boolean bracket=false;
-		if (dotsize!=EuclidianView.DEFAULT_POINT_SIZE){
+		if (dotsize!=EuclidianStyleConstants.DEFAULT_POINT_SIZE){
 			// coma needed
 			coma=true;
 			// bracket needed
@@ -1702,38 +1703,38 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			codePoint.append("pt 0");
 		}
 		
-		if (dotstyle!=EuclidianView.POINT_STYLE_CIRCLE) {
+		if (dotstyle!=EuclidianStyleConstants.POINT_STYLE_CIRCLE) {
 			if (coma) codePoint.append(",");
 			if (!bracket) codePoint.append("[");
 			coma = true;
 			bracket = true;
 			codePoint.append("dotstyle=");
 			switch(dotstyle){
-			case EuclidianView.POINT_STYLE_CROSS:
+			case EuclidianStyleConstants.POINT_STYLE_CROSS:
 				codePoint.append("x");
 			break;
-			case EuclidianView.POINT_STYLE_DOT:
+			case EuclidianStyleConstants.POINT_STYLE_DOT:
 				codePoint.append("*");
 			break;
-			case EuclidianView.POINT_STYLE_EMPTY_DIAMOND:
+			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
 				codePoint.append("square,dotangle=45");
 			break;
-			case EuclidianView.POINT_STYLE_FILLED_DIAMOND:
+			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
 				codePoint.append("square*,dotangle=45");
 			break;
-			case EuclidianView.POINT_STYLE_PLUS:
+			case EuclidianStyleConstants.POINT_STYLE_PLUS:
 				codePoint.append("+");
 			break;
-			case EuclidianView.POINT_STYLE_TRIANGLE_EAST:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
 				codePoint.append("triangle*,dotangle=270");
 			break;
-			case EuclidianView.POINT_STYLE_TRIANGLE_NORTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
 				codePoint.append("triangle*");
 			break;
-			case EuclidianView.POINT_STYLE_TRIANGLE_SOUTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
 				codePoint.append("triangle*,dotangle=180");
 			break;
-			case EuclidianView.POINT_STYLE_TRIANGLE_WEST:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 				codePoint.append("triangle*,dotangle=90");
 			break;
 			default:
@@ -1761,7 +1762,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	boolean coma=false;
 	boolean bracket=false;
-	if (linethickness!=EuclidianView.DEFAULT_LINE_THICKNESS){
+	if (linethickness!=EuclidianStyleConstants.DEFAULT_LINE_THICKNESS){
 		// coma needed
 		coma=true;
 		// bracket needed
@@ -1770,7 +1771,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		sb.append(kernel.format(linethickness/2.0*0.8));
 		sb.append("pt");
 	}
-	if (linestyle!=EuclidianView.DEFAULT_LINE_TYPE){
+	if (linestyle!=EuclidianStyleConstants.DEFAULT_LINE_TYPE){
 		if (coma) sb.append(",");
 		else coma=true;
 		if (!bracket) sb.append("[");
@@ -1824,10 +1825,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	// Append the linestyle to PSTricks code
 	private void LinestyleCode(int linestyle,StringBuilder sb){
 		switch(linestyle){
-			case EuclidianView.LINE_TYPE_DOTTED:
+			case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 				sb.append("linestyle=dotted");
 			break;
-			case EuclidianView.LINE_TYPE_DASHED_SHORT:
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
 //				sb.append("linestyle=dashed,dash=4pt 4pt");
 				sb.append("linestyle=dashed,dash=");
 				int size=resizePt(4);
@@ -1836,7 +1837,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				sb.append(size);
 				sb.append("pt");
 			break;
-			case EuclidianView.LINE_TYPE_DASHED_LONG:
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
 //				sb.append("linestyle=dashed,dash=8pt 8pt");
 				sb.append("linestyle=dashed,dash=");
 				size=resizePt(8);
@@ -1845,7 +1846,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				sb.append(size);
 				sb.append("pt");
 			break;
-			case EuclidianView.LINE_TYPE_DASHED_DOTTED:
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
 //				sb.append("linestyle=dashed,dash=1pt 4pt 8pt 4pt");
 				sb.append("linestyle=dashed,dash=");
 				int size1=resizePt(1);

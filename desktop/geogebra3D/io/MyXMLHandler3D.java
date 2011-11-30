@@ -1,5 +1,6 @@
 package geogebra3D.io;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -345,8 +346,8 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				ev.setAxisTickStyle(axis, tickStyle);
 			} else {
 				// before v3.0 the default tickStyle was MAJOR_MINOR
-				//ev.getAxesTickStyles()[axis] = EuclidianView.AXES_TICK_STYLE_MAJOR_MINOR;
-				ev.setAxisTickStyle(axis, EuclidianView.AXES_TICK_STYLE_MAJOR_MINOR);
+				//ev.getAxesTickStyles()[axis] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR;
+				ev.setAxisTickStyle(axis, EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR);
 			}
 			
 			

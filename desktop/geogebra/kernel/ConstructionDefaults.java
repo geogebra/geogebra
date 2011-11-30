@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
@@ -139,9 +140,9 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 	/** defaultGeoElement list */
 	protected HashMap<Integer,GeoElement> defaultGeoElements;		
 	
-	private int lineThickness = EuclidianView.DEFAULT_LINE_THICKNESS;
-	private int pointSize = EuclidianView.DEFAULT_POINT_SIZE;
-	private int angleSize = EuclidianView.DEFAULT_ANGLE_SIZE;
+	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+	private int angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private float filling = DEFAULT_POLYGON_ALPHA;
 	
 	private boolean blackWhiteMode = false;
@@ -180,8 +181,8 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		// free point
 		GeoPoint freePoint = new GeoPoint(cons);	
 //		freePoint.setLocalVariableLabel(app.getPlain("Point") + strFree);
-		freePoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		freePoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		freePoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point" + strFree);
 		freePoint.setObjColor(colPoint);
 		freePoint.setPointSize(pointSize);
@@ -191,8 +192,8 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		// dependent point
 		GeoPoint depPoint = new GeoPoint(cons);	
 //		depPoint.setLocalVariableLabel(app.getPlain("Point") + strDependent);
-		depPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		depPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		depPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point" + strDependent);
 		depPoint.setObjColor(colDepPoint);
 		depPoint.setPointSize(pointSize);
@@ -202,8 +203,8 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		// point on path
 		GeoPoint pathPoint = new GeoPoint(cons);	
 //		pathPoint.setLocalVariableLabel(app.getPlain("PointOn"));
-		pathPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		pathPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		pathPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("PointOn");
 		pathPoint.setObjColor(colPathPoint);
 		pathPoint.setPointSize(pointSize);
@@ -213,8 +214,8 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		// point in region
 		GeoPoint regionPoint = new GeoPoint(cons);	
 //		regionPoint.setLocalVariableLabel(app.getPlain("PointOn"));
-		regionPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		regionPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		regionPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("PointInRegion");
 		regionPoint.setObjColor(colRegionPoint);
 		regionPoint.setDefaultGeoType(DEFAULT_POINT_IN_REGION);
@@ -222,8 +223,8 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		
 		// complex number (handled like a point)
 		GeoPoint complexPoint = new GeoPoint(cons);
-		complexPoint.setPointSize(EuclidianView.DEFAULT_POINT_SIZE);
-		complexPoint.setPointStyle(EuclidianView.POINT_STYLE_DOT);
+		complexPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
+		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
 		complexPoint.setObjColor(colComplexPoint);
 		complexPoint.setPointSize(pointSize);
@@ -328,7 +329,7 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT);
 		angle.setAnimationSpeed(GeoAngle.DEFAULT_SLIDER_SPEED);
 		angle.setDefaultGeoType(DEFAULT_ANGLE);
-		angle.setLineTypeHidden(EuclidianView.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
+		angle.setLineTypeHidden(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 		
 		// function
@@ -642,9 +643,9 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 	}
 	
 	public void resetDefaults() {
-		lineThickness = EuclidianView.DEFAULT_LINE_THICKNESS;
-		pointSize = EuclidianView.DEFAULT_POINT_SIZE;
-		angleSize = EuclidianView.DEFAULT_ANGLE_SIZE;
+		lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+		angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 		filling = DEFAULT_POLYGON_ALPHA;
 		
 		setDefaultLineThickness(lineThickness);

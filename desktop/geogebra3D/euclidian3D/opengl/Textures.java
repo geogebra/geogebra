@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.util.ImageManager;
 
@@ -218,23 +219,23 @@ public class Textures {
 	public void setDashFromLineType(int lineType){
 
     	switch (lineType) {
-		case EuclidianView.LINE_TYPE_FULL:
+		case EuclidianStyleConstants.LINE_TYPE_FULL:
 			loadTextureNearest(DASH_NONE);
 			break;
 			
-		case EuclidianView.LINE_TYPE_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			loadTextureNearest(DASH_DOTTED);
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_SHORT:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
 			loadTextureNearest(DASH_SHORT);
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_LONG:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
 			loadTextureNearest(DASH_LONG);
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
 			loadTextureNearest(DASH_DOTTED_DASHED);
 			break;
 
@@ -251,23 +252,23 @@ public class Textures {
 	public void setDashFromLineTypeHidden(int lineType){
 
     	switch (lineType) {
-		case EuclidianView.LINE_TYPE_FULL:
+		case EuclidianStyleConstants.LINE_TYPE_FULL:
 			loadTextureNearest(DASH_NONE_HIDDEN);
 			break;
 			
-		case EuclidianView.LINE_TYPE_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			loadTextureNearest(DASH_DOTTED_HIDDEN);
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_SHORT:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
 			loadTextureNearest(DASH_SHORT_HIDDEN);
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_LONG:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
 			loadTextureNearest(DASH_LONG_HIDDEN);
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
 			loadTextureNearest(DASH_DOTTED_DASHED_HIDDEN);
 			break;
 

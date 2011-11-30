@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.LocateableList;
@@ -77,7 +78,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 
 	// don't set point size here as this would overwrite setConstructionDefaults() 
 	// in GeoElement constructor
-	//public int pointSize = EuclidianView.DEFAULT_POINT_SIZE; 
+	//public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE; 
 	public int pointSize;
 	private int pointStyle;
 	
@@ -258,7 +259,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	 */
 	public void setPointStyle(int style) {
 		
-		if (style > -1 && style <= EuclidianView.MAX_POINT_STYLE)
+		if (style > -1 && style <= EuclidianStyleConstants.MAX_POINT_STYLE)
 			pointStyle = style;
 		else
 			pointStyle = -1;
