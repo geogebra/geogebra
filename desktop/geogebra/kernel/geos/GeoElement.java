@@ -53,7 +53,6 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.spreadsheet.TraceSettings;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.Application;
 import geogebra.plugin.CallJavaScript;
@@ -5438,9 +5437,7 @@ public abstract class GeoElement
 	 			ret = geoFun.toValueString();
 	 		} else {
 	 			
-	 			Function fun = geoFun.getFunction();
-	 			
-	 			if (fun == null) {
+	 			if (geoFun.getFunction() == null) {
 	 				ret = app.getPlain("undefined");
 	 			} else	 			
 		 			ret = substituteNumbers ?
