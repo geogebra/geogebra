@@ -49,10 +49,10 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.gui.view.spreadsheet.TraceSettings;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.Application;
@@ -5574,7 +5574,7 @@ public abstract class GeoElement
 		return true;
 	}
 
-	private geogebra.gui.view.spreadsheet.TraceSettings traceSettings;
+	private geogebra.common.util.TraceSettings traceSettings;
 
 	public TraceSettings getTraceSettings(){
 
