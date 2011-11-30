@@ -2,7 +2,7 @@ package geogebra.util;
 
 import java.awt.image.BufferedImage;
 
-import geogebra.common.util.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImageAdapter;
 
 
 public class BufferedImageAdapterDesktop extends BufferedImage implements BufferedImageAdapter {

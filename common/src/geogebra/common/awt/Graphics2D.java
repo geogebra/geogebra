@@ -120,7 +120,7 @@ public interface Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract void drawImage(BufferedImage img, BufferedImageOp op,
+	public abstract void drawImage(BufferedImageAdapter img, BufferedImageOp op,
 			int x, int y);
 
 	/**

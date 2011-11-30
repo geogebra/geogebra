@@ -1,4 +1,4 @@
-package geogebra.common.util;
+package geogebra.common.awt;
 
 public interface BufferedImageAdapter {
 
