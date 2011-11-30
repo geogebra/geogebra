@@ -1711,7 +1711,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			// combo box for label mode: name or algebra
 			layerModeCB = new JComboBox();
 			
-			for (int layer = 0; layer <= EuclidianView.MAX_LAYERS; ++layer) {
+			for (int layer = 0; layer <= EuclidianStyleConstants.MAX_LAYERS; ++layer) {
 				layerModeCB.addItem(" "+layer); 
 			}
 			

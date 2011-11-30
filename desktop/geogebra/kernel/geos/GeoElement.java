@@ -52,7 +52,6 @@ import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.FunctionalNVar;
@@ -528,10 +527,9 @@ public abstract class GeoElement
 
 		// ensure all new objects are in the top layer
 		Application app = (Application)c.getApplication();
-		if (app != null) {
-			EuclidianView ev = app.getEuclidianView();
-			if (ev != null)
-				layer = ev.getMaxLayerUsed();
+		if (app != null) {			
+			if (app.getEuclidianView() != null)
+				layer = app.getEuclidianView().getMaxLayerUsed();
 		}
 		
 		viewFlags=new ArrayList<Integer>();
@@ -1044,7 +1042,7 @@ public abstract class GeoElement
 				// DON'T check this: eg angles on file load are not yet isDrawable()
 				//	|| !isDrawable()
 			) return;
-		if (layer > EuclidianView.MAX_LAYERS) layer = EuclidianView.MAX_LAYERS;
+		if (layer > EuclidianStyleConstants.MAX_LAYERS) layer = EuclidianStyleConstants.MAX_LAYERS;
 		else if (layer < 0) layer = 0;
 	
 		app.changeLayer(this,this.layer,layer);

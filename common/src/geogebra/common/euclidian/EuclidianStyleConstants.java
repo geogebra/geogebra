@@ -70,4 +70,6 @@ public class EuclidianStyleConstants {
 	public static final int POINT_STYLE_TRIANGLE_EAST = 8;
 	public static final int POINT_STYLE_TRIANGLE_WEST = 9;
 	public static final int MAX_POINT_STYLE = 9;
+	
+	public static final int MAX_LAYERS = 9;
 }

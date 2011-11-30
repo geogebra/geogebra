@@ -476,7 +476,7 @@ public class GgbAPI {
 	 * Michael Borcherds 2008-02-27
 	 */
 	public synchronized void setLayerVisible(int layer, boolean visible) {
-		if (layer<0 || layer > EuclidianView.MAX_LAYERS) return;
+		if (layer<0 || layer > EuclidianStyleConstants.MAX_LAYERS) return;
 		String [] names = getObjNames();
 		for (int i=0 ; i < names.length ; i++)
 		{

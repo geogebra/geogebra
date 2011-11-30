@@ -49,6 +49,15 @@ public interface GeoElementInterface {
 	public void updateCascade();
 	public void updateRepaint();
 	public void removeAlgorithm(AlgoElementInterface parent);
-	public AbstractConstruction getConstruction();	
+	public AbstractConstruction getConstruction();
+	public boolean isMoveable();
+	public GeoClass getGeoClassType();
+	public int getLayer();
+	public boolean isDrawable();
+	public boolean isColorSet();
+	public boolean isSelectionAllowed();
+	public boolean isGeoImage();
+	public boolean isGeoPolygon();
+	public boolean isGeoConic();	
 	
 }

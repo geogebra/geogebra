@@ -441,8 +441,6 @@ implements EuclidianViewInterface, Printable, SettingListener {
 
 	protected DrawableList allDrawableList = new DrawableList();
 	
-	public static final int MAX_LAYERS = 9;
-	
 	public DrawableList drawLayers[]; 
 
 	// on add: change resetLists()
@@ -496,8 +494,8 @@ implements EuclidianViewInterface, Printable, SettingListener {
 			boolean showGrid, int evno) {
 		
 		// Michael Borcherds 2008-03-01
-		  drawLayers = new DrawableList[MAX_LAYERS+1];
-		  for (int k=0; k <= MAX_LAYERS ; k++) {
+		  drawLayers = new DrawableList[EuclidianStyleConstants.MAX_LAYERS+1];
+		  for (int k=0; k <= EuclidianStyleConstants.MAX_LAYERS ; k++) {
 		     drawLayers[k] = new DrawableList();
 		  }		  
 		evNo = evno;
@@ -2869,7 +2867,7 @@ implements EuclidianViewInterface, Printable, SettingListener {
 	
 	public void updateMaxLayerUsed(int layer)
 	{
-		if (layer > MAX_LAYERS) layer=MAX_LAYERS;
+		if (layer > EuclidianStyleConstants.MAX_LAYERS) layer=EuclidianStyleConstants.MAX_LAYERS;
 		if (layer > app.maxLayerUsed) app.maxLayerUsed=layer;
 	}
 
