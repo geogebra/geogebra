@@ -192,7 +192,7 @@ public class GeoGebraCAS implements GeoGebraCASInterface, GeoGebraCasInterfaceSl
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
-			result = app.getKernel().removeCASVariablePrefix(result);
+			result = app.getKernel().removeCASVariablePrefix(result, " ");
 		}
 		
 		return result;

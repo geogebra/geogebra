@@ -1351,17 +1351,23 @@ public abstract class AbstractKernel {
 		 }			
 	 }
 	 
+	 final public String removeCASVariablePrefix(String str) {
+		 return removeCASVariablePrefix(str, "");
+	 }
+	 
 	 /**
 	 * @return String where CAS variable prefixes are removed again, e.g. "ggbcasvar1a" is turned into "a"
 	 * and 
 	 */
-	 final public String removeCASVariablePrefix(String str) {
+	 final public String removeCASVariablePrefix(String str, String replace) {
 		// e.g. "ggbtmpvar1a" is changed to "a"
-		 // need a space so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595
-		String result = str.replace(casVariablePrefix, " ");
+		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
+		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595, #1616 
+		String result = str.replace(casVariablePrefix, replace);
 				 
 		// e.g. "ggbtmpvara" needs to be changed to "a"
-		result = result.replace(TMP_VARIABLE_PREFIX, " ");
+		result = result.replace(TMP_VARIABLE_PREFIX, replace);
+		
 		return result;
 	 }
 
