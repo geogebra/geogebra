@@ -36,7 +36,6 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.TreeSet;
 
@@ -1314,7 +1313,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     }
 
 	final public static String getXMLtypeString(GeoElement geo) {		
-		return geo.getClassName().substring(3).toLowerCase(Locale.US);
+		return geo.getKernel().getApplication().toLowerCase(geo.getClassName().substring(3));
 	}
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
