@@ -33,6 +33,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
@@ -44,7 +45,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVec3D;
-import geogebra.kernel.geos.PointProperties;
 import geogebra.kernel.geos.Translateable;
 import geogebra.kernel.kernelND.Region3D;
 

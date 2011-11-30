@@ -1,4 +1,4 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 public interface PointProperties {
 	public void setPointSize(int size);
