@@ -774,6 +774,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
 	// Michael Borcherds 2008-04-30
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
+		if (str == null) return false;
 		if (geo.isGeoText()) return str.equals(((GeoText)geo).str); else return false;
 	}
 	public void setZero() {
