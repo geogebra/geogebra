@@ -728,10 +728,7 @@ public class CoordMatrix
 	 * @param v vector
 	 * @return solving vector*/
 	public Coords solve(Coords v){
-		//GgbVector ret;
 		CoordMatrix mInv = this.inverse(); //TODO: use gauss pivot to optimize
-		if (mInv==null)
-			return null;
 		return mInv.mul(v);				
 	}
 	

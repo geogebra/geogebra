@@ -90,35 +90,32 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
    * @return a list of strings containing all completions or null
    * 		 if none exists
    */
-  public List<String> getCompletions(String curr) {  	
-	    if(curr == null || "".equals(curr))
+	public List<String> getCompletions(String curr) {
+		if (curr == null || "".equals(curr))
 			return null;
-	    
-	    String currLowerCase = curr.toLowerCase();
-	    try {
-	      SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
-	      if(tailSet != null) {
-	    	ArrayList<String> completions = new ArrayList<String>();
-	    	Iterator<String> compIter = tailSet.iterator();
-	    	while (compIter.hasNext()) {
-	    		String comp = compIter.next();
-	    		if (!comp.startsWith(currLowerCase)) {
-	    			break;
-	    		}
-	    		completions.add(get(comp));
-	    	}
-	    	if (completions.isEmpty()) {
-	    		return null;
-	    	}
-	    	return completions;
-	      }
-	    }
-	    catch (Exception e) {
-	      return null;
-	    }
-	    return null;
-	  }
-	 
+
+		String currLowerCase = curr.toLowerCase();
+		try {
+			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
+			ArrayList<String> completions = new ArrayList<String>();
+			Iterator<String> compIter = tailSet.iterator();
+			while (compIter.hasNext()) {
+				String comp = compIter.next();
+				if (!comp.startsWith(currLowerCase)) {
+					break;
+				}
+				completions.add(get(comp));
+			}
+			if (completions.isEmpty()) {
+				return null;
+			}
+			return completions;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+	
   public List<String> getCompletionsKorean(String curr) {  	
 	    if(curr == null || "".equals(curr))
 			return null;
