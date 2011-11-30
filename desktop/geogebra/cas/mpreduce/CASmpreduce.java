@@ -391,6 +391,12 @@ public class CASmpreduce extends CASgeneric {
 				"};"
 				);
 		
+		mpreduce.evaluate("let {" +
+				"df(asin(~x),x) => 1/sqrt(1-x^2)," +
+				"df(acosh(~x),x) => 1/(sqrt(x-1)*sqrt(x+1))," +
+				"df(asinh(~x),x) => 1/sqrt(1+x^2)," +
+				"df(acos(~x),x) => -1/sqrt(1-x^2)};");
+		
 		mpreduce.evaluate("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
 		mpreduce.evaluate("let {atan(sin(~x)/cos(~x))=>x, " +
 				"acos(1/sqrt(2)) => pi/4" +
