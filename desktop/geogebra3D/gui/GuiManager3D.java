@@ -1,5 +1,7 @@
 package geogebra3D.gui;
 
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputDialog;
@@ -8,8 +10,6 @@ import geogebra.gui.layout.Layout;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.kernelND.GeoDirectionND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;

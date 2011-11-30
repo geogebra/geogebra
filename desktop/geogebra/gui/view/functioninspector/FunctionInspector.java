@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -55,7 +56,6 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.geos.Path;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;

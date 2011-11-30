@@ -1,7 +1,7 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -34,5 +34,5 @@ public interface Locateable {
 	 */
 	public void setWaitForStartPoint();
 	
-	public GeoElement toGeoElement();
+	public GeoElementInterface toGeoElement();
 }

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
@@ -19,7 +20,6 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolyLine;
-import geogebra.kernel.kernelND.GeoPointND;
 
 /**
  * Creates a frequency polygon.

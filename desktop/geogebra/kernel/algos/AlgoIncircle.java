@@ -17,6 +17,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoElement;
@@ -24,7 +25,6 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoPointND;
 
 public class AlgoIncircle extends AlgoElement {
 

@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 

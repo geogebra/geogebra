@@ -1,7 +1,8 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel;
 
-import geogebra.kernel.PathMover;
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * PathOrPoint needed as well as Path so that points can be elements of compound paths
@@ -54,7 +55,7 @@ public interface PathOrPoint {
 	 * Returns this path as an object of type GeoElement.
 	 * @return this path as geo
 	 */
-	public GeoElement toGeoElement();
+	public GeoElementInterface toGeoElement();
 	
 	/**
 	 * Returns the smallest possible parameter value for this

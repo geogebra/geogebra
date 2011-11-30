@@ -13,6 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -20,21 +23,19 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.ParametricCurve;
 import geogebra.kernel.ParametricCurveDistanceFunction;
-import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
-import geogebra.kernel.PathParameter;
 import geogebra.kernel.VarString;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.kernelND.GeoCurveCartesianND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.roots.RealRootFunction;
 

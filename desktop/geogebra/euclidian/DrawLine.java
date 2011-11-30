@@ -19,14 +19,14 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
-import geogebra.kernel.kernelND.GeoLineND;
-import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

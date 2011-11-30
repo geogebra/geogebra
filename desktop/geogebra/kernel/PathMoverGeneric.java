@@ -12,8 +12,11 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.Path;
 
 
 /**
@@ -42,7 +45,7 @@ public class PathMoverGeneric implements PathMover {
 		this.path = path;
 	}
 	
-	public void init(GeoPoint p) {
+	public void init(GeoPointInterface p) {
 		PathParameter pp = p.getPathParameter();
 		init(pp.t); 	
 	}
@@ -123,11 +126,11 @@ public class PathMoverGeneric implements PathMover {
 		step_width = max_step_width;		
 	}
 	
-	public void getCurrentPosition(GeoPoint p) {
-		calcPoint(p);
+	public void getCurrentPosition(GeoPointInterface p) {
+		calcPoint((GeoPoint)p);
 	}
 	
-	public boolean getNext(GeoPoint p) {													
+	public boolean getNext(GeoPointInterface p) {													
 		//  check if we are in our interval
 		boolean lineTo = true;				
 		last_param = curr_param;
@@ -184,7 +187,7 @@ public class PathMoverGeneric implements PathMover {
 		}					
 		
 		// calculate point for current parameter
-		calcPoint(p);
+		calcPoint((GeoPoint)p);
 		
 		return lineTo;
 	}

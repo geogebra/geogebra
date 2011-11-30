@@ -1,6 +1,8 @@
 package geogebra.kernel;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.algos.AlgoApplyMatrix;
 import geogebra.kernel.algos.AlgoDilate;
 import geogebra.kernel.algos.AlgoMirror;
@@ -19,8 +21,6 @@ import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.LimitedPath;
-import geogebra.kernel.kernelND.GeoLineND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.util.GgbMat;
 

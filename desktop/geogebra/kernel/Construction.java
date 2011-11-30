@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
@@ -41,7 +42,6 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.main.Application;
 

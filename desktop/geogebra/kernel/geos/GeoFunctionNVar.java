@@ -13,24 +13,25 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Region;
+import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.RegionParameters;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.Inequality;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
 import geogebra.main.Application;
 

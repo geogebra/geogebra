@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.Path;
 import geogebra.kernel.Transform;
 
 /**

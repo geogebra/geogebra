@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.Previewable;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoPoint3D;

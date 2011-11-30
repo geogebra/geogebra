@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoAxisND;
-import geogebra.kernel.kernelND.GeoLineND;
 import geogebra.main.Application;
 
 /**

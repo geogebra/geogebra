@@ -2,6 +2,8 @@ package geogebra.kernel.kernelND;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Simple common interface for GeoVector and GeoVector3D

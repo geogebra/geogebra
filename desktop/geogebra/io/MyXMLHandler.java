@@ -19,9 +19,11 @@ the Free Software Foundation.
 package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
@@ -55,13 +57,11 @@ import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.geos.GeoUserInputElement;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.LimitedPath;
-import geogebra.kernel.geos.Locateable;
 import geogebra.kernel.geos.PointProperties;
 import geogebra.kernel.geos.TextProperties;
 import geogebra.kernel.geos.Traceable;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;
 import geogebra.main.settings.ConstructionProtocolSettings;

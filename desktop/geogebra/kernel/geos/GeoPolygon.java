@@ -13,27 +13,29 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.Region;
+import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.PathMover;
 import geogebra.kernel.PathMoverGeneric;
-import geogebra.kernel.PathParameter;
-import geogebra.kernel.RegionParameters;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.algos.AlgoPolygonRegular;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
 

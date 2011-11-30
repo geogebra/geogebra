@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
@@ -28,7 +29,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoSegment;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;

@@ -1,5 +1,6 @@
 package geogebra.kernel.kernelND;
 
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.util.NumberFormatAdapter;
 
 public interface GeoAxisND extends GeoLineND{

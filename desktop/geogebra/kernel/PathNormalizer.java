@@ -1,8 +1,10 @@
 package geogebra.kernel;
 
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.Path;
-import geogebra.kernel.kernelND.GeoPointND;
 
 /**
  * Normalized path that uses a path parameter in range [0,1].
@@ -205,7 +207,7 @@ public class PathNormalizer implements Path {
 	}
 
 	public GeoElement toGeoElement() {
-		return parentPath.toGeoElement();
+		return (GeoElement)parentPath.toGeoElement();
 	}
 	
 	/*

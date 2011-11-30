@@ -1,5 +1,7 @@
 package geogebra.kernel.kernelND;
 
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+
 
 /** Simple interface for elements that have a 2D coord sys
  * @author matthieu

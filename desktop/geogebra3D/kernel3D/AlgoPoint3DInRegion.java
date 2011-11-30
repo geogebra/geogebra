@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.Region;
 import geogebra.main.Application;
 
 
@@ -66,7 +66,7 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
     protected void setInputOutput() {
     	
     	input = new GeoElement[1];  	
-        input[0] = region.toGeoElement();
+        input[0] = (GeoElement)region.toGeoElement();
 
         output = new GeoElement[1];
         output[0] = P;

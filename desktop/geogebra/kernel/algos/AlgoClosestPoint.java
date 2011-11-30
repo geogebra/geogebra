@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.Path;
 import geogebra.kernel.Construction;
 import geogebra.kernel.PathAlgo;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.Path;
 
 
 
@@ -53,7 +53,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     @Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = path.toGeoElement();
+		input[0] = (GeoElement)path.toGeoElement();
 		input[1] = point.toGeoElement();    		
         setOutputLength(1);
         setOutput(0, P);

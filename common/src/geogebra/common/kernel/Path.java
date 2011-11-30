@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel;
 
 /**
  * @author Markus Hohenwarter

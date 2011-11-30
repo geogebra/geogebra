@@ -1,5 +1,7 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
@@ -8,8 +10,6 @@ import geogebra.kernel.commands.CmdPolygon;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.kernelND.GeoDirectionND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
 

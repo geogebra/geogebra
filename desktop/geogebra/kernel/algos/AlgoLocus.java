@@ -15,16 +15,16 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
-import geogebra.kernel.PathMover;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.Path;
 import geogebra.main.Application;
 
 import java.awt.geom.Point2D;
@@ -196,7 +196,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     	// let's take all independent parents of Q
     	// and the path as input
     	TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
-    	inSet.add(path.toGeoElement());
+    	inSet.add((GeoElement)path.toGeoElement());
     	
     	// we need all independent parents of Q PLUS
     	// all parents of Q that are points on a path    	

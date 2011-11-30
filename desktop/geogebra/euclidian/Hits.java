@@ -1,9 +1,9 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 import java.awt.event.MouseEvent;

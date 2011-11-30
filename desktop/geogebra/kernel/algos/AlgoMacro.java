@@ -13,8 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Macro;
@@ -29,8 +31,6 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.geos.Locateable;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

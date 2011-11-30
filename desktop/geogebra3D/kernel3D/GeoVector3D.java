@@ -2,17 +2,17 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.Locateable;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoVectorND;
 
 /**

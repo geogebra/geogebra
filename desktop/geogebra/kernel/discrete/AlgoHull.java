@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.discrete;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoElement;
@@ -26,7 +27,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 import java.util.Collection;

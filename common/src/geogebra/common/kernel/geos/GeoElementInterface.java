@@ -1,6 +1,7 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 
 import java.util.List;
 
@@ -41,6 +42,13 @@ public interface GeoElementInterface {
 	public boolean isGeoList();
 	public boolean isDefined();
 	public void setLabel(String label);
-	public GeoElementInterface copyInternal(AbstractConstruction cons);	
+	public GeoElementInterface copyInternal(AbstractConstruction cons);
+	public AlgoElementInterface getParentAlgorithm();
+	public boolean algoUpdateSetContains(AlgoElementInterface parentAlgo);
+	public String getClassName();
+	public void updateCascade();
+	public void updateRepaint();
+	public void removeAlgorithm(AlgoElementInterface parent);
+	public AbstractConstruction getConstruction();	
 	
 }

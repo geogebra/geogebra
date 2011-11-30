@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -39,7 +40,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoRay;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.geos.Path;
 import geogebra.kernel.statistics.AlgoBinomialDist;
 import geogebra.kernel.statistics.AlgoHyperGeometric;
 import geogebra.kernel.statistics.AlgoInversePascal;

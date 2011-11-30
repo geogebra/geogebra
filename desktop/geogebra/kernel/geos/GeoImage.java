@@ -15,15 +15,16 @@ package geogebra.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
-import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

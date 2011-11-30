@@ -1,6 +1,8 @@
 package geogebra.kernel.kernelND;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.LimitedPath;
 

@@ -1,6 +1,7 @@
 package geogebra.kernel.commands;
 
 
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
@@ -9,7 +10,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.geos.Path;
 
 
 /**

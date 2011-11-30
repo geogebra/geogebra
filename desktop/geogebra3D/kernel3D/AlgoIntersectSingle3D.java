@@ -1,12 +1,12 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.kernelND.GeoPointND;
 
 
 /**

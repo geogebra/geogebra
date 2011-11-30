@@ -1,20 +1,20 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.RegionParameters;
 import geogebra.kernel.arithmetic.Functional2Var;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.Translateable;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoPlaneND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 

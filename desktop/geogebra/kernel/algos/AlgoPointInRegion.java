@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Region;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.Region;
 import geogebra.main.Application;
 
 
@@ -62,7 +62,7 @@ public class AlgoPointInRegion extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = region.toGeoElement();
+        input[0] = (GeoElement)region.toGeoElement();
 
         setOutputLength(1);
         setOutput(0,P);

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.algos.AlgoIntersectConics;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
@@ -32,7 +33,6 @@ import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.geos.Path;
 import geogebra.main.Application;
 
 /**
@@ -181,7 +181,7 @@ public class Relation extends java.lang.Object {
      * (incident, not incident)
      */
     final private String relation(GeoPoint A, Path path) {
-    	return incidenceString(A, path.toGeoElement(), path.isOnPath(A, Kernel.STANDARD_PRECISION));   
+    	return incidenceString(A, (GeoElement)path.toGeoElement(), path.isOnPath(A, Kernel.STANDARD_PRECISION));   
     }
 
     /**

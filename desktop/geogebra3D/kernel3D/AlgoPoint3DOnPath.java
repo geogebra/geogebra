@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Path;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.Path;
 
 
 public class AlgoPoint3DOnPath extends AlgoElement3D {
@@ -58,7 +58,7 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
     protected void setInputOutput() {
     	
     	input = new GeoElement[1];  	
-        input[0] = path.toGeoElement();
+        input[0] = (GeoElement)path.toGeoElement();
 
         output = new GeoElement[1];
         output[0] = P;

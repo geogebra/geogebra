@@ -10,6 +10,7 @@ package geogebra.export.pstricks;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
@@ -47,7 +48,6 @@ import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

@@ -20,6 +20,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -36,7 +37,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;

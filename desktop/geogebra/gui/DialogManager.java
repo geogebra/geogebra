@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
@@ -23,7 +24,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
 

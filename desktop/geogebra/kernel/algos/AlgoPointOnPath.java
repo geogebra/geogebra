@@ -13,14 +13,14 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.PathAlgo;
 import geogebra.kernel.PathNormalizer;
-import geogebra.kernel.PathParameter;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.Path;
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
@@ -95,10 +95,10 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 	protected void setInputOutput() {
     	if(param == null){
     		input = new GeoElement[1];
-    		input[0] = path.toGeoElement();
+    		input[0] = (GeoElement)path.toGeoElement();
     	}else {
     		input = new GeoElement[2];
-    		input[0] = path.toGeoElement();
+    		input[0] = (GeoElement)path.toGeoElement();
     		input[1] = (GeoElement)param.toGeoElement();    		
     	}
         setOutputLength(1);

@@ -1,9 +1,9 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.Locateable;
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
+
 
 import java.util.ArrayList;
 
@@ -40,9 +40,9 @@ public class LocateableList extends ArrayList<Locateable> {
 		
 		// add only locateables that are not already
 		// part of the updateSet of this point
-		AlgoElement parentAlgo = l.toGeoElement().getParentAlgorithm();
+		AlgoElementInterface parentAlgo = l.toGeoElement().getParentAlgorithm();
 		if (parentAlgo == null ||
-			!(((GeoElement) point).getAlgoUpdateSet().contains(parentAlgo))) {
+			!(((GeoElementInterface) point).algoUpdateSetContains(parentAlgo))) {
 			// add the locatable
 			add(l);			
 		}

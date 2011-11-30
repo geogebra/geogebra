@@ -22,6 +22,8 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
@@ -31,8 +33,6 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.kernelND.AlgoIntersectND;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoLineND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
 

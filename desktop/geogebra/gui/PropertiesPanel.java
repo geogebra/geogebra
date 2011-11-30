@@ -13,9 +13,11 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -54,12 +56,10 @@ import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.geos.LimitedPath;
-import geogebra.kernel.geos.Locateable;
 import geogebra.kernel.geos.PointProperties;
 import geogebra.kernel.geos.TextProperties;
 import geogebra.kernel.geos.Traceable;
 import geogebra.kernel.kernelND.GeoPlaneND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.LevelOfDetail;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;

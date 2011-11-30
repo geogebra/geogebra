@@ -3,9 +3,13 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.Hits;
@@ -15,12 +19,8 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSurfaceFinite;
-import geogebra.kernel.geos.Path;
-import geogebra.kernel.geos.Region;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
-import geogebra.kernel.kernelND.GeoLineND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoQuadricND;

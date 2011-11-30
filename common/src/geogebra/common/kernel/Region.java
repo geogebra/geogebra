@@ -1,6 +1,7 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel;
 
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 
@@ -56,7 +57,7 @@ public interface Region {
 	 * Returns this region as an object of type GeoElement.
 	 * @return this region as an object of type GeoElement.
 	 */
-	public GeoElement toGeoElement();
+	public GeoElementInterface toGeoElement();
 
 
 	

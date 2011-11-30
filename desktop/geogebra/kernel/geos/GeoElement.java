@@ -25,20 +25,25 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LaTeXCache;
@@ -47,14 +52,9 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.spreadsheet.TraceSettings;
-import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
-import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionalNVar;
-import geogebra.kernel.kernelND.GeoLineND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.plugin.CallJavaScript;
 import geogebra.util.AwtColorAdapter;
@@ -71,7 +71,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-//import java.util.Locale;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -3025,9 +3024,9 @@ public abstract class GeoElement
 	 * remove algorithm from dependency list of this GeoElement
 	 * @param algorithm 
 	 */
-	public final void removeAlgorithm(AlgoElement algorithm) {
+	public final void removeAlgorithm(AlgoElementInterface algorithm) {
 		algorithmList.remove(algorithm);
-		removeFromUpdateSets(algorithm);
+		removeFromUpdateSets((AlgoElement)algorithm);
 	}
 	
 //	/**
@@ -6261,5 +6260,8 @@ public abstract class GeoElement
 	public boolean hasBackgroundColor() {
 		return false;
 	}
-
+	
+	public boolean algoUpdateSetContains(AlgoElementInterface i){
+		return getAlgoUpdateSet().contains(i);
+	}
 }

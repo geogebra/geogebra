@@ -22,6 +22,14 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.LocateableList;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathOrPoint;
+import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.Region;
+import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
@@ -32,28 +40,23 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.AnimationManager;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.LocateableList;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathAlgo;
-import geogebra.kernel.PathMover;
 import geogebra.kernel.PathNormalizer;
-import geogebra.kernel.PathParameter;
-import geogebra.kernel.RegionParameters;
 import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -492,7 +495,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		
 		// tell conic that this point is on it, that's needed to handle reflections
         // of conics correctly for path parameter calculation of point P
-        GeoElement geo = path.toGeoElement();
+        GeoElement geo = (GeoElement)path.toGeoElement();
         if (geo.isGeoConic()) {
         	((GeoConicND) geo).addPointOnConic(this);
         }   
@@ -1279,7 +1282,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		
 		//TODO: remove this part because the path should be in incidenceList already.
 		if (path != null) {
-			GeoElement geo = path.toGeoElement();
+			GeoElement geo = (GeoElement)path.toGeoElement();
 			if (geo.isGeoConic()) {
 				((GeoConicND) geo).removePointOnConic(this);
 			}

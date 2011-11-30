@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
@@ -22,7 +23,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;

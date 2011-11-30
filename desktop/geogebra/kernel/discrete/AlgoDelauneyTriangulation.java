@@ -1,5 +1,6 @@
 package geogebra.kernel.discrete;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MyPoint;
@@ -11,7 +12,6 @@ import geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletri
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation.VTriangle;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.kernelND.GeoPointND;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

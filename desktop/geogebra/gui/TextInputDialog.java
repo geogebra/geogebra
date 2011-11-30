@@ -13,6 +13,7 @@ package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
@@ -23,7 +24,6 @@ import geogebra.gui.util.TableSymbolsLaTeX;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

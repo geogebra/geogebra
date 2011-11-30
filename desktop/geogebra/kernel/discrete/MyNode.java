@@ -1,6 +1,6 @@
 package geogebra.kernel.discrete;
 
-import geogebra.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class MyNode {
 	GeoPointND id; 

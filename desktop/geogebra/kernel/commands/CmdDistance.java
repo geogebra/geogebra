@@ -1,12 +1,12 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.kernelND.GeoPointND;
 
 /**
  * Distance[ <GeoPoint>, <GeoPoint> ] Distance[ <GeoPoint>, <GeoLine> ]

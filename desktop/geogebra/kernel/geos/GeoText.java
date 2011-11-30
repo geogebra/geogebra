@@ -3,8 +3,10 @@ package geogebra.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
@@ -13,7 +15,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSequence;
 import geogebra.kernel.arithmetic.MyStringBuffer;
 import geogebra.kernel.arithmetic.TextValue;
-import geogebra.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra.util.Util;
 
