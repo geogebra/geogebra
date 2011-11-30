@@ -1,5 +1,7 @@
 package geogebra.common.util;
 
+import geogebra.common.awt.ColorAdapter;
+
 public class StringUtil {
     private static StringBuilder hexSB = null;
 

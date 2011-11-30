@@ -1,6 +1,6 @@
 package geogebra.util;
 
-import geogebra.common.util.ColorAdapter;
+import geogebra.common.awt.ColorAdapter;
 import geogebra.common.util.LaTeXCache;
 
 import java.awt.Color;

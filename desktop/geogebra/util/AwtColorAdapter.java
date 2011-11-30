@@ -1,6 +1,6 @@
 package geogebra.util;
 
-import geogebra.common.util.ColorAdapter;
+import geogebra.common.awt.ColorAdapter;
 
 import java.awt.Color;
 public class AwtColorAdapter extends java.awt.Color implements ColorAdapter{

@@ -705,7 +705,7 @@ public interface Graphics2D {
 	 * @see #getBackground
 	 * @see java.awt.Graphics#clearRect
 	 */
-	public abstract void setBackground(Color color);
+	public abstract void setBackground(ColorAdapter color);
 
 	/**
 	 * Returns the background color used for clearing a region.
@@ -713,7 +713,7 @@ public interface Graphics2D {
 	 * which defines the background color.
 	 * @see #setBackground
 	 */
-	public abstract Color getBackground();
+	public abstract ColorAdapter getBackground();
 
 	/**
 	 * Returns the current <code>Stroke</code> in the
