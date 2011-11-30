@@ -1,4 +1,4 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 /**
  * Tagging interface for objects that can be rotated, translated etc.

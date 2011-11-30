@@ -41,6 +41,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;

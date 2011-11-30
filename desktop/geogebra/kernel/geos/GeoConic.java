@@ -26,6 +26,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;

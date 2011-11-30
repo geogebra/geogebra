@@ -31,6 +31,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;

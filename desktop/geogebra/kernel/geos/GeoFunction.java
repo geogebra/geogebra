@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;

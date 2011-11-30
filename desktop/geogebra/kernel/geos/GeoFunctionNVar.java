@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
