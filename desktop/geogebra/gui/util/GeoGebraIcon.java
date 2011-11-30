@@ -845,8 +845,9 @@ public class GeoGebraIcon {
 	public static final void drawLatexImageIcon(Application app, ImageIcon latexIcon, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
 		// Create image with dummy size, then draw into it to get the correct size
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
+		geo.setSerifFont(serif);
 		DrawText draw = new DrawText(app.getEuclidianView(), geo);		
-		draw.drawMultilineLaTeX(app.getEuclidianView().getTempGraphics2D(font), font, bgColor, bgColor);
+		draw.drawMultilineLaTeX(app.getEuclidianView().getTempGraphics2D(font), font, fgColor, bgColor);
 		Rectangle d = draw.getBounds();
 		
 		// Now use this size and draw again to get the final image
@@ -860,7 +861,7 @@ public class GeoGebraIcon {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		draw.drawMultilineLaTeX(g2image, font, bgColor, bgColor);
+		draw.drawMultilineLaTeX(g2image, font, fgColor, bgColor);
 
 		latexIcon.setImage(image);
 	}
