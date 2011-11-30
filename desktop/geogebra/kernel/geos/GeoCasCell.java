@@ -126,7 +126,7 @@ public class GeoCasCell extends GeoElement {
 	public String getInput() {
 		if (kernel.isPrintLocalizedCommandNames()) {
 			// input with localized command names
-			if (!currentLanguage.equals(kernel.getApplication().getLanguage())) {
+			if (currentLanguage==null || !currentLanguage.equals(kernel.getApplication().getLanguage())) {
 				updateLocalizedInput();
 			}
 			return localizedInput;
