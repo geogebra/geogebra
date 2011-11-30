@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVec2D;
-import geogebra.kernel.geos.Traceable;
 import geogebra.kernel.roots.RealRootFunction;
 
 

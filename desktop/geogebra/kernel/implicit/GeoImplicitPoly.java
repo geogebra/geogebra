@@ -28,6 +28,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
@@ -48,7 +49,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoUserInputElement;
 import geogebra.kernel.geos.Mirrorable;
 import geogebra.kernel.geos.PointRotateable;
-import geogebra.kernel.geos.Traceable;
 import geogebra.kernel.geos.Translateable;
 
 import java.util.ArrayList;

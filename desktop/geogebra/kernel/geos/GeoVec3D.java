@@ -22,6 +22,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Traceable;
 
 /**
  *

@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.Traceable;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
