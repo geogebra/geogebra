@@ -2,9 +2,9 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.geos.Animatable;
 import geogebra.kernel.geos.GeoElement;
 
 import java.awt.event.ActionEvent;
