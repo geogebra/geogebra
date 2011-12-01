@@ -171,6 +171,10 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 		return substring.toLowerCase();		
 	}
 	public abstract void evalScript(AbstractApplication app, String script, String arg);
+	public boolean fileVersionBefore(int[] subValues) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }
