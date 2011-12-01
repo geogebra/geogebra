@@ -1,5 +1,6 @@
 package geogebra.common.main;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.ResourceBundleAdapter;
@@ -37,6 +38,9 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	
 		public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
 		
+	// moved to Application from EuclidianView as the same value is used across multiple EVs 
+	public int maxLayerUsed = 0;
+
 	public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
 	public abstract ResourceBundleAdapter initAlgo2CommandBundle();
 	public abstract String getCommand(String cmdName);
@@ -88,6 +92,8 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract double countPixels(double min, double max);
 	public abstract int getMaxLayerUsed();
 	public abstract Object getAlgebraView();	
+	public abstract EuclidianViewInterfaceSlim getEuclidianView();
+	public abstract EuclidianViewInterfaceSlim getActiveEuclidianView();
 	public abstract Object createEuclidianViewForPlane(Object o);
 	public abstract boolean isRightToLeftDigits();
 	public abstract boolean isShowingEuclidianView2();		

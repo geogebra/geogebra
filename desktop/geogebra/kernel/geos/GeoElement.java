@@ -58,15 +58,11 @@ import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
-import geogebra.util.ImageManager;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -527,10 +523,10 @@ public abstract class GeoElement
 		//isConsProtBreakpoint = cons.showOnlyBreakpoints();
 
 		// ensure all new objects are in the top layer
-		Application app = (Application)c.getApplication();
+		AbstractApplication app = c.getApplication();
 		if (app != null) {			
 			if (app.getEuclidianView() != null)
-				layer = app.getEuclidianView().getMaxLayerUsed();
+				layer = app.maxLayerUsed;
 		}
 		
 		viewFlags=new ArrayList<Integer>();
@@ -1051,7 +1047,7 @@ public abstract class GeoElement
 		this.layer=layer;
 		
 		// TODO: update Algebra View
-		Application.debug("TODO: update Algebra View");
+		AbstractApplication.debug("TODO: update Algebra View");
 	}
 
 	// Michael Borcherds 2008-02-23
@@ -5956,7 +5952,7 @@ public abstract class GeoElement
 	 * @return true if visible in 3D view
 	 */
 	public boolean isVisibleInView3D(){
-		return hasDrawable3D() && (isGeoElement3D() || isVisibleInView(Application.VIEW_EUCLIDIAN));
+		return hasDrawable3D() && (isGeoElement3D() || isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN));
 	}
 
 
