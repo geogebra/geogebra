@@ -12,4 +12,8 @@ public class BufferedImageAdapterDesktop extends BufferedImage implements Buffer
 		// TODO Auto-generated constructor stub
 	}
 
+	public BufferedImageAdapterDesktop(BufferedImage image) {
+		this(image.getWidth(), image.getHeight(), image.getType());
+		setData(image.getData());
+	}
 }

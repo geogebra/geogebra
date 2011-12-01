@@ -592,7 +592,7 @@ public class MyXMLio {
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
-				BufferedImage img = geo.getFillImage();
+				BufferedImage img = (BufferedImage)geo.getFillImage();
 				if (img != null)
 					writeImageToZip(zip, filePath + fileName, img);
 			}

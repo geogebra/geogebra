@@ -259,7 +259,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		// Set icons for LaTeX and images
 		//===============================================
 		if(geo.isGeoImage()){		
-			latexIcon.setImage(((GeoImage) geo).getFillImage());
+			latexIcon.setImage((BufferedImage)((GeoImage) geo).getFillImage());
 			setIcon(latexIcon);
 			setHorizontalAlignment(this.CENTER);
 			setText("");

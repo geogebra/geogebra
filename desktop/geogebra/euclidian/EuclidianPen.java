@@ -182,7 +182,7 @@ public class EuclidianPen {
 			// image was selected before Pen Tool selected
 			
 			penUsingOffsets = true;
-			penImage = penGeo.getFillImage();
+			penImage = (BufferedImage)penGeo.getFillImage();
 			//lastPenImage = penGeo;
 			
 			penWritingToExistingImage = true;
@@ -231,7 +231,7 @@ public class EuclidianPen {
 		}
 		else if (lastPenImage != null && !penWritingToExistingImage) {
 
-			penImage = lastPenImage.getFillImage();
+			penImage = (BufferedImage)lastPenImage.getFillImage();
 
 			GeoPoint corner = lastPenImage.getCorner(0);
 			int x = view.toScreenCoordX(corner.getInhomX());
@@ -243,7 +243,7 @@ public class EuclidianPen {
 			// check if image is still the same size as the current euclidian view window
 			if ((penOffsetX >0 && penOffsetY > 0) || 
 					(x == 0 && y == height && height == view.getHeight() && width == view.getWidth()))
-				penImage = lastPenImage.getFillImage();
+				penImage = (BufferedImage)lastPenImage.getFillImage();
 			else {
 				penImage = null;
 				lastPenImage = null;
@@ -270,7 +270,7 @@ public class EuclidianPen {
 			if ( y1 == y2 && x1 + width == x2) { // check image isn't rotated / scaled
 				penGeo = hit;
 				penUsingOffsets = true;
-				penImage = penGeo.getFillImage();
+				penImage = (BufferedImage)penGeo.getFillImage();
 				//lastPenImage = penGeo;
 				
 				penWritingToExistingImage = true;
@@ -377,7 +377,7 @@ public class EuclidianPen {
 
 	protected void doDrawPoints(GeoImage gi,ArrayList<Point> penPoints2) {
 		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = gi == null? penImage:gi.getFillImage();
+		BufferedImage penImage2 = gi == null? penImage:(BufferedImage)gi.getFillImage();
 		boolean giNeedsInit = false;
 		if(penImage2==null){			
 			giNeedsInit = true;

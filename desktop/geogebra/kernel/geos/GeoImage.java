@@ -26,6 +26,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
+import geogebra.util.BufferedImageAdapterDesktop;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -133,7 +134,7 @@ implements Locateable, AbsoluteScreenLocateable,
 
 	public void set(GeoElement geo) {
 		GeoImage img = (GeoImage) geo;
-		setImageFileName(img.imageFileName);
+		setImageFileName(img.getGraphicsAdapter().getImageFileName());
 		
 		// macro output: don't set corners
 		if (cons != geo.cons && isAlgoMacroOutput()) 
@@ -179,7 +180,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	public static void updateInstances() {
 		for (int i=instances.size()-1; i >= 0 ; i--) {
 			GeoImage geo = (GeoImage) instances.get(i);
-			geo.setImageFileName(geo.imageFileName);
+			geo.setImageFileName(geo.getGraphicsAdapter().getImageFileName());
 			geo.updateCascade();
 		}		
 	}
@@ -206,16 +207,21 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * Tries to load the image using the given fileName.
 	 * @param fileName
 	 */
-	public void setImageFileName(String fileName) {	
-		if (fileName.equals(this.imageFileName))
+	public void setImageFileName(String fileName) {
+		
+		// this will be rewrited later during the refactoring - Arpad Fekete, 2011-12-01
+
+		if (fileName == null)
 			return;
-				
-		this.imageFileName = fileName;
-														
-		image = (BufferedImage)app.getExternalImage(fileName);	
-		if (image != null) {
-			pixelWidth = image.getWidth();
-			pixelHeight = image.getHeight();
+		if (fileName.equals(this.getGraphicsAdapter().getImageFileName()))
+			return;
+
+		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
+
+		this.getGraphicsAdapter().setImageOnly(new BufferedImageAdapterDesktop( (BufferedImage)app.getExternalImage(fileName) ));	
+		if (this.getGraphicsAdapter().getImageOnly() != null) {
+			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
+			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
 		} else {
 			pixelWidth = 0;
 			pixelHeight = 0;
@@ -404,7 +410,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 
 	protected boolean showInEuclidianView() {		
-		return image != null && isDefined();
+		return getGraphicsAdapter().getImageOnly() != null && isDefined();
 	}
 
 	public String getClassName() {
@@ -474,7 +480,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	   	// name of image file
 		sb.append("\t<file name=\"");
 // Michael Borcherds 2007-12-10 this line restored (not needed now MD5 code put in the correct place)
-		sb.append(imageFileName);
+		sb.append(this.getGraphicsAdapter().getImageFileName());
 		sb.append("\"/>\n");
 		
 	 	// name of image file
@@ -828,8 +834,10 @@ implements Locateable, AbsoluteScreenLocateable,
 		if (((GeoImage)geo).pixelWidth != this.pixelWidth) return false;
 		if (((GeoImage)geo).pixelHeight != this.pixelHeight) return false;
 		
-		String md5A=this.imageFileName.substring(0, this.imageFileName.indexOf(File.separator));
-		String md5B=((GeoImage)geo).imageFileName.substring(0, ((GeoImage)geo).imageFileName.indexOf(File.separator));
+		String imageFileName = this.getGraphicsAdapter().getImageFileName();
+		String md5A=imageFileName.substring(0, imageFileName.indexOf(File.separator));
+		String imageFileName2 = ((GeoImage)geo).getGraphicsAdapter().getImageFileName();
+		String md5B=imageFileName2.substring(0, imageFileName2.indexOf(File.separator));
 		// MD5 checksums equal, so images almost certainly identical
 		if (md5A.equals(md5B)) return true;
 		return false;
@@ -891,7 +899,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 
 	public void clearFillImage() {
-		this.image=new BufferedImage(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_ARGB);
+		this.getGraphicsAdapter().setImageOnly(new BufferedImageAdapterDesktop(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_ARGB));
 		this.updateRepaint();
 		
 	}

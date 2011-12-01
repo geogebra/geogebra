@@ -7,6 +7,5 @@ public abstract class GraphicsFactory {
 	
 	public abstract Graphics2D createGraphics2D();
 	public abstract Font createFont();
-	
 
 }

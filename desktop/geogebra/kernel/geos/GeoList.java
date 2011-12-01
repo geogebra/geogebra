@@ -251,7 +251,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			geo.setFillType(fillType);
 			geo.setHatchingAngle(hatchingAngle);
 			geo.setHatchingDistance(hatchingDistance);
-			geo.setImageFileName(imageFileName);
+			geo.setImageFileName(getGraphicsAdapter().getImageFileName());
 			geo.setAlphaValue(this.getAlphaValue());
 
 			geo.setLayer(this.getLayer());

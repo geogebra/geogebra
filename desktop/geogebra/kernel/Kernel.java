@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -102,6 +103,7 @@ import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoFunctionable;
@@ -8087,6 +8089,8 @@ public class Kernel extends AbstractKernel{
 		return new GeoList(getConstruction());
 	}
 	
+	// This is a temporary place for adapter creation methods which will move into factories later
+	
 	public NumberFormatAdapter getNumberFormat(){
 		return new NumberFormatDesktop();
 	}
@@ -8094,6 +8098,10 @@ public class Kernel extends AbstractKernel{
 	public NumberFormatAdapter getNumberFormat(String pattern){
 		return new NumberFormatDesktop(pattern);
 	}
+	
+	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
+		return new GeoElementGraphicsAdapterDesktop(app);
+	} 
 	
 	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
 		return new ScientificFormat(a, b, c);

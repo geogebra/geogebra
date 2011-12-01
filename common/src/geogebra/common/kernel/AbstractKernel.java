@@ -14,6 +14,7 @@ import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -136,8 +137,14 @@ public abstract class AbstractKernel {
 
 			setCASPrintForm(StringType.GEOGEBRA);
 		}
+
+		// This is a temporary place for abstract adapter methods which will go into factories later
+		// Arpad Fekete, 2011-12-01
 		public abstract NumberFormatAdapter getNumberFormat();
 		public abstract NumberFormatAdapter getNumberFormat(String s);
+		public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
+
+
 		public abstract ScientificFormatAdapter getScientificFormat(int a, int b, boolean c);
 		public void setSaveScriptsToXML(boolean flag) {
 			saveScriptsToXML = flag;

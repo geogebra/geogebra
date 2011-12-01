@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
@@ -42,6 +43,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
@@ -394,8 +396,7 @@ public abstract class GeoElement
 
 	//=================================
 	// G.Sturr new fill options
-	protected String imageFileName = "";
-	protected BufferedImage image;
+	protected GeoElementGraphicsAdapter graphicsadapter; // substitute for imageFileName and image - Arpad Fekete; 2011-12-01 
 	public static final int FILL_STANDARD = 0;
 	public static final int FILL_HATCH = 1;
 	public static final int FILL_IMAGE = 2;
@@ -513,7 +514,9 @@ public abstract class GeoElement
 	 */
 	public GeoElement(AbstractConstruction c) {
 		super(c);
-		
+
+		graphicsadapter = kernel.newGeoElementGraphicsAdapter();
+
 		// this.geoID = geoCounter++;
 		
 		// moved to subclasses, see
@@ -1257,7 +1260,7 @@ public abstract class GeoElement
 			fillType = geo.fillType;
 			hatchingAngle = geo.hatchingAngle;
 			hatchingDistance = geo.hatchingDistance;
-			imageFileName = geo.imageFileName;
+			graphicsadapter.setImageFileName(geo.getGraphicsAdapter().getImageFileName());
 			alphaValue = geo.alphaValue;
 		}
 		else{
@@ -1301,6 +1304,10 @@ public abstract class GeoElement
 		// copy ShowObjectCondition, unless it generates a CirclularDefinitionException
 		try { setShowObjectCondition(geo.getShowObjectCondition());}
 		catch (Exception e) {}
+	}
+	
+	public GeoElementGraphicsAdapter getGraphicsAdapter() {
+		return graphicsadapter;
 	}
 
 	/**
@@ -4522,7 +4529,7 @@ public abstract class GeoElement
 				sb.append("\"");
 			} else if (fillType == FILL_IMAGE) {
 				sb.append(" image=\"");
-				sb.append(imageFileName);
+				sb.append(graphicsadapter.getImageFileName());
 				sb.append('\"');
 			}
 			if(inverseFill){
@@ -6005,18 +6012,9 @@ public abstract class GeoElement
 		return hatchingDistance;
 	}
 
-	public BufferedImage getFillImage() {
+	public BufferedImageAdapter getFillImage() {
 
-		if (image != null) return image;
-
-		if (imageFileName.startsWith("/geogebra")) {
-			Image im = ((Application)app).getImageManager().getImageResource(imageFileName);
-			image = ImageManager.toBufferedImage(im);
-		} else {
-			image = ((Application)app).getExternalImage(imageFileName);
-		}
-
-		return image;
+		return graphicsadapter.getFillImage();
 	}
 
 	//public void setFillImage(BufferedImage image){
@@ -6024,8 +6022,7 @@ public abstract class GeoElement
 	//}
 
 	public void setFillImage(String filename) {
-		imageFileName=filename;
-		image = null;
+		graphicsadapter.setFillImage(filename);
 	}
 
 	public int getFillType(){
@@ -6040,22 +6037,11 @@ public abstract class GeoElement
 	 * @param fileName
 	 */
 	public void setImageFileName(String fileName) {
-		if (fileName.equals(this.imageFileName))
-			return;
-
-		this.imageFileName = fileName;
-
-		if (fileName.startsWith("/geogebra")) { // internal image
-			Image im = ((ImageManager) ((AbstractApplication)app).getImageManager()).getImageResource(imageFileName);
-			image = ImageManager.toBufferedImage(im);
-
-		} else {
-			image = (BufferedImage)((AbstractApplication)app).getExternalImage(fileName);
-		}
+		graphicsadapter.setImageFileName(fileName);
 	}
 
 	public String getImageFileName() {
-		return imageFileName;
+		return graphicsadapter.getImageFileName();
 	}
 
 	/**

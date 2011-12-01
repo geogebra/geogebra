@@ -28,6 +28,7 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -83,7 +84,7 @@ public final class DrawImage extends Drawable {
         	alphaComp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);                
     	}
         
-        image = geoImage.getFillImage();             
+        image = (BufferedImage)geoImage.getFillImage();             
         int width = image.getWidth(null);
         int height = image.getHeight(null); 
         absoluteLocation = geoImage.isAbsoluteScreenLocActive();

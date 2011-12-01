@@ -128,7 +128,7 @@ public class HatchingHandler {
 			return;
 		}
 
-		BufferedImage image = geo.getFillImage();
+		BufferedImage image = (BufferedImage)geo.getFillImage();
 		Rectangle2D tr = new Rectangle2D.Double(0, 0, image.getWidth(), image
 				.getHeight());
 
