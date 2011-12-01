@@ -1,9 +1,8 @@
 package geogebra.euclidian;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
-import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.arithmetic.FunctionalNVar;
+import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
@@ -56,7 +55,7 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private DrawInequality(FunctionNVar.IneqTree tree, EuclidianView view,
+	private DrawInequality(IneqTree tree, EuclidianView view,
 			GeoElement geo) {
 		this.view = view;
 		this.geo = geo;

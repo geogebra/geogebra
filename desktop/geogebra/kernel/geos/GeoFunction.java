@@ -42,10 +42,10 @@ import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.arithmetic.FunctionNVar.IneqTree;
 import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.arithmetic.Functional;
 import geogebra.kernel.arithmetic.FunctionalNVar;
+import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.roots.RealRootFunction;
@@ -724,7 +724,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		double bestDist = Double.MAX_VALUE;
 		getIneqs();
 		if (!this.evaluateBoolean(px)) {
-			FunctionNVar.IneqTree ineqs = fun.getIneqs();
+			IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
 			for (int i = 0; i < ineqCount; i++) {
 				for (GeoPoint point : ineqs.get(i).getZeros()) {

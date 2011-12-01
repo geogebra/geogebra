@@ -31,7 +31,7 @@ public interface FunctionalNVar {
 	/**
 	 * @return list of inequalities
 	 */
-	public FunctionNVar.IneqTree getIneqs();
+	public IneqTree getIneqs();
 	
 	/**
 	 * Returns true iff the function is boolean

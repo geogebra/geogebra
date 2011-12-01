@@ -25,13 +25,13 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
+import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
 import geogebra.main.Application;
@@ -522,7 +522,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		/**
 		 * @return the ineqs
 		 */
-		public FunctionNVar.IneqTree getIneqs(){
+		public IneqTree getIneqs(){
 			if(fun.getIneqs() == null){
 				isInequality = fun.initIneqs(fun.getExpression(),this);				
 			}
@@ -555,7 +555,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				myX = P.getX2D(), myY = P.getY2D();
 				double bestDist = (bestY-myY)*(bestY-myY)+(bestX-myX)*(bestX-myX);
 				
-				FunctionNVar.IneqTree ineqs = getIneqs();
+				IneqTree ineqs = getIneqs();
 				int size = ineqs.getSize();
 				for(int i = 0; i<size; i++){
 					Inequality in = ineqs.get(i);
