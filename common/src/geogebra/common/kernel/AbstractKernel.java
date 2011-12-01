@@ -137,6 +137,7 @@ public abstract class AbstractKernel {
 			setCASPrintForm(StringType.GEOGEBRA);
 		}
 		public abstract NumberFormatAdapter getNumberFormat();
+		public abstract NumberFormatAdapter getNumberFormat(String s);
 		public abstract ScientificFormatAdapter getScientificFormat(int a, int b, boolean c);
 		public void setSaveScriptsToXML(boolean flag) {
 			saveScriptsToXML = flag;

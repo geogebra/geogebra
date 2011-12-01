@@ -50,6 +50,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LaTeXCache;
+import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
@@ -66,8 +67,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -4709,10 +4708,8 @@ public abstract class GeoElement
                     Double numberD = new Double(number);
                     return numberD.toString();
             }
-    DecimalFormat df = new DecimalFormat("#.######");
-    DecimalFormatSymbols dfs = df.getDecimalFormatSymbols();
-    dfs.setDecimalSeparator('.');
-    df.setDecimalFormatSymbols(dfs);
+            //this constructors uses US locale, so we don't have to worry  about ","
+            NumberFormatAdapter df = kernel.getNumberFormat("#.######");
     return df.format(number);
     }
 

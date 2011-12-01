@@ -8091,6 +8091,10 @@ public class Kernel extends AbstractKernel{
 		return new NumberFormatDesktop();
 	}
 	
+	public NumberFormatAdapter getNumberFormat(String pattern){
+		return new NumberFormatDesktop(pattern);
+	}
+	
 	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
 		return new ScientificFormat(a, b, c);
 	}
