@@ -872,6 +872,15 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return true;
 	}
 	
+	public String getAssignmentLHS() {
+		sbToString.setLength(0);
+		sbToString.append(label);
+		sbToString.append("(");
+		sbToString.append(getVarString());
+		sbToString.append(")");
+		return sbToString.toString();
+	}
+	
 	@Override
 	public boolean isGeoFunctionable() {
 		return isGeoFunction();

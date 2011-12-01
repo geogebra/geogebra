@@ -264,6 +264,14 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return sbToString.toString();
 	}
 	
+	public String getAssignmentLHS(){
+		sbToString.setLength(0);
+		sbToString.append(label);
+		sbToString.append("(");
+		sbToString.append(getVarString());
+		sbToString.append(")");
+		return sbToString.toString();
+	}
 	/**
 	 * @return function description as f(x,y)=... for real and e.g. f:x>4*y for bool
 	 */

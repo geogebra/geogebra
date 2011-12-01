@@ -4,9 +4,11 @@ import geogebra.cas.error.CASException;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
+import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.MyResourceBundle;
 import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.CASSettings;
@@ -116,7 +118,15 @@ public abstract class CASgeneric implements CASGenericInterface,SettingListener 
 		return rbCasTranslations;
 	}
 	
-	
+	public final String toAssignment(GeoElementInterface ge){
+		String body = ge.getCASString(false);
+		String casLabel = ge.getLabel();
+		if (ge instanceof FunctionalNVar) {
+			String params = ((FunctionalNVar) ge).getFunction().getVarString();
+			return translateFunctionDeclaration(casLabel, params, body);
+		} else
+			return translateAssignment(casLabel, body);
+	}
 	/**
 	 * Translates a given expression in the format expected by the cas.
 	 * @param ve the Expression to be translated

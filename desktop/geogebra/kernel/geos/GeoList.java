@@ -1540,7 +1540,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return true;
 	}
 	
-	String getCASString(boolean symbolic) {
+	public String getCASString(boolean symbolic) {
 		 
 		// isMatrix() is rather expensive, and we only need it 
 		// if we're using Maxima, so test for that first

@@ -56,7 +56,7 @@ import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.kernel.arithmetic.FunctionalNVar;
+//import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.Application;
 import geogebra.plugin.CallJavaScript;
 import geogebra.util.AwtColorAdapter;
@@ -1971,25 +1971,13 @@ public abstract class GeoElement
 		try {
 			if (type.equals(StringType.GEOGEBRA)) {
 				String body = toValueString();
-				String label = getLabel();				
-				
-				if (this instanceof FunctionalNVar)
-				{
-					String params = ((FunctionalNVar) this).getFunction().getVarString();
-					retval = label + "(" + params + ") := " + body;
-				} else
-					retval = label + " := " + body;				
+				retval = getAssignmentLHS() + " := " + body;				
 			} 
 			else {
-				String body = getCASString(false);
-				String casLabel = getLabel();
+				
 				
 				CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
-				if (this instanceof FunctionalNVar) {
-					String params = ((FunctionalNVar) this).getFunction().getVarString();
-					retval = cas.translateFunctionDeclaration(casLabel, params, body);
-				} else
-					retval = cas.translateAssignment(casLabel, body);
+				retval = cas.toAssignment(this);
 			}
 		}
 		finally {
@@ -2000,13 +1988,16 @@ public abstract class GeoElement
 	}
 
 
+	public String getAssignmentLHS() {
+		return getLabel();
+	}
 	/**
 	 * Returns a representation of geo in currently used CAS syntax.
 	 * For example, "a*x^2"
 	 * @param symbolic 
 	 * @return representation of this geo for CAS
 	 */
-	 String getCASString(boolean symbolic) {
+	 public String getCASString(boolean symbolic) {
 		return symbolic && !isIndependent() ?  getCommandDescription() : toValueString();
 	 }
 	 
