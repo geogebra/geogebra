@@ -57,7 +57,6 @@ import geogebra.common.util.Unicode;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.main.Application;
-import geogebra.plugin.CallJavaScript;
 import geogebra.util.AwtColorAdapter;
 import geogebra.util.ImageManager;
 
@@ -5816,7 +5815,7 @@ public abstract class GeoElement
 					app.callJavaScript("ggb"+getLabel(), args);
 				}
 			} else {
-				CallJavaScript.evalScript(app, update ? updateScript:clickScript, arg);
+				app.evalScript(app, update ? updateScript:clickScript, arg);
 			}
 			//there have been no errors
 			if(update)app.setBlockUpdateScripts(false);

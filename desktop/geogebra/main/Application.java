@@ -58,6 +58,7 @@ import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.settings.Settings;
+import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPI;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManager;
@@ -6045,6 +6046,14 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 	
 	public String getLanguage(){
 		return getLocale().getLanguage();
+	}
+
+
+
+	@Override
+	public void evalScript(AbstractApplication app, String script, String arg) {
+		CallJavaScript.evalScript(app, script, arg);
+		
 	}
 }
 

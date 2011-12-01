@@ -6,4 +6,8 @@ public interface GeoNumericInterface {
 
 	void setValue(double d);
 
+	void updateRandomGeo();
+
+	boolean isRandomGeo();
+
 }

@@ -164,6 +164,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public String toLowerCase(String substring) {
 		return substring.toLowerCase();		
 	}
+	public abstract void evalScript(AbstractApplication app, String script, String arg);
 	
 
 }
