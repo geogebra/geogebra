@@ -54,9 +54,8 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
-//import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.Application;
 import geogebra.plugin.CallJavaScript;
 import geogebra.util.AwtColorAdapter;
@@ -533,7 +532,7 @@ public abstract class GeoElement
 		}
 		
 		viewFlags=new ArrayList<Integer>();
-		EuclidianViewInterface ev;
+		EuclidianViewInterfaceSlim ev;
 		if (app!=null && (ev = app.getActiveEuclidianView())!=null){
 			viewFlags.add(ev.getViewID());
 			// if ev isn't Graphics or Graphics 2, then also add 1st 2D euclidian view
@@ -716,13 +715,13 @@ public abstract class GeoElement
 	public abstract void setUndefined();
 	public abstract String toValueString();
 
-	private EuclidianViewInterface viewForValueString;
+	private EuclidianViewInterfaceSlim viewForValueString;
 
 	/**
 	 * sets a view for building the value string
 	 * @param view
 	 */
-	public void setViewForValueString(EuclidianViewInterface view){
+	public void setViewForValueString(EuclidianViewInterfaceSlim view){
 		viewForValueString = view;
 	}
 
@@ -730,7 +729,7 @@ public abstract class GeoElement
 	 *
 	 * @return the view used for building the value string
 	 */
-	public EuclidianViewInterface getViewForValueString(){
+	public EuclidianViewInterfaceSlim getViewForValueString(){
 		return viewForValueString;
 	}
 
@@ -1702,7 +1701,7 @@ public abstract class GeoElement
 	 * @param view
 	 * @return true if moveable in the view
 	 */
-	public boolean isMoveable(EuclidianViewInterface view){
+	public boolean isMoveable(EuclidianViewInterfaceSlim view){
 		return view.isMoveable(this);
 	}
 
@@ -1712,7 +1711,7 @@ public abstract class GeoElement
 	 * @param view 
 	 * @return whether this geo has only moveable input points
 	 */
-	public boolean hasMoveableInputPoints(EuclidianViewInterface view) {
+	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 		// allow only moving of certain object types
 		switch (getGeoClassType()) {
 			case CONIC:
@@ -1758,14 +1757,14 @@ public abstract class GeoElement
 	 * @param view 
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterface view) {
+	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		if (algoParent == null)
 			return null;
 		else
 			return view.getFreeInputPoints(algoParent);
 	}
 
-	final public boolean hasOnlyFreeInputPoints(EuclidianViewInterface view) {
+	final public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		if (algoParent == null)
 			return false;
 		else {

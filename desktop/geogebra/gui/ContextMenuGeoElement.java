@@ -545,7 +545,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		if (panel==null)
 			return;
 		
-		EuclidianViewInterface oldView = geo.getViewForValueString();
+		EuclidianViewInterface oldView = (EuclidianViewInterface)geo.getViewForValueString();
 		EuclidianViewInterface newView = app.getActiveEuclidianView();
 		
 		if (newView==app.getEuclidianView2())

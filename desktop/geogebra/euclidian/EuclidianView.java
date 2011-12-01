@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -5259,16 +5260,16 @@ implements EuclidianViewInterface, Printable, SettingListener {
 		//only used in EuclidianViewForPlane
 	}
 	
-	public boolean hasForParent(GeoElement geo){
+	public boolean hasForParent(GeoElementInterface geo){
 		return false;
 	}
 	
-	public boolean isMoveable(GeoElement geo){
+	public boolean isMoveable(GeoElementInterface geo){
 		return geo.isMoveable();
 	}
 	
 
-	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent){
+	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElementInterface algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 

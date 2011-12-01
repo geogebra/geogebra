@@ -6,6 +6,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -3274,17 +3275,17 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 
-	public boolean hasForParent(GeoElement geo){
+	public boolean hasForParent(GeoElementInterface geo){
 		return false;
 	}
 	
 
-	public boolean isMoveable(GeoElement geo){
+	public boolean isMoveable(GeoElementInterface geo){
 		return geo.isMoveable();
 	}
 	
 
-	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent){
+	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElementInterface algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 	

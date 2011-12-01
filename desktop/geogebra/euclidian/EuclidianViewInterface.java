@@ -1,7 +1,9 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  * 
  */
 
-public interface EuclidianViewInterface extends View{
+public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	
 	/** reference to x axis*/
 	public static final int AXIS_X = 0; 
@@ -403,21 +405,21 @@ public interface EuclidianViewInterface extends View{
 	 * @param geo
 	 * @return true if the geo is parent of the view
 	 */
-	public boolean hasForParent(GeoElement geo);
+	public boolean hasForParent(GeoElementInterface geo);
 	
 	/**
 	 * 
 	 * @param algoParent
 	 * @return free input points of the algoElement
 	 */
-	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent);
+	//public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent);
 	
 	/**
 	 * 
 	 * @param geo
 	 * @return true if the geo is moveable in the view
 	 */
-	public boolean isMoveable(GeoElement geo);
+	//public boolean isMoveable(GeoElement geo);
 
 	public ArrayList<GeoPointND> getStickyPointList();
 

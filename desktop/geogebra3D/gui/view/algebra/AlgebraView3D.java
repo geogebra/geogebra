@@ -57,7 +57,7 @@ public class AlgebraView3D extends AlgebraView {
 		DefaultMutableTreeNode parent;
 		
 		// get view node
-		EuclidianViewInterface view = geo.getViewForValueString();
+		EuclidianViewInterface view = (EuclidianViewInterface)geo.getViewForValueString();
 		if (view==null){
 			if (geo.isGeoElement3D())
 				view = ((Application3D) app).getEuclidianView3D();
