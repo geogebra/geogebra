@@ -40,6 +40,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 			}
 		});
 		
+
+		outputPolyhedron.adjustOutputSize(1);
+		//polyhedron = outputPolyhedron.getElement(0);
+		
 		
 		outputPoints=new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
 			public GeoPoint3D newElement() {

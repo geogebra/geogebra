@@ -419,6 +419,11 @@ public class MyXMLHandler implements DocHandler {
 					throw new MyError(app, "FileFormatUnknown");
 				}
 				
+
+				String ggbVersion = (String) attrs.get("version");
+				app.setFileVersion(ggbVersion);
+
+				
 				String uniqueId = (String) attrs.get("id");
 				if (uniqueId != null) app.setUniqueId(uniqueId);
 			}

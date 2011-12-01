@@ -128,7 +128,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /**
      * One OutputHandler has been changed, we put together the new output.
      */
-    private void refreshOutput(){
+    protected void refreshOutput(){
     	Iterator<OutputHandler<?>> it=outputHandler.iterator();
     	int n=0;
     	while(it.hasNext()){
@@ -243,13 +243,17 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		 * @param refresh if true, output array is recomputed using outputhandler
 		 */
 		public void addOutput(T[] geos, boolean setDependencies, boolean refresh){
-			for (int i=0; i<geos.length; i++){
-				outputList.add(geos[i]);
-				if (setDependencies)
-					setOutputDependencies(geos[i]);
-			}
+			for (int i=0; i<geos.length; i++)
+				addOutput(geos[i],setDependencies);
+			
 			if (refresh)
 				refreshOutput();
+		}
+		
+		public void addOutput(T geo, boolean setDependencies){
+			outputList.add(geo);
+			if (setDependencies)
+				setOutputDependencies(geo);
 		}
 		
 		/**

@@ -11,6 +11,7 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
+import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
 
@@ -41,10 +42,15 @@ public class CmdPrism extends CommandProcessor {
 		if(n==2){		
 			if ((ok[0] = (arg[0] .isGeoPolygon()))
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
-				return kernel.getManager3D().Prism(
+				GeoElement[] ret = kernel.getManager3D().Prism(
 								c.getLabels(),
 								(GeoPolygon) arg[0],
 								(GeoPointND) arg[1]);
+				//for older version, make forcing labels not working
+				if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+					return new GeoElement[] {ret[0]};
+				else
+					return ret;
 			} else if ((ok[0] = (arg[0] .isGeoPolygon()))
 					&& (ok[1] = (arg[1] .isNumberValue()))) {
 				return kernel.getManager3D().Prism(

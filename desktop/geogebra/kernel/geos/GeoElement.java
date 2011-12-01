@@ -2105,6 +2105,9 @@ public abstract class GeoElement
 	 * @param newLabel 
 	 */
 	public void setLabel(String newLabel) {		
+		
+		//Application.printStacktrace(newLabel);
+		
 		if (cons.isSuppressLabelsActive())
 			return;
 

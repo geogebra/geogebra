@@ -64,11 +64,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
 
-	/** segments to remove for update */
-	protected TreeSet<ConstructionElementCycle> oldSegments;
-
-	/** polygons to remove for update */
-	protected TreeSet<ConstructionElementCycle> oldPolygons;
 
 	/** face currently constructed */
 	private ConstructionElementCycle currentFace;
@@ -93,8 +88,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		segmentsIndex = new TreeMap<ConstructionElementCycle, Long>();
 		segments = new TreeMap<Long, GeoSegment3D>();
 
-		oldPolygons = new TreeSet<ConstructionElementCycle>();
-		oldSegments = new TreeSet<ConstructionElementCycle>();
 
 		segmentsLinked = new TreeMap<ConstructionElementCycle, GeoSegmentND>();
 		polygonsLinked = new TreeSet<GeoPolygon>();
@@ -137,23 +130,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	}
 
 	/**
-	 * restart faces descriptions
-	 */
-	public void restartFaces() {
-
-		oldPolygons.clear();
-		for (ConstructionElementCycle key : polygonsIndex.keySet()) {
-			// Application.debug("key : "+key);
-			oldPolygons.add(key);
-		}
-
-		oldSegments.clear();
-		for (ConstructionElementCycle key : segmentsIndex.keySet())
-			oldSegments.add(key);
-
-	}
-
-	/**
 	 * start a new face
 	 */
 	public void startNewFace() {
@@ -172,34 +148,20 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	/**
 	 * ends the current face and store it in the faces list
+	 * @return face created
 	 */
-	public void endCurrentFace() {
+	public long endCurrentFace() {
 		currentFace.setDirection();
 
-		// if the old polygons contains the current face, then this won't be
-		// removed nor recreated
-		if (oldPolygons.contains(currentFace)) {
-			oldPolygons.remove(currentFace);
-			// update old segments
-			Iterator<ConstructionElement> it = currentFace.iterator();
-			GeoPoint3D endPoint = (GeoPoint3D) it.next();
-			GeoPoint3D firstPoint = endPoint;
-			for (; it.hasNext();) {
-				GeoPoint3D startPoint = endPoint;
-				endPoint = (GeoPoint3D) it.next();
-				oldSegments.remove(ConstructionElementCycle.SegmentDescription(
-						startPoint, endPoint));
-			}
-			// last segment
-			oldSegments.remove(ConstructionElementCycle.SegmentDescription(
-					endPoint, firstPoint));
-		} else {
-			// faces.add(currentFace);
-			polygonsIndex.put(currentFace, new Long(polygonsIndexMax));
-			polygonsIndexMax++;
-		}
+		//add to index
+		polygonsIndex.put(currentFace, new Long(polygonsIndexMax));
+		polygonsIndexMax++;
+		
+		return polygonsIndexMax-1;
+
 
 	}
+	
 
 	/**
 	 * update the faces regarding vertices and faces description
@@ -251,10 +213,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 			// last segment
 			s[j] = createSegment(endPoint, firstPoint);
 
+			/*
 			String st = "poly : ";
 			for (int i = 0; i < p.length; i++)
 				st += p[i].getLabel();
 			Application.debug(st);
+			*/
 
 			GeoPolygon3D polygon = createPolygon(p);
 			polygons.put(polygonsIndex.get(currentFace), polygon);
@@ -281,6 +245,55 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		return polygon;
 	}
+	
+	
+	/**
+	 * creates a polygon corresponding to the currentFace description
+	 * assume that vertices and edges are set
+	 * @param currentFace
+	 * @return polygon corresponding
+	 */
+	public GeoPolygon3D createPolygon(ConstructionElementCycle currentFace) {
+		
+		// vertices of the face
+		GeoPointND[] p = new GeoPointND[currentFace.size()];
+
+		// edges linked to the face
+		GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
+
+		Iterator<ConstructionElement> it2 = currentFace.iterator();
+		GeoPointND endPoint = (GeoPointND) it2.next();
+		int j = 0;
+		p[j] = endPoint; // first point for the polygon
+		GeoPointND firstPoint = endPoint;
+		for (; it2.hasNext();) {
+			// creates edges
+			GeoPointND startPoint = endPoint;
+			endPoint = (GeoPointND) it2.next();
+			s[j] = createSegment(startPoint, endPoint);
+
+			// points for the polygon
+			j++;
+			p[j] = endPoint;
+
+		}
+		// last segment
+		s[j] = createSegment(endPoint, firstPoint);
+
+		
+		String st = "poly : ";
+		for (int i = 0; i < p.length; i++)
+			st += p[i].getLabel();
+		Application.debug(st);
+		
+
+		GeoPolygon3D polygon = createPolygon(p);
+		polygons.put(polygonsIndex.get(currentFace), polygon);
+		polygon.setSegments(s);
+		
+		return polygon;
+	}
+	
 
 	/**
 	 * add the polygon as a polygon linked to this (e.g basis of a prism)
@@ -316,21 +329,24 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint) {
 
-		Application.debug(startPoint.getLabel() + endPoint.getLabel());
+		//Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
 				.SegmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
 
 		// check if this segment is not already created
-		if (segmentsIndex.containsKey(key))
+		if (segmentsIndex.containsKey(key)){
+			//Application.debug(startPoint.getLabel() + endPoint.getLabel());
 			return segments.get(segmentsIndex.get(key));
+		}
 
 		// check if this segment is not a segment linked
 		if (segmentsLinked.containsKey(key))
 			return segmentsLinked.get(key);
 
 		GeoSegment3D segment;
+		
 
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D((Construction)cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
@@ -341,9 +357,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		segment.setObjColor(getObjectColor());
 		segment.setFromPolyhedron(true);
 
-		// TODO translation for edge
-		// segment.setLabel("edge"+startPoint.getLabel()+endPoint.getLabel());
-
 		Long index = new Long(segmentsIndexMax);
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
@@ -351,6 +364,26 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		return segment;
 
+	}
+	
+	public GeoSegmentND getSegment(GeoPointND startPoint, GeoPointND endPoint) {
+
+		//Application.debug(startPoint.getLabel() + endPoint.getLabel());
+
+		ConstructionElementCycle key = ConstructionElementCycle
+				.SegmentDescription((GeoElement) startPoint,
+						(GeoElement) endPoint);
+		
+		// check if this segment is already created
+		if (segmentsIndex.containsKey(key))
+			return segments.get(segmentsIndex.get(key));
+		
+
+		// check if this segment is a segment linked
+		if (segmentsLinked.containsKey(key))
+			return segmentsLinked.get(key);
+		
+		return null;
 	}
 
 	public void addSegmentLinked(GeoSegmentND segment) {
@@ -409,6 +442,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		// labels for created points
 		if (labels.length - index < pointsCreated.size()) {
+			defaultPointsLabels();
 			defaultPolygonsLabels();
 			defaultSegmentLabels();
 			return;
@@ -428,7 +462,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLabel(labels[index]);
-			// Application.debug("labels["+index+"]="+labels[index]);
+			//Application.debug("labels["+index+"]="+labels[index]);
 			index++;
 		}
 
@@ -441,9 +475,15 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		// labels for segments
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLabel(labels[index]);
+			//Application.debug("labels["+index+"]="+labels[index]+",\nsegment:"+segment.getParentAlgorithm());
 			index++;
 		}
 
+	}
+	
+	private void defaultPointsLabels() {
+		for (GeoPointND point : pointsCreated)
+			point.setLabel(null);
 	}
 
 	private StringBuffer sb = new StringBuffer();
@@ -577,6 +617,10 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 
 		return polygonsArray;
+	}
+	
+	public GeoPolygon3D getFace(long index){
+		return polygons.get(index);
 	}
 
 	/**

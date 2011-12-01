@@ -4,6 +4,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
+import geogebra.kernel.ConstructionElementCycle;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPolygon;
@@ -16,9 +17,8 @@ import geogebra.main.Application;
  * Creates a new GeoPolyhedron
  *
  */
-public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
+public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 
-	
 	
 	private GeoPointND[] bottomPoints;
 	private GeoPointND topPoint;
@@ -30,64 +30,11 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	
 
 	
-	private OutputHandler<GeoSegment3D> outputSegments;
-	private OutputHandler<GeoPolygon3D> outputPolygons;
-	
-	/** points generated as output  */
-	protected OutputHandler<GeoPoint3D> outputPoints;
-
-	private OutputHandler<GeoPolyhedron> outputPolyhedron;
-	
 	
 	/////////////////////////////////////////////
 	// POLYHEDRON OF DETERMINED TYPE
 	////////////////////////////////////////////
 	
-	private AlgoPolyhedronPoints(Construction c){
-		super(c);
-
-
-		outputPolyhedron=new OutputHandler<GeoPolyhedron>(new elementFactory<GeoPolyhedron>() {
-			public GeoPolyhedron newElement() {
-				GeoPolyhedron p=new GeoPolyhedron(cons);
-				p.setParentAlgorithm(AlgoPolyhedronPoints.this);
-				return p;
-			}
-		});
-		
-		
-		outputPoints=new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
-			public GeoPoint3D newElement() {
-				GeoPoint3D p=new GeoPoint3D(cons);
-				p.setCoords(0, 0, 0, 1);
-				p.setParentAlgorithm(AlgoPolyhedronPoints.this);
-				return p;
-			}
-		});
-		
-
-		outputPolygons=new OutputHandler<GeoPolygon3D>(new elementFactory<GeoPolygon3D>() {
-			public GeoPolygon3D newElement() {
-				GeoPolygon3D p=new GeoPolygon3D(cons);
-				return p;
-			}
-		});
-		
-		
-			
-		
-		outputSegments=new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
-			public GeoSegment3D newElement() {
-				GeoSegment3D s=new GeoSegment3D(cons);
-				return s;
-			}
-		});
-		
-
-
-		
-		
-	}
 	
 	
 	/** creates a polyhedron regarding vertices 
@@ -96,11 +43,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	 * @param points 
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPointND[] points) {
-		this(c);
-
-		outputPolyhedron.adjustOutputSize(1);
-		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
-
+		super(c);
 
 
 		bottomPoints = new GeoPointND[points.length-1];
@@ -109,8 +52,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 		topPoint = points[points.length-1];
 		shift=1; //output points are shifted of 1 to input points
 			
+		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
+		
 		createPolyhedron(polyhedron);
-		//polyhedron.updateFaces();
+		polyhedron.updateFaces();
 		
 		compute();
 		
@@ -138,18 +83,17 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	 * @param point 
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon, GeoPointND point) {
-		this(c);
-
-		outputPolyhedron.adjustOutputSize(1);
-		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
+		super(c);
 		
 		bottom = polygon;
 		bottomAsInput = true;
 		topPoint = point;
 		shift=1; //output points are shifted of 1 to input points
 		
-		createPolyhedron(polyhedron);
+		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
+		createPolyhedron(polyhedron);
+
 		update();
 		
 		// input : inputPoints or list of faces
@@ -158,13 +102,18 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 		input[1]=(GeoElement) topPoint;
 		addAlgoToInput();
 		
+
+		
 		polyhedron.updateFaces();
 		setOutput(); 
-		
-		
         
+        setLabels(labels);
         
-        polyhedron.initLabels(labels);
+	}
+	
+	
+	protected void setLabels(String[] labels){
+		getPolyhedron().initLabels(labels);
 	}
 	
 	
@@ -175,9 +124,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	 * @param height 
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
-		this(c);
+		super(c);
 
-		outputPolyhedron.adjustOutputSize(1);
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		bottom = polygon;
@@ -231,19 +179,31 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	/**
 	 * sets the bottom of the polyhedron
 	 * @param polyhedron
+	 * @return bottom key (if one)
 	 */
-	protected void setBottom(GeoPolyhedron polyhedron){
-		if (bottom!=null)
+	protected long setBottom(GeoPolyhedron polyhedron){
+		if (bottom!=null){
 			polyhedron.addPolygonLinked(bottom);
-		else{
+			return -1;
+		}else{
 			GeoPointND[] bottomPoints = getBottomPoints();
 			
 			polyhedron.startNewFace();
-			for (int i=0; i<bottomPoints.length; i++)
+			for (int i=0; i<bottomPoints.length; i++){
+				//polyhedron.createSegment(bottomPoints[i], bottomPoints[(i+1)%(bottomPointsLength)]);
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
-			polyhedron.endCurrentFace();
+			}
+			return polyhedron.endCurrentFace();
 		}
 	}
+	
+	protected GeoPolygon getBottom(){
+		if (bottom!=null)
+			return bottom;
+		else
+			return outputPolygons.getElement(0);
+	}
+	
 	
 	
 	
@@ -267,6 +227,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	public void compute() {
 		
 		//check if bottom points length has changed (e.g. with regular polygon)
+		/*
 		if (bottomAsInput && bottom.getPointsLength()!=bottomPointsLength){
 			Application.debug("bottom.getPointsLength()!=bottomPointsLength");
 			int shift = bottom.getPointsLength()-bottomPointsLength;
@@ -278,7 +239,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 				removeBottomPoints(-shift);				
 			}
 		}
-			
+		*/	
 		
 		//recompute the translation from bottom to top
 		if (height==null)
@@ -290,43 +251,11 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	}
 	
 	
-	private void addAlgoToInput(){
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
-		}
-	}
+	
+	
+	
+	
 
-		
-	private void setOutput(){
-		
-		updateOutput();
-        ((Construction) cons).addToAlgorithmList(this);  
-		
-	}
-	
-	
-	
-	
-	
-	private void updateOutput(){
-		
-		//add polyhedron's segments and polygons, without setting this algo as algoparent
-		GeoPolyhedron polyhedron = getPolyhedron();
-		
-		outputPolygons.addOutput(polyhedron.getFaces(),false,false);
-		outputSegments.addOutput(polyhedron.getSegments(),false,true);
-		
-	}
-
-	
-	
-	
-	/**
-	 * @return the polyhedron
-	 */
-	public GeoPolyhedron getPolyhedron(){
-		return outputPolyhedron.getElement(0);
-	}
 	
 	
 	
@@ -352,30 +281,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 
 
 
-
-    
-
-	
-	
-	
-    public void update() {
-    	
-        // compute output from input
-        compute();
-        
-        //polyhedron
-        getPolyhedron().update();
-        
-
-    }
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -469,48 +374,5 @@ public abstract class AlgoPolyhedronPoints extends AlgoElement3D{
 	
 	
 
-    ///////////////////////////////////////////////////////
-    // FOR AlgoElementWithResizeableOutput   (TODO)
-    ///////////////////////////////////////////////////////
- 
-	/* add in constructor, just before setting labels :
 	
-	        //set labels dependencies: will be used with Construction.resolveLabelDependency()
-        if (labels!=null && labels.length>1)
-        	for (int i=0; i<labels.length; i++){
-        		cons.setLabelDependsOn(labels[i], this);
-        	}
-	
-	 */
-	
-	/*
-	public GeoElement addLabelToOutput(String label, int type){
-
-		switch(type){
-		case GeoElement.GEO_CLASS_POLYHEDRON:
-			return outputPolyhedron.addLabel(label);
-		case GeoElement.GEO_CLASS_POINT3D:
-			return (GeoElement) outputPoints.addLabel(label);
-		case GeoElement.GEO_CLASS_POLYGON3D:
-			return outputPolygons.addLabel(label);
-		case GeoElement.GEO_CLASS_SEGMENT3D:
-			return outputSegments.addLabel(label);
-		default:
-			return null;
-		}
-
-	}
-	*/
-	
-	protected void getOutputXML(StringBuilder sb){
-		super.getOutputXML(sb);
-		GeoPolyhedron polyhedron = getPolyhedron();
-		
-		//append XML for polygon and segments linked once more, to avoid override of specific properties		
-		for (GeoPolygon polygon : polyhedron.getPolygonsLinked())
-			polygon.getXML(sb);
-		for (GeoSegmentND segment : polyhedron.getSegmentsLinked())
-			((GeoElement) segment).getXML(sb);
-		
-	}
 }

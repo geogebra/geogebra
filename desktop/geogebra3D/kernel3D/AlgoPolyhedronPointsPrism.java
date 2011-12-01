@@ -4,7 +4,9 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
+import geogebra.kernel.ConstructionElementCycle;
 import geogebra.kernel.geos.GeoPolygon;
+import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
 
 /**
@@ -16,8 +18,8 @@ import geogebra.main.Application;
 public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 
-
-	
+	private long[] faces;
+	private GeoPointND[] points;
 
 	/**
 	 * @param c
@@ -63,11 +65,14 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		GeoPointND topPoint = getTopPoint();
 		
 		bottomPointsLength = bottomPoints.length;
+		
+		///////////
+		//vertices
+		///////////
 
-
-		GeoPointND[] points = new GeoPointND[bottomPointsLength*2];
+		points = new GeoPointND[bottomPointsLength*2];
 		outputPoints.augmentOutputSize(bottomPointsLength-1);
-		outputPoints.setLabels(null);
+		//outputPoints.setLabels(null);
 		for(int i=0;i<bottomPointsLength;i++)
 			points[i] = bottomPoints[i];
 		points[bottomPointsLength] = topPoint;		
@@ -77,8 +82,16 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polyhedron.addPointCreated(point);
 		}
 		
-		//bottom of the prism
-		setBottom(polyhedron);
+		
+		///////////
+		//faces
+		///////////
+		
+		faces = new long[2+bottomPointsLength];
+		
+		//bottom
+		faces[0]=setBottom(polyhedron);
+
 		
 		//sides of the prism
 		for (int i=0; i<bottomPointsLength; i++){
@@ -87,7 +100,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polyhedron.addPointToCurrentFace(points[(i+1)%(bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength + ((i+1)%(bottomPointsLength))]);
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength + i]);
-			polyhedron.endCurrentFace();
+			faces[i+1]=polyhedron.endCurrentFace();
 		}
 		
 
@@ -96,12 +109,56 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		polyhedron.startNewFace();
 		for (int i=0; i<bottomPointsLength; i++)
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength+i]);
-		polyhedron.endCurrentFace();
+		faces[1+bottomPointsLength]=polyhedron.endCurrentFace();
 
 
 		polyhedron.setType(GeoPolyhedron.TYPE_PRISM);
 		
 	}
+	
+	
+
+	
+	protected void updateOutput(){
+		
+		//add polyhedron's segments and polygons, without setting this algo as algoparent
+		GeoPolyhedron polyhedron = getPolyhedron();
+		
+		if (faces[0]!=-1){ //check bottom
+			outputPolygons.addOutput(polyhedron.getFace(faces[0]), false);
+			for (int i=0; i<bottomPointsLength; i++)
+				outputSegments.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[(i+1) % bottomPointsLength]),false);
+		}
+		
+		//sides
+		for (int i=0; i<bottomPointsLength; i++){
+			outputPolygons.addOutput(polyhedron.getFace(faces[i+1]), false);
+			outputSegments.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[i+bottomPointsLength]),false);
+		}
+
+		//top
+		outputPolygons.addOutput(polyhedron.getFace(faces[bottomPointsLength+1]), false);
+		for (int i=0; i<bottomPointsLength; i++)
+			outputSegments.addOutput((GeoSegment3D) polyhedron.getSegment(points[bottomPointsLength+i], points[bottomPointsLength+((i+1) % bottomPointsLength)]),false);
+
+		//Application.debug(outputSegments.size());
+		//for (int i=0; i<outputSegments.size(); i++) Application.debug("segment "+i+":"+outputSegments.getElement(i).getParentAlgorithm());
+
+		
+		refreshOutput();
+		
+	}
+	
+	
+	protected void setLabels(String[] labels){
+		if (labels==null || labels.length <= 1 || app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+			super.setLabels(labels);
+		else{
+			for (int i=0; i<labels.length; i++)
+				getOutput(i).setLabel(labels[i]);
+		}
+	}
+
 	
 	protected void addBottomPoints(int length){
 		outputPoints.augmentOutputSize(length);
@@ -128,6 +185,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		polyhedron.updateFaces();
 		
 	}
+	
 	
 	protected void removeBottomPoints(int length){
 		for(int i=bottomPointsLength; i<bottomPointsLength+length; i++)

@@ -5960,9 +5960,58 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		this.uniqueId = uniqueId;
 	}
 	
+	
 	public void resetUniqueId() {
 		uniqueId = ""+UUID.randomUUID();
 	}
+	
+	
+	////////////////////////////////////
+	// FILE VERSION HANDLING
+	////////////////////////////////////
+	
+	private int[] version = null;
+
+	public void setFileVersion(String version){
+		
+		Application.debug("file version: "+version);
+		
+		if (version==null)
+			return;
+		
+		this.version=getSubValues(version);
+	}
+	
+	static final public int[] getSubValues(String version){
+		String[] values = version.split("\\.");
+		int[] ret = new int[values.length];
+		for (int i=0; i<values.length; i++)
+			ret[i] = Integer.parseInt(values[i]);
+		
+		return ret;
+	}
+	
+	public boolean fileVersionBefore(int[] v){
+		if (this.version==null)
+			return true;
+		
+		int length = version.length;
+		if (v.length<length)
+			length=v.length;
+		
+		for (int i=0;i<length;i++){
+			if(version[i]<v[i])
+				return true;
+			else if (version[i]>v[i])
+				return false;
+		}
+		
+		return version.length<v.length;
+	}
+	
+	
+	
+	
 
 	public void setShowInputHelpToggle(boolean flag) { 
 		if (showInputHelpToggle == flag) 

@@ -51,7 +51,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		this.name = name;
 		this.className = "Algo"+name;
 
-		outputPolyhedron.adjustOutputSize(1);
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 
 		this.A=A;
