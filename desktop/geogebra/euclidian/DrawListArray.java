@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 
+import geogebra.common.euclidian.DrawableND;
 import geogebra.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
