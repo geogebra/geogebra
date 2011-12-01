@@ -1,6 +1,5 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.euclidian.FormulaDimension;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoBoolean;
@@ -12,6 +11,7 @@ import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -312,7 +312,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		FormulaDimension d = new FormulaDimension();
+		Dimension d = new Dimension();
 		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
 				bgColor, true);
 

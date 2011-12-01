@@ -4486,7 +4486,11 @@ public abstract class GeoElement
 			sb.append(objColor.getBlue());
 			sb.append("\"");
 			sb.append(" alpha=\"");
-			sb.append(alphaValue);
+
+			// changed from alphavalue (don't want alpha="-1.0" in XML)
+			// see GeoList
+			sb.append(getAlphaValue());
+
 			sb.append("\"");
 
 			if (colFunction!=null && kernel.getSaveScriptsToXML())

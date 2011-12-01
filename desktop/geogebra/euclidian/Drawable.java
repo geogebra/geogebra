@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.FormulaDimension;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
@@ -27,6 +26,7 @@ import geogebra.main.Application;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -118,8 +118,8 @@ public abstract class Drawable extends DrawableND {
 			boolean serif = true; // nice "x"s
 			if (geo.isGeoText()) serif = ((GeoText)geo).isSerifFont();
 			int offsetY = 10 + view.fontSize; // make sure LaTeX labels don't go off bottom of screen
-			FormulaDimension dim = view.getApplication().getDrawEquation().drawEquation(geo.getKernel().getApplication(), geo, g2, xLabel, yLabel - offsetY, label.substring(1, label.length() - 1), g2.getFont(), serif, g2.getColor(), g2.getBackground(), true);
-			labelRectangle.setBounds(xLabel, yLabel - dim.depth - offsetY, (int)dim.width, (int)dim.height);
+			Dimension dim = view.getApplication().getDrawEquation().drawEquation(geo.getKernel().getApplication(), geo, g2, xLabel, yLabel - offsetY, label.substring(1, label.length() - 1), g2.getFont(), serif, g2.getColor(), g2.getBackground(), true);
+			labelRectangle.setBounds(xLabel, yLabel - offsetY, (int)dim.width, (int)dim.height);
 			return;
 		}
 
@@ -343,7 +343,6 @@ public abstract class Drawable extends DrawableND {
 		ArrayList<Integer> lineHeights = new ArrayList<Integer>();
 		lineHeights.add(new Integer(lineSpread + lineSpace));
 		ArrayList<Integer> elementHeights = new ArrayList<Integer>();
-		ArrayList<Integer> elementDepths = new ArrayList<Integer>();
 
 		int depth = 0;
 
@@ -354,15 +353,14 @@ public abstract class Drawable extends DrawableND {
 		for(int i = 0, currentLine = 0, currentElement = 0; i < elements.length; ++i) {
 			if(isLaTeX) {
 				// save the height of this element by drawing it to a temporary buffer
-				FormulaDimension dim = new FormulaDimension();
+				Dimension dim = new Dimension();
 				dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics, 0, 0, elements[i], font, ((GeoText)geo).isSerifFont(), fgColor, bgColor, false);
 				
 				int height = dim.height;
 				
-				depth += dim.depth;
+				//depth += dim.depth;
 				
 				elementHeights.add(new Integer(height));
-				elementDepths.add(new Integer(dim.depth));
 
 				// check if this element is taller than every else in the line
 				if(height > (lineHeights.get(currentLine)).intValue())
@@ -375,7 +373,6 @@ public abstract class Drawable extends DrawableND {
 
 				for(int j = 0; j < lines.length; ++j) {
 					elementHeights.add(new Integer(lineSpread));
-					elementDepths.add(new Integer(0));
 
 					// create a new line
 					if(j + 1 < lines.length) {
@@ -407,7 +404,7 @@ public abstract class Drawable extends DrawableND {
 				yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights.get(currentElement))).intValue()) / 2;
 				
 				// draw the equation and save the x offset
-				xOffset += app.getDrawEquation().drawEquation(app, geo, g2, xLabel + xOffset, (yLabel + height) + yOffset + elementDepths.get(currentElement), elements[i], font, ((GeoText)geo).isSerifFont(), fgColor, bgColor, true).width;
+				xOffset += app.getDrawEquation().drawEquation(app, geo, g2, xLabel + xOffset, (yLabel + height) + yOffset, elements[i], font, ((GeoText)geo).isSerifFont(), fgColor, bgColor, true).width;
 
 				++currentElement;
 			} else {

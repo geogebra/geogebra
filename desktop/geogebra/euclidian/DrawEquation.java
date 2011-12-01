@@ -1,6 +1,5 @@
 package geogebra.euclidian;
 
-import geogebra.common.euclidian.FormulaDimension;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
@@ -9,6 +8,7 @@ import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -45,7 +45,7 @@ public class DrawEquation {
 	 * @param bgColor
 	 * @return dimension of rendered equation
 	 */
-	final public FormulaDimension drawEquationJLaTeXMath(Application app,
+	final public Dimension drawEquationJLaTeXMath(Application app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
 			Font font, boolean serif, Color fgColor, Color bgColor,
 			boolean useCache, Integer maxWidth, Float lineSpace) {
@@ -54,7 +54,7 @@ public class DrawEquation {
 
 		int width = -1;
 		int height = -1;
-		int depth = 0;
+		//int depth = 0;
 
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
@@ -183,8 +183,8 @@ public class DrawEquation {
 
 			jl.setForeground(fgColor);
 			icon.paintIcon(jl, g2, x, y);
-			return new FormulaDimension(icon.getIconWidth(),
-					icon.getIconHeight(), icon.getIconDepth());
+			return new Dimension(icon.getIconWidth(),
+					icon.getIconHeight());
 
 		}
 
@@ -211,7 +211,7 @@ public class DrawEquation {
 			int ret[] = JLaTeXMathCache.getCachedTeXFormulaDimensions(key);
 			width = ret[0];
 			height = ret[1];
-			depth = ret[2];
+			//depth = ret[2];
 
 		} catch (Exception e) {
 			// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
@@ -236,7 +236,7 @@ public class DrawEquation {
 			height = im.getHeight(null);
 		}
 
-		return new FormulaDimension(width, height, depth);
+		return new Dimension(width, height);
 	}
 
 	public void setUseJavaFontsForLaTeX(Application app, boolean b) {
@@ -251,7 +251,7 @@ public class DrawEquation {
 		}
 	}
 
-	final public static FormulaDimension drawEquation(AbstractApplication app,
+	final public static Dimension drawEquation(AbstractApplication app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
 			Font font, boolean serif, Color fgColor, Color bgColor,
 			boolean useCache) {
@@ -259,7 +259,7 @@ public class DrawEquation {
 				bgColor, useCache, null, null);
 	}
 
-	final public static FormulaDimension drawEquation(Application app,
+	final public static Dimension drawEquation(Application app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
 			Font font, boolean serif, Color fgColor, Color bgColor,
 			boolean useCache, Integer maxWidth, Float lineSpace) {

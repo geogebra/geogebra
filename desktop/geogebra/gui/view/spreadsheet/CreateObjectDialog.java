@@ -1,6 +1,5 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.euclidian.FormulaDimension;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
@@ -674,7 +673,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		FormulaDimension d = new FormulaDimension();
+		Dimension d = new Dimension();
 		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
 				bgColor, true);
 

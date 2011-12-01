@@ -1,6 +1,5 @@
 package geogebra.gui.view.algebra;
 
-import geogebra.common.euclidian.FormulaDimension;
 import geogebra.euclidian.DrawEquation;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
@@ -8,6 +7,7 @@ import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -181,7 +181,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		FormulaDimension d = new FormulaDimension();
+		Dimension d = new Dimension();
 		app.getDrawEquation();
 		d = DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
 				bgColor, true);
