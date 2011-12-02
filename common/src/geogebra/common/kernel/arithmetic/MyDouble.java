@@ -476,7 +476,7 @@ implements NumberValue, Comparable {
     }
     
 	final public GeoElementInterface toGeoElement() {
-		GeoNumericInterface num = kernel.newNumeric();
+		GeoNumericInterface num = kernel.newNumeric(kernel.getConstruction());
 		return (GeoElementInterface)num;
 	}
     

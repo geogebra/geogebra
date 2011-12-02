@@ -51,19 +51,7 @@ import java.util.TreeSet;
  */
 public class GeoNumeric extends GeoElement 
 implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
-	
-	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
-	private static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;	
-	private static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 72;
-	/** Default maximum value when displayed as slider*/
-	public static double DEFAULT_SLIDER_MIN = -5;
-	/** Default minimum value when displayed as slider*/
-	public static double DEFAULT_SLIDER_MAX = 5;
-	/** Default increment when displayed as slider*/
-	public static double DEFAULT_SLIDER_INCREMENT = 0.1;
-	/** Default increment when displayed as slider*/
-	public static double DEFAULT_SLIDER_SPEED = 1;
-	
+
 	/** value of the number or angle */
 	public double value;	
 

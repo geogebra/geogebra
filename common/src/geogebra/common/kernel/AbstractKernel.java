@@ -1793,6 +1793,6 @@ public abstract class AbstractKernel {
 	
 	public abstract AbstractAlgebraProcessor getAlgebraProcessor();
 	
-	public abstract GeoNumericInterface newNumeric();
+	public abstract GeoNumericInterface newNumeric(AbstractConstruction cons);
 	public abstract GeoListInterface newList();
 }

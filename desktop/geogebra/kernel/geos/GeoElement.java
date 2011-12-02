@@ -45,6 +45,7 @@ import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -1828,7 +1829,7 @@ public abstract class GeoElement
 
 	public double getAnimationStep() {
 		if(animationIncrement == null)
-			animationIncrement = new MyDouble(kernel, GeoNumeric.DEFAULT_SLIDER_INCREMENT);
+			animationIncrement = new MyDouble(kernel, GeoNumericInterface.DEFAULT_SLIDER_INCREMENT);
 		return animationIncrement.getDouble();
 	}
 
@@ -1878,13 +1879,13 @@ public abstract class GeoElement
 
 		GeoElement speedObj = (GeoElement)animationSpeedObj.toGeoElement();
 		if (speedObj.isGeoNumeric() && speedObj.isIndependent()) {
-			((GeoNumeric)speedObj).setValue(speed);
+			((GeoNumericInterface)speedObj).setValue(speed);
 		}
 	}
 
 	private void initAnimationSpeedObject() {
 		if (animationSpeedObj == null) {
-			GeoNumeric num = new GeoNumeric(cons);
+			GeoNumericInterface num = kernel.newNumeric(cons);
 			num.setValue(1);
 			animationSpeedObj = num;
 		}
@@ -3409,21 +3410,21 @@ public abstract class GeoElement
 	 * and don't have labels.
 	 * @return all random numeric unlabeled predecessors
 	 */
-	public ArrayList<GeoNumeric> getRandomNumberPredecessorsWithoutLabels() {
+	public ArrayList<GeoNumericInterface> getRandomNumberPredecessorsWithoutLabels() {
 		if (isIndependent())
 			return null;
 		else {
-			ArrayList<GeoNumeric> randNumbers = null;
+			ArrayList<GeoNumericInterface> randNumbers = null;
 
 			TreeSet<GeoElement> pred = getAllPredecessors();
 			Iterator<GeoElement> it = pred.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				if (geo.isGeoNumeric()) {
-					GeoNumeric num = (GeoNumeric) geo;
+					GeoNumericInterface num = (GeoNumericInterface) geo;
 					if (num.isRandomGeo() && !num.isLabelSet()) {
 						if (randNumbers == null)
-							randNumbers = new ArrayList<GeoNumeric>();
+							randNumbers = new ArrayList<GeoNumericInterface>();
 						randNumbers.add(num);
 					}
 				}
@@ -5236,11 +5237,11 @@ public abstract class GeoElement
 					screenLoc.setAbsoluteScreenLoc(x, y);
 					movedGeo = true;
 				} else if (isGeoNumeric()) {
-					if (!((GeoNumeric)geo).isSliderFixed()) {
+					if (!((GeoNumericInterface)geo).isSliderFixed()) {
 						// real world screen position - GeoNumeric
-						((GeoNumeric)geo).setRealWorldLoc(
-								((GeoNumeric)geo).getRealWorldLocX() + rwTransVec.getX(),
-								((GeoNumeric)geo).getRealWorldLocY() + rwTransVec.getY());
+						((GeoNumericInterface)geo).setRealWorldLoc(
+								((GeoNumericInterface)geo).getRealWorldLocX() + rwTransVec.getX(),
+								((GeoNumericInterface)geo).getRealWorldLocY() + rwTransVec.getY());
 						movedGeo = true;
 					}
 				} else if (isGeoText()) {
@@ -5899,7 +5900,7 @@ public abstract class GeoElement
 		if (algo != null) {
 			algo.compute(); // eg AlgoRandom etc
 		} else if (this.isGeoNumeric()) {
-			((GeoNumeric)this).updateRandom();
+			((GeoNumericInterface)this).updateRandom();
 		}
 	}
 

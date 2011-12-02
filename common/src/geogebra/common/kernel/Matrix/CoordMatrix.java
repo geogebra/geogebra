@@ -385,7 +385,7 @@ public class CoordMatrix
 	   		for (int r = 0 ; r < rows ; r++) {  	   			
    			GeoListInterface columnList = cons.getKernel().newList();
    	   		for (int c = 0 ; c < columns ; c++) {
-   	   			GeoNumericInterface num = cons.getKernel().newNumeric();
+   	   			GeoNumericInterface num = cons.getKernel().newNumeric(cons);
    	   			num.setValue(get(r + 1, c + 1));
    	   			columnList.add((GeoElementInterface)num);  	   			
    	   		}

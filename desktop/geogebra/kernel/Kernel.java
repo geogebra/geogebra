@@ -22,6 +22,7 @@ import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.ColorAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -8080,9 +8081,9 @@ public class Kernel extends AbstractKernel{
     }
 
 	@Override
-	public GeoNumericInterface newNumeric() {
+	public GeoNumericInterface newNumeric(AbstractConstruction cons) {
 		// TODO remove this once GeoNumeric is ported
-		return new GeoNumeric(getConstruction());
+		return new GeoNumeric(cons);
 	}
 
 	@Override
