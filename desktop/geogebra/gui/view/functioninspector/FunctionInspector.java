@@ -691,7 +691,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 			GeoPoint p = ((GeoPoint)rootGeos[i]);
 			if (p.isDefined()) {
 				double rt = p.inhomX;
-				if (rt > xMin && rt < xMax) {
+				if (Kernel.isGreaterEqual(rt, xMin) && Kernel.isGreaterEqual(xMax, rt)) {
 					root = rt;
 					count ++;
 				}
