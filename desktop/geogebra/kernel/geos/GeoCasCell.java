@@ -362,9 +362,13 @@ public class GeoCasCell extends GeoElement {
 			return;			
 		}
 		
+
+		//commented since this causes mode changes to evaluate to be ignored when the input remains the same.
+		//see ticket #1620
+		//
 		// nothing to do
-		if ("".equals(prefix) && "".equals(postfix) && localizedInput.equals(eval))
-			return;
+//		if ("".equals(prefix) && "".equals(postfix) && localizedInput.equals(eval))
+//			return;
 		
 		// parse eval text into valid expression
 		evalVE = parseGeoGebraCASInputAndResolveDummyVars(eval);
