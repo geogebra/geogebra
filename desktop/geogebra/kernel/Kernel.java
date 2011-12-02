@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.ColorAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
@@ -140,6 +141,7 @@ import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
+import geogebra.util.AwtColorAdapter;
 import geogebra.util.GeoLaTeXCache;
 import geogebra.util.NumberFormatDesktop;
 import geogebra.util.ScientificFormat;
@@ -8090,6 +8092,11 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	// This is a temporary place for adapter creation methods which will move into factories later
+	
+	@Override
+	public ColorAdapter getColorAdapter(int red, int green, int blue) {
+		return new AwtColorAdapter(red, green, blue);
+	}
 	
 	public NumberFormatAdapter getNumberFormat(){
 		return new NumberFormatDesktop();

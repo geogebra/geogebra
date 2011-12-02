@@ -8,6 +8,7 @@ import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
+import geogebra.common.awt.ColorAdapter;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
@@ -140,6 +141,7 @@ public abstract class AbstractKernel {
 
 		// This is a temporary place for abstract adapter methods which will go into factories later
 		// Arpad Fekete, 2011-12-01
+		public abstract ColorAdapter getColorAdapter(int red, int green, int blue);
 		public abstract NumberFormatAdapter getNumberFormat();
 		public abstract NumberFormatAdapter getNumberFormat(String s);
 		public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();

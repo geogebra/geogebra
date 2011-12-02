@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.ColorAdapter;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
@@ -58,7 +59,6 @@ import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
-import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -3776,8 +3776,9 @@ public abstract class GeoElement
 			}
 
 			if (colored) {
+				ColorAdapter colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());				
 				sbLongDescHTML.append("<b><font color=\"#");
-				sbLongDescHTML.append(StringUtil.toHexString(new AwtColorAdapter(getAlgebraColor())));
+				sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
 				sbLongDescHTML.append("\">");
 			}
 			sbLongDescHTML.append(indicesToHTML(label, false));
@@ -4227,8 +4228,9 @@ public abstract class GeoElement
 		}
 
 		if (colored) {
+			ColorAdapter colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
-			sbNameDescriptionHTML.append(StringUtil.toHexString(new AwtColorAdapter(getAlgebraColor())));
+			sbNameDescriptionHTML.append(StringUtil.toHexString(colorAdapter));
 			sbNameDescriptionHTML.append("\">");
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label, false));
