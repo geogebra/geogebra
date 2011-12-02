@@ -229,6 +229,10 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		return false;
 	}
 	
+	public boolean isGeoPolyLine() {
+		return true;
+	}
+	
 	/*
 	 * Path interface implementation
 	 */

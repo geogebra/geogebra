@@ -2729,7 +2729,7 @@ public abstract class GeoElement
 					return str;
 				}else
 					chars = lineLabels;
-			} else if (this instanceof GeoPolyLine) {	
+			} else if (isGeoPolyLine()) {	
 				chars = lineLabels;
 			} else if (isGeoConic() || isGeoCubic()) {
 				chars = conicLabels;
@@ -4852,6 +4852,10 @@ public abstract class GeoElement
 		return false;
 	}
 
+	public boolean isGeoPolyLine() {
+		return false;
+	}
+	
 	public boolean isGeoCubic() {
 		return false;
 	}
