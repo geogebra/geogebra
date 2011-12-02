@@ -18,10 +18,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
 
 
@@ -75,7 +75,7 @@ public class AlgoLengthVector extends AlgoElement {
     @Override
 	public final void compute() {
     	v.getInhomCoords(coords);
-        num.setValue(GeoVec2D.length(coords[0], coords[1]));
+        num.setValue(MyMath.length(coords[0], coords[1]));
     }
 
     @Override

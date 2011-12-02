@@ -30,6 +30,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
@@ -121,7 +122,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
    
     final public double getX() { return x; }
     final public double getY() { return y; }  
-    final public double getR() {  return length(x, y); }
+    final public double getR() {  return MyMath.length(x, y); }
     final public double getPhi() { return Math.atan2(y, x); }    
     
     final public double [] getCoords() {
@@ -133,43 +134,14 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      * The result is sqrt(x^2  + y^2).
      */
     final public double length() {
-        return length(x, y);
+        return MyMath.length(x, y);
     } 
     
     /** Calculates the eucilidian length of this 2D vector.
      * The result is sqrt(a[0]^2  + a[1]^2).
      */
     final public static double length(double [] a) {
-        return length(a[0], a[1]);
-    } 
-    
-     /** Calculates the euclidian length sqrt(a^2  + b^2).     
-     */
-    final public static double length(double a, double b) {                
-        //return Math.sqrt(a*a + b*b);
-        
-        /*
-         * The Algorithm ist taken
-         * from Numerical Recipes, Appendix C, p.949 (Cabs) and
-         * avoids overflows.         
-         */
-        double res;        
-        double x = Math.abs(a);
-        double y = Math.abs(b);
-        
-        if ( x == 0 ) 
-            res = y;
-        else if ( y == 0 )
-            res = x;
-        else if ( x > y ) {
-            double temp = y / x;
-            res  = x * Math.sqrt(1.0 + temp * temp);
-        } else {
-            double temp = x / y;
-            res  = y * Math.sqrt(1.0 + temp * temp);
-        }
-        return res;
-               
+        return MyMath.length(a[0], a[1]);
     } 
     
     /** Changes this vector to a vector with the same direction 

@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
@@ -21,7 +22,6 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.main.Application;
 
@@ -252,7 +252,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 							double x1 = intersection.x / intersection.z;
 							double y1 = intersection.y / intersection.z;
 
-							double d = GeoVec2D.length(x1 - xRW, y1 - yRW);
+							double d = MyMath.length(x1 - xRW, y1 - yRW);
 							// Application.debug(d+" "+x1+","+y1+" "+xRW+","+yRW);
 							// Application.debug(x1+","+y1);
 							if (d < dist) {

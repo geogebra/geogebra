@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 
@@ -44,7 +45,7 @@ public class MyPoint {
 	}
 
 	public double distance(MyPoint p) {
-		return GeoVec2D.length(p.x - x, p.y - y);
+		return MyMath.length(p.x - x, p.y - y);
 	}
 
 	public GeoPoint getGeoPoint(AbstractConstruction cons) {

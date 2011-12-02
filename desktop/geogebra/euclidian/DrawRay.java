@@ -21,6 +21,7 @@ package geogebra.euclidian;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.euclidian.clipping.ClipLine;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.geos.GeoElement;
@@ -131,7 +132,7 @@ implements Previewable {
 				
 				double nx = v[0];
 				double ny = -v[1];
-				double length = GeoVec2D.length(nx, ny);
+				double length = MyMath.length(nx, ny);
 				double unit;
 				if (length > 0.0) {
 					unit = 16d / length;        		    		   				           					

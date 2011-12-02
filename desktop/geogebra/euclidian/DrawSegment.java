@@ -21,12 +21,12 @@ package geogebra.euclidian;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.euclidian.clipping.ClipLine;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.GeoVec2D;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -145,7 +145,7 @@ implements Previewable {
 		double midY = (coordsA[1] + coordsB[1])/ 2.0;		
 		double nx = coordsA[1] - coordsB[1]; 			
 		double ny = coordsB[0] - coordsA[0];		
-		double nLength = GeoVec2D.length(nx, ny);			
+		double nLength = MyMath.length(nx, ny);			
 			
 		// label position
         // use unit perpendicular vector to move away from line

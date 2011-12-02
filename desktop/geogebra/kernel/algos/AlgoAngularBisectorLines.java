@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -139,14 +140,14 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         // (gx, gy) is direction of g = B v A        
         gx = g.y;
         gy = -g.x;
-        lenG = GeoVec2D.length(gx, gy);
+        lenG = MyMath.length(gx, gy);
         gx /= lenG;
         gy /= lenG;
 
         // (hx, hy) is direction of h = B v C
         hx = h.y;
         hy = -h.x;
-        lenH = GeoVec2D.length(hx, hy);
+        lenH = MyMath.length(hx, hy);
         hx /= lenH;
         hy /= lenH;
 
@@ -225,7 +226,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
             }
 
             // make (wx, wy) a unit vector
-            length = GeoVec2D.length(wx, wy);
+            length = MyMath.length(wx, wy);
             wx /= length;
             wy /= length;
 

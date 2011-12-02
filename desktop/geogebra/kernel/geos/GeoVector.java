@@ -33,6 +33,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -422,7 +423,7 @@ Transformable, GeoVectorND {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:                	
 			sbBuildValueString.append("(");		
-			sbBuildValueString.append(kernel.format(GeoVec2D.length(x, y)));
+			sbBuildValueString.append(kernel.format(MyMath.length(x, y)));
 			sbBuildValueString.append("; ");
 			sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x)));
 			sbBuildValueString.append(")");
@@ -634,7 +635,7 @@ Transformable, GeoVectorND {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:                	
 			sb.append("(");		
-			sb.append(kernel.format(GeoVec2D.length(x, y)));
+			sb.append(kernel.format(MyMath.length(x, y)));
 			sb.append("; ");
 			sb.append(kernel.formatAngle(Math.atan2(y, x)));
 			sb.append(")");

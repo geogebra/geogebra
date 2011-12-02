@@ -20,6 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
@@ -204,9 +205,9 @@ public class AlgoCircleThreePoints extends AlgoElement {
         BCx = cx - bx;
         BCy = cy - by;
 
-        double lengthAB = GeoVec2D.length(ABx, ABy);
-        double lengthAC = GeoVec2D.length(ACx, ACy);
-        double lengthBC = GeoVec2D.length(BCx, BCy);
+        double lengthAB = MyMath.length(ABx, ABy);
+        double lengthAC = MyMath.length(ACx, ACy);
+        double lengthBC = MyMath.length(BCx, BCy);
 
         // find the two bisectors with max intersection angle
         // i.e. maximum abs of determinant of directions            

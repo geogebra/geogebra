@@ -1,6 +1,7 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.DrawLine;
 import geogebra.euclidian.DrawPoint;
@@ -719,7 +720,7 @@ public abstract class GeoGebraExport implements ActionListener{
 		double midY = (A[1] + B[1])/ 2.0;			
 		double nx = A[1] - B[1]; 			
 		double ny = B[0] - A[0];		
-		double nLength = GeoVec2D.length(nx, ny);			
+		double nLength = MyMath.length(nx, ny);			
 		// tick spacing and length.
 		double tickSpacing = 2.5 + geo.lineThickness/2d;
 		double tickLength =  tickSpacing + 1;	

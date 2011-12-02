@@ -21,6 +21,7 @@ package geogebra.euclidian;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -484,14 +485,14 @@ public class DrawLine extends Drawable implements Previewable {
 		        // (gx, gy) is direction of g = B v A        
 		        double gx = g1.y;
 		        double gy = -g1.x;
-		        double lenG = GeoVec2D.length(gx, gy);
+		        double lenG = MyMath.length(gx, gy);
 		        gx /= lenG;
 		        gy /= lenG;
 
 		        // (hx, hy) is direction of h = B v C
 		        double hx = h.y;
 		        double hy = -h.x;
-		        double lenH = GeoVec2D.length(hx, hy);
+		        double lenH = MyMath.length(hx, hy);
 		        hx /= lenH;
 		        hy /= lenH;
 
@@ -520,7 +521,7 @@ public class DrawLine extends Drawable implements Previewable {
 		            }
 
 		            // make (wx, wy) a unit vector
-		            double length = GeoVec2D.length(wx, wy);
+		            double length = MyMath.length(wx, wy);
 		            wx /= length;
 		            wy /= length;
 		            

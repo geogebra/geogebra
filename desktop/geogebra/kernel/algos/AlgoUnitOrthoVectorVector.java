@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -81,7 +82,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
     // line through P normal to v
     @Override
 	public final void compute() {        
-        length = GeoVec2D.length(v.x, v.y);
+        length = MyMath.length(v.x, v.y);
         n.x = -v.y / length;
         n.y = v.x / length;        
     }   

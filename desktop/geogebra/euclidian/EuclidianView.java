@@ -2698,10 +2698,10 @@ implements EuclidianViewInterface, Printable, SettingListener {
 					
 			// find maximum grid radius
 			// max =  max distance of origin to screen corners 	
-			double d1 = GeoVec2D.length(xZero, yZero);  // upper left
-			double d2 = GeoVec2D.length(xZero, yZero-height); // lower left
-			double d3 = GeoVec2D.length(xZero-width, yZero); // upper right
-			double d4 = GeoVec2D.length(xZero-width, yZero-height); // lower right		
+			double d1 = MyMath.length(xZero, yZero);  // upper left
+			double d2 = MyMath.length(xZero, yZero-height); // lower left
+			double d3 = MyMath.length(xZero-width, yZero); // upper right
+			double d4 = MyMath.length(xZero-width, yZero-height); // lower right		
 			double max = Math.max(Math.max(d1, d2), Math.max(d3, d4));
 			
 			

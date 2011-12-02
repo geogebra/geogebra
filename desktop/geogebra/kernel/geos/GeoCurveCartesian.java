@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
@@ -845,7 +846,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	@Override
 	public double distance(GeoPoint p) {
 		double t = getClosestParameter(p, 0);
-		return GeoVec2D.length(funX.evaluate(t) - p.x, funY.evaluate(t) - p.y);
+		return MyMath.length(funX.evaluate(t) - p.x, funY.evaluate(t) - p.y);
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,

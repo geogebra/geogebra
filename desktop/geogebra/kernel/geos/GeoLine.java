@@ -292,7 +292,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
      */
     public double distance(GeoPoint p) {                        
         return Math.abs( (x * p.inhomX + y * p.inhomY + z) / 
-                            GeoVec2D.length(x, y) );
+                            MyMath.length(x, y) );
     }
     
 	/** Calculates the euclidian distance between this GeoLine and GeoPoint P.
@@ -303,7 +303,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	 */
 	final public double distanceHom(GeoPoint p) {                        
 		return Math.abs( (x * p.x / p.z + y * p.y / p.z + z) / 
-							GeoVec2D.length(x, y) );
+							MyMath.length(x, y) );
 	}
 	
 	/**
@@ -313,7 +313,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	 */
 	final public double distanceHom(Coords p) {                        
 		return Math.abs( (x * p.getX() / p.getZ() + y * p.getY() / p.getZ() + z) / 
-							GeoVec2D.length(x, y) );
+							MyMath.length(x, y) );
 	}
     
     /** Calculates the euclidian distance between this GeoLine and GeoLine g.
@@ -332,7 +332,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
                 px = 0.0d;
                 py = -g.z / g.y;
             }
-            return Math.abs( (x * px + y * py + z) / GeoVec2D.length(x, y) );
+            return Math.abs( (x * px + y * py + z) / MyMath.length(x, y) );
         } else
 			return 0.0;
     }

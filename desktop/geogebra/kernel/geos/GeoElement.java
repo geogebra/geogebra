@@ -55,6 +55,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LaTeXCache;
+import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TraceSettings;
@@ -1328,7 +1329,7 @@ public abstract class GeoElement
 	 * @param y 
 	 */
 	public void setLabelOffset(int x, int y) {
-		double len = GeoVec2D.length(x, y);
+		double len = MyMath.length(x, y);
 		if (len > MAX_LABEL_OFFSET) {
 			double factor = MAX_LABEL_OFFSET / len;
 			x = (int) Math.round(factor * x);

@@ -2045,7 +2045,7 @@ Translateable
 		// take inner product >= 0 (small angle change)
 
 		// make (eigenvecX, eigenvecY) a unit vector
-		length = GeoVec2D.length(eigenvecX, eigenvecY);
+		length = MyMath.length(eigenvecX, eigenvecY);
 		if (length != 1.0d) {
 			eigenvecX = eigenvecX / length;
 			eigenvecY = eigenvecY / length;
@@ -2090,7 +2090,7 @@ Translateable
 		// take inner product >= 0 (small angle change)
 
 		// make (eigenvecX, eigenvecY) a unit vector
-		length = GeoVec2D.length(eigenvecX, eigenvecY);
+		length = MyMath.length(eigenvecX, eigenvecY);
 		if (length != 1.0d) {
 			eigenvecX = eigenvecX / length;
 			eigenvecY = eigenvecY / length;
@@ -2454,7 +2454,7 @@ Translateable
 			// 0 = det(S - x E) = x^2 - spurS x + detS = x (x - spurS)                                    
 			lambda = matrix[0] + matrix[1]; // spurS                         
 			// set first eigenvector as a unit vector (needed fo computing vector c)
-			length = GeoVec2D.length(matrix[3], matrix[0]);
+			length = MyMath.length(matrix[3], matrix[0]);
 			eigenvecX = matrix[3] / length;
 			eigenvecY = -matrix[0] / length;
 			// c = a . T, 
@@ -3196,7 +3196,7 @@ Translateable
 		double x = p.inhomX;
 		double y = p.inhomY;
 		
-		double d = GeoVec2D.length(x - xC, y - yC);
+		double d = MyMath.length(x - xC, y - yC);
 		return Math.abs(d - r);
 		*/
         

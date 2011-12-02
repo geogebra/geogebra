@@ -45,6 +45,7 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -304,7 +305,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		// polar coords (r; phi)
 		if (hasPolarParentNumbers()) {
 			// radius
-			double radius = GeoVec2D.length(endPosition.getX(), endPosition.getY());
+			double radius = MyMath.length(endPosition.getX(), endPosition.getY());
 			xvar.setValue(radius);
 
 			// angle
@@ -717,7 +718,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     }        	
     
     final public void getPolarCoords(double [] res) {
-       	res[0] = GeoVec2D.length(inhomX, inhomY);
+       	res[0] = MyMath.length(inhomX, inhomY);
        	res[1] = Math.atan2(inhomY, inhomX);
     }
         
@@ -757,7 +758,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     // euclidian distance between this GeoPoint and P
     @Override
 	final public double distance(GeoPoint P) {       
-        return GeoVec2D.length(	P.inhomX - inhomX, 
+        return MyMath.length(	P.inhomX - inhomX, 
         						P.inhomY - inhomY);
     }            
     
@@ -1046,7 +1047,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
         switch (toStringMode) {
         case Kernel.COORD_POLAR:                                            
     		sbBuildValueString.append('(');    
-			sbBuildValueString.append(kernel.format(GeoVec2D.length(getInhomX(), getInhomY())));
+			sbBuildValueString.append(kernel.format(MyMath.length(getInhomX(), getInhomY())));
 			sbBuildValueString.append("; ");
 			sbBuildValueString.append(kernel.formatAngle(Math.atan2(getInhomY(), getInhomX())));
 			sbBuildValueString.append(')');

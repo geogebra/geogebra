@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -80,7 +81,7 @@ public class AlgoUnitVectorVector extends AlgoElement {
     // unit vector of v
     @Override
 	public final void compute() {
-        length = GeoVec2D.length(v.x, v.y);        
+        length = MyMath.length(v.x, v.y);        
         u.x = v.x / length;
         u.y = v.y / length;
     }   

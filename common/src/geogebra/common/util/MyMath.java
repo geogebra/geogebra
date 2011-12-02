@@ -175,4 +175,24 @@ public final class MyMath {
 		}
 	}
 
+	public static double length(double a, double b) {
+		double res;        
+        double x = Math.abs(a);
+        double y = Math.abs(b);
+        
+        if ( x == 0 ) 
+            res = y;
+        else if ( y == 0 )
+            res = x;
+        else if ( x > y ) {
+            double temp = y / x;
+            res  = x * Math.sqrt(1.0 + temp * temp);
+        } else {
+            double temp = x / y;
+            res  = y * Math.sqrt(1.0 + temp * temp);
+        }
+        return res;
+      
+	}
+
 }

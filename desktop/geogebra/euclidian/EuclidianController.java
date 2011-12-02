@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -1585,7 +1586,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				}
 				//	if |mouse - startpoint| < 1/2 * |vec| then move
 				// startpoint
-				if (2d * GeoVec2D.length(xRW - sx, yRW - sy) < GeoVec2D
+				if (2d * MyMath.length(xRW - sx, yRW - sy) < MyMath
 						.length(movedGeoVector.x, movedGeoVector.y)) { // take
 					// startPoint
 					moveMode = MOVE_VECTOR_STARTPOINT;
@@ -4065,7 +4066,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		case EuclidianView.GRID_POLAR:
 				
 			// r = get nearest grid circle radius
-			double r = GeoVec2D.length(xRW, yRW);
+			double r = MyMath.length(xRW, yRW);
 			double r2 = Kernel.roundToScale(r, view.getGridDistances(0));
 			
 			// get nearest radial gridline angle
