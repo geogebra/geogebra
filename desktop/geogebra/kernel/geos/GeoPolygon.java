@@ -1473,7 +1473,22 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public boolean isFromPolyhedron(){
 		return false;
 	}
-	
-	
+	@Override
+	public String getDefaultLabel(char[] chars, boolean isInteger){
+		if(chars!=null)
+			return super.getDefaultLabel(chars, isInteger);
+		int counter = 0;
+		String str;
+		String name;
+		if (isFromPolyhedron())
+			name = app.getPlain("Name.face");
+		else
+			name = app.getPlain("Name.polygon");
+		do {
+			counter++;			
+			str = name + kernel.internationalizeDigits(counter+"");
+		} while (!cons.isFreeLabel(str));
+		return str;
+	}
 }
 

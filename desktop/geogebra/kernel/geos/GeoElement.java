@@ -2743,69 +2743,19 @@ public abstract class GeoElement
 			}  else if (isGeoAngle()) {
 				chars = greekLowerCase;
 			}
-			else if (isGeoPolygon()) {
-				int counter = 0;
-				String str;
-				String name;
-				if (((GeoPolygon) this).isFromPolyhedron())
-					name = app.getPlain("Name.face");
-				else
-					name = app.getPlain("Name.polygon");
-				do {
-					counter++;			
-					str = name + kernel.internationalizeDigits(counter+"");
-				} while (!cons.isFreeLabel(str));
-				return str;
-			}
 			else if (isGeoText()) {
-				int counter = 0;
-				String str;
-				do {
-					counter++;
-					str = app.getPlain("Name.text") + kernel.internationalizeDigits(counter+"");
-				} while (!cons.isFreeLabel(str));
-				return str;
+				return defaultNumberedLabel("Name.text");
 			} else if (isGeoImage()) {
-				int counter = 0;
-				String str;
-				do {
-					counter++;
-					str = app.getPlain("Name.picture") + kernel.internationalizeDigits(counter+"");;
-				} while (!cons.isFreeLabel(str));
-				return str;
+				return defaultNumberedLabel("Name.picture");
 			} else if (isGeoLocus()) {
-				int counter = 0;
-				String str;
-				do {
-					counter++;
-					str = app.getPlain("Name.locus") + kernel.internationalizeDigits(counter+"");;
-				} while (!cons.isFreeLabel(str));
-				return str;
+				return defaultNumberedLabel("Name.locus");
 			} else if (this.isGeoTextField()) {
-				int counter = 0;
-				String str;
-				do {
-					counter++;
-					str = app.getPlain("Name.textfield") + kernel.internationalizeDigits(counter+"");;
-				} while (!cons.isFreeLabel(str));
-				return str;
+				return defaultNumberedLabel("Name.locus");
 			} else if (isGeoButton()) {
-				int counter = 0;
-				String str;
-				do {
-					counter++;
-					str = app.getPlain("Name.button") + kernel.internationalizeDigits(counter+"");;
-				} while (!cons.isFreeLabel(str));
-				return str;
+				return defaultNumberedLabel("Name.button");
 			} else if (isGeoList()) {
 				GeoListInterface list = (GeoListInterface) this;
-				int counter = 0;
-				String str;
-				do {
-					counter++;
-					str = list.isMatrix() ? app.getPlain("Name.matrix") + kernel.internationalizeDigits(counter+"") : app.getPlain("Name.list") + kernel.internationalizeDigits(counter+"");;
-				} while (!cons.isFreeLabel(str));
-				return str;
+				return defaultNumberedLabel(list.isMatrix() ?"Name.matrix":"Name.list");
 			}
 			else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
@@ -2850,7 +2800,16 @@ public abstract class GeoElement
 		}
 		return sbDefaultLabel.toString();
 	}
-
+	
+	private String defaultNumberedLabel(String plainKey){
+		int counter = 0;
+		String str;
+		do {
+			counter++;
+			str = app.getPlain(plainKey) + kernel.internationalizeDigits(counter+"");;
+		} while (!cons.isFreeLabel(str));
+		return str;
+	}
 	/**
 	 * Returns the next free indexed label using the given prefix.
 	 * @param prefix e.g. "c"
