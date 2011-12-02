@@ -33,6 +33,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -312,6 +314,19 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		editor = new MyDefaultTreeCellEditor(this, renderer, new MyCellEditor(
 				editTF, app));
 
+		// add focus listener to the editor text field so that editing is 
+		// canceled on a focus lost event
+		editTF.addFocusListener(new FocusListener(){
+			
+			public void focusGained(FocusEvent e) {				
+			}
+			public void focusLost(FocusEvent e) {
+				if(e.getSource() == editTF)
+					cancelEditing();
+			}
+		});
+		
+		
 		editor.addCellEditorListener(editor); // self-listening
 		setCellRenderer(renderer);
 		setCellEditor(editor);
@@ -1164,6 +1179,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 
 	}
 
+	
 	/**
 	 * returns settings in XML format
 	 * 

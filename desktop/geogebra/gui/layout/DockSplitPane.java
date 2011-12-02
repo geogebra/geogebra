@@ -4,6 +4,8 @@ import geogebra.io.layout.DockSplitPaneData;
 import geogebra.main.Application;
 
 import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -22,6 +24,8 @@ public class DockSplitPane extends JSplitPane {
 	
 	public DockSplitPane() {
 		this(JSplitPane.HORIZONTAL_SPLIT);
+		
+		this.addPropertyChangeListener(paneResizeListener);
 	}
 	
 	public DockSplitPane(int newOrientation) {
@@ -31,7 +35,26 @@ public class DockSplitPane extends JSplitPane {
 		setBorder(BorderFactory.createEmptyBorder());
 		
 		dividerVisible = false;
+		this.addPropertyChangeListener(paneResizeListener);
 	}
+	
+	
+	/**
+	 * Listener for split pane resizing. Transfers focus to the split pane after
+	 * a resize event, thus removing focus and sending a focus lost event to the
+	 * DockSplitPane components.
+	 */
+	PropertyChangeListener paneResizeListener = new PropertyChangeListener() {
+		public void propertyChange(PropertyChangeEvent changeEvent) {
+			JSplitPane splitPane = (JSplitPane) changeEvent.getSource();
+			String propertyName = changeEvent.getPropertyName();
+			if (propertyName.equals(JSplitPane.LAST_DIVIDER_LOCATION_PROPERTY)) {
+				splitPane.requestFocus();		
+			}
+		}
+	};
+
+	
 	
 	/**
 	 * Return the component which is opposite to the parameter.
