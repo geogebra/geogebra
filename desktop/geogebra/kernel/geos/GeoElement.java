@@ -45,6 +45,7 @@ import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -79,7 +80,7 @@ import java.util.regex.Pattern;
 /**
  *
  * @author  Markus
- * @version
+ * @version 2011-12-02
  */
 public abstract class GeoElement
 	extends ConstructionElement
@@ -445,7 +446,7 @@ public abstract class GeoElement
 	protected GeoBoolean condShowObject;
 
 	// function to determine color
-	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green, GeoNumeric Blue }
+	private GeoListInterface colFunction; // { GeoNumeric red, GeoNumeric Green, GeoNumeric Blue }
 
 	private boolean useVisualDefaults = true;
 	protected boolean isColorSet = false;
@@ -886,7 +887,7 @@ public abstract class GeoElement
 		// get rgb values from color list
 		double redD = 0, greenD = 0, blueD = 0;
 		for (int i=0; i < 3; i++) {
-			GeoElement geo = colFunction.get(i);
+			GeoElement geo = (GeoElement)colFunction.get(i);
 			if (geo.isDefined()) {
 				double val = ((NumberValue) geo).getDouble();
 				switch (i) {
@@ -1144,7 +1145,7 @@ public abstract class GeoElement
 		if (colFunction == null || colFunction.size() == 3)
 			return alphaValue;
 
-		GeoElement geo = colFunction.get(3);
+		GeoElement geo = (GeoElement)colFunction.get(3);
 		if (geo.isDefined()) {
 			double alpha = ((NumberValue) geo).getDouble();
 
@@ -2795,7 +2796,7 @@ public abstract class GeoElement
 				} while (!cons.isFreeLabel(str));
 				return str;
 			} else if (isGeoList()) {
-				GeoList list = (GeoList) this;
+				GeoListInterface list = (GeoListInterface) this;
 				int counter = 0;
 				String str;
 				do {
@@ -4030,7 +4031,7 @@ public abstract class GeoElement
 		String algebraDesc = geo.getAlgebraDescription();
 		StringBuilder sb = new StringBuilder();
 		
-		if(geo.isGeoList() && ((GeoList)geo).getElementType()==GeoClass.TEXT)
+		if(geo.isGeoList() && ((GeoListInterface)geo).getElementType()==GeoClass.TEXT)
 			return null;
 		// handle undefined
 		if(!geo.isDefined()){
@@ -5062,11 +5063,11 @@ public abstract class GeoElement
 			condShowObject = null;
 	}
 
-	public final GeoList getColorFunction() {
+	public final GeoListInterface getColorFunction() {
 		return colFunction;
 	}
 
-	public void setColorFunction(GeoList col)
+	public void setColorFunction(GeoListInterface col)
 	//throws CircularDefinitionException
 	{
 		//Application.debug("setColorFunction"+col.getValue());
@@ -5086,7 +5087,7 @@ public abstract class GeoElement
 		
 		// register new condition
 		if (colFunction != null) {
-			colFunction.registerColorFunctionListener(this);
+			colFunction.unregisterColorFunctionListener(this);
 		}
 	}
 
@@ -5413,7 +5414,8 @@ public abstract class GeoElement
 		//only inequalities call this
 		
 		// matrices
-		if (this.isGeoList() && ExpressionNodeType .equals(StringType.LATEX) && ((GeoList)this).isMatrix()) {
+		if (this.isGeoList() && ExpressionNodeType .equals(StringType.LATEX) && 
+				((GeoListInterface)this).isMatrix()) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		// vectors

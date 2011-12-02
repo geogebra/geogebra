@@ -6525,7 +6525,7 @@ class ColorFunctionPanel
 		String strBlue = "";
 		String strAlpha = "";
 		GeoElement geo0 = (GeoElement) geos[0];	
-		GeoList colorList = geo0.getColorFunction();
+		GeoList colorList = (GeoList)geo0.getColorFunction();
 		if (colorList != null) {
 			strRed = colorList.get(0).getLabel();
 			strGreen = colorList.get(1).getLabel();
@@ -6538,7 +6538,7 @@ class ColorFunctionPanel
 		
 		for (int i=0; i < geos.length; i++) {
 			geo = (GeoElement) geos[i];	
-			GeoList colorListTemp = geo.getColorFunction();
+			GeoList colorListTemp = (GeoList)geo.getColorFunction();
 			if (colorListTemp != null) {
 				String strRedTemp = colorListTemp.get(0).getLabel();
 				String strGreenTemp = colorListTemp.get(1).getLabel();

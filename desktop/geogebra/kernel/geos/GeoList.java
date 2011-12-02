@@ -740,13 +740,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * 
 	 * @param geo
 	 */
-	public void registerColorFunctionListener(GeoElement geo) {
+	public void registerColorFunctionListener(GeoElementInterface geo) {
 		if (colorFunctionListener == null)
 			colorFunctionListener = new ArrayList<GeoElement>();
-		colorFunctionListener.add(geo);
+		colorFunctionListener.add((GeoElement)geo);
 	}
 	
-	public void unregisterColorFunctionListener(GeoElement geo) {
+	public void unregisterColorFunctionListener(GeoElementInterface geo) {
 		if (colorFunctionListener != null) {
 			colorFunctionListener.remove(geo);
 		}

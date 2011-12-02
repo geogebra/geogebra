@@ -399,7 +399,7 @@ public class RelativeCopy {
 		}
 
 		// dynamic color function
-		GeoList dynamicColorList = value.getColorFunction();
+		GeoList dynamicColorList = (GeoList)value.getColorFunction();
 		String colorText = null, oldColorText = null;
 		if (dynamicColorList != null)
 			if (dynamicColorList.isChangeable()) {
