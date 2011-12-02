@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
@@ -24,6 +25,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -31,7 +33,6 @@ import geogebra.common.util.MyMath;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoElement;
@@ -39,7 +40,6 @@ import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.algos.AlgoPolygonRegular;
 import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoSegmentND;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -712,7 +712,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	// Michael Borcherds 2008-04-30
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
-		if (geo.isGeoPolygon()) return Kernel.isEqual(getArea(), ((GeoPolygon)geo).getArea());
+		if (geo.isGeoPolygon()) return AbstractKernel.isEqual(getArea(), ((GeoPolygon)geo).getArea());
 		else return false;
 	}
 
@@ -1127,9 +1127,9 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			for (secondPoint=1; secondPoint<getPoints().length && !secondPointFound; secondPoint++){
 				p1=getPoint(secondPoint);
 				//Application.debug(" p1 ("+secondPoint+") = "+p1.inhomX+","+p1.inhomY);
-				if (!Kernel.isEqual(p0.inhomX, p1.inhomX, Kernel.STANDARD_PRECISION))
+				if (!AbstractKernel.isEqual(p0.inhomX, p1.inhomX, AbstractKernel.STANDARD_PRECISION))
 					secondPointFound = true;
-				else if (!Kernel.isEqual(p0.inhomY, p1.inhomY, Kernel.STANDARD_PRECISION))
+				else if (!AbstractKernel.isEqual(p0.inhomY, p1.inhomY, AbstractKernel.STANDARD_PRECISION))
 					secondPointFound = true;
 				//Application.debug(" secondPointFound = "+secondPointFound);
 			}
@@ -1172,10 +1172,10 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	/** returns true if the segment ((x1,y1),(x2,y2)) intersects [Ox) */
 	private static int intersectOx(double x1, double y1, double x2, double y2){
 		
-		double eps = Kernel.STANDARD_PRECISION;
+		double eps = AbstractKernel.STANDARD_PRECISION;
 		
-		if (Kernel.isZero(y1)){ //first point on (Ox)
-			if (Kernel.isZero(y2)){ //second point on (Ox)
+		if (AbstractKernel.isZero(y1)){ //first point on (Ox)
+			if (AbstractKernel.isZero(y2)){ //second point on (Ox)
 				if ((x1+eps<0) && (x2+eps<0)) //segment totally on the left
 					return -1;
 				else if ((x1>eps) && (x2>eps)) //segment totally on the right
@@ -1354,6 +1354,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		this.direction=changeableCoordDirector.getMainDirection();
 	}
 	
+	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec, Coords endPosition, 
 			Coords viewDirection, ArrayList<GeoElement> updateGeos, ArrayList<GeoElement> tempMoveObjectList){
 		
@@ -1365,16 +1366,17 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			var.setValue( var.getValue() +rwTransVec.getX()+rwTransVec.getY()+rwTransVec.getZ());
 			addChangeableCoordParentNumberToUpdateList(var, updateGeos, tempMoveObjectList);
 			return true;
-		}else{ //comes from mouse
-			Coords direction2=direction.sub(viewDirection.mul(viewDirection.dotproduct(direction)));
-			double ld = direction2.dotproduct(direction2);
-			if (Kernel.isZero(ld))
-				return false;			
-			double val = direction2.dotproduct(rwTransVec);
-			var.setValue(startValue+val/ld);
-			addChangeableCoordParentNumberToUpdateList(var, updateGeos, tempMoveObjectList);
-			return true;
-		}	
+		}
+		//else: comes from mouse
+		Coords direction2=direction.sub(viewDirection.mul(viewDirection.dotproduct(direction)));
+		double ld = direction2.dotproduct(direction2);
+		if (AbstractKernel.isZero(ld))
+			return false;			
+		double val = direction2.dotproduct(rwTransVec);
+		var.setValue(startValue+val/ld);
+		addChangeableCoordParentNumberToUpdateList(var, updateGeos, tempMoveObjectList);
+		return true;
+		
 	}
 
 	public void rotate(NumberValue r) {
@@ -1382,7 +1384,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			((GeoPoint)points[i]).rotate(r);	
 	}
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint)points[i]).rotate(r,S);	
 	}

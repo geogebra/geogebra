@@ -9,4 +9,12 @@ public interface GeoPointInterface {
 
 	public PathParameter getPathParameter();
 
+	public double getInhomX();
+
+	public double getInhomY();
+
+	public double getX();
+
+	public double getY();
+
 }

@@ -755,7 +755,7 @@ implements Locateable, AbsoluteScreenLocateable,
     /**
      * rotate this image by angle phi around Q
      */    
-    final public void rotate(NumberValue phiValue, GeoPoint Q) {
+    final public void rotate(NumberValue phiValue, GeoPointInterface Q) {
     	if (!initTransformPoints()) return;
     	
     	// calculate the new corner points

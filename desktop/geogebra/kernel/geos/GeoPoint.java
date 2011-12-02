@@ -863,12 +863,12 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /**
      * rotate this point by angle phi around Q
      */    
-    final public void rotate(NumberValue phiValue, GeoPoint Q) {
+    final public void rotate(NumberValue phiValue, GeoPointInterface Q) {
     	double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);   
-        double qx = z * Q.inhomX;
-        double qy = z * Q.inhomY;
+        double qx = z * Q.getInhomX();
+        double qy = z * Q.getInhomY();
         
 		setCoords( (x - qx) * cos + (qy - y) * sin + qx,
         				 (x - qx) * sin + (y - qy) * cos + qy,

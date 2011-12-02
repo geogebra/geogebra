@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -354,7 +355,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		funY.translateY(vy);
 	}
 
-	final public void rotate(NumberValue phi, GeoPoint P) {
+	final public void rotate(NumberValue phi, GeoPointInterface P) {
 		translate(-P.getX(), -P.getY());
 		rotate(phi);
 		translate(P.getX(), P.getY());

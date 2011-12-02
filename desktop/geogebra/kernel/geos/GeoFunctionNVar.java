@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
@@ -46,7 +47,7 @@ import geogebra.main.Application;
  */
 public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
- Dilateable, Rotateable, PointRotateable, Mirrorable, SurfaceEvaluable{
+ Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable{
 
 	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
 	private static final int SEEK_DENSITY = 30;
@@ -702,7 +703,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			matrixTransform(cosPhi,-sinPhi,sinPhi,cosPhi);			
 		}
 
-		public void rotate(NumberValue phi, GeoPoint P) {
+		public void rotate(NumberValue phi, GeoPointInterface P) {
 			fun.translate(-P.getX(),-P.getY());
 			rotate(phi);
 			fun.translate(P.getX(),P.getY());

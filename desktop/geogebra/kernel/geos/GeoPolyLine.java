@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -36,7 +37,7 @@ import java.util.HashSet;
  * @author Michael Borcherds, adapted from GeoPolygon
  */
 public class GeoPolyLine extends GeoElement implements NumberValue, Path, Traceable, LineProperties,Transformable,
-Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dilateable,GeoPolyLineInterface{
+ Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dilateable,GeoPolyLineInterface{
 	
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;
@@ -420,7 +421,7 @@ Rotateable, Mirrorable, MatrixTransformable, PointRotateable, Translateable, Dil
 		}
 	}
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++) {
 			((GeoPoint)points[i]).rotate(r,S);
 		}

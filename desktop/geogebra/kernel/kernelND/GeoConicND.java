@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
@@ -1857,10 +1858,10 @@ Translateable
 	 * @param phiVal angle
 	 * @param Q rotation center
 	 */
-	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+	final public void rotate(NumberValue phiVal, GeoPointInterface Q) {
 		double phi = phiVal.getDouble();
-		double qx = Q.inhomX;
-		double qy = Q.inhomY;
+		double qx = Q.getInhomX();
+		double qy = Q.getInhomY();
 
 		// first translate to new origin Q
 		doTranslate(-qx, -qy);

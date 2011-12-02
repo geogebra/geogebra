@@ -41,8 +41,8 @@ import java.util.ArrayList;
  * Conics in 2D
  */
 public class GeoConic extends GeoConicND
-implements Path, Region, Traceable, ConicMirrorable, Transformable, 
-Translateable, PointRotateable, Mirrorable, Dilateable, LineProperties, MatrixTransformable
+implements Region, Traceable, ConicMirrorable, Transformable, 
+ PointRotateable, Mirrorable, Dilateable, MatrixTransformable
 {
 
 	/* 

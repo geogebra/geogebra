@@ -30,6 +30,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -566,18 +567,18 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
     /**
      * rotate this line by angle phi around Q
      */
-     final public void rotate(NumberValue phiVal, GeoPoint Q) {
-        double phi = phiVal.getDouble();
+	final public void rotate(NumberValue phiVal, GeoPointInterface Q) {
+		double phi = phiVal.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);     
-        double qx = Q.inhomX;
-        double qy = Q.inhomY;              
-        
-        double x0 = x * cos - y * sin;
-        double y0 = x * sin + y * cos;                        
-        z = z + (x*qx + y*qy) * (1.0-cos) + (y*qx - x*qy) * sin;        
-        x = x0;  
-        y = y0;
+		double qx = Q.getInhomX();
+		double qy = Q.getInhomY();
+
+		double x0 = x * cos - y * sin;
+		double y0 = x * sin + y * cos;                        
+		z = z + (x*qx + y*qy) * (1.0-cos) + (y*qx - x*qy) * sin;        
+		x = x0;  
+		y = y0;
     }
     
     /**
