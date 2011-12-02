@@ -14,14 +14,13 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -117,7 +116,7 @@ AbsoluteScreenLocateable {
 		if (condListenersShowObject != null) {
 			for (int i=0; i < condListenersShowObject.size(); i++) {
 				GeoElement geo = (GeoElement) condListenersShowObject.get(i);		
-				((Kernel) kernel).notifyUpdate(geo);					
+				kernel.notifyUpdate(geo);					
 			}		
 		}
 	}
@@ -137,7 +136,7 @@ AbsoluteScreenLocateable {
 			for (int i=0; i < geos.length; i++) {		
 				GeoElement geo = (GeoElement) geos[i];
 				geo.removeCondition(this);				
-				((Kernel) kernel).notifyUpdate(geo);			
+				kernel.notifyUpdate(geo);			
 			}			
 		}
 		
@@ -178,7 +177,7 @@ AbsoluteScreenLocateable {
 		if (geo.isGeoNumeric()) { // eg SetValue[checkbox, 0]
 			// 1 = true
 			// 0 = false
-			setValue(Kernel.isZero(((GeoNumeric)geo).getDouble() - 1));
+			setValue(AbstractKernel.isZero(((GeoNumeric)geo).getDouble() - 1));
 			isDefined = true;
 		} else {
 			GeoBoolean b = (GeoBoolean) geo;
