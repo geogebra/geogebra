@@ -30,6 +30,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
     public static final int VIEW_PLOT_PANEL = 2048;
     public static final int VIEW_TEXT_PREVIEW = 4096;
 	public static final int VIEW_PROPERTIES = 4097;
+	public static final int VIEW_ASSIGNMENT = 8192;
 
 	// For eg Hebrew and Arabic. 	
 		public static char unicodeDecimalPoint = '.';

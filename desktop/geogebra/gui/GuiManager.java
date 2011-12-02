@@ -22,6 +22,7 @@ import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.layout.Layout;
 import geogebra.gui.layout.panels.AlgebraDockPanel;
+import geogebra.gui.layout.panels.AssignmentDockPanel;
 import geogebra.gui.layout.panels.CasDockPanel;
 import geogebra.gui.layout.panels.ConstructionProtocolDockPanel;
 import geogebra.gui.layout.panels.Euclidian2DockPanel;
@@ -40,6 +41,7 @@ import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.gui.view.assignment.AssignmentView;
 import geogebra.gui.view.functioninspector.FunctionInspector;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.probcalculator.ProbabilityManager;
@@ -124,7 +126,7 @@ public class GuiManager {
 
 	public Application app;
 	protected Kernel kernel;
-	
+
 	protected DialogManager dialogManager;
 
 	private AlgebraInput algebraInput;
@@ -134,6 +136,7 @@ public class GuiManager {
 	private SpreadsheetView spreadsheetView;
 	private EuclidianView euclidianView2;
 	private ConstructionProtocolView constructionProtocolView;
+	private AssignmentView assignmentView;
 	protected ConstructionProtocolNavigation constProtocolNavigation;
 	private GeoGebraMenuBar menuBar;
 
@@ -174,11 +177,11 @@ public class GuiManager {
 	 */
 	public void initialize() {
 		initAlgebraController(); // needed for keyboard input in EuclidianView
-		
+
 		// init layout related stuff
 		layout.initialize(app);
 		initLayoutPanels();
-		
+
 		// init dialog manager
 		dialogManager = new DialogManager(app);
 		dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
@@ -246,10 +249,12 @@ public class GuiManager {
 
 		// register ProbabilityCalculator view
 		layout.registerPanel(new ProbabilityCalculatorDockPanel(app));
-		
+
 		// register Properties view
 		layout.registerPanel(new PropertiesDockPanel(app));
 		
+		// register Assignment view
+		layout.registerPanel(new AssignmentDockPanel(app));
 
 	}
 
@@ -265,7 +270,8 @@ public class GuiManager {
 	}
 
 	public boolean isPropertiesDialogSelectionListener() {
-		return app.getCurrentSelectionListener() == dialogManager.getPropDialog();
+		return app.getCurrentSelectionListener() == dialogManager
+				.getPropDialog();
 	}
 
 	public boolean isInputFieldSelectionListener() {
@@ -316,20 +322,19 @@ public class GuiManager {
 
 		return algebraView;
 	}
-	
+
 	private PropertiesView propertiesView;
-	
+
 	public PropertiesView getPropertiesView() {
 
-		if (propertiesView==null){
-			//initPropertiesDialog();
+		if (propertiesView == null) {
+			// initPropertiesDialog();
 			propertiesView = new PropertiesView(app);
 		}
-		
-		return propertiesView;
-		
-	}
 
+		return propertiesView;
+
+	}
 
 	/**
 	 * 
@@ -346,6 +351,14 @@ public class GuiManager {
 		}
 
 		return constructionProtocolView;
+	}
+
+	public AssignmentView getAssignmentView() {
+		if (assignmentView == null) {
+			assignmentView = new AssignmentView(app);
+		}
+
+		return assignmentView;
 	}
 
 	public void startEditing(GeoElement geo) {
@@ -607,6 +620,9 @@ public class GuiManager {
 		case Application.VIEW_PROBABILITY_CALCULATOR:
 			attachProbabilityCalculatorView();
 			break;
+		case Application.VIEW_ASSIGNMENT:
+			attachAssignmentView();
+			break;
 		case Application.VIEW_PROPERTIES:
 			attachPropertiesView();
 			break;
@@ -638,6 +654,10 @@ public class GuiManager {
 		case Application.VIEW_PROBABILITY_CALCULATOR:
 			detachProbabilityCalculatorView();
 			break;
+		case Application.VIEW_ASSIGNMENT:
+			detachAssignmentView();
+			break;
+
 		}
 	}
 
@@ -690,7 +710,17 @@ public class GuiManager {
 		getProbabilityCalculator();
 		probCalculator.detachView();
 	}
-	
+
+	public void attachAssignmentView() {
+		getAssignmentView();
+		assignmentView.attachView();
+	}
+
+	public void detachAssignmentView() {
+		if (assignmentView != null)
+			assignmentView.detachView();
+	}
+
 	public void attachPropertiesView() {
 		getPropertiesView();
 		propertiesView.attachView();
@@ -725,14 +755,14 @@ public class GuiManager {
 		getAlgebraInput();
 		return algebraInput.getTextField();
 	}
-	
+
 	public DialogManager getDialogManager() {
 		return dialogManager;
 	}
 
 	public void doAfterRedefine(GeoElement geo) {
 		PropertiesDialog propDialog = getDialogManager().getPropDialog();
-		
+
 		// select geoElement with label again
 		if (propDialog != null && propDialog.isShowing()) {
 			// propDialog.setViewActive(true);
@@ -947,7 +977,7 @@ public class GuiManager {
 
 		if (probCalculator != null)
 			probCalculator.updateFonts();
-		
+
 		dialogManager.updateFonts();
 
 		SwingUtilities.updateComponentTreeUI(app.getMainComponent());
@@ -967,7 +997,7 @@ public class GuiManager {
 				((JFrame) comp).setJMenuBar((JMenuBar) menuBar);
 		}
 
-		if(inputHelpPanel != null)
+		if (inputHelpPanel != null)
 			inputHelpPanel.setLabels();
 		// update views
 		if (algebraView != null)
@@ -1005,7 +1035,7 @@ public class GuiManager {
 			virtualKeyboard.setLabels();
 
 		layout.getDockManager().setLabels();
-		
+
 		dialogManager.setLabels();
 
 		if (probCalculator != null)
@@ -1205,16 +1235,16 @@ public class GuiManager {
 	}
 
 	public Color showColorChooser(Color currentColor) {
-		
+
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser(app);
 			chooser.setColor(currentColor);
 			JDialog dialog = JColorChooser.createDialog(app.getMainComponent(),
 					app.getPlain("ChooseColor"), true, chooser, null, null);
-		        dialog.setVisible(true);
-			
+			dialog.setVisible(true);
+
 			return chooser.getColor();
-			
+
 		} catch (Exception e) {
 			return null;
 		}
@@ -1233,7 +1263,7 @@ public class GuiManager {
 			if (transfer.isDataFlavorSupported(DataFlavor.stringFlavor))
 				selection = (String) transfer
 						.getTransferData(DataFlavor.stringFlavor);
-			//TODO remove deprecated method
+			// TODO remove deprecated method
 			else if (transfer.isDataFlavorSupported(DataFlavor.plainTextFlavor)) {
 				StringBuilder sbuf = new StringBuilder();
 				InputStreamReader reader;
@@ -1421,11 +1451,11 @@ public class GuiManager {
 			{
 				if (imageFile == null) {
 					getDialogManager().initFileChooser();
-					GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
-					
+					GeoGebraFileChooser fileChooser = getDialogManager()
+							.getFileChooser();
+
 					fileChooser.setMode(GeoGebraFileChooser.MODE_IMAGES);
-					fileChooser.setCurrentDirectory(
-							app.getCurrentImagePath());
+					fileChooser.setCurrentDirectory(app.getCurrentImagePath());
 
 					MyFileFilter fileFilter = new MyFileFilter();
 					fileFilter.addExtension("jpg");
@@ -1439,8 +1469,8 @@ public class GuiManager {
 					fileChooser.resetChoosableFileFilters();
 					fileChooser.setFileFilter(fileFilter);
 
-					int returnVal = fileChooser.showOpenDialog(
-							app.getMainComponent());
+					int returnVal = fileChooser.showOpenDialog(app
+							.getMainComponent());
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						imageFile = fileChooser.getSelectedFile();
 						if (imageFile != null) {
@@ -1490,10 +1520,11 @@ public class GuiManager {
 
 		try {
 			app.setWaitCursor();
-			
+
 			getDialogManager().initFileChooser();
-			GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
-			
+			GeoGebraFileChooser fileChooser = getDialogManager()
+					.getFileChooser();
+
 			fileChooser.setMode(GeoGebraFileChooser.MODE_DATA);
 			fileChooser.setCurrentDirectory(app.getCurrentImagePath());
 
@@ -1506,8 +1537,7 @@ public class GuiManager {
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.setFileFilter(fileFilter);
 
-			int returnVal = fileChooser.showOpenDialog(
-					app.getMainComponent());
+			int returnVal = fileChooser.showOpenDialog(app.getMainComponent());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				dataFile = fileChooser.getSelectedFile();
 				if (dataFile != null) {
@@ -1534,7 +1564,7 @@ public class GuiManager {
 	// returns true for YES or NO and false for CANCEL
 	public boolean saveCurrentFile() {
 		getDialogManager().closePropertiesDialog();
-		
+
 		app.getEuclidianView().reset();
 
 		// use null component for iconified frame
@@ -1673,7 +1703,7 @@ public class GuiManager {
 
 		getDialogManager().initFileChooser();
 		GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
-		
+
 		fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA_SAVE);
 		fileChooser.setCurrentDirectory(app.getCurrentPath());
 
@@ -1695,30 +1725,29 @@ public class GuiManager {
 			fileChooser.setSelectedFile(selectedFile);
 		} else
 			fileChooser.setSelectedFile(null);
-			fileChooser.resetChoosableFileFilters();
-			MyFileFilter fileFilter;
-			MyFileFilter mainFilter = null;
-			for (int i = 0; i < fileExtensions.length; i++) {
-				fileFilter = new MyFileFilter(fileExtensions[i]);
-				if (fileDescriptions.length >= i && fileDescriptions[i] != null)
-					fileFilter.setDescription(fileDescriptions[i]);
-				fileChooser.addChoosableFileFilter(fileFilter);
-				if (fileExtension.equals(fileExtensions[i])) {
-					mainFilter = fileFilter;
-				}
+		fileChooser.resetChoosableFileFilters();
+		MyFileFilter fileFilter;
+		MyFileFilter mainFilter = null;
+		for (int i = 0; i < fileExtensions.length; i++) {
+			fileFilter = new MyFileFilter(fileExtensions[i]);
+			if (fileDescriptions.length >= i && fileDescriptions[i] != null)
+				fileFilter.setDescription(fileDescriptions[i]);
+			fileChooser.addChoosableFileFilter(fileFilter);
+			if (fileExtension.equals(fileExtensions[i])) {
+				mainFilter = fileFilter;
 			}
-			fileChooser.setFileFilter(mainFilter);
+		}
+		fileChooser.setFileFilter(mainFilter);
 
 		while (!done) {
 			// show save dialog
-			int returnVal = fileChooser.showSaveDialog(
-					app.getMainComponent());
+			int returnVal = fileChooser.showSaveDialog(app.getMainComponent());
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = fileChooser.getSelectedFile();
 
 				// Added for Intergeo File Format (Yves Kreis) -->
 				if (fileChooser.getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
-					fileFilter = (MyFileFilter)fileChooser.getFileFilter();
+					fileFilter = (MyFileFilter) fileChooser.getFileFilter();
 					fileExtension = fileFilter.getExtension();
 				} else {
 					fileExtension = fileExtensions[0];
@@ -1810,14 +1839,15 @@ public class GuiManager {
 
 	public void openFile() {
 		getDialogManager().closePropertiesDialog();
-		
+
 		if (app.isSaved() || saveCurrentFile()) {
 			app.setWaitCursor();
 			File oldCurrentFile = app.getCurrentFile();
 
 			getDialogManager().initFileChooser();
-			GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
-			
+			GeoGebraFileChooser fileChooser = getDialogManager()
+					.getFileChooser();
+
 			fileChooser.setMode(GeoGebraFileChooser.MODE_GEOGEBRA);
 			fileChooser.setCurrentDirectory(app.getCurrentPath());
 			fileChooser.setMultiSelectionEnabled(true);
@@ -1852,7 +1882,8 @@ public class GuiManager {
 				MyFileFilter i2gFileFilter = new MyFileFilter();
 				i2gFileFilter.addExtension(Application.FILE_EXT_INTERGEO);
 				i2gFileFilter.setDescription("Intergeo " + app.getMenu("Files")
-						+ " [Version " + GeoGebraConstants.I2G_FILE_FORMAT + "]");
+						+ " [Version " + GeoGebraConstants.I2G_FILE_FORMAT
+						+ "]");
 				fileChooser.addChoosableFileFilter(i2gFileFilter);
 			}
 			// fileChooser.setFileFilter(fileFilter);
@@ -1868,8 +1899,7 @@ public class GuiManager {
 			// Schandeler)
 
 			app.setDefaultCursor();
-			int returnVal = fileChooser.showOpenDialog(
-					app.getMainComponent());
+			int returnVal = fileChooser.showOpenDialog(app.getMainComponent());
 
 			File[] files = null;
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -2847,6 +2877,7 @@ public class GuiManager {
     }
 
 
+
 	/**
 	 * Returns text "Created with <ApplicationName>" and link to application
 	 * homepage in html.
@@ -2891,7 +2922,7 @@ public class GuiManager {
 		return ret;
 	}
 
-	public void setMode(int mode) {		
+	public void setMode(int mode) {
 		getDialogManager().closePropertiesDialogIfNotListener();
 
 		kernel.notifyModeChanged(mode);
@@ -3214,30 +3245,29 @@ public class GuiManager {
 		return true;
 	}
 
-	
 	// =======================================
 	// temporary: for testing
 	PropertiesPanel tempPropPanel;
+
 	// =======================================
-	
-	
-	
+
 	public Component getInputHelpPanel() {
-		
+
 		// =======================================
-		// test code 
-		
-		if(Application.getShiftDown()){
-			if(tempPropPanel == null){
-				tempPropPanel =  new PropertiesPanel(app, new GeoGebraColorChooser(app), false);
+		// test code
+
+		if (Application.getShiftDown()) {
+			if (tempPropPanel == null) {
+				tempPropPanel = new PropertiesPanel(app,
+						new GeoGebraColorChooser(app), false);
 				tempPropPanel.setMinimumSize(tempPropPanel.getPreferredSize());
 			}
-			if(app.selectedGeosSize() > 0)
+			if (app.selectedGeosSize() > 0)
 				tempPropPanel.updateSelection(app.getSelectedGeos().toArray());
 			return this.tempPropPanel;
 		}
 		// =======================================
-		
+
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanel(app);
 		return inputHelpPanel;
