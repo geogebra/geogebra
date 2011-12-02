@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoCasCellInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
@@ -30,7 +31,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoCasCell extends GeoElement {
+public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;

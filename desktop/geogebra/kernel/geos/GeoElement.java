@@ -44,6 +44,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.geos.GeoCasCellInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
@@ -379,7 +380,7 @@ public abstract class GeoElement
 	public int layer=0; 	// Michael Borcherds 2008-02-23
 	private NumberValue animationIncrement;
 	private NumberValue animationSpeedObj;
-	private GeoCasCell correspondingCasCell; // used by GeoCasCell
+	private GeoCasCellInterface correspondingCasCell; // used by GeoCasCell
 	private boolean animating = false;
 
 	public final static double MAX_ANIMATION_SPEED = 100;
@@ -3202,7 +3203,7 @@ public abstract class GeoElement
 	 
 	final private void updateDependentObjects(){
 		if (correspondingCasCell != null && isIndependent()) {
-			updateAlgoUpdateSetWith(correspondingCasCell);
+			updateAlgoUpdateSetWith((GeoElement)correspondingCasCell);
 		}				
 		else if (algoUpdateSet != null) {
 			// update all algorithms in the algorithm set of this GeoElement
@@ -6146,14 +6147,14 @@ public abstract class GeoElement
 	 * Returns corresponding GeoCasCell. See GeoCasCell.setTwinGeo().
 	 * @return twin GeoElement
 	 */
-	final public GeoCasCell getCorrespondingCasCell() {
+	final public GeoCasCellInterface getCorrespondingCasCell() {
 		return correspondingCasCell;
 	}
 	
 	/**
 	 * Sets corresponding GeoCasCell for this GeoElement. See GeoCasCell.getTwinGeo().
 	 */
-	final public void setCorrespondingCasCell(GeoCasCell correspondingCasCell) {
+	final public void setCorrespondingCasCell(GeoCasCellInterface correspondingCasCell) {
 		this.correspondingCasCell = correspondingCasCell;
 	}
 	
