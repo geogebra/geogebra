@@ -1,8 +1,11 @@
 package geogebra.common.kernel;
 
 
+import java.util.TreeSet;
+
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 
@@ -42,7 +45,7 @@ public abstract class AbstractConstruction {
 	public abstract void addToAlgorithmList(AlgoElementInterface algoElement);
 	public abstract void removeFromAlgorithmList(AlgoElementInterface algoElement);
 	
-	
+	public abstract TreeSet getGeoSetLabelOrder(GeoClass geoClassType);
 	
 	
 

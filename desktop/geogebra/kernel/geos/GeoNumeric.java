@@ -28,8 +28,8 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.AnimationManager;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
@@ -130,7 +130,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	 * @param label Label for new number
 	 * @param x Number value
 	 */
-    public GeoNumeric(Construction c, String label, double x) {
+    public GeoNumeric(AbstractConstruction c, String label, double x) {
 		this(c, x);
 		setLabel(label);
 	}
@@ -237,8 +237,8 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		int count = 0;
 		
 		// get all number and angle sliders		
-		TreeSet<GeoElement> numbers = ((Construction) cons).getGeoSetLabelOrder(GeoClass.NUMERIC);
-		TreeSet<GeoElement> angles = ((Construction) cons).getGeoSetLabelOrder(GeoClass.ANGLE);		
+		TreeSet<GeoElement> numbers = cons.getGeoSetLabelOrder(GeoClass.NUMERIC);
+		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoClass.ANGLE);		
 		if (numbers != null) {
 			if (angles != null)
 				numbers.addAll(angles);
@@ -965,7 +965,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 			
 			double intervalWidth = getIntervalMax() - getIntervalMin();
 			double step = intervalWidth * getAnimationSpeed() /
-					      (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);			
+					      (AbstractAnimationManager.STANDARD_ANIMATION_TIME * frameRate);			
 			// update animation value
 			if (Double.isNaN(animationValue) || animationValue < 0)
 				animationValue = 0;
@@ -987,7 +987,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		// compute animation step based on speed and frame rates
 		double intervalWidth = getIntervalMax() - getIntervalMin();
 		double step = intervalWidth * getAnimationSpeed() * getAnimationDirection() /
-				      (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
+				      (AbstractAnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 		
 		// update animation value
 		if (Double.isNaN(animationValue))

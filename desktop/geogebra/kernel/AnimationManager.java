@@ -16,10 +16,6 @@ import javax.swing.Timer;
 
 public class AnimationManager extends AbstractAnimationManager implements ActionListener {
 
-	public final static int STANDARD_ANIMATION_TIME = 10; // secs
-	public final static int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
-	public final static int MIN_ANIMATION_FRAME_RATE = 2; // frames per second
-
 	private Kernel kernel;
 	private ArrayList<GeoElement> animatedGeos;
 	private ArrayList<Animatable> changedGeos;
