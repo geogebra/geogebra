@@ -5404,58 +5404,16 @@ public abstract class GeoElement
 	public String getFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
 	{
 
-		/*
-		 * maybe use this
-		 * doesn't work on f=Factor[x^2-1] Expand[f]
-		if (ExpressionNodeType .equals(StringType.MathPiper
-				 || ExpressionNodeType .equals(StringType.JASYMCA) {
-
-			ExpressionValue ev;
-			if (!this.isExpressionNode())
-	            ev = new ExpressionNode(kernel, this);
-			else
-				ev = this;
-
-			String ret = ((ExpressionNode)
-					ev).getCASstring(ExpressionNodeType,
-					!substituteNumbers);
-			Application.debug(ret);
-			return ret;
-		}
-		*/
-
 		StringType tempCASPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(ExpressionNodeType);
 
 		String ret="";
-		if (this.isGeoFunctionConditional()) {
-			GeoFunctionConditional geoFun = (GeoFunctionConditional)this;
-			if (ExpressionNodeType .equals(StringType.MATH_PIPER)) {
-
-			// get in form If(x<3, etc
-			ret = geoFun.toSymbolicString();
-			//Application.debug(ret);
-			} else if (ExpressionNodeType .equals(StringType.LATEX)) {
-				ret = geoFun.conditionalLaTeX(substituteNumbers);								
-			}
-
-		} else if (this.isGeoFunction()) {
-			GeoFunction geoFun = (GeoFunction)this;
-
-	 		if (geoFun.isIndependent()) {
-	 			ret = geoFun.toValueString();
-	 		} else {
-	 			
-	 			if (geoFun.getFunction() == null) {
-	 				ret = app.getPlain("undefined");
-	 			} else	 			
-		 			ret = substituteNumbers ?
-		 					geoFun.getFunction().toValueString():
-		 					geoFun.getFunction().toString();
-	 		}
-		}
+		
+		//Functions override this, no need to care about them
+		//only inequalities call this
+		
 		// matrices
-		else if (this.isGeoList() && ExpressionNodeType .equals(StringType.LATEX) && ((GeoList)this).isMatrix()) {
+		if (this.isGeoList() && ExpressionNodeType .equals(StringType.LATEX) && ((GeoList)this).isMatrix()) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		// vectors
@@ -5502,24 +5460,12 @@ public abstract class GeoElement
 
 
 		String ret="";
-		if (this.isGeoFunction()) {
-			GeoFunction geoFun = (GeoFunction)this;
-
-	 		if (geoFun.isIndependent()) {
-	 			ret = geoFun.toValueString();
-	 		} else {
-	 			ret = substituteNumbers ?
-	 					geoFun.getFunction().toValueString():
-	 					geoFun.getFunction().toString();
-	 		}
-		}
+		
 		// matrices
 
-		else
-		{
-			if(getParentAlgorithm()!=null)
+		if(getParentAlgorithm()!=null)
 			ret =  getParentAlgorithm().getCommandDescription(true);
-		}
+		
 
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {

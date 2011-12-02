@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.Traceable;
@@ -1713,5 +1714,120 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
 		return isLaTeXneeded(latexStr);
 	}
+	
+	@Override
+	public String getFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
+	{
+
+		StringType tempCASPrintForm = kernel.getCASPrintForm();
+		
+
+		String ret="";
+		if (this.isGeoFunctionConditional()) {
+			kernel.setCASPrintForm(ExpressionNodeType);
+			GeoFunctionConditional geoFun = (GeoFunctionConditional)this;
+			if (ExpressionNodeType .equals(StringType.MATH_PIPER)) {
+
+			// get in form If(x<3, etc
+			ret = geoFun.toSymbolicString();
+			//Application.debug(ret);
+			} else if (ExpressionNodeType .equals(StringType.LATEX)) {
+				ret = geoFun.conditionalLaTeX(substituteNumbers);								
+			}
+
+		} else if (this.isGeoFunction()) {
+			kernel.setCASPrintForm(ExpressionNodeType);
+			
+
+	 		if (isIndependent()) {
+	 			ret = toValueString();
+	 		} else {
+	 			
+	 			if (getFunction() == null) {
+	 				ret = app.getPlain("undefined");
+	 			} else	 			
+		 			ret = substituteNumbers ?
+		 					getFunction().toValueString():
+		 					getFunction().toString();
+	 		}
+		}
+		else return super.getFormulaString(ExpressionNodeType, substituteNumbers);
+		
+		// GeoNumeric eg a=1
+		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
+			ret = kernel.printVariableName(label);
+		}
+		if ("".equals(ret) && !this.isGeoText()) {
+			// eg Text[ (1,2), false]
+			ret = toOutputValueString();
+		}
+
+		/* we don't want to deal with list bracess in here since  
+		 * GeoList.toOutputValueString() takes care of it */
+		
+		kernel.setCASPrintForm(tempCASPrintForm);
+
+		if (ExpressionNodeType .equals(StringType.LATEX)) {
+			if ("?".equals(ret)) ret = app.getPlain("undefined");
+			else if ((Unicode.Infinity+"").equals(ret)) ret = "\\infty";
+			else if ((Unicode.MinusInfinity+"").equals(ret)) ret = "-\\infty";
+		}
+
+		return ret;
+
+	}
+	
+	@Override
+	public String getRealFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
+	{
+
+
+
+		String ret="";
+		if (this.isGeoFunctionConditional()) {
+			kernel.setCASPrintForm(ExpressionNodeType);
+			GeoFunctionConditional geoFun = (GeoFunctionConditional)this;
+			if (ExpressionNodeType .equals(StringType.MATH_PIPER)) {
+
+			// get in form If(x<3, etc
+			ret = geoFun.toSymbolicString();
+			//Application.debug(ret);
+			} else if (ExpressionNodeType .equals(StringType.LATEX)) {
+				ret = geoFun.conditionalLaTeX(substituteNumbers);								
+			}
+
+		}
+		if (this.isGeoFunction()) {
+			
+
+	 		if (isIndependent()) {
+	 			ret = toValueString();
+	 		} else {
+	 			ret = substituteNumbers ?
+	 					getFunction().toValueString():
+	 					getFunction().toRealString();
+	 		}
+		}
+		// matrices
+
+		else return super.getRealFormulaString(ExpressionNodeType, substituteNumbers);
+		// GeoNumeric eg a=1
+		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
+			ret = kernel.printVariableName(label);
+		}
+		if ("".equals(ret) && !this.isGeoText()) {
+			// eg Text[ (1,2), false]
+			ret = toOutputValueString();
+		}
+
+
+
+
+
+		return ret;
+
+	}
+
+
 
 }
