@@ -117,5 +117,8 @@ public class GeoTextField extends GeoButton {
 		return new GeoTextField(cons, labelOffsetX, labelOffsetY);
 	}
 	
+	public boolean isGeoTextField(){
+		return true;
+	}
 
 }

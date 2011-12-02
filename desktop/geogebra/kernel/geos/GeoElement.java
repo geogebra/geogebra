@@ -43,6 +43,7 @@ import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -1743,8 +1744,8 @@ public abstract class GeoElement
 					// check if first free input point is start point of vector
 					ArrayList<GeoPointInterface> freeInputPoints = getFreeInputPoints(view);
 					if (freeInputPoints.size() > 0) {
-						GeoPointInterface firstInputPoint = freeInputPoints.get(0);
-						GeoPointInterface startPoint = ((GeoVector) this).getStartPoint();
+						GeoPointND firstInputPoint = (GeoPointND)freeInputPoints.get(0);
+						GeoPointND startPoint = ((Locateable) this).getStartPoint();
 						return (firstInputPoint == startPoint);
 					}
 				}
@@ -2775,7 +2776,7 @@ public abstract class GeoElement
 					str = app.getPlain("Name.locus") + kernel.internationalizeDigits(counter+"");;
 				} while (!cons.isFreeLabel(str));
 				return str;
-			} else if (this instanceof GeoTextField) {
+			} else if (this.isGeoTextField()) {
 				int counter = 0;
 				String str;
 				do {
@@ -2808,7 +2809,7 @@ public abstract class GeoElement
 				chars = lowerCaseLabels;
 			}
 		}
-
+		
 		int counter = 0, q, r;
 		StringBuilder sbDefaultLabel = new StringBuilder();
 		sbDefaultLabel.append(chars[0]);
@@ -2857,6 +2858,9 @@ public abstract class GeoElement
 			return cons.getIndexLabel(prefix);
 	}
 
+	public boolean isGeoTextField(){
+		return false;
+	}
 	/**
 	 * Removes this object and all dependent objects from the Kernel.
 	 * If this object is not independent, it's parent algorithm is removed too.
