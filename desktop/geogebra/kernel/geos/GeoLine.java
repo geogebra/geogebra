@@ -30,6 +30,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -50,10 +51,17 @@ import geogebra.kernel.arithmetic.FunctionVariable;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+/**
+ * Geometrical representation of line
+ * 
+ * @author Markus
+ *
+ */
 public class GeoLine extends GeoVec3D 
 implements Path, 
 Translateable,PointRotateable, Mirrorable, Dilateable, LineProperties,
-GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
+GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable,
+GeoLineInterface {
 	
 	// modes
     public static final int EQUATION_IMPLICIT = 0;

@@ -45,6 +45,7 @@ import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -2231,18 +2232,18 @@ public abstract class GeoElement
 				break;
 				case 'x' :
 					if (isGeoPoint()) captionSB.append(kernel.format(((GeoPointND)this).getInhomCoords().getX()));
-					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLine)this).x));
+					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLineInterface)this).getX()));
 					else captionSB.append("%x");
 
 					break;
 				case 'y' :
 					if (isGeoPoint()) captionSB.append(kernel.format(((GeoPointND)this).getInhomCoords().getY()));
-					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLine)this).y));
+					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLineInterface)this).getY()));
 					else captionSB.append("%y");
 				break;
 				case 'z' :
 					if (isGeoPoint()) captionSB.append(kernel.format(((GeoPointND)this).getInhomCoords().getZ()));
-					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLine)this).z));
+					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLineInterface)this).getZ()));
 					else captionSB.append("%z");
 				break;
 				default : 	captionSB.append('%');
