@@ -455,14 +455,13 @@ public abstract class GeoElement
 	protected boolean highlighted = false;
 	private boolean selected = false;
 	private String strAlgebraDescription, strAlgebraDescTextOrHTML, strAlgebraDescriptionHTML,
-		strLabelTextOrHTML, strCaptionDescriptionHTML;
+		strLabelTextOrHTML;
 
 	protected String strLaTeX;
 	private boolean strAlgebraDescriptionNeedsUpdate = true;
 	private boolean strAlgebraDescTextOrHTMLneedsUpdate = true;
 	private boolean strAlgebraDescriptionHTMLneedsUpdate = true;
 	private boolean strLabelTextOrHTMLUpdate = true;
-	private boolean strCaptionDescriptionHTMLneedsUpdate = true;
 	protected boolean strLaTeXneedsUpdate = true;
 
 	// line thickness and line type: s
@@ -1193,7 +1192,6 @@ public abstract class GeoElement
 		labelOffsetX = geo.labelOffsetX;
 		labelOffsetY = geo.labelOffsetY;
 		caption = geo.caption;
-		strCaptionDescriptionHTMLneedsUpdate = true;
 		inverseFill = geo.inverseFill;
 		if (isTraceable() && geo.isTraceable()) {
 			((Traceable) this).setTrace(((Traceable) geo).getTrace());
@@ -2195,12 +2193,10 @@ public abstract class GeoElement
 
 		if (caption.trim().length() == 0) {
 			this.caption = null;
-			strCaptionDescriptionHTMLneedsUpdate = true;
 			return true;
 		}
 
 		this.caption = caption.trim();
-		strCaptionDescriptionHTMLneedsUpdate = true;
 		return true;
 	}
 
@@ -3668,13 +3664,8 @@ public abstract class GeoElement
 	}
 
 	final public String getCaptionDescriptionHTML(boolean addHTMLtag) {	
-		if (strCaptionDescriptionHTMLneedsUpdate) {
-			strCaptionDescriptionHTML = indicesToHTML(getCaptionDescription(), addHTMLtag);
 
-			strCaptionDescriptionHTMLneedsUpdate = false;
-		}
-
-		return strCaptionDescriptionHTML;
+		return indicesToHTML(getCaptionDescription(), addHTMLtag);
 	}
 	
 	/**
