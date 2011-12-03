@@ -3671,11 +3671,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
 		if (ev1.isNumberValue() && ev2.isNumberValue()) {
-			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
-					((NumberValue) ev2).getDouble(), Kernel.EPSILON);
+			return AbstractKernel.isEqual(((NumberValue) ev1).getDouble(),
+					((NumberValue) ev2).getDouble(), AbstractKernel.EPSILON);
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
-			return ((TextValue) ev1).toString().equals(
-					((TextValue) ev2).toString());
+			return ((TextValue) ev1).toValueString().equals(
+					((TextValue) ev2).toValueString());
 		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
 			return ((VectorValue) ev1).getVector().equals(((VectorValue) ev2).getVector());
 		} else if (ev1.isBooleanValue() && ev2.isBooleanValue()) {
