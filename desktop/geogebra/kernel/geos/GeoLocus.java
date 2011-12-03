@@ -19,7 +19,6 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.PathMoverLocus;
 import geogebra.kernel.algos.AlgoLocusSlider;

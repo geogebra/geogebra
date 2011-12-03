@@ -36,7 +36,6 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
@@ -97,7 +96,7 @@ GeoLineInterface {
      * @param a 
      * @param b 
      * @param c */     
-    public GeoLine(Construction cons, String label, double a, double b, double c) {
+    public GeoLine(AbstractConstruction cons, String label, double a, double b, double c) {
         super(cons, a, b, c);	// GeoVec3D constructor                 
         setMode( GeoLine.EQUATION_IMPLICIT );
         setLabel(label);                

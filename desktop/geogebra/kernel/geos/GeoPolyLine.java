@@ -25,7 +25,6 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 
@@ -99,7 +98,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		return new GeoNumeric(cons, getLength());        
 	}    
 	
-	public GeoElement copyInternal(Construction cons) {						
+	public GeoElement copyInternal(AbstractConstruction cons) {						
 		GeoPolyLine ret = new GeoPolyLine(cons, null); 
 		ret.points = GeoElement.copyPoints(cons, (GeoPoint[]) points);		
 		ret.set(this);

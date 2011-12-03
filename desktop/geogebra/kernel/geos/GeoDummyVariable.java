@@ -1,20 +1,19 @@
 package geogebra.kernel.geos;
 
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractConstruction;
 
 /**
  * Dummy GeoElement to be used for symbolic variable resolving
  * for the GeoGebra CAS.
  * 
- * @see Kernel#setResolveUnkownVarsAsDummyGeos(boolean)
+ * @see geogebra.kernel.Kernel#setResolveUnkownVarsAsDummyGeos(boolean)
  * @author Markus Hohenwarter
  */
 public class GeoDummyVariable extends GeoNumeric {
 
 	private String varName;
 	
-	public GeoDummyVariable(Construction c, String varName) {
+	public GeoDummyVariable(AbstractConstruction c, String varName) {
 		super(c);	
 		this.varName = varName;
 	}

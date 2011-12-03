@@ -15,6 +15,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
@@ -118,7 +119,7 @@ import javax.swing.Timer;
  * @version
  */
 public class EuclidianView extends JPanel  
-implements EuclidianViewInterface, Printable, SettingListener {
+implements EuclidianViewInterface, EuclidianViewInterface2D, Printable, SettingListener {
 
 	protected static final long serialVersionUID = 1L;
 

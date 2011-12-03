@@ -13,11 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import java.awt.Color;
-import java.text.NumberFormat;
 
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.kernelND.GeoAxisND;
 
 public class GeoAxis extends GeoLine implements GeoAxisND{
@@ -27,7 +26,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	
 	private String axisLabel;
 
-	public GeoAxis(Construction cons, int type) {
+	public GeoAxis(AbstractConstruction cons, int type) {
 		super(cons);
 		this.type = type;
 		origin = new GeoPoint(cons);

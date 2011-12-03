@@ -36,7 +36,6 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
@@ -87,7 +86,7 @@ Transformable, GeoVectorND {
 	}
 
 	/** Creates new GeoVector */
-	public GeoVector(Construction c, String label, double x, double y, double z) {
+	public GeoVector(AbstractConstruction c, String label, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor                 
 		setLabel(label); 
 		//setEuclidianVisible(false);

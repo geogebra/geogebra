@@ -48,9 +48,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.AnimationManager;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathAlgo;
@@ -142,7 +140,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		this.path = path;	
 	}
     
-    public GeoPoint(Construction c, Region region) {
+    public GeoPoint(AbstractConstruction c, Region region) {
 		super(c);
 		this.region = region;	
 	}

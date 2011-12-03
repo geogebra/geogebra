@@ -9,8 +9,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSequence;

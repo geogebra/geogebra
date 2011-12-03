@@ -70,8 +70,8 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 	 * A default model is created and the number of columns is 0.
 	 *
 	 */
-	public AutoCompleteTextField(int columns, Application app) {
-		this(columns, app, true); 
+	public AutoCompleteTextField(int columns, AbstractApplication app) {
+		this(columns, (Application)app, true); 
 	}    
 
 	public AutoCompleteTextField(int columns, Application app, boolean handleEscapeKey, AutoCompleteDictionary dict) {

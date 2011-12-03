@@ -29,7 +29,6 @@ import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;

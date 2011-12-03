@@ -11,6 +11,6 @@ public interface EuclidianViewInterfaceSlim extends View{
 
 	boolean isDefault2D();
 	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElementInterface algoParent);
-	boolean isMoveable(GeoElementInterface geoElement);
+	boolean isMoveable(GeoElementInterface geoElement);	
 
 }

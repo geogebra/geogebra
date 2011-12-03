@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.PathMoverGeneric;
@@ -40,7 +41,6 @@ import geogebra.kernel.algos.AlgoMirror;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -636,7 +636,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			for (int i = 0; i < lastIndex; i++) {
 				GeoElement geo = (GeoElement) geoList.get(i);
 				sbBuildValueString.append(geo.toOutputValueString());
-				sbBuildValueString.append(Application.unicodeComma);
+				sbBuildValueString.append(AbstractApplication.unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 
@@ -763,7 +763,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			AlgoMirror algo = (AlgoMirror) getParentAlgorithm();
 			GeoElement[] geos = algo.getInput();
 			GeoList list = (GeoList) geos[0];
-			Application.debug("size = " + list.size());
+			AbstractApplication.debug("size = " + list.size());
 		}
 
 		// update all registered locatables (they have this point as start
@@ -1364,7 +1364,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		
 		GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
-			Application.debug("TODO: " + geo.getClassName()
+			AbstractApplication.debug("TODO: " + geo.getClassName()
 					+ " should implement PathOrPoint interface");
 			return;
 		}
@@ -1432,7 +1432,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			// t = size() when at very end of path
 			// so check == 0 is OK, just need to set n = size() - 1
 			if (check != 0.0)
-				Application.debug("problem with path param " + PI.getLabel());
+				AbstractApplication.debug("problem with path param " + PI.getLabel());
 			n = (n < 0) ? 0 : size() - 1;
 		}
 		PathOrPoint path = (PathOrPoint) get(n);

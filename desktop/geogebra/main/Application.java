@@ -22,7 +22,9 @@ import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LowerCaseDictionary;
@@ -6103,6 +6105,7 @@ public class Application extends AbstractApplication implements KeyEventDispatch
 		CallJavaScript.evalScript(app, script, arg);
 		
 	}
+
 }
 
 

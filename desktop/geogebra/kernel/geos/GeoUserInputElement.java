@@ -64,11 +64,11 @@ public abstract class GeoUserInputElement extends GeoElement {
 	}
 	
 	public String toValueString(){
-		if (validInputForm&&inputForm&&userInput!=null){
+		if (validInputForm&&inputForm&&userInput!=null)
 			return userInput.toValueString();
-		}else{			
-			return toRawValueString();
-		}
+		
+		return toRawValueString();
+		
 	}
 	
 	public void set(GeoElement geo){

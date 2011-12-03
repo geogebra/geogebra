@@ -22,7 +22,6 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
-import geogebra.main.Application;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -30,6 +29,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
@@ -734,7 +734,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 				zz = 0; 
 				vector = true;
 				
-			} else Application.debug("error in GeoVec2D");
+			} else AbstractApplication.debug("error in GeoVec2D");
 			
 			a = ((NumberValue)(MyList.getCell(list,0,0).evaluate())).getDouble();
 			b = ((NumberValue)(MyList.getCell(list,1,0).evaluate())).getDouble();

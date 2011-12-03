@@ -4,7 +4,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextField;
-import geogebra.main.Application;
+
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -21,7 +21,7 @@ public class GeoTextField extends GeoButton {
 		
 		super(c);
 		
-		textField = new AutoCompleteTextField(defaultLength, (Application) c.getApplication());
+		textField = new AutoCompleteTextField(defaultLength, c.getApplication());
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);

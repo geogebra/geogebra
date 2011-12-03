@@ -1,7 +1,9 @@
 package geogebra.common.main;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.ResourceBundleAdapter;
 
@@ -95,7 +97,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract Object getAlgebraView();	
 	public abstract EuclidianViewInterfaceSlim getEuclidianView();
 	public abstract EuclidianViewInterfaceSlim getActiveEuclidianView();
-	public abstract Object createEuclidianViewForPlane(Object o);
+	public abstract EuclidianViewInterface2D createEuclidianViewForPlane(Object o);
 	public abstract boolean isRightToLeftDigits();
 	public abstract boolean isShowingEuclidianView2();		
 	public abstract AbstractKernel getKernel();
