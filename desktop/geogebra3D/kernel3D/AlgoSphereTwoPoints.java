@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoSphereNDTwoPoints;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoQuadricND;
@@ -33,21 +33,21 @@ import geogebra.kernel.kernelND.GeoQuadricND;
 public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 
      public AlgoSphereTwoPoints(
-        Construction cons,
+        AbstractConstruction cons,
         GeoPointND M,
         GeoPointND P) {
         super(cons,M,P);
     }
     
     public AlgoSphereTwoPoints(
-            Construction cons,
+            AbstractConstruction cons,
             String label,
             GeoPointND M,
             GeoPointND P) {
          super(cons, label,M, P);
     }
     
-    protected GeoQuadricND createSphereND(Construction cons){
+    protected GeoQuadricND createSphereND(AbstractConstruction cons){
     	GeoQuadric3D sphere = new GeoQuadric3D(cons);
         //circle.addPointOnConic((GeoPoint) getP()); //TODO do this in AlgoSphereNDTwoPoints
         return sphere;

@@ -1,7 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.MyError;
 
 
 
@@ -10,4 +12,7 @@ public abstract class AbstractAlgebraProcessor {
 	public abstract GeoElementInterface[] processAlgebraCommand(String cmd, boolean storeUndo);
 	public abstract GeoElementInterface[] processAlgebraCommandNoExceptionHandling
 	(String cmd, boolean storeUndo,boolean b,boolean c) throws Exception;
+	public abstract GeoElementInterface[] doProcessValidExpression(ValidExpression ve)
+	throws MyError,Exception;
+	public abstract boolean isCommandAvailable(String cmdName);
 }

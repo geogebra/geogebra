@@ -17,6 +17,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RegionParameters;
@@ -26,8 +27,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Transform;
 import geogebra.kernel.TransformMirror;
@@ -198,8 +197,8 @@ implements LimitedPath, NumberValue, LineProperties {
 		return 
 			posOrientation == c.posOrientation &&
 			conic_part_type == c.conic_part_type &&		
-			Kernel.isEqual(paramStart, c.paramStart) &&
-			Kernel.isEqual(paramEnd, c.paramEnd) &&
+			AbstractKernel.isEqual(paramStart, c.paramStart) &&
+			AbstractKernel.isEqual(paramEnd, c.paramEnd) &&
 			super.isEqual(c);			 
 	}
 	
@@ -231,10 +230,10 @@ implements LimitedPath, NumberValue, LineProperties {
 		// handle conic types
 		switch (type) {
 			case GeoConic.CONIC_CIRCLE:
-				paramStart = Kernel.convertToAngleValue(a);
-				paramEnd = Kernel.convertToAngleValue(b);		
+				paramStart = AbstractKernel.convertToAngleValue(a);
+				paramEnd = AbstractKernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
-				if (paramExtent < 0) paramExtent += Kernel.PI_2;
+				if (paramExtent < 0) paramExtent += AbstractKernel.PI_2;
 				
 				double r = halfAxes[0];
 				if (conic_part_type == CONIC_PART_ARC) {
@@ -250,10 +249,10 @@ implements LimitedPath, NumberValue, LineProperties {
 				break;
 			
 			case GeoConic.CONIC_ELLIPSE:					
-				paramStart = Kernel.convertToAngleValue(a);
-				paramEnd = Kernel.convertToAngleValue(b);		
+				paramStart = AbstractKernel.convertToAngleValue(a);
+				paramEnd = AbstractKernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
-				if (paramExtent < 0) paramExtent += Kernel.PI_2;
+				if (paramExtent < 0) paramExtent += AbstractKernel.PI_2;
 				
 				if (ellipticArcLength == null)
 					ellipticArcLength = new EllipticArcLength(this);
@@ -427,7 +426,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	
 		// adapt eps for very large circles (almost line)
 		if (halfAxes[0] > 100)
-    		eps = Math.max(Kernel.MAX_PRECISION, eps / halfAxes[0]);    	    		    		   
+    		eps = Math.max(AbstractKernel.MAX_PRECISION, eps / halfAxes[0]);    	    		    		   
 		
 		boolean result = 	pPP.t >= -eps && 
 							pPP.t <= 1 + eps;
@@ -509,10 +508,10 @@ implements LimitedPath, NumberValue, LineProperties {
 			
 		// now transform parameter t from [paramStart, paramEnd] to [0, 1]
 		if (pp.t < 0)
-			pp.t += Kernel.PI_2;
+			pp.t += AbstractKernel.PI_2;
 		double t = pp.t - paramStart;
 		if (t < 0) 
-			t += Kernel.PI_2;
+			t += AbstractKernel.PI_2;
 		pp.t = t / paramExtent;	
 	}
 	
@@ -719,17 +718,17 @@ implements LimitedPath, NumberValue, LineProperties {
 			GeoPointND [] points = { algo.getCenter(), algo.getStartPoint(), algo.getEndPoint() };
 			
 		    // create circle with center through startPoint        
-	        AlgoCircleTwoPoints algoCircle = new AlgoCircleTwoPoints((Construction) cons, (GeoPoint) points[0], (GeoPoint) points[1]);
-	        ((Construction) cons).removeFromConstructionList(algoCircle);
+	        AlgoCircleTwoPoints algoCircle = new AlgoCircleTwoPoints( cons, (GeoPoint) points[0], (GeoPoint) points[1]);
+	        cons.removeFromConstructionList(algoCircle);
 	        GeoConic circle = algoCircle.getCircle();
 	        
 	        // transform points and circle
 			points = t.transformPoints(points);			
 			GeoConic transformedCircle = t.getTransformedConic(circle);	
-			((Construction) cons).removeFromConstructionList(transformedCircle.getParentAlgorithm());			
+			cons.removeFromConstructionList(transformedCircle.getParentAlgorithm());			
 										
 			// create a new arc from the transformed circle using startPoint and endPoint
-			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints((Construction) cons, label, transformedCircle, (GeoPoint) points[1], (GeoPoint) points[2], conic_part_type);			
+			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(cons, label, transformedCircle, (GeoPoint) points[1], (GeoPoint) points[2], conic_part_type);			
 			GeoConicPart conicPart = algoResult.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[2], (GeoElement) points[1]};
@@ -740,7 +739,7 @@ implements LimitedPath, NumberValue, LineProperties {
 					 (GeoPoint) algoParent.input[1],  (GeoPoint) algoParent.input[2]};			
 			points = t.transformPoints(points);
 			
-			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle((Construction) cons, label, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2], conic_part_type);
+			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2], conic_part_type);
 			GeoConicPart res = algo.getConicPart();
 			res.setLabel(label);
 			res.setVisualStyleForTransformations(this);
@@ -750,9 +749,9 @@ implements LimitedPath, NumberValue, LineProperties {
 			AlgoConicPartConicParameters algo = (AlgoConicPartConicParameters) algoParent;			
 						
 			GeoConic transformedConic = t.getTransformedConic(algo.conic);	
-			((Construction) cons).removeFromConstructionList(transformedConic.getParentAlgorithm());			
+			cons.removeFromConstructionList(transformedConic.getParentAlgorithm());			
 										
-			algo = new AlgoConicPartConicParameters((Construction) cons, label, transformedConic, algo.startParam, algo.endParam, conic_part_type);			
+			algo = new AlgoConicPartConicParameters(cons, label, transformedConic, algo.startParam, algo.endParam, conic_part_type);			
 			GeoElement ret = algo.getConicPart();
 			ret.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {ret};
@@ -764,9 +763,9 @@ implements LimitedPath, NumberValue, LineProperties {
 			GeoConic orgConic = algo.getConic();
 			
 			GeoConic transformedConic = t.getTransformedConic(orgConic);	
-			((Construction) cons).removeFromConstructionList(transformedConic.getParentAlgorithm());		
+			cons.removeFromConstructionList(transformedConic.getParentAlgorithm());		
 		
-			algo = new AlgoConicPartConicPoints((Construction) cons, label, transformedConic, (GeoPoint) points[0], (GeoPoint) points[1], conic_part_type);			
+			algo = new AlgoConicPartConicPoints( cons, label, transformedConic, (GeoPoint) points[0], (GeoPoint) points[1], conic_part_type);			
 			GeoConicPart conicPart = algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {conicPart, (GeoPoint) points[0], (GeoPoint) points[1]};
@@ -778,18 +777,18 @@ implements LimitedPath, NumberValue, LineProperties {
 			
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
-				semCirc = ((Kernel) kernel).Semicircle(label, (GeoPoint) points[1], (GeoPoint) points[0]);
+				semCirc = (GeoConic) kernel.Semicircle(label, (GeoPoint) points[1], (GeoPoint) points[0]);
 			} else if(t.isSimilar()) {
-				semCirc = ((Kernel) kernel).Semicircle(label, (GeoPoint) points[0], (GeoPoint) points[1]);
+				semCirc = (GeoConic) kernel.Semicircle(label, (GeoPoint) points[0], (GeoPoint) points[1]);
 			} else {
 				
 				GeoConic orgConic = ((AlgoSemicircle)algo).getConic();
 				GeoConic transformedConic = t.getTransformedConic(orgConic);
-				((Construction) cons).removeFromConstructionList(transformedConic.getParentAlgorithm());
+				( cons).removeFromConstructionList(transformedConic.getParentAlgorithm());
 				if(t.changesOrientation()){
-				algo = new AlgoConicPartConicPoints((Construction) cons, label, transformedConic, (GeoPoint) points[0], (GeoPoint) points[1], conic_part_type);
+				algo = new AlgoConicPartConicPoints( cons, label, transformedConic, (GeoPoint) points[0], (GeoPoint) points[1], conic_part_type);
 				}else
-					algo = new AlgoConicPartConicPoints((Construction) cons, label, transformedConic, (GeoPoint) points[1], (GeoPoint) points[0], conic_part_type);
+					algo = new AlgoConicPartConicPoints( cons, label, transformedConic, (GeoPoint) points[1], (GeoPoint) points[0], conic_part_type);
 				GeoConicPart conicPart = ((AlgoConicPartConicPoints)algo).getConicPart();
 				conicPart.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[1]};
@@ -832,10 +831,10 @@ implements LimitedPath, NumberValue, LineProperties {
 		if (getConicPartType()==CONIC_PART_SECTOR){
 			double arg = computeArg(x0,y0);
 			if (arg < 0) 
-				arg += Kernel.PI_2;
+				arg += AbstractKernel.PI_2;
 			//Application.debug(arg+" <? "+paramExtent);
 
-			return ((arg >= -Kernel.EPSILON) && (arg <= paramExtent+Kernel.EPSILON));
+			return ((arg >= -AbstractKernel.EPSILON) && (arg <= paramExtent+AbstractKernel.EPSILON));
 		}
 			
 		
@@ -866,7 +865,7 @@ implements LimitedPath, NumberValue, LineProperties {
 		// t = atan(a/b tan(theta)) where tan(theta) = py / px
 		double arg = Math.atan2(halfAxes[0]*py, halfAxes[1]*px2);
 		if (arg < 0)
-			arg += Kernel.PI_2;
+			arg += AbstractKernel.PI_2;
 		return arg - paramStart;			
 	}
 

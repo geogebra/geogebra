@@ -11,7 +11,6 @@ import geogebra.common.kernel.geos.GeoCasCellInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
@@ -21,7 +20,6 @@ import geogebra.kernel.arithmetic.FunctionVariable;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.TreeSet;
 
 /**
@@ -444,13 +442,13 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 				
 				// if command not known to CAS
 				if (!kernel.getGeoGebraCAS().isCommandAvailable((Command)cmd)) {
-					if (((Kernel) kernel).lookupCasCellLabel(cmdName) != null ||
+					if (kernel.lookupCasCellLabel(cmdName) != null ||
 						kernel.lookupLabel(cmdName) != null) 
 					{
 						// treat command name as defined user function name
 						getInVars().add(cmdName);
 					}
-					else if (((Kernel)kernel).getAlgebraProcessor().isCommandAvailable(cmdName)) {
+					else if (kernel.getAlgebraProcessor().isCommandAvailable(cmdName)) {
 						// command is known to GeoGebra: use possible fallback
 						useGeoGebraFallback = true;
 					}
@@ -705,7 +703,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 		// go through all variables
 		for (String varLabel : invars) {
 			// lookup GeoCasCell first
-			GeoElementInterface geo = ((Kernel) kernel).lookupCasCellLabel(varLabel);
+			GeoElementInterface geo = kernel.lookupCasCellLabel(varLabel);
 			
 			if (geo == null) {
 				// try row reference lookup
@@ -713,7 +711,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 				if (varLabel.equals(ExpressionNode.CAS_ROW_REFERENCE_PREFIX)) {			
 					geo = row > 0 ? ((Construction) cons).getCasCell(row-1) : ((Construction) cons).getLastCasCell();
 				} else {
-					geo = ((Kernel) kernel).lookupCasRowReference(varLabel);
+					geo = kernel.lookupCasRowReference(varLabel);
 				}
 				if (geo != null)
 					includesRowReferences = true;
@@ -1110,12 +1108,12 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 		
 		try {
 			// evaluate in GeoGebra
-			GeoElement [] ggbEval = ((Kernel) kernel).getAlgebraProcessor().doProcessValidExpression(ve);
+			GeoElement [] ggbEval = (GeoElement[]) kernel.getAlgebraProcessor().doProcessValidExpression(ve);
 			if (ggbEval != null) {
 				return ggbEval[0];
-			} else {
-				return null;
-			}
+			} 
+			return null;
+			
 		} catch (Throwable e) {
 			System.err.println("GeoCasCell.silentEvalInGeoGebra: " + ve + "\n\terror: " + e.getMessage());
 			return null;

@@ -16,9 +16,11 @@ import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
+
 
 
 
@@ -1795,4 +1797,10 @@ public abstract class AbstractKernel {
 	
 	public abstract GeoNumericInterface newNumeric(AbstractConstruction cons);
 	public abstract GeoListInterface newList();
+
+	public abstract GeoElementInterface lookupCasCellLabel(String cmdName);
+	public abstract GeoElementInterface lookupCasRowReference(String cmdName);
+
+	public abstract GeoElementInterface Semicircle(String label, GeoPointInterface geoPoint,
+			GeoPointInterface geoPoint2);
 }

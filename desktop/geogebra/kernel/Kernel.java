@@ -38,6 +38,7 @@ import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -5746,8 +5747,8 @@ public class Kernel extends AbstractKernel{
 	/** 
 	 * semicircle with midpoint M through point P
 	 */
-	final public GeoConicPart Semicircle(String label, GeoPoint M, GeoPoint P) {
-		AlgoSemicircle algo = new AlgoSemicircle(cons, label, M, P);
+	final public GeoConicPart Semicircle(String label, GeoPointInterface M, GeoPointInterface P) {
+		AlgoSemicircle algo = new AlgoSemicircle(cons, label, (GeoPoint)M, (GeoPoint)P);
 		return algo.getSemicircle();
 	}
 	

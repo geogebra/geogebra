@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
@@ -35,7 +36,7 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
      * The type is either GeoConicPart.CONIC_PART_ARC or 
      * GeoConicPart.CONIC_PART_ARC       
      */
-    public AlgoConicPartConicPoints(Construction cons, String label,
+    public AlgoConicPartConicPoints(AbstractConstruction cons, String label,
     		GeoConic circle, GeoPoint startPoint, GeoPoint endPoint,
     		int type) {
         super(cons, type);        

@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoQuadricND;
 
@@ -35,7 +35,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
     private GeoQuadricND sphereND; // output         
 
     public AlgoSphereNDTwoPoints(
-        Construction cons,
+        AbstractConstruction cons,
         GeoPointND M,
         GeoPointND P) {
         super(cons);
@@ -47,10 +47,10 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
         compute();
     }   
     
-    abstract protected GeoQuadricND createSphereND(Construction cons);
+    abstract protected GeoQuadricND createSphereND(AbstractConstruction cons);
     
     protected AlgoSphereNDTwoPoints(
-            Construction cons,
+            AbstractConstruction cons,
             String label,
             GeoPointND M,
             GeoPointND P) {
