@@ -922,11 +922,11 @@ implements EuclidianViewInterface, EuclidianViewInterface2D, Printable, SettingL
 	}
 	
 	public void setResizeXAxisCursor() {
-		app.setResizeHorizontalCursor();
+		setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
 	}
 
 	public void setResizeYAxisCursor() {
-		app.setResizeVerticalCursor();
+		setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
 	}
 
 	public void setHitCursor() {
