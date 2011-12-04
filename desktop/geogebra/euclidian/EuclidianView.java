@@ -3638,6 +3638,13 @@ implements EuclidianViewInterface, EuclidianViewInterface2D, Printable, SettingL
 			AlgoElement algo = geo.getDrawAlgorithm();
 			if (algo == null) {
 				// independent number may be shown as slider
+				if (geo.isEuclidianVisible()) {
+					// make sure min/max initialized properly on redefinition
+					// eg f(x)=x^2
+					// f = 1
+					geo.setEuclidianVisible(false);
+					geo.setEuclidianVisible(true);
+				}
 				d = new DrawSlider(this, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoSlope) {
 				d = new DrawSlope(this, (GeoNumeric) geo);
