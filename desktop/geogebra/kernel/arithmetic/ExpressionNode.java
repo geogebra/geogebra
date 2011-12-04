@@ -1945,8 +1945,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 							firstRight = rightStr.charAt(0);
 							// check if we need a multiplication sign, see #414
 							// digit-digit, e.g. 3 * 5
-							showMultiplicationSign = Character.isDigit(lastLeft) &&  Character.isDigit(firstRight);
-							
+							showMultiplicationSign = Character.isDigit(lastLeft) &&  (Character.isDigit(firstRight) 
+									// 3*E23AB can't be written 3E23AB 
+									|| (rightStr.startsWith("E"))); 							
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {

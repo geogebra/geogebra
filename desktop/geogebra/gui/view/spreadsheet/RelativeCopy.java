@@ -485,6 +485,10 @@ public class RelativeCopy {
 	 * eg change A1 < 3 to A2 < 3 for a vertical copy
 	 */
 	public static String updateCellReferences(GeoElement value, String text, int dx, int dy) {
+		
+		StringBuilder before = new StringBuilder();
+		StringBuilder after = new StringBuilder();
+		
 		GeoElement[] dependents = getDependentObjects(value);
 		GeoElement[] dependents2 = new GeoElement[dependents.length + 1];
 		for (int i = 0; i < dependents.length; ++ i) {
@@ -501,15 +505,47 @@ public class RelativeCopy {
 			if (column == -1 || row == -1) continue;
 			String column1 = GeoElement.getSpreadsheetColumnName(column);
 			String row1 = "" + (row + 1);
-			text = replaceAll(GeoElement.spreadsheetPattern, text, "$" + column1 + row1, "$" + column1 + "::" + row1);
-			text = replaceAll(GeoElement.spreadsheetPattern, text, column1 + "$" + row1, "::" + column1 + "$" + row1);
-			text = replaceAll(GeoElement.spreadsheetPattern, text, column1 + row1, "::" + column1 + "::" + row1);
+			
+			before.setLength(0);
+			before.append('$');
+			before.append(column1);
+			before.append(row1);
+			after.setLength(0);
+			after.append('$');
+			after.append(column1);
+			after.append("::");
+			after.append(row1);
+			text = replaceAll(GeoElement.spreadsheetPattern, text, before.toString(), after.toString());
+			//text = replaceAll(GeoElement.spreadsheetPattern, text, "$" + column1 + row1, "$" + column1 + "::" + row1);
+			
+			before.setLength(0);
+			before.append(column1);
+			before.append('$');
+			before.append(row1);
+			after.setLength(0);
+			after.append("::");
+			after.append(column1);
+			after.append('$');
+			after.append(row1);
+			text = replaceAll(GeoElement.spreadsheetPattern, text, before.toString(), after.toString());
+			//text = replaceAll(GeoElement.spreadsheetPattern, text, column1 + "$" + row1, "::" + column1 + "$" + row1);
+			
+			before.setLength(0);
+			before.append(column1);
+			before.append(row1);
+			after.setLength(0);
+			after.append("::");
+			after.append(column1);
+			after.append("::");
+			after.append(row1);
+			text = replaceAll(GeoElement.spreadsheetPattern, text, before.toString(), after.toString());
+			//text = replaceAll(GeoElement.spreadsheetPattern, text, column1 + row1, "::" + column1 + "::" + row1);
 
 		}
 
 		// TODO is this a bug in the regex?
 		// needed for eg Mod[$A2, B$1] which gives Mod[$A2, ::::B$1]
-		text = text.replaceAll("::::", "::");
+		text = text.replace("::::", "::");
 
 		Matcher matcher = GeoElement.spreadsheetPattern.matcher(value.getLabel());			
 		for (int i = 0; i < dependents.length; ++ i) {
@@ -522,17 +558,53 @@ public class RelativeCopy {
 			String row1 = "" + (row + 1);
 			String column2 = GeoElement.getSpreadsheetColumnName(column + dx);
 			String row2 = "" + (row + dy + 1);
-			text = replaceAll(pattern2, text, "::" + column1 + "::" + row1, column2 + row2);
-			text = replaceAll(pattern2, text, "$" + column1 + "::" + row1, "$" + column1 + row2);
-			text = replaceAll(pattern2, text, "::" + column1 + "$" + row1, column2 + "$" + row1);
+			
+			before.setLength(0);
+			before.append("::");
+			before.append(column1);
+			before.append("::");
+			before.append(row1);
+			after.setLength(0);
+			after.append('('); // brackets important eg 2(E2) not 2E2
+			after.append(column2);
+			after.append(row2);
+			after.append(')');
+			text = replaceAll(pattern2, text, before.toString(), after.toString());
+			//text = replaceAll(pattern2, text, "::" + column1 + "::" + row1, "("+ column2 + row2 + ")");
+			
+			before.setLength(0);
+			before.append("::");
+			before.append(column1);
+			before.append("::");
+			before.append(row1);
+			after.setLength(0);
+			after.append('(');
+			after.append('$');
+			after.append(column1);
+			after.append(row2);
+			after.append(')');
+			text = replaceAll(pattern2, text, before.toString(), after.toString());
+			//text = replaceAll(pattern2, text, "$" + column1 + "::" + row1, "$" + column1 + row2);
+			
+			before.setLength(0);
+			before.append("::");
+			before.append(column1);
+			before.append('$');
+			before.append(row1);
+			after.setLength(0);
+			after.append('(');
+			after.append(column2);
+			after.append('$');
+			after.append(row1);
+			after.append(')');
+			text = replaceAll(pattern2, text, before.toString(), after.toString());
+			//text = replaceAll(pattern2, text, "::" + column1 + "$" + row1, column2 + "$" + row1);
 
 		}
 
 		return text;
 
 	}
-
-	
 	
 	public static void doCopyNoStoringUndoInfo1(Kernel kernel, MyTable table, String text, GeoElement geoForStyle, int column, int row) throws Exception {
 		GeoElement oldValue = getValue(table, column, row);
