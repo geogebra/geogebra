@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.VarString;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
-import geogebra.kernel.VarString;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.roots.RealRootUtil;

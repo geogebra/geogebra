@@ -4,6 +4,8 @@
  */
 package geogebra.kernel;
 
+import geogebra.common.kernel.PointPair;
+
 /**
  * @author HOHENWARTER
  *

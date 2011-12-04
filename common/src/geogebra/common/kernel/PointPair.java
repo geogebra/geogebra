@@ -1,17 +1,17 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 //point pair (i, j, dist) stores the point 
 //pair D_i, Q_j and their distance
 public class PointPair {
 	public int indexP;
-	boolean isPalive;
+	public boolean isPalive;
 	public int indexQ;	
-	boolean isQonPath;
-	double dist;
+	public boolean isQonPath;
+	public double dist;
 	
-	PointPair next;
+	public PointPair next;
 	
-	PointPair(int i, boolean isPalive, int j, boolean isQjOnPath, double distance) {
+	public PointPair(int i, boolean isPalive, int j, boolean isQjOnPath, double distance) {
 		indexP = i;
 		this.isPalive = isPalive;
 		indexQ = j;

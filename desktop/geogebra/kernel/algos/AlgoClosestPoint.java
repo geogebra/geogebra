@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathAlgo;
 import geogebra.kernel.Construction;
-import geogebra.kernel.PathAlgo;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 

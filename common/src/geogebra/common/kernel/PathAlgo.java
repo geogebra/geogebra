@@ -1,4 +1,4 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 /**
  * Algo whose output is on path

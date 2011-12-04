@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.PointPair;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.PointPair;
 import geogebra.kernel.PointPairList;
 import geogebra.kernel.SystemOfEquationsSolver;
 import geogebra.kernel.geos.GeoConic;
