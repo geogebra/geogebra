@@ -23,7 +23,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 	 * 
 	 * @param c
 	 */
-	public AlgoTransformation(Construction c) {
+	public AlgoTransformation(AbstractConstruction c) {
 		super(c);
 	}
 

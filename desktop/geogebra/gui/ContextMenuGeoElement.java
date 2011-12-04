@@ -15,6 +15,7 @@ package geogebra.gui;
 
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.inputbar.AlgebraInput;
@@ -30,7 +31,6 @@ import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoUserInputElement;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.Application;
 
 import java.awt.Color;

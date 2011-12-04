@@ -97,7 +97,7 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 
 	// polygons
 	protected static final Color colPolygon = GeoGebraColorConstants.BROWN; //new Color(153, 51, 0);	
-	public static final float DEFAULT_POLYGON_ALPHA = 0.1f;
+	
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
 	// angles

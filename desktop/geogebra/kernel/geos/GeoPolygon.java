@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -23,6 +23,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -30,17 +31,13 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-//import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.kernel.algos.AlgoPolygonRegular;
-import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 import java.awt.Color;
@@ -101,7 +98,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		this.createSegments=createSegments;
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
-		setAlphaValue(ConstructionDefaults.DEFAULT_POLYGON_ALPHA);
+		setAlphaValue(AbstractConstructionDefaults.DEFAULT_POLYGON_ALPHA);
 	}
 	
 	/**
@@ -303,7 +300,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
         if (points.length == 3) {    
         	
         	// make sure segment opposite C is called c not a_1
-        	if (getParentAlgorithm() instanceof AlgoPolygonRegular)
+        	if (getParentAlgorithm() instanceof AlgoPolygonRegularInterface)
         		points[2].setLabel(null);
         	
            setLabel(segments[0], points[2]);
@@ -401,8 +398,8 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	  */
 	 public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint, boolean euclidianVisible){
 
-		 AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment((Construction)cons, (GeoPoint) startPoint, (GeoPoint) endPoint, this);            
-		 ((Construction) cons).removeFromConstructionList(algoSegment);  
+		 AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, (GeoPoint) startPoint, (GeoPoint) endPoint, this);            
+		 cons.removeFromConstructionList(algoSegment);  
 		 
 		 return createSegment(algoSegment.getSegment(), euclidianVisible);
 	 }
@@ -440,7 +437,8 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return new GeoNumeric(cons, getArea());        
 	}    
 	
-	public GeoElement copyInternal(Construction cons) {						
+	@Override
+	public GeoElement copyInternal(AbstractConstruction cons) {						
 		GeoPolygon ret = newGeoPolygon(cons);
 		ret.points = copyPoints(cons);		
 		ret.set(this);
@@ -448,11 +446,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return ret;		
 	} 	
 	
-	protected GeoPolygon newGeoPolygon(Construction cons){
+	protected GeoPolygon newGeoPolygon(AbstractConstruction cons){
 		return new GeoPolygon(cons, null); 
 	}
 	
-	protected GeoPointND[] copyPoints(Construction cons){
+	protected GeoPointND[] copyPoints(AbstractConstruction cons){
 		return GeoElement.copyPoints(cons, points);
 	}
 	
@@ -579,7 +577,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		System.arraycopy(points, 0, pointsForPolyLine, 0, points.length);
 		pointsForPolyLine[points.length]=pointsForPolyLine[0];
 		
-		GeoPolyLine pl = new GeoPolyLine((Construction)this.getConstruction(), pointsForPolyLine);
+		GeoPolyLine pl = new GeoPolyLine(this.getConstruction(), pointsForPolyLine);
 		
 		this.getConstruction().getKernel().setSilentMode(false);
 		
@@ -1434,7 +1432,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 */
 	public boolean isVertexCountFixed() {
 		//regularPolygon[vertex,vertex,count]
-		if(getParentAlgorithm() instanceof AlgoPolygonRegular)return false;
+		if(getParentAlgorithm() instanceof AlgoPolygonRegularInterface)return false;
 		//polygon[list]
 		if(getParentAlgorithm().getInput().length<3)return false;
 		return true;

@@ -1,6 +1,5 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
  * @author mathieu

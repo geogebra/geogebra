@@ -22,7 +22,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Transform;
@@ -145,7 +144,8 @@ GeoSegmentND {
 		return new GeoNumeric(cons, getLength());   		 
 	}   */     
 	 
-	public GeoElement copyInternal(Construction cons) {
+	@Override
+	public GeoElement copyInternal(AbstractConstruction cons) {
 		GeoSegment seg = new GeoSegment(cons, 
 										(GeoPoint) startPoint.copyInternal(cons), 
 										(GeoPoint) endPoint.copyInternal(cons));

@@ -7,7 +7,7 @@
 
 package geogebra.kernel.geos;
 
-import geogebra.kernel.kernelND.Region3D;
+import geogebra.common.kernel.kernelND.Region3D;
 
 public interface GeoSurfaceFinite extends Region3D{
 

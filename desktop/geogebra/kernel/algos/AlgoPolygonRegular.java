@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * 
  * @author  Markus Hohenwarter
  */
-public class AlgoPolygonRegular extends AlgoElement {
+public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegularInterface{
 
 	private final GeoPoint A, B;  // input
 	private NumberValue num; // input

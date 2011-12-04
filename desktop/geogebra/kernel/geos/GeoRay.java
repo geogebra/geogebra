@@ -18,7 +18,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Transform;
@@ -28,7 +28,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoJoinPointsRay;
 import geogebra.kernel.algos.AlgoRayPointVector;
 import geogebra.kernel.algos.AlgoTranslate;
-import geogebra.kernel.kernelND.GeoRayND;
 
 
 /**
@@ -74,7 +73,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}*/
 	 
 	
-	public GeoElement copyInternal(Construction cons) {
+	public GeoElement copyInternal(AbstractConstruction cons) {
 		GeoRay ray = new GeoRay(cons, (GeoPoint) startPoint.copyInternal(cons));
 		ray.set(this);
 		return ray;
@@ -228,9 +227,9 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				GeoPoint inf = new GeoPoint(cons);
 				inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
 				inf = (GeoPoint)t.doTransform(inf);
-				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle((Construction) cons, Transform.transformedGeoLabel(this),
+				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle( cons, Transform.transformedGeoLabel(this),
 			    		(GeoPoint) points[0], (GeoPoint) points[1],inf,GeoConicPart.CONIC_PART_ARC);
-				((Construction) cons).removeFromAlgorithmList(ae);
+				cons.removeFromAlgorithmList(ae);
 				GeoElement arc = ae.getConicPart(); 				
 				arc.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {arc, (GeoElement) points[0], (GeoElement) points[1]};
@@ -244,8 +243,8 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 						
 			boolean oldSuppressLabelCreation = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			AlgoDirection ad = new AlgoDirection((Construction) cons,this);
-			((Construction) cons).removeFromAlgorithmList(ad);
+			AlgoDirection ad = new AlgoDirection( cons,this);
+			cons.removeFromAlgorithmList(ad);
 			GeoVector direction = ad.getVector();
 			if(t.isAffine()) {
 				
@@ -257,9 +256,9 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
 				return geos;
-			}else {
-				AlgoTranslate at = new AlgoTranslate((Construction) cons,getStartPoint(),direction);
-				((Construction) cons).removeFromAlgorithmList(at);
+			}
+				AlgoTranslate at = new AlgoTranslate( cons,getStartPoint(),direction);
+				cons.removeFromAlgorithmList(at);
 				GeoPoint thirdPoint = (GeoPoint) at.getResult();
 				GeoPoint inf = new GeoPoint(cons);
 				inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
@@ -267,14 +266,14 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				GeoPointND [] points2 = new GeoPointND[] {thirdPoint,inf};
 				points2 = t.transformPoints(points2);
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
-				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle((Construction) cons, Transform.transformedGeoLabel(this),
+				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons, Transform.transformedGeoLabel(this),
 			    		(GeoPoint) points[0], (GeoPoint) points2[0], (GeoPoint) points2[1],GeoConicPart.CONIC_PART_ARC);
 				GeoElement arc = ae.getConicPart(); 				
 				arc.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {arc, (GeoElement) points[0]};
 				return geos;		
 						
-			}
+			
 			
 							
 			

@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;
@@ -31,7 +31,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	
 	private GeoLine line; // for degenerate case
 
-    public AlgoConicPartCircumcircle(Construction cons, String label,
+    public AlgoConicPartCircumcircle(AbstractConstruction cons, String label,
     		GeoPoint A, GeoPoint B, GeoPoint C,
     		int type) 
     {
@@ -39,7 +39,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     	 conicPart.setLabel(label);
     }
     
-    public AlgoConicPartCircumcircle(Construction cons,
+    public AlgoConicPartCircumcircle(AbstractConstruction cons,
     		GeoPoint A, GeoPoint B, GeoPoint C,
     		int type) {
         super(cons, type);        

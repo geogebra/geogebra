@@ -19,8 +19,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
-import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
@@ -42,7 +42,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 
     /** Creates new AlgoJoinPoints */
     public AlgoJoinPointsSegment(
-        Construction cons,
+        AbstractConstruction cons,
         String label,
         GeoPoint P,
         GeoPoint Q) {
@@ -51,7 +51,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     }
 
     public AlgoJoinPointsSegment(
-        Construction cons,        
+        AbstractConstruction cons,        
         GeoPoint P,
         GeoPoint Q,
         GeoPolygon poly) {

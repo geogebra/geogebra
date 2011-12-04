@@ -18,12 +18,12 @@ the Free Software Foundation.
 package geogebra3D;
 
 import geogebra.CommandLineArguments;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.kernelND.GeoCoordSys2D;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcher;

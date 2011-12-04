@@ -1,4 +1,4 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;

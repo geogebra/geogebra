@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
@@ -62,7 +63,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
     transient private int casenr;
 
     public AlgoCircleThreePoints(
-        Construction cons,
+        AbstractConstruction cons,
         String label,
         GeoPointND A,
         GeoPointND B,
@@ -72,7 +73,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
     }
     
     public AlgoCircleThreePoints(
-            Construction cons,           
+            AbstractConstruction cons,           
             GeoPointND A,
             GeoPointND B,
             GeoPointND C) {
