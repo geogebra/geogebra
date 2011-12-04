@@ -4,6 +4,7 @@ public interface Font {
 	
 	public static final int PLAIN = 0;
 	public static final int BOLD = 1;
+	public static final int ITALIC = 2;
 
 	public abstract void setFontStyle(String fontStyle);
 
@@ -44,6 +45,12 @@ public interface Font {
 	public abstract boolean isItalic();
 
 	public abstract boolean isBold();
+
+	public abstract int getStyle();
+
+	public abstract Font deriveFont(int i);
+
+	public abstract Font deriveFont(int style, int newSize);
 
 
 }

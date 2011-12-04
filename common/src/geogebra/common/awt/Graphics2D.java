@@ -769,4 +769,12 @@ public interface Graphics2D {
 
 	public abstract FontRenderContext getFontRenderContext();
 
+	public abstract Color getColor();
+
+	public abstract Font getFont();
+
+	public abstract void setFont(Font font);
+
+	public abstract void setPaint(Color fillColor);
+
 }
