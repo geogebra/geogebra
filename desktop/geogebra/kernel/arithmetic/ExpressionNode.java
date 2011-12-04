@@ -2874,6 +2874,31 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			}
 			break;
 
+		case POLYGAMMA:
+			switch (STRING_TYPE) {
+			case LATEX:
+				sb.append("\\psi_{");
+				sb.append(leftStr);
+				sb.append('}');
+				sb.append(leftBracket(STRING_TYPE));
+				sb.append(rightStr);
+				sb.append(rightBracket(STRING_TYPE));
+				break;
+
+			case MAXIMA:
+			case MATH_PIPER:
+			case MPREDUCE:
+			default:
+				sb.append("polygamma(");
+				sb.append(leftStr);
+				sb.append(", ");
+				sb.append(rightStr);
+				sb.append(')');
+				break;
+				
+			}
+			break;
+
 		case ERF:
 			switch (STRING_TYPE) {
 			case LATEX:
@@ -2886,11 +2911,6 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MAXIMA:
 			case MATH_PIPER:
 			case MPREDUCE:
-				sb.append("erf(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
 			default:
 				sb.append("erf(");
 				sb.append(leftStr);
@@ -2912,11 +2932,6 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MAXIMA:
 			case MATH_PIPER:
 			case MPREDUCE:
-				sb.append("psi(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
 			default:
 				sb.append("psi(");
 				sb.append(leftStr);

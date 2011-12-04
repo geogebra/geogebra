@@ -1265,6 +1265,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				throw new MyError(app, str);
 			}
 
+		case POLYGAMMA:
+			// polygamma(order, number)
+			if (lt.isNumberValue() && rt.isNumberValue()) {
+				return ((NumberValue) rt).getNumber().polygamma((NumberValue) lt);
+			} else {
+				String[] str = { "IllegalArgument", "polygamma", lt.toString(), rt.toString() };
+				throw new MyError(app, str);
+			}
+
 		case LOG10:
 			// log(number)
 			if (lt.isNumberValue())

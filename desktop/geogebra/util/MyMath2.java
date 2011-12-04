@@ -1,8 +1,8 @@
 package geogebra.util;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.AbstractMyMath2;
-import geogebra.main.Application;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
@@ -130,6 +130,15 @@ public class MyMath2 extends AbstractMyMath2{
 
 	final public double psi(double x) {
 		return Gamma.digamma(x);
+	}
+
+	final public double polyGamma(NumberValue order, double x) {
+		int o = (int) order.getDouble();
+		switch (o) {
+		case 0: return Gamma.digamma(x);
+		case 1: return Gamma.trigamma(x);
+		default: return Double.NaN;
+		}
 	}
 
 

@@ -1,6 +1,7 @@
 package geogebra.common.util;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.NumberValue;
 
 
 
@@ -59,6 +60,11 @@ public class AbstractMyMath2 {
 	 public double psi(double x) {
 			 return Double.NaN;
 		}
+	 
+	 public double polyGamma(NumberValue order, double x) {
+			return Double.NaN;
+		}
+
 
 
 }

@@ -357,6 +357,7 @@ TOKEN: {
 |	< ATAN2_FUNC: ( "atan2(" | "arctan2(" | "ArcTan2(" | "myatan2("  )> 
 |	< ERF_FUNC: ( "erf(" )> 
 |	< PSI_FUNC: ( "psi(" )> // digamma function (returned by mpreduce)
+|	< POLYGAMMA_FUNC: ( "polygamma(" )> // polygamma function (returned by mpreduce)
 |	< COSH_FUNC: ( "cosh(" | "Cosh(" ) > 
 |	< COSHN_FUNC: ( "cosh" | "Cosh" ) (< POWERN > ) + "(" > 
 |	< SINH_FUNC: ( "sinh(" | "Sinh(" ) > 
@@ -2039,6 +2040,10 @@ ExpressionNode numberFunction():
 	LOOKAHEAD (2147483647)
     <LOG_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
       { return new ExpressionNode(kernel, en, Operation.LOGB, en2); }
+|
+	LOOKAHEAD (2147483647)
+    <POLYGAMMA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
+      { return new ExpressionNode(kernel, en, Operation.POLYGAMMA, en2); }
 |
 	LOOKAHEAD (2147483647)
     <GAMMA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
