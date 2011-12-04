@@ -8117,9 +8117,11 @@ public class Kernel extends AbstractKernel{
 	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
 		return new ScientificFormat(a, b, c);
 	}
-	
+	private MyMath2 myMath2;
 	public AbstractMyMath2 getMyMath2() {
-		return new MyMath2();
+		if(myMath2==null)
+			myMath2 = new MyMath2();
+		return myMath2; 
 	}
 
 }
