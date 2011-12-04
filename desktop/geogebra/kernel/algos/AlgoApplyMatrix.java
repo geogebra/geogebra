@@ -173,7 +173,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	}
     
     @Override 
-   protected boolean swapOrientation(boolean posOrientation){
+   public boolean swapOrientation(boolean posOrientation){
 	   double a,b,c,d;
 	    a = ((NumberValue)(matrix.get(0,0))).getDouble();
 		b = ((NumberValue)(matrix.get(1,0))).getDouble();

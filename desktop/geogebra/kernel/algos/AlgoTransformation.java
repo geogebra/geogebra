@@ -1,9 +1,8 @@
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EuclidianViewCE;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
@@ -97,7 +96,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 		}
 	}
 
-	protected boolean swapOrientation(boolean positiveOrientation) {
+	public boolean swapOrientation(boolean positiveOrientation) {
 		// Application.debug(positiveOrientation);
 		return positiveOrientation;
 	}
@@ -109,11 +108,11 @@ public abstract class AlgoTransformation extends AlgoElement implements
 
 		GeoConicPart arc = (GeoConicPart) b;
 		if (a instanceof GeoConicPart) {
-			((GeoConicPart) b).setParameters(0, Kernel.PI_2, true);
+			((GeoConicPart) b).setParameters(0, AbstractKernel.PI_2, true);
 			if (pt == null) {
 				transformedPoint = new GeoPoint(cons);
-				pt = new AlgoClosestPoint((Construction) cons, arc, transformedPoint);
-				((Construction) cons).removeFromConstructionList(pt);
+				pt = new AlgoClosestPoint( cons, arc, transformedPoint);
+				cons.removeFromConstructionList(pt);
 			}
 			transformedPoint.removePath();
 			setTransformedObject(((GeoConicPart) a).getPointParam(0),
@@ -130,7 +129,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 			// Application.debug("end"+transformedPoint);
 			double e = pt.getP().getPathParameter().getT();
 			// Application.debug(d+","+e);
-			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2,
+			arc.setParameters(d * AbstractKernel.PI_2, e * AbstractKernel.PI_2,
 					swapOrientation(((GeoConicPart) a).positiveOrientation()));
 
 			setTransformedObject(a, b);

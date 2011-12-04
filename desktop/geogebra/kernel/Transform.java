@@ -19,9 +19,6 @@ import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.LimitedPath;
-import geogebra.util.GgbMat;
-
-import org.apache.commons.math.linear.LUDecompositionImpl;
 
 /**
  * Container for transforms
@@ -408,8 +405,9 @@ class TransformApplyMatrix extends Transform {
 	}
 	
 	public boolean changesOrientation() {
-		GgbMat ggbMatrix = new GgbMat(matrix);
-		return new LUDecompositionImpl(ggbMatrix).getDeterminant()<0;
+		AlgoTransformation at = getTransformAlgo(new GeoPoint(cons));
+		cons.removeFromConstructionList(at);
+		return at.swapOrientation(true);
 	}
 
 }

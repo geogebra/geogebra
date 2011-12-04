@@ -310,7 +310,7 @@ public class AlgoMirror extends AlgoTransformation {
 	}
     
     @Override
-	protected boolean swapOrientation(boolean positiveOrientation) {		
+	public boolean swapOrientation(boolean positiveOrientation) {		
 		return positiveOrientation;
 	}
 }

@@ -187,7 +187,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
     }
     
     @Override
-	protected boolean swapOrientation(boolean posOrientation){
+	public boolean swapOrientation(boolean posOrientation){
  	   if(shear)
  		   return posOrientation;
  	   return posOrientation ^ (num.getDouble()<0);

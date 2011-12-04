@@ -162,8 +162,4 @@ public class AlgoDilate extends AlgoTransformation {
    			super.transformLimitedConic(a, b);
 
    	}
-   	@Override
-   	protected boolean swapOrientation(boolean posOrientation) {
-   		return posOrientation;
-   	}
 }
