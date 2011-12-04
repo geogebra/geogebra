@@ -24,7 +24,6 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Construction;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.util.BufferedImageAdapterDesktop;
 

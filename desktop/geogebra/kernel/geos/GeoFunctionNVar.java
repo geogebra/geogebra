@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
@@ -25,7 +26,6 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.algos.AlgoMacro;
@@ -35,7 +35,6 @@ import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
-import geogebra.main.Application;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c. 
@@ -606,12 +605,12 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * @param P
 	 */
 	private void tryLocateInEV(GeoPointND P) {
-		EuclidianView ev = ((Application) kernel.getApplication()).getEuclidianView();
+		EuclidianViewInterfaceSlim ev = kernel.getApplication().getEuclidianView();
 		boolean found = false;
 		for (int i = 0; !found && i < ev.getWidth() / SEEK_DENSITY; i++)
 			for (int j = 0; !found && j < ev.getHeight() / SEEK_DENSITY; j++) {
 				double rx = ev.toRealWorldCoordX(SEEK_DENSITY * i);
-				double ry = ev.toRealWorldCoordX(SEEK_DENSITY * i);
+				double ry = ev.toRealWorldCoordY(SEEK_DENSITY * i);
 				if (isInRegion(rx, ry)) {
 					((GeoPoint) P).setCoords(rx, ry, 1);
 					//Application.debug("Desperately found"+rx+","+ry);

@@ -20,6 +20,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -309,7 +310,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoNumeric()) 
-			return Kernel.isEqual(value, ((GeoNumeric)geo).value); 
+			return AbstractKernel.isEqual(value, ((GeoNumeric)geo).value); 
 		else 
 			return false;
 	}
@@ -1023,10 +1024,10 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		// take current slider increment size into account:
 		// round animationValue to newValue using slider's increment setting	
 		double param = animationValue - getIntervalMin();
-		param = Kernel.roundToScale(param, getAnimationStep());		
+		param = AbstractKernel.roundToScale(param, getAnimationStep());		
 		newValue = getIntervalMin() + param;	
 		
-		if (getAnimationStep() > Kernel.MIN_PRECISION) {
+		if (getAnimationStep() > AbstractKernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			newValue = kernel.checkDecimalFraction(newValue);
 		}
@@ -1049,7 +1050,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		      public int compare(NumberValue itemA, NumberValue itemB) {
 		        
 		        double comp = itemA.getDouble() - itemB.getDouble();
-		        if (Kernel.isZero(comp)) {
+		        if (AbstractKernel.isZero(comp)) {
 			        // don't return 0 for equal objects, otherwise the TreeSet deletes duplicates
 		        	if (!itemA.isGeoElement() || !itemB.isGeoElement()) return 1;
 		        	return ((GeoElement) itemA).getConstructionIndex() > ((GeoElement) itemB).getConstructionIndex() ? -1 : 1;

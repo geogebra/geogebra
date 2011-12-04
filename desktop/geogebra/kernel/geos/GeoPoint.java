@@ -23,6 +23,7 @@ package geogebra.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
@@ -46,11 +47,11 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.AnimationManager;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.algos.AlgoDependentPoint;
@@ -59,7 +60,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.main.Application;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -176,13 +176,13 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 
     @Override
 	public int getRelatedModeID() {
-    	return toStringMode == Kernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
+    	return toStringMode == AbstractKernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
     			: EuclidianConstants.MODE_POINT;
     }
     
     @Override
 	protected String getTypeString() {
-    	if (toStringMode == Kernel.COORD_COMPLEX)
+    	if (toStringMode == AbstractKernel.COORD_COMPLEX)
     		return "ComplexNumber";
     	else
     		return "Point";
@@ -307,21 +307,21 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			xvar.setValue(radius);
 
 			// angle
-			double angle = Kernel.convertToAngleValue(Math.atan2(endPosition.getY(), endPosition.getX()));
+			double angle = AbstractKernel.convertToAngleValue(Math.atan2(endPosition.getY(), endPosition.getX()));
 			// angle outsid of slider range
 			if (yvar.isIntervalMinActive() && yvar.isIntervalMaxActive() &&
 					(angle < yvar.getIntervalMin() || angle > yvar.getIntervalMax())) 
 			{
 				// use angle value closest to closest border
 				double minDiff = Math.abs((angle - yvar.getIntervalMin())) ;
-				if (minDiff > Math.PI) minDiff = Kernel.PI_2 - minDiff;
+				if (minDiff > Math.PI) minDiff = AbstractKernel.PI_2 - minDiff;
 				double maxDiff = Math.abs((angle - yvar.getIntervalMax()));
-				if (maxDiff > Math.PI) maxDiff = Kernel.PI_2 - maxDiff;
+				if (maxDiff > Math.PI) maxDiff = AbstractKernel.PI_2 - maxDiff;
 
 				if (minDiff < maxDiff) 
-					angle = angle - Kernel.PI_2;
+					angle = angle - AbstractKernel.PI_2;
 				else
-					angle = angle + Kernel.PI_2;
+					angle = angle + AbstractKernel.PI_2;
 			}											
 			yvar.setValue(angle);
 		}
@@ -631,7 +631,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	
 	final public void updateCoords() {
 		// infinite point
-		if (Kernel.isZero(z)) {
+		if (AbstractKernel.isZero(z)) {
 			isInfinite = true;
 			isDefined = !(Double.isNaN(x) || Double.isNaN(y));
 			inhomX = Double.NaN;
@@ -699,8 +699,8 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
         
         // both finite      
         if (isFinite() && P.isFinite())
-			return Kernel.isEqual(inhomX, P.inhomX) && 
-                    	Kernel.isEqual(inhomY, P.inhomY);
+			return AbstractKernel.isEqual(inhomX, P.inhomX) && 
+                    	AbstractKernel.isEqual(inhomY, P.inhomY);
 		else if (isInfinite() && P.isInfinite())
 			return linDep(P);
 		else return false;                        
@@ -788,10 +788,10 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		// det(ABC) == 0  <=>  sum1 == sum2	
 		
 		// A.z, B.z, C.z could be zero
-		double eps = Math.max(Kernel.MIN_PRECISION, Kernel.MIN_PRECISION * A.z
+		double eps = Math.max(AbstractKernel.MIN_PRECISION, AbstractKernel.MIN_PRECISION * A.z
 				* B.z * C.z);
 		
-		return Kernel.isEqual(sum1, sum2, eps );
+		return AbstractKernel.isEqual(sum1, sum2, eps );
 	}
     
     /**
@@ -951,15 +951,15 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     	sbToString.setLength(0);                               
 		sbToString.append(label);	
 		
-		if (toStringMode==Kernel.COORD_COMPLEX) {
+		if (toStringMode==AbstractKernel.COORD_COMPLEX) {
 			sbToString.append(" = ");
 		} else {
 			switch (kernel.getCoordStyle()) {
-			case Kernel.COORD_STYLE_FRENCH:
+			case AbstractKernel.COORD_STYLE_FRENCH:
 				// no equal sign
 				sbToString.append(": ");
 
-			case Kernel.COORD_STYLE_AUSTRIAN:
+			case AbstractKernel.COORD_STYLE_AUSTRIAN:
 				// no equal sign
 				break;
 
@@ -1019,7 +1019,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 				return sbBuildValueString;
 				
 			case MPREDUCE:
-				if (toStringMode==Kernel.COORD_COMPLEX){
+				if (toStringMode==AbstractKernel.COORD_COMPLEX){
 					sbBuildValueString.append("(");
 					sbBuildValueString.append(getInhomX());
 					sbBuildValueString.append("+i*");
@@ -1043,7 +1043,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     	}
 			
         switch (toStringMode) {
-        case Kernel.COORD_POLAR:                                            
+        case AbstractKernel.COORD_POLAR:                                            
     		sbBuildValueString.append('(');    
 			sbBuildValueString.append(kernel.format(MyMath.length(getInhomX(), getInhomY())));
 			sbBuildValueString.append("; ");
@@ -1051,7 +1051,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			sbBuildValueString.append(')');
             break;                                
                         
-        case Kernel.COORD_COMPLEX:                    
+        case AbstractKernel.COORD_COMPLEX:                    
         	//if (!isI) { // return just "i" for special i
 				sbBuildValueString.append(kernel.format(getInhomX()));
 				sbBuildValueString.append(" ");
@@ -1064,12 +1064,12 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
        			sbBuildValueString.append('(');    
 				sbBuildValueString.append(kernel.format(getInhomX()));
 				switch (kernel.getCoordStyle()) {
-					case Kernel.COORD_STYLE_AUSTRIAN:
+					case AbstractKernel.COORD_STYLE_AUSTRIAN:
 						sbBuildValueString.append(" | ");
 						break;
 					
 					default:
-						sbBuildValueString.append(Application.unicodeComma);												
+						sbBuildValueString.append(AbstractApplication.unicodeComma);												
 						sbBuildValueString.append(" ");												
 				}
 				sbBuildValueString.append(kernel.format(getInhomY()));                                
@@ -1127,11 +1127,11 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
         	       
         // polar or cartesian coords
         switch(toStringMode) {
-        case Kernel.COORD_POLAR:
+        case AbstractKernel.COORD_POLAR:
             sb.append("\t<coordStyle style=\"polar\"/>\n");
             break;
 
-        case Kernel.COORD_COMPLEX:
+        case AbstractKernel.COORD_COMPLEX:
             sb.append("\t<coordStyle style=\"complex\"/>\n");
             break;
 
@@ -1341,11 +1341,11 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		        
 						double compX = itemA.inhomX - itemB.inhomX;
 	
-						if (Kernel.isZero(compX)) {
+						if (AbstractKernel.isZero(compX)) {
 							double compY = itemA.inhomY - itemB.inhomY;
 							
 							// if x-coords equal, sort on y-coords
-							if (!Kernel.isZero(compY))
+							if (!AbstractKernel.isZero(compY))
 								return compY < 0 ? -1 : +1;
 							
 							// don't return 0 for equal objects, otherwise the TreeSet deletes duplicates
@@ -1734,7 +1734,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			
 			// check if this is currently on geo
 			if (geo.isGeoPoint() && this.isEqual(geo) ||
-					geo.isPath() && ((Path) geo).isOnPath(this, Kernel.EPSILON)) {
+					geo.isPath() && ((Path) geo).isOnPath(this, AbstractKernel.EPSILON)) {
 			
 				incident = true;
 				
@@ -1773,7 +1773,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 					if (geo.isGeoPoint()) {
 						if (!this.isEqual(geo)) incident = false;
 					} else if (geo.isPath()) {
-						if (!((Path) geo).isOnPath(this, Kernel.EPSILON))
+						if (!((Path) geo).isOnPath(this, AbstractKernel.EPSILON))
 							incident = false;
 					} else {
 						incident = false;
@@ -1822,8 +1822,8 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		}		
 		
 		public void randomizeForErrorEstimation(){
-			setCoords(x + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,//TODO: record the error of the point
-					y + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,
+			setCoords(x + (Math.random() *2 -1) *AbstractKernel.EPSILON_SQRT *z,//TODO: record the error of the point
+					y + (Math.random() *2 -1) *AbstractKernel.EPSILON_SQRT *z,
 					z);
 		}	
 		

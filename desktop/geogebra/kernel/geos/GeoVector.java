@@ -34,14 +34,13 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.kernelND.GeoVectorND;
-import geogebra.main.Application;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -137,7 +136,7 @@ Transformable, GeoVectorND {
 			}
 		}
 		catch (CircularDefinitionException e) {
-			Application.debug("set GeoVector: CircularDefinitionException");
+			AbstractApplication.debug("set GeoVector: CircularDefinitionException");
 		}		
 	}
 
@@ -219,7 +218,7 @@ Transformable, GeoVectorND {
 
 		// check for circular definition
 		if (isParentOf(p)){
-			Application.debug(this+" startpoint "+p);
+			AbstractApplication.debug(this+" startpoint "+p);
 			//throw new CircularDefinitionException();
 		}
 
@@ -361,11 +360,11 @@ Transformable, GeoVectorND {
 		sbToString.append(label);
 
 		switch (kernel.getCoordStyle()) {
-		case Kernel.COORD_STYLE_FRENCH:
+		case AbstractKernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
 
-		case Kernel.COORD_STYLE_AUSTRIAN:
+		case AbstractKernel.COORD_STYLE_AUSTRIAN:
 			// no equal sign
 			break;
 
@@ -421,7 +420,7 @@ Transformable, GeoVectorND {
 		default: // continue below
 		}
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:                	
+		case AbstractKernel.COORD_POLAR:                	
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y)));
 			sbBuildValueString.append("; ");
@@ -429,7 +428,7 @@ Transformable, GeoVectorND {
 			sbBuildValueString.append(")");
 			break;
 
-		case Kernel.COORD_COMPLEX:              	
+		case AbstractKernel.COORD_COMPLEX:              	
 			sbBuildValueString.append(kernel.format(x));
 			sbBuildValueString.append(" ");
 			sbBuildValueString.append(kernel.formatSigned(y));
@@ -440,7 +439,7 @@ Transformable, GeoVectorND {
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(x));
 			switch (kernel.getCoordStyle()) {
-			case Kernel.COORD_STYLE_AUSTRIAN:
+			case AbstractKernel.COORD_STYLE_AUSTRIAN:
 				sbBuildValueString.append(" | ");
 				break;
 
@@ -494,11 +493,11 @@ Transformable, GeoVectorND {
 
 		// polar or cartesian coords
 		switch(toStringMode) {
-		case Kernel.COORD_POLAR:
+		case AbstractKernel.COORD_POLAR:
 			sb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
 
-		case Kernel.COORD_COMPLEX:
+		case AbstractKernel.COORD_COMPLEX:
 			sb.append("\t<coordStyle style=\"complex\"/>\n");
 			break;
 
@@ -633,7 +632,7 @@ Transformable, GeoVectorND {
 		else sb.setLength(0);
 
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:                	
+		case AbstractKernel.COORD_POLAR:                	
 			sb.append("(");		
 			sb.append(kernel.format(MyMath.length(x, y)));
 			sb.append("; ");
@@ -641,7 +640,7 @@ Transformable, GeoVectorND {
 			sb.append(")");
 			break;
 
-		case Kernel.COORD_COMPLEX:              	
+		case AbstractKernel.COORD_COMPLEX:              	
 			sb.append(kernel.format(x));
 			sb.append(" ");
 			sb.append(kernel.formatSigned(y));

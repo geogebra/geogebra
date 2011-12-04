@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -31,11 +32,10 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Construction;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
 import geogebra.kernel.PathMoverGeneric;
@@ -50,7 +50,6 @@ import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.roots.RealRootFunction;
-import geogebra.main.Application;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -109,7 +108,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @param label label for function
 	 * @param f function
 	 */
-	public GeoFunction(Construction c, String label, Function f) {
+	public GeoFunction(AbstractConstruction c, String label, Function f) {
 		this(c, f);
 		setLabel(label);
 		//TODO: Remove following code for 5.0 -- it's there to make sure no functions of y are created	
@@ -119,12 +118,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		}
 	}
 	
-	public GeoFunction(Construction c, Function f) {
+	public GeoFunction(AbstractConstruction c, Function f) {
 		this(c);
 		fun = f;				
 		fun.initFunction();
 		if(fun.isBooleanFunction()){
-			GeoElement ge = ((Construction) cons).getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
+			GeoElement ge = (GeoElement) cons.getConstructionDefaults().getDefaultGeo(AbstractConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
 			setVisualStyle(ge);
 			setAlphaValue(ge.getAlphaValue());
 			//initialize inequlaities to make sure that drawable is made when necessary
@@ -140,7 +139,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	//Currently, the composite function is only for internal use
 	//The expression is not correct but it is not to be shown anyway.
-	public GeoFunction(Construction c, GeoImplicitPoly iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
+	public GeoFunction(AbstractConstruction c, GeoImplicitPoly iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
 		this(c);
 		this.iPoly = iPoly;
 		geoFunctionType = FUNCTION_COMPOSITE_IPOLY_FUNCS;
@@ -266,7 +265,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return;
 		} else {
 			isDefined = geo.isDefined();
-			fun = new Function(geoFun, ((Kernel)kernel));		
+			fun = new Function(geoFun, kernel);		
 		}			
 	
 		// macro OUTPUT
@@ -1353,7 +1352,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 				grad = 0;
 			}
 			
-			if (!GeoFunction.CASError(gradientStrMinus, false) && !Kernel.isZero(grad)) {
+			if (!GeoFunction.CASError(gradientStrMinus, false) && !AbstractKernel.isZero(grad)) {
 				sb.setLength(0);
 		        sb.append("Limit(");
 		        sb.append(funVarStr[0]); // function expression
@@ -1498,7 +1497,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		    			if (verticalAsymptotesArray[i].trim().equals("")) isInRange = false; // was complex root
 		    			//isInRange = parentFunction.evaluateCondition(Double.parseDouble(verticalAsymptotesArray[i]));
 		    			else isInRange = parentFunction.evaluateCondition(((Kernel)kernel).getAlgebraProcessor().evaluateToNumeric(verticalAsymptotesArray[i], true).getDouble());
-		    		} catch (Exception e) {Application.debug("Error parsing: "+verticalAsymptotesArray[i]);}
+		    		} catch (Exception e) {AbstractApplication.debug("Error parsing: "+verticalAsymptotesArray[i]);}
 		    		if (reverseCondition) isInRange = !isInRange;
 		    		
 		    		if (!repeat && isInRange) {
@@ -1600,7 +1599,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		double rd=r.getNumber().getDouble(),
 		a=S.x,
 		b=S.y;
-		if(Kernel.isZero(rd)){
+		if(AbstractKernel.isZero(rd)){
 			setUndefined();
 			return;
 		}

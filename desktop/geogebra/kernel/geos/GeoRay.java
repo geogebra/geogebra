@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
@@ -328,7 +329,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
     	double ny = startPoint.y-x;
     	GeoPoint ret = new GeoPoint(cons);
     	ret.setCoords(nx, ny, 1);
-    	if(!isOnPath(ret, Kernel.EPSILON)){
+    	if(!isOnPath(ret, AbstractKernel.EPSILON)){
     		nx = startPoint.x-y;
         	ny = startPoint.y+x;
         	ret.setCoords(nx, ny, 1);

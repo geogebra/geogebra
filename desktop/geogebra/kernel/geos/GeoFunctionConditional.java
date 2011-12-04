@@ -12,7 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import geogebra.cas.CASgeneric;
+import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
@@ -21,8 +22,6 @@ import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
@@ -56,7 +55,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * @param ifFun
 	 * @param elseFun may be null
 	 */
-	public GeoFunctionConditional(Construction c, 
+	public GeoFunctionConditional(AbstractConstruction c, 
 			GeoFunction condFun, GeoFunction ifFun, GeoFunction elseFun) {
 		super(c);
 		this.condFun 	= condFun;		
@@ -407,7 +406,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 	
 	public double getLimit(double x, int direction) {
-		if (evaluateCondition(x-2*direction*Kernel.getEpsilon()))
+		if (evaluateCondition(x-2*direction*AbstractKernel.getEpsilon()))
 			return ifFun.getLimit(x, direction);
 			else if (elseFun != null) return elseFun.getLimit(x, direction);
 		return Double.NaN;
@@ -577,7 +576,7 @@ public class GeoFunctionConditional extends GeoFunction {
 			else if(lower == null && upper != null)
 				ret = varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper);
 			else if(lower!=null && upper!=null){				
-				if(Kernel.isEqual(lower,upper) && !lowerSharp && !upperSharp)
+				if(AbstractKernel.isEqual(lower,upper) && !lowerSharp && !upperSharp)
 					ret=varString+" = "+kernel.format(lower);
 				else
 					ret = kernel.format(lower)+" "+(lowerSharp?"<":Unicode.LESS_EQUAL)+" "+varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper);
