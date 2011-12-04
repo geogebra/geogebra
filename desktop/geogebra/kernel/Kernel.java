@@ -45,6 +45,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.util.AbstractMyMath2;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.LaTeXCache;
@@ -145,6 +146,7 @@ import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
 import geogebra.util.GeoLaTeXCache;
+import geogebra.util.MyMath2;
 import geogebra.util.NumberFormatDesktop;
 import geogebra.util.ScientificFormat;
 
@@ -8114,6 +8116,10 @@ public class Kernel extends AbstractKernel{
 	
 	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
 		return new ScientificFormat(a, b, c);
+	}
+	
+	public AbstractMyMath2 getMyMath2() {
+		return new MyMath2();
 	}
 
 }

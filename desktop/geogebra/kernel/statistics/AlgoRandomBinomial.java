@@ -132,7 +132,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 	private double logOfKFactorial(int k) {
 		if (k<10) {
-			if (logtable[k] == 0) logtable[k] = Math.log(MyMath2.factorial(k+1d));
+			if (logtable[k] == 0) logtable[k] = Math.log(kernel.getMyMath2().factorial(k+1d));
 			return logtable[k];
 		}
 

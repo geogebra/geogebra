@@ -5,29 +5,29 @@ import geogebra.common.kernel.AbstractKernel;
 
 
 public class AbstractMyMath2 {
-	public static double gammaIncomplete(double a, double x, AbstractKernel kernel) {
+	public double gammaIncomplete(double a, double x, AbstractKernel kernel) {
 
 			return Double.NaN;
 
 	}
 	
-	public static double gammaIncompleteRegularized(double a, double x) {
+	public double gammaIncompleteRegularized(double a, double x) {
 		return Double.NaN;
 	}
 	
-	 public static double beta(double a, double b) {
+	 public double beta(double a, double b) {
 
 		 return Double.NaN;
 
 	}
 
-	 public static double betaIncomplete(double a, double b, double x) {
+	 public double betaIncomplete(double a, double b, double x) {
 
 		 return Double.NaN;
 
 	}
 
-	 public static double betaIncompleteRegularized(double a, double b,
+	 public double betaIncompleteRegularized(double a, double b,
 			double x) {
 
 		 return Double.NaN;
@@ -40,17 +40,17 @@ public class AbstractMyMath2 {
 	 * @param x 
 	 * @return factorial
 	 */
-	 public static double factorial(double x) {
+	 public double factorial(double x) {
 
 		 return Double.NaN;
 	}
 
 	
-	 public static double gamma(double x, AbstractKernel kernel) {
+	 public double gamma(double x, AbstractKernel kernel) {
 		 return Double.NaN;
 	}
 
-	 public static double erf(double mean, double standardDeviation,
+	 public double erf(double mean, double standardDeviation,
 			double x) {
 		 return Double.NaN;
 	}

@@ -135,7 +135,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	
 	private double logOfKFactorial(int k) {
 		if (k<10) {
-			if (logtable[k] == 0) logtable[k] = Math.log(MyMath2.factorial(k));
+			if (logtable[k] == 0) logtable[k] = Math.log(kernel.getMyMath2().factorial(k));
 			return logtable[k];
 		}
 	

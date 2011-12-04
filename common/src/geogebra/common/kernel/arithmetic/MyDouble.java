@@ -276,7 +276,7 @@ implements NumberValue, Comparable {
     
     final public MyDouble log() {  val = Math.log(val);  isAngle = false; return this; }
     final public MyDouble log(NumberValue base) {  val = Math.log(val) / Math.log(base.getDouble());  isAngle = false; return this; }
-    final public MyDouble erf() {  val = AbstractMyMath2.erf(0.0, 1.0, val);  isAngle = false; return this; }
+    final public MyDouble erf() {  val = kernel.getMyMath2().erf(0.0, 1.0, val);  isAngle = false; return this; }
     final public MyDouble log10() {  val = Math.log(val)/MyMath.LOG10;  isAngle = false; return this; }
     final public MyDouble log2() {  val = Math.log(val)/MyMath.LOG2;  isAngle = false; return this; }
     
@@ -419,13 +419,13 @@ implements NumberValue, Comparable {
 	}
 	
 	final public MyDouble factorial() {
-		val = AbstractMyMath2.factorial(val);
+		val = kernel.getMyMath2().factorial(val);
 		isAngle = false;
 		return this;
 	}
 	
 	final public MyDouble gamma() {
-		val = AbstractMyMath2.gamma(val, kernel);
+		val = kernel.getMyMath2().gamma(val, kernel);
 		isAngle = false;
 		return this;
 	}	
@@ -599,33 +599,33 @@ implements NumberValue, Comparable {
 	}
 
 	public ExpressionValue gammaIncompleteRegularized(NumberValue lt) {
-		val = AbstractMyMath2.gammaIncompleteRegularized(lt.getDouble(), val);
+		val = kernel.getMyMath2().gammaIncompleteRegularized(lt.getDouble(), val);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
-		val = AbstractMyMath2.gammaIncomplete(lt.getDouble(), val, kernel);
+		val = kernel.getMyMath2().gammaIncomplete(lt.getDouble(), val, kernel);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue beta(NumberValue lt) {
-		val = AbstractMyMath2.beta(val, lt.getDouble());
+		val = kernel.getMyMath2().beta(val, lt.getDouble());
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue betaIncomplete(VectorValue lt) {
 		GeoVec2DInterface vec = lt.getVector();
-		val = AbstractMyMath2.betaIncomplete(vec.getX(), vec.getY(), val);
+		val = kernel.getMyMath2().betaIncomplete(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
 		GeoVec2DInterface vec = lt.getVector();
-		val = AbstractMyMath2.betaIncompleteRegularized(vec.getX(), vec.getY(), val);
+		val = kernel.getMyMath2().betaIncompleteRegularized(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}

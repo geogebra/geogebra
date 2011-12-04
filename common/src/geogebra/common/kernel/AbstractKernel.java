@@ -3,6 +3,7 @@ package geogebra.common.kernel;
 
 import java.util.Stack;
 
+import geogebra.common.util.AbstractMyMath2;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
@@ -1803,4 +1804,8 @@ public abstract class AbstractKernel {
 
 	public abstract GeoElementInterface Semicircle(String label, GeoPointInterface geoPoint,
 			GeoPointInterface geoPoint2);
+
+	public AbstractMyMath2 getMyMath2() {
+		return new AbstractMyMath2();
+	}
 }
