@@ -277,6 +277,7 @@ implements NumberValue, Comparable {
     final public MyDouble log() {  val = Math.log(val);  isAngle = false; return this; }
     final public MyDouble log(NumberValue base) {  val = Math.log(val) / Math.log(base.getDouble());  isAngle = false; return this; }
     final public MyDouble erf() {  val = kernel.getMyMath2().erf(0.0, 1.0, val);  isAngle = false; return this; }
+    final public MyDouble psi() {  val = kernel.getMyMath2().psi(val);  isAngle = false; return this; }
     final public MyDouble log10() {  val = Math.log(val)/MyMath.LOG10;  isAngle = false; return this; }
     final public MyDouble log2() {  val = Math.log(val)/MyMath.LOG2;  isAngle = false; return this; }
     

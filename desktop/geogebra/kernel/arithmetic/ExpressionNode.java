@@ -2303,8 +2303,6 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case FACTORIAL:
 			switch (STRING_TYPE) {
 			case MPREDUCE:
-				// TODO message WWWWWWWWWWWW ?
-				Application.printStacktrace("WWWWWWWWWWWW");
 				sb.append("factorial(");
 				sb.append(leftStr);
 				sb.append(")");				
@@ -2895,6 +2893,32 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 			default:
 				sb.append("erf(");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+				
+			}
+			break;
+
+		case PSI:
+			switch (STRING_TYPE) {
+			case LATEX:
+				sb.append("\\digamma");
+				sb.append(leftBracket(STRING_TYPE));
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
+				break;
+
+			case MAXIMA:
+			case MATH_PIPER:
+			case MPREDUCE:
+				sb.append("psi(");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+
+			default:
+				sb.append("psi(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;

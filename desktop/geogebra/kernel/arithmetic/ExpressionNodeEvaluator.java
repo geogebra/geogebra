@@ -1256,6 +1256,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				throw new MyError(app, str);
 			}
 
+		case PSI:
+			// log(base, number)
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().psi();
+			} else {
+				String[] str = { "IllegalArgument", "erf", lt.toString() };
+				throw new MyError(app, str);
+			}
+
 		case LOG10:
 			// log(number)
 			if (lt.isNumberValue())

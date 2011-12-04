@@ -52,7 +52,7 @@ public interface ExpressionNodeConstants {
     ,SGN,XCOORD,YCOORD,ZCOORD,COSH,SINH,TANH,ACOSH,ASINH,ATANH,CSC,SEC
     ,COT,CSCH,SECH,COTH,FLOOR,CEIL,FACTORIAL,ROUND,GAMMA,GAMMA_INCOMPLETE
     ,GAMMA_INCOMPLETE_REGULARIZED,BETA,BETA_INCOMPLETE,BETA_INCOMPLETE_REGULARIZED
-    ,ERF,LOG10,LOG2,CBRT,RANDOM,CONJUGATE,ARG,FUNCTION,FUNCTION_NVAR,
+    ,ERF,PSI,LOG10,LOG2,CBRT,RANDOM,CONJUGATE,ARG,FUNCTION,FUNCTION_NVAR,
     VEC_FUNCTION,DERIVATIVE,ELEMENT_OF,  
     
     // spreadsheet absolute reference using $ signs
@@ -69,7 +69,7 @@ public interface ExpressionNodeConstants {
 		"sgn", "sqrt", "exp", "log", "ln", "ld", "lg", "cos", "sin", "tan",
 		"acos", "arcos", "arccos", "asin", "arcsin", "atan", "arctan", 
 		"cosh", "sinh", "tanh", "acosh", "arcosh", "arccosh", "asinh",
-		"arcsinh", "atanh", "arctanh", "atan2", "erf", "freehand",
+		"arcsinh", "atanh", "arctanh", "atan2", "erf", "psi", "freehand",
 		"floor", "ceil", "round", "random", "conjugate", "arg",
 		"gamma", "gammaRegularized", "beta", "betaRegularized", 
 		"sec", "csc", "cosec", "cot", "sech", "csch", "coth"));

@@ -4,6 +4,7 @@ import geogebra.common.kernel.AbstractKernel;
 
 
 
+
 public class AbstractMyMath2 {
 	public double gammaIncomplete(double a, double x, AbstractKernel kernel) {
 
@@ -51,9 +52,13 @@ public class AbstractMyMath2 {
 	}
 
 	 public double erf(double mean, double standardDeviation,
-			double x) {
-		 return Double.NaN;
-	}
+				double x) {
+			 return Double.NaN;
+		}
+
+	 public double psi(double x) {
+			 return Double.NaN;
+		}
 
 
 }

@@ -2,6 +2,7 @@ package geogebra.util;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.util.AbstractMyMath2;
+import geogebra.main.Application;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
@@ -125,6 +126,10 @@ public class MyMath2 extends AbstractMyMath2{
 				return Double.NaN;
 			}
 		}
+	}
+
+	final public double psi(double x) {
+		return Gamma.digamma(x);
 	}
 
 

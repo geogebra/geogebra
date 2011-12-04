@@ -356,6 +356,7 @@ TOKEN: {
 |	< ATAN_FUNC: ( "atan(" | "arctan(" | "ArcTan(" )> 
 |	< ATAN2_FUNC: ( "atan2(" | "arctan2(" | "ArcTan2(" | "myatan2("  )> 
 |	< ERF_FUNC: ( "erf(" )> 
+|	< PSI_FUNC: ( "psi(" )> // digamma function (returned by mpreduce)
 |	< COSH_FUNC: ( "cosh(" | "Cosh(" ) > 
 |	< COSHN_FUNC: ( "cosh" | "Cosh" ) (< POWERN > ) + "(" > 
 |	< SINH_FUNC: ( "sinh(" | "Sinh(" ) > 
@@ -2001,6 +2002,9 @@ ExpressionNode numberFunction():
 |
     <ERF_FUNC> en = expressionOrEquation() ")"
       { return new ExpressionNode(kernel, en, Operation.ERF, null ); }  
+|
+    <PSI_FUNC> en = expressionOrEquation() ")"
+      { return new ExpressionNode(kernel, en, Operation.PSI, null ); }  
 |
     <COSH_FUNC> en = expressionOrEquation() ")"
       { return new ExpressionNode(kernel, en, Operation.COSH, null); }   
