@@ -1,8 +1,8 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -16,6 +16,7 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
@@ -1231,7 +1232,14 @@ class CmdSetValue extends CmdScripting {
 
 		switch (n) {
 		case 2:
-			if (arg[0].isIndependent() || arg[0].isMoveable()) {
+			if (arg[0].isGeoFunction() && arg[0].isGeoFunctionable()) {
+				// eg f(x)=x^2
+				// SetValue[f,1]
+				GeoFunction fun = (GeoFunction)arg[0];
+				GeoFunctionable val = (GeoFunctionable) arg[1];
+				fun.set(val.getGeoFunction());
+				fun.updateRepaint();
+			} else if (arg[0].isIndependent() || arg[0].isMoveable()) {
 				if (arg[0].isGeoNumeric() && arg[1].isNumberValue()) {
 					NumberValue num = (NumberValue) arg[1];
 					((GeoNumeric) arg[0]).setValue(num.getDouble());
