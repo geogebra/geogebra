@@ -7,6 +7,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoTextInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
@@ -22,7 +23,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Comparator;
 
 public class GeoText extends GeoElement
-implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties {
+implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoTextInterface {
 
 	private String str; 	
 	private GeoPointND startPoint; // location of Text on screen

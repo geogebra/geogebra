@@ -52,6 +52,7 @@ import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoTextInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3805,7 +3806,7 @@ public abstract class GeoElement
 	final public String getAlgebraDescriptionHTML(boolean addHTMLtag) {
 		if (strAlgebraDescriptionHTMLneedsUpdate) {
 			
-			if(this instanceof GeoText){
+			if(this.isGeoText()){
 				strAlgebraDescriptionHTML = indicesToHTML(toValueString(),false);
 			} else {
 				strAlgebraDescriptionHTML = indicesToHTML(getAlgebraDescription(), false);
@@ -3930,11 +3931,11 @@ public abstract class GeoElement
 		}
 
 		// handle GeoText with LaTeX
-		else if (geo.isGeoText() && ((GeoText)geo).isLaTeX()){
+		else if (geo.isGeoText() && ((GeoTextInterface)geo).isLaTeX()){
 			sb.append(algebraDesc.split("=")[0]);
 			sb.append("\\, = \\,");
 			sb.append("\\text{``"); // left quote
-			sb.append(((GeoText)geo).getTextString());
+			sb.append(((GeoTextInterface)geo).getTextString());
 			sb.append("''}"); // right quote
 		}		
 
@@ -5125,7 +5126,7 @@ public abstract class GeoElement
 					}
 				} else if (isGeoText()) {
 					// check for GeoText with unlabeled start point
-					GeoText movedGeoText = (GeoText) this;
+					GeoTextInterface movedGeoText = (GeoTextInterface) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
 						//	absolute location: change location
 						GeoPointInterface loc = (GeoPointInterface) movedGeoText.getStartPoint();
