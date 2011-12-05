@@ -96,9 +96,9 @@ class CmdFillCells extends CommandProcessor {
 
 							MyPoint p = al.get(i);														
 
-							GeoElement.setSpreadsheetCell(app, row, minCol,
+							kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol,
 									new GeoNumeric(cons, p.x));
-							GeoElement.setSpreadsheetCell(app, row, minCol + 1,
+							kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol + 1,
 									new GeoNumeric(cons, p.y));
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -123,7 +123,7 @@ class CmdFillCells extends CommandProcessor {
 										GeoElementSpreadsheet.getSpreadsheetCellName(col,
 												row)).remove();
 
-								GeoElement.setSpreadsheetCell(app, row, col,
+								kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
 										geo);
 							} catch (Exception e) {
 								app.setScrollToShow(true);
@@ -176,7 +176,7 @@ class CmdFillCells extends CommandProcessor {
 							for (int r = 0; r < rows; r++) {
 								GeoList rowList = (GeoList) list.get(r);
 								for (int c1 = 0; c1 < cols; c1++) {
-									GeoElement
+									kernel.getGeoElementSpreadsheet()
 											.setSpreadsheetCell(app, row + r,
 													column + c1, rowList
 															.get(c1).copy());
@@ -196,7 +196,7 @@ class CmdFillCells extends CommandProcessor {
 						for (int i = list.size() - 1; i >= 0; i--)
 							try {
 								// Application.debug("setting "+row+" "+(column+i)+" to "+list.get(i).toString());
-								GeoElement.setSpreadsheetCell(app, row, column
+								kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, column
 										+ i, list.get(i).copy());
 							} catch (Exception e) {
 								e.printStackTrace();

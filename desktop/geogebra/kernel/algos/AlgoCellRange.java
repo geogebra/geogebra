@@ -78,8 +78,9 @@ public class AlgoCellRange extends AlgoElement {
 		// get range: cell coordinates of range in spreadsheet
 		String startLabel = startCell.getLabel();		
 		String endLabel = endCell.getLabel();
-    	Point startCoords = GeoElement.getSpreadsheetCoordsForLabel(startLabel);
-    	Point endCoords = GeoElement.getSpreadsheetCoordsForLabel(endLabel);
+		GeoElementSpreadsheet geoElementSpreadsheet = (GeoElementSpreadsheet)kernel.getGeoElementSpreadsheet();
+    	Point startCoords = geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(startLabel);
+    	Point endCoords = geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(endLabel);
     	toStringOutput = startLabel + ":" + endLabel;
     	
     	// build list with cells in range
@@ -176,8 +177,8 @@ public class AlgoCellRange extends AlgoElement {
     public Point[] getRectangle() {
 		String startLabel = startCell.getLabel();		
 		String endLabel = endCell.getLabel();
-    	Point startCoords = GeoElement.getSpreadsheetCoordsForLabel(startLabel);
-    	Point endCoords = GeoElement.getSpreadsheetCoordsForLabel(endLabel);
+    	Point startCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(startLabel);
+    	Point endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endLabel);
 
     	Point[] ret = {startCoords, endCoords};
     	return ret;  	

@@ -530,7 +530,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// number is the number of current roots
 	protected void updateLabels(int number) {
 		if (initLabels) {
-			GeoElement.setLabels(labels, rootPoints);
+			GeoElement.setLabels(labels, rootPoints,kernel.getGeoElementSpreadsheet());
 			initLabels = false;
 		} else {
 			for (int i = 0; i < number; i++) {

@@ -14,6 +14,7 @@ package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -397,7 +398,7 @@ public class PropertiesDialog
 				if (node == node.getRoot()) {	
 					// root: add all objects
 					selectionList.clear();
-					selectionList.addAll(app.getKernel().getConstruction().getGeoSetLabelOrder());										
+					selectionList.addAll(kernel.getConstruction().getGeoSetLabelOrder());										
 					i = selPath.length;		
 				}				
 				else if (node.getParent() == node.getRoot()) {
@@ -683,7 +684,7 @@ public class PropertiesDialog
 			if (typeNode == null)
 				return null;
 			
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel());
+			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(),kernel.getGeoElementSpreadsheet());
 			if (pos == -1)
 				return null;
 			else {
@@ -725,7 +726,7 @@ public class PropertiesDialog
 			// get type node
 			String typeString = geo.getObjectType();
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(typeString);
-			
+			AbstractGeoElementSpreadsheet ges = kernel.getGeoElementSpreadsheet();
 			// init type node
 			boolean initing = typeNode == null;
 			if (initing) {
@@ -747,12 +748,12 @@ public class PropertiesDialog
 			}
 			
 			// check if already present in type node
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel());
+			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(),ges);
 			if (pos >= 0) return;
 			
 			// add geo to type node   
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(geo);
-			pos = AlgebraView.getInsertPosition(typeNode, geo, AlgebraView.SortMode.DEPENDENCY);
+			pos = AlgebraView.getInsertPosition(typeNode, geo, AlgebraView.SortMode.DEPENDENCY,ges);
 			treeModel.insertNodeInto(newNode, typeNode, pos);
 			
 			// make sure something is selected
@@ -789,8 +790,10 @@ public class PropertiesDialog
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(geo.getObjectType());
 			if (typeNode == null) return;
 									
+			AbstractGeoElementSpreadsheet ges = kernel.getGeoElementSpreadsheet();
+			
 			int pos = binarySearch ?
-					AlgebraView.binarySearchGeo(typeNode, geo.getLabel()) :					
+					AlgebraView.binarySearchGeo(typeNode, geo.getLabel(),ges) :					
 					AlgebraView.linearSearchGeo(typeNode, geo.getLabel());
 			if (pos > -1) {				
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) typeNode.getChildAt(pos);					
@@ -815,7 +818,7 @@ public class PropertiesDialog
 			if (typeNode == null) return null;
 			
 			// find pos of geo 
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel());					
+			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(),kernel.getGeoElementSpreadsheet());					
 			if (pos == -1) return null;
 					
 			return new TreePath(((DefaultMutableTreeNode)typeNode.getChildAt(pos)).getPath());			

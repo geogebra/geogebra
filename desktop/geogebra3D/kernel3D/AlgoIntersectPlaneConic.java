@@ -21,7 +21,7 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectLineConic3D {
 	public AlgoIntersectPlaneConic(Construction cons, String[] labels,
 			GeoCoordSys2D plane, GeoConicND c) {	
 		this(cons, plane, c);
-		GeoElement.setLabels(labels, P);    
+		GeoElement.setLabels(labels, P,kernel.getGeoElementSpreadsheet());    
 	}
 	
 	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane, GeoConicND c) {		

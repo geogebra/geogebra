@@ -41,12 +41,12 @@ public class AlgoVertex extends AlgoElement {
         
     AlgoVertex(Construction cons, String label, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(label, vertex);            
+        GeoElement.setLabels(label, vertex,kernel.getGeoElementSpreadsheet());            
     }
     
     public AlgoVertex(Construction cons, String [] labels, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(labels, vertex);            
+        GeoElement.setLabels(labels, vertex,kernel.getGeoElementSpreadsheet());            
     }
     
     AlgoVertex(Construction cons, GeoConic c) {

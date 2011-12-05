@@ -59,6 +59,7 @@ public interface GeoElementInterface {
 	public boolean isGeoImage();
 	public boolean isGeoPolygon();
 	public boolean isGeoConic();
-	public String getCASString(boolean b);	
+	public String getCASString(boolean b);
+	public boolean isGeoFunction();	
 	
 }

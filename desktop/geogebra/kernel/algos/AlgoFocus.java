@@ -40,12 +40,12 @@ public class AlgoFocus extends AlgoElement {
 
 	AlgoFocus(Construction cons, String label, GeoConic c) {
 		this(cons, c);
-		GeoElement.setLabels(label, focus);
+		GeoElement.setLabels(label, focus,kernel.getGeoElementSpreadsheet());
 	}
 
 	public AlgoFocus(Construction cons, String[] labels, GeoConic c) {
 		this(cons, c);
-		GeoElement.setLabels(labels, focus);
+		GeoElement.setLabels(labels, focus,kernel.getGeoElementSpreadsheet());
 	}
 
 	AlgoFocus(Construction cons, GeoConic c) {

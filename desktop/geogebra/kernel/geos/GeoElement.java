@@ -44,6 +44,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoCasCellInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoLineInterface;
@@ -508,6 +509,7 @@ public abstract class GeoElement
 	/**	set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
+	private AbstractGeoElementSpreadsheet geoElementSpreadsheet;
 	/********************************************************/
 
 	/** Creates new GeoElement for given construction
@@ -517,7 +519,7 @@ public abstract class GeoElement
 		super(c);
 
 		graphicsadapter = kernel.newGeoElementGraphicsAdapter();
-
+		geoElementSpreadsheet = kernel.getGeoElementSpreadsheet();
 		// this.geoID = geoCounter++;
 		
 		// moved to subclasses, see
@@ -1578,10 +1580,10 @@ public abstract class GeoElement
 			return getCaption();
 		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right (spreadsheet objects only)
 			String label = getLabel();
-			Point coords = getSpreadsheetCoordsForLabel(label);
+			Point coords = (Point) geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(label);
 			if (coords == null) return "";
 			coords.x++;
-			label = GeoElementSpreadsheet.getSpreadsheetCellName(coords.x, coords.y);
+			label = geoElementSpreadsheet.dogetSpreadsheetCellName(coords.x, coords.y);
 			if (label == null) return "";
 			GeoElement geo = (GeoElement) kernel.lookupLabel(label);
 			return (geo == null) ? "" : geo.toValueString();
@@ -2345,7 +2347,7 @@ public abstract class GeoElement
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			Point p = GeoElementSpreadsheet.spreadsheetIndices(getLabel());
+			Point p = (Point) geoElementSpreadsheet.dospreadsheetIndices(getLabel());
 			
 			if (p.x >= 0 && p.y >= 0) {
 				spreadsheetCoords.setLocation(p.x, p.y);
@@ -2361,21 +2363,7 @@ public abstract class GeoElement
 		//Application.debug("update spread sheet coords: " + this + ", " +  spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
 	}
 
-	/**
-	 * Returns a point with the spreadsheet coordinates of the given inputLabel.
-	 * Note that this can also be used for names that include $ signs like "$A1".
-	 * @param inputLabel label of spredsheet cell
-	 * @return null for non-spreadsheet names
-	 */
-	public static Point getSpreadsheetCoordsForLabel(String inputLabel) {
-		// we need to also support wrapped GeoElements like
-		// $A4 that are implemented as dependent geos (using ExpressionNode)
-		Point p = GeoElementSpreadsheet.spreadsheetIndices(inputLabel);
-		if (p.x >= 0 && p.y >= 0)
-			return p;
-		else
-			return null;
-	}
+	
 
 	
 
@@ -2390,7 +2378,7 @@ public abstract class GeoElement
 	 * @return spreadsheet reference name of this GeoElement with $ signs
      */
 	public String getSpreadsheetLabelWithDollars(boolean col$, boolean row$) {
-		String colName = GeoElementSpreadsheet.getSpreadsheetColumnName(spreadsheetCoords.x);
+		String colName = geoElementSpreadsheet.dogetSpreadsheetColumnName(spreadsheetCoords.x);
 		String rowName = Integer.toString(spreadsheetCoords.y + 1);
 
 		StringBuilder sb = new StringBuilder(label.length() + 2);
@@ -2405,11 +2393,11 @@ public abstract class GeoElement
 	 * compares labels alphabetically, but spreadsheet labels are sorted nicely
 	 * eg A1, A2, A10 not A1, A10, A2
 	 */
-	final public static int compareLabels(String label1, String label2) {
+	final public static int compareLabels(String label1, String label2,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
 
-		if (GeoElementSpreadsheet.isSpreadsheetLabel(label1) && GeoElementSpreadsheet.isSpreadsheetLabel(label2)) {
-			Point p1 = GeoElement.getSpreadsheetCoordsForLabel(label1);
-			Point p2 = GeoElement.getSpreadsheetCoordsForLabel(label2);
+		if (geoElementSpreadsheet.doisSpreadsheetLabel(label1) && geoElementSpreadsheet.doisSpreadsheetLabel(label2)) {
+			Point p1 = (Point)geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(label1);
+			Point p2 = (Point)geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(label2);
 			//Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+" "+p2.y);
 			if (p1.x != p2.x) return p1.x - p2.x;
 			return p1.y - p2.y;
@@ -2427,49 +2415,7 @@ public abstract class GeoElement
 
 	private static volatile StringBuilder sb = null;
 
-	/*
-	 * used to set a cell to another geo
-	 * used by FillCells[] etc
-	 */
-	public static void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElement cellGeo) {
-		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(col, row);
-
-		if (sb == null)
-			sb = new StringBuilder();
-		else
-			sb.setLength(0);
-
-		sb.append(cellName);
-		if (cellGeo.isGeoFunction()) sb.append("(x)");
-
-		// getLabel() returns algoParent.getCommandDescription() or  toValueString()
-		// if there's no label (eg {1,2})
-		String label = cellGeo.getLabel();
-
-		// need an = for B3=B4
-		// need a : for B2:x^2 + y^2 = 2
-		if (label.indexOf('=') == -1) sb.append('=');
-		else sb.append(':');
-
-		sb.append(label);
-
-		// we only sometimes need (x), eg
-		// B2(x)=f(x)
-		// B2(x)=x^2
-		if (cellGeo.isGeoFunction() && cellGeo.isLabelSet()) sb.append("(x)");
-
-		//Application.debug(sb.toString());
-
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), false);
-
-			GeoElementInterface cell = app.getKernel().lookupLabel(cellName);
-			if (cell != null) {
-				((GeoElement)cell).setVisualStyle(cellGeo);
-				((GeoElement)cell).setAuxiliaryObject(true);
-			}
-
-	}
-
+	
 	
 		
 	
@@ -2522,7 +2468,8 @@ public abstract class GeoElement
 	 * @param labelPrefix 
 	 * @param geos 
 	 */
-	public static void setLabels(String labelPrefix, GeoElement[] geos) {
+	public static void setLabels(String labelPrefix, GeoElement[] geos,AbstractGeoElementSpreadsheet
+			geoElementSpreadsheet) {
 		if (geos == null) return;
 
 		int visible = 0;
@@ -2545,14 +2492,14 @@ public abstract class GeoElement
 
 			default :
 				// is this a spreadsheet label?
-				Point p = GeoElementSpreadsheet.spreadsheetIndices(labelPrefix);
+				Point p = (Point) geoElementSpreadsheet.dospreadsheetIndices(labelPrefix);
 				if (p.x >= 0 && p.y >= 0) {
 					// more than one visible geo and it's a spreadsheet cell
 					// use D1, E1, F1, etc as names
 					int col = p.x;
 					int row = p.y;
 					for (int i = 0; i < geos.length; i++)
-						geos[i].setLabel(geos[i].getFreeLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col + i, row)));
+						geos[i].setLabel(geos[i].getFreeLabel(geoElementSpreadsheet.dogetSpreadsheetCellName(col + i, row)));
 				} else { // more than one visible geo: use indices if we got a prefix
 					for (int i = 0; i < geos.length; i++)
 						geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
@@ -2566,15 +2513,15 @@ public abstract class GeoElement
 	 * @param labels array of labels
 	 * @param geos array of geos
 	 */
-	public static void setLabels(String[] labels, GeoElement[] geos) {
-		setLabels(labels, geos, false);
+	public static void setLabels(String[] labels, GeoElement[] geos,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+		setLabels(labels, geos, false,geoElementSpreadsheet);
 	}
 
-	static void setLabels(String[] labels, GeoElement[] geos, boolean indexedOnly) {
+	static void setLabels(String[] labels, GeoElement[] geos, boolean indexedOnly,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
 		int labelLen = (labels == null) ? 0 : labels.length;
 
 		if (labelLen == 1 && labels[0] != null && !labels[0].equals("")) {
-			setLabels(labels[0], geos);
+			setLabels(labels[0], geos,geoElementSpreadsheet);
 			return;
 		}
 

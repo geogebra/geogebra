@@ -1,10 +1,14 @@
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
+
 import java.awt.Point;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GeoElementSpreadsheet {
+public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet{
 	/*
 	 * match A1, ABG1, A123
 	 * but not A0, A000, A0001 etc
@@ -77,6 +81,86 @@ public class GeoElementSpreadsheet {
 			if (! matcher.matches()) return -1;
 			String s = matcher.group(2);
 			return Integer.parseInt(s) - 1;
+		}
+		
+		/**
+		 * Returns a point with the spreadsheet coordinates of the given inputLabel.
+		 * Note that this can also be used for names that include $ signs like "$A1".
+		 * @param inputLabel label of spredsheet cell
+		 * @return null for non-spreadsheet names
+		 */
+		public static Point getSpreadsheetCoordsForLabel(String inputLabel) {
+			// we need to also support wrapped GeoElements like
+			// $A4 that are implemented as dependent geos (using ExpressionNode)
+			Point p = GeoElementSpreadsheet.spreadsheetIndices(inputLabel);
+			if (p.x >= 0 && p.y >= 0)
+				return p;
+			else
+				return null;
+		}
+		private static StringBuilder sb;
+		/*
+		 * used to set a cell to another geo
+		 * used by FillCells[] etc
+		 */
+		public void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElementInterface cellGeo) {
+			String cellName = dogetSpreadsheetCellName(col, row);
+
+			if (sb == null)
+				sb = new StringBuilder();
+			else
+				sb.setLength(0);
+
+			sb.append(cellName);
+			if (cellGeo.isGeoFunction()) sb.append("(x)");
+
+			// getLabel() returns algoParent.getCommandDescription() or  toValueString()
+			// if there's no label (eg {1,2})
+			String label = cellGeo.getLabel();
+
+			// need an = for B3=B4
+			// need a : for B2:x^2 + y^2 = 2
+			if (label.indexOf('=') == -1) sb.append('=');
+			else sb.append(':');
+
+			sb.append(label);
+
+			// we only sometimes need (x), eg
+			// B2(x)=f(x)
+			// B2(x)=x^2
+			if (cellGeo.isGeoFunction() && cellGeo.isLabelSet()) sb.append("(x)");
+
+			//Application.debug(sb.toString());
+
+			app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), false);
+
+				GeoElementInterface cell = app.getKernel().lookupLabel(cellName);
+				if (cell != null) {
+					((GeoElement)cell).setVisualStyle((GeoElement)cellGeo);
+					((GeoElement)cell).setAuxiliaryObject(true);
+				}
+
+		}
+
+		public Point dospreadsheetIndices(String labelPrefix) {
+			return spreadsheetIndices(labelPrefix);
+		}
+
+		public String dogetSpreadsheetCellName(int i, int row) {
+			return getSpreadsheetCellName(i, row);
+		}
+
+		public boolean doisSpreadsheetLabel(String label2) {
+			// TODO Auto-generated method stub
+			return isSpreadsheetLabel(label2);
+		}
+
+		public String dogetSpreadsheetColumnName(int x) {
+			return getSpreadsheetColumnName(x);
+		}
+
+		public Point dogetSpreadsheetCoordsForLabel(String label) {
+			return getSpreadsheetCoordsForLabel(label);
 		}
 
 

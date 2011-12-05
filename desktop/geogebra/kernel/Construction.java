@@ -1905,7 +1905,7 @@ public class Construction extends AbstractConstruction{
 				AlgoElement parentAlgo = newGeo.getParentAlgorithm();
 				addToConstructionList(parentAlgo, true);								
 				// make sure all output objects get labels, see #218
-				GeoElement.setLabels(oldGeoLabel, parentAlgo.getOutput());							
+				GeoElement.setLabels(oldGeoLabel, parentAlgo.getOutput(),kernel.getGeoElementSpreadsheet());							
 			}
 
 			// copy formatting of oldGeo to newGeo
@@ -2623,7 +2623,7 @@ public class Construction extends AbstractConstruction{
 			GeoElement geo1 = ob1;
 			GeoElement geo2 = ob2;
 			
-			return GeoElement.compareLabels(geo1.label, geo2.label);
+			return GeoElement.compareLabels(geo1.label, geo2.label,kernel.getGeoElementSpreadsheet());
 		}
 	}
 

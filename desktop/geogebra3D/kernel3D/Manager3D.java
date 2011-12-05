@@ -786,7 +786,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		GeoElement.setLabels(labels, points,kernel.getGeoElementSpreadsheet());
 		return points;
 	}
 
@@ -866,7 +866,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		GeoElement.setLabels(labels, points,kernel.getGeoElementSpreadsheet());
 		return points;
 	}
 
@@ -930,7 +930,7 @@ public class Manager3D implements Manager3DInterface {
 				(GeoQuadric3D) B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		GeoElement.setLabels(labels, points,kernel.getGeoElementSpreadsheet());
 		return points;
 	}
 
@@ -1007,7 +1007,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectPlaneConic algo = getIntersectionAlgorithm(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		GeoElement.setLabels(labels, points,kernel.getGeoElementSpreadsheet());
 		return points;
 	}
 

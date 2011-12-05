@@ -42,12 +42,12 @@ public class AlgoAxes extends AlgoElement {
 
     AlgoAxes(Construction cons, String label, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(label, axes);
+        GeoElement.setLabels(label, axes,kernel.getGeoElementSpreadsheet());
     }
 
     public AlgoAxes(Construction cons, String[] labels, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(labels, axes);
+        GeoElement.setLabels(labels, axes,kernel.getGeoElementSpreadsheet());
     }
 
     @Override

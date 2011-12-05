@@ -44,12 +44,12 @@ public class AlgoAsymptote extends AlgoElement {
     /** Creates new AlgoJoinPoints */
     AlgoAsymptote(Construction cons, String label, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(label, asymptotes);
+        GeoElement.setLabels(label, asymptotes,kernel.getGeoElementSpreadsheet());
     }
 
     public AlgoAsymptote(Construction cons, String[] labels, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(labels, asymptotes);
+        GeoElement.setLabels(labels, asymptotes,kernel.getGeoElementSpreadsheet());
     }
 
     @Override

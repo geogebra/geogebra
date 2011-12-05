@@ -13,6 +13,7 @@ import geogebra.common.awt.ColorAdapter;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
+import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
@@ -1813,4 +1814,6 @@ public abstract class AbstractKernel {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 }

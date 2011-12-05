@@ -51,7 +51,7 @@ class CmdFillRow extends CommandProcessor {
 					GeoElement cellGeo = list.get(col).copy();
 
 					try {
-						GeoElement.setSpreadsheetCell(app, row, col, cellGeo);
+						kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col, cellGeo);
 					} catch (Exception e) {
 						e.printStackTrace();
 						throw argErr(app, c.getName(), arg[1]);

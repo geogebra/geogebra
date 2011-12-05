@@ -48,12 +48,12 @@ public class AlgoTangentLine extends AlgoElement {
     /** Creates new AlgoTangentLine */
     AlgoTangentLine(Construction cons, String label, GeoLine g, GeoConic c) {
         this(cons, g,c);
-        GeoElement.setLabels(label, tangents);            
+        GeoElement.setLabels(label, tangents,kernel.getGeoElementSpreadsheet());            
     }
     
     public AlgoTangentLine(Construction cons, String [] labels, GeoLine g, GeoConic c) {
         this(cons, g,c);
-        GeoElement.setLabels(labels, tangents);            
+        GeoElement.setLabels(labels, tangents,kernel.getGeoElementSpreadsheet());            
     }
     
     @Override

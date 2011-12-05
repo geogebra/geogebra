@@ -166,7 +166,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	// number is the number of current roots
 	private void updateLabels(int number) {  
 		if (initLabels) {
-			GeoElement.setLabels(labels, points);
+			GeoElement.setLabels(labels, points,kernel.getGeoElementSpreadsheet());
 			initLabels = false;
 		} else {	    
 			for (int i = 0; i < number; i++) {

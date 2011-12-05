@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -6062,7 +6063,7 @@ public class Kernel extends AbstractKernel{
 		AlgoIntersectLineConic algo = getIntersectionAlgorithm(g, c);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();		
-		GeoElement.setLabels(labels, points);	
+		GeoElement.setLabels(labels, points,getGeoElementSpreadsheet());	
 		return points;
 	}
 
@@ -6078,7 +6079,7 @@ public class Kernel extends AbstractKernel{
 		AlgoIntersectConics algo = getIntersectionAlgorithm((GeoConic) a, (GeoConic) b);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		GeoElement.setLabels(labels, points,getGeoElementSpreadsheet());
 		return points;
 	}
 	
@@ -8123,6 +8124,12 @@ public class Kernel extends AbstractKernel{
 		if(myMath2==null)
 			myMath2 = new MyMath2();
 		return myMath2; 
+	}
+
+	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
+	@Override
+	public AbstractGeoElementSpreadsheet getGeoElementSpreadsheet() {
+		return ges;
 	}
 
 }
