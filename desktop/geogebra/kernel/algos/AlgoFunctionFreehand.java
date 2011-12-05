@@ -77,7 +77,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
     
     @Override
 	public final void compute() {  
-        if (!(inputList.isDefined()) || inputList.getElementType() != GeoClass.NUMERIC || inputList.size() < 4){ 
+        if (!(inputList.isDefined()) || !inputList.getElementType().equals(GeoClass.NUMERIC) || inputList.size() < 4){ 
             g.setUndefined();
             return;
         }
@@ -92,7 +92,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
     
     @Override
 	final public String toString() {
-    	if (inputList.size() < 4 || inputList.getElementType() != GeoClass.NUMERIC) return app.getPlain("undefined");
+    	if (inputList.size() < 4 || !inputList.getElementType().equals(GeoClass.NUMERIC)) return app.getPlain("undefined");
         return app.getPlain("FreehandFunctionOnIntervalAB",kernel.format(((GeoNumeric)inputList.get(0)).getDouble()), kernel.format(((GeoNumeric)inputList.get(1)).getDouble()));
     }
 

@@ -2703,7 +2703,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 		
 		// use default point style on points
-		if(geo.getGeoClassType() == GeoClass.POINT && ggbFileFormat < 3.3) {
+		if(geo.getGeoClassType() .equals(GeoClass.POINT) && ggbFileFormat < 3.3) {
 			((PointProperties)geo).setPointStyle(docPointStyle);
 		}
 

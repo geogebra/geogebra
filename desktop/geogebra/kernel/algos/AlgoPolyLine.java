@@ -116,7 +116,7 @@ public class AlgoPolyLine extends AlgoElement {
      */
     private void updatePointArray(GeoList pointList) {
     	// check if we have a point list
-    	if (pointList.getElementType() != GeoClass.POINT) {
+    	if (!pointList.getElementType().equals(GeoClass.POINT)) {
     		poly.setUndefined();
     		return;
     	}

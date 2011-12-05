@@ -95,8 +95,8 @@ public class AlgoClasses extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType() == GeoClass.TEXT || dataList
-				.getElementType() == GeoClass.NUMERIC)) {
+		if (!(dataList.getElementType() .equals(GeoClass.TEXT) || dataList
+				.getElementType() .equals(GeoClass.NUMERIC))) {
 			classList.setUndefined();
 			return;
 		}
@@ -112,7 +112,7 @@ public class AlgoClasses extends AlgoElement {
 		String minGeoString;
 		String maxGeoString;
 
-		if (dataList.getElementType() == GeoClass.NUMERIC) {
+		if (dataList.getElementType() .equals(GeoClass.NUMERIC)) {
 			minGeoValue = ((GeoNumeric) dataList.get(0)).getDouble();
 			maxGeoValue = ((GeoNumeric) dataList.get(0)).getDouble();
 			for (int i = 1; i < dataList.size(); i++) {

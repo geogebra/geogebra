@@ -1036,7 +1036,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public boolean isMatrix() {
 
-		if (getElementType() != GeoClass.LIST || size() == 0)
+		if (!getElementType().equals(GeoClass.LIST) || size() == 0)
 			return false;
 
 
@@ -1057,9 +1057,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 						else {
 							for (int j=0; j<((GeoList) geoi).size(); j++){
 								GeoElement geoij=((GeoList)geoi).get(j);
-								if (geoij.getGeoClassType() != GeoClass.NUMERIC
-										&& geoij.getGeoClassType() != GeoClass.FUNCTION
-										&& geoij.getGeoClassType() != GeoClass.FUNCTION_NVAR)
+								if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
+										&& !geoij.getGeoClassType().equals(GeoClass.FUNCTION)
+										&& !geoij.getGeoClassType().equals(GeoClass.FUNCTION_NVAR))
 									return false;
 							}
 						}
@@ -1594,11 +1594,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		
 		
 		// check for matrix
-		if (getElementType() == GeoClass.LIST) return true;
+		if (getElementType() .equals(GeoClass.LIST)) return true;
 		
 		// don't check getGeoElementForPropertiesDialog
 		// as we want matrices to use latex
-		if (getElementType() == GeoClass.NUMERIC) return false;
+		if (getElementType() .equals(GeoClass.NUMERIC)) return false;
 		
 		return  super.isLaTeXDrawableGeo(latexStr);
 	}

@@ -916,7 +916,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (rt.isGeoElement()) {
 					GeoList list = (GeoList)rt;
 					int n = list.size() - 3;
-					if (n >= 1 && list.getElementType() == GeoClass.NUMERIC) {
+					if (n >= 1 && list.getElementType() .equals(GeoClass.NUMERIC)) {
 						double min = ((GeoNumeric)(list.get(0))).getDouble();
 						double max = ((GeoNumeric)(list.get(1))).getDouble();
 

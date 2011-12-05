@@ -973,12 +973,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     // Michael Borcherds 2009-02-15
 	@Override
 	public boolean isEqual(GeoElement geo) {		
-		if (!geo.isGeoFunction() || geo.getGeoClassType() == GeoClass.INTERVAL)
+		if (!geo.isGeoFunction() || geo.getGeoClassType() .equals(GeoClass.INTERVAL))
 			return false;
 				
 		// return return geo.isEqual(this); rather than false
 		// in case we improve checking in GeoFunctionConditional in future
-		if (geo.getGeoClassType() == GeoClass.FUNCTIONCONDITIONAL)
+		if (geo.getGeoClassType() .equals(GeoClass.FUNCTIONCONDITIONAL))
 			return geo.isEqual(this);
 		else
 			return isDifferenceZeroInCAS(geo);				

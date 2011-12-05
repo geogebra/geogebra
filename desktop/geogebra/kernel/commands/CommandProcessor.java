@@ -356,7 +356,7 @@ public abstract class CommandProcessor {
 		boolean correctType = true;
 		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
 		for (int i = 0; i < length; i++) {
-			if (type != GeoClass.DEFAULT || args[i].getGeoClassType() == type)
+			if (!type.equals(GeoClass.DEFAULT) || args[i].getGeoClassType() == type)
 				geoElementList.add(args[i]);
 			else {
 				correctType = false;

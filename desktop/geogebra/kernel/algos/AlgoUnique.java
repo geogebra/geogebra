@@ -77,8 +77,8 @@ public class AlgoUnique extends AlgoElement {
 			return; 		
 		}
 
-		if( !( dataList.getElementType() == GeoClass.TEXT 
-				|| dataList.getElementType() == GeoClass.NUMERIC )) {
+		if( !( dataList.getElementType() .equals(GeoClass.TEXT) 
+				|| dataList.getElementType() .equals(GeoClass.NUMERIC ))) {
 			uniqueList.setUndefined();		
 			return;
 		}
@@ -91,14 +91,14 @@ public class AlgoUnique extends AlgoElement {
 		 f = new Frequency();
 		f.clear();
 		for (int i=0 ; i < dataList.size(); i++) {
-			if(dataList.getElementType() == GeoClass.TEXT)
+			if(dataList.getElementType() .equals(GeoClass.TEXT))
 				f.addValue(((GeoText)dataList.get(i)).toValueString());
-			if(dataList.getElementType() == GeoClass.NUMERIC)
+			if(dataList.getElementType() .equals(GeoClass.NUMERIC))
 				f.addValue(new MyDouble(kernel, ((GeoNumeric)dataList.get(i)).getDouble()));
 		}
 
 		// Get the unique value list 	
-		if(dataList.getElementType() == GeoClass.TEXT) {
+		if(dataList.getElementType() .equals(GeoClass.TEXT)) {
 			// handle string data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while(itr.hasNext()) {		

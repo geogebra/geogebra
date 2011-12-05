@@ -201,7 +201,7 @@ GeoLineInterface {
     	// for a line we are done here: the point is on the line
     	// for rays and segments we need to continue
     	GeoClass classType = getGeoClassType();
-    	if (classType == GeoClass.LINE)
+    	if (classType .equals(GeoClass.LINE))
     		return true;
     	
     	// idea: calculate path parameter and check

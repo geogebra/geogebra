@@ -1197,7 +1197,7 @@ public abstract class GeoElement
 		}
 
 		//if (isGeoPoint() && geo.isGeoPoint()) {
-		if (getGeoClassType()==GeoClass.POINT && geo.getGeoClassType()==GeoClass.POINT) {
+		if (getGeoClassType().equals(GeoClass.POINT) && geo.getGeoClassType().equals(GeoClass.POINT)) {
 			((GeoPointInterface) this).setSpreadsheetTrace(((GeoPointInterface) geo).getSpreadsheetTrace());
 		}
 
@@ -3908,7 +3908,7 @@ public abstract class GeoElement
 		String algebraDesc = geo.getAlgebraDescription();
 		StringBuilder sb = new StringBuilder();
 		
-		if(geo.isGeoList() && ((GeoListInterface)geo).getElementType()==GeoClass.TEXT)
+		if(geo.isGeoList() && ((GeoListInterface)geo).getElementType().equals(GeoClass.TEXT))
 			return null;
 		// handle undefined
 		if(!geo.isDefined()){
