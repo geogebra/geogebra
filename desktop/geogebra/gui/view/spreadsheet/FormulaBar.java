@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.AWTException;
@@ -137,7 +138,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		row = table.minSelectionRow;
 		column = table.minSelectionColumn;
 
-		String cellName = GeoElement.getSpreadsheetCellName(column, row);
+		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 		fldCellName.removeActionListener(this);
 		fldCellName.setText(cellName);
 		fldCellName.addActionListener(this);

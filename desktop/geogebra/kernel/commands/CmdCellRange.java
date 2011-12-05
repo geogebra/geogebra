@@ -4,6 +4,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 /*
  * CellRange[ <start cell>, <end cell> ], e.g. CellRange[A1, B2]
@@ -23,8 +24,8 @@ public class CmdCellRange extends CommandProcessor {
 		case 2:						
 			arg = resArgs(c);
 			// both geos need to have valid spreadsheet coordinates
-			if ((ok[0] =  GeoElement.isSpreadsheetLabel(arg[0].getLabel())) &&
-				(ok[1] = GeoElement.isSpreadsheetLabel(arg[1].getLabel()))) 
+			if ((ok[0] =  GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabel())) &&
+				(ok[1] = GeoElementSpreadsheet.isSpreadsheetLabel(arg[1].getLabel()))) 
 			{
 				GeoElement[] ret = { 
 						kernel.CellRange(c.getLabel(), arg[0], arg[1]) };

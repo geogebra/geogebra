@@ -6,6 +6,7 @@ import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoCellRange;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
@@ -87,10 +88,10 @@ class CmdFillCells extends CommandProcessor {
 							// cell will have been autocreated by eg A1:A3 in
 							// command, so delete
 							kernel.lookupLabel(
-									GeoElement.getSpreadsheetCellName(minCol,
+									GeoElementSpreadsheet.getSpreadsheetCellName(minCol,
 											row)).remove();
 							kernel.lookupLabel(
-									GeoElement.getSpreadsheetCellName(
+									GeoElementSpreadsheet.getSpreadsheetCellName(
 											minCol + 1, row)).remove();
 
 							MyPoint p = al.get(i);														
@@ -119,7 +120,7 @@ class CmdFillCells extends CommandProcessor {
 								// in command, so delete
 								// in case it's being filled by eg GeoText
 								kernel.lookupLabel(
-										GeoElement.getSpreadsheetCellName(col,
+										GeoElementSpreadsheet.getSpreadsheetCellName(col,
 												row)).remove();
 
 								GeoElement.setSpreadsheetCell(app, row, col,
@@ -144,7 +145,7 @@ class CmdFillCells extends CommandProcessor {
 
 			} else {
 
-				if (GeoElement.isSpreadsheetLabel(arg[0].getLabel())) {
+				if (GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabel())) {
 
 					if (!arg[1].isGeoList()) {
 						app.setScrollToShow(true);
@@ -153,10 +154,10 @@ class CmdFillCells extends CommandProcessor {
 
 					GeoList list = (GeoList) arg[1];
 
-					Matcher matcher = GeoElement.spreadsheetPattern
+					Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
 							.matcher(arg[0].getLabel());
-					int column = GeoElement.getSpreadsheetColumn(matcher);
-					int row = GeoElement.getSpreadsheetRow(matcher);
+					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 					if (row == -1 || column == -1) {
 						app.setScrollToShow(true);

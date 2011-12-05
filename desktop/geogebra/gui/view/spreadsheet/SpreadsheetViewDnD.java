@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
@@ -258,7 +259,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 			for(int i=0; i < geoArray.length; i++){
 				GeoElement geo = app.getKernel().lookupLabel(list.get(i));
 				if(geo != null)
-					if(GeoElement.isSpreadsheetLabel(geo.getLabel()))
+					if(GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel()))
 						return false;
 					geoArray[i] = geo;
 			}

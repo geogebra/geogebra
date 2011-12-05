@@ -6,6 +6,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoList;
@@ -77,8 +78,8 @@ public class RelativeCopy {
 								GeoElement v4 = getValue(table, x, y + 1);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
 								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElement.getSpreadsheetCellName(x, y + 2) + vs1;
-								String d1 = GeoElement.getSpreadsheetCellName(x, y + 1) + vs2;
+								String d0 = GeoElementSpreadsheet.getSpreadsheetCellName(x, y + 2) + vs1;
+								String d1 = GeoElementSpreadsheet.getSpreadsheetCellName(x, y + 1) + vs2;
 								String text = "=2*" + d1 + "-" + d0;
 								doCopyNoStoringUndoInfo1(kernel, table, text, v4, x, y);								
 							}
@@ -103,8 +104,8 @@ public class RelativeCopy {
 								GeoElement v4 = getValue(table, x, y - 1);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
 								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElement.getSpreadsheetCellName(x, y - 2) + vs1;
-								String d1 = GeoElement.getSpreadsheetCellName(x, y - 1) + vs2;
+								String d0 = GeoElementSpreadsheet.getSpreadsheetCellName(x, y - 2) + vs1;
+								String d1 = GeoElementSpreadsheet.getSpreadsheetCellName(x, y - 1) + vs2;
 								String text = "=2*" + d1 + "-" + d0;
 								doCopyNoStoringUndoInfo1(kernel, table, text, v4, x, y);								
 							}
@@ -134,8 +135,8 @@ public class RelativeCopy {
 								GeoElement v4 = getValue(table, x + 1, y);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
 								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElement.getSpreadsheetCellName(x + 2, y) + vs1;
-								String d1 = GeoElement.getSpreadsheetCellName(x + 1, y) + vs2;
+								String d0 = GeoElementSpreadsheet.getSpreadsheetCellName(x + 2, y) + vs1;
+								String d1 = GeoElementSpreadsheet.getSpreadsheetCellName(x + 1, y) + vs2;
 								String text = "=2*" + d1 + "-" + d0;
 								doCopyNoStoringUndoInfo1(kernel, table, text, v4, x, y);								
 							}
@@ -159,8 +160,8 @@ public class RelativeCopy {
 								GeoElement v4 = getValue(table, x - 1, y);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
 								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElement.getSpreadsheetCellName(x - 2, y) + vs1;
-								String d1 = GeoElement.getSpreadsheetCellName(x - 1, y) + vs2;
+								String d0 = GeoElementSpreadsheet.getSpreadsheetCellName(x - 2, y) + vs1;
+								String d1 = GeoElementSpreadsheet.getSpreadsheetCellName(x - 1, y) + vs2;
 								String text = "=2*" + d1 + "-" + d0;
 								doCopyNoStoringUndoInfo1(kernel, table, text, v4, x, y);								
 							}
@@ -321,9 +322,9 @@ public class RelativeCopy {
 	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel, MyTable table, GeoElement value, GeoElement oldValue, int dx, int dy) throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
-				Matcher matcher = GeoElement.spreadsheetPattern.matcher(oldValue.getLabel());
-				int column = GeoElement.getSpreadsheetColumn(matcher);
-				int row = GeoElement.getSpreadsheetRow(matcher);
+				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(oldValue.getLabel());
+				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 				prepareAddingValueToTableNoStoringUndoInfo(kernel, table, null, oldValue, column, row);
 			}
@@ -427,9 +428,9 @@ public class RelativeCopy {
 		
 	
 		// create the new cell geo
-		Matcher matcher = GeoElement.spreadsheetPattern.matcher(value.getLabel());			
-		int column0 = GeoElement.getSpreadsheetColumn(matcher);
-		int row0 = GeoElement.getSpreadsheetRow(matcher);
+		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(value.getLabel());			
+		int column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+		int row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 		GeoElement value2;
 		if (freeImage || value.isGeoButton()) {
 			value2 = value.copy();
@@ -498,12 +499,12 @@ public class RelativeCopy {
 		dependents[dependents.length - 1] = value;
 		for (int i = 0; i < dependents.length; ++ i) {
 			String name = dependents[i].getLabel();			
-			Matcher matcher = GeoElement.spreadsheetPattern.matcher(name);			
-			int column = GeoElement.getSpreadsheetColumn(matcher);
-			int row = GeoElement.getSpreadsheetRow(matcher);
+			Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(name);			
+			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 			if (column == -1 || row == -1) continue;
-			String column1 = GeoElement.getSpreadsheetColumnName(column);
+			String column1 = GeoElementSpreadsheet.getSpreadsheetColumnName(column);
 			String row1 = "" + (row + 1);
 			
 			before.setLength(0);
@@ -515,8 +516,8 @@ public class RelativeCopy {
 			after.append(column1);
 			after.append("::");
 			after.append(row1);
-			text = replaceAll(GeoElement.spreadsheetPattern, text, before.toString(), after.toString());
-			//text = replaceAll(GeoElement.spreadsheetPattern, text, "$" + column1 + row1, "$" + column1 + "::" + row1);
+			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text, before.toString(), after.toString());
+			//text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text, "$" + column1 + row1, "$" + column1 + "::" + row1);
 			
 			before.setLength(0);
 			before.append(column1);
@@ -527,8 +528,8 @@ public class RelativeCopy {
 			after.append(column1);
 			after.append('$');
 			after.append(row1);
-			text = replaceAll(GeoElement.spreadsheetPattern, text, before.toString(), after.toString());
-			//text = replaceAll(GeoElement.spreadsheetPattern, text, column1 + "$" + row1, "::" + column1 + "$" + row1);
+			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text, before.toString(), after.toString());
+			//text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text, column1 + "$" + row1, "::" + column1 + "$" + row1);
 			
 			before.setLength(0);
 			before.append(column1);
@@ -538,8 +539,8 @@ public class RelativeCopy {
 			after.append(column1);
 			after.append("::");
 			after.append(row1);
-			text = replaceAll(GeoElement.spreadsheetPattern, text, before.toString(), after.toString());
-			//text = replaceAll(GeoElement.spreadsheetPattern, text, column1 + row1, "::" + column1 + "::" + row1);
+			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text, before.toString(), after.toString());
+			//text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text, column1 + row1, "::" + column1 + "::" + row1);
 
 		}
 
@@ -547,16 +548,16 @@ public class RelativeCopy {
 		// needed for eg Mod[$A2, B$1] which gives Mod[$A2, ::::B$1]
 		text = text.replace("::::", "::");
 
-		Matcher matcher = GeoElement.spreadsheetPattern.matcher(value.getLabel());			
+		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(value.getLabel());			
 		for (int i = 0; i < dependents.length; ++ i) {
 			String name = dependents[i].getLabel();
-			matcher = GeoElement.spreadsheetPattern.matcher(name);			
-			int column = GeoElement.getSpreadsheetColumn(matcher);
-			int row = GeoElement.getSpreadsheetRow(matcher);
+			matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(name);			
+			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 			if (column == -1 || row == -1) continue;
-			String column1 = GeoElement.getSpreadsheetColumnName(column);
+			String column1 = GeoElementSpreadsheet.getSpreadsheetColumnName(column);
 			String row1 = "" + (row + 1);
-			String column2 = GeoElement.getSpreadsheetColumnName(column + dx);
+			String column2 = GeoElementSpreadsheet.getSpreadsheetColumnName(column + dx);
 			String row2 = "" + (row + dy + 1);
 			
 			before.setLength(0);

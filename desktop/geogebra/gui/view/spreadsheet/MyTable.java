@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
@@ -739,7 +740,7 @@ public class MyTable extends JTable implements FocusListener
 		if(cellName == null) 
 			return setSelection(-1,-1,-1,-1);
 
-		Point newCell = GeoElement.spreadsheetIndices(cellName);
+		Point newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if(newCell.x != -1 && newCell.y != -1) {
 			return setSelection(newCell.x, newCell.y);
 		} else { 
@@ -1715,7 +1716,7 @@ public class MyTable extends JTable implements FocusListener
 			// Set targetCell as a GeoNumeric that can be used to preview the autofunction result
 			// (later it will be set as a GeoList)
 			targetCell = new GeoNumeric(kernel.getConstruction(),0);
-			targetCell.setLabel(GeoElement.getSpreadsheetCellName(minSelectionColumn, minSelectionRow));
+			targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(minSelectionColumn, minSelectionRow));
 			targetCell.setUndefined();
 
 			// Set the targetcellFrame so the Paint method can use it to draw a dashed frame 
@@ -1779,7 +1780,7 @@ public class MyTable extends JTable implements FocusListener
 				// create new targetCell
 				if(isOK){ 
 					targetCell = new GeoNumeric(kernel.getConstruction(),0);
-					targetCell.setLabel(GeoElement.getSpreadsheetCellName(cr.getMaxColumn() + 1, row));
+					targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(cr.getMaxColumn() + 1, row));
 					createAutoFunctionCell(targetCell, new CellRange(this, cr.getMinColumn(), row, cr.getMaxColumn(), row) );
 				}
 			}
@@ -1800,7 +1801,7 @@ public class MyTable extends JTable implements FocusListener
 				// create new targetCell
 				if(isOK){ 
 					targetCell = new GeoNumeric(kernel.getConstruction(),0);
-					targetCell.setLabel(GeoElement.getSpreadsheetCellName(col, cr.getMaxRow() + 1));
+					targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col, cr.getMaxRow() + 1));
 					createAutoFunctionCell(targetCell, new CellRange(this, col, cr.getMinRow(), col, cr.getMaxRow()) );
 				}
 			}

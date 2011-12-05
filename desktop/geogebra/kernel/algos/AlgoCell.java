@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoNumeric;
 
 import java.util.Iterator;
@@ -113,7 +114,7 @@ public class AlgoCell extends AlgoElement {
      
     private void updateReferencedObject() {
     	// get new object 
-		currentLabel = GeoElement.getSpreadsheetCellName((int)a.getDouble() - 1, (int)b.getDouble() - 1);
+		currentLabel = GeoElementSpreadsheet.getSpreadsheetCellName((int)a.getDouble() - 1, (int)b.getDouble() - 1);
 		
 		/* 
 		 * Do not remove this algorithm from update set of old referenced object:

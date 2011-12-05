@@ -11,6 +11,7 @@ import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -841,7 +842,7 @@ public class CellRangeProcessor {
 						sb.append(',');
 					}
 					else {
-						app.showErrorDialog(app.getPlain("CellAisNotDefined",GeoElement.getSpreadsheetCellName(i,j)));
+						app.showErrorDialog(app.getPlain("CellAisNotDefined",GeoElementSpreadsheet.getSpreadsheetCellName(i,j)));
 						return null;
 					}
 				}
@@ -864,7 +865,7 @@ public class CellRangeProcessor {
 						sb.append(',');
 					}
 					else {
-						app.showErrorDialog(app.getPlain("CellAisNotDefined",GeoElement.getSpreadsheetCellName(i,j)));
+						app.showErrorDialog(app.getPlain("CellAisNotDefined",GeoElementSpreadsheet.getSpreadsheetCellName(i,j)));
 						return null;
 					}
 				}
@@ -1008,11 +1009,11 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(table, x, y);
 				if (geo == null) continue;
 
-				Matcher matcher = GeoElement.spreadsheetPattern.matcher(geo.getLabel());
-				int column = GeoElement.getSpreadsheetColumn(matcher);
-				int row = GeoElement.getSpreadsheetRow(matcher);
+				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 				column += 1;
-				String newLabel = GeoElement.getSpreadsheetCellName(column, row);
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1042,11 +1043,11 @@ public class CellRangeProcessor {
 					GeoElement geo = RelativeCopy.getValue(table, x, y);
 					if (geo == null) continue;
 
-					Matcher matcher = GeoElement.spreadsheetPattern.matcher(geo.getLabel());
-					int column = GeoElement.getSpreadsheetColumn(matcher);
-					int row = GeoElement.getSpreadsheetRow(matcher);
+					Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 					column += 1;
-					String newLabel = GeoElement.getSpreadsheetCellName(column, row);
+					String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 					geo.setLabel(newLabel);
 					succ = true;
 				}
@@ -1074,11 +1075,11 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(table, x, y);
 				if (geo == null) continue;
 
-				Matcher matcher = GeoElement.spreadsheetPattern.matcher(geo.getLabel());
-				int column = GeoElement.getSpreadsheetColumn(matcher);
-				int row = GeoElement.getSpreadsheetRow(matcher);
+				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 				row += 1;
-				String newLabel = GeoElement.getSpreadsheetCellName(column, row);
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1106,11 +1107,11 @@ public class CellRangeProcessor {
 				for (int x = 0; x < columns; ++ x) {
 					GeoElement geo = RelativeCopy.getValue(table, x, y);
 					if (geo == null) continue;
-					Matcher matcher = GeoElement.spreadsheetPattern.matcher(geo.getLabel());
-					int column = GeoElement.getSpreadsheetColumn(matcher);
-					int row = GeoElement.getSpreadsheetRow(matcher);
+					Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 					row += 1;
-					String newLabel = GeoElement.getSpreadsheetCellName(column, row);
+					String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 					geo.setLabel(newLabel);
 					succ = true;
 				}
@@ -1137,18 +1138,18 @@ public class CellRangeProcessor {
 
 		for(int r = r1+1; r <= cr.getMaxRow(); ++r){
 			for(int c = c1+1; c <= cr.getMaxColumn(); ++c){
-				//System.out.println(GeoElement.getSpreadsheetCellName(c, r) + ": " + text);
+				//System.out.println(GeoElementSpreadsheet.getSpreadsheetCellName(c, r) + ": " + text);
 
-				text = GeoElement.getSpreadsheetCellName(c, r) + "=" + fcn.getLabel() + "(";
-				text += GeoElement.getSpreadsheetCellName(c1, r);
+				text = GeoElementSpreadsheet.getSpreadsheetCellName(c, r) + "=" + fcn.getLabel() + "(";
+				text += GeoElementSpreadsheet.getSpreadsheetCellName(c1, r);
 				text += ",";
-				text += GeoElement.getSpreadsheetCellName(c, r1);
+				text += GeoElementSpreadsheet.getSpreadsheetCellName(c, r1);
 				text += ")";
 
 				geos = (GeoElement[])table.kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptions(text,false);
 
-				//geos[0].setLabel(GeoElement.getSpreadsheetCellName(c, r));
+				//geos[0].setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(c, r));
 				geos[0].setAuxiliaryObject(true);
 			}
 		}
@@ -1201,15 +1202,15 @@ public class CellRangeProcessor {
 		String s = "";
 
 		if(range.isColumn()) {
-			s = app.getCommand("Column") + " " + GeoElement.getSpreadsheetColumnName(range.getMinColumn());
+			s = app.getCommand("Column") + " " + GeoElementSpreadsheet.getSpreadsheetColumnName(range.getMinColumn());
 
 		} else if(range.isRow()) {
 			s = app.getCommand("Row") + " " + (range.getMinRow() + 1);
 
 		} else {
-			s = GeoElement.getSpreadsheetCellName(range.getMinColumn(), range.getMinRow());
+			s = GeoElementSpreadsheet.getSpreadsheetCellName(range.getMinColumn(), range.getMinRow());
 			s += ":";
-			s += GeoElement.getSpreadsheetCellName(range.getMaxColumn(),range.getMaxRow());
+			s += GeoElementSpreadsheet.getSpreadsheetCellName(range.getMaxColumn(),range.getMaxRow());
 		}
 
 		return s;

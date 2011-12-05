@@ -38,6 +38,7 @@ import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
@@ -1612,7 +1613,7 @@ public class Construction extends AbstractConstruction{
 		else {
 			// for missing spreadsheet cells, create object 
 			// of same type as above
-			Matcher cellNameMatcher = GeoElement.spreadsheetPattern.matcher(label);
+			Matcher cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(label);
 			if (cellNameMatcher.matches()) {
 				String col = cellNameMatcher.group(1);
 				int row = Integer.parseInt(cellNameMatcher.group(2));
@@ -1641,7 +1642,7 @@ public class Construction extends AbstractConstruction{
 		if ("i".equals(label) || "e".equals(label))
 			return true;
 		
-		Matcher cellNameMatcher = GeoElement.spreadsheetPattern. matcher(label);
+		Matcher cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern. matcher(label);
 		if (cellNameMatcher.matches())
 			return true;
 		

@@ -4,6 +4,7 @@ import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -279,7 +280,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 			if(allowProcessGeo){
 				String text = (String) delegate.getCellEditorValue();	
 				// get GeoElement of current cell
-				value = kernel.lookupLabel(  GeoElement.getSpreadsheetCellName(column, row), false);
+				value = kernel.lookupLabel(  GeoElementSpreadsheet.getSpreadsheetCellName(column, row), false);
 
 				if (text.equals("")) {
 					if (value != null){

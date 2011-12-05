@@ -109,6 +109,7 @@ import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoFunctionable;
@@ -414,7 +415,7 @@ public class Kernel extends AbstractKernel{
 	 * @return Spreadsheet cell content (may be null)
 	 */
 	public GeoElement getGeoAt(int col, int row) {
-		return lookupLabel(GeoElement.getSpreadsheetCellName(col, row));
+		return lookupLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col, row));
 	}
 	
 	final public GeoAxis getXAxis() {

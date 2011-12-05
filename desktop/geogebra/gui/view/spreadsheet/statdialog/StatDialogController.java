@@ -11,6 +11,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
@@ -302,7 +303,7 @@ public class StatDialogController {
 						title[0] = geo.toDefinedValueString();
 					else
 						title[0]= app.getCommand("Column") + " " + 
-						GeoElement.getSpreadsheetColumnName(range.getMinColumn());		
+						GeoElementSpreadsheet.getSpreadsheetColumnName(range.getMinColumn());		
 
 				}else{
 					title[0] = app.getMenu("Untitled");

@@ -4,6 +4,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.gui.OptionsDialog;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -478,9 +479,9 @@ public class SpreadsheetContextMenu extends JPopupMenu
 	private String getTitleString(){
 
 		//title = cell range if empty or multiple cell selection
-		String title = GeoElement.getSpreadsheetCellName(column1, row1);
+		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1, row1);
 		if(column1 != column2 || row1 != row2){
-			title += ":" + GeoElement.getSpreadsheetCellName(column2, row2);
+			title += ":" + GeoElementSpreadsheet.getSpreadsheetCellName(column2, row2);
 		} 
 		// title = geo description if single geo in cell  
 		else if (geos!=null && geos.size() == 1){	 

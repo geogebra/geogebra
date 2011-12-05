@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 
 import java.awt.Point;
@@ -132,7 +133,7 @@ public class AlgoCellRange extends AlgoElement {
     	for (int colIndex = minCol; colIndex <= maxCol; colIndex++) {
     		for (int rowIndex = minRow; rowIndex <= maxRow; rowIndex++) {
     			// get cell object for col, row
-    			String cellLabel = GeoElement.getSpreadsheetCellName(colIndex, rowIndex);    			
+    			String cellLabel = GeoElementSpreadsheet.getSpreadsheetCellName(colIndex, rowIndex);    			
     			GeoElement geo = ((Kernel)kernel).lookupLabel(cellLabel);
     			
     			// create missing object in cell range

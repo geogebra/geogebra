@@ -17,6 +17,7 @@ import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -670,7 +671,7 @@ implements
 		}else{
 		if (mode == MODE_ADD 
 				&& geo.isSpreadsheetTraceable()
-				&& !GeoElement.isSpreadsheetLabel(geo.getLabel())) {
+				&& !GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel())) {
 			
 				addTrace(geo);
 			}

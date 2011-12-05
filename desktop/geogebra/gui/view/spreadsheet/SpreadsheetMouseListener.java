@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.Point;
@@ -227,7 +228,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 						if (geo != null) {
 							
 							// get cell name
-							String name = GeoElement.getSpreadsheetCellName(column, row);
+							String name = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 							if (geo.isGeoFunction()) name += "(x)";
 							selectedCellName = name;
 							
@@ -424,9 +425,9 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 				int column2 = (int)point.getX();
 				int row2 = (int)point.getY();
 
-				Matcher matcher = GeoElement.spreadsheetPattern.matcher(selectedCellName);
-				int column1 = GeoElement.getSpreadsheetColumn(matcher);
-				int row1 = GeoElement.getSpreadsheetRow(matcher);
+				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(selectedCellName);
+				int column1 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+				int row1 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 				if (column1 > column2) {
 					int temp = column1;
@@ -438,8 +439,8 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 					row1 = row2;
 					row2 = temp;
 				}
-				String name1 = GeoElement.getSpreadsheetCellName(column1, row1);
-				String name2 = GeoElement.getSpreadsheetCellName(column2, row2);
+				String name1 = GeoElementSpreadsheet.getSpreadsheetCellName(column1, row1);
+				String name2 = GeoElementSpreadsheet.getSpreadsheetCellName(column2, row2);
 				if (! name1.equals(name2)) {
 					name1 += ":" + name2;
 				}

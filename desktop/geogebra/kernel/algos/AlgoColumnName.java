@@ -20,6 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoText;
 
 
@@ -67,7 +68,7 @@ public class AlgoColumnName extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {    
-    	String col = GeoElement.getSpreadsheetColumnName(geo.label);
+    	String col = GeoElementSpreadsheet.getSpreadsheetColumnName(geo.label);
     	
     	if (col == null) text.setUndefined();
     	else text.setTextString(col);	    	

@@ -6,6 +6,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
@@ -687,7 +688,7 @@ public class SpreadsheetTraceManager {
 			}
 
 			cell = geo.copyInternal(cons);
-			cell.setLabel(GeoElement.getSpreadsheetCellName(column, row));
+			cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
 
 			/*
 			 * }else{ text = geo.toValueString(); cell =
@@ -736,7 +737,7 @@ public class SpreadsheetTraceManager {
 			if (cell != null)
 				table.copyPasteCut.delete(column, row, column, row);
 
-			String cellName = GeoElement.getSpreadsheetCellName(column, row);
+			String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 			switch (geoClassType) {
 
 			case NUMERIC:
@@ -772,7 +773,7 @@ public class SpreadsheetTraceManager {
 
 		try {
 			cell = new GeoList(cons);
-			cell.setLabel(GeoElement.getSpreadsheetCellName(column,row));
+			cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column,row));
 			cell.setEuclidianVisible(false);
 			cell.setAuxiliaryObject(true);
 			cell.updateCascade();

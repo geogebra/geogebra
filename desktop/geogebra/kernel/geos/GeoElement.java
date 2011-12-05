@@ -76,8 +76,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
 
 /**
  *
@@ -1581,7 +1580,7 @@ public abstract class GeoElement
 			Point coords = getSpreadsheetCoordsForLabel(label);
 			if (coords == null) return "";
 			coords.x++;
-			label = getSpreadsheetCellName(coords.x, coords.y);
+			label = GeoElementSpreadsheet.getSpreadsheetCellName(coords.x, coords.y);
 			if (label == null) return "";
 			GeoElement geo = (GeoElement) kernel.lookupLabel(label);
 			return (geo == null) ? "" : geo.toValueString();
@@ -2345,11 +2344,10 @@ public abstract class GeoElement
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			Matcher matcher = GeoElement.spreadsheetPattern.matcher(getLabel());
-			int column = getSpreadsheetColumn(matcher);
-			int row = getSpreadsheetRow(matcher);
-			if (column >= 0 && row >= 0) {
-				spreadsheetCoords.setLocation(column, row);
+			Point p = GeoElementSpreadsheet.spreadsheetIndices(getLabel());
+			
+			if (p.x >= 0 && p.y >= 0) {
+				spreadsheetCoords.setLocation(p.x, p.y);
 			} else {
 				spreadsheetCoords = null;
 			}
@@ -2371,43 +2369,16 @@ public abstract class GeoElement
 	public static Point getSpreadsheetCoordsForLabel(String inputLabel) {
 		// we need to also support wrapped GeoElements like
 		// $A4 that are implemented as dependent geos (using ExpressionNode)
-		Matcher matcher = GeoElement.spreadsheetPattern.matcher(inputLabel);
-		int column = getSpreadsheetColumn(matcher);
-		int row = getSpreadsheetRow(matcher);
-
-//		System.out.println("match: " + inputLabel);
-//		for (int i=0; i < matcher.groupCount(); i++) {
-//			System.out.println("    group: " + i + ": " + matcher.group(i));
-//		}
-
-		if (column >= 0 && row >= 0)
-			return new Point(column, row);
+		Point p = GeoElementSpreadsheet.spreadsheetIndices(inputLabel);
+		if (p.x >= 0 && p.y >= 0)
+			return p;
 		else
 			return null;
 	}
 
-	// Cong Liu
-	public static String getSpreadsheetCellName(int column, int row) {
-		++row;
-		return getSpreadsheetColumnName(column) + row;
-	}
+	
 
-    public static String getSpreadsheetColumnName(int i) {
-        ++ i;
-        String col = "";
-        while (i > 0) {
-              col = (char)('A' + (i-1) % 26)  + col;
-              i = (i-1)/ 26;
-        }
-        return col;
-  }
-
-	public static String getSpreadsheetColumnName(String label) {
-		Matcher matcher = spreadsheetPattern.matcher(label);
-		if (! matcher.matches()) return null;
-		return matcher.group(1);
-	}
-
+    
 
 	 /**
      * Returns the spreadsheet reference name of this GeoElement using $ signs
@@ -2418,7 +2389,7 @@ public abstract class GeoElement
 	 * @return spreadsheet reference name of this GeoElement with $ signs
      */
 	public String getSpreadsheetLabelWithDollars(boolean col$, boolean row$) {
-		String colName = getSpreadsheetColumnName(spreadsheetCoords.x);
+		String colName = GeoElementSpreadsheet.getSpreadsheetColumnName(spreadsheetCoords.x);
 		String rowName = Integer.toString(spreadsheetCoords.y + 1);
 
 		StringBuilder sb = new StringBuilder(label.length() + 2);
@@ -2435,7 +2406,7 @@ public abstract class GeoElement
 	 */
 	final public static int compareLabels(String label1, String label2) {
 
-		if (GeoElement.isSpreadsheetLabel(label1) && GeoElement.isSpreadsheetLabel(label2)) {
+		if (GeoElementSpreadsheet.isSpreadsheetLabel(label1) && GeoElementSpreadsheet.isSpreadsheetLabel(label2)) {
 			Point p1 = GeoElement.getSpreadsheetCoordsForLabel(label1);
 			Point p2 = GeoElement.getSpreadsheetCoordsForLabel(label2);
 			//Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+" "+p2.y);
@@ -2447,19 +2418,9 @@ public abstract class GeoElement
 
 	}
 
-	// Michael Borcherds
-	public static boolean isSpreadsheetLabel(String str) {
-		Matcher matcher = spreadsheetPattern.matcher(str);
-		if (matcher.matches()) return true;
-		else return false;
-	}
+	
 
-	/*
-	 * match A1, ABG1, A123
-	 * but not A0, A000, A0001 etc
-	 */
-	public static final Pattern spreadsheetPattern =
-		Pattern.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)");
+	
 
 	public static final int MAX_LINE_WIDTH = 13;
 
@@ -2470,7 +2431,7 @@ public abstract class GeoElement
 	 * used by FillCells[] etc
 	 */
 	public static void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElement cellGeo) {
-		String cellName = GeoElement.getSpreadsheetCellName(col, row);
+		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(col, row);
 
 		if (sb == null)
 			sb = new StringBuilder();
@@ -2509,44 +2470,8 @@ public abstract class GeoElement
 	}
 
 	
-	public static int getSpreadsheetColumn(Matcher matcher) {
-		if (! matcher.matches()) return -1;
-
-		String s = matcher.group(1);
-		int column = 0;
-		while (s.length() > 0) {
-			column *= 26;
-			column += s.charAt(0) - 'A' + 1;
-			s = s.substring(1);
-		}
-		//Application.debug(column);
-		return column - 1;
-	}
-
-	// Cong Liu
-	public static int getSpreadsheetRow(Matcher matcher) {
-		if (! matcher.matches()) return -1;
-		String s = matcher.group(2);
-		return Integer.parseInt(s) - 1;
-	}
+		
 	
-	/**
-	 * Determines spreadsheet row and column indices for a given cell name (e.g.
-	 * "B3" sets column = 1 and row = 2. If the cell name does not match a
-	 * possible spreadsheet cell then both row and column are returned as -1.
-	 * 
-	 * @param cellName
-	 *            given cell name	
-	 * @return coordinates of spreedsheet cell
-	 */
-	public static Point spreadsheetIndices(String cellName){
-		
-		Matcher matcher = spreadsheetPattern.matcher(cellName);			
-		int column = GeoElement.getSpreadsheetColumn(matcher);
-		int row = GeoElement.getSpreadsheetRow(matcher);
-		
-		return new Point(column, row);
-	}
 	
 	
 
@@ -2619,14 +2544,14 @@ public abstract class GeoElement
 
 			default :
 				// is this a spreadsheet label?
-				Matcher matcher = GeoElement.spreadsheetPattern.matcher(labelPrefix);
-				if (matcher.matches()) {
+				Point p = GeoElementSpreadsheet.spreadsheetIndices(labelPrefix);
+				if (p.x >= 0 && p.y >= 0) {
 					// more than one visible geo and it's a spreadsheet cell
 					// use D1, E1, F1, etc as names
-					int col = getSpreadsheetColumn(matcher);
-					int row = getSpreadsheetRow(matcher);
+					int col = p.x;
+					int row = p.y;
 					for (int i = 0; i < geos.length; i++)
-						geos[i].setLabel(geos[i].getFreeLabel(getSpreadsheetCellName(col + i, row)));
+						geos[i].setLabel(geos[i].getFreeLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col + i, row)));
 				} else { // more than one visible geo: use indices if we got a prefix
 					for (int i = 0; i < geos.length; i++)
 						geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));

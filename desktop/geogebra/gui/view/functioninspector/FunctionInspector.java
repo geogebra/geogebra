@@ -51,6 +51,7 @@ import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.cas.AlgoLengthFunction;
 import geogebra.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.kernel.geos.GeoElement;
+import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
@@ -1633,7 +1634,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	}
 
 	private static void processCellGeo(GeoElement geo, int column, int row){
-		geo.setLabel(GeoElement.getSpreadsheetCellName(column, row));
+		geo.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
 		geo.setEuclidianVisible(false);
 		geo.setAuxiliaryObject(true);
 		geo.update();
