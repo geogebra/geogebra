@@ -1808,4 +1808,9 @@ public abstract class AbstractKernel {
 	public AbstractMyMath2 getMyMath2() {
 		return new AbstractMyMath2();
 	}
+
+	public boolean isViewReiniting() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
