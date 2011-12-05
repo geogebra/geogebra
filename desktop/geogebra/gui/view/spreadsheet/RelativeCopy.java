@@ -335,7 +335,7 @@ public class RelativeCopy {
 		// make sure a/0.001 doesn't become a/0
 		kernel.setTemporaryPrintFigures(15);
 
-		if (value.isPointOnPath()) {
+		if (value.isPointOnPath() || value.isPointInRegion()) {
 			text = value.getCommandDescription();
 		}
 		else if (value.isChangeable()) {
