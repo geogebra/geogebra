@@ -13,7 +13,7 @@ public class BufferedImageAdapterDesktop extends BufferedImage implements Buffer
 	}
 
 	public BufferedImageAdapterDesktop(BufferedImage image) {
-		this(image.getWidth(), image.getHeight(), image.getType());
+		super(image.getColorModel(), image.getRaster(), true, null);
 		setData(image.getData());
 	}
 }
