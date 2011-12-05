@@ -49,7 +49,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		if (leaf)
 			return left.evaluate(); // for wrapping ExpressionValues as
-									// ValidExpression
+		// ValidExpression
 
 		Kernel kernel = expressionNode.kernel;
 		ExpressionValue right = expressionNode.right;
@@ -74,41 +74,40 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// handle list operations first
 
 		// matrix * 2D vector
-		if (lt.isListValue()) {
-			if (operation.equals(Operation.MULTIPLY)) {
-				if (rt.isVectorValue()) {
-				
-					MyList myList = ((ListValue) lt).getMyList();
-					boolean isMatrix = myList.isMatrix();
-					int rows = myList.getMatrixRows();
-					int cols = myList.getMatrixCols();
-					if (isMatrix && rows == 2 && cols == 2) {
-						GeoVec2D myVec = (GeoVec2D)((VectorValue) rt).getVector();
-						// 2x2 matrix
-						myVec.multiplyMatrix(myList);
-	
-						return myVec;
-					} else if (isMatrix && rows == 3 && cols == 3) {
-						GeoVec2D myVec = (GeoVec2D)((VectorValue) rt).getVector();
-						// 3x3 matrix, assume it's affine
-						myVec.multiplyMatrixAffine(myList, rt);
-						return myVec;
-					}
-				} else if (rt.isVector3DValue()) {
-					
-					MyList myList = ((ListValue) lt).getMyList();
-					boolean isMatrix = myList.isMatrix();
-					int rows = myList.getMatrixRows();
-					int cols = myList.getMatrixCols();
-					if (isMatrix && rows == 3 && cols == 3) {
-						Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
-						// 3x3 matrix, assume it's affine
-						myVec.multiplyMatrixAffine(myList, rt);
-						return myVec;
-					}
-				}
+		if (lt.isListValue() && operation.equals(Operation.MULTIPLY)) {
+			if (rt.isVectorValue()) {
 
-			} else if (operation.equals(Operation.VECTORPRODUCT) && rt.isListValue()) {
+				MyList myList = ((ListValue) lt).getMyList();
+				boolean isMatrix = myList.isMatrix();
+				int rows = myList.getMatrixRows();
+				int cols = myList.getMatrixCols();
+				if (isMatrix && rows == 2 && cols == 2) {
+					GeoVec2D myVec = (GeoVec2D)((VectorValue) rt).getVector();
+					// 2x2 matrix
+					myVec.multiplyMatrix(myList);
+
+					return myVec;
+				} else if (isMatrix && rows == 3 && cols == 3) {
+					GeoVec2D myVec = (GeoVec2D)((VectorValue) rt).getVector();
+					// 3x3 matrix, assume it's affine
+					myVec.multiplyMatrixAffine(myList, rt);
+					return myVec;
+				}
+			} else if (rt.isVector3DValue()) {
+
+				MyList myList = ((ListValue) lt).getMyList();
+				boolean isMatrix = myList.isMatrix();
+				int rows = myList.getMatrixRows();
+				int cols = myList.getMatrixCols();
+				if (isMatrix && rows == 3 && cols == 3) {
+					Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
+					// 3x3 matrix, assume it's affine
+					myVec.multiplyMatrixAffine(myList, rt);
+					return myVec;
+				}
+			}
+
+			else if (operation.equals(Operation.VECTORPRODUCT) && rt.isListValue()) {
 
 				MyList listL = ((ListValue) lt.evaluate()).getMyList();
 				MyList listR = ((ListValue) rt.evaluate()).getMyList();
@@ -118,7 +117,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 
 			} else if (!operation.equals(Operation.EQUAL_BOOLEAN) // added EQUAL_BOOLEAN Michael
-													// Borcherds 2008-04-12
+					// Borcherds 2008-04-12
 					&& !operation.equals(Operation.NOT_EQUAL) // ditto
 					&& !operation.equals(Operation.IS_SUBSET_OF) // ditto
 					&& !operation.equals(Operation.IS_SUBSET_OF_STRICT) // ditto
@@ -126,7 +125,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					&& !operation.equals(Operation.ELEMENT_OF) // list1(1) to get first element
 					&& !rt.isVectorValue() // eg {1,2} + (1,2)
 					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
-											// 2008-06-05
+				// 2008-06-05
 			{
 				MyList myList = ((ListValue) lt).getMyList();
 				// list lt operation rt
@@ -134,16 +133,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return myList;
 			}
 		} else if (rt.isListValue() && !operation.equals(Operation.EQUAL_BOOLEAN) // added
-																	// EQUAL_BOOLEAN
-																	// Michael
-																	// Borcherds
-																	// 2008-04-12
+				// EQUAL_BOOLEAN
+				// Michael
+				// Borcherds
+				// 2008-04-12
 				&& !operation.equals(Operation.NOT_EQUAL) // ditto
 				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
 				&& !lt.isVectorValue() // eg {1,2} + (1,2)
 				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
-										// 2008-06-05
+				// 2008-06-05
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
 			MyList myList = ((ListValue) rt).getMyList();
 			// lt operation list rt
@@ -219,7 +218,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				String[] str = { "IllegalBoolean", lt.toString(), strAND, rt.toString() };
 				throw new MyError(app, str);
 			}
-			
+
 
 			/*
 			 * COMPARING operations
@@ -372,7 +371,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (list.size() > 0) {
 					ExpressionValue ev = list.getListElement(0);
 					if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
-												// + point
+						// + point
 						vec = (GeoVec2D)((VectorValue) rt).getVector();
 						GeoVec2D.add(vec, ((ListValue) lt), vec);
 						return vec;
@@ -391,7 +390,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (list.size() > 0) {
 					ExpressionValue ev = list.getListElement(0);
 					if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
-												// + point
+						// + point
 						vec = (GeoVec2D)((VectorValue) lt).getVector();
 						GeoVec2D.add(vec, ((ListValue) rt), vec);
 						return vec;
@@ -525,44 +524,44 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 				return msb;
 			} else
-			// number * ...
-			if (lt.isNumberValue()) {
-				// number * number
-				if (rt.isNumberValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, ((NumberValue) rt).getNumber(), num);
-					return num;
-				}
-				// number * vector
-				else if (rt.isVectorValue()) {
-					vec = (GeoVec2D)((VectorValue) rt).getVector();
-					GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
-					return vec;
-				}
-				// number * boolean
-				else if (rt.isBooleanValue()) {
-					num = ((NumberValue) lt).getNumber();
-					MyDouble.mult(num, ((BooleanValue) rt).getDouble(), num);
-					return num;
-				}
+				// number * ...
+				if (lt.isNumberValue()) {
+					// number * number
+					if (rt.isNumberValue()) {
+						num = ((NumberValue) lt).getNumber();
+						MyDouble.mult(num, ((NumberValue) rt).getNumber(), num);
+						return num;
+					}
+					// number * vector
+					else if (rt.isVectorValue()) {
+						vec = (GeoVec2D)((VectorValue) rt).getVector();
+						GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
+						return vec;
+					}
+					// number * boolean
+					else if (rt.isBooleanValue()) {
+						num = ((NumberValue) lt).getNumber();
+						MyDouble.mult(num, ((BooleanValue) rt).getDouble(), num);
+						return num;
+					}
 
-				// number * 3D vector
-				/*
-				 * else if (rt.isVector3DValue()) { Geo3DVec vec3D =
-				 * ((Vector3DValue)rt).get3DVec(); Geo3DVec.mult(vec3D,
-				 * ((NumberValue)lt).getDouble(), vec3D); return vec3D; }
-				 */
-				else {
-					String[] str = { "IllegalMultiplication", lt.toString(), "*", rt.toString() };
-					throw new MyError(app, str);
+					// number * 3D vector
+					/*
+					 * else if (rt.isVector3DValue()) { Geo3DVec vec3D =
+					 * ((Vector3DValue)rt).get3DVec(); Geo3DVec.mult(vec3D,
+					 * ((NumberValue)lt).getDouble(), vec3D); return vec3D; }
+					 */
+					else {
+						String[] str = { "IllegalMultiplication", lt.toString(), "*", rt.toString() };
+						throw new MyError(app, str);
+					}
 				}
-			}
 			// boolean * number
-			else if (lt.isBooleanValue() && rt.isNumberValue()) {
-				num = ((NumberValue) rt).getNumber();
-				MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
-				return num;
-			}
+				else if (lt.isBooleanValue() && rt.isNumberValue()) {
+					num = ((NumberValue) rt).getNumber();
+					MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
+					return num;
+				}
 			/*
 			 * // 3D vector * number else if (lt.isVector3DValue() &&
 			 * rt.isNumberValue()) { Geo3DVec vec3D =
@@ -575,70 +574,70 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			 * return num; }
 			 */
 			// vector * ...
-			else if (lt.isVectorValue()) {
-				// vector * number
-				if (rt.isNumberValue()) {
-					vec = (GeoVec2D)((VectorValue) lt).getVector();
-					GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
-					return vec;
-				}
-				// vector * vector (inner/dot product)
-				else if (rt.isVectorValue()) {
-					vec = (GeoVec2D)((VectorValue) lt).getVector();
-					if (vec.getMode() == Kernel.COORD_COMPLEX) {
-
-						// complex multiply
-
-						GeoVec2D.complexMultiply(vec, (GeoVec2D)((VectorValue) rt).getVector(), vec);
+				else if (lt.isVectorValue()) {
+					// vector * number
+					if (rt.isNumberValue()) {
+						vec = (GeoVec2D)((VectorValue) lt).getVector();
+						GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
 						return vec;
-					} else {
-						num = new MyDouble(kernel);
-						GeoVec2D.inner(vec, (GeoVec2D)((VectorValue) rt).getVector(), num);
-						return num;
+					}
+					// vector * vector (inner/dot product)
+					else if (rt.isVectorValue()) {
+						vec = (GeoVec2D)((VectorValue) lt).getVector();
+						if (vec.getMode() == Kernel.COORD_COMPLEX) {
+
+							// complex multiply
+
+							GeoVec2D.complexMultiply(vec, (GeoVec2D)((VectorValue) rt).getVector(), vec);
+							return vec;
+						} else {
+							num = new MyDouble(kernel);
+							GeoVec2D.inner(vec, (GeoVec2D)((VectorValue) rt).getVector(), num);
+							return num;
+						}
+					}
+
+					else {
+						String[] str = { "IllegalMultiplication", lt.toString(), "*", rt.toString() };
+						throw new MyError(app, str);
 					}
 				}
-
-				else {
+			// polynomial * polynomial
+				else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+					poly = new Polynomial(kernel, (Polynomial) lt);
+					poly.multiply((Polynomial) rt);
+					return poly;
+				} else if (lt.isTextValue()) {
+					msb = ((TextValue) lt).getText();
+					if (holdsLaTeXtext) {
+						msb.append(rt.toLaTeXString(false));
+					} else {
+						if (rt.isGeoElement()) {
+							GeoElement geo = (GeoElement) rt;
+							msb.append(geo.toDefinedValueString());
+						} else {
+							msb.append(rt.toValueString());
+						}
+					}
+					return msb;
+				} // text concatenation (right)
+				else if (rt.isTextValue()) {
+					msb = ((TextValue) rt).getText();
+					if (holdsLaTeXtext) {
+						msb.insert(0, lt.toLaTeXString(false));
+					} else {
+						if (lt.isGeoElement()) {
+							GeoElement geo = (GeoElement) lt;
+							msb.insert(0, geo.toDefinedValueString());
+						} else {
+							msb.insert(0, lt.toValueString());
+						}
+					}
+					return msb;
+				} else {
 					String[] str = { "IllegalMultiplication", lt.toString(), "*", rt.toString() };
 					throw new MyError(app, str);
 				}
-			}
-			// polynomial * polynomial
-			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
-				poly = new Polynomial(kernel, (Polynomial) lt);
-				poly.multiply((Polynomial) rt);
-				return poly;
-			} else if (lt.isTextValue()) {
-				msb = ((TextValue) lt).getText();
-				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false));
-				} else {
-					if (rt.isGeoElement()) {
-						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString());
-					} else {
-						msb.append(rt.toValueString());
-					}
-				}
-				return msb;
-			} // text concatenation (right)
-			else if (rt.isTextValue()) {
-				msb = ((TextValue) rt).getText();
-				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false));
-				} else {
-					if (lt.isGeoElement()) {
-						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString());
-					} else {
-						msb.insert(0, lt.toValueString());
-					}
-				}
-				return msb;
-			} else {
-				String[] str = { "IllegalMultiplication", lt.toString(), "*", rt.toString() };
-				throw new MyError(app, str);
-			}
 
 		case DIVIDE:
 			if (rt.isNumberValue()) {
@@ -920,32 +919,32 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					if (n >= 1 && list.getElementType() == GeoClass.NUMERIC) {
 						double min = ((GeoNumeric)(list.get(0))).getDouble();
 						double max = ((GeoNumeric)(list.get(1))).getDouble();
-						
+
 						if (min > max || x > max || x < min) return new MyDouble(kernel, Double.NaN);
-						
+
 						double step = (max - min) / n;
-						
+
 						int index = (int)Math.floor((x - min) / step);
-						
+
 						if (index > n - 1) {
 							ret = ((GeoNumeric)(list.get(n + 2))).getDouble();
 						}
 						else {
-							
+
 							double y1 = ((GeoNumeric)(list.get(index + 2))).getDouble();
 							double y2 = ((GeoNumeric)(list.get(index + 3))).getDouble();
 							double x1 = min + index * step;
-							
+
 							// linear interpolation between (x1,y1) and (x2,y2+step) to give (x,ret)
 							ret = y1 + (x - x1) * (y2 - y1) / step;
 						}
 					}
 				}
-				
+
 				//Application.debug(lt.getClass()+" "+rt.getClass());
-				
+
 				return new MyDouble(kernel, ret);
-				
+
 			} else {
 				String[] str = { "IllegalArgument", "freehand", lt.toString() };
 				Application.debug(lt.getClass()+" "+rt.getClass());
@@ -1537,7 +1536,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return algo.getElement();
 			} else
 
-			// fallthrough
+				// fallthrough
 			{
 				// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 				// + " rt: " + rt + ", " + rt.getClass());
@@ -1615,14 +1614,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 							return new MyDouble(kernel, funN.evaluate(vals));
 						}
 					} else if (ev instanceof ListValue) { // f(x,y) called with
-															// list of points
+						// list of points
 						MyList l = ((ListValue) ev).getMyList();
 						MyList ret = new MyList(kernel);
 						for (int i = 0; i < l.size(); i++) {
 							MyList lArg = new MyList(kernel); // need to wrap
-																// arguments to
-																// f(x,y) in
-																// MyList
+							// arguments to
+							// f(x,y) in
+							// MyList
 							lArg.addListElement(l.getListElement(i));
 							ret.addListElement(new ExpressionNode(kernel, funN, Operation.FUNCTION_NVAR, lArg));
 						}
