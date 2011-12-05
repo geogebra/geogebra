@@ -29,6 +29,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1626,8 +1627,8 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * (returns *vertical* distance for functions)
 	 */
 	@Override
-	public double distance(GeoPoint p) {
-		return Math.abs(evaluate(p.inhomX) - p.inhomY);
+	public double distance(GeoPointInterface p) {
+		return Math.abs(evaluate(((GeoPoint)p).inhomX) - ((GeoPoint)p).inhomY);
 	}
 
 	public boolean isInRegion(GeoPointND P) {

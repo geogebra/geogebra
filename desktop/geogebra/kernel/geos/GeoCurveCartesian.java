@@ -844,9 +844,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * compound paths
 	 */
 	@Override
-	public double distance(GeoPoint p) {
-		double t = getClosestParameter(p, 0);
-		return MyMath.length(funX.evaluate(t) - p.x, funY.evaluate(t) - p.y);
+	public double distance(GeoPointInterface p) {
+		double t = getClosestParameter((GeoPoint)p, 0);
+		return MyMath.length(funX.evaluate(t) - ((GeoPoint)p).x, funY.evaluate(t) - ((GeoPoint)p).y);
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,

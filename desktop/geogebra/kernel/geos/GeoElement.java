@@ -657,11 +657,11 @@ public abstract class GeoElement
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPoint [] copyPoints(AbstractConstruction cons, GeoPointND [] points) {
-		GeoPoint [] pointsCopy = new GeoPoint[points.length];
+	public static GeoPointInterface [] copyPoints(AbstractConstruction cons, GeoPointND [] points) {
+		GeoPointInterface [] pointsCopy = new GeoPointInterface[points.length];
 		for (int i=0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPoint) ((GeoPoint) points[i]).copyInternal(cons);
-			pointsCopy[i].set((GeoElement) points[i]);
+			pointsCopy[i] = (GeoPointInterface)((GeoPointInterface)points[i]).copyInternal(cons);
+			pointsCopy[i].set(points[i]);
 		}
 		return pointsCopy;
 	}
@@ -1198,7 +1198,7 @@ public abstract class GeoElement
 
 		//if (isGeoPoint() && geo.isGeoPoint()) {
 		if (getGeoClassType()==GeoClass.POINT && geo.getGeoClassType()==GeoClass.POINT) {
-			((GeoPoint) this).setSpreadsheetTrace(((GeoPoint) geo).getSpreadsheetTrace());
+			((GeoPointInterface) this).setSpreadsheetTrace(((GeoPointInterface) geo).getSpreadsheetTrace());
 		}
 
 		// copy color function
@@ -5051,7 +5051,7 @@ public abstract class GeoElement
 
 		boolean movedGeo = false;
 
-		GeoPoint point = (GeoPoint) this;
+		GeoPointInterface point = (GeoPointInterface) this;
 		if (endPosition != null) {
 			point.setCoords(endPosition.getX(), endPosition.getY(), 1);
 			movedGeo = true;
@@ -5059,8 +5059,8 @@ public abstract class GeoElement
 
 		// translate point
 		else {
-			double x  = point.inhomX + rwTransVec.getX();
-			double y =  point.inhomY + rwTransVec.getY();
+			double x  = point.getInhomX() + rwTransVec.getX();
+			double y =  point.getInhomY() + rwTransVec.getY();
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION)
@@ -5128,7 +5128,7 @@ public abstract class GeoElement
 					GeoText movedGeoText = (GeoText) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
 						//	absolute location: change location
-						GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
+						GeoPointInterface loc = (GeoPointInterface) movedGeoText.getStartPoint();
 						if (loc != null) {
 							loc.translate(rwTransVec);
 							movedGeo = true;
@@ -5919,13 +5919,13 @@ public abstract class GeoElement
 	 * overridden in eg GeoPoint, GeoLine
 	 * for compound paths
 	 */
-	public double distance(GeoPoint p) {
+	public double distance(GeoPointInterface p) {
 		return Double.POSITIVE_INFINITY;
 	}
 
 	public double distance(GeoPointND p) {
-		if (p instanceof GeoPoint)
-			return distance((GeoPoint) p);
+		if ((p instanceof GeoElement) && (p instanceof GeoPointInterface))
+			return distance((GeoPointInterface) p);
 		AbstractApplication.debug("TODO : distance from "+getClassName()+" to ND point");
 		return Double.POSITIVE_INFINITY;
 	}
@@ -5935,7 +5935,7 @@ public abstract class GeoElement
 	 * overridden in eg GeoPoint, GeoLine
 	 * for compound paths
 	 */
-	public Point2D.Double getNearestPoint(GeoPoint p) {
+	public Point2D.Double getNearestPoint(GeoPointInterface p) {
 		return null;
 	}
 	public Point2D.Double getNearestPoint(GeoPointND p) {

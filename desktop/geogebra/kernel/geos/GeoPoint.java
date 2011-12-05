@@ -744,7 +744,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     }
     
 	@Override
-	public Point2D.Double getNearestPoint(GeoPoint p) {
+	public Point2D.Double getNearestPoint(GeoPointInterface p) {
 		return getNearestPoint((GeoPointND) p);
 	}
 	
@@ -755,9 +755,9 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	
     // euclidian distance between this GeoPoint and P
     @Override
-	final public double distance(GeoPoint P) {       
-        return MyMath.length(	P.inhomX - inhomX, 
-        						P.inhomY - inhomY);
+	final public double distance(GeoPointInterface P) {       
+        return MyMath.length(	((GeoPoint)P).inhomX - inhomX, 
+        						((GeoPoint)P).inhomY - inhomY);
     }            
     
     /** returns the square distance of this point and P (may return

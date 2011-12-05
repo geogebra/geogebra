@@ -1,9 +1,10 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 
-public interface GeoPointInterface {
+public interface GeoPointInterface extends GeoElementInterface, GeoPointND {
 
 	public boolean movePoint(Coords rwTransVec, Coords endPosition);
 
@@ -17,4 +18,7 @@ public interface GeoPointInterface {
 
 	public double getY();
 
+	// below: temporary interface methods while porting
+	public void translate(Coords v);
+	public void setSpreadsheetTrace(boolean traceFlag);
 }
