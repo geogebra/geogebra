@@ -67,6 +67,7 @@ public class Unicode {
 	final public static String fraction5_8 = "\u215d";
 	final public static String fraction3_4 = "\u00be";
 	final public static String fraction7_8 = "\u215e";
+	public static final char multiply = '\u00d7'; // multiply cross
 	
 	/*
 	 * converts an integer to a unicode superscript string (including minus sign)

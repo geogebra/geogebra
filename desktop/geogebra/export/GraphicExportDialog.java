@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.util.FileTransferable;
@@ -415,7 +416,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		double cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
 		double cmHeight = printingScale * (ev.getExportHeight() / ev.getYscale());	
 		sb.append(sizeLabelFormat.format(cmWidth));
-		sb.append(" x ");
+		sb.append(" cm ");
+		sb.append(Unicode.multiply);
+		sb.append(' ');
 		sb.append(sizeLabelFormat.format(cmHeight));
 		sb.append(" cm");			
 
@@ -427,9 +430,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);	
 		sb.append(", ");
 		sb.append(pixelWidth);
-		sb.append(" x ");
+		sb.append(' ');
+		sb.append(Unicode.multiply);
+		sb.append(' ');
 		sb.append(pixelHeight);
-		sb.append(" pixel");			
+		sb.append(" pixels");			
+		sb.append(Unicode.Superscript_2);			
 		}
 		
 		sizeLabel.setText(sb.toString());	
