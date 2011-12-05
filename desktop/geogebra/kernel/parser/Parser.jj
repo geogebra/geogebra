@@ -60,7 +60,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.MyParseError;
 import geogebra.common.util.Unicode;
 import java.util.*;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.Operation;
 
 
 public class Parser {
