@@ -3,7 +3,7 @@ package geogebra.kernel.geos;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.algos.AlgoMacro;

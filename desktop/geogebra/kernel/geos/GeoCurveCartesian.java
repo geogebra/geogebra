@@ -18,10 +18,10 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -404,9 +404,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		ExpressionNode exprY = ((Function) funY.deepCopy(kernel))
 				.getExpression();
 		funX.setExpression(new ExpressionNode(kernel, ratio,
-				ExpressionNodeConstants.Operation.MULTIPLY, exprX));
+				Operation.MULTIPLY, exprX));
 		funY.setExpression(new ExpressionNode(kernel, ratio,
-				ExpressionNodeConstants.Operation.MULTIPLY, exprY));
+				Operation.MULTIPLY, exprY));
 		translate(P.getX(), P.getY());
 	}
 
@@ -826,7 +826,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					.getExpression();
 			MyDouble d2 = new MyDouble(kernel, 2);
 			ExpressionNode sf = new ExpressionNode(kernel, new MyDouble(kernel,
-					r * r), ExpressionNodeConstants.Operation.DIVIDE, exprX.power(d2).plus(
+					r * r), Operation.DIVIDE, exprX.power(d2).plus(
 					exprY.power(d2)));
 			ExpressionNode transX = exprX.multiply(sf);
 			ExpressionNode transY = exprY.multiply(sf);
@@ -872,9 +872,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		ExpressionNode transZ = exprX.multiply(ma20).plus(exprY.multiply(ma21))
 				.plus(ma22);
 		funX.setExpression(new ExpressionNode(kernel, transX,
-				ExpressionNodeConstants.Operation.DIVIDE, transZ));
+				Operation.DIVIDE, transZ));
 		funY.setExpression(new ExpressionNode(kernel, transY,
-				ExpressionNodeConstants.Operation.DIVIDE, transZ));
+				Operation.DIVIDE, transZ));
 
 	}
 
@@ -892,8 +892,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		for (int i = 1; i < limit; i++) {
 			int pointIndex = i >= points.length ? 0 : i;
 			ExpressionNode greater = new ExpressionNode(kernel,
-					new ExpressionNode(kernel, fv, ExpressionNodeConstants.Operation.MINUS,
-							new MyDouble(kernel, i - 1)), ExpressionNodeConstants.Operation.ABS,
+					new ExpressionNode(kernel, fv, Operation.MINUS,
+							new MyDouble(kernel, i - 1)), Operation.ABS,
 					null);
 			coef = 0.5 * ((GeoPoint) points[pointIndex]).x - 0.5
 					* ((GeoPoint) points[i - 1]).x - cumulative;
@@ -906,9 +906,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			enx = enx.plus(greater.multiply(new MyDouble(kernel, coef)));
 			eny = eny.plus(greater.multiply(new MyDouble(kernel, coefY)));
 		}
-		enx = enx.plus(new ExpressionNode(kernel, fv, ExpressionNodeConstants.Operation.MULTIPLY,
+		enx = enx.plus(new ExpressionNode(kernel, fv, Operation.MULTIPLY,
 				new MyDouble(kernel, cumulative)));
-		eny = eny.plus(new ExpressionNode(kernel, fv, ExpressionNodeConstants.Operation.MULTIPLY,
+		eny = eny.plus(new ExpressionNode(kernel, fv, Operation.MULTIPLY,
 				new MyDouble(kernel, cumulativeY)));
 		enx = enx.plus(new MyDouble(kernel, -sum));
 		eny = eny.plus(new MyDouble(kernel, -sumY));

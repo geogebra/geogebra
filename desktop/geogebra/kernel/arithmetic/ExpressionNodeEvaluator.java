@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.main.MyError;
@@ -1050,7 +1051,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) lt).getNumber().acosh();
 			else if (lt.isPolynomialInstance() && ((Polynomial) lt).degree() == 0) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
-				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, ExpressionNodeConstants.Operation.ACOSH, null), ""));
+				return new Polynomial(kernel, new Term(kernel, new ExpressionNode(kernel, lt, Operation.ACOSH, null), ""));
 			} else {
 				String[] str = { "IllegalArgument", "acosh", lt.toString() };
 				throw new MyError(app, str);

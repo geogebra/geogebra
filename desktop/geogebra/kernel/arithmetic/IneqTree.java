@@ -1,6 +1,6 @@
 package geogebra.kernel.arithmetic;
 
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.Operation;
+import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.kernel.geos.GeoPoint;
 
 import java.util.Set;
