@@ -1,5 +1,7 @@
 package geogebra.web.euclidian;
 
+import com.google.gwt.canvas.client.Canvas;
+
 import geogebra.web.kernel.gawt.BasicStroke;
 import geogebra.web.kernel.gawt.Color;
 import geogebra.web.kernel.gawt.Ellipse2D;
@@ -41,6 +43,12 @@ public class EuclidianView {
 	public static final int LINE_TYPE_DOTTED = 20;
 
 	public static final int LINE_TYPE_DASHED_DOTTED = 30;
+
+	public EuclidianView(Canvas canvas,
+            EuclidianController euclidiancontroller, boolean[] showAxes,
+            boolean showGrid) {
+	    // TODO Auto-generated constructor stub
+    }
 
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = { new Integer(LINE_TYPE_FULL),
