@@ -44,7 +44,6 @@ import geogebra.kernel.arithmetic.MyList;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -1386,7 +1385,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
-	public Point2D.Double getNearestPoint(GeoPointND p) {
+	public void getNearestPoint(GeoPointND p) {
 		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
@@ -1403,7 +1402,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 		// Application.debug("closestPointIndex="+closestPointIndex);
 
-		return get(closestPointIndex).getNearestPoint(p);
+		//return get(closestPointIndex).getNearestPoint(p);
 	}
 
 	public double distance(GeoPoint p) {

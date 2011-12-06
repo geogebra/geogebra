@@ -743,16 +743,6 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     	return getInhomCoordsInD(3).distance(P.getInhomCoordsInD(3));
     }
     
-	@Override
-	public Point2D.Double getNearestPoint(GeoPointInterface p) {
-		return getNearestPoint((GeoPointND) p);
-	}
-	
-	@Override
-	public Point2D.Double getNearestPoint(GeoPointND p) {
-		return new Point2D.Double(inhomX, inhomY);
-	}
-	
     // euclidian distance between this GeoPoint and P
     @Override
 	final public double distance(GeoPointInterface P) {       

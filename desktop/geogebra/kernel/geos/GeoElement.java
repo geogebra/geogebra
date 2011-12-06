@@ -70,7 +70,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -78,7 +78,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
-//import java.util.regex.Matcher;
 
 /**
  *
@@ -5876,18 +5875,6 @@ public abstract class GeoElement
 			return distance((GeoPointInterface) p);
 		AbstractApplication.debug("TODO : distance from "+getClassName()+" to ND point");
 		return Double.POSITIVE_INFINITY;
-	}
-
-	/*
-	 * Gets nearest point on object to p
-	 * overridden in eg GeoPoint, GeoLine
-	 * for compound paths
-	 */
-	public Point2D.Double getNearestPoint(GeoPointInterface p) {
-		return null;
-	}
-	public Point2D.Double getNearestPoint(GeoPointND p) {
-		return null;
 	}
 
 	public boolean canHaveClickScript() {
