@@ -61,7 +61,6 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.kernelND.GeoConicND;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;

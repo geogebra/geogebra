@@ -47,7 +47,6 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionVariable;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -871,16 +870,6 @@ GeoLineInterface {
 		}
 
 	}			
-	
-	public Point2D.Double getNearestPoint(GeoPoint p) {
-		double px = p.inhomX;
-		double py = p.inhomY;
-		// param of projection point on perpendicular line
-		double t = -(z + x*px + y*py) / (x*x + y*y); 
-		// calculate projection point using perpendicular line
-		return new Point2D.Double(px + t * x, py + t * y);
-
-	}
 
 	public void pathChanged(GeoPointND P) {
 		
