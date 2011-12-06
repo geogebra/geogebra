@@ -6,7 +6,7 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -576,8 +576,8 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		Point minPoint = table.getMinSelectionPixel();
 
 		if (maxPoint != null) {
-			int dotX = (int)maxPoint.getX();
-			int dotY = (int)maxPoint.getY();
+			int dotX = maxPoint.getX();
+			int dotY = maxPoint.getY();
 			int s = MyTable.DOT_SIZE + 2;
 			Rectangle dotRect = new Rectangle(dotX - s/2 ,dotY - s/2 , s, s);	
 			boolean overDot = dotRect.contains(e.getPoint());
@@ -591,9 +591,9 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		//check if over the DnD region and update accordingly
 		Point testPoint = table.getMinSelectionPixel();
 		if (testPoint != null) {
-			int minX = (int)minPoint.getX();
-			int minY = (int)minPoint.getY();
-			int maxX = (int)maxPoint.getX();
+			int minX = minPoint.getX();
+			int minY = minPoint.getY();
+			int maxX = maxPoint.getX();
 			int w = maxX - minX;
 			Rectangle dndRect = new Rectangle(minX, minY - 2 , w, 4);	
 			boolean overDnD = dndRect.contains(e.getPoint());

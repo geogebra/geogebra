@@ -7,7 +7,7 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;

@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -181,7 +181,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 	// Returns index of row to be resized if mouse point P is 
 	// near a row boundary (within 3 pixels) 
-	private int getResizingRow(Point p){ 
+	private int getResizingRow(java.awt.Point p){ 
 		int resizeRow = -1;
 		Point point = table.getIndexFromPixel(p.x, p.y);
 		if (point != null) {
@@ -244,7 +244,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 		
 		// Update resizingRow. If nonnegative, then mouse is over a boundary
 		// and it gives the row to be resized (resizing is done in mouseDragged).
-		Point p = e.getPoint(); 
+		java.awt.Point p = e.getPoint(); 
         resizingRow = getResizingRow(p); 
         mouseYOffset = p.y - table.getRowHeight(resizingRow); 
         //

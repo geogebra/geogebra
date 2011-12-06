@@ -18,7 +18,7 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.util.ArrayList;
 
 /**

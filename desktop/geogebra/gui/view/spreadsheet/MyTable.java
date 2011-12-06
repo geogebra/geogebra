@@ -18,7 +18,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
@@ -1302,7 +1302,7 @@ public class MyTable extends JTable implements FocusListener
 	//
 	protected void handleControlDragSelect(MouseEvent e) {
 
-		Point p = e.getPoint();
+		java.awt.Point p = e.getPoint();
 		int row = this.rowAtPoint(p);
 		int column = this.columnAtPoint(p);
 		ListSelectionModel cm = getColumnModel().getSelectionModel();
@@ -1916,11 +1916,11 @@ public class MyTable extends JTable implements FocusListener
 
 	private static Cursor createCursor(Image cursorImage, boolean center){
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Point cursorHotSpot;
+		java.awt.Point cursorHotSpot;
 		if(center){
-			cursorHotSpot = new Point(cursorImage.getWidth(null)/2,cursorImage.getHeight(null)/2);
+			cursorHotSpot = new java.awt.Point(cursorImage.getWidth(null)/2,cursorImage.getHeight(null)/2);
 		}else{
-			cursorHotSpot= new Point(0,0);
+			cursorHotSpot= new java.awt.Point(0,0);
 		}
 		Cursor cursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot, null);
 		return cursor;

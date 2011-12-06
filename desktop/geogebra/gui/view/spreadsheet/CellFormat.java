@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

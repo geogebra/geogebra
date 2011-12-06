@@ -19,7 +19,7 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.Matcher;

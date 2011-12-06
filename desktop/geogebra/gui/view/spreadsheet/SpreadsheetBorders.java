@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.main.GeoGebraColorConstants;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Set;

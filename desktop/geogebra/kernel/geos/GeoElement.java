@@ -20,6 +20,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.ColorAdapter;
+import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
@@ -69,7 +70,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;

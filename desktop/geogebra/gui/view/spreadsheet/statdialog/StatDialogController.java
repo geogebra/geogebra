@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.awt.Point;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.gui.view.spreadsheet.CellRange;
@@ -9,18 +10,15 @@ import geogebra.gui.view.spreadsheet.RelativeCopy;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.util.MultidimensionalCounter.Iterator;
 
 public class StatDialogController {
 

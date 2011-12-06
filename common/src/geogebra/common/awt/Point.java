@@ -1,8 +1,46 @@
 package geogebra.common.awt;
 
-public interface Point {
+/** Class for integer tuples **/
+public class Point {
 
-	int y = 0;
-	int x = 0;
+	public Point(){
+		x=0;
+		y=0;
+	}
+	public Point(int x,int y){
+		this.x=x;
+		this.y=y;
+	}
+	/** y-coordinate **/
+	public int y = 0;
+	/** x-coordinate **/
+	public int x = 0;
+	
+	/**
+	 * Set x and y at the same time
+	 * @param x x-coord
+	 * @param y y-coord
+	 */
+	public void setLocation(int x,int y){
+		this.x=x;
+		this.y=y;
+	}
+	
+	/**
+	 * Take both coords from a point
+	 * @param p point
+	 */
+	public void setLocation(Point p){
+		this.x=p.x;
+		this.y=p.y;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public int getX(){
+		return x;
+	}
 
 }

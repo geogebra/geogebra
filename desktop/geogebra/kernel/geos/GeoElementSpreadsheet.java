@@ -4,7 +4,7 @@ import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

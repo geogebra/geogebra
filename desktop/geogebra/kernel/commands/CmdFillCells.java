@@ -12,7 +12,7 @@ import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 

@@ -6,7 +6,7 @@ import geogebra.main.Application;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -110,8 +110,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 				// check if the cursor is within the resizing region (i.e. border +- 3pixels)
 				Point point2 = table.getPixel((int)point.getX(), (int)point.getY(), true);
 				Point point3 = table.getPixel((int)point.getX(), (int)point.getY(), false);
-				int x2 = (int)point2.getX();
-				int x3 = (int)point3.getX();
+				int x2 = point2.getX();
+				int x3 = point3.getX();
 				isResizing = ! (x > x2 + 2 && x < x3 - 3);
 
 				if (! isResizing) {
@@ -244,7 +244,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 		int column = -1;
 		boolean isOver = false;
-		Point mouseLoc = e.getPoint();
+		java.awt.Point mouseLoc = e.getPoint();
 		Point cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
 		if (cellLoc != null ) {
 			column = cellLoc.x;
@@ -458,7 +458,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		 * @param value
 		 * @return
 		 */
-		public boolean isOverTraceButton(int colIndex, Point loc, Object value){
+		public boolean isOverTraceButton(int colIndex, java.awt.Point loc, Object value){
 
 			if(!view.getTraceManager().isTraceColumn(colIndex))
 				return false;

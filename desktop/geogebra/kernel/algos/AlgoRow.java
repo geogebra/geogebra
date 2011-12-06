@@ -12,11 +12,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
-import geogebra.kernel.Construction;
+
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
+import geogebra.common.kernel.AbstractConstruction;
 
 
 /**
@@ -32,7 +33,7 @@ public class AlgoRow extends AlgoElement {
     /**
      * Creates new row algo
      */
-    public AlgoRow(Construction cons, String label, GeoElement geo) {
+    public AlgoRow(AbstractConstruction cons, String label, GeoElement geo) {
     	super(cons);
         this.geo = geo;  
         

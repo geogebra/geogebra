@@ -13,7 +13,7 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
