@@ -27,7 +27,57 @@ import geogebra.common.kernel.AbstractAnimationManager;
 
 
 public abstract class AbstractKernel {
+
+	//G.Sturr 2009-10-18
+	// algebra style 
+	final public static int ALGEBRA_STYLE_VALUE = 0;
+	final public static int ALGEBRA_STYLE_DEFINITION = 1;
+	final public static int ALGEBRA_STYLE_COMMAND = 2;
+	protected int algebraStyle = AbstractKernel.ALGEBRA_STYLE_VALUE;//private
+	//end G.Sturr
 	
+	/**
+	 * Specifies whether possible line breaks are to be marked
+	 * in the String representation of {@link ExpressionNode ExpressionNodes}.
+	 */
+	protected boolean insertLineBreaks = false;
+
+	// angle unit: degree, radians
+	//private int angleUnit = Kernel.ANGLE_DEGREE;
+	
+	
+	protected boolean viewReiniting = false;//private
+	protected boolean undoActive = false;//private
+	/* Significant figures
+	 * 
+	 * How to do:
+	 * 
+	 * private ScientificFormat sf;
+	 * sf = new ScientificFormat(5, 20, false);
+	 * String s = sf.format(double)
+	 * 
+	 * need to address:
+	 * 
+	 * PRINT_PRECISION 
+	 * setPrintDecimals()
+	 * getPrintDecimals()
+	 * getMaximumFractionDigits()
+	 * setMaximumFractionDigits()
+	 * 
+	 * how to determine whether to use nf or sf
+	 */
+
+	// Views may register to be informed about 
+	// changes to the Kernel
+	// (add, remove, update)
+	protected View[] views = new View[20];
+	protected int viewCnt = 0;
+
+
+
+
+
+
 	/** CAS variable handling */	
 	private static final String GGBCAS_VARIABLE_PREFIX = "ggbcasvar";
 	private static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";

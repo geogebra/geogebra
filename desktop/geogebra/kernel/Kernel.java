@@ -160,69 +160,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class Kernel extends AbstractKernel{
-	
-	
-	
-	
-	
-	
-	
-
-	// STATIC
-	final public static int ANGLE_RADIANT = 1;
-	final public static int ANGLE_DEGREE = 2;
-	final public static int COORD_CARTESIAN = 3;
-	final public static int COORD_POLAR = 4;	 
-	final public static int COORD_COMPLEX = 5;
-	final public static double PI_2 = 2.0 * Math.PI;
-	final public static double PI_HALF =  Math.PI / 2.0;
-	final public static double SQRT_2_HALF =  Math.sqrt(2.0) / 2.0;
-	final public static double PI_180 = Math.PI / 180;
-	final public static double CONST_180_PI = 180 / Math.PI;
-	//private static boolean KEEP_LEADING_SIGN = true;
-	
-	//G.Sturr 2009-10-18
-	// algebra style 
-	final public static int ALGEBRA_STYLE_VALUE = 0;
-	final public static int ALGEBRA_STYLE_DEFINITION = 1;
-	final public static int ALGEBRA_STYLE_COMMAND = 2;
-	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
-	//end G.Sturr
-	
-	
-	
-	/**
-	 * Specifies whether possible line breaks are to be marked
-	 * in the String representation of {@link ExpressionNode ExpressionNodes}.
-	 */
-	protected boolean insertLineBreaks = false;
-
-	// angle unit: degree, radians
-	//private int angleUnit = Kernel.ANGLE_DEGREE;
-	
-	
-	
-	private boolean viewReiniting = false;
-	private boolean undoActive = false;
-	/* Significant figures
-	 * 
-	 * How to do:
-	 * 
-	 * private ScientificFormat sf;
-	 * sf = new ScientificFormat(5, 20, false);
-	 * String s = sf.format(double)
-	 * 
-	 * need to address:
-	 * 
-	 * PRINT_PRECISION 
-	 * setPrintDecimals()
-	 * getPrintDecimals()
-	 * getMaximumFractionDigits()
-	 * setMaximumFractionDigits()
-	 * 
-	 * how to determine whether to use nf or sf
-	 */
-	
 		
 	protected void notifyEuclidianViewCE() {
 		if (macroManager != null) 
@@ -230,13 +167,7 @@ public class Kernel extends AbstractKernel{
 		
 		cons.notifyEuclidianViewCE();
 	}
-	
-	// Views may register to be informed about 
-	// changes to the Kernel
-	// (add, remove, update)
-	private View[] views = new View[20];
-	private int viewCnt = 0;
-	
+
 	protected Construction cons;
 	protected Application app;	
 	protected AlgebraProcessor algProcessor;
@@ -244,14 +175,9 @@ public class Kernel extends AbstractKernel{
 	private RegressionMath regMath;
 	private ExtremumFinder extrFinder;
 	protected Parser parser;
-	
-	
-	
+
 	private MacroManager macroManager;
-	
-	 
-	
-	
+
 	/** Evaluator for ExpressionNode */
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
 	
