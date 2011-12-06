@@ -1,6 +1,8 @@
 package geogebra.gui.layout;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.InputDialog;
 import geogebra.gui.InputHandler;
@@ -10,9 +12,7 @@ import geogebra.io.layout.DockSplitPaneData;
 import geogebra.io.layout.Perspective;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.LayoutSettings;
-import geogebra.main.settings.SettingListener;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

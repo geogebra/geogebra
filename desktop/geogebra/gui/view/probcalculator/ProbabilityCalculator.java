@@ -10,6 +10,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
@@ -49,9 +51,7 @@ import geogebra.kernel.statistics.AlgoPascal;
 import geogebra.kernel.statistics.AlgoPoisson;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
-import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.ProbabilityCalculatorSettings;
-import geogebra.main.settings.SettingListener;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

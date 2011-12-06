@@ -1,5 +1,7 @@
 package geogebra.main.settings;
 
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.gui.view.probcalculator.ProbabilityManager;
 
 import java.util.LinkedList;

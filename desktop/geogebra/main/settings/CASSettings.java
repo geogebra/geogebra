@@ -1,5 +1,8 @@
 package geogebra.main.settings;
 
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
+
 import java.util.LinkedList;
 
 

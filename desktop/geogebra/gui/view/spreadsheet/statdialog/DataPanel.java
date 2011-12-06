@@ -7,6 +7,7 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
+import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -62,7 +63,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	private StatDialogController statController;
 	private int mode;
 
-	public int preferredColumnWidth = MyTable.TABLE_CELL_WIDTH; 
+	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH; 
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;	
 	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
@@ -113,7 +114,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 		// set table and column renderers
 		dataTable.setDefaultRenderer(Object.class, new MyCellRenderer());
 		columnHeader = new MyColumnHeaderRenderer();
-		columnHeader.setPreferredSize(new Dimension(preferredColumnWidth, MyTable.TABLE_CELL_HEIGHT));
+		columnHeader.setPreferredSize(new Dimension(preferredColumnWidth, SpreadsheetSettings.TABLE_CELL_HEIGHT));
 		for (int i = 0; i < dataTable.getColumnCount(); ++ i) {
 			dataTable.getColumnModel().getColumn(i).setHeaderRenderer(columnHeader);
 			dataTable.getColumnModel().getColumn(i).setPreferredWidth(preferredColumnWidth);
@@ -347,7 +348,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 			dataTable.setRowHeight(h);
 			rowHeader.setFixedCellHeight(h);
 
-			preferredColumnWidth = (int) (MyTable.TABLE_CELL_WIDTH * multiplier);
+			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier);
 			//columnHeader.setPreferredSize(new Dimension(preferredColumnWidth, (int)(MyTable.TABLE_CELL_HEIGHT * multiplier)));
 
 		}

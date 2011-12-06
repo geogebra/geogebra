@@ -1,6 +1,6 @@
-package geogebra.main.settings;
+package geogebra.common.main.settings;
 
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.LinkedList;
 
@@ -68,7 +68,7 @@ public abstract class AbstractSettings {
 	 */
 	public final void endBatch() {
 		if(!isBatch) {
-			Application.debug("Settings: endBatch() called without beginBatch(). Maybe beginBatch() is missing?");
+			AbstractApplication.debug("Settings: endBatch() called without beginBatch(). Maybe beginBatch() is missing?");
 		}
 		
 		// notify listeners

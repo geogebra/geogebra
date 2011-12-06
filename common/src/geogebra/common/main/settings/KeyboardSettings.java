@@ -1,10 +1,9 @@
-package geogebra.main.settings;
+package geogebra.common.main.settings;
 
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Locale;
 
 
 /**
@@ -14,31 +13,34 @@ import java.util.Locale;
  */
 public class KeyboardSettings extends AbstractSettings {
 	
-	public static ArrayList<Locale> supportedLocales = new ArrayList<Locale>();
+	/**
+	 * List of supported locales as strings, e.g. hu, en_GB
+	 */
+	public static ArrayList<String> supportedLocales = new ArrayList<String>();
 	static {
-		supportedLocales.add(new Locale("ar")); // Arabic
-		supportedLocales.add(new Locale("hr")); // Croatian
-		supportedLocales.add(new Locale("cs")); // Czech
-		supportedLocales.add(new Locale("en", "GB")); // English (UK)
-		supportedLocales.add(new Locale("fr")); // French
-		supportedLocales.add(new Locale("de")); // German
-		supportedLocales.add(new Locale("el")); // Greek	
-		supportedLocales.add(new Locale("iw")); // Hebrew
-		supportedLocales.add(new Locale("hi")); // Hindi		
-		supportedLocales.add(new Locale("hu")); // Hungarian		
-		supportedLocales.add(new Locale("ko")); // Korean
-		supportedLocales.add(new Locale("ml")); // Malayalam
-		supportedLocales.add(new Locale("no")); // Norwegian
-		supportedLocales.add(new Locale("fa")); // Persian
-		supportedLocales.add(new Locale("ru")); // Russian
-		supportedLocales.add(new Locale("sk")); // Slovak
-		supportedLocales.add(new Locale("es")); // Spanish
+		supportedLocales.add("ar"); // Arabic
+		supportedLocales.add("hr"); // Croatian
+		supportedLocales.add("cs"); // Czech
+		supportedLocales.add("en_GB"); // English (UK)
+		supportedLocales.add("fr"); // French
+		supportedLocales.add("de"); // German
+		supportedLocales.add("el"); // Greek	
+		supportedLocales.add("iw"); // Hebrew
+		supportedLocales.add("hi"); // Hindi		
+		supportedLocales.add("hu"); // Hungarian		
+		supportedLocales.add("ko"); // Korean
+		supportedLocales.add("ml"); // Malayalam
+		supportedLocales.add("no"); // Norwegian
+		supportedLocales.add("fa"); // Persian
+		supportedLocales.add("ru"); // Russian
+		supportedLocales.add("sk"); // Slovak
+		supportedLocales.add("es"); // Spanish
 	}
 
 	private float keyboardOpacity = 0.7f;
 	private int keyboardWidth = 400;
 	private int keyboardHeight = 235;
-	private Locale keyboardLocale = null;
+	private String keyboardLocale = null;
 	private boolean showKeyboardOnStart = false;
 	
 	public KeyboardSettings(LinkedList<SettingListener> listeners) {
@@ -61,14 +63,14 @@ public class KeyboardSettings extends AbstractSettings {
 		return keyboardHeight;
 	}
 	
-	public Locale getKeyboardLocale(){
+	public String getKeyboardLocale(){
 		return keyboardLocale;
 	}
 
-	public void setKeyboardLocale(Locale loc) {		
+	/*public void setKeyboardLocale(String loc) {		
 		keyboardLocale = loc;
 		settingChanged();
-	}
+	}*/
 	
 	public void setKeyboardWidth(int windowWidth) {			
 		keyboardWidth = windowWidth;
@@ -110,11 +112,12 @@ public class KeyboardSettings extends AbstractSettings {
 			return;
 		for(int i=0;i<supportedLocales.size();i++){
 			if(supportedLocales.get(i).toString().equals(string)){
-				setKeyboardLocale(supportedLocales.get(i));
+				keyboardLocale = supportedLocales.get(i);
+				settingChanged();
 				return;
 			}
 		}
-		Application.debug("Unsupported keyboard locale: "+string);
+		AbstractApplication.debug("Unsupported keyboard locale: "+string);
 	}	
 
 }

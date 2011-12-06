@@ -27,6 +27,8 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
@@ -69,9 +71,7 @@ import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.main.Application;
-import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.EuclidianSettings;
-import geogebra.main.settings.SettingListener;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

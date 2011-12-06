@@ -5,14 +5,14 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.MyResourceBundle;
-import geogebra.main.settings.AbstractSettings;
 import geogebra.main.settings.CASSettings;
-import geogebra.main.settings.SettingListener;
 
 import java.util.Enumeration;
 import java.util.HashSet;

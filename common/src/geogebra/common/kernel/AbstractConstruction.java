@@ -46,8 +46,12 @@ public abstract class AbstractConstruction {
 	public abstract void removeFromAlgorithmList(AlgoElementInterface algoElement);
 	
 	public abstract TreeSet getGeoSetLabelOrder(GeoClass geoClassType);
-	
-	
+
+	public abstract void setTitle(String title);
+	public abstract void setAuthor(String author);
+	public abstract void setDate(String date);
+
+	public abstract void setWorksheetText(String below, int i);	
 
 
 }

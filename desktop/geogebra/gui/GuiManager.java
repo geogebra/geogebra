@@ -8,6 +8,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
+import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -64,7 +65,6 @@ import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.main.MyResourceBundle;
-import geogebra.main.settings.KeyboardSettings;
 import geogebra.util.Util;
 
 import java.awt.Color;

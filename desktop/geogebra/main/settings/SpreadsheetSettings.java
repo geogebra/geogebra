@@ -1,5 +1,7 @@
 package geogebra.main.settings;
 
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.gui.view.spreadsheet.MyTable;
 
 import java.awt.Dimension;
@@ -12,6 +14,8 @@ import java.util.LinkedList;
  */
 public class SpreadsheetSettings extends AbstractSettings {
 
+	public static final int TABLE_CELL_WIDTH = 70;
+	public static final int TABLE_CELL_HEIGHT = 21;  //G.Sturr (old height 20) + 1 to stop cell editor clipping
 	// layout settings
 	private boolean showFormulaBar = false;
 	private boolean showGrid = true;
@@ -35,8 +39,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 	// row and column size
 	private HashMap<Integer,Integer> widthMap;
 	private HashMap<Integer,Integer> heightMap;
-	private int preferredColumnWidth = MyTable.TABLE_CELL_WIDTH;
-	private int preferredRowHeight = MyTable.TABLE_CELL_HEIGHT;
+	private int preferredColumnWidth = TABLE_CELL_WIDTH;
+	private int preferredRowHeight = TABLE_CELL_HEIGHT;
 
 	// cell format
 	private String cellFormat;

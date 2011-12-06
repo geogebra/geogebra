@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package geogebra.gui.virtualkeyboard;
 
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.Unicode;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
-import geogebra.main.settings.AbstractSettings;
-import geogebra.main.settings.KeyboardSettings;
-import geogebra.main.settings.SettingListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -1052,9 +1052,13 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		Locale locale;
 
 		if (app != null){
-			locale = app.getSettings().getKeyboard().getKeyboardLocale();
-			if(locale==null)
+			String locName = app.getSettings().getKeyboard().getKeyboardLocale();
+			if(locName == null){
 				locale = app.getLocale();
+			}else{
+				locale = new Locale(locName);
+			}
+			
 		}
 		else
 			locale = getLocale();
@@ -1209,9 +1213,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		setWindowHeight(kbs.getKeyboardHeight());
 		setWindowWidth(kbs.getKeyboardWidth());
 		Locale newLocale = kbs.getKeyboardLocale() == null ? 
-				app.getLocale() : kbs.getKeyboardLocale();
+				app.getLocale() : new Locale(kbs.getKeyboardLocale());
 		if(!newLocale.equals(kbLocale))
-			setKbLocale(kbs.getKeyboardLocale());
+			setKbLocale(newLocale);
 	}
 
 }

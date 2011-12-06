@@ -1,4 +1,4 @@
-package geogebra.main.settings;
+package geogebra.common.main.settings;
 
 /**
  * Listener interface for settings.

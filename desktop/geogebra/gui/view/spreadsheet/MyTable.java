@@ -9,6 +9,7 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
+import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -55,8 +56,7 @@ public class MyTable extends JTable implements FocusListener
 
 	public static final int MAX_CELL_EDIT_STRING_LENGTH = 10;
 
-	public static final int TABLE_CELL_WIDTH = 70;
-	public static final int TABLE_CELL_HEIGHT = 21;  //G.Sturr (old height 20) + 1 to stop cell editor clipping
+	
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
@@ -163,7 +163,7 @@ public class MyTable extends JTable implements FocusListener
 	private ArrayList<Point> adjustedRowHeights = new ArrayList<Point>();
 	private boolean doRecordRowHeights = true;
 
-	public int preferredColumnWidth = TABLE_CELL_WIDTH;
+	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 
 
@@ -212,7 +212,7 @@ public class MyTable extends JTable implements FocusListener
 		grabbingCursor = createCursor(app.getImageIcon("cursor_grabbing.gif").getImage(), true);
 
 		// set row height 	
-		setRowHeight(TABLE_CELL_HEIGHT);
+		setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
 
 
 		// prepare column headers
@@ -228,7 +228,7 @@ public class MyTable extends JTable implements FocusListener
 		// set columns and column headers
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		headerRenderer.setPreferredSize(new Dimension(preferredColumnWidth, TABLE_CELL_HEIGHT));	
+		headerRenderer.setPreferredSize(new Dimension(preferredColumnWidth, SpreadsheetSettings.TABLE_CELL_HEIGHT));	
 		for (int i = 0; i < getColumnCount(); ++ i) {
 			getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
 			getColumnModel().getColumn(i).setPreferredWidth(preferredColumnWidth);

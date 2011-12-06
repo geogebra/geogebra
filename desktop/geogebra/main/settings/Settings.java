@@ -1,5 +1,9 @@
 package geogebra.main.settings;
 
+import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.main.settings.SettingListener;
+
 import java.util.LinkedList;
 import java.util.Iterator;
 

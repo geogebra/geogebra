@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -129,8 +130,8 @@ public class Macro {
 	 * @param inputLabels
 	 * @param outputLabels
 	 */
-	public void initMacro(Construction macroCons, String [] inputLabels, String [] outputLabels) {				
-		this.macroCons = macroCons;
+	public void initMacro(AbstractConstruction macroCons, String [] inputLabels, String [] outputLabels) {				
+		this.macroCons = (Construction)macroCons;
 		//this.macroConsXML = macroCons.getConstructionXML();
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;	

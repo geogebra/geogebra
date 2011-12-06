@@ -311,7 +311,7 @@ public class Kernel extends AbstractKernel{
 	 * @param cons construction used in MyXMLHandler constructor
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(Construction cons){
+	public MyXMLHandler newMyXMLHandler(AbstractConstruction cons){
 		return newMyXMLHandler(this, cons);		
 	}
 	
@@ -321,7 +321,7 @@ public class Kernel extends AbstractKernel{
 	 * @param cons
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons){
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, AbstractConstruction cons){
 		return new MyXMLHandler(kernel, cons);		
 	}
 	
@@ -753,7 +753,7 @@ public class Kernel extends AbstractKernel{
      * Creates a new GeoElement object for the given type string.
      * @param type String as produced by GeoElement.getXMLtypeString()
      */
-    public GeoElement createGeoElement(Construction cons, String type) throws MyError {    	
+    public GeoElement createGeoElement(AbstractConstruction cons, String type) throws MyError {    	
     	// the type strings are the classnames in lowercase without the beginning "geo"
     	// due to a bug in GeoGebra 2.6c the type strings for conics
         // in XML may be "ellipse", "hyperbola", ...  

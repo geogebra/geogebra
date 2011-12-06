@@ -1,10 +1,10 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.Application;
-import geogebra.main.settings.ConstructionProtocolSettings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

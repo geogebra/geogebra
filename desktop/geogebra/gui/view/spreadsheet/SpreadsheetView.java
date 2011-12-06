@@ -3,14 +3,14 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
-import geogebra.main.settings.AbstractSettings;
-import geogebra.main.settings.SettingListener;
 import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BorderLayout;
@@ -176,7 +176,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 		// Set column width
 		table.headerRenderer.setPreferredSize(new Dimension((int)(table.preferredColumnWidth)
-				, (int)(MyTable.TABLE_CELL_HEIGHT)));
+				, (int)(SpreadsheetSettings.TABLE_CELL_HEIGHT)));
 
 
 		// Put the table and the row header into a scroll plane
@@ -962,7 +962,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		int size = font.getSize();
 		if (size < 12) size = 12; // minimum size
 		double multiplier = (double)(size)/12.0;
-		table.setPreferredColumnWidth((int) (MyTable.TABLE_CELL_WIDTH * multiplier));
+		table.setPreferredColumnWidth((int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier));
 		for (int i = 0; i < table.getColumnCount(); ++ i) {
 			table.getColumnModel().getColumn(i).setPreferredWidth(table.preferredColumnWidth());
 		}

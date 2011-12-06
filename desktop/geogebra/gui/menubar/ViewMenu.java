@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.DockPanel;
@@ -7,7 +8,6 @@ import geogebra.gui.layout.Layout;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
-import geogebra.main.settings.KeyboardSettings;
 
 import java.awt.event.ActionEvent;
 import java.util.Arrays;

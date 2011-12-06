@@ -20,6 +20,7 @@ package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -28,13 +29,13 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
+import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
-import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.io.layout.DockPanelData;
 import geogebra.io.layout.DockSplitPaneData;
 import geogebra.io.layout.Perspective;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
@@ -65,9 +66,7 @@ import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;
-import geogebra.main.settings.ConstructionProtocolSettings;
 import geogebra.main.settings.EuclidianSettings;
-import geogebra.main.settings.KeyboardSettings;
 import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.Color;
@@ -157,9 +156,9 @@ public class MyXMLHandler implements DocHandler {
 	// too
 	private Kernel kernel, origKernel;
 	/** construction */
-	protected Construction cons;
+	protected AbstractConstruction cons;
 
-	private Construction origCons;
+	private AbstractConstruction origCons;
 	private Parser parser, origParser;
 
 	// List of LocateableExpPair objects
@@ -261,7 +260,7 @@ public class MyXMLHandler implements DocHandler {
 	/** Creates a new instance of MyXMLHandler 
 	 * @param kernel 
 	 * @param cons */
-	public MyXMLHandler(Kernel kernel, Construction cons) {
+	public MyXMLHandler(Kernel kernel, AbstractConstruction cons) {
 		origKernel = kernel;
 		origCons = cons;
 		origParser = new Parser(origKernel, origCons);

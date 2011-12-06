@@ -48,6 +48,7 @@ package geogebra.kernel.parser;
 import geogebra.*;
 import geogebra.main.*;
 import geogebra.kernel.*;
+import geogebra.common.kernel.*;
 import geogebra.common.kernel.arithmetic.*;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
@@ -72,10 +73,10 @@ public class Parser {
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;
     
-    public Parser(Kernel kernel, Construction cons) {
+    public Parser(Kernel kernel, AbstractConstruction cons) {
     	 this ( new java.io.StringReader("") ); // dummy stream for parser initing
          this.kernel = kernel;
-         this.cons = cons;
+         this.cons = (Construction)cons;
          app = kernel.getApplication();
     }   
     

@@ -1,12 +1,12 @@
 package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.settings.KeyboardSettings;
 import geogebra.main.settings.Settings;
 
 import java.awt.BorderLayout;
@@ -739,7 +739,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		} else if (source == cbKeyboardLanguage){			
 			int index = cbKeyboardLanguage.getSelectedIndex();
 			if(index==0)
-				settings.getKeyboard().setKeyboardLocale(app.getLocale());
+				settings.getKeyboard().setKeyboardLocale(app.getLocale().toString());
 			else
 				settings.getKeyboard().setKeyboardLocale(
 						KeyboardSettings.supportedLocales.get(index-1));
@@ -882,7 +882,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		String ggbLangCode;
 
 		for (int i = 0; i < KeyboardSettings.supportedLocales.size(); i++) {
-			Locale loc = (Locale) KeyboardSettings.supportedLocales.get(i);
+			Locale loc = new Locale(KeyboardSettings.supportedLocales.get(i));
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
@@ -894,12 +894,12 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		int selectedIndex = cbKeyboardLanguage.getSelectedIndex();
 		
 		if(selectedIndex == -1) {
-			Locale loc = settings.getKeyboard().getKeyboardLocale();
+			String loc = settings.getKeyboard().getKeyboardLocale();
 			if(loc == null) {
 				selectedIndex = 0;
 			} else{
 				// look for index in locale list and add 1 to compensate default entry
-				selectedIndex = KeyboardSettings.supportedLocales.indexOf(settings.getKeyboard().getKeyboardLocale())+1;
+				selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc)+1;
 			}
 		}
 		

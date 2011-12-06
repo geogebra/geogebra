@@ -2,9 +2,10 @@ package geogebra.main.settings;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoNumeric;
 
 import java.awt.Color;
@@ -48,7 +49,7 @@ public class EuclidianSettings extends AbstractSettings {
 	private double[] axisCross = {0,0};
 	private boolean[] positiveAxes = {false, false};
 	private boolean[] drawBorderAxes = {false,false};
-	NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
+	private NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 	
 	private int tooltipsInThisView = EuclidianView.TOOLTIPS_AUTOMATIC;
 
@@ -567,9 +568,11 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
-		if (Double.isNaN(xscale) || xscale < Kernel.MAX_DOUBLE_PRECISION || xscale > Kernel.INV_MAX_DOUBLE_PRECISION)
+		if (Double.isNaN(xscale) || xscale < AbstractKernel.MAX_DOUBLE_PRECISION 
+				|| xscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)
 			return;
-		if (Double.isNaN(yscale) || yscale < Kernel.MAX_DOUBLE_PRECISION || yscale > Kernel.INV_MAX_DOUBLE_PRECISION)
+		if (Double.isNaN(yscale) || yscale < AbstractKernel.MAX_DOUBLE_PRECISION || 
+				yscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)
 			return;
 
 		this.xZero = xZero;
