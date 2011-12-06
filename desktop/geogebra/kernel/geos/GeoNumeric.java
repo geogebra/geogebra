@@ -19,22 +19,23 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianViewInterface;
+//import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
-import geogebra.kernel.arithmetic.FunctionVariable;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 
 import java.util.ArrayList;
@@ -893,7 +894,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 			}					
 		}
 		if(evListeners != null)
-			for(EuclidianViewInterface ev:evListeners)ev.updateBounds();			
+			for(EuclidianViewInterfaceSlim ev:evListeners)ev.updateBounds();			
     }	
 	
 	private void resolveMinMax() {
@@ -1135,21 +1136,21 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
-	private ArrayList<EuclidianViewInterface> evListeners = null;
+	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
 	
 	/**
 	 * @param ev
 	 */
-	public void addEVSizeListener(EuclidianViewInterface ev){
+	public void addEVSizeListener(EuclidianViewInterfaceSlim ev){
 		if(evListeners==null)
-			evListeners = new ArrayList<EuclidianViewInterface>();
+			evListeners = new ArrayList<EuclidianViewInterfaceSlim>();
 		evListeners.add(ev);
 	}
 
 	/**
 	 * @param ev
 	 */
-	public void removeEVSizeListener(EuclidianViewInterface ev) {
+	public void removeEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if(evListeners!=null)
 			evListeners.remove(ev);	
 	}
@@ -1161,7 +1162,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		if(num.evListeners != null) {
 
 			evListeners = num.evListeners;
-			for (EuclidianViewInterface ev : num.evListeners){ 	
+			for (EuclidianViewInterfaceSlim ev : num.evListeners){ 	
 				ev.replaceBoundObject(num,this);				
 			}
 			

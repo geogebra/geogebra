@@ -436,8 +436,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	 */
 	public boolean isUnitAxesRatio();
 
-	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric);
-
 
 	public void setCursor(Cursor cursor);
 

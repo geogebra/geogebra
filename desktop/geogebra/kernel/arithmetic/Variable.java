@@ -23,7 +23,6 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.MyParseError;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
 
@@ -38,16 +37,16 @@ import java.util.HashSet;
 public class Variable extends ValidExpression implements ExpressionValue {
 
     private String name;
-    private Kernel kernel;
+    private AbstractKernel kernel;
         
     /** Creates new VarString */
-    public Variable(Kernel kernel, String name) {
+    public Variable(AbstractKernel kernel, String name) {
         this.name = name;
         this.kernel = kernel;
     }      
     
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		return new Variable((Kernel)kernel, name);
+		return new Variable((AbstractKernel)kernel, name);
 	}
     
     public String getName() { return toString(); }
@@ -87,7 +86,7 @@ public class Variable extends ValidExpression implements ExpressionValue {
     	}
        
     	// lookup variable name, create missing variables automatically if allowed
-    	GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement);    	
+    	GeoElement geo = (GeoElement) kernel.lookupLabel(name, allowAutoCreateGeoElement);    	
         if (geo != null)
 			return  geo;     
 	
@@ -195,7 +194,7 @@ public class Variable extends ValidExpression implements ExpressionValue {
 		return toValueString();
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 

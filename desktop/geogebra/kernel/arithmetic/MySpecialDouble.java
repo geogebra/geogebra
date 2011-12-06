@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
 
 import java.math.BigDecimal;
 
@@ -36,7 +36,7 @@ public class MySpecialDouble extends MyDouble {
 	
 	private static MySpecialDouble eulerConstant;
 	
-	public MySpecialDouble(Kernel kernel, double val, String strToString) {
+	public MySpecialDouble(AbstractKernel kernel, double val, String strToString) {
 		super(kernel, val);
 		
 		// check if this is a letter constant, e.g. Pi or Euler number
@@ -81,7 +81,7 @@ public class MySpecialDouble extends MyDouble {
 		scientificNotation = sd.scientificNotation;
 	}
 	
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
 		if (isEulerConstant())
 			return getEulerConstant(kernel);
 		
@@ -94,7 +94,7 @@ public class MySpecialDouble extends MyDouble {
 		keepOriginalString = true;
 	}
 
-	public static MySpecialDouble getEulerConstant(Kernel kernel) {
+	public static MySpecialDouble getEulerConstant(AbstractKernel kernel) {
 		if (eulerConstant == null) {
 			eulerConstant = new MySpecialDouble(kernel, Math.E, Unicode.EULER_STRING);
 		}

@@ -18,7 +18,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 import java.io.Serializable;
 import java.util.ArrayList;

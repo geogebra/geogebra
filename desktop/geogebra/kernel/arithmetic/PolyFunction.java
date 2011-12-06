@@ -13,12 +13,11 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.kernel.roots.RealRootDerivFunction;
-import geogebra.kernel.roots.RealRootFunction;
 
 /**
  * Fast polynomial evaluation of Function
  */
-public class PolyFunction implements RealRootFunction, RealRootDerivFunction {
+public class PolyFunction implements RealRootDerivFunction {
 	protected double [] coeffs;
 	private int degree; 
 	

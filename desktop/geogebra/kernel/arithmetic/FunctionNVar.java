@@ -15,6 +15,7 @@ package geogebra.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -22,6 +23,7 @@ import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.MyMath;
@@ -29,7 +31,6 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.main.Application;
 
 import java.util.HashSet;
 
@@ -316,7 +317,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				expression = ((FunctionNVar)ev).getExpression();
 				fVars = ((FunctionNVar)ev).getFunctionVariables();	
 		}else{
-			Application.debug("InvalidFunction:" + expression.toString() + " "
+			AbstractApplication.debug("InvalidFunction:" + expression.toString() + " "
 					+ ev.toString() + ev.getClass().getName());
 			throw new MyError(kernel.getApplication(), "InvalidFunction");
 		}

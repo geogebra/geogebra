@@ -18,23 +18,22 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.kernel.Kernel;
 
 /** 
  * 
  * @author  Michael
  * @version 
  */
-public class MyNumberPair extends MyVecNode implements VectorValue {
+public class MyNumberPair extends MyVecNode {
     
             
-    public MyNumberPair(Kernel kernel, ExpressionValue en, ExpressionValue en2) {
+    public MyNumberPair(AbstractKernel kernel, ExpressionValue en, ExpressionValue en2) {
 		super(kernel, en, en2);
 	}
 
-    public ExpressionValue deepCopy(Kernel kernel) {
+    public ExpressionValue deepCopy(AbstractKernel kernel) {
         return new MyNumberPair(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
     }
     

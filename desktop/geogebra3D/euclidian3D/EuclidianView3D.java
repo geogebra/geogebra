@@ -10,6 +10,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3483,7 +3484,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 
-	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric){
+	public void replaceBoundObject(GeoNumericInterface num, GeoNumericInterface geoNumeric){
 		
 	}
 	

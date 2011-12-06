@@ -5,6 +5,8 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoTextInterface;
@@ -14,8 +16,6 @@ import geogebra.common.util.StringUtil;
 import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoSequence;
-import geogebra.kernel.arithmetic.MyStringBuffer;
-import geogebra.kernel.arithmetic.TextValue;
 import geogebra.util.Util;
 
 import java.awt.Font;

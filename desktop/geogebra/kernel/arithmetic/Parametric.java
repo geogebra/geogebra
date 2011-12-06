@@ -15,7 +15,6 @@ package geogebra.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -30,13 +29,13 @@ import java.util.HashSet;
 public class Parametric extends ValidExpression {
     private ExpressionNode P, v;
     private String parameter;
-    private Kernel kernel;
+    private AbstractKernel kernel;
 
     /**
      * Creates new Parametric P + parameter * v.
      * (X = P + parameter * v)
      */
-    public Parametric(Kernel kernel, ExpressionValue P, ExpressionValue v, String parameter) {
+    public Parametric(AbstractKernel kernel, ExpressionValue P, ExpressionValue v, String parameter) {
     	if (P.isExpressionNode())
     		this.P = (ExpressionNode) P;
     	else
@@ -68,7 +67,7 @@ public class Parametric extends ValidExpression {
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		return new Parametric((Kernel)kernel, (ExpressionNode) P.deepCopy(kernel), (ExpressionNode) v.deepCopy(kernel), parameter);
+		return new Parametric(kernel, (ExpressionNode) P.deepCopy(kernel), (ExpressionNode) v.deepCopy(kernel), parameter);
 	}
 
 	public ExpressionValue evaluate() {
@@ -140,7 +139,7 @@ public class Parametric extends ValidExpression {
 		return toValueString();
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 }

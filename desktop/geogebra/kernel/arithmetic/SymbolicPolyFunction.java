@@ -14,7 +14,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -74,11 +74,11 @@ public class SymbolicPolyFunction extends PolyFunction {
 			 }
 			 return true;
 		} catch (Exception e) {
-			Application.debug("updateCoeffValues: ");
+			AbstractApplication.debug("updateCoeffValues: ");
 			e.printStackTrace();
 			return false;
 		}	catch (Error err) {
-			Application.debug("updateCoeffValues: ");
+			AbstractApplication.debug("updateCoeffValues: ");
 			err.printStackTrace();
 			return false;
 		}

@@ -5,6 +5,7 @@ import geogebra.cas.GeoGebraCAS;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCasCellInterface;
@@ -16,7 +17,6 @@ import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.arithmetic.FunctionVariable;
 
 import java.util.HashSet;
 import java.util.Iterator;

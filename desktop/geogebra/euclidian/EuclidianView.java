@@ -22,6 +22,7 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -5288,7 +5289,7 @@ implements EuclidianViewInterface, EuclidianViewInterface2D, Printable, SettingL
 	 * @param num old numeric
 	 * @param num2 new numeric
 	 */
-	public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
+	public void replaceBoundObject(GeoNumericInterface num, GeoNumericInterface num2) {
 		if(xmaxObject == num)
 			xmaxObject = num2;
 		if(xminObject == num)
