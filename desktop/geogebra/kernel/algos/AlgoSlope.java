@@ -20,7 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
@@ -42,7 +42,7 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
      * @param label label for result
      * @param g line
      */
-    public AlgoSlope(Construction cons, String label, GeoLine g) {
+    public AlgoSlope(AbstractConstruction cons, String label, GeoLine g) {
         super(cons);
         this.g = g;
         slope = new GeoNumeric(cons);

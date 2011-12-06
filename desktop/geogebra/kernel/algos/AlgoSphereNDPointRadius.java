@@ -20,7 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoQuadricND;
@@ -45,21 +45,21 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	final static int TYPE_RADIUS = 0;
 	final static int TYPE_SEGMENT = 1;
 
-	protected AlgoSphereNDPointRadius(Construction cons, String label,
+	protected AlgoSphereNDPointRadius(AbstractConstruction cons, String label,
 			GeoPointND M, NumberValue r) {
 
 		this(cons, M, r);
 		sphereND.setLabel(label);
 	}
 
-	protected AlgoSphereNDPointRadius(Construction cons, String label,
+	protected AlgoSphereNDPointRadius(AbstractConstruction cons, String label,
 			GeoPointND M, GeoSegmentND segment, boolean dummy) {
 
 		this(cons, M, segment, dummy);
 		sphereND.setLabel(label);
 	}
 
-	public AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
+	public AlgoSphereNDPointRadius(AbstractConstruction cons, GeoPointND M,
 			NumberValue r) {
 
 		super(cons);
@@ -76,7 +76,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		compute();
 	}
 
-	protected AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
+	protected AlgoSphereNDPointRadius(AbstractConstruction cons, GeoPointND M,
 			GeoSegmentND rgeo, boolean dummy) {
 
 		super(cons);
@@ -99,7 +99,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	 * @param cons
 	 * @return a conic (2D) or a quadric (3D)
 	 */
-	abstract protected GeoQuadricND createSphereND(Construction cons);
+	abstract protected GeoQuadricND createSphereND(AbstractConstruction cons);
 
 	// for AlgoElement
 	@Override

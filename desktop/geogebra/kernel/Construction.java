@@ -1291,7 +1291,7 @@ public class Construction extends AbstractConstruction{
 	 *            spreadsheet)
 	 * @return may return null
 	 */
-	GeoElement lookupLabel(String label, boolean allowAutoCreate) {
+	public GeoElement lookupLabel(String label, boolean allowAutoCreate) {//package private
 		if (label == null)
 			return null;
 		

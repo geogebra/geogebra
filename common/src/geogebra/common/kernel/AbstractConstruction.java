@@ -53,5 +53,14 @@ public abstract class AbstractConstruction {
 
 	public abstract void setWorksheetText(String below, int i);	
 
-
+	public abstract boolean notifyEuclidianViewCE();
+	public abstract GeoElementInterface lookupLabel(String label, boolean allowAutoCreate);//package private
+	public abstract void updateLocalAxesNames();
+	
+	public abstract ConstructionElement getConstructionElement(int index);
+	public abstract int getStep();
+	public abstract void setStep(int s);
+	public abstract void clearConstruction();
+	public abstract void updateConstruction();
+	public abstract boolean isEmpty();
 }

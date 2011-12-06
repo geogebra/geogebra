@@ -64,7 +64,7 @@ class MacroConstruction extends Construction {
      * the specified label a lookup is made in the parent construction.
      * @return may return null
      */      	    	   
-    final GeoElement lookupLabel(String label, boolean autoCreate) {
+    public final GeoElement lookupLabel(String label, boolean autoCreate) {//package private
     	if (label == null) return null;
     	
     	// local var handling

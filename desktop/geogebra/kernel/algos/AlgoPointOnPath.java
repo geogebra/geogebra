@@ -17,7 +17,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
@@ -30,7 +30,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
     private NumberValue param;
 
     public AlgoPointOnPath(
-        Construction cons,
+        AbstractConstruction cons,
         String label,
         Path path,
         double x,
@@ -46,13 +46,13 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 		
 	}
 
-	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
+	public AlgoPointOnPath(AbstractConstruction cons, String label, Path path, double x,
 			double y, NumberValue param) {
     	this(cons,path,x,y,param);
 		P.setLabel(label);
 	}
     
-    public AlgoPointOnPath(Construction cons,  Path path, double x,
+    public AlgoPointOnPath(AbstractConstruction cons,  Path path, double x,
 			double y, NumberValue param) {
     	super(cons);
         this.path = path;
@@ -65,7 +65,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 		compute();		
 	}
 
-	public AlgoPointOnPath(Construction cons, Path path, double x, double y) {
+	public AlgoPointOnPath(AbstractConstruction cons, Path path, double x, double y) {
         super(cons);
         this.path = path;
         

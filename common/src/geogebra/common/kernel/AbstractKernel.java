@@ -73,7 +73,7 @@ public abstract class AbstractKernel {
 	protected View[] views = new View[20];
 	protected int viewCnt = 0;
 
-
+	protected AbstractConstruction cons;
 
 
 

@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoNumeric;
@@ -41,11 +41,11 @@ public class AlgoDependentNumber extends AlgoElement {
      * @param root expression defining the result
      * @param isAngle true for angles 
      * */
-    public AlgoDependentNumber(Construction cons, String label, ExpressionNode root, boolean isAngle) {
+    public AlgoDependentNumber(AbstractConstruction cons, String label, ExpressionNode root, boolean isAngle) {
     	this(cons,root,isAngle);
         number.setLabel(label);
     }   
-    public AlgoDependentNumber(Construction cons, ExpressionNode root, boolean isAngle) {
+    public AlgoDependentNumber(AbstractConstruction cons, ExpressionNode root, boolean isAngle) {
     	super(cons);
         this.root = root;  
         

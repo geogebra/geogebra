@@ -21,7 +21,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoSegment;
@@ -34,32 +34,32 @@ import geogebra.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements AlgoCirclePointRadiusInterface {
 
-	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
+	public AlgoCirclePointRadius(AbstractConstruction cons, String label, GeoPoint M,
 			NumberValue r) {
 
 		super(cons, label, M, r);
 	}
 
-	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
+	public AlgoCirclePointRadius(AbstractConstruction cons, String label, GeoPoint M,
 			GeoSegment segment, boolean dummy) {
 
 		super(cons, label, M, segment, dummy);
 	}
 
-	public AlgoCirclePointRadius(Construction cons, GeoPoint M, NumberValue r) {
+	public AlgoCirclePointRadius(AbstractConstruction cons, GeoPoint M, NumberValue r) {
 
 		super(cons, M, r);
 
 	}
 
-	AlgoCirclePointRadius(Construction cons, GeoPoint M, GeoSegment rgeo,
+	AlgoCirclePointRadius(AbstractConstruction cons, GeoPoint M, GeoSegment rgeo,
 			boolean dummy) {
 
 		super(cons, M, rgeo, dummy);
 	}
 
 	@Override
-	protected GeoQuadricND createSphereND(Construction cons) {
+	protected GeoQuadricND createSphereND(AbstractConstruction cons) {
 		return new GeoConic(cons);
 	}
 

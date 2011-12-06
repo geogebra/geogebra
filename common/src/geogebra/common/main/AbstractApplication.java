@@ -35,14 +35,16 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public static final int VIEW_ASSIGNMENT = 8192;
 
 	// For eg Hebrew and Arabic. 	
-		public static char unicodeDecimalPoint = '.';
-		public static char unicodeComma = ','; // \u060c for Arabic comma
-		public static char unicodeZero = '0';
-	
-		public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
+	public static char unicodeDecimalPoint = '.';
+	public static char unicodeComma = ','; // \u060c for Arabic comma
+	public static char unicodeZero = '0';
+
+	public enum CasType { NO_CAS, MATHPIPER, MAXIMA, MPREDUCE };
 		
 	// moved to Application from EuclidianView as the same value is used across multiple EVs 
 	public int maxLayerUsed = 0;
+	
+
 
 	public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
 	public abstract ResourceBundleAdapter initAlgo2CommandBundle();

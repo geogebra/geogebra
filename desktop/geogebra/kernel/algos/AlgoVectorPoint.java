@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVector;
@@ -35,7 +35,7 @@ public class AlgoVectorPoint extends AlgoElement {
     private GeoPoint P;   // input
     private GeoVector  v;     // output                    
     
-    public AlgoVectorPoint(Construction cons, String label, GeoPoint P) {
+    public AlgoVectorPoint(AbstractConstruction cons, String label, GeoPoint P) {
         super(cons);
         this.P = P;
         

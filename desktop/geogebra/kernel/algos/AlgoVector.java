@@ -21,7 +21,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVector;
@@ -40,7 +40,7 @@ public class AlgoVector extends AlgoElement {
     private GeoVectorND  v;     // output     
         
     /** Creates new AlgoVector */  
-    public AlgoVector(Construction cons, String label, GeoPointND P, GeoPointND Q) {
+    public AlgoVector(AbstractConstruction cons, String label, GeoPointND P, GeoPointND Q) {
         super(cons);
         this.P = P;
         this.Q = Q;         
