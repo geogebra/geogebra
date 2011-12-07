@@ -890,7 +890,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * 
 	 * @see EuclidianView#setHighlighted()
 	 */
-	final public void update(GeoElement geo) {
+	 public void update(GeoElement geo) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeTable
 				.get(geo);
 
