@@ -11,7 +11,7 @@ import com.google.gwt.core.client.GWT;
 public class Web implements EntryPoint {
 
 	public void onModuleLoad() {
-		
+		//bring here some html5 tag from gwt
 		GWT.log("Debug Message from GeoGebraWeb");
 	
 	}

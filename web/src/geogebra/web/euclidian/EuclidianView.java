@@ -9,7 +9,7 @@ import geogebra.web.kernel.gawt.Line2D;
 
 
 
-public class EuclidianView {
+public class EuclidianView extends BaseEuclidianView {
 	
 	protected static final long serialVersionUID = 1L;
 
@@ -182,6 +182,19 @@ public class EuclidianView {
 
 	static public MyBasicStroke getDefaultSelectionStroke() {
 		return selStroke;
+	}
+	
+	private boolean disableRepaint;
+	public void setDisableRepaint(boolean disableRepaint) {
+		this.disableRepaint = disableRepaint;
+	}
+	
+	//temp@Override
+	final public void repaintView() {
+		if (!disableRepaint) {
+			//clear();
+			//temppaint();
+		}
 	}
 
 	/**

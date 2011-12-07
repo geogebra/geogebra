@@ -1,6 +1,10 @@
 package geogebra.web.main;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -10,8 +14,10 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.Kernel;
+import geogebra.web.util.DataUtil;
 public class Application extends AbstractApplication {
 	
 	private Kernel kernel;
@@ -397,5 +403,46 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	public void loadGgbFile(Map<String, String> archiveContent) throws ConstructionException {
+		euclidianview.setDisableRepaint(true);
+		loadFile(archiveContent);
+		euclidianview.setDisableRepaint(false);
+		euclidianview.repaintView();
+	}
+
+	public static void log(String message) {
+	   GWT.log(message);
+    }
+	
+	private void loadFile(Map<String, String> archive) throws ConstructionException {
+		// Reset file
+		//tmpimages.clear();
+		
+		// Handling of construction and macro file
+		String construction = archive.remove("geogebra.xml");
+		String macros = archive.remove("geogebra_macro.xml");
+		
+		// Construction (required)
+		if (construction == null) {
+			throw new ConstructionException("File is corrupt: No GeoGebra data found");
+		}
+		
+		// Macros (optional)
+		if (macros != null) {
+			macros = DataUtil.utf8Decode(macros);
+			//tmpaddMacroXML(macros);
+		}	
+		
+		// Images
+		for (Entry<String, String> entry : archive.entrySet()) {
+			//tmpmaybeProcessImage(entry.getKey(), entry.getValue());
+		}
+		
+		// Process Construction
+		construction = DataUtil.utf8Decode(construction);
+		GWT.log(construction);
+		//tmpmyXMLio.processXmlString(construction, true, false);
+	}
 
 }

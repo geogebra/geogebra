@@ -4,6 +4,8 @@ import geogebra.common.awt.ColorAdapter;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
@@ -13,6 +15,7 @@ import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.GgbMat;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
@@ -210,5 +213,23 @@ public class Kernel extends AbstractKernel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+    public GgbMat getGgbMat(ExpressionValue myList) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public boolean isInsertLineBreaks() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public ExpressionNodeEvaluatorInterface getExpressionNodeEvaluator() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 }
