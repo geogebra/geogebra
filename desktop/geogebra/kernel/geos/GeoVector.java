@@ -27,6 +27,7 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -46,7 +47,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.kernelND.GeoVectorND;
 

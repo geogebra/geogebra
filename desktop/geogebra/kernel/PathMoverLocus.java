@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPoint;

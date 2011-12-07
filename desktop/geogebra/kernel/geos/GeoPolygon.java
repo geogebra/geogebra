@@ -19,6 +19,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
@@ -43,7 +44,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.kernelND.GeoSegmentND;
 

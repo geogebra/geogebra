@@ -10,14 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.PathMover;
-import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.kernel.geos.GeoPoint;
-
 
 /**
  * Path mover for most common paths
@@ -127,7 +122,7 @@ public class PathMoverGeneric implements PathMover {
 	}
 	
 	public void getCurrentPosition(GeoPointInterface p) {
-		calcPoint((GeoPoint)p);
+		calcPoint(p);
 	}
 	
 	public boolean getNext(GeoPointInterface p) {													
@@ -187,7 +182,7 @@ public class PathMoverGeneric implements PathMover {
 		}					
 		
 		// calculate point for current parameter
-		calcPoint((GeoPoint)p);
+		calcPoint(p);
 		
 		return lineTo;
 	}
@@ -196,7 +191,7 @@ public class PathMoverGeneric implements PathMover {
 	 * Updates path parameter of point p from curr_param
 	 * @param p
 	 */
-	protected void calcPoint(GeoPoint p) {
+	protected void calcPoint(GeoPointInterface p) {
 		double param;
 		switch (mode) {
 			case BOUNDS_FIXED:

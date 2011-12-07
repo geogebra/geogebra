@@ -1,8 +1,5 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.PathMover;
-import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 

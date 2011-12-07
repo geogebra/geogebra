@@ -15,6 +15,7 @@ package geogebra.kernel.geos;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -25,7 +26,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Transform;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
