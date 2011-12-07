@@ -16,11 +16,9 @@ the Free Software Foundation.
  * Created on 31. August 2001, 11:34
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.MyVecNode;
 
 /** 
  * 

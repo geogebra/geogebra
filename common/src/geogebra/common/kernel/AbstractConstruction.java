@@ -28,6 +28,8 @@ public abstract class AbstractConstruction {
 	
 	public abstract void putLabel(GeoElementInterface geo);
 	
+	public abstract String getIndexLabel(String prefix, int startIndex);
+	
 	public abstract void removeLabel(GeoElementInterface geo);
 	public abstract String getIndexLabel(String prefix);
 	public abstract int steps();

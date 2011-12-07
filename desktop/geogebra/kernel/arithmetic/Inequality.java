@@ -116,7 +116,7 @@ public class Inequality {
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
 		Function fun = null;
-		if (coefY != null && !Kernel.isZero(coefY) && !Double.isNaN(coefY)
+		if (coefY != null && !AbstractKernel.isZero(coefY) && !Double.isNaN(coefY)
 				&& (coefX == null || Math.abs(coefX) < Math.abs(coefY))) {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
@@ -126,7 +126,7 @@ public class Inequality {
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = INEQUALITY_PARAMETRIC_Y;
-		} else if (coefX != null && !Kernel.isZero(coefX)
+		} else if (coefX != null && !AbstractKernel.isZero(coefX)
 				&& !Double.isNaN(coefX)) {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
@@ -136,13 +136,13 @@ public class Inequality {
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = INEQUALITY_PARAMETRIC_X;
-		} else if (coefX != null && Kernel.isZero(coefX) && coefY == null) {
+		} else if (coefX != null && AbstractKernel.isZero(coefX) && coefY == null) {
 			zeroDummy0 = new MyDouble(kernel, 0);
 			normal.replaceAndWrap(fv[0], zeroDummy0 );
 			init1varFunction(1);
 			type = funBorder.isPolynomialFunction(false) ?				
 				INEQUALITY_1VAR_Y:INEQUALITY_INVALID;
-		} else if (coefY != null && Kernel.isZero(coefY) && coefX == null) {
+		} else if (coefY != null && AbstractKernel.isZero(coefY) && coefX == null) {
 			zeroDummy1 = new MyDouble(kernel, 0);
 			normal.replaceAndWrap(fv[1], zeroDummy1);
 			init1varFunction(0);
