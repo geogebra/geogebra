@@ -1,7 +1,7 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.geos.GeoInterval;
 
 public class AlgoDependentInterval extends AlgoDependentFunction {

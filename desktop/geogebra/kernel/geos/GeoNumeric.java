@@ -25,6 +25,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -37,7 +38,6 @@ import geogebra.common.util.StringUtil;
 //import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 
 import java.util.ArrayList;

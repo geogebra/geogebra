@@ -1,8 +1,8 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.geos.GeoFunction;
 
 import java.util.Iterator;

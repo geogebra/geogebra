@@ -1,9 +1,9 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoCurveCartesian;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.kernelND.GeoCurveCartesianND;

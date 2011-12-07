@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.roots.RealRootAdapter;

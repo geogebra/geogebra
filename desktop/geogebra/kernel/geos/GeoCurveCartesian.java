@@ -22,6 +22,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -47,7 +48,6 @@ import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurveDistanceFunction;
 import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.kernel.optimization.ExtremumFinder;
 

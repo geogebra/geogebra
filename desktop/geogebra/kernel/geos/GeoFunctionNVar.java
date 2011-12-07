@@ -20,7 +20,10 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.IneqTree;
+import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -38,9 +41,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.arithmetic.IneqTree;
-import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
 
 /**

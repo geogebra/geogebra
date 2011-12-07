@@ -1,7 +1,5 @@
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.arithmetic.IneqTreeInterface;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoPointInterface;
 
 import java.util.Set;

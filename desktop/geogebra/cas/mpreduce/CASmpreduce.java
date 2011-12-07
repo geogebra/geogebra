@@ -6,10 +6,10 @@ import geogebra.cas.CasParserTools;
 import geogebra.cas.error.CASException;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.main.Application;
 
 import java.util.Set;

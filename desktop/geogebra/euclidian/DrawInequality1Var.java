@@ -1,8 +1,8 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 

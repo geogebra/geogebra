@@ -1,10 +1,10 @@
 package geogebra.euclidian;
 
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.IneqTree;
+import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.arithmetic.IneqTree;
-import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
