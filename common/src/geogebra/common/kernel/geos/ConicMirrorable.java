@@ -1,4 +1,6 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
+
+import geogebra.common.kernel.geos.GeoConicInterface;
 
 
 /**
@@ -10,6 +12,6 @@ public interface ConicMirrorable {
 	 * Miror at circle
 	 * @param c mirror circle
 	 */
-	public void mirror(GeoConic c);
+	public void mirror(GeoConicInterface c);
 	
 }

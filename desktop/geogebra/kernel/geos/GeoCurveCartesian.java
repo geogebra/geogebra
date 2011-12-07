@@ -26,11 +26,13 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
@@ -818,12 +820,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return false;
 	}
 
-	final public void mirror(GeoConic c) {
+	final public void mirror(GeoConicInterface c) {
 		if (c.getType() == GeoConic.CONIC_CIRCLE) {
 
 			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
-			GeoVec2D midpoint = c.getTranslationVector();
+			GeoVec2D midpoint = ((GeoConic)c).getTranslationVector();
 			double a = midpoint.x;
 			double b = midpoint.y;
 			this.translate(-a, -b);

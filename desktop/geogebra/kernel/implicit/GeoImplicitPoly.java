@@ -28,11 +28,13 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
@@ -45,7 +47,6 @@ import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.arithmetic.Polynomial;
-import geogebra.kernel.geos.ConicMirrorable;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
@@ -1057,7 +1058,7 @@ Dilateable, Transformable, EuclidianViewCE {
     	return deg;
     }
 
-	public void mirror(GeoConic c) 
+	public void mirror(GeoConicInterface c) 
 	{
 		
 		if(c.getCircleRadius() < 10e-2)

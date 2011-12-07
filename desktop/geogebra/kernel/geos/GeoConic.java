@@ -26,11 +26,13 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
@@ -46,7 +48,7 @@ import java.util.ArrayList;
  */
 public class GeoConic extends GeoConicND
 implements Region, Traceable, ConicMirrorable, Transformable, 
- PointRotateable, Mirrorable, Dilateable, MatrixTransformable
+ PointRotateable, Mirrorable, Dilateable, MatrixTransformable, GeoConicInterface
 {
 
 	/* 
@@ -231,11 +233,11 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * @author Michael Borcherds 
 	 * @param c Circle used as mirror
 	 */	
-	    final public void mirror(GeoConic c) {
+	    final public void mirror(GeoConicInterface c) {
 	    	if (c.isCircle() && this.isCircle() )
 	    	{ // Mirror point in circle
 	    		double r1 =  c.getHalfAxes()[0];
-	    		GeoVec2D midpoint1=c.getTranslationVector();
+	    		GeoVec2D midpoint1=((GeoConic)c).getTranslationVector();
 	    		double x1=midpoint1.x;
 	    		double y1=midpoint1.y;
 	    		
@@ -290,7 +292,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    			if (c.getType()==GeoConic.CONIC_CIRCLE)
 	    	    	{ // Mirror point in circle
 	    	    		double r =  c.getHalfAxes()[0];
-	    	    		GeoVec2D midpoint=c.getTranslationVector();
+	    	    		GeoVec2D midpoint=((GeoConic)c).getTranslationVector();
 	    	    		double a=midpoint.x;
 	    	    		double b=midpoint.y;
 	    	    		double lx = (getLines()[0]).x;
