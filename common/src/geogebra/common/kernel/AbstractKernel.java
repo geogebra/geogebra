@@ -1887,4 +1887,6 @@ public abstract class AbstractKernel {
 	// temporary methods just while moving things
 	public abstract boolean isZeroTemporarilyGeoBooleanGeoNumeric(GeoElement geo);
 	public abstract String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo);
+
+	public abstract ExpressionValue getEmptyPolynomial(ExpressionValue left);
 }

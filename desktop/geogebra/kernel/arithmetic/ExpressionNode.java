@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionNodeInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionInterface;
 import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
@@ -909,8 +910,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			}
 		}else if (operation==Operation.FUNCTION){
 			if (left instanceof GeoFunctionInterface){
-				Function func=(Function)((Functional)left).getFunction();
-				ExpressionNode expr=func.getExpression().getCopy(kernel);
+				FunctionInterface func=(FunctionInterface)((Functional)left).getFunction();
+				ExpressionNode expr=(ExpressionNode)func.getExpression().getCopy(kernel);
 				if (right instanceof ExpressionNode){
 					if (!equ.isFunctionDependent()){
 						equ.setFunctionDependent(((ExpressionNode)right).includesPolynomial());
@@ -930,7 +931,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).makePolynomialTree(equ);
 		} else if (!(left.isPolynomialInstance())) {
-			left = new Polynomial(kernel, new Term(kernel, left, ""));
+			left = kernel.getEmptyPolynomial(left);
 		}
 
 		// transfer right subtree
@@ -938,7 +939,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).makePolynomialTree(equ);
 			} else if (!(right.isPolynomialInstance())) {
-				right = new Polynomial(kernel, new Term(kernel, right, ""));
+				right = kernel.getEmptyPolynomial(right);
 			}
 		}
 	}

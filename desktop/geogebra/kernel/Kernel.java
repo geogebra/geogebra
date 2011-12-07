@@ -70,6 +70,7 @@ import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.Polynomial;
+import geogebra.kernel.arithmetic.Term;
 import geogebra.kernel.barycentric.AlgoBarycenter;
 import geogebra.kernel.barycentric.AlgoKimberling;
 import geogebra.kernel.barycentric.AlgoTriangleCubic;
@@ -8090,4 +8091,9 @@ public class Kernel extends AbstractKernel{
     	AlgoPointOnPath algo1 = (AlgoPointOnPath) algo;
     	return algo.getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());	
     }
+
+	@Override
+	public ExpressionValue getEmptyPolynomial(ExpressionValue left) {
+		return new Polynomial(this, new Term(this, left, ""));
+	}
 }
