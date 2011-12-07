@@ -31,7 +31,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.algos.AlgoElement;
-
+import geogebra.common.adapters.Complex;
 
 
 
@@ -212,6 +212,7 @@ public abstract class AbstractKernel {
 		public abstract NumberFormatAdapter getNumberFormat();
 		public abstract NumberFormatAdapter getNumberFormat(String s);
 		public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
+		public abstract Complex newComplex(double r, double i);
 
 
 		public abstract ScientificFormatAdapter getScientificFormat(int a, int b, boolean c);

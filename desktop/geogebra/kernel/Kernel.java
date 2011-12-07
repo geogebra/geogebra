@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.adapters.Complex;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.Color;
@@ -8048,6 +8049,10 @@ public class Kernel extends AbstractKernel{
 	
 	public Color getColorAdapter(float red, float green, float blue, float alpha) {
 		return new geogebra.awt.Color(red, green, blue, alpha);
+	}
+
+	public geogebra.common.adapters.Complex newComplex(double r, double i) {
+		return new Complex(r, i);
 	}
 	
 	public NumberFormatAdapter getNumberFormat(){
