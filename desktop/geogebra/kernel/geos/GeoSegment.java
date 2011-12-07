@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;

@@ -24,11 +24,11 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.kernelND.GeoCurveCartesianND;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from, to]

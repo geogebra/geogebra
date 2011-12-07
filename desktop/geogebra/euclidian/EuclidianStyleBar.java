@@ -5,6 +5,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.MyError;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
@@ -19,7 +20,6 @@ import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.geos.TextProperties;
 import geogebra.main.Application;
 
 import java.awt.Color;

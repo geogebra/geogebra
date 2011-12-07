@@ -22,13 +22,13 @@ import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.main.Application;
 
 

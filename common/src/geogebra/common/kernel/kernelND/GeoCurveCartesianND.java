@@ -1,9 +1,8 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Construction;
 
 
 /**

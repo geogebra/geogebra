@@ -6,9 +6,9 @@ import geogebra.common.kernel.Matrix.Coords3D;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.kernelND.GeoCurveCartesianND;
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**

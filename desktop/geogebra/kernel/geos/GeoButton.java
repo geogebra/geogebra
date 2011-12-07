@@ -17,6 +17,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.TextProperties;
 
 import java.awt.Font;
 

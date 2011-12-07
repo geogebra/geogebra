@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -34,7 +35,6 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.geos.LineProperties;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
 
