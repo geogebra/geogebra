@@ -120,9 +120,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 	    if(curr == null || "".equals(curr))
 			return null;
 	    
-    	ArrayList<String> completions = new ArrayList<String>();
-
-    	completions = new ArrayList<String>();
+		ArrayList<String> completions = new ArrayList<String>();
     	curr = Korean.flattenKorean(curr);
 		Iterator<String> it = getIterator();
 		while (it.hasNext()) {

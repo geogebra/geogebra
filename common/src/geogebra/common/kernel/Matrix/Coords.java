@@ -741,7 +741,6 @@ public class Coords
 	 */
 	public Coords[] completeOrthonormal() {
 		Coords vn1 = new Coords(4);
-		Coords vn2 = new Coords(4);
 
 		if (val[0] != 0) {
 			vn1.val[0] = -val[1];
@@ -751,7 +750,7 @@ public class Coords
 			vn1.val[0] = 1.0;
 		}
 
-		vn2 = this.crossProduct(vn1);
+		Coords vn2 = this.crossProduct(vn1);
 		vn2.normalize();
 
 		return new Coords[] { vn1, vn2 };

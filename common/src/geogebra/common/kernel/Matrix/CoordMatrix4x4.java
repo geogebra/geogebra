@@ -83,8 +83,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 			Coords V2 = a_matrix.getColumn(2);
 			l_O = a_matrix.getColumn(3);
 			
-			Coords Vn = new Coords(4);			
-			Vn = V1.crossProduct(V2);
+			Coords Vn = V1.crossProduct(V2);
 			Vn.normalize();
 			
 			set(new Coords[] {V1,V2,Vn,l_O});		
@@ -127,7 +126,6 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		Coords[] ret = new Coords[2];
 		
 		Coords Vn1 = new Coords(4);
-		Coords Vn2 = new Coords(4);
 		
 		if (V.get(1)!=0){
 			Vn1.set(1,-V.get(2));
@@ -137,7 +135,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 			Vn1.set(1, 1.0);
 		}
 		
-		Vn2 = V.crossProduct(Vn1);
+		Coords Vn2 = V.crossProduct(Vn1);
 		Vn2.normalize();
 		
 		ret[0]=Vn1;

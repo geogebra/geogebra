@@ -3872,19 +3872,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		return new ExpressionNode(kernel,this,Operation.AND,v2);
 	}
 	public ExpressionNode negation(){
-		if(operation.equals(Operation.GREATER.ordinal()))
-			return new ExpressionNode(kernel,left,Operation.LESS_EQUAL,right);
-		if(operation.equals(Operation.GREATER_EQUAL.ordinal()))
-			return new ExpressionNode(kernel,left,Operation.LESS,right);
-		if(operation.equals(Operation.LESS.ordinal()))
-			return new ExpressionNode(kernel,left,Operation.GREATER_EQUAL,right);
-		if(operation.equals(Operation.LESS_EQUAL.ordinal()))
-			return new ExpressionNode(kernel,left,Operation.GREATER,right);
-		if(operation.equals(Operation.EQUAL_BOOLEAN.ordinal()))
-			return new ExpressionNode(kernel,left,Operation.NOT_EQUAL,right);
-		if(operation.equals(Operation.NOT_EQUAL.ordinal()))
-			return new ExpressionNode(kernel,left,Operation.EQUAL_BOOLEAN,right);		
-		return new ExpressionNode(kernel,this,Operation.NOT,null);
+		switch(this.operation) {
+			case GREATER:
+				return new ExpressionNode(kernel,left,Operation.LESS_EQUAL,right);
+			case GREATER_EQUAL:
+				return new ExpressionNode(kernel,left,Operation.LESS,right);
+			case LESS:
+				return new ExpressionNode(kernel,left,Operation.GREATER_EQUAL,right);
+			case LESS_EQUAL:
+				return new ExpressionNode(kernel,left,Operation.GREATER,right);
+			case EQUAL_BOOLEAN:
+				return new ExpressionNode(kernel,left,Operation.NOT_EQUAL,right);
+			case NOT_EQUAL:
+				return new ExpressionNode(kernel,left,Operation.EQUAL_BOOLEAN,right);
+			default:
+				return new ExpressionNode(kernel,this,Operation.NOT,null);
+		}
 	}
 
 	public double getDegree(FunctionVariable fv) {

@@ -17,7 +17,7 @@ public class MaxSizeHashMap<V, T> extends LinkedHashMap<V,T> {
 	public T put(V key, T value) {
 		if (size() >= maxSize) {
 			Iterator<?> it = entrySet().iterator();
-			Object removed = it.next();
+			it.next();
 			it.remove();
 		}
 		

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * GeoElement.java
@@ -19,19 +19,22 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.BufferedImageAdapter;
-import geogebra.common.awt.ColorAdapter;
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
@@ -43,7 +46,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
-import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -54,10 +56,6 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.algos.AlgoElement;
-
-import geogebra.common.awt.Color;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -68,17 +66,17 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 /**
- *
- * @author  Markus
+ * 
+ * @author Markus
  * @version 2011-12-02
  */
-public abstract class GeoElement
-	extends ConstructionElement
-	implements ExpressionValue, GeoElementInterface {
+public abstract class GeoElement extends ConstructionElement implements
+		ExpressionValue, GeoElementInterface {
 
 	public boolean isVector3DValue() {
-			return false;
+		return false;
 	}
+
 	/**
 	 * @return the updateJavaScript
 	 */
@@ -87,7 +85,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * @param updateJavaScript the updateJavaScript to set
+	 * @param updateJavaScript
+	 *            the updateJavaScript to set
 	 */
 	public void setUpdateJavaScript(boolean updateJavaScript) {
 		this.updateJavaScript = updateJavaScript;
@@ -101,7 +100,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * @param clickJavaScript the clickJavaScript to set
+	 * @param clickJavaScript
+	 *            the clickJavaScript to set
 	 */
 	public void setClickJavaScript(boolean clickJavaScript) {
 		this.clickJavaScript = clickJavaScript;
@@ -115,235 +115,68 @@ public abstract class GeoElement
 
 	// private static int geoElementID = Integer.MIN_VALUE;
 
-	private static final char[] complexLabels =
-	{ 'z', 'w' };
+	private static final char[] complexLabels = { 'z', 'w' };
 
-	private static final char[] pointLabels =
-		{
-			'A',
-			'B',
-			'C',
-			'D',
-			'E',
-			'F',
-			'G',
-			'H',
-			'I',
-			'J',
-			'K',
-			'L',
-			'M',
-			'N',
-			'O',
-			'P',
-			'Q',
-			'R',
-			'S',
-			'T',
-			'U',
-			'V',
-			'W',
-			'Z' };
+	private static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
+			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+			'T', 'U', 'V', 'W', 'Z' };
 
-	private static final char[] functionLabels =
-	{
-		'f',
-		'g',
-		'h',
-		'p',
-		'q',
-		'r',
-		's',
-		't'
-	};
+	private static final char[] functionLabels = { 'f', 'g', 'h', 'p', 'q',
+			'r', 's', 't' };
 
-	private static final char[] lineLabels =
-		{
-			'a',
-			'b',
-			'c',
-			'd',
-			'e',
-			'f',
-			'g',
-			'h',
-			'i',
-			'j',
-			'k',
-			'l',
-			'm',
-			'n',
-			'p',
-			'q',
-			'r',
-			's',
-			't' };
+	private static final char[] lineLabels = { 'a', 'b', 'c', 'd', 'e', 'f',
+			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't' };
 
-	private static final char[] vectorLabels =
-		{
-			'u',
-			'v',
-			'w',
-			'z',
-			'a',
-			'b',
-			'c',
-			'd',
-			'e',
-			'f',
-			'g',
-			'h',
-			'i',
-			'j',
-			'k',
-			'l',
-			'm',
-			'n',
-			'p',
-			'q',
-			'r',
-			's',
-			't' };
+	private static final char[] vectorLabels = { 'u', 'v', 'w', 'z', 'a', 'b',
+			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p',
+			'q', 'r', 's', 't' };
 
-	private static final char[] conicLabels =
-		{ 'c', 'd', 'e', 'f', 'g', 'h', 'k', 'p', 'q', 'r', 's', 't' };
+	private static final char[] conicLabels = { 'c', 'd', 'e', 'f', 'g', 'h',
+			'k', 'p', 'q', 'r', 's', 't' };
 
-	private static final char[] lowerCaseLabels =
-	{
-		'a',
-		'b',
-		'c',
-		'd',
-		'e',
-		'f',
-		'g',
-		'h',
-		'i',
-		'j',
-		'k',
-		'l',
-		'm',
-		'n',
-		'o',
-		'p',
-		'q',
-		'r',
-		's',
-		't',
-		'u',
-		'v',
-		'w',
-		'z'
-		};
+	private static final char[] lowerCaseLabels = { 'a', 'b', 'c', 'd', 'e',
+			'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+			's', 't', 'u', 'v', 'w', 'z' };
 
-	private static final char[] integerLabels =
-	{
-		'n',
-		'i',
-		'j',
-		'k',
-		'l',
-		'm',
-		};
+	private static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l', 'm', };
 
-	private static final char[] greekLowerCase =
-		{
-			'\u03b1',
-			'\u03b2',
-			'\u03b3',
-			'\u03b4',
-			'\u03b5',
-			'\u03b6',
-			'\u03b7',
-			'\u03b8',
-			'\u03b9',
-			'\u03ba',
-			'\u03bb',
-			'\u03bc',
-			'\u03bd',
-			'\u03be',
-			'\u03bf',
-			'\u03c1',
-			'\u03c3',
-			'\u03c4',
-			'\u03c5',
-			'\u03d5',
-			'\u03c7',
-			'\u03c8',
-			'\u03c9' };
+	private static final char[] greekLowerCase = { '\u03b1', '\u03b2',
+			'\u03b3', '\u03b4', '\u03b5', '\u03b6', '\u03b7', '\u03b8',
+			'\u03b9', '\u03ba', '\u03bb', '\u03bc', '\u03bd', '\u03be',
+			'\u03bf', '\u03c1', '\u03c3', '\u03c4', '\u03c5', '\u03d5',
+			'\u03c7', '\u03c8', '\u03c9' };
 
-	private static final char[] arabic =
-	{'\u0623',
-		'\u0628',
-		'\u062a',
-		'\u062b',
-		'\u062c',
-		'\u062d',
-		'\u062e',
-		'\u062f',
-		'\u0630',
-		'\u0631',
-		'\u0632',
-		'\u0633',
-		'\u0634',
-		'\u0635',
-		'\u0636',
-		'\u0637',
-		'\u0638',
-		'\u0639',
-		'\u063a',
-		'\u0641',
-		'\u0642',
-		'\u0643',
-		'\u0644',
-		'\u0645',
-		'\u0646',
-		'\u0647', // needs this too '\u0640' (see later on)
-		'\u0648',
-		'\u064a'};
+	private static final char[] arabic = { '\u0623', '\u0628', '\u062a',
+			'\u062b', '\u062c', '\u062d', '\u062e', '\u062f', '\u0630',
+			'\u0631', '\u0632', '\u0633', '\u0634', '\u0635', '\u0636',
+			'\u0637', '\u0638', '\u0639', '\u063a', '\u0641', '\u0642',
+			'\u0643', '\u0644', '\u0645', '\u0646', '\u0647', // needs this too
+																// '\u0640' (see
+																// later on)
+			'\u0648', '\u064a' };
 
-	private static final char[] greekUpperCase =
-	{ // Michael Borcherds 2008-02-23
-	'\u0391',
-	'\u0392',
-	'\u0393',
-	'\u0394',
-	'\u0395',
-	'\u0396',
-	'\u0397',
-	'\u0398',
-	'\u0399',
-	'\u039a',
-	'\u039b',
-	'\u039c',
-	'\u039d',
-	'\u039e',
-	'\u039f',
-	'\u03a0',
-	'\u03a1',
-	'\u03a3',
-	'\u03a4',
-	'\u03a5',
-	'\u03a6',
-	'\u03a7',
-	'\u03a8',
-	'\u03a9'};
-	
-	
+	private static final char[] greekUpperCase = { // Michael Borcherds
+													// 2008-02-23
+	'\u0391', '\u0392', '\u0393', '\u0394', '\u0395', '\u0396', '\u0397',
+			'\u0398', '\u0399', '\u039a', '\u039b', '\u039c', '\u039d',
+			'\u039e', '\u039f', '\u03a0', '\u03a1', '\u03a3', '\u03a4',
+			'\u03a5', '\u03a6', '\u03a7', '\u03a8', '\u03a9' };
+
 	public static final int LABEL_NAME = 0;
 	public static final int LABEL_NAME_VALUE = 1;
 	public static final int LABEL_VALUE = 2;
 	public static final int LABEL_CAPTION = 3; // Michael Borcherds 2008-02-18
 
-	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 	0;
-	public static final int TOOLTIP_ON = 					1;
-	public static final int TOOLTIP_OFF = 					2;
-	public static final int TOOLTIP_CAPTION = 				3;
-	public static final int TOOLTIP_NEXTCELL = 				4;
+	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
+	public static final int TOOLTIP_ON = 1;
+	public static final int TOOLTIP_OFF = 2;
+	public static final int TOOLTIP_CAPTION = 3;
+	public static final int TOOLTIP_NEXTCELL = 4;
 	private int tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
 
 	public String label; // should only be used directly in subclasses
-	private String realLabel; //for macro constructions, see setRealLabel() for details
+	private String realLabel; // for macro constructions, see setRealLabel() for
+								// details
 	private String oldLabel; // see doRenameLabel
 	private String caption;
 	public boolean labelWanted = false;
@@ -356,16 +189,18 @@ public abstract class GeoElement
 	protected boolean algebraVisible = true;
 	private boolean labelVisible = true;
 	private boolean isConsProtBreakpoint; // in construction protocol
-	private boolean isAlgoMacroOutput; // is an output object of a macro construction
+	private boolean isAlgoMacroOutput; // is an output object of a macro
+										// construction
 	protected boolean fixed = false;
 	public int labelMode = LABEL_NAME;
-	public int toStringMode = AbstractKernel.COORD_CARTESIAN; // cartesian or polar
+	public int toStringMode = AbstractKernel.COORD_CARTESIAN; // cartesian or
+																// polar
 	protected Color objColor = Color.black;
 	protected Color bgColor = null; // none by default
 	protected Color selColor = objColor;
 	protected Color labelColor = objColor;
 	protected Color fillColor = objColor;
-	public int layer=0; 	// Michael Borcherds 2008-02-23
+	public int layer = 0; // Michael Borcherds 2008-02-23
 	private NumberValue animationIncrement;
 	private NumberValue animationSpeedObj;
 	private GeoCasCellInterface correspondingCasCell; // used by GeoCasCell
@@ -384,24 +219,28 @@ public abstract class GeoElement
 	protected int hatchingDistance = 10;
 	private boolean inverseFill = false;
 
-	//=================================
+	// =================================
 	// G.Sturr new fill options
-	protected GeoElementGraphicsAdapter graphicsadapter; // substitute for imageFileName and image - Arpad Fekete; 2011-12-01 
+	protected GeoElementGraphicsAdapter graphicsadapter; // substitute for
+															// imageFileName and
+															// image - Arpad
+															// Fekete;
+															// 2011-12-01
 	public static final int FILL_STANDARD = 0;
 	public static final int FILL_HATCH = 1;
 	public static final int FILL_IMAGE = 2;
 	protected int fillType = FILL_STANDARD;
-	public  int numberOfFillTypes = 3;
+	public int numberOfFillTypes = 3;
 
-	//=================================
+	// =================================
 
 	public final static int COLORSPACE_RGB = 0;
 	public final static int COLORSPACE_HSB = 1;
 	public final static int COLORSPACE_HSL = 2;
 	private int colorSpace = COLORSPACE_RGB;
-	
-	private List<Integer> viewFlags;
-	
+
+	private final List<Integer> viewFlags;
+
 	public int getColorSpace() {
 		return colorSpace;
 	}
@@ -409,13 +248,13 @@ public abstract class GeoElement
 	public void setColorSpace(int colorSpace) {
 		this.colorSpace = colorSpace;
 	}
-	
+
 	private int defaultGeoType = -1;
-	
+
 	public int getDefaultGeoType() {
 		return defaultGeoType;
 	}
-	
+
 	public void setDefaultGeoType(int defaultGT) {
 		defaultGeoType = defaultGT;
 	}
@@ -427,23 +266,25 @@ public abstract class GeoElement
 
 	// spreadsheet specific properties
 	private Point spreadsheetCoords, oldSpreadsheetCoords;
-	// number of AlgoCellRange using this cell: don't allow renaming when greater 0
-	private int cellRangeUsers = 0; 
+	// number of AlgoCellRange using this cell: don't allow renaming when
+	// greater 0
+	private int cellRangeUsers = 0;
 	// number of AlgoDependentCasCell using this cell: send updates to CAS
-	private int casAlgoUsers = 0; 
-	
+	private int casAlgoUsers = 0;
+
 	// condition to show object
 	protected GeoBoolean condShowObject;
 
 	// function to determine color
-	private GeoListInterface colFunction; // { GeoNumeric red, GeoNumeric Green, GeoNumeric Blue }
+	private GeoListInterface colFunction; // { GeoNumeric red, GeoNumeric Green,
+											// GeoNumeric Blue }
 
 	private boolean useVisualDefaults = true;
 	protected boolean isColorSet = false;
 	protected boolean highlighted = false;
 	private boolean selected = false;
-	private String strAlgebraDescription, strAlgebraDescTextOrHTML, strAlgebraDescriptionHTML,
-		strLabelTextOrHTML;
+	private String strAlgebraDescription, strAlgebraDescTextOrHTML,
+			strAlgebraDescriptionHTML, strLabelTextOrHTML;
 
 	protected String strLaTeX;
 	private boolean strAlgebraDescriptionNeedsUpdate = true;
@@ -453,9 +294,9 @@ public abstract class GeoElement
 	protected boolean strLaTeXneedsUpdate = true;
 
 	// line thickness and line type: s
-	/** note: line thickness in Drawable is calculated as lineThickness / 2.0f*/
+	/** note: line thickness in Drawable is calculated as lineThickness / 2.0f */
 	public int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
-	/** line type (full, dashed, ...) see EuclidianStyleConstants.LINE_TYPE*/
+	/** line type (full, dashed, ...) see EuclidianStyleConstants.LINE_TYPE */
 	public int lineType = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
 	/** line type for hidden parts (for 3D) */
 	public int lineTypeHidden = EuclidianStyleConstants.DEFAULT_LINE_TYPE_HIDDEN;
@@ -469,38 +310,46 @@ public abstract class GeoElement
 	public static final int DECORATION_SEGMENT_ONE_TICK = 1;
 	public static final int DECORATION_SEGMENT_TWO_TICKS = 2;
 	public static final int DECORATION_SEGMENT_THREE_TICKS = 3;
-// Michael Borcherds 2007-10-06
+	// Michael Borcherds 2007-10-06
 	public static final int DECORATION_SEGMENT_ONE_ARROW = 4;
 	public static final int DECORATION_SEGMENT_TWO_ARROWS = 5;
 	public static final int DECORATION_SEGMENT_THREE_ARROWS = 6;
-//	 Michael Borcherds 2007-10-06
+	// Michael Borcherds 2007-10-06
 	// angle decorations
 	public static final int DECORATION_ANGLE_TWO_ARCS = 1;
 	public static final int DECORATION_ANGLE_THREE_ARCS = 2;
 	public static final int DECORATION_ANGLE_ONE_TICK = 3;
 	public static final int DECORATION_ANGLE_TWO_TICKS = 4;
 	public static final int DECORATION_ANGLE_THREE_TICKS = 5;
-//	 Michael Borcherds START 2007-11-19
-	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6; //	 Michael Borcherds 2007-10-22
-	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7; //	 Michael Borcherds 2007-10-22
-//	 Michael Borcherds END 2007-11-19
+	// Michael Borcherds START 2007-11-19
+	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6; // Michael
+																		// Borcherds
+																		// 2007-10-22
+	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7; // Michael
+																	// Borcherds
+																	// 2007-10-22
+	// Michael Borcherds END 2007-11-19
 
 	// public int geoID;
-	//  static private int geoCounter = 0;
+	// static private int geoCounter = 0;
 	/** parent algorithm */
-	public AlgoElement algoParent = null;//protected
+	public AlgoElement algoParent = null;// protected
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
-	private ArrayList<AlgoElement> algorithmList; 	// directly dependent algos
+	private ArrayList<AlgoElement> algorithmList; // directly dependent algos
 
-	/**	set of all dependent algos sorted in topological order */
+	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
-	private AbstractGeoElementSpreadsheet geoElementSpreadsheet;
+	private final AbstractGeoElementSpreadsheet geoElementSpreadsheet;
+
 	/********************************************************/
 
-	/** Creates new GeoElement for given construction
-	 * @param c Construction
+	/**
+	 * Creates new GeoElement for given construction
+	 * 
+	 * @param c
+	 *            Construction
 	 */
 	public GeoElement(AbstractConstruction c) {
 		super(c);
@@ -508,46 +357,52 @@ public abstract class GeoElement
 		graphicsadapter = kernel.newGeoElementGraphicsAdapter();
 		geoElementSpreadsheet = kernel.getGeoElementSpreadsheet();
 		// this.geoID = geoCounter++;
-		
+
 		// moved to subclasses, see
-		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		//setConstructionDefaults(); // init visual settings
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		// setConstructionDefaults(); // init visual settings
 
 		// new elements become breakpoints if only breakpoints are shown
-		//isConsProtBreakpoint = cons.showOnlyBreakpoints();
+		// isConsProtBreakpoint = cons.showOnlyBreakpoints();
 
 		// ensure all new objects are in the top layer
 		AbstractApplication app = c.getApplication();
-		if (app != null) {			
-			if (app.getEuclidianView() != null)
+		if (app != null) {
+			if (app.getEuclidianView() != null) {
 				layer = app.maxLayerUsed;
+			}
 		}
-		
-		viewFlags=new ArrayList<Integer>();
+
+		viewFlags = new ArrayList<Integer>();
 		EuclidianViewInterfaceSlim ev;
-		if (app!=null && (ev = app.getActiveEuclidianView())!=null){
+		if ((app != null) && ((ev = app.getActiveEuclidianView()) != null)) {
 			viewFlags.add(ev.getViewID());
-			// if ev isn't Graphics or Graphics 2, then also add 1st 2D euclidian view
-			if (!(ev.isDefault2D()))
+			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
+			// euclidian view
+			if (!(ev.isDefault2D())) {
 				viewFlags.add(AbstractApplication.VIEW_EUCLIDIAN);
-		}else{
+			}
+		} else {
 			viewFlags.add(AbstractApplication.VIEW_EUCLIDIAN);
 		}
 	}
 
-	/* *******************************************************/
+	/* ****************************************************** */
 
 	/**
 	 * We may need a simple method to get the label, as in the CopyPaste class.
+	 * 
 	 * @return label if it is set
 	 */
 	public String getLabelSimple() {
 		return label;
 	}
-	
+
 	/**
 	 * We may need a simple method to set the label, as in the CopyPaste class.
-	 * @param lab the label to set
+	 * 
+	 * @param lab
+	 *            the label to set
 	 */
 	public void setLabelSimple(String lab) {
 		label = lab;
@@ -555,15 +410,17 @@ public abstract class GeoElement
 
 	/**
 	 * Returns label of GeoElement. If the label is null then
-	 * algoParent.getCommandDescription() or  toValueString() is returned.
+	 * algoParent.getCommandDescription() or toValueString() is returned.
+	 * 
 	 * @return geo's label if set, command description otherwise
 	 */
 	public String getLabel() {
 		if (!labelSet && !localVarLabelSet) {
-			if (algoParent == null)
+			if (algoParent == null) {
 				return toOutputValueString();
-			else
+			} else {
 				return algoParent.getCommandDescription();
+			}
 		} else {
 			return kernel.printVariableName(label);
 		}
@@ -575,29 +432,32 @@ public abstract class GeoElement
 
 	/**
 	 * Switch label mode among value, name, value+name and caption
-	 * @param mode LABEL_ mode
+	 * 
+	 * @param mode
+	 *            LABEL_ mode
 	 */
 	public void setLabelMode(int mode) {
 		switch (mode) {
-			case LABEL_NAME_VALUE :
-				labelMode = LABEL_NAME_VALUE;
-				break;
+		case LABEL_NAME_VALUE:
+			labelMode = LABEL_NAME_VALUE;
+			break;
 
-			case LABEL_VALUE :
-				labelMode = LABEL_VALUE;
-				break;
+		case LABEL_VALUE:
+			labelMode = LABEL_VALUE;
+			break;
 
-			case LABEL_CAPTION : // Michael Borcherds 2008-02-18
-				labelMode = LABEL_CAPTION;
-				break;
+		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
+			labelMode = LABEL_CAPTION;
+			break;
 
-			default :
-				labelMode = LABEL_NAME;
+		default:
+			labelMode = LABEL_NAME;
 		}
 	}
 
 	/**
-	 * Returns how  should label look like in Euclidian view
+	 * Returns how should label look like in Euclidian view
+	 * 
 	 * @return label mode (name, value, name + value, caption)
 	 */
 	public int getLabelMode() {
@@ -606,32 +466,34 @@ public abstract class GeoElement
 
 	/**
 	 * return the label position (2D or 3D vector)
+	 * 
 	 * @return the label position (2D or 3D vector)
 	 */
-	public Coords getLabelPosition(){
+	public Coords getLabelPosition() {
 		return new Coords(0, 0, 0, 1);
 	}
 
 	/**
 	 * Returns the {@link GeoClass}
+	 * 
 	 * @return GeoClass
 	 */
 	public abstract GeoClass getGeoClassType();
 
 	/**
-	 * every subclass implements it's own copy method
-	 *  this is needed for assignment copies like:
-	 *  a = 2.7
-	 *  b = a   (here copy() is needed)
-	 *  @return copy of current element
+	 * every subclass implements it's own copy method this is needed for
+	 * assignment copies like: a = 2.7 b = a (here copy() is needed)
+	 * 
+	 * @return copy of current element
 	 * */
 	public abstract GeoElement copy();
 
 	/**
-	 * This method always returns a GeoElement of the
-	 * SAME CLASS as this GeoElement. Furthermore the resulting geo
-	 * is in construction cons.
-	 * @param cons construction
+	 * This method always returns a GeoElement of the SAME CLASS as this
+	 * GeoElement. Furthermore the resulting geo is in construction cons.
+	 * 
+	 * @param cons
+	 *            construction
 	 * @return copy in given construction
 	 */
 	public GeoElement copyInternal(AbstractConstruction cons) {
@@ -642,32 +504,38 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Copies the given points array. The resulting points are part of the given construction.
+	 * Copies the given points array. The resulting points are part of the given
+	 * construction.
+	 * 
 	 * @param cons
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPointInterface [] copyPoints(AbstractConstruction cons, GeoPointND [] points) {
-		GeoPointInterface [] pointsCopy = new GeoPointInterface[points.length];
-		for (int i=0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPointInterface)((GeoPointInterface)points[i]).copyInternal(cons);
+	public static GeoPointInterface[] copyPoints(AbstractConstruction cons,
+			GeoPointND[] points) {
+		GeoPointInterface[] pointsCopy = new GeoPointInterface[points.length];
+		for (int i = 0; i < points.length; i++) {
+			pointsCopy[i] = (GeoPointInterface) ((GeoPointInterface) points[i])
+					.copyInternal(cons);
 			pointsCopy[i].set(points[i]);
 		}
 		return pointsCopy;
 	}
 
 	/**
-	 * Copies the given points array. The resulting points are part of the given construction.
+	 * Copies the given points array. The resulting points are part of the given
+	 * construction.
+	 * 
 	 * @param cons
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPointND [] copyPointsND(
-			AbstractConstruction cons,
-			GeoPointND [] points) {
-		GeoPointND [] pointsCopy = new GeoPointND[points.length];
-		for (int i=0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPointND) ((GeoElement) points[i]).copyInternal(cons);
+	public static GeoPointND[] copyPointsND(AbstractConstruction cons,
+			GeoPointND[] points) {
+		GeoPointND[] pointsCopy = new GeoPointND[points.length];
+		for (int i = 0; i < points.length; i++) {
+			pointsCopy[i] = (GeoPointND) ((GeoElement) points[i])
+					.copyInternal(cons);
 			((GeoElement) pointsCopy[i]).set((GeoElement) points[i]);
 		}
 
@@ -675,131 +543,154 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Copies the given segments array. The resulting segments are part of the given construction.
-	 *
-	public static GeoSegment [] copySegments(Construction cons, GeoSegment [] segments) {
-		GeoSegment [] segmentsCopy = new GeoSegment[segments.length];
-		for (int i=0; i < segments.length; i++) {
-			segmentsCopy[i] = (GeoSegment) segments[i].copyInternal(cons);
-
-		}
-		return segmentsCopy;
-	}*/
-
+	 * Copies the given segments array. The resulting segments are part of the
+	 * given construction.
+	 * 
+	 * public static GeoSegment [] copySegments(Construction cons, GeoSegment []
+	 * segments) { GeoSegment [] segmentsCopy = new GeoSegment[segments.length];
+	 * for (int i=0; i < segments.length; i++) { segmentsCopy[i] = (GeoSegment)
+	 * segments[i].copyInternal(cons);
+	 * 
+	 * } return segmentsCopy; }
+	 */
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		//default implementation: changed in some subclasses
+		// default implementation: changed in some subclasses
 		return copy();
 	}
 
 	public void resolveVariables() {
-    }
+	}
 
 	public boolean isInfinite() {
 		return false;
 	}
 
-	/** every subclass implements it's own set method
-	 * @param geo geo to copy */
+	/**
+	 * every subclass implements it's own set method
+	 * 
+	 * @param geo
+	 *            geo to copy
+	 */
 	public abstract void set(GeoElement geo);
 
 	public abstract boolean isDefined();
+
 	public abstract void setUndefined();
+
 	public abstract String toValueString();
 
 	private EuclidianViewInterfaceSlim viewForValueString;
 
 	/**
 	 * sets a view for building the value string
+	 * 
 	 * @param view
 	 */
-	public void setViewForValueString(EuclidianViewInterfaceSlim view){
+	public void setViewForValueString(EuclidianViewInterfaceSlim view) {
 		viewForValueString = view;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return the view used for building the value string
 	 */
-	public EuclidianViewInterfaceSlim getViewForValueString(){
+	public EuclidianViewInterfaceSlim getViewForValueString() {
 		return viewForValueString;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return true if the value string can be changed regarding a view
 	 */
-	public boolean hasValueStringChangeableRegardingView(){
+	public boolean hasValueStringChangeableRegardingView() {
 		return false;
 	}
 
 	/**
-	 * Returns definition or value string of this object.
-	 * Automatically increases decimals to at least 5, e.g.
-	 *  FractionText[4/3] -> FractionText[1.333333333333333]
-	 * @param useChangeable if false, point on path is ignored
-	 * @param useOutputValueString  if true, use outputValueString rather than valueString
+	 * Returns definition or value string of this object. Automatically
+	 * increases decimals to at least 5, e.g. FractionText[4/3] ->
+	 * FractionText[1.333333333333333]
+	 * 
+	 * @param useChangeable
+	 *            if false, point on path is ignored
+	 * @param useOutputValueString
+	 *            if true, use outputValueString rather than valueString
 	 * @return definition or value string of this object
 	 */
-	public String getRedefineString(boolean useChangeable, boolean useOutputValueString) {
-		boolean increasePrecision = kernel.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
+	public String getRedefineString(boolean useChangeable,
+			boolean useOutputValueString) {
+		boolean increasePrecision = kernel
+				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
 
 		String ret = null;
-		boolean isIndependent = !isPointOnPath() && useChangeable ? isChangeable() : isIndependent();
+		boolean isIndependent = !isPointOnPath() && useChangeable ? isChangeable()
+				: isIndependent();
 		if (isIndependent) {
-			ret = useOutputValueString ? toOutputValueString() : toValueString();
+			ret = useOutputValueString ? toOutputValueString()
+					: toValueString();
 		} else {
 			ret = getCommandDescription();
 		}
 
-		if (increasePrecision)
+		if (increasePrecision) {
 			kernel.restorePrintAccuracy();
+		}
 		return ret;
 	}
+
 	/**
 	 * Returns the character which is used between label and definition
+	 * 
 	 * @return for conics, implicit polynomials and inequalities, = otherwise
 	 */
-	protected char getLabelDelimiter(){
+	protected char getLabelDelimiter() {
 		return '=';
 	}
+
 	/**
-	 * Returns the definition of this GeoElement for the
-	 * input field, e.g. A1 = 5, B1 = A1 + 2
+	 * Returns the definition of this GeoElement for the input field, e.g. A1 =
+	 * 5, B1 = A1 + 2
+	 * 
 	 * @return definition for input field
 	 */
 	public String getDefinitionForInputBar() {
-    	// for expressions like "3 = 2 A2 - A1"
-    	// getAlgebraDescription() returns "3 = 5"
-    	// so we need to use getCommandDescription() in those cases
-		boolean increasePrecision = kernel.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
+		// for expressions like "3 = 2 A2 - A1"
+		// getAlgebraDescription() returns "3 = 5"
+		// so we need to use getCommandDescription() in those cases
+		boolean increasePrecision = kernel
+				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
 
-    	String inputBarStr = getCommandDescription();
-    	if (!inputBarStr.equals("")) {
+		String inputBarStr = getCommandDescription();
+		if (!inputBarStr.equals("")) {
 
-    		// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
-    		char delimiter = getLabelDelimiter();
-    		if (inputBarStr.indexOf(delimiter) < 0){
-    			inputBarStr = getLabel() + (delimiter=='='?" =":delimiter) + " "+inputBarStr;
-    		}
-    	} else {
-    		inputBarStr = getAlgebraDescription();
-    	}
+			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
+			char delimiter = getLabelDelimiter();
+			if (inputBarStr.indexOf(delimiter) < 0) {
+				inputBarStr = getLabel()
+						+ (delimiter == '=' ? " =" : delimiter) + " "
+						+ inputBarStr;
+			}
+		} else {
+			inputBarStr = getAlgebraDescription();
+		}
 
-    	if (increasePrecision) {
+		if (increasePrecision) {
 			kernel.restorePrintAccuracy();
-    	}
+		}
 
 		return inputBarStr;
 	}
 
 	/**
-	 * Returns the value of this GeoElement for the
-	 * input field, e.g. A1 = 5, B1 = A1 + 2
+	 * Returns the value of this GeoElement for the input field, e.g. A1 = 5, B1
+	 * = A1 + 2
+	 * 
 	 * @return value for input field
 	 */
 	public String getValueForInputBar() {
-		boolean increasePrecision = kernel.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
+		boolean increasePrecision = kernel
+				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
 
 		// copy into text field
 		String ret = toOutputValueString();
@@ -815,24 +706,26 @@ public abstract class GeoElement
 	 * Sets this object to zero (number = 0, points = (0,0), etc.)
 	 */
 	public void setZero() {
-		//TODO ?
+		// TODO ?
 	}
 
 	/**
-	 * Returns a value string that is saveable in an XML file.
-	 * Note: this is needed for texts that need to be quoted
-	 * in lists and as command arguments.
+	 * Returns a value string that is saveable in an XML file. Note: this is
+	 * needed for texts that need to be quoted in lists and as command
+	 * arguments.
 	 */
 	public String toOutputValueString() {
-		if (isLocalVariable())
+		if (isLocalVariable()) {
 			return label;
-		else
+		} else {
 			return toValueString();
+		}
 	}
 
 	public void setConstructionDefaults() {
 		if (useVisualDefaults) {
-			AbstractConstructionDefaults consDef = cons.getConstructionDefaults();
+			AbstractConstructionDefaults consDef = cons
+					.getConstructionDefaults();
 			if (consDef != null) {
 				consDef.setDefaultVisualStyles(this, false);
 			}
@@ -847,12 +740,14 @@ public abstract class GeoElement
 		fillColor = color;
 		setAlphaValue(alphaValue);
 
-		//selColor = getInverseColor(objColor);
-		selColor =
-				kernel.getColorAdapter(color.getRed(), color.getGreen(), color.getBlue(), 100);
+		// selColor = getInverseColor(objColor);
+		selColor = kernel.getColorAdapter(color.getRed(), color.getGreen(),
+				color.getBlue(), 100);
 	}
+
 	/**
 	 * Returns true if color was explicitly set
+	 * 
 	 * @return true if color was explicitly set
 	 */
 	public boolean isColorSet() {
@@ -860,40 +755,52 @@ public abstract class GeoElement
 	}
 
 	// Michael Borcherds 2008-04-02
-	private Color getRGBFromList(float alpha2)
-	{
-		if (alpha2 > 1f) alpha2 = 1f;
-		if (alpha2 < 0f) alpha2 = 0f;
+	private Color getRGBFromList(float alpha2) {
+		if (alpha2 > 1f) {
+			alpha2 = 1f;
+		}
+		if (alpha2 < 0f) {
+			alpha2 = 0f;
+		}
 
-		int alpha = (int)(alpha2*255f);
+		int alpha = (int) (alpha2 * 255f);
 		return getRGBFromList(alpha);
 	}
 
 	// Michael Borcherds 2008-04-02
-	private Color getRGBFromList(int alpha)	{
-		if (alpha > 255) alpha = 255;
-		else if (alpha < 0) alpha = 0;
+	private Color getRGBFromList(int alpha) {
+		if (alpha > 255) {
+			alpha = 255;
+		} else if (alpha < 0) {
+			alpha = 0;
+		}
 
 		// get rgb values from color list
 		double redD = 0, greenD = 0, blueD = 0;
-		for (int i=0; i < 3; i++) {
-			GeoElement geo = (GeoElement)colFunction.get(i);
+		for (int i = 0; i < 3; i++) {
+			GeoElement geo = (GeoElement) colFunction.get(i);
 			if (geo.isDefined()) {
 				double val = ((NumberValue) geo).getDouble();
 				switch (i) {
-					case 0: redD = val; break;
-					case 1: greenD = val; break;
-					case 2: blueD = val; break;
+				case 0:
+					redD = val;
+					break;
+				case 1:
+					greenD = val;
+					break;
+				case 2:
+					blueD = val;
+					break;
 				}
 			}
 		}
 
-		//double epsilon = 0.000001; // 1 - floor(1) = 0 but we want 1.
+		// double epsilon = 0.000001; // 1 - floor(1) = 0 but we want 1.
 
 		// make sure the colors are between 0 and 1
-		redD = redD/2 - Math.floor(redD/2);
-		greenD = greenD/2 - Math.floor(greenD/2);
-		blueD = blueD/2 - Math.floor(blueD/2);
+		redD = (redD / 2) - Math.floor(redD / 2);
+		greenD = (greenD / 2) - Math.floor(greenD / 2);
+		blueD = (blueD / 2) - Math.floor(blueD / 2);
 
 		// step function so
 		// [0,1] -> [0,1]
@@ -901,60 +808,89 @@ public abstract class GeoElement
 		// [2,3] -> [0,1]
 		// [3,4] -> [1,0]
 		// [4,5] -> [0,1] etc
-		if (redD>0.5) redD=2*(1-redD); else redD=2*redD;
-		if (greenD>0.5) greenD=2*(1-greenD); else greenD=2*greenD;
-		if (blueD>0.5) blueD=2*(1-blueD); else blueD=2*blueD;
+		if (redD > 0.5) {
+			redD = 2 * (1 - redD);
+		} else {
+			redD = 2 * redD;
+		}
+		if (greenD > 0.5) {
+			greenD = 2 * (1 - greenD);
+		} else {
+			greenD = 2 * greenD;
+		}
+		if (blueD > 0.5) {
+			blueD = 2 * (1 - blueD);
+		} else {
+			blueD = 2 * blueD;
+		}
 
-		//Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
+		// Application.debug("red"+redD+"green"+greenD+"blue"+blueD);
 
 		// adjust color triple to alternate color spaces, default to RGB
-		switch(colorSpace){
+		switch (colorSpace) {
 
 		case GeoElement.COLORSPACE_HSB:
 
-			int rgb = Color.HSBtoRGB((float)redD, (float)greenD, (float)blueD);
-			redD = (rgb>>16)&0xFF;
-			greenD = (rgb>>8)&0xFF;
-			blueD = rgb&0xFF;
-			return kernel.getColorAdapter((int)redD, (int)greenD, (int)blueD, alpha);
+			int rgb = Color.HSBtoRGB((float) redD, (float) greenD,
+					(float) blueD);
+			redD = (rgb >> 16) & 0xFF;
+			greenD = (rgb >> 8) & 0xFF;
+			blueD = rgb & 0xFF;
+			return kernel.getColorAdapter((int) redD, (int) greenD,
+					(int) blueD, alpha);
 
 		case GeoElement.COLORSPACE_HSL:
 
 			// algorithm taken from wikipedia article:
 			// http://en.wikipedia.org/wiki/HSL_and_HSV
 
-			double H = redD *6;
+			double H = redD * 6;
 			double S = greenD;
 			double L = blueD;
 
-			double C = (1 - Math.abs(2*L-1))*S;
-			double X = C*(1- Math.abs(H % 2 - 1));
+			double C = (1 - Math.abs((2 * L) - 1)) * S;
+			double X = C * (1 - Math.abs((H % 2) - 1));
 
-			double R1 = 0, G1 = 0, B1 = 0;
+			double R1 = 0,
+			G1 = 0,
+			B1 = 0;
 
-			if(H < 1){
-				R1 = C; G1 = X; B1 = 0;
-			}else if(H < 2){
-				R1 = X; G1 = C; B1 = 0;
-			}else if(H < 3){
-				R1 = 0; G1 = C; B1 = X;
-			}else if(H < 4){
-				R1 = 0; G1 = X; B1 = C;
-			}else if(H < 5){
-				R1 = X; G1 = 0; B1 = C;
-			}else if(H < 6){
-				R1 = C; G1 = 0; B1 = X;
+			if (H < 1) {
+				R1 = C;
+				G1 = X;
+				B1 = 0;
+			} else if (H < 2) {
+				R1 = X;
+				G1 = C;
+				B1 = 0;
+			} else if (H < 3) {
+				R1 = 0;
+				G1 = C;
+				B1 = X;
+			} else if (H < 4) {
+				R1 = 0;
+				G1 = X;
+				B1 = C;
+			} else if (H < 5) {
+				R1 = X;
+				G1 = 0;
+				B1 = C;
+			} else if (H < 6) {
+				R1 = C;
+				G1 = 0;
+				B1 = X;
 			}
 
-			double m = L-.5*C;
+			double m = L - (.5 * C);
 
-			Color c = kernel.getColorAdapter((int)((R1+m)*255.0), (int)((G1+m)*255.0), (int)((B1+m)*255.0), alpha);
+			Color c = kernel.getColorAdapter((int) ((R1 + m) * 255.0),
+					(int) ((G1 + m) * 255.0), (int) ((B1 + m) * 255.0), alpha);
 			return c;
-
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
-			return kernel.getColorAdapter((int)(redD*255.0), (int)(greenD*255.0), (int)(blueD*255.0), alpha);
+			return kernel.getColorAdapter((int) (redD * 255.0),
+					(int) (greenD * 255.0), (int) (blueD * 255.0), alpha);
 
 		}
 
@@ -962,20 +898,25 @@ public abstract class GeoElement
 
 	// Michael Borcherds 2008-04-02
 	public Color getSelColor() {
-		if (colFunction == null) return selColor;
-		//else return RGBtoColor((int)colFunction.getValue(),100);
-		else return getRGBFromList(100);
+		if (colFunction == null) {
+			return selColor;
+		} else {
+			return getRGBFromList(100);
+		}
 	}
 
 	// Michael Borcherds 2008-04-02
 	public Color getFillColor() {
-		if (colFunction == null) return fillColor;
-		//else return RGBtoColor((int)colFunction.getValue(),alphaValue);
-		else return getRGBFromList(getAlphaValue());
+		if (colFunction == null) {
+			return fillColor;
+		} else {
+			return getRGBFromList(getAlphaValue());
+		}
 	}
 
 	/**
 	 * return black if the color is white, so it can be seen
+	 * 
 	 * @return color for algebra view (same as label or black)
 	 */
 	public Color getAlgebraColor() {
@@ -983,11 +924,13 @@ public abstract class GeoElement
 		return col.equals(Color.white) ? Color.black : col;
 	}
 
-
 	// Michael Borcherds 2008-04-01
 	public Color getLabelColor() {
-		if (colFunction == null) return labelColor;
-		else return getObjectColor();
+		if (colFunction == null) {
+			return labelColor;
+		} else {
+			return getObjectColor();
+		}
 	}
 
 	// Michael Borcherds 2008-04-01
@@ -1000,7 +943,7 @@ public abstract class GeoElement
 	}
 
 	public void setBackgroundColor(Color bgCol) {
-		AbstractApplication.debug(getClass()+" "+bgCol);
+		AbstractApplication.debug(getClass() + " " + bgCol);
 		bgColor = bgCol;
 	}
 
@@ -1009,10 +952,10 @@ public abstract class GeoElement
 		Color col = objColor;
 
 		try {
-			if (colFunction != null)
+			if (colFunction != null) {
 				col = getRGBFromList(255);
-		}
-		catch (Exception e) {
+			}
+		} catch (Exception e) {
 			removeColorFunction();
 		}
 
@@ -1022,24 +965,31 @@ public abstract class GeoElement
 	// Michael Borcherds 2008-03-01
 	/**
 	 * Sets layer
-	 * @param layer layer from 0 to 9
+	 * 
+	 * @param layer
+	 *            layer from 0 to 9
 	 */
-	public void setLayer(int layer){
-		
-		//Application.printStacktrace("layer="+layer);
-		
+	public void setLayer(int layer) {
+
+		// Application.printStacktrace("layer="+layer);
+
 		if (layer == this.layer
-				// layer valid only for Drawable objects
-				// DON'T check this: eg angles on file load are not yet isDrawable()
-				//	|| !isDrawable()
-			) return;
-		if (layer > EuclidianStyleConstants.MAX_LAYERS) layer = EuclidianStyleConstants.MAX_LAYERS;
-		else if (layer < 0) layer = 0;
-	
-		app.changeLayer(this,this.layer,layer);
-		
-		this.layer=layer;
-		
+		// layer valid only for Drawable objects
+		// DON'T check this: eg angles on file load are not yet isDrawable()
+		// || !isDrawable()
+		) {
+			return;
+		}
+		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
+			layer = EuclidianStyleConstants.MAX_LAYERS;
+		} else if (layer < 0) {
+			layer = 0;
+		}
+
+		app.changeLayer(this, this.layer, layer);
+
+		this.layer = layer;
+
 		// TODO: update Algebra View
 		AbstractApplication.debug("TODO: update Algebra View");
 	}
@@ -1048,82 +998,98 @@ public abstract class GeoElement
 	/**
 	 * @return layer of this geo (0 to 9)
 	 */
-	public int getLayer(){
+	public int getLayer() {
 		return layer;
 	}
 
 	// Michael Borcherds 2008-02-23
-	public long getDrawingPriority()
-	{
+	public long getDrawingPriority() {
 
 		long typePriority;
 
-		switch (getGeoClassType())
-		{
-		case  AXIS:
-			typePriority = 10; break;
+		switch (getGeoClassType()) {
+		case AXIS:
+			typePriority = 10;
+			break;
 		case IMAGE:
 		case TEXTFIELD:
 		case BUTTON:
 		case BOOLEAN:
-			typePriority = 20; break;
-		case  LIST:
-			typePriority = 40; break;
-		case  POLYGON :
-		case  POLYGON3D :
-			typePriority = 50; break;
-		case  POLYLINE :
-			typePriority = 51; break;
-		case  IMPLICIT_POLY :
-			typePriority = 60; break;
-		case  CONIC:
-		case  CONICPART:
-			typePriority = 70; break;
-		case  ANGLE :
-		case  NUMERIC:
-			typePriority = 80; break;
-		case  INTERVAL: // not drawable
-		case  FUNCTION:
-		case  FUNCTIONCONDITIONAL:
-		case  CURVE_CARTESIAN :
-		case  CURVE_POLAR:
-			typePriority = 90; break;
-		case  LINE:
-		case  LINE3D:
-			typePriority = 100; break;
-		case  LINEAR_INEQUALITY:
-			typePriority = 101; break;
-		case  FUNCTION_NVAR:
-			typePriority = 102; break;
-		case  RAY:
-		case  SEGMENT:
-		case  RAY3D:
-		case  SEGMENT3D:
-			typePriority = 110; break;
-		case  VECTOR:
-			typePriority = 120; break;
-		case  LOCUS:
-			typePriority = 130; break;
-		case  POINT:
-		case  POINT3D:
-			typePriority = 140; break;
-		case  TEXT:
-			typePriority = 150; break;
+			typePriority = 20;
+			break;
+		case LIST:
+			typePriority = 40;
+			break;
+		case POLYGON:
+		case POLYGON3D:
+			typePriority = 50;
+			break;
+		case POLYLINE:
+			typePriority = 51;
+			break;
+		case IMPLICIT_POLY:
+			typePriority = 60;
+			break;
+		case CONIC:
+		case CONICPART:
+			typePriority = 70;
+			break;
+		case ANGLE:
+		case NUMERIC:
+			typePriority = 80;
+			break;
+		case INTERVAL: // not drawable
+		case FUNCTION:
+		case FUNCTIONCONDITIONAL:
+		case CURVE_CARTESIAN:
+		case CURVE_POLAR:
+			typePriority = 90;
+			break;
+		case LINE:
+		case LINE3D:
+			typePriority = 100;
+			break;
+		case LINEAR_INEQUALITY:
+			typePriority = 101;
+			break;
+		case FUNCTION_NVAR:
+			typePriority = 102;
+			break;
+		case RAY:
+		case SEGMENT:
+		case RAY3D:
+		case SEGMENT3D:
+			typePriority = 110;
+			break;
+		case VECTOR:
+			typePriority = 120;
+			break;
+		case LOCUS:
+			typePriority = 130;
+			break;
+		case POINT:
+		case POINT3D:
+			typePriority = 140;
+			break;
+		case TEXT:
+			typePriority = 150;
+			break;
 		default: // shouldn't occur
 			AbstractApplication.debug("missing case in getDrawingPriority()");
 			typePriority = 160;
 		}
 
 		// priority = 100 000 000
-		 long ret = (long) (typePriority * 10E9 + getConstructionIndex());
+		long ret = (long) ((typePriority * 10E9) + getConstructionIndex());
 
-		 //Application.debug("priority: " + ret + ", " + this);
-		 return ret;
+		// Application.debug("priority: " + ret + ", " + this);
+		return ret;
 	}
 
 	public void setAlphaValue(float alpha) {
-		if (fillColor == null || alpha < 0.0f || alpha > 1.0f)
+		if ((fillColor == null) || (alpha < 0.0f) || (alpha > 1.0f)) {
 			return;
+		}
 		alphaValue = alpha;
 
 		float[] rgb = new float[3];
@@ -1132,17 +1098,22 @@ public abstract class GeoElement
 	}
 
 	public float getAlphaValue() {
-		if (colFunction == null || colFunction.size() == 3)
+		if ((colFunction == null) || (colFunction.size() == 3)) {
 			return alphaValue;
+		}
 
-		GeoElement geo = (GeoElement)colFunction.get(3);
+		GeoElement geo = (GeoElement) colFunction.get(3);
 		if (geo.isDefined()) {
 			double alpha = ((NumberValue) geo).getDouble();
 
 			// ensure between 0 and 1
-			alpha = alpha/2 - Math.floor(alpha/2);
-			if (alpha>0.5) alpha=2*(1-alpha); else alpha=2*alpha;
-			return (float)alpha;
+			alpha = (alpha / 2) - Math.floor(alpha / 2);
+			if (alpha > 0.5) {
+				alpha = 2 * (1 - alpha);
+			} else {
+				alpha = 2 * alpha;
+			}
+			return (float) alpha;
 		}
 		return alphaValue;
 	}
@@ -1164,17 +1135,19 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Sets all visual values from given GeoElement.
-	 * This will also affect tracing, label location
-	 * and the location of texts for example.
-	 * @param geo 
-	 * @param keepAdvanced true to skip copying color function and visibility condition
+	 * Sets all visual values from given GeoElement. This will also affect
+	 * tracing, label location and the location of texts for example.
+	 * 
+	 * @param geo
+	 * @param keepAdvanced
+	 *            true to skip copying color function and visibility condition
 	 */
 	public void setAllVisualProperties(GeoElement geo, boolean keepAdvanced) {
-		if(keepAdvanced)
+		if (keepAdvanced) {
 			setVisualStyle(geo);
-		else
+		} else {
 			setAdvancedVisualStyle(geo);
+		}
 
 		euclidianVisible = geo.euclidianVisible;
 		algebraVisible = geo.algebraVisible;
@@ -1186,30 +1159,38 @@ public abstract class GeoElement
 			((Traceable) this).setTrace(((Traceable) geo).getTrace());
 		}
 
-		//if (isGeoPoint() && geo.isGeoPoint()) {
-		if (getGeoClassType().equals(GeoClass.POINT) && geo.getGeoClassType().equals(GeoClass.POINT)) {
-			((GeoPointInterface) this).setSpreadsheetTrace(((GeoPointInterface) geo).getSpreadsheetTrace());
+		// if (isGeoPoint() && geo.isGeoPoint()) {
+		if (getGeoClassType().equals(GeoClass.POINT)
+				&& geo.getGeoClassType().equals(GeoClass.POINT)) {
+			((GeoPointInterface) this)
+					.setSpreadsheetTrace(((GeoPointInterface) geo)
+							.getSpreadsheetTrace());
 		}
 
 		// copy color function
-		if (!keepAdvanced) // done in setAdvancedVisualStyle()
-		if (geo.colFunction != null) {
-			setColorFunction(geo.colFunction);
+		if (!keepAdvanced) {
+			if (geo.colFunction != null) {
+				setColorFunction(geo.colFunction);
+			}
 		}
 
-		// copy ShowObjectCondition, unless it generates a CirclularDefinitionException
-		if (!keepAdvanced) // done in setAdvancedVisualStyle()			
-		if (geo.condShowObject != null) {
-			try { setShowObjectCondition(geo.getShowObjectCondition());}
-			catch (Exception e) {}
-		
+		// copy ShowObjectCondition, unless it generates a
+		// CirclularDefinitionException
+		if (!keepAdvanced) {
+			if (geo.condShowObject != null) {
+				try {
+					setShowObjectCondition(geo.getShowObjectCondition());
+				} catch (Exception e) {
+				}
+
+			}
 		}
-		//G.Sturr 2010-6-26
+		// G.Sturr 2010-6-26
 		if (isSpreadsheetTraceable() && geo.getSpreadsheetTrace()) {
 			setSpreadsheetTrace(true);
 			traceSettings = geo.traceSettings;
 		}
-		//END G.Sturr
+		// END G.Sturr
 
 	}
 
@@ -1223,43 +1204,44 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Just changes the basic visual styles. If the style of a geo
-	 * is reset this is required as we don't want to overwrite advanced
-	 * settings in that case.
-	 *
+	 * Just changes the basic visual styles. If the style of a geo is reset this
+	 * is required as we don't want to overwrite advanced settings in that case.
+	 * 
 	 * @param geo
 	 */
 	public void setVisualStyle(GeoElement geo) {
-		
+
 		// label style
 		labelVisible = geo.labelVisible;
 		labelMode = geo.labelMode;
 		tooltipMode = geo.tooltipMode;
 
 		// style of equation, coordinates, ...
-		if (getGeoClassType() == geo.getGeoClassType())
+		if (getGeoClassType() == geo.getGeoClassType()) {
 			toStringMode = geo.toStringMode;
+		}
 
 		// colors
 		objColor = geo.objColor;
 		selColor = geo.selColor;
 		labelColor = geo.labelColor;
-		if(geo.isFillable()){
+		if (geo.isFillable()) {
 			fillColor = geo.fillColor;
 			fillType = geo.fillType;
 			hatchingAngle = geo.hatchingAngle;
 			hatchingDistance = geo.hatchingDistance;
-			graphicsadapter.setImageFileName(geo.getGraphicsAdapter().getImageFileName());
+			graphicsadapter.setImageFileName(geo.getGraphicsAdapter()
+					.getImageFileName());
 			alphaValue = geo.alphaValue;
-		}
-		else{
+		} else {
 			fillColor = geo.objColor;
 			this.setAlphaValue(geo.getAlphaValue());
 		}
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 		// line thickness and line type:
-		// note: line thickness in Drawable is calculated as lineThickness / 2.0f
+		// note: line thickness in Drawable is calculated as lineThickness /
+		// 2.0f
 		setLineThickness(geo.lineThickness);
 		setLineType(geo.lineType);
 		setLineTypeHidden(geo.lineTypeHidden);
@@ -1268,16 +1250,18 @@ public abstract class GeoElement
 		// set whether it's an auxilliary object
 		setAuxiliaryObject(geo.isAuxiliaryObject());
 
-		// if layer is not zero (eg a new object has layer set to ev.getMaxLayerUsed())
+		// if layer is not zero (eg a new object has layer set to
+		// ev.getMaxLayerUsed())
 		// we don't want to set it
-		if (layer == 0)
+		if (layer == 0) {
 			setLayer(geo.getLayer());
+		}
 
 	}
 
 	/**
 	 * Also copy advanced settings of this object.
-	 *
+	 * 
 	 * @param geo
 	 */
 	public void setAdvancedVisualStyle(GeoElement geo) {
@@ -1289,34 +1273,35 @@ public abstract class GeoElement
 		// copy color function
 		setColorFunction(geo.getColorFunction());
 		setColorSpace(geo.getColorSpace());
-		
-		// copy ShowObjectCondition, unless it generates a CirclularDefinitionException
-		try { setShowObjectCondition(geo.getShowObjectCondition());}
-		catch (Exception e) {}
+
+		// copy ShowObjectCondition, unless it generates a
+		// CirclularDefinitionException
+		try {
+			setShowObjectCondition(geo.getShowObjectCondition());
+		} catch (Exception e) {
+		}
 	}
-	
+
 	public GeoElementGraphicsAdapter getGraphicsAdapter() {
 		return graphicsadapter;
 	}
 
 	/**
-		 * @return
-		 *
-	private static Color getInverseColor(Color c) {
-		float[] hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
-		 hsb[0] += 0.40;
-		 if (hsb[0] > 1)
-		  hsb[0]--;
-		 hsb[1] = 1;
-		 hsb[2] = 0.7f;
-		 return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-
-	}	*/
+	 * @return
+	 * 
+	 *         private static Color getInverseColor(Color c) { float[] hsb =
+	 *         Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
+	 *         hsb[0] += 0.40; if (hsb[0] > 1) hsb[0]--; hsb[1] = 1; hsb[2] =
+	 *         0.7f; return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+	 * 
+	 *         }
+	 */
 
 	/**
 	 * Moves label by updating label offset
-	 * @param x 
-	 * @param y 
+	 * 
+	 * @param x
+	 * @param y
 	 */
 	public void setLabelOffset(int x, int y) {
 		double len = MyMath.length(x, y);
@@ -1337,20 +1322,26 @@ public abstract class GeoElement
 		return isEuclidianVisible() || isAlgebraVisible();
 	}
 
-	/**	 
+	/**
 	 * @return whether object should be drawn in euclidian view
 	 */
 	final public boolean isEuclidianVisible() {
 
-		// used by DrawPoint to draw parts of intersection objects near the point
-		if (forceEuclidianVisible) return true;
+		// used by DrawPoint to draw parts of intersection objects near the
+		// point
+		if (forceEuclidianVisible) {
+			return true;
+		}
 
-		if (!showInEuclidianView()) return false;
+		if (!showInEuclidianView()) {
+			return false;
+		}
 
-		if (condShowObject == null)
+		if (condShowObject == null) {
 			return euclidianVisible;
-		else
+		} else {
 			return condShowObject.getBoolean();
+		}
 	}
 
 	public void setEuclidianVisible(boolean visible) {
@@ -1366,8 +1357,7 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns whether this GeoElement is visible in
-	 * the construction protocol
+	 * Returns whether this GeoElement is visible in the construction protocol
 	 */
 	@Override
 	final public boolean isConsProtocolBreakpoint() {
@@ -1376,27 +1366,26 @@ public abstract class GeoElement
 
 	public void setConsProtocolBreakpoint(boolean flag) {
 		/*
-		// all siblings need to have same breakpoint information
-		GeoElement [] siblings = getSiblings();
-		if (siblings != null) {
-			for (int i=0; i < siblings.length; i++) {
-				siblings[i].isConsProtBreakpoint = flag;
-			}
-		}*/
+		 * // all siblings need to have same breakpoint information GeoElement
+		 * [] siblings = getSiblings(); if (siblings != null) { for (int i=0; i
+		 * < siblings.length; i++) { siblings[i].isConsProtBreakpoint = flag; }
+		 * }
+		 */
 
 		isConsProtBreakpoint = flag;
 	}
 
 	/**
 	 * Returns the children of the parent algorithm or null.
+	 * 
 	 * @return the children of the parent algorithm or null.
 	 */
-	public GeoElement [] getSiblings() {
+	public GeoElement[] getSiblings() {
 		if (algoParent != null) {
 			return algoParent.getOutput();
-		}
-		else
+		} else {
 			return null;
+		}
 	}
 
 	public boolean isDrawable() {
@@ -1416,15 +1405,17 @@ public abstract class GeoElement
 	}
 
 	public void setFixed(boolean flag) {
-		if (!flag)
+		if (!flag) {
 			fixed = flag;
-		else if (isFixable())
+		} else if (isFixable()) {
 			fixed = flag;
+		}
 	}
 
 	public boolean isFixable() {
-		return true; // deleting objects with fixed descendents makes them undefined
-		//return isIndependent();
+		return true; // deleting objects with fixed descendents makes them
+						// undefined
+		// return isIndependent();
 	}
 
 	/*
@@ -1433,27 +1424,27 @@ public abstract class GeoElement
 	final public void removeOrSetUndefinedIfHasFixedDescendent() {
 
 		// can't delete a fixed object at all
-		if (isFixed())
+		if (isFixed()) {
 			return;
+		}
 
 		boolean hasFixedDescendent = false;
 
 		Set<GeoElement> tree = getAllChildren();
 		Iterator<GeoElement> it = tree.iterator();
-		while (it.hasNext() && hasFixedDescendent == false)
-			if (((GeoElement) it.next()).isFixed())
+		while (it.hasNext() && (hasFixedDescendent == false)) {
+			if (it.next().isFixed()) {
 				hasFixedDescendent = true;
+			}
+		}
 
 		if (hasFixedDescendent) {
-			//Application.debug("hasFixedDescendent, not deleting");
+			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		}
-		else
-		{
+		} else {
 			remove();
 		}
-
 
 	}
 
@@ -1472,14 +1463,15 @@ public abstract class GeoElement
 	public void setAuxiliaryObject(boolean flag) {
 		if (auxiliaryObject != flag) {
 			auxiliaryObject = flag;
-			if (labelSet)
+			if (labelSet) {
 				notifyUpdateAuxiliaryObject();
+			}
 		}
 	}
 
 	/**
-	 * sets whether the object's label should be drawn in
-	 * an EuclidianView
+	 * sets whether the object's label should be drawn in an EuclidianView
+	 * 
 	 * @param visible
 	 */
 	public void setLabelVisible(boolean visible) {
@@ -1487,8 +1479,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns whether the label should be shown in
-	 * Euclidian view.
+	 * Returns whether the label should be shown in Euclidian view.
+	 * 
 	 * @return true if label should be shown
 	 */
 	public boolean isLabelVisible() {
@@ -1496,22 +1488,19 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns whether the label can be shown in
-	 * Euclidian view.
+	 * Returns whether the label can be shown in Euclidian view.
+	 * 
 	 * @return true if label can be shown
 	 */
 	final public boolean isLabelShowable() {
-		return isDrawable() &&
-				!(isTextValue() ||
-					isGeoImage() ||
-					isGeoList() ||
-					(isGeoBoolean() && !isIndependent()));
+		return isDrawable()
+				&& !(isTextValue() || isGeoImage() || isGeoList() || (isGeoBoolean() && !isIndependent()));
 	}
 
 	/**
-	 * Returns whether the value (e.g. equation) should be shown
-	 * as part of the label description
-	 * false for eg GeoLocus, Boolean, Button, TextField
+	 * Returns whether the value (e.g. equation) should be shown as part of the
+	 * label description false for eg GeoLocus, Boolean, Button, TextField
+	 * 
 	 * @return true if value should be in description
 	 */
 	public boolean isLabelValueShowable() {
@@ -1526,14 +1515,16 @@ public abstract class GeoElement
 	}
 
 	public boolean showToolTipText() {
-		//return isAlgebraVisible();
+		// return isAlgebraVisible();
 		switch (tooltipMode) {
 		default:
-		//case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!(app.isUsingFullGui() && app.showView(AbstractApplication.VIEW_ALGEBRA))) {
+			// case TOOLTIP_ALGEBRAVIEW_SHOWING:
+			if (!(app.isUsingFullGui() && app
+					.showView(AbstractApplication.VIEW_ALGEBRA))) {
 				return false;
-			} else
+			} else {
 				return isAlgebraVisible(); // old behaviour
+			}
 		case TOOLTIP_OFF:
 			return false;
 		case TOOLTIP_ON:
@@ -1545,19 +1536,22 @@ public abstract class GeoElement
 	}
 
 	public String getTooltipText(boolean colored, boolean alwaysOn) {
-		//sbToolTipDesc.append(geo.getLongDescriptionHTML(colored, false));
+		// sbToolTipDesc.append(geo.getLongDescriptionHTML(colored, false));
 		switch (tooltipMode) {
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!alwaysOn)
-			if (!(app.isUsingFullGui() && app.showView(AbstractApplication.VIEW_ALGEBRA))) {
-				return "";
+			if (!alwaysOn) {
+				if (!(app.isUsingFullGui() && app
+						.showView(AbstractApplication.VIEW_ALGEBRA))) {
+					return "";
+				}
 			}
 			// else fall through:
 		case TOOLTIP_ON:
 
 			app.setTooltipFlag();
-			String ret = getLongDescriptionHTML(colored, false); // old behaviour
+			String ret = getLongDescriptionHTML(colored, false); // old
+																	// behaviour
 			app.clearTooltipFlag();
 
 			return ret;
@@ -1565,13 +1559,20 @@ public abstract class GeoElement
 			return "";
 		case TOOLTIP_CAPTION:
 			return getCaption();
-		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right (spreadsheet objects only)
+		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right
+								// (spreadsheet objects only)
 			String label = getLabel();
-			Point coords = (Point) geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(label);
-			if (coords == null) return "";
+			Point coords = (Point) geoElementSpreadsheet
+					.dogetSpreadsheetCoordsForLabel(label);
+			if (coords == null) {
+				return "";
+			}
 			coords.x++;
-			label = geoElementSpreadsheet.dogetSpreadsheetCellName(coords.x, coords.y);
-			if (label == null) return "";
+			label = geoElementSpreadsheet.dogetSpreadsheetCellName(coords.x,
+					coords.y);
+			if (label == null) {
+				return "";
+			}
 			GeoElement geo = (GeoElement) kernel.lookupLabel(label);
 			return (geo == null) ? "" : geo.toValueString();
 		}
@@ -1583,7 +1584,7 @@ public abstract class GeoElement
 	}
 
 	public void setTooltipMode(int mode) {
-		//return isAlgebraVisible();
+		// return isAlgebraVisible();
 		switch (mode) {
 		default:
 			tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
@@ -1607,6 +1608,7 @@ public abstract class GeoElement
 	}
 
 	public abstract boolean showInAlgebraView();
+
 	protected abstract boolean showInEuclidianView();
 
 	public boolean isAlgebraViewEditable() {
@@ -1630,20 +1632,22 @@ public abstract class GeoElement
 	}
 
 	public void setDrawAlgorithm(AlgoDrawInformation algorithm) {
-		if(algorithm != null){
-			algoDraw = (AlgoElement)algorithm;
+		if (algorithm != null) {
+			algoDraw = (AlgoElement) algorithm;
 		}
 	}
 
 	final public AlgoElement getDrawAlgorithm() {
-		if(algoDraw == null)
+		if (algoDraw == null) {
 			return algoParent;
+		}
 		return algoDraw;
 	}
 
 	final public ArrayList<AlgoElement> getAlgorithmList() {
-		if (algorithmList == null)
+		if (algorithmList == null) {
 			algorithmList = new ArrayList<AlgoElement>();
+		}
 		return algorithmList;
 	}
 
@@ -1653,9 +1657,9 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns whether this GeoElement can be
-	 * changed directly.
-	 * Note: for points on lines this is different than isIndependent()
+	 * Returns whether this GeoElement can be changed directly. Note: for points
+	 * on lines this is different than isIndependent()
+	 * 
 	 * @return whether this geo can be changed directly
 	 */
 	public boolean isChangeable() {
@@ -1663,8 +1667,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns whether this GeoElement is a point
-	 * on a path.
+	 * Returns whether this GeoElement is a point on a path.
+	 * 
 	 * @return true for points on path
 	 */
 	public boolean isPointOnPath() {
@@ -1673,75 +1677,80 @@ public abstract class GeoElement
 
 	/**
 	 * Returns whether this object may be redefined
+	 * 
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
-		return !fixed && app.letRedefine() && !(isTextValue() || isGeoImage()) &&
-			(isChangeable() ||	// redefine changeable (independent and not fixed)
-			 !isIndependent()); // redefine dependent object
+		return !fixed && app.letRedefine() && !(isTextValue() || isGeoImage())
+				&& (isChangeable() || // redefine changeable (independent and
+										// not fixed)
+				!isIndependent()); // redefine dependent object
 	}
 
 	/**
-	 * Returns whether this GeoElement can be
-	 * moved in Euclidian View.
-	 * Note: this is needed for texts and points on path
+	 * Returns whether this GeoElement can be moved in Euclidian View. Note:
+	 * this is needed for texts and points on path
+	 * 
 	 * @return true for moveable objects
 	 */
 	public boolean isMoveable() {
 		return isChangeable();
 	}
-	
+
 	/**
 	 * 
 	 * @param view
 	 * @return true if moveable in the view
 	 */
-	public boolean isMoveable(EuclidianViewInterfaceSlim view){
+	public boolean isMoveable(EuclidianViewInterfaceSlim view) {
 		return view.isMoveable(this);
 	}
 
 	/**
 	 * Returns whether this (dependent) GeoElement has input points that can be
 	 * moved in Euclidian View.
-	 * @param view 
+	 * 
+	 * @param view
 	 * @return whether this geo has only moveable input points
 	 */
 	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 		// allow only moving of certain object types
 		switch (getGeoClassType()) {
-			case CONIC:
-				
-				// special case for Circle[A, r]
-				if (getParentAlgorithm() instanceof AlgoCirclePointRadiusInterface) {
-					return containsOnlyMoveableGeos(getFreeInputPoints(view));					
-				}
-				
-				// fall through
-				
-			case CONICPART:
-			case IMAGE:
-			case LINE:
-			case LINEAR_INEQUALITY:
-			case RAY:
-			case SEGMENT:
-			case TEXT:
-				return hasOnlyFreeInputPoints(view) && containsOnlyMoveableGeos(getFreeInputPoints(view));
+		case CONIC:
 
-			case POLYGON:
-			case POLYLINE:
+			// special case for Circle[A, r]
+			if (getParentAlgorithm() instanceof AlgoCirclePointRadiusInterface) {
 				return containsOnlyMoveableGeos(getFreeInputPoints(view));
+			}
 
-			case VECTOR:
-				if (hasOnlyFreeInputPoints(view) && containsOnlyMoveableGeos(getFreeInputPoints(view))) {
-					// check if first free input point is start point of vector
-					ArrayList<GeoPointInterface> freeInputPoints = getFreeInputPoints(view);
-					if (freeInputPoints.size() > 0) {
-						GeoPointND firstInputPoint = (GeoPointND)freeInputPoints.get(0);
-						GeoPointND startPoint = ((Locateable) this).getStartPoint();
-						return (firstInputPoint == startPoint);
-					}
+			// fall through
+
+		case CONICPART:
+		case IMAGE:
+		case LINE:
+		case LINEAR_INEQUALITY:
+		case RAY:
+		case SEGMENT:
+		case TEXT:
+			return hasOnlyFreeInputPoints(view)
+					&& containsOnlyMoveableGeos(getFreeInputPoints(view));
+
+		case POLYGON:
+		case POLYLINE:
+			return containsOnlyMoveableGeos(getFreeInputPoints(view));
+
+		case VECTOR:
+			if (hasOnlyFreeInputPoints(view)
+					&& containsOnlyMoveableGeos(getFreeInputPoints(view))) {
+				// check if first free input point is start point of vector
+				ArrayList<GeoPointInterface> freeInputPoints = getFreeInputPoints(view);
+				if (freeInputPoints.size() > 0) {
+					GeoPointND firstInputPoint = freeInputPoints.get(0);
+					GeoPointND startPoint = ((Locateable) this).getStartPoint();
+					return (firstInputPoint == startPoint);
 				}
-				break;
+			}
+			break;
 		}
 
 		return false;
@@ -1749,64 +1758,77 @@ public abstract class GeoElement
 
 	/**
 	 * Returns all free parent points of this GeoElement.
-	 * @param view 
+	 * 
+	 * @param view
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterfaceSlim view) {
-		if (algoParent == null)
+	public ArrayList<GeoPointInterface> getFreeInputPoints(
+			EuclidianViewInterfaceSlim view) {
+		if (algoParent == null) {
 			return null;
-		else
+		} else {
 			return view.getFreeInputPoints(algoParent);
+		}
 	}
 
 	final public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return false;
-		else {
+		} else {
 			// special case for edge of polygon
-			if ( algoParent instanceof AlgoJoinPointsSegmentInterface && view.getFreeInputPoints(algoParent).size() == 2) return true;
+			if ((algoParent instanceof AlgoJoinPointsSegmentInterface)
+					&& (view.getFreeInputPoints(algoParent).size() == 2)) {
+				return true;
+			}
 
 			return view.getFreeInputPoints(algoParent).size() == algoParent.input.length;
 		}
 	}
 
-	private static boolean containsOnlyMoveableGeos(ArrayList<GeoPointInterface> geos) {
-		if (geos == null || geos.size() == 0)
+	private static boolean containsOnlyMoveableGeos(
+			ArrayList<GeoPointInterface> geos) {
+		if ((geos == null) || (geos.size() == 0)) {
 			return false;
+		}
 
-		for (int i=0; i < geos.size(); i++) {
+		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = (GeoElement) geos.get(i);
-    		if (!geo.isMoveable())
-    			return false;
-    	}
+			if (!geo.isMoveable()) {
+				return false;
+			}
+		}
 		return true;
 	}
 
 	/**
-	 * Returns whether this object's class implements the interface Translateable.
-	 * @return whether this object's class implements the interface Translateable.
+	 * Returns whether this object's class implements the interface
+	 * Translateable.
+	 * 
+	 * @return whether this object's class implements the interface
+	 *         Translateable.
 	 */
 	public boolean isTranslateable() {
 		return false;
 	}
 
 	/**
-	 * Returns whether this GeoElement can be
-	 * rotated in Euclidian View.
-	 * Note: this is needed for images
+	 * Returns whether this GeoElement can be rotated in Euclidian View. Note:
+	 * this is needed for images
+	 * 
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
-		return isChangeable() && this instanceof PointRotateable;
+		return isChangeable() && (this instanceof PointRotateable);
 	}
 
 	/**
-	 * Returns whether this GeoElement has
-	 * properties that can be edited in a properties dialog.
+	 * Returns whether this GeoElement has properties that can be edited in a
+	 * properties dialog.
+	 * 
 	 * @return whether this element has editable properties
 	 */
 	public boolean hasProperties() {
-		//return isDrawable() || isChangeable();
+		// return isDrawable() || isChangeable();
 		return true;
 	}
 
@@ -1815,30 +1837,35 @@ public abstract class GeoElement
 	}
 
 	public void setAnimationStep(NumberValue v) {
-			animationIncrement = v;
+		animationIncrement = v;
 	}
 
 	public double getAnimationStep() {
-		if(animationIncrement == null)
-			animationIncrement = new MyDouble(kernel, GeoNumericInterface.DEFAULT_SLIDER_INCREMENT);
+		if (animationIncrement == null) {
+			animationIncrement = new MyDouble(kernel,
+					GeoNumericInterface.DEFAULT_SLIDER_INCREMENT);
+		}
 		return animationIncrement.getDouble();
 	}
 
 	public GeoElement getAnimationStepObject() {
-		if(animationIncrement == null)
+		if (animationIncrement == null) {
 			return null;
-		return (GeoElement)animationIncrement.toGeoElement();
+		}
+		return (GeoElement) animationIncrement.toGeoElement();
 	}
 
 	public GeoElement getAnimationSpeedObject() {
-		if (animationSpeedObj == null)
+		if (animationSpeedObj == null) {
 			return null;
-		return (GeoElement)animationSpeedObj.toGeoElement();
+		}
+		return (GeoElement) animationSpeedObj.toGeoElement();
 	}
 
 	/**
-	 * Returns the current animation speed of this slider. Note that
-	 * the speed can be negative which will change the direction of the animation.
+	 * Returns the current animation speed of this slider. Note that the speed
+	 * can be negative which will change the direction of the animation.
+	 * 
 	 * @return current animation speed
 	 */
 	public double getAnimationSpeed() {
@@ -1850,11 +1877,9 @@ public abstract class GeoElement
 		double speed = animationSpeedObj.getDouble();
 		if (Double.isNaN(speed)) {
 			speed = 0;
-		}
-		else if (speed > MAX_ANIMATION_SPEED) {
+		} else if (speed > MAX_ANIMATION_SPEED) {
 			speed = MAX_ANIMATION_SPEED;
-		}
-		else if (speed < -MAX_ANIMATION_SPEED) {
+		} else if (speed < -MAX_ANIMATION_SPEED) {
 			speed = -MAX_ANIMATION_SPEED;
 		}
 
@@ -1868,9 +1893,9 @@ public abstract class GeoElement
 	public void setAnimationSpeed(double speed) {
 		initAnimationSpeedObject();
 
-		GeoElement speedObj = (GeoElement)animationSpeedObj.toGeoElement();
+		GeoElement speedObj = (GeoElement) animationSpeedObj.toGeoElement();
 		if (speedObj.isGeoNumeric() && speedObj.isIndependent()) {
-			((GeoNumericInterface)speedObj).setValue(speed);
+			((GeoNumericInterface) speedObj).setValue(speed);
 		}
 	}
 
@@ -1890,15 +1915,15 @@ public abstract class GeoElement
 		switch (type) {
 		case ANIMATION_INCREASING_ONCE:
 		case ANIMATION_INCREASING:
-			case ANIMATION_OSCILLATING:
-				animationType = type;
-				animationDirection = 1;
-				break;
+		case ANIMATION_OSCILLATING:
+			animationType = type;
+			animationDirection = 1;
+			break;
 
-			case ANIMATION_DECREASING:
-				animationType = type;
-				animationDirection = -1;
-				break;
+		case ANIMATION_DECREASING:
+			animationType = type;
+			animationDirection = -1;
+			break;
 		}
 	}
 
@@ -1911,9 +1936,10 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Sets the state of this object to animating on or off. 
-	 * @param flag 
-	 *
+	 * Sets the state of this object to animating on or off.
+	 * 
+	 * @param flag
+	 * 
 	 * @see Animatable interface
 	 */
 	public synchronized void setAnimating(boolean flag) {
@@ -1923,10 +1949,11 @@ public abstract class GeoElement
 		// tell animation manager
 		if (oldValue != animating) {
 			AbstractAnimationManager am = kernel.getAnimatonManager();
-			if (animating)
+			if (animating) {
 				am.addAnimatedGeo(this);
-			else
+			} else {
 				am.removeAnimatedGeo(this);
+			}
 		}
 	}
 
@@ -1939,137 +1966,145 @@ public abstract class GeoElement
 		return false;
 	}
 
-    public String toLaTeXString(boolean symbolic) {
-    	return getFormulaString(StringType.LATEX, !symbolic);
-    	//if (symbolic)
-    	//	return toString();
-    	//else
-    	//	return toDefinedValueString();
-    }
+	public String toLaTeXString(boolean symbolic) {
+		return getFormulaString(StringType.LATEX, !symbolic);
+		// if (symbolic)
+		// return toString();
+		// else
+		// return toDefinedValueString();
+	}
 
-    /**
-	 * Returns a String that can be used to define geo in the currently used CAS.
-	 * For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7" in MathPiper
-	 * or "f(x) := a*x^2", "a:20", "g: 3x + 4y == 7" in Maxima
-	 *
-	 * @param type StringType.MAXIMA, STRING_TYPE_MATHPIPER
-     * @return String in the format of the current CAS.
+	/**
+	 * Returns a String that can be used to define geo in the currently used
+	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7" in
+	 * MathPiper or "f(x) := a*x^2", "a:20", "g: 3x + 4y == 7" in Maxima
+	 * 
+	 * @param type
+	 *            StringType.MAXIMA, STRING_TYPE_MATHPIPER
+	 * @return String in the format of the current CAS.
 	 */
 	public String toCasAssignment(StringType type) {
-		if (!labelSet) return null;
-		
+		if (!labelSet) {
+			return null;
+		}
+
 		StringType oldType = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(type);
 		String retval;
-		
+
 		try {
 			if (type.equals(StringType.GEOGEBRA)) {
 				String body = toValueString();
-				retval = getAssignmentLHS() + " := " + body;				
-			} 
-			else {
-				
-				
-				CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+				retval = getAssignmentLHS() + " := " + body;
+			} else {
+
+				CASGenericInterface cas = kernel.getGeoGebraCAS()
+						.getCurrentCAS();
 				retval = cas.toAssignment(this);
 			}
-		}
-		finally {
+		} finally {
 			kernel.setCASPrintForm(oldType);
-		}				
-		
+		}
+
 		return retval;
 	}
-
 
 	public String getAssignmentLHS() {
 		return getLabel();
 	}
+
 	/**
-	 * Returns a representation of geo in currently used CAS syntax.
-	 * For example, "a*x^2"
-	 * @param symbolic 
+	 * Returns a representation of geo in currently used CAS syntax. For
+	 * example, "a*x^2"
+	 * 
+	 * @param symbolic
 	 * @return representation of this geo for CAS
 	 */
-	 public String getCASString(boolean symbolic) {
-		return symbolic && !isIndependent() ?  getCommandDescription() : toValueString();
-	 }
-	 
+	public String getCASString(boolean symbolic) {
+		return symbolic && !isIndependent() ? getCommandDescription()
+				: toValueString();
+	}
+
 	/* *******************************************************
-	 * GeoElementTable Management
-	 * Hashtable: String (label) -> GeoElement
-	 ********************************************************/
+	 * GeoElementTable Management Hashtable: String (label) -> GeoElement
+	 * ******************************************************
+	 */
 
-    public void addCellRangeUser() {
-    	++cellRangeUsers;
-    }
+	public void addCellRangeUser() {
+		++cellRangeUsers;
+	}
 
-    public void removeCellRangeUser() {
-    	if (cellRangeUsers > 0)
-    		--cellRangeUsers;
-    }
+	public void removeCellRangeUser() {
+		if (cellRangeUsers > 0) {
+			--cellRangeUsers;
+		}
+	}
 
-    public boolean isRenameable() {
-    	// don't allow renaming when this object is used in
+	public boolean isRenameable() {
+		// don't allow renaming when this object is used in
 		// cell ranges, see AlgoCellRange
-    	return cellRangeUsers == 0;
-    }
-    
-    /**
-     * Tells this GeoElement that one more CAS algorithm
-     * is using it as input. 
-     */
-    public void addCasAlgoUser() {
-    	++casAlgoUsers;
-    }
+		return cellRangeUsers == 0;
+	}
 
-    /**
-     * Tells this GeoElement that one CAS algorithm that had been
-     * using it as input has been removed. If there are no more
-     * using algorithms we call unbindVariableInCAS().
-     */
-    public void removeCasAlgoUser() {  
-    	if (casAlgoUsers > 1) {
-    		--casAlgoUsers;
-    	} else {
-    		unbindVariableInCAS();
-    		casAlgoUsers = 0;
-    	}    	
-    }
-    
-    /**
-     * Removes label from underlying CAS.
-     */
-    public void unbindVariableInCAS() {
-    	if (isSendingUpdatesToCAS() && isLabelSet()) {
-    		kernel.unbindVariableInGeoGebraCAS(label);
-    	}
-    }
+	/**
+	 * Tells this GeoElement that one more CAS algorithm is using it as input.
+	 */
+	public void addCasAlgoUser() {
+		++casAlgoUsers;
+	}
 
-    public boolean isSendingUpdatesToCAS() {
-    	return casAlgoUsers > 0;
-    }
+	/**
+	 * Tells this GeoElement that one CAS algorithm that had been using it as
+	 * input has been removed. If there are no more using algorithms we call
+	 * unbindVariableInCAS().
+	 */
+	public void removeCasAlgoUser() {
+		if (casAlgoUsers > 1) {
+			--casAlgoUsers;
+		} else {
+			unbindVariableInCAS();
+			casAlgoUsers = 0;
+		}
+	}
+
+	/**
+	 * Removes label from underlying CAS.
+	 */
+	public void unbindVariableInCAS() {
+		if (isSendingUpdatesToCAS() && isLabelSet()) {
+			kernel.unbindVariableInGeoGebraCAS(label);
+		}
+	}
+
+	public boolean isSendingUpdatesToCAS() {
+		return casAlgoUsers > 0;
+	}
 
 	/**
 	 * renames this GeoElement to newLabel.
+	 * 
 	 * @param newLabel
 	 * @return true if label was changed
-	 * @throws MyError: if new label is already in use
+	 * @throws MyError
+	 *             : if new label is already in use
 	 */
 	public boolean rename(String newLabel) {
-		if (!isRenameable())
+		if (!isRenameable()) {
 			return false;
+		}
 
-		if (newLabel == null)
+		if (newLabel == null) {
 			return false;
+		}
 		newLabel = newLabel.trim();
-		if (newLabel.length() == 0)
+		if (newLabel.length() == 0) {
 			return false;
+		}
 		String oldLabel = label;
 
-		if (newLabel.equals(oldLabel))
+		if (newLabel.equals(oldLabel)) {
 			return false;
-		else if (cons.isFreeLabel(newLabel)) {
+		} else if (cons.isFreeLabel(newLabel)) {
 			setLabel(newLabel); // now we rename
 			return true;
 		} else {
@@ -2079,9 +2114,10 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns whether this object's label has been set and is valid now.
-	 * (this is needed for saving: only object's with isLabelSet() == true should
-	 * be saved)
+	 * Returns whether this object's label has been set and is valid now. (this
+	 * is needed for saving: only object's with isLabelSet() == true should be
+	 * saved)
+	 * 
 	 * @return true if this geo has valid label
 	 */
 	public boolean isLabelSet() {
@@ -2090,22 +2126,23 @@ public abstract class GeoElement
 
 	/**
 	 * Sets label of a GeoElement and updates Construction list and GeoElement
-	 * tabel (String label, GeoElement geo) in Kernel.
-	 * If the old label was null, a new free label is assigned starting with
-	 * label as a prefix.
-	 * If newLabel is not already used, this object is renamed to newLabel.
+	 * tabel (String label, GeoElement geo) in Kernel. If the old label was
+	 * null, a new free label is assigned starting with label as a prefix. If
+	 * newLabel is not already used, this object is renamed to newLabel.
 	 * Otherwise nothing is done.
-	 * @param newLabel 
+	 * 
+	 * @param newLabel
 	 */
-	public void setLabel(String newLabel) {		
-		
-		//Application.printStacktrace(newLabel);
-		
-		if (cons.isSuppressLabelsActive())
+	public void setLabel(String newLabel) {
+
+		// Application.printStacktrace(newLabel);
+
+		if (cons.isSuppressLabelsActive()) {
 			return;
+		}
 
 		// don't want any '$'s in actual labels
-		if (newLabel!=null && newLabel.indexOf('$') > -1) {
+		if ((newLabel != null) && (newLabel.indexOf('$') > -1)) {
 			newLabel = newLabel.replaceAll("\\$", "");
 		}
 
@@ -2117,7 +2154,7 @@ public abstract class GeoElement
 			// until they are shown in one of the views to get a label
 			if (isVisible()) {
 				// newLabel is used already: rename the using geo
-				GeoElement geo = (GeoElement)kernel.lookupLabel(newLabel);
+				GeoElement geo = (GeoElement) kernel.lookupLabel(newLabel);
 				if (geo != null) {
 					geo.doRenameLabel(getFreeLabel(newLabel));
 				}
@@ -2136,32 +2173,34 @@ public abstract class GeoElement
 			} else {
 
 				// removed: null pointer exception on Intersect[a,b]
-				//System.out.println("setLabel DID NOT RENAME: " + this.label + " to " + newLabel + ", new label is not free: " + cons.lookupLabel(newLabel).getLongDescription());
+				// System.out.println("setLabel DID NOT RENAME: " + this.label +
+				// " to " + newLabel + ", new label is not free: " +
+				// cons.lookupLabel(newLabel).getLongDescription());
 			}
 		}
 	}
 
-//	private StringBuilder sb;
-//
-//	private String removeDollars(String s) {
-//		if (sb == null)
-//			sb = new StringBuilder();
-//		sb.setLength(0);
-//
-//		for (int i = 0; i < s.length(); i++) {
-//			char c = s.charAt(i);
-//			if (c != '$')
-//				sb.append(c);
-//		}
-//
-//		return sb.toString();
-//	}
+	// private StringBuilder sb;
+	//
+	// private String removeDollars(String s) {
+	// if (sb == null)
+	// sb = new StringBuilder();
+	// sb.setLength(0);
+	//
+	// for (int i = 0; i < s.length(); i++) {
+	// char c = s.charAt(i);
+	// if (c != '$')
+	// sb.append(c);
+	// }
+	//
+	// return sb.toString();
+	// }
 
 	/**
-	 * Sets label of a GeoElement and updates GeoElement table
-	 * (label, GeoElement). This method should only be used by
-	 * MyXMLHandler.
-	 * @param label 
+	 * Sets label of a GeoElement and updates GeoElement table (label,
+	 * GeoElement). This method should only be used by MyXMLHandler.
+	 * 
+	 * @param label
 	 */
 	public void setLoadedLabel(String label) {
 		if (labelSet) { // label was set before -> rename
@@ -2172,9 +2211,8 @@ public abstract class GeoElement
 	}
 
 	public boolean setCaption(String caption) {
-		if (caption == null
-			|| caption.equals(label)) {
-			caption = null;
+		if ((caption == null) || caption.equals(label)) {
+			this.caption = null;
 			return false;
 		}
 
@@ -2194,46 +2232,74 @@ public abstract class GeoElement
 	public String getCaptionNoReplace() {
 		return caption;
 	}
+
 	public String getCaption() {
-		if (caption == null)
+		if (caption == null) {
 			return getLabel();
+		}
 
 		// for speed, check first for a %
-		if (caption.indexOf('%') < 0) return caption;
+		if (caption.indexOf('%') < 0) {
+			return caption;
+		}
 
-		if (captionSB == null) captionSB = new StringBuilder();
-		else captionSB.setLength(0);
+		if (captionSB == null) {
+			captionSB = new StringBuilder();
+		} else {
+			captionSB.setLength(0);
+		}
 
 		// replace %v with value and %n with name
 		for (int i = 0; i < caption.length(); i++) {
 			char ch = caption.charAt(i);
-			if (ch == '%' && i < caption.length() - 1) {
+			if ((ch == '%') && (i < (caption.length() - 1))) {
 				// get number after %
 				i++;
 				ch = caption.charAt(i);
 				switch (ch) {
-				case 'v': captionSB.append(toValueString());
-				break;
-				case 'n' : captionSB.append(getLabel());
-				break;
-				case 'x' :
-					if (isGeoPoint()) captionSB.append(kernel.format(((GeoPointND)this).getInhomCoords().getX()));
-					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLineInterface)this).getX()));
-					else captionSB.append("%x");
+				case 'v':
+					captionSB.append(toValueString());
+					break;
+				case 'n':
+					captionSB.append(getLabel());
+					break;
+				case 'x':
+					if (isGeoPoint()) {
+						captionSB.append(kernel.format(((GeoPointND) this)
+								.getInhomCoords().getX()));
+					} else if (isGeoLine()) {
+						captionSB.append(kernel
+								.format(((GeoLineInterface) this).getX()));
+					} else {
+						captionSB.append("%x");
+					}
 
 					break;
-				case 'y' :
-					if (isGeoPoint()) captionSB.append(kernel.format(((GeoPointND)this).getInhomCoords().getY()));
-					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLineInterface)this).getY()));
-					else captionSB.append("%y");
-				break;
-				case 'z' :
-					if (isGeoPoint()) captionSB.append(kernel.format(((GeoPointND)this).getInhomCoords().getZ()));
-					else if (isGeoLine()) captionSB.append(kernel.format(((GeoLineInterface)this).getZ()));
-					else captionSB.append("%z");
-				break;
-				default : 	captionSB.append('%');
-							captionSB.append(ch);
+				case 'y':
+					if (isGeoPoint()) {
+						captionSB.append(kernel.format(((GeoPointND) this)
+								.getInhomCoords().getY()));
+					} else if (isGeoLine()) {
+						captionSB.append(kernel
+								.format(((GeoLineInterface) this).getY()));
+					} else {
+						captionSB.append("%y");
+					}
+					break;
+				case 'z':
+					if (isGeoPoint()) {
+						captionSB.append(kernel.format(((GeoPointND) this)
+								.getInhomCoords().getZ()));
+					} else if (isGeoLine()) {
+						captionSB.append(kernel
+								.format(((GeoLineInterface) this).getZ()));
+					} else {
+						captionSB.append("%z");
+					}
+					break;
+				default:
+					captionSB.append('%');
+					captionSB.append(ch);
 				}
 			} else {
 				captionSB.append(ch);
@@ -2243,36 +2309,38 @@ public abstract class GeoElement
 		return app.translationFix(captionSB.toString());
 	}
 
-	
 	public String getRawCaption() {
-		if (caption == null)
+		if (caption == null) {
 			return getLabel();
-		else
+		} else {
 			return caption;
+		}
 	}
 
 	public String getCaptionDescription() {
-		if (caption == null)
+		if (caption == null) {
 			return "";
-		else
+		} else {
 			return getCaption();
+		}
 	}
 
-
 	/**
-	 * Sets label of a local variable object. This method should
-	 * only be used by Construction.
-	 * @param label local variable name
+	 * Sets label of a local variable object. This method should only be used by
+	 * Construction.
+	 * 
+	 * @param label
+	 *            local variable name
 	 */
 	public void setLocalVariableLabel(String label) {
 		this.oldLabel = this.label;
 		this.label = label;
 		localVarLabelSet = true;
 	}
-	
+
 	/**
-	 * Sets label of a local variable object back to its previous label. This method should
-	 * only be used by Construction.
+	 * Sets label of a local variable object back to its previous label. This
+	 * method should only be used by Construction.
 	 */
 	public void undoLocalVariableLabel() {
 		if (this.oldLabel != null) {
@@ -2288,22 +2356,18 @@ public abstract class GeoElement
 	private void doSetLabel(String label) {
 		// UPDATE KERNEL
 		if (!labelSet && isIndependent()) {
-			//	add independent object to list of all Construction Elements
+			// add independent object to list of all Construction Elements
 			// dependent objects are represented by their parent algorithm
 			cons.addToConstructionList(this, true);
 		}
 
 		/*
-		if (!cons.isFreeLabel(label)) {
-			try {
-				throw new Exception("SET LABEL: label: " + label + ", type: " + this.getTypeString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			Application.debug("SET LABEL: " + label + ", type: " + this.getTypeString());
-		}
-		*/
+		 * if (!cons.isFreeLabel(label)) { try { throw new
+		 * Exception("SET LABEL: label: " + label + ", type: " +
+		 * this.getTypeString()); } catch (Exception e) { e.printStackTrace(); }
+		 * } else { Application.debug("SET LABEL: " + label + ", type: " +
+		 * this.getTypeString()); }
+		 */
 
 		this.label = label; // set new label
 		labelSet = true;
@@ -2317,9 +2381,11 @@ public abstract class GeoElement
 	}
 
 	private void updateSpreadsheetCoordinates() {
-		if (labelSet && label.length() > 0
-			&& Character.isLetter(label.charAt(0)) // starts with letter
-			&& Character.isDigit(label.charAt(label.length()-1)))  // ends with digit
+		if (labelSet && (label.length() > 0)
+				&& Character.isLetter(label.charAt(0)) // starts with letter
+				&& Character.isDigit(label.charAt(label.length() - 1))) // ends
+																		// with
+																		// digit
 		{
 
 			// init old and current spreadsheet coords
@@ -2327,51 +2393,52 @@ public abstract class GeoElement
 				oldSpreadsheetCoords = null;
 				spreadsheetCoords = new Point();
 			} else {
-				if (oldSpreadsheetCoords == null)
+				if (oldSpreadsheetCoords == null) {
 					oldSpreadsheetCoords = new Point();
+				}
 				oldSpreadsheetCoords.setLocation(spreadsheetCoords);
 			}
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			Point p = (Point) geoElementSpreadsheet.dospreadsheetIndices(getLabel());
-			
-			if (p.x >= 0 && p.y >= 0) {
+			Point p = (Point) geoElementSpreadsheet
+					.dospreadsheetIndices(getLabel());
+
+			if ((p.x >= 0) && (p.y >= 0)) {
 				spreadsheetCoords.setLocation(p.x, p.y);
 			} else {
 				spreadsheetCoords = null;
 			}
-    	} else {
-    		oldSpreadsheetCoords = spreadsheetCoords;
-    		spreadsheetCoords = null;
-    	}
+		} else {
+			oldSpreadsheetCoords = spreadsheetCoords;
+			spreadsheetCoords = null;
+		}
 
-
-		//Application.debug("update spread sheet coords: " + this + ", " +  spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
+		// Application.debug("update spread sheet coords: " + this + ", " +
+		// spreadsheetCoords + ", old: " + oldSpreadsheetCoords);
 	}
 
-	
-
-	
-
-    
-
-	 /**
-     * Returns the spreadsheet reference name of this GeoElement using $ signs
-     * for absolute spreadsheet reference names
-     * like A$1 or $A$1.
-	 * @param col$ 
-	 * @param row$ 
+	/**
+	 * Returns the spreadsheet reference name of this GeoElement using $ signs
+	 * for absolute spreadsheet reference names like A$1 or $A$1.
+	 * 
+	 * @param col$
+	 * @param row$
 	 * @return spreadsheet reference name of this GeoElement with $ signs
-     */
+	 */
 	public String getSpreadsheetLabelWithDollars(boolean col$, boolean row$) {
-		String colName = geoElementSpreadsheet.dogetSpreadsheetColumnName(spreadsheetCoords.x);
+		String colName = geoElementSpreadsheet
+				.dogetSpreadsheetColumnName(spreadsheetCoords.x);
 		String rowName = Integer.toString(spreadsheetCoords.y + 1);
 
 		StringBuilder sb = new StringBuilder(label.length() + 2);
-		if (col$) sb.append('$');
+		if (col$) {
+			sb.append('$');
+		}
 		sb.append(colName);
-		if (row$) sb.append('$');
+		if (row$) {
+			sb.append('$');
+		}
 		sb.append(rowName);
 		return sb.toString();
 	}
@@ -2380,13 +2447,19 @@ public abstract class GeoElement
 	 * compares labels alphabetically, but spreadsheet labels are sorted nicely
 	 * eg A1, A2, A10 not A1, A10, A2
 	 */
-	final public static int compareLabels(String label1, String label2,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+	final public static int compareLabels(String label1, String label2,
+			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
 
-		if (geoElementSpreadsheet.doisSpreadsheetLabel(label1) && geoElementSpreadsheet.doisSpreadsheetLabel(label2)) {
-			Point p1 = (Point)geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(label1);
-			Point p2 = (Point)geoElementSpreadsheet.dogetSpreadsheetCoordsForLabel(label2);
-			//Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+" "+p2.y);
-			if (p1.x != p2.x) return p1.x - p2.x;
+		if (geoElementSpreadsheet.doisSpreadsheetLabel(label1)
+				&& geoElementSpreadsheet.doisSpreadsheetLabel(label2)) {
+			Point p1 = (Point) geoElementSpreadsheet
+					.dogetSpreadsheetCoordsForLabel(label1);
+			Point p2 = (Point) geoElementSpreadsheet
+					.dogetSpreadsheetCoordsForLabel(label2);
+			// Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+" "+p2.y);
+			if (p1.x != p2.x) {
+				return p1.x - p2.x;
+			}
 			return p1.y - p2.y;
 		}
 
@@ -2394,40 +2467,25 @@ public abstract class GeoElement
 
 	}
 
-	
-
-	
-
 	public static final int MAX_LINE_WIDTH = 13;
 
-	private static volatile StringBuilder sb = null;
-
-	
-	
-		
-	
-	
-	
-
-	 private void doRenameLabel(String newLabel) {
-		if (newLabel == null || newLabel.equals(label))
+	private void doRenameLabel(String newLabel) {
+		if ((newLabel == null) || newLabel.equals(label)) {
 			return;
+		}
 
 		/*
-		if (!cons.isFreeLabel(newLabel)) {
-			try {
-				throw new Exception("RENAME ERROR: old: " + label + ", new: " + newLabel + ", type: " + this.getTypeString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			Application.debug("RENAME: old: " + label + ", new: " + newLabel + ", type: " + this.getTypeString());
-		}
-		*/
+		 * if (!cons.isFreeLabel(newLabel)) { try { throw new
+		 * Exception("RENAME ERROR: old: " + label + ", new: " + newLabel +
+		 * ", type: " + this.getTypeString()); } catch (Exception e) {
+		 * e.printStackTrace(); } } else { Application.debug("RENAME: old: " +
+		 * label + ", new: " + newLabel + ", type: " + this.getTypeString()); }
+		 */
 
-		//	UPDATE KERNEL
+		// UPDATE KERNEL
 		cons.removeLabel(this); // remove old table entry
-		oldLabel = label; // remember old label (for applet to javascript rename)
+		oldLabel = label; // remember old label (for applet to javascript
+							// rename)
 		label = newLabel; // set new label
 		cons.putLabel(this); // add new table entry
 
@@ -2439,8 +2497,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns the label of this object before rename()
-	 * was called.
+	 * Returns the label of this object before rename() was called.
+	 * 
 	 * @return label before renaming
 	 */
 	final public String getOldLabel() {
@@ -2448,67 +2506,81 @@ public abstract class GeoElement
 	}
 
 	/**
-	 *  set labels for array of GeoElements with given label prefix.
-	 * e.g. labelPrefix = "F", geos.length = 2 sets geo[0].setLabel("F_1")
-	 * and geo[1].setLabel("F_2")
-	 * all members in geos are assumed to be initialized.
-	 * @param labelPrefix 
-	 * @param geos 
+	 * set labels for array of GeoElements with given label prefix. e.g.
+	 * labelPrefix = "F", geos.length = 2 sets geo[0].setLabel("F_1") and
+	 * geo[1].setLabel("F_2") all members in geos are assumed to be initialized.
+	 * 
+	 * @param labelPrefix
+	 * @param geos
 	 */
-	public static void setLabels(String labelPrefix, GeoElement[] geos,AbstractGeoElementSpreadsheet
-			geoElementSpreadsheet) {
-		if (geos == null) return;
+	public static void setLabels(String labelPrefix, GeoElement[] geos,
+			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+		if (geos == null) {
+			return;
+		}
 
 		int visible = 0;
 		int firstVisible = 0;
-		for (int i = geos.length-1; i >=0; i--)
+		for (int i = geos.length - 1; i >= 0; i--) {
 			if (geos[i].isVisible()) {
 				firstVisible = i;
 				visible++;
 			}
+		}
 
 		switch (visible) {
-			case 0 : // no visible geos: they all get the labelPrefix as suggestion
-				for (int i = 0; i < geos.length; i++)
-					geos[i].setLabel(labelPrefix);
-				break;
+		case 0: // no visible geos: they all get the labelPrefix as suggestion
+			for (int i = 0; i < geos.length; i++) {
+				geos[i].setLabel(labelPrefix);
+			}
+			break;
 
-			case 1 : //	if there is only one visible geo, don't use indices
-				geos[firstVisible].setLabel(labelPrefix);
-				break;
+		case 1: // if there is only one visible geo, don't use indices
+			geos[firstVisible].setLabel(labelPrefix);
+			break;
 
-			default :
-				// is this a spreadsheet label?
-				Point p = (Point) geoElementSpreadsheet.dospreadsheetIndices(labelPrefix);
-				if (p.x >= 0 && p.y >= 0) {
-					// more than one visible geo and it's a spreadsheet cell
-					// use D1, E1, F1, etc as names
-					int col = p.x;
-					int row = p.y;
-					for (int i = 0; i < geos.length; i++)
-						geos[i].setLabel(geos[i].getFreeLabel(geoElementSpreadsheet.dogetSpreadsheetCellName(col + i, row)));
-				} else { // more than one visible geo: use indices if we got a prefix
-					for (int i = 0; i < geos.length; i++)
-						geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
+		default:
+			// is this a spreadsheet label?
+			Point p = (Point) geoElementSpreadsheet
+					.dospreadsheetIndices(labelPrefix);
+			if ((p.x >= 0) && (p.y >= 0)) {
+				// more than one visible geo and it's a spreadsheet cell
+				// use D1, E1, F1, etc as names
+				int col = p.x;
+				int row = p.y;
+				for (int i = 0; i < geos.length; i++) {
+					geos[i].setLabel(geos[i].getFreeLabel(geoElementSpreadsheet
+							.dogetSpreadsheetCellName(col + i, row)));
 				}
+			} else { // more than one visible geo: use indices if we got a
+						// prefix
+				for (int i = 0; i < geos.length; i++) {
+					geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
+				}
+			}
 		}
 	}
 
 	/**
-	 * set labels for array of GeoElements pairwise:
-	 * geos[i].setLabel(labels[i])
-	 * @param labels array of labels
-	 * @param geos array of geos
+	 * set labels for array of GeoElements pairwise: geos[i].setLabel(labels[i])
+	 * 
+	 * @param labels
+	 *            array of labels
+	 * @param geos
+	 *            array of geos
 	 */
-	public static void setLabels(String[] labels, GeoElement[] geos,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
-		setLabels(labels, geos, false,geoElementSpreadsheet);
+	public static void setLabels(String[] labels, GeoElement[] geos,
+			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+		setLabels(labels, geos, false, geoElementSpreadsheet);
 	}
 
-	static void setLabels(String[] labels, GeoElement[] geos, boolean indexedOnly,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+	static void setLabels(String[] labels, GeoElement[] geos,
+			boolean indexedOnly,
+			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
 		int labelLen = (labels == null) ? 0 : labels.length;
 
-		if (labelLen == 1 && labels[0] != null && !labels[0].equals("")) {
-			setLabels(labels[0], geos,geoElementSpreadsheet);
+		if ((labelLen == 1) && (labels[0] != null) && !labels[0].equals("")) {
+			setLabels(labels[0], geos, geoElementSpreadsheet);
 			return;
 		}
 
@@ -2520,26 +2592,31 @@ public abstract class GeoElement
 				label = null;
 			}
 
-			if (indexedOnly)
+			if (indexedOnly) {
 				label = geos[i].getIndexLabel(label);
+			}
 
 			geos[i].setLabel(label);
 		}
 	}
 
-	/** Get a free label. Try the suggestedLabel first 
-	 * @param suggestedLabel 
-	 * @return free label -- either suggestedLabel or suggestedLabel_index 
+	/**
+	 * Get a free label. Try the suggestedLabel first
+	 * 
+	 * @param suggestedLabel
+	 * @return free label -- either suggestedLabel or suggestedLabel_index
 	 */
 	public String getFreeLabel(String suggestedLabel) {
 		if (suggestedLabel != null) {
-			if ("x".equals(suggestedLabel) || "y".equals(suggestedLabel))
+			if ("x".equals(suggestedLabel) || "y".equals(suggestedLabel)) {
 				return getDefaultLabel(false);
+			}
 
-			if (cons.isFreeLabel(suggestedLabel))
+			if (cons.isFreeLabel(suggestedLabel)) {
 				return suggestedLabel;
-			else if (suggestedLabel.length() > 0)
+			} else if (suggestedLabel.length() > 0) {
 				return getIndexLabel(suggestedLabel);
+			}
 		}
 
 		// standard case: get default label
@@ -2556,15 +2633,16 @@ public abstract class GeoElement
 
 	protected String getDefaultLabel(char[] chars, boolean isInteger) {
 
-		if(chars==null){
+		if (chars == null) {
 			if (isGeoPoint()) {
 				// Michael Borcherds 2008-02-23
-				// use Greek upper case for labeling points if lenguage is Greek (el)
-				if(app.isUsingLocalizedLabels()) {
+				// use Greek upper case for labeling points if lenguage is Greek
+				// (el)
+				if (app.isUsingLocalizedLabels()) {
 					if (app.languageIs("el")) {
-						chars=greekUpperCase;
-					} else if(app.languageIs("ar")) {
-						chars=arabic;
+						chars = greekUpperCase;
+					} else if (app.languageIs("ar")) {
+						chars = arabic;
 					} else {
 						chars = pointLabels;
 					}
@@ -2572,34 +2650,36 @@ public abstract class GeoElement
 					chars = pointLabels;
 				}
 
-				GeoPointND point = (GeoPointND)this;
-				if (point.getMode() == AbstractKernel.COORD_COMPLEX)
+				GeoPointND point = (GeoPointND) this;
+				if (point.getMode() == AbstractKernel.COORD_COMPLEX) {
 					chars = complexLabels;
+				}
 
 			} else if (isGeoFunction()) {
 				chars = functionLabels;
 			} else if (isGeoLine()) {
-				if (((GeoLineND) this).isFromPolyhedron()){
+				if (((GeoLineND) this).isFromPolyhedron()) {
 					int counter = 0;
 					String str;
 					String name = app.getPlain("Name.edge");
 					do {
-						counter++;			
-						str = name + kernel.internationalizeDigits(counter+"");
+						counter++;
+						str = name
+								+ kernel.internationalizeDigits(counter + "");
 					} while (!cons.isFreeLabel(str));
 					return str;
-				}else
+				} else {
 					chars = lineLabels;
-			} else if (isGeoPolyLine()) {	
+				}
+			} else if (isGeoPolyLine()) {
 				chars = lineLabels;
 			} else if (isGeoConic() || isGeoCubic()) {
 				chars = conicLabels;
 			} else if (isGeoVector() || isVector3DValue()) {
 				chars = vectorLabels;
-			}  else if (isGeoAngle()) {
+			} else if (isGeoAngle()) {
 				chars = greekLowerCase;
-			}
-			else if (isGeoText()) {
+			} else if (isGeoText()) {
 				return defaultNumberedLabel("Name.text");
 			} else if (isGeoImage()) {
 				return defaultNumberedLabel("Name.picture");
@@ -2611,16 +2691,15 @@ public abstract class GeoElement
 				return defaultNumberedLabel("Name.button");
 			} else if (isGeoList()) {
 				GeoListInterface list = (GeoListInterface) this;
-				return defaultNumberedLabel(list.isMatrix() ?"Name.matrix":"Name.list");
-			}
-			else if (isInteger && isGeoNumeric()) {
+				return defaultNumberedLabel(list.isMatrix() ? "Name.matrix"
+						: "Name.list");
+			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
-			}
-			else {
+			} else {
 				chars = lowerCaseLabels;
 			}
 		}
-		
+
 		int counter = 0, q, r;
 		StringBuilder sbDefaultLabel = new StringBuilder();
 		sbDefaultLabel.append(chars[0]);
@@ -2639,7 +2718,7 @@ public abstract class GeoElement
 
 			if (q > 0) {
 				// don't use indices
-				//sbDefaultLabel.append(q);
+				// sbDefaultLabel.append(q);
 
 				// q as index
 				if (q < 10) {
@@ -2656,34 +2735,41 @@ public abstract class GeoElement
 		}
 		return sbDefaultLabel.toString();
 	}
-	
-	private String defaultNumberedLabel(String plainKey){
+
+	private String defaultNumberedLabel(String plainKey) {
 		int counter = 0;
 		String str;
 		do {
 			counter++;
-			str = app.getPlain(plainKey) + kernel.internationalizeDigits(counter+"");;
+			str = app.getPlain(plainKey)
+					+ kernel.internationalizeDigits(counter + "");
+			;
 		} while (!cons.isFreeLabel(str));
 		return str;
 	}
+
 	/**
 	 * Returns the next free indexed label using the given prefix.
-	 * @param prefix e.g. "c"
+	 * 
+	 * @param prefix
+	 *            e.g. "c"
 	 * @return indexed label, e.g. "c_2"
 	 */
 	public String getIndexLabel(String prefix) {
-		if (prefix == null)
+		if (prefix == null) {
 			return getFreeLabel(null) + "_1";
-		else
+		} else {
 			return cons.getIndexLabel(prefix);
+		}
 	}
 
-	public boolean isGeoTextField(){
+	public boolean isGeoTextField() {
 		return false;
 	}
+
 	/**
-	 * Removes this object and all dependent objects from the Kernel.
-	 * If this object is not independent, it's parent algorithm is removed too.
+	 * Removes this object and all dependent objects from the Kernel. If this
+	 * object is not independent, it's parent algorithm is removed too.
 	 */
 	@Override
 	public void remove() {
@@ -2692,8 +2778,9 @@ public abstract class GeoElement
 			algoParent.remove(this);
 		} else {
 			doRemove();
-			if (correspondingCasCell != null)
+			if (correspondingCasCell != null) {
 				correspondingCasCell.doRemove();
+			}
 		}
 	}
 
@@ -2703,8 +2790,9 @@ public abstract class GeoElement
 		setAnimating(false);
 
 		// remove this object from List
-		if (isIndependent())
+		if (isIndependent()) {
 			cons.removeFromConstructionList(this);
+		}
 
 		// remove Listeners
 		AlgoElement algo = getParentAlgorithm();
@@ -2735,8 +2823,9 @@ public abstract class GeoElement
 		}
 
 		// remove from selection
-		if(isSelected())
+		if (isSelected()) {
 			app.removeSelectedGeo(this, false);
+		}
 
 		// notify views before we change labelSet
 		notifyRemove();
@@ -2744,19 +2833,21 @@ public abstract class GeoElement
 		labelSet = false;
 		labelWanted = false;
 		correspondingCasCell = null;
-		
+
 		if (latexCache != null) {
 			// remove old key from cache
-			//JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
+			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
 		}
 
 	}
-	
+
 	LaTeXCache latexCache = null;
-	
+
 	public LaTeXCache getLaTeXCache() {
-		if (latexCache == null) kernel.newLaTeXCache();
+		if (latexCache == null) {
+			kernel.newLaTeXCache();
+		}
 		return latexCache;
 	}
 
@@ -2764,7 +2855,7 @@ public abstract class GeoElement
 	final public void notifyAdd() {
 		kernel.notifyAdd(this);
 
-		//		Application.debug("add " + label);
+		// Application.debug("add " + label);
 		// printUpdateSets();
 	}
 
@@ -2772,67 +2863,67 @@ public abstract class GeoElement
 	final public void notifyRemove() {
 		kernel.notifyRemove(this);
 
-		//Application.debug("remove " + label);
-		//printUpdateSets();
+		// Application.debug("remove " + label);
+		// printUpdateSets();
 	}
 
 	final public void notifyUpdate() {
 		kernel.notifyUpdate(this);
 
-		//	Application.debug("update " + label);
-		//	printUpdateSets();
+		// Application.debug("update " + label);
+		// printUpdateSets();
 	}
 
 	final public void notifyUpdateAuxiliaryObject() {
 		kernel.notifyUpdateAuxiliaryObject(this);
 
-		//		Application.debug("add " + label);
-		//	printUpdateSets();
+		// Application.debug("add " + label);
+		// printUpdateSets();
 	}
 
-
-/*
-	private void printUpdateSets() {
-		Iterator itList = cons.getAllGeoElementsIterator();
-		while (itList.hasNext()) {
-			GeoElement geo = (GeoElement) itList.next();
-			Application.debug(geo.label + ": " + geo.algoUpdateSet.toString());
-		}
-	}
-	*/
+	/*
+	 * private void printUpdateSets() { Iterator itList =
+	 * cons.getAllGeoElementsIterator(); while (itList.hasNext()) { GeoElement
+	 * geo = (GeoElement) itList.next(); Application.debug(geo.label + ": " +
+	 * geo.algoUpdateSet.toString()); } }
+	 */
 
 	/* *******************************************************
-	 * AlgorithmList Management
-	 * each GeoElement has a list of dependent algorithms
-	 ********************************************************/
+	 * AlgorithmList Management each GeoElement has a list of dependent
+	 * algorithms******************************************************
+	 */
 
 	/**
 	 * add algorithm to dependency list of this GeoElement
-	 * @param algorithm 
+	 * 
+	 * @param algorithm
 	 */
 	public final void addAlgorithm(AlgoElement algorithm) {
-		if (!(getAlgorithmList().contains(algorithm)))
+		if (!(getAlgorithmList().contains(algorithm))) {
 			algorithmList.add(algorithm);
+		}
 		addToUpdateSets(algorithm);
 	}
 
 	/**
-	 * Adds the given algorithm to the dependency list of this GeoElement.
-	 * The algorithm is NOT added to the updateSet of this GeoElement!
-	 * I.e. when updateCascade() is called the given algorithm will
-	 * not be updated.
-	 * @param algorithm 
+	 * Adds the given algorithm to the dependency list of this GeoElement. The
+	 * algorithm is NOT added to the updateSet of this GeoElement! I.e. when
+	 * updateCascade() is called the given algorithm will not be updated.
+	 * 
+	 * @param algorithm
 	 */
 	public final void addToAlgorithmListOnly(AlgoElement algorithm) {
-		if (!getAlgorithmList().contains(algorithm))
+		if (!getAlgorithmList().contains(algorithm)) {
 			algorithmList.add(algorithm);
+		}
 	}
 
 	/**
-	 * Adds the given algorithm to the update set this GeoElement.
-	 * Note: the algorithm is NOT added to the algorithm list,
-	 * i.e. the dependency graph of the construction.
-	 * @param algorithm 
+	 * Adds the given algorithm to the update set this GeoElement. Note: the
+	 * algorithm is NOT added to the algorithm list, i.e. the dependency graph
+	 * of the construction.
+	 * 
+	 * @param algorithm
 	 */
 	public final void addToUpdateSetOnly(AlgoElement algorithm) {
 		addToUpdateSets(algorithm);
@@ -2840,60 +2931,63 @@ public abstract class GeoElement
 
 	/**
 	 * remove algorithm from dependency list of this GeoElement
-	 * @param algorithm 
+	 * 
+	 * @param algorithm
 	 */
 	public final void removeAlgorithm(AlgoElementInterface algorithm) {
 		algorithmList.remove(algorithm);
-		removeFromUpdateSets((AlgoElement)algorithm);
+		removeFromUpdateSets((AlgoElement) algorithm);
 	}
-	
-//	/**
-//	 * Removes all algorithms from algoUpdateSet that cannot be reached
-//	 * through the algorithmList - input - output graph. This method should
-//	 * be called when an algorithm removes its input but keeps its output,
-//	 * see AlgoDependentCasCell.removeInputButKeepOutput().
-//	 */
-//	final public void removeUnreachableAlgorithmsFromUpdateSet() {
-//		if (algorithmList == null || algorithmList.isEmpty()) return;
-//		
-//		// create set of reachable algorithms
-//		HashSet<AlgoElement> reachableAlgos = new HashSet<AlgoElement>();
-//		addReachableAlgorithms(algorithmList, reachableAlgos);
-//		
-//		// remove algorithms from updateSet that are not reachable
-//		Iterator<AlgoElement> it = algoUpdateSet.getIterator();
-//		while (it.hasNext()) {
-//			AlgoElement updateAlgo = it.next();
-//			if (!reachableAlgos.contains(updateAlgo)) {
-//				it.remove();
-//			}
-//		}		
-//	}
-//	
-//	/**
-//	 * Adds all algorithms that can be reached through the output graph from startList to
-//	 * reachableAlgorithmList
-//	 * @param startList 
-//	 * @param reachableAlgorithmList
-//	 */
-//	private void addReachableAlgorithms(ArrayList<AlgoElement> startList, HashSet<AlgoElement> reachableAlgorithmList) {
-//		if (startList != null && !startList.isEmpty()) {
-//			reachableAlgorithmList.addAll(startList);		
-//			for (AlgoElement algo : startList) {
-//				for (GeoElement output : algo.getOutput()) {
-//					addReachableAlgorithms(output.algorithmList, reachableAlgorithmList);
-//				}
-//			}
-//		}
-//	}
+
+	// /**
+	// * Removes all algorithms from algoUpdateSet that cannot be reached
+	// * through the algorithmList - input - output graph. This method should
+	// * be called when an algorithm removes its input but keeps its output,
+	// * see AlgoDependentCasCell.removeInputButKeepOutput().
+	// */
+	// final public void removeUnreachableAlgorithmsFromUpdateSet() {
+	// if (algorithmList == null || algorithmList.isEmpty()) return;
+	//
+	// // create set of reachable algorithms
+	// HashSet<AlgoElement> reachableAlgos = new HashSet<AlgoElement>();
+	// addReachableAlgorithms(algorithmList, reachableAlgos);
+	//
+	// // remove algorithms from updateSet that are not reachable
+	// Iterator<AlgoElement> it = algoUpdateSet.getIterator();
+	// while (it.hasNext()) {
+	// AlgoElement updateAlgo = it.next();
+	// if (!reachableAlgos.contains(updateAlgo)) {
+	// it.remove();
+	// }
+	// }
+	// }
+	//
+	// /**
+	// * Adds all algorithms that can be reached through the output graph from
+	// startList to
+	// * reachableAlgorithmList
+	// * @param startList
+	// * @param reachableAlgorithmList
+	// */
+	// private void addReachableAlgorithms(ArrayList<AlgoElement> startList,
+	// HashSet<AlgoElement> reachableAlgorithmList) {
+	// if (startList != null && !startList.isEmpty()) {
+	// reachableAlgorithmList.addAll(startList);
+	// for (AlgoElement algo : startList) {
+	// for (GeoElement output : algo.getOutput()) {
+	// addReachableAlgorithms(output.algorithmList, reachableAlgorithmList);
+	// }
+	// }
+	// }
+	// }
 
 	public AlgorithmSet getAlgoUpdateSet() {
-		if (algoUpdateSet == null)
-			 algoUpdateSet = new AlgorithmSet();
+		if (algoUpdateSet == null) {
+			algoUpdateSet = new AlgorithmSet();
+		}
 
 		return algoUpdateSet;
 	}
-
 
 	/**
 	 * add algorithm to update sets up the construction graph
@@ -2904,7 +2998,8 @@ public abstract class GeoElement
 		if (added) {
 			// propagate up the graph if we didn't do this before
 			if (algoParent != null) {
-				GeoElement [] input = algoParent.getInputForUpdateSetPropagation();
+				GeoElement[] input = algoParent
+						.getInputForUpdateSetPropagation();
 				for (int i = 0; i < input.length; i++) {
 					input[i].addToUpdateSets(algorithm);
 				}
@@ -2913,16 +3008,19 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * remove algorithm from update sets  up the construction graph
-	 * @param algorithm 
+	 * remove algorithm from update sets up the construction graph
+	 * 
+	 * @param algorithm
 	 */
 	public void removeFromUpdateSets(AlgoElement algorithm) {
-		boolean removed = algoUpdateSet != null && algoUpdateSet.remove(algorithm);
+		boolean removed = (algoUpdateSet != null)
+				&& algoUpdateSet.remove(algorithm);
 
 		if (removed) {
-			//	propagate up the graph
+			// propagate up the graph
 			if (algoParent != null) {
-				GeoElement [] input = algoParent.getInputForUpdateSetPropagation();
+				GeoElement[] input = algoParent
+						.getInputForUpdateSetPropagation();
 				for (int i = 0; i < input.length; i++) {
 					input[i].removeFromUpdateSets(algorithm);
 				}
@@ -2931,59 +3029,60 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * updates this object and notifies kernel.
-	 * Note: no dependent objects are updated.
+	 * updates this object and notifies kernel. Note: no dependent objects are
+	 * updated.
+	 * 
 	 * @see #updateRepaint()
 	 */
+	@Override
 	public void update() {
 
 		updateGeo();
 
 		kernel.notifyUpdate(this);
 	}
-	
+
 	final private void updateGeo() {
 
-		//Application.debug(label);
+		// Application.debug(label);
 
 		if (labelWanted && !labelSet) {
 			// check if this object's label needs to be set
-			if (isVisible())
+			if (isVisible()) {
 				setLabel(label);
+			}
 		}
 
 		if (correspondingCasCell != null) {
 			correspondingCasCell.setInputFromTwinGeo();
 		}
-		
-		//G.Sturr 2010-6-26
-		if(getSpreadsheetTrace() && app.isUsingFullGui()){
+
+		// G.Sturr 2010-6-26
+		if (getSpreadsheetTrace() && app.isUsingFullGui()) {
 			app.traceToSpreadsheet(this);
 
 		}
-		//END G.Sturr		
-		
+		// END G.Sturr
+
 		// texts need updates
-		algebraStringsNeedUpdate();	
-		
+		algebraStringsNeedUpdate();
+
 		// send update to underlying CAS if necessary
 		sendValueToCAS();
 
 	}
 
-	
 	/**
 	 * Sends geo's value in the current CAS, e.g. a := 5;
+	 * 
 	 * @return whether an assignment was evaluated
 	 */
 	final public boolean sendValueToCAS() {
-		if (!isSendingUpdatesToCAS() || 
-			!isCasEvaluableObject()  ||
-			!isLabelSet()) 
-		{ 
+		if (!isSendingUpdatesToCAS() || !isCasEvaluableObject()
+				|| !isLabelSet()) {
 			return false;
 		}
-		
+
 		try {
 			GeoGebraCasInterfaceSlim cas = kernel.getGeoGebraCAS();
 			String geoStr = toCasAssignment(cas.getCurrentCASstringType());
@@ -2994,9 +3093,10 @@ public abstract class GeoElement
 				return true;
 			}
 		} catch (Throwable e) {
-			System.err.println("GeoElement.sendValueToCAS: " + this + "\n\t" + e.getMessage());
+			System.err.println("GeoElement.sendValueToCAS: " + this + "\n\t"
+					+ e.getMessage());
 		}
-		return false;		
+		return false;
 	}
 
 	private void algebraStringsNeedUpdate() {
@@ -3008,28 +3108,27 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Updates this object and all dependent ones. Note: no repainting is done afterwards!
-	 * 	 synchronized for animation
+	 * Updates this object and all dependent ones. Note: no repainting is done
+	 * afterwards! synchronized for animation
 	 */
-	 public void updateCascade() {
+	public void updateCascade() {
 		update();
-		updateDependentObjects();		
+		updateDependentObjects();
 	}
-	 
-	final private void updateDependentObjects(){
-		if (correspondingCasCell != null && isIndependent()) {
-			updateAlgoUpdateSetWith((GeoElement)correspondingCasCell);
-		}				
-		else if (algoUpdateSet != null) {
+
+	final private void updateDependentObjects() {
+		if ((correspondingCasCell != null) && isIndependent()) {
+			updateAlgoUpdateSetWith((GeoElement) correspondingCasCell);
+		} else if (algoUpdateSet != null) {
 			// update all algorithms in the algorithm set of this GeoElement
 			algoUpdateSet.updateAll();
 		}
 	}
-	
+
 	/**
 	 * Updates algoUpdateSet and secondGeo.algoUpdateSet together efficiently.
 	 */
-	protected void updateAlgoUpdateSetWith(GeoElement secondGeo) {	
+	protected void updateAlgoUpdateSetWith(GeoElement secondGeo) {
 		if (algoUpdateSet == null) {
 			if (secondGeo.algoUpdateSet == null) {
 				// both null
@@ -3037,43 +3136,46 @@ public abstract class GeoElement
 			} else {
 				// update second only
 				secondGeo.algoUpdateSet.updateAll();
-			}			
+			}
 		} else {
 			if (secondGeo.algoUpdateSet == null) {
 				// update first only
 				algoUpdateSet.updateAll();
-			} 
-			else {
-				// join both algoUpdateSets and update all algorithms	
+			} else {
+				// join both algoUpdateSets and update all algorithms
 				TreeSet<AlgoElementInterface> tempAlgoSet = getTempSet();
 				tempAlgoSet.clear();
 				algoUpdateSet.addAllToCollection(tempAlgoSet);
 				secondGeo.algoUpdateSet.addAllToCollection(tempAlgoSet);
 				for (AlgoElementInterface algo : tempAlgoSet) {
 					algo.update();
-				}		
+				}
 			}
-		}			
+		}
 	}
 
 	/**
-	 * If the flag updateCascadeAll is false, this algorithm 
-	 * updates all GeoElements in the given ArrayList and all algorithms that depend on free GeoElements in that list.
-	 * If the flag updateCascadeAll is true, this algorithm
-	 * updates all GeoElements in the given ArrayList and all algorithms that depend on any GeoElement in that list.
-	 * This flag was introduced because of Ticket #1383, description of that change is there
+	 * If the flag updateCascadeAll is false, this algorithm updates all
+	 * GeoElements in the given ArrayList and all algorithms that depend on free
+	 * GeoElements in that list. If the flag updateCascadeAll is true, this
+	 * algorithm updates all GeoElements in the given ArrayList and all
+	 * algorithms that depend on any GeoElement in that list. This flag was
+	 * introduced because of Ticket #1383, description of that change is there
 	 * 
-	 * Note: this method is more efficient than calling updateCascade() for all individual
-	 * GeoElements.
+	 * Note: this method is more efficient than calling updateCascade() for all
+	 * individual GeoElements.
 	 * 
-	 * @param geos 
-	 *
-	 * @param tempSet a temporary set that is used to collect all algorithms that need to be updated
+	 * @param geos
+	 * 
+	 * @param tempSet
+	 *            a temporary set that is used to collect all algorithms that
+	 *            need to be updated
 	 * 
 	 * @param updateCascadeAll
 	 */
-	final static public synchronized void updateCascade(ArrayList<?> geos, TreeSet<AlgoElementInterface> tempSet, boolean updateCascadeAll) {		
-				// only one geo: call updateCascade()
+	final static public synchronized void updateCascade(ArrayList<?> geos,
+			TreeSet<AlgoElementInterface> tempSet, boolean updateCascadeAll) {
+		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
 			ConstructionElement ce = (ConstructionElement) geos.get(0);
 			if (ce.isGeoElement()) {
@@ -3087,16 +3189,16 @@ public abstract class GeoElement
 		tempSet.clear();
 
 		int size = geos.size();
-		for (int i=0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			ConstructionElement ce = (ConstructionElement) geos.get(i);
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) geos.get(i);
 				geo.update();
 
-				if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll) &&
-						geo.algoUpdateSet != null)
-				{
-					// add all dependent algos of geo to the overall algorithm set
+				if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
+						&& (geo.algoUpdateSet != null)) {
+					// add all dependent algos of geo to the overall algorithm
+					// set
 					geo.algoUpdateSet.addAllToCollection(tempSet);
 				}
 			}
@@ -3113,15 +3215,19 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Updates all GeoElements in the given ArrayList and all algorithms that depend on free GeoElements in that list.
-	 * Note: this method is more efficient than calling updateCascade() for all individual
-	 * GeoElements.
-	 * @param geos 
-	 *
-	 * @param tempSet a temporary set that is used to collect all algorithms that need to be updated
+	 * Updates all GeoElements in the given ArrayList and all algorithms that
+	 * depend on free GeoElements in that list. Note: this method is more
+	 * efficient than calling updateCascade() for all individual GeoElements.
+	 * 
+	 * @param geos
+	 * 
+	 * @param tempSet
+	 *            a temporary set that is used to collect all algorithms that
+	 *            need to be updated
 	 */
-	final static public void updateCascadeUntil(ArrayList<?> geos, TreeSet<AlgoElementInterface> tempSet, AlgoElement lastAlgo) {		
-				// only one geo: call updateCascade()
+	final static public void updateCascadeUntil(ArrayList<?> geos,
+			TreeSet<AlgoElementInterface> tempSet, AlgoElement lastAlgo) {
+		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
 			ConstructionElement ce = (ConstructionElement) geos.get(0);
 			if (ce.isGeoElement()) {
@@ -3135,16 +3241,16 @@ public abstract class GeoElement
 		tempSet.clear();
 
 		int size = geos.size();
-		for (int i=0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			ConstructionElement ce = (ConstructionElement) geos.get(i);
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) geos.get(i);
 				geo.update();
 
-				if ((geo.isIndependent() || geo.isPointOnPath()) &&
-						geo.algoUpdateSet != null)
-				{
-					// add all dependent algos of geo to the overall algorithm set
+				if ((geo.isIndependent() || geo.isPointOnPath())
+						&& (geo.algoUpdateSet != null)) {
+					// add all dependent algos of geo to the overall algorithm
+					// set
 					geo.algoUpdateSet.addAllToCollection(tempSet);
 				}
 			}
@@ -3155,49 +3261,46 @@ public abstract class GeoElement
 			Iterator<AlgoElementInterface> it = tempSet.iterator();
 			while (it.hasNext()) {
 				AlgoElement algo = (AlgoElement) it.next();
-				
+
 				algo.update();
-				
+
 				if (algo == lastAlgo) {
 					return;
 				}
-					
+
 			}
 		}
 	}
 
-	
 	/**
-	 * Updates this object and all dependent ones.
-	 * Notifies kernel to repaint views.
+	 * Updates this object and all dependent ones. Notifies kernel to repaint
+	 * views.
 	 */
 	final public void updateRepaint() {
 		updateCascade();
 		kernel.notifyRepaint();
 	}
-	
+
 	/**
 	 * update color
 	 */
 	public void updateVisualStyle() {
-		//updateGeo();
+		// updateGeo();
 		kernel.notifyUpdateVisualStyle(this);
-		//updateDependentObjects();
-		//kernel.notifyRepaint();
+		// updateDependentObjects();
+		// kernel.notifyRepaint();
 	}
-	
+
 	public void updateVisualStyleRepaint() {
-		
+
 		updateVisualStyle();
 		kernel.notifyRepaint();
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return label;
 	}
-
 
 	public String toRealString() {
 		return getRealLabel();
@@ -3225,14 +3328,15 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns all predecessors of this GeoElement that are random numbers
-	 * and don't have labels.
+	 * Returns all predecessors of this GeoElement that are random numbers and
+	 * don't have labels.
+	 * 
 	 * @return all random numeric unlabeled predecessors
 	 */
 	public ArrayList<GeoNumericInterface> getRandomNumberPredecessorsWithoutLabels() {
-		if (isIndependent())
+		if (isIndependent()) {
 			return null;
-		else {
+		} else {
 			ArrayList<GeoNumericInterface> randNumbers = null;
 
 			TreeSet<GeoElement> pred = getAllPredecessors();
@@ -3242,8 +3346,9 @@ public abstract class GeoElement
 				if (geo.isGeoNumeric()) {
 					GeoNumericInterface num = (GeoNumericInterface) geo;
 					if (num.isRandomGeo() && !num.isLabelSet()) {
-						if (randNumbers == null)
+						if (randNumbers == null) {
 							randNumbers = new ArrayList<GeoNumericInterface>();
+						}
 						randNumbers.add(num);
 					}
 				}
@@ -3254,9 +3359,10 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns all predecessors (of type GeoElement) that this object depends on.
-	 * The predecessors are sorted topologically.
-	 * @return all predecessors of this geo 
+	 * Returns all predecessors (of type GeoElement) that this object depends
+	 * on. The predecessors are sorted topologically.
+	 * 
+	 * @return all predecessors of this geo
 	 */
 	public TreeSet<GeoElement> getAllPredecessors() {
 		TreeSet<GeoElement> set = new TreeSet<GeoElement>();
@@ -3266,9 +3372,10 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns all independent predecessors (of type GeoElement) that this object depends on.
-	 * The predecessors are sorted topologically. Note: when this method is called
-	 * on an independent geo that geo is included in the TreeSet.
+	 * Returns all independent predecessors (of type GeoElement) that this
+	 * object depends on. The predecessors are sorted topologically. Note: when
+	 * this method is called on an independent geo that geo is included in the
+	 * TreeSet.
 	 */
 	@Override
 	public TreeSet<GeoElement> getAllIndependentPredecessors() {
@@ -3280,11 +3387,11 @@ public abstract class GeoElement
 	// adds all predecessors of this object to the given set
 	// the set is topologically sorted
 	// @param onlyIndependent: whether only indpendent geos should be added
-	final public void addPredecessorsToSet(TreeSet<GeoElement> set, boolean onlyIndependent) {
+	final public void addPredecessorsToSet(TreeSet<GeoElement> set,
+			boolean onlyIndependent) {
 		if (algoParent == null) {
 			set.add(this);
-		}
-		else { // parent algo
+		} else { // parent algo
 			algoParent.addPredecessorsToSet(set, onlyIndependent);
 		}
 	}
@@ -3294,29 +3401,32 @@ public abstract class GeoElement
 		addRandomizablePredecessorsToSet(set);
 		return set;
 	}
-	
+
 	final public void addRandomizablePredecessorsToSet(TreeSet<GeoElement> set) {
-		if (this.isRandomizable() && !cloneInUse)
+		if (this.isRandomizable() && !cloneInUse) {
 			set.add(this);
-		
-		if (algoParent!=null) { // parent algo
+		}
+
+		if (algoParent != null) { // parent algo
 			algoParent.addRandomizablePredecessorsToSet(set);
 		}
 	}
-	
+
 	/**
 	 * Returns whether geo depends on this object.
-	 * @param geo 
+	 * 
+	 * @param geo
 	 * @return true if geo depends on this object.
 	 */
 	public boolean isParentOf(GeoElement geo) {
 		if (algoUpdateSet != null) {
 			Iterator<AlgoElementInterface> it = algoUpdateSet.getIterator();
 			while (it.hasNext()) {
-				AlgoElementInterface algo = (AlgoElementInterface) it.next();
+				AlgoElementInterface algo = it.next();
 				for (int i = 0; i < algo.getOutputLength(); i++) {
-					if (geo == algo.getOutput(i)) // child found
+					if (geo == algo.getOutput(i)) {
 						return true;
+					}
 				}
 			}
 		}
@@ -3326,36 +3436,41 @@ public abstract class GeoElement
 
 	/**
 	 * Returns whether this object is parent of other geos.
+	 * 
 	 * @return true if this object is parent of other geos.
 	 */
 	public boolean hasChildren() {
-		return algorithmList != null && algorithmList.size() > 0;
+		return (algorithmList != null) && (algorithmList.size() > 0);
 	}
 
 	/**
 	 * Returns whether this object is dependent on geo.
-	 * @param geo 
+	 * 
+	 * @param geo
 	 * @return true if this object is dependent on geo.
 	 */
 	public boolean isChildOf(GeoElementInterface geo) {
-		if (geo == null || isIndependent())
+		if ((geo == null) || isIndependent()) {
 			return false;
-		else
-			return ((GeoElement)geo).isParentOf(this);
+		} else {
+			return ((GeoElement) geo).isParentOf(this);
+		}
 	}
 
 	/**
 	 * Returns whether this object is dependent on geo.
-	 * @param geo 
+	 * 
+	 * @param geo
 	 * @return true if this object is dependent on geo.
 	 */
 	public boolean isChildOrEqual(GeoElement geo) {
-		return this == geo || isChildOf(geo);
+		return (this == geo) || isChildOf(geo);
 	}
 
 	/**
 	 * Returns all children (of type GeoElement) that depend on this object.
-	 * @return  set of all children of this geo
+	 * 
+	 * @return set of all children of this geo
 	 */
 	public TreeSet<GeoElement> getAllChildren() {
 		TreeSet<GeoElement> set = new TreeSet<GeoElement>();
@@ -3372,13 +3487,14 @@ public abstract class GeoElement
 	}
 
 	/*
-	* implementation of abstract methods from ConstructionElement
-	*/
+	 * implementation of abstract methods from ConstructionElement
+	 */
 	@Override
 	public GeoElement[] getGeoElements() {
 		return myGeoElements;
 	}
-	private GeoElement [] myGeoElements = new GeoElement[] { this };
+
+	private final GeoElement[] myGeoElements = new GeoElement[] { this };
 
 	@Override
 	final public boolean isAlgoElement() {
@@ -3391,31 +3507,34 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns construction index in current construction.
-	 * For a dependent object the construction index of its parent algorithm is returned.
+	 * Returns construction index in current construction. For a dependent
+	 * object the construction index of its parent algorithm is returned.
 	 */
 	@Override
 	public int getConstructionIndex() {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return super.getConstructionIndex();
-		else
+		} else {
 			return algoParent.getConstructionIndex();
+		}
 	}
 
 	/**
-	 * Returns the smallest possible construction index for this object in its construction.
-	 * For an independent object 0 is returned.
+	 * Returns the smallest possible construction index for this object in its
+	 * construction. For an independent object 0 is returned.
 	 */
 	@Override
 	public int getMinConstructionIndex() {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return 0;
-		else
+		} else {
 			return algoParent.getMinConstructionIndex();
+		}
 	}
 
 	/**
-	 * Returns the largest possible construction index for this object in its construction.
+	 * Returns the largest possible construction index for this object in its
+	 * construction.
 	 */
 	@Override
 	public int getMaxConstructionIndex() {
@@ -3425,78 +3544,83 @@ public abstract class GeoElement
 			int min = cons.steps();
 			int size = algorithmList == null ? 0 : algorithmList.size();
 			for (int i = 0; i < size; ++i) {
-				int index =
-					(algorithmList.get(i)).getConstructionIndex();
-				if (index < min)
+				int index = (algorithmList.get(i)).getConstructionIndex();
+				if (index < min) {
 					min = index;
+				}
 			}
 			return min - 1;
-		} else
-			//	dependent object
+		} else {
+			// dependent object
 			return algoParent.getMaxConstructionIndex();
-	}	
+		}
+	}
 
 	@Override
 	public String getDefinitionDescription() {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return "";
-		else
+		} else {
 			return algoParent.toString();
+		}
 	}
 
 	public String getDefinitionDescriptionHTML(boolean addHTMLtag) {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return "";
-		else
-			return indicesToHTML(app.translationFix(algoParent.toString()), addHTMLtag);
+		} else {
+			return indicesToHTML(app.translationFix(algoParent.toString()),
+					addHTMLtag);
+		}
 	}
 
 	@Override
 	public String getCommandDescription() {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return "";
-		else
+		} else {
 			return algoParent.getCommandDescription();
+		}
 	}
 
 	public String getCommandDescriptionHTML(boolean addHTMLtag) {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return "";
-		else
-			return indicesToHTML(
-				algoParent.getCommandDescription(),
-				addHTMLtag);
+		} else {
+			return indicesToHTML(algoParent.getCommandDescription(), addHTMLtag);
+		}
 	}
 
 	public String getCommandNameHTML(boolean addHTMLtag) {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return "";
-		else
-			return indicesToHTML(
-				algoParent.getCommandName(),
-				addHTMLtag);
+		} else {
+			return indicesToHTML(algoParent.getCommandName(), addHTMLtag);
+		}
 	}
 
 	@Override
 	public int getRelatedModeID() {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return -1;
-		else
+		} else {
 			return algoParent.getRelatedModeID();
+		}
 	}
-
 
 	/**
 	 * Converts indices to HTML <sub> tags if necessary.
-	 * @param text 
+	 * 
+	 * @param text
 	 * @return html string
 	 */
 	public static String convertIndicesToHTML(String text) {
 		// check for index
-		if (text.indexOf('_') > -1)
+		if (text.indexOf('_') > -1) {
 			return indicesToHTML(text, true);
-		else
+		} else {
 			return text;
+		}
 	}
 
 	public String addLabelTextOrHTML(String desc) {
@@ -3507,14 +3631,14 @@ public abstract class GeoElement
 		// check for function in desc like "f(x) = x^2"
 		if (includesEqual && desc.startsWith(label + '(')) {
 			ret = desc;
-		}
-		else {
+		} else {
 			StringBuffer sb = new StringBuffer();
 			sb.append(label);
-			if (includesEqual)
+			if (includesEqual) {
 				sb.append(": ");
-			else
+			} else {
 				sb.append(" = ");
+			}
 			sb.append(desc);
 			ret = sb.toString();
 		}
@@ -3523,21 +3647,23 @@ public abstract class GeoElement
 		return convertIndicesToHTML(ret);
 	}
 
-	final public String getCaptionDescriptionHTML(boolean addHTMLtag) {	
+	final public String getCaptionDescriptionHTML(boolean addHTMLtag) {
 
 		return indicesToHTML(getCaptionDescription(), addHTMLtag);
 	}
-	
+
 	/**
-	 * Returns type string of GeoElement. Note: this is
-	 * equal to getClassName().substring(3), but faster
+	 * Returns type string of GeoElement. Note: this is equal to
+	 * getClassName().substring(3), but faster
+	 * 
 	 * @return type string without "Geo" prefix
 	 */
 	abstract protected String getTypeString();
-	/*{
-		// e.g. GeoPoint -> type = Point
-		//return getClassName().substring(3);
-	}*/
+
+	/*
+	 * { // e.g. GeoPoint -> type = Point //return getClassName().substring(3);
+	 * }
+	 */
 
 	final public String getObjectType() {
 		return getTypeString();
@@ -3548,13 +3674,13 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * @return Type, label and definition information about this GeoElement
-	 * (for tooltips and error messages)
+	 * @return Type, label and definition information about this GeoElement (for
+	 *         tooltips and error messages)
 	 */
 	final public String getLongDescription() {
-		if (algoParent == null)
+		if (algoParent == null) {
 			return getNameDescription();
-		else {
+		} else {
 			StringBuilder sbLongDesc = new StringBuilder();
 			sbLongDesc.append(getNameDescription());
 			// add dependency information
@@ -3565,44 +3691,47 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * returns Type, label and definition information about this GeoElement
-	 * as html string.
-	 * (for tooltips and error messages)
-	 * @param colored 
-	 * @param addHTMLtag 
+	 * returns Type, label and definition information about this GeoElement as
+	 * html string. (for tooltips and error messages)
+	 * 
+	 * @param colored
+	 * @param addHTMLtag
 	 * @return description (type + label + definition)
 	 */
-	final public String getLongDescriptionHTML(
-		boolean colored,
-		boolean addHTMLtag) {
-		if (algoParent == null || isTextValue())
+	final public String getLongDescriptionHTML(boolean colored,
+			boolean addHTMLtag) {
+		if ((algoParent == null) || isTextValue()) {
 			return getNameDescriptionHTML(colored, addHTMLtag);
-		else {
+		} else {
 			StringBuilder sbLongDescHTML = new StringBuilder();
 
 			String label = getLabel();
 			String typeString = translatedTypeString();
 
 			// html string
-			if (addHTMLtag)
+			if (addHTMLtag) {
 				sbLongDescHTML.append("<html>");
+			}
 
 			boolean reverseOrder = app.isReverseNameDescriptionLanguage();
 			if (!reverseOrder) {
-				//	standard order: "point A"
+				// standard order: "point A"
 				sbLongDescHTML.append(typeString);
 				sbLongDescHTML.append(' ');
 			}
 
 			if (colored) {
-				Color colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());				
+				Color colorAdapter = kernel.getColorAdapter(getAlgebraColor()
+						.getRed(), getAlgebraColor().getGreen(),
+						getAlgebraColor().getBlue());
 				sbLongDescHTML.append("<b><font color=\"#");
 				sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
 				sbLongDescHTML.append("\">");
 			}
 			sbLongDescHTML.append(indicesToHTML(label, false));
-			if (colored)
+			if (colored) {
 				sbLongDescHTML.append("</font></b>");
+			}
 
 			if (reverseOrder) {
 				// reverse order: "A point"
@@ -3618,21 +3747,24 @@ public abstract class GeoElement
 				// In order to present the text correctly in Hebrew and Arabic:
 				boolean rightToLeft = app.isRightToLeftReadingOrder();
 				if (rightToLeft) {
-					//sbLongDescHTML.append("\u200e\u200f: \u200e");
+					// sbLongDescHTML.append("\u200e\u200f: \u200e");
 					sbLongDescHTML.append(Unicode.LeftToRightMark);
 					sbLongDescHTML.append(Unicode.RightToLeftMark);
 					sbLongDescHTML.append(": ");
 					sbLongDescHTML.append(Unicode.LeftToRightMark);
-				}
-				else
+				} else {
 					sbLongDescHTML.append(": ");
-				sbLongDescHTML.append(indicesToHTML(app.translationFix(algoParent.toString()), false));
-				if (rightToLeft)
-					//sbLongDescHTML.append("\u200e");
+				}
+				sbLongDescHTML.append(indicesToHTML(
+						app.translationFix(algoParent.toString()), false));
+				if (rightToLeft) {
+					// sbLongDescHTML.append("\u200e");
 					sbLongDescHTML.append(Unicode.LeftToRightMark);
+				}
 			}
-			if (addHTMLtag)
+			if (addHTMLtag) {
 				sbLongDescHTML.append("</html>");
+			}
 			return sbLongDescHTML.toString();
 		}
 	}
@@ -3641,90 +3773,97 @@ public abstract class GeoElement
 
 	/**
 	 * Returns long description for all GeoElements in given array.
-	 * @param geos 
-	 * @param colored 
-	 * @param addHTMLtag true to wrap in &lt;html> ... &lt;/html>
+	 * 
+	 * @param geos
+	 * @param colored
+	 * @param addHTMLtag
+	 *            true to wrap in &lt;html> ... &lt;/html>
 	 * @return long description for all GeoElements in given array.
 	 */
 	final public static String getToolTipDescriptionHTML(
-		ArrayList<GeoElement> geos,
-		boolean colored,
-		boolean addHTMLtag,
-		boolean alwaysOn) {
-		if (geos == null)
+			ArrayList<GeoElement> geos, boolean colored, boolean addHTMLtag,
+			boolean alwaysOn) {
+		if (geos == null) {
 			return null;
+		}
 
 		sbToolTipDesc.setLength(0);
 
-		if (addHTMLtag)
+		if (addHTMLtag) {
 			sbToolTipDesc.append("<html>");
-		int count=0;
+		}
+		int count = 0;
 		for (int i = 0; i < geos.size(); ++i) {
 			GeoElement geo = geos.get(i);
 			if (geo.showToolTipText() || alwaysOn) {
 				count++;
 				sbToolTipDesc.append(geo.getTooltipText(colored, alwaysOn));
-				if (i+1 < geos.size())
+				if ((i + 1) < geos.size()) {
 					sbToolTipDesc.append("<br>");
+				}
 			}
 		}
-		if (count == 0) return null;
-		if (addHTMLtag)
+		if (count == 0) {
+			return null;
+		}
+		if (addHTMLtag) {
 			sbToolTipDesc.append("</html>");
+		}
 		return sbToolTipDesc.toString();
 	}
 
 	/**
-		* Returns the label and/or value of this object for
-		* showing in EuclidianView. This depends on the current
-		* setting of labelMode:
-		* LABEL_NAME : only label
-		* LABEL_NAME_VALUE : label and value
-	    * @return label, value, label+value or caption 
-		*/
+	 * Returns the label and/or value of this object for showing in
+	 * EuclidianView. This depends on the current setting of labelMode:
+	 * LABEL_NAME : only label LABEL_NAME_VALUE : label and value
+	 * 
+	 * @return label, value, label+value or caption
+	 */
 	public String getLabelDescription() {
 		switch (labelMode) {
-			case LABEL_NAME_VALUE :
-				return getAlgebraDescription();
+		case LABEL_NAME_VALUE:
+			return getAlgebraDescription();
 
-			case LABEL_VALUE :
-				return toDefinedValueString();
+		case LABEL_VALUE:
+			return toDefinedValueString();
 
-			case LABEL_CAPTION: // Michael Borcherds 2008-02-18
-				return getCaption();
+		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
+			return getCaption();
 
-			default : // case LABEL_NAME:
-				//return label;
-				//Mathieu Blossier - 2009-06-30
-				return getLabel();
+		default: // case LABEL_NAME:
+			// return label;
+			// Mathieu Blossier - 2009-06-30
+			return getLabel();
 		}
 	}
 
 	/**
-	 * Returns toValueString() if isDefined() ist true, else
-	 * the translation of "undefined" is returned
+	 * Returns toValueString() if isDefined() ist true, else the translation of
+	 * "undefined" is returned
+	 * 
 	 * @return eithe value string or "undefined"
 	 */
 	final public String toDefinedValueString() {
-		if (isDefined())
+		if (isDefined()) {
 			return toValueString();
-		else
+		} else {
 			return app.getPlain("undefined");
+		}
 	}
 
 	/**
-	* Returns algebraic representation of this GeoElement as Text. If this
-	* is not possible (because there are indices in the representation)
-	* a HTML string is returned.
-	* @return algebraic representation of this GeoElement as Text
-	*/
+	 * Returns algebraic representation of this GeoElement as Text. If this is
+	 * not possible (because there are indices in the representation) a HTML
+	 * string is returned.
+	 * 
+	 * @return algebraic representation of this GeoElement as Text
+	 */
 	final public String getAlgebraDescriptionTextOrHTML() {
 		if (strAlgebraDescTextOrHTMLneedsUpdate) {
 			String algDesc = getAlgebraDescription();
 			// convertion to html is only needed if indices are found
 			if (hasIndexLabel()) {
-				strAlgebraDescTextOrHTML =
-					indicesToHTML(algDesc, true);
+				strAlgebraDescTextOrHTML = indicesToHTML(algDesc, true);
 			} else {
 				strAlgebraDescTextOrHTML = algDesc;
 			}
@@ -3735,15 +3874,15 @@ public abstract class GeoElement
 		return strAlgebraDescTextOrHTML;
 	}
 
-
-
 	final public String getAlgebraDescriptionHTML(boolean addHTMLtag) {
 		if (strAlgebraDescriptionHTMLneedsUpdate) {
-			
-			if(this.isGeoText()){
-				strAlgebraDescriptionHTML = indicesToHTML(toValueString(),false);
+
+			if (this.isGeoText()) {
+				strAlgebraDescriptionHTML = indicesToHTML(toValueString(),
+						false);
 			} else {
-				strAlgebraDescriptionHTML = indicesToHTML(getAlgebraDescription(), false);
+				strAlgebraDescriptionHTML = indicesToHTML(
+						getAlgebraDescription(), false);
 			}
 			strAlgebraDescriptionHTMLneedsUpdate = false;
 		}
@@ -3752,15 +3891,15 @@ public abstract class GeoElement
 	}
 
 	/**
-	* @return type and label of a GeoElement
-	* (for tooltips and error messages)
-	*/
+	 * @return type and label of a GeoElement (for tooltips and error messages)
+	 */
 	final public String getLabelTextOrHTML() {
 		if (strLabelTextOrHTMLUpdate) {
-			if (hasIndexLabel())
+			if (hasIndexLabel()) {
 				strLabelTextOrHTML = indicesToHTML(getLabel(), true);
-			else
+			} else {
 				strLabelTextOrHTML = getLabel();
+			}
 		}
 
 		return strLabelTextOrHTML;
@@ -3788,8 +3927,9 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * Returns simplified algebraic representation of this GeoElement. 
- 	 * Used by the regression test output creator.    
+	 * Returns simplified algebraic representation of this GeoElement. Used by
+	 * the regression test output creator.
+	 * 
 	 * @return sumplifiedrepresentation for regression test
 	 */
 	final public String getAlgebraDescriptionRegrOut() {
@@ -3803,19 +3943,17 @@ public abstract class GeoElement
 			}
 
 			strAlgebraDescriptionNeedsUpdate = false;
-		}
-		else {
+		} else {
 			strAlgebraDescription = toStringMinimal();
 		}
 
 		return strAlgebraDescription;
 	}
 
-    public String toStringMinimal() {
-        return toString();
-    }
+	public String toStringMinimal() {
+		return toString();
+	}
 
-	
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
 			if (isDefined() && !isInfinite()) {
@@ -3828,143 +3966,149 @@ public abstract class GeoElement
 		return strLaTeX;
 	}
 
-	
 	/**
-	 * Returns a string used to render a LaTeX form of the geo's algebra description. 
-	 * @param substituteNumbers 
-	 * @return string used to render a LaTeX form of the geo's algebra description.
-	 *  
+	 * Returns a string used to render a LaTeX form of the geo's algebra
+	 * description.
+	 * 
+	 * @param substituteNumbers
+	 * @return string used to render a LaTeX form of the geo's algebra
+	 *         description.
+	 * 
 	 */
-	public String getLaTeXAlgebraDescription(boolean substituteNumbers){
+	public String getLaTeXAlgebraDescription(boolean substituteNumbers) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers);
 	}
-	private String getLaTeXAlgebraDescription(GeoElement geo, boolean substituteNumbers){		
+
+	private String getLaTeXAlgebraDescription(GeoElement geo,
+			boolean substituteNumbers) {
 
 		String algebraDesc = geo.getAlgebraDescription();
 		StringBuilder sb = new StringBuilder();
-		
-		if(geo.isGeoList() && ((GeoListInterface)geo).getElementType().equals(GeoClass.TEXT))
+
+		if (geo.isGeoList()
+				&& ((GeoListInterface) geo).getElementType().equals(
+						GeoClass.TEXT)) {
 			return null;
+		}
 		// handle undefined
-		if(!geo.isDefined()){
-			// we need to keep the string simple (no \mbox) so that isLatexNeeded may return true
+		if (!geo.isDefined()) {
+			// we need to keep the string simple (no \mbox) so that
+			// isLatexNeeded may return true
 			sb.append(label);
 			sb.append("\\,");
-			sb.append(app.getPlain("undefined"));			
+			sb.append(app.getPlain("undefined"));
 
-		// handle non-GeoText prefixed with ":", e.g.  "a: x = 3"
-		}else if(algebraDesc.indexOf(":") > -1 & !geo.isGeoText()){
+			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
+		} else if ((algebraDesc.indexOf(":") > -1) & !geo.isGeoText()) {
 			sb.append(algebraDesc.split(":")[0] + ": \\,");
 			sb.append(geo.getFormulaString(StringType.LATEX, substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
-		else if(algebraDesc.indexOf("=") > -1 && !geo.isGeoText()){
+		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
 			sb.append(geo.getFormulaString(StringType.LATEX, substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
-		else if (geo.isGeoText() && ((GeoTextInterface)geo).isLaTeX()){
+		else if (geo.isGeoText() && ((GeoTextInterface) geo).isLaTeX()) {
 			sb.append(algebraDesc.split("=")[0]);
 			sb.append("\\, = \\,");
 			sb.append("\\text{``"); // left quote
-			sb.append(((GeoTextInterface)geo).getTextString());
+			sb.append(((GeoTextInterface) geo).getTextString());
 			sb.append("''}"); // right quote
-		}		
+		}
 
 		// handle regular GeoText (and anything else we may have missed)
 		// by returning a null string that will force non-LaTeX rendering
 		else {
-			return null; 
+			return null;
 		}
 
 		return sb.toString();
 	}
-	
-	
-	/*
-	final public Image getAlgebraImage(Image tempImage) {
-		Graphics2D g2 = (Graphics2D) g;
-		GraphicsConfiguration gc = app.getGraphicsConfiguration();
-		if (gc != null) {
-			bgImage = gc.createCompatibleImage(width, height);
-		Point p = drawIndexedString(g2, labelDesc, xLabel, yLabel);
-
-		setSize(fontSize, p.x, fontSize + p.y);
-	}
-	*/
 
 	/*
-	 * replaces all indices (_ and _{}) in str by <sub> tags, all and converts all
-	 * special characters in str to HTML
-	 * examples:
-	 * "a_1" becomes "a<sub>1</sub>"
-	 * "s_{AB}" becomes "s<sub>AB</sub>"
+	 * final public Image getAlgebraImage(Image tempImage) { Graphics2D g2 =
+	 * (Graphics2D) g; GraphicsConfiguration gc =
+	 * app.getGraphicsConfiguration(); if (gc != null) { bgImage =
+	 * gc.createCompatibleImage(width, height); Point p = drawIndexedString(g2,
+	 * labelDesc, xLabel, yLabel);
+	 * 
+	 * setSize(fontSize, p.x, fontSize + p.y); }
+	 */
+
+	/*
+	 * replaces all indices (_ and _{}) in str by <sub> tags, all and converts
+	 * all special characters in str to HTML examples: "a_1" becomes
+	 * "a<sub>1</sub>" "s_{AB}" becomes "s<sub>AB</sub>"
 	 */
 	private static String subBegin = "<sub><font size=\"-1\">";
 	private static String subEnd = "</font></sub>";
+
 	public static String indicesToHTML(String str, boolean addHTMLtag) {
 		StringBuilder sbIndicesToHTML = new StringBuilder();
 
-		if (addHTMLtag)
+		if (addHTMLtag) {
 			sbIndicesToHTML.append("<html>");
+		}
 
 		int depth = 0;
 		int startPos = 0;
 		int length = str.length();
 		for (int i = 0; i < length; i++) {
 			switch (str.charAt(i)) {
-				case '_' :
-					//	write everything before _
+			case '_':
+				// write everything before _
+				if (i > startPos) {
+					sbIndicesToHTML.append(StringUtil.toHTMLString(str
+							.substring(startPos, i)));
+				}
+				startPos = i + 1;
+				depth++;
+
+				// check if next character is a '{' (beginning of index with
+				// several chars)
+				if ((startPos < length) && (str.charAt(startPos) != '{')) {
+					sbIndicesToHTML.append(subBegin);
+					sbIndicesToHTML.append(StringUtil.toHTMLString(str
+							.substring(startPos, startPos + 1)));
+					sbIndicesToHTML.append(subEnd);
+					depth--;
+				} else {
+					sbIndicesToHTML.append(subBegin);
+				}
+				i++;
+				startPos++;
+				break;
+
+			case '}':
+				if (depth > 0) {
 					if (i > startPos) {
-						sbIndicesToHTML.append(
-							StringUtil.toHTMLString(str.substring(startPos, i)));
+						sbIndicesToHTML.append(StringUtil.toHTMLString(str
+								.substring(startPos, i)));
 					}
+					sbIndicesToHTML.append(subEnd);
 					startPos = i + 1;
-					depth++;
-
-					// check if next character is a '{' (beginning of index with several chars)
-					if (startPos < length && str.charAt(startPos) != '{') {
-						sbIndicesToHTML.append(subBegin);
-						sbIndicesToHTML.append(
-							StringUtil.toHTMLString(
-								str.substring(startPos, startPos + 1)));
-						sbIndicesToHTML.append(subEnd);
-						depth--;
-					} else {
-						sbIndicesToHTML.append(subBegin);
-					}
-					i++;
-					startPos++;
-					break;
-
-				case '}' :
-					if (depth > 0) {
-						if (i > startPos) {
-							sbIndicesToHTML.append(
-								StringUtil.toHTMLString(str.substring(startPos, i)));
-						}
-						sbIndicesToHTML.append(subEnd);
-						startPos = i + 1;
-						depth--;
-					}
-					break;
+					depth--;
+				}
+				break;
 			}
 		}
 
 		if (startPos < length) {
-			sbIndicesToHTML.append(StringUtil.toHTMLString(str.substring(startPos)));
+			sbIndicesToHTML.append(StringUtil.toHTMLString(str
+					.substring(startPos)));
 		}
-		if (addHTMLtag)
+		if (addHTMLtag) {
 			sbIndicesToHTML.append("</html>");
+		}
 		return sbIndicesToHTML.toString();
 	}
 
 	/**
-		* returns type and label of a GeoElement
-		* (for tooltips and error messages)
-		*/
+	 * returns type and label of a GeoElement (for tooltips and error messages)
+	 */
 	@Override
 	public String getNameDescription() {
 		StringBuilder sbNameDescription = new StringBuilder();
@@ -3973,14 +4117,13 @@ public abstract class GeoElement
 		String typeString = translatedTypeString();
 
 		if (app.isReverseNameDescriptionLanguage()) {
-			//	reverse order: "A point"
+			// reverse order: "A point"
 			sbNameDescription.append(label);
 			sbNameDescription.append(' ');
 			// For Hungarian, the standard is to lowercase the type.
 			// I don't know if this is OK for Basque as well. -- Zoltan
 			sbNameDescription.append(typeString.toLowerCase());
-		}
-		else {
+		} else {
 			// standard order: "point A"
 			sbNameDescription.append(typeString);
 			sbNameDescription.append(' ');
@@ -3991,87 +4134,94 @@ public abstract class GeoElement
 	}
 
 	/**
-		* returns type and label of a GeoElement
-		* (for tooltips and error messages)
+	 * returns type and label of a GeoElement (for tooltips and error messages)
+	 * 
 	 * @return type and label of a GeoElement
-		*/
+	 */
 	final public String getNameDescriptionTextOrHTML() {
-		if (hasIndexLabel())
+		if (hasIndexLabel()) {
 			return getNameDescriptionHTML(false, true);
-		else
+		} else {
 			return getNameDescription();
+		}
 	}
 
 	/**
 	 * Returns whether the str contains any indices (i.e. '_' chars).
+	 * 
 	 * @return whether the str contains any indices (i.e. '_' chars).
 	 */
 	final public boolean hasIndexLabel() {
 		if (strHasIndexLabel != label) {
-			hasIndexLabel = (label == null || label.indexOf('_') > -1);
+			hasIndexLabel = ((label == null) || (label.indexOf('_') > -1));
 			strHasIndexLabel = label;
 		}
 
 		return hasIndexLabel;
 	}
+
 	private String strHasIndexLabel;
 	private boolean hasIndexLabel = false;
 	private boolean updateJavaScript;
 	private boolean clickJavaScript;
 
-
 	/**
-		* returns type and label of a GeoElement as html string
-		* (for tooltips and error messages)
-	 * @param colored 
-	 * @param addHTMLtag 
+	 * returns type and label of a GeoElement as html string (for tooltips and
+	 * error messages)
+	 * 
+	 * @param colored
+	 * @param addHTMLtag
 	 * @return type and label of a GeoElement as html string
-		*/
-	public String getNameDescriptionHTML(
-		boolean colored,
-		boolean addHTMLtag) {
+	 */
+	public String getNameDescriptionHTML(boolean colored, boolean addHTMLtag) {
 
 		StringBuilder sbNameDescriptionHTML = new StringBuilder();
 
-		if (addHTMLtag)
+		if (addHTMLtag) {
 			sbNameDescriptionHTML.append("<html>");
+		}
 
 		String label = getLabel();
 		String typeString = translatedTypeString();
 
 		boolean reverseOrder = app.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
-			//	standard order: "point A"
+			// standard order: "point A"
 			sbNameDescriptionHTML.append(typeString);
 			sbNameDescriptionHTML.append(' ');
 		}
 
 		if (colored) {
-			Color colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
+			Color colorAdapter = kernel.getColorAdapter(getAlgebraColor()
+					.getRed(), getAlgebraColor().getGreen(), getAlgebraColor()
+					.getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
 			sbNameDescriptionHTML.append(StringUtil.toHexString(colorAdapter));
 			sbNameDescriptionHTML.append("\">");
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label, false));
-		if (colored)
+		if (colored) {
 			sbNameDescriptionHTML.append("</font></b>");
+		}
 
 		if (reverseOrder) {
-			//	reverse order: "A point"
+			// reverse order: "A point"
 			sbNameDescriptionHTML.append(' ');
 			// For Hungarian, the standard is to lowercase the type.
 			// I don't know if this is OK for Basque as well. -- Zoltan
 			sbNameDescriptionHTML.append(typeString.toLowerCase());
 		}
 
-		if (addHTMLtag)
+		if (addHTMLtag) {
 			sbNameDescriptionHTML.append("</html>");
+		}
 		return sbNameDescriptionHTML.toString();
 	}
 
-	/*#******************************************************
-	 * SAVING
-	 *******************************************************/
+	/*
+	 * #****************************************************** SAVING
+	 * *****************************************************
+	 */
 
 	final public String getXMLtypeString() {
 		return app.toLowerCase(getClassName().substring(3));
@@ -4083,13 +4233,12 @@ public abstract class GeoElement
 
 	public String getXML() {
 		StringBuilder sb = new StringBuilder();
-    	getXML(sb);
-    	return sb.toString();
-    }
+		getXML(sb);
+		return sb.toString();
+	}
 
 	/**
-	 * save object in xml format
-	 * GeoGebra File Format
+	 * save object in xml format GeoGebra File Format
 	 */
 	@Override
 	public void getXML(StringBuilder sb) {
@@ -4098,10 +4247,10 @@ public abstract class GeoElement
 
 		// make sure numbers are not put in XML in eg Arabic
 		boolean oldI8NValue = AbstractKernel.internationalizeDigits;
-		AbstractKernel.internationalizeDigits = false;	
+		AbstractKernel.internationalizeDigits = false;
 
 		getElementOpenTagXML(sb);
-		
+
 		getXMLtags(sb);
 		sb.append(getCaptionXML());
 
@@ -4110,7 +4259,7 @@ public abstract class GeoElement
 		kernel.setPrintLocalizedCommandNames(oldValue);
 		AbstractKernel.internationalizeDigits = oldI8NValue;
 	}
-	
+
 	protected void getElementOpenTagXML(StringBuilder sb) {
 		String type = getXMLtypeString();
 		sb.append("<element");
@@ -4124,21 +4273,22 @@ public abstract class GeoElement
 		}
 		sb.append("\">\n");
 	}
-	
+
 	protected void getElementCloseTagXML(StringBuilder sb) {
 		sb.append("</element>\n");
 	}
 
 	public void getScriptTags(StringBuilder sb) {
 		// JavaScript
-		if ((updateJavaScript && updateScript.length()>0)||(clickJavaScript && clickScript.length()>0)) {
+		if ((updateJavaScript && (updateScript.length() > 0))
+				|| (clickJavaScript && (clickScript.length() > 0))) {
 			sb.append("\t<javascript ");
-			if(clickJavaScript && clickScript.length()>0){
+			if (clickJavaScript && (clickScript.length() > 0)) {
 				sb.append(" val=\"");
 				sb.append(getXMLClickScript());
 				sb.append("\"");
 			}
-			if(updateJavaScript && updateScript.length()>0){
+			if (updateJavaScript && (updateScript.length() > 0)) {
 				sb.append(" onUpdate=\"");
 				sb.append(getXMLUpdateScript());
 				sb.append("\"");
@@ -4147,15 +4297,17 @@ public abstract class GeoElement
 		}
 
 		// Script
-		if ((!updateJavaScript && updateScript!= null && updateScript.length()>0)||
-				(!clickJavaScript && clickScript!=null && clickScript.length()>0)) {
+		if ((!updateJavaScript && (updateScript != null) && (updateScript
+				.length() > 0))
+				|| (!clickJavaScript && (clickScript != null) && (clickScript
+						.length() > 0))) {
 			sb.append("\t<ggbscript ");
-			if(!clickJavaScript && clickScript.length()>0){
+			if (!clickJavaScript && (clickScript.length() > 0)) {
 				sb.append(" val=\"");
 				sb.append(getXMLClickScript());
 				sb.append("\"");
 			}
-			if(!updateJavaScript && updateScript.length()>0){
+			if (!updateJavaScript && (updateScript.length() > 0)) {
 				sb.append(" onUpdate=\"");
 				sb.append(getXMLUpdateScript());
 				sb.append("\"");
@@ -4167,19 +4319,20 @@ public abstract class GeoElement
 
 	public String getCaptionXML() {
 		// caption text
-		if (caption != null && caption.length() > 0 && !caption.equals(label)) {
+		if ((caption != null) && (caption.length() > 0)
+				&& !caption.equals(label)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\t<caption val=\"");
 			sb.append(StringUtil.encodeXML(caption));
 			sb.append("\"/>\n");
 			return sb.toString();
+		} else {
+			return "";
 		}
-		else return "";
 	}
 
 	/**
-	 * save object in i2g format
-	 * Intergeo File Format (Yves Kreis)
+	 * save object in i2g format Intergeo File Format (Yves Kreis)
 	 */
 	@Override
 	public void getI2G(StringBuilder sb, int mode) {
@@ -4207,7 +4360,9 @@ public abstract class GeoElement
 				sb.append(">\n");
 			}
 		} else {
-			if (mode == DISPLAY && (caption == null || caption.length() == 0 || caption.equals(label))) {
+			if ((mode == DISPLAY)
+					&& ((caption == null) || (caption.length() == 0) || caption
+							.equals(label))) {
 				return;
 			}
 
@@ -4234,31 +4389,34 @@ public abstract class GeoElement
 		kernel.setPrintLocalizedCommandNames(oldValue);
 	}
 
-    public final void getAuxiliaryXML(StringBuilder sb) {//package private
-    	if (!isAuxiliaryObjectByDefault()) {
+	public final void getAuxiliaryXML(StringBuilder sb) {// package private
+		if (!isAuxiliaryObjectByDefault()) {
 			if (auxiliaryObject) {
 				sb.append("\t<auxiliary val=\"");
 				sb.append("true");
 				sb.append("\"/>\n");
 			}
-    	} else { // needed for eg GeoTexts (in Algebra View but Auxilliary by default from ggb 4.0)
+		} else { // needed for eg GeoTexts (in Algebra View but Auxilliary by
+					// default from ggb 4.0)
 			if (!auxiliaryObject) {
 				sb.append("\t<auxiliary val=\"");
 				sb.append("false");
 				sb.append("\"/>\n");
 			}
-    	}
+		}
 	}
 
 	/**
 	 * returns all visual xml tags (like show, objColor, labelOffset, ...)
-	 * @param sb 
+	 * 
+	 * @param sb
 	 */
-	public void getXMLvisualTags(StringBuilder sb) {//package private
+	public void getXMLvisualTags(StringBuilder sb) {// package private
 		getXMLvisualTags(sb, true);
 	}
 
-	public void getXMLvisualTags(StringBuilder sb, boolean withLabelOffset) {//package private
+	public void getXMLvisualTags(StringBuilder sb, boolean withLabelOffset) {// package
+																				// private
 		boolean isDrawable = isDrawable();
 
 		// show object and/or label in EuclidianView
@@ -4272,10 +4430,9 @@ public abstract class GeoElement
 			sb.append(labelVisible);
 			sb.append("\"");
 
-
 			int EVs = 0;
 			if (!isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN)) {
-				//Application.debug("visible in ev1");
+				// Application.debug("visible in ev1");
 				EVs += 1; // bit 0
 			}
 
@@ -4288,7 +4445,6 @@ public abstract class GeoElement
 				sb.append(EVs);
 				sb.append("\"");
 			}
-				
 
 			sb.append("/>\n");
 		}
@@ -4300,7 +4456,8 @@ public abstract class GeoElement
 		// conditional visibility
 		sb.append(getShowObjectConditionXML());
 
-//		if (isDrawable) removed - want to be able to color objects in AlgebraView, Spreadsheet
+		// if (isDrawable) removed - want to be able to color objects in
+		// AlgebraView, Spreadsheet
 		{
 			sb.append("\t<objColor");
 			sb.append(" r=\"");
@@ -4320,8 +4477,7 @@ public abstract class GeoElement
 
 			sb.append("\"");
 
-			if (colFunction!=null && kernel.getSaveScriptsToXML())
-			{
+			if ((colFunction != null) && kernel.getSaveScriptsToXML()) {
 				sb.append(" dynamicr=\"");
 				sb.append(StringUtil.encodeXML(colFunction.get(0).getLabel()));
 				sb.append('\"');
@@ -4333,7 +4489,8 @@ public abstract class GeoElement
 				sb.append('\"');
 				if (colFunction.size() == 4) {
 					sb.append(" dynamica=\"");
-					sb.append(StringUtil.encodeXML(colFunction.get(3).getLabel()));
+					sb.append(StringUtil.encodeXML(colFunction.get(3)
+							.getLabel()));
 					sb.append('\"');
 				}
 				sb.append(" colorSpace=\"");
@@ -4352,7 +4509,7 @@ public abstract class GeoElement
 				sb.append(graphicsadapter.getImageFileName());
 				sb.append('\"');
 			}
-			if(inverseFill){
+			if (inverseFill) {
 				sb.append(" inverseFill=\"true\"");
 			}
 			sb.append("/>\n");
@@ -4378,13 +4535,11 @@ public abstract class GeoElement
 		// we always need it in case an earlier element has higher layer eg 1
 		if (isDrawable) {
 			sb.append("\t<layer ");
-			sb.append("val=\""+layer+"\"");
+			sb.append("val=\"" + layer + "\"");
 			sb.append("/>\n");
 		}
 
-
-		if (withLabelOffset &&
-			(labelOffsetX != 0 || labelOffsetY != 0)) {
+		if (withLabelOffset && ((labelOffsetX != 0) || (labelOffsetY != 0))) {
 			sb.append("\t<labelOffset");
 			sb.append(" x=\"");
 			sb.append(labelOffsetX);
@@ -4419,28 +4574,22 @@ public abstract class GeoElement
 			}
 		}
 
-
 		// G.Sturr 2010-5-29
 		// Get spreadsheet trace XML from the trace manager
 
 		// trace to spreadsheet
-		if (app.isUsingFullGui() && isSpreadsheetTraceable() && getSpreadsheetTrace()) {
-			sb.append( app.getTraceXML(this));
+		if (app.isUsingFullGui() && isSpreadsheetTraceable()
+				&& getSpreadsheetTrace()) {
+			sb.append(app.getTraceXML(this));
 		}
 
-		/* --- old version
-		// trace to spreadsheet on or off
-		if (isGeoPoint()) {
-			GeoPointInterface p = (GeoPointInterface) this;
-			if (p.getSpreadsheetTrace()) {
-				sb.append("\t<spreadsheetTrace val=\"true\"/>\n");
-			}
-		}
-		*/
-		//END G.Sturr
-
-
-
+		/*
+		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
+		 * GeoPointInterface p = (GeoPointInterface) this; if
+		 * (p.getSpreadsheetTrace()) {
+		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
+		 */
+		// END G.Sturr
 
 		// decoration type
 		if (decorationType != DECORATION_NONE) {
@@ -4452,15 +4601,17 @@ public abstract class GeoElement
 
 	}
 
-	public void getXMLanimationTags(StringBuilder sb) {//package private
+	public void getXMLanimationTags(StringBuilder sb) {// package private
 		// animation step width
 		if (isChangeable()) {
 			sb.append("\t<animation");
-			String animStep = animationIncrement == null ? "1" : getAnimationStepObject().getLabel();
-			sb.append(" step=\""+StringUtil.encodeXML(animStep)+"\"");
-			String animSpeed = animationSpeedObj == null ? "1" : getAnimationSpeedObject().getLabel();
-			sb.append(" speed=\""+StringUtil.encodeXML(animSpeed)+"\"");
-			sb.append(" type=\""+animationType+"\"");
+			String animStep = animationIncrement == null ? "1"
+					: getAnimationStepObject().getLabel();
+			sb.append(" step=\"" + StringUtil.encodeXML(animStep) + "\"");
+			String animSpeed = animationSpeedObj == null ? "1"
+					: getAnimationSpeedObject().getLabel();
+			sb.append(" speed=\"" + StringUtil.encodeXML(animSpeed) + "\"");
+			sb.append(" type=\"" + animationType + "\"");
 			sb.append(" playing=\"");
 			sb.append((isAnimating() ? "true" : "false"));
 			sb.append("\"");
@@ -4469,8 +4620,8 @@ public abstract class GeoElement
 
 	}
 
-	public void getXMLfixedTag(StringBuilder sb) {//package private
-		//		is object fixed
+	public void getXMLfixedTag(StringBuilder sb) {// package private
+		// is object fixed
 		if (fixed && isFixable()) {
 			sb.append("\t<fixed val=\"");
 			sb.append(fixed);
@@ -4485,25 +4636,27 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * returns all class-specific xml tags for getXML
-	 * GeoGebra File Format
-	 * @param sb 
+	 * returns all class-specific xml tags for getXML GeoGebra File Format
+	 * 
+	 * @param sb
 	 */
 	protected void getXMLtags(StringBuilder sb) {
-		//sb.append(getLineStyleXML());
+		// sb.append(getLineStyleXML());
 		getXMLvisualTags(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
-		if (kernel.getSaveScriptsToXML())
+		if (kernel.getSaveScriptsToXML()) {
 			getScriptTags(sb);
+		}
 	}
 
 	/**
-	 * returns some class-specific xml tags for getConstructionRegrOut
-	 * (default implementation, may be overridden in certain subclasses)
-	 * @param sb 
+	 * returns some class-specific xml tags for getConstructionRegrOut (default
+	 * implementation, may be overridden in certain subclasses)
+	 * 
+	 * @param sb
 	 */
 	public void getXMLtagsMinimal(StringBuilder sb) {
 		sb.append(toValueStringMinimal());
@@ -4516,40 +4669,43 @@ public abstract class GeoElement
 	protected String toValueStringMinimal() {
 		return toValueString();
 	}
-	
-    /** returns the number in rounded format to 6 decimal places,
-     *  in case of the number is very close to 0, it returns the exact value
-     * 
-     * @param number
-     * @return formatted String
-     */
-    protected String regrFormat (double number) {
-            if (Math.abs(number) < 0.000001) {
-                    Double numberD = new Double(number);
-                    return numberD.toString();
-            }
-            //this constructors uses US locale, so we don't have to worry  about ","
-            NumberFormatAdapter df = kernel.getNumberFormat("#.######");
-    return df.format(number);
-    }
 
-	
-	
 	/**
-	 * returns all class-specific i2g tags for getI2G
-	 * Intergeo File Format (Yves Kreis)
-	 * @param sb 
+	 * returns the number in rounded format to 6 decimal places, in case of the
+	 * number is very close to 0, it returns the exact value
+	 * 
+	 * @param number
+	 * @return formatted String
+	 */
+	protected String regrFormat(double number) {
+		if (Math.abs(number) < 0.000001) {
+			Double numberD = new Double(number);
+			return numberD.toString();
+		}
+		// this constructors uses US locale, so we don't have to worry about ","
+		NumberFormatAdapter df = kernel.getNumberFormat("#.######");
+		return df.format(number);
+	}
+
+	/**
+	 * returns all class-specific i2g tags for getI2G Intergeo File Format (Yves
+	 * Kreis)
+	 * 
+	 * @param sb
 	 */
 	protected void getI2Gtags(StringBuilder sb) {
 	}
 
 	/**
 	 * Returns line type and line thickness as xml string.
-	 * @param sb 
+	 * 
+	 * @param sb
 	 * @see #getXMLtags(StringBuilder) of GeoConic, GeoLine and GeoVector
 	 */
 	protected void getLineStyleXML(StringBuilder sb) {
-		if (isGeoPoint()) return;
+		if (isGeoPoint()) {
+			return;
+		}
 
 		sb.append("\t<lineStyle");
 		sb.append(" thickness=\"");
@@ -4566,10 +4722,11 @@ public abstract class GeoElement
 
 	/**
 	 * Returns line type and line thickness as xml string.
-	 * @param sb 
+	 * 
+	 * @param sb
 	 * @see #getXMLtags(StringBuilder) of GeoConic, GeoLine and GeoVector
 	 */
-	public void getBreakpointXML(StringBuilder sb) {//package private
+	public void getBreakpointXML(StringBuilder sb) {// package private
 		if (isConsProtBreakpoint) {
 			sb.append("\t<breakpoint val=\"");
 			sb.append(isConsProtBreakpoint);
@@ -4579,7 +4736,7 @@ public abstract class GeoElement
 	}
 
 	private String getShowObjectConditionXML() {
-		if (condShowObject != null && kernel.getSaveScriptsToXML()) {
+		if ((condShowObject != null) && kernel.getSaveScriptsToXML()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\t<condition showObject=\"");
 			sb.append(StringUtil.encodeXML(condShowObject.getLabel()));
@@ -4597,7 +4754,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals etc)
+	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
+	 *         etc)
 	 */
 	public int getMinimumLineThickness() {
 		return 1;
@@ -4618,14 +4776,16 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * @param th new thickness
+	 * @param th
+	 *            new thickness
 	 */
 	public void setLineThickness(int th) {
-		lineThickness = Math.max(0,th);
+		lineThickness = Math.max(0, th);
 	}
 
 	/**
-	 * @param i new type
+	 * @param i
+	 *            new type
 	 */
 	public void setLineType(int i) {
 		lineType = i;
@@ -4642,20 +4802,19 @@ public abstract class GeoElement
 		decorationType = type;
 	}
 
-
 	/*
-	 *  NOTE: change in GeoElementWrapper too!
+	 * NOTE: change in GeoElementWrapper too!
 	 */
 
-  	public boolean isGeoElement3D() {
+	public boolean isGeoElement3D() {
 		return false;
 	}
 
-  	/**
-  	 *
-  	 * @return true if the geo is drawable in 3D view
-  	 */
-  	public boolean hasDrawable3D() {
+	/**
+	 * 
+	 * @return true if the geo is drawable in 3D view
+	 */
+	public boolean hasDrawable3D() {
 		return isGeoElement3D();
 	}
 
@@ -4670,7 +4829,7 @@ public abstract class GeoElement
 	public boolean isGeoPolyLine() {
 		return false;
 	}
-	
+
 	public boolean isGeoCubic() {
 		return false;
 	}
@@ -4690,15 +4849,15 @@ public abstract class GeoElement
 	public boolean isGeoFunction() {
 		return false;
 	}
-	
+
 	public boolean isGeoFunctionNVar() {
 		return false;
 	}
-	
+
 	public boolean isGeoFunctionBoolean() {
 		return false;
 	}
-	
+
 	public boolean isGeoFunctionConditional() {
 		return false;
 	}
@@ -4730,16 +4889,14 @@ public abstract class GeoElement
 	public boolean isGeoPoint() {
 		return false;
 	}
-	
+
 	public boolean isGeoCasCell() {
 		return false;
 	}
 
 	/*
-	public boolean isGeoPoint3D() {
-		return false;
-	}
-	*/
+	 * public boolean isGeoPoint3D() { return false; }
+	 */
 
 	public boolean isGeoPolygon() {
 		return false;
@@ -4781,8 +4938,10 @@ public abstract class GeoElement
 		return ev == this;
 	}
 
-	/* ** hightlighting and selecting
-	 * only for internal purpouses, i.e. this is not saved */
+	/*
+	 *  ** hightlighting and selecting only for internal purpouses, i.e. this is
+	 * not saved
+	 */
 
 	final public void setSelected(boolean flag) {
 		selected = flag;
@@ -4793,10 +4952,11 @@ public abstract class GeoElement
 	}
 
 	final public boolean doHighlighting() {
-		return (highlighted || selected) && (!isFixed() || isSelectionAllowed());
+		return (highlighted || selected)
+				&& (!isFixed() || isSelectionAllowed());
 	}
 
-	final public boolean isSelected(){
+	final public boolean isSelected() {
 		return selected;
 	}
 
@@ -4849,12 +5009,13 @@ public abstract class GeoElement
 	}
 
 	public void setShowObjectCondition(GeoBoolean cond)
-	throws CircularDefinitionException {
+			throws CircularDefinitionException {
 		// check for circular definition
-		//		if (this == cond || isParentOf(cond))
-		// 		I relaxed this to allow (a parallel b) for a and b
-		if (this == cond)
+		// if (this == cond || isParentOf(cond))
+		// I relaxed this to allow (a parallel b) for a and b
+		if (this == cond) {
 			throw new CircularDefinitionException();
+		}
 
 		// unregister old condition
 		if (condShowObject != null) {
@@ -4871,8 +5032,9 @@ public abstract class GeoElement
 	}
 
 	public final void removeCondition(GeoBoolean bool) {
-		if (condShowObject == bool)
+		if (condShowObject == bool) {
 			condShowObject = null;
+		}
 	}
 
 	public final GeoListInterface getColorFunction() {
@@ -4880,13 +5042,13 @@ public abstract class GeoElement
 	}
 
 	public void setColorFunction(GeoListInterface col)
-	//throws CircularDefinitionException
+	// throws CircularDefinitionException
 	{
-		//Application.debug("setColorFunction"+col.getValue());
+		// Application.debug("setColorFunction"+col.getValue());
 
 		// check for circular definition (not needed)
-		//if (this == col || isParentOf(col))
-		//	throw new CircularDefinitionException();
+		// if (this == col || isParentOf(col))
+		// throw new CircularDefinitionException();
 
 		// unregister old condition
 		if (colFunction != null) {
@@ -4895,8 +5057,7 @@ public abstract class GeoElement
 
 		// set new condition
 		colFunction = col;
-		
-		
+
 		// register new condition
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
@@ -4908,33 +5069,37 @@ public abstract class GeoElement
 		if (colFunction != null) {
 			colFunction.unregisterColorFunctionListener(this);
 		}
-		//Application.debug("removeColorFunction");
-		//if (colFunction == col)
-			colFunction = null;
+		// Application.debug("removeColorFunction");
+		// if (colFunction == col)
+		colFunction = null;
 	}
 
-
 	/**
-	 * Translates all GeoElement objects in geos by a vector in real world coordinates or by
-	 * (xPixel, yPixel) in screen coordinates.
-	 * @param geos 
-	 * @param rwTransVec 
-	 * @param endPosition may be null
-	 * @param viewDirection 
+	 * Translates all GeoElement objects in geos by a vector in real world
+	 * coordinates or by (xPixel, yPixel) in screen coordinates.
+	 * 
+	 * @param geos
+	 * @param rwTransVec
+	 * @param endPosition
+	 *            may be null
+	 * @param viewDirection
 	 * @return true if something was moved
 	 */
-	public static boolean moveObjects(ArrayList<GeoElement> geos, Coords rwTransVec, Coords endPosition, Coords viewDirection) {
-		if (moveObjectsUpdateList == null)
+	public static boolean moveObjects(ArrayList<GeoElement> geos,
+			Coords rwTransVec, Coords endPosition, Coords viewDirection) {
+		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<GeoElement>();
-		
-		ArrayList<GeoElement> geos2 = new ArrayList<GeoElement>();
-		
-		// remove duplicates, eg drag Circle[A,A]
-		for (int i = 0 ; i < geos.size(); i++) {
-			if (!geos2.contains(geos.get(i)))
-				geos2.add(geos.get(i));
 		}
-		
+
+		ArrayList<GeoElement> geos2 = new ArrayList<GeoElement>();
+
+		// remove duplicates, eg drag Circle[A,A]
+		for (int i = 0; i < geos.size(); i++) {
+			if (!geos2.contains(geos.get(i))) {
+				geos2.add(geos.get(i));
+			}
+		}
+
 		geos = geos2;
 
 		boolean moved = false;
@@ -4942,27 +5107,32 @@ public abstract class GeoElement
 		moveObjectsUpdateList.clear();
 		moveObjectsUpdateList.ensureCapacity(size);
 
-		for (int i=0; i < size; i++) {
-			GeoElement geo = (GeoElement) geos.get(i);
+		for (int i = 0; i < size; i++) {
+			GeoElement geo = geos.get(i);
 
-			/* Michael Borcherds
-			 * check for isGeoPoint() as it makes the mouse jump to the position of the point when dragging
-			 * eg Image with one corner, Rigid Polygon
-			 * and stops grid-lock working properly
-			 * but is needed for eg dragging (a + x(A), b + x(B)) */
-			AbstractApplication.debug((geo.getParentAlgorithm() == null)+" "+size+" "+geo.getClassName());
-			Coords position = (size == 1) && (geo.getParentAlgorithm() != null) ? endPosition : null;
-			moved = geo.moveObject(rwTransVec, position, viewDirection, moveObjectsUpdateList) || moved;
+			/*
+			 * Michael Borcherds check for isGeoPoint() as it makes the mouse
+			 * jump to the position of the point when dragging eg Image with one
+			 * corner, Rigid Polygon and stops grid-lock working properly but is
+			 * needed for eg dragging (a + x(A), b + x(B))
+			 */
+			AbstractApplication.debug((geo.getParentAlgorithm() == null) + " "
+					+ size + " " + geo.getClassName());
+			Coords position = (size == 1) && (geo.getParentAlgorithm() != null) ? endPosition
+					: null;
+			moved = geo.moveObject(rwTransVec, position, viewDirection,
+					moveObjectsUpdateList) || moved;
 		}
 
 		// take all independent input objects and build a common updateSet
 		// then update all their algos.
 		// (don't do updateCascade() on them individually as this could cause
-		//  multiple updates of the same algorithm)
+		// multiple updates of the same algorithm)
 		updateCascade(moveObjectsUpdateList, getTempSet(), false);
 
 		return moved;
 	}
+
 	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
 	private static volatile TreeSet<AlgoElementInterface> tempSet;
 
@@ -4973,14 +5143,14 @@ public abstract class GeoElement
 		return tempSet;
 	}
 
-//	/**
-//	 * Moves geo by a vector in real world coordinates.
-//	 * @return whether actual moving occurred
-//	 */
-//	final public boolean moveObject(GeoVector rwTransVec, Point2D.Double endPosition) {
-//		return moveObject(rwTransVec, endPosition, null);
-//	}
-
+	// /**
+	// * Moves geo by a vector in real world coordinates.
+	// * @return whether actual moving occurred
+	// */
+	// final public boolean moveObject(GeoVector rwTransVec, Point2D.Double
+	// endPosition) {
+	// return moveObject(rwTransVec, endPosition, null);
+	// }
 
 	protected boolean movePoint(Coords rwTransVec, Coords endPosition) {
 
@@ -4994,14 +5164,16 @@ public abstract class GeoElement
 
 		// translate point
 		else {
-			double x  = point.getInhomX() + rwTransVec.getX();
-			double y =  point.getInhomY() + rwTransVec.getY();
+			double x = point.getInhomX() + rwTransVec.getX();
+			double y = point.getInhomY() + rwTransVec.getY();
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION)
-				x  = kernel.checkDecimalFraction(x);
-			if (Math.abs(rwTransVec.getY()) > AbstractKernel.MIN_PRECISION)
+			if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION) {
+				x = kernel.checkDecimalFraction(x);
+			}
+			if (Math.abs(rwTransVec.getY()) > AbstractKernel.MIN_PRECISION) {
 				y = kernel.checkDecimalFraction(y);
+			}
 
 			// set translated point coords
 			point.setCoords(x, y, 1);
@@ -5014,9 +5186,11 @@ public abstract class GeoElement
 
 	/**
 	 * Moves geo by a vector in real world coordinates.
+	 * 
 	 * @return whether actual moving occurred
 	 */
-	private boolean moveObject(Coords rwTransVec, Coords endPosition, Coords viewDirection, ArrayList<GeoElement> updateGeos) {
+	private boolean moveObject(Coords rwTransVec, Coords endPosition,
+			Coords viewDirection, ArrayList<GeoElement> updateGeos) {
 		boolean movedGeo = false;
 		GeoElement geo = this;
 		// moveable geo
@@ -5025,9 +5199,10 @@ public abstract class GeoElement
 			if (isGeoPoint()) {
 
 				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
-					GeoPointInterface p = ((AlgoDynamicCoordinatesInterface)getParentAlgorithm()).getParentPoint();
+					GeoPointInterface p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
+							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
-					geo = (GeoElement)p;
+					geo = (GeoElement) p;
 				} else {
 					movedGeo = movePoint(rwTransVec, endPosition);
 				}
@@ -5044,26 +5219,31 @@ public abstract class GeoElement
 			else if (isAbsoluteScreenLocateable()) {
 				AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) this;
 				if (screenLoc.isAbsoluteScreenLocActive()) {
-					int vxPixel = (int) Math.round(kernel.getXscale() * rwTransVec.getX());
-					int vyPixel = -(int) Math.round(kernel.getYscale() * rwTransVec.getY());
+					int vxPixel = (int) Math.round(kernel.getXscale()
+							* rwTransVec.getX());
+					int vyPixel = -(int) Math.round(kernel.getYscale()
+							* rwTransVec.getY());
 					int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
 					int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
 					screenLoc.setAbsoluteScreenLoc(x, y);
 					movedGeo = true;
 				} else if (isGeoNumeric()) {
-					if (!((GeoNumericInterface)geo).isSliderFixed()) {
+					if (!((GeoNumericInterface) geo).isSliderFixed()) {
 						// real world screen position - GeoNumeric
-						((GeoNumericInterface)geo).setRealWorldLoc(
-								((GeoNumericInterface)geo).getRealWorldLocX() + rwTransVec.getX(),
-								((GeoNumericInterface)geo).getRealWorldLocY() + rwTransVec.getY());
+						((GeoNumericInterface) geo).setRealWorldLoc(
+								((GeoNumericInterface) geo).getRealWorldLocX()
+										+ rwTransVec.getX(),
+								((GeoNumericInterface) geo).getRealWorldLocY()
+										+ rwTransVec.getY());
 						movedGeo = true;
 					}
 				} else if (isGeoText()) {
 					// check for GeoText with unlabeled start point
 					GeoTextInterface movedGeoText = (GeoTextInterface) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
-						//	absolute location: change location
-						GeoPointInterface loc = (GeoPointInterface) movedGeoText.getStartPoint();
+						// absolute location: change location
+						GeoPointInterface loc = (GeoPointInterface) movedGeoText
+								.getStartPoint();
 						if (loc != null) {
 							loc.translate(rwTransVec);
 							movedGeo = true;
@@ -5083,28 +5263,35 @@ public abstract class GeoElement
 
 		// non-moveable geo
 		else {
-			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
+			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
+					endPosition, viewDirection, updateGeos, tempMoveObjectList);
 		}
 
 		return movedGeo;
 	}
 
 	/**
-	 * try to move the geo with coord parent numbers (e.g. point defined by sliders)
+	 * try to move the geo with coord parent numbers (e.g. point defined by
+	 * sliders)
+	 * 
 	 * @param rwTransVec
 	 * @param endPosition
-	 * @param viewDirection 
+	 * @param viewDirection
 	 * @param updateGeos
 	 * @param tempMoveObjectList
 	 * @return false if not moveable this way
 	 */
-	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec, Coords endPosition, Coords viewDirection,  ArrayList<GeoElement> updateGeos, ArrayList<GeoElement> tempMoveObjectList){
+	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
+			Coords endPosition, Coords viewDirection,
+			ArrayList<GeoElement> updateGeos,
+			ArrayList<GeoElement> tempMoveObjectList) {
 		return false;
 	}
 
 	/**
-	 *
-	 * @return true if has changeable coord parent numbers (e.g. point defined by sliders)
+	 * 
+	 * @return true if has changeable coord parent numbers (e.g. point defined
+	 *         by sliders)
 	 */
 	public boolean hasChangeableCoordParentNumbers() {
 		return false;
@@ -5119,45 +5306,50 @@ public abstract class GeoElement
 
 	/**
 	 * add changeable coord parent number to update list
+	 * 
 	 * @param number
 	 * @param updateGeos
 	 * @param tempMoveObjectList
 	 */
-	protected void addChangeableCoordParentNumberToUpdateList(GeoElement number, ArrayList<GeoElement> updateGeos, ArrayList<GeoElement> tempMoveObjectList){
+	protected void addChangeableCoordParentNumberToUpdateList(
+			GeoElement number, ArrayList<GeoElement> updateGeos,
+			ArrayList<GeoElement> tempMoveObjectList) {
 		if (updateGeos != null) {
 			// add number to update list
 			updateGeos.add(number);
 		} else {
 			// update number right now
-			if (tempMoveObjectList == null)
+			if (tempMoveObjectList == null) {
 				tempMoveObjectList = new ArrayList<GeoElement>();
+			}
 			tempMoveObjectList.add(number);
-			updateCascade(tempMoveObjectList, getTempSet() , false );
+			updateCascade(tempMoveObjectList, getTempSet(), false);
 		}
 	}
 
 	private ArrayList<GeoElement> tempMoveObjectList;
 
 	/**
-	 * Returns the position of this GeoElement in
-	 * GeoGebra's spreadsheet view.
-	 * The x-coordinate of the returned point specifies its
-	 * column and the y-coordinate specifies its row location.
-	 * Note that this method
-	 * may return null if no position was specified so far.
+	 * Returns the position of this GeoElement in GeoGebra's spreadsheet view.
+	 * The x-coordinate of the returned point specifies its column and the
+	 * y-coordinate specifies its row location. Note that this method may return
+	 * null if no position was specified so far.
+	 * 
 	 * @return position of this GeoElement in GeoGebra's spreadsheet view.
 	 */
 	public Point getSpreadsheetCoords() {
-		if (spreadsheetCoords == null)
+		if (spreadsheetCoords == null) {
 			updateSpreadsheetCoordinates();
+		}
 		return spreadsheetCoords;
 	}
 
 	/**
-	 * Sets the position of this GeoElement in
-	 * GeoGebra's spreadsheet. The x-coordinate specifies its
-	 * column and the y-coordinate specifies its row location.
-	 * @param spreadsheetCoords 
+	 * Sets the position of this GeoElement in GeoGebra's spreadsheet. The
+	 * x-coordinate specifies its column and the y-coordinate specifies its row
+	 * location.
+	 * 
+	 * @param spreadsheetCoords
 	 */
 	public void setSpreadsheetCoords(Point spreadsheetCoords) {
 		this.spreadsheetCoords = spreadsheetCoords;
@@ -5175,13 +5367,13 @@ public abstract class GeoElement
 		this.isAlgoMacroOutput = isAlgoMacroOutput;
 	}
 
-
 	// Michael Borcherds 2008-04-30
 	public abstract boolean isEqual(GeoElement Geo);
-	
+
 	/**
 	 * Returns wheter this - f gives 0 in the CAS.
-	 * @param f 
+	 * 
+	 * @param f
 	 * @return wheter this - f gives 0 in the CAS.
 	 */
 	final public boolean isDifferenceZeroInCAS(GeoElement f) {
@@ -5193,59 +5385,58 @@ public abstract class GeoElement
 			diffSb.append(f.getFormulaString(StringType.GEOGEBRA, true));
 			diffSb.append(")");
 			String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
-			return (Double.valueOf(diff)==0d);
+			return (Double.valueOf(diff) == 0d);
+		} catch (Throwable e) {
+			return false;
 		}
-		catch (Throwable e) { 
-			return false; 
-		}		
 	}
 
 	/**
-	 * String getFormulaString(int, boolean substituteNumbers)
-	 * substituteNumbers determines (for a function) whether you want
-	 * "2*x^2" or "a*x^2"
-	 * returns a string representing the formula of the GeoElement in the following formats:
-	 * getFormulaString(StringType.MathPiper) eg Sqrt(x)
+	 * String getFormulaString(int, boolean substituteNumbers) substituteNumbers
+	 * determines (for a function) whether you want "2*x^2" or "a*x^2" returns a
+	 * string representing the formula of the GeoElement in the following
+	 * formats: getFormulaString(StringType.MathPiper) eg Sqrt(x)
 	 * getFormulaString(StringType.LATEX) eg \sqrt(x)
 	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
 	 * getFormulaString(StringType.GEOGEBRA_XML)
 	 * getFormulaString(StringType.JASYMCA)
-	 * @param ExpressionNodeType 
-	 * @param substituteNumbers 
+	 * 
+	 * @param ExpressionNodeType
+	 * @param substituteNumbers
 	 * @return formula string
 	 */
-	public String getFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
-	{
+	public String getFormulaString(StringType ExpressionNodeType,
+			boolean substituteNumbers) {
 
 		StringType tempCASPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(ExpressionNodeType);
 
-		String ret="";
-		
-		//Functions override this, no need to care about them
-		//only inequalities call this
-		
+		String ret = "";
+
+		// Functions override this, no need to care about them
+		// only inequalities call this
+
 		// matrices
-		if (this.isGeoList() && ExpressionNodeType .equals(StringType.LATEX) && 
-				((GeoListInterface)this).isMatrix()) {
+		if (this.isGeoList() && ExpressionNodeType.equals(StringType.LATEX)
+				&& ((GeoListInterface) this).isMatrix()) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		// vectors
-		else if (this.isGeoVector() && ExpressionNodeType .equals(StringType.LATEX)) {
+		else if (this.isGeoVector()
+				&& ExpressionNodeType.equals(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
 		} // curves
-		else if (this.isGeoCurveCartesian() && ExpressionNodeType .equals(StringType.LATEX)) {
+		else if (this.isGeoCurveCartesian()
+				&& ExpressionNodeType.equals(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
+		} else {
+			ret = substituteNumbers ? this.toValueString() : this
+					.getCommandDescription();
 		}
-		else
-		{
-			ret = substituteNumbers ? this.toValueString()
-					: this.getCommandDescription();
-		}				
-		
-		
+
 		// GeoNumeric eg a=1
-		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
+		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers
+				&& isLabelSet()) {
 			ret = kernel.printVariableName(label);
 		}
 		if ("".equals(ret) && !this.isGeoText()) {
@@ -5253,36 +5444,41 @@ public abstract class GeoElement
 			ret = toOutputValueString();
 		}
 
-		/* we don't want to deal with list bracess in here since  
-		 * GeoList.toOutputValueString() takes care of it */
-		
+		/*
+		 * we don't want to deal with list bracess in here since
+		 * GeoList.toOutputValueString() takes care of it
+		 */
+
 		kernel.setCASPrintForm(tempCASPrintForm);
 
-		if (ExpressionNodeType .equals(StringType.LATEX)) {
-			if ("?".equals(ret)) ret = app.getPlain("undefined");
-			else if ((Unicode.Infinity+"").equals(ret)) ret = "\\infty";
-			else if ((Unicode.MinusInfinity+"").equals(ret)) ret = "-\\infty";
+		if (ExpressionNodeType.equals(StringType.LATEX)) {
+			if ("?".equals(ret)) {
+				ret = app.getPlain("undefined");
+			} else if ((Unicode.Infinity + "").equals(ret)) {
+				ret = "\\infty";
+			} else if ((Unicode.MinusInfinity + "").equals(ret)) {
+				ret = "-\\infty";
+			}
 		}
 
 		return ret;
 
 	}
 
-	public String getRealFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
-	{
+	public String getRealFormulaString(StringType ExpressionNodeType,
+			boolean substituteNumbers) {
 
+		String ret = "";
 
-
-		String ret="";
-		
 		// matrices
 
-		if(getParentAlgorithm()!=null)
-			ret =  getParentAlgorithm().getCommandDescription(true);
-		
+		if (getParentAlgorithm() != null) {
+			ret = getParentAlgorithm().getCommandDescription(true);
+		}
 
 		// GeoNumeric eg a=1
-		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
+		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers
+				&& isLabelSet()) {
 			ret = kernel.printVariableName(label);
 		}
 		if ("".equals(ret) && !this.isGeoText()) {
@@ -5290,15 +5486,9 @@ public abstract class GeoElement
 			ret = toOutputValueString();
 		}
 
-
-
-
-
 		return ret;
 
 	}
-
-
 
 	// ===================================================
 	// G.Sturr 2010-5-14
@@ -5308,18 +5498,21 @@ public abstract class GeoElement
 	/** Spreadsheet tracing on/off flag */
 	private boolean spreadsheetTrace;
 
-
 	/** @return true if this geo is tracing to the spreadsheet */
 	public boolean getSpreadsheetTrace() {
 		return spreadsheetTrace;
 	}
 
-	/** Set tracing flag for this geo 
-	 * @param traceFlag */
+	/**
+	 * Set tracing flag for this geo
+	 * 
+	 * @param traceFlag
+	 */
 	public void setSpreadsheetTrace(boolean traceFlag) {
 
-		if(traceFlag != true)
+		if (traceFlag != true) {
 			traceSettings = null;
+		}
 		spreadsheetTrace = traceFlag;
 	}
 
@@ -5328,8 +5521,9 @@ public abstract class GeoElement
 	 * Called after mouse_release.
 	 */
 	public void resetTraceColumns() {
-		if (app.isUsingFullGui())
-			app.resetTraceColumn((Object)this);
+		if (app.isUsingFullGui()) {
+			app.resetTraceColumn(this);
+		}
 	}
 
 	/** @return if geos of this type can be traced to the spreadsheet */
@@ -5337,24 +5531,25 @@ public abstract class GeoElement
 		if (isGeoList() || isGeoNumeric() || isGeoVector() || isGeoPoint()) {
 			return true;
 		}
-		//TODO should all geos be traceable?
+		// TODO should all geos be traceable?
 		// temporary allow all
 		return true;
 	}
 
 	private geogebra.common.util.TraceSettings traceSettings;
 
-	public TraceSettings getTraceSettings(){
+	public TraceSettings getTraceSettings() {
 
-		if (traceSettings == null)
+		if (traceSettings == null) {
 			traceSettings = new TraceSettings();
+		}
 
 		return traceSettings;
 
 	}
 
-	public void setTraceSettings(TraceSettings t){
-			traceSettings = t;
+	public void setTraceSettings(TraceSettings t) {
+		traceSettings = t;
 	}
 
 	/*
@@ -5389,7 +5584,8 @@ public abstract class GeoElement
 	// This method is copied from AutoCompleteTextField
 	private static boolean isLetterOrDigit(char character) {
 		switch (character) {
-		case '_':  // allow underscore as a valid letter in an autocompletion word
+		case '_': // allow underscore as a valid letter in an autocompletion
+					// word
 			return true;
 
 		default:
@@ -5398,12 +5594,14 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * This method should split a GeoGebra script into the following format:
-	 * "" or "something"; "command"; "something"; "command"; "something"; ...
-	 * @param st String GeoGebra script
+	 * This method should split a GeoGebra script into the following format: ""
+	 * or "something"; "command"; "something"; "command"; "something"; ...
+	 * 
+	 * @param st
+	 *            String GeoGebra script
 	 * @return String [] the GeoGebra script split into and array
 	 */
-	private static String [] splitScriptByCommands(String st) {
+	private static String[] splitScriptByCommands(String st) {
 
 		StringBuilder retone = new StringBuilder();
 		ArrayList<String> ret = new ArrayList<String>();
@@ -5413,63 +5611,70 @@ public abstract class GeoElement
 
 		// at first count the number of "s to decide how to start the algorithm
 		int countapo = 0;
-		for (int j = 0; j < st.length(); j++)
-			if (st.charAt(j) == '"')
+		for (int j = 0; j < st.length(); j++) {
+			if (st.charAt(j) == '"') {
 				countapo++;
+			}
+		}
 
 		boolean in_string = false;
-		if (countapo % 2 == 1)
+		if ((countapo % 2) == 1) {
 			in_string = true;
+		}
 
 		boolean before_bracket = false;
 		boolean just_before_bracket = false;
 		for (int i = st.length() - 1; i >= 0; i--) {
 			if (in_string) {
-				if (st.charAt(i) == '"')
+				if (st.charAt(i) == '"') {
 					in_string = false;
+				}
 			} else if (just_before_bracket) {
 				if (isLetterOrDigit(st.charAt(i))) {
 					ret.add(0, retone.toString());
 					retone = new StringBuilder();
 					just_before_bracket = false;
 					before_bracket = true;
-				} else if (st.charAt(i) != '[' && st.charAt(i) != ' ') {
+				} else if ((st.charAt(i) != '[') && (st.charAt(i) != ' ')) {
 					just_before_bracket = false;
 					before_bracket = false;
-					if (st.charAt(i) == '"')
+					if (st.charAt(i) == '"') {
 						in_string = true;
+					}
 				}
 			} else if (before_bracket) {
 				if (!isLetterOrDigit(st.charAt(i))) {
 					ret.add(0, retone.toString());
 					retone = new StringBuilder();
 					before_bracket = false;
-					if (st.charAt(i) == '"')
+					if (st.charAt(i) == '"') {
 						in_string = true;
-					else if (st.charAt(i) == '[')
+					} else if (st.charAt(i) == '[') {
 						just_before_bracket = true;
+					}
 				}
 			} else {
-				if (st.charAt(i) == '"')
+				if (st.charAt(i) == '"') {
 					in_string = true;
-				else if (st.charAt(i) == '[')
+				} else if (st.charAt(i) == '[') {
 					just_before_bracket = true;
+				}
 			}
-			retone.insert(0,st.charAt(i));
+			retone.insert(0, st.charAt(i));
 		}
 		ret.add(0, retone.toString());
 		if (before_bracket) {
 			ret.add(0, "");
 		}
-		String [] ex = {""};
+		String[] ex = { "" };
 		return ret.toArray(ex);
 	}
 
 	private String script2LocalizedScript(String st) {
-		String [] starr = splitScriptByCommands(st);
+		String[] starr = splitScriptByCommands(st);
 		StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {
-			if (i % 2 == 0) {
+			if ((i % 2) == 0) {
 				retone.append(starr[i]);
 			} else {
 				retone.append(app.getCommand(starr[i]));
@@ -5477,55 +5682,62 @@ public abstract class GeoElement
 		}
 		return retone.toString();
 	}
-	
+
 	private String localizedScript2Script(String st) {
-		String [] starr = splitScriptByCommands(st);
+		String[] starr = splitScriptByCommands(st);
 		StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {
-			if (i % 2 == 0) {
+			if ((i % 2) == 0) {
 				retone.append(starr[i]);
 			} else {
 				// allow English language command in French scripts
-				if (app.getInternalCommand(starr[i]) != null)
+				if (app.getInternalCommand(starr[i]) != null) {
 					retone.append(app.getInternalCommand(starr[i]));
-				else
+				} else {
 					// fallback for wrong call in English already
 					// or if someone writes an English command into an
 					// other language script
 					retone.append(starr[i]);
+				}
 			}
 		}
 		return retone.toString();
 	}
 
 	public void setClickScript(String script, boolean translateInternal) {
-		if (!canHaveClickScript()) return;
-		//Application.debug(script);
+		if (!canHaveClickScript()) {
+			return;
+		}
+		// Application.debug(script);
 		if (clickJavaScript) {
-			if(app.getScriptingLanguage()==null){
+			if (app.getScriptingLanguage() == null) {
 				app.setScriptingLanguage(app.getLanguage());
 			}
 			this.clickScript = script;
 		} else {
-			if (translateInternal)
+			if (translateInternal) {
 				this.clickScript = localizedScript2Script(script);
-			else
+			} else {
 				this.clickScript = script;
+			}
 		}
 	}
 
 	public void setUpdateScript(String script, boolean translateInternal) {
-		if (!canHaveUpdateScript()) return;
+		if (!canHaveUpdateScript()) {
+			return;
+		}
 		if (updateJavaScript) {
-			if(app.getScriptingLanguage()==null){
+			if (app.getScriptingLanguage() == null) {
 				app.setScriptingLanguage(app.getLanguage());
 			}
 			this.updateScript = script;
 		} else {
-			if (translateInternal)
+			if (translateInternal) {
 				this.updateScript = localizedScript2Script(script);
-			else
+			} else {
 				this.updateScript = script;
+			}
 		}
 		app.initJavaScriptViewWithoutJavascript();
 	}
@@ -5535,14 +5747,16 @@ public abstract class GeoElement
 	}
 
 	public String getUpdateScript() {
-		if (!updateJavaScript)
+		if (!updateJavaScript) {
 			return script2LocalizedScript(updateScript);
+		}
 		return updateScript;
 	}
 
 	public String getClickScript() {
-		if (!clickJavaScript)
+		if (!clickJavaScript) {
 			return script2LocalizedScript(clickScript);
+		}
 		return clickScript;
 	}
 
@@ -5554,80 +5768,98 @@ public abstract class GeoElement
 		return StringUtil.encodeXML(clickScript);
 	}
 
-	private void runGgbScript(String arg,boolean update) {
+	private void runGgbScript(String arg, boolean update) {
 
 		String ggbScript = update ? updateScript : clickScript;
 
 		AbstractAlgebraProcessor ab = kernel.getAlgebraProcessor();
-		String script[] = (arg == null) ? ggbScript.split("\n") :
-			ggbScript.replaceAll("%0", arg).split("\n");
+		String script[] = (arg == null) ? ggbScript.split("\n") : ggbScript
+				.replaceAll("%0", arg).split("\n");
 
 		boolean success = false;
 		int i = -1;
 		try {
-			for (i = 0 ; i < script.length ; i++) {
+			for (i = 0; i < script.length; i++) {
 				String command = script[i].trim();
 
-				if (!command.equals("") && command.charAt(0) != '#') {
-					//System.out.println(script[i]);
-					ab.processAlgebraCommandNoExceptionHandling(command, false,false,true);
+				if (!command.equals("") && (command.charAt(0) != '#')) {
+					// System.out.println(script[i]);
+					ab.processAlgebraCommandNoExceptionHandling(command, false,
+							false, true);
 					success = true;
 				}
 			}
-			//there have been no errors
-			if(update)app.setBlockUpdateScripts(false);
+			// there have been no errors
+			if (update) {
+				app.setBlockUpdateScripts(false);
+			}
 		} catch (Throwable e) {
-			app.showError(app.getPlain("ErrorInScriptAtLineAFromObjectB",(i+1)+"", getLabel())+"\n"+e.getLocalizedMessage());
+			app.showError(app.getPlain("ErrorInScriptAtLineAFromObjectB",
+					(i + 1) + "", getLabel()) + "\n" + e.getLocalizedMessage());
 			success = false;
-			if(update)app.setBlockUpdateScripts(true);
+			if (update) {
+				app.setBlockUpdateScripts(true);
+			}
 		}
-		//storing undo info is expensive, so we don't want to do it on update
-		if (success && !update) app.storeUndoInfo();
+		// storing undo info is expensive, so we don't want to do it on update
+		if (success && !update) {
+			app.storeUndoInfo();
+		}
 	}
 
-	private void runJavaScript(String arg,boolean update) {
-		//Possible TODO: make executing update scripts also possible via browser
+	private void runJavaScript(String arg, boolean update) {
+		// Possible TODO: make executing update scripts also possible via
+		// browser
 		try {
 			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
 				if (arg == null) {
-					Object [] args = { };
-					app.callJavaScript("ggb"+getLabel(), args);
+					Object[] args = {};
+					app.callJavaScript("ggb" + getLabel(), args);
 				} else {
-					Object [] args = { arg };
-					app.callJavaScript("ggb"+getLabel(), args);
+					Object[] args = { arg };
+					app.callJavaScript("ggb" + getLabel(), args);
 				}
 			} else {
-				app.evalScript(app, update ? updateScript:clickScript, arg);
+				app.evalScript(app, update ? updateScript : clickScript, arg);
 			}
-			//there have been no errors
-			if(update)app.setBlockUpdateScripts(false);
+			// there have been no errors
+			if (update) {
+				app.setBlockUpdateScripts(false);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			app.showError(app.getPlain(update ? "OnUpdate":"OnClick")+" "+getLabel()+":\n"+
-					app.getPlain("ErrorInJavaScript")+"\n"+e.getLocalizedMessage());
-			if(update) app.setBlockUpdateScripts(true);
+			app.showError(app.getPlain(update ? "OnUpdate" : "OnClick") + " "
+					+ getLabel() + ":\n" + app.getPlain("ErrorInJavaScript")
+					+ "\n" + e.getLocalizedMessage());
+			if (update) {
+				app.setBlockUpdateScripts(true);
+			}
 		}
 	}
 
-
 	public void runScripts(String arg) {
-		if(!canHaveClickScript()||clickScript.length()==0 || app.isScriptingDisabled())
+		if (!canHaveClickScript() || (clickScript.length() == 0)
+				|| app.isScriptingDisabled()) {
 			return;
-		if(clickJavaScript)
-			runJavaScript(arg,false);
-		else
-			runGgbScript(arg,false);
+		}
+		if (clickJavaScript) {
+			runJavaScript(arg, false);
+		} else {
+			runGgbScript(arg, false);
+		}
 	}
 
-
 	public void runUpdateScripts() {
-		if(!canHaveUpdateScript() || updateScript.length()==0 || app.isBlockUpdateScripts() || app.isScriptingDisabled())
+		if (!canHaveUpdateScript() || (updateScript.length() == 0)
+				|| app.isBlockUpdateScripts() || app.isScriptingDisabled()) {
 			return;
+		}
 		app.setBlockUpdateScripts(true);
-		if(updateJavaScript)
-			runJavaScript(null,true);
-		else
-			runGgbScript(null,true);
+		if (updateJavaScript) {
+			runJavaScript(null, true);
+		} else {
+			runGgbScript(null, true);
+		}
 	}
 
 	boolean showTrimmedIntersectionLines = false;
@@ -5661,7 +5893,7 @@ public abstract class GeoElement
 		if (algo != null) {
 			algo.compute(); // eg AlgoRandom etc
 		} else if (this.isGeoNumeric()) {
-			((GeoNumericInterface)this).updateRandom();
+			((GeoNumericInterface) this).updateRandom();
 		}
 	}
 
@@ -5669,70 +5901,67 @@ public abstract class GeoElement
 		return false;
 	}
 
-
-
-
-	//=============================================
+	// =============================================
 	// Control which views are allowed to add a geo.
 	// G.Sturr, 2010-6-30
-	//=============================================
-	
+	// =============================================
 
-	
-	public void setVisibility(int viewId, boolean setVisible){
-		if (setVisible){
+	public void setVisibility(int viewId, boolean setVisible) {
+		if (setVisible) {
 			viewFlags.add(viewId);
-		}else{
+		} else {
 			viewFlags.remove(Integer.valueOf(viewId));
 		}
 	}
-	
-	public boolean isVisibleInView(int viewId){
+
+	public boolean isVisibleInView(int viewId) {
 		return viewFlags.contains(viewId);
 	}
 
-//	private Set<Integer> viewSet = new HashSet<Integer>();
+	// private Set<Integer> viewSet = new HashSet<Integer>();
 
-	public void addView(int viewId){
+	public void addView(int viewId) {
 		setVisibility(viewId, true);
-//		viewSet.add(view);
-	}
-	public void removeView(int viewId){
-		setVisibility(viewId, false);
-//		viewSet.remove(view);
+		// viewSet.add(view);
 	}
 
-//	public boolean isVisibleInView(int view){
-//		// if no views are set, add geo to both  by default
-//		if(viewSet.isEmpty()){
-//			EuclidianViewInterface ev = app.getActiveEuclidianView();
-//			viewSet.add(ev.getViewID());
-//			// if ev isn't Graphics or Graphics 2, then also add 1st 2D euclidian view
-//			if (!(ev.isDefault2D()))
-//				viewSet.add(Application.VIEW_EUCLIDIAN);
-//
-//		}
-//		return viewSet.contains(view);
-//	}
-	
-	public List<Integer> getViewSet(){
-		List<Integer> list=new ArrayList<Integer>();
+	public void removeView(int viewId) {
+		setVisibility(viewId, false);
+		// viewSet.remove(view);
+	}
+
+	// public boolean isVisibleInView(int view){
+	// // if no views are set, add geo to both by default
+	// if(viewSet.isEmpty()){
+	// EuclidianViewInterface ev = app.getActiveEuclidianView();
+	// viewSet.add(ev.getViewID());
+	// // if ev isn't Graphics or Graphics 2, then also add 1st 2D euclidian
+	// view
+	// if (!(ev.isDefault2D()))
+	// viewSet.add(Application.VIEW_EUCLIDIAN);
+	//
+	// }
+	// return viewSet.contains(view);
+	// }
+
+	public List<Integer> getViewSet() {
+		List<Integer> list = new ArrayList<Integer>();
 		list.addAll(viewFlags);
-//		Collections.copy(list, viewFlags);
+		// Collections.copy(list, viewFlags);
 		return list;
 	}
 
 	/**
-	 *
+	 * 
 	 * @return true if visible in 3D view
 	 */
-	public boolean isVisibleInView3D(){
-		return hasDrawable3D() && (isGeoElement3D() || isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN));
+	public boolean isVisibleInView3D() {
+		return hasDrawable3D()
+				&& (isGeoElement3D() || isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN));
 	}
 
-
 	// End G.Sturr
-	//===========================================
+	// ===========================================
 
 	public void setSelectionAllowed(boolean selected2) {
 		selectionAllowed = selected2;
@@ -5743,23 +5972,27 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * In case this geo is part of macro construction, it
-	 * keeps its own label. To get correct output of Name[geo]
-	 * we need to keep the label of the real-world geo represented by this
-	 * formal geo.
-	 *
-	 * @param realLabel Label of the real geo represented by this one
+	 * In case this geo is part of macro construction, it keeps its own label.
+	 * To get correct output of Name[geo] we need to keep the label of the
+	 * real-world geo represented by this formal geo.
+	 * 
+	 * @param realLabel
+	 *            Label of the real geo represented by this one
 	 */
-	public void setRealLabel(String realLabel){
-		this.realLabel=realLabel;
+	public void setRealLabel(String realLabel) {
+		this.realLabel = realLabel;
 	}
 
 	/**
 	 * Used for Name command. See {@link #setRealLabel(String)}
-	 * @return label of this geo, or label of a real geo in case this one is formal
+	 * 
+	 * @return label of this geo, or label of a real geo in case this one is
+	 *         formal
 	 */
-	public String getRealLabel(){
-		if(realLabel==null || realLabel.equals(""))return label;
+	public String getRealLabel() {
+		if ((realLabel == null) || realLabel.equals("")) {
+			return label;
+		}
 		return realLabel;
 	}
 
@@ -5788,23 +6021,25 @@ public abstract class GeoElement
 		return graphicsadapter.getFillImage();
 	}
 
-	//public void setFillImage(BufferedImage image){
-	//	this.fillImage = image;
-	//}
+	// public void setFillImage(BufferedImage image){
+	// this.fillImage = image;
+	// }
 
 	public void setFillImage(String filename) {
 		graphicsadapter.setFillImage(filename);
 	}
 
-	public int getFillType(){
+	public int getFillType() {
 		return fillType;
 	}
-	public void setFillType(int fillType){
+
+	public void setFillType(int fillType) {
 		this.fillType = fillType;
 	}
 
 	/**
 	 * Tries to load the image using the given fileName.
+	 * 
 	 * @param fileName
 	 */
 	public void setImageFileName(String fileName) {
@@ -5816,7 +6051,8 @@ public abstract class GeoElement
 	}
 
 	/**
-	 * @param inverseFill the inverseFill to set
+	 * @param inverseFill
+	 *            the inverseFill to set
 	 */
 	public void setInverseFill(boolean inverseFill) {
 		this.inverseFill = inverseFill;
@@ -5829,39 +6065,41 @@ public abstract class GeoElement
 		return inverseFill;
 	}
 
-
 	private Coords mainDirection = new Coords(0, 0, 1, 0);
 
 	/**
-	 *
-	 * @return "main" direction of the element, e.g. for seeing it in a "standard" view (for 3D).
-	 * E.g. orthogonal to a plane, along a line, ...
+	 * 
+	 * @return "main" direction of the element, e.g. for seeing it in a
+	 *         "standard" view (for 3D). E.g. orthogonal to a plane, along a
+	 *         line, ...
 	 */
-	public Coords getMainDirection(){
+	public Coords getMainDirection() {
 		return mainDirection;
 	}
 
 	/**
 	 * set the main direction
+	 * 
 	 * @param direction
 	 */
-	public void setMainDirection(Coords direction){
+	public void setMainDirection(Coords direction) {
 		mainDirection = direction;
 	}
 
 	/*
-	 * gets shortest distance to point p
-	 * overridden in eg GeoPoint, GeoLine
-	 * for compound paths
+	 * gets shortest distance to point p overridden in eg GeoPoint, GeoLine for
+	 * compound paths
 	 */
 	public double distance(GeoPointInterface p) {
 		return Double.POSITIVE_INFINITY;
 	}
 
 	public double distance(GeoPointND p) {
-		if ((p instanceof GeoElement) && (p instanceof GeoPointInterface))
+		if ((p instanceof GeoElement) && (p instanceof GeoPointInterface)) {
 			return distance((GeoPointInterface) p);
-		AbstractApplication.debug("TODO : distance from "+getClassName()+" to ND point");
+		}
+		AbstractApplication.debug("TODO : distance from " + getClassName()
+				+ " to ND point");
 		return Double.POSITIVE_INFINITY;
 	}
 
@@ -5869,31 +6107,33 @@ public abstract class GeoElement
 		return true;
 	}
 
-
-
-
-	///////////////////////////////
+	// /////////////////////////////
 	// 3D
-	///////////////////////////////
-
+	// /////////////////////////////
 
 	/** says if it's a pickable object */
 	private boolean isPickable = true;
 	private boolean needsReplacingInExpressionNode = false;
 
-	/** sets the pickability of the object
-	 * @param v pickability
+	/**
+	 * sets the pickability of the object
+	 * 
+	 * @param v
+	 *            pickability
 	 */
-	public void setIsPickable(boolean v){
+	public void setIsPickable(boolean v) {
 		isPickable = v;
 	}
 
-	/** says if the object is pickable
+	/**
+	 * says if the object is pickable
+	 * 
 	 * @return true if the object is pickable
 	 */
-	public boolean isPickable(){
+	public boolean isPickable() {
 		return isPickable && isSelectionAllowed();
 	}
+
 	public boolean needsReplacingInExpressionNode() {
 		return needsReplacingInExpressionNode;
 	}
@@ -5905,57 +6145,69 @@ public abstract class GeoElement
 	public boolean isGeoInterval() {
 		return false;
 	}
-	
+
 	public double getMeasure() {
 		return 0;
 	}
+
 	/**
-	 * Removes dependencies (conditional visibility, min, max, corner, EV bounds)
-	 * from oldgeo and moves them to this
-	 * @param oldGeo geo whose dependencies should be moved
+	 * Removes dependencies (conditional visibility, min, max, corner, EV
+	 * bounds) from oldgeo and moves them to this
+	 * 
+	 * @param oldGeo
+	 *            geo whose dependencies should be moved
 	 */
 	public void moveDependencies(GeoElement oldGeo) {
-		//in general case do nothing; overriden in GeoPoint, GeoNumeric and GeoBoolean		
+		// in general case do nothing; overriden in GeoPoint, GeoNumeric and
+		// GeoBoolean
 	}
-	
-	
+
 	private Stack<GeoElement> tempClone;
 	private boolean cloneInUse = false;
+
 	public void storeClone() {
-		if (tempClone==null)
+		if (tempClone == null) {
 			tempClone = new Stack<GeoElement>();
-		
+		}
+
 		tempClone.push(this.copy());
 		this.cloneInUse = true;
 	}
+
 	public void recoverFromClone() {
-		if (tempClone!=null)
+		if (tempClone != null) {
 			this.set(tempClone.pop());
+		}
 		this.cloneInUse = false;
 	}
-	public void randomizeForProbabilisticChecking(){
-		//overode by subclasses
+
+	public void randomizeForProbabilisticChecking() {
+		// overode by subclasses
 		return;
 	}
+
 	public boolean isRandomizable() {
 		return false;
 	}
-	
+
 	/**
 	 * Returns corresponding GeoCasCell. See GeoCasCell.setTwinGeo().
+	 * 
 	 * @return twin GeoElement
 	 */
 	final public GeoCasCellInterface getCorrespondingCasCell() {
 		return correspondingCasCell;
 	}
-	
+
 	/**
-	 * Sets corresponding GeoCasCell for this GeoElement. See GeoCasCell.getTwinGeo().
+	 * Sets corresponding GeoCasCell for this GeoElement. See
+	 * GeoCasCell.getTwinGeo().
 	 */
-	final public void setCorrespondingCasCell(GeoCasCellInterface correspondingCasCell) {
+	final public void setCorrespondingCasCell(
+			GeoCasCellInterface correspondingCasCell) {
 		this.correspondingCasCell = correspondingCasCell;
 	}
-	
+
 	/**
 	 * Test method that returns true if the given GeoElement geo is to be drawn
 	 * with LaTeX rendering in the spreadsheet or AV. For performance reasons
@@ -5963,38 +6215,41 @@ public abstract class GeoElement
 	 * 
 	 * @return
 	 */
-	public  boolean isLaTeXDrawableGeo(String latexStr) {
-		//TODO Does not what the comment says
+	public boolean isLaTeXDrawableGeo(String latexStr) {
+		// TODO Does not what the comment says
 		return false;
 	}
-	
+
 	/*
-	 * used in eg CAS and Spreadsheet Views to decide if the LaTeX renderer
-	 * is neccesary by checking for eg ^2, \frac
+	 * used in eg CAS and Spreadsheet Views to decide if the LaTeX renderer is
+	 * neccesary by checking for eg ^2, \frac
 	 */
 	public static boolean isLaTeXneeded(String latex) {
-		
-		for (int i=0; i < latex.length(); i++) {
+
+		for (int i = 0; i < latex.length(); i++) {
 			char ch = latex.charAt(i);
 			switch (ch) {
-				case '\\':
-					char ch1 = i == latex.length() - 1 ? ' ' : latex.charAt(i+1);
-					if (ch1 != ';' && ch1 != ',') return true; // \; \, just spacing
-					break;
-				case '^':
-					return true;
+			case '\\':
+				char ch1 = i == (latex.length() - 1) ? ' ' : latex
+						.charAt(i + 1);
+				if ((ch1 != ';') && (ch1 != ',')) {
+					return true; // \; \, just spacing
+				}
+				break;
+			case '^':
+				return true;
 			}
 		}
-		
+
 		// no real latex string
 		return false;
 	}
-	
+
 	public boolean hasBackgroundColor() {
 		return false;
 	}
-	
-	public boolean algoUpdateSetContains(AlgoElementInterface i){
+
+	public boolean algoUpdateSetContains(AlgoElementInterface i) {
 		return getAlgoUpdateSet().contains(i);
 	}
 }
