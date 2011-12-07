@@ -28,6 +28,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -52,7 +53,6 @@ import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.IneqTree;
-import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.roots.RealRootFunction;
 

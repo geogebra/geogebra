@@ -16,6 +16,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolynomialInterface;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.MyError;
 
@@ -27,7 +28,7 @@ import java.util.Iterator;
 /**
   * An Polynomial is a list of Terms
   */  
-public class Polynomial extends ValidExpression implements Serializable, ExpressionValue {        
+public class Polynomial extends ValidExpression implements Serializable, PolynomialInterface {        
 	
 	private static final long serialVersionUID = 1L;
     
