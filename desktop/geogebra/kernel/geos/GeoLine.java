@@ -1324,7 +1324,7 @@ GeoLineInterface {
 	 * Removes a point from the list of points that this line passes through.
 	 * @param p Point to be removed
 	 */
-	public final void removePointOnLine(GeoPoint p) {
+	public final void removePointOnLine(GeoPointInterface p) {
 		if (pointsOnLine != null)
 			pointsOnLine.remove(p);
 	}

@@ -1295,8 +1295,8 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 				GeoElement geo = incidenceList.get(i);
 				if (geo.isGeoConic()) {
 					((GeoConicND) geo).removePointOnConic(this);
-				} else if (geo instanceof GeoLine) {
-					((GeoLine) geo).removePointOnLine(this);
+				} else if (geo.isGeoLine()) {
+					((GeoLineInterface) geo).removePointOnLine(this);
 				}
 			}
 		}
@@ -1705,8 +1705,8 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			//GeoConicND, GeoLine, GeoPoint are the three types who have an incidence list 
 			if (geo.isGeoConic())
 				((GeoConicND)geo).addPointOnConic(this);
-			else if (geo instanceof GeoLine)
-				((GeoLine)geo).addPointOnLine(this);
+			else if (geo.isGeoLine())
+				((GeoLineInterface)geo).addPointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
 		}
 		
@@ -1723,8 +1723,8 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			
 			if (geo.isGeoConic())
 				((GeoConicND)geo).removePointOnConic(this);
-			else if (geo instanceof GeoLine)
-				((GeoLine)geo).removePointOnLine(this);
+			else if (geo.isGeoLine())
+				((GeoLineInterface)geo).removePointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
 		}
 		public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
