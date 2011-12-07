@@ -46,11 +46,11 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoDummyVariableInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.geos.GeoLine;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -3319,8 +3319,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[0]));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()) instanceof GeoLine) {
-				sb.append(kernel.format(((GeoLine) leftEval).x));
+					&& (leftEval = left.evaluate()) instanceof GeoLineInterface) {
+				sb.append(kernel.format(((GeoLineInterface) leftEval).getX()));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
@@ -3357,8 +3357,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[1]));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()) instanceof GeoLine) {
-				sb.append(kernel.format(((GeoLine) leftEval).y));
+					&& (leftEval = left.evaluate()) instanceof GeoLineInterface) {
+				sb.append(kernel.format(((GeoLineInterface) leftEval).getY()));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
@@ -3391,8 +3391,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[2]));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()) instanceof GeoLine) {
-				sb.append(kernel.format(((GeoLine) leftEval).z));
+					&& (leftEval = left.evaluate()) instanceof GeoLineInterface) {
+				sb.append(kernel.format(((GeoLineInterface) leftEval).getZ()));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
