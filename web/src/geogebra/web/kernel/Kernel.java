@@ -1,6 +1,6 @@
 package geogebra.web.kernel;
 
-import geogebra.common.awt.ColorAdapter;
+import geogebra.common.awt.Color;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
@@ -28,7 +28,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-	public ColorAdapter getColorAdapter(int red, int green, int blue) {
+	public Color getColorAdapter(int red, int green, int blue) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -228,6 +228,18 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public ExpressionNodeEvaluatorInterface getExpressionNodeEvaluator() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Color getColorAdapter(int red, int green, int blue, int alpha) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Color getColorAdapter(float red, float green, float blue, float alpha) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
