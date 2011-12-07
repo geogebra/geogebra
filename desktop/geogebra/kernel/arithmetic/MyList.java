@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyListInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
@@ -43,7 +44,8 @@ import java.util.HashSet;
  * 
  * @author Markus Hohenwarter
  */
-public class MyList extends ValidExpression implements ListValue, ReplaceableValue {
+public class MyList extends ValidExpression implements ListValue, ReplaceableValue,
+		MyListInterface{
 
 	private AbstractKernel kernel;
 	private int matrixRows = -1;  // -1 means not calculated, 0 means not a matrix

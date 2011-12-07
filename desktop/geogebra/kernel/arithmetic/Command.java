@@ -21,6 +21,7 @@ package geogebra.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;

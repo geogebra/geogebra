@@ -33,6 +33,8 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyListInterface;
+import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -545,8 +547,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// changed to avoid deepcopy in MyList.getMyList() eg Sequence[f(Element[GP,k]),k,1,NP]
 			//} else if (right.isListValue()){ //to get polynomial vars in GeoFunctionNVar
 			//MyList list=((ListValue)right).getMyList();
-			} else if (right instanceof MyList){ //to get polynomial vars in GeoFunctionNVar
-				MyList list = (MyList)right;
+			} else if (right instanceof MyListInterface){ //to get polynomial vars in GeoFunctionNVar
+				MyListInterface list = (MyListInterface)right;
 				for (int i=0;i<list.size();i++){
 					ExpressionValue elem=list.getListElement(i);
 					if (elem.isExpressionNode()) {
@@ -628,8 +630,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (left.isExpressionNode()) {
 			replacements += ((ExpressionNode) left).replaceVariables(varName,
 					fVar);
-		} else if (left instanceof MyList) {
-			replacements += ((MyList) left).replaceVariables(varName, fVar);
+		} else if (left instanceof MyListInterface) {
+			replacements += ((MyListInterface) left).replaceVariables(varName, fVar);
 		} else if (left instanceof Variable) {
 			if (varName.equals(((Variable) left).getName())) {
 				left = fVar;
@@ -654,8 +656,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			if (right.isExpressionNode()) {
 				replacements += ((ExpressionNode) right).replaceVariables(
 						varName, fVar);
-			} else if (right instanceof MyList) {
-				replacements += ((MyList) right)
+			} else if (right instanceof MyListInterface) {
+				replacements += ((MyListInterface) right)
 						.replaceVariables(varName, fVar);
 			} else if (right instanceof Variable) {
 				if (varName.equals(((Variable) right).getName())) {
@@ -691,8 +693,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		// left tree
 		if (left.isExpressionNode()) {
 			replacements += ((ExpressionNode) left).replacePolynomials(x);
-		} else if (left instanceof MyList) {
-			replacements += ((MyList) left).replacePolynomials(x);
+		} else if (left instanceof MyListInterface) {
+			replacements += ((MyListInterface) left).replacePolynomials(x);
 		} else if (left.isPolynomialInstance()
 				&& x.toString().equals(left.toString())) {
 			left = x;
@@ -703,8 +705,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				replacements += ((ExpressionNode) right).replacePolynomials(x);
-			} else if (right instanceof MyList) {
-				replacements += ((MyList) right).replacePolynomials(x);
+			} else if (right instanceof MyListInterface) {
+				replacements += ((MyListInterface) right).replacePolynomials(x);
 			} else if (right.isPolynomialInstance()
 					&& x.toString().equals(right.toString())) {
 				right = x;
@@ -883,8 +885,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	final void makePolynomialTree(EquationInterface equ) {
 		
 		if (operation==Operation.FUNCTION_NVAR){
-			if (left instanceof FunctionalNVar && right instanceof MyList){
-				MyList list=((MyList)right); 
+			if (left instanceof FunctionalNVar && right instanceof MyListInterface){
+				MyListInterface list=((MyListInterface)right); 
 				FunctionNVarInterface func=((FunctionalNVar)left).getFunction();
 				ExpressionNode expr=(ExpressionNode)func.getExpression().getCopy(kernel);
 				if (func.getFunctionVariables().length==list.size()){
@@ -1367,7 +1369,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (right != null) {
 			rightStr = right.toLaTeXString(symbolic);
 			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF) &&
-				(right instanceof MyList))
+				(right instanceof MyListInterface))
 			{
 				// 1 character will be taken from the left and right
 				// of rightStr in operationToString, but more
@@ -3537,20 +3539,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			} else
 				sb.append(leftStr);
 			sb.append(", ");
-			sb.append(((MyList) right).getListElement(0).toString());
+			sb.append(((MyListInterface) right).getListElement(0).toString());
 			sb.append(']');
 			break;
 			
 		case FUNCTION_NVAR:
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
-				if (left instanceof FunctionalNVar && right instanceof MyList) {
+				if (left instanceof FunctionalNVar && right instanceof MyListInterface) {
 					FunctionNVarInterface func = ((FunctionalNVar) left).getFunction();
 					ExpressionNode en = (ExpressionNode)func.getExpression().getCopy(kernel);
 					for (int i = 0; i < func.getVarNumber()
-							&& i < ((MyList) right).size(); i++) {
+							&& i < ((MyListInterface) right).size(); i++) {
 						en.replace(func.getFunctionVariables()[i],
-								((MyList) right).getListElement(i));
+								((MyListInterface) right).getListElement(i));
 					}
 					// add brackets, see http://www.geogebra.org/trac/ticket/1446
 					if (!STRING_TYPE.equals(StringType.LATEX)) 

@@ -10,11 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.Unicode;
 

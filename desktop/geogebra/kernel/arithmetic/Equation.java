@@ -20,8 +20,7 @@ import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.EquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -152,9 +151,9 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
     	
 
     	// replace GeoDummyVariables for "x", "y", "z" which may be coming from CAS view
-    	replaceGeoDummyVariables("x", new Polynomial((Kernel)kernel, "x"));
-		replaceGeoDummyVariables("y", new Polynomial((Kernel)kernel, "y"));
-		replaceGeoDummyVariables("z", new Polynomial((Kernel)kernel, "z"));
+    	replaceGeoDummyVariables("x", new Polynomial(kernel, "x"));
+		replaceGeoDummyVariables("y", new Polynomial(kernel, "y"));
+		replaceGeoDummyVariables("z", new Polynomial(kernel, "z"));
            
         // resolve variables in lhs         
         if (lhs.isLeaf() && lhs.getLeft().isVariable()) {
@@ -186,7 +185,7 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
         rightPoly = (Polynomial) rightEN.evaluate();	      
         		
         // bring to normal form left - right = 0
-        normalForm = new Polynomial((Kernel)kernel, rightPoly);
+        normalForm = new Polynomial(kernel, rightPoly);
         normalForm.multiply(-1.0d);
         normalForm.add(leftPoly);             		   		   
     }
@@ -229,7 +228,7 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
             NumberValue nv = (NumberValue) ev;
             return nv.getDouble();
         } catch (Exception e) {
-            Application.debug("getCoeffValue("+variables+") failed:" + e);
+            AbstractApplication.debug("getCoeffValue("+variables+") failed:" + e);
             return Double.NaN;
         }
     }
@@ -297,7 +296,7 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		return new Equation((Kernel)kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
+		return new Equation(kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
 	}
 
 	public ExpressionValue evaluate() {		
