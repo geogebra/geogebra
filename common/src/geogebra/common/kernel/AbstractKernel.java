@@ -12,6 +12,7 @@ import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
 import geogebra.common.awt.ColorAdapter;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
@@ -1870,4 +1871,8 @@ public abstract class AbstractKernel {
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 
 	public abstract GgbMat getGgbMat(ExpressionValue myList);
+
+	public abstract boolean isInsertLineBreaks();
+	
+	public abstract ExpressionNodeEvaluatorInterface getExpressionNodeEvaluator();
 }

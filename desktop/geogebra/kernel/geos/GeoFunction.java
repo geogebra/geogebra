@@ -30,6 +30,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -66,7 +67,8 @@ import java.util.TreeSet;
  */
 public class GeoFunction extends GeoElement
 implements VarString, Path, Translateable, Traceable, Functional, FunctionalNVar, GeoFunctionable,Region,
-CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilateable, Transformable {
+CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilateable, Transformable,
+GeoFunctionInterface {
 
 	/** inner function representation */
 	protected Function fun;		

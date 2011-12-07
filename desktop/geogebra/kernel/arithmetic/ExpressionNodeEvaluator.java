@@ -4,6 +4,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Evaluatable;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -13,7 +14,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
@@ -29,15 +30,15 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
-import geogebra.main.Application;
-import geogebra3D.kernel3D.Geo3DVec;
+
 
 /**
  * @author ggb3D
  * 
  *         Evaluator for ExpressionNode (used in Operation.evaluate())
  */
-public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
+public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
+	ExpressionNodeEvaluatorInterface{
 
 	/**
 	 * Evaluates the ExpressionNode described by the parameters
@@ -46,8 +47,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            ExpressionNode to evaluate
 	 * @return corresponding ExpressionValue
 	 */
-	public ExpressionValue evaluate(ExpressionNode expressionNode) {
-
+	public ExpressionValue evaluate(ExpressionValue expressionValue) {
+		ExpressionNode expressionNode = (ExpressionNode) expressionValue;
 		boolean leaf = expressionNode.leaf;
 		ExpressionValue left = expressionNode.left;
 
@@ -55,10 +56,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return left.evaluate(); // for wrapping ExpressionValues as
 		// ValidExpression
 
-		Kernel kernel = expressionNode.kernel;
+		Kernel kernel = (Kernel)expressionNode.kernel;
 		ExpressionValue right = expressionNode.right;
 		Operation operation = expressionNode.operation;
-		Application app = expressionNode.app;
+		AbstractApplication app = expressionNode.app;
 		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 
 		// Application.debug(operation+"");
@@ -934,7 +935,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					throw new MyError(app, str);
 				}
 			} else {
-				Application.debug("power: lt :" + lt.getClass() + ", rt: "
+				AbstractApplication.debug("power: lt :" + lt.getClass() + ", rt: "
 						+ rt.getClass());
 				String[] str = { "IllegalExponent", lt.toString(), "^",
 						rt.toString() };
@@ -1014,7 +1015,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			} else {
 				String[] str = { "IllegalArgument", "freehand", lt.toString() };
-				Application.debug(lt.getClass() + " " + rt.getClass());
+				AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
 				throw new MyError(app, str);
 			}
 
@@ -1759,7 +1760,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						return new MyDouble(kernel, ((GeoFunctionable) lt)
 								.getGeoFunction().getFunction().evaluate(pt));
 					} else
-						Application
+						AbstractApplication
 								.debug("missing case in ExpressionNodeEvaluator");
 				}
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
@@ -1795,7 +1796,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				} else if (list.size() == 1) {
 					ExpressionValue ev = list.getMyList().getListElement(0)
 							.evaluate();
-					Application.debug(ev.getClass());
+					AbstractApplication.debug(ev.getClass());
 					if (funN.getVarNumber() == 2 && ev instanceof GeoPoint) {
 						GeoPoint pt = (GeoPoint) ev;
 						if (funN.isBooleanFunction())

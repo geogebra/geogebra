@@ -15,6 +15,7 @@ package geogebra.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -40,7 +41,7 @@ import java.util.List;
  * @author Markus Hohenwarter
  */
 public class Function extends FunctionNVar 
-implements ExpressionValue, RealRootFunction, Functional {
+implements RealRootFunction, Functional, FunctionInterface {
 
 	 /**
      * Creates new Function from expression where x is

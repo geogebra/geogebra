@@ -28,7 +28,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
      */
     public ExpressionValue evaluate(ExpressionNode expressionNode){ 
     	
-		Kernel kernel = expressionNode.kernel;
+		Kernel kernel = (Kernel) expressionNode.kernel;
 		boolean leaf = expressionNode.leaf; 
 		ExpressionValue left = expressionNode.left; 
 		ExpressionValue right = expressionNode.right; 

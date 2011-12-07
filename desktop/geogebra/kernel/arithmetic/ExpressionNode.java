@@ -29,22 +29,21 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.arithmetic.PointConvertibleToDouble;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.TextInputDialog;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoVec2D;
-import geogebra.main.Application;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,8 +61,8 @@ import javax.swing.text.Document;
 public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		ExpressionNodeConstants {
 
-	public Application app;
-	public Kernel kernel;
+	public AbstractApplication app;
+	public AbstractKernel kernel;
 	public ExpressionValue left, right;
 	public Operation operation = Operation.NO_OPERATION;
 	public boolean forceVector = false, forcePoint = false,
@@ -80,8 +79,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	/** Creates new ExpressionNode */
 	public ExpressionNode(AbstractKernel kernel, ExpressionValue left, Operation operation,
 			ExpressionValue right) {
-		this.kernel = (Kernel)kernel;
-		app = (Application)kernel.getApplication();
+		this.kernel = kernel;
+		app = kernel.getApplication();
 
 		this.operation = operation;
 		setLeft(left);
@@ -92,18 +91,23 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}		
 	}
 
-	/** for only one leaf */
-	// for wrapping ExpressionValues as ValidExpression
+	/** for only one leaf (for wrapping ExpressionValues as ValidExpression) 
+	 * @param kernel Kernel
+	 * @param leaf value to be wrapped
+	 */
 	public ExpressionNode(AbstractKernel kernel, ExpressionValue leaf) {
-		this.kernel = (Kernel)kernel;
-		app = (Application)kernel.getApplication();
+		this.kernel = kernel;
+		app = kernel.getApplication();
 
 		setLeft(leaf);
 		this.leaf = true;		
 	}
 
-	// copy constructor: NO deep copy of subtrees is done here!
-	// this is needed for translation of functions
+	/** copy constructor: NO deep copy of subtrees is done here!
+	 * this is needed for translation of functions
+	 * 
+	 * @param node Node to copy
+	 */
 	public ExpressionNode(ExpressionNode node) {
 		kernel = node.kernel;
 		app = node.app;
@@ -114,7 +118,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		setRight(node.right);		
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 
@@ -184,7 +188,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			rev = copy(right, kernel);
 
 		if (lev != null) {
-			newNode = new ExpressionNode((Kernel)kernel, lev, operation, rev);
+			newNode = new ExpressionNode(kernel, lev, operation, rev);
 			newNode.leaf = leaf;
 		} else
 			// something went wrong
@@ -374,7 +378,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		switch (operation) {
 		case POWER: // eg e^x
 			if (left instanceof NumberValue && ((NumberValue)left).getDouble() == Math.E) {
-				GeoElement geo = kernel.lookupLabel("e");
+				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
 				if (geo != null && geo.needsReplacingInExpressionNode()) {
 
 					// replace e^x with exp(x)
@@ -390,7 +394,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case PLUS: // eg 1 + e or e + 1
 		case MINUS: // eg 1 - e or e - 1
 			if (left instanceof NumberValue && ((NumberValue)left).getDouble() == Math.E) {
-				GeoElement geo = kernel.lookupLabel("e");
+				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
 				if (geo != null && geo.needsReplacingInExpressionNode()) {
 
 					// replace 'e' with exp(1) 
@@ -399,7 +403,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					kernel.getConstruction().removeLabel(geo);
 				}
 			} else if (right instanceof NumberValue && ((NumberValue)right).getDouble() == Math.E) {
-				GeoElement geo = kernel.lookupLabel("e");
+				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
 				if (geo != null && geo.needsReplacingInExpressionNode()) {
 
 					// replace 'e' with exp(1) 
@@ -900,7 +904,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				operation=expr.getOperation();
 			}
 		}else if (operation==Operation.FUNCTION){
-			if (left instanceof GeoFunction){
+			if (left instanceof GeoFunctionInterface){
 				Function func=((Functional)left).getFunction();
 				ExpressionNode expr=func.getExpression().getCopy(kernel);
 				if (right instanceof ExpressionNode){
@@ -1066,8 +1070,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	
 	public boolean isImaginaryUnit() {
 		return (isLeaf() 
-				&& (left instanceof GeoVec2D) 
-				&& ((GeoVec2D) left).isImaginaryUnit());
+				&& (left instanceof GeoVec2DInterface) 
+				&& ((GeoVec2DInterface) left).isImaginaryUnit());
 	}
 
 	/**
@@ -1803,7 +1807,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				}
 
 				// check for 0 at right
-				if (valueForm && rightStr.equals(Application.unicodeZero+"")) {
+				if (valueForm && rightStr.equals(AbstractApplication.unicodeZero+"")) {
 					break;
 				}
 
@@ -1863,7 +1867,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				// }
 
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
-				else if ((rightStr.length() == 2 && ((rightStr.charAt(0) == Unicode.degreeChar && rightStr.charAt(1) == (Application.unicodeZero +1)) || (rightStr.charAt(0) == Unicode.degreeChar && rightStr.charAt(1) == (Application.unicodeZero +1))))
+				else if ((rightStr.length() == 2 && ((rightStr.charAt(0) == Unicode.degreeChar && rightStr.charAt(1) == 
+						(AbstractApplication.unicodeZero +1)) || (rightStr.charAt(0) == Unicode.degreeChar && rightStr.charAt(1) == (AbstractApplication.unicodeZero +1))))
 						|| rightStr.equals(Unicode.degree)) {
 					
 					boolean rtl = app.isRightToLeftDigits();
@@ -3364,7 +3369,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 						.getX()));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()).isVector3DValue()) {
-				sb.append(kernel.format(((Vector3DValue) leftEval)
+				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[0]));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()) instanceof GeoLine) {
@@ -3402,7 +3407,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 						.getY()));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()).isVector3DValue()) {
-				sb.append(kernel.format(((Vector3DValue) leftEval)
+				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[1]));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()) instanceof GeoLine) {
@@ -3436,7 +3441,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case ZCOORD:
 			if (valueForm && (leftEval = left.evaluate()).isVector3DValue()) {
-				sb.append(kernel.format(((Vector3DValue) leftEval)
+				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[2]));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()) instanceof GeoLine) {
@@ -3470,8 +3475,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		case FUNCTION:			
 			// GeoFunction and GeoFunctionConditional should not be expanded
-			if (left instanceof GeoFunction) {
-				GeoFunction geo = (GeoFunction) left;
+			if (left instanceof GeoFunctionInterface) {
+				GeoFunctionInterface geo = (GeoFunctionInterface) left;
 				if (geo.isLabelSet()) {
 					sb.append(geo.getLabel());
 					sb.append(leftBracket(STRING_TYPE));
