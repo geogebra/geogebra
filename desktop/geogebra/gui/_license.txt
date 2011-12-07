@@ -62,7 +62,7 @@ TRANSLATORS
       Roser Sebastian (Spain)
   * Chinese (Traditional): Fu-Kwun Hwang, Chen-Hui Lin, Pegasus Roe,
       Joe Chen (Taiwan)
-  * Chinese (Simplified): Chen Xing (China)
+  * Chinese (Simplified): Chen Xing, Tom King (China)
   * Croatian: Sime Suljic, Ela Rac-Marinic-Kragic, Josip Klicinovic,
       Zeljko Vrabec (Croatia)
   * Czech: Zuzana Bouchalova, Michaela Norulakova, Marketa Tomanova,
