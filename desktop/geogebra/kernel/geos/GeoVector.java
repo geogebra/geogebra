@@ -36,6 +36,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoVectorInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -59,7 +60,7 @@ import java.util.Iterator;
  */
 final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
-Transformable, GeoVectorND {
+Transformable, GeoVectorND, GeoVectorInterface {
 
 	private GeoPoint startPoint;
 

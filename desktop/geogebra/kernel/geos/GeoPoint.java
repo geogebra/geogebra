@@ -54,6 +54,7 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoVectorInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointProperties;
@@ -225,9 +226,9 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	    	setMode(p.toStringMode); // complex etc
     	}
     	else if (geo.isGeoVector()) {
-    		GeoVector v = (GeoVector) geo; 
-    		setCoords(v.x, v.y, 1d);   
-	    	setMode(v.toStringMode); // complex etc
+    		GeoVectorInterface v = (GeoVectorInterface) geo; 
+    		setCoords(v.getX(), v.getY(), 1d);   
+	    	setMode(v.getMode()); // complex etc
     	}else throw new IllegalArgumentException();
     } 
     
