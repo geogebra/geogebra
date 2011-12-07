@@ -64,7 +64,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.AnimationManager;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
@@ -1525,7 +1525,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			// compute animation step based on speed and frame rates
 			double intervalWidth = 1;
 			double step = intervalWidth * getAnimationSpeed() * getAnimationDirection() /
-					      (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
+					      (AbstractAnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 			
 			// update animation value
 			if (Double.isNaN(animationValue))
