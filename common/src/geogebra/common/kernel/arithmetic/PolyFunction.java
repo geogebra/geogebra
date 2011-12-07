@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 
@@ -18,7 +18,7 @@ import geogebra.common.kernel.roots.RealRootDerivFunction;
  * Fast polynomial evaluation of Function
  */
 public class PolyFunction implements RealRootDerivFunction {
-	protected double [] coeffs;
+	public double [] coeffs;
 	private int degree; 
 	
 	private PolyFunction derivative; 

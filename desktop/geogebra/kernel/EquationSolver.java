@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
-import geogebra.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
 import geogebra.main.Application;

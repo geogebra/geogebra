@@ -20,9 +20,9 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.PolyFunction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoNumeric;
