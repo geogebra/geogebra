@@ -50,7 +50,7 @@ import geogebra.main.*;
 import geogebra.kernel.*;
 import geogebra.common.kernel.*;
 import geogebra.common.kernel.arithmetic.*;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoVec2D;
