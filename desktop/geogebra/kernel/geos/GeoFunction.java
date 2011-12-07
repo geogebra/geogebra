@@ -734,13 +734,13 @@ GeoFunctionInterface {
 			IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
 			for (int i = 0; i < ineqCount; i++) {
-				for (GeoPoint point : ineqs.get(i).getZeros()) {
-					if (Math.abs(point.x - px) < bestDist) {
-						bestDist = Math.abs(point.x - px);
+				for (GeoPointInterface point : ineqs.get(i).getZeros()) {
+					if (Math.abs(point.getX() - px) < bestDist) {
+						bestDist = Math.abs(point.getX() - px);
 						if (yfun) {
-							P.y = point.x;
+							P.y = point.getX();
 						} else {
-							P.x = point.x;
+							P.x = point.getX();
 						}
 					}
 				}

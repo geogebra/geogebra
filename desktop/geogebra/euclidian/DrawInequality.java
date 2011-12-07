@@ -160,9 +160,9 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawConic(view, ineq.getConicBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
-		case Inequality.INEQUALITY_IMPLICIT:
+		/*case Inequality.INEQUALITY_IMPLICIT:
 			drawable = new DrawImplicitPoly(view, ineq.getImpBorder());
-			break;
+			break; TODO put this back when implicit polynomial can be shaded*/ 
 		default:
 			Application.debug("Unhandled inequality type");
 			return;

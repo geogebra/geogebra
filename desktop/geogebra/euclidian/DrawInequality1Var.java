@@ -118,7 +118,7 @@ public class DrawInequality1Var extends Drawable {
 	public void update() {
 		// get x-coords of the lines
 		if (varIsY) {
-			GeoPoint[] roots = ineq.getZeros();
+			GeoPoint[] roots = (GeoPoint[])ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = view.height + 10;
 			int numOfX = 1;
@@ -150,7 +150,7 @@ public class DrawInequality1Var extends Drawable {
 			}
 			setShape(a);
 		} else {
-			GeoPoint[] roots = ineq.getZeros();
+			GeoPoint[] roots = (GeoPoint[])ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = -10;
 			int numOfX = 1;

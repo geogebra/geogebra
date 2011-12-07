@@ -25,13 +25,13 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.GeoVec2D;
-import geogebra.kernel.implicit.GeoImplicitPoly;
+//import geogebra.kernel.implicit.GeoImplicitPoly;
 
 /**
  * stores left and right hand side of an inequality as Expressions
@@ -57,7 +57,7 @@ public class Inequality {
 
 	private Operation op = Operation.LESS;
 	private int type;
-	private GeoImplicitPoly impBorder;
+	/*private GeoImplicitPoly impBorder;*/
 	private GeoConic conicBorder;
 	private GeoFunction funBorder;
 	private GeoElement border;
@@ -66,7 +66,7 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private GeoPoint[] zeros;	
+	private GeoPointInterface[] zeros;	
 	// if variable x or y appears with 0 coef, we want to replace the 
 	// variable by 0 itself to avoid errors on computation
 	private MyDouble zeroDummy0,zeroDummy1;
@@ -209,16 +209,16 @@ public class Inequality {
 			   		isAboveBorder = true;
 			   		return;
 		}
-		GeoVec2D midpoint = conicBorder.getTranslationVector();
+		GeoVec2DInterface midpoint = conicBorder.getTranslationVector();
 		ExpressionNode normalCopy = (ExpressionNode) normal
 				.deepCopy(kernel);
 		double midX, midY;	
 		if (conicBorder.type == GeoConic.CONIC_PARABOLA){
-			midX = midpoint.x+conicBorder.p*conicBorder.eigenvec[0].x;
-			midY = midpoint.y+conicBorder.p*conicBorder.eigenvec[0].y;;
+			midX = midpoint.getX()+conicBorder.p*conicBorder.eigenvec[0].x;
+			midY = midpoint.getY()+conicBorder.p*conicBorder.eigenvec[0].y;;
 		} else {					
-			midX = midpoint.x;
-			midY = midpoint.y;
+			midX = midpoint.getY();
+			midY = midpoint.getX();
 		} 
 		normalCopy.replaceAndWrap(fv[0], new MyDouble(kernel, midX));
 		normalCopy.replaceAndWrap(fv[1], new MyDouble(kernel, midY));
@@ -274,9 +274,9 @@ public class Inequality {
 	/**
 	 * @return implicit border
 	 */
-	public GeoImplicitPoly getImpBorder() {
+	/* public GeoImplicitPoly getImpBorder() {
 		return impBorder;
-	}
+	} */ 
 
 	final public String toString() {
 		return "inequality";
@@ -336,7 +336,7 @@ public class Inequality {
 	/**
 	 * @return zero points for 1var ineqs
 	 */
-	public GeoPoint[] getZeros() {
+	public GeoPointInterface[] getZeros() {
 		return zeros;
 	}
 

@@ -2,7 +2,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.arithmetic.IneqTreeInterface;
 import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPointInterface;
 
 import java.util.Set;
 
@@ -128,7 +128,7 @@ public class IneqTree implements IneqTreeInterface{
 
 	public double[] getZeros(Set<Double> zeros) {
 		if (ineq != null) {
-			GeoPoint[] zeroPoints = ineq.getZeros();
+			GeoPointInterface[] zeroPoints = ineq.getZeros();
 			for (int i = 0; i < zeroPoints.length; i++) {
 				zeros.add(zeroPoints[i].getX());
 			}

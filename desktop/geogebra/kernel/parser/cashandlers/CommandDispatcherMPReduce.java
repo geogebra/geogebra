@@ -1,5 +1,6 @@
 package geogebra.kernel.parser.cashandlers;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Variable;
-import geogebra.kernel.Kernel;
 
 /**
  * Handles special MPReduce commands to distinguish them from user defined functions
@@ -33,7 +33,7 @@ public class CommandDispatcherMPReduce {
 		
 		try {
 			ExpressionValue ret = null;
-			Kernel kernel = (Kernel) args.getKernel();
+			AbstractKernel kernel = args.getKernel();
 			
 			switch (commands.valueOf(cmdName)) {
 				case arbcomplex:

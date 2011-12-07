@@ -9,4 +9,6 @@ public interface GeoFunctionInterface extends ExpressionValue,GeoElementInterfac
 	public void setDefined(boolean b);
 
 	public void setFunction(FunctionInterface deriv);
+
+	public void swapEval();
 }
