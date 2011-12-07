@@ -1,0 +1,23 @@
+#!/bin/sh
+# If the latest desktop was not built yet, it builds
+
+# 1. Start and loading configuration
+test -r autotest.conf || {
+ echo "$0: Cannot find autotest.conf (make sure you edit autotest.conf.dist first)"
+ echo "Continuing with defaults anyway..."
+ }
+test -r autotest.conf && . ./autotest.conf
+
+MYDIR=$SVNDIR/test/scripts/autotest
+
+./check-if-latest || {
+ cd $SVNDIR
+ $SVN_COMMAND update
+ cd $MYDIR
+ ./build-desktop
+ echo "The latest revision has been built now"
+ exit 0
+ }
+
+echo "The latest revision has already been built, no action needed"
+exit 1
