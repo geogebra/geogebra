@@ -25,15 +25,13 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoFunctionNVar;
-import geogebra.kernel.geos.GeoPoint;
 
 import java.util.HashSet;
 
@@ -506,9 +504,9 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 			// parse result
 			if (getVarNumber() == 1) {
-				resultFun = ((Kernel)kernel).getParser().parseFunction(sb.toString());
+				resultFun = (Function)(kernel.getParser().parseFunction(sb.toString()));
 			} else {
-				resultFun = ((Kernel)kernel).getParser().parseFunctionNVar(sb.toString());
+				resultFun = (FunctionNVar)(kernel.getParser().parseFunctionNVar(sb.toString()));
 			}
 
 			resultFun.initFunction();			
@@ -759,7 +757,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param pt
 	 * @return function value
 	 */
-	public double evaluate(GeoPoint pt) {
+	public double evaluate(GeoPointInterface pti) {
+		GeoVec3D pt = (GeoVec3D)pti;
 		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
 			return evaluate(new double[] { pt.y / pt.z });
 		return evaluate(new double[] { pt.x / pt.z, pt.y / pt.z });
@@ -771,7 +770,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param pt
 	 * @return function value
 	 */
-	public boolean evaluateBoolean(GeoPoint pt) {
+	public boolean evaluateBoolean(GeoPointInterface pti) {
+		GeoVec3D pt = (GeoVec3D)pti;
 		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
 			return evaluateBoolean(new double[] { pt.y / pt.z });
 		return evaluateBoolean(new double[] { pt.x / pt.z, pt.y / pt.z });
@@ -813,7 +813,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				switch (en.getOperation()) {
 				case PLUS:
 					temp = num.getDouble() - vx;
-					if (Kernel.isZero(temp)) {
+					if (AbstractKernel.isZero(temp)) {
 						expression = expression.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
 						en.setOperation(Operation.MINUS);
