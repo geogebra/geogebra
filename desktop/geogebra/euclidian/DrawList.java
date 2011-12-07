@@ -22,6 +22,7 @@ import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 
 
@@ -130,7 +131,7 @@ public final class DrawList extends Drawable {
 	 * @param g2
 	 */
 	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geo.getObjectColor());
+		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
 		g2.setStroke(objStroke);  
     	if (isVisible) {
     		int size = drawables.size();    		

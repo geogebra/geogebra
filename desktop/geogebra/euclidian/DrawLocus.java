@@ -17,7 +17,9 @@ import geogebra.kernel.MyPoint;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLocus;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -82,7 +84,7 @@ public class DrawLocus extends Drawable {
     
 	final void drawTrace(Graphics2D g2) {
     	if (isVisible) {
-    		g2.setPaint(geo.getObjectColor());
+    		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
     		g2.setStroke(objStroke);  
             Drawable.drawWithValueStrokePure(gp, g2);
     	}
@@ -129,13 +131,13 @@ public class DrawLocus extends Drawable {
     	if (isVisible) {    			    	
             if (geo.doHighlighting()) {
                 // draw locus              
-                g2.setPaint(geo.getSelColor());
+                g2.setPaint((Paint) geo.getSelColor().getAwtColor());
                 g2.setStroke(selStroke);
                 Drawable.drawWithValueStrokePure(gp, g2);
             }      
         	
             // draw locus         
-            g2.setPaint(geo.getObjectColor());
+            g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
             g2.setStroke(objStroke);
             Drawable.drawWithValueStrokePure(gp, g2);
                         
@@ -152,7 +154,7 @@ public class DrawLocus extends Drawable {
         	// label
             if (labelVisible) {
 				g2.setFont(view.fontLine);
-				g2.setColor(geo.getLabelColor());
+				g2.setColor((Color) geo.getLabelColor().getAwtColor());
 				drawLabel(g2);
             }                        
         }

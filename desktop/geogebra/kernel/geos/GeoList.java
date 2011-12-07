@@ -42,7 +42,7 @@ import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
 
-import java.awt.Color;
+import geogebra.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 

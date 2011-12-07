@@ -255,12 +255,12 @@ public class StatGeo   {
 			AlgoPolyLine al3 = createFrequencyPolygon((AlgoHistogram) al2, settings.isCumulative);
 			removeFromConstructionList(al3);
 			geo = al3.getGeoElements()[0];
-			geo.setObjColor(StatDialog.OVERLAY_COLOR);
+			geo.setObjColor(new geogebra.awt.Color(StatDialog.OVERLAY_COLOR));
 			geo.setLineThickness(StatDialog.thicknessCurve);
 
 		}else{
 			geo = al2.getGeoElements()[0];
-			geo.setObjColor(StatDialog.HISTOGRAM_COLOR);
+			geo.setObjColor(new geogebra.awt.Color(StatDialog.HISTOGRAM_COLOR));
 			geo.setAlphaValue(StatDialog.opacityBarChart);
 			geo.setLineThickness(StatDialog.thicknessBarChart);
 		}
@@ -332,7 +332,7 @@ public class StatGeo   {
 
 		//Application.debug(text);
 		//geo = createGeoFromString(text);
-		geo.setObjColor(StatDialog.OVERLAY_COLOR);
+		geo.setObjColor(new geogebra.awt.Color(StatDialog.OVERLAY_COLOR));
 		geo.setLineThickness(StatDialog.thicknessCurve);
 
 		return geo;	
@@ -381,7 +381,7 @@ public class StatGeo   {
 		removeFromConstructionList(boxPlot);
 		geo = boxPlot.getGeoElements()[0];
 
-		geo.setObjColor(StatDialog.BOXPLOT_COLOR);
+		geo.setObjColor(new geogebra.awt.Color(StatDialog.BOXPLOT_COLOR));
 		geo.setAlphaValue(StatDialog.opacityBarChart);
 		return geo;		
 	}
@@ -424,7 +424,7 @@ public class StatGeo   {
 			AlgoBoxPlot bp = new AlgoBoxPlot(cons, new GeoNumeric(cons, i+1), new GeoNumeric(cons, 1d/3d), (GeoList)dataList.get((length-1)-i));
 			cons.removeFromAlgorithmList(bp);
 			ret[i] = bp.getGeoElements()[0];
-			ret[i].setObjColor(StatDialog.BOXPLOT_COLOR);
+			ret[i].setObjColor(new geogebra.awt.Color(StatDialog.BOXPLOT_COLOR));
 			ret[i].setAlphaValue(StatDialog.opacityBarChart);
 
 		}
@@ -459,8 +459,8 @@ public class StatGeo   {
 			AlgoText text = new AlgoText(cons, t, p, null, null);
 			cons.removeFromAlgorithmList(text);
 			ret[i] = text.getGeoElements()[0];
-			ret[i].setBackgroundColor(Color.WHITE);
-			ret[i].setObjColor(Color.BLACK);
+			ret[i].setBackgroundColor(new geogebra.awt.Color(Color.WHITE));
+			ret[i].setObjColor(new geogebra.awt.Color(Color.BLACK));
 		}
 		return ret;		
 	}
@@ -478,7 +478,7 @@ public class StatGeo   {
 		removeFromConstructionList(dp);
 		GeoElement geo = dp.getGeoElements()[0];
 
-		geo.setObjColor(StatDialog.DOTPLOT_COLOR);
+		geo.setObjColor(new geogebra.awt.Color(StatDialog.DOTPLOT_COLOR));
 		geo.setAlphaValue(StatDialog.opacityBarChart);
 
 		return geo;	
@@ -523,7 +523,7 @@ public class StatGeo   {
 		removeFromConstructionList(qp);
 		GeoElement geo = qp.getGeoElements()[0];		
 
-		geo.setObjColor(StatDialog.NQPLOT_COLOR);
+		geo.setObjColor(new geogebra.awt.Color(StatDialog.NQPLOT_COLOR));
 		geo.setAlphaValue(StatDialog.opacityBarChart);
 		geo.setLineThickness(StatDialog.thicknessCurve);
 
@@ -562,7 +562,7 @@ public class StatGeo   {
 		geo.setEuclidianVisible(true);	
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);	
-		geo.setObjColor(StatDialog.DOTPLOT_COLOR);
+		geo.setObjColor(new geogebra.awt.Color(StatDialog.DOTPLOT_COLOR));
 		geo.setAlphaValue(StatDialog.opacityBarChart);
 
 		return geo;
@@ -585,7 +585,7 @@ public class StatGeo   {
 		geo.setEuclidianVisible(true);	
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);	
-		geo.setObjColor(StatDialog.DOTPLOT_COLOR);
+		geo.setObjColor(new geogebra.awt.Color(StatDialog.DOTPLOT_COLOR));
 		geo.setAlphaValue(StatDialog.opacityBarChart);
 
 		return geo;
@@ -649,13 +649,13 @@ public class StatGeo   {
 		if (residual) {
 			AlgoResidualPlot algoRP = new AlgoResidualPlot(cons, dataList, (GeoFunctionable) geo);
 			geo = algoRP.getGeoElements()[0];
-			geo.setObjColor(StatDialog.DOTPLOT_COLOR);
+			geo.setObjColor(new geogebra.awt.Color(StatDialog.DOTPLOT_COLOR));
 			geo.setAlphaValue(StatDialog.opacityBarChart);
 			geo.setLineThickness(StatDialog.thicknessCurve);
 		} else {
 
 			// set geo options
-			geo.setObjColor(StatDialog.REGRESSION_COLOR);
+			geo.setObjColor(new geogebra.awt.Color(StatDialog.REGRESSION_COLOR));
 			if(regType == StatDialog.REG_LINEAR)	
 				((GeoLine)geo).setToExplicit();	
 

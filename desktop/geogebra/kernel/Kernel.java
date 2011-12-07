@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.Color;
 import geogebra.common.awt.ColorAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
@@ -8028,8 +8029,20 @@ public class Kernel extends AbstractKernel{
 	// This is a temporary place for adapter creation methods which will move into factories later
 	
 	@Override
-	public ColorAdapter getColorAdapter(int red, int green, int blue) {
+	/*public ColorAdapter getColorAdapter(int red, int green, int blue) {
 		return new AwtColorAdapter(red, green, blue);
+	}*/
+	
+	public Color getColorAdapter(int red, int green, int blue) {
+		return new geogebra.awt.Color(red, green, blue);
+	}
+	
+	public Color getColorAdapter(int red, int green, int blue, int alpha) {
+		return new geogebra.awt.Color(red, green, blue, alpha);
+	}
+	
+	public Color getColorAdapter(float red, float green, float blue, float alpha) {
+		return new geogebra.awt.Color(red, green, blue, alpha);
 	}
 	
 	public NumberFormatAdapter getNumberFormat(){

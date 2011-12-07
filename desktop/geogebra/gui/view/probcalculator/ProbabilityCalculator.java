@@ -599,7 +599,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		lowPoint = (GeoPoint) algoLow.getGeoElements()[0];
 
-		lowPoint.setObjColor(COLOR_POINT);
+		lowPoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 		lowPoint.setPointSize(4);
 		lowPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		lowPoint.setLayer(5);
@@ -613,7 +613,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		highPoint = (GeoPoint) algoHigh.getGeoElements()[0];
 
-		highPoint.setObjColor(COLOR_POINT);
+		highPoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 		highPoint.setPointSize(4);
 		highPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		highPoint.setLayer(5);
@@ -657,7 +657,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 			discreteGraph = algoBarChart.getGeoElements()[0];
-			discreteGraph.setObjColor(COLOR_PDF);
+			discreteGraph.setObjColor(new geogebra.awt.Color(COLOR_PDF));
 			discreteGraph.setAlphaValue(opacityDiscrete);
 			discreteGraph.setLineThickness(thicknessBarChart);
 			discreteGraph.setLayer(1);
@@ -720,11 +720,11 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			//System.out.println(text);
 			if(isLineGraph){
-				discreteIntervalGraph.setObjColor(ProbabilityCalculator.COLOR_PDF_FILL);
+				discreteIntervalGraph.setObjColor(new geogebra.awt.Color(ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setLineThickness(thicknessBarChart+2);
 			}
 			else{
-				discreteIntervalGraph.setObjColor(ProbabilityCalculator.COLOR_PDF_FILL);
+				discreteIntervalGraph.setObjColor(new geogebra.awt.Color(ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setAlphaValue(opacityDiscreteInterval);
 				discreteIntervalGraph.setLineThickness(thicknessBarChart);
 			}
@@ -739,7 +739,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			GeoLine axis = new GeoLine(cons);		
 			axis.setCoords(0, 1, 0);
 			axis.setLayer(4);
-			axis.setObjColor(app.getEuclidianView().getAxesColor());
+			axis.setObjColor(new geogebra.awt.Color(app.getEuclidianView().getAxesColor()));
 			axis.setLineThickness(discreteIntervalGraph.lineThickness);
 			axis.setFixed(true);
 			axis.updateCascade();
@@ -757,7 +757,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			cons.removeFromConstructionList(densityCurve.getParentAlgorithm());
 
-			densityCurve.setObjColor(COLOR_PDF);
+			densityCurve.setObjColor(new geogebra.awt.Color(COLOR_PDF));
 			densityCurve.setLineThickness(thicknessCurve);
 			densityCurve.setFixed(true);
 			densityCurve.setEuclidianVisible(true);
@@ -780,7 +780,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				cons.removeFromConstructionList(algoIntegral);
 
 				integral = algoIntegral.getGeoElements()[0];
-				integral.setObjColor(COLOR_PDF_FILL);
+				integral.setObjColor(new geogebra.awt.Color(COLOR_PDF_FILL));
 				integral.setAlphaValue(opacityIntegral);
 				integral.setEuclidianVisible(true);
 				plotGeoList.add(integral);
@@ -807,7 +807,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				
 					
 				curvePoint = (GeoPoint) pAlgo.getGeoElements()[0];
-				curvePoint.setObjColor(COLOR_POINT);
+				curvePoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 				curvePoint.setPointSize(4);
 				curvePoint.setLayer(f.getLayer()+1);
 				plotGeoList.add(curvePoint);
@@ -823,7 +823,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, curvePoint, (GeoPoint)pointAlgo.getGeoElements()[0], null);
 				cons.removeFromConstructionList(seg1);	
 				xSegment = (GeoSegment)seg1.getGeoElements()[0];
-				xSegment.setObjColor(Color.blue);
+				xSegment.setObjColor(new geogebra.awt.Color(Color.blue));
 				xSegment.setLineThickness(3);
 				xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 				xSegment.setEuclidianVisible(true);
@@ -841,7 +841,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				AlgoRayPointVector seg2 = new AlgoRayPointVector(cons, curvePoint, v);
 				cons.removeFromConstructionList(seg2);
 				ySegment = (GeoRay)seg2.getGeoElements()[0];
-				ySegment.setObjColor(Color.red);
+				ySegment.setObjColor(new geogebra.awt.Color(Color.red));
 				ySegment.setLineThickness(3);
 				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				ySegment.setEuclidianVisible(true);

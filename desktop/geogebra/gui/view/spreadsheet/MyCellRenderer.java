@@ -167,7 +167,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				//button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
 				button.setText(geo.getCaption());
-				button.setForeground(geo.getObjectColor());
+				button.setForeground((Color) geo.getObjectColor().getAwtColor());
 				return button;
 			}
 
@@ -226,7 +226,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		// Set foreground and background color
 		//===============================================
 		if (geo.getBackgroundColor() != null) {
-			bgColor = geo.getBackgroundColor();
+			bgColor = (Color) geo.getBackgroundColor().getAwtColor();
 		}
 
 		if (geo.doHighlighting()) {
@@ -237,7 +237,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			}
 		}
 		setBackground(bgColor);
-		setForeground(geo.getLabelColor());
+		setForeground((Color) geo.getLabelColor().getAwtColor());
 
 
 
@@ -275,8 +275,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 						if(geo.isGeoText())
 							isSerif = ((GeoText)geo).isSerifFont();
 						//System.out.println(latexStr);
-						drawLatexImageIcon(latexIcon, latexStr, getFont(), isSerif, geo
-								.getAlgebraColor(), bgColor);
+						drawLatexImageIcon(latexIcon, latexStr, getFont(), isSerif, (Color) geo
+								.getAlgebraColor().getAwtColor(), bgColor);
 						setIcon(latexIcon);
 						setText("");
 

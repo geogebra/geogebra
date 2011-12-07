@@ -451,7 +451,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=geo.getObjectColor();
+		Color geocolor=(Color) geo.getObjectColor().getAwtColor();
 		startBeamer(codePoint);
 		codePoint.append("\\rput[bl](");
 		codePoint.append(kernel.format(xLabelHor));
@@ -743,7 +743,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	}
         // create point for slider
         GeoPoint geoPoint = new GeoPoint(construction);
-        geoPoint.setObjColor(geo.getObjectColor());
+        geoPoint.setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
         String label=Util.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
     	double param =  (value - min) / (max - min);
@@ -819,7 +819,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			st=st.replaceAll("\\u20ac", "\\\\euro{}");
 			if (!eurosym) codePreamble.append("\\usepackage{eurosym}\n");
 		}
-		Color geocolor=geo.getObjectColor();
+		Color geocolor=(Color) geo.getObjectColor().getAwtColor();
 		int style=geo.getFontStyle();
 		int size=geo.getFontSize()+app.getGUIFontSize();
 		GeoPoint gp;
@@ -1563,7 +1563,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				
-				Color geocolor=geo.getObjectColor();
+				Color geocolor=(Color) geo.getObjectColor().getAwtColor();
 				startBeamer(codePoint);
 				codePoint.append("\\rput[bl](");
 				codePoint.append(kernel.format(xLabel));
@@ -1685,7 +1685,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("\n");
 	}
 	private void PointOptionCode(GeoPoint geo){
-		Color dotcolor=geo.getObjectColor();
+		Color dotcolor=(Color) geo.getObjectColor().getAwtColor();
 		int dotsize=geo.getPointSize();
 		int dotstyle=geo.getPointStyle();
 		if (dotstyle == -1) { // default
@@ -1756,7 +1756,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=geo.getObjectColor();
+		Color linecolor=(Color) geo.getObjectColor().getAwtColor();
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 

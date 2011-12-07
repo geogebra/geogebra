@@ -26,6 +26,7 @@ import geogebra.kernel.geos.GeoVec3D;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -166,7 +167,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 									// appropriate
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(poly.getSelColor());
+				g2.setPaint((Paint) poly.getSelColor().getAwtColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
@@ -174,13 +175,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
 			else if (!poly.wasInitLabelsCalled() && poly.lineThickness > 0) {
-				g2.setPaint(poly.getObjectColor());
+				g2.setPaint((Paint) poly.getObjectColor().getAwtColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint(poly.getLabelColor());
+				g2.setPaint((Paint) poly.getLabelColor().getAwtColor());
 				g2.setFont(view.fontPoint);
 				drawLabel(g2);
 			}

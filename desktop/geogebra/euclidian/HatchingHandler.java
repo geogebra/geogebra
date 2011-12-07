@@ -11,6 +11,7 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
@@ -124,7 +125,7 @@ public class HatchingHandler {
 	public static void setTexture(Graphics2D g2, GeoElement geo, float alpha) {
 
 		if(geo.getFillImage() == null){
-			g2.setPaint(geo.getFillColor()); 
+			g2.setPaint((Paint) geo.getFillColor().getAwtColor()); 
 			return;
 		}
 
@@ -145,7 +146,7 @@ public class HatchingHandler {
 			// set total transparency
 			g2d.setComposite(AlphaComposite.Src);
 
-			Color bgColor = geo.getBackgroundColor();
+			Color bgColor = (Color) geo.getBackgroundColor().getAwtColor();
 
 			// paint background transparent
 			if (bgColor == null)

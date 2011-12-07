@@ -121,7 +121,7 @@ public class MiniStyle{
 
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = (GeoElement)geos.get(i);
-			geo.setObjColor(color);
+			geo.setObjColor(new geogebra.awt.Color(color));
 			geo.updateRepaint();
 		}
 	}
@@ -167,7 +167,7 @@ public class MiniStyle{
 
 			geo.setLineThickness(lineSize);
 			geo.setLineType(lineStyle);
-			geo.setObjColor(color);
+			geo.setObjColor(new geogebra.awt.Color(color));
 			geo.setAlphaValue(alpha);
 
 			geo.update();

@@ -184,7 +184,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		setGeoElement(new GeoPolygon3D(kernel.getConstruction(),null));
 		
-		getGeoElement().setObjColor(ConstructionDefaults3D.colPolygon3D);
+		getGeoElement().setObjColor(new geogebra.awt.Color(ConstructionDefaults3D.colPolygon3D));
 		getGeoElement().setAlphaValue(ConstructionDefaults3D.DEFAULT_POLYGON3D_ALPHA);
 		getGeoElement().setIsPickable(false);
 		
@@ -254,7 +254,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			point = (GeoPointND) i.next();
 			sp.add(point);
 			DrawSegment3D s = new DrawSegment3D(getView3D(),sp);
-			s.getGeoElement().setObjColor(ConstructionDefaults3D.colPolygon3D);
+			s.getGeoElement().setObjColor(new geogebra.awt.Color(ConstructionDefaults3D.colPolygon3D));
 			segments.add(s);
 			getView3D().addToDrawable3DLists(s);
 		}

@@ -1077,7 +1077,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 		if (blackWhiteMode) {
 			geo.setAlphaValue(0f);
-			geo.setObjColor(Color.black);
+			geo.setObjColor(new geogebra.awt.Color(Color.black));
 		}
 	}
 

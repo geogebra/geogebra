@@ -147,7 +147,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		freePoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point3D" + strFree);
-		freePoint.setObjColor(colPoint);
+		freePoint.setObjColor(new geogebra.awt.Color(colPoint));
 		//freePoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_FREE, freePoint);
 		
@@ -156,7 +156,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		depPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point3D" + strDependent);
-		depPoint.setObjColor(colDepPoint);
+		depPoint.setObjColor(new geogebra.awt.Color(colDepPoint));
 		//depPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_DEPENDENT, depPoint);
 		
@@ -165,7 +165,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		pathPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("Point3DOn");
-		pathPoint.setObjColor(colPathPoint);
+		pathPoint.setObjColor(new geogebra.awt.Color(colPathPoint));
 		//pathPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_ON_PATH, pathPoint);
 		
@@ -174,7 +174,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		regionPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("Point3DInRegion");
-		regionPoint.setObjColor(colRegionPoint);
+		regionPoint.setObjColor(new geogebra.awt.Color(colRegionPoint));
 		//regionPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_IN_REGION, regionPoint);
 		
@@ -200,21 +200,21 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoLine3D lineIntersection = new GeoLine3D(cons);
 		//line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		lineIntersection.setLocalVariableLabel("Line3D" + strIntersection);
-		lineIntersection.setObjColor(colIntersectionLine);
+		lineIntersection.setObjColor(new geogebra.awt.Color(colIntersectionLine));
 		defaultGeoElements.put(DEFAULT_LINE3D_INTERSECTION, lineIntersection);		
 		
 		// segment intersection
 		GeoSegment3D segmentIntersection = new GeoSegment3D(cons);
 		//segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		segmentIntersection.setLocalVariableLabel("Segment3D" + strIntersection);
-		lineIntersection.setObjColor(colIntersectionLine);
+		lineIntersection.setObjColor(new geogebra.awt.Color(colIntersectionLine));
 		defaultGeoElements.put(DEFAULT_SEGMENT3D_INTERSECTION, segmentIntersection);		
 
 		// ray intersection
 		GeoRay3D rayIntersection = new GeoRay3D(cons);
 		//ray.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		rayIntersection.setLocalVariableLabel("Ray3D" + strIntersection);
-		lineIntersection.setObjColor(colIntersectionLine);
+		lineIntersection.setObjColor(new geogebra.awt.Color(colIntersectionLine));
 		defaultGeoElements.put(DEFAULT_RAY3D_INTERSECTION, rayIntersection);		
 		
 		
@@ -227,7 +227,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// vector 3D
 		GeoVector3D vector = new GeoVector3D(cons);
 		//vector.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		vector.setObjColor(colVector);
+		vector.setObjColor(new geogebra.awt.Color(colVector));
 		vector.setLocalVariableLabel("Vector3D");
 		defaultGeoElements.put(DEFAULT_VECTOR3D, vector);		
 		
@@ -236,14 +236,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoConic3D conic = new GeoConic3D(cons);	
 		conic.setLocalVariableLabel("Conic3D");
 		//conic.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		conic.setObjColor(colConic3D);
+		conic.setObjColor(new geogebra.awt.Color(colConic3D));
 		defaultGeoElements.put(DEFAULT_CONIC3D, conic);
 		
 		
 		// conic intersection
 		GeoConic3D conicIntersection = new GeoConic3D(cons);	
 		conicIntersection.setLocalVariableLabel("Conic3D" + strIntersection);
-		conicIntersection.setObjColor(colIntersectionCurve);
+		conicIntersection.setObjColor(new geogebra.awt.Color(colIntersectionCurve));
 		defaultGeoElements.put(DEFAULT_CONIC3D_INTERSECTION, conicIntersection);
 		
 		
@@ -251,14 +251,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoCurveCartesian3D curve = new GeoCurveCartesian3D(cons);	
 		curve.setLocalVariableLabel("Curve3D");
 		//curve.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-		curve.setObjColor(colCurveCartesian3D);
+		curve.setObjColor(new geogebra.awt.Color(colCurveCartesian3D));
 		defaultGeoElements.put(DEFAULT_CURVECARTESIAN3D, curve);
 		
 			
 		// plane
 		GeoPlane3D plane = new GeoPlane3D(cons);	
 		plane.setLocalVariableLabel("Plane3D");
-		plane.setObjColor(colPlane3D);
+		plane.setObjColor(new geogebra.awt.Color(colPlane3D));
 		plane.setAlphaValue(DEFAULT_PLANE3D_ALPHA);
 		plane.setLineThickness(DEFAULT_PLANE3D_GRID_THICKNESS);
 		plane.setFading(DEFAULT_PLANE3D_FADING);
@@ -283,14 +283,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);	
 		quadric.setLocalVariableLabel("Quadric");
-		quadric.setObjColor(colQuadric);
+		quadric.setObjColor(new geogebra.awt.Color(colQuadric));
 		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
 		
 		// limited quadric
 		GeoQuadric3D limitedQuadric = new GeoQuadric3D(cons);	
 		limitedQuadric.setLocalVariableLabel("QuadricLimited");
-		limitedQuadric.setObjColor(colPolyhedron);
+		limitedQuadric.setObjColor(new geogebra.awt.Color(colPolyhedron));
 		limitedQuadric.setAlphaValue(DEFAULT_QUADRIC_LIMITED_ALPHA);
 		defaultGeoElements.put(DEFAULT_QUADRIC_LIMITED, limitedQuadric);
 
@@ -298,14 +298,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// function n var
 		GeoFunctionNVar function = new GeoFunctionNVar(cons);	
 		function.setLocalVariableLabel("function");
-		function.setObjColor(colQuadric);
+		function.setObjColor(new geogebra.awt.Color(colQuadric));
 		function.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_FUNCTION_NVAR, function);
 	
 		// surface
 		GeoSurfaceCartesian3D surface = new GeoSurfaceCartesian3D(cons);	
 		surface.setLocalVariableLabel("surface");
-		surface.setObjColor(colQuadric);
+		surface.setObjColor(new geogebra.awt.Color(colQuadric));
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 	}

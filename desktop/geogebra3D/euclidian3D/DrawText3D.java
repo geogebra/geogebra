@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 
+import java.awt.Color;
 import java.awt.Font;
 
 import geogebra.common.kernel.Matrix.Coords;
@@ -44,7 +45,7 @@ public class DrawText3D extends Drawable3DCurves {
 				
 		label.update(text.getTextString(), 
 				getFont(), 
-				getGeoElement().getObjectColor(),
+				(Color) getGeoElement().getObjectColor().getAwtColor(),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
 

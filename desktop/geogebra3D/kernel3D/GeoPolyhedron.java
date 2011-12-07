@@ -671,7 +671,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	public void setObjColor(Color color) {
 
-		super.setObjColor(color);
+		super.setObjColor(new geogebra.awt.Color(color));
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setObjColor(color);
@@ -684,12 +684,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
-			segment.setObjColor(color);
+			segment.setObjColor(new geogebra.awt.Color(color));
 			segment.updateVisualStyle();
 		}
 
 		for (GeoSegmentND segment : segmentsLinked.values()) {
-			segment.setObjColor(color);
+			segment.setObjColor(new geogebra.awt.Color(color));
 			segment.updateVisualStyle();
 		}
 

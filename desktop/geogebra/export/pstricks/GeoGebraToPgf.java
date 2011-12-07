@@ -539,7 +539,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=geo.getObjectColor();
+		Color geocolor=(Color) geo.getObjectColor().getAwtColor();
 		codePoint.append("\\draw[color=");
 		ColorCode(geocolor,codePoint);
 		codePoint.append("] ");
@@ -847,7 +847,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	}
         // create point for slider
         GeoPoint geoPoint = new GeoPoint(construction);
-        geoPoint.setObjColor(geo.getObjectColor());
+        geoPoint.setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
         String label=Util.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
     	double param =  (value - min) / (max - min);
@@ -953,7 +953,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			startBeamer(code);
 			code.append("\\draw ");
 			// Color
-			Color geocolor = geo.getObjectColor();
+			Color geocolor = (Color) geo.getObjectColor().getAwtColor();
 			if (!geocolor.equals(Color.BLACK)) {
 				code.append("[color=");
 				ColorCode(geocolor, code);
@@ -982,7 +982,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append("\\draw ");
 			
 			// Color
-			Color geocolor=geo.getObjectColor();
+			Color geocolor=(Color) geo.getObjectColor().getAwtColor();
 			if (!geocolor.equals(Color.BLACK)){
 				code.append("[color=");
 				ColorCode(geocolor,code);
@@ -1691,7 +1691,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double z=gp.getZ();
 			x=x/z;
 			y=y/z;
-			Color dotcolor=gp.getObjectColor();
+			Color dotcolor=(Color) gp.getObjectColor().getAwtColor();
 			double dotsize=gp.getPointSize();
 			int dotstyle=gp.getPointStyle();
 			
@@ -2154,7 +2154,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				double yLabel=drawGeo.getyLabel();
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
-				Color geocolor=geo.getObjectColor();
+				Color geocolor=(Color) geo.getObjectColor().getAwtColor();
 				startBeamer(codePoint);			
 				FontMetrics fm=euclidianView.getFontMetrics(euclidianView.getFont());
 				int width=fm.stringWidth(Util.toLaTeXString(geo.getLabelDescription(),true));
@@ -2354,7 +2354,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=geo.getObjectColor();
+		Color linecolor=(Color) geo.getObjectColor().getAwtColor();
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 

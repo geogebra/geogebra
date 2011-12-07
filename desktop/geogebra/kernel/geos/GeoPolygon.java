@@ -413,7 +413,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	  */
 	 protected GeoSegmentND createSegment(GeoSegmentND segment, boolean euclidianVisible){
 		 // refresh color to ensure segments have same color as polygon:
-		 segment.setObjColor(getObjectColor()); 
+		 segment.setObjColor((geogebra.awt.Color)getObjectColor()); 
 		 segment.setLineThickness(getLineThickness()); 
 		 segment.setEuclidianVisible(euclidianVisible);
 		 
@@ -739,10 +739,10 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 
    public void setObjColor(Color color) {
-   		super.setObjColor(color);
+   		super.setObjColor(new geogebra.awt.Color(color));
    		if (segments != null && createSegments) {
    			for (int i=0; i < segments.length; i++) {
-   				segments[i].setObjColor(color);
+   				segments[i].setObjColor(new geogebra.awt.Color(color));
    				segments[i].update();
    			}
    		}	

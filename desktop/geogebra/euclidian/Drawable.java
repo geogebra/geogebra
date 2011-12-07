@@ -30,6 +30,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -923,7 +924,7 @@ public abstract class Drawable extends DrawableND {
 		if (geo.getFillType()==GeoElement.FILL_HATCH) {
 
 			// use decoStroke as it is always full (not dashed/dotted etc)
-			HatchingHandler.setHatching(g2, decoStroke, geo.getObjectColor(), geo.getBackgroundColor(), geo.getAlphaValue(), geo.getHatchingDistance(), geo.getHatchingAngle());
+			HatchingHandler.setHatching(g2, decoStroke, (Color) geo.getObjectColor().getAwtColor(), (Color) geo.getBackgroundColor().getAwtColor(), geo.getAlphaValue(), geo.getHatchingDistance(), geo.getHatchingAngle());
 			if (usePureStroke)
 				Drawable.fillWithValueStrokePure(shape, g2);
 			else
@@ -937,7 +938,7 @@ public abstract class Drawable extends DrawableND {
 		}
 		else if (geo.getAlphaValue() > 0.0f)
 		{
-			g2.setPaint(geo.getFillColor());
+			g2.setPaint((Paint) geo.getFillColor().getAwtColor());
 			g2.fill(shape);
 
 		}

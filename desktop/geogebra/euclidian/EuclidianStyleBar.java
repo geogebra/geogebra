@@ -853,7 +853,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 					if(geosOK){
 						// get color from first geo
 						Color geoColor;
-						geoColor = ((GeoElement) geos[0]).getObjectColor();
+						geoColor = (Color) ((GeoElement) geos[0]).getObjectColor().getAwtColor();
 						
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha value
@@ -915,7 +915,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				if(geosOK){
 					// get color from first geo
 					Color geoColor;
-					geoColor = ((GeoElement) geos[0]).getBackgroundColor();
+					geoColor = (Color) ((GeoElement) geos[0]).getBackgroundColor().getAwtColor();
 					
 					/*
 					// check if selection contains a fillable geo
@@ -987,7 +987,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 				if(geosOK){
 					GeoElement geo = ((GeoElement)geos[0]).getGeoElementForPropertiesDialog(); 
-					geoColor = geo.getObjectColor();
+					geoColor = (Color) geo.getObjectColor().getAwtColor();
 					updateColorTable();
 					
 					// find the geoColor in the table and select it 
@@ -1478,8 +1478,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			GeoElement geo = geos.get(i);
 			// apply object color to all other geos except images or text
 			if(!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo.getGeoElementForPropertiesDialog() instanceof GeoText))
-				if((geo.getObjectColor() != color || geo.getAlphaValue() != alpha) ){
-					geo.setObjColor(color);
+				if((geo.getObjectColor().getAwtColor() != color || geo.getAlphaValue() != alpha) ){
+					geo.setObjColor(new geogebra.awt.Color(color));
 					//if we change alpha for functions, hit won't work properly
 					if(geo.isFillable())
 						geo.setAlphaValue(alpha);
@@ -1502,8 +1502,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 			// if text geo, then apply background color 
 			if(geo instanceof TextProperties)
-				if(geo.getBackgroundColor() != color || geo.getAlphaValue() != alpha ){
-					geo.setBackgroundColor(color);
+				if(geo.getBackgroundColor().getAwtColor() != color || geo.getAlphaValue() != alpha ){
+					geo.setBackgroundColor(new geogebra.awt.Color(color));
 					// TODO apply background alpha 
 					// --------
 					geo.updateRepaint();
@@ -1517,8 +1517,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		Color color = btnTextColor.getSelectedColor();
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = geos.get(i);
-			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()) instanceof TextProperties && geo.getObjectColor() != color){
-				geo.setObjColor(color);
+			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()) instanceof TextProperties && geo.getObjectColor().getAwtColor() != color){
+				geo.setObjColor(new geogebra.awt.Color(color));
 				geo.updateRepaint();
 				needUndo = true;
 			}

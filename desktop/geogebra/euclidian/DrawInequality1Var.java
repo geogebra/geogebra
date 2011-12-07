@@ -7,6 +7,7 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -49,13 +50,13 @@ public class DrawInequality1Var extends Drawable {
 		int i = 0;
 		while (i < gp.length && gp[i] != null) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geo.getSelColor());
+				g2.setPaint((Paint) geo.getSelColor().getAwtColor());
 				g2.setStroke(selStroke);
 				Drawable.drawWithValueStrokePure(gp[i], g2);
 			}			
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
 				g2.setStroke(EuclidianView.getStroke(geo.lineThickness / 2.0f, ineq
 						.getFunBorder().lineType));
 				Drawable.drawWithValueStrokePure(gp[i], g2);
@@ -68,13 +69,13 @@ public class DrawInequality1Var extends Drawable {
 			return;
 		while (i < circle.length && circle[i] != null) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geo.getSelColor());
+				g2.setPaint((Paint) geo.getSelColor().getAwtColor());
 				g2.setStroke(selStroke);
 				Drawable.drawWithValueStrokePure(circle[i], g2);
 			}	
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
 				g2.setStroke(EuclidianView.getStroke(geo.lineThickness / 2.0f,
 						EuclidianStyleConstants.LINE_TYPE_FULL));
 				Drawable.drawWithValueStrokePure(circle[i], g2);

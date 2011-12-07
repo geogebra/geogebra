@@ -651,7 +651,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			setRegion(null);
 			// change the color
 			if (getObjectColor().equals(ConstructionDefaults.colRegionPoint))
-				setObjColor(ConstructionDefaults.colPoint);
+				setObjColor(new geogebra.awt.Color(ConstructionDefaults.colPoint));
 			// move from Dependent to Independent in AlgebraView
 			if (app.isUsingFullGui())
 				((AlgebraView) (app.getAlgebraView()))

@@ -387,7 +387,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 	protected void setStyle(GeoSegmentND segment) {
 		//TODO:  set styles in somewhere else
 		segment.setLineThickness(THICK_LINE_WITHIN_LINE); 
-		segment.setObjColor(BLUE_VIOLET);
+		segment.setObjColor(new geogebra.awt.Color(BLUE_VIOLET));
 	}
 
 	@Override

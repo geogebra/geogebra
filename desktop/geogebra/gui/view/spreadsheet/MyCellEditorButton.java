@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoElement;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,7 +55,7 @@ public class MyCellEditorButton extends AbstractCellEditor implements TableCellE
 			delegate.setOpaque(true);
 			delegate.setHorizontalAlignment(SwingConstants.CENTER);
 		//	delegate.setFont(view.fontPoint);
-			delegate.setForeground(editGeo.getObjectColor());
+			delegate.setForeground((Color) editGeo.getObjectColor().getAwtColor());
 		  
 	    return delegate;
 	  }

@@ -254,13 +254,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	// ///////////////////////
 
 	public void setObjColor(Color color) {
-		super.setObjColor(color);
+		super.setObjColor(new geogebra.awt.Color(color));
 		if (bottom == null)
 			return;
-		bottom.setObjColor(color);
+		bottom.setObjColor(new geogebra.awt.Color(color));
 		if (top != null)
-			top.setObjColor(color);
-		side.setObjColor(color);
+			top.setObjColor(new geogebra.awt.Color(color));
+		side.setObjColor(new geogebra.awt.Color(color));
 
 	}
 

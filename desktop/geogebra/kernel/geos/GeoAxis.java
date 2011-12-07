@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import java.awt.Color;
+import geogebra.awt.Color;
 
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;

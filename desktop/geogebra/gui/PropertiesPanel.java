@@ -1236,7 +1236,9 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			float alpha = 1;
 			
 			if(equalObjColorBackground){
-				selectedBGColor  = geo0.getBackgroundColor();
+				geogebra.awt.Color tempColor = (geogebra.awt.Color) geo0.getBackgroundColor();
+				selectedBGColor  = (tempColor == null) ? null : (Color) geo0.getBackgroundColor().getAwtColor();
+				
 			}
 			
 			if(this.rbtnBackgroundColor.isSelected())
@@ -1245,10 +1247,10 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				// set selectedColor if all selected geos have the same color
 				if (equalObjColor) {
 					if (allFillable) {
-						selectedColor = geo0.getFillColor();
+						selectedColor = (Color) geo0.getFillColor().getAwtColor();
 						alpha = geo0.getAlphaValue();
 					} else {
-						selectedColor = geo0.getObjectColor();
+						selectedColor = (Color) geo0.getObjectColor().getAwtColor();
 					}
 				} 
 			}	
@@ -1332,12 +1334,12 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				geo = (GeoElement) geos[i];
 
 				if(hasBackground && rbtnBackgroundColor.isSelected()){
-					geo.setBackgroundColor(col);
+					geo.setBackgroundColor(new geogebra.awt.Color(col));
 				}
 				else
 				{
 					if(!updateAlphaOnly)
-						geo.setObjColor(col);
+						geo.setObjColor(new geogebra.awt.Color(col));
 					if(allFillable)
 						geo.setAlphaValue(alpha);
 				}
@@ -6506,7 +6508,7 @@ class ColorFunctionPanel
 		nameLabelA.setVisible(someFillable);
 		
 		GeoElement geo = (GeoElement)geos[0];
-		Color col = geo.getObjectColor();
+		Color col = (Color) geo.getObjectColor().getAwtColor();
 		defaultR = "" + col.getRed() / 255.0;
 		defaultG = "" + col.getGreen() / 255.0;
 		defaultB = "" + col.getBlue() / 255.0;

@@ -69,7 +69,7 @@ import geogebra.common.util.Unicode;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.kernel.algos.AlgoElement;
 
-import java.awt.Color;
+import geogebra.common.awt.Color;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -861,7 +861,7 @@ public abstract class GeoElement
 
 		//selColor = getInverseColor(objColor);
 		selColor =
-			new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+				kernel.getColorAdapter(color.getRed(), color.getGreen(), color.getBlue(), 100);
 	}
 	/**
 	 * Returns true if color was explicitly set
@@ -928,7 +928,7 @@ public abstract class GeoElement
 			redD = (rgb>>16)&0xFF;
 			greenD = (rgb>>8)&0xFF;
 			blueD = rgb&0xFF;
-			return new Color((int)redD, (int)greenD, (int)blueD, alpha);
+			return kernel.getColorAdapter((int)redD, (int)greenD, (int)blueD, alpha);
 
 		case GeoElement.COLORSPACE_HSL:
 
@@ -960,13 +960,13 @@ public abstract class GeoElement
 
 			double m = L-.5*C;
 
-			Color c = new Color((int)((R1+m)*255.0), (int)((G1+m)*255.0), (int)((B1+m)*255.0), alpha);
+			Color c = kernel.getColorAdapter((int)((R1+m)*255.0), (int)((G1+m)*255.0), (int)((B1+m)*255.0), alpha);
 			return c;
 
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
-			return new Color((int)(redD*255.0), (int)(greenD*255.0), (int)(blueD*255.0), alpha);
+			return kernel.getColorAdapter((int)(redD*255.0), (int)(greenD*255.0), (int)(blueD*255.0), alpha);
 
 		}
 
@@ -1140,7 +1140,7 @@ public abstract class GeoElement
 
 		float[] rgb = new float[3];
 		fillColor.getRGBColorComponents(rgb);
-		fillColor = new Color(rgb[0], rgb[1], rgb[2], alpha);
+		fillColor = kernel.getColorAdapter(rgb[0], rgb[1], rgb[2], alpha);
 	}
 
 	public float getAlphaValue() {
@@ -3607,7 +3607,7 @@ public abstract class GeoElement
 			}
 
 			if (colored) {
-				ColorAdapter colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());				
+				Color colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());				
 				sbLongDescHTML.append("<b><font color=\"#");
 				sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
 				sbLongDescHTML.append("\">");
@@ -4059,7 +4059,7 @@ public abstract class GeoElement
 		}
 
 		if (colored) {
-			ColorAdapter colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
+			Color colorAdapter = kernel.getColorAdapter(getAlgebraColor().getRed(), getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
 			sbNameDescriptionHTML.append(StringUtil.toHexString(colorAdapter));
 			sbNameDescriptionHTML.append("\">");

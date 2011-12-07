@@ -319,8 +319,8 @@ public class TextPreviewPanel extends EuclidianView {
 		if(isErrorMessage)
 		{
 			geo.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_TEXT));					
-			geo.setObjColor(Color.red);
-			geo.setBackgroundColor(Color.white);
+			geo.setObjColor(new geogebra.awt.Color(Color.red));
+			geo.setBackgroundColor(new geogebra.awt.Color(Color.white));
 			//geo.setFontSize(app.getFontSize());
 			geo.setFontStyle(Font.ITALIC);
 			geo.setLaTeX(false, true);
@@ -333,7 +333,7 @@ public class TextPreviewPanel extends EuclidianView {
 				geo.setVisualStyle(targetGeo);
 			} else {
 				if (isLaTeX) geo.setSerifFont(true);
-				geo.setObjColor(Color.black);
+				geo.setObjColor(new geogebra.awt.Color(Color.black));
 			}
 			geo.setLaTeX(isLaTeX, true);
 		}

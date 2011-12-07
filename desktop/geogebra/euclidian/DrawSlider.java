@@ -21,6 +21,7 @@ import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
@@ -136,7 +137,7 @@ public class DrawSlider extends Drawable {
     final public void draw(Graphics2D g2) {
         if (isVisible) {                        
         	// horizontal line
-            g2.setPaint(geo.getObjectColor());             
+            g2.setPaint((Paint) geo.getObjectColor().getAwtColor());             
             g2.setStroke(objStroke); 
             g2.draw(line);                 
                 

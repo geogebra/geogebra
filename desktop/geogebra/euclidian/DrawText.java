@@ -22,6 +22,7 @@ import geogebra.main.Application;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 
 /**
@@ -169,7 +170,7 @@ public final class DrawText extends Drawable {
 				
 				eqn.setFontname(Application.STANDARD_FONT_NAME);
 				setEqnFontSize();																												
-				eqn.setForeground(geo.getObjectColor());		
+				eqn.setForeground(geo.getObjectColor().getAwtColor());		
 				eqn.setBackground(view.getBackground());
 	
 //			// set equation 
@@ -199,7 +200,7 @@ public final class DrawText extends Drawable {
 		{									
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX) 
-				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont, geo.getObjectColor(),view.getBackground());
+				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont, (Color) geo.getObjectColor().getAwtColor(),view.getBackground());
 			else 
 				drawMultilineText(view.getTempGraphics2D(textFont));	
 			
@@ -216,12 +217,12 @@ public final class DrawText extends Drawable {
     final public void draw(Graphics2D g2) { 
         if (isVisible) {
         	
-        	Color bg = geo.getBackgroundColor();
+        	Color bg = (Color) geo.getBackgroundColor().getAwtColor();
         	
         	if (bg != null) {
         		
         		// needed to calculate labelRectangle
-    			if (isLaTeX) drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont, geo.getObjectColor(), view.getBackground());
+    			if (isLaTeX) drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont, (Color) geo.getObjectColor().getAwtColor(), view.getBackground());
     			else drawMultilineText(view.getTempGraphics2D(textFont));   
     			
 				g2.setStroke(objStroke);
@@ -230,13 +231,13 @@ public final class DrawText extends Drawable {
         	}
         	
 			if (isLaTeX) {
-        		g2.setPaint(geo.getObjectColor());				
+        		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());				
     			g2.setFont(textFont);    			
     			g2.setStroke(objStroke); // needed eg for \sqrt
-    			drawMultilineLaTeX(g2, textFont, geo.getObjectColor(),bg != null ? bg : view.getBackground());       
+    			drawMultilineLaTeX(g2, textFont, (Color) geo.getObjectColor().getAwtColor(),bg != null ? bg : view.getBackground());       
         	} 
         	else {
-        		g2.setPaint(geo.getObjectColor());				
+        		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());				
     			g2.setFont(textFont);    	
     			drawMultilineText(g2);   
         	}   

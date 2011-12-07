@@ -2,7 +2,7 @@ package geogebra.awt;
 
 
 
-public class Color implements geogebra.common.awt.Color {
+public class Color extends geogebra.common.awt.Color {
 
 	
 	public static final Color white = new Color(255,255,255);
@@ -25,8 +25,14 @@ public class Color implements geogebra.common.awt.Color {
 	public static final Color gray = new Color(128, 128, 128);
 	public static final Color darkGray = new Color(68, 68, 68);
 	
+	private static final double FACTOR = 0.7;
+	
 	private java.awt.Color adaptedColor = new java.awt.Color(0, 0, 0);
 
+	public Color(int r, int g, int b, int alpha) {
+		adaptedColor = new java.awt.Color(r,g,b,alpha); 
+	}
+	
 	public Color(float r, float g, float b, float alpha) {
 		adaptedColor = new java.awt.Color(r,g,b,alpha); 
 	}
@@ -48,8 +54,12 @@ public class Color implements geogebra.common.awt.Color {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Color(float f, float g, float h) {
+		adaptedColor = new java.awt.Color(f,g,h);
+	}
+
 	public void getRGBColorComponents(float[] rgb) {
-		adaptedColor.getRGBComponents(rgb);
+		adaptedColor.getRGBColorComponents(rgb);
 	}
 
 	public int getBlue() {
@@ -85,4 +95,10 @@ public class Color implements geogebra.common.awt.Color {
 		// TODO Auto-generated method stub
 		return new Color(java.awt.Color.getHSBColor(h, s, b));
 	}
+	
+    public Color darker() {
+    	return new Color(Math.max((int)(getRed()  *FACTOR), 0), 
+			 Math.max((int)(getGreen()*FACTOR), 0),
+			 Math.max((int)(getBlue() *FACTOR), 0));
+    }
 }

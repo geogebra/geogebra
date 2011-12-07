@@ -29,6 +29,7 @@ import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.kernelND.GeoVectorND;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -222,19 +223,19 @@ public class DrawVector extends Drawable implements Previewable {
         	}
         	
             if (geo.doHighlighting()) {
-                g2.setPaint(((GeoElement) v).getSelColor());
+                g2.setPaint((Paint) ((GeoElement) v).getSelColor().getAwtColor());
                 g2.setStroke(selStroke);            
                 if (lineVisible) g2.draw(line);       
             }
             
-            g2.setPaint(((GeoElement) v).getObjectColor());
+            g2.setPaint((Paint) ((GeoElement) v).getObjectColor().getAwtColor());
 			g2.setStroke(objStroke);  
 			if (lineVisible) g2.draw(line);              
 			if (arrowheadVisible) g2.fill(gp);
                                               
             if (labelVisible) {
 				g2.setFont(view.fontVector);
-				g2.setPaint(((GeoElement) v).getLabelColor());
+				g2.setPaint((Paint) ((GeoElement) v).getLabelColor().getAwtColor());
 				drawLabel(g2);
             }            
         }
@@ -242,7 +243,7 @@ public class DrawVector extends Drawable implements Previewable {
     
     
 	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(((GeoElement) v).getObjectColor());
+		g2.setPaint((Paint) ((GeoElement) v).getObjectColor().getAwtColor());
 		g2.setStroke(objStroke);  
 		if (lineVisible) g2.draw(line);  
 		if (arrowheadVisible) g2.fill(gp);       

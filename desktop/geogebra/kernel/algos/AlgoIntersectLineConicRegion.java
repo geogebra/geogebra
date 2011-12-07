@@ -98,7 +98,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         for (int i = 0; i<4; i++) {
         	setOutputDependencies(lines[i]);
            	lines[i].setLineThickness(THICK_LINE_WITHIN_LINE); 
-            lines[i].setObjColor(BLUE_VIOLET);
+            lines[i].setObjColor(new geogebra.awt.Color(BLUE_VIOLET));
         }
         
         //paramSet.add(tMin);

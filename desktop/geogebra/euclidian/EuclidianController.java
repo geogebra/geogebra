@@ -7985,7 +7985,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			
 			for (int i = 0 ; i < geos.size() ; i++) {
 				GeoElement geo = (GeoElement)geos.get(i);
-				geo.setObjColor(color);
+				geo.setObjColor(new geogebra.awt.Color(color));
 				geo.updateRepaint();
 			}
 	//	}

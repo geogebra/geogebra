@@ -27,6 +27,7 @@ import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.Transform;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
+import geogebra.common.awt.Color;
 import java.util.HashSet;
 
 /**
@@ -649,7 +650,18 @@ GeoSegmentND {
 
 	public boolean isAllEndpointsLabelsSet() {
 		return !forceSimpleTransform && startPoint.isLabelSet() && endPoint.isLabelSet();		
-	} 
-
+	}
 	
+	
+	/* TODO: remove this function, if the GeoSegmentND class already uses
+	 * geogebra.common.awt.Color
+	 * instead of another Color classes
+	 * 
+	 */
+	public void setObjColor(geogebra.awt.Color objectColor) {
+		GeoElement thisSegment = (GeoElement) this;
+		thisSegment.setObjColor(objectColor);
+		
+	}
+
 }

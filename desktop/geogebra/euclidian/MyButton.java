@@ -40,7 +40,7 @@ public class MyButton extends JButton {
 
 		GradientPaint p;
 
-		Color bg = geoButton.getBackgroundColor(), bg2;
+		Color bg = (Color) geoButton.getBackgroundColor().getAwtColor(), bg2;
 		if (bg == null) bg = Color.LIGHT_GRAY;
 		if (isSelected()) {
 			bg2 = bg;
@@ -65,7 +65,7 @@ public class MyButton extends JButton {
 		g2.setStroke(EuclidianView.standardStroke);           	
 		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, getHeight() / 3, getHeight() / 3);
 
-		g2.setColor(geoButton.getObjectColor());
+		g2.setColor((Color) geoButton.getObjectColor().getAwtColor());
 		
 		Font f = getFont();
 		

@@ -60,9 +60,9 @@ class CmdSetColor extends CmdScripting {
 				
 				
 				if (background)
-					arg[0].setBackgroundColor(col);
+					arg[0].setBackgroundColor(new geogebra.awt.Color(col));
 				else
-					arg[0].setObjColor(col);
+					arg[0].setObjColor(new geogebra.awt.Color(col));
 				
 				arg[0].updateRepaint();				
 				
@@ -96,9 +96,9 @@ class CmdSetColor extends CmdScripting {
 					blue = 255;
 
 				if (background)
-					arg[0].setBackgroundColor(new Color(red, green, blue));
+					arg[0].setBackgroundColor(new geogebra.awt.Color(red, green, blue));
 				else
-					arg[0].setObjColor(new Color(red, green, blue));
+					arg[0].setObjColor(new geogebra.awt.Color(red, green, blue));
 				
 				arg[0].updateRepaint();
 				

@@ -51,7 +51,7 @@ public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygona
 
 	protected void setStyle(GeoSegmentND segment) {
 		//TODO use default intersection style for lines
-		segment.setObjColor(Color.red);
+		segment.setObjColor(new geogebra.awt.Color(Color.red));
 	}
 	
 	protected void calcLineInPlaneOfPolygon() {

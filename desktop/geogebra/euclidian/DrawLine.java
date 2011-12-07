@@ -29,7 +29,9 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVec3D;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -359,27 +361,27 @@ public class DrawLine extends Drawable implements Previewable {
         if (isVisible) {        	
             if (geo.doHighlighting()) {
                 // draw line              
-                g2.setPaint(geo.getSelColor());
+                g2.setPaint((Paint) geo.getSelColor().getAwtColor());
                 g2.setStroke(selStroke);            
                 g2.draw(line);                              
             }
             
             // draw line              
-            g2.setPaint(geo.getObjectColor());
+            g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
             g2.setStroke(objStroke);            
 			g2.draw(line);              
 
             // label
             if (labelVisible) {
 				g2.setFont(view.fontLine);
-				g2.setColor(geo.getLabelColor());
+				g2.setColor((Color) geo.getLabelColor().getAwtColor());
 				drawLabel(g2);
             }                            
         }
     }
         
 	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geo.getObjectColor());
+		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
 		g2.setStroke(objStroke);  
 		g2.draw(line);
 	}

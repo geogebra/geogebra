@@ -3015,7 +3015,7 @@ public class MyXMLHandler implements DocHandler {
 		Color col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
-		geo.setObjColor(col);
+		geo.setObjColor(new geogebra.awt.Color(col));
 
 		// Dynamic colors
 		// Michael Borcherds 2008-04-02
@@ -3091,7 +3091,7 @@ public class MyXMLHandler implements DocHandler {
 		Color col = handleColorAlphaAttrs(attrs);
 		if (col == null)
 			return false;
-		geo.setBackgroundColor(col);
+		geo.setBackgroundColor(new geogebra.awt.Color(col));
 		geo.updateRepaint();
 
 		return true;

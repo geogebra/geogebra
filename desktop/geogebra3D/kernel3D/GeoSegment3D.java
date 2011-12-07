@@ -444,4 +444,15 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	public void setFromPolyhedron(boolean flag) {
 		isFromPolyhedron = flag;
 	}
+	
+	/* TODO: remove this function, if the GeoSegmentND class already uses
+	 * geogebra.common.awt.Color
+	 * instead of another Color classes
+	 * 
+	 */
+	public void setObjColor(geogebra.awt.Color objectColor) {
+		GeoElement thisSegment = (GeoElement) this;
+		thisSegment.setObjColor(objectColor);
+		
+	}
 }

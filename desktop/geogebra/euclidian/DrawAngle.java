@@ -32,6 +32,7 @@ import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
@@ -599,13 +600,13 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(angle.getSelColor());
+				g2.setPaint((Paint) angle.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(shape);
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(angle.getObjectColor());
+				g2.setPaint((Paint) angle.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 			}
@@ -663,7 +664,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 			
 			if (labelVisible) {
-				g2.setPaint(angle.getLabelColor());
+				g2.setPaint((Paint) angle.getLabelColor());
 				g2.setFont(view.fontAngle);
 				drawLabel(g2);
 			}

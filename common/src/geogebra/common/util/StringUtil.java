@@ -1,5 +1,6 @@
 package geogebra.common.util;
 
+import geogebra.common.awt.Color;
 import geogebra.common.awt.ColorAdapter;
 
 public class StringUtil {
@@ -23,6 +24,29 @@ public class StringUtil {
     	hexSB.append(hexChar[i & 0x0f]); // look up low nibble char
     	return hexSB.toString();
     }
+    
+    final public static String toHexString(Color col) {
+    	byte r = (byte) col.getRed();
+    	byte g = (byte) col.getGreen();
+    	byte b = (byte) col.getBlue();
+
+    	if (hexSB == null) hexSB = new StringBuilder(8);
+    	else hexSB.setLength(0);
+    	// RED      
+    	hexSB.append(hexChar[(r & 0xf0) >>> 4]);
+    	// look up high nibble char             
+    	hexSB.append(hexChar[r & 0x0f]); // look up low nibble char
+    	// GREEN
+    	hexSB.append(hexChar[(g & 0xf0) >>> 4]);
+    	// look up high nibble char             
+    	hexSB.append(hexChar[g & 0x0f]); // look up low nibble char
+    	// BLUE     
+    	hexSB.append(hexChar[(b & 0xf0) >>> 4]);
+    	// look up high nibble char             
+    	hexSB.append(hexChar[b & 0x0f]); // look up low nibble char
+    	return hexSB.toString();
+        }
+
     
     final public static String toHexString(ColorAdapter col) {
     	byte r = (byte) col.getRed();

@@ -163,7 +163,7 @@ public final class DrawButton extends Drawable {
 		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
 				geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
 
-		// myButton.setForeground(geo.getObjectColor());
+		// myButton.setForeground(geo.getObjectColor().getAwtColor());
 		// Color bgCol = geo.getBackgroundColor();
 		// myButton.setBackground(Color.red);//bgCol != null ? bgCol :
 		// view.getBackground());

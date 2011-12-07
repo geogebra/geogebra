@@ -26,6 +26,7 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -229,17 +230,17 @@ implements Previewable {
         			fill(g2, shape, false); // fill using default/hatching/image as appropriate
 					
 		            if (geo.doHighlighting()) {
-		                g2.setPaint(geo.getSelColor());
+		                g2.setPaint((Paint) geo.getSelColor().getAwtColor());
 		                g2.setStroke(selStroke);            
 		                g2.draw(shape);       
 		            }
 		            
-		            g2.setPaint(geo.getObjectColor());             
+		            g2.setPaint((Paint) geo.getObjectColor().getAwtColor());             
 		            g2.setStroke(objStroke);            
 					g2.draw(shape);            
 		                        
 		            if (labelVisible) {
-						g2.setPaint(geo.getLabelColor());
+						g2.setPaint((Paint) geo.getLabelColor().getAwtColor());
 						g2.setFont(view.fontLine);
 						drawLabel(g2);
 		            }		
@@ -282,7 +283,7 @@ implements Previewable {
 	final void drawTrace(Graphics2D g2) {
 		switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
 				g2.setStroke(objStroke);  
 				g2.draw(shape);
 				break;

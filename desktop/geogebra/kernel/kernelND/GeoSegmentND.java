@@ -6,7 +6,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.LimitedPath;
 
-import java.awt.Color;
+import geogebra.awt.Color;
 
 /**
  * Simple interface used to join GeoSegment and GeoSegment3D
