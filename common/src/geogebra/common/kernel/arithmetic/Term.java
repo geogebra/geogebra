@@ -16,14 +16,9 @@ the Free Software Foundation.
  * and variables "xy". Variables are sorted alphabetically.
  */
  
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.io.Serializable;
@@ -61,7 +56,7 @@ public class Term implements Comparable, Serializable {
     }
     
     
-    ExpressionValue getCoefficient() {
+    public ExpressionValue getCoefficient() {
         return coefficient;
     }
 

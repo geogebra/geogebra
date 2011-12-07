@@ -19,11 +19,11 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.Equation;
-import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.GeoConic;
 
 /**
