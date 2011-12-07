@@ -4141,31 +4141,4 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
-	public double getDegree(FunctionVariable fv) {
-		if (this.isLeaf()) {
-			if (left.equals(fv)) {
-				return 1.0;
-			}
-
-			return 0.0;
-
-		}
-		if (operation.equals(Operation.POWER) && (left == fv)) {
-			ExpressionValue rt = right.evaluate();
-			if (rt.isNumberValue()) {
-				return ((NumberValue) rt).getDouble();
-			}
-		}
-		if (operation.equals(Operation.MULTIPLY)) {
-			return getLeftTree().getDegree(fv) + getRightTree().getDegree(fv);
-		}
-		if (operation.equals(Operation.PLUS)
-				|| operation.equals(Operation.MINUS)) {
-			return Math.max(getLeftTree().getDegree(fv), getRightTree()
-					.getDegree(fv));
-		}
-		return 0;
-
-	}
-
 }
