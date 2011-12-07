@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -690,7 +691,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				fun.matrixTransform(a11/d,-a01/d,-a10/d,a00/d);				
 		}
 
-		public void dilate(NumberValue r, GeoPoint S) {
+		public void dilate(NumberValue r, GeoPointInterface S) {
 			fun.translate(-S.getX(),-S.getY());
 			fun.matrixTransform(1/r.getDouble(),0,0,1/r.getDouble());
 			fun.translate(S.getX(),S.getY());

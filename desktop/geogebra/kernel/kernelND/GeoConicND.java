@@ -1944,10 +1944,10 @@ Translateable
 	 * @param rval ratio
 	 * @param S fixed point of dilation
 	 */
-	 final public void dilate(NumberValue rval, GeoPoint S) {  
+	 final public void dilate(NumberValue rval, GeoPointInterface S) {  
 	    double r = rval.getDouble();		    	    	    
-	 	double sx = S.inhomX;
-		double sy = S.inhomY;
+	 	double sx = S.getInhomX();
+		double sy = S.getInhomY();
 		
 		// remember Eigenvector orientation
 		boolean oldOrientation = hasPositiveEigenvectorOrientation();

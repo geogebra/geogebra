@@ -31,6 +31,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -343,7 +344,7 @@ Transformable, GeoVectorND {
 
 	}
 
-	public void dilate(NumberValue rval, GeoPoint S) {
+	public void dilate(NumberValue rval, GeoPointInterface S) {
 		double r = rval.getDouble();	
 		setCoords(r * x, r * y, z);
 

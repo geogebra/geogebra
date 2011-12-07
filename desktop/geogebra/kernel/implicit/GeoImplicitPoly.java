@@ -28,6 +28,7 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -45,7 +46,6 @@ import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.geos.ConicMirrorable;
-import geogebra.kernel.geos.Dilateable;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
@@ -1122,7 +1122,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		plugInPoly(new double[][]{{x*(1-cos)+y*sin,-sin},{cos,0}},new double[][]{{-x*sin+y*(1-cos),cos},{sin,0}});
 	}
 
-	public void dilate(NumberValue rval, GeoPoint S) {
+	public void dilate(NumberValue rval, GeoPointInterface S) {
 		double r=1/rval.getDouble();
 		plugInPoly(new double[][]{{(1-r)*S.getInhomX()},{r}},new double[][]{{(1-r)*S.getInhomY(),r}});
 	}

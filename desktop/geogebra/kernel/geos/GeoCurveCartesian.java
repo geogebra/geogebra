@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -403,7 +404,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		matrixTransform(cosPhi, -sinPhi, sinPhi, cosPhi);
 	}
 
-	public void dilate(NumberValue ratio, GeoPoint P) {
+	public void dilate(NumberValue ratio, GeoPointInterface P) {
 		translate(-P.getX(), -P.getY());
 		ExpressionNode exprX = ((Function) funX.deepCopy(kernel))
 				.getExpression();

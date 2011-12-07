@@ -29,6 +29,7 @@ import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -1406,7 +1407,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			((Translateable)points[i]).translate(v);		
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint)points[i]).dilate(r,S);		
 		this.calcArea();

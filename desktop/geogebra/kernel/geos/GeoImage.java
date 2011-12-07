@@ -20,6 +20,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -820,7 +821,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		return true;
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, GeoPointInterface S) {
 		if (!initTransformPoints()) return;
     	
     	// calculate the new corner points

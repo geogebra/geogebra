@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLineInterface;
@@ -559,10 +560,10 @@ GeoLineInterface {
     /**
      * dilate from S by r
      */
-    final public void dilate(NumberValue rval, GeoPoint S) {
+    final public void dilate(NumberValue rval, GeoPointInterface S) {
        double r = rval.getDouble();        
        double temp = (r - 1);
-       z = temp * (x * S.inhomX + y * S.inhomY) + r * z;
+       z = temp * (x * S.getInhomX() + y * S.getInhomY()) + r * z;
        
        x *= r;
        y *= r;

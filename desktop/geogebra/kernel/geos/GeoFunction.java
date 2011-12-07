@@ -31,6 +31,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
@@ -1600,10 +1601,10 @@ GeoFunctionInterface {
 		}
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, GeoPointInterface S) {
 		double rd=r.getNumber().getDouble(),
-		a=S.x,
-		b=S.y;
+		a=S.getX(),
+		b=S.getY();
 		if(AbstractKernel.isZero(rd)){
 			setUndefined();
 			return;

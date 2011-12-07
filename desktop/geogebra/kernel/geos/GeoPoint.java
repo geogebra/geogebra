@@ -43,6 +43,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.Animatable;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -832,11 +833,11 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /**
      * dilate from S by r
      */
-    final public void dilate(NumberValue rval, GeoPoint S) {  
+    final public void dilate(NumberValue rval, GeoPointInterface S) {  
        double r = rval.getDouble();	
        double temp = (1 - r);
-       setCoords(r * x + temp * S.inhomX * z,
-       			 r * y + temp * S.inhomY * z,
+       setCoords(r * x + temp * S.getInhomX() * z,
+       			 r * y + temp * S.getInhomY() * z,
 				 z);    
     } 
     
