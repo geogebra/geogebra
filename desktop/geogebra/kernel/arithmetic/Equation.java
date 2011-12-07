@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.EquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -30,7 +31,7 @@ import java.util.Set;
  * stores left and right hand side of an equation as
  * Exprssions
  */
-public class Equation extends ValidExpression implements ReplaceableValue {
+public class Equation extends ValidExpression implements ReplaceableValue, EquationInterface {
 
     protected ExpressionNode lhs;
     protected ExpressionNode rhs;

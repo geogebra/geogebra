@@ -21,7 +21,9 @@ the Free Software Foundation.
 package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.EquationInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionNodeInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -220,7 +222,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 		// deep copy
 		else if (ev.isPolynomialInstance() || ev.isConstant()
-				|| ev instanceof Command) {
+				|| ev instanceof AbstractCommand) {
 			ret = ev.deepCopy(kernel);
 		} else {
 			ret = ev;
@@ -264,15 +266,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).simplifyAndEvalCommands();
-		} else if (left instanceof Command) {
-			left = ((Command) left).evaluate();
+		} else if (left instanceof AbstractCommand) {
+			left = ((AbstractCommand) left).evaluate();
 		}
 
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).simplifyAndEvalCommands();
-			} else if (right instanceof Command) {
-				right = ((Command) right).evaluate();
+			} else if (right instanceof AbstractCommand) {
+				right = ((AbstractCommand) right).evaluate();
 			}
 		}
 	}
@@ -452,11 +454,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				didReplacement = true;
 			}
 		}
-		else if (left instanceof Command) {
-			didReplacement = ((Command) left).replaceGeoDummyVariables(var, newOb);
+		else if (left instanceof AbstractCommand) {
+			didReplacement = ((AbstractCommand) left).replaceGeoDummyVariables(var, newOb);
 		}
-		else if (left instanceof Equation) {
-			didReplacement = ((Equation) left).replaceGeoDummyVariables(var, newOb);
+		else if (left instanceof EquationInterface) {
+			didReplacement = ((EquationInterface) left).replaceGeoDummyVariables(var, newOb);
 		}
 		else if (left.isExpressionNode()) {
 			didReplacement = ((ExpressionNode) left).replaceGeoDummyVariables(var, newOb);
@@ -470,11 +472,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					didReplacement = true;
 				}
 			} 
-			else if (right instanceof Command) {
-				didReplacement = ((Command) right).replaceGeoDummyVariables(var, newOb);
+			else if (right instanceof AbstractCommand) {
+				didReplacement = ((AbstractCommand) right).replaceGeoDummyVariables(var, newOb);
 			}
-			else if (right instanceof Equation) {
-				didReplacement = ((Equation) right).replaceGeoDummyVariables(var, newOb);
+			else if (right instanceof EquationInterface) {
+				didReplacement = ((EquationInterface) right).replaceGeoDummyVariables(var, newOb);
 			}
 			else if (right.isExpressionNode()) {
 				didReplacement = ((ExpressionNode) right).replaceGeoDummyVariables(var, newOb) || didReplacement;
@@ -824,8 +826,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			((ExpressionNode) left).replaceChildrenByValues(geo);
 		}
 		// handle command arguments
-		else if (left instanceof Command) {
-			((Command) left).replaceChildrenByValues(geo);
+		else if (left instanceof AbstractCommand) {
+			((AbstractCommand) left).replaceChildrenByValues(geo);
 		}
 
 		// right tree
@@ -839,8 +841,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				((ExpressionNode) right).replaceChildrenByValues(geo);
 			}
 			// handle command arguments
-			else if (right instanceof Command) {
-				((Command) right).replaceChildrenByValues(geo);
+			else if (right instanceof AbstractCommand) {
+				((AbstractCommand) right).replaceChildrenByValues(geo);
 			}
 		}
 	}
@@ -878,7 +880,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * transfers every non-polynomial in this tree to a polynomial. This is
 	 * needed to enable polynomial simplification by evaluate()
 	 */
-	final void makePolynomialTree(Equation equ) {
+	final void makePolynomialTree(EquationInterface equ) {
 		
 		if (operation==Operation.FUNCTION_NVAR){
 			if (left instanceof FunctionalNVar && right instanceof MyList){
@@ -1028,14 +1030,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 
 	public void addCommands(Set commands) {
-		if (left instanceof Command) {
-			((Command) left).addCommands(commands);
+		if (left instanceof AbstractCommand) {
+			((AbstractCommand) left).addCommands(commands);
 		} else if (left instanceof ExpressionNode) {
 			((ExpressionNode) left).addCommands(commands);
 		}
 
-		if (right instanceof Command) {
-			((Command) right).addCommands(commands);
+		if (right instanceof AbstractCommand) {
+			((AbstractCommand) right).addCommands(commands);
 		} else if (right instanceof ExpressionNode) {
 			((ExpressionNode) right).addCommands(commands);
 		}
@@ -1743,7 +1745,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					}
 				}
 
-				if (left instanceof Equation) {
+				if (left instanceof EquationInterface) {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -1803,7 +1805,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				break;
 				
 			default:
-				if (left instanceof Equation) {
+				if (left instanceof EquationInterface) {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -3781,12 +3783,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 
 	public boolean isTopLevelCommand() {
-		return isLeaf() && left instanceof Command;
+		return isLeaf() && left instanceof AbstractCommand;
 	}
 
-	public Command getTopLevelCommand() {
+	public AbstractCommand getTopLevelCommand() {
 		if (isTopLevelCommand())
-			return (Command) left;
+			return (AbstractCommand) left;
 		else
 			return null;
 	}
