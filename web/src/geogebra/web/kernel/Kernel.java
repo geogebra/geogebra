@@ -4,11 +4,13 @@ import geogebra.common.awt.Color;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
@@ -240,6 +242,19 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public Color getColorAdapter(float red, float green, float blue, float alpha) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public boolean isZeroTemporarilyGeoBooleanGeoNumeric(GeoElement geo) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public String temporaryGetInterGeoStringForAlgoPointOnPath(
+            String classname, AlgoElement algo) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
