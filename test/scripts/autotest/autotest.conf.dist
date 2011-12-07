@@ -15,3 +15,6 @@ SVN_COMMAND=`which svn`
 
 # Directory for storing vanilla revisions:
 REVDIR=${HOME}/revisions/vanilla
+
+# In seconds:
+WAITBETWEENBUILDS=300
