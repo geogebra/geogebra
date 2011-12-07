@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.roots.RealRootFunction;

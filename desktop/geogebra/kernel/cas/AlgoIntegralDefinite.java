@@ -14,6 +14,7 @@ package geogebra.kernel.cas;
 
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.roots.RealRootFunction;
@@ -34,7 +35,8 @@ import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDrawInformation{
+public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDrawInformation,
+		AlgoIntegralDefiniteInterface{
 
 	private static final long serialVersionUID = 1L;
 	private GeoFunction f; // input

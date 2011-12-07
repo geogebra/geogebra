@@ -29,6 +29,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoClass;
@@ -36,7 +37,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.kernel.cas.AlgoIntegralDefinite;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -275,8 +275,8 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	final public boolean isDefined() {
 		AlgoElement algo;
 		// make sure shaded-only integrals are drawn
-		if ((algo = getParentAlgorithm()) instanceof AlgoIntegralDefinite) {
-			AlgoIntegralDefinite aid = (AlgoIntegralDefinite)algo;
+		if ((algo = getParentAlgorithm()) instanceof AlgoIntegralDefiniteInterface) {
+			AlgoIntegralDefiniteInterface aid = (AlgoIntegralDefiniteInterface)algo;
 			if (aid.evaluateOnly()) return true;
 		}
 		return !Double.isNaN(value);

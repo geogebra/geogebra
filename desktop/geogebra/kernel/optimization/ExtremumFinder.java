@@ -55,6 +55,7 @@ Date        Translator        Changes
 
 package geogebra.kernel.optimization;
 
+import geogebra.common.kernel.optimization.ExtremumFinderInterface;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -75,7 +76,7 @@ import geogebra.common.kernel.roots.RealRootFunction;
 * 
 */
 
-public class ExtremumFinder extends Object {
+public class ExtremumFinder implements ExtremumFinderInterface {
 
 	private int MAX_ITERATIONS = 100;
 

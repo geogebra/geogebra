@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.optimization.ExtremumFinderInterface;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -1917,4 +1918,6 @@ public abstract class AbstractKernel {
 	public abstract boolean isNotifyViewsActive();
 
 	public abstract GeoFunctionInterface DependentFunction(String label, Function fun);
+
+	public abstract ExtremumFinderInterface getExtremumFinder();
 }

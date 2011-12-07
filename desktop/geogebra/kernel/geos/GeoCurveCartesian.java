@@ -13,13 +13,16 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
+import geogebra.common.kernel.ParametricCurveDistanceFunction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -31,10 +34,10 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -46,12 +49,9 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.optimization.ExtremumFinderInterface;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.ParametricCurveDistanceFunction;
-import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.optimization.ExtremumFinder;
 
 import java.util.ArrayList;
 
@@ -201,18 +201,18 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		super.setInterval(startParam, endParam);
 
 		// update isClosedPath, i.e. startPoint == endPoint
-		isClosedPath = Kernel.isEqual(funX.evaluate(startParam),
-				funX.evaluate(endParam), Kernel.MIN_PRECISION)
-				&& Kernel.isEqual(funY.evaluate(startParam),
-						funY.evaluate(endParam), Kernel.MIN_PRECISION);
+		isClosedPath = AbstractKernel.isEqual(funX.evaluate(startParam),
+				funX.evaluate(endParam), AbstractKernel.MIN_PRECISION)
+				&& AbstractKernel.isEqual(funY.evaluate(startParam),
+						funY.evaluate(endParam), AbstractKernel.MIN_PRECISION);
 	}
 
 	@Override
 	public void set(GeoElement geo) {
 		GeoCurveCartesian geoCurve = (GeoCurveCartesian) geo;
 
-		funX = new Function(geoCurve.funX, (Kernel)kernel);
-		funY = new Function(geoCurve.funY, (Kernel)kernel);
+		funX = new Function(geoCurve.funX, kernel);
+		funY = new Function(geoCurve.funY, kernel);
 		startParam = geoCurve.startParam;
 		endParam = geoCurve.endParam;
 		isDefined = geoCurve.isDefined;
@@ -227,7 +227,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				// this object is an output object of AlgoMacro
 				// we need to check the references to all geos in its function's
 				// expression
-				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 				algoMacro.initFunction(funX);
 				algoMacro.initFunction(funY);
 				// System.out.println("   funX after: " +
@@ -652,8 +652,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			// point A is on curve c, take its parameter
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
-			if (distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
-					* Kernel.MIN_PRECISION)
+			if (distFun.evaluate(pathParam) < AbstractKernel.MIN_PRECISION
+					* AbstractKernel.MIN_PRECISION)
 				return pathParam;
 
 			// if we don't have a startValue yet, let's take the path parameter
@@ -681,9 +681,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		// to find minimum
 		double left = Math.max(startParam, minParam - step);
 		double right = Math.min(endParam, minParam + step);
-		ExtremumFinder extFinder = ((Kernel)kernel).getExtremumFinder();
+		ExtremumFinderInterface extFinder = kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
-				Kernel.MIN_PRECISION);
+				AbstractKernel.MIN_PRECISION);
 
 		// if we have a valid startParam we try the intervall around it too
 		// however, we don't check the same intervall again
@@ -692,7 +692,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			left = Math.max(startParam, startValue - step);
 			right = Math.min(endParam, startValue + step);
 			double startValResult = extFinder.findMinimum(left, right, distFun,
-					Kernel.MIN_PRECISION);
+					AbstractKernel.MIN_PRECISION);
 			if (distFun.evaluate(startValResult) < distFun
 					.evaluate(sampleResult)) {
 				return startValResult;

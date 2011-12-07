@@ -39,9 +39,9 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
-import geogebra.kernel.kernelND.SurfaceEvaluable;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c. 

@@ -21,7 +21,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoNumeric;
 
 /**
 <h3>FitRealFunction</h3>
