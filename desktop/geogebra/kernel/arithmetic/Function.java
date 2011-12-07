@@ -23,13 +23,11 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoLine;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -174,7 +172,7 @@ implements RealRootFunction, Functional, FunctionInterface {
         ExpressionValue left = expression.getLeft();
 
         // translate x
-        if (!Kernel.isZero(vx)) {
+        if (!AbstractKernel.isZero(vx)) {
             if (isLeaf && left == fVars[0]) { // special case: f(x) = x
                 expression = shiftXnode(vx);            
              } else {
@@ -185,7 +183,7 @@ implements RealRootFunction, Functional, FunctionInterface {
         }
          
         // translate y
-        if (!Kernel.isZero(vy)) {                       
+        if (!AbstractKernel.isZero(vy)) {                       
             if (isLeaf && left != fVars[0]) { // special case f(x) = constant               
                 MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
                 c.set(AbstractKernel.checkDecimalFraction(c.getDouble() + vy));
@@ -219,7 +217,7 @@ implements RealRootFunction, Functional, FunctionInterface {
                 switch (en.getOperation()) {
                     case PLUS :
                         temp = AbstractKernel.checkDecimalFraction(num.getDouble() - vx);                    
-                        if (Kernel.isZero(temp)) {                      
+                        if (AbstractKernel.isZero(temp)) {                      
                             expression = expression.replaceAndWrap(en, fVars[0]);                          
                         } else if (temp < 0) {
                             en.setOperation(Operation.MINUS);
@@ -231,7 +229,7 @@ implements RealRootFunction, Functional, FunctionInterface {
 
                     case MINUS :
                         temp = AbstractKernel.checkDecimalFraction(num.getDouble() + vx);
-                        if (Kernel.isZero(temp)) {
+                        if (AbstractKernel.isZero(temp)) {
                             expression = expression.replaceAndWrap(en, fVars[0]);                      
                         } else if (temp < 0) {
                             en.setOperation(Operation.PLUS);
@@ -297,7 +295,7 @@ implements RealRootFunction, Functional, FunctionInterface {
             switch (expression.getOperation()) {
                 case PLUS :
                     temp = AbstractKernel.checkDecimalFraction(num.getDouble() + vy);
-                    if (Kernel.isZero(temp)) {
+                    if (AbstractKernel.isZero(temp)) {
                         expression = expression.getLeftTree();
                     } else if (temp < 0) {
                         expression.setOperation(Operation.MINUS);
@@ -309,7 +307,7 @@ implements RealRootFunction, Functional, FunctionInterface {
 
                 case MINUS :
                     temp = AbstractKernel.checkDecimalFraction(num.getDouble() - vy);
-                    if (Kernel.isZero(temp)) {
+                    if (AbstractKernel.isZero(temp)) {
                         expression = expression.getLeftTree();
                     } else if (temp < 0) {
                         expression.setOperation(Operation.PLUS);
@@ -505,7 +503,7 @@ implements RealRootFunction, Functional, FunctionInterface {
                     		return false;
                     	}                    	   
                  		if (node.operation.equals(Operation.POWER)) {                    			
-                			if (Kernel.isZero(rightVal))
+                			if (AbstractKernel.isZero(rightVal))
                 				// left^0 = 1
                 				return addPolynomialFactors(new MyDouble(kernel, 1), l, symbolic, rootFindingSimplification);
                 			else if (rightVal > 0) 
@@ -513,7 +511,7 @@ implements RealRootFunction, Functional, FunctionInterface {
                 				return addPolynomialFactors(node.getLeft(), l, symbolic, rootFindingSimplification);       
                 		}                				
             			else { // division            				               				                			    
-                    		if (Kernel.isZero(rightVal))
+                    		if (AbstractKernel.isZero(rightVal))
 								// left / 0 = undefined	 
                					return false;
 							else
@@ -581,7 +579,7 @@ implements RealRootFunction, Functional, FunctionInterface {
              kernel.setUseTempVariablePrefix(oldUseTempVarPrefix);
         }
         
-        String [] strCoeffs = ((Kernel)kernel).getPolynomialCoeffs(function, var);
+        String [] strCoeffs = kernel.getPolynomialCoeffs(function, var);
         
         if (strCoeffs == null)
 			// this is not a valid polynomial           
@@ -609,7 +607,7 @@ implements RealRootFunction, Functional, FunctionInterface {
 	  	        }                       
 	  	        return polyFun; 
         	} catch (Exception e) {
-        		Application.debug("error in buildPolyFunction:");
+        		AbstractApplication.debug("error in buildPolyFunction:");
         		e.printStackTrace();
         		return null;
         	}
@@ -622,7 +620,7 @@ implements RealRootFunction, Functional, FunctionInterface {
      */
     private ExpressionNode evaluateToExpressionNode(String str) {
          try {
-            ExpressionNode en = ((Kernel)kernel).getParser().parseExpression(str);
+            ExpressionNode en = kernel.getParser().parseExpression(str);
             en.resolveVariables();
             return en;
          }
@@ -631,7 +629,7 @@ implements RealRootFunction, Functional, FunctionInterface {
              return null;
          } 
          catch (Error e) {
-            Application.debug("error in evaluateToExpressionNode: " + str);
+            AbstractApplication.debug("error in evaluateToExpressionNode: " + str);
             e.printStackTrace();
              return null;
          }
@@ -648,16 +646,16 @@ implements RealRootFunction, Functional, FunctionInterface {
      * Returns n-th derivative of this function wrapped
      * as a GeoFunction object.
      */
-    public GeoFunction getGeoDerivative(int n) {
+    public GeoFunctionInterface getGeoDerivative(int n) {
     	if (geoDeriv == null)
-    		geoDeriv = new GeoFunction((Construction)kernel.getConstruction());
+    		geoDeriv = kernel.getGeoFunction();
     	
     	Function deriv = getDerivative(n);
     	geoDeriv.setFunction(deriv);
     	geoDeriv.setDefined(deriv != null);
     	return geoDeriv;
     }
-    private GeoFunction geoDeriv;
+    private GeoFunctionInterface geoDeriv;
  
     /**
      * Returns n-th derivative of this function
@@ -777,12 +775,12 @@ implements RealRootFunction, Functional, FunctionInterface {
      * @param line 
      * @param c 
      */
-    final public static void difference(Function f, GeoLine line, Function c) {     
+    final public static void difference(Function f, GeoLineInterface line, Function c) {     
         // build expression for line: ax + by + c = 0 (with b != 0) 
         // explicit form: line: y = -a/b x - c/b
         // we need f - line: f(x) + a/b x + c/b
-        double coeffX = line.x / line.y;
-        double coeffConst = line.z / line.y;
+        double coeffX = line.getX() / line.getY();
+        double coeffConst = line.getZ() / line.getY();
         
         // build expression f - line: f(x) + a/b x + c/b
         ExpressionNode temp;

@@ -20,11 +20,13 @@ import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -1894,4 +1896,10 @@ public abstract class AbstractKernel {
 	public abstract GeoElement getGeoDummyVariable(String name);
 
 	public abstract GeoVec2DInterface getGeoVec2D(double[] coords);
+
+	public abstract String[] getPolynomialCoeffs(String function, String var);
+
+	public abstract ParserInterface getParser();
+
+	public abstract GeoFunctionInterface getGeoFunction();
 }

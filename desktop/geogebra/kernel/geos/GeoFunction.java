@@ -24,6 +24,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -291,8 +292,8 @@ GeoFunctionInterface {
 	 * Sets the inner function
 	 * @param f function
 	 */
-	public void setFunction(Function f) {
-		fun = f;
+	public void setFunction(FunctionInterface f) {
+		fun = (Function)f;
 	}
 			
 	public Function getFunction() {

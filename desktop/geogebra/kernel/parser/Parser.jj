@@ -48,6 +48,7 @@ package geogebra.kernel.parser;
 import geogebra.*;
 import geogebra.main.*;
 import geogebra.kernel.*;
+import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.kernel.*;
 import geogebra.common.kernel.arithmetic.*;
 import geogebra.common.kernel.geos.GeoElement;
@@ -64,7 +65,7 @@ import java.util.*;
 import geogebra.common.kernel.arithmetic.Operation;
 
 
-public class Parser {
+public class Parser implements ParserInterface{
 
     private Kernel kernel;
     private Construction cons;

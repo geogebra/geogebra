@@ -45,6 +45,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -8107,5 +8108,10 @@ public class Kernel extends AbstractKernel{
 	public GeoVec2DInterface getGeoVec2D(double[] coords) {
 		// TODO Auto-generated method stub
 		return new GeoVec2D(this,coords);
+	}
+
+	@Override
+	public GeoFunctionInterface getGeoFunction() {
+		return new GeoFunction(getConstruction());
 	}
 }
