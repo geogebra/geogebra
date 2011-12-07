@@ -14,6 +14,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -720,8 +721,8 @@ implements RealRootFunction, Functional, FunctionInterface {
 		// for multi-variate functions we need to ensure value form,
 		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as Derivative[x^2+2] instead of Derivative[f(x,2)]
 		// see http://www.geogebra.org/trac/ticket/1466
-		boolean symbolic = !funX.expression.containsObjectType(GeoFunctionNVar.class) &&
-				   			!funY.expression.containsObjectType(GeoFunctionNVar.class);		
+		boolean symbolic = !funX.expression.containsGeoFunctionNVar() &&
+				   			!funY.expression.containsGeoFunctionNVar();		
     	
 		// build y'(t)/x'(t) string as "Derivative( <funY>, t ) / Derivative( %, t)"
     	StringBuilder sb = new StringBuilder();

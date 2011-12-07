@@ -38,6 +38,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -64,7 +65,6 @@ import geogebra.kernel.AnimationManager;
 import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyVecNode;
 import geogebra.kernel.kernelND.GeoConicND;
 

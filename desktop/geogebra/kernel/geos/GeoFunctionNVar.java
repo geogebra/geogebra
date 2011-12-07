@@ -18,6 +18,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -26,6 +27,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -36,7 +38,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.Inequality;
@@ -52,7 +53,7 @@ import geogebra.kernel.kernelND.SurfaceEvaluable;
  */
 public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
- Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable{
+ Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable, GeoFunctionNVarInterface{
 
 	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
 	private static final int SEEK_DENSITY = 30;

@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 

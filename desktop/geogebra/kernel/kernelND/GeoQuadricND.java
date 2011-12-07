@@ -3,10 +3,10 @@ package geogebra.kernel.kernelND;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoConic;
 
 

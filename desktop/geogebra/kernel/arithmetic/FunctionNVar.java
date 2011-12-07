@@ -14,6 +14,7 @@ package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -441,7 +442,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// for multi-variate functions we need to ensure value form,
 		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as Derivative[x^2+2] instead of Derivative[f(x,2)]
 		// see http://www.geogebra.org/trac/ticket/1466
-		symbolic = symbolic && !expression.containsObjectType(GeoFunctionNVar.class);
+		symbolic = symbolic && !expression.containsGeoFunctionNVar();
 
 		// make sure to use temporary variable names 
 		// e.g. a in Derivative[a*x^2,x] needs to be renamed temporarily when a exists in GeoGebra
@@ -464,7 +465,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			// changed
 			useCaching = symbolic
 					&& !expression
-							.containsObjectType(CasEvaluableFunction.class);
+							.containsCasEvaluableFunction();
 		}
 
 		// build command string for CAS

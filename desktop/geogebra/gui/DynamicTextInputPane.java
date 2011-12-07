@@ -1,11 +1,11 @@
 package geogebra.gui;
 
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.algos.AlgoDependentText;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 

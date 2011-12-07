@@ -28,6 +28,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Evaluatable;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -51,7 +52,6 @@ import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoAsymptote;
 import geogebra.kernel.algos.AlgoTangentLine;
 import geogebra.kernel.algos.AlgoTangentPoint;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;
 
 import java.util.ArrayList;

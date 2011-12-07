@@ -20,6 +20,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -40,7 +41,6 @@ import geogebra.kernel.PathNormalizer;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.algos.AlgoMirror;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
 

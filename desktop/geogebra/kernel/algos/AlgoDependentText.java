@@ -20,8 +20,8 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.Construction;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.geos.GeoText;
 
 /**

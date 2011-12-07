@@ -18,36 +18,15 @@ the Free Software Foundation.
  * Created on 03. Oktober 2001, 09:37
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.AbstractCommand;
-import geogebra.common.kernel.arithmetic.BooleanValue;
-import geogebra.common.kernel.arithmetic.EquationInterface;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.ExpressionNodeInterface;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.FunctionInterface;
-import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.Functional;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyListInterface;
-import geogebra.common.kernel.arithmetic.MySpecialDouble;
-import geogebra.common.kernel.arithmetic.MyStringBuffer;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.arithmetic.PointConvertibleToDouble;
-import geogebra.common.kernel.arithmetic.ReplaceableValue;
-import geogebra.common.kernel.arithmetic.TextValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoDummyVariableInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
@@ -680,10 +659,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	/**
 	 * Replaces all Polynomials in tree by function variable
-	 * 
+	 * TODO possibly remove the public modifier once arithmetic is in common
 	 * @return number of replacements done
 	 */
-	int replacePolynomials(FunctionVariable x) {
+	public int replacePolynomials(FunctionVariable x) {
 		int replacements = 0;
 
 		// left tree
@@ -717,10 +696,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * Replaces all XCOORD, YCOORD, ZCOORD nodes by mutliplication nodes,
 	 * e.g. x(x+1) becomes x*(x+1). The given function variables for "x", "y", "z" are
 	 * used in this process.
-	 * 
+	 * TODO possibly remove the public modifier once arithmetic is in common
 	 * @return number of replacements done
 	 */
-	int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar, FunctionVariable zVar) {				
+	public int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar, FunctionVariable zVar) {				
 		if (xVar == null && yVar == null & zVar == null) return 0;
 		
 		// left tree
@@ -858,16 +837,48 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Returns true when the given object is found in this expression tree.
 	 */
-	final public boolean containsObjectType(Class type) {
-		if (type.isInstance(left) || type.isInstance(right))
+	final public boolean containsFunctionVariable() {
+		if (left instanceof FunctionVariable || right instanceof FunctionVariable)
 			return true;
 
 		if (left instanceof ExpressionNode
-				&& ((ExpressionNode) left).containsObjectType(type)) {
+				&& ((ExpressionNode) left).containsFunctionVariable()) {
 			return true;
 		}
 		if (right instanceof ExpressionNode
-				&& ((ExpressionNode) right).containsObjectType(type)) {
+				&& ((ExpressionNode) right).containsFunctionVariable()) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	final public boolean containsCasEvaluableFunction() {
+		if (left instanceof FunctionVariable || right instanceof FunctionVariable)
+			return true;
+
+		if (left instanceof ExpressionNode
+				&& ((ExpressionNode) left).containsFunctionVariable()) {
+			return true;
+		}
+		if (right instanceof ExpressionNode
+				&& ((ExpressionNode) right).containsFunctionVariable()) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	final public boolean containsGeoFunctionNVar() {
+		if (left instanceof GeoFunctionNVarInterface || right instanceof GeoFunctionNVarInterface)
+			return true;
+
+		if (left instanceof ExpressionNode
+				&& ((ExpressionNode) left).containsGeoFunctionNVar()) {
+			return true;
+		}
+		if (right instanceof ExpressionNode
+				&& ((ExpressionNode) right).containsGeoFunctionNVar()) {
 			return true;
 		}
 
@@ -877,8 +888,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	/**
 	 * transfers every non-polynomial in this tree to a polynomial. This is
 	 * needed to enable polynomial simplification by evaluate()
+	 * TODO possibly remove the public modifier once arithmetic is in common
 	 */
-	final void makePolynomialTree(EquationInterface equ) {
+	public final void makePolynomialTree(EquationInterface equ) {
 		
 		if (operation==Operation.FUNCTION_NVAR){
 			if (left instanceof FunctionalNVar && right instanceof MyListInterface){
@@ -3787,13 +3799,13 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		} else if (this.operation.equals(Operation.MINUS)) {
 			return lc - rc;
 		} else if (this.operation.equals(Operation.MULTIPLY)
-				&& !getRightTree().containsObjectType(fv.getClass())) {
+				&& !getRightTree().containsFunctionVariable()) {
 			return lc * ((NumberValue) getRightTree().evaluate()).getDouble();
 		} else if (this.operation.equals(Operation.MULTIPLY)
-				&& !getLeftTree().containsObjectType(fv.getClass())) {
+				&& !getLeftTree().containsFunctionVariable()) {
 			return rc * ((NumberValue) getLeftTree().evaluate()).getDouble();
 		} else if (this.operation.equals(Operation.DIVIDE)
-				&& !getRightTree().containsObjectType(fv.getClass())) {
+				&& !getRightTree().containsFunctionVariable()) {
 			return lc / ((NumberValue) getRightTree().evaluate()).getDouble();
 		} else if ((left.contains(fv) || right.contains(fv)))
 			return null;

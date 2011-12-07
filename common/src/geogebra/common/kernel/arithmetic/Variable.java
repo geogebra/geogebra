@@ -16,12 +16,9 @@ the Free Software Foundation.
  * Created on 18. November 2001, 14:49
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
 //import geogebra.kernel.geos.GeoDummyVariable;
@@ -75,8 +72,9 @@ public class Variable extends ValidExpression implements ExpressionValue {
 	/**
      * Looks up the name of this variable in the kernel and returns the 
      * according GeoElement object.
+     * TODO possibly remove the public modifier once arithmetic is in common
      */
-    GeoElement resolve(boolean allowAutoCreateGeoElement) {
+    public GeoElement resolve(boolean allowAutoCreateGeoElement) {
     	// keep bound CAS variables when resolving a CAS expression
     	if (kernel.isResolveUnkownVarsAsDummyGeos()) 
     	{

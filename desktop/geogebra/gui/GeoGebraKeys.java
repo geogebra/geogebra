@@ -1,8 +1,8 @@
 package geogebra.gui;
 
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

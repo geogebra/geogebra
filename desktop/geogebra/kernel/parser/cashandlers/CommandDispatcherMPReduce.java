@@ -1,13 +1,13 @@
 package geogebra.kernel.parser.cashandlers;
 
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.kernel.arithmetic.MyList;
-import geogebra.kernel.arithmetic.Variable;
 
 /**
  * Handles special MPReduce commands to distinguish them from user defined functions
