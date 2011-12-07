@@ -25,9 +25,9 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariableInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
-import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
@@ -43,8 +43,8 @@ import java.util.TreeSet;
  * @author Markus
  * @version
  */
-public class ExpressionNode extends ValidExpression implements ReplaceableValue,
-		ExpressionNodeConstants, ExpressionNodeInterface {
+public class ExpressionNode extends ValidExpression implements
+		ReplaceableValue, ExpressionNodeConstants, ExpressionNodeInterface {
 
 	public AbstractApplication app;
 	public AbstractKernel kernel;
@@ -62,8 +62,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	};
 
 	/** Creates new ExpressionNode */
-	public ExpressionNode(AbstractKernel kernel, ExpressionValue left, Operation operation,
-			ExpressionValue right) {
+	public ExpressionNode(AbstractKernel kernel, ExpressionValue left,
+			Operation operation, ExpressionValue right) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 
@@ -73,25 +73,31 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			setRight(right);
 		} else { // set dummy value
 			setRight(new MyDouble(kernel, Double.NaN));
-		}		
+		}
 	}
 
-	/** for only one leaf (for wrapping ExpressionValues as ValidExpression) 
-	 * @param kernel Kernel
-	 * @param leaf value to be wrapped
+	/**
+	 * for only one leaf (for wrapping ExpressionValues as ValidExpression)
+	 * 
+	 * @param kernel
+	 *            Kernel
+	 * @param leaf
+	 *            value to be wrapped
 	 */
 	public ExpressionNode(AbstractKernel kernel, ExpressionValue leaf) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 
 		setLeft(leaf);
-		this.leaf = true;		
+		this.leaf = true;
 	}
 
-	/** copy constructor: NO deep copy of subtrees is done here!
-	 * this is needed for translation of functions
+	/**
+	 * copy constructor: NO deep copy of subtrees is done here! this is needed
+	 * for translation of functions
 	 * 
-	 * @param node Node to copy
+	 * @param node
+	 *            Node to copy
 	 */
 	public ExpressionNode(ExpressionNode node) {
 		kernel = node.kernel;
@@ -100,7 +106,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		leaf = node.leaf;
 		operation = node.operation;
 		setLeft(node.left);
-		setRight(node.right);		
+		setRight(node.right);
 	}
 
 	public AbstractKernel getKernel() {
@@ -129,10 +135,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 
 	public ExpressionNode getLeftTree() {
-		if (left.isExpressionNode())
+		if (left.isExpressionNode()) {
 			return (ExpressionNode) left;
-		else
+		} else {
 			return new ExpressionNode(kernel, left);
+		}
 	}
 
 	final public ExpressionValue getRight() {
@@ -141,20 +148,25 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	final public void setRight(ExpressionValue r) {
 		right = r;
-		if (right != null)
-			right.setInTree(true); // needed for list operations eg k=2 then k {1,2}
-		leaf = operation == Operation.NO_OPERATION; // right is a dummy MyDouble by
-											// default
+		if (right != null) {
+			right.setInTree(true); // needed for list operations eg k=2 then k
+									// {1,2}
+		}
+		leaf = operation == Operation.NO_OPERATION; // right is a dummy MyDouble
+													// by
+		// default
 	}
 
 	public ExpressionNode getRightTree() {
-		if (right == null)
+		if (right == null) {
 			return null;
+		}
 
-		if (right.isExpressionNode())
+		if (right.isExpressionNode()) {
 			return (ExpressionNode) right;
-		else
+		} else {
 			return new ExpressionNode(kernel, right);
+		}
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
@@ -167,17 +179,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
 
-		if (left != null)
+		if (left != null) {
 			lev = copy(left, kernel);
-		if (right != null)
+		}
+		if (right != null) {
 			rev = copy(right, kernel);
+		}
 
 		if (lev != null) {
 			newNode = new ExpressionNode(kernel, lev, operation, rev);
 			newNode.leaf = leaf;
-		} else
+		} else {
 			// something went wrong
 			return null;
+		}
 
 		// set member vars that are not set by constructors
 		newNode.forceVector = forceVector;
@@ -189,8 +204,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	/** deep copy except for GeoElements */
 	public static ExpressionValue copy(ExpressionValue ev, AbstractKernel kernel) {
-		if (ev == null)
+		if (ev == null) {
 			return null;
+		}
 
 		ExpressionValue ret = null;
 		// Application.debug("copy ExpressionValue input: " + ev);
@@ -200,7 +216,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 		// deep copy
 		else if (ev.isPolynomialInstance() || ev.isConstant()
-				|| ev instanceof AbstractCommand) {
+				|| (ev instanceof AbstractCommand)) {
 			ret = ev.deepCopy(kernel);
 		} else {
 			ret = ev;
@@ -239,8 +255,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	final private void simplifyAndEvalCommands() {
 		// don't evaluate any commands for the CAS here
-		if (kernel.isResolveUnkownVarsAsDummyGeos())
+		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 			return;
+		}
 
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).simplifyAndEvalCommands();
@@ -267,28 +284,34 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				ExpressionValue eval = node.evaluate();
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
-					if (AbstractKernel.isInteger(((NumberValue) eval).getDouble()))
+					if (AbstractKernel.isInteger(((NumberValue) eval)
+							.getDouble())) {
 						left = eval;
+					}
 				} else {
 					left = eval;
 				}
-			} else
+			} else {
 				node.simplifyConstantIntegers();
+			}
 		}
 
-		if (right != null && right.isExpressionNode()) {
+		if ((right != null) && right.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) right;
 			if (right.isConstant()) {
 				ExpressionValue eval = node.evaluate();
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
-					if (AbstractKernel.isInteger(((NumberValue) eval).getDouble()))
+					if (AbstractKernel.isInteger(((NumberValue) eval)
+							.getDouble())) {
 						right = eval;
+					}
 				} else {
 					right = eval;
 				}
-			} else
+			} else {
 				node.simplifyConstantIntegers();
+			}
 		}
 	}
 
@@ -358,13 +381,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		simplifyAndEvalCommands();
 		simplifyLeafs();
 
-		//left instanceof NumberValue needed rather than left.isNumberValue() as left can be an
-		//ExpressionNode, eg Normal[0,1,x]
+		// left instanceof NumberValue needed rather than left.isNumberValue()
+		// as left can be an
+		// ExpressionNode, eg Normal[0,1,x]
 		switch (operation) {
 		case POWER: // eg e^x
-			if (left instanceof NumberValue && ((NumberValue)left).getDouble() == Math.E) {
+			if ((left instanceof NumberValue)
+					&& (((NumberValue) left).getDouble() == Math.E)) {
 				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
-				if (geo != null && geo.needsReplacingInExpressionNode()) {
+				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace e^x with exp(x)
 					// if e was autocreated
@@ -378,22 +403,26 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case DIVIDE: // eg 1 / e or e / 1
 		case PLUS: // eg 1 + e or e + 1
 		case MINUS: // eg 1 - e or e - 1
-			if (left instanceof NumberValue && ((NumberValue)left).getDouble() == Math.E) {
+			if ((left instanceof NumberValue)
+					&& (((NumberValue) left).getDouble() == Math.E)) {
 				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
-				if (geo != null && geo.needsReplacingInExpressionNode()) {
+				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
-					// replace 'e' with exp(1) 
+					// replace 'e' with exp(1)
 					// if e was autocreated
-					left = new ExpressionNode(kernel, new MyDouble(kernel, 1.0), Operation.EXP, null);
+					left = new ExpressionNode(kernel,
+							new MyDouble(kernel, 1.0), Operation.EXP, null);
 					kernel.getConstruction().removeLabel(geo);
 				}
-			} else if (right instanceof NumberValue && ((NumberValue)right).getDouble() == Math.E) {
+			} else if ((right instanceof NumberValue)
+					&& (((NumberValue) right).getDouble() == Math.E)) {
 				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
-				if (geo != null && geo.needsReplacingInExpressionNode()) {
+				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
-					// replace 'e' with exp(1) 
+					// replace 'e' with exp(1)
 					// if e was autocreated
-					right = new ExpressionNode(kernel, new MyDouble(kernel, 1.0), Operation.EXP, null);
+					right = new ExpressionNode(kernel,
+							new MyDouble(kernel, 1.0), Operation.EXP, null);
 					kernel.getConstruction().removeLabel(geo);
 				}
 			}
@@ -405,43 +434,46 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue();
-		} else
+		} else {
 			left.resolveVariables();
+		}
 
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue();
-			} else
+			} else {
 				right.resolveVariables();
+			}
 		}
 	}
 
 	/**
-	 * Looks for GeoDummyVariable objects that hold String var in the tree and replaces
-	 * them by their newOb.
+	 * Looks for GeoDummyVariable objects that hold String var in the tree and
+	 * replaces them by their newOb.
+	 * 
 	 * @return whether replacement was done
 	 */
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
 		boolean didReplacement = false;
-		
+
 		// left wing
 		if (left instanceof GeoDummyVariableInterface) {
 			if (var.equals(((GeoDummyVariableInterface) left).toString())) {
 				left = newOb;
 				didReplacement = true;
 			}
+		} else if (left instanceof AbstractCommand) {
+			didReplacement = ((AbstractCommand) left).replaceGeoDummyVariables(
+					var, newOb);
+		} else if (left instanceof EquationInterface) {
+			didReplacement = ((EquationInterface) left)
+					.replaceGeoDummyVariables(var, newOb);
+		} else if (left.isExpressionNode()) {
+			didReplacement = ((ExpressionNode) left).replaceGeoDummyVariables(
+					var, newOb);
 		}
-		else if (left instanceof AbstractCommand) {
-			didReplacement = ((AbstractCommand) left).replaceGeoDummyVariables(var, newOb);
-		}
-		else if (left instanceof EquationInterface) {
-			didReplacement = ((EquationInterface) left).replaceGeoDummyVariables(var, newOb);
-		}
-		else if (left.isExpressionNode()) {
-			didReplacement = ((ExpressionNode) left).replaceGeoDummyVariables(var, newOb);
-		} 
-		
+
 		// right wing
 		if (right != null) {
 			if (right instanceof GeoDummyVariableInterface) {
@@ -449,21 +481,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					right = newOb;
 					didReplacement = true;
 				}
-			} 
-			else if (right instanceof AbstractCommand) {
-				didReplacement = ((AbstractCommand) right).replaceGeoDummyVariables(var, newOb);
-			}
-			else if (right instanceof EquationInterface) {
-				didReplacement = ((EquationInterface) right).replaceGeoDummyVariables(var, newOb);
-			}
-			else if (right.isExpressionNode()) {
-				didReplacement = ((ExpressionNode) right).replaceGeoDummyVariables(var, newOb) || didReplacement;
+			} else if (right instanceof AbstractCommand) {
+				didReplacement = ((AbstractCommand) right)
+						.replaceGeoDummyVariables(var, newOb);
+			} else if (right instanceof EquationInterface) {
+				didReplacement = ((EquationInterface) right)
+						.replaceGeoDummyVariables(var, newOb);
+			} else if (right.isExpressionNode()) {
+				didReplacement = ((ExpressionNode) right)
+						.replaceGeoDummyVariables(var, newOb) || didReplacement;
 			}
 		}
-		
+
 		return didReplacement;
 	}
-
 
 	/**
 	 * look for GeoFunction objects in the tree and replace them by FUNCTION
@@ -520,13 +551,17 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				((ExpressionNode) right).getPolynomialVars(vars);
 			} else if (right.isPolynomialInstance()) {
 				vars.add(right.toString());
-			// changed to avoid deepcopy in MyList.getMyList() eg Sequence[f(Element[GP,k]),k,1,NP]
-			//} else if (right.isListValue()){ //to get polynomial vars in GeoFunctionNVar
-			//MyList list=((ListValue)right).getMyList();
-			} else if (right instanceof MyListInterface){ //to get polynomial vars in GeoFunctionNVar
-				MyListInterface list = (MyListInterface)right;
-				for (int i=0;i<list.size();i++){
-					ExpressionValue elem=list.getListElement(i);
+				// changed to avoid deepcopy in MyList.getMyList() eg
+				// Sequence[f(Element[GP,k]),k,1,NP]
+				// } else if (right.isListValue()){ //to get polynomial vars in
+				// GeoFunctionNVar
+				// MyList list=((ListValue)right).getMyList();
+			} else if (right instanceof MyListInterface) { // to get polynomial
+															// vars in
+															// GeoFunctionNVar
+				MyListInterface list = (MyListInterface) right;
+				for (int i = 0; i < list.size(); i++) {
+					ExpressionValue elem = list.getListElement(i);
 					if (elem.isExpressionNode()) {
 						((ExpressionNode) elem).getPolynomialVars(vars);
 					} else if (elem.isPolynomialInstance()) {
@@ -554,7 +589,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			evalToVector = true;
 		}
 
-		if (right != null && evalToVector) {
+		if ((right != null) && evalToVector) {
 			if (right.isExpressionNode()) {
 				evalToVector = ((ExpressionNode) right)
 						.shouldEvaluateToGeoVector();
@@ -574,20 +609,24 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	final public boolean includesDivisionBy(ExpressionValue val) {
 		if (operation == Operation.DIVIDE) {
-			if (right.contains(val))
+			if (right.contains(val)) {
 				return true;
+			}
 
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).includesDivisionBy(val))
+					&& ((ExpressionNode) left).includesDivisionBy(val)) {
 				return true;
+			}
 		} else {
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).includesDivisionBy(val))
+					&& ((ExpressionNode) left).includesDivisionBy(val)) {
 				return true;
+			}
 
-			if (right != null && right.isExpressionNode()
-					&& ((ExpressionNode) right).includesDivisionBy(val))
+			if ((right != null) && right.isExpressionNode()
+					&& ((ExpressionNode) right).includesDivisionBy(val)) {
 				return true;
+			}
 		}
 
 		return false;
@@ -607,7 +646,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			replacements += ((ExpressionNode) left).replaceVariables(varName,
 					fVar);
 		} else if (left instanceof MyListInterface) {
-			replacements += ((MyListInterface) left).replaceVariables(varName, fVar);
+			replacements += ((MyListInterface) left).replaceVariables(varName,
+					fVar);
 		} else if (left instanceof Variable) {
 			if (varName.equals(((Variable) left).getName())) {
 				left = fVar;
@@ -619,12 +659,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				left = fVar;
 				replacements++;
 			}
-		}  
-		else if (left instanceof FunctionVariable) {
+		} else if (left instanceof FunctionVariable) {
 			if (varName.equals(((FunctionVariable) left).toString())) {
 				left = fVar;
 				replacements++;
-			}	
+			}
 		}
 
 		// right tree
@@ -633,21 +672,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				replacements += ((ExpressionNode) right).replaceVariables(
 						varName, fVar);
 			} else if (right instanceof MyListInterface) {
-				replacements += ((MyListInterface) right)
-						.replaceVariables(varName, fVar);
+				replacements += ((MyListInterface) right).replaceVariables(
+						varName, fVar);
 			} else if (right instanceof Variable) {
 				if (varName.equals(((Variable) right).getName())) {
 					right = fVar;
 					replacements++;
 				}
-			}  
-			else if (right instanceof GeoDummyVariableInterface) {
-				if (varName.equals(((GeoDummyVariableInterface) right).toString())) {
+			} else if (right instanceof GeoDummyVariableInterface) {
+				if (varName.equals(((GeoDummyVariableInterface) right)
+						.toString())) {
 					right = fVar;
 					replacements++;
 				}
-			}  
-			else if (right instanceof FunctionVariable) {
+			} else if (right instanceof FunctionVariable) {
 				if (varName.equals(((FunctionVariable) right).toString())) {
 					right = fVar;
 					replacements++;
@@ -659,8 +697,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 
 	/**
-	 * Replaces all Polynomials in tree by function variable
-	 * TODO possibly remove the public modifier once arithmetic is in common
+	 * Replaces all Polynomials in tree by function variable TODO possibly
+	 * remove the public modifier once arithmetic is in common
+	 * 
 	 * @return number of replacements done
 	 */
 	public int replacePolynomials(FunctionVariable x) {
@@ -692,100 +731,106 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		return replacements;
 	}
-	
+
 	/**
-	 * Replaces all XCOORD, YCOORD, ZCOORD nodes by mutliplication nodes,
-	 * e.g. x(x+1) becomes x*(x+1). The given function variables for "x", "y", "z" are
-	 * used in this process.
-	 * TODO possibly remove the public modifier once arithmetic is in common
+	 * Replaces all XCOORD, YCOORD, ZCOORD nodes by mutliplication nodes, e.g.
+	 * x(x+1) becomes x*(x+1). The given function variables for "x", "y", "z"
+	 * are used in this process. TODO possibly remove the public modifier once
+	 * arithmetic is in common
+	 * 
 	 * @return number of replacements done
 	 */
-	public int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar, FunctionVariable zVar) {				
-		if (xVar == null && yVar == null & zVar == null) return 0;
-		
+	public int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
+			FunctionVariable zVar) {
+		if ((xVar == null) && ((yVar == null) & (zVar == null))) {
+			return 0;
+		}
+
 		// left tree
 		int replacements = 0;
 		if (left.isExpressionNode()) {
-			replacements += ((ExpressionNode) left).replaceXYZnodes(xVar, yVar, zVar);
-		} 
-		// right tree
-		if (right != null && right.isExpressionNode()) {
-			replacements += ((ExpressionNode) right).replaceXYZnodes(xVar, yVar, zVar);
+			replacements += ((ExpressionNode) left).replaceXYZnodes(xVar, yVar,
+					zVar);
 		}
-		
+		// right tree
+		if ((right != null) && right.isExpressionNode()) {
+			replacements += ((ExpressionNode) right).replaceXYZnodes(xVar,
+					yVar, zVar);
+		}
+
 		switch (operation) {
-			case XCOORD:
-				if (xVar != null) {
-					replacements++;
-					operation = Operation.MULTIPLY;
-					right = left;
-					left = xVar;
-				}
-				break;
-				
-			case YCOORD:
-				if (yVar != null) {
-					replacements++;
-					operation = Operation.MULTIPLY;
-					right = left;
-					left = yVar;
-				}
-				break;
-				
-			case ZCOORD:
-				if (zVar != null) {
-					replacements++;
-					operation = Operation.MULTIPLY;
-					right = left;
-					left = zVar;
-				}
-				break;
+		case XCOORD:
+			if (xVar != null) {
+				replacements++;
+				operation = Operation.MULTIPLY;
+				right = left;
+				left = xVar;
+			}
+			break;
+
+		case YCOORD:
+			if (yVar != null) {
+				replacements++;
+				operation = Operation.MULTIPLY;
+				right = left;
+				left = yVar;
+			}
+			break;
+
+		case ZCOORD:
+			if (zVar != null) {
+				replacements++;
+				operation = Operation.MULTIPLY;
+				right = left;
+				left = zVar;
+			}
+			break;
 		}
 
 		return replacements;
 	}
 
 	/**
-	 * Replaces every oldOb by newOb in this ExpressionNode tree and
-	 * makes sure that the result is again an ExpressionNode object.
+	 * Replaces every oldOb by newOb in this ExpressionNode tree and makes sure
+	 * that the result is again an ExpressionNode object.
 	 * 
 	 * @return resulting ExpressionNode
 	 */
-	public ExpressionNode replaceAndWrap(ExpressionValue oldOb, ExpressionValue newOb) {
+	public ExpressionNode replaceAndWrap(ExpressionValue oldOb,
+			ExpressionValue newOb) {
 		ExpressionValue ev = replace(oldOb, newOb);
-		
+
 		// replace root by new object
-		if (ev.isExpressionNode()){
+		if (ev.isExpressionNode()) {
 			return (ExpressionNode) ev;
+		} else {
+			return new ExpressionNode(kernel, ev);
 		}
-		else
-			return new ExpressionNode(kernel, ev);	
 	}
-	
+
 	/**
 	 * Replaces every oldOb by newOb in expression.
+	 * 
 	 * @return resulting expression
 	 */
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
 		if (this == oldOb) {
 			return newOb;
 		}
-		
+
 		// left tree
 		if (left == oldOb) {
 			left = newOb;
-		} 			
-		else if (left instanceof ReplaceableValue) {
-			left = ((ReplaceableValue) left).replace(oldOb, newOb);			
+		} else if (left instanceof ReplaceableValue) {
+			left = ((ReplaceableValue) left).replace(oldOb, newOb);
 		}
 
 		// right tree
 		if (right == oldOb) {
 			right = newOb;
-		} 			
-		else if (right instanceof ReplaceableValue) {
-			right = ((ReplaceableValue) right).replace(oldOb, newOb);			
-		}		
+		} else if (right instanceof ReplaceableValue) {
+			right = ((ReplaceableValue) right).replace(oldOb, newOb);
+		}
 		return this;
 	}
 
@@ -797,7 +842,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		// left tree
 		if (left.isGeoElement()) {
 			GeoElement treeGeo = (GeoElement) left;
-			if (left == geo || treeGeo.isChildOf(geo)) {
+			if ((left == geo) || treeGeo.isChildOf(geo)) {
 				left = treeGeo.copyInternal(treeGeo.getConstruction());
 			}
 		} else if (left.isExpressionNode()) {
@@ -812,7 +857,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (right != null) {
 			if (right.isGeoElement()) {
 				GeoElement treeGeo = (GeoElement) right;
-				if (right == geo || treeGeo.isChildOf(geo)) {
+				if ((right == geo) || treeGeo.isChildOf(geo)) {
 					right = treeGeo.copyInternal(treeGeo.getConstruction());
 				}
 			} else if (right.isExpressionNode()) {
@@ -829,56 +874,63 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * Returns true when the given object is found in this expression tree.
 	 */
 	final public boolean contains(ExpressionValue ev) {
-		if (leaf)
+		if (leaf) {
 			return left.contains(ev);
-		else
+		} else {
 			return left.contains(ev) || right.contains(ev);
+		}
 	}
 
 	/**
 	 * Returns true when the given object is found in this expression tree.
 	 */
 	final public boolean containsFunctionVariable() {
-		if (left instanceof FunctionVariable || right instanceof FunctionVariable)
+		if ((left instanceof FunctionVariable)
+				|| (right instanceof FunctionVariable)) {
 			return true;
+		}
 
-		if (left instanceof ExpressionNode
+		if ((left instanceof ExpressionNode)
 				&& ((ExpressionNode) left).containsFunctionVariable()) {
 			return true;
 		}
-		if (right instanceof ExpressionNode
+		if ((right instanceof ExpressionNode)
 				&& ((ExpressionNode) right).containsFunctionVariable()) {
 			return true;
 		}
 
 		return false;
 	}
-	
-	final public boolean containsCasEvaluableFunction() {
-		if (left instanceof CasEvaluableFunction || right instanceof CasEvaluableFunction)			
-			return true;
 
-		if (left instanceof ExpressionNode
+	final public boolean containsCasEvaluableFunction() {
+		if ((left instanceof CasEvaluableFunction)
+				|| (right instanceof CasEvaluableFunction)) {
+			return true;
+		}
+
+		if ((left instanceof ExpressionNode)
 				&& ((ExpressionNode) left).containsCasEvaluableFunction()) {
 			return true;
 		}
-		if (right instanceof ExpressionNode
+		if ((right instanceof ExpressionNode)
 				&& ((ExpressionNode) right).containsCasEvaluableFunction()) {
 			return true;
 		}
 
 		return false;
 	}
-	
-	final public boolean containsGeoFunctionNVar() {
-		if (left instanceof GeoFunctionNVarInterface || right instanceof GeoFunctionNVarInterface)
-			return true;
 
-		if (left instanceof ExpressionNode
+	final public boolean containsGeoFunctionNVar() {
+		if ((left instanceof GeoFunctionNVarInterface)
+				|| (right instanceof GeoFunctionNVarInterface)) {
+			return true;
+		}
+
+		if ((left instanceof ExpressionNode)
 				&& ((ExpressionNode) left).containsGeoFunctionNVar()) {
 			return true;
 		}
-		if (right instanceof ExpressionNode
+		if ((right instanceof ExpressionNode)
 				&& ((ExpressionNode) right).containsGeoFunctionNVar()) {
 			return true;
 		}
@@ -888,56 +940,66 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	/**
 	 * transfers every non-polynomial in this tree to a polynomial. This is
-	 * needed to enable polynomial simplification by evaluate()
-	 * TODO possibly remove the public modifier once arithmetic is in common
+	 * needed to enable polynomial simplification by evaluate() TODO possibly
+	 * remove the public modifier once arithmetic is in common
 	 */
 	public final void makePolynomialTree(EquationInterface equ) {
-		
-		if (operation==Operation.FUNCTION_NVAR){
-			if (left instanceof FunctionalNVar && right instanceof MyListInterface){
-				MyListInterface list=((MyListInterface)right); 
-				FunctionNVarInterface func=((FunctionalNVar)left).getFunction();
-				ExpressionNode expr=(ExpressionNode)func.getExpression().getCopy(kernel);
-				if (func.getFunctionVariables().length==list.size()){
-					for (int i=0;i<list.size();i++){
-						ExpressionValue ev=list.getListElement(i);
-						if (ev instanceof ExpressionNode){
-							ExpressionNode en=((ExpressionNode)ev).getCopy(kernel);
-							if (!equ.isFunctionDependent()){
-								equ.setFunctionDependent(en.includesPolynomial());
+
+		if (operation == Operation.FUNCTION_NVAR) {
+			if ((left instanceof FunctionalNVar)
+					&& (right instanceof MyListInterface)) {
+				MyListInterface list = ((MyListInterface) right);
+				FunctionNVarInterface func = ((FunctionalNVar) left)
+						.getFunction();
+				ExpressionNode expr = (ExpressionNode) func.getExpression()
+						.getCopy(kernel);
+				if (func.getFunctionVariables().length == list.size()) {
+					for (int i = 0; i < list.size(); i++) {
+						ExpressionValue ev = list.getListElement(i);
+						if (ev instanceof ExpressionNode) {
+							ExpressionNode en = ((ExpressionNode) ev)
+									.getCopy(kernel);
+							if (!equ.isFunctionDependent()) {
+								equ.setFunctionDependent(en
+										.includesPolynomial());
 							}
 							en.makePolynomialTree(equ);
-							ev=en;
-						}else if (list.getListElement(i).isPolynomialInstance()){
+							ev = en;
+						} else if (list.getListElement(i)
+								.isPolynomialInstance()) {
 							equ.setFunctionDependent(true);
 						}
-						expr=expr.replaceAndWrap(func.getFunctionVariables()[i], ev);
+						expr = expr.replaceAndWrap(
+								func.getFunctionVariables()[i], ev);
 					}
-				}else{
-					throw new MyError(app,new String[]{"IllegalArgumentNumber"});
+				} else {
+					throw new MyError(app,
+							new String[] { "IllegalArgumentNumber" });
 				}
 				expr.makePolynomialTree(equ);
-				left=expr.left;
-				right=expr.right;
-				operation=expr.getOperation();
+				left = expr.left;
+				right = expr.right;
+				operation = expr.getOperation();
 			}
-		}else if (operation==Operation.FUNCTION){
-			if (left instanceof GeoFunctionInterface){
-				FunctionInterface func=(FunctionInterface)((Functional)left).getFunction();
-				ExpressionNode expr=(ExpressionNode)func.getExpression().getCopy(kernel);
-				if (right instanceof ExpressionNode){
-					if (!equ.isFunctionDependent()){
-						equ.setFunctionDependent(((ExpressionNode)right).includesPolynomial());
+		} else if (operation == Operation.FUNCTION) {
+			if (left instanceof GeoFunctionInterface) {
+				FunctionInterface func = ((Functional) left).getFunction();
+				ExpressionNode expr = (ExpressionNode) func.getExpression()
+						.getCopy(kernel);
+				if (right instanceof ExpressionNode) {
+					if (!equ.isFunctionDependent()) {
+						equ.setFunctionDependent(((ExpressionNode) right)
+								.includesPolynomial());
 					}
-					((ExpressionNode)right).makePolynomialTree(equ);
-				}else if (right.isPolynomialInstance()){
+					((ExpressionNode) right).makePolynomialTree(equ);
+				} else if (right.isPolynomialInstance()) {
 					equ.setFunctionDependent(true);
 				}
-				expr=expr.replaceAndWrap(func.getFunctionVariable(),right);
+				expr = expr.replaceAndWrap(func.getFunctionVariable(), right);
 				expr.makePolynomialTree(equ);
-				left=expr.left;
-				right=expr.right;
-				operation=expr.getOperation();
+				left = expr.left;
+				right = expr.right;
+				operation = expr.getOperation();
 			}
 		}
 		// transfer left subtree
@@ -961,21 +1023,23 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * returns true, if there are no variable objects in the subtree
 	 */
 	final public boolean isConstant() {
-		if (isLeaf())
+		if (isLeaf()) {
 			return left.isConstant();
-		else
+		} else {
 			return left.isConstant() && right.isConstant();
+		}
 	}
 
-	
 	/**
 	 * returns true, if no variable is a point (GeoPoint)
 	 */
 	final public boolean isVectorValue() {
-		if (forcePoint)
+		if (forcePoint) {
 			return false;
-		if (forceVector)
+		}
+		if (forceVector) {
 			return true;
+		}
 
 		return shouldEvaluateToGeoVector();
 	}
@@ -1014,8 +1078,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (leaf) {
 			if (left.isExpressionNode()) {
 				((ExpressionNode) left).hasOperations();
-			} else
+			} else {
 				return false;
+			}
 		}
 
 		return (right != null);
@@ -1025,8 +1090,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * Returns all GeoElement objects in the subtree
 	 */
 	final public HashSet<GeoElement> getVariables() {
-		if (leaf)
+		if (leaf) {
 			return left.getVariables();
+		}
 
 		HashSet<GeoElement> leftVars = left.getVariables();
 		HashSet<GeoElement> rightVars = right.getVariables();
@@ -1040,6 +1106,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 	}
 
+	@Override
 	public void addCommands(Set commands) {
 		if (left instanceof AbstractCommand) {
 			((AbstractCommand) left).addCommands(commands);
@@ -1056,8 +1123,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	final public GeoElement[] getGeoElementVariables() {
 		HashSet varset = getVariables();
-		if (varset == null)
+		if (varset == null) {
 			return null;
+		}
 		Iterator i = varset.iterator();
 		GeoElement[] ret = new GeoElement[varset.size()];
 		int j = 0;
@@ -1066,9 +1134,6 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 		return ret;
 	}
-	
-	
-
 
 	final public boolean isLeaf() {
 		return leaf; // || operation == NO_OPERATION;
@@ -1085,11 +1150,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	public boolean isSingleVariable() {
 		return (isLeaf() && (left instanceof Variable));
 	}
-	
+
 	public boolean isImaginaryUnit() {
-		return (isLeaf() 
-				&& (left instanceof GeoVec2DInterface) 
-				&& ((GeoVec2DInterface) left).isImaginaryUnit());
+		return (isLeaf() && (left instanceof GeoVec2DInterface) && ((GeoVec2DInterface) left)
+				.isImaginaryUnit());
 	}
 
 	/**
@@ -1122,77 +1186,84 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	final public String getCASstring(boolean symbolic) {
 		return getCASstring(kernel.getCASPrintForm(), symbolic);
 	}
-	
+
 	public boolean containsMyStringBuffer() {
-				
-		if (left instanceof MyStringBuffer || right instanceof MyStringBuffer) return true;
-		
+
+		if ((left instanceof MyStringBuffer)
+				|| (right instanceof MyStringBuffer)) {
+			return true;
+		}
+
 		boolean ret = false;
-		
-		if (left.isExpressionNode()) ret = ret || ((ExpressionNode)left).containsMyStringBuffer();
-		if (right != null && right.isExpressionNode()) ret = ret || ((ExpressionNode)right).containsMyStringBuffer();
+
+		if (left.isExpressionNode()) {
+			ret = ret || ((ExpressionNode) left).containsMyStringBuffer();
+		}
+		if ((right != null) && right.isExpressionNode()) {
+			ret = ret || ((ExpressionNode) right).containsMyStringBuffer();
+		}
 
 		return ret;
-	
+
 	}
-	
+
 	/*
-	 * splits a string up for editing with the Text Tool
-	 * adapted from printCASstring()
+	 * splits a string up for editing with the Text Tool adapted from
+	 * printCASstring()
 	 */
-	
+
 	private String printCASstring(boolean symbolic) {
 		String ret = null;
-		
+
 		kernel.setTemporaryPrintFigures(15);
 		try {
 
-		if (leaf) { // leaf is GeoElement or not
-			/*
-			 * if (symbolic) { if (left.isGeoElement()) ret = ((GeoElement)
-			 * left).getLabel(); else if (left.isExpressionNode()) ret =
-			 * ((ExpressionNode)left).printJSCLString(symbolic); else ret =
-			 * left.toString(); } else { ret = left.toValueString(); }
-			 */
+			if (leaf) { // leaf is GeoElement or not
+				/*
+				 * if (symbolic) { if (left.isGeoElement()) ret = ((GeoElement)
+				 * left).getLabel(); else if (left.isExpressionNode()) ret =
+				 * ((ExpressionNode)left).printJSCLString(symbolic); else ret =
+				 * left.toString(); } else { ret = left.toValueString(); }
+				 */
 
-			if (symbolic && left.isGeoElement())
-				ret = ((GeoElement) left).getLabel();
-			else if (left.isExpressionNode())
-				ret = ((ExpressionNode) left).printCASstring(symbolic);
-			else
-				ret = symbolic ? left.toString() : left.toValueString();
-		}
-
-		// STANDARD case: no leaf
-		else {
-			// expression node
-			String leftStr = null, rightStr = null;
-			if (symbolic && left.isGeoElement()) {
-				leftStr = ((GeoElement) left).getLabel();
-			} else if (left.isExpressionNode()) {
-				leftStr = ((ExpressionNode) left).printCASstring(symbolic);
-			} else {
-				leftStr = symbolic ? left.toString() : left.toValueString();
-			}
-
-			if (right != null) {
-				if (symbolic && right.isGeoElement()) {
-					rightStr = ((GeoElement) right).getLabel();
-				} else if (right.isExpressionNode()) {
-					rightStr = ((ExpressionNode) right)
-							.printCASstring(symbolic);
+				if (symbolic && left.isGeoElement()) {
+					ret = ((GeoElement) left).getLabel();
+				} else if (left.isExpressionNode()) {
+					ret = ((ExpressionNode) left).printCASstring(symbolic);
 				} else {
-					rightStr = symbolic ? right.toString() : right
-							.toValueString();
+					ret = symbolic ? left.toString() : left.toValueString();
 				}
 			}
-			ret = operationToString(leftStr, rightStr, !symbolic);
-		}
-		}
-		finally {
+
+			// STANDARD case: no leaf
+			else {
+				// expression node
+				String leftStr = null, rightStr = null;
+				if (symbolic && left.isGeoElement()) {
+					leftStr = ((GeoElement) left).getLabel();
+				} else if (left.isExpressionNode()) {
+					leftStr = ((ExpressionNode) left).printCASstring(symbolic);
+				} else {
+					leftStr = symbolic ? left.toString() : left.toValueString();
+				}
+
+				if (right != null) {
+					if (symbolic && right.isGeoElement()) {
+						rightStr = ((GeoElement) right).getLabel();
+					} else if (right.isExpressionNode()) {
+						rightStr = ((ExpressionNode) right)
+								.printCASstring(symbolic);
+					} else {
+						rightStr = symbolic ? right.toString() : right
+								.toValueString();
+					}
+				}
+				ret = operationToString(leftStr, rightStr, !symbolic);
+			}
+		} finally {
 			kernel.restorePrintAccuracy();
 		}
-		
+
 		return ret;
 	}
 
@@ -1215,19 +1286,21 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 		if (left != null) {
 			ret += prefix + "  \\l:";
-			if (left instanceof ExpressionNode)
+			if (left instanceof ExpressionNode) {
 				ret += ((ExpressionNode) left).getTreeClass(prefix + "   ");
-			else
+			} else {
 				ret += left.getClass();
+			}
 			ret += "\n";
 		}
 
 		if (right != null) {
 			ret += prefix + "  \\r:";
-			if (right instanceof ExpressionNode)
+			if (right instanceof ExpressionNode) {
 				ret += ((ExpressionNode) right).getTreeClass(prefix + "   ");
-			else
+			} else {
 				ret += right.getClass();
+			}
 			ret += "\n";
 		}
 
@@ -1238,12 +1311,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Returns a string representation of this node.
 	 */
+	@Override
 	final public String toString() {
 		if (leaf) { // leaf is GeoElement or not
-			if (left.isGeoElement())
+			if (left.isGeoElement()) {
 				return ((GeoElement) left).getLabel();
-			else
+			} else {
 				return left.toString();
+			}
 		}
 
 		// expression node
@@ -1267,8 +1342,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	/** like toString() but with current values of variables */
 	final public String toValueString() {
 		if (isLeaf()) { // leaf is GeoElement or not
-			if (left != null)
+			if (left != null) {
 				return left.toValueString();
+			}
 		}
 
 		// expression node
@@ -1284,8 +1360,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	final public String toOutputValueString() {
 		if (isLeaf()) { // leaf is GeoElement or not
-			if (left != null)
+			if (left != null) {
 				return left.toOutputValueString();
+			}
 		}
 
 		// expression node
@@ -1310,8 +1387,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	final public String toLaTeXString(boolean symbolic) {
 		if (isLeaf()) { // leaf is GeoElement or not
-			if (left != null)
+			if (left != null) {
 				return left.toLaTeXString(symbolic);
+			}
 		}
 
 		// expression node
@@ -1319,9 +1397,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		String rightStr = null;
 		if (right != null) {
 			rightStr = right.toLaTeXString(symbolic);
-			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF) &&
-				(right instanceof MyListInterface))
-			{
+			if (((operation == Operation.FUNCTION_NVAR) || (operation == Operation.ELEMENT_OF))
+					&& (right instanceof MyListInterface)) {
 				// 1 character will be taken from the left and right
 				// of rightStr in operationToString, but more
 				// is necessary in case of LaTeX, we do that here
@@ -1346,8 +1423,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * 
 	 */
 	final private String operationToString(String leftStr, String rightStr,
-			boolean valueForm) {		
-		
+			boolean valueForm) {
+
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
@@ -1363,7 +1440,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MATH_PIPER:
 				sb.append("Not ");
 				break;
-				
+
 			default:
 				sb.append(strNOT);
 			}
@@ -1382,14 +1459,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\vee");
 				break;
 
 			case MATH_PIPER:
 				sb.append("Or");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("or ");
 				break;
@@ -1409,14 +1488,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\wedge");
 				break;
 
 			case MATH_PIPER:
 				sb.append("And");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("and ");
 				break;
@@ -1435,7 +1516,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 			case MATH_PIPER:
 			case JASYMCA:
 			case MPREDUCE:
@@ -1456,14 +1539,16 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\neq");
 				break;
 
 			case MATH_PIPER:
 				sb.append("!=");
 				break;
-			
+
 			case MPREDUCE:
 				sb.append("neq");
 				break;
@@ -1482,7 +1567,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\in");
 				break;
 
@@ -1500,7 +1587,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\subseteq");
 				break;
 
@@ -1518,7 +1607,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\subset");
 				break;
 
@@ -1536,7 +1627,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\setminus");
 				break;
 
@@ -1551,8 +1644,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case LESS:
 			append(sb, leftStr, left, operation, STRING_TYPE);
 			// sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-< ");
-			else sb.append(" < ");
+			if (STRING_TYPE.equals(StringType.LATEX)
+					&& kernel.isInsertLineBreaks()) {
+				sb.append(" \\-< ");
+			} else {
+				sb.append(" < ");
+			}
 			append(sb, rightStr, right, operation, STRING_TYPE);
 			// sb.append(rightStr);
 			break;
@@ -1560,8 +1657,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		case GREATER:
 			append(sb, leftStr, left, operation, STRING_TYPE);
 			// sb.append(leftStr);
-			if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\->");
-			else sb.append(" > ");
+			if (STRING_TYPE.equals(StringType.LATEX)
+					&& kernel.isInsertLineBreaks()) {
+				sb.append(" \\->");
+			} else {
+				sb.append(" > ");
+			}
 			append(sb, rightStr, right, operation, STRING_TYPE);
 			// sb.append(rightStr);
 			break;
@@ -1572,7 +1673,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\leq");
 				break;
 
@@ -1595,7 +1698,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\geq");
 				break;
 
@@ -1618,7 +1723,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\parallel");
 				break;
 
@@ -1636,7 +1743,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\perp");
 				break;
 
@@ -1654,7 +1763,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(' ');
 			switch (STRING_TYPE) {
 			case LATEX:
-				if (kernel.isInsertLineBreaks()) sb.append("\\-");
+				if (kernel.isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
 				sb.append("\\times");
 				break;
 
@@ -1677,7 +1788,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("addition(");
 				sb.append(leftStr);
@@ -1685,7 +1796,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			default:
 				// check for 0
 				if (valueForm) {
@@ -1713,23 +1824,45 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				if (left.isTextValue()
 						&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 								.isLabelSet()))) {
-					if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
-					else sb.append(" + ");
+					if (STRING_TYPE.equals(StringType.LATEX)
+							&& kernel.isInsertLineBreaks()) {
+						sb.append(" \\-+ ");
+					} else {
+						sb.append(" + ");
+					}
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));
 				} else {
 					if (rightStr.charAt(0) == '-') { // convert + - to -
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
-						else sb.append(" - ");
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append(" \\-- ");
+						} else {
+							sb.append(" - ");
+						}
 						sb.append(rightStr.substring(1));
-					} else if (rightStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic convert + - to -
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
-						else sb.append(" - ");
+					} else if (rightStr
+							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
+																				// convert
+																				// +
+																				// -
+																				// to
+																				// -
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append(" \\-- ");
+						} else {
+							sb.append(" - ");
+						}
 						sb.append(rightStr.substring(3));
 					} else {
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
-						else sb.append(" + ");
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append(" \\-+ ");
+						} else {
+							sb.append(" + ");
+						}
 						sb.append(rightStr);
 					}
 				}
@@ -1748,7 +1881,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("subtraction(");
 				sb.append(leftStr);
@@ -1756,7 +1889,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			default:
 				if (left instanceof EquationInterface) {
 					sb.append(leftBracket(STRING_TYPE));
@@ -1767,29 +1900,55 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				}
 
 				// check for 0 at right
-				if (valueForm && rightStr.equals(AbstractApplication.unicodeZero+"")) {
+				if (valueForm
+						&& rightStr
+								.equals(AbstractApplication.unicodeZero + "")) {
 					break;
 				}
 
-				if (right.isLeaf() || opID(right) >= Operation.MULTIPLY.ordinal()) { // not +, -
+				if (right.isLeaf()
+						|| (opID(right) >= Operation.MULTIPLY.ordinal())) { // not
+																			// +,
+																			// -
 					if (rightStr.charAt(0) == '-') { // convert - - to +
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
-						else sb.append(" + ");
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append(" \\-+ ");
+						} else {
+							sb.append(" + ");
+						}
 						sb.append(rightStr.substring(1));
-					} else if (rightStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic convert - - to +
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-+ ");
-						else sb.append(" + ");
+					} else if (rightStr
+							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
+																				// convert
+																				// -
+																				// -
+																				// to
+																				// +
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append(" \\-+ ");
+						} else {
+							sb.append(" + ");
+						}
 						sb.append(rightStr.substring(3));
 					} else {
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
-						// fix for changing height in Algebra View plus / minus
-						else sb.append(" - ");
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append(" \\-- ");
+						} else {
+							sb.append(" - ");
+						}
 						sb.append(rightStr);
 					}
 				} else {
 					// fix for changing height in Algebra View plus / minus
-					if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append(" \\-- ");
-					else sb.append(" - ");
+					if (STRING_TYPE.equals(StringType.LATEX)
+							&& kernel.isInsertLineBreaks()) {
+						sb.append(" \\-- ");
+					} else {
+						sb.append(" - ");
+					}
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -1827,24 +1986,30 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				// }
 
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
-				else if ((rightStr.length() == 2 && ((rightStr.charAt(0) == Unicode.degreeChar && rightStr.charAt(1) == 
-						(AbstractApplication.unicodeZero +1)) || (rightStr.charAt(0) == Unicode.degreeChar && rightStr.charAt(1) == (AbstractApplication.unicodeZero +1))))
+				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
+						.charAt(1) == (AbstractApplication.unicodeZero + 1))) || ((rightStr
+						.charAt(0) == Unicode.degreeChar) && (rightStr
+						.charAt(1) == (AbstractApplication.unicodeZero + 1)))))
 						|| rightStr.equals(Unicode.degree)) {
-					
+
 					boolean rtl = app.isRightToLeftDigits();
-					
+
 					if (rtl) {
 						sb.append(Unicode.degree);
 					}
-					
-					if (!left.isLeaf())
+
+					if (!left.isLeaf()) {
 						sb.append('('); // needed for eg (a+b)\u00b0
+					}
 					sb.append(leftStr);
-					if (!left.isLeaf())
+					if (!left.isLeaf()) {
 						sb.append(')'); // needed for eg (a+b)\u00b0
-					
-					if (!rtl) sb.append(Unicode.degree);
-					
+					}
+
+					if (!rtl) {
+						sb.append(Unicode.degree);
+					}
+
 					break;
 				}
 
@@ -1856,17 +2021,21 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				boolean nounary = true;
 
 				// left wing
-				if (left.isLeaf() || opID(left) >= Operation.MULTIPLY.ordinal()) { // not +, -
+				if (left.isLeaf()
+						|| (opID(left) >= Operation.MULTIPLY.ordinal())) { // not
+																			// +,
+																			// -
 					if (isEqualString(left, -1, !valueForm)) { // unary minus
 						nounary = false;
 						sb.append('-');
 					} else {
-						if (leftStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
+						if (leftStr
+								.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
 							// brackets needed for eg Arabic digits
 							sb.append(Unicode.RightToLeftMark);
 							sb.append(leftBracket(STRING_TYPE));
 							sb.append(leftStr);
-							sb.append(rightBracket(STRING_TYPE));							
+							sb.append(rightBracket(STRING_TYPE));
 							sb.append(Unicode.RightToLeftMark);
 						} else {
 							sb.append(leftStr);
@@ -1880,11 +2049,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				// right wing
 				int opIDright = opID(right);
-				if (right.isLeaf() || opIDright >= Operation.MULTIPLY.ordinal()) { // not +, -
+				if (right.isLeaf()
+						|| (opIDright >= Operation.MULTIPLY.ordinal())) { // not
+																			// +,
+																			// -
 					boolean showMultiplicationSign = false;
 					boolean multiplicationSpaceNeeded = true;
 					if (nounary) {
-						switch (STRING_TYPE) {						
+						switch (STRING_TYPE) {
 						case PGF:
 						case PSTRICKS:
 						case GEOGEBRA_XML:
@@ -1893,19 +2065,22 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 						case MAXIMA:
 							showMultiplicationSign = true;
 							break;
-							
+
 						case LATEX:
 							// check if we need a multiplication sign, see #414
 							// digit-digit, e.g. 3 * 5
 							// digit-fraction, e.g. 3 * \frac{5}{2}
-							char lastLeft = leftStr.charAt(leftStr.length() - 1);
+							char lastLeft = leftStr
+									.charAt(leftStr.length() - 1);
 							char firstRight = rightStr.charAt(0);
-							showMultiplicationSign = 
-								// left is digit or ends with }, e.g. exponent, fraction
-								( 	Character.isDigit(lastLeft) || lastLeft == '}' )
-										&&  
-								// right is digit or fraction
-								(	Character.isDigit(firstRight) || rightStr.startsWith("\\frac"));
+							showMultiplicationSign =
+							// left is digit or ends with }, e.g. exponent,
+							// fraction
+							(Character.isDigit(lastLeft) || (lastLeft == '}'))
+									&&
+									// right is digit or fraction
+									(Character.isDigit(firstRight) || rightStr
+											.startsWith("\\frac"));
 							break;
 
 						default: // GeoGebra syntax
@@ -1914,32 +2089,38 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 							firstRight = rightStr.charAt(0);
 							// check if we need a multiplication sign, see #414
 							// digit-digit, e.g. 3 * 5
-							showMultiplicationSign = Character.isDigit(lastLeft) &&  (Character.isDigit(firstRight) 
-									// 3*E23AB can't be written 3E23AB 
-									|| (rightStr.startsWith("E"))); 							
+							showMultiplicationSign = Character
+									.isDigit(lastLeft)
+									&& (Character.isDigit(firstRight)
+									// 3*E23AB can't be written 3E23AB
+									|| (rightStr.startsWith("E")));
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {
 								// check if we need a multiplication space:
-								// it's needed except for number * character, e.g. 23x
+								// it's needed except for number * character,
+								// e.g. 23x
 								// need to check start and end for eg A1 * A2
-								boolean leftIsNumber = left.isLeaf() && 
-									Character.isDigit(firstLeft) && Character.isDigit(lastLeft);
-								
+								boolean leftIsNumber = left.isLeaf()
+										&& Character.isDigit(firstLeft)
+										&& Character.isDigit(lastLeft);
+
 								// check if we need a multiplication space:
 								// all cases except number * character, e.g. 3x
-								multiplicationSpaceNeeded = showMultiplicationSign ||
-									!(leftIsNumber && !Character.isDigit(firstRight));
+								multiplicationSpaceNeeded = showMultiplicationSign
+										|| !(leftIsNumber && !Character
+												.isDigit(firstRight));
 							}
 						}
 
-						if (STRING_TYPE.equals(StringType.LATEX) && kernel.isInsertLineBreaks()) sb.append("\\-");
-						
+						if (STRING_TYPE.equals(StringType.LATEX)
+								&& kernel.isInsertLineBreaks()) {
+							sb.append("\\-");
+						}
+
 						if (showMultiplicationSign) {
 							sb.append(multiplicationSign(STRING_TYPE));
-						} 
-						else if (multiplicationSpaceNeeded)
-						{
+						} else if (multiplicationSpaceNeeded) {
 							// space instead of multiplication sign
 							sb.append(multiplicationSpace(STRING_TYPE));
 						}
@@ -1947,23 +2128,29 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 					boolean rtlMinus;
 					// show parentheses around these cases
-					if (((rtlMinus = rightStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) || rightStr.charAt(0) == '-') // 2 (-5) or -(-5)
-							|| !nounary
-								&& !right.isLeaf()
-								&& opIDright <= Operation.DIVIDE.ordinal() // -(x * a) or -(x / a)
-							|| showMultiplicationSign && STRING_TYPE.equals(StringType.GEOGEBRA)) // 3 (5)
+					if (((rtlMinus = rightStr
+							.startsWith(Unicode.RightToLeftUnaryMinusSign)) || (rightStr
+							.charAt(0) == '-')) // 2 (-5) or -(-5)
+							|| (!nounary && !right.isLeaf() && (opIDright <= Operation.DIVIDE
+									.ordinal() // -(x * a) or -(x / a)
+							))
+							|| (showMultiplicationSign && STRING_TYPE
+									.equals(StringType.GEOGEBRA))) // 3 (5)
 					{
-						if (rtlMinus) sb.append(Unicode.RightToLeftMark);
+						if (rtlMinus) {
+							sb.append(Unicode.RightToLeftMark);
+						}
 						sb.append(leftBracket(STRING_TYPE));
 						sb.append(rightStr);
 						sb.append(rightBracket(STRING_TYPE));
-						if (rtlMinus) sb.append(Unicode.RightToLeftMark);
+						if (rtlMinus) {
+							sb.append(Unicode.RightToLeftMark);
+						}
 					} else {
 						// -1.0 * 5 becomes "-5"
 						sb.append(rightStr);
 					}
-				} 
-				else { // right is + or - tree
+				} else { // right is + or - tree
 					if (nounary) {
 						switch (STRING_TYPE) {
 						case PGF:
@@ -1985,9 +2172,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					sb.append(rightBracket(STRING_TYPE));
 				}
 				break;
-			
+
 			case MPREDUCE:
-				
+
 				if (isEqualString(left, -1, !valueForm)) {
 					sb.append("-(");
 					sb.append(rightStr);
@@ -2000,7 +2187,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					sb.append(")");
 					break;
 				}
-			}		
+			}
 			break;
 
 		case DIVIDE:
@@ -2033,12 +2220,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				// left wing
 				// put parantheses around +, -, *
-				append(sb, leftStr, left, Operation.DIVIDE, STRING_TYPE); 
+				append(sb, leftStr, left, Operation.DIVIDE, STRING_TYPE);
 				sb.append(" / ");
 
 				// right wing
-				append(sb, rightStr, right, Operation.POWER, STRING_TYPE); // not +, -, *,
-																	// /
+				append(sb, rightStr, right, Operation.POWER, STRING_TYPE); // not
+																			// +,
+																			// -,
+																			// *,
+				// /
 			}
 			break;
 
@@ -2062,7 +2252,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 			// support for sin^2(x) for LaTeX, eg FormulaText[]
 			if (STRING_TYPE.equals(StringType.LATEX) && left.isExpressionNode()) {
-				switch (((ExpressionNode)left).getOperation()) {
+				switch (((ExpressionNode) left).getOperation()) {
 				// #1592
 				case SIN:
 				case COS:
@@ -2083,7 +2273,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 						index = Integer.MAX_VALUE;
 					}
 
-					if (index > 0 && index != Integer.MAX_VALUE) {
+					if ((index > 0) && (index != Integer.MAX_VALUE)) {
 						int spaceIndex = leftStr.indexOf(' ');
 						sb.append(leftStr.substring(0, spaceIndex));
 						sb.append(" ^{");
@@ -2093,18 +2283,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 																		// except
 																		// the
 																		// "\\sin "
-						
+
 						finished = true;
-						
+
 						break;
 					}
-						
-						default:
-							// fall through
+
+				default:
+					// fall through
 				}
-				
-				if (finished) break;
-				
+
+				if (finished) {
+					break;
+				}
+
 			}
 
 			switch (STRING_TYPE) {
@@ -2112,7 +2304,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 				// checks if the basis is leaf and if so
 				// omits the brackets
-				if (left.isLeaf() && leftStr.charAt(0) != '-') {
+				if (left.isLeaf() && (leftStr.charAt(0) != '-')) {
 					sb.append(leftStr);
 					break;
 				}
@@ -2138,10 +2330,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				 */
 
 				// left wing
-				if (leftStr.charAt(0) != '-' && // no unary
-						(left.isLeaf() || opID(left) > Operation.POWER.ordinal()
-								&& opID(left) != Operation.EXP.ordinal())) { // not +, -, *, /, ^,
-															// e^x
+				if ((leftStr.charAt(0) != '-')
+						&& // no unary
+						(left.isLeaf() || ((opID(left) > Operation.POWER
+								.ordinal()) && (opID(left) != Operation.EXP
+								.ordinal())))) { // not +, -, *, /, ^,
+					// e^x
 					sb.append(leftStr);
 				} else {
 					sb.append(leftBracket(STRING_TYPE));
@@ -2155,15 +2349,19 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			switch (STRING_TYPE) {
 			case LATEX:
 				sb.append('^');
-				
 
 				// add brackets for eg a^b^c -> a^(b^c)
-				boolean addParentheses = (right.isExpressionNode() && ((ExpressionNode)right).getOperation().equals(Operation.POWER));
-				
+				boolean addParentheses = (right.isExpressionNode() && ((ExpressionNode) right)
+						.getOperation().equals(Operation.POWER));
+
 				sb.append('{');
-				if (addParentheses) sb.append(leftBracket(STRING_TYPE));
+				if (addParentheses) {
+					sb.append(leftBracket(STRING_TYPE));
+				}
 				sb.append(rightStr);
-				if (addParentheses) sb.append(rightBracket(STRING_TYPE));
+				if (addParentheses) {
+					sb.append(rightBracket(STRING_TYPE));
+				}
 				sb.append('}');
 				break;
 
@@ -2179,15 +2377,17 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				break;
 
 			default:
-				if (right.isLeaf() || opID(right) > Operation.POWER.ordinal() && opID(right) != Operation.EXP.ordinal()) { // not
-																					// +,
-																					// -,
-																					// *,
-																					// /,
-																					// ^,
-																					// e^x
-				// Michael Borcherds 2008-05-14
-				// display powers over 9 as unicode superscript
+				if (right.isLeaf()
+						|| ((opID(right) > Operation.POWER.ordinal()) && (opID(right) != Operation.EXP
+								.ordinal()))) { // not
+					// +,
+					// -,
+					// *,
+					// /,
+					// ^,
+					// e^x
+					// Michael Borcherds 2008-05-14
+					// display powers over 9 as unicode superscript
 					try {
 						int i = Integer.parseInt(rightStr);
 						String index = "";
@@ -2196,9 +2396,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 							i = -i;
 						}
 
-						if (i == 0)
+						if (i == 0) {
 							sb.append('\u2070'); // zero
-						else
+						} else {
 							while (i > 0) {
 								switch (i % 10) {
 								case 0:
@@ -2235,6 +2435,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 								}
 								i = i / 10;
 							}
+						}
 
 						sb.append(index);
 					} catch (Exception e) {
@@ -2274,12 +2475,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MPREDUCE:
 				sb.append("factorial(");
 				sb.append(leftStr);
-				sb.append(")");				
+				sb.append(")");
 				break;
-				
+
 			default:
-				if (leftStr.charAt(0) != '-' && // no unary
-						left.isLeaf() || opID(left) > Operation.POWER.ordinal()) { // not +, -, *, /, ^
+				if (((leftStr.charAt(0) != '-') && // no unary
+						left.isLeaf())
+						|| (opID(left) > Operation.POWER.ordinal())) { // not +,
+																		// -, *,
+																		// /, ^
 					sb.append(leftStr);
 				} else {
 					sb.append(leftBracket(STRING_TYPE));
@@ -2308,10 +2512,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			default:
 				sb.append("cos(");
 			}
-			if (STRING_TYPE.equals(StringType.PGF))
+			if (STRING_TYPE.equals(StringType.PGF)) {
 				sb.append("(" + leftStr + ") 180/pi");
-			else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(rightBracket(STRING_TYPE));
 			break;
 
@@ -2332,10 +2537,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			default:
 				sb.append("sin(");
 			}
-			if (STRING_TYPE.equals(StringType.PGF))
+			if (STRING_TYPE.equals(StringType.PGF)) {
 				sb.append("(" + leftStr + ") 180/pi");
-			else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(rightBracket(STRING_TYPE));
 
 			break;
@@ -2357,10 +2563,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			default:
 				sb.append("tan(");
 			}
-			if (STRING_TYPE.equals(StringType.PGF))
+			if (STRING_TYPE.equals(StringType.PGF)) {
 				sb.append("(" + leftStr + ") 180/pi");
-			else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(rightBracket(STRING_TYPE));
 			break;
 
@@ -2381,10 +2588,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			default:
 				sb.append("csc(");
 			}
-			if (STRING_TYPE.equals(StringType.PGF))
+			if (STRING_TYPE.equals(StringType.PGF)) {
 				sb.append("(" + leftStr + ") 180/pi");
-			else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(rightBracket(STRING_TYPE));
 			break;
 
@@ -2405,10 +2613,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			default:
 				sb.append("sec(");
 			}
-			if (STRING_TYPE.equals(StringType.PGF))
+			if (STRING_TYPE.equals(StringType.PGF)) {
 				sb.append("(" + leftStr + ") 180/pi");
-			else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(rightBracket(STRING_TYPE));
 			break;
 
@@ -2429,10 +2638,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			default:
 				sb.append("cot(");
 			}
-			if (STRING_TYPE.equals(StringType.PGF))
+			if (STRING_TYPE.equals(StringType.PGF)) {
 				sb.append("(" + leftStr + ") 180/pi");
-			else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(rightBracket(STRING_TYPE));
 			break;
 
@@ -2575,7 +2785,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case PSTRICKS:
 				sb.append("ATAN2(");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("myatan2(");
 				break;
@@ -2719,14 +2929,19 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// Application.debug("EXP");
 			switch (STRING_TYPE) {
 			case LATEX:
-				
+
 				// add brackets for eg e^b^c -> e^(b^c)
-				boolean addParentheses = (left.isExpressionNode() && ((ExpressionNode)left).getOperation().equals(Operation.POWER));
-				
+				boolean addParentheses = (left.isExpressionNode() && ((ExpressionNode) left)
+						.getOperation().equals(Operation.POWER));
+
 				sb.append("e^{");
-				if (addParentheses) sb.append(leftBracket(STRING_TYPE));
+				if (addParentheses) {
+					sb.append(leftBracket(STRING_TYPE));
+				}
 				sb.append(leftStr);
-				if (addParentheses) sb.append(rightBracket(STRING_TYPE));
+				if (addParentheses) {
+					sb.append(rightBracket(STRING_TYPE));
+				}
 				sb.append('}');
 				break;
 
@@ -2791,8 +3006,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			sb.append(leftStr);
 			sb.append(rightBracket(STRING_TYPE));
 			break;
-			
-			
+
 		case LOGB:
 			switch (STRING_TYPE) {
 			case LATEX:
@@ -2813,7 +3027,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(rightStr);
@@ -2831,7 +3045,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			default:
 				sb.append("log(");
 				sb.append(leftStr);
@@ -2839,7 +3053,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			}
 			break;
 
@@ -2864,7 +3078,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(rightStr);
 				sb.append(')');
 				break;
-				
+
 			}
 			break;
 
@@ -2885,7 +3099,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			}
 			break;
 
@@ -2906,7 +3120,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			}
 			break;
 
@@ -2931,7 +3145,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(leftStr);
@@ -2960,7 +3174,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(leftStr);
@@ -3031,7 +3245,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("myabs(");
 				sb.append(leftStr);
@@ -3179,11 +3393,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MATH_PIPER:
 				sb.append("Round(");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("myround(");
 				break;
-				
+
 			default:
 				sb.append("round(");
 			}
@@ -3217,7 +3431,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MAXIMA:
 				sb.append("gamma_incomplete(");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("gamma2(");
 
@@ -3296,7 +3510,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			case MAXIMA:
 				sb.append("beta_incomplete_regularized(");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("beta3(");
 				break;
@@ -3311,9 +3525,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			break;
 
 		case RANDOM:
-			if (valueForm)
+			if (valueForm) {
 				sb.append(leftStr);
-			else
+			} else {
 				switch (STRING_TYPE) {
 				case MPREDUCE:
 					sb.append("myrandom()");
@@ -3321,6 +3535,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				default:
 					sb.append("random()");
 				}
+			}
 			break;
 
 		case XCOORD:
@@ -3332,7 +3547,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[0]));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()) instanceof GeoLineInterface) {
+					&& ((leftEval = left.evaluate()) instanceof GeoLineInterface)) {
 				sb.append(kernel.format(((GeoLineInterface) leftEval).getX()));
 			} else {
 				switch (STRING_TYPE) {
@@ -3341,18 +3556,18 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
 					break;
-					
-        		case MATH_PIPER:
-        		case MAXIMA:
-        		case MPREDUCE:
-        			// we need to protect x(A) as a constant in the CAS
-        			// see http://www.geogebra.org/trac/ticket/662
-        			// see http://www.geogebra.org/trac/ticket/922
-        			sb.append("xcoord(");
+
+				case MATH_PIPER:
+				case MAXIMA:
+				case MPREDUCE:
+					// we need to protect x(A) as a constant in the CAS
+					// see http://www.geogebra.org/trac/ticket/662
+					// see http://www.geogebra.org/trac/ticket/922
+					sb.append("xcoord(");
 					sb.append(leftStr);
 					sb.append(')');
-        			break;
-        			
+					break;
+
 				default:
 					sb.append("x(");
 					sb.append(leftStr);
@@ -3370,7 +3585,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[1]));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()) instanceof GeoLineInterface) {
+					&& ((leftEval = left.evaluate()) instanceof GeoLineInterface)) {
 				sb.append(kernel.format(((GeoLineInterface) leftEval).getY()));
 			} else {
 				switch (STRING_TYPE) {
@@ -3379,17 +3594,17 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
-					
+
 				case MATH_PIPER:
-        		case MAXIMA:
-        		case MPREDUCE:
-        			// we need to protect x(A) as a constant in the CAS
-        			// see http://www.geogebra.org/trac/ticket/662
-        			// see http://www.geogebra.org/trac/ticket/922
-        			sb.append("ycoord(");
+				case MAXIMA:
+				case MPREDUCE:
+					// we need to protect x(A) as a constant in the CAS
+					// see http://www.geogebra.org/trac/ticket/662
+					// see http://www.geogebra.org/trac/ticket/922
+					sb.append("ycoord(");
 					sb.append(leftStr);
 					sb.append(')');
-        			break;
+					break;
 
 				default:
 					sb.append("y(");
@@ -3404,7 +3619,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[2]));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()) instanceof GeoLineInterface) {
+					&& ((leftEval = left.evaluate()) instanceof GeoLineInterface)) {
 				sb.append(kernel.format(((GeoLineInterface) leftEval).getZ()));
 			} else {
 				switch (STRING_TYPE) {
@@ -3415,15 +3630,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					break;
 
 				case MATH_PIPER:
-        		case MAXIMA:
-        		case MPREDUCE:
-        			// we need to protect x(A) as a constant in the CAS
-        			// see http://www.geogebra.org/trac/ticket/662
-        			// see http://www.geogebra.org/trac/ticket/922
-        			sb.append("zcoord(");
+				case MAXIMA:
+				case MPREDUCE:
+					// we need to protect x(A) as a constant in the CAS
+					// see http://www.geogebra.org/trac/ticket/662
+					// see http://www.geogebra.org/trac/ticket/922
+					sb.append("zcoord(");
 					sb.append(leftStr);
 					sb.append(')');
-        			break;
+					break;
 
 				default:
 					sb.append("z(");
@@ -3433,7 +3648,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			}
 			break;
 
-		case FUNCTION:			
+		case FUNCTION:
 			// GeoFunction and GeoFunctionConditional should not be expanded
 			if (left instanceof GeoFunctionInterface) {
 				GeoFunctionInterface geo = (GeoFunctionInterface) left;
@@ -3442,7 +3657,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));
-				} else {					
+				} else {
 					// inline function: replace function var by right side
 					FunctionVariable var = geo.getFunction()
 							.getFunctionVariable();
@@ -3451,7 +3666,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					sb.append(geo.getLabel());
 					var.setVarString(oldVarStr);
 				}
-			} else if (valueForm && left.isExpressionNode()) {				
+			} else if (valueForm && left.isExpressionNode()) {
 				ExpressionNode en = (ExpressionNode) left;
 				// left could contain $ nodes to wrap a GeoElement
 				// e.g. A1(x) = x^2 and B1(x) = $A$1(x)
@@ -3481,38 +3696,44 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			}
 			break;
 
-			// TODO: put back into case FUNCTION_NVAR:, see #1115
+		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
 			sb.append(app.getCommand("Element"));
 			sb.append('[');
 			if (left.isGeoElement()) {
 				sb.append(((GeoElement) left).getLabel());
-			} else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(", ");
 			sb.append(((MyListInterface) right).getListElement(0).toString());
 			sb.append(']');
 			break;
-			
+
 		case FUNCTION_NVAR:
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
-				if (left instanceof FunctionalNVar && right instanceof MyListInterface) {
-					FunctionNVarInterface func = ((FunctionalNVar) left).getFunction();
-					ExpressionNode en = (ExpressionNode)func.getExpression().getCopy(kernel);
-					for (int i = 0; i < func.getVarNumber()
-							&& i < ((MyListInterface) right).size(); i++) {
+				if ((left instanceof FunctionalNVar)
+						&& (right instanceof MyListInterface)) {
+					FunctionNVarInterface func = ((FunctionalNVar) left)
+							.getFunction();
+					ExpressionNode en = (ExpressionNode) func.getExpression()
+							.getCopy(kernel);
+					for (int i = 0; (i < func.getVarNumber())
+							&& (i < ((MyListInterface) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
 								((MyListInterface) right).getListElement(i));
 					}
-					// add brackets, see http://www.geogebra.org/trac/ticket/1446
-					if (!STRING_TYPE.equals(StringType.LATEX)) 
+					// add brackets, see
+					// http://www.geogebra.org/trac/ticket/1446
+					if (!STRING_TYPE.equals(StringType.LATEX)) {
 						sb.append(leftBracket(STRING_TYPE));
+					}
 					sb.append(en.toValueString());
-					if (!STRING_TYPE.equals(StringType.LATEX))
+					if (!STRING_TYPE.equals(StringType.LATEX)) {
 						sb.append(rightBracket(STRING_TYPE));
-				} 
-				else {
+					}
+				} else {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -3521,26 +3742,30 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				// multivariate functions
 				if (left.isGeoElement()) {
 					sb.append(((GeoElement) left).getLabel());
-				} else
+				} else {
 					sb.append(leftStr);
+				}
 				sb.append(leftBracket(STRING_TYPE));
 				// rightStr is a list of arguments, e.g. {2, 3}
 				// drop the curly braces { and }
 				// or list( and ) in case of mpreduce
-				if (STRING_TYPE.equals(StringType.MPREDUCE))
+				if (STRING_TYPE.equals(StringType.MPREDUCE)) {
 					sb.append(rightStr.substring(22, rightStr.length() - 2));
-				else
+				} else {
 					sb.append(rightStr.substring(1, rightStr.length() - 1));
+				}
 				sb.append(rightBracket(STRING_TYPE));
 			}
 			break;
 
 		case VEC_FUNCTION:
 			// GeoCurveCartesian should not be expanded
-			if (left.isGeoElement() && ((GeoElement) left).isGeoCurveCartesian()) {
+			if (left.isGeoElement()
+					&& ((GeoElement) left).isGeoCurveCartesian()) {
 				sb.append(((GeoElement) left).getLabel());
-			} else
+			} else {
 				sb.append(leftStr);
+			}
 			sb.append(leftBracket(STRING_TYPE));
 			sb.append(rightStr);
 			sb.append(rightBracket(STRING_TYPE));
@@ -3550,15 +3775,18 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			// labeled GeoElements should not be expanded
 			if (left.isGeoElement() && ((GeoElement) left).isLabelSet()) {
 				sb.append(((GeoElement) left).getLabel());
-			} else
+			} else {
 				sb.append(leftStr);
+			}
 
 			if (right.isNumberValue()) {
 				int order = (int) Math.round(((MyDouble) right).getDouble());
-				for (; order > 0; order--)
+				for (; order > 0; order--) {
 					sb.append('\'');
-			} else
+				}
+			} else {
 				sb.append(right);
+			}
 			break;
 
 		case $VAR_ROW: // e.g. A$1
@@ -3605,9 +3833,10 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				}
 			}
 			break;
-			
+
 		case FREEHAND:
-			// need to output eg freehand(ggbtmpvarx) so that Derivative fails rather than giving zero
+			// need to output eg freehand(ggbtmpvarx) so that Derivative fails
+			// rather than giving zero
 			sb.append("freehand(");
 			sb.append(leftStr);
 			sb.append(')');
@@ -3626,15 +3855,18 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * @return operation number
 	 */
 	static public int opID(ExpressionValue ev) {
-		if (ev.isExpressionNode()){
+		if (ev.isExpressionNode()) {
 			Operation op = ((ExpressionNode) ev).operation;
-			//input (x>y)==(x+y>3) must be kept
-			if(op.equals(Operation.GREATER) || op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL) || op.equals(Operation.GREATER_EQUAL))
+			// input (x>y)==(x+y>3) must be kept
+			if (op.equals(Operation.GREATER) || op.equals(Operation.LESS)
+					|| op.equals(Operation.LESS_EQUAL)
+					|| op.equals(Operation.GREATER_EQUAL)) {
 				return Operation.NOT_EQUAL.ordinal() - 1;
+			}
 			return op.ordinal();
-		}
-		else
+		} else {
 			return -1;
+		}
 	}
 
 	public boolean isNumberValue() {
@@ -3656,11 +3888,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	public boolean isTextValue() {
 		// should be efficient as it is used in operationToString()
-		if (leaf)
+		if (leaf) {
 			return left.isTextValue();
-		else
+		} else {
 			return (operation.equals(Operation.PLUS) && (left.isTextValue() || right
 					.isTextValue()));
+		}
 	}
 
 	final public boolean isExpressionNode() {
@@ -3686,9 +3919,11 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			return ((TextValue) ev1).toValueString().equals(
 					((TextValue) ev2).toValueString());
 		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
-			return ((VectorValue) ev1).getVector().equals(((VectorValue) ev2).getVector());
+			return ((VectorValue) ev1).getVector().equals(
+					((VectorValue) ev2).getVector());
 		} else if (ev1.isBooleanValue() && ev2.isBooleanValue()) {
-			return ((BooleanValue) ev1).getMyBoolean().getBoolean() == ((BooleanValue) ev2).getMyBoolean().getBoolean();
+			return ((BooleanValue) ev1).getMyBoolean().getBoolean() == ((BooleanValue) ev2)
+					.getMyBoolean().getBoolean();
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
 			return ((GeoElement) ev1).isEqual(((GeoElement) ev2));
 		}
@@ -3709,7 +3944,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 */
 	final public static boolean isEqualString(ExpressionValue ev, double val,
 			boolean symbolic) {
-		if (ev.isLeaf() && ev instanceof NumberValue) {
+		if (ev.isLeaf() && (ev instanceof NumberValue)) {
 			// function variables need to be kept
 			if (ev instanceof FunctionVariable) {
 				return false;
@@ -3724,8 +3959,9 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					// labeled GeoElement
 					GeoElement geo = (GeoElement) ev;
 					if (geo.isLabelSet() || geo.isLocalVariable()
-							|| !geo.isIndependent())
+							|| !geo.isIndependent()) {
 						return false;
+					}
 				}
 			}
 
@@ -3735,15 +3971,18 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		return false;
 	}
 
+	@Override
 	public boolean isTopLevelCommand() {
-		return isLeaf() && left instanceof AbstractCommand;
+		return isLeaf() && (left instanceof AbstractCommand);
 	}
 
+	@Override
 	public AbstractCommand getTopLevelCommand() {
-		if (isTopLevelCommand())
+		if (isTopLevelCommand()) {
 			return (AbstractCommand) left;
-		else
+		} else {
 			return null;
+		}
 	}
 
 	private static String leftBracket(StringType type) {
@@ -3756,14 +3995,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	private static String multiplicationSign(StringType type) {
 		switch (type) {
-			case LATEX:
-				return " \\cdot ";
-			
-			case GEOGEBRA:
-				return " "; // space for multiplication
-				
-			default: 
-				return " * ";
+		case LATEX:
+			return " \\cdot ";
+
+		case GEOGEBRA:
+			return " "; // space for multiplication
+
+		default:
+			return " * ";
 		}
 	}
 
@@ -3792,10 +4031,12 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		Double lc = getLeftTree() == null ? null : getLeftTree()
 				.getCoefficient(fv);
 		Double rc = getRightTree() == null ? null : getRightTree()
-				.getCoefficient(fv);		
-		if (lc == null || rc == null)
+				.getCoefficient(fv);
+		if ((lc == null) || (rc == null)) {
 			return null;
-		if (this.operation.equals(Operation.PLUS) && lc != null && rc != null) {
+		}
+		if (this.operation.equals(Operation.PLUS) && (lc != null)
+				&& (rc != null)) {
 			return lc + rc;
 		} else if (this.operation.equals(Operation.MINUS)) {
 			return lc - rc;
@@ -3808,19 +4049,20 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		} else if (this.operation.equals(Operation.DIVIDE)
 				&& !getRightTree().containsFunctionVariable()) {
 			return lc / ((NumberValue) getRightTree().evaluate()).getDouble();
-		} else if ((left.contains(fv) || right.contains(fv)))
+		} else if ((left.contains(fv) || right.contains(fv))) {
 			return null;
+		}
 		return 0.0;
 
 	}
 
 	/*
-	 * appends a string to sb, brackets are put around it if the order of operation
-	 * dictates
+	 * appends a string to sb, brackets are put around it if the order of
+	 * operation dictates
 	 */
-	private static void append(StringBuilder sb, String str, ExpressionValue ev,
-			Operation op, StringType STRING_TYPE) {
-		if (ev.isLeaf() || opID(ev) >= op.ordinal()) {
+	private static void append(StringBuilder sb, String str,
+			ExpressionValue ev, Operation op, StringType STRING_TYPE) {
+		if (ev.isLeaf() || (opID(ev) >= op.ordinal())) {
 			sb.append(str);
 		} else {
 			sb.append(leftBracket(STRING_TYPE));
@@ -3830,12 +4072,14 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 
 	}
 
+	@Override
 	public String toRealString() {
 		if (leaf) { // leaf is GeoElement or not
-			if (left.isGeoElement())
+			if (left.isGeoElement()) {
 				return ((GeoElement) left).getRealLabel();
-			else
+			} else {
 				return left.toRealString();
+			}
 		}
 
 		// expression node
@@ -3855,62 +4099,73 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		}
 		return operationToString(leftStr, rightStr, false);
 	}
-	
-	public ExpressionNode plus(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,Operation.PLUS,v2);
+
+	public ExpressionNode plus(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.PLUS, v2);
 	}
-	public ExpressionNode multiply(ExpressionValue v2){
-		return new ExpressionNode(kernel,v2,Operation.MULTIPLY,this);
+
+	public ExpressionNode multiply(ExpressionValue v2) {
+		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
 	}
-	public ExpressionNode power(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,Operation.POWER,v2);
+
+	public ExpressionNode power(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.POWER, v2);
 	}
-	public ExpressionNode divide(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,Operation.DIVIDE,v2);
+
+	public ExpressionNode divide(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.DIVIDE, v2);
 	}
-	public ExpressionNode and(ExpressionValue v2){
-		return new ExpressionNode(kernel,this,Operation.AND,v2);
+
+	public ExpressionNode and(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.AND, v2);
 	}
-	public ExpressionNode negation(){
-		switch(this.operation) {
-			case GREATER:
-				return new ExpressionNode(kernel,left,Operation.LESS_EQUAL,right);
-			case GREATER_EQUAL:
-				return new ExpressionNode(kernel,left,Operation.LESS,right);
-			case LESS:
-				return new ExpressionNode(kernel,left,Operation.GREATER_EQUAL,right);
-			case LESS_EQUAL:
-				return new ExpressionNode(kernel,left,Operation.GREATER,right);
-			case EQUAL_BOOLEAN:
-				return new ExpressionNode(kernel,left,Operation.NOT_EQUAL,right);
-			case NOT_EQUAL:
-				return new ExpressionNode(kernel,left,Operation.EQUAL_BOOLEAN,right);
-			default:
-				return new ExpressionNode(kernel,this,Operation.NOT,null);
+
+	public ExpressionNode negation() {
+		switch (this.operation) {
+		case GREATER:
+			return new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);
+		case GREATER_EQUAL:
+			return new ExpressionNode(kernel, left, Operation.LESS, right);
+		case LESS:
+			return new ExpressionNode(kernel, left, Operation.GREATER_EQUAL,
+					right);
+		case LESS_EQUAL:
+			return new ExpressionNode(kernel, left, Operation.GREATER, right);
+		case EQUAL_BOOLEAN:
+			return new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);
+		case NOT_EQUAL:
+			return new ExpressionNode(kernel, left, Operation.EQUAL_BOOLEAN,
+					right);
+		default:
+			return new ExpressionNode(kernel, this, Operation.NOT, null);
 		}
 	}
 
 	public double getDegree(FunctionVariable fv) {
 		if (this.isLeaf()) {
-			if (this.equals(fv) || left.equals(fv)) {
+			if (left.equals(fv)) {
 				return 1.0;
 			}
 
 			return 0.0;
 
 		}
-		if(operation.equals(Operation.POWER) && left == fv){
+		if (operation.equals(Operation.POWER) && (left == fv)) {
 			ExpressionValue rt = right.evaluate();
-			if(rt.isNumberValue())
-				return ((NumberValue)rt).getDouble();
+			if (rt.isNumberValue()) {
+				return ((NumberValue) rt).getDouble();
+			}
 		}
-		if(operation.equals(Operation.MULTIPLY))
-			return getLeftTree().getDegree(fv)+getRightTree().getDegree(fv);
-		if(operation.equals(Operation.PLUS) || operation.equals(Operation.MINUS))
-			return Math.max(getLeftTree().getDegree(fv),getRightTree().getDegree(fv));
+		if (operation.equals(Operation.MULTIPLY)) {
+			return getLeftTree().getDegree(fv) + getRightTree().getDegree(fv);
+		}
+		if (operation.equals(Operation.PLUS)
+				|| operation.equals(Operation.MINUS)) {
+			return Math.max(getLeftTree().getDegree(fv), getRightTree()
+					.getDegree(fv));
+		}
 		return 0;
-		
+
 	}
-	
 
 }
