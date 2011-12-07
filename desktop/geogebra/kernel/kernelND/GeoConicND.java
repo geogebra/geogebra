@@ -959,7 +959,7 @@ Translateable
 	 * Removes a point from the list of points that this conic passes through.
 	 * @param p Point to be removed
 	 */
-	public final void removePointOnConic(GeoPoint p) {
+	public final void removePointOnConic(GeoPointND p) {
 		if (pointsOnConic != null)
 			pointsOnConic.remove(p);
 	}

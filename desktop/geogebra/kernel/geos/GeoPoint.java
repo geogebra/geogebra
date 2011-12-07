@@ -70,7 +70,6 @@ import geogebra.common.util.Unicode;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.kernel.algos.AlgoDependentPoint;
 import geogebra.kernel.algos.AlgoDynamicCoordinates;
-import geogebra.kernel.kernelND.GeoConicND;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -510,7 +509,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
         // of conics correctly for path parameter calculation of point P
         GeoElement geo = (GeoElement)path.toGeoElement();
         if (geo.isGeoConic()) {
-        	((GeoConicND) geo).addPointOnConic(this);
+        	((GeoConicInterface) geo).addPointOnConic(this);//GeoConicND
         }   
 	}
 	
@@ -890,10 +889,10 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
  * Invert point in circle
  */
     final public void mirror(GeoConicInterface c) {
-    	if (c.getType()==GeoConic.CONIC_CIRCLE)
+    	if (c.getType()==4/*GeoConic.CONIC_CIRCLE*/)
     	{ // Mirror point in circle
     		double r =  c.getHalfAxes()[0];
-    		GeoVec2D midpoint=((GeoConic)c).getTranslationVector();
+    		GeoVec2D midpoint=(GeoVec2D)(c.getTranslationVector());
     		double a=midpoint.x;
     		double b=midpoint.y;
     		if(Double.isInfinite(x)||Double.isInfinite(y2D))
@@ -1287,7 +1286,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		if (path != null) {
 			GeoElement geo = (GeoElement)path.toGeoElement();
 			if (geo.isGeoConic()) {
-				((GeoConicND) geo).removePointOnConic(this);
+				((GeoConicInterface) geo).removePointOnConic(this);//GeoConicND
 			}
 		}
 		
@@ -1296,7 +1295,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			for (int i=0; i<incidenceList.size(); ++i) {
 				GeoElement geo = incidenceList.get(i);
 				if (geo.isGeoConic()) {
-					((GeoConicND) geo).removePointOnConic(this);
+					((GeoConicInterface) geo).removePointOnConic(this);//GeoConicND
 				} else if (geo.isGeoLine()) {
 					((GeoLineInterface) geo).removePointOnLine(this);
 				}
@@ -1706,7 +1705,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 			
 			//GeoConicND, GeoLine, GeoPoint are the three types who have an incidence list 
 			if (geo.isGeoConic())
-				((GeoConicND)geo).addPointOnConic(this);
+				((GeoConicInterface)geo).addPointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
 				((GeoLineInterface)geo).addPointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
@@ -1724,7 +1723,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 				incidenceList.remove(geo);
 			
 			if (geo.isGeoConic())
-				((GeoConicND)geo).removePointOnConic(this);
+				((GeoConicInterface)geo).removePointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
 				((GeoLineInterface)geo).removePointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
