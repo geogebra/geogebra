@@ -125,8 +125,8 @@ public class GuiManager {
   private static final int SPREADSHEET_INI_COLS = 26;
   private static final int SPREADSHEET_INI_ROWS = 100;
 
-  private static final boolean USE_COMPRESSED_VIEW = true;
-  private static final int CV_UPDATES_PER_SECOND = 10;
+  private static boolean USE_COMPRESSED_VIEW = true;
+  private static int CV_UPDATES_PER_SECOND = 10;
 
   public Application app;
   protected Kernel kernel;
@@ -345,9 +345,8 @@ public class GuiManager {
   protected AlgebraView newAlgebraView(AlgebraController algc) {
     if (USE_COMPRESSED_VIEW) {
       return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
-    } else {
-      return new AlgebraView(algc);
     }
+    return new AlgebraView(algc);
   }
 
   public ConstructionProtocolView getConstructionProtocolView() {
