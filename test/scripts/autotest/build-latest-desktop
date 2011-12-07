@@ -8,10 +8,10 @@ test -r autotest.conf || {
  }
 test -r autotest.conf && . ./autotest.conf
 
-MYDIR=$SVNDIR/test/scripts/autotest
+MYDIR=$SVNDIR/geogebra/test/scripts/autotest
 
 ./check-if-latest || {
- cd $SVNDIR
+ cd $SVNDIR/geogebra
  $SVN_COMMAND update
  cd $MYDIR
  ./build-desktop
