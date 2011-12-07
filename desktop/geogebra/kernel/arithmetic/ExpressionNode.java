@@ -43,6 +43,7 @@ import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoDummyVariableInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
@@ -51,7 +52,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.TextInputDialog;
-import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoLine;
 
 import java.util.HashSet;
@@ -450,8 +450,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		boolean didReplacement = false;
 		
 		// left wing
-		if (left instanceof GeoDummyVariable) {
-			if (var.equals(((GeoDummyVariable) left).toString())) {
+		if (left instanceof GeoDummyVariableInterface) {
+			if (var.equals(((GeoDummyVariableInterface) left).toString())) {
 				left = newOb;
 				didReplacement = true;
 			}
@@ -468,8 +468,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		
 		// right wing
 		if (right != null) {
-			if (right instanceof GeoDummyVariable) {
-				if (var.equals(((GeoDummyVariable) right).toString())) {
+			if (right instanceof GeoDummyVariableInterface) {
+				if (var.equals(((GeoDummyVariableInterface) right).toString())) {
 					right = newOb;
 					didReplacement = true;
 				}
@@ -638,8 +638,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 				replacements++;
 			}
 		}
-		if (left instanceof GeoDummyVariable) {
-			if (varName.equals(((GeoDummyVariable) left).toString())) {
+		if (left instanceof GeoDummyVariableInterface) {
+			if (varName.equals(((GeoDummyVariableInterface) left).toString())) {
 				left = fVar;
 				replacements++;
 			}
@@ -665,8 +665,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 					replacements++;
 				}
 			}  
-			else if (right instanceof GeoDummyVariable) {
-				if (varName.equals(((GeoDummyVariable) right).toString())) {
+			else if (right instanceof GeoDummyVariableInterface) {
+				if (varName.equals(((GeoDummyVariableInterface) right).toString())) {
 					right = fVar;
 					replacements++;
 				}

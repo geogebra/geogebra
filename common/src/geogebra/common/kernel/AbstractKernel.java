@@ -1889,4 +1889,6 @@ public abstract class AbstractKernel {
 	public abstract String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo);
 
 	public abstract ExpressionValue getEmptyPolynomial(ExpressionValue left);
+
+	public abstract GeoElement getGeoDummyVariable(String name);
 }

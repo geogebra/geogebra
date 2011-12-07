@@ -8096,4 +8096,9 @@ public class Kernel extends AbstractKernel{
 	public ExpressionValue getEmptyPolynomial(ExpressionValue left) {
 		return new Polynomial(this, new Term(this, left, ""));
 	}
+
+	@Override
+	public GeoElement getGeoDummyVariable(String name) {
+		return new GeoDummyVariable(getConstruction(),name);
+	}
 }

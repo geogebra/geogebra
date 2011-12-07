@@ -24,7 +24,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
-import geogebra.kernel.geos.GeoDummyVariable;
+//import geogebra.kernel.geos.GeoDummyVariable;
 
 import java.util.HashSet;
 
@@ -82,7 +82,7 @@ public class Variable extends ValidExpression implements ExpressionValue {
     	{
     		// resolve unknown variable as dummy geo to keep its name and 
 			// avoid an "unknown variable" error message
-			return new GeoDummyVariable(kernel.getConstruction(), name);
+			return kernel.getGeoDummyVariable(name);
     	}
        
     	// lookup variable name, create missing variables automatically if allowed
