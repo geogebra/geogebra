@@ -2,7 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-public interface GeoNumericInterface extends NumberValue {
+public interface GeoNumericInterface extends NumberValue, GeoElementInterface {
 
 	public static int DEFAULT_SLIDER_WIDTH_RW = 4;//private
 	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;//private
@@ -38,4 +38,17 @@ public interface GeoNumericInterface extends NumberValue {
 	
 	public void updateRandom();
 
+	public GeoElement getIntervalMaxObject();
+	
+	public GeoElement getIntervalMinObject();
+	
+	public boolean isChangeable();//GeoElement
+
+	public boolean isIntervalMinActive();
+	
+	public boolean isIntervalMaxActive();
+	
+	public double getIntervalMin();
+	
+	public double getIntervalMax();
 }
