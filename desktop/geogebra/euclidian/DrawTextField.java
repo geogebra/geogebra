@@ -13,11 +13,11 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;

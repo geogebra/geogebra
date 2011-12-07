@@ -1,8 +1,8 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.geos.GeoFunction;

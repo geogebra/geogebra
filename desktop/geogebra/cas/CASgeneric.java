@@ -1,6 +1,7 @@
 package geogebra.cas;
 
 import geogebra.cas.error.CASException;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
@@ -10,7 +11,6 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.arithmetic.FunctionalNVar;
 import geogebra.main.MyResourceBundle;
 import geogebra.main.settings.CASSettings;
 

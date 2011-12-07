@@ -10,12 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.arithmetic.Evaluatable;
-import geogebra.common.kernel.arithmetic.FunctionInterface;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
-import geogebra.kernel.geos.GeoFunction;
 
 
 /**

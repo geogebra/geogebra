@@ -10,10 +10,8 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
-import geogebra.common.kernel.arithmetic.IneqTreeInterface;
 
 /**
  * Interface for GeoFunction and GeoFunctionNVar
