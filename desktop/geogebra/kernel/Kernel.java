@@ -57,6 +57,7 @@ import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -139,7 +140,6 @@ import geogebra.kernel.geos.GeoRay;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoTextField;
-import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
@@ -8054,10 +8054,6 @@ public class Kernel extends AbstractKernel{
 		return new geogebra.awt.Color(red, green, blue, alpha);
 	}
 
-	public geogebra.common.adapters.Complex newComplex(double r, double i) {
-		return new Complex(r, i);
-	}
-	
 	public NumberFormatAdapter getNumberFormat(){
 		return new NumberFormatDesktop();
 	}

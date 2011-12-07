@@ -27,11 +27,11 @@ import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Macro;
-import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

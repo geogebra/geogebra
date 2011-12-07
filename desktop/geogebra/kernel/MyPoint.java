@@ -13,9 +13,9 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.geos.GeoPoint2;
-import geogebra.kernel.geos.GeoVec2D;
 
 
 

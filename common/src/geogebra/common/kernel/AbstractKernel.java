@@ -213,8 +213,6 @@ public abstract class AbstractKernel {
 		public abstract NumberFormatAdapter getNumberFormat();
 		public abstract NumberFormatAdapter getNumberFormat(String s);
 		public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
-		public abstract Complex newComplex(double r, double i);
-
 
 		public abstract ScientificFormatAdapter getScientificFormat(int a, int b, boolean c);
 		public void setSaveScriptsToXML(boolean flag) {

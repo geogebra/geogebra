@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 31. August 2001, 11:34
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
@@ -27,9 +27,6 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
-import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
@@ -96,10 +93,10 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */
-    public GeoVec2D(AbstractKernel kernel, GeoPoint2 p, GeoPoint2 q) {   
+    public GeoVec2D(AbstractKernel kernel, GeoPointInterface p, GeoPointInterface q) {   
     	this(kernel);    
-        x = q.x - p.x;
-        y = q.y - p.y;
+        x = q.getX() - p.getX();
+        y = q.getY() - p.getY();
     }
    
     public void setX(double x) { this.x = x; }
@@ -233,9 +230,9 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     /**
      * mirror this point at point Q
      */
-    final public void mirror(GeoPoint2 Q) {           
-        x = 2.0 * Q.inhomX - x;
-        y = 2.0 * Q.inhomY - y;
+    final public void mirror(GeoPointInterface Q) {           
+        x = 2.0 * Q.getInhomX() - x;
+        y = 2.0 * Q.getInhomY() - y;
     }
     
     /**
@@ -722,7 +719,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			
 			boolean vector = false;
 			
-			if ((rt instanceof GeoPoint2) || (rt instanceof GeoLine)) {
+			if ((rt instanceof GeoPointInterface) || (rt instanceof GeoLineInterface)) {
 				GeoVec3D p = (GeoVec3D)rt;
 				// use homogeneous coordinates if available
 				xx = p.x;
