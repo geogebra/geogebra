@@ -47,6 +47,7 @@ import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
@@ -8118,5 +8119,10 @@ public class Kernel extends AbstractKernel{
 	@Override
 	public GeoFunctionInterface getGeoFunction() {
 		return new GeoFunction(getConstruction());
+	}
+
+	@Override
+	public GeoConicInterface getGeoConic() {
+		return new GeoConic(getConstruction());
 	}
 }

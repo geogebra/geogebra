@@ -542,4 +542,8 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		return 0;
 	}
 
+	public double getP() {
+		return p;
+	}
+
 }

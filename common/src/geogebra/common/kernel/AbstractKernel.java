@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
@@ -1903,4 +1904,6 @@ public abstract class AbstractKernel {
 	public abstract ParserInterface getParser();
 
 	public abstract GeoFunctionInterface getGeoFunction();
+
+	public abstract GeoConicInterface getGeoConic();
 }

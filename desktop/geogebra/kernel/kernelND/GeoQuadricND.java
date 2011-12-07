@@ -6,6 +6,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 
@@ -15,26 +16,14 @@ import geogebra.kernel.geos.GeoConic;
  * @author matthieu
  *
  */
-public abstract class GeoQuadricND extends GeoElement {
+public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDConstants{
 	
 	
 	private int dimension;	
 	private int matrixDim;
 	
 	// types    
-	public static final int QUADRIC_SINGLE_POINT = 1;
-	public static final int QUADRIC_INTERSECTING_LINES = 2;
-	public static final int QUADRIC_ELLIPSOID = 3;
-	public static final int QUADRIC_SPHERE = 4;
-	public static final int QUADRIC_HYPERBOLOID = 5;
-	public static final int QUADRIC_EMPTY = 6;
-	public static final int QUADRIC_DOUBLE_LINE = 7;
-	public static final int QUADRIC_PARALLEL_LINES = 8;
-	public static final int QUADRIC_PARABOLOID = 9;
-	public static final int QUADRIC_LINE = 10;
 	
-	public static final int QUADRIC_CONE = 30;
-	public static final int QUADRIC_CYLINDER = 31;
 	
 	public int type = -1; // of quadric
 

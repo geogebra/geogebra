@@ -24,12 +24,14 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoConic;
+//import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoFunction;
 //import geogebra.kernel.implicit.GeoImplicitPoly;
 
@@ -58,7 +60,7 @@ public class Inequality {
 	private Operation op = Operation.LESS;
 	private int type;
 	/*private GeoImplicitPoly impBorder;*/
-	private GeoConic conicBorder;
+	private GeoConicInterface conicBorder;
 	private GeoFunction funBorder;
 	private GeoElement border;
 	private AbstractKernel kernel;
@@ -169,11 +171,11 @@ public class Inequality {
 			Polynomial newBorder =  equ.getNormalForm();			
 			if(newBorder.degree()<3){
 				if (conicBorder == null)
-					conicBorder = new GeoConic(kernel.getConstruction());
+					conicBorder = kernel.getGeoConic();
 				//conicBorder.setLabel("res");
 				conicBorder.setCoeffs(equ.getNormalForm().getCoeff());
 				type = INEQUALITY_CONIC;
-				border = conicBorder;						
+				border = (GeoElement)conicBorder;						
 				setAboveBorderFromConic();	
 			}
 			else{
@@ -203,9 +205,9 @@ public class Inequality {
 	}
 
 	private void setAboveBorderFromConic() {
-		if (conicBorder.type == GeoConic.CONIC_INTERSECTING_LINES ||
-				conicBorder.type == GeoConic.CONIC_EMPTY ||
-				conicBorder.type == GeoConic.CONIC_LINE) {
+		if (conicBorder.getType() == GeoConicInterface.CONIC_INTERSECTING_LINES ||
+				conicBorder.getType() == GeoConicInterface.CONIC_EMPTY ||
+				conicBorder.getType() == GeoConicInterface.CONIC_LINE) {
 			   		isAboveBorder = true;
 			   		return;
 		}
@@ -213,9 +215,10 @@ public class Inequality {
 		ExpressionNode normalCopy = (ExpressionNode) normal
 				.deepCopy(kernel);
 		double midX, midY;	
-		if (conicBorder.type == GeoConic.CONIC_PARABOLA){
-			midX = midpoint.getX()+conicBorder.p*conicBorder.eigenvec[0].x;
-			midY = midpoint.getY()+conicBorder.p*conicBorder.eigenvec[0].y;;
+		if (conicBorder.getType() == GeoConicInterface.CONIC_PARABOLA){
+			//TODO: replace with Eigenvec once GeoVec2D is ported
+			midX = midpoint.getX()+conicBorder.getP()*conicBorder.getEigenvec(0).getX();
+			midY = midpoint.getY()+conicBorder.getP()*conicBorder.getEigenvec(0).getY();
 		} else {					
 			midX = midpoint.getY();
 			midY = midpoint.getX();
@@ -225,7 +228,7 @@ public class Inequality {
 		double valAtCenter = ((NumberValue) normalCopy.evaluate())
 				.getDouble();
 		isAboveBorder = (valAtCenter < 0)
-				^ (conicBorder.getType() == GeoConic.CONIC_HYPERBOLA);		
+				^ (conicBorder.getType() == GeoConicNDConstants.CONIC_HYPERBOLA);		
 	}
 	
 	private void init1varFunction(int varIndex) {
@@ -329,7 +332,7 @@ public class Inequality {
 	/**
 	 * @return the conicBorder
 	 */
-	public GeoConic getConicBorder() {
+	public GeoConicInterface getConicBorder() {
 		return conicBorder;
 	}
 

@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.arithmetic.Inequality;
 import geogebra.kernel.geos.GeoFunction;
+import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
@@ -157,7 +158,7 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawInequality1Var(ineq, view, geo, true);
 			break;
 		case Inequality.INEQUALITY_CONIC:
-			drawable = new DrawConic(view, ineq.getConicBorder());
+			drawable = new DrawConic(view, (GeoConicND)ineq.getConicBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
 		/*case Inequality.INEQUALITY_IMPLICIT:
