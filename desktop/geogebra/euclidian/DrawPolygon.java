@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
@@ -22,7 +23,6 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoVec3D;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;

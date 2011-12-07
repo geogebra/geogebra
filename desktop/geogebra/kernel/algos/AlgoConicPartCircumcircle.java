@@ -15,11 +15,11 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
-import geogebra.kernel.geos.GeoVec3D;
 import geogebra.main.Application;
 
 /**

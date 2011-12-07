@@ -22,11 +22,11 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPolyLineInterface;
-import geogebra.kernel.geos.GeoVec3D;
 
 /**
  *

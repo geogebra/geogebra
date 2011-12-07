@@ -16,14 +16,12 @@ the Free Software Foundation.
  * Created on 31. August 2001, 11:22
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Traceable;
 
 /**
  *
@@ -212,7 +210,7 @@ implements Traceable {
     /** Calculates the line through the points A and B.
      * The result is stored in g.
      */
-    final public static void lineThroughPoints(GeoPoint A, GeoPoint B, GeoLine g) {
+    final public static void lineThroughPoints(GeoPointInterface A, GeoPointInterface B, GeoLineInterface g) {
     	// note: this could be done simply using cross(A, B, g)
     	// but we want to avoid large coefficients in the line
     	// and we want AB to be the direction vector of the line
@@ -228,22 +226,22 @@ implements Traceable {
 			    g.setUndefined();
 			} else { 
 				// through point B
-				g.setCoords(A.y , 
-		    			    -A.x,
-						    A.x * B.inhomY - A.y * B.inhomX);
+				g.setCoords(A.getY() , 
+		    			    -A.getX(),
+						    A.getX() * B.getInhomY() - A.getY() * B.getInhomX());
 			}
     	}
     	else { // through point A
 			if (B.isInfinite()) { 
 				// B is direction
-			    g.setCoords(-B.y, 
-	    			        B.x,
-					        A.inhomX * B.y - A.inhomY * B.x);
+			    g.setCoords(-B.getY(), 
+	    			        B.getX(),
+					        A.getInhomX() * B.getY() - A.getInhomY() * B.getX());
 			} else { 
 				// through point B
-				g.setCoords(A.inhomY - B.inhomY, 
-		    			   B.inhomX - A.inhomX,
-						   A.inhomX * B.inhomY - A.inhomY * B.inhomX);
+				g.setCoords(A.getInhomY() - B.getInhomY(), 
+		    			   B.getInhomX() - A.getInhomX(),
+						   A.getInhomX() * B.getInhomY() - A.getInhomY() * B.getInhomX());
 			}
     	}            
     }  
@@ -251,7 +249,7 @@ implements Traceable {
     /** Calculates the line through the points A and B.
      * The result is stored in g.
      */
-    final public static void lineThroughPointsCoords(Coords A, Coords B, GeoLine g) {
+    final public static void lineThroughPointsCoords(Coords A, Coords B, GeoLineInterface g) {
     	// note: this could be done simply using cross(A, B, g)
     	// but we want to avoid large coefficients in the line
     	// and we want AB to be the direction vector of the line
@@ -300,7 +298,7 @@ implements Traceable {
     /** Calculates the line through the point A with direction v.
      * The result is stored in g.
      */
-    final public static void lineThroughPointVector(GeoPoint A, GeoVec3D v, GeoLine g) {
+    final public static void lineThroughPointVector(GeoPointInterface A, GeoVec3D v, GeoLineInterface g) {
     	// note: this could be done simply using cross(A, v, g)
     	// but we want to avoid large coefficients in the line
     	// and we want v to be the direction vector of the line
@@ -312,7 +310,7 @@ implements Traceable {
 			// v is direction
 		    g.setCoords(-v.y, 
     			        v.x,
-				        A.inhomX * v.y - A.inhomY * v.x);
+				        A.getInhomX() * v.y - A.getInhomY() * v.x);
     	}        
     }  
     
@@ -418,7 +416,7 @@ implements Traceable {
      * Intergeo File Format (Yves Kreis)
      */
     @Override
-	protected void getI2Gtags(StringBuilder sb) {
+	public void getI2Gtags(StringBuilder sb) {//protected
         super.getI2Gtags(sb);
 
         sb.append("\t\t\t<homogeneous_coordinates>\n");

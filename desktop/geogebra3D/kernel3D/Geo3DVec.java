@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.ListValue;
 import geogebra.kernel.arithmetic.MyList;
@@ -32,7 +33,6 @@ import geogebra.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoVec2D;
-import geogebra.kernel.geos.GeoVec3D;
 
 import java.util.HashSet;
 
