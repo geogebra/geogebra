@@ -1,6 +1,8 @@
 package geogebra.common.kernel.geos;
 
-public interface GeoVec2DInterface {
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+
+public interface GeoVec2DInterface extends ExpressionValue{
 
 	public double getX();
 	public double getY();

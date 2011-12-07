@@ -10,13 +10,11 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Path;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.kernel.geos.GeoVec2D;
+//import geogebra.kernel.geos.GeoVec2D;
 
 
 public interface ParametricCurve extends Traceable, Path {
@@ -27,7 +25,7 @@ public interface ParametricCurve extends Traceable, Path {
 	RealRootFunction getRealRootFunctionY();
 			
 	void evaluateCurve(double t, double [] out);
-	GeoVec2D evaluateCurve(double t);	
+	GeoVec2DInterface evaluateCurve(double t);	
 
 	double evaluateCurvature(double t);	
 	boolean isFunctionInX();
