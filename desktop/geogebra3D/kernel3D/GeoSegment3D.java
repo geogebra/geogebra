@@ -11,7 +11,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 /**
@@ -377,7 +377,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 				&& endPoint.isLabelSet();
 	}
 
-	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
+	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
 		if (allowOutlyingIntersections)
 			return isOnFullLine(p.getCoordsInD(3), eps);
 		else

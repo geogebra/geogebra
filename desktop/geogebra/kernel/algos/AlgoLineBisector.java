@@ -17,24 +17,24 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 public class AlgoLineBisector extends AlgoElement {
 
-	private GeoPoint A, B;  // input    
+	private GeoPoint2 A, B;  // input    
     private GeoLine  g;     // output   
     
     // temp
-    private GeoPoint midPoint;
+    private GeoPoint2 midPoint;
         
     /** Creates new AlgoLineBisector */
-    public AlgoLineBisector(AbstractConstruction cons, String label,GeoPoint A,GeoPoint B) {
+    public AlgoLineBisector(AbstractConstruction cons, String label,GeoPoint2 A,GeoPoint2 B) {
         super(cons);
         this.A = A;
         this.B = B;        
         g = new GeoLine(cons); 
-        midPoint = new GeoPoint(cons);
+        midPoint = new GeoPoint2(cons);
         g.setStartPoint(midPoint);
         setInputOutput(); // for AlgoElement
         
@@ -67,9 +67,9 @@ public class AlgoLineBisector extends AlgoElement {
     }    
     
     public GeoLine getLine() { return g; }
-    GeoPoint getA() { return A; }
-    GeoPoint getB() { return B; }
-    GeoPoint getMidPoint() {
+    GeoPoint2 getA() { return A; }
+    GeoPoint2 getB() { return B; }
+    GeoPoint2 getMidPoint() {
         return midPoint;
     }
     

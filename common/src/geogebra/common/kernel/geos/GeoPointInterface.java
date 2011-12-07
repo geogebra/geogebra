@@ -18,7 +18,16 @@ public interface GeoPointInterface extends GeoElementInterface, GeoPointND {
 
 	public double getY();
 
+	public double getZ();
+
 	// below: temporary interface methods while porting
 	public void translate(Coords v);
 	public void setSpreadsheetTrace(boolean traceFlag);
+
+	public void setCoords(GeoVec3D startPoint);
+
+	public void setX(double d);
+	public void setY(double d);
+	public void setZ(double d);
+
 }

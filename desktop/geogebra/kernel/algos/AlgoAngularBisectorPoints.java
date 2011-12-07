@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVector;
 
@@ -37,7 +37,7 @@ import geogebra.kernel.geos.GeoVector;
  */
 public class AlgoAngularBisectorPoints extends AlgoElement {
 
-    private GeoPoint A, B, C; // input    
+    private GeoPoint2 A, B, C; // input    
     private GeoLine bisector; // output   
 
     // temp    
@@ -53,9 +53,9 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
     public AlgoAngularBisectorPoints(
         Construction cons,
         String label,
-        GeoPoint A,
-        GeoPoint B,
-        GeoPoint C) {
+        GeoPoint2 A,
+        GeoPoint2 B,
+        GeoPoint2 C) {
         super(cons);
         this.A = A;
         this.B = B;
@@ -100,13 +100,13 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
     public GeoLine getLine() {
         return bisector;
     }
-    GeoPoint getA() {
+    GeoPoint2 getA() {
         return A;
     }
-    GeoPoint getB() {
+    GeoPoint2 getB() {
         return B;
     }
-    GeoPoint getC() {
+    GeoPoint2 getC() {
         return C;
     }
 

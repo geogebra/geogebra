@@ -25,7 +25,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.PointPairList;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
 
@@ -41,8 +41,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	protected GeoLine g;  // input
 	protected GeoConic c;
 
-    private GeoPoint [] D;     // D: old points; Q: new points, not yet permuted
-    protected GeoPoint [] P, Q; //output -- Q permuted according to D
+    private GeoPoint2 [] D;     // D: old points; Q: new points, not yet permuted
+    protected GeoPoint2 [] P, Q; //output -- Q permuted according to D
     protected int intersectionType;
     
     private int age[]; // of defined points D
@@ -57,7 +57,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     private boolean isDefinedAsTangent;
     private boolean firstIntersection = true;
     private boolean isPermutationNeeded = true;
-    private GeoPoint tangentPoint;
+    private GeoPoint2 tangentPoint;
     
     private PointPairList pointList = new PointPairList();
     
@@ -121,15 +121,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     protected void initElements() {
     	// g is defined as tangent of c
     	if (isDefinedAsTangent) {
-    		P  = new GeoPoint[1];
-    		P[0] = new GeoPoint(cons);
+    		P  = new GeoPoint2[1];
+    		P[0] = new GeoPoint2(cons);
     		//Q and D are not defined here
     	} 
     	// standard case
     	else {                	
-    		P  = new GeoPoint[2];
-        	D  = new GeoPoint[2];
-        	Q  = new GeoPoint[2];
+    		P  = new GeoPoint2[2];
+        	D  = new GeoPoint2[2];
+        	Q  = new GeoPoint2[2];
         	distTable = new double[2][2];                       
         	age = new int[2];
         	permutation= new int[2];
@@ -137,9 +137,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
         	isPalive = new boolean[2];
         
         	for (i=0; i < 2; i++) {
-        		Q[i] = new GeoPoint(cons);
-        		P[i] = new GeoPoint(cons); 
-        		D[i] = new GeoPoint(cons);                     
+        		Q[i] = new GeoPoint2(cons);
+        		P[i] = new GeoPoint2(cons); 
+        		D[i] = new GeoPoint2(cons);                     
         	}
         
         	// check possible special case
@@ -162,14 +162,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     
     @Override
 	public
-	final GeoPoint [] getIntersectionPoints() {
+	final GeoPoint2 [] getIntersectionPoints() {
         return P;
     }
     
     GeoLine getLine() { return g; }
     GeoConic getConic() { return c; }
     @Override
-	protected GeoPoint [] getLastDefinedIntersectionPoints() {
+	protected GeoPoint2 [] getLastDefinedIntersectionPoints() {
         return D;
     }
     
@@ -254,14 +254,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     		}
     	} */
     	
-    	GeoPoint existingIntersection = null;    	
+    	GeoPoint2 existingIntersection = null;    	
 
     	//find a point from conic c on line g
-    	ArrayList<GeoPoint> pointsOnConic = c.getPointsOnConic();
+    	ArrayList<GeoPoint2> pointsOnConic = c.getPointsOnConic();
 		if (pointsOnConic != null) {
 			//get a point from pointsOnConic to see if it is on g.
 	    	for (int i=0; i < pointsOnConic.size(); ++i ) {
-	    		GeoPoint p = (GeoPoint) pointsOnConic.get(i);	 
+	    		GeoPoint2 p = (GeoPoint2) pointsOnConic.get(i);	 
 	    		if (p.isLabelSet()) { //an existing intersection should be a labeled one
 	    			if (p.getIncidenceList()!=null && 
 	    				p.getIncidenceList().contains(g)) {
@@ -284,13 +284,13 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     	
 		// if existingIntersection is still not found, find a point from line g on conic c
 		if (existingIntersection == null) {
-		  	ArrayList<GeoPoint> pointsOnLine = g.getPointsOnLine();
+		  	ArrayList<GeoPoint2> pointsOnLine = g.getPointsOnLine();
 
 		  	
 	    	if (pointsOnLine != null) {
 	    		//get a point from pointsOnLine to see if it is on c.
 	    		for (int i=0; i < pointsOnLine.size(); ++i) {
-	    			GeoPoint p = (GeoPoint) pointsOnLine.get(i);
+	    			GeoPoint2 p = (GeoPoint2) pointsOnLine.get(i);
 	    			if (p.isLabelSet()) { //an existing intersection should be a labeled one
 	    				if (p.getIncidenceList()!=null && 
 	    					p.getIncidenceList().contains(c)) {
@@ -512,7 +512,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     	}
     }
     
-    private boolean pointLiesOnBothPaths(GeoPoint P) {        	
+    private boolean pointLiesOnBothPaths(GeoPoint2 P) {        	
     	return g.isIntersectionPointIncident(P, Kernel.MIN_PRECISION) &&
 			   c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
     }
@@ -534,7 +534,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
      * Also store the intersection type.
      * @returns type of intersection
      */
-    private int intersect(GeoConic c, GeoLine g, GeoPoint [] sol) {                                        	
+    private int intersect(GeoConic c, GeoLine g, GeoPoint2 [] sol) {                                        	
     	boolean ok = false;    	
     	int ret = INTERSECTION_PASSING_LINE;        
         
@@ -560,7 +560,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     }
         
     // do the actual computations
-    public final static int intersectLineConic(GeoLine g, GeoConicND c, GeoPoint [] sol) { 
+    public final static int intersectLineConic(GeoLine g, GeoConicND c, GeoPoint2 [] sol) { 
         double [] A = c.matrix;
         
         // get arbitrary point of line       
@@ -679,7 +679,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
      /**
      * Tests if at least one point lies on conic c and line g.
      */
-    final static private boolean testPoints(GeoLine g, GeoConic c, GeoPoint[] P, double eps) {
+    final static private boolean testPoints(GeoLine g, GeoConic c, GeoPoint2[] P, double eps) {
         boolean foundPoint = false;      
         for (int i=0; i < P.length; i++) {
             if (P[i].isDefined()) {                	            	

@@ -28,7 +28,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoSegment;
@@ -103,8 +103,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
      */
     protected OutputHandler<GeoElement> createOutputPoints(){
     	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
-			public GeoPoint newElement() {
-				GeoPoint p=new GeoPoint(cons);
+			public GeoPoint2 newElement() {
+				GeoPoint2 p=new GeoPoint2(cons);
 				p.setCoords(0, 0, 1);
 				p.setParentAlgorithm(AlgoIntersectLinePolyLine.this);
 				return p;

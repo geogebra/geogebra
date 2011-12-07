@@ -20,20 +20,20 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Two tangents through point P to conic section c
  */
 public class AlgoTangentPoint extends AlgoElement {
 
-	private GeoPoint P; // input
+	private GeoPoint2 P; // input
     private GeoConic c; // input
     private GeoLine[] tangents; // output  
 
     private GeoLine polar;
     private AlgoIntersectLineConic algoIntersect;
-    private GeoPoint[] tangentPoints;
+    private GeoPoint2[] tangentPoints;
     private boolean equalLines = false;
 
     /*  
@@ -45,13 +45,13 @@ public class AlgoTangentPoint extends AlgoElement {
     public AlgoTangentPoint(
         Construction cons,
         String[] labels,
-        GeoPoint P,
+        GeoPoint2 P,
         GeoConic c) {
         this(cons, P, c);
         GeoElement.setLabels(labels, tangents,kernel.getGeoElementSpreadsheet());
     }
 
-    AlgoTangentPoint(Construction cons, GeoPoint P, GeoConic c) {
+    AlgoTangentPoint(Construction cons, GeoPoint2 P, GeoConic c) {
         super(cons);
         this.P = P;
         this.c = c;
@@ -110,7 +110,7 @@ public class AlgoTangentPoint extends AlgoElement {
     public GeoLine[] getTangents() {
         return tangents;
     }
-    GeoPoint getPoint() {
+    GeoPoint2 getPoint() {
         return P;
     }
     GeoConic getConic() {
@@ -121,7 +121,7 @@ public class AlgoTangentPoint extends AlgoElement {
      * return intersection point of tangent line and conic c.
      * return null if line is not defined as tangent of conic c.
      */
-    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
+    GeoPoint2 getTangentPoint(GeoConic conic, GeoLine line) {
         if (conic != c)
             return null;
 

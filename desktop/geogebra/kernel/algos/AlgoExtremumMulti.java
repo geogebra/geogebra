@@ -18,7 +18,7 @@ import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.optimization.ExtremumFinder;
 //import geogebra.main.Application;
 
@@ -88,7 +88,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	    	
     	// Show at least one root point in algebra view
     	// Copied from AlgoRootsPolynomial...
-    	GeoPoint[] gpt=getPoints();					//Ancestor
+    	GeoPoint2[] gpt=getPoints();					//Ancestor
     	if(!gpt[0].isDefined() ) {
     		gpt[0].setCoords(0,0,1);
     		gpt[0].update();
@@ -103,7 +103,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
         return "AlgoExtremumMulti";
     }//getClassName()
     
-    public GeoPoint[] getExtremumPoints() {
+    public GeoPoint2[] getExtremumPoints() {
     	return getPoints();
     }//getExtremumPoints()
 
@@ -288,7 +288,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     	}//for
     }//listLabels(a)
     
-    private final static void listPoints(GeoPoint[] gpts) {
+    private final static void listPoints(GeoPoint2[] gpts) {
     	int n=gpts.length;
     	System.out.println("Length: "+n);
     	for(int i=0;i<n;i++) {

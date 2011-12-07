@@ -20,7 +20,7 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoScriptAction;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVector;

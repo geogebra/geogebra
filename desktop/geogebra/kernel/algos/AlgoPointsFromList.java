@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -29,7 +29,7 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoPointsFromList extends AlgoElement {
 
 	private GeoList list; // input 
-	private GeoPoint[] points; // output
+	private GeoPoint2[] points; // output
 
 	private String[] labels;
 	private boolean initLabels, setLabels;
@@ -49,7 +49,7 @@ public class AlgoPointsFromList extends AlgoElement {
 
 				//  make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
-		points = new GeoPoint[0];
+		points = new GeoPoint2[0];
 		initPoints(number);
 		initLabels = true;  
 
@@ -100,7 +100,7 @@ public class AlgoPointsFromList extends AlgoElement {
 		setDependencies();
 	}
 
-	public GeoPoint[] getPoints() {
+	public GeoPoint2[] getPoints() {
 		return points;
 	}
 
@@ -209,13 +209,13 @@ public class AlgoPointsFromList extends AlgoElement {
 	private void initPoints(int number) {
 		// make sure that there are enough points   
 		if (points.length < number) {
-			GeoPoint[] temp = new GeoPoint[number];
+			GeoPoint2[] temp = new GeoPoint2[number];
 			for (int i = 0; i < points.length; i++) {
 				temp[i] = points[i];
 				temp[i].setCoords(0, 0, 1); // init as defined
 			}
 			for (int i = points.length; i < temp.length; i++) {
-				temp[i] = new GeoPoint(cons);
+				temp[i] = new GeoPoint2(cons);
 				temp[i].setCoords(0, 0, 1); // init as defined
 				temp[i].setParentAlgorithm(this);
 			}
@@ -228,7 +228,7 @@ public class AlgoPointsFromList extends AlgoElement {
 		points[pos].doRemove();
 
 		// build new rootPoints array without the removed point
-		GeoPoint[] temp = new GeoPoint[points.length - 1];
+		GeoPoint2[] temp = new GeoPoint2[points.length - 1];
 		int i;
 		for (i=0; i < pos; i++) 
 			temp[i] = points[i];        		

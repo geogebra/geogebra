@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -157,9 +157,9 @@ public abstract class AlgoStats2D extends AlgoElement {
             {
        		 GeoElement geo = geoListx.get(i); 
      		 if (geo.isGeoPoint()) {
-     			double x=((GeoPoint)geo).getX();
-     			double y=((GeoPoint)geo).getY();
-     			double z=((GeoPoint)geo).getZ();
+     			double x=((GeoPoint2)geo).getX();
+     			double y=((GeoPoint2)geo).getY();
+     			double z=((GeoPoint2)geo).getZ();
      			valx=x/z;
      			valy=y/z;
     			sumx+=valx;

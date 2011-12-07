@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdAngle;
 import geogebra.kernel.commands.CmdTranslate;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.kernelND.GeoVectorND;

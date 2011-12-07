@@ -21,7 +21,7 @@ import geogebra.kernel.kernelND.GeoAxisND;
 
 public class GeoAxis extends GeoLine implements GeoAxisND{
 	
-	private GeoPoint origin;
+	private GeoPoint2 origin;
 	private int type;
 	
 	private String axisLabel;
@@ -29,7 +29,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	public GeoAxis(AbstractConstruction cons, int type) {
 		super(cons);
 		this.type = type;
-		origin = new GeoPoint(cons);
+		origin = new GeoPoint2(cons);
 		origin.setCoords(0,0,1);
 		setStartPoint(origin);
 		

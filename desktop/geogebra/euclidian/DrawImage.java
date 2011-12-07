@@ -21,7 +21,7 @@ package geogebra.euclidian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -98,9 +98,9 @@ public final class DrawImage extends Drawable {
         
         // RELATIVE SCREEN POSITION
         else {	                                      
-	        GeoPoint A = geoImage.getCorner(0);
-	        GeoPoint B = geoImage.getCorner(1);
-	        GeoPoint D = geoImage.getCorner(2);
+	        GeoPoint2 A = geoImage.getCorner(0);
+	        GeoPoint2 B = geoImage.getCorner(1);
+	        GeoPoint2 D = geoImage.getCorner(2);
 	        
 	        double ax = 0;
 	        double ay = 0;

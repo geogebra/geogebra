@@ -24,7 +24,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.kernelND.GeoVectorND;
 
@@ -76,7 +76,7 @@ public class AlgoVector extends AlgoElement {
    
     protected GeoPointND newStartPoint(){
     	
-    	return new GeoPoint((GeoPoint) P);
+    	return new GeoPoint2((GeoPoint2) P);
     }
     
     @Override

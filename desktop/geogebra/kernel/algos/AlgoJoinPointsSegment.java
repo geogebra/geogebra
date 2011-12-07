@@ -24,7 +24,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
 
@@ -36,7 +36,7 @@ import geogebra.kernel.geos.GeoSegment;
  */
 public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPointsSegmentInterface {
 
-	private GeoPoint P, Q; // input
+	private GeoPoint2 P, Q; // input
     private GeoSegment s; // output: GeoSegment subclasses GeoLine 
 
     private GeoPolygon poly; // for polygons         
@@ -45,16 +45,16 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     public AlgoJoinPointsSegment(
         AbstractConstruction cons,
         String label,
-        GeoPoint P,
-        GeoPoint Q) {
+        GeoPoint2 P,
+        GeoPoint2 Q) {
         this(cons, P, Q, null);
         s.setLabel(label);
     }
 
     public AlgoJoinPointsSegment(
         AbstractConstruction cons,        
-        GeoPoint P,
-        GeoPoint Q,
+        GeoPoint2 P,
+        GeoPoint2 Q,
         GeoPolygon poly) {
     	super(cons);
     	    	 
@@ -116,7 +116,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         setEfficientDependencies(input, efficientInput);
     }
     
-    public void modifyInputPoints(GeoPoint A, GeoPoint B){
+    public void modifyInputPoints(GeoPoint2 A, GeoPoint2 B){
     	for (int i=0;i<2;i++)
     		input[i].removeAlgorithm(this);
     	
@@ -130,10 +130,10 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     public GeoSegment getSegment() {
         return s;
     }
-    GeoPoint getP() {
+    GeoPoint2 getP() {
         return P;
     }
-    GeoPoint getQ() {
+    GeoPoint2 getQ() {
         return Q;
     }
     

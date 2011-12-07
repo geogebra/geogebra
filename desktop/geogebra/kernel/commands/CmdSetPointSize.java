@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *SetPointSize
@@ -32,7 +32,7 @@ class CmdSetPointSize extends CmdScripting {
 
 			if (ok = arg[0].isGeoPoint() && arg[1].isNumberValue()) {
 
-				GeoPoint point = (GeoPoint) arg[0];
+				GeoPoint2 point = (GeoPoint2) arg[0];
 
 				int size = (int) ((NumberValue) arg[1]).getDouble();
 

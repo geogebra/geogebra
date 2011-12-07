@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -35,14 +35,14 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoIntersectLines extends AlgoIntersectAbstract {
 
     private GeoLine g, h; // input
-    private GeoPoint S; // output       
+    private GeoPoint2 S; // output       
 
     /** Creates new AlgoJoinPoints */
     public AlgoIntersectLines(Construction cons, String label, GeoLine g, GeoLine h) {
         super(cons);
         this.g = g;
         this.h = h;
-        S = new GeoPoint(cons);
+        S = new GeoPoint2(cons);
         setInputOutput(); // for AlgoElement
 
         // compute line through P, Q
@@ -79,7 +79,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint getPoint() {
+    public GeoPoint2 getPoint() {
         return S;
     }
     

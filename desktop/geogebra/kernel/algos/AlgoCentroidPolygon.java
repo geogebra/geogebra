@@ -15,19 +15,19 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 
 
 public class AlgoCentroidPolygon extends AlgoElement {
 
     private GeoPolygon p;  // input
-    private GeoPoint centroid; // output                         
+    private GeoPoint2 centroid; // output                         
         
     public AlgoCentroidPolygon(Construction cons, String label,GeoPolygon p) {
         super(cons);
         this.p = p;       
-        centroid = new GeoPoint(cons);  
+        centroid = new GeoPoint2(cons);  
         setInputOutput(); // for AlgoElement
                 
         compute();              
@@ -51,7 +51,7 @@ public class AlgoCentroidPolygon extends AlgoElement {
     }    
     
     GeoPolygon getPolygon() { return p; }
-    public GeoPoint getPoint() { return centroid; }    
+    public GeoPoint2 getPoint() { return centroid; }    
         
     @Override
 	public final void compute() {

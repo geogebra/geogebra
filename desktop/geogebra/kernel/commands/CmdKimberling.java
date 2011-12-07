@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 class CmdKimberling extends CommandProcessor {
 
@@ -32,7 +32,7 @@ class CmdKimberling extends CommandProcessor {
 					(ok[2] = arg[2].isGeoPoint()) &&
 					(ok[3] = arg[3].isNumberValue())) {
 				GeoElement[] ret = { kernel.Kimberling(c.getLabel(),
-						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
+						(GeoPoint2)arg[0], (GeoPoint2)arg[1], (GeoPoint2)arg[2],
 						(NumberValue) arg[3])} ;
 				return ret;
 				

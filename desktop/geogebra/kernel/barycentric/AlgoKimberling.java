@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -20,18 +20,18 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoKimberling extends AlgoElement {
 
 	public static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input
-	private GeoPoint M; // output
+	private GeoPoint2 A, B, C; // input
+	private GeoPoint2 M; // output
 	private NumberValue n;
 
-	public AlgoKimberling(Construction cons, String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, NumberValue n) {
+	public AlgoKimberling(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
+			GeoPoint2 C, NumberValue n) {
 		super(cons);
 		this.A = A;
 		this.B = B;
 		this.C = C;
 		this.n = n;
-		M = new GeoPoint(cons);
+		M = new GeoPoint2(cons);
 		setInputOutput();
 		compute();		
 		M.setLabel(label);
@@ -54,7 +54,7 @@ public class AlgoKimberling extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint getResult() {
+	public GeoPoint2 getResult() {
 		return M;
 	}
 

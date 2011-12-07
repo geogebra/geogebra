@@ -17,29 +17,29 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 
 public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 
 	private Path path; // input
-    private GeoPoint point; // input      
-    private GeoPoint P; // output      
+    private GeoPoint2 point; // input      
+    private GeoPoint2 P; // output      
 
-    public AlgoClosestPoint(AbstractConstruction cons,  Path path, GeoPoint point) {
+    public AlgoClosestPoint(AbstractConstruction cons,  Path path, GeoPoint2 point) {
     	super(cons);
         this.path = path;
         this.point = point;
         
         // create point on path and compute current location
-        P = new GeoPoint(cons);
+        P = new GeoPoint2(cons);
         P.setPath(path);
 		setInputOutput(); // for AlgoElement	       	        
 		compute();		
 	}
     
-    public AlgoClosestPoint(AbstractConstruction cons, String label, Path path, GeoPoint point) {
+    public AlgoClosestPoint(AbstractConstruction cons, String label, Path path, GeoPoint2 point) {
     	this(cons,path,point);
       
 		P.setLabel(label);
@@ -61,7 +61,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint getP() {
+    public GeoPoint2 getP() {
         return P;
     }
       

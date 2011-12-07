@@ -20,7 +20,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
 
@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 public class AlgoDrawingPadCorner extends AlgoElement implements
 		EuclidianViewCE {
 
-	private GeoPoint corner; // output
+	private GeoPoint2 corner; // output
 	private NumberValue number, evNum;
 
 	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
@@ -38,7 +38,7 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 		this.number = number;
 		this.evNum = evNum; // can be null
 
-		corner = new GeoPoint(cons);
+		corner = new GeoPoint2(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
 		corner.setEuclidianVisible(false); // hidden by default
@@ -71,7 +71,7 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint getCorner() {
+	public GeoPoint2 getCorner() {
 		return corner;
 	}
 

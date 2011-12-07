@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 
@@ -497,7 +497,7 @@ public class AlgoFitSin extends AlgoElement{
         //This is code duplication of AlgoSort, but for the time being:
         Class geoClass=geolist.get(0).getClass();
         java.util.TreeSet sortedSet;
-        sortedSet=new java.util.TreeSet(GeoPoint.getComparatorX());
+        sortedSet=new java.util.TreeSet(GeoPoint2.getComparatorX());
         for (int i=0;i<size;i++){
         	geoelement=geolist.get(i);
         	if(geoelement.getClass().equals(geoClass)){
@@ -511,7 +511,7 @@ public class AlgoFitSin extends AlgoElement{
         xlist=new double[size];    ylist=new double[size];
         while(iter.hasNext()) {
         	geoelement=(GeoElement)iter.next();
-            ((GeoPoint)geoelement).getInhomCoords(xy);        	
+            ((GeoPoint2)geoelement).getInhomCoords(xy);        	
         	xlist[i]=xy[0];ylist[i]=xy[1];
         	i++;
         }//while iterating

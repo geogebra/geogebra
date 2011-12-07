@@ -17,7 +17,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 
 
@@ -26,14 +26,14 @@ public class AlgoLineBisectorSegment extends AlgoElement {
     private GeoSegment s;  // input   
     private GeoLine  g;     // output        
     
-    private GeoPoint midPoint;
+    private GeoPoint2 midPoint;
         
     /** Creates new AlgoLineBisector */
     public AlgoLineBisectorSegment(Construction cons, String label, GeoSegment s) {
         super(cons);
         this.s = s;             
         g = new GeoLine(cons); 
-        midPoint = new GeoPoint(cons);
+        midPoint = new GeoPoint2(cons);
         g.setStartPoint(midPoint);
         setInputOutput(); // for AlgoElement
         
@@ -69,8 +69,8 @@ public class AlgoLineBisectorSegment extends AlgoElement {
     // line through P normal to v
     @Override
 	public final void compute() { 
-    	 GeoPoint A = s.getStartPoint();     
-    	 GeoPoint B = s.getEndPoint();
+    	 GeoPoint2 A = s.getStartPoint();     
+    	 GeoPoint2 B = s.getEndPoint();
     	
         // get inhomogenous coords
         double ax = A.inhomX;

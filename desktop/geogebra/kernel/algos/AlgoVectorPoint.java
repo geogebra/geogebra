@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -33,10 +33,10 @@ import geogebra.kernel.geos.GeoVector;
  */
 public class AlgoVectorPoint extends AlgoElement {
 
-    private GeoPoint P;   // input
+    private GeoPoint2 P;   // input
     private GeoVector  v;     // output                    
     
-    public AlgoVectorPoint(AbstractConstruction cons, String label, GeoPoint P) {
+    public AlgoVectorPoint(AbstractConstruction cons, String label, GeoPoint2 P) {
         super(cons);
         this.P = P;
         
@@ -71,7 +71,7 @@ public class AlgoVectorPoint extends AlgoElement {
     }           
     
     public GeoVector getVector() { return v; }
-    public GeoPoint getP() { return P; }    
+    public GeoPoint2 getP() { return P; }    
     
     // calc vector OP   
     @Override

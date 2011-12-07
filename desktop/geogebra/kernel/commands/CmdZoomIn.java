@@ -7,7 +7,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *ZoomIn
@@ -50,7 +50,7 @@ class CmdZoomIn extends CmdScripting {
 			boolean ok0;
 			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoPoint()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
-				GeoPoint p = (GeoPoint) arg[1];
+				GeoPoint2 p = (GeoPoint2) arg[1];
 
 				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;

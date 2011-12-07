@@ -7,7 +7,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -42,7 +42,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 				{
 						kernel.OrthogonalLine(
 								c.getLabel(),
-								(GeoPoint) arg[0],
+								(GeoPoint2) arg[0],
 								(GeoVector) arg[1])};
 				return ret;
 			}
@@ -55,7 +55,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 				{
 						kernel.OrthogonalLine(
 								c.getLabel(),
-								(GeoPoint) arg[0],
+								(GeoPoint2) arg[0],
 								(GeoLine) arg[1])};
 				return ret;
 			}
@@ -66,7 +66,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 				
 						kernel.OrthogonalLineToConic(
 								c.getLabel(),
-								(GeoPoint) arg[0],
+								(GeoPoint2) arg[0],
 								(GeoConic) arg[1]);
 				return ret;
 			}

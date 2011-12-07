@@ -52,7 +52,7 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
@@ -2917,7 +2917,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				}
 	
 				// set location textfield
-				GeoPoint p = geo0.getCorner(k);
+				GeoPoint2 p = geo0.getCorner(k);
 				if (equalLocation && p != null) {
 					cbLocation[k].setSelectedItem(p.getLabel());
 				} else
@@ -2967,7 +2967,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 
 			for (int i = 0; i < geos.length; i++) {
 				GeoImage im = (GeoImage) geos[i];		
-				im.setCorner((GeoPoint) newLoc, number);
+				im.setCorner((GeoPoint2) newLoc, number);
 				im.updateRepaint();				
 			}
 
@@ -3206,7 +3206,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			boolean geosOK = true;
 			//boolean allPoints = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoPoint
+				if (!(geos[i] instanceof GeoPoint2
 					|| geos[i] instanceof GeoVector)) {
 					geosOK = false;
 				}

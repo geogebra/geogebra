@@ -56,7 +56,7 @@ import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.optimization.ExtremumFinder;
@@ -150,7 +150,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	private GeoElement tangentLine, oscCircle, xSegment, ySegment;
 	private GeoElement functionInterval, integralGeo, lengthGeo, areaGeo;
 	private GeoFunction derivative, derivative2, selectedGeo;
-	private GeoPoint testPoint, lowPoint, highPoint, minPoint, maxPoint;
+	private GeoPoint2 testPoint, lowPoint, highPoint, minPoint, maxPoint;
 	private GeoList pts;
 
 	private ArrayList<GeoElement> intervalTabGeoList, pointTabGeoList, hiddenGeoList;
@@ -689,7 +689,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		
 		// count how many roots in range
 		for (int i = 0 ; i < rootGeos.length ; i++) {
-			GeoPoint p = ((GeoPoint)rootGeos[i]);
+			GeoPoint2 p = ((GeoPoint2)rootGeos[i]);
 			if (p.isDefined()) {
 				double rt = p.inhomX;
 				if (Kernel.isGreaterEqual(rt, xMin) && Kernel.isGreaterEqual(xMax, rt)) {
@@ -782,7 +782,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 				y = f.evaluate(x); 
 				modelXY.setValueAt(nf.format(x),i,0);
 				modelXY.setValueAt(nf.format(y),i,1);
-				((GeoPoint) pts.get(i)).setCoords(x, y, 1);
+				((GeoPoint2) pts.get(i)).setCoords(x, y, 1);
 
 				// collect x, y points into the copy arrays
 				xArray[i] = x;
@@ -863,7 +863,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 					AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 					cons.removeFromConstructionList(pointAlgo);
 
-					AlgoCurvature curvature = new AlgoCurvature(cons, (GeoPoint) pointAlgo.getGeoElements()[0], selectedGeo);
+					AlgoCurvature curvature = new AlgoCurvature(cons, (GeoPoint2) pointAlgo.getGeoElements()[0], selectedGeo);
 					cons.removeFromConstructionList(curvature);
 
 					double c = ((GeoNumeric)curvature.getGeoElements()[0]).getDouble();
@@ -1221,7 +1221,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		// test point
 		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, (Path)f, (activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
 		cons.removeFromConstructionList(pAlgo);
-		testPoint = (GeoPoint) pAlgo.getGeoElements()[0];
+		testPoint = (GeoPoint2) pAlgo.getGeoElements()[0];
 		testPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
 		testPoint.setPointSize(4);
 		testPoint.setLayer(f.getLayer()+1);
@@ -1236,7 +1236,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 		cons.removeFromConstructionList(pointAlgo);
 
-		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint)pointAlgo.getGeoElements()[0], null);
+		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint2)pointAlgo.getGeoElements()[0], null);
 		cons.removeFromConstructionList(seg1);	
 		xSegment = (GeoSegment)seg1.getGeoElements()[0];
 		xSegment.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
@@ -1255,7 +1255,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoDependentPoint pointAlgoy = new AlgoDependentPoint(cons, pointy, false);
 		cons.removeFromConstructionList(pointAlgoy);	
 
-		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint)pointAlgoy.getGeoElements()[0], null);
+		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint2)pointAlgoy.getGeoElements()[0], null);
 		cons.removeFromConstructionList(seg2);
 
 		ySegment = (GeoSegment)seg2.getGeoElements()[0];
@@ -1307,7 +1307,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		pts.setPointSize(3);
 		pts.setLayer(f.getLayer()+1);
 		for(int i = 0; i < pointCount; i++){
-			pts.add(new GeoPoint(cons));
+			pts.add(new GeoPoint2(cons));
 		}
 		pointTabGeoList.add(pts);
 
@@ -1319,7 +1319,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		// interval points
 		AlgoPointOnPath pxAlgo = new AlgoPointOnPath(cons, (Path)f, (2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pxAlgo);
-		lowPoint = (GeoPoint) pxAlgo.getGeoElements()[0];
+		lowPoint = (GeoPoint2) pxAlgo.getGeoElements()[0];
 		lowPoint.setEuclidianVisible(false);
 		lowPoint.setPointSize(4);
 		lowPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
@@ -1329,7 +1329,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 		AlgoPointOnPath pyAlgo = new AlgoPointOnPath(cons, (Path)f, (activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pyAlgo);
-		highPoint = (GeoPoint) pyAlgo.getGeoElements()[0];
+		highPoint = (GeoPoint2) pyAlgo.getGeoElements()[0];
 		highPoint.setEuclidianVisible(false);
 		highPoint.setPointSize(4);
 		highPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
@@ -1379,7 +1379,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		lengthGeo = len.getGeoElements()[0];
 		hiddenGeoList.add(lengthGeo);
 
-		minPoint = new GeoPoint(cons);
+		minPoint = new GeoPoint2(cons);
 		minPoint.setEuclidianVisible(false);
 		minPoint.setPointSize(4);
 		minPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
@@ -1388,7 +1388,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		minPoint.setFixed(true);
 		intervalTabGeoList.add(minPoint);
 
-		maxPoint = new GeoPoint(cons);
+		maxPoint = new GeoPoint2(cons);
 		maxPoint.setEuclidianVisible(false);
 		maxPoint.setPointSize(4);
 		maxPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);

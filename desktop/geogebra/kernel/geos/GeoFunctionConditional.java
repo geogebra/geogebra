@@ -225,7 +225,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		uncondFun = null;
 	}
 	
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, GeoPoint2 S) {
 		condFun.dilate(r, S);
 		
 		// translate if and else parts too

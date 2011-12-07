@@ -30,7 +30,7 @@ import geogebra.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVector;
@@ -76,7 +76,7 @@ Translateable, GeoConicNDConstants
 	protected static boolean KEEP_LEADING_SIGN = false;
 
 
-	protected GeoPoint singlePoint;
+	protected GeoPoint2 singlePoint;
 
 	/** lines of which this conic consists in case it's degenerate */
 	public GeoLine[] lines;
@@ -101,9 +101,9 @@ Translateable, GeoConicNDConstants
 
 	/** translation vector (midpoint, vertex) */    
 	public GeoVec2D b = new GeoVec2D(kernel);
-	protected GeoPoint [] startPoints;
+	protected GeoPoint2 [] startPoints;
 	//private boolean defined = true;
-	protected ArrayList<GeoPoint> pointsOnConic;
+	protected ArrayList<GeoPoint2> pointsOnConic;
 	
 	
 	// for classification
@@ -208,7 +208,7 @@ Translateable, GeoConicNDConstants
 	 * @param M 
 	 * @param r 
 	 */
-	final public void setCircle(GeoPoint M, double r) {
+	final public void setCircle(GeoPoint2 M, double r) {
 		
 		setSphereND(M, r);
 		
@@ -220,7 +220,7 @@ Translateable, GeoConicNDConstants
 	 * @param M 
 	 * @param P 
 	 */
-	abstract public void setCircle(GeoPoint M, GeoPoint P);
+	abstract public void setCircle(GeoPoint2 M, GeoPoint2 P);
 	
 	
 	
@@ -911,7 +911,7 @@ Translateable, GeoConicNDConstants
 	 * May return null.
 	 * @return list of points that this conic passes through.
 	 */
-	public final ArrayList<GeoPoint> getPointsOnConic() {
+	public final ArrayList<GeoPoint2> getPointsOnConic() {
 		return pointsOnConic;
 	}
 	
@@ -920,7 +920,7 @@ Translateable, GeoConicNDConstants
 	 * This method should only be used by AlgoMacro.
 	 * @param points list of points that this conic passes through
 	 */
-	public final void setPointsOnConic(ArrayList<GeoPoint> points) {
+	public final void setPointsOnConic(ArrayList<GeoPoint2> points) {
 		pointsOnConic = points;
 	}
 	
@@ -930,10 +930,10 @@ Translateable, GeoConicNDConstants
 	 */
 	public final void addPointOnConic(GeoPointND p) {
 		if (pointsOnConic == null)
-			pointsOnConic = new ArrayList<GeoPoint>();
+			pointsOnConic = new ArrayList<GeoPoint2>();
 		
 		if (!pointsOnConic.contains(p))
-			pointsOnConic.add((GeoPoint)p);				
+			pointsOnConic.add((GeoPoint2)p);				
 	}
 	
 	/**
@@ -984,7 +984,7 @@ Translateable, GeoConicNDConstants
 		}
 		if (co.singlePoint != null) {
 			if (singlePoint == null)
-				singlePoint = new GeoPoint(cons);
+				singlePoint = new GeoPoint2(cons);
 			singlePoint.setCoords(co.singlePoint);
 		}
 		defined = co.defined;		
@@ -1472,7 +1472,7 @@ Translateable, GeoConicNDConstants
 	 * Returns the point (in case this conic is a single point)
 	 * @return the single point
 	 */
-	final public GeoPoint getSinglePoint() {
+	final public GeoPoint2 getSinglePoint() {
 		return singlePoint;
 	}
 
@@ -1522,7 +1522,7 @@ Translateable, GeoConicNDConstants
 	 * Note: P.setCoords() is not called here!
 	 * @param P point in EV coords
 	 */
-	protected final void coordsEVtoRW(GeoPoint P) {
+	protected final void coordsEVtoRW(GeoPoint2 P) {
 		// rotate by alpha
 		double px = P.x;
 		P.x = px * eigenvec[0].x + P.y * eigenvec[1].x;
@@ -1537,7 +1537,7 @@ Translateable, GeoConicNDConstants
 	 * Transforms coords of point P from real world space to Eigenvector space. 
 	 * Note: P.setCoords() is not called here!
 	 */
-	private void coordsRWtoEV(GeoPoint P) {
+	private void coordsRWtoEV(GeoPoint2 P) {
 		// translate by -b
 		P.x = P.x - P.z * b.x;
 		P.y = P.y - P.z * b.y;
@@ -1607,7 +1607,7 @@ Translateable, GeoConicNDConstants
 	 * @param B first radius endpoint
 	 * @param C second radius endpoint
 	 */
-	final public void setCircle(GeoPoint M, GeoPoint B, GeoPoint C) {
+	final public void setCircle(GeoPoint2 M, GeoPoint2 B, GeoPoint2 C) {
 		defined = M.isDefined() && !M.isInfinite() &&
 		B.isDefined() && !B.isInfinite() &&
 		C.isDefined() && !C.isInfinite(); 
@@ -1631,7 +1631,7 @@ Translateable, GeoConicNDConstants
 	
 	
 	public void setSphereND(GeoPointND M, GeoSegmentND segment){
-		setCircle((GeoPoint) M, (GeoSegment) segment);
+		setCircle((GeoPoint2) M, (GeoSegment) segment);
 	}
 	
 
@@ -1641,7 +1641,7 @@ Translateable, GeoConicNDConstants
 	 *  @param M center of circle
 	 *  @param geoSegment length of geoSegment is radius of the circle
 	 */
-	final public void setCircle(GeoPoint M, GeoSegment geoSegment) {
+	final public void setCircle(GeoPoint2 M, GeoSegment geoSegment) {
 		defined = M.isDefined() && !M.isInfinite() &&
 		geoSegment.isDefined(); 
 		
@@ -1663,12 +1663,12 @@ Translateable, GeoConicNDConstants
 
 	
 	public void setSphereND(GeoPointND M, GeoPointND P){
-		setCircle((GeoPoint) M, (GeoPoint) P);
+		setCircle((GeoPoint2) M, (GeoPoint2) P);
 	}
 	
 
 
-	protected void setCircleMatrix(GeoPoint M, double r) {
+	protected void setCircleMatrix(GeoPoint2 M, double r) {
 		
 		setSphereNDMatrix(M.getInhomCoordsInD(2), r);
 	}
@@ -1678,7 +1678,7 @@ Translateable, GeoConicNDConstants
 	 *  @param F focus
 	 *  @param g line
 	 */
-	final public void setParabola(GeoPoint F, GeoLine g) {
+	final public void setParabola(GeoPoint2 F, GeoLine g) {
 		defined = F.isDefined() && !F.isInfinite() && g.isDefined();
 
 		if (!defined)
@@ -1706,8 +1706,8 @@ Translateable, GeoConicNDConstants
 	 * @param a first half axis
 	 */
 	final public void setEllipseHyperbola(
-		GeoPoint B,
-		GeoPoint C,
+		GeoPoint2 B,
+		GeoPoint2 C,
 		double a) {
 			
 		if (B.isInfinite() || C.isInfinite() || a < -kernel.getEpsilon()) {
@@ -2126,7 +2126,7 @@ Translateable, GeoConicNDConstants
 													
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
-				GeoPoint point = (GeoPoint) pointsOnConic.get(i);
+				GeoPoint2 point = (GeoPoint2) pointsOnConic.get(i);
 				if (point.getPath() == this) {					
 					point.getPathParameter().setT(Double.NaN);				
 				}
@@ -2265,7 +2265,7 @@ Translateable, GeoConicNDConstants
 		type = GeoConic.CONIC_SINGLE_POINT;
 
 		if (singlePoint == null)
-			singlePoint = new GeoPoint(cons);
+			singlePoint = new GeoPoint2(cons);
 		singlePoint.setCoords(b.x, b.y, 1.0d);
 		//Application.debug("singlePoint : " + b);
 	}
@@ -2577,9 +2577,9 @@ Translateable, GeoConicNDConstants
 	private void setStartPointsForLines() {
 		// make sure we have a start point to compute line parameter	
 		if (startPoints == null) {
-			startPoints = new GeoPoint[2];
+			startPoints = new GeoPoint2[2];
 			for (int i=0; i < 2; i++) {
-				startPoints[i] = new GeoPoint(cons);
+				startPoints[i] = new GeoPoint2(cons);
 			}
 		}
 		
@@ -2675,7 +2675,7 @@ Translateable, GeoConicNDConstants
 	 * @param P
 	 * @param eps precision
 	 */
-	 public boolean isIntersectionPointIncident(GeoPoint P, double eps) {		
+	 public boolean isIntersectionPointIncident(GeoPoint2 P, double eps) {		
 		return isOnFullConic(P, eps);
 	 }
 	 
@@ -2725,7 +2725,7 @@ Translateable, GeoConicNDConstants
 	 * @param P point for the conic to be evaluated at
 	 * @return 0 iff P lies on conic
 	 */
-	final public double evaluate(GeoPoint P) {
+	final public double evaluate(GeoPoint2 P) {
 		return P.x * (matrix[0] * P.x + matrix[3] * P.y + matrix[4] * P.z)
 			+ P.y * (matrix[3] * P.x + matrix[1] * P.y + matrix[5] * P.z)
 			+ P.z * (matrix[4] * P.x + matrix[5] * P.y + matrix[2] * P.z);
@@ -2763,7 +2763,7 @@ Translateable, GeoConicNDConstants
 	 * @param P point to which we want the polar
 	 * @param polar GeoLine in which the result should be stored 
 	 */
-	final public void polarLine(GeoPoint P, GeoLine polar) {
+	final public void polarLine(GeoPoint2 P, GeoLine polar) {
 		//<Zbynek Konecny, 2010-03-15>
 		if(!isDefined()){
 			polar.setUndefined();
@@ -2978,7 +2978,7 @@ Translateable, GeoConicNDConstants
 		if (!isInRegion(PI)){
 			moveBackToRegion(PI,rp);
 		}else{
-			GeoPoint P=(GeoPoint)PI;
+			GeoPoint2 P=(GeoPoint2)PI;
 			rp.setIsOnPath(false);
 				
 			coordsRWtoEV(P);
@@ -3023,7 +3023,7 @@ Translateable, GeoConicNDConstants
 			pathChanged(PI);
 		else{
 			//pointChangedForRegion(P);
-			GeoPoint P=(GeoPoint)PI;
+			GeoPoint2 P=(GeoPoint2)PI;
 			if(P.isDefined()){
 			if(type != CONIC_PARABOLA){
 			P.x=rp.getT1()*halfAxes[0];
@@ -3167,7 +3167,7 @@ Translateable, GeoConicNDConstants
     /** Calculates the euclidian distance between this GeoConic and GeoPoint P.
      * used for compound paths
      */
-    public double distance(GeoPoint p) {                        
+    public double distance(GeoPoint2 p) {                        
         //if (!isCircle()) return Double.POSITIVE_INFINITY;
         
         /*
@@ -3184,7 +3184,7 @@ Translateable, GeoConicNDConstants
         
         boolean temp = cons.isSuppressLabelsActive();
         cons.setSuppressLabelCreation(true);
-        GeoPoint closestPoint = new GeoPoint(cons, null, p.x, p.y, p.z);
+        GeoPoint2 closestPoint = new GeoPoint2(cons, null, p.x, p.y, p.z);
         cons.setSuppressLabelCreation(temp);
         closestPoint.setPath(this);
         pointChanged(closestPoint);
@@ -3289,7 +3289,7 @@ Translateable, GeoConicNDConstants
 		
 		if (pointsOnConic!=null) {
 			for (int i=0; i<pointsOnConic.size(); ++i) {
-				GeoPoint p = pointsOnConic.get(i);
+				GeoPoint2 p = pointsOnConic.get(i);
 				p.removeIncidence(this);
 			}
 		}

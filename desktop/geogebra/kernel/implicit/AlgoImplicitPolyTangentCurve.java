@@ -3,17 +3,17 @@ package geogebra.kernel.implicit;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	
 	protected GeoImplicitPoly poly;
-	protected GeoPoint point;
+	protected GeoPoint2 point;
 	protected String label;
 	
 	protected GeoImplicitPoly tangentPoly;
 
-	public AlgoImplicitPolyTangentCurve(Construction c,GeoImplicitPoly poly,GeoPoint point,String label,boolean addToConstructionList,boolean calcPath) {
+	public AlgoImplicitPolyTangentCurve(Construction c,GeoImplicitPoly poly,GeoPoint2 point,String label,boolean addToConstructionList,boolean calcPath) {
 		super(c,addToConstructionList);
 		this.poly=poly;
 		this.point=point;

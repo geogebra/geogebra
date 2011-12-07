@@ -46,7 +46,7 @@ public interface LimitedPath extends Path {
 	 * this limited path.
 
 	 */
-	public boolean isIntersectionPointIncident(GeoPoint P, double eps);
+	public boolean isIntersectionPointIncident(GeoPoint2 P, double eps);
 	
 	/**
 	 * Returns whether a geometric transform of this

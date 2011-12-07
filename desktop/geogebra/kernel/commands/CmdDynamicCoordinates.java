@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *DynamicCoordinates
@@ -34,7 +34,7 @@ class CmdDynamicCoordinates extends CommandProcessor {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (arg[2].isNumberValue())) {
 				GeoElement[] ret = { kernel.DynamicCoordinates(c.getLabel(),
-						(GeoPoint) arg[0], (NumberValue) arg[1],
+						(GeoPoint2) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
 			} else if (!ok[0])

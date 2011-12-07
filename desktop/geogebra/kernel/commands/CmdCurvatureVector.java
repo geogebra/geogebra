@@ -6,7 +6,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * CurvatureVector[<Point>,<Curve>], CurvatureVector[<Point>,<Function>]
@@ -35,12 +35,12 @@ class CmdCurvatureVector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				GeoElement[] ret = { kernel.CurvatureVector(c.getLabel(),
-						(GeoPoint) arg[0], (GeoFunction) arg[1]) };
+						(GeoPoint2) arg[0], (GeoFunction) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 				GeoElement[] ret = { kernel.CurvatureVectorCurve(c.getLabel(),
-						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]) };
+						(GeoPoint2) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
 			} else {
 				if (!ok[0])

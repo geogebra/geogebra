@@ -20,7 +20,7 @@ public interface GeoPolyLineInterface {
 	
 	public GeoPointND[] getPoints(); 
 	
-	public GeoPoint getPoint(int i);
+	public GeoPoint2 getPoint(int i);
 	
 	/**
 	 * Converts polyline to cartesian curve

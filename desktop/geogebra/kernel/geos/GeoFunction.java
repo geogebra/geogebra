@@ -686,47 +686,47 @@ GeoFunctionInterface {
 	 */	 
 	public void pointChanged(GeoPointND PI) {			
 		
-		GeoPoint P = (GeoPoint) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 		
-		if (P.z == 1.0) {
+		if (P.getZ() == 1.0) {
 			//P.x = P.x;			
 		} else {
-			P.x = P.x / P.z;			
+			P.setX( P.getX() / P.getZ());			
 		}
 				
 		
 		if(!isBooleanFunction()){
 			if (interval) {
 				//	don't let P move out of interval			
-				if (P.x < intervalMin) 
-					P.x = intervalMin;
-				else if (P.x > intervalMax) 
-					P.x = intervalMax;
+				if (P.getX() < intervalMin) 
+					P.setX(intervalMin);
+				else if (P.getX() > intervalMax) 
+					P.setX(intervalMax);
 			}
-			P.y = evaluate(P.x);// changed from fun.evaluate so that it works with eg Point[If[x < -1, x + 1, x^2]] 
+			P.setY(evaluate(P.getX()));// changed from fun.evaluate so that it works with eg Point[If[x < -1, x + 1, x^2]] 
 		}
 		else {
 			pointChangedBoolean(true,P);
 		}
-		P.z = 1.0;
+		P.setZ(1.0);
 		
 		// set path parameter for compatibility with
 		// PathMoverGeneric
 		PathParameter pp = P.getPathParameter();
-		pp.t = P.x;
+		pp.t = P.getX();
 	}
 	
-	private void pointChangedBoolean(boolean b, GeoPoint P) {
+	private void pointChangedBoolean(boolean b, GeoPointInterface P) {
 		double px;
 		boolean yfun = getVarString().equals("y");
 		if (yfun) {
 			if (b)
-				P.x = 0.0;
-			px = P.y;
+				P.setX(0.0);
+			px = P.getY();
 		} else {
 			if (b)
-				P.y = 0.0;
-			px = P.x;
+				P.setY(0.0);
+			px = P.getX();
 		}
 		double bestDist = Double.MAX_VALUE;
 		getIneqs();
@@ -738,9 +738,9 @@ GeoFunctionInterface {
 					if (Math.abs(point.getX() - px) < bestDist) {
 						bestDist = Math.abs(point.getX() - px);
 						if (yfun) {
-							P.y = point.getX();
+							P.setY(point.getX());
 						} else {
-							P.x = point.getX();
+							P.setX(point.getX());
 						}
 					}
 				}
@@ -750,18 +750,18 @@ GeoFunctionInterface {
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 		
-		GeoPoint P = (GeoPoint) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 		
 		if (P.getPath() == this)
 			return true;
 		
 		if(!isBooleanFunction()){
-			return isDefined &&	Math.abs(fun.evaluate(P.inhomX) - P.inhomY) <= eps;
+			return isDefined &&	Math.abs(fun.evaluate(P.getInhomX()) - P.getInhomY()) <= eps;
 		}
 		else{
-			double px = getVarString().equals("y") ? P.y :P.x;
-			if (P.z != 1.0) {
-					px = px / P.z;		
+			double px = getVarString().equals("y") ? P.getY() :P.getX();
+			if (P.getZ() != 1.0) {
+					px = px / P.getZ();		
 			}
 			return evaluateBoolean(px);
 		}
@@ -769,10 +769,10 @@ GeoFunctionInterface {
 
 	public void pathChanged(GeoPointND PI) {
 		
-		GeoPoint P = (GeoPoint) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 		
 		PathParameter pp = P.getPathParameter();
-		P.x = pp.t;
+		P.setX(pp.t);
 		pointChanged(P);
 	}
 	
@@ -1634,7 +1634,8 @@ GeoFunctionInterface {
 	 */
 	@Override
 	public double distance(GeoPointInterface p) {
-		return Math.abs(evaluate(((GeoPoint)p).inhomX) - ((GeoPoint)p).inhomY);
+		return Math.abs(evaluate(((GeoPointInterface)p).getInhomX()) -
+				((GeoPointInterface)p).getInhomY());
 	}
 
 	public boolean isInRegion(GeoPointND P) {
@@ -1648,23 +1649,23 @@ GeoFunctionInterface {
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {
-		GeoPoint P = (GeoPoint) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 		
-		if (P.z == 1.0) {
+		if (P.getZ() == 1.0) {
 			//P.x = P.x;			
 		} else {
-			P.x = P.x / P.z;			
+			P.setX(P.getX() / P.getZ());			
 		}
 					
 		pointChangedBoolean(false,P);
 		
-		P.z = 1.0;
+		P.setZ(1.0);
 		
 		// set path parameter for compatibility with
 		// PathMoverGeneric
 		RegionParameters pp = P.getRegionParameters();
-		pp.setT1(P.x);
-		pp.setT2(P.y);		
+		pp.setT1(P.getX());
+		pp.setT2(P.getY());		
 	}
 
 	@Override

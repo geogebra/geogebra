@@ -23,7 +23,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoRay;
 
 
@@ -34,11 +34,11 @@ import geogebra.kernel.geos.GeoRay;
  */
 public class AlgoJoinPointsRay extends AlgoElement {
 
-    private GeoPoint P, Q;  // input
+    private GeoPoint2 P, Q;  // input
     private GeoRay  ray;     // output       
         
     /** Creates new AlgoJoinPoints */
-    public AlgoJoinPointsRay(Construction cons, String label, GeoPoint P, GeoPoint Q) {
+    public AlgoJoinPointsRay(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
         super(cons);
         this.P = P;
         this.Q = Q;                
@@ -80,8 +80,8 @@ public class AlgoJoinPointsRay extends AlgoElement {
     }    
     
     public GeoRay getRay() { return ray; }
-    public GeoPoint getP() { return P; }
-    public GeoPoint getQ() { return Q; }
+    public GeoPoint2 getP() { return P; }
+    public GeoPoint2 getQ() { return Q; }
     
     // calc the line g through P and Q    
     @Override

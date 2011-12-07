@@ -5,7 +5,7 @@ import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * @author  Victor Franco Espino
@@ -17,12 +17,12 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 
 	private static final long serialVersionUID = 1L;
-	private GeoPoint A, B; //input
+	private GeoPoint2 A, B; //input
 	private GeoFunction f, f1;//f1 is f'(x)
     private GeoNumeric length; //output
     private RealRootFunction lengthFunction; //is T = sqrt(1+(f')^2)
     	
-	public AlgoLengthFunction2Points(Construction cons, String label, GeoFunction f, GeoPoint A, GeoPoint B) {
+	public AlgoLengthFunction2Points(Construction cons, String label, GeoFunction f, GeoPoint2 A, GeoPoint2 B) {
         super(cons);
         this.A = A;
         this.B = B;

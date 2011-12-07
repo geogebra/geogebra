@@ -6,7 +6,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * @author Victor Franco Espino
@@ -18,13 +18,13 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 
 	private static final long serialVersionUID = 1L;
-	private GeoPoint P; // input
+	private GeoPoint2 P; // input
     private GeoCurveCartesian f, df; // input f
     private GeoLine tangent; // output  
-    private GeoPoint T;
+    private GeoPoint2 T;
     private boolean pointOnCurve;
 
-    public AlgoTangentCurve(Construction cons,String label,GeoPoint P,GeoCurveCartesian f) {
+    public AlgoTangentCurve(Construction cons,String label,GeoPoint2 P,GeoCurveCartesian f) {
         super(cons);
         this.P = P;
         this.f = f;
@@ -40,7 +40,7 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
         if (pointOnCurve)
         	T = P;
         else
-        	T = new GeoPoint(cons);
+        	T = new GeoPoint2(cons);
         tangent.setStartPoint(T);
 
         //First derivative of curve f
@@ -79,10 +79,10 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
     GeoCurveCartesian getCurve() {
         return f;
     }
-    GeoPoint getPoint() {
+    GeoPoint2 getPoint() {
         return P;
     }
-    GeoPoint getTangentPoint() {
+    GeoPoint2 getTangentPoint() {
         return T;
     }
 

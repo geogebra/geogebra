@@ -20,7 +20,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -112,9 +112,9 @@ public class AlgoSumPoints extends AlgoElement {
     	
     	for (int i = 0 ; i < size ; i++) {
     		GeoElement p = geoList.get(i);
-    		if (p instanceof GeoPoint) {
-	        	x += ((GeoPoint)p).getInhomX();
-	        	y += ((GeoPoint)p).getInhomY();    			
+    		if (p instanceof GeoPoint2) {
+	        	x += ((GeoPoint2)p).getInhomX();
+	        	y += ((GeoPoint2)p).getInhomY();    			
     		}
     		else if (p instanceof GeoPointND) { // 3D
 	        	double[] coords = new double[3];
@@ -134,7 +134,7 @@ public class AlgoSumPoints extends AlgoElement {
     	}
    	
    	
-    	if (result.isGeoVector() || result instanceof GeoPoint)
+    	if (result.isGeoVector() || result instanceof GeoPoint2)
     		((GeoVec3D)result).setCoords(x, y, 1.0);
     	else
     	{ // 3D

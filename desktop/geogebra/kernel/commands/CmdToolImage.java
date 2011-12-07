@@ -7,7 +7,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.util.ImageManager;
 
 import java.awt.Image;
@@ -60,7 +60,7 @@ class CmdToolImage extends CommandProcessor {
 
 				boolean oldState = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
-				GeoPoint corner = new GeoPoint(cons, null, 0, 0, 1);
+				GeoPoint2 corner = new GeoPoint2(cons, null, 0, 0, 1);
 				cons.setSuppressLabelCreation(oldState);
 				try {
 					geoImage.setStartPoint(corner);

@@ -29,7 +29,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.kernelND.GeoConicND;
 
@@ -46,7 +46,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
     // line bisectors
     private GeoLine s0, s1;
-    private GeoPoint center;    
+    private GeoPoint2 center;    
     private double[] det = new double[3];
     transient private double ax,
         ay,
@@ -92,7 +92,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
             s0 = new GeoLine(cons);
             s1 = new GeoLine(cons);
 
-            center = new GeoPoint(cons);            
+            center = new GeoPoint2(cons);            
 
             setInputOutput(); // for AlgoElement
 
@@ -101,12 +101,12 @@ public class AlgoCircleThreePoints extends AlgoElement {
     }    
     
     private void setIncidence() {
-    	if (A instanceof GeoPoint)
-    		((GeoPoint) A).addIncidence(circle);
-    	if (B instanceof GeoPoint)
-    		((GeoPoint) B).addIncidence(circle);
-    	if (C instanceof GeoPoint)
-    		((GeoPoint) C).addIncidence(circle);
+    	if (A instanceof GeoPoint2)
+    		((GeoPoint2) A).addIncidence(circle);
+    	if (B instanceof GeoPoint2)
+    		((GeoPoint2) B).addIncidence(circle);
+    	if (C instanceof GeoPoint2)
+    		((GeoPoint2) C).addIncidence(circle);
 		
 	}
 
@@ -163,14 +163,14 @@ public class AlgoCircleThreePoints extends AlgoElement {
     public GeoConicND getCircle() {
         return circle;
     }
-    public GeoPoint getA() {
-        return (GeoPoint) A;
+    public GeoPoint2 getA() {
+        return (GeoPoint2) A;
     }
-    public GeoPoint getB() {
-        return (GeoPoint) B;
+    public GeoPoint2 getB() {
+        return (GeoPoint2) B;
     }
-    public GeoPoint getC() {
-        return (GeoPoint) C;
+    public GeoPoint2 getC() {
+        return (GeoPoint2) C;
     }
 
     // compute circle through A, B, C
@@ -183,19 +183,19 @@ public class AlgoCircleThreePoints extends AlgoElement {
         }
 
         // get inhomogenous coords of points
-        ax = ((GeoPoint) getA()).inhomX;
-        ay = ((GeoPoint) getA()).inhomY;
-        bx = ((GeoPoint) getB()).inhomX;
-        by = ((GeoPoint) getB()).inhomY;
-        cx = ((GeoPoint) getC()).inhomX;
-        cy = ((GeoPoint) getC()).inhomY;
+        ax = ((GeoPoint2) getA()).inhomX;
+        ay = ((GeoPoint2) getA()).inhomY;
+        bx = ((GeoPoint2) getB()).inhomX;
+        by = ((GeoPoint2) getB()).inhomY;
+        cx = ((GeoPoint2) getC()).inhomX;
+        cy = ((GeoPoint2) getC()).inhomY;
 
         // A = B = C
         if (Kernel.isEqual(ax, bx)
             && Kernel.isEqual(ax, cx)
             && Kernel.isEqual(ay, by)
             && Kernel.isEqual(ay, cy)) {
-            circle.setCircle((GeoPoint) getA(), 0.0); // single point
+            circle.setCircle((GeoPoint2) getA(), 0.0); // single point
             return;
         }
 
@@ -237,7 +237,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
         // in perpendicular direction of AB
         if (Kernel.isZero(maxDet)) {
             center.setCoords(-ABy, ABx, 0.0d);
-            circle.setCircle(center, (GeoPoint) getA());
+            circle.setCircle(center, (GeoPoint2) getA());
         }
         // standard case
         else {

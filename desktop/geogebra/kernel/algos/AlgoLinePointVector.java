@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -34,7 +34,7 @@ import geogebra.kernel.geos.GeoVector;
  */
 public class AlgoLinePointVector extends AlgoElement {
 
-    private GeoPoint P; // input
+    private GeoPoint2 P; // input
     private GeoVector v; // input
     private GeoLine g; // output       
 
@@ -42,7 +42,7 @@ public class AlgoLinePointVector extends AlgoElement {
     public AlgoLinePointVector(
         Construction cons,
         String label,
-        GeoPoint P,
+        GeoPoint2 P,
         GeoVector v) {
         super(cons);
         this.P = P;
@@ -82,7 +82,7 @@ public class AlgoLinePointVector extends AlgoElement {
     public GeoLine getLine() {
         return g;
     }
-    GeoPoint getP() {
+    GeoPoint2 getP() {
         return P;
     }
     GeoVector getv() {

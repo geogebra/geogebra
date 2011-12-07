@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionable;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 
@@ -63,7 +63,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	private GeoElement		geoleft;
 	private NumberValue		right;		//input
 	private GeoElement		georight;
-    private GeoPoint E; 			// output  		
+    private GeoPoint2 E; 			// output  		
     private static double	xres;	//static x for test interface
 
 
@@ -76,7 +76,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
     	this.right=right;
     	this.georight=(GeoElement)right.toGeoElement();
     	
-    	E=new GeoPoint(cons);					//Put an extremum point in the user interface from the very start
+    	E=new GeoPoint2(cons);					//Put an extremum point in the user interface from the very start
     	E.setCoords(0.0,0.0,1.0);
     	
     	setInputOutput();
@@ -105,7 +105,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
     
-    public GeoPoint getNumericalExtremum() {
+    public GeoPoint2 getNumericalExtremum() {
         return E;
     }
 

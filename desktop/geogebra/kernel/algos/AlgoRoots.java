@@ -20,7 +20,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootUtil;
 import geogebra.main.Application;
@@ -134,7 +134,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
         return "AlgoRoots";
     }//getClassName()
     
-    public GeoPoint[] getRootPoints() {
+    public GeoPoint2[] getRootPoints() {
     	return getPoints();					//Points in ancestor
     }//getRootPoints()
 
@@ -391,7 +391,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	}//if not null
     }//listLabels(a)
     
-    public final static void listPoints(GeoPoint[] gpts) {
+    public final static void listPoints(GeoPoint2[] gpts) {
     	if (gpts!=null) {
     	int n=gpts.length;
     	System.out.println("Length: "+n);
@@ -403,7 +403,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     	}//if not null
     }//listPoints(GeoPoint[])
  
-    public final  static String testGeoPointX(GeoPoint geo,double answer){
+    public final  static String testGeoPointX(GeoPoint2 geo,double answer){
     	double value;
     	value = geo.getX();
     	if(Math.abs(value-answer)<Kernel.MIN_PRECISION){

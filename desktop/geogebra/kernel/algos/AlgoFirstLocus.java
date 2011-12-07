@@ -4,7 +4,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
 
@@ -62,11 +62,11 @@ public class AlgoFirstLocus extends AlgoFirst {
     			// recycle existing GeoPoint
     			// important to avoid memory problems
     			// (and quicker?)
-    			GeoPoint p = (GeoPoint)outputList.get(i); 
+    			GeoPoint2 p = (GeoPoint2)outputList.get(i); 
     			p.setCoords(mp.x, mp.y, 1.0);
     			p.updateRepaint();
     		} else {
-	    		GeoPoint p = new GeoPoint(cons, null, mp.x, mp.y, 1.0);
+	    		GeoPoint2 p = new GeoPoint2(cons, null, mp.x, mp.y, 1.0);
 	    		outputList.add(p);
     		}
     	}

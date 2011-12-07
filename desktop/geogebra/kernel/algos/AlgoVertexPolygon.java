@@ -23,7 +23,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.main.Application;
 
@@ -36,7 +36,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	private GeoPolyLineInterface p; // input		
 	private NumberValue index;
-	private GeoPoint oneVertex;
+	private GeoPoint2 oneVertex;
 	protected OutputHandler<GeoElement> outputPoints;
 	/**
 	 * Creates new vertex algo
@@ -91,7 +91,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		super(cons);
 		this.p = p;
 		this.index = v;
-		oneVertex = new GeoPoint(cons);
+		oneVertex = new GeoPoint2(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
@@ -184,14 +184,14 @@ public class AlgoVertexPolygon extends AlgoElement {
 	/**
 	 * @return the vertex when called as Vertex[poly,number]
 	 */
-	public GeoPoint getOneVertex(){
+	public GeoPoint2 getOneVertex(){
 		return oneVertex;
 	}
 	
 	 protected OutputHandler<GeoElement> createOutputPoints(){
 	    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
-				public GeoPoint newElement() {
-					GeoPoint p=new GeoPoint(cons);
+				public GeoPoint2 newElement() {
+					GeoPoint2 p=new GeoPoint2(cons);
 					p.setCoords(0, 0, 1);
 					p.setParentAlgorithm(AlgoVertexPolygon.this);
 					return p;

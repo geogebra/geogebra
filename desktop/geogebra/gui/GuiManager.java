@@ -59,7 +59,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
@@ -1193,7 +1193,7 @@ public class GuiManager {
    * 
    * @return whether a new image was created or not
    */
-  public boolean loadImage(GeoPoint loc, Transferable transfer,
+  public boolean loadImage(GeoPoint2 loc, Transferable transfer,
       boolean fromClipboard) {
     app.setWaitCursor();
 
@@ -2541,7 +2541,7 @@ public class GuiManager {
   }
 
   public void showNumberInputDialogRegularPolygon(String title,
-      GeoPoint geoPoint1, GeoPoint geoPoint2) {
+      GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
 
     NumberInputHandler handler = new NumberInputHandler();
     InputDialog id = new InputDialogRegularPolygon(app, title, handler,
@@ -2555,13 +2555,13 @@ public class GuiManager {
 
     NumberInputHandler handler = new NumberInputHandler();
     InputDialog id = new InputDialogCirclePointRadius(app, title, handler,
-        (GeoPoint) geoPoint1, kernel);
+        (GeoPoint2) geoPoint1, kernel);
     id.setVisible(true);
 
   }
 
   public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-      GeoPoint[] points, GeoElement[] selGeos) {
+      GeoPoint2[] points, GeoElement[] selGeos) {
 
     NumberInputHandler handler = new NumberInputHandler();
     InputDialog id = new InputDialogRotate(app, title, handler, polys, points,
@@ -2571,7 +2571,7 @@ public class GuiManager {
   }
 
   public void showNumberInputDialogAngleFixed(String title,
-      GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos) {
+      GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
 
     NumberInputHandler handler = new NumberInputHandler();
     InputDialog id = new InputDialogAngleFixed(app, title, handler, segments,
@@ -2581,7 +2581,7 @@ public class GuiManager {
   }
 
   public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-      GeoPoint[] points, GeoElement[] selGeos) {
+      GeoPoint2[] points, GeoElement[] selGeos) {
 
     NumberInputHandler handler = new NumberInputHandler();
     InputDialog id = new InputDialogDilate(app, title, handler, points,
@@ -2590,7 +2590,7 @@ public class GuiManager {
 
   }
 
-  public void showNumberInputDialogSegmentFixed(String title, GeoPoint geoPoint1) {
+  public void showNumberInputDialogSegmentFixed(String title, GeoPoint2 geoPoint1) {
 
     NumberInputHandler handler = new NumberInputHandler();
     InputDialog id = new InputDialogSegmentFixed(app, title, handler,

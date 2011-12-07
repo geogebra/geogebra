@@ -27,7 +27,7 @@ import geogebra.kernel.algos.AlgoAngleVector;
 import geogebra.kernel.algos.AlgoAngleVectors;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 
@@ -78,9 +78,9 @@ public class DrawAngle extends Drawable implements Previewable {
 	private double m[] = new double[2];
 	private double coords[] = new double[2];
 	private double[] firstVec = new double[2];
-	private GeoPoint tempPoint;
+	private GeoPoint2 tempPoint;
 	private boolean drawDot;
-	private GeoPoint [] previewTempPoints;  
+	private GeoPoint2 [] previewTempPoints;  
 	
 	// For decoration
 	// added by Lo�c BEGIN
@@ -125,9 +125,9 @@ public class DrawAngle extends Drawable implements Previewable {
 		prevPoints = points;
 
 		Construction cons = view.getKernel().getConstruction();
-		previewTempPoints = new GeoPoint[3];
+		previewTempPoints = new GeoPoint2[3];
 		for (int i=0; i < previewTempPoints.length; i++) {
-			previewTempPoints[i] = new GeoPoint(cons);			
+			previewTempPoints[i] = new GeoPoint2(cons);			
 		}
 		
 		initPreview();
@@ -136,7 +136,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	private void init(){
 		AlgoElement algo = geo.getDrawAlgorithm();
 		Construction cons = (Construction) geo.getConstruction();
-		tempPoint = new GeoPoint(cons);
+		tempPoint = new GeoPoint2(cons);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 
 		// angle defined by three points
@@ -169,9 +169,9 @@ public class DrawAngle extends Drawable implements Previewable {
 			if (vec instanceof GeoVector) {
 				angleDrawMode = DRAW_MODE_SINGLE_VECTOR;
 				vector = (GeoVector) vec;
-			} else if (vec instanceof GeoPoint) {
+			} else if (vec instanceof GeoPoint2) {
 				angleDrawMode = DRAW_MODE_SINGLE_POINT;
-				point = (GeoPoint) vec;
+				point = (GeoPoint2) vec;
 				vertex = tempPoint;
 			}
 			firstVec[0] = 1;

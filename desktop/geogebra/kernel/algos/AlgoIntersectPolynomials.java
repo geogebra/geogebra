@@ -15,7 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 
@@ -42,7 +42,7 @@ public class AlgoIntersectPolynomials extends AlgoRootsPolynomial {
     }
     
     @Override
-	public GeoPoint [] getIntersectionPoints() {
+	public GeoPoint2 [] getIntersectionPoints() {
         return super.getRootPoints();
     }
 

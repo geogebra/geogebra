@@ -21,7 +21,7 @@ import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
@@ -291,7 +291,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 					boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 					cons.setSuppressLabelCreation(true);
-					GeoPoint p = new GeoPoint(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
+					GeoPoint2 p = new GeoPoint2(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
 					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 
 					try {

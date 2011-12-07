@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * FitLineY of a list.
@@ -87,7 +87,7 @@ public class AlgoFitLineY extends AlgoElement {
    		 GeoElement geo = geoList.get(i); 
  		 if (geo.isGeoPoint()) {
  			double xy[] = new double[2];
- 			((GeoPoint)geo).getInhomCoords(xy);
+ 			((GeoPoint2)geo).getInhomCoords(xy);
  			double x=xy[0];
  			double y=xy[1];
   			sigmax+=x;

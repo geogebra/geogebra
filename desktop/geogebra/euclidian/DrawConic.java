@@ -33,7 +33,7 @@ import geogebra.kernel.algos.AlgoHyperbolaFociPoint;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.kernelND.GeoConicND;
@@ -76,7 +76,7 @@ final public class DrawConic extends Drawable implements Previewable {
     
     // CONIC_SINGLE_POINT
     private boolean firstPoint = true;
-    private GeoPoint  point;
+    private GeoPoint2  point;
     private DrawPoint drawPoint;
     
     // CONIC_INTERSECTING_LINES
@@ -122,7 +122,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	private ArrayList<GeoPointND> prevPoints;
 	private ArrayList<GeoSegment> prevSegments;
 	private ArrayList<GeoConic> prevConics; 
-	private GeoPoint [] previewTempPoints;  
+	private GeoPoint2 [] previewTempPoints;  
 	private GeoNumeric previewTempRadius;
 	private int previewMode, neededPrevPoints;
 	private boolean isPreview = false;
@@ -173,9 +173,9 @@ final public class DrawConic extends Drawable implements Previewable {
 		Construction cons = view.getKernel().getConstruction();
 		neededPrevPoints = mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS ?
 							1 : 2;
-		previewTempPoints = new GeoPoint[neededPrevPoints+1];
+		previewTempPoints = new GeoPoint2[neededPrevPoints+1];
 		for (int i=0; i < previewTempPoints.length; i++) {
-			previewTempPoints[i] = new GeoPoint(cons);			
+			previewTempPoints[i] = new GeoPoint2(cons);			
 		}
 		
 		initPreview();
@@ -198,8 +198,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		
 		Construction cons = view.getKernel().getConstruction();
 		previewTempRadius = new GeoNumeric(cons);
-		previewTempPoints = new GeoPoint[1];
-		previewTempPoints[0] = new GeoPoint(cons);
+		previewTempPoints = new GeoPoint2[1];
+		previewTempPoints[0] = new GeoPoint2(cons);
 		
 		initPreview();
 	} 	
@@ -316,7 +316,7 @@ final public class DrawConic extends Drawable implements Previewable {
             firstPoint = false;
             point = conic.getSinglePoint();
             if (point == null)
-    			point = new GeoPoint(conic.getConstruction());
+    			point = new GeoPoint2(conic.getConstruction());
     			point.setCoords(conic.b.x, conic.b.y, 1.0d);
             drawPoint = new DrawPoint(view, point,isPreview);                
             drawPoint.setGeoElement(conic);

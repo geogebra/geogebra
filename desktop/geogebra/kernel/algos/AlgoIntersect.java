@@ -15,7 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.AlgoIntersectND;
 
 
@@ -31,7 +31,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	 */
 	@Override
 	protected void avoidDoubleTangentPoint() {
-		GeoPoint [] points = getIntersectionPoints();
+		GeoPoint2 [] points = getIntersectionPoints();
 	    if (!points[1].isLabelSet() && points[0].isEqual(points[1])) {
 	    	points[1].setUndefined();	        
 	    }
@@ -42,7 +42,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
      * that is closest to the coordinates (xRW, yRW)
      */
     public int getClosestPointIndex(double xRW, double yRW) {
-        GeoPoint[] P = getIntersectionPoints();
+        GeoPoint2[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
@@ -62,8 +62,8 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
      * Returns the index in output[] of the intersection point
      * that is closest to the GeoPoint refPoint
      */
-    int getClosestPointIndex(GeoPoint refPoint) {
-        GeoPoint[] P = getIntersectionPoints();
+    int getClosestPointIndex(GeoPoint2 refPoint) {
+        GeoPoint2[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
@@ -81,14 +81,14 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
     }
 
     @Override
-	protected abstract GeoPoint[] getIntersectionPoints();
+	protected abstract GeoPoint2[] getIntersectionPoints();
     
     @Override
-	protected abstract GeoPoint[] getLastDefinedIntersectionPoints();
+	protected abstract GeoPoint2[] getLastDefinedIntersectionPoints();
 
     @Override
 	protected void setCoords(GeoPointND destination, GeoPointND source){
-    	((GeoPoint) destination).setCoords((GeoPoint) source);
+    	((GeoPoint2) destination).setCoords((GeoPoint2) source);
     }
 
 }

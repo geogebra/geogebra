@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoButton;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
@@ -190,7 +190,7 @@ public final class DrawTextField extends Drawable {
 				} else if (linkedGeo.isGeoText()) {
 					defineText = "\"" +  defineText + "\"";
 				} else if (linkedGeo.isGeoPoint()) {
-					if (((GeoPoint)linkedGeo).toStringMode == Kernel.COORD_COMPLEX) {
+					if (((GeoPoint2)linkedGeo).toStringMode == Kernel.COORD_COMPLEX) {
 						// z=2 doesn't work for complex numbers (parses to GeoNumeric)
 						defineText = defineText + "+0"+Unicode.IMAGINARY;
 					}

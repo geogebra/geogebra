@@ -26,7 +26,7 @@ import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.parser.ParseException;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 	private GeoImplicitPoly p;
 	private GeoLine l;
 	private GeoFunction f;
-	private GeoPoint[] tangentPoints;
+	private GeoPoint2[] tangentPoints;
 
 	public AlgoIntersectImplicitpolyParametric(Construction c,GeoImplicitPoly p,GeoLine l) {
 		this(c,null,false,p,l);
@@ -109,7 +109,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 						new GeoNumeric(cons, f.getMinParameter()),
 						new GeoNumeric(cons, f.getMaxParameter()));
 				
-				GeoPoint[] points = algo.getRootPoints();
+				GeoPoint2[] points = algo.getRootPoints();
 				List<double[]> valPairs=new ArrayList<double[]>();
 				for (int i=0;i<points.length;i++){
 					double t = points[i].getX();

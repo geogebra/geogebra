@@ -5,7 +5,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Polar[ <GeoPoint>, <GeoConic> ]
@@ -35,7 +35,7 @@ class CmdPolar extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 				GeoElement[] ret = { kernel.PolarLine(c.getLabel(),
-						(GeoPoint) arg[0], (GeoConic) arg[1]) };
+						(GeoPoint2) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}
 

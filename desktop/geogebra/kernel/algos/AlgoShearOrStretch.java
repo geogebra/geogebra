@@ -30,7 +30,7 @@ import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoVector;
 
@@ -141,7 +141,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
         n=num.getDouble();
         }
         else{
-        	GeoPoint sp = ((GeoVector)l).getStartPoint();
+        	GeoPoint2 sp = ((GeoVector)l).getStartPoint();
         	if(sp!=null){
         	 qx = -((GeoVector)l).getStartPoint().x;
         	 qy = -((GeoVector)l).getStartPoint().y;

@@ -26,7 +26,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *
@@ -35,12 +35,12 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoLinePointLine extends AlgoElement {
 
-    private GeoPoint P; // input
+    private GeoPoint2 P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
 
     /** Creates new AlgoLinePointLine */
-    public AlgoLinePointLine(AbstractConstruction cons, String label, GeoPoint P, GeoLine l) {
+    public AlgoLinePointLine(AbstractConstruction cons, String label, GeoPoint2 P, GeoLine l) {
         super(cons);
         this.P = P;
         this.l = l;
@@ -85,7 +85,7 @@ public class AlgoLinePointLine extends AlgoElement {
         return g;
     }
     
-    GeoPoint getP() {
+    GeoPoint2 getP() {
         return P;
     }
     

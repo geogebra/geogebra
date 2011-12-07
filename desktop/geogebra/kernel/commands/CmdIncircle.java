@@ -4,7 +4,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /*
  * Incircle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ]
@@ -28,9 +28,9 @@ class CmdIncircle extends CommandProcessor {
 		{
 		    kernel.Incircle(
 			c.getLabel(),
-			(GeoPoint) arg[0],
-			(GeoPoint) arg[1],
-			(GeoPoint) arg[2])};
+			(GeoPoint2) arg[0],
+			(GeoPoint2) arg[1],
+			(GeoPoint2) arg[2])};
 		return ret;
 	    } else {
 		if (!ok[0])

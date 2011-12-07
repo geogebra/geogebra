@@ -20,7 +20,7 @@ import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.util.CopyPaste;
 import geogebra.util.Util;
@@ -855,7 +855,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 
 					// update point on path
 					else if (geo.isGeoPoint() && !geo.isGeoElement3D()) {
-						GeoPoint p = (GeoPoint) geo;
+						GeoPoint2 p = (GeoPoint2) geo;
 						if (p.hasPath()) {
 							p.addToPathParameter(changeVal * p.getAnimationStep());
 						}

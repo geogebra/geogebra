@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootUtil;
 
@@ -33,7 +33,7 @@ public class AlgoRootInterval extends AlgoElement {
 
     private GeoFunction f; // input    
     private NumberValue a, b; // interval bounds
-    private GeoPoint rootPoint; // output 
+    private GeoPoint2 rootPoint; // output 
 
     private GeoElement aGeo, bGeo;
     private UnivariateRealSolver rootFinder;
@@ -52,7 +52,7 @@ public class AlgoRootInterval extends AlgoElement {
         bGeo = (GeoElement)b.toGeoElement();
 
         // output
-        rootPoint = new GeoPoint(cons);
+        rootPoint = new GeoPoint2(cons);
         setInputOutput(); // for AlgoElement    
         compute();
         rootPoint.setLabel(label);
@@ -76,7 +76,7 @@ public class AlgoRootInterval extends AlgoElement {
         setDependencies();
     }
 
-    public GeoPoint getRootPoint() {
+    public GeoPoint2 getRootPoint() {
         return rootPoint;
     }
 

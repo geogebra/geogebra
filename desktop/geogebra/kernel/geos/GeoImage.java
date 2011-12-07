@@ -47,7 +47,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		   PointRotateable, Mirrorable, Translateable, Dilateable, MatrixTransformable,Transformable {
 	 	
 	//private String imageFileName = ""; // image file
-	private GeoPoint [] corners; // corners of the image
+	private GeoPoint2 [] corners; // corners of the image
 	//private BufferedImage image;	
 	private int pixelWidth, pixelHeight;
 	private boolean inBackground, defined;
@@ -59,7 +59,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	private boolean hasAbsoluteScreenLocation = false;	
 	
 	// corner points for transformations
-	private GeoPoint [] tempPoints;
+	private GeoPoint2 [] tempPoints;
 	
 	private static Vector<GeoImage> instances = new Vector<GeoImage>();
 	
@@ -80,7 +80,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		setAuxiliaryObject(true);
 		
 		// three corners of the image: first, second and fourth
-		corners = new GeoPoint[3]; 			
+		corners = new GeoPoint2[3]; 			
 				
 		instances.add(this);	
 		defined = true;
@@ -128,9 +128,9 @@ implements Locateable, AbsoluteScreenLocateable,
 	private void initTempPoints() {
 		if (tempPoints == null) {
 			//	temp corner points for transformations and absolute location
-			tempPoints = new GeoPoint[3];
+			tempPoints = new GeoPoint2[3];
 	    	for (int i = 0; i < tempPoints.length; i++) {
-	    		tempPoints[i] = new GeoPoint(cons);    		
+	    		tempPoints[i] = new GeoPoint2(cons);    		
 	    	}	    	
 		}
 		
@@ -240,7 +240,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	//}		
 	
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {    
-		setCorner((GeoPoint) p, 0);
+		setCorner((GeoPoint2) p, 0);
 	}
 	
 	public void removeStartPoint(GeoPointND p) {    
@@ -251,7 +251,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 	
 	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
-		setCorner((GeoPoint) p, number);
+		setCorner((GeoPoint2) p, number);
 	}
 	
 	/**
@@ -259,7 +259,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * This is needed for macros.	 
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		corners[number] = (GeoPoint) p;
+		corners[number] = (GeoPoint2) p;
 	}
 	
 	/**
@@ -267,7 +267,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * @param p corner point
 	 * @param number 0, 1 or 2 (first, second and fourth corner)
 	 */
-	public void setCorner(GeoPoint p, int number)  {
+	public void setCorner(GeoPoint2 p, int number)  {
 		// macro output uses initStartPoint() only
 		if (isAlgoMacroOutput()) return; 
 		
@@ -286,7 +286,7 @@ implements Locateable, AbsoluteScreenLocateable,
 						
 			// copy old first corner as absolute position
 			if (number == 0 && corners[0] != null) {
-				GeoPoint temp = new GeoPoint(cons);
+				GeoPoint2 temp = new GeoPoint2(cons);
 				temp.setCoords(corners[0]);
 				corners[0] = temp;
 			} else
@@ -343,11 +343,11 @@ implements Locateable, AbsoluteScreenLocateable,
 		}		
 	}
 	
-	public GeoPoint getStartPoint() {
+	public GeoPoint2 getStartPoint() {
 		return corners[0];
 	}
 	
-	public GeoPoint [] getStartPoints() {
+	public GeoPoint2 [] getStartPoints() {
 		return corners;
 	}
 	/**
@@ -355,7 +355,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * @param number 1 for boottom left, others clockwise
 	 * @return corner point
 	 */
-	final public GeoPoint getCorner(int number) {
+	final public GeoPoint2 getCorner(int number) {
 		return corners[number];
 	}
 	
@@ -568,9 +568,9 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 	
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint loc = getStartPoint();
+		GeoPoint2 loc = getStartPoint();
 		if (loc == null) {
-			loc = new GeoPoint(cons);	
+			loc = new GeoPoint2(cons);	
 			setCorner(loc, 0);
 		}				
 		loc.setCoords(x, y, 1.0);		
@@ -625,7 +625,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * @param result here the result is stored.
 	 * @param n number of the corner point (1, 2, 3 or 4) 
 	 */
-	public void calculateCornerPoint(GeoPoint result, int n) {		
+	public void calculateCornerPoint(GeoPoint2 result, int n) {		
 		if (hasAbsoluteScreenLocation) {
 			result.setUndefined();
 			return;
@@ -667,9 +667,9 @@ implements Locateable, AbsoluteScreenLocateable,
 	// coords is the 2d result array for (x, y); n is 0, 1, or 2
 	private double [] tempCoords = new double[2];
 	private void getInternalCornerPointCoords(double [] coords, int n) {		
-		GeoPoint A = corners[0];
-		GeoPoint B = corners[1];
-		GeoPoint D = corners[2];
+		GeoPoint2 A = corners[0];
+		GeoPoint2 B = corners[1];
+		GeoPoint2 D = corners[2];
 		
 		double xscale = kernel.getXscale();
 		double yscale = kernel.getYscale();
@@ -788,7 +788,7 @@ implements Locateable, AbsoluteScreenLocateable,
     	for (int i=0; i < corners.length; i++) {
     		GeoVec2D vec = tempPoints[i].getVector();
     		vec.matrixTransform(a, b, c, d);    
-    		if (corners[i] == null) corners[i] = new GeoPoint(cons);
+    		if (corners[i] == null) corners[i] = new GeoPoint2(cons);
     		corners[i].setCoords(vec);    			
     	}     
 	}
@@ -898,7 +898,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		for (int i=0; i < corners.length; i++) {
     		GeoVec2D vec = tempPoints[i].getVector();
     		vec.matrixTransform(a00, a01, a02, a10,a11,a12,a20,a21,a22);    
-    		if (corners[i] == null) corners[i] = new GeoPoint(cons);
+    		if (corners[i] == null) corners[i] = new GeoPoint2(cons);
     		corners[i].setCoords(vec);    			
     	}
 		

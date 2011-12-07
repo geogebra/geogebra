@@ -18,7 +18,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 
@@ -28,17 +28,17 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoPathParameter extends AlgoElement {
 
 	// Take a polygon as input
-	private GeoPoint point;
+	private GeoPoint2 point;
 
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric value;
 
-	public AlgoPathParameter(Construction cons, String label, GeoPoint point) {
+	public AlgoPathParameter(Construction cons, String label, GeoPoint2 point) {
 		this(cons, point);
 		value.setLabel(label);
 	}
 
-	AlgoPathParameter(Construction cons, GeoPoint point) {
+	AlgoPathParameter(Construction cons, GeoPoint2 point) {
 		super(cons);
 		this.point = point;
 

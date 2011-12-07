@@ -4,7 +4,7 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -118,7 +118,7 @@ public class DrawInequality1Var extends Drawable {
 	public void update() {
 		// get x-coords of the lines
 		if (varIsY) {
-			GeoPoint[] roots = (GeoPoint[])ineq.getZeros();
+			GeoPoint2[] roots = (GeoPoint2[])ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = view.height + 10;
 			int numOfX = 1;
@@ -150,7 +150,7 @@ public class DrawInequality1Var extends Drawable {
 			}
 			setShape(a);
 		} else {
-			GeoPoint[] roots = (GeoPoint[])ineq.getZeros();
+			GeoPoint2[] roots = (GeoPoint2[])ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = -10;
 			int numOfX = 1;

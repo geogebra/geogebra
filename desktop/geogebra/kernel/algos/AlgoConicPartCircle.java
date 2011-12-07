@@ -16,7 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 
@@ -26,9 +26,9 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoConicPartCircle extends AlgoConicPart {
 	
-	private GeoPoint center, startPoint, endPoint;	
+	private GeoPoint2 center, startPoint, endPoint;	
 
-	private GeoPoint P, Q;			
+	private GeoPoint2 P, Q;			
 	
     /**
      * Creates a new arc or sector algorithm.
@@ -36,14 +36,14 @@ public class AlgoConicPartCircle extends AlgoConicPart {
      * GeoConicPart.CONIC_PART_ARC       
      */
     public AlgoConicPartCircle(Construction cons, String label,
-    		 GeoPoint center, GeoPoint startPoint, GeoPoint endPoint,
+    		 GeoPoint2 center, GeoPoint2 startPoint, GeoPoint2 endPoint,
     		int type) {
     	this(cons, center, startPoint, endPoint, type);
     	conicPart.setLabel(label);
     }
     
     public  AlgoConicPartCircle(Construction cons, 
-  	   		 GeoPoint center, GeoPoint startPoint, GeoPoint endPoint, int type) {      
+  	   		 GeoPoint2 center, GeoPoint2 startPoint, GeoPoint2 endPoint, int type) {      
         super(cons, type);  
         this.center = center;
         this.startPoint = startPoint;
@@ -55,8 +55,8 @@ public class AlgoConicPartCircle extends AlgoConicPart {
         conic = algo.getCircle();
 
         // temp Points
-        P = new GeoPoint(cons);
-        Q = new GeoPoint(cons);
+        P = new GeoPoint2(cons);
+        Q = new GeoPoint2(cons);
         
         conicPart = new GeoConicPart(cons, type);
         conicPart.addPointOnConic(startPoint);
@@ -72,15 +72,15 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 		
 	}
 
-	public GeoPoint getStartPoint() {
+	public GeoPoint2 getStartPoint() {
     	return startPoint;
     }
     
-    public GeoPoint getEndPoint() {
+    public GeoPoint2 getEndPoint() {
     	return endPoint;
     }
     
-    public GeoPoint getCenter() {
+    public GeoPoint2 getCenter() {
     	return center;
     }
     

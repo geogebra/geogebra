@@ -56,7 +56,7 @@ import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.geos.GeoUserInputElement;
@@ -3984,7 +3984,7 @@ public class MyXMLHandler implements DocHandler {
 		double x = Double.parseDouble((String) attrs.get("x"));
 		double y = Double.parseDouble((String) attrs.get("y"));
 		double z = Double.parseDouble((String) attrs.get("z"));
-		GeoPoint p = new GeoPoint(cons);
+		GeoPoint2 p = new GeoPoint2(cons);
 		p.setCoords(x, y, z);
 		return p;
 	}

@@ -26,7 +26,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;
@@ -112,9 +112,9 @@ public class MyI2GHandler implements DocHandler {
 
     // ignore coordinates for segment, import as line
     private boolean  segment;
-    private GeoPoint segmentStart;
-    private GeoPoint segmentEnd;
-	private GeoPoint segmentVia;
+    private GeoPoint2 segmentStart;
+    private GeoPoint2 segmentEnd;
+	private GeoPoint2 segmentVia;
     
     /** Creates a new instance of MyI2GHandler */
     public MyI2GHandler(Kernel kernel, Construction cons) {             
@@ -288,9 +288,9 @@ debug("startElements", eName);
     	        if (eName.equals("line_segment")) {
     	        	eName = "segment";
     	        	segment = true;
-    	        	segmentStart = new GeoPoint(cons);
-    	        	segmentEnd = new GeoPoint(cons);
-    	        	segmentVia = new GeoPoint(cons);
+    	        	segmentStart = new GeoPoint2(cons);
+    	        	segmentEnd = new GeoPoint2(cons);
+    	        	segmentVia = new GeoPoint2(cons);
     	        } else {
         	        segment = false;
     	        }
@@ -642,11 +642,11 @@ debug("endConstraints", eName);
 				if (cmd.labelCount() == 1 && 
 					cmd.getArgumentNumber() == 1 && 
 					kernel.lookupLabel(cmd.getLabel(0)) instanceof GeoLine && 
-					cmd.getArgument(0).getLeft() instanceof GeoPoint) {
+					cmd.getArgument(0).getLeft() instanceof GeoPoint2) {
 						try {
 							GeoLine geoLine = (GeoLine) kernel.lookupLabel(cmd.getLabel(0));
 							GeoVector geoVector = new GeoVector(cons, null, geoLine.y, -geoLine.x, 0);
-							geoVector.setStartPoint((GeoPoint) cmd.getArgument(0).getLeft());
+							geoVector.setStartPoint((GeoPoint2) cmd.getArgument(0).getLeft());
 							cmd.addArgument(new ExpressionNode(kernel, geoVector));
 						} catch (Exception e) {
 							// This should never happen

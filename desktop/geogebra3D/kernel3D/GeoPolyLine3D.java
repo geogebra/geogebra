@@ -15,7 +15,7 @@ import geogebra.kernel.Kernel;
 
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
 
@@ -268,7 +268,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	/**
 	 * @deprecated use getPointND(int i)
 	 */
-	public GeoPoint getPoint(int i) {
+	public GeoPoint2 getPoint(int i) {
 		return null;
 	}
 

@@ -26,7 +26,7 @@ import geogebra.common.util.MyMath;
 import geogebra.euclidian.clipping.ClipLine;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -395,7 +395,7 @@ implements Previewable {
 			
 			// round angle to nearest 15 degrees if alt pressed
 			if (points.size() == 1 && view.getEuclidianController().altDown) {
-				GeoPoint p = (GeoPoint)points.get(0);
+				GeoPoint2 p = (GeoPoint2)points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;

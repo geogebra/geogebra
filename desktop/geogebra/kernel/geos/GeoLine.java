@@ -79,8 +79,8 @@ GeoLineInterface {
 	private boolean showUndefinedInAlgebraView = false;
 	
     private String parameter = "\u03bb";	
-    public GeoPoint startPoint;
-	public GeoPoint endPoint;    
+    public GeoPoint2 startPoint;
+	public GeoPoint2 endPoint;    
     
     //  enable negative sign of first coefficient in implicit equations
 	private static boolean KEEP_LEADING_SIGN = true;
@@ -152,7 +152,7 @@ GeoLineInterface {
      * @param eps precision
      * @return true if P lies on this line 
      * */
-    public boolean isIntersectionPointIncident(GeoPoint p, double eps) {    
+    public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {    
         return isOnFullLine(p, eps);
     }
     
@@ -162,7 +162,7 @@ GeoLineInterface {
 	 * @param P point
 	 * @param eps precision (ratio of allowed error and |x|+|y|)
 	 */
-	public final boolean isOnFullLine(GeoPoint P, double eps) {						
+	public final boolean isOnFullLine(GeoPoint2 P, double eps) {						
 		if (!P.isDefined()) return false;	
 		
 				double simplelength =  Math.abs(x) + Math.abs(y);
@@ -195,7 +195,7 @@ GeoLineInterface {
      */
     final public boolean isOnPath(GeoPointND PI, double eps) {  
     	
-    	GeoPoint P = (GeoPoint) PI;
+    	GeoPoint2 P = (GeoPoint2) PI;
     	
     	if (P.getPath() == this)
 			return true;
@@ -304,7 +304,7 @@ GeoLineInterface {
         
     /** Calculates the euclidian distance between this GeoLine and (px, py).
      */
-    public double distance(GeoPoint p) {                        
+    public double distance(GeoPoint2 p) {                        
         return Math.abs( (x * p.inhomX + y * p.inhomY + z) / 
                             MyMath.length(x, y) );
     }
@@ -315,7 +315,7 @@ GeoLineInterface {
 	 * @param p point
 	 * @return distance between this line and a point
 	 */
-	final public double distanceHom(GeoPoint p) {                        
+	final public double distanceHom(GeoPoint2 p) {                        
 		return Math.abs( (x * p.x / p.z + y * p.y / p.z + z) / 
 							MyMath.length(x, y) );
 	}
@@ -390,7 +390,7 @@ GeoLineInterface {
 	 * Sets point p p to coords of some point on this line 
 	 * @param p point to be moved to this path
 	 */
-	final public void getPointOnLine(GeoPoint p) {  
+	final public void getPointOnLine(GeoPoint2 p) {  
 		// point defined by parent algorithm
 		if (startPoint != null && startPoint.isFinite()) {
 			p.setCoords(startPoint);
@@ -408,7 +408,7 @@ GeoLineInterface {
 	public final void setStandardStartPoint() {
 
 		if (startPoint == null) {
-			startPoint = new GeoPoint(cons);
+			startPoint = new GeoPoint2(cons);
 			startPoint.addIncidence(this);
 		}
 
@@ -434,13 +434,13 @@ GeoLineInterface {
 		//}
 	}
 
-    public final void setStartPoint(GeoPoint P) {        	
+    public final void setStartPoint(GeoPoint2 P) {        	
     	startPoint = P;	    	
     	if(P!=null)
     		P.addIncidence(this);
     }
     
-    public final void setEndPoint(GeoPoint Q) {    	
+    public final void setEndPoint(GeoPoint2 Q) {    	
     	endPoint = Q;
     	if(Q!=null)
     		Q.addIncidence(this);
@@ -449,14 +449,14 @@ GeoLineInterface {
 	/**
 	 * Retuns first defining point of this line or null.
 	 */
-	final public GeoPoint getStartPoint() {
+	final public GeoPoint2 getStartPoint() {
 		return startPoint;
 	}   
     
 	/**
 	 * Retuns second point of this line or null.
 	 */
-	final public GeoPoint getEndPoint() {
+	final public GeoPoint2 getEndPoint() {
 		return endPoint;
 	}   
 
@@ -954,7 +954,7 @@ GeoLineInterface {
 			super(GeoLine.this);
 		}
 		
-		public void init(GeoPoint p) {	
+		public void init(GeoPoint2 p) {	
 			// we need a start point for pathChanged() to work correctly
 			// with our path parameters
 			if (startPoint == null) {
@@ -1290,13 +1290,13 @@ GeoLineInterface {
 	////////////////////////////////////
 	// FROM GEOCONIC
 	////////////////////////////////////
-	protected ArrayList<GeoPoint> pointsOnLine;
+	protected ArrayList<GeoPoint2> pointsOnLine;
 	/**
 	 * Returns a list of points that this line passes through.
 	 * May return null.
 	 * @return list of points that this line passes through.
 	 */
-	public final ArrayList<GeoPoint> getPointsOnLine() {
+	public final ArrayList<GeoPoint2> getPointsOnLine() {
 		return pointsOnLine;
 	}
 	
@@ -1305,7 +1305,7 @@ GeoLineInterface {
 	 * This method should only be used by AlgoMacro.
 	 * @param points list of points that this line passes through
 	 */
-	public final void setPointsOnLine(ArrayList<GeoPoint> points) {
+	public final void setPointsOnLine(ArrayList<GeoPoint2> points) {
 		pointsOnLine = points;
 	}
 	
@@ -1314,10 +1314,10 @@ GeoLineInterface {
 	 */
 	public final void addPointOnLine(GeoPointND p) {
 		if (pointsOnLine == null)
-			pointsOnLine = new ArrayList<GeoPoint>();
+			pointsOnLine = new ArrayList<GeoPoint2>();
 		
 		if (!pointsOnLine.contains(p))
-			pointsOnLine.add((GeoPoint)p);				
+			pointsOnLine.add((GeoPoint2)p);				
 	}
 	
 	/**
@@ -1333,7 +1333,7 @@ GeoLineInterface {
 		
 		if (pointsOnLine!=null) {
 			for (int i=0; i<pointsOnLine.size(); ++i) {
-				GeoPoint p = pointsOnLine.get(i);
+				GeoPoint2 p = pointsOnLine.get(i);
 				p.removeIncidence(this);
 			}
 		}

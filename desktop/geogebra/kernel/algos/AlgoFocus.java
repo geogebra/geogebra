@@ -22,7 +22,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 /**
@@ -33,7 +33,7 @@ import geogebra.kernel.geos.GeoVec2D;
 public class AlgoFocus extends AlgoElement {
 
 	private GeoConic c; // input
-	private GeoPoint[] focus; // output
+	private GeoPoint2[] focus; // output
 
 	transient private double temp1, temp2;
 	GeoVec2D b;
@@ -52,9 +52,9 @@ public class AlgoFocus extends AlgoElement {
 	AlgoFocus(Construction cons, GeoConic c) {
 		super(cons);
 		this.c = c;
-		focus = new GeoPoint[2];
+		focus = new GeoPoint2[2];
 		for (int i = 0; i < focus.length; i++) {
-			focus[i] = new GeoPoint(cons);
+			focus[i] = new GeoPoint2(cons);
 			// only first undefined point should be shown in algebra window
 			focus[i].showUndefinedInAlgebraView(i == 0);
 		}
@@ -86,7 +86,7 @@ public class AlgoFocus extends AlgoElement {
 		return c;
 	}
 
-	public GeoPoint[] getFocus() {
+	public GeoPoint2[] getFocus() {
 		return focus;
 	}
 

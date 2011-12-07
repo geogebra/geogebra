@@ -10,7 +10,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
@@ -27,14 +27,14 @@ import geogebra.main.Application;
 public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeConstants{
 
 	public static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input
+	private GeoPoint2 A, B, C; // input
 	private GeoImplicitPoly n;	// number of curve
 	private GeoImplicitPoly poly; // output
 	private Equation eq;
 	private GeoNumeric[] xcoef,ycoef,constant;
 	private AlgoDependentImplicitPoly dd;
-	public AlgoTriangleCurve(Construction cons, String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, GeoImplicitPoly e, GeoNumeric a,GeoNumeric b,GeoNumeric c) {
+	public AlgoTriangleCurve(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
+			GeoPoint2 C, GeoImplicitPoly e, GeoNumeric a,GeoNumeric b,GeoNumeric c) {
 		super(cons);
 		this.A = A;
 		this.B = B;

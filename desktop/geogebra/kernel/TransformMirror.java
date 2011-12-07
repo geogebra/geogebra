@@ -5,7 +5,7 @@ import geogebra.kernel.algos.AlgoMirror;
 import geogebra.kernel.algos.AlgoTransformation;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Mirror
@@ -21,7 +21,7 @@ public class TransformMirror extends Transform {
 	 * @param cons 
 	 * @param mirrorPoint
 	 */
-	public TransformMirror(Construction cons,GeoPoint mirrorPoint) {
+	public TransformMirror(Construction cons,GeoPoint2 mirrorPoint) {
 		mirror = mirrorPoint;
 		this.cons = cons;
 	}
@@ -50,7 +50,7 @@ public class TransformMirror extends Transform {
 		if (mirror.isGeoLine()) {
 			algo = new AlgoMirror(cons, geo, (GeoLine) mirror, null, null);
 		} else if (mirror.isGeoPoint()) {
-			algo = new AlgoMirror(cons, geo, null, (GeoPoint) mirror, null);
+			algo = new AlgoMirror(cons, geo, null, (GeoPoint2) mirror, null);
 		} else {
 			algo = new AlgoMirror(cons, geo, null, null, (GeoConic) mirror);
 		}

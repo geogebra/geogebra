@@ -25,7 +25,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
@@ -605,7 +605,7 @@ public class GgbAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return -1;		
 		if (geo.isGeoPoint())
-			return ((GeoPoint) geo).getPointStyle();	
+			return ((GeoPoint2) geo).getPointStyle();	
 		else
 			return -1;
 	}	
@@ -623,7 +623,7 @@ public class GgbAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return -1;		
 		if (geo.isGeoPoint())
-			return ((GeoPoint) geo).getPointSize();	
+			return ((GeoPoint2) geo).getPointSize();	
 		else
 			return -1;
 	}	
@@ -633,7 +633,7 @@ public class GgbAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return;	
 		if (geo.isGeoPoint()) {
-			((GeoPoint) geo).setPointSize(style);
+			((GeoPoint2) geo).setPointSize(style);
 			geo.updateRepaint();
 		}
 	}	
@@ -825,7 +825,7 @@ public class GgbAPI {
 		if (geo == null) return 0;
 		
 		if (geo.isGeoPoint())
-			return ((GeoPoint) geo).inhomX;
+			return ((GeoPoint2) geo).inhomX;
 		else if (geo.isGeoVector())
 			return ((GeoVector) geo).x;
 		else
@@ -841,7 +841,7 @@ public class GgbAPI {
 		if (geo == null) return 0;
 		
 		if (geo.isGeoPoint())
-			return ((GeoPoint) geo).inhomY;
+			return ((GeoPoint2) geo).inhomY;
 		else if (geo.isGeoVector())
 			return ((GeoVector) geo).y;
 		else
@@ -857,7 +857,7 @@ public class GgbAPI {
 		if (geo == null) return;
 		
 		if (geo.isGeoPoint()) {
-			((GeoPoint) geo).setCoords(x, y, 1);
+			((GeoPoint2) geo).setCoords(x, y, 1);
 			geo.updateRepaint();
 		}
 		else if (geo.isGeoVector()) {

@@ -18,7 +18,7 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -39,7 +39,7 @@ public class DrawSlider extends Drawable {
     private double [] coordsRW = new double[2];
     private double [] coordsScreen = new double[2];
     private Line2D.Double line = new Line2D.Double();   
-    private GeoPoint geoPoint;
+    private GeoPoint2 geoPoint;
     private DrawPoint drawPoint;
     
     /**
@@ -54,7 +54,7 @@ public class DrawSlider extends Drawable {
         geo = number;              
         
         // create point for slider
-        geoPoint = new GeoPoint(view.getKernel().getConstruction());        
+        geoPoint = new GeoPoint2(view.getKernel().getConstruction());        
         drawPoint = new DrawPoint(view, geoPoint);
         drawPoint.setGeoElement(number);
         

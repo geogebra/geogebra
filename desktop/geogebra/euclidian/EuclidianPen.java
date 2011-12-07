@@ -4,7 +4,7 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 import java.awt.AlphaComposite;
@@ -191,7 +191,7 @@ public class EuclidianPen {
 				penOffsetX = penGeo.getAbsoluteScreenLocX();
 				penOffsetY = penGeo.getAbsoluteScreenLocY();
 			} else {
-				GeoPoint startPoint = penGeo.getStartPoint();
+				GeoPoint2 startPoint = penGeo.getStartPoint();
 				penOffsetX = view.toScreenCoordX(startPoint.inhomX);
 				penOffsetY = view.toScreenCoordY(startPoint.inhomY) - penImage.getHeight();
 				
@@ -233,7 +233,7 @@ public class EuclidianPen {
 
 			penImage = (BufferedImage)lastPenImage.getFillImage();
 
-			GeoPoint corner = lastPenImage.getCorner(0);
+			GeoPoint2 corner = lastPenImage.getCorner(0);
 			int x = view.toScreenCoordX(corner.getInhomX());
 			int y = view.toScreenCoordY(corner.getInhomY());
 			int width = penImage.getWidth();
@@ -257,8 +257,8 @@ public class EuclidianPen {
 		if (penImage == null && hits != null && hits.size() > 0) {
 			GeoImage hit = (GeoImage)hits.get(0);
 			
-			GeoPoint c1 = hit.getCorner(0);
-			GeoPoint c2 = hit.getCorner(1);
+			GeoPoint2 c1 = hit.getCorner(0);
+			GeoPoint2 c2 = hit.getCorner(1);
 
 			int width = hit.getFillImage().getWidth();
 			
@@ -279,7 +279,7 @@ public class EuclidianPen {
 					penOffsetX = penGeo.getAbsoluteScreenLocX();
 					penOffsetY = penGeo.getAbsoluteScreenLocY();
 				} else {
-					GeoPoint startPoint = penGeo.getStartPoint();
+					GeoPoint2 startPoint = penGeo.getStartPoint();
 					penOffsetX = view.toScreenCoordX(startPoint.inhomX);
 					penOffsetY = view.toScreenCoordY(startPoint.inhomY) - penImage.getHeight();
 					
@@ -425,8 +425,8 @@ public class EuclidianPen {
 				geoImage = gi;
 			geoImage.setImageFileName(fileName);
 			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			GeoPoint corner = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY + penImage2.getHeight()),1.0));
-			GeoPoint corner2 = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX + penImage2.getWidth()),ev.toRealWorldCoordY( penOffsetY + penImage2.getHeight()),1.0));
+			GeoPoint2 corner = (new GeoPoint2(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY + penImage2.getHeight()),1.0));
+			GeoPoint2 corner2 = (new GeoPoint2(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX + penImage2.getWidth()),ev.toRealWorldCoordY( penOffsetY + penImage2.getHeight()),1.0));
 			corner.setLabelVisible(false);
 			corner2.setLabelVisible(false);
 			corner.setAuxiliaryObject(!penUsingOffsets);
@@ -440,7 +440,7 @@ public class EuclidianPen {
 
 			// need 3 corner points if axes ratio isn't 1:1
 			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
-				GeoPoint corner4 = (new GeoPoint(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY),1.0));
+				GeoPoint2 corner4 = (new GeoPoint2(app.getKernel().getConstruction(), null, ev.toRealWorldCoordX(penOffsetX),ev.toRealWorldCoordY( penOffsetY),1.0));
 				corner4.setLabelVisible(false);
 				corner4.setAuxiliaryObject(!penUsingOffsets);
 				corner4.update();

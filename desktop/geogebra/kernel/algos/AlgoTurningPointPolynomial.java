@@ -14,7 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -33,7 +33,7 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
         return "AlgoTurningPointPolynomial";    
     }
             
-    public GeoPoint [] getInflectionPoints() {
+    public GeoPoint2 [] getInflectionPoints() {
         return super.getRootPoints();
     }
     

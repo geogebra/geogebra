@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -34,8 +34,8 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoConicFivePoints extends AlgoElement {
 
-    private GeoPoint[] P; // input  five points      
-	private GeoPoint[] Ppert;   
+    private GeoPoint2[] P; // input  five points      
+	private GeoPoint2[] Ppert;   
     private GeoConic conic; // output             
     private double delta;
     
@@ -44,7 +44,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     private GeoVec3D[] line;
     private int i, j;
 
-    public AlgoConicFivePoints(Construction cons, String label, GeoPoint[] P) {
+    public AlgoConicFivePoints(Construction cons, String label, GeoPoint2[] P) {
         super(cons);
         this.P = P;
         conic = new GeoConic(cons);
@@ -100,7 +100,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         return conic;
     }
 
-    GeoPoint[] getPoints() {
+    GeoPoint2[] getPoints() {
         return P;
     }
 
@@ -125,9 +125,9 @@ public class AlgoConicFivePoints extends AlgoElement {
         
         // compute a perturbed Cpert
     	kernel.setSilentMode(true);
-    	Ppert = new GeoPoint[5];
+    	Ppert = new GeoPoint2[5];
     	for (int i=0; i<5; i++) {
-    		Ppert[i] = new GeoPoint(P[i]);
+    		Ppert[i] = new GeoPoint2(P[i]);
     		
     	}
     	
@@ -229,7 +229,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     // computes P.A.P, where A is a (possibly not symmetric) 3x3 matrix
-    final private static double evalMatrix(double[][] A, GeoPoint P) {
+    final private static double evalMatrix(double[][] A, GeoPoint2 P) {
         return A[0][0] * P.x * P.x
             + A[1][1] * P.y * P.y
             + A[2][2] * P.z * P.z

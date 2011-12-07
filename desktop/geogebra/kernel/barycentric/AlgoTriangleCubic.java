@@ -10,7 +10,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoFunctionNVar;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;
@@ -28,12 +28,12 @@ import geogebra.kernel.Kernel;
 public class AlgoTriangleCubic extends AlgoElement {
 
 	public static final long serialVersionUID = 1L;
-	private GeoPoint A, B, C; // input
+	private GeoPoint2 A, B, C; // input
 	private NumberValue n;	// number of curve
 	private GeoImplicitPoly poly; // output
 
-	public AlgoTriangleCubic(Construction cons, String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, NumberValue e) {
+	public AlgoTriangleCubic(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
+			GeoPoint2 C, NumberValue e) {
 		super(cons);
 		this.A = A;
 		this.B = B;

@@ -25,7 +25,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -43,7 +43,7 @@ public class AlgoTangentLine extends AlgoElement {
     private GeoLine diameter;
     private GeoVector direction;
     private AlgoIntersectLineConic algoIntersect;
-    private GeoPoint [] tangentPoints;
+    private GeoPoint2 [] tangentPoints;
     private int i;
         
     /** Creates new AlgoTangentLine */
@@ -113,7 +113,7 @@ public class AlgoTangentLine extends AlgoElement {
      * return intersection point of tangent line and conic c.
      * return null if line is not defined as tangent of conic c.
      */
-    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
+    GeoPoint2 getTangentPoint(GeoConic conic, GeoLine line) {
         if (conic != c) return null;
         
         if (line == tangents[0]) {

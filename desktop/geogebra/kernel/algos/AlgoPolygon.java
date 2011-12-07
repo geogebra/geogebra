@@ -21,7 +21,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
@@ -137,9 +137,9 @@ public class AlgoPolygon extends AlgoElement {
     	
     	// create new points array
     	int size = pointList.size();
-    	points = new GeoPoint[size];
+    	points = new GeoPoint2[size];
     	for (int i=0; i < size; i++) {    		
-    		points[i] = (GeoPoint) pointList.get(i);
+    		points[i] = (GeoPoint2) pointList.get(i);
     	}
     	poly.setPoints(points);
     	
@@ -226,8 +226,8 @@ public class AlgoPolygon extends AlgoElement {
     	return poly; 
     }  
     
-    public GeoPoint [] getPoints() {
-    	return (GeoPoint[]) points;
+    public GeoPoint2 [] getPoints() {
+    	return (GeoPoint2[]) points;
     }
     
     public GeoElement getPolyhedron() { return polyhedron; }    

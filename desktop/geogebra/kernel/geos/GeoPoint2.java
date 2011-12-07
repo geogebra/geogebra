@@ -82,7 +82,7 @@ import java.util.TreeSet;
  * @author  Markus
  * @version 
  */
-final public class GeoPoint extends GeoVec3D 
+final public class GeoPoint2 extends GeoVec3D 
 implements VectorValue, PathOrPoint,
 Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable, PointProperties,
 GeoPointND, Animatable, Transformable, GeoPointInterface  {   	
@@ -118,7 +118,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
      * create an undefined GeoPoint
      * @param c
      */
-    public GeoPoint(AbstractConstruction c) {     	 
+    public GeoPoint2(AbstractConstruction c) {     	 
     	super(c);
     	setAnimationType(ANIMATION_INCREASING);
     	setUndefined();
@@ -133,23 +133,23 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
      * @param y 
      * @param z 
      */  
-    public GeoPoint(AbstractConstruction c, String label, double x, double y, double z) {               
+    public GeoPoint2(AbstractConstruction c, String label, double x, double y, double z) {               
         this(c, x, y, z); 
         setLabel(label);
     }
     
-    public GeoPoint(AbstractConstruction c, double x, double y, double z) {               
+    public GeoPoint2(AbstractConstruction c, double x, double y, double z) {               
         super(c, x, y, z); // GeoVec3D constructor
     	setAnimationType(ANIMATION_INCREASING);
     }
     
-    public GeoPoint(AbstractConstruction c, Path path) {
+    public GeoPoint2(AbstractConstruction c, Path path) {
 		super(c);
     	setAnimationType(ANIMATION_INCREASING);
 		this.path = path;	
 	}
     
-    public GeoPoint(AbstractConstruction c, Region region) {
+    public GeoPoint2(AbstractConstruction c, Region region) {
 		super(c);
 		this.region = region;	
 	}
@@ -202,7 +202,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     	return GeoClass.POINT;
     }
     
-    public GeoPoint(GeoPoint point) {
+    public GeoPoint2(GeoPoint2 point) {
     	super(point.cons);    	
         set((GeoElement) point);        
     }
@@ -215,7 +215,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     @Override
 	public void set(GeoElement geo) { 
     	if (geo.isGeoPoint()) {
-	    	GeoPoint p = (GeoPoint) geo;  
+	    	GeoPoint2 p = (GeoPoint2) geo;  
 	    	if (p.pathParameter != null) {
 	    		pathParameter = getPathParameter();
 		    	pathParameter.set(p.pathParameter);
@@ -232,8 +232,8 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     } 
     
     @Override
-	public GeoPoint copy() {
-        return new GeoPoint(this);        
+	public GeoPoint2 copy() {
+        return new GeoPoint2(this);        
     }                 
        
     /*
@@ -702,7 +702,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     	
     	if (!geo.isGeoPoint()) return false;
     	
-    	GeoPoint P = (GeoPoint)geo;
+    	GeoPoint2 P = (GeoPoint2)geo;
     	
         if (!(isDefined() && P.isDefined())) return false;                        
         
@@ -738,7 +738,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     }     
     
     final public double[] vectorTo(GeoPointND QI){
-    	GeoPoint Q = (GeoPoint) QI;
+    	GeoPoint2 Q = (GeoPoint2) QI;
     	return new double[]{
     			Q.getInhomX()-getInhomX(),
     			Q.getInhomY()-getInhomY(),
@@ -755,14 +755,14 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     // euclidian distance between this GeoPoint and P
     @Override
 	final public double distance(GeoPointInterface P) {       
-        return MyMath.length(	((GeoPoint)P).inhomX - inhomX, 
-        						((GeoPoint)P).inhomY - inhomY);
+        return MyMath.length(	((GeoPoint2)P).inhomX - inhomX, 
+        						((GeoPoint2)P).inhomY - inhomY);
     }            
     
     /** returns the square distance of this point and P (may return
      * infinty or NaN).            
      */
-    final public double distanceSqr(GeoPoint P) {          
+    final public double distanceSqr(GeoPoint2 P) {          
         double vx = P.inhomX - inhomX;
         double vy = P.inhomY - inhomY;        
         return vx*vx + vy*vy;
@@ -771,7 +771,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /** 
      * Returns whether the three points A, B and C are collinear. 
      */
-	public static boolean collinear(GeoPoint A, GeoPoint B, GeoPoint C) {
+	public static boolean collinear(GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		// A, B, C are collinear iff det(ABC) == 0
 		
 		// calculate the determinante of ABC
@@ -796,7 +796,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /**
      * Calcs determinant of P and Q. Note: no test for defined or infinite is done here.
      */
-	public static final double det(GeoPoint P, GeoPoint Q) {		 
+	public static final double det(GeoPoint2 P, GeoPoint2 Q) {		 
 		return (P.x * Q.y - Q.x * P.y) / (P.z * Q.z); 
 	}	
 	
@@ -805,7 +805,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	 * The ratio is lambda with C = A + lambda * AB, i.e. lambda = AC/AB.
 	 * Note: the collinearity is not checked in this method.
 	 */
-	public static final double affineRatio(GeoPoint A, GeoPoint B, GeoPoint C) {		
+	public static final double affineRatio(GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {		
 		double ABx = B.inhomX - A.inhomX;
 		double ABy = B.inhomY - A.inhomY;
 		
@@ -1333,10 +1333,10 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	 * If equal, doesn't return zero (otherwise TreeSet deletes duplicates)
 	 * @return comparator for GeoPoint objects.
 	 */
-	public static Comparator<GeoPoint> getComparatorX() {
+	public static Comparator<GeoPoint2> getComparatorX() {
 		if (comparatorX == null) {
-			comparatorX = new Comparator<GeoPoint>() {
-				public int compare(GeoPoint itemA, GeoPoint itemB) {
+			comparatorX = new Comparator<GeoPoint2>() {
+				public int compare(GeoPoint2 itemA, GeoPoint2 itemB) {
 		        
 						double compX = itemA.inhomX - itemB.inhomX;
 	
@@ -1361,7 +1361,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		
 			return comparatorX;
 		}
-	  private static volatile Comparator<GeoPoint> comparatorX;
+	  private static volatile Comparator<GeoPoint2> comparatorX;
     
 	    
 	    /////////////////////////////////////////////
@@ -1650,17 +1650,17 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		@Override
 		public void moveDependencies(GeoElement oldGeo) {
 			if (oldGeo.isGeoPoint()
-					&& ((GeoPoint) oldGeo).locateableList != null) {
+					&& ((GeoPoint2) oldGeo).locateableList != null) {
 
-				locateableList = ((GeoPoint) oldGeo).locateableList;
+				locateableList = ((GeoPoint2) oldGeo).locateableList;
 				for (Locateable loc : locateableList){ 				
 					GeoPointND[]pts = loc.getStartPoints();
 					for(int i=0;i<pts.length;i++)
-						if(pts[i]== (GeoPoint)oldGeo)
+						if(pts[i]== (GeoPoint2)oldGeo)
 							pts[i] = this;
 					loc.toGeoElement().updateRepaint();
 				}				
-				((GeoPoint) oldGeo).locateableList = null;
+				((GeoPoint2) oldGeo).locateableList = null;
 			}
 		}
 
@@ -1835,5 +1835,20 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 		
 		public boolean movePoint(Coords a,Coords b){
 			return super.movePoint(a, b);
+		}
+
+
+		public void setX(double x) {
+			this.x = x;
+			
+		}
+
+		public void setY(double y) {
+			this.y = y;
+			
+		}
+
+		public void setZ(double z) {
+			this.z = z;
 		}
 }

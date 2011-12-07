@@ -7,7 +7,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoInterval;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 
 
@@ -48,7 +48,7 @@ public class CmdMidpoint extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { kernel.Midpoint(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
+						(GeoPoint2) arg[0], (GeoPoint2) arg[1]) };
 				return ret;
 			} else {
 				if (!ok[0])

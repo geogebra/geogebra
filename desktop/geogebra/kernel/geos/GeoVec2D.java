@@ -95,7 +95,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */
-    public GeoVec2D(AbstractKernel kernel, GeoPoint p, GeoPoint q) {   
+    public GeoVec2D(AbstractKernel kernel, GeoPoint2 p, GeoPoint2 q) {   
     	this(kernel);    
         x = q.x - p.x;
         y = q.y - p.y;
@@ -232,7 +232,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     /**
      * mirror this point at point Q
      */
-    final public void mirror(GeoPoint Q) {           
+    final public void mirror(GeoPoint2 Q) {           
         x = 2.0 * Q.inhomX - x;
         y = 2.0 * Q.inhomY - y;
     }
@@ -721,7 +721,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			
 			boolean vector = false;
 			
-			if ((rt instanceof GeoPoint) || (rt instanceof GeoLine)) {
+			if ((rt instanceof GeoPoint2) || (rt instanceof GeoLine)) {
 				GeoVec3D p = (GeoVec3D)rt;
 				// use homogeneous coordinates if available
 				xx = p.x;

@@ -97,7 +97,7 @@ GeoSegmentND {
 	 * @param A first endpoint
 	 * @param B second endpoint
 	 */
-	public GeoSegment(AbstractConstruction c, GeoPoint A, GeoPoint B) {
+	public GeoSegment(AbstractConstruction c, GeoPoint2 A, GeoPoint2 B) {
 		this(c);
 		setPoints(A, B);
 	}
@@ -115,7 +115,7 @@ GeoSegmentND {
 	 * @param A
 	 * @param B
 	 */
-	public void setPoints(GeoPoint A, GeoPoint B){
+	public void setPoints(GeoPoint2 A, GeoPoint2 B){
 		setStartPoint(A);
 		setEndPoint(B);
 	}
@@ -150,8 +150,8 @@ GeoSegmentND {
 	@Override
 	public GeoElement copyInternal(AbstractConstruction cons) {
 		GeoSegment seg = new GeoSegment(cons, 
-										(GeoPoint) startPoint.copyInternal(cons), 
-										(GeoPoint) endPoint.copyInternal(cons));
+										(GeoPoint2) startPoint.copyInternal(cons), 
+										(GeoPoint2) endPoint.copyInternal(cons));
 		seg.set(this);
 		return seg;
 	}		
@@ -169,7 +169,7 @@ GeoSegmentND {
     	endPoint.set((GeoElement) seg.endPoint);    	
 	}   
 
-	public void set(GeoPoint s, GeoPoint e, GeoVec3D line) {
+	public void set(GeoPoint2 s, GeoPoint2 e, GeoVec3D line) {
 		super.set(line);		
 	
 		setStartPoint(s);
@@ -325,7 +325,7 @@ GeoSegmentND {
 		return true;
 	}
 	
-    public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
+    public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
     	if (allowOutlyingIntersections)
 			return isOnFullLine(p, eps);
 		else
@@ -459,7 +459,7 @@ GeoSegmentND {
      * Intergeo File Format (Yves Kreis)
      */
     public void getI2Gtags(StringBuilder sb) {//protected
-    	GeoPoint point;
+    	GeoPoint2 point;
     	
     	point = getStartPoint();
     	point.getI2Gtags(sb);
@@ -570,7 +570,7 @@ GeoSegmentND {
      * 
      * returns distance from endpoints if appropriate
      */
-    final public double distance(GeoPoint p) {     
+    final public double distance(GeoPoint2 p) {     
 
     	double t = getParameter(p.inhomX, p.inhomY);
 

@@ -22,7 +22,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 
@@ -34,7 +34,7 @@ import geogebra.kernel.geos.GeoVec2D;
 public class AlgoVertex extends AlgoElement {
 
     private GeoConic c;  // input
-    private GeoPoint [] vertex;  // output        
+    private GeoPoint2 [] vertex;  // output        
                                   
     transient private double temp1, temp2;
     private GeoVec2D b;
@@ -53,9 +53,9 @@ public class AlgoVertex extends AlgoElement {
     AlgoVertex(Construction cons, GeoConic c) {
         super(cons);
         this.c = c;        
-        vertex = new GeoPoint[4];       
+        vertex = new GeoPoint2[4];       
         for (int i=0; i < vertex.length; i++) {
-        	vertex[i] = new GeoPoint(cons);
+        	vertex[i] = new GeoPoint2(cons);
         	// only first undefined point should be shown in algebra window 
         	vertex[i].showUndefinedInAlgebraView(i == 0);
       	}
@@ -84,7 +84,7 @@ public class AlgoVertex extends AlgoElement {
     }    
     
     GeoConic getConic() { return c; }
-    public GeoPoint [] getVertex() { return vertex; }    
+    public GeoPoint2 [] getVertex() { return vertex; }    
         
     @Override
 	public final void compute() {  

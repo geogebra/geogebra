@@ -39,7 +39,7 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoRay;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVector;
@@ -128,7 +128,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 	// GeoElements
 	private ArrayList<GeoElement> plotGeoList;
-	private GeoPoint lowPoint, highPoint, curvePoint;
+	private GeoPoint2 lowPoint, highPoint, curvePoint;
 	private GeoElement densityCurve, integral, ySegment, xSegment;
 	private GeoElement discreteGraph, discreteIntervalGraph;
 	private GeoList discreteValueList, discreteProbList, intervalProbList, intervalValueList;
@@ -597,7 +597,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, (Path)path, 0d, 0d);
 		cons.removeFromConstructionList(algoLow);
 
-		lowPoint = (GeoPoint) algoLow.getGeoElements()[0];
+		lowPoint = (GeoPoint2) algoLow.getGeoElements()[0];
 
 		lowPoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 		lowPoint.setPointSize(4);
@@ -611,7 +611,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		AlgoPointOnPath algoHigh = new AlgoPointOnPath(cons, (Path)path, 0d, 0d);
 		cons.removeFromConstructionList(algoHigh);
 
-		highPoint = (GeoPoint) algoHigh.getGeoElements()[0];
+		highPoint = (GeoPoint2) algoHigh.getGeoElements()[0];
 
 		highPoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 		highPoint.setPointSize(4);
@@ -806,7 +806,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				cons.removeFromConstructionList(pAlgo);
 				
 					
-				curvePoint = (GeoPoint) pAlgo.getGeoElements()[0];
+				curvePoint = (GeoPoint2) pAlgo.getGeoElements()[0];
 				curvePoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 				curvePoint.setPointSize(4);
 				curvePoint.setLayer(f.getLayer()+1);
@@ -820,7 +820,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 				cons.removeFromConstructionList(pointAlgo);
 
-				AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, curvePoint, (GeoPoint)pointAlgo.getGeoElements()[0], null);
+				AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, curvePoint, (GeoPoint2)pointAlgo.getGeoElements()[0], null);
 				cons.removeFromConstructionList(seg1);	
 				xSegment = (GeoSegment)seg1.getGeoElements()[0];
 				xSegment.setObjColor(new geogebra.awt.Color(Color.blue));
@@ -2065,7 +2065,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			//create low point
 			expr = "Point[" + app.getPlain("xAxis") + "]";
-			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr,null,false);
+			GeoPoint2 lowPointCopy = (GeoPoint2) createGeoFromString(expr,null,false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);
 			lowPointCopy.setCoords(low, 0, 1);
@@ -2073,7 +2073,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			newGeoList.add(lowPointCopy);
 
 			//create high point
-			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr,null,false);
+			GeoPoint2 highPointCopy = (GeoPoint2) createGeoFromString(expr,null,false);
 			highPointCopy.setVisualStyle(lowPoint);
 			highPointCopy.setLabelVisible(false);
 			highPointCopy.setCoords(high, 0, 1);

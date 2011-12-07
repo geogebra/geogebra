@@ -27,7 +27,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoAngle;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -175,9 +175,9 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     @Override
 	public void compute() {
     	
-    	GeoPoint A = (GeoPoint) An;
-    	GeoPoint B = (GeoPoint) Bn;
-    	GeoPoint C = (GeoPoint) Cn;
+    	GeoPoint2 A = (GeoPoint2) An;
+    	GeoPoint2 B = (GeoPoint2) Bn;
+    	GeoPoint2 C = (GeoPoint2) Cn;
     	
         if (!A.isFinite() || !B.isFinite() || !C.isFinite()) {
             angle.setUndefined(); // undefined

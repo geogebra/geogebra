@@ -5,7 +5,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Locus[ <GeoPoint Q>, <GeoPoint P> ]
@@ -36,8 +36,8 @@ class CmdLocus extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				
-				GeoPoint p1 = (GeoPoint) arg[0];
-				GeoPoint p2 = (GeoPoint) arg[1];
+				GeoPoint2 p1 = (GeoPoint2) arg[0];
+				GeoPoint2 p2 = (GeoPoint2) arg[1];
 				
 				if (p2.isPointOnPath()) {
 				
@@ -52,7 +52,7 @@ class CmdLocus extends CommandProcessor {
 				}
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
-				GeoPoint p1 = (GeoPoint) arg[0];
+				GeoPoint2 p1 = (GeoPoint2) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
 				
 				GeoElement[] ret = { kernel.Locus(c.getLabel(),

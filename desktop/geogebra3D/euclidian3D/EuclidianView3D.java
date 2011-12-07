@@ -29,7 +29,7 @@ import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoText;

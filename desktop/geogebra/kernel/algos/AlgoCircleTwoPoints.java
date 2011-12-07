@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoQuadricND;
 
 
@@ -35,8 +35,8 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
 
      public AlgoCircleTwoPoints(
         AbstractConstruction cons,
-        GeoPoint M,
-        GeoPoint P) {
+        GeoPoint2 M,
+        GeoPoint2 P) {
         super(cons,M,P);
         setIncidence();
     }
@@ -44,20 +44,20 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
     public AlgoCircleTwoPoints(
             AbstractConstruction cons,
             String label,
-            GeoPoint M,
-            GeoPoint P) {
+            GeoPoint2 M,
+            GeoPoint2 P) {
          super(cons, label,M, P);
          setIncidence();
     }
     
     private void setIncidence() {
-    	((GeoPoint) getP()).addIncidence(getCircle());
+    	((GeoPoint2) getP()).addIncidence(getCircle());
     }
     
     @Override
 	protected GeoQuadricND createSphereND(AbstractConstruction cons){
     	GeoConic circle = new GeoConic(cons);
-        circle.addPointOnConic((GeoPoint) getP()); //TODO do this in AlgoSphereNDTwoPoints
+        circle.addPointOnConic((GeoPoint2) getP()); //TODO do this in AlgoSphereNDTwoPoints
         return circle;
     }
 

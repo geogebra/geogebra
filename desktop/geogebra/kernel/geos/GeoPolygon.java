@@ -68,11 +68,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	
 	
 	/** first point for region coord sys */
-	protected GeoPoint p0;
+	protected GeoPoint2 p0;
 	/** second point for region coord sys */
-	protected GeoPoint p1;
+	protected GeoPoint2 p1;
 	/** third point for region coord sys */
-	protected GeoPoint p2;
+	protected GeoPoint2 p2;
 	/** number of points in coord sys */
 	protected int numCS = 0;
 	
@@ -405,7 +405,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	  */
 	 public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint, boolean euclidianVisible){
 
-		 AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, (GeoPoint) startPoint, (GeoPoint) endPoint, this);            
+		 AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, (GeoPoint2) startPoint, (GeoPoint2) endPoint, this);            
 		 cons.removeFromConstructionList(algoSegment);  
 		 
 		 return createSegment(algoSegment.getSegment(), euclidianVisible);
@@ -466,7 +466,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @return new point
 	 */
 	protected GeoPointND newGeoPoint(){
-		return new GeoPoint(cons);
+		return new GeoPoint2(cons);
 	}
 	
 	public void set(GeoElement geo) {
@@ -501,8 +501,8 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param i number of point
 	 * @return the i-th point
 	 */
-	public GeoPoint getPoint(int i) {
-		return (GeoPoint) points[i];
+	public GeoPoint2 getPoint(int i) {
+		return (GeoPoint2) points[i];
 	}
 
 	/**
@@ -609,7 +609,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param P vertices of polygon
 	 * @return undirected area
 	 */	
-	final static public double calcArea(GeoPoint [] P) {
+	final static public double calcArea(GeoPoint2 [] P) {
 	    return Math.abs(calcAreaWithSign(P));
 	}
 	/**
@@ -633,9 +633,9 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	   int last = points2.length - 1;
 	   double sum = 0;                     
 	   for (i=0; i < last; i++) {
-			sum += GeoPoint.det((GeoPoint)points2[i], (GeoPoint)points2[i+1]);
+			sum += GeoPoint2.det((GeoPoint2)points2[i], (GeoPoint2)points2[i+1]);
 	   }
-	   sum += GeoPoint.det((GeoPoint)points2[last], (GeoPoint)points2[0]);
+	   sum += GeoPoint2.det((GeoPoint2)points2[last], (GeoPoint2)points2[0]);
 	   return sum / 2.0;  // positive (anticlockwise points) or negative (clockwise)
    }   
 	
@@ -646,7 +646,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * TODO Does not work if polygon is self-entrant
 	 * @param centroid 
 	 */
-	public void calcCentroid(GeoPoint centroid) {
+	public void calcCentroid(GeoPoint2 centroid) {
 		if (!defined) {
 			centroid.setUndefined();
 			return;
@@ -913,7 +913,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 		
-		GeoPoint P = (GeoPoint) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		if (P.getPath() == this)
 			return true;
@@ -1068,7 +1068,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param y y-coord
 	 */
 	public void setRegionChanged(GeoPointND PI, double x, double y){
-		GeoPoint P = (GeoPoint) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		P.x = x;
 		P.y = y;
 		P.z = 1;
@@ -1111,7 +1111,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	
 
 	
-	final public void updateRegionCS(GeoPoint p0, GeoPoint p1, GeoPoint p2) {
+	final public void updateRegionCS(GeoPoint2 p0, GeoPoint2 p1, GeoPoint2 p2) {
 		this.p0=p0;
 		this.p1=p1;
 		this.p2=p2;
@@ -1124,7 +1124,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 */
 	final public void updateRegionCS() {
 		// TODO add condition to calculate it		
-		if(p2==null || GeoPoint.collinear(p0, p1, p2)){
+		if(p2==null || GeoPoint2.collinear(p0, p1, p2)){
 			p0 = getPoint(0);	
 			numCS = 1;
 			//Application.debug(" p0 = "+p0.inhomX+","+p0.inhomY);
@@ -1148,7 +1148,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 				boolean thirdPointFound = false;
 				for (thirdPoint=getPoints().length-1; thirdPoint>secondPoint && !thirdPointFound; thirdPoint--){
 					p2=getPoint(thirdPoint);
-					if (!GeoPoint.collinear(p0, p1, p2)){
+					if (!GeoPoint2.collinear(p0, p1, p2)){
 						thirdPointFound = true;
 						numCS++;
 					}
@@ -1388,17 +1388,17 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 	public void rotate(NumberValue r) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).rotate(r);	
+			((GeoPoint2)points[i]).rotate(r);	
 	}
 
 	public void rotate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).rotate(r,S);	
+			((GeoPoint2)points[i]).rotate(r,S);	
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).matrixTransform(a00, a01, a10, a11);		
+			((GeoPoint2)points[i]).matrixTransform(a00, a01, a10, a11);		
 		this.calcArea();
 	}
 
@@ -1409,18 +1409,18 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 	public void dilate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).dilate(r,S);		
+			((GeoPoint2)points[i]).dilate(r,S);		
 		this.calcArea();
 	}
 	
 	public void mirror(GeoPointInterface Q) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).mirror(Q);				
+			((GeoPoint2)points[i]).mirror(Q);				
 	}
 
 	public void mirror(GeoLineInterface g) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).mirror(g);				
+			((GeoPoint2)points[i]).mirror(g);				
 	}
 
 	/**
@@ -1469,7 +1469,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		for(int i=0;i<points.length;i++)
-			((GeoPoint)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);		
+			((GeoPoint2)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);		
 	}
 	
 	public  void toGeoCurveCartesian(GeoCurveCartesian curve){

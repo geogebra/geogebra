@@ -23,7 +23,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 /**
@@ -34,7 +34,7 @@ import geogebra.kernel.geos.GeoVec2D;
 public class AlgoDependentPoint extends AlgoElement {
 
     private ExpressionNode root;  // input
-    private GeoPoint P;     // output         
+    private GeoPoint2 P;     // output         
     
     private GeoVec2D temp;
         
@@ -51,7 +51,7 @@ public class AlgoDependentPoint extends AlgoElement {
     public AlgoDependentPoint(AbstractConstruction cons, ExpressionNode root, boolean complex) {
     	super(cons);
         this.root = root;        
-        P = new GeoPoint(cons); 
+        P = new GeoPoint2(cons); 
         
         
         setInputOutput(); // for AlgoElement
@@ -78,7 +78,7 @@ public class AlgoDependentPoint extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    public GeoPoint getPoint() { return P; }
+    public GeoPoint2 getPoint() { return P; }
     
     public ExpressionNode getExpressionNode() {
     	return root;

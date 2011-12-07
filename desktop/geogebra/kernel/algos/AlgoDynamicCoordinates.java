@@ -16,7 +16,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *
@@ -26,17 +26,17 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoDynamicCoordinates extends AlgoElement {
 
     private NumberValue x,y; // input
-	private GeoPoint P; // input
-    private GeoPoint M; // output        
+	private GeoPoint2 P; // input
+    private GeoPoint2 M; // output        
 
 	
-    public AlgoDynamicCoordinates(AbstractConstruction cons, String label, GeoPoint P, NumberValue x, NumberValue y) {
+    public AlgoDynamicCoordinates(AbstractConstruction cons, String label, GeoPoint2 P, NumberValue x, NumberValue y) {
         super(cons);
         this.P = P;
         this.x = x;
         this.y = y;
         // create new Point
-        M = new GeoPoint(cons);
+        M = new GeoPoint2(cons);
         setInputOutput();
 
         compute();        
@@ -61,11 +61,11 @@ public class AlgoDynamicCoordinates extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint getPoint() {
+    public GeoPoint2 getPoint() {
         return M;
     }
 
-    public GeoPoint getParentPoint() {
+    public GeoPoint2 getParentPoint() {
         return P;
     }
 

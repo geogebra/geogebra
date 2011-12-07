@@ -5,7 +5,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 
 /**
@@ -49,13 +49,13 @@ class CmdArea extends CommandProcessor {
 		// area of points
 		else if (n > 2) {
 			arg = resArgs(c);
-			GeoPoint[] points = new GeoPoint[n];
+			GeoPoint2[] points = new GeoPoint2[n];
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint()))
 					throw argErr(app, "Area", arg[i]);
 				else {
-					points[i] = (GeoPoint) arg[i];
+					points[i] = (GeoPoint2) arg[i];
 				}
 			}
 			// everything ok

@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 import java.util.HashSet;
@@ -238,7 +238,7 @@ implements Vector3DValue {
     /**
      * mirror this point at point Q
      */
-    final public void mirror(GeoPoint Q) {           
+    final public void mirror(GeoPoint2 Q) {           
         x = 2.0 * Q.inhomX - x;
         y = 2.0 * Q.inhomY - y;
     }

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Dilate[ <GeoPoint>, <NumberValue>, <GeoPoint> ] Dilate[ <GeoLine>,
@@ -61,7 +61,7 @@ class CmdDilate extends CommandProcessor {
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				NumberValue phi = (NumberValue) arg[1];
-				GeoPoint Q = (GeoPoint) arg[2];
+				GeoPoint2 Q = (GeoPoint2) arg[2];
 				ret = kernel.Dilate(label, arg[0], phi, Q);
 				return ret;
 			}

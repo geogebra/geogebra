@@ -15,7 +15,7 @@ package geogebra.kernel;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 		myPointList = locus.getMyPointList();
 	}
 
-	public void init(GeoPoint p) {
+	public void init(GeoPoint2 p) {
 		if (p.getPath() instanceof GeoLocus) {
 			myPointList = ((GeoLocus)p.getPath()).getMyPointList();
 		}
@@ -49,7 +49,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 		noLineToSet = lastNoLineToSet = false;
 	}
 
-	protected void calcPoint(GeoPoint p) {
+	protected void calcPoint(GeoPoint2 p) {
 		// curr_param is between 0 and myPointList.size()-1 now
 		double param = curr_param;		
 		PathParameter pp = p.getPathParameter();
@@ -72,7 +72,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 		p.updateCoords();
 	}		
 
-	public boolean getNext(GeoPoint p) {													
+	public boolean getNext(GeoPoint2 p) {													
 		//  check if we are in our interval
 		boolean lineTo = true;				
 		last_param = curr_param;

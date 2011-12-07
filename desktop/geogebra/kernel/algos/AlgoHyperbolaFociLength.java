@@ -21,7 +21,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Hyperbola for given foci and first semi-axis length
@@ -33,8 +33,8 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
     public AlgoHyperbolaFociLength(
         Construction cons,
         String label,
-        GeoPoint A,
-        GeoPoint B,
+        GeoPoint2 A,
+        GeoPoint2 B,
         NumberValue a) {
         super(cons, label, A, B, a);
     }

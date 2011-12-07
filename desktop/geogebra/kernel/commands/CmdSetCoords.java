@@ -6,7 +6,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 /**
@@ -43,7 +43,7 @@ class CmdSetCoords extends CmdScripting {
 				GeoElement geo = (GeoElement) arg[0];
 
 				if (geo.isGeoPoint()) {
-					((GeoPoint) geo).setCoords(x, y, 1);
+					((GeoPoint2) geo).setCoords(x, y, 1);
 					geo.updateRepaint();
 				} else if (geo.isGeoVector()) {
 					((GeoVector) geo).setCoords(x, y, 0);

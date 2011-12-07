@@ -7,7 +7,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoRay;
 import geogebra.kernel.geos.GeoSegment;
@@ -103,7 +103,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 	}
 
 	private AlgoClosestPoint pt;
-	private GeoPoint transformedPoint;
+	private GeoPoint2 transformedPoint;
 
 	protected void transformLimitedConic(GeoElement a, GeoElement b) {
 
@@ -111,7 +111,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 		if (a instanceof GeoConicPart) {
 			((GeoConicPart) b).setParameters(0, AbstractKernel.PI_2, true);
 			if (pt == null) {
-				transformedPoint = new GeoPoint(cons);
+				transformedPoint = new GeoPoint2(cons);
 				pt = new AlgoClosestPoint( cons, arc, transformedPoint);
 				cons.removeFromConstructionList(pt);
 			}

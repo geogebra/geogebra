@@ -20,7 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.AlgoMidpointND;
 
 
@@ -31,36 +31,36 @@ import geogebra.kernel.kernelND.AlgoMidpointND;
  */
 public class AlgoMidpoint extends AlgoMidpointND {
       
-    public AlgoMidpoint(Construction cons, String label, GeoPoint P, GeoPoint Q) {
+    public AlgoMidpoint(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
     	this(cons, P, Q);
     	getPoint().setLabel(label);
     }
 	
-    AlgoMidpoint(Construction cons, GeoPoint P, GeoPoint Q) {
+    AlgoMidpoint(Construction cons, GeoPoint2 P, GeoPoint2 Q) {
         super(cons,P,Q);
     }
 
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons) {
 		
-		return new GeoPoint(cons);
+		return new GeoPoint2(cons);
 	}
    
     @Override
-	public GeoPoint getPoint() {
-        return (GeoPoint) super.getPoint();
+	public GeoPoint2 getPoint() {
+        return (GeoPoint2) super.getPoint();
     }
     
     @Override
 	protected void copyCoords(GeoPointND point){
-    	getPoint().setCoords((GeoPoint) point);
+    	getPoint().setCoords((GeoPoint2) point);
     }
     
     @Override
 	protected void computeMidCoords(){
     	
-    	GeoPoint P = (GeoPoint) getP();
-        GeoPoint Q = (GeoPoint) getQ();
+    	GeoPoint2 P = (GeoPoint2) getP();
+        GeoPoint2 Q = (GeoPoint2) getQ();
         
     	getPoint().setCoords(
                 (P.inhomX + Q.inhomX) / 2.0d,

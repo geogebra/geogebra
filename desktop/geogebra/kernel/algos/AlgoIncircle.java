@@ -24,7 +24,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoConicND;
 
 public class AlgoIncircle extends AlgoElement {
@@ -34,8 +34,8 @@ public class AlgoIncircle extends AlgoElement {
 
     // angle bisector calculations
     private GeoLine bisectorC, bisectorB, sideBC, heightBC;
-    private GeoPoint heightFoot, incenter;    
-    private GeoPoint A1, B1, C1;
+    private GeoPoint2 heightFoot, incenter;    
+    private GeoPoint2 A1, B1, C1;
 
     public AlgoIncircle(
                            Construction cons,
@@ -63,13 +63,13 @@ public class AlgoIncircle extends AlgoElement {
 
         bisectorC = new GeoLine(cons);
         bisectorB = new GeoLine(cons);
-        heightFoot = new GeoPoint(cons);            
+        heightFoot = new GeoPoint2(cons);            
         heightBC = new GeoLine(cons);
         sideBC = new GeoLine(cons);
-        incenter = new GeoPoint(cons);            
-        A1 = new GeoPoint(cons);            
-        B1 = new GeoPoint(cons);            
-        C1 = new GeoPoint(cons);            
+        incenter = new GeoPoint2(cons);            
+        A1 = new GeoPoint2(cons);            
+        B1 = new GeoPoint2(cons);            
+        C1 = new GeoPoint2(cons);            
 
         setInputOutput();
 
@@ -97,14 +97,14 @@ public class AlgoIncircle extends AlgoElement {
     public GeoConicND getCircle() {
         return (GeoConicND) circle;
     }
-    public GeoPoint getA() {
-        return (GeoPoint) A;
+    public GeoPoint2 getA() {
+        return (GeoPoint2) A;
     }
-    public GeoPoint getB() {
-        return (GeoPoint) B;
+    public GeoPoint2 getB() {
+        return (GeoPoint2) B;
     }
-    public GeoPoint getC() {
-        return (GeoPoint) C;
+    public GeoPoint2 getC() {
+        return (GeoPoint2) C;
     }
 
     // compute incircle of triangle A, B, C

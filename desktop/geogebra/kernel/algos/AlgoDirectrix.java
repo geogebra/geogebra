@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 
@@ -39,7 +39,7 @@ public class AlgoDirectrix extends AlgoElement {
 
     private GeoVec2D[] eigenvec;
     private GeoVec2D b;
-    private GeoPoint P;
+    private GeoPoint2 P;
 
     public AlgoDirectrix(Construction cons, String label, GeoConic c) {
         super(cons);
@@ -49,7 +49,7 @@ public class AlgoDirectrix extends AlgoElement {
         b = c.b;
 
         directrix = new GeoLine(cons);
-        P = new GeoPoint(cons);
+        P = new GeoPoint2(cons);
         directrix.setStartPoint(P);
 
         setInputOutput(); // for AlgoElement                

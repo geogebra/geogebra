@@ -28,7 +28,7 @@ import geogebra.kernel.PointPairList;
 import geogebra.kernel.SystemOfEquationsSolver;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     static final int DIST_MEMORY_SIZE = 8;
     
     private GeoConic A, B;
-    private GeoPoint [] P, D, Q;     // points  
+    private GeoPoint2 [] P, D, Q;     // points  
         
     private GeoConic degConic;  
     private GeoLine tempLine;
@@ -96,9 +96,9 @@ public class AlgoIntersectConics extends AlgoIntersect {
         isLimitedPathSituation = A.isLimitedPath() || B.isLimitedPath();        
         
         // init temp vars        
-        P  = new GeoPoint[4]; // output
-        D  = new GeoPoint[4];
-        Q  = new GeoPoint[4];       
+        P  = new GeoPoint2[4]; // output
+        D  = new GeoPoint2[4];
+        Q  = new GeoPoint2[4];       
                 
         isQonPath = new boolean[4];    
         isPalive = new boolean[4];
@@ -106,9 +106,9 @@ public class AlgoIntersectConics extends AlgoIntersect {
         permutation = new int[4];
         distTable = new double[4][4];
         for (i=0; i < 4; i++) {
-            P[i] = new GeoPoint(cons);                    
-            Q[i] = new GeoPoint(cons);      
-            D[i] = new GeoPoint(cons);            
+            P[i] = new GeoPoint2(cons);                    
+            Q[i] = new GeoPoint2(cons);      
+            D[i] = new GeoPoint2(cons);            
         }                                   
         
 
@@ -143,7 +143,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }    
         
 	@Override
-	public GeoPoint [] getIntersectionPoints() {
+	public GeoPoint2 [] getIntersectionPoints() {
 		return P;
 	}
 	
@@ -151,7 +151,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     GeoConic getB() { return B; }
 	
 	@Override
-	protected GeoPoint [] getLastDefinedIntersectionPoints() {
+	protected GeoPoint2 [] getLastDefinedIntersectionPoints() {
 		return D;
 	}
 	
@@ -215,7 +215,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     	
     		
 		// check if we have a point on A that is also on B
-    	GeoPoint pointOnConic = getPointFrom1on2(A, B);
+    	GeoPoint2 pointOnConic = getPointFrom1on2(A, B);
     	if (pointOnConic == null) 
     		// check if we have a point on B that is also on A
     		 pointOnConic = getPointFrom1on2(B, A); 
@@ -273,16 +273,16 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	   	return true;
     }
     
-    private static GeoPoint getPointFrom1on2(GeoConic A, GeoConic B) {
-    	GeoPoint pointOnConic = null;
+    private static GeoPoint2 getPointFrom1on2(GeoConic A, GeoConic B) {
+    	GeoPoint2 pointOnConic = null;
     	
     	// check if a point on A is also on B
 		// get points on conic and see if one of them is on line g
-		ArrayList<GeoPoint> pointsOnConic = A.getPointsOnConic();
+		ArrayList<GeoPoint2> pointsOnConic = A.getPointsOnConic();
 		if (pointsOnConic != null) {
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
-				GeoPoint p = (GeoPoint) pointsOnConic.get(i);
+				GeoPoint2 p = (GeoPoint2) pointsOnConic.get(i);
 				//if (B.isOnPath(p, Kernel.MIN_PRECISION)) {
 				if (p.isLabelSet() && 
 						p.getIncidenceList()!=null && 
@@ -437,7 +437,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }
     
     
-    private boolean pointLiesOnBothPaths(GeoPoint P) {
+    private boolean pointLiesOnBothPaths(GeoPoint2 P) {
     	return A.isIntersectionPointIncident(P, Kernel.MIN_PRECISION) 
 				&& B.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
     }
@@ -471,7 +471,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     // calc four intersection Points of conics A and B.
     // write result into points
     final public void intersectConics(GeoConic conic1, GeoConic conic2, 
-                                        GeoPoint[] points) {
+                                        GeoPoint2[] points) {
     	    	 
     	if (!(conic1.isDefined() && conic2.isDefined())) {
     		 for (int i=0; i < points.length; i++) 
@@ -530,7 +530,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * Arranges intersection points Q so that all defined
      * intersection points are at the beginning of the array.
      */  
-    private static void moveDefinedPointsToFront(GeoPoint [] points) {
+    private static void moveDefinedPointsToFront(GeoPoint2 [] points) {
     	for (int i=0; i < points.length; i++) {
    			if (points[i].isDefined()) {
          		 // move defined intersection point as far to the front as possible
@@ -554,7 +554,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * points.
      */
     final static private void intersectWithDegenerate(GeoConic conic, GeoConic degConic,
-                                               GeoPoint [] points) {
+                                               GeoPoint2 [] points) {
         if (degConic.isDefined()) {
             switch (degConic.getType()) {
                 case GeoConic.CONIC_INTERSECTING_LINES:
@@ -600,7 +600,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     /**
      * Tests if at least one point lies on conics A and B.
      */
-    final private static boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
+    final private static boolean testPoints(GeoConic A, GeoConic B, GeoPoint2[] P, double eps) {
         boolean foundPoint = false;      
         for (int i=0; i < P.length; i++) {
             if (P[i].isDefined()) {                                         
@@ -616,7 +616,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     /**
      * Caculates the intersection points of the conic sections A and B.
      */      
-    final private boolean calcIntersectionPoints(GeoConic A, GeoConic B, GeoPoint [] points, double eps) {
+    final private boolean calcIntersectionPoints(GeoConic A, GeoConic B, GeoPoint2 [] points, double eps) {
     	/* 
     	 * Pluecker mu method:
     	 * Solves the cubic equation det(A + x B) = 0 or det(x A + B) = 0 
@@ -837,7 +837,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * @param points resulting intersection points
      * @return true if points were found
      */
-    private boolean intersectConicsWithEqualSubmatrixS(GeoConic A, GeoConic B, GeoPoint [] points) {    	
+    private boolean intersectConicsWithEqualSubmatrixS(GeoConic A, GeoConic B, GeoPoint2 [] points) {    	
 	    if (tempLine == null) {			
 			tempLine = new GeoLine(cons);			
 		}
@@ -893,8 +893,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * distances + 1. If there are no defined distances, all distances
      * are set to 0.
      */
-    final public static void distanceTable(GeoPoint [] D, int[] age, 
-                                           GeoPoint [] Q, double[][] table) {
+    final public static void distanceTable(GeoPoint2 [] D, int[] age, 
+                                           GeoPoint2 [] Q, double[][] table) {
         int i, j;        
         boolean foundUndefined = false;
         double dist, max = -1.0;
@@ -963,8 +963,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
      *  of points Q used to set points P, e.g. permuation {1,0} 
      *  means that P[0]=Q[1] and P[1]=Q[0]
      */
-    final static void setNearTo(GeoPoint[] P, boolean [] isPalive,
-    							GeoPoint[] Q, boolean [] isQonPath,    							    							
+    final static void setNearTo(GeoPoint2[] P, boolean [] isPalive,
+    							GeoPoint2[] Q, boolean [] isQonPath,    							    							
     							double[][] distTable, 
     							PointPairList pointList,
 								int [] permutation) {

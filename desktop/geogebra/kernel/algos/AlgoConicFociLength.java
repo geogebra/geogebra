@@ -23,7 +23,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *
@@ -32,7 +32,7 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public abstract class AlgoConicFociLength extends AlgoElement {
 
-    protected GeoPoint A, B; // input    
+    protected GeoPoint2 A, B; // input    
     protected NumberValue a; // input     
     private GeoElement ageo;
     private GeoConic conic; // output             
@@ -40,8 +40,8 @@ public abstract class AlgoConicFociLength extends AlgoElement {
     AlgoConicFociLength(
         Construction cons,
         String label,
-        GeoPoint A,
-        GeoPoint B,
+        GeoPoint2 A,
+        GeoPoint2 B,
         NumberValue a) {
         super(cons);
         this.A = A;
@@ -74,10 +74,10 @@ public abstract class AlgoConicFociLength extends AlgoElement {
     public GeoConic getConic() {
         return conic;
     }
-    GeoPoint getFocus1() {
+    GeoPoint2 getFocus1() {
         return A;
     }
-    GeoPoint getFocus2() {
+    GeoPoint2 getFocus2() {
         return B;
     }
 

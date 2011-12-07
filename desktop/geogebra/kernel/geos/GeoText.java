@@ -166,7 +166,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	 * This is needed for macros.	 
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		startPoint = (GeoPoint) p;
+		startPoint = (GeoPoint2) p;
 	}
 	
 	public void setStartPoint(GeoPointND p, int number)  throws CircularDefinitionException {
@@ -582,9 +582,9 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 	
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint loc = (GeoPoint) getStartPoint();
+		GeoPoint2 loc = (GeoPoint2) getStartPoint();
 		if (loc == null) {
-			loc = new GeoPoint(cons);	
+			loc = new GeoPoint2(cons);	
 			try {setStartPoint(loc); }
 			catch(Exception e){}
 		}
@@ -714,7 +714,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public void setSerifFont(boolean serifFont) {
 		this.serifFont = serifFont;
 	}
-	public void calculateCornerPoint(GeoPoint result, int n) {	
+	public void calculateCornerPoint(GeoPoint2 result, int n) {	
 		// adapted from GeoImage by Michael Borcherds 2007-11-26
 		if (hasAbsoluteScreenLocation || boundingBox == null) {
 			result.setUndefined();

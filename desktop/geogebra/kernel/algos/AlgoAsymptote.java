@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 
@@ -40,7 +40,7 @@ public class AlgoAsymptote extends AlgoElement {
     private GeoVec2D[] eigenvec;
     private double[] halfAxes;
     private GeoVec2D b;
-    private GeoPoint P; // point on asymptotes = b
+    private GeoPoint2 P; // point on asymptotes = b
 
     /** Creates new AlgoJoinPoints */
     AlgoAsymptote(Construction cons, String label, GeoConic c) {
@@ -70,7 +70,7 @@ public class AlgoAsymptote extends AlgoElement {
         asymptotes[0] = new GeoLine(cons);
         asymptotes[1] = new GeoLine(cons);
 
-        P = new GeoPoint(cons);
+        P = new GeoPoint2(cons);
         asymptotes[0].setStartPoint(P);
         asymptotes[1].setStartPoint(P);
 

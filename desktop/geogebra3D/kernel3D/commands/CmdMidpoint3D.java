@@ -10,7 +10,7 @@ import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdMidpoint;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoInterval;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoSegmentND;
 

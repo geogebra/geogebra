@@ -18,13 +18,13 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 public class AlgoImageCorner extends AlgoElement 
 implements EuclidianViewCE {
     
     private GeoImage img;  // input
-    private GeoPoint corner;     // output    
+    private GeoPoint2 corner;     // output    
     private NumberValue number;
     
     public AlgoImageCorner(Construction cons, String label, GeoImage img, NumberValue number) {        
@@ -32,7 +32,7 @@ implements EuclidianViewCE {
         this.img = img;   
         this.number = number;
         
-        corner = new GeoPoint(cons);                
+        corner = new GeoPoint2(cons);                
         setInputOutput(); // for AlgoElement                
         compute();              
         corner.setLabel(label);           
@@ -55,7 +55,7 @@ implements EuclidianViewCE {
         setDependencies(); // done by AlgoElement
     }       
          
-    public GeoPoint getCorner() { return corner; }        
+    public GeoPoint2 getCorner() { return corner; }        
     
     @Override
 	public final void compute() {         	

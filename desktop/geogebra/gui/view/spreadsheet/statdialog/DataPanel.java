@@ -4,7 +4,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 import geogebra.main.settings.SpreadsheetSettings;
@@ -223,7 +223,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	private void populateDataTable(GeoList dataList){
 
 		TableModel dataModel = null;
-		GeoPoint geo = null;
+		GeoPoint2 geo = null;
 		String[] titles = statDialog.getDataTitles();
 
 		switch(mode){
@@ -246,8 +246,8 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 			dataModel = new DefaultTableModel(dataList.size(),2);
 			for (int row = 0; row < dataList.size(); ++row){
-				dataModel.setValueAt(((GeoPoint)(dataList.get(row))).getInhomX(),row,0);
-				dataModel.setValueAt(((GeoPoint)(dataList.get(row))).getInhomY(),row,1);
+				dataModel.setValueAt(((GeoPoint2)(dataList.get(row))).getInhomX(),row,0);
+				dataModel.setValueAt(((GeoPoint2)(dataList.get(row))).getInhomY(),row,1);
 			}
 
 			dataTable.setModel(dataModel);

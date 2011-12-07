@@ -26,7 +26,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 import java.awt.Color;
@@ -98,7 +98,7 @@ public class DrawLine extends Drawable implements Previewable {
 		this.view = view; 
 		this.points = points;
 		if (points.size() == 2) {
-		GeoPoint p = (GeoPoint)points.get(1);
+		GeoPoint2 p = (GeoPoint2)points.get(1);
 		p.setCoords(p.inhomX, Math.round(p.inhomY), 1);
 		}
 		g = new GeoLine(view.getKernel().getConstruction());
@@ -423,7 +423,7 @@ public class DrawLine extends Drawable implements Previewable {
 	
 				// round angle to nearest 15 degrees if alt pressed
 				if (points.size() == 1 && view.getEuclidianController().altDown) {
-					GeoPoint p = (GeoPoint)points.get(0);
+					GeoPoint2 p = (GeoPoint2)points.get(0);
 					double px = p.inhomX;
 					double py = p.inhomY;
 					double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;

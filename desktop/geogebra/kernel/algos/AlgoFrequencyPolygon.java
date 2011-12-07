@@ -19,7 +19,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 
 /**
@@ -213,18 +213,18 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		// create a new point array
 		boolean doCumulative = (isCumulative != null && isCumulative.getBoolean());
 		int size = doCumulative ? yValue.length : yValue.length-1;
-		points = new GeoPoint[size];
+		points = new GeoPoint2[size];
 	
 		// create points and load the point array  
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		if(doCumulative)
-			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
+			points[0] = new GeoPoint2(cons, null, leftBorder[0], 0.0, 1.0);
 		for (int i = 0; i < yValue.length-1; i++) {
 			if(doCumulative) {
-				points[i+1] = new GeoPoint(cons, null, leftBorder[i+1], yValue[i], 1.0);
+				points[i+1] = new GeoPoint2(cons, null, leftBorder[i+1], yValue[i], 1.0);
 			} else {
-				points[i] = new GeoPoint(cons, null, (leftBorder[i+1] + leftBorder[i])/2, yValue[i], 1.0);
+				points[i] = new GeoPoint2(cons, null, (leftBorder[i+1] + leftBorder[i])/2, yValue[i], 1.0);
 			}
 		}	
 		cons.setSuppressLabelCreation(suppressLabelCreation);

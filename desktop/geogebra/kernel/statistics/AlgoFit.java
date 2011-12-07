@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -154,7 +154,7 @@ public class AlgoFit extends AlgoElement {
 	//Get info from lists into matrixes and functionarray
 	private final  void makeMatrixes() throws Exception{
 		GeoElement	geo=null;
-		GeoPoint	point=null;
+		GeoPoint2	point=null;
 		double		x,y;
 		
 		//Make array of functions:
@@ -173,7 +173,7 @@ public class AlgoFit extends AlgoElement {
 			if(!geo.isGeoPoint()){
 				throw(new Exception("Not points in function list..."));
 			}//if not point
-			point=(GeoPoint)geo;
+			point=(GeoPoint2)geo;
 			x=point.getX();
 			y=point.getY();
 			Y.setEntry(r,0,y);

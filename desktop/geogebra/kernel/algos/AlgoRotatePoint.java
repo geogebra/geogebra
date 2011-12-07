@@ -26,7 +26,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -36,7 +36,7 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoRotatePoint extends AlgoTransformation {
 
-	private GeoPoint Q;
+	private GeoPoint2 Q;
     private PointRotateable out;    
     private NumberValue angle; 
     private GeoElement inGeo, outGeo, angleGeo;
@@ -45,7 +45,7 @@ public class AlgoRotatePoint extends AlgoTransformation {
      * Creates new point rotation algo
      */
     AlgoRotatePoint(Construction cons, String label,
-            GeoElement A, NumberValue angle, GeoPoint Q) {
+            GeoElement A, NumberValue angle, GeoPoint2 Q) {
     	this(cons, A, angle, Q);
     	outGeo.setLabel(label);
     }
@@ -54,7 +54,7 @@ public class AlgoRotatePoint extends AlgoTransformation {
      * Creates new unlabeled point rotation algo
      */
     public AlgoRotatePoint(Construction cons, 
-    		GeoElement A, NumberValue angle, GeoPoint Q) {
+    		GeoElement A, NumberValue angle, GeoPoint2 Q) {
         super(cons);               
         this.angle = angle;
         this.Q = Q;

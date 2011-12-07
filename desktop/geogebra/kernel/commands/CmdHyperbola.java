@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Hyperbola[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
@@ -34,15 +34,15 @@ class CmdHyperbola extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
 				GeoElement[] ret = { kernel.Hyperbola(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
+						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoElement[] ret = { kernel
-						.Hyperbola(c.getLabel(), (GeoPoint) arg[0],
-								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
+						.Hyperbola(c.getLabel(), (GeoPoint2) arg[0],
+								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
 			} else {
 				if (!ok[0])

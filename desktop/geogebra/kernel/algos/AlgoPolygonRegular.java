@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
 
@@ -35,16 +35,16 @@ import java.util.ArrayList;
  */
 public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegularInterface{
 
-	private final GeoPoint A, B;  // input
+	private final GeoPoint2 A, B;  // input
 	private NumberValue num; // input
 	
 	private int numOld = 2;
 	
 	private OutputHandler<GeoPolygon> outputPolygon;
-	private OutputHandler<GeoPoint> outputPoints;
+	private OutputHandler<GeoPoint2> outputPoints;
 	private OutputHandler<GeoSegment> outputSegments;
    
-    private GeoPoint centerPoint;	
+    private GeoPoint2 centerPoint;	
     private MyDouble rotAngle;
     
     private boolean labelPointsAndSegments;
@@ -56,7 +56,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
      * Creates a new regular polygon algorithm
      * @param labels labels[0] for polygon, then labels for segments and then for points
      */
-    public AlgoPolygonRegular(Construction c, String [] labels, GeoPoint A1, GeoPoint B1, NumberValue num) {
+    public AlgoPolygonRegular(Construction c, String [] labels, GeoPoint2 A1, GeoPoint2 B1, NumberValue num) {
         super(c);
         
         labelsNeedIniting = true;
@@ -74,7 +74,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
         showNewPointsLabels = false;
         
         // temp center point of regular polygon
-        centerPoint = new GeoPoint(c);
+        centerPoint = new GeoPoint2(c);
         rotAngle = new MyDouble(kernel);   
         
 
@@ -100,9 +100,9 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
         if (!labelPointsAndSegments)
         	outputSegments.removeFromHandler(); //no segments has output
         
-        outputPoints=new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
-			public GeoPoint newElement() {
-				GeoPoint newPoint=new GeoPoint(cons);
+        outputPoints=new OutputHandler<GeoPoint2>(new elementFactory<GeoPoint2>() {
+			public GeoPoint2 newElement() {
+				GeoPoint2 newPoint=new GeoPoint2(cons);
 				newPoint.setCoords(0, 0, 1);
 				newPoint.setParentAlgorithm(AlgoPolygonRegular.this);
 				newPoint.setAuxiliaryObject(true);		
@@ -271,7 +271,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     		outputPoints.getElement(k).rotate(rotAngle, centerPoint);      		
     	}
     	
-    	GeoPoint[] points = new GeoPoint[n];
+    	GeoPoint2[] points = new GeoPoint2[n];
     	points[0]=A;points[1]=B;
     	for (int i=2; i<n; i++)
     		points[i]=outputPoints.getElement(i-2);
@@ -302,7 +302,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     
     
     
-    private void modifyInputPoints(GeoSegment segment, GeoPoint P, GeoPoint Q){
+    private void modifyInputPoints(GeoSegment segment, GeoPoint2 P, GeoPoint2 Q){
     	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) segment.getParentAlgorithm();
     	algo.modifyInputPoints(P,Q);    	
     }
@@ -351,7 +351,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     	
     }
     
-    private void removePoint(GeoPoint oldPoint) {    	
+    private void removePoint(GeoPoint2 oldPoint) {    	
     	
     	// remove dependent algorithms (e.g. segments) from update sets	of
     	// objects further up (e.g. polygon) the tree
@@ -396,7 +396,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
             GeoElement geo = super.getOutput(i);
             if (geo != keepGeo) {
             	if (geo.isGeoPoint()) {
-            		removePoint((GeoPoint) geo);
+            		removePoint((GeoPoint2) geo);
             	} else {
             		geo.doRemove();
             	}

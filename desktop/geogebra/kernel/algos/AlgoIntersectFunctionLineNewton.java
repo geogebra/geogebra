@@ -19,7 +19,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -32,12 +32,12 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     
     private GeoFunction f; // input
     private GeoLine line; // input
-    private GeoPoint startPoint, rootPoint;
+    private GeoPoint2 startPoint, rootPoint;
     
     private Function diffFunction;    
                 
     public AlgoIntersectFunctionLineNewton(Construction cons, String label, 
-                GeoFunction f, GeoLine line, GeoPoint startPoint) {
+                GeoFunction f, GeoLine line, GeoPoint2 startPoint) {
         super(cons);
         this.f = f;
         this.line = line;
@@ -46,7 +46,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         diffFunction = new Function(kernel);
                 
         // output
-        rootPoint = new GeoPoint(cons);
+        rootPoint = new GeoPoint2(cons);
         setInputOutput(); // for AlgoElement    
         compute();
         rootPoint.setLabel(label);
@@ -120,7 +120,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         }                   
     }
     
-    public GeoPoint getIntersectionPoint() {
+    public GeoPoint2 getIntersectionPoint() {
         return rootPoint;
     }
 

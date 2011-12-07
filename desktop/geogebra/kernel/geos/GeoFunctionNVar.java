@@ -562,10 +562,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 
 		public void pointChangedForRegion(GeoPointND P) {
-			if(!((GeoPoint)P).isDefined())
+			if(!((GeoPoint2)P).isDefined())
 				return;
 			RegionParameters rp = P.getRegionParameters();
-			if(!isInRegion(P) && ((GeoPoint)P).isDefined()){
+			if(!isInRegion(P) && ((GeoPoint2)P).isDefined()){
 				double bestX = rp.getT1(), bestY = rp.getT2(), 
 				myX = P.getX2D(), myY = P.getY2D();
 				double bestDist = (bestY-myY)*(bestY-myY)+(bestX-myX)*(bestX-myX);
@@ -595,7 +595,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				if(isInRegion(bestX,bestY)){
 					rp.setT1(bestX);
 					rp.setT2(bestY);
-					((GeoPoint)P).setCoords(bestX, bestY, 1);
+					((GeoPoint2)P).setCoords(bestX, bestY, 1);
 				}
 				else tryLocateInEV(P); 
 					
@@ -619,13 +619,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				double rx = ev.toRealWorldCoordX(SEEK_DENSITY * i);
 				double ry = ev.toRealWorldCoordY(SEEK_DENSITY * i);
 				if (isInRegion(rx, ry)) {
-					((GeoPoint) P).setCoords(rx, ry, 1);
+					((GeoPoint2) P).setCoords(rx, ry, 1);
 					//Application.debug("Desperately found"+rx+","+ry);
 					found = true;
 				}
 			}	
 		if(!found)
-			((GeoPoint)P).setUndefined();
+			((GeoPoint2)P).setUndefined();
 			
 	}
 
@@ -717,7 +717,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 
 		public void mirror(GeoPointInterface Q) {
-			dilate(new MyDouble(kernel,-1.0),(GeoPoint)Q);
+			dilate(new MyDouble(kernel,-1.0),(GeoPoint2)Q);
 			
 		}
 

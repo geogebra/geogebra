@@ -60,7 +60,7 @@ import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoText;
@@ -1349,9 +1349,9 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		ymaxTemp = ymax;
 
 		try {
-			GeoPoint export1 = (GeoPoint) app.getKernel().lookupLabel(
+			GeoPoint2 export1 = (GeoPoint2) app.getKernel().lookupLabel(
 					EuclidianView.EXPORT1);
-			GeoPoint export2 = (GeoPoint) app.getKernel().lookupLabel(
+			GeoPoint2 export2 = (GeoPoint2) app.getKernel().lookupLabel(
 					EuclidianView.EXPORT2);
 
 			if ((export1 == null) || (export2 == null)) {
@@ -1960,8 +1960,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			// use points Export_1 and Export_2 to define corner
 			try {
 				// Construction cons = kernel.getConstruction();
-				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
+				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
+				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
 				double[] xy1 = new double[2];
 				double[] xy2 = new double[2];
 				export1.getInhomCoords(xy1);
@@ -3453,7 +3453,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	 * @return array of changeable GeoElements out of hits that implement
 	 */
 	final public ArrayList<GeoElement> getPointRotateableHits(
-			ArrayList<GeoElement> hits, GeoPoint rotCenter) {
+			ArrayList<GeoElement> hits, GeoPoint2 rotCenter) {
 		return getMoveables(hits, TEST_ROTATEMOVEABLE, rotCenter);
 	}
 
@@ -3462,7 +3462,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	protected final int TEST_ROTATEMOVEABLE = 2;
 
 	protected ArrayList<GeoElement> getMoveables(ArrayList<GeoElement> hits,
-			int test, GeoPoint rotCenter) {
+			int test, GeoPoint2 rotCenter) {
 		if (hits == null) {
 			return null;
 		}
@@ -3479,7 +3479,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 				}
 				// point with changeable parent coords
 				else if (geo.isGeoPoint()) {
-					GeoPoint point = (GeoPoint) geo;
+					GeoPoint2 point = (GeoPoint2) geo;
 					if (point.hasChangeableCoordParentNumbers()) {
 						moveableList.add(point);
 					}
@@ -3520,7 +3520,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	 * @return array of GeoElements of type geoclass drawn at coords (x,y)
 	 */
 	final public ArrayList<GeoElement> getHits(Point p,
-			Class<GeoPoint> geoclass, ArrayList<GeoElement> result) {
+			Class<GeoPoint2> geoclass, ArrayList<GeoElement> result) {
 		return getHits(getHits(p), geoclass, false, result);
 	}
 
@@ -3533,13 +3533,13 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	 * @return array of GeoElements NOT of type geoclass out of hits
 	 */
 	final public static ArrayList<GeoElement> getOtherHits(
-			ArrayList<GeoElement> hits, Class<GeoPoint> geoclass,
+			ArrayList<GeoElement> hits, Class<GeoPoint2> geoclass,
 			ArrayList<GeoElement> result) {
 		return getHits(hits, geoclass, true, result);
 	}
 
 	final public static ArrayList<GeoElement> getHits(
-			ArrayList<GeoElement> hits, Class<GeoPoint> geoclass,
+			ArrayList<GeoElement> hits, Class<GeoPoint2> geoclass,
 			ArrayList<GeoElement> result) {
 		return getHits(hits, geoclass, false, result);
 	}
@@ -3557,7 +3557,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	 * @return either null (if result is emty) or result
 	 */
 	final protected static ArrayList<GeoElement> getHits(
-			ArrayList<GeoElement> hits, Class<GeoPoint> geoclass,
+			ArrayList<GeoElement> hits, Class<GeoPoint2> geoclass,
 			boolean other, ArrayList<GeoElement> result) {
 		if (hits == null) {
 			return null;
@@ -3635,7 +3635,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		// point in there?
 		if (containsGeoPoint(hits)) {
-			getHits(hits, GeoPoint.class, false, topHitsList);
+			getHits(hits, GeoPoint2.class, false, topHitsList);
 			return topHitsList;
 		} else {
 			return hits;
@@ -5118,8 +5118,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			return selectionRectangle.width;
 		}
 		try {
-			GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-			GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
+			GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
+			GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
 			double[] xy1 = new double[2];
 			double[] xy2 = new double[2];
 			export1.getInhomCoords(xy1);
@@ -5142,8 +5142,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		}
 
 		try {
-			GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-			GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
+			GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
+			GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
 			double[] xy1 = new double[2];
 			double[] xy2 = new double[2];
 			export1.getInhomCoords(xy1);

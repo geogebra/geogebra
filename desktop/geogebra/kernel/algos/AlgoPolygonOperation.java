@@ -21,7 +21,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.GeneralPathClipped;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
@@ -49,7 +49,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 	private GeoPolygon inPoly1; //input
 	private GeoPolygon poly; //output	
 
-	private GeoPoint [] points;
+	private GeoPoint2 [] points;
 	private int operationType;
 	private EuclidianView ev;
 
@@ -69,7 +69,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;
-		points = new GeoPoint[0];
+		points = new GeoPoint2[0];
 		poly = new GeoPolygon(cons, points);
 
 		labelPointsAndSegments = true;
@@ -328,12 +328,12 @@ public class AlgoPolygonOperation extends AlgoElement {
 	 */
 	private void updatePointsArray(int n) {
 
-		GeoPoint[] oldPoints = points;
+		GeoPoint2[] oldPoints = points;
 		int oldPointsLength = oldPoints == null ? 0 : oldPoints.length;
 		//System.out.println("update points: " + n + "  old length: " + oldPointsLength);
 
 		// new points
-		points = new GeoPoint[n];
+		points = new GeoPoint2[n];
 
 		// reuse old points
 		for (int i = 0; i < oldPointsLength; i++) {
@@ -347,7 +347,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 		// create new points if needed
 		for (int i = oldPointsLength; i < points.length; i++) {
-			GeoPoint newPoint = new GeoPoint(cons);
+			GeoPoint2 newPoint = new GeoPoint2(cons);
 			newPoint.setCoords(0, 0, 1); // set defined
 			newPoint.setParentAlgorithm(this);
 			newPoint.setEuclidianVisible(true);
@@ -356,7 +356,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 		}
 	}
 
-	private void removePoint(GeoPoint oldPoint) {
+	private void removePoint(GeoPoint2 oldPoint) {
 
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree

@@ -17,7 +17,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoRay;
 import geogebra.kernel.geos.GeoVector;
 
@@ -27,7 +27,7 @@ import geogebra.kernel.geos.GeoVector;
  */
 public class AlgoRayPointVector extends AlgoElement {
 
-    private GeoPoint P; // input
+    private GeoPoint2 P; // input
     private GeoVector v; // input
     private GeoRay ray; // output       
 
@@ -35,7 +35,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Creates new ray algo
      */
     public AlgoRayPointVector(
-        Construction cons, String label, GeoPoint P, GeoVector v) {
+        Construction cons, String label, GeoPoint2 P, GeoVector v) {
     	this(cons, P, v);
         ray.setLabel(label);
     }
@@ -44,7 +44,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Creates new ray algo
      */
     public AlgoRayPointVector(
-        Construction cons, GeoPoint P, GeoVector v) {
+        Construction cons, GeoPoint2 P, GeoVector v) {
         super(cons);
         this.P = P;
         this.v = v;
@@ -93,7 +93,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Returns the endpoint
      * @return the endpoint
      */
-    GeoPoint getP() {
+    GeoPoint2 getP() {
         return P;
     }
     

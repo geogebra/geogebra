@@ -6,7 +6,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *StartAnimation
@@ -73,7 +73,7 @@ class CmdStartAnimation extends CmdScripting {
 				if(arg[i].isGeoNumeric())
 					((GeoNumeric) arg[0]).setAnimating(start);
 				else
-					((GeoPoint) arg[0]).setAnimating(start);
+					((GeoPoint2) arg[0]).setAnimating(start);
 				if(start)
 					app.getKernel().getAnimatonManager().startAnimation();
 			} 

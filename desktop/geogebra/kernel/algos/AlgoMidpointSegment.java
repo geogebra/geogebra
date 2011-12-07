@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 
 
@@ -34,8 +34,8 @@ import geogebra.kernel.geos.GeoSegment;
 public class AlgoMidpointSegment extends AlgoElement {
 
     private GeoSegment segment; // input
-    private GeoPoint M; // output        
-    private GeoPoint P, Q; // endpoints of segment
+    private GeoPoint2 M; // output        
+    private GeoPoint2 P, Q; // endpoints of segment
     
     /** Creates new AlgoVector */
     public AlgoMidpointSegment(Construction cons, String label, GeoSegment segment) {
@@ -48,7 +48,7 @@ public class AlgoMidpointSegment extends AlgoElement {
         this.segment = segment;
         
         // create new Point
-        M = new GeoPoint(cons);
+        M = new GeoPoint2(cons);
         setInputOutput();
         
         P = segment.getStartPoint();
@@ -79,7 +79,7 @@ public class AlgoMidpointSegment extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint getPoint() {
+    public GeoPoint2 getPoint() {
         return M;
     }
 

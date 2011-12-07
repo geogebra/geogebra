@@ -29,7 +29,7 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
@@ -374,8 +374,8 @@ implements EuclidianViewCE {
 	 * in its construction (if the line has this kind of information).
 	 */			
 	private void initLine(GeoLine macroLine, GeoLine line) {				
-		GeoPoint startPoint = (GeoPoint) getAlgoGeo(macroLine.getStartPoint());
-		GeoPoint endPoint   = (GeoPoint) getAlgoGeo(macroLine.getEndPoint());						
+		GeoPoint2 startPoint = (GeoPoint2) getAlgoGeo(macroLine.getStartPoint());
+		GeoPoint2 endPoint   = (GeoPoint2) getAlgoGeo(macroLine.getEndPoint());						
 		line.setStartPoint(startPoint);
 		line.setEndPoint(endPoint);					
 	}
@@ -385,13 +385,13 @@ implements EuclidianViewCE {
 	 * in its construction.
 	 */			
 	private void initConic(GeoConic macroConic, GeoConic conic) {
-		ArrayList<GeoPoint> macroPoints = macroConic.getPointsOnConic();
+		ArrayList<GeoPoint2> macroPoints = macroConic.getPointsOnConic();
 		if (macroPoints == null) return;
 		
 		int size = macroPoints.size();
-		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(size);		
+		ArrayList<GeoPoint2> points = new ArrayList<GeoPoint2>(size);		
 		for (int i=0; i < size; i++) {
-			points.add((GeoPoint)getAlgoGeo(macroPoints.get(i)));
+			points.add((GeoPoint2)getAlgoGeo(macroPoints.get(i)));
 		}
 		conic.setPointsOnConic(points);					
 	}
@@ -401,12 +401,12 @@ implements EuclidianViewCE {
 	 * in its construction.
 	 */	
 	private void initLocateable(Locateable macroLocateable, Locateable locateable) {
-		GeoPoint [] macroStartPoints = (GeoPoint[]) macroLocateable.getStartPoints();
+		GeoPoint2 [] macroStartPoints = (GeoPoint2[]) macroLocateable.getStartPoints();
 		if (macroStartPoints == null) return;
 		
 		try {					
 			for (int i=0; i < macroStartPoints.length; i++) {
-				GeoPoint point = (GeoPoint) getAlgoGeo(macroStartPoints[i]);
+				GeoPoint2 point = (GeoPoint2) getAlgoGeo(macroStartPoints[i]);
 				locateable.initStartPoint(point, i);
 				
 				//Application.debug("set start point: " + locateable + " => " + point + "(" + point.cons +")");
@@ -425,9 +425,9 @@ implements EuclidianViewCE {
 	private void initPolygon(GeoPolygon macroPoly, GeoPolygon poly) {								
 		// points
 		GeoPointND [] macroPolyPoints = macroPoly.getPoints();
-		GeoPoint [] polyPoints = new GeoPoint[macroPolyPoints.length];										
+		GeoPoint2 [] polyPoints = new GeoPoint2[macroPolyPoints.length];										
 		for (int i=0; i < macroPolyPoints.length; i++) {
-			polyPoints[i] = (GeoPoint) getAlgoGeo( (GeoElement) macroPolyPoints[i] );	
+			polyPoints[i] = (GeoPoint2) getAlgoGeo( (GeoElement) macroPolyPoints[i] );	
 		}
 		poly.setPoints(polyPoints);
 		

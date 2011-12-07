@@ -24,7 +24,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -35,11 +35,11 @@ import geogebra.kernel.geos.GeoVector;
  */
 public class AlgoTranslateVector extends AlgoElement {
 
-    private GeoPoint A;   // input
+    private GeoPoint2 A;   // input
     private GeoVec3D v;  // input
     private GeoVector w;     // output        
             
-    public AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint A) {
+    public AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint2 A) {
         super(cons);
         this.A = A;        
         this.v = v;
@@ -79,7 +79,7 @@ public class AlgoTranslateVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }           
         
-    GeoPoint getPoint() { return A; }
+    GeoPoint2 getPoint() { return A; }
     GeoVec3D getVector() { return v; }
     public GeoVector getTranslatedVector() { return w; }
         

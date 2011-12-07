@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.cas.AlgoDerivative;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -19,13 +19,13 @@ import geogebra.kernel.geos.GeoVector;
 
 public class AlgoCurvatureVector extends AlgoElement {
 
-	private GeoPoint A; // input
+	private GeoPoint2 A; // input
     private GeoFunction f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)
     private GeoVector v; // output
     
     AlgoDerivative algoCAS, algoCAS2;
 
-    public AlgoCurvatureVector(Construction cons, String label, GeoPoint A, GeoFunction f){
+    public AlgoCurvatureVector(Construction cons, String label, GeoPoint2 A, GeoFunction f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -36,7 +36,7 @@ public class AlgoCurvatureVector extends AlgoElement {
     	}  
     }
     
-    AlgoCurvatureVector(Construction cons, GeoPoint A, GeoFunction f) {
+    AlgoCurvatureVector(Construction cons, GeoPoint2 A, GeoFunction f) {
         super(cons);
         this.A = A;
         this.f = f;

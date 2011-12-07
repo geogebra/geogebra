@@ -26,7 +26,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoUserInputElement;
@@ -64,7 +64,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 	private ArrayList<GeoElement> geos;
 	private GeoElement geo;
-	private GeoPoint point;
+	private GeoPoint2 point;
 	private GeoLine line;
 	private GeoVector vector;
 	private GeoConic conic;
@@ -121,9 +121,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	}
 
 	private void addPointItems() {
-		if (!(geo instanceof GeoPoint))
+		if (!(geo instanceof GeoPoint2))
 			return;
-		point = (GeoPoint) geo;
+		point = (GeoPoint2) geo;
 		int mode = point.getMode();
 		AbstractAction action;
 
@@ -137,8 +137,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoPoint) {
-							point = (GeoPoint)geo;
+						if (geo instanceof GeoPoint2) {
+							point = (GeoPoint2)geo;
 							point.setMode(Kernel.COORD_CARTESIAN);
 							point.updateRepaint();
 						}
@@ -159,8 +159,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoPoint) {
-							point = (GeoPoint)geo;
+						if (geo instanceof GeoPoint2) {
+							point = (GeoPoint2)geo;
 							point.setMode(Kernel.COORD_POLAR);
 							point.updateRepaint();
 						}

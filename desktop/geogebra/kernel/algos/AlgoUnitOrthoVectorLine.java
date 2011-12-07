@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.kernel.geos.GeoVector;
 
@@ -48,7 +48,7 @@ public class AlgoUnitOrthoVectorLine extends AlgoElement {
         n = new GeoVector(cons); 
         setInputOutput(); // for AlgoElement
         
-        GeoPoint possStartPoint = g.getStartPoint();
+        GeoPoint2 possStartPoint = g.getStartPoint();
         if (possStartPoint != null && possStartPoint.isLabelSet()) {
 	        try{
 	            n.setStartPoint(possStartPoint);

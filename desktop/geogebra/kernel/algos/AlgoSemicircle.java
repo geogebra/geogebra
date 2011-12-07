@@ -18,17 +18,17 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Semicircle defined by two points A and B (start and end point).
  */
 public class AlgoSemicircle extends AlgoElement {
 	
-	private GeoPoint A, B;	// input
+	private GeoPoint2 A, B;	// input
 	private GeoConicPart conicPart; // output
 	
-	private GeoPoint M; // midpoint of AB
+	private GeoPoint2 M; // midpoint of AB
 	private GeoConic conic;
 
 	/**
@@ -39,7 +39,7 @@ public class AlgoSemicircle extends AlgoElement {
 	 * @param B second endpoint
 	 */
     public AlgoSemicircle(Construction cons, String label,
-    		GeoPoint A, GeoPoint B) {
+    		GeoPoint2 A, GeoPoint2 B) {
     	this(cons, A, B);
     	conicPart.setLabel(label);
     }
@@ -51,7 +51,7 @@ public class AlgoSemicircle extends AlgoElement {
 	 * @param B second endpoint
 	 */
     public AlgoSemicircle(Construction cons, 
-    		GeoPoint A, GeoPoint B) {
+    		GeoPoint2 A, GeoPoint2 B) {
         super(cons);        
         this.A = A;
         this.B = B; 
@@ -111,7 +111,7 @@ public class AlgoSemicircle extends AlgoElement {
      * Returns first endpoint
      * @return first endpoint
      */
-    public GeoPoint getA() {
+    public GeoPoint2 getA() {
     	return A;
     }
     
@@ -119,7 +119,7 @@ public class AlgoSemicircle extends AlgoElement {
      * Returns second endpoint
      * @return second endpoint
      */
-    public GeoPoint getB() {
+    public GeoPoint2 getB() {
     	return B;
     }    
     

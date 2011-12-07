@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /*
@@ -33,13 +33,13 @@ public GeoElement[] process(Command c) throws MyError {
         default:
 
 			// polygon for given points
-	        GeoPoint[] points = new GeoPoint[n];
+	        GeoPoint2[] points = new GeoPoint2[n];
 	        // check arguments
 	        for (int i = 0; i < n; i++) {
 	            if (!(arg[i].isGeoPoint()))
 					throw argErr(app, c.getName(), arg[i]);
 				else {
-	                points[i] = (GeoPoint) arg[i];
+	                points[i] = (GeoPoint2) arg[i];
 	            }
 	        }		
 		

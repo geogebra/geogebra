@@ -9,7 +9,7 @@ import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 
@@ -69,7 +69,7 @@ class CmdMirror extends CommandProcessor {
 
 				// mirror at point
 				if (ok[1] = (arg[1].isGeoPoint())) {
-					GeoPoint Q = (GeoPoint) arg[1];
+					GeoPoint2 Q = (GeoPoint2) arg[1];
 
 					ret = kernel.Mirror(label, arg[0], Q);
 					return ret;

@@ -19,7 +19,7 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -87,13 +87,13 @@ public class AlgoRSquare extends AlgoElement {
     	double syy = 0.0d;
     	double	errorsum	=	0.0d;
     	GeoElement geo		=	null;
-    	GeoPoint  point	=	null;
+    	GeoPoint2  point	=	null;
     	double	x,y,v;
     	
     	for(int i=0;i<size;i++){
     		geo=inputList.get(i);
     		if(geo.isGeoPoint()){
-    			point=(GeoPoint)geo;
+    			point=(GeoPoint2)geo;
     			x=point.getX();
     			y=point.getY();
     			v=funGeo.evaluate(x);

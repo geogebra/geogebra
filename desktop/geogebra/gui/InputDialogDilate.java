@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -20,12 +20,12 @@ import javax.swing.JPanel;
 
 public class InputDialogDilate extends InputDialog {
 		
-	GeoPoint[] points;
+	GeoPoint2[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
 		
-	public InputDialogDilate(Application app, String title, InputHandler handler,  GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+	public InputDialogDilate(Application app, String title, InputHandler handler,  GeoPoint2[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app.getFrame(), false);
 		
 		this.app = app;
@@ -80,7 +80,7 @@ public class InputDialogDilate extends InputDialog {
 			if (selGeos.length > 0) {					
 				// mirror all selected geos
 				//GeoElement [] selGeos = getSelectedGeos();
-				GeoPoint point = points[0];
+				GeoPoint2 point = points[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				for (int i=0; i < selGeos.length; i++) {				
 					if (selGeos[i] != point) {

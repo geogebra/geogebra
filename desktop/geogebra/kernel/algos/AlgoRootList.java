@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -80,7 +80,7 @@ public class AlgoRootList extends AlgoElement {
         	GeoElement geo = inputList.get(i);
         	if (geo.isGeoNumeric()) {
         		GeoNumeric num = (GeoNumeric)geo;
-        		outputList.add(new GeoPoint(cons, null, num.getDouble(), 0.0, 1.0));        		
+        		outputList.add(new GeoPoint2(cons, null, num.getDouble(), 0.0, 1.0));        		
         	}        	
         }
 		cons.setSuppressLabelCreation(suppressLabelCreation);     

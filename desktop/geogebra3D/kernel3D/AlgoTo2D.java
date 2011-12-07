@@ -21,7 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *
@@ -47,8 +47,8 @@ public class AlgoTo2D extends AlgoElement3D {
           
     	switch(in.getGeoClassType()){
     	case SEGMENT3D:
-    		GeoPoint P1 = new GeoPoint(cons);
-    		GeoPoint P2 = new GeoPoint(cons);
+    		GeoPoint2 P1 = new GeoPoint2(cons);
+    		GeoPoint2 P2 = new GeoPoint2(cons);
     		P1.setCoords(0,0,1);
     		P2.setCoords(1,0,1);
 

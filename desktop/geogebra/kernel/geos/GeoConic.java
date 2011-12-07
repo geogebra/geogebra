@@ -142,7 +142,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * makes this conic a circle with midpoint M through Point P
 	 */
 	@Override
-	final public void setCircle(GeoPoint M, GeoPoint P) {
+	final public void setCircle(GeoPoint2 M, GeoPoint2 P) {
 		defined = M.isDefined() && P.isDefined() && !P.isInfinite();
 		if (!defined) {			
 			return;
@@ -206,7 +206,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * @param n number of points 
 	 * @return Array list of points
 	 */
-	public ArrayList<GeoPoint> getPointsOnConic(int n)
+	public ArrayList<GeoPoint2> getPointsOnConic(int n)
 	{
 		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 		this.toGeoCurveCartesian(curve);
@@ -281,7 +281,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    		
 	    		//double sf=r1*r1/((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 	            //setCoords( x1+sf*(x2-x1), y1+sf*(y2-y1) ,1.0);
-	    		GeoPoint temp = new GeoPoint(cons,null,centerX,centerY,1.0);
+	    		GeoPoint2 temp = new GeoPoint2(cons,null,centerX,centerY,1.0);
 	    		setCircleMatrix(temp, r3);
 	    		temp.removeOrSetUndefinedIfHasFixedDescendent();
 	    	}
@@ -313,7 +313,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    	    		if(!AbstractKernel.isZero(dist2)){
 	    	    		double sf=r*r/dist2;
 	    	            //GeoPoint p =new GeoPoint(cons,null,a+sf*(perpX-a), b+sf*(perpY-b) ,1.0);
-	    	            GeoPoint m =new GeoPoint(cons);
+	    	            GeoPoint2 m =new GeoPoint2(cons);
 	    	            m.setCoords(a+sf*(perpX-a)/2, b+sf*(perpY-b)/2 ,1.0);
 	    	            setSphereND(m,sf/2*Math.sqrt(((perpX-a)*(perpX-a)+(perpY-b)*(perpY-b))));
 	    	    		}else type = GeoConic.CONIC_LINE;
@@ -352,7 +352,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		eigenvec[1].mult(-1.0);
 		
 		// mirror translation vector b
-		b.mirror((GeoPoint)Q);	
+		b.mirror((GeoPoint2)Q);	
 		setMidpoint(new double[] {b.x,b.y});
 		
 

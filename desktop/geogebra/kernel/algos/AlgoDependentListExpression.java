@@ -33,7 +33,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVec2D;
 import geogebra.main.Application;
@@ -150,14 +150,14 @@ public class AlgoDependentListExpression extends AlgoElement {
 					
 					// the cached element is a point: set value
 					if (cachedGeo.isGeoPoint()) {
-						((GeoPoint) cachedGeo).setCoords(vec);
+						((GeoPoint2) cachedGeo).setCoords(vec);
 						geo = cachedGeo;
 					}     			
 				}
 				
 				// no cached point: create new one
 				if (geo == null) {
-					GeoPoint point = new GeoPoint(cons);
+					GeoPoint2 point = new GeoPoint2(cons);
 					point.setCoords(vec);
 					geo = point;
 				}

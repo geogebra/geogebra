@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,14 +35,14 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	protected boolean setLabels;
     protected EquationSolver eqnSolver;
     protected GeoElement[] geos;
-    protected OutputHandler<GeoPoint> points;
+    protected OutputHandler<GeoPoint2> points;
 	
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
 		eqnSolver=((Construction) cons).getEquationSolver();
-		points = new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
-					public GeoPoint newElement() {
-						GeoPoint p=new GeoPoint(cons);
+		points = new OutputHandler<GeoPoint2>(new elementFactory<GeoPoint2>() {
+					public GeoPoint2 newElement() {
+						GeoPoint2 p=new GeoPoint2(cons);
 						//p.setCoords(0, 0, 1);
 						p.setUndefined();
 						p.setParentAlgorithm(AlgoSimpleRootsPolynomial.this);
@@ -76,13 +76,13 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public	GeoPoint[] getIntersectionPoints() {
-		return points.getOutput(new GeoPoint[0]);
+	public	GeoPoint2[] getIntersectionPoints() {
+		return points.getOutput(new GeoPoint2[0]);
 	}
 
 	@Override
 	protected
-	GeoPoint[] getLastDefinedIntersectionPoints() {
+	GeoPoint2[] getLastDefinedIntersectionPoints() {
 		return null;
 	}
 

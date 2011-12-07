@@ -4,7 +4,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * AffineRatio[<Point>,<Point>,<Point>]
@@ -34,8 +34,8 @@ class CmdAffineRatio extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoElement[] ret = { kernel
-						.AffineRatio(c.getLabel(), (GeoPoint) arg[0],
-								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
+						.AffineRatio(c.getLabel(), (GeoPoint2) arg[0],
+								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
 			} else {
 				if (!ok[0])

@@ -9,7 +9,7 @@ import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
@@ -629,7 +629,7 @@ public class SpreadsheetTraceManager {
 				++column;
 				++traceIndex;
 
-				if (((GeoPoint) geos[i]).getMode() == Kernel.COORD_POLAR)
+				if (((GeoPoint2) geos[i]).getMode() == Kernel.COORD_POLAR)
 					setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.ANGLE);
 				else
 					setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
@@ -828,7 +828,7 @@ public class SpreadsheetTraceManager {
 
 		case POINT:
 
-			GeoPoint P = (GeoPoint) geo;
+			GeoPoint2 P = (GeoPoint2) geo;
 			boolean polar = P.getMode() == Kernel.COORD_POLAR;
 
 			if (polar)

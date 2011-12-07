@@ -15,7 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -37,7 +37,7 @@ public class AlgoIntersectFunctions extends AlgoRoots {
     }//getClassName()
     
     
-    public GeoPoint [] getIntersectionPoints() {
+    public GeoPoint2 [] getIntersectionPoints() {
         return super.getRootPoints();
     }//getIntersectionPoints()
 

@@ -19,7 +19,7 @@ import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
 import geogebra.kernel.roots.RealRootUtil;
@@ -37,7 +37,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	
 	private GeoFunction f; // input, g for intersection of functions       
     private NumberValue start; // start value for root of f 
-    private GeoPoint rootPoint; // output 
+    private GeoPoint2 rootPoint; // output 
 
     private GeoElement startGeo;
     private NewtonSolver rootFinderNewton; 
@@ -54,7 +54,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         startGeo = (GeoElement)start.toGeoElement();
 
         // output
-        rootPoint = new GeoPoint(cons);
+        rootPoint = new GeoPoint2(cons);
         setInputOutput(); // for AlgoElement    
         compute();
 
@@ -82,7 +82,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         setDependencies();       
     }
 
-    public GeoPoint getRootPoint() {
+    public GeoPoint2 getRootPoint() {
         return rootPoint;
     }
 

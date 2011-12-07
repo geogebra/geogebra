@@ -31,7 +31,7 @@ import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.AlgoIntersectND;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoQuadricND;

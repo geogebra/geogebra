@@ -14,7 +14,7 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 
@@ -48,7 +48,7 @@ public class MyPoint {
 		return MyMath.length(p.x - x, p.y - y);
 	}
 
-	public GeoPoint getGeoPoint(AbstractConstruction cons) {
-		return new GeoPoint(cons, null, x, y, 1.0);
+	public GeoPoint2 getGeoPoint(AbstractConstruction cons) {
+		return new GeoPoint2(cons, null, x, y, 1.0);
 	}
 }

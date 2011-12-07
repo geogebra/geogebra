@@ -107,7 +107,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 	
 	public GeoElement copyInternal(AbstractConstruction cons) {						
 		GeoPolyLine ret = new GeoPolyLine(cons, null); 
-		ret.points = GeoElement.copyPoints(cons, (GeoPoint[]) points);		
+		ret.points = GeoElement.copyPoints(cons, (GeoPoint2[]) points);		
 		ret.set(this);
 				
 		return ret;		
@@ -122,13 +122,13 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		if (points.length != poly.points.length) {
 			GeoPointND [] tempPoints = new GeoPointND[poly.points.length];
 			for (int i=0; i < tempPoints.length; i++) {
-				tempPoints[i] = i < points.length ? points[i] : new GeoPoint(cons);
+				tempPoints[i] = i < points.length ? points[i] : new GeoPoint2(cons);
 			}
 			points = tempPoints;
 		}
 		
 		for (int i=0; i < points.length; i++) {				
-			((GeoPoint) points[i]).set(poly.points[i]);
+			((GeoPoint2) points[i]).set(poly.points[i]);
 		}	
 	}
 	
@@ -273,14 +273,14 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		GeoPoint P = (GeoPoint) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		if (P.getPath() == this)
 			return true;
 		
 		// check if P is on one of the segments
 		for (int i=0; i < points.length - 1; i++) {
-			setSegmentPoints((GeoPoint)points[i], (GeoPoint)points[i + 1]);
+			setSegmentPoints((GeoPoint2)points[i], (GeoPoint2)points[i + 1]);
 			if (seg.isOnPath(P, eps))
 				return true;
 		}				
@@ -289,7 +289,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 
 	public void pathChanged(GeoPointND PI) {		
 		
-		GeoPoint P = (GeoPoint) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		// parameter is between 0 and points.length - 1,
 		// i.e. floor(parameter) gives the point index
@@ -303,7 +303,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 				pp.t += (points.length - 1);
 			index = (int) Math.floor(pp.t) ;	
 		}
-		setSegmentPoints((GeoPoint)points[index], (GeoPoint)points[index + 1]);
+		setSegmentPoints((GeoPoint2)points[index], (GeoPoint2)points[index + 1]);
 		
 		double segParameter = pp.t - index;
 		
@@ -315,7 +315,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 
 	public void pointChanged(GeoPointND PI) {
 		
-		GeoPoint P = (GeoPoint) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		double qx = P.x/P.z;
 		double qy = P.y/P.z;
@@ -329,7 +329,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 			P.y = qy;
 			P.z = 1;
 
-			setSegmentPoints((GeoPoint)points[i], (GeoPoint)points[i + 1]);
+			setSegmentPoints((GeoPoint2)points[i], (GeoPoint2)points[i + 1]);
 	    	
 			seg.pointChanged(P);
 		
@@ -352,7 +352,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		pp.t = param;	
 	}	 
 	
-	private void setSegmentPoints(GeoPoint geoPoint, GeoPoint geoPoint2) {
+	private void setSegmentPoints(GeoPoint2 geoPoint, GeoPoint2 geoPoint2) {
 		seg.setStartPoint(geoPoint);
 		seg.setEndPoint(geoPoint2);
     	GeoVec3D.lineThroughPoints(geoPoint, geoPoint2, seg);      	
@@ -393,7 +393,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 	public void calcLength() {
 		
 		// last point not checked in loop
-		if (!((GeoPoint)points[points.length - 1]).isDefined()) {
+		if (!((GeoPoint2)points[points.length - 1]).isDefined()) {
 			setUndefined();
 			length = Double.NaN;
 			return;
@@ -402,12 +402,12 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		length = 0;
 		
 		for (int i=0; i < points.length - 1; i++) {
-			if (!((GeoPoint)points[i]).isDefined()) {
+			if (!((GeoPoint2)points[i]).isDefined()) {
 				setUndefined();
 				length = Double.NaN;
 				return;
 			}
-			setSegmentPoints((GeoPoint)points[i], (GeoPoint)points[i + 1]);
+			setSegmentPoints((GeoPoint2)points[i], (GeoPoint2)points[i + 1]);
 			length += seg.getLength();
 		}
 		setDefined();
@@ -423,19 +423,19 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 
 	public void rotate(NumberValue r) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).rotate(r);
+			((GeoPoint2)points[i]).rotate(r);
 		}
 	}
 
 	public void rotate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).rotate(r,S);
+			((GeoPoint2)points[i]).rotate(r,S);
 		}
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).matrixTransform(a00, a01, a10, a11);
+			((GeoPoint2)points[i]).matrixTransform(a00, a01, a10, a11);
 		}
 		calcLength();
 		
@@ -443,33 +443,33 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 
 	public void translate(Coords v) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).translate(v);
+			((GeoPoint2)points[i]).translate(v);
 		}
 	}
 
 	public void dilate(NumberValue r, GeoPointInterface S) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).dilate(r,S);
+			((GeoPoint2)points[i]).dilate(r,S);
 		}
 		calcLength();
 	}
 	
 	public void mirror(GeoPointInterface Q) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).mirror(Q);
+			((GeoPoint2)points[i]).mirror(Q);
 		}		
 	}
 
 	public void mirror(GeoLineInterface g) {
 		for(int i=0;i<points.length;i++) {
-			((GeoPoint)points[i]).mirror(g);
+			((GeoPoint2)points[i]).mirror(g);
 		}
 	}
 
 
 	public boolean isAllVertexLabelsSet() {
 		for(int i=0;i<points.length;i++) {
-			if(!((GeoPoint)points[i]).isLabelSet()) return false;
+			if(!((GeoPoint2)points[i]).isLabelSet()) return false;
 		}
 		return true;
 	}
@@ -497,12 +497,12 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		public void matrixTransform(double a00, double a01, double a02, double a10,
 				double a11, double a12, double a20, double a21, double a22) {
 			for(int i=0;i<points.length;i++) {
-				((GeoPoint)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+				((GeoPoint2)points[i]).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
 			}
 		}
 
-		public GeoPoint getPoint(int i) {
-			return (GeoPoint)points[i];
+		public GeoPoint2 getPoint(int i) {
+			return (GeoPoint2)points[i];
 		}
 		
 		public  void toGeoCurveCartesian(GeoCurveCartesian curve){

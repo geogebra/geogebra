@@ -13,7 +13,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -34,7 +34,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	private Drawable3D drawable3D = null;
 
 	/** image of the 3D points in the coord sys */
-	private GeoPoint[] points2D;
+	private GeoPoint2[] points2D;
 
 	/** says if this is a part of a closed surface (e.g. a polyhedron) */
 	private boolean isPartOfClosedSurface = false;
@@ -139,8 +139,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 *            number of point
 	 * @return the i-th point
 	 */
-	public GeoPoint getPoint(int i) {
-		return (GeoPoint) points2D[i];
+	public GeoPoint2 getPoint(int i) {
+		return (GeoPoint2) points2D[i];
 	}
 
 	/**
@@ -230,9 +230,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 		coordSys = cs;
 
-		points2D = new GeoPoint[points.length];
+		points2D = new GeoPoint2[points.length];
 		for (int i = 0; i < points.length; i++) {
-			points2D[i] = new GeoPoint(getConstruction());
+			points2D[i] = new GeoPoint2(getConstruction());
 		}
 
 		// if there's no coord sys, create it with points

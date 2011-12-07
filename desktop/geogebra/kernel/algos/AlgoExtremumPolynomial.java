@@ -14,7 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -44,7 +44,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
         return "AlgoExtremumPolynomial";
     }
 
-    public GeoPoint[] getExtremumPoints() {
+    public GeoPoint2[] getExtremumPoints() {
         return super.getRootPoints();
     }
 

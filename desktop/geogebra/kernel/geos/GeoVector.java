@@ -62,11 +62,11 @@ final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
 Transformable, GeoVectorND, GeoVectorInterface {
 
-	private GeoPoint startPoint;
+	private GeoPoint2 startPoint;
 
 	// for path interface we use a segment
 	private GeoSegment pathSegment;
-	private GeoPoint pathStartPoint, pathEndPoint;
+	private GeoPoint2 pathStartPoint, pathEndPoint;
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
@@ -136,7 +136,7 @@ Transformable, GeoVectorND, GeoVectorInterface {
 			if (vec.startPoint != null) {
 				if (vec.hasAbsoluteLocation()) {
 					//	create new location point	
-					setStartPoint(new GeoPoint(vec.startPoint));
+					setStartPoint(new GeoPoint2(vec.startPoint));
 				} else {
 					//	take existing location point	
 					setStartPoint(vec.startPoint);
@@ -176,15 +176,15 @@ Transformable, GeoVectorND, GeoVectorInterface {
 	/**
 	 * Retuns starting point of this vector or null.
 	 */
-	final public GeoPoint getStartPoint() {
+	final public GeoPoint2 getStartPoint() {
 		return startPoint;
 	}   
 
-	public GeoPoint [] getStartPoints() {
+	public GeoPoint2 [] getStartPoints() {
 		if (startPoint == null)
 			return null;
 
-		GeoPoint [] ret = new GeoPoint[1];
+		GeoPoint2 [] ret = new GeoPoint2[1];
 		ret[0] = startPoint;
 		return ret;			
 	}
@@ -202,7 +202,7 @@ Transformable, GeoVectorND, GeoVectorInterface {
 	 * This is needed for macros.	 
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		startPoint = (GeoPoint) p;
+		startPoint = (GeoPoint2) p;
 	}
 
 	public void removeStartPoint(GeoPointND p) {    
@@ -217,7 +217,7 @@ Transformable, GeoVectorND, GeoVectorInterface {
 
 	public void setStartPoint(GeoPointND pI) throws CircularDefinitionException {  
 
-		GeoPoint p = (GeoPoint) pI;
+		GeoPoint2 p = (GeoPoint2) pI;
 
 		if (startPoint == p) return;
 
@@ -251,10 +251,10 @@ Transformable, GeoVectorND, GeoVectorInterface {
 			if (waitingPointSet != null) {
 				updatePathSegment();
 
-				GeoPoint P;
+				GeoPoint2 P;
 				Iterator<GeoPointND> it = waitingPointSet.iterator();
 				while (it.hasNext()) {
-					P = (GeoPoint) it.next();
+					P = (GeoPoint2) it.next();
 					pathSegment.pointChanged(P);					
 					P.updateCoords();
 				}	
@@ -596,11 +596,11 @@ Transformable, GeoVectorND, GeoVectorInterface {
 		if (startPoint != null) {
 			pathStartPoint = startPoint;
 		} else {
-			pathStartPoint = new GeoPoint(cons);
+			pathStartPoint = new GeoPoint2(cons);
 			pathStartPoint.setCoords(0, 0, 1);
 		}
 
-		pathEndPoint = new GeoPoint(cons);
+		pathEndPoint = new GeoPoint2(cons);
 		pathSegment = new GeoSegment(cons, pathStartPoint, pathEndPoint);
 	}
 

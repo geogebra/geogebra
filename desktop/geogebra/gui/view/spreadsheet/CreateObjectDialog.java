@@ -6,7 +6,7 @@ import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -519,7 +519,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 		}
 
 		if(objectType == TYPE_POLYLINE){
-			GeoPoint[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
+			GeoPoint2[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
 			for(int i=0; i < pts.length; i++){
 				pts[i].setEuclidianVisible(true);
 				pts[i].setAuxiliaryObject(false);
@@ -544,7 +544,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 			}
 			
 			if(objectType == TYPE_POLYLINE){
-				GeoPoint[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
+				GeoPoint2[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
 				for(int i=0; i < pts.length; i++)
 					pts[i].remove();
 			}
@@ -593,7 +593,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 			case TYPE_POLYLINE:	
 				newGeo = cp.createPolyLine(selectedCellRanges, copyByValue, leftToRight);
 				newGeo.setLabel(null);
-				GeoPoint[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
+				GeoPoint2[] pts = ((AlgoPolyLine)newGeo.getParentAlgorithm()).getPoints();
 				for(int i=0; i < pts.length; i++){
 					pts[i].setAuxiliaryObject(true);
 					pts[i].setEuclidianVisible(false);

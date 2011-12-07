@@ -17,7 +17,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -29,12 +29,12 @@ import geogebra.kernel.geos.GeoPoint;
 public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     
     private GeoFunction f, g; // input
-    private GeoPoint startPoint, rootPoint;
+    private GeoPoint2 startPoint, rootPoint;
     
     private Function diffFunction;
                 
     public AlgoIntersectFunctionsNewton(Construction cons, String label, 
-                GeoFunction f, GeoFunction g, GeoPoint startPoint) {
+                GeoFunction f, GeoFunction g, GeoPoint2 startPoint) {
         super(cons);
         this.f = f;
         this.g = g;
@@ -43,7 +43,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
         diffFunction = new Function(kernel);
                 
         // output
-        rootPoint = new GeoPoint(cons);
+        rootPoint = new GeoPoint2(cons);
         setInputOutput(); // for AlgoElement    
         compute();
         rootPoint.setLabel(label);
@@ -104,7 +104,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
         }           
     }
     
-    public GeoPoint getIntersectionPoint() {
+    public GeoPoint2 getIntersectionPoint() {
         return rootPoint;
     }
 

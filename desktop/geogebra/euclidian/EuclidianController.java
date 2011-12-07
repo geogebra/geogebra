@@ -52,7 +52,7 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
@@ -173,7 +173,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	protected GeoImplicitPoly tempImplicitPoly;
 	protected ArrayList<Double> tempDependentPointX;
 	protected ArrayList<Double> tempDependentPointY;
-	protected ArrayList<GeoPoint> moveDependentPoints;
+	protected ArrayList<GeoPoint2> moveDependentPoints;
 
 	protected GeoFunction tempFunction;
 
@@ -212,7 +212,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	protected GeoElement recordObject = null;
 
 	protected GeoElement rotGeoElement, rotStartGeo;
-	protected GeoPoint rotationCenter;
+	protected GeoPoint2 rotationCenter;
 	protected MyDouble tempNum;
 	protected double rotStartAngle;
 	protected ArrayList translateableGeos;
@@ -364,11 +364,11 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
 					if (geo.isGeoPoint()) {
-						startPoint.setLocation(((GeoPoint)geo).inhomX, ((GeoPoint)geo).inhomY);
+						startPoint.setLocation(((GeoPoint2)geo).inhomX, ((GeoPoint2)geo).inhomY);
 						firstMoveable = false;
 					} else if (geo.isGeoText()) {
 						if (((GeoText)geo).hasAbsoluteLocation()) {
-							GeoPoint loc = (GeoPoint) ((GeoText)geo).getStartPoint();
+							GeoPoint2 loc = (GeoPoint2) ((GeoText)geo).getStartPoint();
 							startPoint.setLocation(loc.inhomX, loc.inhomY);
 							firstMoveable = false;
 						}
@@ -382,21 +382,21 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 						}
 					} else if (geo.isGeoImage()) {
 						if (((GeoImage)geo).hasAbsoluteLocation()) {
-							GeoPoint loc = (GeoPoint)((GeoImage)geo).getStartPoints()[2];
+							GeoPoint2 loc = (GeoPoint2)((GeoImage)geo).getStartPoints()[2];
 							if (loc != null) { // top left defined
 								//transformCoordsOffset[0]=loc.inhomX-xRW;
 								//transformCoordsOffset[1]=loc.inhomY-yRW;
 								startPoint.setLocation(loc.inhomX, loc.inhomY);
 								firstMoveable = false;
 							} else {
-								loc = (GeoPoint) ((GeoImage)geo).getStartPoint();
+								loc = (GeoPoint2) ((GeoImage)geo).getStartPoint();
 								if (loc != null) { // bottom left defined (default)
 									//transformCoordsOffset[0]=loc.inhomX-xRW;
 									//transformCoordsOffset[1]=loc.inhomY-yRW;
 									startPoint.setLocation(loc.inhomX, loc.inhomY);
 									firstMoveable = false;
 								} else {
-									loc = (GeoPoint) ((GeoImage)geo).getStartPoints()[1];
+									loc = (GeoPoint2) ((GeoImage)geo).getStartPoints()[1];
 									if (loc != null) { // bottom right defined
 										//transformCoordsOffset[0]=loc.inhomX-xRW;
 										//transformCoordsOffset[1]=loc.inhomY-yRW;
@@ -477,9 +477,9 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			GeoElement geo = pastePreviewSelected.get(i);
 			if (geo.isGeoPoint() && geo.isIndependent()) {
 				for (int j = 0; j < persistentStickyPointList.size(); j++) {
-					GeoPoint geo2 = (GeoPoint)persistentStickyPointList.get(j);
-					if (Kernel.isEqual(geo2.getInhomX(), ((GeoPoint)geo).getInhomX()) &&
-						Kernel.isEqual(geo2.getInhomY(), ((GeoPoint)geo).getInhomY()))
+					GeoPoint2 geo2 = (GeoPoint2)persistentStickyPointList.get(j);
+					if (Kernel.isEqual(geo2.getInhomX(), ((GeoPoint2)geo).getInhomX()) &&
+						Kernel.isEqual(geo2.getInhomY(), ((GeoPoint2)geo).getInhomY()))
 					{
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
@@ -640,9 +640,9 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				GeoElement geo = (GeoElement)selection.get(0);
 				// getCorner(1) == null as we can't write to transformed images
 				if (geo.isGeoImage()) {
-					GeoPoint c1 = ((GeoImage)geo).getCorner(0);
-					GeoPoint c2 = ((GeoImage)geo).getCorner(1);
-					GeoPoint c3 = ((GeoImage)geo).getCorner(2);
+					GeoPoint2 c1 = ((GeoImage)geo).getCorner(0);
+					GeoPoint2 c2 = ((GeoImage)geo).getCorner(1);
+					GeoPoint2 c3 = ((GeoImage)geo).getCorner(2);
 								
 					if (c3 == null &&
 							(c2 == null // c2 = null -> not transformed							
@@ -1229,7 +1229,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
-			GeoElement tracegeo = hits.getFirstHit(GeoPoint.class);
+			GeoElement tracegeo = hits.getFirstHit(GeoPoint2.class);
 			if (tracegeo == null)
 				tracegeo = hits.getFirstHit(GeoVector.class);
 			if (tracegeo == null)
@@ -1274,7 +1274,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		// we need the center of the rotation
 		if (rotationCenter == null) {
 			view.setHits(mouseLoc);
-			rotationCenter = (GeoPoint) chooseGeo(view.getHits().getHits(GeoPoint.class, tempArrayList), true);
+			rotationCenter = (GeoPoint2) chooseGeo(view.getHits().getHits(GeoPoint2.class, tempArrayList), true);
 			app.addSelectedGeo(rotationCenter);
 			moveMode = MOVE_NONE;
 		}
@@ -1461,8 +1461,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				}
 			} else if (movedGeoElement.isGeoSegment() || movedGeoElement.isGeoRay()) {
 				GeoLine line = (GeoLine) movedGeoElement;
-				GeoPoint start = line.getStartPoint();
-				GeoPoint end = line.getEndPoint();
+				GeoPoint2 start = line.getStartPoint();
+				GeoPoint2 end = line.getEndPoint();
 				
 				if (start != null && end != null) {
 					// get vector for first point
@@ -1524,8 +1524,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			if (translateableGeos != null) {
 				moveMode = MOVE_DEPENDENT;
 
-				if (translateableGeos.get(0) instanceof GeoPoint){
-					GeoPoint point = ((GeoPoint)translateableGeos.get(0));
+				if (translateableGeos.get(0) instanceof GeoPoint2){
+					GeoPoint2 point = ((GeoPoint2)translateableGeos.get(0));
 					if (point.getParentAlgorithm() != null) {
 						// make sure snap-to-grid works for dragging (a + x(A), b + x(B))
 						transformCoordsOffset[0] = 0;
@@ -1577,7 +1577,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			// point
 			// then move the startpoint of the vector
 			if (movedGeoVector.hasAbsoluteLocation()) {
-				GeoPoint sP = movedGeoVector.getStartPoint();
+				GeoPoint2 sP = movedGeoVector.getStartPoint();
 				double sx = 0;
 				double sy = 0;
 				if (sP != null) {
@@ -1591,7 +1591,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					// startPoint
 					moveMode = MOVE_VECTOR_STARTPOINT;
 					if (sP == null) {
-						sP = new GeoPoint(kernel.getConstruction());
+						sP = new GeoPoint2(kernel.getConstruction());
 						sP.setCoords(xRW, xRW, 1.0);
 						try {
 							movedGeoVector.setStartPoint(sP);
@@ -1630,9 +1630,9 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			}
 			else if (movedGeoText.hasAbsoluteLocation()) {
 				//	absolute location: change location
-				GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
+				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
 				if (loc == null) {
-					loc = new GeoPoint(kernel.getConstruction());
+					loc = new GeoPoint2(kernel.getConstruction());
 					loc.setCoords(0, 0, 1.0);
 					try {
 						movedGeoText.setStartPoint(loc);
@@ -1643,7 +1643,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					startPoint.setLocation(xRW - loc.inhomX, yRW
 							- loc.inhomY);
 
-					GeoPoint loc2 = new GeoPoint(loc);
+					GeoPoint2 loc2 = new GeoPoint2(loc);
 			        movedGeoText.setNeedsUpdatedBoundingBox(true);
 			        movedGeoText.update(); 
 					loc2.setCoords(movedGeoText.getBoundingBox().getX(), movedGeoText.getBoundingBox().getY(), 1.0);
@@ -1697,15 +1697,15 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			}
 			
 			if (moveDependentPoints==null){
-				moveDependentPoints=new ArrayList<GeoPoint>();
+				moveDependentPoints=new ArrayList<GeoPoint2>();
 			}else{
 				moveDependentPoints.clear();
 			}
 			
 			for (GeoElement f: movedGeoImplicitPoly.getAllChildren()){
 //				if (f instanceof GeoPoint && f.getParentAlgorithm().getInput().length==1 && f.getParentAlgorithm().getInput()[0] instanceof Path){
-				if (f instanceof GeoPoint && movedGeoImplicitPoly.isParentOf(f)){
-					GeoPoint g=(GeoPoint) f;
+				if (f instanceof GeoPoint2 && movedGeoImplicitPoly.isParentOf(f)){
+					GeoPoint2 g=(GeoPoint2) f;
 					if(!Kernel.isZero(g.getZ())){
 						moveDependentPoints.add(g);
 						tempDependentPointX.add(g.getX()/g.getZ());
@@ -1849,17 +1849,17 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				startPoint.setLocation(xRW, yRW);
 				oldImage = new GeoImage(movedGeoImage);
 
-				GeoPoint loc = (GeoPoint) movedGeoImage.getStartPoints()[2];
+				GeoPoint2 loc = (GeoPoint2) movedGeoImage.getStartPoints()[2];
 				if (loc != null) { // top left defined
 					transformCoordsOffset[0]=loc.inhomX-xRW;
 					transformCoordsOffset[1]=loc.inhomY-yRW;
 				} else {
-					loc = (GeoPoint) movedGeoImage.getStartPoint();
+					loc = (GeoPoint2) movedGeoImage.getStartPoint();
 					if (loc != null) { // bottom left defined (default)
 						transformCoordsOffset[0]=loc.inhomX-xRW;
 						transformCoordsOffset[1]=loc.inhomY-yRW;
 					} else {
-						loc = (GeoPoint) movedGeoImage.getStartPoints()[1];
+						loc = (GeoPoint2) movedGeoImage.getStartPoints()[1];
 						if (loc != null) { // bottom right defined
 							transformCoordsOffset[0]=loc.inhomX-xRW;
 							transformCoordsOffset[1]=loc.inhomY-yRW;
@@ -2809,7 +2809,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			// remove non-Points
 			for (int i=0; i < hits.size(); i++) {
 				GeoElement geo = (GeoElement) hits.get(i);
-				if (!(GeoPoint.class.isInstance(geo))) {
+				if (!(GeoPoint2.class.isInstance(geo))) {
 					hits.remove(i);
 				}
 			}
@@ -2894,7 +2894,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		case EuclidianConstants.MODE_FITLINE:
 			for (int i=0; i < hits.size(); i++) {
 				GeoElement geo = (GeoElement) hits.get(i);
-				if (!(GeoPoint.class.isInstance(geo))) {
+				if (!(GeoPoint2.class.isInstance(geo))) {
 					hits.remove(i);
 				}
 			}
@@ -3535,7 +3535,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 	
 	protected void processModeLock(Path path){
-		GeoPoint p = kernel.Point(null, path, xRW, yRW, false, false);
+		GeoPoint2 p = kernel.Point(null, path, xRW, yRW, false, false);
 		p.update();
 		xRW = p.inhomX;
 		yRW = p.inhomY;	
@@ -3635,7 +3635,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 
 	final protected void moveVector(boolean repaint) {
-		GeoPoint P = movedGeoVector.getStartPoint();
+		GeoPoint2 P = movedGeoVector.getStartPoint();
 		if (P == null) {
 			movedGeoVector.setCoords(xRW- transformCoordsOffset[0], yRW - transformCoordsOffset[1], 0.0);
 		} else {
@@ -3649,7 +3649,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 
 	final protected void moveVectorStartPoint(boolean repaint) {
-		GeoPoint P = movedGeoVector.getStartPoint();
+		GeoPoint2 P = movedGeoVector.getStartPoint();
 		P.setCoords(xRW, yRW, 1.0);
 
 		if (repaint)
@@ -3668,7 +3668,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		} else {
 			if (movedGeoText.hasAbsoluteLocation()) {
 				//	absolute location: change location
-				GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
+				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
 				loc.setCoords(xRW - startPoint.x, yRW - startPoint.y, 1.0);
 			} else {
 				// relative location: move label (change label offset)
@@ -3701,7 +3701,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				double vy = yRW - startPoint.y;
 				movedGeoImage.set(oldImage);
 				for (int i=0; i < 3; i++) {
-					GeoPoint corner = movedGeoImage.getCorner(i);
+					GeoPoint2 corner = movedGeoImage.getCorner(i);
 					if (corner != null) {
 						corner.setCoords(corner.inhomX + vx, corner.inhomY + vy, 1.0);
 					}
@@ -3732,7 +3732,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		//set points
 		for (int i=0;i<moveDependentPoints.size();i++){
-			GeoPoint g=moveDependentPoints.get(i);
+			GeoPoint2 g=moveDependentPoints.get(i);
 			g.setCoords2D(tempDependentPointX.get(i),tempDependentPointY.get(i),1);
 			g.translate(new Coords(xRW - startPoint.x, yRW - startPoint.y,1));
 //			g.updateCascade();
@@ -3963,7 +3963,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			boolean captured = false;
 			if (spl != null) {
 				for (int i = 0; i < spl.size(); i++) {
-					GeoPoint gp = (GeoPoint)spl.get(i);
+					GeoPoint2 gp = (GeoPoint2)spl.get(i);
 					if (Math.abs(gp.getInhomX() - xRW) < view.getGridDistances(0) * pointCapturingPercentage &&
 						Math.abs(gp.getInhomY() - yRW) < view.getGridDistances(1) * pointCapturingPercentage) {
 						xRW = gp.getInhomX();
@@ -4456,7 +4456,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D())
 			ret[0] = getKernel().getManager3D().Line3D(null,points[0], points[1]);
 		else
-			ret[0] = getKernel().Line(null, (GeoPoint) points[0], (GeoPoint) points[1]);
+			ret[0] = getKernel().Line(null, (GeoPoint2) points[0], (GeoPoint2) points[1]);
 		return ret;
 	}
 
@@ -4494,7 +4494,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D())
 			ret[0] = (GeoElement) getKernel().getManager3D().Segment3D(null,points[0], points[1]);
 		else
-			ret[0] = getKernel().Segment(null, (GeoPoint) points[0], (GeoPoint) points[1]);
+			ret[0] = getKernel().Segment(null, (GeoPoint2) points[0], (GeoPoint2) points[1]);
 		return ret;
 	}
 
@@ -4519,7 +4519,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if ( ((GeoElement) a).isGeoElement3D() || ((GeoElement) b).isGeoElement3D() )
 			return kernel.getManager3D().Vector3D(null, a, b);
 		else
-			return kernel.Vector(null, (GeoPoint) a, (GeoPoint) b);
+			return kernel.Vector(null, (GeoPoint2) a, (GeoPoint2) b);
 	}
 
 	//	get two points and create ray with them
@@ -4549,7 +4549,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D())
 			ret[0] = (GeoElement) getKernel().getManager3D().Ray3D(null,points[0], points[1]);
 		else
-			ret[0] = getKernel().Ray(null, (GeoPoint) points[0], (GeoPoint) points[1]);
+			ret[0] = getKernel().Ray(null, (GeoPoint2) points[0], (GeoPoint2) points[1]);
 		return ret;
 	}
 
@@ -4623,13 +4623,13 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		} else {
 			//check if there is a 3D point
 			GeoPointND[] pointsND = getSelectedPointsND();
-			GeoPoint[] points = new GeoPoint[pointsND.length];
+			GeoPoint2[] points = new GeoPoint2[pointsND.length];
 			boolean point3D = false;
 			for (int i=0; i<pointsND.length && !point3D; i++)
 				if (((GeoElement) pointsND[i]).isGeoElement3D())
 					point3D=true;
 				else 
-					points[i]=(GeoPoint) pointsND[i];
+					points[i]=(GeoPoint2) pointsND[i];
 			if (point3D) {
 				GeoElement[] ret = { null };
 				GeoElement [] ret0 = kernel.getManager3D().Polygon3D(null, pointsND);
@@ -4731,7 +4731,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			boolean polynomials = fun[0].isPolynomialFunction(false)
 			&& fun[1].isPolynomialFunction(false);
 			if (!polynomials) {
-				GeoPoint startPoint = new GeoPoint(kernel.getConstruction());
+				GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
 				startPoint.setCoords(xRW, yRW, 1.0);
 				return new GeoElement[] {
 						kernel.IntersectFunctions(null, fun[0], fun[1], startPoint)
@@ -4790,7 +4790,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				else
 					ret = kernel.IntersectPolynomialLine(null, fun[0], line[0]);
 			} else {
-				GeoPoint startPoint = new GeoPoint(kernel.getConstruction());
+				GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
 				startPoint.setCoords(xRW, yRW, 1.0);
 				ret[0] = kernel.IntersectFunctionLine(null, fun[0], line[0], startPoint);
 			}
@@ -4883,7 +4883,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					return kernel.IntersectPolynomialLineSingle(null, f,
 							(GeoLine) a, xRW, yRW);
 				else {
-					GeoPoint startPoint = new GeoPoint(kernel.getConstruction());
+					GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
 					startPoint.setCoords(xRW, yRW, 1.0);
 					return kernel.IntersectFunctionLine(null, f, (GeoLine) a,
 							startPoint);
@@ -4912,7 +4912,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					return kernel.IntersectPolynomialLineSingle(null, aFun,
 							(GeoLine) b, xRW, yRW);
 				else {
-					GeoPoint startPoint = new GeoPoint(kernel.getConstruction());
+					GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
 					startPoint.setCoords(xRW, yRW, 1.0);
 					return kernel.IntersectFunctionLine(null, aFun, (GeoLine) b,
 							startPoint);
@@ -4924,7 +4924,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					return kernel.IntersectPolynomialsSingle(null, aFun, bFun,
 							xRW, yRW);
 				else {
-					GeoPoint startPoint = new GeoPoint(kernel.getConstruction());
+					GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
 					startPoint.setCoords(xRW, yRW, 1.0);
 					return kernel.IntersectFunctions(null, aFun, bFun,
 							startPoint);
@@ -4962,7 +4962,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) vectors[0]).isGeoElement3D())
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(null,points[0], vectors[0]);
 				else
-					ret[0] = kernel.Line(null, (GeoPoint) points[0], (GeoVector) vectors[0]);
+					ret[0] = kernel.Line(null, (GeoPoint2) points[0], (GeoVector) vectors[0]);
 				return ret;
 			} else if (selLines() == 1) {
 				// fetch selected point and vector
@@ -4972,7 +4972,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) lines[0]).isGeoElement3D())
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(null,points[0], lines[0]);
 				else
-					ret[0] = getKernel().Line(null, (GeoPoint) points[0], (GeoLine) lines[0]);
+					ret[0] = getKernel().Line(null, (GeoPoint2) points[0], (GeoLine) lines[0]);
 				return ret;
 			}
 		}
@@ -4994,7 +4994,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (selPoints() == 1) {
 			if (selLines() == 1) {
 				// fetch selected point and line
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				GeoLine[] lines = getSelectedLines();
 				// create new parabola
 				GeoElement[] ret = { null };
@@ -5039,7 +5039,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				if (((GeoElement) points[0]).isGeoElement3D())// || ((GeoElement) vectors[0]).isGeoElement3D())
 					return null;
 				else
-					ret[0] = kernel.OrthogonalLine(null, (GeoPoint) points[0], (GeoVector) vectors[0]);
+					ret[0] = kernel.OrthogonalLine(null, (GeoPoint2) points[0], (GeoVector) vectors[0]);
 				return ret;
 
 			} else if (selLines() == 1) {
@@ -5061,7 +5061,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 	
 	protected GeoElement[] orthogonal2D(GeoPointND point, GeoLineND line){
-		return new GeoElement[] {getKernel().OrthogonalLine(null, (GeoPoint) point, (GeoLine) line)};
+		return new GeoElement[] {getKernel().OrthogonalLine(null, (GeoPoint2) point, (GeoLine) line)};
 	}
 	
 	// get two points, line segment or conic
@@ -5086,7 +5086,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			if (((GeoElement) points[0]).isGeoElement3D() || ((GeoElement) points[1]).isGeoElement3D())
 				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null, points[0], points[1]);
 			else
-				ret[0] = kernel.Midpoint(null, (GeoPoint) points[0], (GeoPoint) points[1]);
+				ret[0] = kernel.Midpoint(null, (GeoPoint2) points[0], (GeoPoint2) points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
@@ -5142,7 +5142,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		GeoElement[] ret = { null };
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			ret[0] = kernel.LineBisector(null, points[0], points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
@@ -5170,7 +5170,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (selPoints() == 3) {
 			// fetch the three selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			GeoElement[] ret = { null };
 			ret[0] = kernel.AngularBisector(null, points[0], points[1], points[2]);
 			return ret;
@@ -5208,31 +5208,31 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					|| ((GeoElement) points[2]).isGeoElement3D() )
 				ret[0] = kernel.getManager3D().Circle3D(null, points[0], points[1], points[2]);
 			else
-				ret[0] = kernel.Circle(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+				ret[0] = kernel.Circle(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;
 
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-			ret[0] = kernel.Ellipse(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = kernel.Ellipse(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;
 
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			ret[0] = kernel.Hyperbola(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = kernel.Hyperbola(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;
 
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-			ret[0] = kernel.CircumcircleArc(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = kernel.CircumcircleArc(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;
 
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			ret[0] = kernel.CircumcircleSector(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = kernel.CircumcircleSector(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-			ret[0] = kernel.CircleArc(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = kernel.CircleArc(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			ret[0] = kernel.CircleSector(null, (GeoPoint) points[0], (GeoPoint) points[1], (GeoPoint) points[2]);
+			ret[0] = kernel.CircleSector(null, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2]);
 			break;												
 
 		default:
@@ -5308,7 +5308,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 	
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C){
-		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
+		return kernel.Angle(null, (GeoPoint2) A, (GeoPoint2) B, (GeoPoint2) C);
 	}
 
 	// build angle between two lines
@@ -5322,10 +5322,10 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			GeoSegment a = (GeoSegment) lines[0];
 			GeoSegment b = (GeoSegment) lines[1];
 			// get endpoints
-			GeoPoint a1 = a.getStartPoint();
-			GeoPoint a2 = a.getEndPoint();
-			GeoPoint b1 = b.getStartPoint();
-			GeoPoint b2 = b.getEndPoint();
+			GeoPoint2 a1 = a.getStartPoint();
+			GeoPoint2 a2 = a.getEndPoint();
+			GeoPoint2 b1 = b.getStartPoint();
+			GeoPoint2 b2 = b.getEndPoint();
 
 			if (a1 == b1) {
 				angle = kernel.Angle(null, a2, a1, b2);
@@ -5361,7 +5361,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	protected GeoElement[] switchModeForCircleOrSphere2(int mode){
 		GeoPointND[] points = getSelectedPointsND();
 		if (mode == EuclidianConstants.MODE_SEMICIRCLE)
-			return new GeoElement[] {kernel.Semicircle(null, (GeoPoint) points[0], (GeoPoint) points[1])};
+			return new GeoElement[] {kernel.Semicircle(null, (GeoPoint2) points[0], (GeoPoint2) points[1])};
 		else
 			return createCircle2(points[0], points[1]);
 		
@@ -5371,7 +5371,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if ( ((GeoElement) p0).isGeoElement3D() || ((GeoElement) p1).isGeoElement3D() )
 			return createCircle2ForPoints3D(p0, p1);
 		else
-			return new GeoElement[] {kernel.Circle(null, (GeoPoint) p0, (GeoPoint) p1)};
+			return new GeoElement[] {kernel.Circle(null, (GeoPoint2) p0, (GeoPoint2) p1)};
 	}
 	
 	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1){
@@ -5390,7 +5390,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			GeoLocus locus;
 			if (points[0].getPath() == null) {
 				locus = kernel.Locus(null, points[0], points[1]);
@@ -5401,7 +5401,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			ret[0] = locus;
 			return ret;
 		} else if (selPoints() == 1 && selNumbers() == 1) {
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			GeoNumeric[] numbers = getSelectedNumbers();
 			GeoLocus locus = kernel.Locus(null, points[0], numbers[0]);
 			GeoElement[] ret = { locus };
@@ -5419,7 +5419,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		addSelectedPoint(hits, 5, false);
 		if (selPoints() == 5) {
 			// fetch the three selected points
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			GeoElement[] ret = { null };
 			ret[0] = kernel.Conic(null, points);
 			return ret;
@@ -5464,11 +5464,11 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		// TWO POINTS
 		if (selPoints() == 2) {			
 			// length
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			GeoNumeric length = kernel.Distance(null, (GeoPointND) points[0], (GeoPointND) points[1]);								
 
 			// set startpoint of text to midpoint of two points
-			GeoPoint midPoint = kernel.Midpoint(points[0], points[1]);
+			GeoPoint2 midPoint = kernel.Midpoint(points[0], points[1]);
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText(points[0], points[1], midPoint, length);
 			return ret;
@@ -5499,12 +5499,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		// POINT AND LINE
 		else if (selPoints() == 1 && selLines() == 1) {	
-			GeoPoint[] points = getSelectedPoints();
+			GeoPoint2[] points = getSelectedPoints();
 			GeoLine[] lines = getSelectedLines();
 			GeoNumeric length = kernel.Distance(null, points[0], lines[0]);						
 
 			// set startpoint of text to midpoint between point and line
-			GeoPoint midPoint = kernel.Midpoint(points[0], kernel.ClosestPoint(points[0], lines[0]));
+			GeoPoint2 midPoint = kernel.Midpoint(points[0], kernel.ClosestPoint(points[0], lines[0]));
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText(points[0],lines[0], midPoint, length);	
 			return ret;
@@ -5565,7 +5565,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	 * Creates a text that shows the distance length between geoA and geoB at the given startpoint.
 	 */
 	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, 
-			GeoPoint startPoint, GeoNumeric length) {
+			GeoPoint2 startPoint, GeoNumeric length) {
 		// create text that shows length
 		try {				
 			String strText = "";
@@ -5690,7 +5690,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		String descText = prefix;
 
 		// use points for polygon with static points (i.e. no list of points)
-		GeoPoint [] points = null;
+		GeoPoint2 [] points = null;
 		if (poly.getParentAlgorithm() instanceof AlgoPolygon) {
 			points = ((AlgoPolygon) poly.getParentAlgorithm()).getPoints();
 		}	
@@ -5769,7 +5769,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		addSelectedPoint(hits, 2, false);
 
 		if (selPoints() == 2) {					
-			GeoPoint [] points = getSelectedPoints();
+			GeoPoint2 [] points = getSelectedPoints();
 			app.getGuiManager().showNumberInputDialogRegularPolygon(app.getMenu(getKernel().getModeText(mode)),
 					points[0], points[1]);
 			return true;
@@ -5811,7 +5811,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (selConics() == 1) {
 			if (selPoints() == 1) {
 				GeoConic[] conics = getSelectedConics();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				// create new tangents
 				return kernel.Tangent(null, points[0], conics[0]);
 			} else if (selLines() == 1) {
@@ -5829,7 +5829,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
 				GeoFunction[] functions = getSelectedFunctions();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };
 				ret[0] = kernel.Tangent(null, points[0], functions[0]);
@@ -5839,7 +5839,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		else if (selCurves() == 1) {
 			if (selPoints() == 1) {
 				GeoCurveCartesian[] curves = getSelectedCurves();
-				GeoPoint [] points = getSelectedPoints();
+				GeoPoint2 [] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };
 				ret[0] = kernel.Tangent(null, points[0], curves[0]);
@@ -5849,7 +5849,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		else if (selImplicitpoly() == 1) {
 			if (selPoints() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				// create new tangents
 				return kernel.Tangent(null, points[0], implicitPoly);
 			} else if (selLines() == 1) {
@@ -5886,7 +5886,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			GeoElement[] ret = { null };
 			if (selPoints() == 1) {
 				GeoConic[] conics = getSelectedConics();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				// create new tangents
 				ret[0] = kernel.PolarLine(null, points[0], conics[0]);
 				return ret;
@@ -6056,13 +6056,13 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (selPoints() == 1) {							
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				return kernel.Mirror(null,  polys[0], points[0]);
 			} 
 			else if (selGeos() > 0) {					
 				// mirror all selected geos
 				GeoElement [] geos = getSelectedGeos();
-				GeoPoint point = getSelectedPoints()[0];
+				GeoPoint2 point = getSelectedPoints()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				for (int i=0; i < geos.length; i++) {				
 					if (geos[i] != point) {
@@ -6249,7 +6249,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (selectedPoints.size() == 1) {
 			
-			GeoPoint p = (GeoPoint)selectedPoints.get(0);
+			GeoPoint2 p = (GeoPoint2)selectedPoints.get(0);
 			
 			
 			if (p.isPointOnPath() || p.isPointInRegion()) {
@@ -6266,7 +6266,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 					Construction cons = kernel.getConstruction();
 					boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 					cons.setSuppressLabelCreation(true);
-					GeoPoint newPoint = new GeoPoint(kernel.getConstruction(),null, view.toRealWorldCoordX(x),view.toRealWorldCoordY(y),1.0);
+					GeoPoint2 newPoint = new GeoPoint2(kernel.getConstruction(),null, view.toRealWorldCoordX(x),view.toRealWorldCoordY(y),1.0);
 					cons.setSuppressLabelCreation(oldLabelCreationFlag);
 					cons.replace(p, newPoint);
 				} catch (Exception e1) {
@@ -6281,7 +6281,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		if (selPoints() == 1) {
 			if (selPaths() == 1 && !altDown) { // press alt to force region (ie inside) not path (edge)
 				Path paths[] = getSelectedPaths();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				
 				//Application.debug("path: "+paths[0]+"\npoint: "+points[0]);
 				
@@ -6300,7 +6300,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				
 			}else if (selRegions() == 1) {
 				Region regions[] = getSelectedRegions();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 
 				if (!((GeoElement)regions[0]).isChildOf(points[0])) {
 					return attach(points[0],regions[0]);
@@ -6311,13 +6311,13 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		return false;
 	}
 	
-	final protected boolean attach(GeoPoint point, Path path){
+	final protected boolean attach(GeoPoint2 point, Path path){
 
 		try {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoPoint newPoint = kernel.Point(null, path, view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my), false, false);
+			GeoPoint2 newPoint = kernel.Point(null, path, view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my), false, false);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			kernel.getConstruction().replace(point, newPoint);
 			clearSelections();
@@ -6328,13 +6328,13 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 		}				
 	}
 	
-	final protected boolean attach(GeoPoint point, Region region){
+	final protected boolean attach(GeoPoint2 point, Region region){
 
 		try {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoPoint newPoint = kernel.PointIn(null, region, view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my), false, false);
+			GeoPoint2 newPoint = kernel.PointIn(null, region, view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my), false, false);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			kernel.getConstruction().replace(point, newPoint);
 			clearSelections();
@@ -6564,7 +6564,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 			if (selPoints() > 1) 
 			{					
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				list = geogebra.kernel.commands.CommandProcessor.wrapInList(kernel,points, points.length, GeoClass.POINT);
 				if (list != null) {
 					ret[0] = kernel.FitLineY(null, list);
@@ -6602,12 +6602,12 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		// we already have two points that define the radius
 		if (selPoints() == 2) {			
-			GeoPoint [] points = new GeoPoint[2];
-			points[0] = (GeoPoint) selectedPoints.get(0);
-			points[1] = (GeoPoint) selectedPoints.get(1);
+			GeoPoint2 [] points = new GeoPoint2[2];
+			points[0] = (GeoPoint2) selectedPoints.get(0);
+			points[1] = (GeoPoint2) selectedPoints.get(1);
 
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, GeoPoint.class);
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, GeoPoint2.class);
 
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -6632,7 +6632,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			GeoConic circle =  (GeoConic) selectedConicsND.get(0);
 
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, GeoPoint.class);
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, GeoPoint2.class);
 
 			if (centerPoint != null) {	
 				if (selectionPreview) {
@@ -6656,7 +6656,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			GeoSegment segment =  (GeoSegment) selectedSegments.get(0);
 
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, GeoPoint.class);
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, GeoPoint2.class);
 
 			if (centerPoint != null) {	
 				if (selectionPreview) {
@@ -6752,8 +6752,8 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 		if (selPoints() == 1 && selVectors() == 1) {			
 			GeoVector[] vecs = getSelectedVectors();			
-			GeoPoint[] points = getSelectedPoints();
-			GeoPoint endPoint = (GeoPoint) kernel.Translate(null, points[0], vecs[0])[0];
+			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint2 endPoint = (GeoPoint2) kernel.Translate(null, points[0], vecs[0])[0];
 			GeoElement[] ret = { null };
 			ret[0] = kernel.Vector(null, points[0], endPoint);
 			return ret;
@@ -6782,7 +6782,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 
 
 		// only one point needed: try to create it
-		if (!objectFound && macroInput[index] == GeoPoint.class) {
+		if (!objectFound && macroInput[index] == GeoPoint2.class) {
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point								
 				selectedGeos.add(getMovedGeoPoint());
@@ -6888,7 +6888,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 				return false;
 			else {
 				// create new Point
-				loc = new GeoPoint(kernel.getConstruction());			
+				loc = new GeoPoint2(kernel.getConstruction());			
 				loc.setCoords(xRW, yRW, 1.0);	
 			}
 		} else {
@@ -6911,14 +6911,14 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 
 	final protected boolean image(Hits hits, int mode, boolean altDown) {
-		GeoPoint loc = null; // location
+		GeoPoint2 loc = null; // location
 
 		if (hits.isEmpty()) {
 			if (selectionPreview)
 				return false;
 			else {
 				// create new Point
-				loc = new GeoPoint(kernel.getConstruction());			
+				loc = new GeoPoint2(kernel.getConstruction());			
 				loc.setCoords(xRW, yRW, 1.0);	
 			}
 		} else {
@@ -6926,7 +6926,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 			addSelectedPoint(hits, 1, false);
 			if (selPoints() == 1) {
 				// fetch the selected point
-				GeoPoint[] points = getSelectedPoints();
+				GeoPoint2[] points = getSelectedPoints();
 				loc = points[0];
 			}
 		}		
@@ -7009,9 +7009,9 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	}
 
 
-	final protected GeoPoint[] getSelectedPoints() {		
+	final protected GeoPoint2[] getSelectedPoints() {		
 
-		GeoPoint[] ret = new GeoPoint[selectedPoints.size()];
+		GeoPoint2[] ret = new GeoPoint2[selectedPoints.size()];
 		getSelectedPointsND(ret);
 
 		return ret;
@@ -7558,7 +7558,7 @@ MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniL
 	   specified class (note: subclasses are included)
 	 * 
 	 */
-	private GeoElement chooseGeo(Hits hits, Class<GeoPoint> geoclass) {
+	private GeoElement chooseGeo(Hits hits, Class<GeoPoint2> geoclass) {
 		return chooseGeo(hits.getHits(geoclass, tempArrayList), true);
 	}
 

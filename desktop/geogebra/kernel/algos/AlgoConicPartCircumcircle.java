@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 /**
@@ -27,12 +27,12 @@ import geogebra.main.Application;
  */
 public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	
-	private GeoPoint A, B, C;	
+	private GeoPoint2 A, B, C;	
 	
 	private GeoLine line; // for degenerate case
 
     public AlgoConicPartCircumcircle(AbstractConstruction cons, String label,
-    		GeoPoint A, GeoPoint B, GeoPoint C,
+    		GeoPoint2 A, GeoPoint2 B, GeoPoint2 C,
     		int type) 
     {
     	this(cons, A, B, C, type);
@@ -40,7 +40,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     }
     
     public AlgoConicPartCircumcircle(AbstractConstruction cons,
-    		GeoPoint A, GeoPoint B, GeoPoint C,
+    		GeoPoint2 A, GeoPoint2 B, GeoPoint2 C,
     		int type) {
         super(cons, type);        
         this.A = A;
@@ -143,7 +143,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 		// otherwise we got (2) two rays starting at A and C in oposite directions
 		// case (1): use parameters 0, 1 and positive orientation to tell conicPart how to behave
 		// case (2): use parameters 0, 1 and negative orientation
-		double lambda = GeoPoint.affineRatio(A, C, B);
+		double lambda = GeoPoint2.affineRatio(A, C, B);
 		if (lambda < 0 || lambda > 1) {
 			// two rays
 			// second ray with start point C and direction of AC 				

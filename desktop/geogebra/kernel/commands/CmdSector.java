@@ -6,7 +6,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Sector[ <GeoConic>, <Number>, <Number> ] Sector[ <GeoConic>, <GeoPoint>,
@@ -44,7 +44,7 @@ class CmdSector extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoElement[] ret = { kernel
 						.ConicSector(c.getLabel(), (GeoConic) arg[0],
-								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
+								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
 			} else {
 				if (!ok[0])

@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -34,16 +34,16 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoJoinPoints extends AlgoElement {
 
-    private GeoPoint P, Q;  // input
+    private GeoPoint2 P, Q;  // input
     private GeoLine  g;     // output       
         
     /** Creates new AlgoJoinPoints */
-    public AlgoJoinPoints(Construction cons, String label, GeoPoint P, GeoPoint Q) {
+    public AlgoJoinPoints(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
         this(cons, P, Q);
         g.setLabel(label);
     }   
     
-    public AlgoJoinPoints(Construction cons, GeoPoint P, GeoPoint Q) {
+    public AlgoJoinPoints(Construction cons, GeoPoint2 P, GeoPoint2 Q) {
         super(cons);
         this.P = P;
         this.Q = Q;                
@@ -85,8 +85,8 @@ public class AlgoJoinPoints extends AlgoElement {
     }    
     
     public GeoLine getLine() { return g; }
-    GeoPoint getP() { return P; }
-    GeoPoint getQ() { return Q; }
+    GeoPoint2 getP() { return P; }
+    GeoPoint2 getQ() { return Q; }
     
     // calc the line g through P and Q    
     @Override

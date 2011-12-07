@@ -22,7 +22,7 @@ import geogebra.kernel.discrete.delauney.Triangle;
 import geogebra.kernel.discrete.delauney.Triangulation;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

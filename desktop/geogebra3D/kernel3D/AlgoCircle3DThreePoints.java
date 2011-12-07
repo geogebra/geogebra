@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoCircleThreePoints;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 /**
@@ -21,7 +21,7 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 	private CoordSys coordSys;
 	
 	/** 2D projection of the 3D points in the coord sys */
-	private GeoPoint[] points2D;
+	private GeoPoint2[] points2D;
 	
 	/** 3D points  */
 	private GeoPointND[] points;
@@ -56,9 +56,9 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     	coordSys = new CoordSys(2);
     	
     	
-    	points2D = new GeoPoint[3];
+    	points2D = new GeoPoint2[3];
     	for (int i=0;i<3;i++)
-    		points2D[i] = new GeoPoint(getConstruction());
+    		points2D[i] = new GeoPoint2(getConstruction());
     	
     	super.setPoints(points2D[0],points2D[1],points2D[2]);
     	

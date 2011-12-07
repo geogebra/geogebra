@@ -5,7 +5,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 /**
  *SurdText
@@ -36,7 +36,7 @@ class CmdSurdText extends CommandProcessor {
 				return ret;
 			} else if (arg[0].isGeoPoint()) {
 				GeoElement[] ret = { kernel.SurdText(c.getLabel(),
-						(GeoPoint) arg[0]) };
+						(GeoPoint2) arg[0]) };
 				return ret;
 			} else
 

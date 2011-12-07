@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -294,7 +294,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	}
 
 	@Override
-	public void setCircle(GeoPoint M, GeoPoint P) {
+	public void setCircle(GeoPoint2 M, GeoPoint2 P) {
 		// TODO Auto-generated method stub
 
 	}

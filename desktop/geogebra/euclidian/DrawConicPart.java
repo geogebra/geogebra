@@ -23,7 +23,7 @@ import geogebra.kernel.algos.AlgoSemicircle;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -66,7 +66,7 @@ implements Previewable {
     
     // preview
     private ArrayList<GeoPointND> prevPoints;
-    private GeoPoint [] previewTempPoints;  
+    private GeoPoint2 [] previewTempPoints;  
     private int previewMode, neededPrevPoints;
     
     public DrawConicPart(EuclidianView view, GeoConicPart conicPart) {
@@ -98,10 +98,10 @@ implements Previewable {
 		Construction cons = view.getKernel().getConstruction();
 		neededPrevPoints = mode == EuclidianConstants.MODE_SEMICIRCLE ?
 				1 : 2;
-		previewTempPoints = new GeoPoint[neededPrevPoints+1];
+		previewTempPoints = new GeoPoint2[neededPrevPoints+1];
 		for (int i=0; i < previewTempPoints.length; i++) {
 			previewTempPoints[i] =
-				new GeoPoint(cons);			
+				new GeoPoint2(cons);			
 		}
 	
 		initPreview();
@@ -349,7 +349,7 @@ implements Previewable {
 		isVisible = conicPart != null && prevPoints.size() == neededPrevPoints;		
 		if (isVisible) {
 			for (int i=0; i < prevPoints.size(); i++) {
-				previewTempPoints[i].setCoords((GeoPoint) prevPoints.get(i));					
+				previewTempPoints[i].setCoords((GeoPoint2) prevPoints.get(i));					
 			}						
 			previewTempPoints[0].updateCascade();			
 		}					

@@ -15,7 +15,7 @@ import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
@@ -366,14 +366,14 @@ public class CellRangeProcessor {
 					if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) 
 					continue;
 					
-					GeoPoint geoPoint;
+					GeoPoint2 geoPoint;
 					AlgoDependentPoint pointAlgo = null;
 
 					if (byValue) {
 						if(leftToRight)
-							geoPoint = new GeoPoint(cons, ((GeoNumeric)xCoord).getDouble(), ((GeoNumeric)yCoord).getDouble(), 1.0);
+							geoPoint = new GeoPoint2(cons, ((GeoNumeric)xCoord).getDouble(), ((GeoNumeric)yCoord).getDouble(), 1.0);
 						else
-							geoPoint = new GeoPoint(cons, ((GeoNumeric)yCoord).getDouble(), ((GeoNumeric)xCoord).getDouble(), 1.0);
+							geoPoint = new GeoPoint2(cons, ((GeoNumeric)yCoord).getDouble(), ((GeoNumeric)xCoord).getDouble(), 1.0);
 
 					} else {
 					
@@ -383,7 +383,7 @@ public class CellRangeProcessor {
 	
 						pointAlgo = new AlgoDependentPoint(cons, point, false);
 						
-						geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
+						geoPoint = (GeoPoint2) pointAlgo.getGeoElements()[0];
 					
 					}
 
@@ -411,11 +411,11 @@ public class CellRangeProcessor {
 					if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) 
 					continue;
 					
-					GeoPoint geoPoint;
+					GeoPoint2 geoPoint;
 					AlgoDependentPoint pointAlgo = null;
 
 					if (byValue) {
-						geoPoint = new GeoPoint(cons, ((GeoNumeric)xCoord).getDouble(), ((GeoNumeric)yCoord).getDouble(), 1.0);
+						geoPoint = new GeoPoint2(cons, ((GeoNumeric)xCoord).getDouble(), ((GeoNumeric)yCoord).getDouble(), 1.0);
 					} else {
 					
 						MyVecNode vec = new MyVecNode( kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord);
@@ -424,7 +424,7 @@ public class CellRangeProcessor {
 	
 						pointAlgo = new AlgoDependentPoint(cons, point, false);
 						
-						geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
+						geoPoint = (GeoPoint2) pointAlgo.getGeoElements()[0];
 					
 					}
 

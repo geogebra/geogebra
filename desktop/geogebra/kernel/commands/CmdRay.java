@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 
 
@@ -35,8 +35,8 @@ public class CmdRay extends CommandProcessor {
 				{
 						kernel.Ray(
 								c.getLabel(),
-								(GeoPoint) arg[0],
-								(GeoPoint) arg[1])};
+								(GeoPoint2) arg[0],
+								(GeoPoint2) arg[1])};
 				return ret;
 			}
 
@@ -48,7 +48,7 @@ public class CmdRay extends CommandProcessor {
 				{
 						kernel.Ray(
 								c.getLabel(),
-								(GeoPoint) arg[0],
+								(GeoPoint2) arg[0],
 								(GeoVector) arg[1])};
 				return ret;
 			}

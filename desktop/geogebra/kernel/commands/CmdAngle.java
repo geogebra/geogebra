@@ -10,7 +10,7 @@ import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVector;
 /**
@@ -129,16 +129,16 @@ public class CmdAngle extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoElement[] ret = { kernel
-						.Angle(c.getLabel(), (GeoPoint) arg[0],
-								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
+						.Angle(c.getLabel(), (GeoPoint2) arg[0],
+								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
 			}
 			// fixed angle
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isNumberValue())))
-				return kernel.Angle(c.getLabels(), (GeoPoint) arg[0],
-						(GeoPoint) arg[1], (NumberValue) arg[2]);
+				return kernel.Angle(c.getLabels(), (GeoPoint2) arg[0],
+						(GeoPoint2) arg[1], (NumberValue) arg[2]);
 			else
 				throw argErr(app, "Angle", arg[0]);
 

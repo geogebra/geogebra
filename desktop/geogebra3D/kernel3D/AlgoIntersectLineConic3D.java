@@ -30,7 +30,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoIntersectAbstract;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.AlgoIntersectND;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
@@ -56,7 +56,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
     /** 2d description of g when included in conic coord sys */
     private GeoLine g2d;
     /** 2d points created by using AlgoIntersectLineConic.intersectLineConic */
-    private GeoPoint[] points2d;
+    private GeoPoint2[] points2d;
         
     /**
      * 
@@ -108,12 +108,12 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
         
         //helper algo
         g2d = new GeoLine(cons);
-        points2d = new GeoPoint[2];
+        points2d = new GeoPoint2[2];
                
         for (int i=0; i < 2; i++) {
             P[i] = new GeoPoint3D(cons);                  
             D[i] = new GeoPoint3D(cons);    
-            points2d[i] = new GeoPoint(cons);   
+            points2d[i] = new GeoPoint2(cons);   
         }
         
         setInputOutput(); // for AlgoElement

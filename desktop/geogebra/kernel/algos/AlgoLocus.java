@@ -25,7 +25,7 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 import java.awt.geom.Point2D;
@@ -51,7 +51,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 	private static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
-    private GeoPoint movingPoint, locusPoint; 	// input       
+    private GeoPoint2 movingPoint, locusPoint; 	// input       
     private GeoLocus locus; 	// output   
     
     // for efficient dependency handling
@@ -62,7 +62,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     private int pointCount;
     
     // copies of P and Q in a macro kernel
-    private GeoPoint Pcopy, Qcopy, PstartPos, QstartPos;  
+    private GeoPoint2 Pcopy, Qcopy, PstartPos, QstartPos;  
     private double lastX, lastY, maxXdist, 
 		maxYdist, xmin, xmax, ymin, ymax,
 		farXmin, farXmax, farYmin, farYmax;
@@ -83,7 +83,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     
    // private Updater updater;
 
-    public AlgoLocus(Construction cons,  String label, GeoPoint Q, GeoPoint P) {
+    public AlgoLocus(Construction cons,  String label, GeoPoint2 Q, GeoPoint2 P) {
         super(cons);
         this.movingPoint = P;
         this.locusPoint = Q;    	
@@ -91,8 +91,8 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
         path = P.getPath();
         pathMover = path.createPathMover();        
         
-        QstartPos = new GeoPoint(cons);
-        PstartPos = new GeoPoint(cons);
+        QstartPos = new GeoPoint2(cons);
+        PstartPos = new GeoPoint2(cons);
             
         init();        
         updateScreenBorders();
@@ -142,7 +142,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
      * Returns the dependent point
      * @return dependent point Q
      */
-    public GeoPoint getQ() {
+    public GeoPoint2 getQ() {
     	return locusPoint;
     }
     
@@ -269,11 +269,11 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     		macroKernel.loadXML(locusConsXML);
     	
 	    	// get the copies of P and Q from the macro kernel
-	    	Pcopy = (GeoPoint) macroKernel.lookupLabel(movingPoint.label);
+	    	Pcopy = (GeoPoint2) macroKernel.lookupLabel(movingPoint.label);
 	    	Pcopy.setFixed(false);
 	    	Pcopy.setPath(movingPoint.getPath());
 	    	
-	    	Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint.label);
+	    	Qcopy = (GeoPoint2) macroKernel.lookupLabel(locusPoint.label);
 	    	macroCons = macroKernel.getConstruction();
 
 	    	/*
@@ -600,7 +600,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     	return null;
     }
     
-    private void putCachedPoint(double param, GeoPoint Qcopy) {
+    private void putCachedPoint(double param, GeoPoint2 Qcopy) {
     	cacheIndex++;
     	if (cacheIndex >= paramCache.length) cacheIndex = 0;
     	
@@ -631,7 +631,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     	return farAway;
 	}
     
-    private boolean distanceOK(GeoPoint Q) {   
+    private boolean distanceOK(GeoPoint2 Q) {   
     	boolean distanceOK;
     	
     	if (lastFarAway && isFarAway(Q.inhomX, Q.inhomY)) {
@@ -657,7 +657,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     	return distanceOK;
     }        
     
-    private boolean distanceSmall(GeoPoint Q) {
+    private boolean distanceSmall(GeoPoint2 Q) {
     	boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist &&
 							Math.abs(Q.inhomY - lastY) < maxYdist;   
     	return distSmall;

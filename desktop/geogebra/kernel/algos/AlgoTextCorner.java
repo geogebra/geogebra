@@ -19,14 +19,14 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 
 public class AlgoTextCorner extends AlgoElement 
 implements EuclidianViewCE {
 
 	private GeoText txt;  // input
-    private GeoPoint corner;     // output    
+    private GeoPoint2 corner;     // output    
     private NumberValue number;
     
     public AlgoTextCorner(Construction cons, String label, GeoText txt, NumberValue number) {        
@@ -39,7 +39,7 @@ implements EuclidianViewCE {
         txt.setNeedsUpdatedBoundingBox(true);
     	txt.update(); 
 
-        corner = new GeoPoint(cons);                
+        corner = new GeoPoint2(cons);                
         setInputOutput(); // for AlgoElement  
            	
         compute();              
@@ -65,7 +65,7 @@ implements EuclidianViewCE {
         setDependencies(); // done by AlgoElement
     }       
          
-    public GeoPoint getCorner() { return corner; }        
+    public GeoPoint2 getCorner() { return corner; }        
     
     @Override
 	public final void compute() {  

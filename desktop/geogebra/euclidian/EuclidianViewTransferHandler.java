@@ -4,7 +4,7 @@ package geogebra.euclidian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
@@ -123,7 +123,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 		// get context info
 		Construction cons = ev.getApplication().getKernel().getConstruction();
 		Point mousePos = ev.getMousePosition();
-		GeoPoint startPoint = new GeoPoint(cons);
+		GeoPoint2 startPoint = new GeoPoint2(cons);
 
 		double x = ev.toRealWorldCoordX(mousePos.x);
 		double y = ev.toRealWorldCoordY(mousePos.y);

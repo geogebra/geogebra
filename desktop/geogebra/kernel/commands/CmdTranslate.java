@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoVector;
 
@@ -47,7 +47,7 @@ public class CmdTranslate extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoVector v = (GeoVector) arg[0];
-				GeoPoint P = (GeoPoint) arg[1];
+				GeoPoint2 P = (GeoPoint2) arg[1];
 
 				ret[0] = kernel.Translate(label, v, P);
 

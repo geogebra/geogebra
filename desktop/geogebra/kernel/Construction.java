@@ -40,7 +40,7 @@ import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.optimization.ExtremumFinder;
@@ -95,7 +95,7 @@ public class Construction extends AbstractConstruction{
 	
 	// set with all labeled GeoElements in ceList order
 	private TreeSet<GeoElement> geoSetConsOrder; //generic Object replaced by GeoElement (Zbynek Konecny, 2010-06-14)
-	private GeoPoint origin;
+	private GeoPoint2 origin;
 	// set with all labeled GeoElements in alphabetical order
 	private TreeSet<GeoElement> geoSetLabelOrder;
 	private TreeSet<GeoElement> geoSetWithCasCells; 
@@ -155,9 +155,9 @@ public class Construction extends AbstractConstruction{
 	 * Returns the point (0,0)
 	 * @return point (0,0)
 	 */
-	public final GeoPoint getOrigin(){
+	public final GeoPoint2 getOrigin(){
 		if(origin==null){
-			origin=new GeoPoint(this);
+			origin=new GeoPoint2(this);
 			origin.setCoords(0.0, 0.0, 1.0);
 		}
 		return origin;
@@ -1932,9 +1932,9 @@ public class Construction extends AbstractConstruction{
 	            oldGeo.updateRepaint();
 	            return;
 
-	        } else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint) {
+	        } else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint2) {
 
-	            ((GeoPoint)oldGeo).set(newGeo);
+	            ((GeoPoint2)oldGeo).set(newGeo);
 	            oldGeo.updateRepaint();
 	            return;
 

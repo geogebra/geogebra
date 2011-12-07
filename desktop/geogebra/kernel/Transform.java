@@ -15,7 +15,7 @@ import geogebra.kernel.algos.AlgoTranslate;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.LimitedPath;
@@ -229,7 +229,7 @@ public abstract class Transform {
  */
 class TransformRotate extends Transform {
 
-	private GeoPoint center;
+	private GeoPoint2 center;
 	private NumberValue angle;
 
 	/**
@@ -246,7 +246,7 @@ class TransformRotate extends Transform {
 	 * @param angle
 	 * @param center
 	 */
-	public TransformRotate(Construction cons,NumberValue angle,GeoPoint center) {
+	public TransformRotate(Construction cons,NumberValue angle,GeoPoint2 center) {
 		this.angle = angle;
 		this.center = center;
 		this.cons = cons;
@@ -300,7 +300,7 @@ class TransformTranslate extends Transform {
 class TransformDilate extends Transform {
 
 	private NumberValue ratio;
-	private GeoPoint center;
+	private GeoPoint2 center;
 
 	/**
 	 * @param cons 
@@ -316,7 +316,7 @@ class TransformDilate extends Transform {
 	 * @param ratio
 	 * @param center
 	 */
-	public TransformDilate(Construction cons,NumberValue ratio, GeoPoint center) {
+	public TransformDilate(Construction cons,NumberValue ratio, GeoPoint2 center) {
 		this.ratio = ratio;
 		this.center = center;
 		this.cons = cons;
@@ -405,7 +405,7 @@ class TransformApplyMatrix extends Transform {
 	}
 	
 	public boolean changesOrientation() {
-		AlgoTransformation at = getTransformAlgo(new GeoPoint(cons));
+		AlgoTransformation at = getTransformAlgo(new GeoPoint2(cons));
 		cons.removeFromConstructionList(at);
 		return at.swapOrientation(true);
 	}

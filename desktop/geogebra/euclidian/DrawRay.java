@@ -25,7 +25,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.clipping.ClipLine;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 import java.awt.BasicStroke;
@@ -243,7 +243,7 @@ implements Previewable {
 			if (points.size() == 1 && view.getEuclidianController().altDown) {
 				//double xRW = view.toRealWorldCoordX(x);
 				//double yRW = view.toRealWorldCoordY(y);
-				GeoPoint p = (GeoPoint)points.get(0);
+				GeoPoint2 p = (GeoPoint2)points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;

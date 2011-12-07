@@ -37,7 +37,7 @@ import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVec2D;
 
 
@@ -1754,9 +1754,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 										.getDouble()));
 					return arg.getNumber().apply((Evaluatable) lt);
 				}
-			} else if (rt instanceof GeoPoint) {
+			} else if (rt instanceof GeoPoint2) {
 				if (lt instanceof Evaluatable) {
-					GeoPoint pt = (GeoPoint) rt;
+					GeoPoint2 pt = (GeoPoint2) rt;
 					if (lt instanceof GeoFunction) {
 						FunctionNVar fun = ((GeoFunction) lt).getFunction();
 						if (lt instanceof GeoFunction
@@ -1806,8 +1806,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 					ExpressionValue ev = list.getMyList().getListElement(0)
 							.evaluate();
 					AbstractApplication.debug(ev.getClass());
-					if (funN.getVarNumber() == 2 && ev instanceof GeoPoint) {
-						GeoPoint pt = (GeoPoint) ev;
+					if (funN.getVarNumber() == 2 && ev instanceof GeoPoint2) {
+						GeoPoint2 pt = (GeoPoint2) ev;
 						if (funN.isBooleanFunction())
 							return new MyBoolean(kernel,
 									funN.evaluateBoolean(pt));

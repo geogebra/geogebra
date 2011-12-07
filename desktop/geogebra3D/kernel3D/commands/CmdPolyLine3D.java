@@ -9,7 +9,7 @@ import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdPolyLine;
 import geogebra.kernel.commands.CmdPolygon;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
 

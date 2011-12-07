@@ -33,7 +33,7 @@ import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoRay;
@@ -231,7 +231,7 @@ public abstract class GeoGebraExport implements ActionListener{
     	}
     	else if (g.isEuclidianVisible()||trimmedInter) {
     		if (g.isGeoPoint()){
-				drawGeoPoint((GeoPoint)g);
+				drawGeoPoint((GeoPoint2)g);
 				drawLabel(g,null);
     		}
 		else if (g.isGeoSegment()){
@@ -321,7 +321,7 @@ public abstract class GeoGebraExport implements ActionListener{
         } else if (g.isGeoConic()) {
 			if (isSinglePointConic(g)){
 				GeoConic geo=(GeoConic)g;
-				GeoPoint point = geo.getSinglePoint();
+				GeoPoint2 point = geo.getSinglePoint();
 				point.copyLabel(geo);
 				point.setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
 				point.setLabelColor(geo.getLabelColor());
@@ -412,7 +412,7 @@ public abstract class GeoGebraExport implements ActionListener{
 	 * @param geo The point to export
 	 */
 	
-	abstract protected void drawGeoPoint(GeoPoint geo);
+	abstract protected void drawGeoPoint(GeoPoint2 geo);
 	
 	/**
 	 * Export as PSTricks or PGF/TikZ GeoLine

@@ -21,13 +21,13 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 
 	private Path path; // input
-    private GeoPoint P; // output      
+    private GeoPoint2 P; // output      
     private NumberValue param;
 
     public AlgoPointOnPath(
@@ -58,7 +58,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
     	super(cons);
         this.path = path;
         // create point on path and compute current location
-        P = new GeoPoint(cons);
+        P = new GeoPoint2(cons);
         P.setPath(path);
         P.setCoords(x, y, 1.0);
 		this.param = param;
@@ -71,7 +71,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
         this.path = path;
         
         // create point on path and compute current location
-        P = new GeoPoint(cons);
+        P = new GeoPoint2(cons);
         P.setPath(path);
         setIncidence();
         
@@ -107,7 +107,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint getP() {
+    public GeoPoint2 getP() {
         return P;
     }
     public Path getPath() {

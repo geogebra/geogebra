@@ -18,7 +18,7 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 
@@ -105,12 +105,12 @@ public class AlgoResidualPlot extends AlgoElement {
 		for (int i = 0 ; i < size ; i++) {
 			GeoElement p = inputList.get(i);
 			if (p.isGeoPoint()) {
-				x = ((GeoPoint)p).getInhomX();
-				y = ((GeoPoint)p).getInhomY();
+				x = ((GeoPoint2)p).getInhomX();
+				y = ((GeoPoint2)p).getInhomY();
 				r = y - funGeo.evaluate(x);
 				min = Math.min(r,min);
 				max = Math.max(r,max);
-				outputList.add(new GeoPoint(cons, null, x, r, 1.0));
+				outputList.add(new GeoPoint2(cons, null, x, r, 1.0));
 			} else {
 				outputList.setUndefined();
 				return;

@@ -24,7 +24,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint;
+import geogebra.kernel.geos.GeoPoint2;
 
 
 /**
@@ -34,14 +34,14 @@ import geogebra.kernel.geos.GeoPoint;
  */
 public class AlgoDistancePointObject extends AlgoElement {
 
-    private GeoPoint P; // input
+    private GeoPoint2 P; // input
     private GeoElement g; // input
     private GeoNumeric dist; // output       
     private AlgoClosestPoint closePt;
     public AlgoDistancePointObject(
         Construction cons,
         String label,
-        GeoPoint P,
+        GeoPoint2 P,
         GeoElement g) {
         super(cons);
         this.P = P;
@@ -81,7 +81,7 @@ public class AlgoDistancePointObject extends AlgoElement {
     public GeoNumeric getDistance() {
         return dist;
     }
-    GeoPoint getP() {
+    GeoPoint2 getP() {
         return P;
     }
     GeoElement getg() {
