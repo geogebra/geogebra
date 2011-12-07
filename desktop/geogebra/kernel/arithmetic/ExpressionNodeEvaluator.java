@@ -1780,7 +1780,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 		case FUNCTION_NVAR:
 			// function(list of numbers)
 			if (rt.isListValue() && lt instanceof FunctionalNVar) {
-				FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
+				FunctionNVar funN = (FunctionNVar)((FunctionalNVar) lt).getFunction();
 				ListValue list = (ListValue) rt;
 				if (funN.getVarNumber() == list.size()) {
 					double[] args = list.toDouble();

@@ -23,7 +23,9 @@ package geogebra.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
@@ -59,7 +61,7 @@ import javax.swing.text.Document;
  * @version
  */
 public class ExpressionNode extends ValidExpression implements ReplaceableValue,
-		ExpressionNodeConstants {
+		ExpressionNodeConstants, ExpressionNodeInterface {
 
 	public AbstractApplication app;
 	public AbstractKernel kernel;
@@ -878,8 +880,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		if (operation==Operation.FUNCTION_NVAR){
 			if (left instanceof FunctionalNVar && right instanceof MyList){
 				MyList list=((MyList)right); 
-				FunctionNVar func=((FunctionalNVar)left).getFunction();
-				ExpressionNode expr=func.getExpression().getCopy(kernel);
+				FunctionNVarInterface func=((FunctionalNVar)left).getFunction();
+				ExpressionNode expr=(ExpressionNode)func.getExpression().getCopy(kernel);
 				if (func.getFunctionVariables().length==list.size()){
 					for (int i=0;i<list.size();i++){
 						ExpressionValue ev=list.getListElement(i);
@@ -905,7 +907,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			}
 		}else if (operation==Operation.FUNCTION){
 			if (left instanceof GeoFunctionInterface){
-				Function func=((Functional)left).getFunction();
+				Function func=(Function)((Functional)left).getFunction();
 				ExpressionNode expr=func.getExpression().getCopy(kernel);
 				if (right instanceof ExpressionNode){
 					if (!equ.isFunctionDependent()){
@@ -3538,8 +3540,8 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
 				if (left instanceof FunctionalNVar && right instanceof MyList) {
-					FunctionNVar func = ((FunctionalNVar) left).getFunction();
-					ExpressionNode en = func.expression.getCopy(kernel);
+					FunctionNVarInterface func = ((FunctionalNVar) left).getFunction();
+					ExpressionNode en = (ExpressionNode)func.getExpression().getCopy(kernel);
 					for (int i = 0; i < func.getVarNumber()
 							&& i < ((MyList) right).size(); i++) {
 						en.replace(func.getFunctionVariables()[i],

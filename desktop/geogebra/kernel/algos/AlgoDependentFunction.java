@@ -172,7 +172,7 @@ public class AlgoDependentFunction extends AlgoElement {
                     	((GeoElement)leftValue).isGeoFunctionConditional()) 
                     		return node;
                 
-                	Function fun = ((Functional) leftValue).getFunction();
+                	Function fun = (Function)((Functional) leftValue).getFunction();
                 	FunctionVariable x = fun.getFunctionVariable();
                 	//  don't destroy the function
                 	ExpressionNode funcExpression = fun.getExpression().getCopy(fun.getKernel());
@@ -189,7 +189,7 @@ public class AlgoDependentFunction extends AlgoElement {
                     // STANDARD case
                     else {
                     	int order = (int) Math.round(((NumberValue)node.getRight()).getDouble());                        
-                    	return ((Functional) leftValue).getGeoDerivative(order);	
+                    	return (GeoFunction)((Functional) leftValue).getGeoDerivative(order);	
                     }
                 
                 // remove spreadsheet $ references, i.e. $A1 -> A1 

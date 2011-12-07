@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
+import geogebra.common.kernel.arithmetic.IneqTreeInterface;
+
 /**
  * Interface for GeoFunction and GeoFunctionNVar
  * 
@@ -27,11 +30,11 @@ public interface FunctionalNVar {
 	/**
 	 * @return function
 	 */
-	public FunctionNVar getFunction();
+	public FunctionNVarInterface getFunction();
 	/**
 	 * @return list of inequalities
 	 */
-	public IneqTree getIneqs();
+	public IneqTreeInterface getIneqs();
 	
 	/**
 	 * Returns true iff the function is boolean

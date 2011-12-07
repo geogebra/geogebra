@@ -1,5 +1,6 @@
 package geogebra.kernel.arithmetic;
 
+import geogebra.common.kernel.arithmetic.IneqTreeInterface;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.kernel.geos.GeoPoint;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  * @author Zbynek Konecny
  * 
  */
-public class IneqTree {
+public class IneqTree implements IneqTreeInterface{
 	IneqTree left;
 	IneqTree right;
 	Inequality ineq;

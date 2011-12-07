@@ -15,6 +15,7 @@ package geogebra.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionNVarInterface;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -41,7 +42,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter + mathieu
  */
 public class FunctionNVar extends ValidExpression implements ReplaceableValue,
-		FunctionalNVar {
+		FunctionalNVar, FunctionNVarInterface {
 
 	/** function expression */
 	protected ExpressionNode expression;
@@ -709,7 +710,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			return initIneqs(leftTree, functional, tree,!negate);
 		}else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar)leftTree.getLeft();
-			IneqTree otherTree = nv.getIneqs();
+			IneqTree otherTree = (IneqTree)nv.getIneqs();
 			if(otherTree == null || otherTree.getSize()==0){
 				return false;
 			}

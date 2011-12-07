@@ -46,12 +46,12 @@ public class DrawInequality extends Drawable {
 		this.function = function;
 		operation = function.getIneqs().getOperation();
 		if (function.getIneqs().getLeft() != null)
-			left = new DrawInequality(function.getIneqs().getLeft(), view, geo);
+			left = new DrawInequality((IneqTree) function.getIneqs().getLeft(), view, geo);
 		if (function.getIneqs().getRight() != null)
-			right = new DrawInequality(function.getIneqs().getRight(), view,
+			right = new DrawInequality((IneqTree) function.getIneqs().getRight(), view,
 					geo);
-		if (function.getIneqs().getIneq() != null)
-			ineq = function.getIneqs().getIneq();
+		if (((IneqTree) function.getIneqs()).getIneq() != null)
+			ineq = ((IneqTree) function.getIneqs()).getIneq();
 		update();
 
 	}
@@ -74,7 +74,7 @@ public class DrawInequality extends Drawable {
 		labelVisible = geo.isLabelVisible();
 		
 		// init gp
-		updateRecursive(function.getIneqs());
+		updateRecursive((IneqTree) function.getIneqs());
 		labelDesc = geo.getLabelDescription();
 		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
 				&& !"y".equals(((GeoFunction) geo).getVarString())) {

@@ -243,7 +243,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				addAllFunctionalDescendents(p, set, algos);
 			}
 			if (in[i] instanceof FunctionalNVar){
-				set.add(((FunctionalNVar)in[i]).getFunction());
+				set.add((FunctionNVar)((FunctionalNVar)in[i]).getFunction());
 			}
 		}
 	}
