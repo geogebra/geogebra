@@ -22,12 +22,9 @@ import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.LowerCaseDictionary;
@@ -47,7 +44,6 @@ import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.io.MyXMLHandler;
 import geogebra.io.MyXMLio;
 import geogebra.io.layout.DockPanelData;
@@ -116,9 +112,7 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -154,9 +148,6 @@ import javax.swing.WindowConstants;
 public class Application extends AbstractApplication implements
 		KeyEventDispatcher {
 
-	// disabled parts
-	private static final boolean PRINT_DEBUG_MESSAGES = true;
-
 	// license file
 	public static final String LICENSE_FILE = "/geogebra/gui/_license.txt";
 
@@ -181,19 +172,23 @@ public class Application extends AbstractApplication implements
 	// supported GUI languages (from properties files)
 	public static ArrayList<Locale> supportedLocales = new ArrayList<Locale>();
 	static {
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("sq")); // Albanian
+		}
 
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ar")); // Arabic
+		}
 		supportedLocales.add(new Locale("eu")); // Basque
 		supportedLocales.add(new Locale("bs")); // Bosnian
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("bg")); // Bulgarian
+		}
 		supportedLocales.add(new Locale("ca")); // Catalan
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("zh", "CN")); // Chinese
-															// (Simplified)
+		}
+		// (Simplified)
 		supportedLocales.add(new Locale("zh", "TW")); // Chinese (Traditional)
 		supportedLocales.add(new Locale("hr")); // Croatian
 		supportedLocales.add(new Locale("cs")); // Czech
@@ -212,26 +207,32 @@ public class Application extends AbstractApplication implements
 		supportedLocales.add(new Locale("el")); // Greek
 		// supportedLocales.add(new Locale("gu")); // Gujarati
 		supportedLocales.add(new Locale("iw")); // Hebrew
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("hi")); // Hindi
+		}
 		supportedLocales.add(new Locale("hu")); // Hungarian
 		supportedLocales.add(new Locale("is")); // Icelandic
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("in")); // Indonesian
+		}
 		supportedLocales.add(new Locale("it")); // Italian
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ja")); // Japanese
+		}
 		supportedLocales.add(new Locale("kk")); // Kazakh
 		supportedLocales.add(new Locale("ko")); // Korean
 		supportedLocales.add(new Locale("lt")); // Lithuanian
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ml")); // Malayalam
+		}
 		supportedLocales.add(new Locale("mk")); // Macedonian
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("mr")); // Marathi
+		}
 		supportedLocales.add(new Locale("ms")); // Malay
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ne")); // Nepalese
+		}
 		supportedLocales.add(new Locale("no", "NO")); // Norwegian (Bokmal)
 		supportedLocales.add(new Locale("no", "NO", "NY")); // Norwegian(Nynorsk)
 		// supportedLocales.add(new Locale("oc")); // Occitan
@@ -240,12 +241,14 @@ public class Application extends AbstractApplication implements
 		supportedLocales.add(new Locale("pt")); // Portugese (Brazil)
 		supportedLocales.add(new Locale("pt", "PT")); // Portuguese (Portugal)
 		// supportedLocales.add(new Locale("pa")); // Punjabi
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ro")); // Romanian
+		}
 		supportedLocales.add(new Locale("ru")); // Russian
 		supportedLocales.add(new Locale("sr")); // Serbian
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("si")); // Sinhala (Sri Lanka)
+		}
 
 		supportedLocales.add(new Locale("sk")); // Slovakian
 		supportedLocales.add(new Locale("sl")); // Slovenian
@@ -255,22 +258,26 @@ public class Application extends AbstractApplication implements
 		supportedLocales.add(new Locale("ta")); // Tamil
 
 		// supportedLocales.add(new Locale("te")); // Telugu
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("th")); // Thai
+		}
 
 		supportedLocales.add(new Locale("tr")); // Turkish
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("uk")); // Ukrainian
+		}
 		// supportedLocales.add(new Locale("ur")); // Urdu
 		supportedLocales.add(new Locale("vi")); // Vietnamese
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("cy")); // Welsh
+		}
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ia")); // Interlingua
 		}
 
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ji")); // Yiddish
+		}
 	}
 
 	// specialLanguageNames: Java does not show an English name for all
@@ -408,14 +415,13 @@ public class Application extends AbstractApplication implements
 	protected File currentPath, currentImagePath, currentFile = null;
 
 	// page margin in cm
-	public static final double PAGE_MARGIN_X = 1.8 * 72 / 2.54;
-	public static final double PAGE_MARGIN_Y = 1.8 * 72 / 2.54;
+	public static final double PAGE_MARGIN_X = (1.8 * 72) / 2.54;
+	public static final double PAGE_MARGIN_Y = (1.8 * 72) / 2.54;
 
 	private static final String RB_MENU = "/geogebra/properties/menu";
 	private static final String RB_COMMAND = "/geogebra/properties/command";
 	private static final String RB_ERROR = "/geogebra/properties/error";
 	private static final String RB_PLAIN = "/geogebra/properties/plain";
-	private static final String RB_WIKI = "/geogebra/properties/wiki";
 	private static final String RB_SYMBOL = "/geogebra/properties/symbols";
 	public static final String RB_JAVA_UI = "/geogebra/properties/javaui";
 	public static final String RB_COLORS = "/geogebra/properties/colors";
@@ -440,7 +446,7 @@ public class Application extends AbstractApplication implements
 
 	private JFrame frame;
 	private static AppletImplementation appletImpl;
-	private FontManager fontManager;
+	private final FontManager fontManager;
 
 	protected GuiManager guiManager;
 	protected Settings settings;
@@ -452,7 +458,7 @@ public class Application extends AbstractApplication implements
 											// running in Frame
 
 	protected Kernel kernel;
-	private MyXMLio myXMLio;
+	private final MyXMLio myXMLio;
 
 	protected EuclidianView euclidianView;
 	protected EuclidianController euclidianController;
@@ -460,7 +466,9 @@ public class Application extends AbstractApplication implements
 	private GlobalKeyDispatcher globalKeyDispatcher;
 
 	// For language specific settings
-	private Locale currentLocale, englishLocale = null, tooltipLocale = null;
+	private Locale currentLocale;
+
+	private Locale tooltipLocale = null;
 	private ResourceBundle rbmenu, rbmenuTT, rbcommand, rbcommandTT,
 			rbcommandEnglish, rbcommandOld, rbcommandScripting, rberror,
 			rbcolors, rbplain, rbplainTT, rbmenuEnglish, rbsymbol, rbsettings;
@@ -494,7 +502,7 @@ public class Application extends AbstractApplication implements
 	private boolean showToolBarTop = true;
 	protected boolean showMenuBar = true;
 	protected boolean showConsProtNavigation = false;
-	private boolean[] showAxes = { true, true };
+	private final boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
 	private boolean antialiasing = true;
 	private boolean printScaleString = false;
@@ -524,7 +532,7 @@ public class Application extends AbstractApplication implements
 
 	protected JPanel centerPanel, topPanel, bottomPanel;
 
-	private ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
+	private final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 
 	private ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
 
@@ -540,8 +548,9 @@ public class Application extends AbstractApplication implements
 	private DockBar dockBar;
 
 	public void openDockBar() {
-		if (dockBar != null)
+		if (dockBar != null) {
 			dockBar.openDockBar();
+		}
 	}
 
 	public Application(CommandLineArguments args, JFrame frame,
@@ -562,8 +571,9 @@ public class Application extends AbstractApplication implements
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
 		Application.dbg = new DebugPrinterDesktop();
-		if (args != null)
+		if (args != null) {
 			handleHelpVersionArgs(args);
+		}
 
 		isApplet = appletImpl != null;
 
@@ -585,8 +595,9 @@ public class Application extends AbstractApplication implements
 		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
-		if (!isApplet && runningFromJar)
+		if (!isApplet && runningFromJar) {
 			setUpLogging();
+		}
 
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
@@ -628,8 +639,9 @@ public class Application extends AbstractApplication implements
 		// we don't want to redefine the toolbar string from the file.
 		boolean ggtloading = isLoadingTool(args);
 		if (ggtloading) {
-			if (!isApplet)
+			if (!isApplet) {
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
+			}
 		}
 
 		// init default preferences if necessary
@@ -649,7 +661,7 @@ public class Application extends AbstractApplication implements
 			initGuiManager();
 
 			// set frame
-			if (!isApplet && frame != null) {
+			if (!isApplet && (frame != null)) {
 				setFrame(frame);
 			}
 		}
@@ -660,11 +672,12 @@ public class Application extends AbstractApplication implements
 			currentImagePath = GeoGebraPreferences.getPref()
 					.getDefaultImagePath();
 
-			if (!fileLoaded && !ggtloading)
+			if (!fileLoaded && !ggtloading) {
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
+			}
 		}
 
-		if (isUsingFullGui() && tmpPerspectives != null && !ggtloading) {
+		if (isUsingFullGui() && (tmpPerspectives != null) && !ggtloading) {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
 		}
 
@@ -680,16 +693,19 @@ public class Application extends AbstractApplication implements
 				.addKeyEventDispatcher(this);
 
 		// init plugin manager for applications
-		if (!isApplet)
+		if (!isApplet) {
 			pluginmanager = getPluginManager();
+		}
 
-		if (!isApplet())
+		if (!isApplet()) {
 			getScriptManager().ggbOnInit();
+		}
 
 		isSaved = true;
 
-		if (CASVersionString == "") // CAS might've been initialized already
+		if (CASVersionString == "") {
 			CASVersionString = getPlain("CASInitializing");
+		}
 	}
 
 	private void handleHelpVersionArgs(CommandLineArguments args) {
@@ -751,7 +767,8 @@ public class Application extends AbstractApplication implements
 
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
-		return new EuclidianView(euclidianController, showAxes, showGrid);
+		return new EuclidianView(euclidianController, showAxes, showGrid,
+				getSettings().getEuclidian(1));
 	}
 
 	/**
@@ -767,6 +784,7 @@ public class Application extends AbstractApplication implements
 	 * @return True if the whole GUI is available, false if just the euclidian
 	 *         view is displayed.
 	 */
+	@Override
 	final public synchronized boolean isUsingFullGui() {
 		return useFullGui;
 	}
@@ -801,10 +819,11 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public JApplet getJApplet() {
-		if (appletImpl == null)
+		if (appletImpl == null) {
 			return null;
-		else
+		} else {
 			return appletImpl.getJApplet();
+		}
 	}
 
 	final public Font getBoldFont() {
@@ -906,8 +925,9 @@ public class Application extends AbstractApplication implements
 
 		kernel.resetLibraryJavaScript();
 
-		if (scriptManager != null)
+		if (scriptManager != null) {
 			scriptManager.resetListeners();
+		}
 
 		resetUniqueId();
 	}
@@ -916,6 +936,7 @@ public class Application extends AbstractApplication implements
 	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 */
+	@Override
 	public int getLabelingStyle() {
 		return labelingStyle;
 	}
@@ -951,27 +972,30 @@ public class Application extends AbstractApplication implements
 	 * Updates the GUI of the framd and its size.
 	 */
 	public void updateContentPaneAndSize() {
-		if (initing)
+		if (initing) {
 			return;
+		}
 
 		updateContentPane(false);
-		if (frame != null && frame.isShowing()) {
+		if ((frame != null) && frame.isShowing()) {
 			getGuiManager().updateFrameSize();
 		}
 		updateComponentTreeUI();
 	}
 
 	private void updateContentPane(boolean updateComponentTreeUI) {
-		if (initing)
+		if (initing) {
 			return;
+		}
 
 		Container cp;
-		if (isApplet)
+		if (isApplet) {
 			cp = appletImpl.getJApplet().getContentPane();
-		else if (frame != null)
+		} else if (frame != null) {
 			cp = frame.getContentPane();
-		else
+		} else {
 			cp = (Container) mainComp;
+		}
 
 		addMacroCommands();
 		cp.removeAll();
@@ -988,8 +1012,9 @@ public class Application extends AbstractApplication implements
 
 		// reset mode and focus
 		setMoveMode();
-		if (mainComp.isShowing())
+		if (mainComp.isShowing()) {
 			euclidianView.requestFocusInWindow();
+		}
 
 		System.gc();
 	}
@@ -1046,8 +1071,9 @@ public class Application extends AbstractApplication implements
 				applicationSplitPane.setDividerSize(0);
 			}
 
-			if (dockBar == null)
+			if (dockBar == null) {
 				dockBar = new DockBar(this);
+			}
 
 			JPanel subPanel = new JPanel(new BorderLayout());
 
@@ -1063,7 +1089,7 @@ public class Application extends AbstractApplication implements
 
 			// Menubar; if the main component is a JPanel, we need to add the
 			// menubar manually to the north
-			if (showMenuBar() && mainComp instanceof JPanel) {
+			if (showMenuBar() && (mainComp instanceof JPanel)) {
 				JPanel menuBarPanel = new JPanel(new BorderLayout());
 				menuBarPanel.add(getGuiManager().getMenuBar(),
 						BorderLayout.NORTH);
@@ -1090,11 +1116,12 @@ public class Application extends AbstractApplication implements
 		if (isVisible) {
 			applicationSplitPane.setRightComponent(getGuiManager()
 					.getInputHelpPanel());
-			if (applicationSplitPane.getLastDividerLocation() <= 0)
+			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane
 						.setLastDividerLocation(applicationSplitPane.getWidth()
 								- getGuiManager().getInputHelpPanel()
 										.getMinimumSize().width);
+			}
 			applicationSplitPane.setDividerLocation(applicationSplitPane
 					.getLastDividerLocation());
 			applicationSplitPane.setDividerSize(8);
@@ -1108,8 +1135,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void updateDockBar() {
-		if (dockBar != null)
+		if (dockBar != null) {
 			dockBar.updateViewButtons();
+		}
 	}
 
 	/**
@@ -1118,8 +1146,9 @@ public class Application extends AbstractApplication implements
 	 * visibility or arrangement of these components is changed.
 	 */
 	public void updateTopBottomPanels() {
-		if (topPanel == null || bottomPanel == null)
+		if ((topPanel == null) || (bottomPanel == null)) {
 			return;
+		}
 
 		topPanel.removeAll();
 		bottomPanel.removeAll();
@@ -1223,8 +1252,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void updateCenterPanel(boolean updateUI) {
-		if (centerPanel == null)
+		if (centerPanel == null) {
 			return;
+		}
 
 		centerPanel.removeAll();
 
@@ -1257,8 +1287,9 @@ public class Application extends AbstractApplication implements
 	 */
 	private void handleOptionArgs(CommandLineArguments args) {
 		// args.containsArg("help");
-		if (args == null)
+		if (args == null) {
 			return;
+		}
 
 		String language = args.getStringValue("language");
 		if (language.length() > 0) {
@@ -1329,8 +1360,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	private void handleOptionArgsEarly(CommandLineArguments args) {
-		if (args == null)
+		if (args == null) {
 			return;
+		}
 		if (args.containsArg("regressionFile")) {
 			this.regressionFileName = args.getStringValue("regressionFile");
 		}
@@ -1343,8 +1375,9 @@ public class Application extends AbstractApplication implements
 	 * @return true if file is loading and is a ggt file
 	 */
 	private boolean isLoadingTool(CommandLineArguments args) {
-		if (args == null || args.getNoOfFiles() == 0)
+		if ((args == null) || (args.getNoOfFiles() == 0)) {
 			return false;
+		}
 		String fileArgument = args.getStringValue("file0");
 		String lowerCase = fileArgument.toLowerCase(Locale.US);
 		return lowerCase.endsWith(FILE_EXT_GEOGEBRA_TOOL);
@@ -1356,8 +1389,9 @@ public class Application extends AbstractApplication implements
 	 * @return true if a file was loaded successfully
 	 */
 	private boolean handleFileArg(CommandLineArguments args) {
-		if (args == null || args.getNoOfFiles() == 0)
+		if ((args == null) || (args.getNoOfFiles() == 0)) {
 			return false;
+		}
 
 		boolean successRet = true;
 
@@ -1431,6 +1465,7 @@ public class Application extends AbstractApplication implements
 		return successRet;
 	}
 
+	@Override
 	final public Kernel getKernel() {
 		return kernel;
 	}
@@ -1461,14 +1496,16 @@ public class Application extends AbstractApplication implements
 			appletImpl.reset();
 		} else if (currentFile != null) {
 			getGuiManager().loadFile(currentFile, false);
-		} else
+		} else {
 			clearConstruction();
+		}
 	}
 
 	public void refreshViews() {
 		euclidianView.updateBackground();
-		if (hasEuclidianView2())
+		if (hasEuclidianView2()) {
 			getEuclidianView2().updateBackground();
+		}
 		kernel.notifyRepaint();
 	}
 
@@ -1486,9 +1523,10 @@ public class Application extends AbstractApplication implements
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		WindowListener[] wl = frame.getWindowListeners();
-		if (wl == null || wl.length == 0) {
+		if ((wl == null) || (wl.length == 0)) {
 			// window closing listener
 			WindowAdapter windowListener = new WindowAdapter() {
+				@Override
 				public void windowClosing(WindowEvent event) {
 					exit();
 				}
@@ -1497,6 +1535,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public boolean isApplet() {
 		return isApplet;
 	}
@@ -1506,7 +1545,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	public synchronized JFrame getFrame() {
-		if (frame == null && getGuiManager() != null) {
+		if ((frame == null) && (getGuiManager() != null)) {
 			frame = getGuiManager().createFrame();
 		}
 
@@ -1566,7 +1605,7 @@ public class Application extends AbstractApplication implements
 		boolean justEuclidianVisible = false;
 
 		for (DockPanelData panel : docPerspective.getDockPanelData()) {
-			if (panel.getViewId() == Application.VIEW_EUCLIDIAN
+			if ((panel.getViewId() == Application.VIEW_EUCLIDIAN)
 					&& panel.isVisible()) {
 				justEuclidianVisible = true;
 			} else if (panel.isVisible()) {
@@ -1578,13 +1617,16 @@ public class Application extends AbstractApplication implements
 		return justEuclidianVisible;
 	}
 
+	@Override
 	public EuclidianView getEuclidianView() {
 		return euclidianView;
 	}
 
+	@Override
 	public AlgebraView getAlgebraView() {
-		if (guiManager == null)
+		if (guiManager == null) {
 			return null;
+		}
 		return guiManager.getAlgebraView();
 	}
 
@@ -1593,16 +1635,17 @@ public class Application extends AbstractApplication implements
 	}
 
 	public boolean hasEuclidianView2() {
-		return guiManager != null && getGuiManager().hasEuclidianView2();
+		return (guiManager != null) && getGuiManager().hasEuclidianView2();
 	}
 
 	public boolean hasEuclidianView2EitherShowingOrNot() {
-		return guiManager != null
+		return (guiManager != null)
 				&& getGuiManager().hasEuclidianView2EitherShowingOrNot();
 	}
 
+	@Override
 	public boolean isShowingEuclidianView2() {
-		return guiManager != null && getGuiManager().hasEuclidianView2()
+		return (guiManager != null) && getGuiManager().hasEuclidianView2()
 				&& getGuiManager().getEuclidianView2().isShowing();
 	}
 
@@ -1610,9 +1653,11 @@ public class Application extends AbstractApplication implements
 		getEuclidianView().getXML(sb, asPreference);
 	}
 
+	@Override
 	public EuclidianViewInterface getActiveEuclidianView() {
-		if (getGuiManager() == null)
+		if (getGuiManager() == null) {
 			return getEuclidianView();
+		}
 		return getGuiManager().getActiveEuclidianView();
 	}
 
@@ -1638,8 +1683,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		if (currentSelectionListener != null)
+		if (currentSelectionListener != null) {
 			currentSelectionListener.geoElementSelected(geo, addToSelection);
+		}
 	}
 
 	private PropertiesView propertiesView;
@@ -1654,10 +1700,11 @@ public class Application extends AbstractApplication implements
 	 */
 	public void setSelectionListenerMode(GeoElementSelectionListener sl) {
 		currentSelectionListener = sl;
-		if (sl != null)
+		if (sl != null) {
 			setMode(EuclidianConstants.MODE_SELECTION_LISTENER);
-		else
+		} else {
 			setMoveMode();
+		}
 	}
 
 	public GeoElementSelectionListener getCurrentSelectionListener() {
@@ -1747,6 +1794,7 @@ public class Application extends AbstractApplication implements
 		return imageManager.getInternalImage("/main/nav_pause.png");
 	}
 
+	@Override
 	public BufferedImage getExternalImage(String filename) {
 		return ImageManager.getExternalImage(filename);
 	}
@@ -1820,11 +1868,14 @@ public class Application extends AbstractApplication implements
 	 * used to force properties to be read from secondary (tooltip) language if
 	 * one has been selected
 	 */
+	@Override
 	public void setTooltipFlag() {
-		if (tooltipLocale != null)
+		if (tooltipLocale != null) {
 			tooltipFlag = true;
+		}
 	}
 
+	@Override
 	public void clearTooltipFlag() {
 		tooltipFlag = false;
 	}
@@ -1834,22 +1885,24 @@ public class Application extends AbstractApplication implements
 	 */
 	public void setTooltipLanguage(Locale locale) {
 
-		boolean updateNeeded = rbplainTT != null || rbmenuTT != null;
+		boolean updateNeeded = (rbplainTT != null) || (rbmenuTT != null);
 
 		rbplainTT = null;
 		rbmenuTT = null;
 
-		if (locale == null)
+		if (locale == null) {
 			tooltipLocale = null;
-		else if (currentLocale.toString().equals(locale.toString()))
+		} else if (currentLocale.toString().equals(locale.toString())) {
 			tooltipLocale = null;
-		else
+		} else {
 			tooltipLocale = locale;
+		}
 
-		updateNeeded = updateNeeded || tooltipLocale != null;
+		updateNeeded = updateNeeded || (tooltipLocale != null);
 
-		if (updateNeeded)
+		if (updateNeeded) {
 			setLabels(); // update eg Tooltips for Toolbar
+		}
 
 	}
 
@@ -1859,12 +1912,14 @@ public class Application extends AbstractApplication implements
 
 	public int getTooltipTimeout() {
 		int dmd = ToolTipManager.sharedInstance().getDismissDelay();
-		if (dmd <= 0 || dmd == Integer.MAX_VALUE)
+		if ((dmd <= 0) || (dmd == Integer.MAX_VALUE)) {
 			return -1;
+		}
 		dmd /= 1000;
-		for (int i = 0; i < MyXMLHandler.tooltipTimeouts.length - 1; i++) {
-			if (Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]) >= dmd)
+		for (int i = 0; i < (MyXMLHandler.tooltipTimeouts.length - 1); i++) {
+			if (Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]) >= dmd) {
 				return Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]);
+			}
 		}
 		return Integer
 				.parseInt(MyXMLHandler.tooltipTimeouts[MyXMLHandler.tooltipTimeouts.length - 2]);
@@ -1875,9 +1930,10 @@ public class Application extends AbstractApplication implements
 	 */
 	public void setLanguage(Locale locale) {
 
-		if (locale == null
-				|| currentLocale.toString().equals(locale.toString()))
+		if ((locale == null)
+				|| currentLocale.toString().equals(locale.toString())) {
 			return;
+		}
 
 		if (!initing) {
 			setMoveMode();
@@ -1921,8 +1977,9 @@ public class Application extends AbstractApplication implements
 	 */
 	public boolean isZeroPlural(Locale locale) {
 		String lang = locale.getLanguage();
-		if (lang.startsWith("fr"))
+		if (lang.startsWith("fr")) {
 			return false;
+		}
 		return true;
 	}
 
@@ -1968,6 +2025,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return If localized labels are used for certain languages.
 	 */
+	@Override
 	public boolean isUsingLocalizedLabels() {
 		return useLocalizedLabels;
 	}
@@ -1982,6 +2040,7 @@ public class Application extends AbstractApplication implements
 	// For Hebrew and Arabic. Guy Hed, 25.8.2008
 	private boolean rightToLeftReadingOrder = false;
 
+	@Override
 	final public boolean isRightToLeftReadingOrder() {
 		return rightToLeftReadingOrder;
 	}
@@ -1989,9 +2048,11 @@ public class Application extends AbstractApplication implements
 	// For Persian and Arabic.
 	private boolean rightToLeftDigits = false;
 
+	@Override
 	final public boolean isRightToLeftDigits() {
-		if (!Kernel.internationalizeDigits)
+		if (!Kernel.internationalizeDigits) {
 			return false;
+		}
 		return rightToLeftDigits;
 	}
 
@@ -2001,6 +2062,7 @@ public class Application extends AbstractApplication implements
 	private boolean reverseNameDescription = false;
 	private boolean isAutoCompletePossible = true;
 
+	@Override
 	final public boolean isReverseNameDescriptionLanguage() {
 		// for Basque and Hungarian
 		return reverseNameDescription;
@@ -2013,6 +2075,7 @@ public class Application extends AbstractApplication implements
 	 * 
 	 * http://en.wikipedia.org/wiki/Ordinal_indicator
 	 */
+	@Override
 	public String getOrdinalNumber(int n) {
 		String lang = getLocale().getLanguage();
 
@@ -2021,13 +2084,15 @@ public class Application extends AbstractApplication implements
 				|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
 				|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
 				|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
-				|| "vi".equals(lang) || "zh".equals(lang))
+				|| "vi".equals(lang) || "zh".equals(lang)) {
 			return n + "";
+		}
 
-		if (sbOrdinal == null)
+		if (sbOrdinal == null) {
 			sbOrdinal = new StringBuilder();
-		else
+		} else {
 			sbOrdinal.setLength(0);
+		}
 
 		// prefixes
 		if ("in".equals(lang)) {
@@ -2068,16 +2133,18 @@ public class Application extends AbstractApplication implements
 		} else if ("ru".equals(lang) || "uk".equals(lang)) {
 			sbOrdinal.append("-\u0433\u043e");
 		} else if ("fr".equals(lang)) {
-			if (n == 1)
+			if (n == 1) {
 				sbOrdinal.append("er"); // could also be "re" for feminine...
-			else
+			} else {
 				sbOrdinal.append("e"); // could also be "es" for plural...
+			}
 		} else if ("sv".equals(lang)) {
 			int unitsDigit = n % 10;
-			if (unitsDigit == 1 || unitsDigit == 2)
+			if ((unitsDigit == 1) || (unitsDigit == 2)) {
 				sbOrdinal.append(":a");
-			else
+			} else {
 				sbOrdinal.append(":e");
+			}
 		} else if ("en".equals(lang)) {
 
 			/*
@@ -2191,6 +2258,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	// Michael Borcherds 2008-02-23
+	@Override
 	public boolean languageIs(String lang) {
 		return getLocale().getLanguage().equals(lang);
 	}
@@ -2198,8 +2266,9 @@ public class Application extends AbstractApplication implements
 	StringBuilder testCharacters = new StringBuilder();
 
 	public void setLocale(Locale locale) {
-		if (locale == currentLocale)
+		if (locale == currentLocale) {
 			return;
+		}
 		Locale oldLocale = currentLocale;
 
 		// only allow special locales due to some weird server
@@ -2240,21 +2309,23 @@ public class Application extends AbstractApplication implements
 
 		if (country.length() > 0) {
 			for (int i = 0; i < size; i++) {
-				Locale loc = (Locale) supportedLocales.get(i);
+				Locale loc = supportedLocales.get(i);
 				if (country.equals(loc.getCountry())
-						&& variant.equals(loc.getVariant()))
+						&& variant.equals(loc.getVariant())) {
 					// found supported country locale
 					return loc;
+				}
 			}
 		}
 
 		// try to find language
 		String language = locale.getLanguage();
 		for (int i = 0; i < size; i++) {
-			Locale loc = (Locale) supportedLocales.get(i);
-			if (language.equals(loc.getLanguage()))
+			Locale loc = supportedLocales.get(i);
+			if (language.equals(loc.getLanguage())) {
 				// found supported country locale
 				return loc;
+			}
 		}
 
 		// we didn't find a matching country or language,
@@ -2267,11 +2338,13 @@ public class Application extends AbstractApplication implements
 		return Locale.ENGLISH;
 	}
 
+	@Override
 	public ResourceBundleAdapter initAlgo2CommandBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
 	}
 
 	// Added for Intergeo File Format (Yves Kreis) -->
+	@Override
 	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
 	}
@@ -2279,19 +2352,25 @@ public class Application extends AbstractApplication implements
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	private void updateResourceBundles() {
-		if (rbmenu != null)
+		if (rbmenu != null) {
 			rbmenu = MyResourceBundle.createBundle(RB_MENU, currentLocale);
-		if (rberror != null)
+		}
+		if (rberror != null) {
 			rberror = MyResourceBundle.createBundle(RB_ERROR, currentLocale);
-		if (rbplain != null)
+		}
+		if (rbplain != null) {
 			rbplain = MyResourceBundle.createBundle(RB_PLAIN, currentLocale);
-		if (rbcommand != null)
+		}
+		if (rbcommand != null) {
 			rbcommand = MyResourceBundle
 					.createBundle(RB_COMMAND, currentLocale);
-		if (rbcolors != null)
+		}
+		if (rbcolors != null) {
 			rbcolors = MyResourceBundle.createBundle(RB_COLORS, currentLocale);
-		if (rbsymbol != null)
+		}
+		if (rbsymbol != null) {
 			rbsymbol = MyResourceBundle.createBundle(RB_SYMBOL, currentLocale);
+		}
 	}
 
 	/*
@@ -2314,13 +2393,15 @@ public class Application extends AbstractApplication implements
 	private void fillCommandDict() {
 		rbcommand = getCommandResourceBundle();
 
-		if (rbcommand == rbcommandOld)
+		if (rbcommand == rbcommandOld) {
 			return;
+		}
 		rbcommandOld = rbcommand;
 
 		// translation table for all command names in command.properties
-		if (translateCommandTable == null)
+		if (translateCommandTable == null) {
 			translateCommandTable = new Hashtable<String, String>();
+		}
 
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
@@ -2344,20 +2425,22 @@ public class Application extends AbstractApplication implements
 				.getPublicCommandSubSets();
 		if (subCommandDict == null) {
 			subCommandDict = new LowerCaseDictionary[publicSubCommandNames.length];
-			for (int i = 0; i < subCommandDict.length; i++)
+			for (int i = 0; i < subCommandDict.length; i++) {
 				subCommandDict[i] = new LowerCaseDictionary();
+			}
 		}
-		for (int i = 0; i < subCommandDict.length; i++)
+		for (int i = 0; i < subCommandDict.length; i++) {
 			subCommandDict[i].clear();
-		// =====================================
+			// =====================================
+		}
 
 		while (e.hasMoreElements()) {
-			String internal = (String) e.nextElement();
+			String internal = e.nextElement();
 			// Application.debug(internal);
 			if (!internal.endsWith(syntaxStr) && !internal.endsWith(syntax3D)
 					&& !internal.endsWith(syntaxCAS)
 					&& !internal.equals("Command")) {
-				String local = rbcommand.getString((String) internal);
+				String local = rbcommand.getString(internal);
 				if (local != null) {
 					local = local.trim();
 					// case is ignored in translating local command names to
@@ -2365,13 +2448,15 @@ public class Application extends AbstractApplication implements
 					translateCommandTable.put(local.toLowerCase(), internal);
 
 					// only add public commands to the command dictionary
-					if (publicCommandNames.contains(internal))
+					if (publicCommandNames.contains(internal)) {
 						commandDict.addEntry(local);
+					}
 
 					// add public commands to the sub-command dictionaries
 					for (int i = 0; i < subCommandDict.length; i++) {
-						if (publicSubCommandNames[i].contains(internal))
+						if (publicSubCommandNames[i].contains(internal)) {
 							subCommandDict[i].addEntry(local);
+						}
 					}
 
 				}
@@ -2379,8 +2464,9 @@ public class Application extends AbstractApplication implements
 		}
 
 		// get CAS Commands
-		if (kernel.isGeoGebraCASready())
+		if (kernel.isGeoGebraCASready()) {
 			fillCasCommandDict();
+		}
 		addMacroCommands();
 	}
 
@@ -2389,18 +2475,20 @@ public class Application extends AbstractApplication implements
 	private String scriptingLanguage;
 
 	private void fillCommandDictScripting() {
-		if (scriptingLanguage == null
+		if ((scriptingLanguage == null)
 				|| scriptingLanguage.equals(oldScriptLanguage)
-				|| "null".equals(scriptingLanguage))
+				|| "null".equals(scriptingLanguage)) {
 			return;
+		}
 		oldScriptLanguage = scriptingLanguage;
 		rbcommandScripting = MyResourceBundle.createBundle(RB_COMMAND,
 				new Locale(scriptingLanguage));
 		debug(rbcommandScripting.getLocale());
 
 		// translation table for all command names in command.properties
-		if (translateCommandTableScripting == null)
+		if (translateCommandTableScripting == null) {
 			translateCommandTableScripting = new Hashtable<String, String>();
+		}
 
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
@@ -2410,12 +2498,12 @@ public class Application extends AbstractApplication implements
 		Enumeration<String> e = rbcommandScripting.getKeys();
 
 		while (e.hasMoreElements()) {
-			String internal = (String) e.nextElement();
+			String internal = e.nextElement();
 			// Application.debug(internal);
 			if (!internal.endsWith(syntaxStr) && !internal.endsWith(syntax3D)
 					&& !internal.endsWith(syntaxCAS)
 					&& !internal.equals("Command")) {
-				String local = rbcommandScripting.getString((String) internal);
+				String local = rbcommandScripting.getString(internal);
 				if (local != null) {
 					local = local.trim();
 					// case is ignored in translating local command names to
@@ -2433,6 +2521,7 @@ public class Application extends AbstractApplication implements
 	 * @param scriptingLanguage
 	 *            the scriptingLanguage to set
 	 */
+	@Override
 	public void setScriptingLanguage(String scriptingLanguage) {
 		this.scriptingLanguage = scriptingLanguage;
 	}
@@ -2440,32 +2529,37 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return the scriptingLanguage
 	 */
+	@Override
 	public String getScriptingLanguage() {
 		// in some files we stored language="null" accidentally
-		if ("null".equals(scriptingLanguage))
+		if ("null".equals(scriptingLanguage)) {
 			scriptingLanguage = null;
+		}
 		return scriptingLanguage;
 	}
 
 	private void addMacroCommands() {
-		if (commandDict == null || kernel == null || !kernel.hasMacros())
+		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
 			return;
+		}
 
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
-			String cmdName = ((Macro) macros.get(i)).getCommandName();
-			if (!commandDict.containsValue(cmdName))
+			String cmdName = macros.get(i).getCommandName();
+			if (!commandDict.containsValue(cmdName)) {
 				commandDict.addEntry(cmdName);
+			}
 		}
 	}
 
 	public void removeMacroCommands() {
-		if (commandDict == null || kernel == null || !kernel.hasMacros())
+		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
 			return;
+		}
 
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
-			String cmdName = ((Macro) macros.get(i)).getCommandName();
+			String cmdName = macros.get(i).getCommandName();
 			commandDict.removeEntry(cmdName);
 		}
 	}
@@ -2480,10 +2574,12 @@ public class Application extends AbstractApplication implements
 
 	final public String getColor(String key) {
 
-		if (key == null)
+		if (key == null) {
 			return "";
+		}
 
-		if (key.length() == 5 && key.toLowerCase(Locale.US).startsWith("gray")) {
+		if ((key.length() == 5)
+				&& key.toLowerCase(Locale.US).startsWith("gray")) {
 			switch (key.charAt(4)) {
 			case '0':
 				return getColor("white");
@@ -2529,8 +2625,9 @@ public class Application extends AbstractApplication implements
 			while (enumer.hasMoreElements()) {
 				String key = enumer.nextElement();
 				if (str.equals(Util.removeSpaces(rbcolors.getString(key)
-						.toLowerCase(Locale.US))))
+						.toLowerCase(Locale.US)))) {
 					return key;
+				}
 			}
 
 			return str;
@@ -2542,10 +2639,12 @@ public class Application extends AbstractApplication implements
 	// used when a secondary language is being used for tooltips
 	private boolean tooltipFlag = false;
 
+	@Override
 	final public String getPlain(String key) {
 
-		if (tooltipFlag)
+		if (tooltipFlag) {
 			return getPlainTooltip(key);
+		}
 
 		if (rbplain == null) {
 			initPlainResourceBundle();
@@ -2560,8 +2659,9 @@ public class Application extends AbstractApplication implements
 
 	final public String getPlainTooltip(String key) {
 
-		if (tooltipLocale == null)
+		if (tooltipLocale == null) {
 			return getPlain(key);
+		}
 
 		if (rbplainTT == null) {
 			initPlainTTResourceBundle();
@@ -2586,10 +2686,11 @@ public class Application extends AbstractApplication implements
 		} catch (Exception e) {
 		}
 
-		if ("".equals(ret))
+		if ("".equals(ret)) {
 			return null;
-		else
+		} else {
 			return ret;
+		}
 	}
 
 	final public String getSymbolTooltip(int key) {
@@ -2604,10 +2705,11 @@ public class Application extends AbstractApplication implements
 		} catch (Exception e) {
 		}
 
-		if ("".equals(ret))
+		if ("".equals(ret)) {
 			return null;
-		else
+		} else {
 			return ret;
+		}
 	}
 
 	// final public String reverseGetPlain(String str) {
@@ -2634,8 +2736,9 @@ public class Application extends AbstractApplication implements
 
 	private void initPlainResourceBundle() {
 		rbplain = MyResourceBundle.createBundle(RB_PLAIN, currentLocale);
-		if (rbplain != null)
+		if (rbplain != null) {
 			kernel.updateLocalAxesNames();
+		}
 	}
 
 	private void initPlainTTResourceBundle() {
@@ -2652,6 +2755,7 @@ public class Application extends AbstractApplication implements
 
 	// Michael Borcherds 2008-03-25
 	// replace "%0" by arg0
+	@Override
 	final public String getPlain(String key, String arg0) {
 		String[] ss = { arg0 };
 		return getPlain(key, ss);
@@ -2659,6 +2763,7 @@ public class Application extends AbstractApplication implements
 
 	// Michael Borcherds 2008-03-25
 	// replace "%0" by arg0, "%1" by arg1
+	@Override
 	final public String getPlain(String key, String arg0, String arg1) {
 		String[] ss = { arg0, arg1 };
 		return getPlain(key, ss);
@@ -2666,6 +2771,7 @@ public class Application extends AbstractApplication implements
 
 	// Michael Borcherds 2008-03-30
 	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2
+	@Override
 	final public String getPlain(String key, String arg0, String arg1,
 			String arg2) {
 		String[] ss = { arg0, arg1, arg2 };
@@ -2674,6 +2780,7 @@ public class Application extends AbstractApplication implements
 
 	// Michael Borcherds 2008-03-30
 	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3
+	@Override
 	final public String getPlain(String key, String arg0, String arg1,
 			String arg2, String arg3) {
 		String[] ss = { arg0, arg1, arg2, arg3 };
@@ -2683,6 +2790,7 @@ public class Application extends AbstractApplication implements
 	// Michael Borcherds 2008-03-30
 	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3, "%4" by
 	// arg4
+	@Override
 	final public String getPlain(String key, String arg0, String arg1,
 			String arg2, String arg3, String arg4) {
 		String[] ss = { arg0, arg1, arg2, arg3, arg4 };
@@ -2702,12 +2810,13 @@ public class Application extends AbstractApplication implements
 				// get number after %
 				i++;
 				int pos = str.charAt(i) - '0';
-				if (pos >= 0 && pos < args.length)
+				if ((pos >= 0) && (pos < args.length)) {
 					// success
 					sbPlain.append(args[pos]);
-				else
+				} else {
 					// failed
 					sbPlain.append(ch);
+				}
 			} else {
 				sbPlain.append(ch);
 			}
@@ -2716,17 +2825,16 @@ public class Application extends AbstractApplication implements
 		return sbPlain.toString();
 	}
 
-	private StringBuilder sbPlain = new StringBuilder();
+	private final StringBuilder sbPlain = new StringBuilder();
 
 	private boolean showConstProtNavigationNeedsUpdate = false;
 
-	// TODO delete object isFileLoading ?
-	private boolean isFileLoading;
-
+	@Override
 	final public String getMenu(String key) {
 
-		if (tooltipFlag)
+		if (tooltipFlag) {
 			return getMenuTooltip(key);
+		}
 
 		if (rbmenu == null) {
 			rbmenu = MyResourceBundle.createBundle(RB_MENU, currentLocale);
@@ -2741,8 +2849,9 @@ public class Application extends AbstractApplication implements
 
 	final public String getMenuTooltip(String key) {
 
-		if (tooltipLocale == null)
+		if (tooltipLocale == null) {
 			return getMenu(key);
+		}
 
 		if (rbmenuTT == null) {
 			rbmenuTT = MyResourceBundle.createBundle(RB_MENU, tooltipLocale);
@@ -2755,6 +2864,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public String getError(String key) {
 		if (rberror == null) {
 			rberror = MyResourceBundle.createBundle(RB_ERROR, currentLocale);
@@ -2793,6 +2903,7 @@ public class Application extends AbstractApplication implements
 		return rbcommand.getKeys();
 	}
 
+	@Override
 	final public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
 		Enumeration<String> enume;
@@ -2803,8 +2914,9 @@ public class Application extends AbstractApplication implements
 			if (!s.endsWith("Syntax") && !s.endsWith(syntaxCAS)) {
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
-				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase()))
+				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
 					return s;
+				}
 			}
 		}
 		return null;
@@ -2822,12 +2934,14 @@ public class Application extends AbstractApplication implements
 				String s = enume.nextElement();
 
 				// check internal commands
-				if (s.toLowerCase(Locale.US).equals(key))
+				if (s.toLowerCase(Locale.US).equals(key)) {
 					return s;
+				}
 
 				// check localized commands
-				if (rbcommand.getString(s).toLowerCase(Locale.US).equals(key))
+				if (rbcommand.getString(s).toLowerCase(Locale.US).equals(key)) {
 					return s;
+				}
 			}
 
 			return null;
@@ -2836,10 +2950,12 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public String getCommand(String key) {
 
-		if (tooltipFlag)
+		if (tooltipFlag) {
 			return getCommandTooltip(key);
+		}
 
 		initTranslatedCommands();
 
@@ -2852,11 +2968,13 @@ public class Application extends AbstractApplication implements
 
 	final public String getCommandTooltip(String key) {
 
-		if (tooltipLocale == null)
+		if (tooltipLocale == null) {
 			return getCommand(key);
-		if (rbcommandTT == null)
+		}
+		if (rbcommandTT == null) {
 			rbcommandTT = MyResourceBundle.createBundle(RB_COMMAND,
 					tooltipLocale);
+		}
 
 		try {
 			return rbcommandTT.getString(key);
@@ -2867,9 +2985,10 @@ public class Application extends AbstractApplication implements
 
 	final public String getEnglishCommand(String key) {
 
-		if (rbcommandEnglish == null)
+		if (rbcommandEnglish == null) {
 			rbcommandEnglish = MyResourceBundle.createBundle(RB_COMMAND,
 					Locale.ENGLISH);
+		}
 
 		try {
 			return rbcommandEnglish.getString(key);
@@ -2880,9 +2999,10 @@ public class Application extends AbstractApplication implements
 
 	final public String getEnglishMenu(String key) {
 
-		if (rbmenuEnglish == null)
+		if (rbmenuEnglish == null) {
 			rbmenuEnglish = MyResourceBundle.createBundle(RB_MENU,
 					Locale.ENGLISH);
+		}
 		try {
 			return rbmenuEnglish.getString(key);
 		} catch (Exception e) {
@@ -2901,8 +3021,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public String getSetting(String key) {
-		if (rbsettings == null)
+		if (rbsettings == null) {
 			rbsettings = MyResourceBundle.loadSingleBundleFile(RB_SETTINGS);
+		}
 
 		try {
 			return rbsettings.getString(key);
@@ -2919,24 +3040,29 @@ public class Application extends AbstractApplication implements
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
 	 */
+	@Override
 	final public String translateCommand(String localname) {
-		if (localname == null)
+		if (localname == null) {
 			return null;
-		if (translateCommandTable == null)
+		}
+		if (translateCommandTable == null) {
 			return localname;
+		}
 
 		// note: lookup lower case of command name!
 		Object value = translateCommandTable.get(localname.toLowerCase());
 		if (value == null) {
 			fillCommandDictScripting();
-			if (translateCommandTableScripting != null)
+			if (translateCommandTableScripting != null) {
 				value = translateCommandTableScripting.get(localname
 						.toLowerCase());
+			}
 		}
-		if (value == null)
+		if (value == null) {
 			return localname;
-		else
+		} else {
 			return (String) value;
+		}
 	}
 
 	public void showRelation(GeoElement a, GeoElement b) {
@@ -2956,6 +3082,7 @@ public class Application extends AbstractApplication implements
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
+	@Override
 	public void showError(String key) {
 		showErrorDialog(getError(key));
 	}
@@ -2968,8 +3095,9 @@ public class Application extends AbstractApplication implements
 		String command = e.getcommandName();
 
 		// make sure splash screen not showing (will be in front)
-		if (GeoGebra.splashFrame != null)
+		if (GeoGebra.splashFrame != null) {
 			GeoGebra.splashFrame.setVisible(false);
+		}
 
 		if (command == null) {
 			showErrorDialog(e.getLocalizedMessage());
@@ -2988,18 +3116,21 @@ public class Application extends AbstractApplication implements
 				options, // the titles of buttons
 				options[0]); // default button title
 
-		if (n == 1)
+		if (n == 1) {
 			getGuiManager().openCommandHelp(command);
+		}
 
 	}
 
 	public void showErrorDialog(final String msg) {
-		if (!isErrorDialogsActive)
+		if (!isErrorDialogsActive) {
 			return;
+		}
 
 		// make sure splash screen not showing (will be in front)
-		if (GeoGebra.splashFrame != null)
+		if (GeoGebra.splashFrame != null) {
 			GeoGebra.splashFrame.setVisible(false);
+		}
 
 		Application.printStacktrace("showErrorDialog: " + msg);
 		isErrorDialogShowing = true;
@@ -3053,25 +3184,30 @@ public class Application extends AbstractApplication implements
 		Cursor waitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		mainComp.setCursor(waitCursor);
 
-		if (euclidianView != null)
+		if (euclidianView != null) {
 			euclidianView.setCursor(waitCursor);
+		}
 
-		if (guiManager != null)
+		if (guiManager != null) {
 			guiManager.allowGUIToRefresh();
+		}
 	}
 
 	public void setDefaultCursor() {
 		mainComp.setCursor(Cursor.getDefaultCursor());
-		if (euclidianView != null)
+		if (euclidianView != null) {
 			euclidianView.setCursor(Cursor.getDefaultCursor());
-		if (guiManager != null && guiManager.hasEuclidianView2())
+		}
+		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
 			guiManager.getEuclidianView2().setCursor(Cursor.getDefaultCursor());
-				
+		}
+
 	}
 
 	public void doAfterRedefine(GeoElement geo) {
-		if (guiManager != null)
+		if (guiManager != null) {
 			getGuiManager().doAfterRedefine(geo);
+		}
 	}
 
 	/*
@@ -3091,8 +3227,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setCurrentFile(File file) {
-		if (currentFile == file)
+		if (currentFile == file) {
 			return;
+		}
 
 		currentFile = file;
 		if (currentFile != null) {
@@ -3107,8 +3244,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public static void addToFileList(File file) {
-		if (file == null || !file.exists())
+		if ((file == null) || !file.exists()) {
 			return;
+		}
 
 		// add or move fileName to front of list
 		fileList.remove(file);
@@ -3116,10 +3254,11 @@ public class Application extends AbstractApplication implements
 	}
 
 	public static File getFromFileList(int i) {
-		if (fileList.size() > i)
-			return (File) fileList.get(i);
-		else
+		if (fileList.size() > i) {
+			return fileList.get(i);
+		} else {
 			return null;
+		}
 	}
 
 	public static int getFileListSize() {
@@ -3127,8 +3266,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void updateTitle() {
-		if (frame == null)
+		if (frame == null) {
 			return;
+		}
 
 		getGuiManager().updateFrameTitle();
 	}
@@ -3138,20 +3278,24 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setFontSize(int points, boolean update) {
-		if (points == appFontSize)
+		if (points == appFontSize) {
 			return;
+		}
 		appFontSize = points;
 		isSaved = false;
-		if (!update)
+		if (!update) {
 			return;
+		}
 
 		resetFonts();
 
 		if (!initing) {
-			if (appletImpl != null)
+			if (appletImpl != null) {
 				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-			if (frame != null)
+			}
+			if (frame != null) {
 				SwingUtilities.updateComponentTreeUI(frame);
+			}
 		}
 	}
 
@@ -3161,8 +3305,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void updateFonts() {
-		if (euclidianView != null)
+		if (euclidianView != null) {
 			euclidianView.updateFonts();
+		}
 
 		if (guiManager != null) {
 			getGuiManager().updateFonts();
@@ -3189,23 +3334,27 @@ public class Application extends AbstractApplication implements
 		resetFonts();
 
 		if (!initing) {
-			if (appletImpl != null)
+			if (appletImpl != null) {
 				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-			if (frame != null)
+			}
+			if (frame != null) {
 				SwingUtilities.updateComponentTreeUI(frame);
+			}
 		}
 	}
 
 	private void setLabels() {
-		if (initing)
+		if (initing) {
 			return;
+		}
 
 		if (guiManager != null) {
 			getGuiManager().setLabels();
 		}
 
-		if (rbplain != null)
+		if (rbplain != null) {
 			kernel.updateLocalAxesNames();
+		}
 
 		updateCommandDictionary();
 	}
@@ -3268,13 +3417,15 @@ public class Application extends AbstractApplication implements
 				if (toolName) {
 					// TOOL NAME
 					ret = macro.getToolName();
-					if ("".equals(ret))
+					if ("".equals(ret)) {
 						ret = macro.getCommandName();
+					}
 				} else {
 					// TOOL HELP
 					ret = macro.getToolHelp();
-					if ("".equals(ret))
+					if ("".equals(ret)) {
 						ret = macro.getNeededTypesString();
+					}
 				}
 			} catch (Exception e) {
 				Application
@@ -3310,12 +3461,13 @@ public class Application extends AbstractApplication implements
 				Macro macro = kernel.getMacro(macroID);
 				String iconName = macro.getIconFileName();
 				BufferedImage img = getExternalImage(iconName);
-				if (img == null)
+				if (img == null) {
 					// default icon
 					icon = getToolBarImage("mode_tool_32.png", border);
-				else
+				} else {
 					// use image as icon
 					icon = new ImageIcon(ImageManager.addBorder(img, border));
+				}
 			} catch (Exception e) {
 				Application.debug("macro does not exist: ID = " + macroID);
 				return null;
@@ -3362,13 +3514,15 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setShowInputTop(boolean flag, boolean update) {
-		if (flag == showInputTop)
+		if (flag == showInputTop) {
 			return;
+		}
 
 		showInputTop = flag;
 
-		if (update && !isIniting())
+		if (update && !isIniting()) {
 			updateTopBottomPanels();
+		}
 	}
 
 	public boolean showInputHelpToggle() {
@@ -3380,13 +3534,15 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setShowToolBarTop(boolean flag) {
-		if (flag == showToolBarTop)
+		if (flag == showToolBarTop) {
 			return;
+		}
 
 		showToolBarTop = flag;
 
-		if (!isIniting())
+		if (!isIniting()) {
 			updateTopBottomPanels();
+		}
 	}
 
 	public boolean getShowCPNavNeedsUpdate() {
@@ -3398,8 +3554,9 @@ public class Application extends AbstractApplication implements
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
 		if ((flag == showConsProtNavigation)
-				&& (showConstProtNavigationNeedsUpdate == false))
+				&& (showConstProtNavigationNeedsUpdate == false)) {
 			return;
+		}
 		showConsProtNavigation = flag;
 
 		if (getGuiManager() != null) {
@@ -3467,16 +3624,18 @@ public class Application extends AbstractApplication implements
 			flag = false;
 		}
 
-		if (kernel.isUndoActive() == flag)
+		if (kernel.isUndoActive() == flag) {
 			return;
+		}
 
 		kernel.setUndoActive(flag);
 		if (flag) {
 			kernel.initUndoInfo();
 		}
 
-		if (guiManager != null)
+		if (guiManager != null) {
 			getGuiManager().updateActions();
+		}
 
 		isSaved = true;
 	}
@@ -3529,6 +3688,7 @@ public class Application extends AbstractApplication implements
 		return true;
 	}
 
+	@Override
 	public boolean letRedefine() {
 		return true;
 	}
@@ -3542,24 +3702,28 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void updateToolBar() {
-		if (!showToolBar || isIniting())
+		if (!showToolBar || isIniting()) {
 			return;
+		}
 
 		getGuiManager().updateToolbar();
 
 		if (!initing) {
-			if (appletImpl != null)
+			if (appletImpl != null) {
 				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-			if (frame != null)
+			}
+			if (frame != null) {
 				SwingUtilities.updateComponentTreeUI(frame);
+			}
 		}
 
 		setMoveMode();
 	}
 
 	public void updateMenubar() {
-		if (!showMenuBar || !isUsingFullGui() || isIniting())
+		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
+		}
 
 		getGuiManager().updateMenubar();
 		getGuiManager().updateActions();
@@ -3568,8 +3732,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void updateSelection() {
-		if (!showMenuBar || !isUsingFullGui() || isIniting())
+		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
+		}
 
 		// put in to check possible bottleneck
 		// Application.debug("Update Selection");
@@ -3586,8 +3751,9 @@ public class Application extends AbstractApplication implements
 			updateStyleBars();
 		}
 
-		if (propertiesView != null)
+		if (propertiesView != null) {
 			propertiesView.updateSelection();
+		}
 	}
 
 	public void updateStyleBars() {
@@ -3595,16 +3761,19 @@ public class Application extends AbstractApplication implements
 			return;
 		}
 
-		if (getEuclidianView().hasStyleBar())
+		if (getEuclidianView().hasStyleBar()) {
 			getEuclidianView().getStyleBar().updateStyleBar();
+		}
 
-		if (hasEuclidianView2() && getEuclidianView2().hasStyleBar())
+		if (hasEuclidianView2() && getEuclidianView2().hasStyleBar()) {
 			getEuclidianView2().getStyleBar().updateStyleBar();
+		}
 	}
 
 	public void updateMenuWindow() {
-		if (!showMenuBar || !isUsingFullGui() || isIniting())
+		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
+		}
 
 		getGuiManager().updateMenuWindow();
 		getGuiManager().updateMenuFile();
@@ -3659,15 +3828,16 @@ public class Application extends AbstractApplication implements
 
 	public void exit() {
 		// glassPane is active: don't exit now!
-		if (glassPaneListener != null)
+		if (glassPaneListener != null) {
 			return;
+		}
 
 		// stop sound thread if currently playing
 		if (getSoundManager() != null) {
 			getSoundManager().stopCurrentSound();
 		}
 
-		if (isSaved() || appletImpl != null || saveCurrentFile()) {
+		if (isSaved() || (appletImpl != null) || saveCurrentFile()) {
 			if (appletImpl != null) {
 				setApplet(appletImpl);
 				appletImpl.showApplet();
@@ -3679,8 +3849,9 @@ public class Application extends AbstractApplication implements
 
 	public synchronized void exitAll() {
 		// glassPane is active: don't exit now!
-		if (glassPaneListener != null)
+		if (glassPaneListener != null) {
 			return;
+		}
 
 		getGuiManager().exitAll();
 	}
@@ -3697,14 +3868,15 @@ public class Application extends AbstractApplication implements
 	 */
 
 	public void setMode(int mode) {
-		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER)
+		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
+		}
 
-		if (guiManager != null)
+		if (guiManager != null) {
 			getGuiManager().setMode(mode);
-
-		else if (euclidianView != null)
+		} else if (euclidianView != null) {
 			euclidianView.setMode(mode);
+		}
 	}
 
 	final public int getMode() {
@@ -3807,8 +3979,9 @@ public class Application extends AbstractApplication implements
 				String path = url.getPath();
 				path = path.replaceAll("%20", " ");
 				File f = new File(path);
-				if (f.exists())
+				if (f.exists()) {
 					setCurrentFile(f);
+				}
 			}
 
 			return success;
@@ -3901,8 +4074,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setActiveView(int view) {
-		if (getGuiManager() != null)
+		if (getGuiManager() != null) {
 			getGuiManager().getLayout().getDockManager().setFocusedPanel(view);
+		}
 	}
 
 	/**
@@ -3955,8 +4129,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setXML(String xml, boolean clearAll) {
-		if (clearAll)
+		if (clearAll) {
 			setCurrentFile(null);
+		}
 
 		try {
 
@@ -3994,8 +4169,9 @@ public class Application extends AbstractApplication implements
 	public void loadMacroFileFromByteArray(byte[] byteArray,
 			boolean removeOldMacros) {
 		try {
-			if (removeOldMacros)
+			if (removeOldMacros) {
 				kernel.removeAllMacros();
+			}
 
 			if (byteArray != null) {
 				ByteArrayInputStream is = new ByteArrayInputStream(byteArray);
@@ -4015,6 +4191,7 @@ public class Application extends AbstractApplication implements
 		return isSaved;
 	}
 
+	@Override
 	public void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
@@ -4047,17 +4224,19 @@ public class Application extends AbstractApplication implements
 		// save the dimensions of the current window
 		sb.append("\t<window width=\"");
 
-		if (frame != null && frame.getWidth() > 0)
+		if ((frame != null) && (frame.getWidth() > 0)) {
 			sb.append(frame.getWidth());
-		else
+		} else {
 			sb.append(800);
+		}
 
 		sb.append("\" height=\"");
 
-		if (frame != null && frame.getHeight() > 0)
+		if ((frame != null) && (frame.getHeight() > 0)) {
 			sb.append(frame.getHeight());
-		else
+		} else {
 			sb.append(600);
+		}
 
 		sb.append("\" />\n");
 
@@ -4132,7 +4311,7 @@ public class Application extends AbstractApplication implements
 		// save euclidian view 2 settings
 		if (hasEuclidianView2()) {
 			getEuclidianView2().getXML(sb, asPreference);
-		} else if (asPreference && getGuiManager() != null) {
+		} else if (asPreference && (getGuiManager() != null)) {
 			getEuclidianView2().getXML(sb, true);
 		}
 
@@ -4150,8 +4329,9 @@ public class Application extends AbstractApplication implements
 		if (getGuiManager().hasProbabilityCalculator()) {
 			getGuiManager().getProbabilityCalculatorXML(sb);
 		}
-		if (asPreference)
+		if (asPreference) {
 			getKeyboardXML(sb);
+		}
 		// coord style, decimal places settings etc
 		kernel.getKernelXML(sb, asPreference);
 		getScriptingXML(sb, asPreference);
@@ -4183,8 +4363,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	public String getConsProtocolXML() {
-		if (guiManager == null)
+		if (guiManager == null) {
 			return "";
+		}
 
 		StringBuilder sb = new StringBuilder();
 
@@ -4242,8 +4423,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public static boolean isWebstart() {
-		if (codebase == null)
+		if (codebase == null) {
 			initCodeBase();
+		}
 		return codebase.toString().startsWith(
 				GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE + "jnlp/")
 				|| codebase
@@ -4254,8 +4436,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public static boolean isWebstartDebug() {
-		if (codebase == null)
+		if (codebase == null) {
 			initCodeBase();
+		}
 		return codebase.toString().startsWith(
 				GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE + "debug")
 				|| codebase
@@ -4310,9 +4493,10 @@ public class Application extends AbstractApplication implements
 		Iterator<GeoElement> it = kernel.getConstruction()
 				.getGeoSetLabelOrder().iterator();
 		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();
-			if (layer == -1 || geo.getLayer() == layer)
+			GeoElement geo = it.next();
+			if ((layer == -1) || (geo.getLayer() == layer)) {
 				addSelectedGeo(geo, false);
+			}
 		}
 		kernel.notifyRepaint();
 		updateSelection();
@@ -4323,11 +4507,12 @@ public class Application extends AbstractApplication implements
 		Iterator<GeoElement> it = kernel.getConstruction()
 				.getGeoSetLabelOrder().iterator();
 		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();
-			if (selectedGeos.contains(geo))
+			GeoElement geo = it.next();
+			if (selectedGeos.contains(geo)) {
 				removeSelectedGeo(geo, false);
-			else
+			} else {
 				addSelectedGeo(geo, false);
+			}
 		}
 		kernel.notifyRepaint();
 		updateSelection();
@@ -4336,11 +4521,12 @@ public class Application extends AbstractApplication implements
 	final public void selectAllPredecessors() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = (GeoElement) selectedGeos.get(i);
+			GeoElement geo = selectedGeos.get(i);
 			TreeSet<GeoElement> tree = geo.getAllPredecessors();
 			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext())
-				addSelectedGeo((GeoElement) it2.next(), false);
+			while (it2.hasNext()) {
+				addSelectedGeo(it2.next(), false);
+			}
 		}
 		kernel.notifyRepaint();
 		updateSelection();
@@ -4349,7 +4535,7 @@ public class Application extends AbstractApplication implements
 	final public void showHideSelection() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = (GeoElement) selectedGeos.get(i);
+			GeoElement geo = selectedGeos.get(i);
 			geo.setEuclidianVisible(!geo.isEuclidianVisible());
 			geo.update();
 		}
@@ -4360,7 +4546,7 @@ public class Application extends AbstractApplication implements
 	final public void showHideSelectionLabels() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = (GeoElement) selectedGeos.get(i);
+			GeoElement geo = selectedGeos.get(i);
 			geo.setLabelVisible(!geo.isLabelVisible());
 			geo.update();
 		}
@@ -4371,11 +4557,12 @@ public class Application extends AbstractApplication implements
 	final public void selectAllDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = (GeoElement) selectedGeos.get(i);
+			GeoElement geo = selectedGeos.get(i);
 			TreeSet<GeoElement> tree = geo.getAllChildren();
 			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext())
-				addSelectedGeo((GeoElement) it2.next(), false);
+			while (it2.hasNext()) {
+				addSelectedGeo(it2.next(), false);
+			}
 		}
 		kernel.notifyRepaint();
 		updateSelection();
@@ -4389,12 +4576,13 @@ public class Application extends AbstractApplication implements
 		int size = selectedGeos.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
-				GeoElement geo = (GeoElement) selectedGeos.get(i);
+				GeoElement geo = selectedGeos.get(i);
 				geo.setSelected(false);
 			}
 			selectedGeos.clear();
-			if (repaint)
+			if (repaint) {
 				kernel.notifyRepaint();
+			}
 		}
 		updateSelection();
 	}
@@ -4407,8 +4595,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public void toggleSelectedGeo(GeoElement geo, boolean repaint) {
-		if (geo == null)
+		if (geo == null) {
 			return;
+		}
 
 		boolean contains = selectedGeos.contains(geo);
 		if (contains) {
@@ -4419,8 +4608,9 @@ public class Application extends AbstractApplication implements
 			geo.setSelected(true);
 		}
 
-		if (repaint)
+		if (repaint) {
 			kernel.notifyRepaint();
+		}
 		updateSelection();
 	}
 
@@ -4432,14 +4622,17 @@ public class Application extends AbstractApplication implements
 		removeSelectedGeo(geo, true);
 	}
 
+	@Override
 	final public void removeSelectedGeo(Object geo, boolean repaint) {
-		if (geo == null)
+		if (geo == null) {
 			return;
+		}
 
 		selectedGeos.remove(geo);
 		((GeoElement) geo).setSelected(false);
-		if (repaint)
+		if (repaint) {
 			kernel.notifyRepaint();
+		}
 		updateSelection();
 	}
 
@@ -4455,21 +4648,24 @@ public class Application extends AbstractApplication implements
 		// remove geos that don't have isSelectionAllowed()==true
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed())
+			if (!geo.isSelectionAllowed()) {
 				tree.remove(geo);
+			}
 		}
 
 		it = tree.iterator();
 
 		// none selected, select first geo
 		if (selectedGeos.size() == 0) {
-			if (it.hasNext())
+			if (it.hasNext()) {
 				addSelectedGeo(it.next());
+			}
 			return;
 		}
 
-		if (selectedGeos.size() != 1)
+		if (selectedGeos.size() != 1) {
 			return;
+		}
 
 		// one selected, select next one
 		GeoElement selGeo = selectedGeos.get(0);
@@ -4477,8 +4673,9 @@ public class Application extends AbstractApplication implements
 			GeoElement geo = it.next();
 			if (selGeo == geo) {
 				removeSelectedGeo(selGeo);
-				if (!it.hasNext())
+				if (!it.hasNext()) {
 					it = tree.iterator();
+				}
 				addSelectedGeo(it.next());
 				break;
 			}
@@ -4486,8 +4683,9 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public void selectLastGeo() {
-		if (selectedGeos.size() != 1)
+		if (selectedGeos.size() != 1) {
 			return;
+		}
 		GeoElement selGeo = selectedGeos.get(0);
 		GeoElement lastGeo = null;
 		TreeSet<GeoElement> tree = kernel.getConstruction()
@@ -4498,8 +4696,9 @@ public class Application extends AbstractApplication implements
 		// remove geos that don't have isSelectionAllowed()==true
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed())
+			if (!geo.isSelectionAllowed()) {
 				tree.remove(geo);
+			}
 		}
 
 		it = tree.iterator();
@@ -4524,13 +4723,15 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public void addSelectedGeo(GeoElement geo, boolean repaint) {
-		if (geo == null || selectedGeos.contains(geo))
+		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
+		}
 
 		selectedGeos.add(geo);
 		geo.setSelected(true);
-		if (repaint)
+		if (repaint) {
 			kernel.notifyRepaint();
+		}
 		updateSelection();
 
 	}
@@ -4542,8 +4743,9 @@ public class Application extends AbstractApplication implements
 		for (int i = 0; i < geos.size(); i++) {
 			geos.get(i).setSelected(true);
 		}
-		if (repaint)
+		if (repaint) {
 			kernel.notifyRepaint();
+		}
 		updateSelection();
 	}
 
@@ -4587,28 +4789,33 @@ public class Application extends AbstractApplication implements
 	}
 
 	public Component getGlassPane() {
-		if (mainComp == frame)
+		if (mainComp == frame) {
 			return frame.getGlassPane();
-		else if (appletImpl != null && mainComp == appletImpl.getJApplet())
+		} else if ((appletImpl != null)
+				&& (mainComp == appletImpl.getJApplet())) {
 			return appletImpl.getJApplet().getGlassPane();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	public void setGlassPane(Component component) {
-		if (appletImpl != null && mainComp == appletImpl.getJApplet())
+		if ((appletImpl != null) && (mainComp == appletImpl.getJApplet())) {
 			appletImpl.getJApplet().setGlassPane(component);
-		else if (mainComp == frame)
+		} else if (mainComp == frame) {
 			frame.setGlassPane(component);
+		}
 	}
 
 	public Container getContentPane() {
-		if (mainComp == frame)
+		if (mainComp == frame) {
 			return frame.getContentPane();
-		else if (appletImpl != null && mainComp == appletImpl.getJApplet())
+		} else if ((appletImpl != null)
+				&& (mainComp == appletImpl.getJApplet())) {
 			return appletImpl.getJApplet().getContentPane();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/*
@@ -4617,8 +4824,9 @@ public class Application extends AbstractApplication implements
 	 */
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		// make sure the event is not consumed
-		if (e.isConsumed())
+		if (e.isConsumed()) {
 			return true;
+		}
 
 		controlDown = isControlDown(e);
 		shiftDown = e.isShiftDown();
@@ -4627,7 +4835,7 @@ public class Application extends AbstractApplication implements
 		// (needed to take care of multiple application windows or applets)
 		Component eventPane = SwingUtilities.getRootPane(e.getComponent());
 		Component mainPane = SwingUtilities.getRootPane(mainComp);
-		if (eventPane != mainPane
+		if ((eventPane != mainPane)
 				&& !getGuiManager().getLayout().inExternalWindow(eventPane)) {
 			// ESC from dialog: close it
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -4645,16 +4853,18 @@ public class Application extends AbstractApplication implements
 		// if the glass pane is visible, don't do anything
 		// (there might be an animation running)
 		Component glassPane = getGlassPane();
-		if (glassPane != null && glassPane.isVisible())
+		if ((glassPane != null) && glassPane.isVisible()) {
 			return false;
+		}
 
 		// handle global keys like ESC and function keys
 		return getGlobalKeyDispatcher().dispatchKeyEvent(e);
 	}
 
 	final public GlobalKeyDispatcher getGlobalKeyDispatcher() {
-		if (globalKeyDispatcher == null)
+		if (globalKeyDispatcher == null) {
 			globalKeyDispatcher = newGlobalKeyDispatcher();
+		}
 		return globalKeyDispatcher;
 	}
 
@@ -4809,8 +5019,9 @@ public class Application extends AbstractApplication implements
 	 * shown in Vista, Win 7
 	 */
 	public void setEmptyIcon(JCheckBoxMenuItem cb) {
-		if (!WINDOWS_VISTA_OR_LATER)
+		if (!WINDOWS_VISTA_OR_LATER) {
 			cb.setIcon(getEmptyIcon());
+		}
 	}
 
 	/*
@@ -4820,8 +5031,9 @@ public class Application extends AbstractApplication implements
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltDown() && e.isControlDown())
+		if (e.isAltDown() && e.isControlDown()) {
 			return false;
+		}
 
 		return MAC_OS ? e.isControlDown() : e.isAltDown();
 	}
@@ -4849,8 +5061,9 @@ public class Application extends AbstractApplication implements
 		 * "+e.isAltGraphDown()); debug("fakeRightClick = "+fakeRightClick);
 		 */
 
-		if (fakeRightClick)
+		if (fakeRightClick) {
 			return false;
+		}
 
 		boolean ret = (MAC_OS && e.isMetaDown()) // Mac: meta down for
 				// multiple
@@ -4867,7 +5080,7 @@ public class Application extends AbstractApplication implements
 	private static boolean fakeRightClick = false;
 
 	public static boolean isMiddleClick(MouseEvent e) {
-		return e.getButton() == 2 && e.getClickCount() == 1;
+		return (e.getButton() == 2) && (e.getClickCount() == 1);
 	}
 
 	public static boolean isRightClick(MouseEvent e) {
@@ -4876,11 +5089,13 @@ public class Application extends AbstractApplication implements
 		// so we want to return true for isMetaDown
 		// if it occurred first at the same time as
 		// a popup trigger
-		if (MAC_OS && !e.isMetaDown())
+		if (MAC_OS && !e.isMetaDown()) {
 			fakeRightClick = false;
+		}
 
-		if (MAC_OS && e.isPopupTrigger() && e.isMetaDown())
+		if (MAC_OS && e.isPopupTrigger() && e.isMetaDown()) {
 			fakeRightClick = true;
+		}
 
 		/*
 		 * debug("isMetaDown = "+e.isMetaDown()); debug("isControlDown =
@@ -4890,8 +5105,9 @@ public class Application extends AbstractApplication implements
 		 * debug("fakeRightClick = "+fakeRightClick);
 		 */
 
-		if (fakeRightClick)
+		if (fakeRightClick) {
 			return true;
+		}
 
 		boolean ret =
 		// e.isPopupTrigger() ||
@@ -4930,8 +5146,9 @@ public class Application extends AbstractApplication implements
 				getPlain("ASignificantFigures", "15") };
 
 		// zero is singular in eg French
-		if (!isZeroPlural(getLocale()))
+		if (!isZeroPlural(getLocale())) {
 			strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
+		}
 
 		return strDecimalSpaces;
 	}
@@ -4948,17 +5165,19 @@ public class Application extends AbstractApplication implements
 			Object[] geos = getSelectedGeos().toArray();
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isFixed())
+				if (!geo.isFixed()) {
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
 			}
 
 			// also delete just created geos if possible
 			ArrayList<GeoElement> geos2 = getActiveEuclidianView()
 					.getEuclidianController().getJustCreatedGeos();
 			for (int j = 0; j < geos2.size(); j++) {
-				GeoElement geo = (GeoElement) geos2.get(j);
-				if (!geo.isFixed())
+				GeoElement geo = geos2.get(j);
+				if (!geo.isFixed()) {
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
 			}
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
@@ -4980,8 +5199,9 @@ public class Application extends AbstractApplication implements
 			String zip_directory = "";
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				if (img == null)
+				if (img == null) {
 					Application.debug("image==null");
+				}
 				ImageIO.write(img, "png", baos);
 				byte[] fileData = baos.toByteArray();
 
@@ -4999,8 +5219,9 @@ public class Application extends AbstractApplication implements
 
 			String fn = fileName;
 			int index = fileName.lastIndexOf(File.separator);
-			if (index != -1)
+			if (index != -1) {
 				fn = fn.substring(index + 1, fn.length()); // filename without
+			}
 			// path
 			fn = Util.processFilename(fn);
 
@@ -5032,8 +5253,8 @@ public class Application extends AbstractApplication implements
 			BufferedImage oldImg = ImageManager.getExternalImage(fileName);
 			if (oldImg != null) {
 				// image with this name exists already
-				if (oldImg.getWidth() == img.getWidth()
-						&& oldImg.getHeight() == img.getHeight()) {
+				if ((oldImg.getWidth() == img.getWidth())
+						&& (oldImg.getHeight() == img.getHeight())) {
 					// same size and filename => we consider the images as equal
 					return fileName;
 				} else {
@@ -5083,10 +5304,11 @@ public class Application extends AbstractApplication implements
 			int halfbyte = (data[i] >>> 4) & 0x0F;
 			int two_halfs = 0;
 			do {
-				if ((0 <= halfbyte) && (halfbyte <= 9))
+				if ((0 <= halfbyte) && (halfbyte <= 9)) {
 					buf.append((char) ('0' + halfbyte));
-				else
+				} else {
 					buf.append((char) ('a' + (halfbyte - 10)));
+				}
 				halfbyte = data[i] & 0x0F;
 			} while (two_halfs++ < 1);
 		}
@@ -5097,58 +5319,65 @@ public class Application extends AbstractApplication implements
 		String fileName = file.getName();
 		int dotPos = fileName.lastIndexOf('.');
 
-		if (dotPos <= 0 || dotPos == fileName.length() - 1)
+		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
 			return "";
-		else
+		} else {
 			return fileName.substring(dotPos + 1).toLowerCase(Locale.US); // Michael
-		// Borcherds
-		// 2008
-		// -
-		// 02
-		// -
-		// 06
-		// added
-		// .
-		// toLowerCase
-		// (
-		// Locale
-		// .
-		// US
-		// )
+			// Borcherds
+			// 2008
+			// -
+			// 02
+			// -
+			// 06
+			// added
+			// .
+			// toLowerCase
+			// (
+			// Locale
+			// .
+			// US
+			// )
+		}
 	}
 
 	public static File addExtension(File file, String fileExtension) {
-		if (file == null)
+		if (file == null) {
 			return null;
-		if (getExtension(file).equals(fileExtension))
+		}
+		if (getExtension(file).equals(fileExtension)) {
 			return file;
-		else
+		} else {
 			return new File(file.getParentFile(), // path
 					file.getName() + '.' + fileExtension); // filename
+		}
 	}
 
 	public static File removeExtension(File file) {
-		if (file == null)
+		if (file == null) {
 			return null;
+		}
 		String fileName = file.getName();
 		int dotPos = fileName.indexOf('.');
 
-		if (dotPos <= 0)
+		if (dotPos <= 0) {
 			return file;
-		else
+		} else {
 			return new File(file.getParentFile(), // path
 					fileName.substring(0, dotPos));
+		}
 	}
 
 	public static String removeExtension(String fileName) {
-		if (fileName == null)
+		if (fileName == null) {
 			return null;
+		}
 		int dotPos = fileName.indexOf('.');
 
-		if (dotPos <= 0)
+		if (dotPos <= 0) {
 			return fileName;
-		else
+		} else {
 			return fileName.substring(0, dotPos);
+		}
 	}
 
 	public final LowerCaseDictionary getCommandDictionary() {
@@ -5168,8 +5397,9 @@ public class Application extends AbstractApplication implements
 	 */
 	public final LowerCaseDictionary[] getSubCommandDictionary() {
 
-		if (subCommandDict == null)
+		if (subCommandDict == null) {
 			initTranslatedCommands();
+		}
 
 		return subCommandDict;
 	}
@@ -5177,16 +5407,19 @@ public class Application extends AbstractApplication implements
 	final static int MEMORY_CRITICAL = 100 * 1024;
 	static Runtime runtime = Runtime.getRuntime();
 
+	@Override
 	public boolean freeMemoryIsCritical() {
 
-		if (runtime.freeMemory() > MEMORY_CRITICAL)
+		if (runtime.freeMemory() > MEMORY_CRITICAL) {
 			return false;
+		}
 
 		System.gc();
 
 		return runtime.freeMemory() < MEMORY_CRITICAL;
 	}
 
+	@Override
 	public long freeMemory() {
 		return runtime.freeMemory();
 	}
@@ -5212,6 +5445,7 @@ public class Application extends AbstractApplication implements
 		final Application app = this;
 
 		Thread runner = new Thread() {
+			@Override
 			public void run() {
 				setWaitCursor();
 
@@ -5325,8 +5559,8 @@ public class Application extends AbstractApplication implements
 			g.setStroke(EuclidianView.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_FULL));
 
-			g.drawOval(10 * size / 48, 10 * size / 48, 30 * size / 48,
-					30 * size / 48);
+			g.drawOval((10 * size) / 48, (10 * size) / 48, (30 * size) / 48,
+					(30 * size) / 48);
 
 			eraserCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 					image, new Point(size / 2, size / 2), "eraserCursor");
@@ -5476,8 +5710,9 @@ public class Application extends AbstractApplication implements
 		logFile.append(DownloadManager.getTempDir());
 		logFile.append("GeoGebraLog_");
 		// randomize filename
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++) {
 			logFile.append((char) ('a' + Math.round(Math.random() * 25)));
+		}
 		logFile.append(".txt");
 
 		Application.debug(logFile.toString());
@@ -5534,8 +5769,9 @@ public class Application extends AbstractApplication implements
 	public static String getCodeBaseFolder() {
 		String codeBaseFolder = getCodeBase().toString();
 
-		if (!codeBaseFolder.startsWith("file:/"))
+		if (!codeBaseFolder.startsWith("file:/")) {
 			return null;
+		}
 
 		// change %20 to <space>
 		if (WINDOWS) {
@@ -5589,6 +5825,7 @@ public class Application extends AbstractApplication implements
 		return str;
 	}
 
+	@Override
 	public ImageManager getImageManager() {
 		return imageManager;
 	}
@@ -5620,6 +5857,7 @@ public class Application extends AbstractApplication implements
 		this.useBrowserForJavaScript = useBrowserForJavaScript;
 	}
 
+	@Override
 	public boolean useBrowserForJavaScript() {
 		return useBrowserForJavaScript;
 	}
@@ -5627,6 +5865,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return the blockUpdateScripts
 	 */
+	@Override
 	public boolean isBlockUpdateScripts() {
 		return blockUpdateScripts;
 	}
@@ -5635,6 +5874,7 @@ public class Application extends AbstractApplication implements
 	 * @param blockUpdateScripts
 	 *            the blockUpdateScripts to set
 	 */
+	@Override
 	public void setBlockUpdateScripts(boolean blockUpdateScripts) {
 		this.blockUpdateScripts = blockUpdateScripts;
 	}
@@ -5644,6 +5884,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return the scriptingDisabled
 	 */
+	@Override
 	public boolean isScriptingDisabled() {
 		return scriptingDisabled;
 	}
@@ -5669,6 +5910,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	// TODO remove this after ggb v>=5 (replace with same from Application3D)
+	@Override
 	public EuclidianView createEuclidianViewForPlane(Object plane) {
 		return null;
 	}
@@ -5692,6 +5934,7 @@ public class Application extends AbstractApplication implements
 	 * @return text the fixed text
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
+	@Override
 	public String translationFix(String text) {
 		// Currently no other language is supported than Hungarian.
 		String lang = getLocale().getLanguage();
@@ -5735,7 +5978,7 @@ public class Application extends AbstractApplication implements
 				match = text.indexOf(affixes);
 				// match > 0 can be assumed because an affix will not start the
 				// text
-				if (match > -1 && match > 0) {
+				if ((match > -1) && (match > 0)) {
 					// Affix found. Get the previous character.
 					String prevChars = translationFixPronouncedPrevChars(text,
 							match, 1);
@@ -5815,7 +6058,7 @@ public class Application extends AbstractApplication implements
 		String thisChar;
 		String ignoredChars = "_{}";
 
-		while (rettextlen < length && match > 0) {
+		while ((rettextlen < length) && (match > 0)) {
 			thisChar = text.substring(match - 1, match);
 			if (ignoredChars.indexOf(thisChar) == -1) {
 				rettext = thisChar.toLowerCase() + rettext;
@@ -5903,7 +6146,7 @@ public class Application extends AbstractApplication implements
 						replace = valVelTo2[index] + replace.substring(1);
 					}
 				}
-			} else if (prevChars.length() == 2
+			} else if ((prevChars.length() == 2)
 					&& prevChars.substring(1).equals("0")) {
 				// (Currently the second part of the conditional is
 				// unnecessary.)
@@ -5940,21 +6183,23 @@ public class Application extends AbstractApplication implements
 	public void checkCommands(HashMap<String, CommandProcessor> map) {
 		initTranslatedCommands();
 
-		if (rbcommand == null)
+		if (rbcommand == null) {
 			return; // eg applet with no properties jar
+		}
 
 		Enumeration<String> e = rbcommand.getKeys();
 		while (e.hasMoreElements()) {
 			String s = e.nextElement();
-			if (!s.contains(syntaxStr) && map.get(s) == null) {
+			if (!s.contains(syntaxStr) && (map.get(s) == null)) {
 				boolean write = true;
 				try {
 					rbcommand.getString(s + syntaxStr);
 				} catch (Exception ex) {
 					write = false;
 				}
-				if (write)
+				if (write) {
 					System.out.println(s);
+				}
 			}
 		}
 	}
@@ -5962,11 +6207,12 @@ public class Application extends AbstractApplication implements
 	String[] fontSizeStrings = null;
 
 	public String[] getFontSizeStrings() {
-		if (fontSizeStrings == null)
+		if (fontSizeStrings == null) {
 			fontSizeStrings = new String[] { getPlain("ExtraSmall"),
 					getPlain("VerySmall"), getPlain("Small"),
 					getPlain("Medium"), getPlain("Large"),
 					getPlain("VeryLarge"), getPlain("ExtraLarge") };
+		}
 
 		return fontSizeStrings;
 	}
@@ -5986,34 +6232,35 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setScrollToShow(boolean b) {
-		if (guiManager != null)
+		if (guiManager != null) {
 			guiManager.setScrollToShow(b);
+		}
 	}
 
 	public View getView(int viewID) {
 
 		// check for PlotPanel ID family first
-		if (getGuiManager() != null
-				&& (View) getGuiManager().getPlotPanelView(viewID) != null) {
-			return (View) getGuiManager().getPlotPanelView(viewID);
+		if ((getGuiManager() != null)
+				&& (getGuiManager().getPlotPanelView(viewID) != null)) {
+			return getGuiManager().getPlotPanelView(viewID);
 		}
 
 		else {
 			switch (viewID) {
 			case VIEW_EUCLIDIAN:
-				return (View) getEuclidianView();
+				return getEuclidianView();
 			case VIEW_ALGEBRA:
-				return (View) getAlgebraView();
+				return getAlgebraView();
 			case VIEW_SPREADSHEET:
-				return (View) getGuiManager().getSpreadsheetView();
+				return getGuiManager().getSpreadsheetView();
 			case VIEW_CAS:
-				return (View) getGuiManager().getCasView();
+				return getGuiManager().getCasView();
 			case VIEW_EUCLIDIAN2:
 				return hasEuclidianView2() ? (View) getEuclidianView2() : null;
 			case VIEW_CONSTRUCTION_PROTOCOL:
 				return (View) getGuiManager().getConstructionProtocolView();
 			case VIEW_PROBABILITY_CALCULATOR:
-				return (View) getGuiManager().getProbabilityCalculator();
+				return getGuiManager().getProbabilityCalculator();
 				// case VIEW_FUNCTION_INSPECTOR: return (View)getGuiManager()..
 				// case VIEW_INSPECTOR: return
 				// (View)getGuiManager().getSpreadsheetView();
@@ -6032,8 +6279,9 @@ public class Application extends AbstractApplication implements
 	DrawEquation drawEquation;
 
 	public DrawEquation getDrawEquation() {
-		if (drawEquation == null)
+		if (drawEquation == null) {
 			drawEquation = new DrawEquation();
+		}
 		return drawEquation;
 	}
 
@@ -6053,9 +6301,10 @@ public class Application extends AbstractApplication implements
 		// ready to fill the casCommandDict. In that case, we will fill the
 		// dict during fillCommandDict :)
 
-		if (rbcommand == rbcommandOld
-				&& (commandDictCAS != null || rbcommand == null))
+		if ((rbcommand == rbcommandOld)
+				&& ((commandDictCAS != null) || (rbcommand == null))) {
 			return;
+		}
 
 		rbcommandOld = rbcommand;
 
@@ -6113,8 +6362,9 @@ public class Application extends AbstractApplication implements
 
 		Application.debug("file version: " + version);
 
-		if (version == null)
+		if (version == null) {
 			return;
+		}
 
 		this.version = getSubValues(version);
 	}
@@ -6122,71 +6372,85 @@ public class Application extends AbstractApplication implements
 	static final public int[] getSubValues(String version) {
 		String[] values = version.split("\\.");
 		int[] ret = new int[values.length];
-		for (int i = 0; i < values.length; i++)
+		for (int i = 0; i < values.length; i++) {
 			ret[i] = Integer.parseInt(values[i]);
+		}
 
 		return ret;
 	}
 
+	@Override
 	public boolean fileVersionBefore(int[] v) {
-		if (this.version == null)
+		if (this.version == null) {
 			return true;
+		}
 
 		int length = version.length;
-		if (v.length < length)
+		if (v.length < length) {
 			length = v.length;
+		}
 
 		for (int i = 0; i < length; i++) {
-			if (version[i] < v[i])
+			if (version[i] < v[i]) {
 				return true;
-			else if (version[i] > v[i])
+			} else if (version[i] > v[i]) {
 				return false;
+			}
 		}
 
 		return version.length < v.length;
 	}
 
 	public void setShowInputHelpToggle(boolean flag) {
-		if (showInputHelpToggle == flag)
+		if (showInputHelpToggle == flag) {
 			return;
+		}
 
 		showInputHelpToggle = flag;
 		getGuiManager().updateAlgebraInput();
 		updateMenubar();
 	}
 
+	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {
 
 	}
 
+	@Override
 	public boolean showView(int view) {
 		return getGuiManager().showView(view);
 	}
 
 	// TODO: change parameter to GeoElement once it is ported
+	@Override
 	public void traceToSpreadsheet(Object ge) {
 		getGuiManager().traceToSpreadsheet((GeoElement) ge);
 	}
 
 	// TODO: change parameter to GeoElement once it is ported
+	@Override
 	public void resetTraceColumn(Object ge) {
 		getGuiManager().resetTraceColumn((GeoElement) ge);
 	}
 
+	@Override
 	public void initJavaScriptViewWithoutJavascript() {
 		getScriptManager().initJavaScriptViewWithoutJavascript();
 	}
 
 	// TODO: change parameter to GeoElement once it is ported
+	@Override
 	public String getTraceXML(Object ge) {
-		return ((SpreadsheetView) getGuiManager().getSpreadsheetView())
-				.getTraceManager().getTraceXML((GeoElement) ge);
+		return getGuiManager().getSpreadsheetView().getTraceManager()
+				.getTraceXML((GeoElement) ge);
 	}
 
+	@Override
 	public void changeLayer(Object ge, int layer, int layer2) {
 		EuclidianViewInterface ev = getActiveEuclidianView();// app.getEuclidianView();
-		if (ev != null)
+		if (ev != null) {
 			ev.changeLayer((GeoElement) ge, ((GeoElement) ge).layer, layer);
+		}
 
 	}
 
@@ -6214,6 +6478,7 @@ public class Application extends AbstractApplication implements
 		return getEuclidianView().getXmaxForFunctions();
 	}
 
+	@Override
 	public int getMaxLayerUsed() {
 		EuclidianView ev = getEuclidianView();
 		return ev == null ? 0 : ev.getMaxLayerUsed();
@@ -6225,10 +6490,12 @@ public class Application extends AbstractApplication implements
 		return ev.toScreenCoordXd(max) - ev.toScreenCoordXd(min);
 	}
 
+	@Override
 	public String toLowerCase(String substring) {
 		return substring.toLowerCase(Locale.US);
 	}
 
+	@Override
 	public String getLanguage() {
 		return getLocale().getLanguage();
 	}

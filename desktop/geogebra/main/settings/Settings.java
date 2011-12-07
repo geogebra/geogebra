@@ -4,54 +4,57 @@ import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SettingListener;
 
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Class which contains references to all settings of the application.
  * 
- * To add new setting containers to this class perform the following steps:
- *  1. Add attributes and getters (no setters allowed!)
- *  2. Init in constructor 
- *  3. Modify beginBatch() and endBatch()
+ * To add new setting containers to this class perform the following steps: 1.
+ * Add attributes and getters (no setters allowed!) 2. Init in constructor 3.
+ * Modify beginBatch() and endBatch()
  * 
  * @author Florian Sonner
  */
 public class Settings {
 	private final EuclidianSettings[] euclidianSettings;
-	
+
 	private AlgebraSettings algebraSettings;
-	
+
 	private SpreadsheetSettings spreadsheetSettings;
-	
+
 	private ConstructionProtocolSettings consProtSettings;
-	
+
 	private LayoutSettings layoutSettings;
-	
+
 	private ApplicationSettings applicationSettings;
-	
+
 	private KeyboardSettings keyboardSettings;
-	
+
 	private CASSettings casSettings;
 
 	private ProbabilityCalculatorSettings probCalcSettings;
-	
+
 	/**
-	 * Initialize settings using the constructors of the setting container classes.
+	 * Initialize settings using the constructors of the setting container
+	 * classes.
 	 */
 	public Settings() {
 		euclidianSettings = new EuclidianSettings[2];
-		
+
 		resetSettings();
 	}
-	
+
 	public void resetSettings() {
-		for(int i = 0; i < euclidianSettings.length; ++i) {
+		for (int i = 0; i < euclidianSettings.length; ++i) {
 			if (euclidianSettings[i] == null) {
-				euclidianSettings[i] = new EuclidianSettings();
+				euclidianSettings[i] = new EuclidianSettings(i == 0 ? null
+						: euclidianSettings[0]);
 			} else {
-				LinkedList<SettingListener> ls = euclidianSettings[i].getListeners();
-				euclidianSettings[i] = new EuclidianSettings();
+				LinkedList<SettingListener> ls = euclidianSettings[i]
+						.getListeners();
+				euclidianSettings[i] = new EuclidianSettings(i == 0 ? null
+						: euclidianSettings[0]);
 				Iterator<SettingListener> lsi = ls.iterator();
 				while (lsi.hasNext()) {
 					SettingListener a = lsi.next();
@@ -59,63 +62,74 @@ public class Settings {
 				}
 			}
 		}
-		
-		if (algebraSettings == null)
+
+		if (algebraSettings == null) {
 			algebraSettings = new AlgebraSettings();
-		else 
-			algebraSettings = new AlgebraSettings(algebraSettings.getListeners());
-		
-		if (spreadsheetSettings == null)
+		} else {
+			algebraSettings = new AlgebraSettings(
+					algebraSettings.getListeners());
+		}
+
+		if (spreadsheetSettings == null) {
 			spreadsheetSettings = new SpreadsheetSettings();
-		else 
-			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners());
-		
-		if (consProtSettings == null)
+		} else {
+			spreadsheetSettings = new SpreadsheetSettings(
+					spreadsheetSettings.getListeners());
+		}
+
+		if (consProtSettings == null) {
 			consProtSettings = new ConstructionProtocolSettings();
-		else 
-			consProtSettings = new ConstructionProtocolSettings(consProtSettings.getListeners());
-		
-		if (layoutSettings == null)
+		} else {
+			consProtSettings = new ConstructionProtocolSettings(
+					consProtSettings.getListeners());
+		}
+
+		if (layoutSettings == null) {
 			layoutSettings = new LayoutSettings();
-		else 
+		} else {
 			layoutSettings = new LayoutSettings(layoutSettings.getListeners());
-		
-		if (applicationSettings == null)
+		}
+
+		if (applicationSettings == null) {
 			applicationSettings = new ApplicationSettings();
-		else 
-			applicationSettings = new ApplicationSettings(applicationSettings.getListeners());
-		
-		if (keyboardSettings == null)
+		} else {
+			applicationSettings = new ApplicationSettings(
+					applicationSettings.getListeners());
+		}
+
+		if (keyboardSettings == null) {
 			keyboardSettings = new KeyboardSettings();
-		else 
-			keyboardSettings = new KeyboardSettings(keyboardSettings.getListeners());
-		
-		if (casSettings == null)
+		} else {
+			keyboardSettings = new KeyboardSettings(
+					keyboardSettings.getListeners());
+		}
+
+		if (casSettings == null) {
 			casSettings = new CASSettings();
-		else 
+		} else {
 			casSettings = new CASSettings(algebraSettings.getListeners());
-		
-		
-		if (probCalcSettings == null)
+		}
+
+		if (probCalcSettings == null) {
 			probCalcSettings = new ProbabilityCalculatorSettings();
-		else 
-			probCalcSettings = new ProbabilityCalculatorSettings(probCalcSettings.getListeners());
-		
-		
-		
+		} else {
+			probCalcSettings = new ProbabilityCalculatorSettings(
+					probCalcSettings.getListeners());
+		}
+
 	}
-	
+
 	/**
-	 * Begin batch for all settings at once (helper). 
+	 * Begin batch for all settings at once (helper).
 	 * 
 	 * @remark Recommended to be used just for file loading, in other situations
-	 * individual setting containers should be used to start batching.
+	 *         individual setting containers should be used to start batching.
 	 */
 	public void beginBatch() {
-		for(EuclidianSettings settings : euclidianSettings) {
+		for (EuclidianSettings settings : euclidianSettings) {
 			settings.beginBatch();
 		}
-		
+
 		algebraSettings.beginBatch();
 		spreadsheetSettings.beginBatch();
 		consProtSettings.beginBatch();
@@ -125,18 +139,18 @@ public class Settings {
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
 	}
-	
+
 	/**
-	 * End batch for all settings at once (helper). 
+	 * End batch for all settings at once (helper).
 	 * 
 	 * @remark Recommended to be used just for file loading, in other situations
-	 * individual setting containers should be used to end batching.
+	 *         individual setting containers should be used to end batching.
 	 */
 	public void endBatch() {
-		for(EuclidianSettings settings : euclidianSettings) {
+		for (EuclidianSettings settings : euclidianSettings) {
 			settings.endBatch();
 		}
-		
+
 		algebraSettings.endBatch();
 		spreadsheetSettings.endBatch();
 		consProtSettings.endBatch();
@@ -146,58 +160,60 @@ public class Settings {
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
 	}
-	
-	/** 
-	 * @param number Number of euclidian view to return settings for. Starts with 1.
+
+	/**
+	 * @param number
+	 *            Number of euclidian view to return settings for. Starts with
+	 *            1.
 	 * @return Settings of euclidian view.
 	 */
 	public final EuclidianSettings getEuclidian(int number) {
-		return euclidianSettings[number-1];
+		return euclidianSettings[number - 1];
 	}
-	
+
 	/**
 	 * @return Settings of the algebra view.
 	 */
 	public final AlgebraSettings getAlgebra() {
 		return algebraSettings;
 	}
-	
+
 	/**
 	 * @return Settings of the spreadsheet view.
 	 */
 	public final SpreadsheetSettings getSpreadsheet() {
 		return spreadsheetSettings;
 	}
-	
+
 	/**
 	 * @return Settings of the probability calculator view.
 	 */
 	public final ProbabilityCalculatorSettings getProbCalcSettings() {
 		return probCalcSettings;
 	}
-	
+
 	/**
 	 * @return Settings of the construction protocol.
 	 */
 	public final ConstructionProtocolSettings getConstructionProtocol() {
 		return consProtSettings;
 	}
-	
+
 	public final LayoutSettings getLayout() {
 		return layoutSettings;
 	}
-	
+
 	/**
 	 * @return General settings of the application.
 	 */
 	public final ApplicationSettings getApplication() {
 		return applicationSettings;
 	}
-	
+
 	public final KeyboardSettings getKeyboard() {
 		return keyboardSettings;
 	}
-	
+
 	public final CASSettings getCasSettings() {
 		return casSettings;
 	}

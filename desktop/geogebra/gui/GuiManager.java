@@ -561,7 +561,7 @@ public class GuiManager {
   protected EuclidianView newEuclidianView(boolean[] showAxis,
       boolean showGrid, int id) {
     return new EuclidianView(new EuclidianController(kernel), showAxis,
-        showGrid, id);
+        showGrid, id, app.getSettings().getEuclidian(id));
   }
 
   public boolean hasEuclidianView2() {

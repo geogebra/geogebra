@@ -8,34 +8,36 @@ import geogebra.kernel.geos.GeoAngle;
 
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects
+ * 
  * @author matthieu
- *
+ * 
  */
 public class EuclidianViewFor3D extends EuclidianView {
 
 	public EuclidianViewFor3D(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno) {
-		super(ec, showAxes, showGrid, evno);
-		
-		//Application.debug("ici");
-	} 
-	
+		super(ec, showAxes, showGrid, evno, null);
+
+		// Application.debug("ici");
+	}
+
 	@Override
 	protected Drawable newDrawable(GeoElement geo) {
-		
-		//first try super method
+
+		// first try super method
 		Drawable d = super.newDrawable(geo);
-		if (d!=null)
+		if (d != null) {
 			return d;
-		
-		//try 3D geos
+		}
+
+		// try 3D geos
 		switch (geo.getGeoClassType()) {
 		case ANGLE3D:
 			d = new DrawAngleFor3D(this, (GeoAngle) geo);
 			break;
 		}
 
-		return d;		
+		return d;
 	}
 
-} 
+}
