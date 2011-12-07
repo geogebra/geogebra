@@ -1,6 +1,6 @@
 package geogebra.adapters;
 
-public class Complex implements geogebra.common.adapters.Complex {
+public class Complex extends geogebra.common.adapters.Complex {
 
 	private org.apache.commons.math.complex.Complex comp;
 
@@ -10,6 +10,10 @@ public class Complex implements geogebra.common.adapters.Complex {
 
 	public Complex(org.apache.commons.math.complex.Complex c) {
 		comp = c;
+	}
+
+	public geogebra.common.adapters.Complex construct(double r, double i) {
+		return new Complex(r, i);
 	}
 
 	org.apache.commons.math.complex.Complex getImpl() {

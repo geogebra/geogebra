@@ -198,7 +198,9 @@ public class Kernel extends AbstractKernel{
 	public Kernel(Application app) {
 		this();
 		this.app = app;
-		
+
+		geogebra.common.adapters.Complex.prototype = new Complex(0,0);
+
 		newConstruction();
 		getExpressionNodeEvaluator();
 		
