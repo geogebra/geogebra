@@ -38,6 +38,7 @@ import java.util.HashSet;
 
 //import org.apache.commons.math.complex.Complex;
 import geogebra.common.adapters.Complex;
+import geogebra.common.adapters.FactoryAdapter;
 
 /** 
  * 
@@ -397,8 +398,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
       //c.x = (x1 * x2 + y1 * y2)/(x2 * x2 + y2 * b.y);
       //c.y = (y1 * x2 - x1 * y2)/(x2 * x2 + y2 * b.y);
       
-      Complex out = Complex.prototype.construct(a.x, a.y);     
-      out = out.divide(Complex.prototype.construct(b.x, b.y));
+      Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
+      out = out.divide(FactoryAdapter.prototype.newComplex(b.x, b.y));
       c.x = out.getReal();
       c.y = out.getImaginary();
     	c.setMode(AbstractKernel.COORD_COMPLEX);
@@ -416,8 +417,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
       //c.y = ( - x1 * y2)/(x2 * x2 + y2 * b.y);
 
     
-        Complex out = Complex.prototype.construct(a.getDouble(), 0);     
-        out = out.divide(Complex.prototype.construct(b.x, b.y));
+        Complex out = FactoryAdapter.prototype.newComplex(a.getDouble(), 0);     
+        out = out.divide(FactoryAdapter.prototype.newComplex(b.x, b.y));
         c.x = out.getReal();
         c.y = out.getImaginary();
     	c.setMode(AbstractKernel.COORD_COMPLEX);
@@ -432,8 +433,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
       //c.y = (y2 * x1 + x2 * y1);
     	
     	
-      Complex out = Complex.prototype.construct(a.x, a.y);     
-      out = out.multiply(Complex.prototype.construct(b.x, b.y));
+      Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
+      out = out.multiply(FactoryAdapter.prototype.newComplex(b.x, b.y));
       c.x = out.getReal();
       c.y = out.getImaginary();
 
@@ -442,8 +443,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = a ^ b Michael Borcherds 2009-03-10 */
     final public static void complexPower(GeoVec2D a, NumberValue b, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
-        out = out.pow(Complex.prototype.construct(b.getDouble(), 0));
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
+        out = out.pow(FactoryAdapter.prototype.newComplex(b.getDouble(), 0));
         c.x = out.getReal();
         c.y = out.getImaginary();
       	c.setMode(AbstractKernel.COORD_COMPLEX);
@@ -451,7 +452,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
     final public static void complexSqrt(GeoVec2D a, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
         out = out.sqrt();
         c.x = out.getReal();
         c.y = out.getImaginary();
@@ -460,8 +461,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
     final public static void complexCbrt(GeoVec2D a, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
-        out = out.pow(Complex.prototype.construct(1/3d, 0));
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
+        out = out.pow(FactoryAdapter.prototype.newComplex(1/3d, 0));
         c.x = out.getReal();
         c.y = out.getImaginary();
       	c.setMode(AbstractKernel.COORD_COMPLEX);
@@ -469,7 +470,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
     final public static void complexConjugate(GeoVec2D a, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
         out = out.conjugate();
         c.x = out.getReal();
         c.y = out.getImaginary();
@@ -483,8 +484,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = a ^ b Michael Borcherds 2009-03-10 */
     final public static void complexPower(NumberValue a, GeoVec2D b, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.getDouble(), 0);     
-        out = out.pow(Complex.prototype.construct(b.x, b.y));
+        Complex out = FactoryAdapter.prototype.newComplex(a.getDouble(), 0);     
+        out = out.pow(FactoryAdapter.prototype.newComplex(b.x, b.y));
         c.x = out.getReal();
         c.y = out.getImaginary();
       	c.setMode(AbstractKernel.COORD_COMPLEX);
@@ -492,7 +493,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = e ^ a Michael Borcherds 2009-03-10 */
     final public static void complexExp(GeoVec2D a, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
         out = out.exp();
         c.x = out.getReal();
         c.y = out.getImaginary();
@@ -501,7 +502,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = natural log(a) Michael Borcherds 2009-03-10 */
     final public static void complexLog(GeoVec2D a, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
         out = out.log();
         c.x = out.getReal();
         c.y = out.getImaginary();
@@ -510,15 +511,15 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 
     /** c = abs(a) Michael Borcherds 2009-03-10 */
     final public static double complexAbs(GeoVec2D a) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
 
         return out.abs();
     }
 
     /** c = a ^ b Michael Borcherds 2009-03-14 */
     final public static void complexPower(GeoVec2D a, GeoVec2D b, GeoVec2D c) {                                       
-        Complex out = Complex.prototype.construct(a.x, a.y);     
-        out = out.pow(Complex.prototype.construct(b.x, b.y));
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
+        out = out.pow(FactoryAdapter.prototype.newComplex(b.x, b.y));
         c.x = out.getReal();
         c.y = out.getImaginary();
       	c.setMode(AbstractKernel.COORD_COMPLEX);
@@ -531,8 +532,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     	//  do multiply
       //c.x = (x1 * x2);
       //c.y = (x2 * y1);
-        Complex out = Complex.prototype.construct(a.x, a.y);     
-        out = out.multiply(Complex.prototype.construct(b.getDouble(), 0));
+        Complex out = FactoryAdapter.prototype.newComplex(a.x, a.y);     
+        out = out.multiply(FactoryAdapter.prototype.newComplex(b.getDouble(), 0));
         c.x = out.getReal();
         c.y = out.getImaginary();
 

@@ -1,17 +1,14 @@
 package geogebra.common.adapters;
 
-public abstract class Complex {
-	public static Complex prototype = null;
-
-	public abstract double getReal();
-	public abstract double getImaginary();
-	public abstract Complex divide(Complex rhs);
-	public abstract Complex multiply(Complex rhs);
-	public abstract Complex pow(Complex rhs);
-	public abstract Complex sqrt();
-	public abstract Complex conjugate();
-	public abstract Complex exp();
-	public abstract Complex log();
-	public abstract double abs();
-	public abstract Complex construct(double r, double i);
+public interface Complex {
+	public double getReal();
+	public double getImaginary();
+	public Complex divide(Complex rhs);
+	public Complex multiply(Complex rhs);
+	public Complex pow(Complex rhs);
+	public Complex sqrt();
+	public Complex conjugate();
+	public Complex exp();
+	public Complex log();
+	public double abs();
 }
