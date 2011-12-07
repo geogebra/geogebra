@@ -57,8 +57,8 @@ public class DrawInequality1Var extends Drawable {
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
-				g2.setStroke(EuclidianView.getStroke(geo.lineThickness / 2.0f, ineq
-						.getFunBorder().lineType));
+				g2.setStroke(EuclidianView.getStroke(geo.lineThickness / 2.0f, ((GeoElement)ineq
+						.getFunBorder()).lineType));
 				Drawable.drawWithValueStrokePure(gp[i], g2);
 			}
 

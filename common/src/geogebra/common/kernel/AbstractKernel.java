@@ -1906,4 +1906,6 @@ public abstract class AbstractKernel {
 	public abstract GeoFunctionInterface getGeoFunction();
 
 	public abstract GeoConicInterface getGeoConic();
+	
+	public abstract GeoPointInterface [] RootMultiple(String [] labels, GeoFunctionInterface f);
 }

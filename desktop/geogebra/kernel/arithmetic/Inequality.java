@@ -26,14 +26,11 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-//import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoFunction;
-//import geogebra.kernel.implicit.GeoImplicitPoly;
 
 /**
  * stores left and right hand side of an inequality as Expressions
@@ -61,7 +58,7 @@ public class Inequality {
 	private int type;
 	/*private GeoImplicitPoly impBorder;*/
 	private GeoConicInterface conicBorder;
-	private GeoFunction funBorder;
+	private GeoFunctionInterface funBorder;
 	private GeoElement border;
 	private AbstractKernel kernel;
 	private boolean isAboveBorder;
@@ -190,14 +187,14 @@ public class Inequality {
 			}}*/
 		}
 		if (type == INEQUALITY_PARAMETRIC_X || type == INEQUALITY_PARAMETRIC_Y) {
-			funBorder = new GeoFunction(kernel.getConstruction());
+			funBorder = kernel.getGeoFunction();
 			funBorder.setFunction(fun);
 			if (type == INEQUALITY_PARAMETRIC_X) {
 				funBorder.swapEval();
 			}
 		}
 		if (funBorder != null)
-			border = funBorder;
+			border = (GeoElement) funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else
@@ -235,14 +232,14 @@ public class Inequality {
 		AbstractConstruction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		funBorder = new GeoFunction(cons);
+		funBorder = kernel.getGeoFunction();
 		funBorder.setFunction(new Function(normal, fv[varIndex]));		
-		zeros = Kernel.RootMultiple(null, funBorder);
+		zeros = kernel.RootMultiple(null, funBorder);
 		/*for(int i=0;i<zeros.length;i++){
 			Application.debug(zeros[i]);
 		}*/
 		cons.setSuppressLabelCreation(supress);
-		border = funBorder;
+		border = (GeoElement)funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else
@@ -295,7 +292,7 @@ public class Inequality {
 	/**
 	 * @return border for parametric equations
 	 */
-	public GeoFunction getFunBorder() {
+	public GeoFunctionInterface getFunBorder() {
 		return funBorder;
 	}
 

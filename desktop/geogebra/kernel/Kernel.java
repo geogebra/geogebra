@@ -7228,11 +7228,11 @@ public class Kernel extends AbstractKernel{
 		return g;
 	}	
 	
-	final public static GeoPoint [] RootMultiple(String [] labels, GeoFunction f) {
+	final public GeoPoint [] RootMultiple(String [] labels, GeoFunctionInterface f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) return null;
 		
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(f);
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial((GeoFunction)f);
 		GeoPoint [] g = algo.getRootPoints();
 		return g;
 	}

@@ -11,4 +11,8 @@ public interface GeoFunctionInterface extends ExpressionValue,GeoElementInterfac
 	public void setFunction(FunctionInterface deriv);
 
 	public void swapEval();
+	
+	public double evaluate(double d);
+
+	public boolean isPolynomialFunction(boolean b);
 }

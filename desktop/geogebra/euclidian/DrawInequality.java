@@ -371,7 +371,7 @@ public class DrawInequality extends Drawable {
 				gp = new GeneralPathClipped(view);
 			else
 				gp.reset();
-			GeoFunction border = ineq.getFunBorder();
+			GeoFunction border = (GeoFunction)ineq.getFunBorder();
 			border.setLineThickness(geo.lineThickness);
 			updateStrokes(border);
 			Point labelPos;
