@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariableInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
@@ -854,15 +855,15 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	}
 	
 	final public boolean containsCasEvaluableFunction() {
-		if (left instanceof FunctionVariable || right instanceof FunctionVariable)
+		if (left instanceof CasEvaluableFunction || right instanceof CasEvaluableFunction)			
 			return true;
 
 		if (left instanceof ExpressionNode
-				&& ((ExpressionNode) left).containsFunctionVariable()) {
+				&& ((ExpressionNode) left).containsCasEvaluableFunction()) {
 			return true;
 		}
 		if (right instanceof ExpressionNode
-				&& ((ExpressionNode) right).containsFunctionVariable()) {
+				&& ((ExpressionNode) right).containsCasEvaluableFunction()) {
 			return true;
 		}
 
