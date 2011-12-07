@@ -1908,4 +1908,8 @@ public abstract class AbstractKernel {
 	public abstract GeoConicInterface getGeoConic();
 	
 	public abstract GeoPointInterface [] RootMultiple(String [] labels, GeoFunctionInterface f);
+
+	public abstract double getViewsXMax(GeoElement geo);
+
+	public abstract double getViewsXMin(GeoElement geo);
 }

@@ -23,6 +23,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -47,15 +48,13 @@ import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -138,7 +137,7 @@ GeoFunctionInterface {
 		}
 	}
 
-	GeoImplicitPoly iPoly;
+	GeoImplicitPolyInterface iPoly;
 	GeoFunction[] substituteFunctions;
 	static int FUNCTION_DIRECT = 1;
 	static int FUNCTION_COMPOSITE_IPOLY_FUNCS = 3;
@@ -146,7 +145,7 @@ GeoFunctionInterface {
 	
 	//Currently, the composite function is only for internal use
 	//The expression is not correct but it is not to be shown anyway.
-	public GeoFunction(AbstractConstruction c, GeoImplicitPoly iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
+	public GeoFunction(AbstractConstruction c, GeoImplicitPolyInterface iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
 		this(c);
 		this.iPoly = iPoly;
 		geoFunctionType = FUNCTION_COMPOSITE_IPOLY_FUNCS;
@@ -280,7 +279,7 @@ GeoFunctionInterface {
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's expression
 			if (!geo.isIndependent()) {
-				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 				algoMacro.initFunction(this.fun);	
 			}			
 		}
@@ -790,9 +789,9 @@ GeoFunctionInterface {
 	 */
 	public double getMinParameter() {
 		if (interval)
-			return Math.max(((Kernel)kernel).getViewsXMin(this), intervalMin);
+			return Math.max(kernel.getViewsXMin(this), intervalMin);
 		else
-			return ((Kernel)kernel).getViewsXMin(this);
+			return kernel.getViewsXMin(this);
 	}
 	
 	/**
@@ -804,9 +803,9 @@ GeoFunctionInterface {
 	 */
 	public double getMaxParameter() {
 		if (interval)
-			return Math.min(((Kernel)kernel).getViewsXMax(this), intervalMax);
+			return Math.min(kernel.getViewsXMax(this), intervalMax);
 		else
-			return ((Kernel)kernel).getViewsXMax(this);
+			return kernel.getViewsXMax(this);
 	}
 	
 	public PathMover createPathMover() {
@@ -1250,9 +1249,9 @@ GeoFunctionInterface {
 		sb.append("50)");
 
 		try {
-			String functionOut = ((Kernel)kernel)
+			String functionOut = kernel
 					.evaluateCachedGeoGebraCAS(sb.toString());
-			NumberValue nv = ((Kernel)kernel).getAlgebraProcessor().evaluateToNumeric(
+			NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
 					functionOut, false);
 			return nv.getDouble();
 		} catch (Throwable e) {
@@ -1349,12 +1348,12 @@ GeoFunctionInterface {
 	        sb.append(Unicode.Infinity);
 	        sb.append(')');
 
-			gradientStrMinus = ((Kernel)kernel).evaluateCachedGeoGebraCAS(sb.toString());
+			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 			//Application.debug(sb.toString()+" = "+gradientStrMinus,1);
 			
 			double grad;
 			try {
-				grad = ((Kernel)kernel).getAlgebraProcessor().evaluateToDouble(gradientStrMinus, true);
+				grad = kernel.getAlgebraProcessor().evaluateToDouble(gradientStrMinus, true);
 			} catch (Exception e) {
 				grad = 0;
 			}
@@ -1503,7 +1502,7 @@ GeoFunctionInterface {
 		    			//Application.debug(verticalAsymptotesArray[i]+"");
 		    			if (verticalAsymptotesArray[i].trim().equals("")) isInRange = false; // was complex root
 		    			//isInRange = parentFunction.evaluateCondition(Double.parseDouble(verticalAsymptotesArray[i]));
-		    			else isInRange = parentFunction.evaluateCondition(((Kernel)kernel).getAlgebraProcessor().evaluateToNumeric(verticalAsymptotesArray[i], true).getDouble());
+		    			else isInRange = parentFunction.evaluateCondition(kernel.getAlgebraProcessor().evaluateToNumeric(verticalAsymptotesArray[i], true).getDouble());
 		    		} catch (Exception e) {AbstractApplication.debug("Error parsing: "+verticalAsymptotesArray[i]);}
 		    		if (reverseCondition) isInRange = !isInRange;
 		    		

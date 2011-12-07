@@ -16,6 +16,7 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -45,7 +46,7 @@ import java.util.HashMap;
  * @version 
  */
 public class AlgoMacro extends AlgoElement 
-implements EuclidianViewCE {
+implements EuclidianViewCE, AlgoMacroInterface {
 
 	private Macro macro; 
 	

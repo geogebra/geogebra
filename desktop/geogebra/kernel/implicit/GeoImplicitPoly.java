@@ -41,6 +41,7 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -69,7 +70,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  */
 public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
-Dilateable, Transformable, EuclidianViewCE {
+Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	
 	private double[][] coeff;
 	private double[][] coeffSquarefree;
