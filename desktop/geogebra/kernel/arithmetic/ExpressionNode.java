@@ -50,16 +50,12 @@ import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
-import geogebra.gui.DynamicTextInputPane;
-import geogebra.gui.TextInputDialog;
 import geogebra.kernel.geos.GeoLine;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-
-import javax.swing.text.Document;
 
 /**
  * Tree node for expressions like "3*a - b/5"
@@ -1114,7 +1110,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 		return getCASstring(kernel.getCASPrintForm(), symbolic);
 	}
 	
-	private boolean containsMyStringBuffer() {
+	public boolean containsMyStringBuffer() {
 				
 		if (left instanceof MyStringBuffer || right instanceof MyStringBuffer) return true;
 		
@@ -1131,65 +1127,7 @@ public class ExpressionNode extends ValidExpression implements ReplaceableValue,
 	 * splits a string up for editing with the Text Tool
 	 * adapted from printCASstring()
 	 */
-	public void splitString(DynamicTextInputPane dt,TextInputDialog id) {
-		
-		if (leaf) { 
-
-			if (left.isGeoElement()) {
-				Document d = dt.insertDynamicText(((GeoElement) left).getLabel(), -1, id);
-				d.addDocumentListener(id);
-			}
-			else if (left.isExpressionNode())
-				((ExpressionNode) left).splitString(dt, id);
-			else if (left instanceof MyStringBuffer) {
-				dt.insertString(-1, left.toString().replaceAll("\"", ""), null);				
-			} else {
-				dt.insertDynamicText(left.toString(), -1, id);
-			}
-
-		}
-
-		// STANDARD case: no leaf
-		else {
-			
-			if (right != null && !containsMyStringBuffer()) {
-				// neither left nor right are free texts, eg a+3 in (a+3)+"hello"
-				// so no splitting needed
-				dt.insertDynamicText(toString(), -1, id);
-				return;
-			}
-			
-			
-			// expression node
-			if (left.isGeoElement()) {
-				Document d = dt.insertDynamicText(((GeoElement) left).getLabel(), -1, id);
-				d.addDocumentListener(id);
-			}
-			else if (left.isExpressionNode())
-				((ExpressionNode) left).splitString(dt, id);
-			else if (left instanceof MyStringBuffer) {
-				dt.insertString(-1, left.toString().replaceAll("\"", ""), null);				
-			} else {
-				dt.insertDynamicText(left.toString(), -1, id);
-			}
-
-			if (right != null) {
-				if (right.isGeoElement()) {
-					Document d = dt.insertDynamicText(((GeoElement) right).getLabel(), -1, id);
-					d.addDocumentListener(id);
-				}
-				else if (right.isExpressionNode())
-					((ExpressionNode) right).splitString(dt, id);
-				else if (right instanceof MyStringBuffer) {
-					dt.insertString(-1, right.toString().replaceAll("\"", ""), null);				
-				} else {
-					dt.insertDynamicText(right.toString(), -1, id);
-				}
-			}
-		}
-		
-	}
-
+	
 	private String printCASstring(boolean symbolic) {
 		String ret = null;
 		
