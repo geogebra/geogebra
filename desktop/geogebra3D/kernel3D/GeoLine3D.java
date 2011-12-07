@@ -3,9 +3,9 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
 
 public class GeoLine3D extends GeoCoordSys1D {
 

@@ -2,10 +2,10 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoAnglePoints;
-import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;

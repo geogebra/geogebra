@@ -1,10 +1,10 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.Previewable;
 import geogebra.kernel.arithmetic.Functional2Var;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;

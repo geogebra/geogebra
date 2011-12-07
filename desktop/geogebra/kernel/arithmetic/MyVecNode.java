@@ -24,8 +24,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoVec2D;
 
 import java.util.HashSet;

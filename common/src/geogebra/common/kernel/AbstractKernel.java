@@ -19,6 +19,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -26,6 +27,7 @@ import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.algos.AlgoElement;
 
 
 
@@ -1881,4 +1883,8 @@ public abstract class AbstractKernel {
 	public abstract boolean isInsertLineBreaks();
 	
 	public abstract ExpressionNodeEvaluatorInterface getExpressionNodeEvaluator();
+	
+	// temporary methods just while moving things
+	public abstract boolean isZeroTemporarilyGeoBooleanGeoNumeric(GeoElement geo);
+	public abstract String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo);
 }

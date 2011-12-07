@@ -1,9 +1,9 @@
 package geogebra.cas.view;
 
 import geogebra.cas.CASparser;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoCasCell;
-import geogebra.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
 

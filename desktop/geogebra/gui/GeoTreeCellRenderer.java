@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Color;

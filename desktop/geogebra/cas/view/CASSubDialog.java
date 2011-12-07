@@ -1,8 +1,8 @@
 package geogebra.cas.view;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.kernel.geos.GeoCasCell;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

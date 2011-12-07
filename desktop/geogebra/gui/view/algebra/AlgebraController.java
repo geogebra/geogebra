@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Color;

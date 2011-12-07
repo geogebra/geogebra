@@ -1,8 +1,8 @@
 package geogebra.plugin.jython;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

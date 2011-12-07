@@ -16,10 +16,11 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.PathNormalizer;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 
 

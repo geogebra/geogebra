@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.statistics;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoBoolean;
 import geogebra.main.Application;
 
 import org.apache.commons.math.distribution.PoissonDistribution;

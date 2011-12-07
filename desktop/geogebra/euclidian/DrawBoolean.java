@@ -12,8 +12,8 @@
 
 package geogebra.euclidian;
 
-import geogebra.kernel.geos.GeoBoolean;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoElement;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,9 +1,9 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
 

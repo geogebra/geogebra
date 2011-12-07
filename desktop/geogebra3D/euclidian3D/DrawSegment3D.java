@@ -3,7 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra3D.kernel3D.GeoSegment3D;
 

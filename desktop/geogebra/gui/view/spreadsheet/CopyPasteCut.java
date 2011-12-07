@@ -1,9 +1,9 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Toolkit;

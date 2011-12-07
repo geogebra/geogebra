@@ -3,8 +3,8 @@ package geogebra.kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.geos.GeoElement;
 
 /**
  * Normalized path that uses a path parameter in range [0,1].

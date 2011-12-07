@@ -1,5 +1,6 @@
 package geogebra.kernel.discrete;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
@@ -7,7 +8,6 @@ import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
 import geogebra.kernel.discrete.tsp.method.tsp.BranchBound;
 import geogebra.kernel.discrete.tsp.method.tsp.Opt3;
 import geogebra.kernel.discrete.tsp.model.Node;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 
 import java.util.ArrayList;

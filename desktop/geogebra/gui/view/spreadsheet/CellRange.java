@@ -1,8 +1,9 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.geos.GeoElement;
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.geos.GeoElement;
+
 import java.awt.Rectangle;
 import java.util.ArrayList;
 

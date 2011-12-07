@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.algos.AlgoSphereNDTwoPoints;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoQuadricND;
 
 

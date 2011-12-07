@@ -1,9 +1,9 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.DrawListArray;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.geos.GeoElement;
 
 /**
  * Class for storing 3D drawables includes in a DrawList

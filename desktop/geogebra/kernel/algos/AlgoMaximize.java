@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 
 

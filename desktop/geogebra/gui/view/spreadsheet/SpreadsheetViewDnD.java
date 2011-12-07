@@ -1,13 +1,14 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.geos.GeoElement;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;

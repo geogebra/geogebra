@@ -14,7 +14,9 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 
 import java.awt.Font;
 

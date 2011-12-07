@@ -18,10 +18,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoBoolean;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 
 import java.util.ArrayList;

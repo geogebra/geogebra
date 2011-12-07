@@ -1,7 +1,7 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoSegmentND;

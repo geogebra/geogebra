@@ -21,13 +21,14 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoAngleLines;
 import geogebra.kernel.algos.AlgoAnglePoints;
 import geogebra.kernel.algos.AlgoAnglePolygon;
-import geogebra.kernel.algos.AlgoElement;
 
 /**
  * 

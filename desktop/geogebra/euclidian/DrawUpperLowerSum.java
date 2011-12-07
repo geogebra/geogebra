@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 

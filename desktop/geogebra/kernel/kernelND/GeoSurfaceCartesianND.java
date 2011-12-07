@@ -1,9 +1,9 @@
 package geogebra.kernel.kernelND;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.FunctionNVar;
-import geogebra.kernel.geos.GeoElement;
 
 
 /**

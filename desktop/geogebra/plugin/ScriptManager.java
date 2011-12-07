@@ -1,9 +1,9 @@
 package geogebra.plugin;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.Point;

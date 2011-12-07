@@ -28,6 +28,8 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -36,7 +38,9 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
@@ -104,14 +108,12 @@ import geogebra.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.kernel.discrete.AlgoVoronoi;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoAxis;
-import geogebra.kernel.geos.GeoBoolean;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
 import geogebra.kernel.geos.GeoDummyVariable;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
@@ -8079,4 +8081,13 @@ public class Kernel extends AbstractKernel{
 		return new GgbMat((MyList)myList);
 	}
 
+	// This is just a temporary method during refactoring:
+	public boolean isZeroTemporarilyGeoBooleanGeoNumeric(GeoElement geo) {
+		return isZero(((GeoNumeric)geo).getDouble() - 1);
+	}
+
+	public String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo) {
+    	AlgoPointOnPath algo1 = (AlgoPointOnPath) algo;
+    	return algo.getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());	
+    }
 }

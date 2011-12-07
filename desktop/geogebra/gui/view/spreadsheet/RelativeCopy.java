@@ -2,10 +2,10 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoBoolean;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoImage;

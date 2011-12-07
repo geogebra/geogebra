@@ -22,6 +22,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.Function;

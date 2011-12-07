@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 

@@ -1,9 +1,9 @@
 package geogebra.euclidian;
 
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;

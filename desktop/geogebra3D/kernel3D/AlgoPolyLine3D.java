@@ -15,10 +15,10 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoPolyLine;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 
 /**

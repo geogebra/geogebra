@@ -11,10 +11,10 @@ the Free Software Foundation.
 */
 package geogebra.gui;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoButton;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

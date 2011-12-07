@@ -2,6 +2,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -9,7 +10,6 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.settings.SpreadsheetSettings;
 

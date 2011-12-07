@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 30. August 2001, 17:10
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.ColorAdapter;
@@ -43,19 +43,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
-import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.Locateable;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.GeoCasCellInterface;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoLineInterface;
-import geogebra.common.kernel.geos.GeoListInterface;
-import geogebra.common.kernel.geos.GeoNumericInterface;
-import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoTextInterface;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -67,7 +55,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.TraceSettings;
 import geogebra.common.util.Unicode;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoElement;
 
 import geogebra.common.awt.Color;
 
@@ -500,7 +488,7 @@ public abstract class GeoElement
 	// public int geoID;
 	//  static private int geoCounter = 0;
 	/** parent algorithm */
-	protected AlgoElement algoParent = null;
+	public AlgoElement algoParent = null;//protected
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
 	private ArrayList<AlgoElement> algorithmList; 	// directly dependent algos
@@ -4246,7 +4234,7 @@ public abstract class GeoElement
 		kernel.setPrintLocalizedCommandNames(oldValue);
 	}
 
-    final void getAuxiliaryXML(StringBuilder sb) {
+    public final void getAuxiliaryXML(StringBuilder sb) {//package private
     	if (!isAuxiliaryObjectByDefault()) {
 			if (auxiliaryObject) {
 				sb.append("\t<auxiliary val=\"");
@@ -4266,11 +4254,11 @@ public abstract class GeoElement
 	 * returns all visual xml tags (like show, objColor, labelOffset, ...)
 	 * @param sb 
 	 */
-	void getXMLvisualTags(StringBuilder sb) {
+	public void getXMLvisualTags(StringBuilder sb) {//package private
 		getXMLvisualTags(sb, true);
 	}
 
-	void getXMLvisualTags(StringBuilder sb, boolean withLabelOffset) {
+	public void getXMLvisualTags(StringBuilder sb, boolean withLabelOffset) {//package private
 		boolean isDrawable = isDrawable();
 
 		// show object and/or label in EuclidianView
@@ -4464,7 +4452,7 @@ public abstract class GeoElement
 
 	}
 
-	void getXMLanimationTags(StringBuilder sb) {
+	public void getXMLanimationTags(StringBuilder sb) {//package private
 		// animation step width
 		if (isChangeable()) {
 			sb.append("\t<animation");
@@ -4481,7 +4469,7 @@ public abstract class GeoElement
 
 	}
 
-	void getXMLfixedTag(StringBuilder sb) {
+	public void getXMLfixedTag(StringBuilder sb) {//package private
 		//		is object fixed
 		if (fixed && isFixable()) {
 			sb.append("\t<fixed val=\"");
@@ -4581,7 +4569,7 @@ public abstract class GeoElement
 	 * @param sb 
 	 * @see #getXMLtags(StringBuilder) of GeoConic, GeoLine and GeoVector
 	 */
-	void getBreakpointXML(StringBuilder sb) {
+	public void getBreakpointXML(StringBuilder sb) {//package private
 		if (isConsProtBreakpoint) {
 			sb.append("\t<breakpoint val=\"");
 			sb.append(isConsProtBreakpoint);
@@ -5441,7 +5429,7 @@ public abstract class GeoElement
 					in_string = false;
 			} else if (just_before_bracket) {
 				if (isLetterOrDigit(st.charAt(i))) {
-					ret.add(0, retone.reverse().toString());
+					ret.add(0, retone.toString());
 					retone = new StringBuilder();
 					just_before_bracket = false;
 					before_bracket = true;
@@ -5453,7 +5441,7 @@ public abstract class GeoElement
 				}
 			} else if (before_bracket) {
 				if (!isLetterOrDigit(st.charAt(i))) {
-					ret.add(0, retone.reverse().toString());
+					ret.add(0, retone.toString());
 					retone = new StringBuilder();
 					before_bracket = false;
 					if (st.charAt(i) == '"')
@@ -5467,9 +5455,9 @@ public abstract class GeoElement
 				else if (st.charAt(i) == '[')
 					just_before_bracket = true;
 			}
-			retone.append(st.charAt(i));
+			retone.insert(0,st.charAt(i));
 		}
-		ret.add(0, retone.reverse().toString());
+		ret.add(0, retone.toString());
 		if (before_bracket) {
 			ret.add(0, "");
 		}

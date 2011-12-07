@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;

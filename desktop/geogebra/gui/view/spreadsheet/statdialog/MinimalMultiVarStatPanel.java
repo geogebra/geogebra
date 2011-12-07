@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;

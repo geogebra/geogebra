@@ -2,8 +2,8 @@ package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.plots.CurveMesh;
 import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.euclidian3D.plots.MarchingCubes;

@@ -4,13 +4,13 @@ import geogebra.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoCasCell;
-import geogebra.kernel.geos.GeoElement;
 
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;

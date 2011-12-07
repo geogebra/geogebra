@@ -1,10 +1,10 @@
 package geogebra.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.geos.GeoCurveCartesian;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint;
 

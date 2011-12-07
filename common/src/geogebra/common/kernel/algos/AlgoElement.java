@@ -16,20 +16,18 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:36
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.algos.AlgoElementInterface;
-import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 
@@ -392,7 +390,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     }
     
 	// Added for Intergeo File Format (Yves Kreis) -->
-    private String getIntergeoString(String classname) {
+    public String getIntergeoString(String classname) {//it will be private
         // init rbalgo2intergeo if needed
         // for translation of Algo-classname to Intergeo name
         if (rbalgo2intergeo == null) {
@@ -1056,8 +1054,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         if (classname.startsWith("AlgoDependent")) {
             cmdname = "Expression";
         } else if (classname.equals("AlgoPointOnPath")) {
-        	AlgoPointOnPath algo = (AlgoPointOnPath) this;
-        	cmdname = getIntergeoString(classname + "+" + algo.getPath().toGeoElement().getClassName());
+        	cmdname = kernel.temporaryGetInterGeoStringForAlgoPointOnPath(classname, this);
         } else {
             // translate algorithm class name to Intergeo name
             cmdname = getIntergeoString(classname);
@@ -1351,7 +1348,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		return stopUpdateCascade;
 	}
 
-	final void setStopUpdateCascade(boolean stopUpdateCascade) {
+	public final void setStopUpdateCascade(boolean stopUpdateCascade) {//package private
 		this.stopUpdateCascade = stopUpdateCascade;
 	}
 	

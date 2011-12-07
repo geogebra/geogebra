@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.geos.GeoElement;
 
 import geogebra3D.Application3D;
 

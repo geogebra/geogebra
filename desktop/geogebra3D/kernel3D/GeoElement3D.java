@@ -21,8 +21,8 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
 import geogebra3D.Test3D;
 import geogebra3D.euclidian3D.Drawable3D;
 

@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
@@ -24,7 +25,6 @@ import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;

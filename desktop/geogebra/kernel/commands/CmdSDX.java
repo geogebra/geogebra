@@ -1,7 +1,7 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 
 class CmdSDX extends CmdOneOrTwoListsFunction {

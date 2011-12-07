@@ -2,6 +2,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 

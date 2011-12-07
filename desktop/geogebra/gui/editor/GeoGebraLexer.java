@@ -17,7 +17,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.io.IOException;

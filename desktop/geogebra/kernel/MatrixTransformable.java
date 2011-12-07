@@ -1,6 +1,6 @@
 package geogebra.kernel;
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 
 
 public interface MatrixTransformable {

@@ -1,7 +1,6 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoPointInterface;
 
 
 public interface PointRotateable extends Rotateable {

@@ -1,8 +1,8 @@
 package geogebra.export;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 

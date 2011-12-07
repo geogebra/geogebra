@@ -14,6 +14,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdScripting;
 

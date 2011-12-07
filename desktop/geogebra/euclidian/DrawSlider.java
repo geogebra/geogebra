@@ -16,7 +16,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;
 

@@ -7,12 +7,12 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoVectorND;
 
 /**

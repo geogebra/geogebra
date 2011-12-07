@@ -13,12 +13,12 @@ the Free Software Foundation.
 package geogebra.gui.view.properties;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.PropertiesPanel;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

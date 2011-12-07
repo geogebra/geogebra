@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.util.CopyPaste;
 

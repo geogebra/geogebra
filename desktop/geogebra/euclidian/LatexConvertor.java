@@ -1,8 +1,8 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.commands.AlgebraProcessor;
-import geogebra.kernel.geos.GeoElement;
 
 import org.scilab.forge.jlatexmath.dynamic.ExternalConverter;
 

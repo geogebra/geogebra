@@ -20,6 +20,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.Construction;
@@ -30,7 +31,6 @@ import geogebra.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.kernel.algos.AlgoHyperbolaFociPoint;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint;

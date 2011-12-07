@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
 
 
 public class AlgoPoint3DOnPath extends AlgoElement3D {

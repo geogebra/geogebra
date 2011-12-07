@@ -1,11 +1,11 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.geos.GeoAngle;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.main.Application;
 

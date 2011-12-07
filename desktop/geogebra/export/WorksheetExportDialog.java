@@ -12,6 +12,7 @@
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -23,7 +24,6 @@ import geogebra.gui.util.IconTabbedPane;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.DownloadManager;

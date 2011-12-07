@@ -21,9 +21,9 @@ package geogebra3D.kernel3D;
 import java.awt.Color;
 
 import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
 

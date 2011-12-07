@@ -14,11 +14,13 @@ package geogebra.kernel.algos;
 
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoList;
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoElement;
+
 import java.util.ArrayList;
 
 /**

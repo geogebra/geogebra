@@ -1,9 +1,9 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.OptionsDialog;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 

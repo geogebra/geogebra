@@ -1,5 +1,7 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
@@ -11,7 +13,6 @@ import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoBarChart;
 import geogebra.kernel.algos.AlgoBoxPlot;
-import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.algos.AlgoHistogram;
 import geogebra.kernel.algos.AlgoIntegralFunctions;
@@ -26,7 +27,6 @@ import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoCurveCartesian;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoLine;

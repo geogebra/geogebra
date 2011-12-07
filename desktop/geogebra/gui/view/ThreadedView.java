@@ -12,8 +12,8 @@ the Free Software Foundation.
 package geogebra.gui.view;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.kernel.geos.GeoElement;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

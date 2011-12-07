@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.algos.AlgoPolyLine;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.main.Application;

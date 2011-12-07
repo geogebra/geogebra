@@ -19,11 +19,11 @@ the Free Software Foundation.
 package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

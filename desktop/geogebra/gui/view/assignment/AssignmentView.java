@@ -8,9 +8,9 @@ import java.awt.print.PrinterException;
 
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.main.Application;
 

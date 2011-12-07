@@ -2,9 +2,9 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.euclidian.Previewable;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoLine3D;

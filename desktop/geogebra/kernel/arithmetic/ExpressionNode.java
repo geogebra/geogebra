@@ -34,6 +34,7 @@ import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.AbstractApplication;
@@ -42,7 +43,6 @@ import geogebra.common.util.Unicode;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.TextInputDialog;
 import geogebra.kernel.geos.GeoDummyVariable;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoLine;
 
 import java.util.HashSet;

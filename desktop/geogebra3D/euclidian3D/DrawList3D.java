@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.DrawableND;
-import geogebra.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;

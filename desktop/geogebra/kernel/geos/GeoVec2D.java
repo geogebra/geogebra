@@ -27,6 +27,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;

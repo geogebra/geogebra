@@ -1,13 +1,13 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoElement;
 import geogebra.kernel.algos.AlgoListLength;
 import geogebra.kernel.algos.AlgoListMax;
 import geogebra.kernel.algos.AlgoListMin;
-import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
