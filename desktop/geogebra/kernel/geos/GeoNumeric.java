@@ -35,9 +35,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
-//import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 
 import java.util.ArrayList;
@@ -160,7 +158,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	 */
 	public void setDrawable(boolean flag) {
 		isDrawable = flag;
-		if (isDrawable && ((Kernel) kernel).isNotifyViewsActive() && kernel.isAllowVisibilitySideEffects() ) {
+		if (isDrawable && kernel.isNotifyViewsActive() && kernel.isAllowVisibilitySideEffects() ) {
 			setEuclidianVisible(true);
 		}						
 	}
@@ -171,8 +169,8 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		// slider is only possible for independent
 		// number with given min and max
 		if (isIndependent()) {			
-			if (visible) {		
-				GeoNumeric num = ((Kernel) kernel).getDefaultNumber(isAngle());				
+			if (visible) {		//TODO: Remove cast from GeoNumericInterface
+				GeoNumeric num = (GeoNumeric) kernel.getDefaultNumber(isAngle());				
 				// make sure the slider value is not fixed 
 				setFixed(false);
 				if (!intervalMinActive && !(intervalMin instanceof GeoNumeric)) {
@@ -320,7 +318,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	
 	public double getAnimationStep() {
 		if(getAnimationStepObject() == null){
-			GeoNumeric num = ((Kernel) kernel).getDefaultNumber(isGeoAngle());
+			GeoNumericInterface num = kernel.getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());		
 		}
 		return super.getAnimationStep();
@@ -328,7 +326,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 
 	public double getAnimationSpeed() {
 		if(getAnimationSpeedObject() == null){
-			GeoNumeric num = ((Kernel) kernel).getDefaultNumber(isGeoAngle());
+			GeoNumericInterface num = kernel.getDefaultNumber(isGeoAngle());
 			setAnimationSpeed(num.getAnimationSpeed());
 		}
 		return super.getAnimationSpeed();
@@ -792,7 +790,8 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 			// don't create a label for the new dependent function
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			ret = ((Kernel) kernel).DependentFunction(null, fun);
+			//TODO remove cast
+			ret = (GeoFunction) kernel.DependentFunction(null, fun);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else {
 			ret = new GeoFunction(cons);

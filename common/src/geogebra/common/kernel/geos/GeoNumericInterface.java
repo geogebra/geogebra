@@ -51,4 +51,8 @@ public interface GeoNumericInterface extends NumberValue, GeoElementInterface {
 	public double getIntervalMin();
 	
 	public double getIntervalMax();
+
+	double getAnimationSpeed();
+
+	public double getAnimationStep();
 }

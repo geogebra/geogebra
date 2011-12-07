@@ -15,6 +15,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
@@ -1910,4 +1911,10 @@ public abstract class AbstractKernel {
 	public abstract double getViewsXMax(GeoElement geo);
 
 	public abstract double getViewsXMin(GeoElement geo);
+
+	public abstract GeoNumericInterface getDefaultNumber(boolean geoAngle);
+
+	public abstract boolean isNotifyViewsActive();
+
+	public abstract GeoFunctionInterface DependentFunction(String label, Function fun);
 }

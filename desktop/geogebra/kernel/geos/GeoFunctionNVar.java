@@ -14,6 +14,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
@@ -39,8 +40,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoMacro;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.kernel.kernelND.SurfaceEvaluable;
 
 /**
@@ -55,7 +55,7 @@ public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
  Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable, GeoFunctionNVarInterface{
 
-	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
+	private static final double STRICT_INEQ_OFFSET = 4*AbstractKernel.MIN_PRECISION;
 	private static final int SEEK_DENSITY = 30;
 	private FunctionNVar fun;
 	//private List<Inequality> ineqs;	
@@ -141,7 +141,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's expression
 			if (!geoFun.isIndependent()) {
-				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 				algoMacro.initFunction(this.fun);	
 			}			
 		}
