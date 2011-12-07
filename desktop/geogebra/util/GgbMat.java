@@ -1,9 +1,9 @@
 package geogebra.util;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.Construction;
 import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoList;
@@ -12,7 +12,7 @@ import geogebra.kernel.geos.GeoNumeric;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 
-public class GgbMat extends Array2DRowRealMatrix {
+public class GgbMat extends Array2DRowRealMatrix implements geogebra.common.util.GgbMat{
 
 	private boolean isUndefined = false;
 
@@ -173,14 +173,16 @@ public class GgbMat extends Array2DRowRealMatrix {
 		}
 	}
 
-	/*
+	/**
 	 * returns GgbMatrix as a GeoList eg { {1,2}, {3,4} }
+	 * @param outputList list for the copy
+	 * @param cons construction
 	 */
-	public GeoList getGeoList(GeoList outputList, AbstractConstruction cons) {
+	public void getGeoList(GeoList outputList, AbstractConstruction cons) {
 
 		if (isUndefined) {
-			outputList.setDefined(false);
-			return outputList;
+			outputList.setDefined(false);	
+			return;
 		}
 
 		outputList.clear();
@@ -194,9 +196,31 @@ public class GgbMat extends Array2DRowRealMatrix {
 			}
 			outputList.add(columnList);
 		}
-
-		return outputList;
 	}
+	
+	/**
+	 * returns GgbMatrix as a GeoList eg { {1,2}, {3,4} }
+	 * @param outputList list for the copy
+	 * @param cons construction
+	 */
+	public void getMyList(ExpressionValue outputListEV,AbstractKernel kernel) {
+		MyList outputList = (MyList) outputListEV;
+		if (isUndefined) {
+			return;			
+		}
+
+		outputList.clear();
+
+		for (int r = 0; r < getRowDimension(); r++) {
+			MyList columnList = new MyList(kernel);
+			for (int c = 0; c < getColumnDimension(); c++) {
+				// Application.debug(get(r, c)+"");
+				columnList.addListElement(new GeoNumeric(kernel.getConstruction(), getEntry(r, c)));
+			}
+			outputList.addListElement(columnList);
+		}
+	}
+
 
 	/*
 	 * returns true if the matrix is undefined eg after being inverted

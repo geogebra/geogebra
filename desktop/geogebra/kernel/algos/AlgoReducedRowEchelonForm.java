@@ -81,7 +81,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
    		matrix.reducedRowEchelonFormImmediate();
    		// ReducedRowEchelonForm[{{1,2},{3,4}}]
    		
-   		outputList = matrix.getGeoList(outputList, cons);      
+   		matrix.getGeoList(outputList, cons);      
     }        
      
 }

@@ -28,6 +28,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -61,6 +62,7 @@ import geogebra.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.FunctionalNVar;
+import geogebra.kernel.arithmetic.MyList;
 import geogebra.kernel.arithmetic.Polynomial;
 import geogebra.kernel.barycentric.AlgoBarycenter;
 import geogebra.kernel.barycentric.AlgoKimberling;
@@ -147,6 +149,7 @@ import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
+import geogebra.util.GgbMat;
 import geogebra.util.GeoLaTeXCache;
 import geogebra.util.MyMath2;
 import geogebra.util.NumberFormatDesktop;
@@ -8055,6 +8058,12 @@ public class Kernel extends AbstractKernel{
 	@Override
 	public AbstractGeoElementSpreadsheet getGeoElementSpreadsheet() {
 		return ges;
+	}
+
+	//TODO: input should be MyList instead of ExpressionValue once ported
+	@Override 
+	public GgbMat getGgbMat(ExpressionValue myList) {
+		return new GgbMat((MyList)myList);
 	}
 
 }

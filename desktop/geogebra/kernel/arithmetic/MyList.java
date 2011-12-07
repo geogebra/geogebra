@@ -28,9 +28,8 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoList;
-import geogebra.util.GgbMat;
+//import geogebra.kernel.geos.GeoElement;
+import geogebra.common.util.GgbMat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -440,11 +439,10 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	}
 	
 	public MyList invert(){
-		GgbMat g = new GgbMat(this);
-		AbstractApplication.debug(g);
+		GgbMat g = kernel.getGgbMat(this);
 		g.inverseImmediate();
-		GeoList gl = new GeoList(kernel.getConstruction());
-		g.getGeoList(gl, kernel.getConstruction());
+		MyList gl = new MyList(kernel);
+		g.getMyList(gl, kernel);
 		return gl.getMyList();	
 	}
 	/**
@@ -455,6 +453,9 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 	   	return isMatrix(this);
 	}
 	
+	public void clear(){
+		listElements.clear();
+	}
 	private boolean isMatrix(MyList LHlist)
 	{
 		// check if already calculated
@@ -738,11 +739,11 @@ public class MyList extends ValidExpression implements ListValue, ReplaceableVal
 		return c;
 	}
 
-	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varSet = new HashSet<GeoElement>();
+	public HashSet getVariables() {
+		HashSet varSet = new HashSet();
 		int size = listElements.size();
 		for (int i = 0; i < size; i++) {
-			HashSet<GeoElement> s = listElements.get(i).getVariables();
+			HashSet s = listElements.get(i).getVariables();
 			if (s != null)
 				varSet.addAll(s);
 		}

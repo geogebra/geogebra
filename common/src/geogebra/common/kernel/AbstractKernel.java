@@ -4,6 +4,7 @@ package geogebra.common.kernel;
 import java.util.Stack;
 
 import geogebra.common.util.AbstractMyMath2;
+import geogebra.common.util.GgbMat;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
@@ -11,6 +12,7 @@ import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
 import geogebra.common.awt.ColorAdapter;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
@@ -1866,4 +1868,6 @@ public abstract class AbstractKernel {
 	}
 
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
+
+	public abstract GgbMat getGgbMat(ExpressionValue myList);
 }

@@ -71,7 +71,7 @@ public class AlgoTranspose extends AlgoElement {
    		matrix.transposeImmediate();
    		// Transpose[{{1,2},{3,4}}]
    		
-   		outputList = matrix.getGeoList(outputList, cons);    
+   		matrix.getGeoList(outputList, cons);    
     }        
      
 }
