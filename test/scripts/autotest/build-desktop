@@ -1,0 +1,17 @@
+#!/bin/sh
+# Copies "vanilla" JARs into $REVDIR/REVISION for testing purposes.
+
+# 1. Start and loading configuration
+test -r autotest.conf || {
+ echo "$0: Cannot find autotest.conf (make sure you edit autotest.conf.dist first)"
+ echo "Continuing with defaults anyway..."
+ }
+test -r autotest.conf && . ./autotest.conf
+
+DESKTOP_AUTOBUILDDIR=../../../desktop/scripts/autobuild
+DESKTOP_BUILDDIR=../../../desktop/build
+REVISION=`cat $DESKTOP_AUTOBUILDDIR/.revision`
+mkdir -p $REVDIR/$REVISION
+$DESKTOP_AUTOBUILDDIR/make-vanilla-jars -j $JAVA_HOME
+
+cp $DESKTOP_BUILDDIR/*.jar $REVDIR/$REVISION
