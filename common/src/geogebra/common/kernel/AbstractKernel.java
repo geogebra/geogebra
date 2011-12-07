@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -1891,4 +1892,6 @@ public abstract class AbstractKernel {
 	public abstract ExpressionValue getEmptyPolynomial(ExpressionValue left);
 
 	public abstract GeoElement getGeoDummyVariable(String name);
+
+	public abstract GeoVec2DInterface getGeoVec2D(double[] coords);
 }

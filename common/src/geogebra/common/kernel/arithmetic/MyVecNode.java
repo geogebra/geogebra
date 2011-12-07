@@ -16,17 +16,13 @@ the Free Software Foundation.
  * Created on 31. August 2001, 11:34
  */
 
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ReplaceableValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.main.MyParseError;
-import geogebra.kernel.geos.GeoVec2D;
+//import geogebra.kernel.geos.GeoVec2D;
 
 import java.util.HashSet;
 
@@ -206,8 +202,8 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
     /**
      * interface VectorValue implementation
      */           
-    public GeoVec2D getVector() {
-        GeoVec2D ret = new GeoVec2D(kernel, getCoords());
+    public GeoVec2DInterface getVector() {
+        GeoVec2DInterface ret = kernel.getGeoVec2D(getCoords());
         ret.setMode(mode);
         return ret;
     }        

@@ -14,6 +14,7 @@ import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.TextValue;

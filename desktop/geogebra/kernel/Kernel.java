@@ -49,6 +49,7 @@ import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -8092,13 +8093,19 @@ public class Kernel extends AbstractKernel{
     	return algo.getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());	
     }
 
-	@Override
+	@Override //TODO: temporary; replace by constructors once polynomial is ported
 	public ExpressionValue getEmptyPolynomial(ExpressionValue left) {
 		return new Polynomial(this, new Term(this, left, ""));
 	}
 
-	@Override
+	@Override //TODO: temporary; replace by constructors once GeoDummyVariable is ported
 	public GeoElement getGeoDummyVariable(String name) {
 		return new GeoDummyVariable(getConstruction(),name);
+	}
+
+	@Override //TODO: temporary; replace by constructors once GeoVec2D is ported
+	public GeoVec2DInterface getGeoVec2D(double[] coords) {
+		// TODO Auto-generated method stub
+		return new GeoVec2D(this,coords);
 	}
 }
