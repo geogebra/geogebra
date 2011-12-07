@@ -16,19 +16,21 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.util.BufferedImageAdapterDesktop;
 
 import java.awt.image.BufferedImage;
@@ -768,7 +770,7 @@ implements Locateable, AbsoluteScreenLocateable,
     	}      
     }
      
-	public void mirror(GeoPoint Q) {
+	public void mirror(GeoPointInterface Q) {
 		if (!initTransformPoints()) return;
     	
     	// calculate the new corner points
@@ -794,7 +796,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		return true;
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineInterface g) {
 		if (!initTransformPoints()) return;
     	
     	// calculate the new corner points

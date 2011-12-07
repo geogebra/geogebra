@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.ConicMirrorable;
@@ -36,7 +37,6 @@ import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoRay;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVec2D;
-import geogebra.kernel.geos.Mirrorable;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 
 /**

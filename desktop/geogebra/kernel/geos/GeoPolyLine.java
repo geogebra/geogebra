@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
@@ -23,13 +24,14 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 
 import java.util.HashSet;
@@ -451,13 +453,13 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		calcLength();
 	}
 	
-	public void mirror(GeoPoint Q) {
+	public void mirror(GeoPointInterface Q) {
 		for(int i=0;i<points.length;i++) {
 			((GeoPoint)points[i]).mirror(Q);
 		}		
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineInterface g) {
 		for(int i=0;i<points.length;i++) {
 			((GeoPoint)points[i]).mirror(g);
 		}

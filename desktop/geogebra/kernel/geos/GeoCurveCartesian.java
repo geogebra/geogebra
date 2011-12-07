@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
@@ -27,6 +28,8 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
 import geogebra.common.kernel.geos.Traceable;
@@ -35,7 +38,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.ParametricCurve;
 import geogebra.kernel.ParametricCurveDistanceFunction;
 import geogebra.kernel.PathMoverGeneric;
@@ -364,30 +366,30 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		translate(P.getX(), P.getY());
 	}
 
-	final public void mirror(GeoPoint P) {
-		dilate(new MyDouble(kernel, -1.0), P);
+	final public void mirror(GeoPointInterface P) {
+		dilate(new MyDouble(kernel, -1.0), (GeoPoint)P);
 	}
 
-	final public void mirror(GeoLine g) {
+	final public void mirror(GeoLineInterface g) {
 		// Y = S(phi).(X - Q) + Q
 		// where Q is a point on g, S(phi) is the mirrorTransform(phi)
 		// and phi/2 is the line's slope angle
 
 		// get arbitrary point of line
 		double qx, qy;
-		if (Math.abs(g.x) > Math.abs(g.y)) {
-			qx = g.z / g.x;
+		if (Math.abs(g.getX()) > Math.abs(g.getY())) {
+			qx = g.getZ() / g.getX();
 			qy = 0.0d;
 		} else {
 			qx = 0.0d;
-			qy = g.z / g.y;
+			qy = g.getZ() / g.getY();
 		}
 
 		// translate -Q
 		translate(qx, qy);
 
 		// S(phi)
-		mirror(new MyDouble(kernel, 2.0 * Math.atan2(-g.x, g.y)));
+		mirror(new MyDouble(kernel, 2.0 * Math.atan2(-g.getX(), g.getY())));
 
 		// translate back +Q
 		translate(-qx, -qy);

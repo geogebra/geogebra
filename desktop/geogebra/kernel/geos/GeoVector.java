@@ -24,6 +24,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.Matrix.Coords;
@@ -33,7 +34,9 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -41,7 +44,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.kernelND.GeoVectorND;
@@ -330,14 +332,14 @@ Transformable, GeoVectorND {
 		rotateXY(r);
 	}
 
-	public void mirror(GeoPoint Q) {
+	public void mirror(GeoPointInterface Q) {
 
 		setCoords(- x,- y, z );
 
 	}
 
-	public void mirror(GeoLine g) {
-		mirrorXY(2.0 * Math.atan2(-g.x, g.y));
+	public void mirror(GeoLineInterface g) {
+		mirrorXY(2.0 * Math.atan2(-g.getX(), g.getY()));
 
 	}
 

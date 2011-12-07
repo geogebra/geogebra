@@ -14,6 +14,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.Coords;
@@ -25,13 +26,14 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.ExpressionNode;
 import geogebra.kernel.arithmetic.FunctionNVar;
@@ -712,26 +714,26 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			
 		}
 
-		public void mirror(GeoPoint Q) {
-			dilate(new MyDouble(kernel,-1.0),Q);
+		public void mirror(GeoPointInterface Q) {
+			dilate(new MyDouble(kernel,-1.0),(GeoPoint)Q);
 			
 		}
 
-		public void mirror(GeoLine g) {
+		public void mirror(GeoLineInterface g) {
 			double qx, qy; 
-	        if (Math.abs(g.x) > Math.abs(g.y)) {
-	            qx = g.z / g.x;
+	        if (Math.abs(g.getX()) > Math.abs(g.getY())) {
+	            qx = g.getZ() / g.getX();
 	            qy = 0.0d;
 	        } else {
 	            qx = 0.0d;
-	            qy = g.z / g.y;
+	            qy = g.getZ() / g.getY();
 	        }
 	        
 	        // translate -Q
 	        fun.translate(qx, qy);     
 	        
 	        // S(phi)        
-	        mirror(new MyDouble(kernel,2.0 * Math.atan2(-g.x, g.y)));
+	        mirror(new MyDouble(kernel,2.0 * Math.atan2(-g.getX(), g.getY())));
 	        
 	        // translate back +Q
 	        fun.translate(-qx, -qy);

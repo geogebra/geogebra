@@ -20,6 +20,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -27,12 +28,14 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.kernelND.GeoConicND;
 
 import java.util.ArrayList;
@@ -328,9 +331,9 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	/**
 	 * mirror this conic at point Q
 	 */
-	final public void mirror(GeoPoint Q) {
-		double qx = Q.inhomX;
-		double qy = Q.inhomY;
+	final public void mirror(GeoPointInterface Q) {
+		double qx = Q.getInhomX();
+		double qy = Q.getInhomY();
 
 		matrix[2] =
 			4.0
@@ -346,7 +349,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		eigenvec[1].mult(-1.0);
 		
 		// mirror translation vector b
-		b.mirror(Q);	
+		b.mirror((GeoPoint)Q);	
 		setMidpoint(new double[] {b.x,b.y});
 		
 
@@ -357,25 +360,25 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	/**
 	 * mirror this point at line g 
 	 */
-	final public void mirror(GeoLine g) {
+	final public void mirror(GeoLineInterface g) {
 		// Y = S(phi).(X - Q) + Q
 		// where Q is a point on g, S(phi) is the mirror transform
 		// and phi/2 is the line's slope angle
 
 		// get arbitrary point of line
 		double qx, qy;
-		if (Math.abs(g.x) > Math.abs(g.y)) {
-			qx = -g.z / g.x;
+		if (Math.abs(g.getX()) > Math.abs(g.getY())) {
+			qx = -g.getZ() / g.getX();
 			qy = 0.0d;
 		} else {
 			qx = 0.0d;
-			qy = -g.z / g.y;
+			qy = -g.getZ() / g.getY();
 		}
 
 		// translate -Q
 		doTranslate(-qx, -qy);
 		// do mirror transform
-		mirror(2.0 * Math.atan2(-g.x, g.y));
+		mirror(2.0 * Math.atan2(-g.getX(), g.getY()));
 		// translate +Q
 		doTranslate(qx, qy);
 	

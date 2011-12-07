@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
@@ -31,6 +32,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
 import geogebra.common.kernel.geos.Traceable;
@@ -39,7 +42,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.MatrixTransformable;
 import geogebra.kernel.PathMoverGeneric;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.kernel.kernelND.GeoSegmentND;
@@ -1410,12 +1412,12 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		this.calcArea();
 	}
 	
-	public void mirror(GeoPoint Q) {
+	public void mirror(GeoPointInterface Q) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint)points[i]).mirror(Q);				
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineInterface g) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint)points[i]).mirror(g);				
 	}

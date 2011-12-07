@@ -31,6 +31,8 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -50,7 +52,6 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoUserInputElement;
-import geogebra.kernel.geos.Mirrorable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1075,21 +1076,21 @@ Dilateable, Transformable, EuclidianViewCE {
 				new double[][]{{cx*cx + cy*cy, -2*cy, 1}, {-2*cx,0,0}, {1,0,0}});
 	}
 
-	public void mirror(GeoPoint Q) {
-		plugInPoly(new double[][]{{2*Q.inhomX},{-1}},new double[][]{{2*Q.inhomY,-1}});
+	public void mirror(GeoPointInterface Q) {
+		plugInPoly(new double[][]{{2*Q.getInhomX()},{-1}},new double[][]{{2*Q.getInhomY(),-1}});
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineInterface g) {
 		if (!g.isDefined()){
 			setUndefined();
 			return;
 		}
 		double[] dir=new double[2];
-		g.getDirection(dir);
+		((GeoLine)g).getDirection(dir);
 		double dx=dir[0];
 		double dy=dir[1];
-		double x=g.getStartPoint().inhomX;
-		double y=g.getStartPoint().inhomY;
+		double x=((GeoLine)g).getStartPoint().inhomX;
+		double y=((GeoLine)g).getStartPoint().inhomY;
 		double n=1/(dx*dx+dy*dy);
 		plugInPoly(new double[][]{{2*n*dy*(x*dy-y*dx),2*n*dx*dy},{1-2*dy*dy*n,0}},new double[][]{{2*n*dx*(y*dx-x*dy),1-2*n*dx*dx},{2*n*dx*dy,0}});
 		
