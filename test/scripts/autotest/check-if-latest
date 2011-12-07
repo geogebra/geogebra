@@ -4,7 +4,7 @@
 # 1. Start and loading configuration
 test -r autotest.conf || {
  echo "$0: Cannot find autotest.conf (make sure you edit autotest.conf.dist first)"
- echo "Continuing with defaults anyway..."
+ exit 127
  }
 test -r autotest.conf && . ./autotest.conf
 
