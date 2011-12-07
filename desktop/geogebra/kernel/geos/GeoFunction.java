@@ -59,7 +59,7 @@ import geogebra.common.util.Unicode;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
+//import java.util.Locale;
 import java.util.TreeSet;
 
 /**
@@ -1359,7 +1359,7 @@ GeoFunctionInterface {
 				grad = 0;
 			}
 			
-			if (!GeoFunction.CASError(gradientStrMinus, false) && !AbstractKernel.isZero(grad)) {
+			if (!GeoFunction.CASError(gradientStrMinus, false,app) && !AbstractKernel.isZero(grad)) {
 				sb.setLength(0);
 		        sb.append("Limit(");
 		        sb.append(funVarStr[0]); // function expression
@@ -1377,7 +1377,7 @@ GeoFunctionInterface {
 		        interceptStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 				//Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 				
-				if (!GeoFunction.CASError(interceptStrMinus, false)) {
+				if (!GeoFunction.CASError(interceptStrMinus, false,app)) {
 					sb.setLength(0);
 					sb.append("y = ");
 					sb.append(gradientStrMinus);
@@ -1425,7 +1425,7 @@ GeoFunctionInterface {
 			
 			//Application.debug(sb.toString()+" = "+limit,1);
 			
-		    if (!GeoFunction.CASError(limit, false)) {
+		    if (!GeoFunction.CASError(limit, false,app)) {
 		    	   	
 		    	// check not duplicated
 		    	sb.setLength(0);
@@ -1472,7 +1472,7 @@ GeoFunctionInterface {
 			String verticalAsymptotes = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 			//Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 	    	
-	    	if (!GeoFunction.CASError(verticalAsymptotes, false) && verticalAsymptotes.length() > 2) {
+	    	if (!GeoFunction.CASError(verticalAsymptotes, false,app) && verticalAsymptotes.length() > 2) {
 		    	verticalAsymptotes = verticalAsymptotes.replace('{',' ');
 		    	verticalAsymptotes = verticalAsymptotes.replace('}',' ');
 		    	//verticalAsymptotes = verticalAsymptotes.replace('(',' '); // eg (-1)
@@ -1521,9 +1521,8 @@ GeoFunctionInterface {
 			            try {
 			     		String limit = kernel.evaluateCachedGeoGebraCAS(sb.toString());
 			            //Application.debug("checking for vertical asymptote: "+sb.toString()+" = "+limit,1);
-			            if (limit.equals("?") || !GeoFunction.CASError(limit, true)) {
+			            if (limit.equals("?") || !GeoFunction.CASError(limit, true,app)) {
 			            	if (verticalSB.length() > 1) verticalSB.append(',');
-	           	
 			            	verticalSB.append("x=");
 			            	verticalSB.append(verticalAsymptotesArray[i]);
 			            }
@@ -1538,11 +1537,11 @@ GeoFunctionInterface {
 	    }catch (Throwable t) { t.printStackTrace(); }
 	}
 
-	final private static boolean CASError(String str, boolean allowInfinity) {
+	final private static boolean CASError(String str, boolean allowInfinity,AbstractApplication app) {
 		if (str == null || str.length()==0) return true;
 		if (str.equals("?")) return true; // undefined/NaN
 //		if (str.indexOf("%i") > -1 ) return true; // complex answer
-		str = str.toLowerCase(Locale.US);
+		str = app.toLowerCase(str);
 		if (str.startsWith("'")) return true; // maxima error eg 'diff(
 		if (!allowInfinity && str.indexOf(Unicode.Infinity) > -1) return true;
 		if (str.length() > 6) {
