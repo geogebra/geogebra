@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -59,7 +60,6 @@ import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.optimization.ExtremumFinder;
-import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

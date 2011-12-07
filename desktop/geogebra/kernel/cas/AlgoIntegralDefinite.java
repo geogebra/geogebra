@@ -16,12 +16,12 @@ import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.roots.RealRootAdapter;
-import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 
 import org.apache.commons.math.ConvergenceException;

@@ -55,7 +55,7 @@ Date        Translator        Changes
 
 package geogebra.kernel.optimization;
 
-import geogebra.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
 *

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Distance function of a curve that implements RealRootFunction.

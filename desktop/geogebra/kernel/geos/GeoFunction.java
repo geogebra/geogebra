@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
@@ -54,7 +55,6 @@ import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.arithmetic.FunctionNVar;
 import geogebra.kernel.arithmetic.IneqTree;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.kernel.roots.RealRootFunction;
 
 import java.util.HashMap;
 import java.util.Iterator;

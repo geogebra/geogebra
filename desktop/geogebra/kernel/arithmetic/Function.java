@@ -23,13 +23,12 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.roots.RealRootDerivFunction;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.roots.RealRootDerivFunction;
-import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 
 import java.util.LinkedList;

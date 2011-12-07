@@ -14,12 +14,12 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.optimization.ExtremumFinder;
-import geogebra.kernel.roots.RealRootFunction;
 //import geogebra.main.Application;
 
 import java.util.ArrayList;

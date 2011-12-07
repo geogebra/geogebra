@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.arithmetic;
 
-import geogebra.kernel.roots.RealRootDerivFunction;
+import geogebra.common.kernel.roots.RealRootDerivFunction;
 
 /**
  * Fast polynomial evaluation of Function

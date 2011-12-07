@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.integration;
 
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.roots.RealRootFunction;
 
 /**
  * Computes the arc length of an ellipse.

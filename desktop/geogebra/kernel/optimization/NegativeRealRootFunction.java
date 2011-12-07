@@ -1,6 +1,6 @@
 package geogebra.kernel.optimization;
 
-import geogebra.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootFunction;
 
 public class NegativeRealRootFunction implements RealRootFunction {
 

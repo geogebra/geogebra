@@ -1,4 +1,4 @@
-package geogebra.kernel.roots;
+package geogebra.common.kernel.roots;
 
 public interface RealRootDerivFunction extends RealRootFunction {
 

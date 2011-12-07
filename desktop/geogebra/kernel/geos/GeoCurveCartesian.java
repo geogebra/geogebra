@@ -40,6 +40,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.ParametricCurve;
@@ -49,7 +50,6 @@ import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.arithmetic.Function;
 import geogebra.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.kernel.optimization.ExtremumFinder;
-import geogebra.kernel.roots.RealRootFunction;
 
 import java.util.ArrayList;
 

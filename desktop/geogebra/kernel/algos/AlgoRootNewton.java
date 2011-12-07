@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Function;
@@ -21,7 +22,6 @@ import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoPoint;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
-import geogebra.kernel.roots.RealRootDerivFunction;
 import geogebra.kernel.roots.RealRootUtil;
 
 import org.apache.commons.math.analysis.solvers.BrentSolver;

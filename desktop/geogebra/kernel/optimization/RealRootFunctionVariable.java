@@ -12,11 +12,11 @@ the Free Software Foundation.
 package geogebra.kernel.optimization;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSegment;
-import geogebra.kernel.roots.RealRootFunction;
 
 
 /**

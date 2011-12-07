@@ -17,6 +17,8 @@
 
 package geogebra.kernel.roots;
 
+import geogebra.common.kernel.roots.RealRootFunction;
+
 
 public class RealRootUtil {
 	

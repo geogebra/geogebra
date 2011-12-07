@@ -1,4 +1,4 @@
-package geogebra.kernel.roots;
+package geogebra.common.kernel.roots;
 
 
 // Interface for RealRoot class

@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoFunction;
@@ -27,7 +28,6 @@ import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.optimization.NegativeRealRootFunction;
-import geogebra.kernel.roots.RealRootFunction;
 import geogebra.main.Application;
 
 import java.util.ArrayList;
