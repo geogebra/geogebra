@@ -7808,42 +7808,9 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	
-	final public GeoNumeric convertIndexToNumber(String str) {
-		
-		int i = 0;
-		while (i < str.length() && !Unicode.isSuperscriptDigit(str.charAt(i)))
-			i++;
-		
-		//Application.debug(str.substring(i, str.length() - 1)); 
-		MyDouble md = new MyDouble(this, str.substring(i, str.length() - 1)); // strip off eg "sin" at start, "(" at end
-		GeoNumeric num = new GeoNumeric(getConstruction(), md.getDouble());
-		return num;
-
-	}
 	
-	final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Operation type) {
-		
-		// sin^(-1)(x) -> ArcSin(x)
-		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
-			//String check = ""+Unicode.Superscript_Minus + Unicode.Superscript_1 + '(';
-			if (image.substring(3, 6).equals(Unicode.superscriptMinusOneBracket)) {
-				switch (type) {
-				case SIN:
-					return new ExpressionNode(this, en, Operation.ARCSIN, null);
-				case COS:
-					return new ExpressionNode(this, en, Operation.ARCCOS, null);
-				case TAN:
-					return new ExpressionNode(this, en, Operation.ARCTAN, null);
-				default:
-						throw new Error("Inverse not supported for trig function"); // eg csc^-1(x)
-				}
-			}
-			else throw new Error("Bad index for trig function"); // eg sin^-2(x)
-		}
-		
-		return new ExpressionNode(this, new ExpressionNode(this, en, type, null), Operation.POWER, convertIndexToNumber(image));
-	}
 	
+		
 	
 
 	
@@ -8006,15 +7973,7 @@ public class Kernel extends AbstractKernel{
 		return GeoGebraConstants.XML_FILE_FORMAT;
 	}
 	
-    private GeoVec2D imaginaryUnit;
-    public GeoVec2D getImaginaryUnit() {
-    	if (imaginaryUnit == null) {
-    		imaginaryUnit = new GeoVec2D(this, 0, 1);
-    		imaginaryUnit.setMode(Kernel.COORD_COMPLEX);
-    	}
-    	
-    	return imaginaryUnit;
-    }
+    
     
     @Override
     public LaTeXCache newLaTeXCache(){

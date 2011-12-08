@@ -57,8 +57,8 @@ import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.MyError;
 import geogebra.common.main.MyParseError;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.parser.cashandlers.CommandDispatcherMPReduce;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.parser.cashandlers.CommandDispatcherMPReduce;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
@@ -68,13 +68,13 @@ import java.util.Vector;
 
 public class Parser implements ParserInterface{
 
-    private Kernel kernel;
+    private AbstractKernel kernel;
     private AbstractApplication app;
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;
     
-    public Parser(Kernel kernel, AbstractConstruction cons) {
+    public Parser(AbstractKernel kernel, AbstractConstruction cons) {
     	 this ( new java.io.StringReader("") ); // dummy stream for parser initing
          this.kernel = kernel;
          app = kernel.getApplication();
@@ -1841,7 +1841,7 @@ ExpressionValue myDouble():
  	<IMAGINARY>
     {
     	GeoVec2D z = new GeoVec2D(kernel, 0, 1);
-    	z.setMode(Kernel.COORD_COMPLEX);
+    	z.setMode(AbstractKernel.COORD_COMPLEX);
     	return z;
     }    	   
  |

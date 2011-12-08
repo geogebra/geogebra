@@ -1,4 +1,4 @@
-package geogebra.kernel.parser.cashandlers;
+package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
