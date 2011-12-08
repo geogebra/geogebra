@@ -90,7 +90,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 	public OptionsDefaults(Application app) {
 		this.app = app;
 		
-		defaults = app.getKernel().getConstruction().getConstructionDefaults();
+		defaults = (ConstructionDefaults) app.getKernel().getConstruction().getConstructionDefaults();
 		
 		initGUI();
 		updateGUI();

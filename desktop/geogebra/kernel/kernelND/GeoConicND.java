@@ -32,6 +32,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
+import geogebra.kernel.EquationSolver;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.algos.AlgoConicFivePoints;
 import geogebra.kernel.algos.AlgoEllipseFociLength;
@@ -467,7 +468,7 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 
 					double[] eqn = { abspy, -p+px, 0, -p/2 };
 					double[] roots = {0, 0, 0};
-					((Construction) cons).getEquationSolver().solveCubic(eqn,roots);
+					cons.getKernel().getEquationSolver().solveCubic(eqn,roots);
 					if(roots[0]>0) {
 						pp.setT(roots[0]);
 					} else if (roots[1]>0) {
@@ -513,7 +514,7 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 			double hc_2 = ha*ha + hb*hb;
 			eqn = new double[]{bpy*bpy, -2*bpy*hc_2, bpy*bpy+hc_2*hc_2-ha*ha*abspx*abspx, -2*bpy*hc_2, hc_2*hc_2 };
 		}
-			((Construction) cons).getEquationSolver().solveQuartic(eqn,roots);
+			((Construction) cons).getKernel().getEquationSolver().solveQuartic(eqn,roots);
 			return roots;
 		}
 
@@ -2210,7 +2211,7 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 			eigenval[0] = detS;
 			eigenval[1] = - (matrix[0] + matrix[1]); // -spurS
 			eigenval[2] = 1.0d;
-			((Construction) cons).getEquationSolver().solveQuadratic(eigenval, eigenval);
+			cons.getKernel().getEquationSolver().solveQuadratic(eigenval, eigenval);
 	
 			// set first eigenvector
 			eigenvecX = -matrix[3];

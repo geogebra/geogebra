@@ -16,6 +16,7 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -3842,7 +3843,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			}
 			if (d != null) {
 				if (!geo.isColorSet()) {
-					ConstructionDefaults consDef = ((Construction) geo
+					AbstractConstructionDefaults consDef = ((Construction) geo
 							.getConstruction()).getConstructionDefaults();
 					if (geo.isIndependent()) {
 						Color col = (Color) consDef

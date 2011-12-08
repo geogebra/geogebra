@@ -287,7 +287,7 @@ public class PropertiesDialog
 	 */
 	private void applyDefaults() {
 		GeoElement geo;
-		ConstructionDefaults defaults = kernel.getConstruction().getConstructionDefaults();
+		ConstructionDefaults defaults = (ConstructionDefaults) kernel.getConstruction().getConstructionDefaults();
 		
 		for(int i = 0; i < selectionList.size(); ++i) {
 			geo = (GeoElement)selectionList.get(i);

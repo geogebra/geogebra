@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.io.MyXMLio;
 import geogebra.main.Application;
@@ -49,13 +50,13 @@ public class UndoManager extends AbstractUndoManager{
 	/**
 	 * Creates a new UndowManager for the given Construction.	 
 	 */	
-	public UndoManager(Construction c) {				
-		construction = c;
-		xmlio = new MyXMLio((Kernel)c.getKernel(), c);	
-		c.setXMLio(xmlio);
+	public UndoManager(AbstractConstruction cons) {				
+		construction = (Construction)cons;
+		xmlio = new MyXMLio((Kernel)cons.getKernel(), (Construction)cons);	
+		cons.setXMLio(xmlio);
 		undoInfoList = new LinkedList();		
 
-		app = (Application) c.getApplication();
+		app = (Application) cons.getApplication();
 	}
 	
 

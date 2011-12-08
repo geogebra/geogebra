@@ -2014,4 +2014,21 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 		return imaginaryUnit;
 	}
 
+	/**
+	 * @deprecated
+	 * @param cons
+	 * @return undo manager
+	 */
+	public abstract AbstractUndoManager getUndoManager(AbstractConstruction cons);
+
+	/**
+	 * @deprecated
+	 * @param construction
+	 * @return
+	 */
+	public abstract AbstractConstructionDefaults getConstructionDefaults(
+			AbstractConstruction construction);
+
+	
+
 }

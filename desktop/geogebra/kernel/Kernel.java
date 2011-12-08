@@ -7943,7 +7943,7 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	public GeoNumeric getDefaultNumber(boolean isAngle){
-		return (GeoNumeric)((Construction)cons).consDefaults.
+		return (GeoNumeric)((Construction)cons).getConstructionDefaults().
 			getDefaultGeo(isAngle?ConstructionDefaults.DEFAULT_ANGLE:
 			ConstructionDefaults.DEFAULT_NUMBER);
 	}
@@ -8078,5 +8078,14 @@ public class Kernel extends AbstractKernel{
 	public Geo3DVec getGeo3DVec(double x, double y, double z) {
 		return new geogebra3D.kernel3D.Geo3DVec(this, x, y, z);
 	}
-
+	
+	public UndoManager getUndoManager(AbstractConstruction cons){
+		return new UndoManager(cons);
+	
+	}
+	
+	public ConstructionDefaults getConstructionDefaults(AbstractConstruction cons){
+		return new ConstructionDefaults(cons);
+	
+	}
 }

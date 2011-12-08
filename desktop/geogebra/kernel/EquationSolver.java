@@ -135,7 +135,7 @@ public class EquationSolver implements EquationSolverInterface{
      * @return the number of roots, or <code>-1</code> if the equation is
      *      a constant
      */
-    final public static int solveQuadratic(double eqn[]) {
+    final public int solveQuadratic(double eqn[]) {
         return solveQuadratic(eqn, eqn);
     }
 
@@ -154,7 +154,7 @@ public class EquationSolver implements EquationSolverInterface{
      * @return the number of roots, or <code>-1</code> if the equation is
      *  a constant.
      */
-    final public static int solveQuadratic(double eqn[], double res[]) {
+    final public int solveQuadratic(double eqn[], double res[]) {
         double a = eqn[2];
         double b = eqn[1];
         double c = eqn[0];
@@ -259,7 +259,7 @@ public class EquationSolver implements EquationSolverInterface{
      * @param eqn an array containing coefficients for a cubic
      * @return the number of roots, or -1 if the equation is a constant.
      */
-    final public static int solveCubic(double eqn[]) {
+    final public int solveCubic(double eqn[]) {
         return solveCubic(eqn, eqn);
     }
     
@@ -270,7 +270,7 @@ public class EquationSolver implements EquationSolverInterface{
 	 * removed sorting of roots
 	 *
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0 */
-    final public static int solveCubic(double eqn[], double res[]) {
+    final public int solveCubic(double eqn[], double res[]) {
 
     	int roots = 0;
     	double d = eqn[3];

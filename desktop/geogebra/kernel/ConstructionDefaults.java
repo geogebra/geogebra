@@ -14,6 +14,7 @@ package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -122,10 +123,10 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 	/**
 	 * Creates a new ConstructionDefaults object to manage the
 	 * default objects of this construction.
-	 * @param cons
+	 * @param cons2
 	 */
-	public ConstructionDefaults(Construction cons) {
-		this.cons = cons;
+	public ConstructionDefaults(AbstractConstruction cons2) {
+		this.cons = (Construction)cons2;
 		createDefaultGeoElements();		
 	}
 

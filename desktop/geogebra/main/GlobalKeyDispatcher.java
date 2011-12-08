@@ -1004,7 +1004,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 		int incr = getPointSizeInc(oldFontSize, fontSize);
 
 		// construction defaults
-		ConstructionDefaults cd = app.getKernel().getConstruction().getConstructionDefaults();
+		ConstructionDefaults cd = (ConstructionDefaults)app.getKernel().getConstruction().getConstructionDefaults();
 		cd.setDefaultLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS + incr);
 		cd.setDefaultPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE + incr);
 		cd.setDefaultAngleSize(EuclidianStyleConstants.DEFAULT_ANGLE_SIZE + angleSizeIncr);

@@ -1,5 +1,6 @@
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 
 public abstract class AbstractConstructionDefaults {
@@ -35,7 +36,12 @@ public abstract class AbstractConstructionDefaults {
 		public static final int DEFAULT_LIST = 130;
 		
 	public abstract void setDefaultVisualStyles(GeoElementInterface geoElement, boolean b);
-	public abstract GeoElementInterface getDefaultGeo(int defaultInequality1var);
+	public abstract GeoElement getDefaultGeo(int defaultInequality1var);
+	public abstract String getCDXML();
+	public abstract void createDefaultGeoElements();
+	//public abstract GeoElement[] getDefaultElements();
+	public abstract  void resetDefaults();
+	public abstract  void addDefaultGeo(Integer type, GeoElement geo);
 	
 
 }

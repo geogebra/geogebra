@@ -101,7 +101,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		this.labels = labels;
 		this.setLabels = setLabels; // should lables be used?
 
-		eqnSolver = cons.getEquationSolver();
+		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
@@ -131,7 +131,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// set mode
 		mode = MULTIPLE_ROOTS;
 
-		eqnSolver = ((Construction) cons).getEquationSolver();
+		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();;
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
@@ -161,7 +161,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// set mode
 		mode = ROOTS;
 
-		eqnSolver = cons.getEquationSolver();
+		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();
 
 		// make sure root points is not null
 		int number = 1;
