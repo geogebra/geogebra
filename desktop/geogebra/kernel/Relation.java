@@ -25,13 +25,13 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.algos.AlgoIntersectConics;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 

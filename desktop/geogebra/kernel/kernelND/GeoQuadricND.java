@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 

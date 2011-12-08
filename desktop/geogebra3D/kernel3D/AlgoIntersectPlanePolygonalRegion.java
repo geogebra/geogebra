@@ -3,10 +3,10 @@ package geogebra3D.kernel3D;
 import java.awt.Color;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 
 public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygonalRegion3D {

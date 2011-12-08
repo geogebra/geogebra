@@ -6,10 +6,10 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionElementCycle;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
 
 import java.awt.Color;

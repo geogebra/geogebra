@@ -24,9 +24,9 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoSegment;
 
 
 /**

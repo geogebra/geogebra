@@ -1,12 +1,10 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LimitedPath;
-import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 
-import geogebra.awt.Color;
+import geogebra.common.awt.Color;
 
 /**
  * Simple interface used to join GeoSegment and GeoSegment3D

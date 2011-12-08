@@ -7,10 +7,10 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoRay;
-import geogebra.kernel.geos.GeoSegment;
 
 /**
  * Algorithms for transformations

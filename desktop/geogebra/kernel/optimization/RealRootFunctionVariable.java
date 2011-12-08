@@ -14,9 +14,9 @@ package geogebra.kernel.optimization;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoSegment;
 
 
 /**

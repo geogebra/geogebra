@@ -38,6 +38,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
@@ -46,9 +47,9 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 import java.awt.Color;
 import java.util.ArrayList;

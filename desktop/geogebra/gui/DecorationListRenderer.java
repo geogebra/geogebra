@@ -1,6 +1,6 @@
 package geogebra.gui;
 
-import geogebra.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoSegment;
 
 import java.awt.Color;
 import java.awt.Component;

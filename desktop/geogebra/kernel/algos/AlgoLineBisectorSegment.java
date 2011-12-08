@@ -17,8 +17,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoSegment;
 
 
 public class AlgoLineBisectorSegment extends AlgoElement {

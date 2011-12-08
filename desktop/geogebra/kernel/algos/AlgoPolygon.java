@@ -21,9 +21,9 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 
 /**

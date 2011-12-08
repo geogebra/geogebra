@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
@@ -35,7 +36,6 @@ import geogebra.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.kernel.algos.AlgoHyperbolaFociPoint;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
 

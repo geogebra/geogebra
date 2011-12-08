@@ -18,6 +18,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
@@ -29,7 +30,6 @@ import geogebra.kernel.geos.GeoSurfaceFinite;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoQuadricND;
-import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
 
 /**

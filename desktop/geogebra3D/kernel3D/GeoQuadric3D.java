@@ -11,11 +11,11 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.kernelND.GeoQuadricND;
-import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.main.Application;
 

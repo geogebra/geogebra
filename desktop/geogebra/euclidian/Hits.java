@@ -2,9 +2,9 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.kernelND.GeoConicND;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
@@ -21,17 +21,10 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.LimitedPath;
-import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.TransformInterface;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 import geogebra.common.awt.Color;
 import java.util.HashSet;
@@ -486,7 +479,7 @@ GeoSegmentND {
 			GeoPointND [] points = {getStartPoint(), getEndPoint()};
 			points = t.transformPoints(points);	
 			// create SEGMENT
-			GeoElement segment = (GeoElement) ((Kernel) kernel).SegmentND(label, points[0], points[1]);
+			GeoElement segment = (GeoElement) kernel.SegmentND(label, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
 			return geos;	
@@ -631,7 +624,7 @@ GeoSegmentND {
     	if (checkOnFullLine) {
     		if (segEnd.sub(segStart).crossProduct(
     				point.sub(segStart)).equalsForKernel(
-    						new Coords(0,0,0), Kernel.EPSILON))
+    						new Coords(0,0,0), AbstractKernel.EPSILON))
     			return false;
     	}
     	
@@ -657,17 +650,4 @@ GeoSegmentND {
 	public boolean isAllEndpointsLabelsSet() {
 		return !forceSimpleTransform && startPoint.isLabelSet() && endPoint.isLabelSet();		
 	}
-	
-	
-	/* TODO: remove this function, if the GeoSegmentND class already uses
-	 * geogebra.common.awt.Color
-	 * instead of another Color classes
-	 * 
-	 */
-	public void setObjColor(geogebra.awt.Color objectColor) {
-		GeoElement thisSegment = (GeoElement) this;
-		thisSegment.setObjColor(objectColor);
-		
-	}
-
 }

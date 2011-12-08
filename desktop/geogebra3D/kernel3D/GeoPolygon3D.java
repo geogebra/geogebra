@@ -12,10 +12,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.kernelND.GeoSegmentND;
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**

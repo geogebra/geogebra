@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Mirrorable;

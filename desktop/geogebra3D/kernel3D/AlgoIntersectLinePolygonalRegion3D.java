@@ -6,11 +6,11 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoIntersectLinePolygonalRegion;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 import java.util.TreeMap;
 

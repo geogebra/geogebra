@@ -9,9 +9,9 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoQuadricND;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 /**
  * Class for limited quadrics (e.g. limited cones, cylinders, ...)

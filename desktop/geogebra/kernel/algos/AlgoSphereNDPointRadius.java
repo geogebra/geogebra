@@ -21,11 +21,11 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoQuadricND;
-import geogebra.kernel.kernelND.GeoSegmentND;
 
 /**
  * 
