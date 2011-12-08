@@ -2,9 +2,8 @@
  * Created on 12.11.2005
  *
  */
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.PointPair;
 
 /**
  * @author HOHENWARTER

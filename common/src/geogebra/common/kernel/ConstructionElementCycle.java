@@ -1,4 +1,4 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
