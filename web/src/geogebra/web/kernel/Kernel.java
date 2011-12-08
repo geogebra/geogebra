@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinderInterface;
@@ -349,6 +350,30 @@ public class Kernel extends AbstractKernel {
     public void getKernelXML(StringBuilder sb, boolean b) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public Color getColorAdapter(float red, float green, float blue) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Object Ray(String label, GeoPoint2 P, GeoPoint2 Q) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Object RayND(String label, GeoPointND P, GeoPointND Q) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Object Ray(String label, GeoPoint2 P, GeoVector v) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 }

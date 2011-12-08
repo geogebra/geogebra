@@ -12,7 +12,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
-
+  <inherits name='geogebra.Common'/>
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
 

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 
+import geogebra.common.awt.ImageManager;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
@@ -378,7 +379,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public GuiManager getImageManager() {
+	public ImageManager getImageManager() {
 		// TODO Auto-generated method stub
 		return null;
 	}
