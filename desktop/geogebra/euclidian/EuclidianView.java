@@ -41,6 +41,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.MyMath;
@@ -69,7 +70,6 @@ import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPlaneND;
-import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra.main.Application;
 import geogebra.main.settings.EuclidianSettings;
 

@@ -18,7 +18,7 @@ the Free Software Foundation.
  * Created on 30. August 2001, 17:39
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
@@ -29,29 +29,15 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoLineInterface;
-import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.GeoVectorInterface;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Transformable;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.algos.AlgoDependentVector;
-import geogebra.kernel.kernelND.GeoVectorND;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -4,8 +4,8 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.Construction;
-import geogebra.kernel.kernelND.GeoVectorND;
 
 /**
  * @author ggb3D

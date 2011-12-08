@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -35,7 +36,6 @@ import geogebra.kernel.algos.AlgoConicFivePoints;
 import geogebra.kernel.algos.AlgoEllipseFociLength;
 import geogebra.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
 

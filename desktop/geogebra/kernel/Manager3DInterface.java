@@ -18,12 +18,12 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoSurfaceFinite;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.GeoQuadricND;
-import geogebra.kernel.kernelND.GeoVectorND;
 import geogebra3D.kernel3D.GeoVector3D;
 import geogebra3D.kernel3D.Manager3D;
 

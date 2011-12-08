@@ -22,11 +22,11 @@ import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
-import geogebra.kernel.geos.GeoVector;
 
 import java.util.ArrayList;
 import java.util.Iterator;

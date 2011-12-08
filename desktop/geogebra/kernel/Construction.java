@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -43,7 +44,6 @@ import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.optimization.ExtremumFinder;
 //import geogebra.main.Application;
 

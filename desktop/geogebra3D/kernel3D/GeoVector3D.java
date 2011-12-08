@@ -6,14 +6,14 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoDependentVector;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.kernelND.GeoVectorND;
 
 /**
  * 3D vector class

@@ -5,15 +5,15 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.CmdAngle;
 import geogebra.kernel.commands.CmdTranslate;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoVector;
-import geogebra.kernel.kernelND.GeoVectorND;
 
 public class CmdTranslate3D extends CmdTranslate {
 	

@@ -17,7 +17,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.GeoVector;
 
 
 public class AlgoPointVector extends AlgoElement {

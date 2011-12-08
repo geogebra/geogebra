@@ -16,14 +16,13 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.AbstractConstruction;
 
 /**
  * 
@@ -38,13 +37,13 @@ public class AlgoDependentVector extends AlgoElement {
 	private GeoVec2D temp;
 
 	/** Creates new AlgoDependentVector */
-	public AlgoDependentVector(Construction cons, String label,
+	public AlgoDependentVector(AbstractConstruction cons, String label,
 			ExpressionNode root) {
 		this(cons, root);
 		v.setLabel(label);
 	}
 
-	public AlgoDependentVector(Construction cons, ExpressionNode root) {
+	public AlgoDependentVector(AbstractConstruction cons, ExpressionNode root) {
 		super(cons);
 		this.root = root;
 

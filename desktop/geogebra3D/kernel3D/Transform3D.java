@@ -1,10 +1,10 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Transform;
 import geogebra.kernel.algos.AlgoTransformation;
-import geogebra.kernel.kernelND.GeoVectorND;
 
 /**
  * Container for transforms

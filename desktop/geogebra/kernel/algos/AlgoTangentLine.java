@@ -24,10 +24,10 @@ import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoVector;
 
 
 /**

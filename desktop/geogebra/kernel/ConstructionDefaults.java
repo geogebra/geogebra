@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
@@ -33,7 +34,6 @@ import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPolygon;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 

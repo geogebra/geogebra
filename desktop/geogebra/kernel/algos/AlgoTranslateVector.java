@@ -24,8 +24,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoVector;
 
 
 /**

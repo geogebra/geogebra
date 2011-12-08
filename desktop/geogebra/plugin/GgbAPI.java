@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.euclidian.EuclidianView;
@@ -27,7 +28,6 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.geos.GeoVector;
 import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
 
