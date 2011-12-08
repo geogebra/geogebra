@@ -1,4 +1,4 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.AbstractConstruction;
@@ -11,12 +11,8 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.GeoCasCellInterface;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
-//import geogebra.kernel.Construction;
+
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,7 +25,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
+public class GeoCasCell extends GeoElement{
 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;

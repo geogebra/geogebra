@@ -11,7 +11,7 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.GeoCasCellInterface;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -365,7 +365,7 @@ public abstract class AbstractConstruction {
 		updateConstructionIndex(index);
 
 		// update cas row references
-		if (ce instanceof GeoCasCellInterface)
+		if (ce instanceof GeoCasCell)
 			updateCasCellRows();
 
 		updateAllConstructionProtocolAlgorithms();
@@ -421,7 +421,7 @@ public abstract class AbstractConstruction {
 		updateConstructionIndex(pos);
 
 		// update cas row references
-		if (ce instanceof GeoCasCellInterface || ce.isAlgoDependentCasCell())
+		if (ce instanceof GeoCasCell || ce.isAlgoDependentCasCell())
 			updateCasCellRows();
 
 		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
@@ -1168,14 +1168,14 @@ public abstract class AbstractConstruction {
 
 	public abstract void clearConstruction();
 
-	public abstract void putCasCellLabel(GeoCasCellInterface geoCasCell, String assignmentVar);
+	public abstract void putCasCellLabel(GeoCasCell geoCasCell, String assignmentVar);
 
-	public abstract void addToGeoSetWithCasCells(GeoCasCellInterface geoCasCell);
+	public abstract void addToGeoSetWithCasCells(GeoCasCell geoCasCell);
 
-	public abstract void removeFromGeoSetWithCasCells(GeoCasCellInterface geoCasCell);
+	public abstract void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell);
 	
-	public abstract GeoCasCellInterface getCasCell(int row);
+	public abstract GeoCasCell getCasCell(int row);
 	
-	public abstract GeoCasCellInterface getLastCasCell();
+	public abstract GeoCasCell getLastCasCell();
 
 }

@@ -203,7 +203,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public int layer = 0; // Michael Borcherds 2008-02-23
 	private NumberValue animationIncrement;
 	private NumberValue animationSpeedObj;
-	private GeoCasCellInterface correspondingCasCell; // used by GeoCasCell
+	private GeoCasCell correspondingCasCell; // used by GeoCasCell
 	private boolean animating = false;
 
 	public final static double MAX_ANIMATION_SPEED = 100;
@@ -6195,7 +6195,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return twin GeoElement
 	 */
-	final public GeoCasCellInterface getCorrespondingCasCell() {
+	final public GeoCasCell getCorrespondingCasCell() {
 		return correspondingCasCell;
 	}
 
@@ -6204,7 +6204,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * GeoCasCell.getTwinGeo().
 	 */
 	final public void setCorrespondingCasCell(
-			GeoCasCellInterface correspondingCasCell) {
+			GeoCasCell correspondingCasCell) {
 		this.correspondingCasCell = correspondingCasCell;
 	}
 

@@ -27,7 +27,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoCasCellInterface;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -42,7 +42,6 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.algos.AlgoDistancePoints;
 import geogebra.kernel.cas.AlgoDependentCasCell;
-import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.optimization.ExtremumFinder;
@@ -562,7 +561,7 @@ public class Construction extends AbstractConstruction{
 	 * @see #removeCasCellLabel(String)
 	 * @see #lookupCasCellLabel(String)
 	 */
-	public void putCasCellLabel(GeoCasCellInterface geoCasCell, String label) {
+	public void putCasCellLabel(GeoCasCell geoCasCell, String label) {
 		if (label == null) return;
 		
 		if (geoCasCellTable == null) 
@@ -619,7 +618,7 @@ public class Construction extends AbstractConstruction{
 	 * Adds the given GeoCasCell to a set with all
 	 * labeled GeoElements and CAS cells needed for notifyAll().
 	 */
-	public void addToGeoSetWithCasCells(GeoCasCellInterface geoCasCell) {
+	public void addToGeoSetWithCasCells(GeoCasCell geoCasCell) {
 		geoSetWithCasCells.add((GeoCasCell)geoCasCell);
 	}
 	
@@ -627,7 +626,7 @@ public class Construction extends AbstractConstruction{
 	 * Removes the given GeoCasCell from a set with all
 	 * labeled GeoElements and CAS cells needed for notifyAll().
 	 */
-	public void removeFromGeoSetWithCasCells(GeoCasCellInterface geoCasCell) {
+	public void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell) {
 		geoSetWithCasCells.remove(geoCasCell);
 	}
 

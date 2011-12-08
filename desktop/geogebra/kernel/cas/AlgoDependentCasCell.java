@@ -1,10 +1,10 @@
 package geogebra.kernel.cas;
 
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoCasCell;
 
 import java.util.TreeSet;
 

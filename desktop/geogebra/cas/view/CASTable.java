@@ -3,10 +3,10 @@
  */
 package geogebra.cas.view;
 
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 
