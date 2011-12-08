@@ -1,16 +1,16 @@
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EuclidianViewCE;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoConicPartInterface;
-import geogebra.kernel.geos.GeoPolyLineInterface;
-import geogebra.kernel.geos.GeoRay;
+import geogebra.common.kernel.algos.AlgoClosestPoint;
 
 /**
  * Algorithms for transformations

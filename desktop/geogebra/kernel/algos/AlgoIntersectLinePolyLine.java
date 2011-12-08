@@ -24,6 +24,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -31,7 +32,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoPolyLine;
-import geogebra.kernel.geos.GeoPolyLineInterface;
 
 import java.util.TreeMap;
 

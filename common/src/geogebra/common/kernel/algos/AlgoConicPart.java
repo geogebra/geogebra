@@ -10,10 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoConicInterface;
@@ -29,16 +28,16 @@ public abstract class AlgoConicPart extends AlgoElement {
     public GeoConicInterface conic; // input
     public NumberValue startParam; // input((Construction) 
 	public NumberValue endParam;
-    GeoConicPartInterface conicPart; // output   
+    public GeoConicPartInterface conicPart; // output//package private   
     
-    int type;
+    public int type;//package private
 
     /**
      * Creates a new arc or sector algorithm.
      * The type is either GeoConicPart.CIRCLE_ARC or 
      * GeoConicPart.CIRCLE_ARC.CIRCLE_SECTOR         
      */
-    AlgoConicPart(AbstractConstruction cons, int type) {
+    public AlgoConicPart(AbstractConstruction cons, int type) {//package private
         super(cons);        
         this.type = type;     
     }

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;

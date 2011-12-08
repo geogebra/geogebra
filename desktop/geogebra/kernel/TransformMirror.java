@@ -1,10 +1,10 @@
 package geogebra.kernel;
 
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.algos.AlgoMirror;
-import geogebra.kernel.algos.AlgoTransformation;
 import geogebra.kernel.geos.GeoConic;
 
 /**

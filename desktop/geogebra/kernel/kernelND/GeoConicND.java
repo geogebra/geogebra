@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.geos.GeoConicNDInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
-Translateable, GeoConicNDConstants
+Translateable, GeoConicNDConstants, GeoConicNDInterface
 {
 	
 	

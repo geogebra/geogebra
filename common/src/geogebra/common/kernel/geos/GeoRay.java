@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
@@ -20,21 +20,15 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.TransformInterface;
-import geogebra.kernel.algos.AlgoConicPartCircumcircle;
-import geogebra.kernel.algos.AlgoJoinPointsRay;
-import geogebra.kernel.algos.AlgoRayPointVector;
-import geogebra.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.common.kernel.algos.AlgoJoinPointsRay;
+import geogebra.common.kernel.algos.AlgoRayPointVector;
+import geogebra.common.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 
 
 /**
@@ -235,7 +229,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
 				inf = (GeoPoint2)t.doTransform(inf);
 				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle( cons, TransformInterface.transformedGeoLabel(this),
-			    		(GeoPoint2) points[0], (GeoPoint2) points[1],inf,GeoConicPart.CONIC_PART_ARC);
+			    		(GeoPoint2) points[0], (GeoPoint2) points[1],inf,GeoConicPartInterface.CONIC_PART_ARC);
 				cons.removeFromAlgorithmList(ae);
 				GeoElement arc = (GeoElement)ae.getConicPart();//GeoConicPart 				
 				arc.setVisualStyleForTransformations(this);
@@ -274,7 +268,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				points2 = t.transformPoints(points2);
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons, TransformInterface.transformedGeoLabel(this),
-			    		(GeoPoint2) points[0], (GeoPoint2) points2[0], (GeoPoint2) points2[1],GeoConicPart.CONIC_PART_ARC);
+			    		(GeoPoint2) points[0], (GeoPoint2) points2[0], (GeoPoint2) points2[1],GeoConicPartInterface.CONIC_PART_ARC);
 				GeoElement arc = (GeoElement)ae.getConicPart();//GeoConicPart 				
 				arc.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {arc, (GeoElement) points[0]};

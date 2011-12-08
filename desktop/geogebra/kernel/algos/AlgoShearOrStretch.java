@@ -20,6 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -27,12 +28,12 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPolyLineInterface;
 
 
 /**

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.algos.AlgoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
@@ -39,7 +40,7 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
     public AlgoConicPartConicPoints(AbstractConstruction cons, String label,
     		GeoConic circle, GeoPoint2 startPoint, GeoPoint2 endPoint,
     		int type) {
-        super(cons, type);        
+        super(cons, type);
         conic = circle;
         this.startPoint = startPoint;
         this.endPoint = endPoint;                          

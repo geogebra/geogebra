@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoConicPartInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 
 /**
  * Circle arc or sector defined by three points.

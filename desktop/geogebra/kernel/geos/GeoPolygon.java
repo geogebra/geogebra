@@ -38,6 +38,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;

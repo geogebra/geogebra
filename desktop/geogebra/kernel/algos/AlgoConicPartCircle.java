@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.algos.AlgoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
@@ -45,7 +46,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
     
     public  AlgoConicPartCircle(Construction cons, 
   	   		 GeoPoint2 center, GeoPoint2 startPoint, GeoPoint2 endPoint, int type) {      
-        super(cons, type);  
+        super(cons, type);
         this.center = center;
         this.startPoint = startPoint;
         this.endPoint = endPoint;   

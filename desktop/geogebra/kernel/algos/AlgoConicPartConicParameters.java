@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.algos.AlgoConicPart;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.geos.GeoConic;

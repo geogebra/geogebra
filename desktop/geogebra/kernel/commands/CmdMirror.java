@@ -7,10 +7,10 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 
 /**

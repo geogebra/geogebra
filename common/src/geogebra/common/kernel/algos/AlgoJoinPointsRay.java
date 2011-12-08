@@ -16,15 +16,14 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoRay;
 
 
 /**

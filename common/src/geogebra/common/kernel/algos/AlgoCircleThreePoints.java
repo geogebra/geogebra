@@ -16,11 +16,10 @@ the Free Software Foundation.
  * Created on 15. November 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -29,8 +28,8 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.geos.GeoConicNDInterface;
+//import geogebra.kernel.kernelND.GeoConicND;
 
 
 /**
@@ -41,7 +40,8 @@ import geogebra.kernel.kernelND.GeoConicND;
 public class AlgoCircleThreePoints extends AlgoElement {
 
     private GeoPointND A, B, C; // input    
-    protected GeoConicND circle; // output     
+    //protected GeoConicND circle; // output
+    protected GeoConicNDInterface circle; // output
 
     // line bisectors
     private GeoLine s0, s1;
@@ -101,11 +101,11 @@ public class AlgoCircleThreePoints extends AlgoElement {
     
     private void setIncidence() {
     	if (A instanceof GeoPoint2)
-    		((GeoPoint2) A).addIncidence(circle);
+    		((GeoPoint2) A).addIncidence((GeoElement)circle);
     	if (B instanceof GeoPoint2)
-    		((GeoPoint2) B).addIncidence(circle);
+    		((GeoPoint2) B).addIncidence((GeoElement)circle);
     	if (C instanceof GeoPoint2)
-    		((GeoPoint2) C).addIncidence(circle);
+    		((GeoPoint2) C).addIncidence((GeoElement)circle);
 		
 	}
 
@@ -125,7 +125,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
      * create the object circle
      */
     protected void createCircle(){   	
-        circle = new GeoConic(cons);
+        circle = kernel.getGeoConic();
     } 
     
     @Override
@@ -155,11 +155,12 @@ public class AlgoCircleThreePoints extends AlgoElement {
     
     protected void setOutput() {
         super.setOutputLength(1);
-        super.setOutput(0, circle);
+        super.setOutput(0, (GeoElement)circle);
      }
 
     
-    public GeoConicND getCircle() {
+    //public GeoConicND getCircle() {
+    public GeoConicNDInterface getCircle() {
         return circle;
     }
     public GeoPoint2 getA() {
