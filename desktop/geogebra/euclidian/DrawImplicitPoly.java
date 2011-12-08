@@ -17,8 +17,8 @@ the Free Software Foundation.
  */
 package geogebra.euclidian;
 
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.kernel.geos.GeoLocus;
 
 import java.awt.geom.Area;
 

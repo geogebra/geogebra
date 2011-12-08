@@ -21,11 +21,11 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
-import geogebra.kernel.geos.GeoLocus;
 import geogebra.main.Application;
 
 import java.awt.geom.Point2D;

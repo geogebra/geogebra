@@ -19,14 +19,15 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
-import geogebra.kernel.geos.GeoLocus;
 import geogebra.main.Application;
 
 import java.awt.geom.Point2D;
@@ -38,7 +39,7 @@ import java.util.TreeSet;
 /** 
  * locus line for Q dependent on P where P is a slider
  */
-public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE {
+public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, AlgoLocusSliderInterface {
 	
 	// TODO: update locus algorithm
 	// * locus of Q=(x(B), a) with a= integral[f(x), 0, x(B)] and B is point on x-axis  freezes GeoGebra

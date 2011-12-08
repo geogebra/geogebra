@@ -10,23 +10,16 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoLocusInterface;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.PathMoverLocus;
-import geogebra.kernel.algos.AlgoLocusSlider;
+import geogebra.common.kernel.PathMoverLocus;
+import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 
 import java.util.ArrayList;
 
@@ -292,7 +285,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable, GeoLocusInt
 	public void pathChanged(GeoPointND PI) {
 
 		// find closest point on changed path to P
-		if (getParentAlgorithm() instanceof AlgoLocusSlider) {
+		if (getParentAlgorithm() instanceof AlgoLocusSliderInterface) {
 			pointChanged(PI);
 			return;
 		}

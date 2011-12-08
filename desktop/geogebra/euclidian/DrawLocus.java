@@ -14,8 +14,8 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.Traceable;
-import geogebra.kernel.geos.GeoLocus;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
