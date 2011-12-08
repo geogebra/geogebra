@@ -233,7 +233,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 	
 	@Override
-	public void dilate(NumberValue r, GeoPointInterface S) {
+	public void dilate(NumberValue r, GeoPoint2 S) {
 		condFun.dilate(r, S);
 		
 		// translate if and else parts too

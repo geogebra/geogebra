@@ -25,7 +25,7 @@ public interface ParametricCurve extends Traceable, Path {
 	RealRootFunction getRealRootFunctionY();
 			
 	void evaluateCurve(double t, double [] out);
-	GeoVec2DInterface evaluateCurve(double t);	
+	GeoVec2D evaluateCurve(double t);	
 
 	double evaluateCurvature(double t);	
 	boolean isFunctionInX();

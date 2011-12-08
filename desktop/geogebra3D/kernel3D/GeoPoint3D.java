@@ -925,7 +925,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 
 	// ////////////////////////////////
-	// GeoPointInterface interface
+	// GeoPoint2 interface
 
 	public boolean isFinite() {
 		return isDefined && !isInfinite;

@@ -27,8 +27,8 @@ import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinderInterface;
@@ -1869,8 +1869,8 @@ public abstract class AbstractKernel {
 	public abstract GeoElementInterface lookupCasCellLabel(String cmdName);
 	public abstract GeoElementInterface lookupCasRowReference(String cmdName);
 
-	public abstract GeoElementInterface Semicircle(String label, GeoPointInterface geoPoint,
-			GeoPointInterface geoPoint2);
+	public abstract GeoElementInterface Semicircle(String label, GeoPoint2 geoPoint,
+			GeoPoint2 geoPoint2);
 
 	public AbstractMyMath2 getMyMath2() {
 		return new AbstractMyMath2();
@@ -1891,7 +1891,7 @@ public abstract class AbstractKernel {
 	
 	public abstract String[] getPolynomialCoeffs(String function, String var);
 	
-	public abstract GeoPointInterface [] RootMultiple(String [] labels, GeoFunctionInterface f);
+	public abstract GeoPoint2 [] RootMultiple(String [] labels, GeoFunctionInterface f);
 
 	public abstract double getViewsXMax(GeoElement geo);
 
@@ -1936,7 +1936,7 @@ public abstract class AbstractKernel {
 	 * @param i
 	 * @return
 	 */
-	public abstract GeoPointInterface getGeoPoint(double d, double e, int i);
+	public abstract GeoPoint2 getGeoPoint(double d, double e, int i);
 
 	public abstract void updateConstruction();
 	public abstract void notifyReset();

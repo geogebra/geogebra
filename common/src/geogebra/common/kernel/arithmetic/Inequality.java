@@ -19,8 +19,8 @@ import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 
@@ -57,7 +57,7 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private GeoPointInterface[] zeros;	
+	private GeoPoint2[] zeros;	
 	// if variable x or y appears with 0 coef, we want to replace the 
 	// variable by 0 itself to avoid errors on computation
 	private MyDouble zeroDummy0,zeroDummy1;
@@ -200,7 +200,7 @@ public class Inequality {
 			   		isAboveBorder = true;
 			   		return;
 		}
-		GeoVec2DInterface midpoint = conicBorder.getTranslationVector();
+		GeoVec2D midpoint = conicBorder.getTranslationVector();
 		ExpressionNode normalCopy = (ExpressionNode) normal
 				.deepCopy(kernel);
 		double midX, midY;	
@@ -328,7 +328,7 @@ public class Inequality {
 	/**
 	 * @return zero points for 1var ineqs
 	 */
-	public GeoPointInterface[] getZeros() {
+	public GeoPoint2[] getZeros() {
 		return zeros;
 	}
 

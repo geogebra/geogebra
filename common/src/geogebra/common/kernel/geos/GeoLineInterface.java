@@ -13,7 +13,7 @@ public interface GeoLineInterface extends GeoElementInterface {
 	
 	public void setUndefined();
 	
-	public void removePointOnLine(GeoPointInterface p);
+	public void removePointOnLine(GeoPoint2 p);
 	
 	public void addPointOnLine(GeoPointND p);
 }

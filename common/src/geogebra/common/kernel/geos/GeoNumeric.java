@@ -61,7 +61,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	private boolean intervalMaxActive = false;
 	private NumberValue intervalMin;
 	private NumberValue intervalMax; 
-	private double sliderWidth = this instanceof GeoAngleInterface ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
+	private double sliderWidth = this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 	private double sliderX, sliderY;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
@@ -759,7 +759,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;			
 		if (flag)
-			sliderWidth = this instanceof GeoAngleInterface ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
+			sliderWidth = this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 		else 
 			sliderWidth = DEFAULT_SLIDER_WIDTH_RW;
 	}

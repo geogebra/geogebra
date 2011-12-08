@@ -22,7 +22,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoNumericInterface;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
@@ -706,14 +706,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	public ExpressionValue betaIncomplete(VectorValue lt) {
-		GeoVec2DInterface vec = lt.getVector();
+		GeoVec2D vec = lt.getVector();
 		val = kernel.getMyMath2().betaIncomplete(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}
 
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
-		GeoVec2DInterface vec = lt.getVector();
+		GeoVec2D vec = lt.getVector();
 		val = kernel.getMyMath2().betaIncompleteRegularized(vec.getX(),
 				vec.getY(), val);
 		isAngle = false;

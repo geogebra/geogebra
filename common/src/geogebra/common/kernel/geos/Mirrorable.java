@@ -9,7 +9,7 @@ public interface Mirrorable {
 	 * Miror at point
 	 * @param Q mirror
 	 */
-	public void mirror(GeoPointInterface Q);
+	public void mirror(GeoPoint2 Q);
 	/**
 	 * Miror at line
 	 * @param g mirror

@@ -409,7 +409,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	 * @param algoParent
 	 * @return free input points of the algoElement
 	 */
-	//public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElement algoParent);
+	//public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElement algoParent);
 	
 	/**
 	 * 

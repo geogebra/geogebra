@@ -1,9 +1,9 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 
 public interface AlgoDynamicCoordinatesInterface {
 
-	GeoPointInterface getParentPoint();
+	GeoPoint2 getParentPoint();
 
 }

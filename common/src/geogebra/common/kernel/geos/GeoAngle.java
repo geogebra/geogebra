@@ -31,7 +31,7 @@ import geogebra.common.kernel.algos.AngleAlgo;
  * @author Markus
  * @version
  */
-public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
+public class GeoAngle extends GeoNumeric {
 
 	//public int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private int arcSize;

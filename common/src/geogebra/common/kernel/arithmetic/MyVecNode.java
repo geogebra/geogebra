@@ -21,7 +21,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
 //import geogebra.kernel.geos.GeoVec2D;
 
@@ -203,8 +203,8 @@ public class MyVecNode extends ValidExpression implements VectorValue, Replaceab
     /**
      * interface VectorValue implementation
      */           
-    public GeoVec2DInterface getVector() {
-        GeoVec2DInterface ret = new GeoVec2D(kernel,getCoords());
+    public GeoVec2D getVector() {
+        GeoVec2D ret = new GeoVec2D(kernel,getCoords());
         ret.setMode(mode);
         return ret;
     }        

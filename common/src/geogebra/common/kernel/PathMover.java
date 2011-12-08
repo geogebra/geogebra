@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 
 public interface PathMover {
 	
@@ -30,7 +30,7 @@ public interface PathMover {
 	 * and sets the orientation to positive.
 	 * Note: the path parameter of p may be changed here!
 	 */
-	public void init(GeoPointInterface p);	
+	public void init(GeoPoint2 p);	
 	
 	/**
 	 * Inits the path mover using a path parameter on the path
@@ -41,13 +41,13 @@ public interface PathMover {
 	/**
 	 * Sets point p to the current position on the path
 	 */
-	public void getCurrentPosition(GeoPointInterface p);
+	public void getCurrentPosition(GeoPoint2 p);
 	
 	/**
 	 * Sets point p to the next position on the path
 	 * @return true: draw line to point p; false: move to point p
 	 */
-	public boolean getNext(GeoPointInterface p);
+	public boolean getNext(GeoPoint2 p);
 	
 	/**
 	 * Returns false whenever the next call of getNext() 

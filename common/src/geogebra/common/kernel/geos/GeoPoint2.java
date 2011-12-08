@@ -68,7 +68,7 @@ import java.util.TreeSet;
 final public class GeoPoint2 extends GeoVec3D 
 implements VectorValue, PathOrPoint,
 Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable, PointProperties,
-GeoPointND, Animatable, Transformable, GeoPointInterface  {   	
+GeoPointND, Animatable, Transformable {   	
 
 	// don't set point size here as this would overwrite setConstructionDefaults() 
 	// in GeoElement constructor
@@ -208,7 +208,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
 	    	setMode(p.toStringMode); // complex etc
     	}
     	else if (geo.isGeoVector()) {
-    		GeoVectorInterface v = (GeoVectorInterface) geo; 
+    		GeoVector v = (GeoVector) geo; 
     		setCoords(v.getX(), v.getY(), 1d);   
 	    	setMode(v.getMode()); // complex etc
     	}else throw new IllegalArgumentException();
@@ -737,7 +737,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     
     // euclidian distance between this GeoPoint and P
     @Override
-	final public double distance(GeoPointInterface P) {       
+	final public double distance(GeoPoint2 P) {       
         return MyMath.length(	((GeoPoint2)P).inhomX - inhomX, 
         						((GeoPoint2)P).inhomY - inhomY);
     }            
@@ -819,7 +819,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /**
      * dilate from S by r
      */
-    final public void dilate(NumberValue rval, GeoPointInterface S) {  
+    final public void dilate(NumberValue rval, GeoPoint2 S) {  
        double r = rval.getDouble();	
        double temp = (1 - r);
        setCoords(r * x + temp * S.getInhomX() * z,
@@ -843,7 +843,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /**
      * rotate this point by angle phi around Q
      */    
-    final public void rotate(NumberValue phiValue, GeoPointInterface Q) {
+    final public void rotate(NumberValue phiValue, GeoPoint2 Q) {
     	double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);   
@@ -858,7 +858,7 @@ GeoPointND, Animatable, Transformable, GeoPointInterface  {
     /**
      * mirror this point at point Q
      */
-    final public void mirror(GeoPointInterface Q) {
+    final public void mirror(GeoPoint2 Q) {
 		double qx = z * Q.getInhomX();
 		double qy = z * Q.getInhomY();
         

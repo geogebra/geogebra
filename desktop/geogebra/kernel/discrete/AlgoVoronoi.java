@@ -170,7 +170,7 @@ public class AlgoVoronoi extends AlgoElement {
                 //draw(vertices, withFill? getColor(site) : null);
                 //if (withSites) draw(site);
                 
-                //GeoPolygon poly = new GeoPolygon(cons, (GeoPointInterface[])vertices);
+                //GeoPolygon poly = new GeoPolygon(cons, (GeoPoint2[])vertices);
                 //outputList.add(poly);
                 //setListElement(index ++, vertices);
                 

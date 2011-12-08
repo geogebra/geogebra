@@ -16,7 +16,7 @@ public interface GeoConicInterface extends GeoElementInterface, GeoConicNDConsta
 	public double getP();
 	public void addPointOnConic(GeoPointND p);
 	public void removePointOnConic(GeoPointND p);
-	public GeoVec2DInterface getTranslationVector();//GeoVec2D
+	public GeoVec2D getTranslationVector();//GeoVec2D
 	public Coords getEigenvec(int i);
 	public void setCoeffs(ExpressionValue[][] coeff);
 	public void setInverseFill(boolean aboveBorder);

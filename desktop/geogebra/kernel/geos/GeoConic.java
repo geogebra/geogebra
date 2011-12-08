@@ -35,7 +35,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -212,7 +212,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * @param n number of points 
 	 * @return Array list of points
 	 */
-	public ArrayList<GeoPointInterface> getPointsOnConic(int n)
+	public ArrayList<GeoPoint2> getPointsOnConic(int n)
 	{
 		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 		this.toGeoCurveCartesian(curve);
@@ -340,7 +340,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	/**
 	 * mirror this conic at point Q
 	 */
-	final public void mirror(GeoPointInterface Q) {
+	final public void mirror(GeoPoint2 Q) {
 		double qx = Q.getInhomX();
 		double qy = Q.getInhomY();
 

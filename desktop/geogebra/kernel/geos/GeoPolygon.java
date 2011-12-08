@@ -36,7 +36,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -1395,7 +1395,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			((GeoPoint2)points[i]).rotate(r);	
 	}
 
-	public void rotate(NumberValue r, GeoPointInterface S) {
+	public void rotate(NumberValue r, GeoPoint2 S) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint2)points[i]).rotate(r,S);	
 	}
@@ -1411,13 +1411,13 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			((Translateable)points[i]).translate(v);		
 	}
 
-	public void dilate(NumberValue r, GeoPointInterface S) {
+	public void dilate(NumberValue r, GeoPoint2 S) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint2)points[i]).dilate(r,S);		
 		this.calcArea();
 	}
 	
-	public void mirror(GeoPointInterface Q) {
+	public void mirror(GeoPoint2 Q) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint2)points[i]).mirror(Q);				
 	}

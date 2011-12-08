@@ -15,7 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -746,7 +746,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param pt
 	 * @return function value
 	 */
-	public double evaluate(GeoPointInterface pti) {
+	public double evaluate(GeoPoint2 pti) {
 		GeoVec3D pt = (GeoVec3D)pti;
 		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
 			return evaluate(new double[] { pt.y / pt.z });
@@ -759,7 +759,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param pt
 	 * @return function value
 	 */
-	public boolean evaluateBoolean(GeoPointInterface pti) {
+	public boolean evaluateBoolean(GeoPoint2 pti) {
 		GeoVec3D pt = (GeoVec3D)pti;
 		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
 			return evaluateBoolean(new double[] { pt.y / pt.z });

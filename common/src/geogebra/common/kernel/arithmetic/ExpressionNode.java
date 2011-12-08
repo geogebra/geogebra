@@ -22,12 +22,12 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
-import geogebra.common.kernel.geos.GeoDummyVariableInterface;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
@@ -458,8 +458,8 @@ public class ExpressionNode extends ValidExpression implements
 		boolean didReplacement = false;
 
 		// left wing
-		if (left instanceof GeoDummyVariableInterface) {
-			if (var.equals(((GeoDummyVariableInterface) left).toString())) {
+		if (left instanceof GeoDummyVariable) {
+			if (var.equals(((GeoDummyVariable) left).toString())) {
 				left = newOb;
 				didReplacement = true;
 			}
@@ -476,8 +476,8 @@ public class ExpressionNode extends ValidExpression implements
 
 		// right wing
 		if (right != null) {
-			if (right instanceof GeoDummyVariableInterface) {
-				if (var.equals(((GeoDummyVariableInterface) right).toString())) {
+			if (right instanceof GeoDummyVariable) {
+				if (var.equals(((GeoDummyVariable) right).toString())) {
 					right = newOb;
 					didReplacement = true;
 				}
@@ -654,8 +654,8 @@ public class ExpressionNode extends ValidExpression implements
 				replacements++;
 			}
 		}
-		if (left instanceof GeoDummyVariableInterface) {
-			if (varName.equals(((GeoDummyVariableInterface) left).toString())) {
+		if (left instanceof GeoDummyVariable) {
+			if (varName.equals(((GeoDummyVariable) left).toString())) {
 				left = fVar;
 				replacements++;
 			}
@@ -679,8 +679,8 @@ public class ExpressionNode extends ValidExpression implements
 					right = fVar;
 					replacements++;
 				}
-			} else if (right instanceof GeoDummyVariableInterface) {
-				if (varName.equals(((GeoDummyVariableInterface) right)
+			} else if (right instanceof GeoDummyVariable) {
+				if (varName.equals(((GeoDummyVariable) right)
 						.toString())) {
 					right = fVar;
 					replacements++;
@@ -1152,7 +1152,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	public boolean isImaginaryUnit() {
-		return (isLeaf() && (left instanceof GeoVec2DInterface) && ((GeoVec2DInterface) left)
+		return (isLeaf() && (left instanceof GeoVec2D) && ((GeoVec2D) left)
 				.isImaginaryUnit());
 	}
 

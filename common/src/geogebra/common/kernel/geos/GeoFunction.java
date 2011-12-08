@@ -675,7 +675,7 @@ GeoFunctionInterface {
 	 */	 
 	public void pointChanged(GeoPointND PI) {			
 		
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		if (P.getZ() == 1.0) {
 			//P.x = P.x;			
@@ -705,7 +705,7 @@ GeoFunctionInterface {
 		pp.t = P.getX();
 	}
 	
-	private void pointChangedBoolean(boolean b, GeoPointInterface P) {
+	private void pointChangedBoolean(boolean b, GeoPoint2 P) {
 		double px;
 		boolean yfun = getVarString().equals("y");
 		if (yfun) {
@@ -723,7 +723,7 @@ GeoFunctionInterface {
 			IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
 			for (int i = 0; i < ineqCount; i++) {
-				for (GeoPointInterface point : ineqs.get(i).getZeros()) {
+				for (GeoPoint2 point : ineqs.get(i).getZeros()) {
 					if (Math.abs(point.getX() - px) < bestDist) {
 						bestDist = Math.abs(point.getX() - px);
 						if (yfun) {
@@ -739,7 +739,7 @@ GeoFunctionInterface {
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 		
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		if (P.getPath() == this)
 			return true;
@@ -758,7 +758,7 @@ GeoFunctionInterface {
 
 	public void pathChanged(GeoPointND PI) {
 		
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		PathParameter pp = P.getPathParameter();
 		P.setX(pp.t);
@@ -1590,7 +1590,7 @@ GeoFunctionInterface {
 		}
 	}
 
-	public void dilate(NumberValue r, GeoPointInterface S) {
+	public void dilate(NumberValue r, GeoPoint2 S) {
 		double rd=r.getNumber().getDouble(),
 		a=S.getX(),
 		b=S.getY();
@@ -1621,9 +1621,9 @@ GeoFunctionInterface {
 	 * (returns *vertical* distance for functions)
 	 */
 	@Override
-	public double distance(GeoPointInterface p) {
-		return Math.abs(evaluate(((GeoPointInterface)p).getInhomX()) -
-				((GeoPointInterface)p).getInhomY());
+	public double distance(GeoPoint2 p) {
+		return Math.abs(evaluate(((GeoPoint2)p).getInhomX()) -
+				((GeoPoint2)p).getInhomY());
 	}
 
 	public boolean isInRegion(GeoPointND P) {
@@ -1637,7 +1637,7 @@ GeoFunctionInterface {
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 		
 		if (P.getZ() == 1.0) {
 			//P.x = P.x;			

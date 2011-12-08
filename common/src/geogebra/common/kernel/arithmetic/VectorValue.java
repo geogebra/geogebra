@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.geos.GeoVec2DInterface;
+import geogebra.common.kernel.geos.GeoVec2D;
 
 /**
  *
@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoVec2DInterface;
  * @version 
  */
 public interface VectorValue extends ExpressionValue { 
-    public GeoVec2DInterface getVector();    
+    public GeoVec2D getVector();    
     public int getMode(); // POLAR or CARTESIAN
     public void setMode(int mode);  
 }

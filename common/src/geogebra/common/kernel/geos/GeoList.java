@@ -1437,7 +1437,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		//return get(closestPointIndex).getNearestPoint(p);
 	}
 
-	public double distance(GeoPointInterface p) {
+	public double distance(GeoPoint2 p) {
 		double distance = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo = (GeoElement) geoList.get(i);
@@ -1540,23 +1540,23 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * 4)}
 	 */
 	@Override
-	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterfaceSlim view) {
-		ArrayList<GeoPointInterface> al = new ArrayList<GeoPointInterface>();
+	public ArrayList<GeoPoint2> getFreeInputPoints(EuclidianViewInterfaceSlim view) {
+		ArrayList<GeoPoint2> al = new ArrayList<GeoPoint2>();
 		
 		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo = (GeoElement) geoList.get(i);
 
 			if (geo.isGeoPoint()) {
-				GeoPointInterface p = (GeoPointInterface) geo;
+				GeoPoint2 p = (GeoPoint2) geo;
 				if (p.isMoveable() && !al.contains(p))
 					al.add(p);
 
 			} else {
-				ArrayList<GeoPointInterface> al2 = geo.getFreeInputPoints(view);
+				ArrayList<GeoPoint2> al2 = geo.getFreeInputPoints(view);
 
 				if (al2 != null)
 					for (int j = 0; j < al2.size(); j++) {
-						GeoPointInterface p = al2.get(j);
+						GeoPoint2 p = al2.get(j);
 						// make sure duplicates aren't added
 						if (!al.contains(p))
 							al.add(p);

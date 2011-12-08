@@ -511,11 +511,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPointInterface[] copyPoints(AbstractConstruction cons,
+	public static GeoPoint2[] copyPoints(AbstractConstruction cons,
 			GeoPointND[] points) {
-		GeoPointInterface[] pointsCopy = new GeoPointInterface[points.length];
+		GeoPoint2[] pointsCopy = new GeoPoint2[points.length];
 		for (int i = 0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPointInterface) ((GeoPointInterface) points[i])
+			pointsCopy[i] = (GeoPoint2) ((GeoPoint2) points[i])
 					.copyInternal(cons);
 			pointsCopy[i].set(points[i]);
 		}
@@ -1162,8 +1162,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		// if (isGeoPoint() && geo.isGeoPoint()) {
 		if (getGeoClassType().equals(GeoClass.POINT)
 				&& geo.getGeoClassType().equals(GeoClass.POINT)) {
-			((GeoPointInterface) this)
-					.setSpreadsheetTrace(((GeoPointInterface) geo)
+			((GeoPoint2) this)
+					.setSpreadsheetTrace(((GeoPoint2) geo)
 							.getSpreadsheetTrace());
 		}
 
@@ -1743,7 +1743,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 				// check if first free input point is start point of vector
-				ArrayList<GeoPointInterface> freeInputPoints = getFreeInputPoints(view);
+				ArrayList<GeoPoint2> freeInputPoints = getFreeInputPoints(view);
 				if (freeInputPoints.size() > 0) {
 					GeoPointND firstInputPoint = freeInputPoints.get(0);
 					GeoPointND startPoint = ((Locateable) this).getStartPoint();
@@ -1762,7 +1762,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param view
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPointInterface> getFreeInputPoints(
+	public ArrayList<GeoPoint2> getFreeInputPoints(
 			EuclidianViewInterfaceSlim view) {
 		if (algoParent == null) {
 			return null;
@@ -1786,7 +1786,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private static boolean containsOnlyMoveableGeos(
-			ArrayList<GeoPointInterface> geos) {
+			ArrayList<GeoPoint2> geos) {
 		if ((geos == null) || (geos.size() == 0)) {
 			return false;
 		}
@@ -4585,7 +4585,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		/*
 		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
-		 * GeoPointInterface p = (GeoPointInterface) this; if
+		 * GeoPoint2 p = (GeoPoint2) this; if
 		 * (p.getSpreadsheetTrace()) {
 		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
 		 */
@@ -5156,7 +5156,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		boolean movedGeo = false;
 
-		GeoPointInterface point = (GeoPointInterface) this;
+		GeoPoint2 point = (GeoPoint2) this;
 		if (endPosition != null) {
 			point.setCoords(endPosition.getX(), endPosition.getY(), 1);
 			movedGeo = true;
@@ -5199,7 +5199,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isGeoPoint()) {
 
 				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
-					GeoPointInterface p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
+					GeoPoint2 p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
 					geo = (GeoElement) p;
@@ -5242,7 +5242,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					GeoTextInterface movedGeoText = (GeoTextInterface) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
 						// absolute location: change location
-						GeoPointInterface loc = (GeoPointInterface) movedGeoText
+						GeoPoint2 loc = (GeoPoint2) movedGeoText
 								.getStartPoint();
 						if (loc != null) {
 							loc.translate(rwTransVec);
@@ -6090,13 +6090,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * gets shortest distance to point p overridden in eg GeoPoint, GeoLine for
 	 * compound paths
 	 */
-	public double distance(GeoPointInterface p) {
+	public double distance(GeoPoint2 p) {
 		return Double.POSITIVE_INFINITY;
 	}
 
 	public double distance(GeoPointND p) {
-		if ((p instanceof GeoElement) && (p instanceof GeoPointInterface)) {
-			return distance((GeoPointInterface) p);
+		if ((p instanceof GeoElement) && (p instanceof GeoPoint2)) {
+			return distance((GeoPoint2) p);
 		}
 		AbstractApplication.debug("TODO : distance from " + getClassName()
 				+ " to ND point");

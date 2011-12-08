@@ -49,7 +49,7 @@ import java.util.Iterator;
  */
 final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
-Transformable, GeoVectorND, GeoVectorInterface {
+Transformable, GeoVectorND {
 
 	private GeoPoint2 startPoint;
 
@@ -319,11 +319,11 @@ Transformable, GeoVectorND, GeoVectorInterface {
 
 	}
 
-	public void rotate(NumberValue r, GeoPointInterface S) {
+	public void rotate(NumberValue r, GeoPoint2 S) {
 		rotateXY(r);
 	}
 
-	public void mirror(GeoPointInterface Q) {
+	public void mirror(GeoPoint2 Q) {
 
 		setCoords(- x,- y, z );
 
@@ -334,7 +334,7 @@ Transformable, GeoVectorND, GeoVectorInterface {
 
 	}
 
-	public void dilate(NumberValue rval, GeoPointInterface S) {
+	public void dilate(NumberValue rval, GeoPoint2 S) {
 		double r = rval.getDouble();	
 		setCoords(r * x, r * y, z);
 

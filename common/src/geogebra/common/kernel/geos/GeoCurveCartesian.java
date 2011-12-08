@@ -349,13 +349,13 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		funY.translateY(vy);
 	}
 
-	final public void rotate(NumberValue phi, GeoPointInterface P) {
+	final public void rotate(NumberValue phi, GeoPoint2 P) {
 		translate(-P.getX(), -P.getY());
 		rotate(phi);
 		translate(P.getX(), P.getY());
 	}
 
-	final public void mirror(GeoPointInterface P) {
+	final public void mirror(GeoPoint2 P) {
 		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
@@ -392,7 +392,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		matrixTransform(cosPhi, -sinPhi, sinPhi, cosPhi);
 	}
 
-	public void dilate(NumberValue ratio, GeoPointInterface P) {
+	public void dilate(NumberValue ratio, GeoPoint2 P) {
 		translate(-P.getX(), -P.getY());
 		ExpressionNode exprX = ((Function) funX.deepCopy(kernel))
 				.getExpression();
@@ -424,9 +424,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @param endInterval
 	 * @return array list of points
 	 */
-	public ArrayList<GeoPointInterface> getPointsOnCurve(int n, double startInterval,
+	public ArrayList<GeoPoint2> getPointsOnCurve(int n, double startInterval,
 			double endInterval) {
-		ArrayList<GeoPointInterface> pointList = new ArrayList<GeoPointInterface>();
+		ArrayList<GeoPoint2> pointList = new ArrayList<GeoPoint2>();
 
 		double step = (endInterval - startInterval) / (n + 1);
 
@@ -576,7 +576,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public void pointChanged(GeoPointND PI) {
 
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
@@ -587,7 +587,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 
 		if (P.getPath() == this)
 			return true;
@@ -602,7 +602,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	public void pathChanged(GeoPointND PI) {
 
-		GeoPointInterface P = (GeoPointInterface) PI;
+		GeoPoint2 P = (GeoPoint2) PI;
 
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < startParam)
@@ -626,7 +626,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            point to which the distance is minimized
 	 * @return optimal parameter value t
 	 */
-	public double getClosestParameter(GeoPointInterface P, double startValue) {
+	public double getClosestParameter(GeoPoint2 P, double startValue) {
 		if (distFun == null)
 			distFun = new ParametricCurveDistanceFunction(this);
 		distFun.setDistantPoint(P.getX() / P.getZ(), P.getY() / P.getZ());
@@ -839,10 +839,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * compound paths
 	 */
 	@Override
-	public double distance(GeoPointInterface p) {
-		double t = getClosestParameter((GeoPointInterface)p, 0);
-		return MyMath.length(funX.evaluate(t) - ((GeoPointInterface)p).getX(),
-				funY.evaluate(t) - ((GeoPointInterface)p).getY());
+	public double distance(GeoPoint2 p) {
+		double t = getClosestParameter((GeoPoint2)p, 0);
+		return MyMath.length(funX.evaluate(t) - ((GeoPoint2)p).getX(),
+				funY.evaluate(t) - ((GeoPoint2)p).getY());
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
@@ -878,9 +878,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double coef = 0, coefY = 0;
 		double cumulative = 0, cumulativeY = 0;
 		ExpressionNode enx = new ExpressionNode(kernel, new MyDouble(kernel,
-				((GeoPointInterface) points[0]).getX()));
+				((GeoPoint2) points[0]).getX()));
 		ExpressionNode eny = new ExpressionNode(kernel, new MyDouble(kernel,
-				((GeoPointInterface) points[0]).getY()));
+				((GeoPoint2) points[0]).getY()));
 		FunctionVariable fv = new FunctionVariable(kernel, "t");
 		double sum = 0;
 		double sumY = 0;
@@ -891,10 +891,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					new ExpressionNode(kernel, fv, Operation.MINUS,
 							new MyDouble(kernel, i - 1)), Operation.ABS,
 					null);
-			coef = 0.5 * ((GeoPointInterface) points[pointIndex]).getX() - 0.5
-					* ((GeoPointInterface) points[i - 1]).getX() - cumulative;
-			coefY = 0.5 * ((GeoPointInterface) points[pointIndex]).getY() - 0.5
-					* ((GeoPointInterface) points[i - 1]).getY() - cumulativeY;
+			coef = 0.5 * ((GeoPoint2) points[pointIndex]).getX() - 0.5
+					* ((GeoPoint2) points[i - 1]).getX() - cumulative;
+			coefY = 0.5 * ((GeoPoint2) points[pointIndex]).getY() - 0.5
+					* ((GeoPoint2) points[i - 1]).getY() - cumulativeY;
 			sum += coef * (i - 1);
 			sumY += coefY * (i - 1);
 			cumulative += coef;

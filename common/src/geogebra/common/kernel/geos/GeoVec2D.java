@@ -42,8 +42,7 @@ import geogebra.common.adapters.FactoryAdapter;
  * @author  Markus
  * @version 
  */
-final public class GeoVec2D extends ValidExpression implements MatrixTransformable, VectorValue,
-	GeoVec2DInterface {        
+final public class GeoVec2D extends ValidExpression implements MatrixTransformable, VectorValue {        
 
     public double x = Double.NaN;
     public double y = Double.NaN;    
@@ -93,7 +92,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */
-    public GeoVec2D(AbstractKernel kernel, GeoPointInterface p, GeoPointInterface q) {   
+    public GeoVec2D(AbstractKernel kernel, GeoPoint2 p, GeoPoint2 q) {   
     	this(kernel);    
         x = q.getX() - p.getX();
         y = q.getY() - p.getY();
@@ -230,7 +229,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     /**
      * mirror this point at point Q
      */
-    final public void mirror(GeoPointInterface Q) {           
+    final public void mirror(GeoPoint2 Q) {           
         x = 2.0 * Q.getInhomX() - x;
         y = 2.0 * Q.getInhomY() - y;
     }
@@ -719,7 +718,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			
 			boolean vector = false;
 			
-			if ((rt instanceof GeoPointInterface) || (rt instanceof GeoLineInterface)) {
+			if ((rt instanceof GeoPoint2) || (rt instanceof GeoLineInterface)) {
 				GeoVec3D p = (GeoVec3D)rt;
 				// use homogeneous coordinates if available
 				xx = p.x;

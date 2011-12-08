@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.GgbMat;
 import geogebra.common.util.LaTeXCache;
@@ -205,7 +205,7 @@ public class Kernel extends AbstractKernel {
 
 	@Override
 	public GeoElementInterface Semicircle(String label,
-	        GeoPointInterface geoPoint, GeoPointInterface geoPoint2) {
+	        GeoPoint2 geoPoint, GeoPoint2 geoPoint2) {
 		// TODO Auto-generated method stub
 		return null;
 	}

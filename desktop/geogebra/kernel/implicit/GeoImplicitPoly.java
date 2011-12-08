@@ -36,7 +36,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -1078,7 +1078,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 				new double[][]{{cx*cx + cy*cy, -2*cy, 1}, {-2*cx,0,0}, {1,0,0}});
 	}
 
-	public void mirror(GeoPointInterface Q) {
+	public void mirror(GeoPoint2 Q) {
 		plugInPoly(new double[][]{{2*Q.getInhomX()},{-1}},new double[][]{{2*Q.getInhomY(),-1}});
 	}
 
@@ -1115,7 +1115,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		plugInPoly(new double[][]{{0,-sin},{cos,0}},new double[][]{{0,cos},{sin,0}});	
 	}
 
-	public void rotate(NumberValue phiValue, GeoPointInterface S) {
+	public void rotate(NumberValue phiValue, GeoPoint2 S) {
 		double phi=phiValue.getDouble();
 		double cos=Math.cos(phi);
 		double sin=Math.sin(-phi);
@@ -1124,7 +1124,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		plugInPoly(new double[][]{{x*(1-cos)+y*sin,-sin},{cos,0}},new double[][]{{-x*sin+y*(1-cos),cos},{sin,0}});
 	}
 
-	public void dilate(NumberValue rval, GeoPointInterface S) {
+	public void dilate(NumberValue rval, GeoPoint2 S) {
 		double r=1/rval.getDouble();
 		plugInPoly(new double[][]{{(1-r)*S.getInhomX()},{r}},new double[][]{{(1-r)*S.getInhomY(),r}});
 	}

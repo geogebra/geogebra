@@ -548,7 +548,7 @@ GeoLineInterface {
     /**
      * dilate from S by r
      */
-    final public void dilate(NumberValue rval, GeoPointInterface S) {
+    final public void dilate(NumberValue rval, GeoPoint2 S) {
        double r = rval.getDouble();        
        double temp = (r - 1);
        z = temp * (x * S.getInhomX() + y * S.getInhomY()) + r * z;
@@ -568,7 +568,7 @@ GeoLineInterface {
     /**
      * rotate this line by angle phi around Q
      */
-	final public void rotate(NumberValue phiVal, GeoPointInterface Q) {
+	final public void rotate(NumberValue phiVal, GeoPoint2 Q) {
 		double phi = phiVal.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);     
@@ -585,7 +585,7 @@ GeoLineInterface {
     /**
      * mirror this line at point Q
      */
-    final public void mirror(GeoPointInterface Q) {
+    final public void mirror(GeoPoint2 Q) {
         double qx = x*Q.getInhomX();
         double qy = y*Q.getInhomY();
         
@@ -1309,7 +1309,7 @@ GeoLineInterface {
 	 * Removes a point from the list of points that this line passes through.
 	 * @param p Point to be removed
 	 */
-	public final void removePointOnLine(GeoPointInterface p) {
+	public final void removePointOnLine(GeoPoint2 p) {
 		if (pointsOnLine != null)
 			pointsOnLine.remove(p);
 	}

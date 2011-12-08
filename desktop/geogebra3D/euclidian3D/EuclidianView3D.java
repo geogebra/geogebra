@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
@@ -3286,7 +3286,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 
-	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElementInterface algoParent){
+	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElementInterface algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 	

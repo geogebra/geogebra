@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumericInterface;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 
 public interface EuclidianViewInterfaceSlim extends View{
 
 	boolean isDefault2D();
-	public ArrayList<GeoPointInterface> getFreeInputPoints(AlgoElementInterface algoParent);
+	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElementInterface algoParent);
 	boolean isMoveable(GeoElementInterface geoElement);
 	int getWidth();
 	int getHeight();

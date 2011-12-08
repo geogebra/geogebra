@@ -3,7 +3,7 @@ package geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoPointInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 
 
 public interface AlgoElementInterface {
@@ -18,7 +18,7 @@ public interface AlgoElementInterface {
 
 	public GeoElementInterface getOutput(int i);
 
-	public ArrayList<GeoPointInterface> getFreeInputPoints();
+	public ArrayList<GeoPoint2> getFreeInputPoints();
 
 	
 
