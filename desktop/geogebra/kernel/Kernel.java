@@ -57,6 +57,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -5756,7 +5757,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart ConicArc(String label, GeoConic conic, NumberValue a, NumberValue b) {
 		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(cons, label, conic, a, b, 															
 				GeoConicPart.CONIC_PART_ARC);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5765,7 +5766,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart ConicArc(String label, GeoConic conic, GeoPoint2 P, GeoPoint2 Q) {
 		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons, label, conic, P, Q, 															
 				GeoConicPart.CONIC_PART_ARC);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5774,7 +5775,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart ConicSector(String label, GeoConic conic, NumberValue a, NumberValue b) {
 		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(cons, label, conic, a, b, 															
 				GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5783,7 +5784,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart ConicSector(String label, GeoConic conic, GeoPoint2 P, GeoPoint2 Q) {
 		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons, label, conic, P, Q, 															
 				GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5792,7 +5793,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart CircumcircleArc(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, A,B, C, 															
 				GeoConicPart.CONIC_PART_ARC);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5801,7 +5802,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart CircumcircleSector(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, A,B, C, 															
 				GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5810,7 +5811,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart CircleArc(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircle algo = new AlgoConicPartCircle((Construction)cons, label, A,B, C, 															
 				GeoConicPart.CONIC_PART_ARC);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 	
 	/** 
@@ -5819,7 +5820,7 @@ public class Kernel extends AbstractKernel{
 	final public GeoConicPart CircleSector(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircle algo = new AlgoConicPartCircle((Construction)cons, label, A,B, C, 															
 				GeoConicPart.CONIC_PART_SECTOR);
-		return algo.getConicPart();
+		return (GeoConicPart)algo.getConicPart();
 	}
 
 	/** 
@@ -8096,5 +8097,9 @@ public class Kernel extends AbstractKernel{
 	@Override
 	public GeoPoint2 getGeoPoint(double d, double e, int i) {
 		return new GeoPoint2(cons, null, d, e, i);
+	}
+
+	public GeoConicPartInterface newGeoConicPart(AbstractConstruction cons, int type) {//temporary
+		return new GeoConicPart(cons, type);
 	}
 }

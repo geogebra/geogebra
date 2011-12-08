@@ -43,7 +43,7 @@ import geogebra.kernel.algos.AlgoConicPartConicParameters;
 import geogebra.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.kernel.algos.AlgoSemicircle;
 import geogebra.kernel.integration.EllipticArcLength;
-
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 
 /**
  * GeoCirclePart for 
@@ -51,7 +51,7 @@ import geogebra.kernel.integration.EllipticArcLength;
  * 
  */
 public class GeoConicPart extends GeoConic
-implements LimitedPath, NumberValue, LineProperties {
+implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
 	
 	/** conic arc*/
 	public static final int CONIC_PART_ARC = 1;
@@ -734,7 +734,7 @@ implements LimitedPath, NumberValue, LineProperties {
 										
 			// create a new arc from the transformed circle using startPoint and endPoint
 			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(cons, label, transformedCircle, (GeoPoint2) points[1], (GeoPoint2) points[2], conic_part_type);			
-			GeoConicPart conicPart = algoResult.getConicPart();
+			GeoConicPart conicPart = (GeoConicPart)algoResult.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[2], (GeoElement) points[1]};
 						
@@ -745,7 +745,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			points = t.transformPoints(points);
 			
 			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, (GeoPoint2) points[0], (GeoPoint2) points[1], (GeoPoint2) points[2], conic_part_type);
-			GeoConicPart res = algo.getConicPart();
+			GeoConicPart res = (GeoConicPart)algo.getConicPart();
 			res.setLabel(label);
 			res.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {res, (GeoElement) points[1], (GeoElement) points[2], (GeoElement) points[0]};
@@ -757,7 +757,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			cons.removeFromConstructionList(transformedConic.getParentAlgorithm());			
 										
 			algo = new AlgoConicPartConicParameters(cons, label, transformedConic, algo.startParam, algo.endParam, conic_part_type);			
-			GeoElement ret = algo.getConicPart();
+			GeoElement ret = (GeoConicPart)algo.getConicPart();
 			ret.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {ret};
 			return geos;
@@ -771,7 +771,7 @@ implements LimitedPath, NumberValue, LineProperties {
 			cons.removeFromConstructionList(transformedConic.getParentAlgorithm());		
 		
 			algo = new AlgoConicPartConicPoints( cons, label, transformedConic, (GeoPoint2) points[0], (GeoPoint2) points[1], conic_part_type);			
-			GeoConicPart conicPart = algo.getConicPart();
+			GeoConicPart conicPart = (GeoConicPart)algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {conicPart, (GeoPoint2) points[0], (GeoPoint2) points[1]};
 			return geos;
@@ -794,7 +794,7 @@ implements LimitedPath, NumberValue, LineProperties {
 				algo = new AlgoConicPartConicPoints( cons, label, transformedConic, (GeoPoint2) points[0], (GeoPoint2) points[1], conic_part_type);
 				}else
 					algo = new AlgoConicPartConicPoints( cons, label, transformedConic, (GeoPoint2) points[1], (GeoPoint2) points[0], conic_part_type);
-				GeoConicPart conicPart = ((AlgoConicPartConicPoints)algo).getConicPart();
+				GeoConicPart conicPart = (GeoConicPart)((AlgoConicPartConicPoints)algo).getConicPart();
 				conicPart.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {conicPart, (GeoElement) points[0], (GeoElement) points[1]};
 				return geos;				

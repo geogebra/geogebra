@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConicPart;
+import geogebra.kernel.geos.GeoConic;
 
 
 
@@ -67,7 +68,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
     }    	
     
     private void setIncidence() {
-    	startPoint.addIncidence(conicPart);
+    	startPoint.addIncidence((GeoConicPart)conicPart);
     	//endPoint.addIncidence(conicPart);
 		
 	}
@@ -113,7 +114,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
         input[2] = endPoint;
 
         super.setOutputLength(1);
-        super.setOutput(0, conicPart);
+        super.setOutput(0, (GeoConicPart)conicPart);
 
         setDependencies();
     }
@@ -122,13 +123,13 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	public final void compute() {
     	// the temp points P and Q should lie on the conic
     	P.setCoords(startPoint);
-    	conic.pointChanged(P);
+    	((GeoConic)conic).pointChanged(P);
     	
     	Q.setCoords(endPoint);
-    	conic.pointChanged(Q);
+    	((GeoConic)conic).pointChanged(Q);
     	
     	// now take the parameters from the temp points
-    	conicPart.set(conic);    	    	    	    	
+    	conicPart.set((GeoConic)conic);    	    	    	    	
     	conicPart.setParameters(P.getPathParameter().t, Q.getPathParameter().t, true);
     }
     

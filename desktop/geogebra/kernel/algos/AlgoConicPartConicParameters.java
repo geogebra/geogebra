@@ -48,12 +48,12 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[3];
-        input[0] = conic;      
+        input[0] = (GeoConic)conic;      
         input[1] = (GeoElement)startParam.toGeoElement();
         input[2] = (GeoElement)endParam.toGeoElement();
 
         super.setOutputLength(1);
-        super.setOutput(0, conicPart);
+        super.setOutput(0, (GeoConicPart)conicPart);
 
         setDependencies();
     }

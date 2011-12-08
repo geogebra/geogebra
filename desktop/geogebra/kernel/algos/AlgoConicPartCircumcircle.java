@@ -18,9 +18,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
  * Circle arc or sector defined by three points.
@@ -51,9 +52,9 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
         AlgoCircleThreePoints algo = 
         	new AlgoCircleThreePoints(cons, A, B, C);
         cons.removeFromConstructionList(algo);		
-        conic = (GeoConic) algo.getCircle(); 
+        conic = (GeoConicInterface) algo.getCircle(); 
         
-        conicPart = new GeoConicPart(cons, type);
+        conicPart = kernel.newGeoConicPart(cons, type);
         conicPart.addPointOnConic(A);
         conicPart.addPointOnConic(B);
         conicPart.addPointOnConic(C);
@@ -64,15 +65,15 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     }    	        
     
 	private void setIncidence() {
-		A.addIncidence(conicPart);
-		B.addIncidence(conicPart);
-		C.addIncidence(conicPart);
+		A.addIncidence((GeoElement)conicPart);
+		B.addIncidence((GeoElement)conicPart);
+		C.addIncidence((GeoElement)conicPart);
 	}
 
 	@Override
 	public String getClassName() {
 		switch (type) {
-			case GeoConicPart.CONIC_PART_ARC:
+			case GeoConicPartInterface.CONIC_PART_ARC:
 				return "AlgoCircumcircleArc";
 			default:
 				return "AlgoCircumcircleSector";
@@ -82,7 +83,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	@Override
 	public int getRelatedModeID() {
 		switch (type) {
-			case GeoConicPart.CONIC_PART_ARC:
+			case GeoConicPartInterface.CONIC_PART_ARC:
 				return EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS;
 			default:
 				return EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS;
@@ -98,7 +99,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
         input[2] = C;        
 
         super.setOutputLength(1);
-        super.setOutput(0, conicPart);
+        super.setOutput(0, (GeoElement)conicPart);
 
         setDependencies();
     }
@@ -110,19 +111,19 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     		return;
     	}
     	
-    	conicPart.set(conic); 
-    	switch (conicPart.type) {
-    		case GeoConic.CONIC_PARALLEL_LINES: 	
+    	conicPart.set((GeoElement)conic); 
+    	switch (conicPart.getType()) {
+    		case GeoConicNDConstants.CONIC_PARALLEL_LINES: 	
     			computeDegenerate();
     			break;
     		
-			case GeoConic.CONIC_CIRCLE: 
+			case GeoConicNDConstants.CONIC_CIRCLE: 
 				computeCircle();
 		    	break;
 		    
 		    default:
 		    	// this should not happen
-		    	AbstractApplication.debug("AlgoCirclePartPoints: unexpected conic type: " + conicPart.type);
+		    	AbstractApplication.debug("AlgoCirclePartPoints: unexpected conic type: " + conicPart.getType());
 		    	conicPart.setUndefined();
     	}	
     }
@@ -130,10 +131,10 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 //  arc degenerated to segment or two rays
     private void computeDegenerate() {
 		if (line == null) { // init lines 
-			line = conicPart.lines[0];
+			line = conicPart.getLines()[0];
 			line.setStartPoint(A);
 			line.setEndPoint(C);
-			conicPart.lines[1].setStartPoint(C);
+			conicPart.getLines()[1].setStartPoint(C);
 		}
 		
 		// make sure the line goes through A and C
@@ -147,7 +148,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 		if (lambda < 0 || lambda > 1) {
 			// two rays
 			// second ray with start point C and direction of AC 				
-			conicPart.lines[1].setCoords(line);
+			conicPart.getLines()[1].setCoords(line);
 			// first ray with start point A and oposite direction
 			line.changeSign();
 			
@@ -163,9 +164,9 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 //  circle through A, B, C 
     private void computeCircle() {
     	// start angle from vector MA
-    	double alpha = Math.atan2(A.inhomY - conicPart.b.y, A.inhomX - conicPart.b.x); 
+    	double alpha = Math.atan2(A.inhomY - conicPart.getTranslationVector().y, A.inhomX - conicPart.getTranslationVector().x); 
 		// end angle from vector MC
-    	double beta = Math.atan2(C.inhomY - conicPart.b.y, C.inhomX - conicPart.b.x);
+    	double beta = Math.atan2(C.inhomY - conicPart.getTranslationVector().y, C.inhomX - conicPart.getTranslationVector().x);
     	
     	// check orientation of triangle A, B, C to see
 		// whether we have to swap start and end angle

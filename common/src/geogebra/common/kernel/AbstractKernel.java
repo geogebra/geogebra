@@ -21,6 +21,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -1910,6 +1911,7 @@ public abstract class AbstractKernel {
 	public abstract Object Ray(String label, GeoPoint2 P, GeoPoint2 Q);//GeoRay
 	public abstract Object RayND(String label, GeoPointND P, GeoPointND Q);//GeoRayND
 	public abstract Object Ray(String label, GeoPoint2 P, GeoVector v);//GeoRay
+	public abstract GeoConicPartInterface newGeoConicPart(AbstractConstruction cons, int type);
 
 	// temporary methods just while moving things
 	

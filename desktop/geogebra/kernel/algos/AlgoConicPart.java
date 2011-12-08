@@ -15,8 +15,9 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 
 
 /**
@@ -25,10 +26,10 @@ import geogebra.kernel.geos.GeoConicPart;
  */
 public abstract class AlgoConicPart extends AlgoElement {
 
-    public GeoConic conic; // input
+    public GeoConicInterface conic; // input
     public NumberValue startParam; // input((Construction) 
 	public NumberValue endParam;
-    GeoConicPart conicPart; // output   
+    GeoConicPartInterface conicPart; // output   
     
     int type;
 
@@ -45,20 +46,20 @@ public abstract class AlgoConicPart extends AlgoElement {
 	@Override
 	public String getClassName() {
 		switch (type) {
-			case GeoConicPart.CONIC_PART_ARC:
+			case GeoConicPartInterface.CONIC_PART_ARC:
 				return "AlgoConicArc";
 			default:
 				return "AlgoConicSector";
 		}		
 	}
 
-    public GeoConicPart getConicPart() {
+    public GeoConicPartInterface getConicPart() {
         return conicPart;
     }
    
     @Override
-	public void compute() {    	    	
-    	conicPart.set(conic);
+	public void compute() {
+    	conicPart.set((GeoElement)conic);//TODO:remove typecast
     	conicPart.setParameters(startParam.getDouble(), endParam.getDouble(), true);
     }
 

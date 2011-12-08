@@ -323,7 +323,7 @@ implements Previewable {
 						previewTempPoints[1], 
 						previewTempPoints[2], arcMode);
 				cons.removeFromConstructionList(algo);				
-				initConicPart(algo.getConicPart());
+				initConicPart((GeoConicPart)algo.getConicPart());
 				break;
 
 			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
@@ -336,7 +336,7 @@ implements Previewable {
 							previewTempPoints[1], 
 							previewTempPoints[2], arcMode);
 				cons.removeFromConstructionList(algo2);			
-				initConicPart(algo2.getConicPart());
+				initConicPart((GeoConicPart)algo2.getConicPart());
 				break;													
 		}		
 		

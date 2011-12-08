@@ -47,8 +47,8 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
         // temp points
         P = new GeoPoint2(cons);        
         Q = new GeoPoint2(cons);
-        P.setPath(conic);
-        Q.setPath(conic);
+        P.setPath((GeoConic)conic);
+        Q.setPath((GeoConic)conic);
         
         conicPart = new GeoConicPart(cons, type);
 
@@ -73,19 +73,19 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
     }
     
     public GeoConic getConic() {
-    	return conic;
+    	return (GeoConic)conic;
     }
     
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[3];
-        input[0] = conic;      
+        input[0] = (GeoConic)conic;      
         input[1] = startPoint;
         input[2] = endPoint;
 
         super.setOutputLength(1);
-        super.setOutput(0, conicPart);
+        super.setOutput(0, (GeoConicPart)conicPart);
 
         setDependencies();
     }
@@ -94,13 +94,13 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
 	public final void compute() {
     	// the temp points P and Q should lie on the conic
     	P.setCoords(startPoint);
-    	conic.pointChanged(P);
+    	((GeoConic)conic).pointChanged(P);
     	
     	Q.setCoords(endPoint);
-    	conic.pointChanged(Q);
+    	((GeoConic)conic).pointChanged(Q);
     	
     	// now take the parameters from the temp points
-    	conicPart.set(conic);
+    	conicPart.set((GeoConic)conic);
     	    	   	    
     	conicPart.setParameters(P.getPathParameter().t, Q.getPathParameter().t, 
     			true);

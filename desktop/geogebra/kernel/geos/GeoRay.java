@@ -237,7 +237,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle( cons, TransformInterface.transformedGeoLabel(this),
 			    		(GeoPoint2) points[0], (GeoPoint2) points[1],inf,GeoConicPart.CONIC_PART_ARC);
 				cons.removeFromAlgorithmList(ae);
-				GeoElement arc = ae.getConicPart(); 				
+				GeoElement arc = (GeoElement)ae.getConicPart();//GeoConicPart 				
 				arc.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {arc, (GeoElement) points[0], (GeoElement) points[1]};
 				return geos;		
@@ -275,7 +275,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons, TransformInterface.transformedGeoLabel(this),
 			    		(GeoPoint2) points[0], (GeoPoint2) points2[0], (GeoPoint2) points2[1],GeoConicPart.CONIC_PART_ARC);
-				GeoElement arc = ae.getConicPart(); 				
+				GeoElement arc = (GeoElement)ae.getConicPart();//GeoConicPart 				
 				arc.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {arc, (GeoElement) points[0]};
 				return geos;		
