@@ -1,7 +1,6 @@
 package geogebra.kernel.geos;
 
-import geogebra.cas.error.CASException;
-import geogebra.cas.GeoGebraCAS;
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
@@ -17,7 +16,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.StringUtil;
-import geogebra.kernel.Construction;
+//import geogebra.kernel.Construction;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -292,7 +291,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 		
 		if (!isEmpty()) {
 			// make sure we put this casCell into the construction set
-			((Construction) cons).addToGeoSetWithCasCells(this);			
+			cons.addToGeoSetWithCasCells(this);			
 		}
 		return true;
 	}	
@@ -414,7 +413,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 	 */
 	private ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue) {
 		try {			
-			return ((GeoGebraCAS)kernel.getGeoGebraCAS()).getCASparser().parseGeoGebraCASInputAndResolveDummyVars(inValue);
+			return (kernel.getGeoGebraCAS()).getCASparser().parseGeoGebraCASInputAndResolveDummyVars(inValue);
 		}catch (Throwable e) {
 			return null;
 		} 
@@ -607,7 +606,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 		if (assignmentVar != null) {
 			if (twinGeo != null)
 				twinGeo.rename(assignmentVar);		
-			((Construction) cons).putCasCellLabel(this, assignmentVar);
+			cons.putCasCellLabel(this, assignmentVar);
 		} else {
 			// remove twinGeo if we had one
 			setTwinGeo(null);
@@ -710,7 +709,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 				// try row reference lookup
 				// $ for previous row
 				if (varLabel.equals(ExpressionNode.CAS_ROW_REFERENCE_PREFIX)) {			
-					geo = row > 0 ? ((Construction) cons).getCasCell(row-1) : ((Construction) cons).getLastCasCell();
+					geo = row > 0 ? cons.getCasCell(row-1) : cons.getLastCasCell();
 				} else {
 					geo = kernel.lookupCasRowReference(varLabel);
 				}
@@ -998,7 +997,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 		// set Label of twinGeo
 		twinGeo.setLabel(assignmentVar);
 		// set back CAS cell label
-		((Construction) cons).putCasCellLabel(this, assignmentVar);
+		cons.putCasCellLabel(this, assignmentVar);
 		
 		return true;
 	}
@@ -1161,7 +1160,8 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 					result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE);
 					success = result != null;
 			} catch (CASException e) {
-				System.err.println("GeoCasCell.computeOutput(), CAS eval: " + evalVE + "\n\terror: " + e.getMessage());
+				System.err.println("GeoCasCell.computeOutput(), CAS eval: " + evalVE + 
+						"\n\terror: " + e.getMessage());
 				success = false;	
 				ce = e;
 			}			
@@ -1451,7 +1451,7 @@ public class GeoCasCell extends GeoElement implements GeoCasCellInterface{
 		}		
 		
 		super.doRemove();	
-	    ((Construction) cons).removeFromGeoSetWithCasCells(this);
+	    	cons.removeFromGeoSetWithCasCells(this);
 		setTwinGeo(null);						
 	}	
 

@@ -1,5 +1,7 @@
 package geogebra.cas.error;
 
+import geogebra.common.cas.CASException;
+
 /**
  * Signals a Timeout exception from the CAS.
  * 

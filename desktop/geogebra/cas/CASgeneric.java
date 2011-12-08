@@ -1,6 +1,6 @@
 package geogebra.cas;
 
-import geogebra.cas.error.CASException;
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;

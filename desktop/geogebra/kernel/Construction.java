@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoCasCellInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -561,12 +562,12 @@ public class Construction extends AbstractConstruction{
 	 * @see #removeCasCellLabel(String)
 	 * @see #lookupCasCellLabel(String)
 	 */
-	public void putCasCellLabel(GeoCasCell geoCasCell, String label) {
+	public void putCasCellLabel(GeoCasCellInterface geoCasCell, String label) {
 		if (label == null) return;
 		
 		if (geoCasCellTable == null) 
 			geoCasCellTable = new HashMap<String,GeoCasCell>(); 
-		geoCasCellTable.put(label, geoCasCell);	
+		geoCasCellTable.put(label, (GeoCasCell)geoCasCell);	
 	}
 	
 	/**
@@ -618,15 +619,15 @@ public class Construction extends AbstractConstruction{
 	 * Adds the given GeoCasCell to a set with all
 	 * labeled GeoElements and CAS cells needed for notifyAll().
 	 */
-	public void addToGeoSetWithCasCells(GeoCasCell geoCasCell) {
-		geoSetWithCasCells.add(geoCasCell);
+	public void addToGeoSetWithCasCells(GeoCasCellInterface geoCasCell) {
+		geoSetWithCasCells.add((GeoCasCell)geoCasCell);
 	}
 	
 	/**
 	 * Removes the given GeoCasCell from a set with all
 	 * labeled GeoElements and CAS cells needed for notifyAll().
 	 */
-	public void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell) {
+	public void removeFromGeoSetWithCasCells(GeoCasCellInterface geoCasCell) {
 		geoSetWithCasCells.remove(geoCasCell);
 	}
 

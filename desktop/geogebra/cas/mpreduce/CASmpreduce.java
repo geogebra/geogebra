@@ -3,7 +3,7 @@ package geogebra.cas.mpreduce;
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
-import geogebra.cas.error.CASException;
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;

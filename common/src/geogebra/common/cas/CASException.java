@@ -1,6 +1,4 @@
-package geogebra.cas.error;
-
-import geogebra.cas.GeoGebraCAS;
+package geogebra.common.cas;
 
 /**
  * Base class for all CAS exceptions.

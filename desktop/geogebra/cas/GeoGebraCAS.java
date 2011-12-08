@@ -1,7 +1,7 @@
 package geogebra.cas;
 
-import geogebra.cas.error.CASException;
 import geogebra.cas.mpreduce.CASmpreduce;
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionValue;

@@ -1168,4 +1168,14 @@ public abstract class AbstractConstruction {
 
 	public abstract void clearConstruction();
 
+	public abstract void putCasCellLabel(GeoCasCellInterface geoCasCell, String assignmentVar);
+
+	public abstract void addToGeoSetWithCasCells(GeoCasCellInterface geoCasCell);
+
+	public abstract void removeFromGeoSetWithCasCells(GeoCasCellInterface geoCasCell);
+	
+	public abstract GeoCasCellInterface getCasCell(int row);
+	
+	public abstract GeoCasCellInterface getLastCasCell();
+
 }

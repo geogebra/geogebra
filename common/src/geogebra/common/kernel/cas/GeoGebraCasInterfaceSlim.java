@@ -18,7 +18,7 @@ public interface GeoGebraCasInterfaceSlim {
 
 	public String evaluateGeoGebraCAS(ValidExpression evalVE);
 
-//	public CASparser getCASparser();
+	public CASParserInterface getCASparser();
 
 	public boolean isStructurallyEqual(ValidExpression inputVE, String newInput);
 	
