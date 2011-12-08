@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.PathMoverLocus;
@@ -29,7 +30,7 @@ import geogebra.kernel.algos.AlgoLocusSlider;
 
 import java.util.ArrayList;
 
-public class GeoLocus extends GeoElement implements Path, Traceable {
+public class GeoLocus extends GeoElement implements Path, Traceable, GeoLocusInterface {
 
 	public static final int MAX_PATH_RUNS = 10;
 				

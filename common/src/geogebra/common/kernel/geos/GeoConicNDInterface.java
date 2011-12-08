@@ -21,4 +21,5 @@ public interface GeoConicNDInterface extends GeoElementInterface, GeoConicNDCons
 	public void setCircle(GeoPoint2 M, double r);
 	public void setCircle(GeoPoint2 M, GeoPoint2 P);
 	public void setUndefined();
+	public double[] getMatrix();
 }

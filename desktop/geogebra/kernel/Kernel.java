@@ -79,6 +79,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -8068,6 +8069,10 @@ public class Kernel extends AbstractKernel{
 
 	public GeoConicPartInterface newGeoConicPart(AbstractConstruction cons, int type) {//temporary
 		return new GeoConicPart(cons, type);
+	}
+	
+	public GeoLocusInterface newGeoLocus(AbstractConstruction cons) {
+		return new GeoLocus(cons);
 	}
 	
 	public Geo3DVec getGeo3DVec(double x, double y, double z) {

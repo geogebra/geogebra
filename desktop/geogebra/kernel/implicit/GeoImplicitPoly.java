@@ -50,10 +50,10 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoLocus;
+import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoLocusInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +83,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	
 	private boolean trace; //for traceable interface
 	
-	public GeoLocus locus;
+	public GeoLocusInterface locus;
 	public Polynomial poly;
 
 	public GeoImplicitPoly(AbstractConstruction c) {
@@ -91,10 +91,10 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		degX=-1;
 		degY=-1;
 		coeffSquarefree=new double[0][0];
-		locus=new GeoLocus(c);
+		locus=kernel.newGeoLocus(c);
 		locus.setDefined(true);
 		calcPath=true;
-		((Construction) c).registerEuclidianViewCE(this);
+		c.registerEuclidianViewCE(this);
 	}
 	
 	private GeoImplicitPoly(AbstractConstruction c, String label,double[][] coeff,boolean calcPath){
@@ -103,14 +103,14 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		this.calcPath=calcPath;
 		setCoeff(coeff,calcPath);
 		if (!calcPath)
-			((Construction) c).unregisterEuclidianViewCE(this);
+			c.unregisterEuclidianViewCE(this);
 	}
 	
-	protected GeoImplicitPoly(Construction c, String label,double[][] coeff){
+	protected GeoImplicitPoly(AbstractConstruction c, String label,double[][] coeff){
 		this(c,label,coeff,true);
 	}
 	
-	private GeoImplicitPoly(Construction c, String label,Polynomial poly,boolean calcPath){
+	private GeoImplicitPoly(AbstractConstruction c, String label,Polynomial poly,boolean calcPath){
 		this(c);
 		this.poly = poly;
 		setLabel(label);
@@ -120,7 +120,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			c.unregisterEuclidianViewCE(this);
 	}
 	
-	public GeoImplicitPoly(Construction c, String label,Polynomial poly){
+	public GeoImplicitPoly(AbstractConstruction c, String label,Polynomial poly){
 		this(c,label,poly,true);
 	}
 	
@@ -130,7 +130,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	 * @param coeff
 	 * @return a GeoImplicitPoly witch doesn't calculate it's path.
 	 */
-	public static GeoImplicitPoly createImplicitPolyWithoutPath(Construction c,double[][] coeff){
+	public static GeoImplicitPoly createImplicitPolyWithoutPath(AbstractConstruction c,double[][] coeff){
 		return new GeoImplicitPoly(c,null,coeff,false);
 	}
 	
@@ -144,7 +144,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	 */
 	public void preventPathCreation(){
 		calcPath=false;
-		((Construction) cons).unregisterEuclidianViewCE(this);
+		cons.unregisterEuclidianViewCE(this);
 	}
 	
 	
@@ -163,16 +163,16 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	 * Construct GeoImplicitPoly from GeoConic
 	 * @param c
 	 */
-	public GeoImplicitPoly(GeoConic c){
+	public GeoImplicitPoly(GeoConicInterface c){
 		this(c.getConstruction());
 		coeff=new double[3][3];
-		coeff[0][0]=c.matrix[2];
-		coeff[1][1]=2*c.matrix[3];
+		coeff[0][0]=c.getMatrix()[2];
+		coeff[1][1]=2*c.getMatrix()[3];
 		coeff[2][2]=0;
-		coeff[1][0]=2*c.matrix[4];
-		coeff[0][1]=2*c.matrix[5];
-		coeff[2][0]=c.matrix[0];
-		coeff[0][2]=c.matrix[1];
+		coeff[1][0]=2*c.getMatrix()[4];
+		coeff[0][1]=2*c.getMatrix()[5];
+		coeff[2][0]=c.getMatrix()[0];
+		coeff[0][2]=c.getMatrix()[1];
 		coeff[2][1]=coeff[1][2]=0;
 		degX=2;
 		degY=2;
@@ -251,7 +251,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 							d=coeff[i][j];
 						}
 					}
-					if (!Kernel.isEqual(c, d))
+					if (!AbstractKernel.isEqual(c, d))
 						return false;
 				}
 			}
@@ -278,7 +278,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			return;
 		super.set(geo);
 		setCoeff(((GeoImplicitPoly)geo).getCoeff(),false);
-		locus.set(((GeoImplicitPoly)geo).locus);
+		locus.set((GeoElement)((GeoImplicitPoly)geo).locus);
 		this.defined=((GeoImplicitPoly)geo).getDefined();
 	}
 
@@ -465,7 +465,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 				if (Double.isInfinite(coeff[i][j])){
 					setUndefined();
 				}
-				isConstant=isConstant&&(Kernel.isZero(coeff[i][j])||(i==0&&j==0));
+				isConstant=isConstant&&(AbstractKernel.isZero(coeff[i][j])||(i==0&&j==0));
 			}
 		}
 		getFactors();
@@ -710,7 +710,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		if (algoUpdateSet!=null){
 			double a=0,ax=0,ay=0,b=0,bx=0,by=0;
 			if (qX==null&&qY==null&&degXpX<=1&&degYpX<=1&&degXpY<=1&&degYpY<=1){
-				if ((degXpX!=1||degYpX!=1||pX[1].length==1||Kernel.isZero(pX[1][1]))&&(degXpY!=1||degYpY!=1||pY[1].length==1||Kernel.isZero(pY[1][1]))){
+				if ((degXpX!=1||degYpX!=1||pX[1].length==1||AbstractKernel.isZero(pX[1][1]))&&(degXpY!=1||degYpY!=1||pY[1].length==1||AbstractKernel.isZero(pY[1][1]))){
 					if (pX.length>0){
 						if (pX[0].length>0){
 							a=pX[0][0];
@@ -734,7 +734,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 						bx=pY[1][0];
 					}
 					double det=ax*by-bx*ay;
-					if (!Kernel.isZero(det)){
+					if (!AbstractKernel.isZero(det)){
 						double[][] iX=new double[][]{{(b*ay-a*by)/det,-ay/det},{by/det}};
 						double[][] iY=new double[][]{{-(b*ax-a*bx)/det,ax/det},{-bx/det}};
 						
@@ -743,7 +743,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 							AlgoElementInterface elem=it.next();
 							if (elem instanceof AlgoPointOnPath && isIndependent()){
 								GeoPoint2 point=((AlgoPointOnPath)elem).getP();
-								if (!Kernel.isZero(point.getZ())){
+								if (!AbstractKernel.isZero(point.getZ())){
 									double x=point.getX()/point.getZ();
 									double y=point.getY()/point.getZ();
 									double px=evalPolyCoeffAt(x,y,iX);
@@ -804,7 +804,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	}
 	
 	final public double distance(GeoPoint2 p) {
-		AlgoClosestPoint algo = new AlgoClosestPoint((Construction) cons, "", this, p);
+		AlgoClosestPoint algo = new AlgoClosestPoint(cons, "", this, p);
 		algo.remove();
 		GeoPoint2 pointOnCurve = (GeoPoint2) algo.getP();
 		return p.distance(pointOnCurve);
@@ -926,7 +926,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 				solution[i] = 1;
 			else
 			{
-				solution[i] = (Kernel.isZero(partialSolution[j])) ? 0 : partialSolution[j];
+				solution[i] = (AbstractKernel.isZero(partialSolution[j])) ? 0 : partialSolution[j];
 				j++;
 			}
 			
@@ -956,7 +956,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		dx=evalDiffXPolyAt(x,y);
 		dy=evalDiffYPolyAt(x,y);
 		double d=Math.abs(dx)+Math.abs(dy);
-		if (Kernel.isZero(d))
+		if (AbstractKernel.isZero(d))
 			return;
 		dx/=d;
 		dy/=d;
@@ -982,7 +982,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	}
 
 	public boolean isOnPath(GeoPointND PI) {
-		return isOnPath(PI, Kernel.STANDARD_PRECISION);
+		return isOnPath(PI, AbstractKernel.STANDARD_PRECISION);
 	}
 	
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -1004,7 +1004,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		
 		double value = this.evalPolyAt(px, py);
 		
-		return Math.abs(value) < Kernel.MIN_PRECISION; 
+		return Math.abs(value) < AbstractKernel.MIN_PRECISION; 
 	}
 
 	public double getMinParameter() {
@@ -1048,7 +1048,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			for (int x=0;x<=degX;x++){
 				int y=d-x;
 				if (y>=0&&y<coeff[x].length){
-					if (Math.abs(coeff[x][y])>Kernel.EPSILON){
+					if (Math.abs(coeff[x][y])>AbstractKernel.EPSILON){
 						deg=d;
 						d=0;
 						break;
@@ -1162,7 +1162,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		private List<double[]> boundaryIntersectCollection;
 		
 		//Second Algorithm
-		final public static double EPS=Kernel.EPSILON;
+		final public static double EPS=AbstractKernel.EPSILON;
 		
 		/**
 		 * @param x
@@ -1350,7 +1350,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		}
 
 		
-		private final static double MIN_GRAD=Kernel.STANDARD_PRECISION; 
+		private final static double MIN_GRAD=AbstractKernel.STANDARD_PRECISION; 
 		private final static double MIN_STEP_SIZE=0.1; //Pixel on Screen
 		private final static double START_STEP_SIZE=0.5;
 		private final static double MAX_STEP_SIZE=1;
@@ -1362,7 +1362,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			return x*x/scaleX/scaleX+y*y/scaleY/scaleY;
 		}
 		
-		private void startPath(int w, int h, double x, double y,GeoLocus locus) {
+		private void startPath(int w, int h, double x, double y,GeoLocusInterface locus) {
 
 			double sx=x;
 			double sy=y;
@@ -1627,7 +1627,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			int e;
 			if (e1!=e2){
 				//solved #278 PRECISION to small (was Double.MIN_VALUE)
-				while(a2-a1>Kernel.MAX_PRECISION){
+				while(a2-a1>AbstractKernel.MAX_PRECISION){
 					e=epsSignum(evalPolyAt(x1+(x2-x1)*(a2+a1)/2,y1+(y2-y1)*(a2+a1)/2,true));
 					if (e==0){
 						return (a2+a1)/2;
