@@ -37,7 +37,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -1422,7 +1422,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			((GeoPoint2)points[i]).mirror(Q);				
 	}
 
-	public void mirror(GeoLineInterface g) {
+	public void mirror(GeoLine g) {
 		for(int i=0;i<points.length;i++)
 			((GeoPoint2)points[i]).mirror(g);				
 	}

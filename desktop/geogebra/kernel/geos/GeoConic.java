@@ -36,7 +36,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -369,7 +369,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	/**
 	 * mirror this point at line g 
 	 */
-	final public void mirror(GeoLineInterface g) {
+	final public void mirror(GeoLine g) {
 		// Y = S(phi).(X - Q) + Q
 		// where Q is a point on g, S(phi) is the mirror transform
 		// and phi/2 is the line's slope angle
@@ -552,7 +552,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		return p;
 	}
 
-	public void fromLine(GeoLineInterface line) {
+	public void fromLine(GeoLine line) {
 		lines = new GeoLine[2];
 		lines[0] = (GeoLine)line;
 		lines[1] = (GeoLine)line;

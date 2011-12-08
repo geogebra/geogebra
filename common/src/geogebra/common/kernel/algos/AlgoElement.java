@@ -28,7 +28,7 @@ import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      */
     protected GeoElement[] output;
     private GeoElement [] efficientInput;
-    private GeoNumericInterface [] randomUnlabeledInput;
+    private GeoNumeric [] randomUnlabeledInput;
      
     private boolean isPrintedInXML = true;
     private boolean stopUpdateCascade = false;
@@ -537,21 +537,21 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * is called.
      */
     private void setRandomUnlabeledInput() {
-    	ArrayList<GeoNumericInterface> tempList = null;
+    	ArrayList<GeoNumeric> tempList = null;
         for (int i = 0; i < input.length; i++) {  
        	 if (input[i].isGeoNumeric() && !input[i].isLabelSet()) {
-       		 GeoNumericInterface num = (GeoNumericInterface) input[i];
+       		 GeoNumeric num = (GeoNumeric) input[i];
        		 if (num.isRandomGeo()) {
-       			 if (tempList == null) tempList = new ArrayList<GeoNumericInterface>();
+       			 if (tempList == null) tempList = new ArrayList<GeoNumeric>();
        			 tempList.add(num);
        		 }
        	 }
         } 
         
         if (tempList != null) {
-        	randomUnlabeledInput = new GeoNumericInterface[tempList.size()];
+        	randomUnlabeledInput = new GeoNumeric[tempList.size()];
         	for (int i=0; i < randomUnlabeledInput.length; i++) {
-        		randomUnlabeledInput[i] = (GeoNumericInterface) tempList.get(i);
+        		randomUnlabeledInput[i] = (GeoNumeric) tempList.get(i);
         	}
         }
     }

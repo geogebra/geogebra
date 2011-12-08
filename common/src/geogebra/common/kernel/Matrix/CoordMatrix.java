@@ -16,9 +16,9 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoListInterface;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 
 
@@ -125,7 +125,7 @@ public class CoordMatrix
 	 * TODO doc
 	 * @param inputList
 	 */
-	public CoordMatrix(GeoListInterface inputList) {
+	public CoordMatrix(GeoList inputList) {
 
     	int cols = inputList.size();
     	if (!inputList.isDefined() || cols == 0) {
@@ -141,7 +141,7 @@ public class CoordMatrix
     	}
     	
 
-   		int rows = ((GeoListInterface)geo).size();
+   		int rows = ((GeoList)geo).size();
    		
    		if (rows == 0) {
 			setIsSingular(true);
@@ -150,7 +150,7 @@ public class CoordMatrix
    		
    		initialise(rows,cols);
 		
-		GeoListInterface columnList;
+		GeoList columnList;
    		
    		for (int r = 0 ; r < rows ; r++) {
    			geo = inputList.get(r);
@@ -158,7 +158,7 @@ public class CoordMatrix
    				setIsSingular(true);
    				return;   		
    			}
-   			columnList = (GeoListInterface)geo;
+   			columnList = (GeoList)geo;
    			if (columnList.size() != columns) {
    				setIsSingular(true);
    				return;   		
@@ -170,7 +170,7 @@ public class CoordMatrix
    	   				return;   		
    	   			}
    	   			
-   	   			set(r + 1, c + 1, ((GeoNumericInterface)geo).getValue());
+   	   			set(r + 1, c + 1, ((GeoNumeric)geo).getValue());
    	   		}
    		}
    		
@@ -374,7 +374,7 @@ public class CoordMatrix
 	 * @param cons 
 	 * @return eg { {1,2}, {3,4} }
 	 */
-	public GeoListInterface getGeoList(GeoListInterface outputList, AbstractConstruction cons) {
+	public GeoList getGeoList(GeoList outputList, AbstractConstruction cons) {
 		
 		if (isSingular) {
 	        outputList.setDefined(false);
@@ -385,9 +385,9 @@ public class CoordMatrix
         outputList.setDefined(true);
 		
 	   		for (int r = 0 ; r < rows ; r++) {  	   			
-   			GeoListInterface columnList = new GeoList(cons);
+   			GeoList columnList = new GeoList(cons);
    	   		for (int c = 0 ; c < columns ; c++) {
-   	   			GeoNumericInterface num = new GeoNumeric(cons);
+   	   			GeoNumeric num = new GeoNumeric(cons);
    	   			num.setValue(get(r + 1, c + 1));
    	   			columnList.add((GeoElementInterface)num);  	   			
    	   		}

@@ -21,7 +21,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
@@ -555,7 +555,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	final public GeoElementInterface toGeoElement() {
-		GeoNumericInterface num = new GeoNumeric(kernel.getConstruction());
+		GeoNumeric num = new GeoNumeric(kernel.getConstruction());
 		return (GeoElementInterface) num;
 	}
 

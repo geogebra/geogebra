@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -267,7 +267,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoNumericInterface getDefaultNumber(boolean geoAngle) {
+    public GeoNumeric getDefaultNumber(boolean geoAngle) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

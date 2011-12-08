@@ -46,7 +46,21 @@ import java.util.TreeSet;
  * @version
  */
 public class GeoNumeric extends GeoElement 
-implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
+implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
+
+
+	public static int DEFAULT_SLIDER_WIDTH_RW = 4;//private
+	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;//private
+	public static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 72;//private
+	/** Default maximum value when displayed as slider*/
+	public static double DEFAULT_SLIDER_MIN = -5;
+	/** Default minimum value when displayed as slider*/
+	public static double DEFAULT_SLIDER_MAX = 5;
+	/** Default increment when displayed as slider*/
+	public static double DEFAULT_SLIDER_INCREMENT = 0.1;
+	/** Default increment when displayed as slider*/
+	public static double DEFAULT_SLIDER_SPEED = 1;
+
 
 	/** value of the number or angle */
 	public double value;	
@@ -164,7 +178,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 		// slider is only possible for independent
 		// number with given min and max
 		if (isIndependent()) {			
-			if (visible) {		//TODO: Remove cast from GeoNumericInterface
+			if (visible) {		//TODO: Remove cast from GeoNumeric
 				GeoNumeric num = (GeoNumeric) kernel.getDefaultNumber(isAngle());				
 				// make sure the slider value is not fixed 
 				setFixed(false);
@@ -313,7 +327,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	
 	public double getAnimationStep() {
 		if(getAnimationStepObject() == null){
-			GeoNumericInterface num = kernel.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());		
 		}
 		return super.getAnimationStep();
@@ -321,7 +335,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 
 	public double getAnimationSpeed() {
 		if(getAnimationSpeedObject() == null){
-			GeoNumericInterface num = kernel.getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getDefaultNumber(isGeoAngle());
 			setAnimationSpeed(num.getAnimationSpeed());
 		}
 		return super.getAnimationSpeed();

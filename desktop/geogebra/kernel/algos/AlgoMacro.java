@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoListInterface;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
@@ -452,7 +452,7 @@ implements EuclidianViewCE, AlgoMacroInterface {
 	 * @param macroList GeoList of macro geos 
 	 * @param geoList GeoList of construction geos
 	 */			
-	final public void initList(GeoListInterface macroList, GeoListInterface geoList) {			
+	final public void initList(GeoList macroList, GeoList geoList) {			
 		// make sure all referenced GeoElements are from the algo-construction
 		
 		int size = macroList.size();

@@ -53,8 +53,7 @@ import java.util.ArrayList;
 public class GeoLine extends GeoVec3D 
 implements Path, 
 Translateable,PointRotateable, Mirrorable, Dilateable, LineProperties,
-GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable,
-GeoLineInterface {
+GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	
 	// modes
     public static final int EQUATION_IMPLICIT = 0;
@@ -597,7 +596,7 @@ GeoLineInterface {
    /**
      * mirror this point at line g
      */
-    final public void mirror(GeoLineInterface g) {
+    final public void mirror(GeoLine g) {
         // Y = S(phi).(X - Q) + Q
         // where Q is a point on g, S(phi) is the mirror transform
         // and phi/2 is the line's slope angle

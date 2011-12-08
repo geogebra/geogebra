@@ -329,7 +329,7 @@ Transformable, GeoVectorND {
 
 	}
 
-	public void mirror(GeoLineInterface g) {
+	public void mirror(GeoLine g) {
 		mirrorXY(2.0 * Math.atan2(-g.getX(), g.getY()));
 
 	}

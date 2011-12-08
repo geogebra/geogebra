@@ -710,7 +710,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			
 		}
 
-		public void mirror(GeoLineInterface g) {
+		public void mirror(GeoLine g) {
 			double qx, qy; 
 	        if (Math.abs(g.getX()) > Math.abs(g.getY())) {
 	            qx = g.getZ() / g.getX();

@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
-import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -3547,8 +3547,8 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[0]));
 			} else if (valueForm
-					&& ((leftEval = left.evaluate()) instanceof GeoLineInterface)) {
-				sb.append(kernel.format(((GeoLineInterface) leftEval).getX()));
+					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
+				sb.append(kernel.format(((GeoLine) leftEval).getX()));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
@@ -3585,8 +3585,8 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[1]));
 			} else if (valueForm
-					&& ((leftEval = left.evaluate()) instanceof GeoLineInterface)) {
-				sb.append(kernel.format(((GeoLineInterface) leftEval).getY()));
+					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
+				sb.append(kernel.format(((GeoLine) leftEval).getY()));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
@@ -3619,8 +3619,8 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
 						.getPointAsDouble()[2]));
 			} else if (valueForm
-					&& ((leftEval = left.evaluate()) instanceof GeoLineInterface)) {
-				sb.append(kernel.format(((GeoLineInterface) leftEval).getZ()));
+					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
+				sb.append(kernel.format(((GeoLine) leftEval).getZ()));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:

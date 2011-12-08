@@ -359,7 +359,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
-	final public void mirror(GeoLineInterface g) {
+	final public void mirror(GeoLine g) {
 		// Y = S(phi).(X - Q) + Q
 		// where Q is a point on g, S(phi) is the mirrorTransform(phi)
 		// and phi/2 is the line's slope angle

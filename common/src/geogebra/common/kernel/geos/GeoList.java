@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * List of GeoElements
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
-		PointProperties, TextProperties, Traceable, Path, Transformable,GeoListInterface {
+		PointProperties, TextProperties, Traceable, Path, Transformable {
 
 	public final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 

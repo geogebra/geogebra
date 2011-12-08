@@ -718,7 +718,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			
 			boolean vector = false;
 			
-			if ((rt instanceof GeoPoint2) || (rt instanceof GeoLineInterface)) {
+			if ((rt instanceof GeoPoint2) || (rt instanceof GeoLine)) {
 				GeoVec3D p = (GeoVec3D)rt;
 				// use homogeneous coordinates if available
 				xx = p.x;

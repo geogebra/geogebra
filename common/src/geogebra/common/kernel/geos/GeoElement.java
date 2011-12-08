@@ -276,7 +276,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected GeoBoolean condShowObject;
 
 	// function to determine color
-	private GeoListInterface colFunction; // { GeoNumeric red, GeoNumeric Green,
+	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
 											// GeoNumeric Blue }
 
 	private boolean useVisualDefaults = true;
@@ -1843,7 +1843,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public double getAnimationStep() {
 		if (animationIncrement == null) {
 			animationIncrement = new MyDouble(kernel,
-					GeoNumericInterface.DEFAULT_SLIDER_INCREMENT);
+					GeoNumeric.DEFAULT_SLIDER_INCREMENT);
 		}
 		return animationIncrement.getDouble();
 	}
@@ -1895,13 +1895,13 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		GeoElement speedObj = (GeoElement) animationSpeedObj.toGeoElement();
 		if (speedObj.isGeoNumeric() && speedObj.isIndependent()) {
-			((GeoNumericInterface) speedObj).setValue(speed);
+			((GeoNumeric) speedObj).setValue(speed);
 		}
 	}
 
 	private void initAnimationSpeedObject() {
 		if (animationSpeedObj == null) {
-			GeoNumericInterface num = new GeoNumeric(cons);
+			GeoNumeric num = new GeoNumeric(cons);
 			num.setValue(1);
 			animationSpeedObj = num;
 		}
@@ -2269,7 +2269,7 @@ public abstract class GeoElement extends ConstructionElement implements
 								.getInhomCoords().getX()));
 					} else if (isGeoLine()) {
 						captionSB.append(kernel
-								.format(((GeoLineInterface) this).getX()));
+								.format(((GeoLine) this).getX()));
 					} else {
 						captionSB.append("%x");
 					}
@@ -2281,7 +2281,7 @@ public abstract class GeoElement extends ConstructionElement implements
 								.getInhomCoords().getY()));
 					} else if (isGeoLine()) {
 						captionSB.append(kernel
-								.format(((GeoLineInterface) this).getY()));
+								.format(((GeoLine) this).getY()));
 					} else {
 						captionSB.append("%y");
 					}
@@ -2292,7 +2292,7 @@ public abstract class GeoElement extends ConstructionElement implements
 								.getInhomCoords().getZ()));
 					} else if (isGeoLine()) {
 						captionSB.append(kernel
-								.format(((GeoLineInterface) this).getZ()));
+								.format(((GeoLine) this).getZ()));
 					} else {
 						captionSB.append("%z");
 					}
@@ -2690,7 +2690,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoButton()) {
 				return defaultNumberedLabel("Name.button");
 			} else if (isGeoList()) {
-				GeoListInterface list = (GeoListInterface) this;
+				GeoList list = (GeoList) this;
 				return defaultNumberedLabel(list.isMatrix() ? "Name.matrix"
 						: "Name.list");
 			} else if (isInteger && isGeoNumeric()) {
@@ -3333,21 +3333,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return all random numeric unlabeled predecessors
 	 */
-	public ArrayList<GeoNumericInterface> getRandomNumberPredecessorsWithoutLabels() {
+	public ArrayList<GeoNumeric> getRandomNumberPredecessorsWithoutLabels() {
 		if (isIndependent()) {
 			return null;
 		} else {
-			ArrayList<GeoNumericInterface> randNumbers = null;
+			ArrayList<GeoNumeric> randNumbers = null;
 
 			TreeSet<GeoElement> pred = getAllPredecessors();
 			Iterator<GeoElement> it = pred.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				if (geo.isGeoNumeric()) {
-					GeoNumericInterface num = (GeoNumericInterface) geo;
+					GeoNumeric num = (GeoNumeric) geo;
 					if (num.isRandomGeo() && !num.isLabelSet()) {
 						if (randNumbers == null) {
-							randNumbers = new ArrayList<GeoNumericInterface>();
+							randNumbers = new ArrayList<GeoNumeric>();
 						}
 						randNumbers.add(num);
 					}
@@ -3986,7 +3986,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		StringBuilder sb = new StringBuilder();
 
 		if (geo.isGeoList()
-				&& ((GeoListInterface) geo).getElementType().equals(
+				&& ((GeoList) geo).getElementType().equals(
 						GeoClass.TEXT)) {
 			return null;
 		}
@@ -5037,11 +5037,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
-	public final GeoListInterface getColorFunction() {
+	public final GeoList getColorFunction() {
 		return colFunction;
 	}
 
-	public void setColorFunction(GeoListInterface col)
+	public void setColorFunction(GeoList col)
 	// throws CircularDefinitionException
 	{
 		// Application.debug("setColorFunction"+col.getValue());
@@ -5228,12 +5228,12 @@ public abstract class GeoElement extends ConstructionElement implements
 					screenLoc.setAbsoluteScreenLoc(x, y);
 					movedGeo = true;
 				} else if (isGeoNumeric()) {
-					if (!((GeoNumericInterface) geo).isSliderFixed()) {
+					if (!((GeoNumeric) geo).isSliderFixed()) {
 						// real world screen position - GeoNumeric
-						((GeoNumericInterface) geo).setRealWorldLoc(
-								((GeoNumericInterface) geo).getRealWorldLocX()
+						((GeoNumeric) geo).setRealWorldLoc(
+								((GeoNumeric) geo).getRealWorldLocX()
 										+ rwTransVec.getX(),
-								((GeoNumericInterface) geo).getRealWorldLocY()
+								((GeoNumeric) geo).getRealWorldLocY()
 										+ rwTransVec.getY());
 						movedGeo = true;
 					}
@@ -5418,7 +5418,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// matrices
 		if (this.isGeoList() && ExpressionNodeType.equals(StringType.LATEX)
-				&& ((GeoListInterface) this).isMatrix()) {
+				&& ((GeoList) this).isMatrix()) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		// vectors
@@ -5893,7 +5893,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algo != null) {
 			algo.compute(); // eg AlgoRandom etc
 		} else if (this.isGeoNumeric()) {
-			((GeoNumericInterface) this).updateRandom();
+			((GeoNumeric) this).updateRandom();
 		}
 	}
 

@@ -210,7 +210,7 @@ implements Traceable {
     /** Calculates the line through the points A and B.
      * The result is stored in g.
      */
-    final public static void lineThroughPoints(GeoPoint2 A, GeoPoint2 B, GeoLineInterface g) {
+    final public static void lineThroughPoints(GeoPoint2 A, GeoPoint2 B, GeoLine g) {
     	// note: this could be done simply using cross(A, B, g)
     	// but we want to avoid large coefficients in the line
     	// and we want AB to be the direction vector of the line
@@ -249,7 +249,7 @@ implements Traceable {
     /** Calculates the line through the points A and B.
      * The result is stored in g.
      */
-    final public static void lineThroughPointsCoords(Coords A, Coords B, GeoLineInterface g) {
+    final public static void lineThroughPointsCoords(Coords A, Coords B, GeoLine g) {
     	// note: this could be done simply using cross(A, B, g)
     	// but we want to avoid large coefficients in the line
     	// and we want AB to be the direction vector of the line
@@ -298,7 +298,7 @@ implements Traceable {
     /** Calculates the line through the point A with direction v.
      * The result is stored in g.
      */
-    final public static void lineThroughPointVector(GeoPoint2 A, GeoVec3D v, GeoLineInterface g) {
+    final public static void lineThroughPointVector(GeoPoint2 A, GeoVec3D v, GeoLine g) {
     	// note: this could be done simply using cross(A, v, g)
     	// but we want to avoid large coefficients in the line
     	// and we want v to be the direction vector of the line

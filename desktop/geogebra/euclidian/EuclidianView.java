@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.ParametricCurve;
@@ -5538,8 +5538,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	 * @param num2
 	 *            new numeric
 	 */
-	public void replaceBoundObject(GeoNumericInterface num,
-			GeoNumericInterface num2) {
+	public void replaceBoundObject(GeoNumeric num,
+			GeoNumeric num2) {
 		if (xmaxObject == num) {
 			xmaxObject = num2;
 		}

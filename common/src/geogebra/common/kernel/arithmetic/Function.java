@@ -16,7 +16,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
-import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
@@ -767,7 +767,7 @@ implements RealRootFunction, Functional, FunctionInterface {
      * @param line 
      * @param c 
      */
-    final public static void difference(Function f, GeoLineInterface line, Function c) {     
+    final public static void difference(Function f, GeoLine line, Function c) {     
         // build expression for line: ax + by + c = 0 (with b != 0) 
         // explicit form: line: y = -a/b x - c/b
         // we need f - line: f(x) + a/b x + c/b

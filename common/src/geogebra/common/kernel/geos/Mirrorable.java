@@ -14,7 +14,7 @@ public interface Mirrorable {
 	 * Miror at line
 	 * @param g mirror
 	 */
-	public void mirror(GeoLineInterface g);
+	public void mirror(GeoLine g);
 	/**
 	 * Returns resulting element
 	 * @return resulting element

@@ -24,8 +24,8 @@ import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
-import geogebra.common.kernel.geos.GeoListInterface;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -1897,7 +1897,7 @@ public abstract class AbstractKernel {
 
 	public abstract double getViewsXMin(GeoElement geo);
 
-	public abstract GeoNumericInterface getDefaultNumber(boolean geoAngle);
+	public abstract GeoNumeric getDefaultNumber(boolean geoAngle);
 
 	public abstract boolean isNotifyViewsActive();
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoNumericInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 
@@ -18,6 +18,6 @@ public interface EuclidianViewInterfaceSlim extends View{
 	double toRealWorldCoordX(double i);
 	double toRealWorldCoordY(double i);
 	void updateBounds();
-	void replaceBoundObject(GeoNumericInterface num, GeoNumericInterface geoNumeric);		
+	void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric);		
 
 }

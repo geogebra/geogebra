@@ -37,7 +37,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -1082,7 +1082,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		plugInPoly(new double[][]{{2*Q.getInhomX()},{-1}},new double[][]{{2*Q.getInhomY(),-1}});
 	}
 
-	public void mirror(GeoLineInterface g) {
+	public void mirror(GeoLine g) {
 		if (!g.isDefined()){
 			setUndefined();
 			return;

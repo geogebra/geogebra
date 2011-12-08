@@ -288,9 +288,9 @@ GeoPointND, Animatable, Transformable {
 			
 
 		// translate x and y coordinates by changing the parent coords accordingly
-		ArrayList<GeoNumericInterface> changeableCoordNumbers = getCoordParentNumbers();					
-		GeoNumericInterface xvar = changeableCoordNumbers.get(0);
-		GeoNumericInterface yvar = changeableCoordNumbers.get(1);
+		ArrayList<GeoNumeric> changeableCoordNumbers = getCoordParentNumbers();					
+		GeoNumeric xvar = changeableCoordNumbers.get(0);
+		GeoNumeric yvar = changeableCoordNumbers.get(1);
 
 		// polar coords (r; phi)
 		if (hasPolarParentNumbers()) {
@@ -341,11 +341,11 @@ GeoPointND, Animatable, Transformable {
 		if (isFixed())
 			return false;
 		
-		ArrayList<GeoNumericInterface> coords = getCoordParentNumbers();		
+		ArrayList<GeoNumeric> coords = getCoordParentNumbers();		
 		if (coords.size() == 0) return false;
 		
-		GeoNumericInterface num1 = coords.get(0);
-		GeoNumericInterface num2 = coords.get(1);
+		GeoNumeric num1 = coords.get(0);
+		GeoNumeric num2 = coords.get(1);
 		
 		if (num1 == null || num2 == null) return false;
 		
@@ -373,10 +373,10 @@ GeoPointND, Animatable, Transformable {
 	 * 
 	 * @return null if this point is not defined using two GeoNumeric objects
 	 */
-	final public ArrayList<GeoNumericInterface> getCoordParentNumbers() {				
+	final public ArrayList<GeoNumeric> getCoordParentNumbers() {				
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
-			changeableCoordNumbers = new ArrayList<GeoNumericInterface>(2);			
+			changeableCoordNumbers = new ArrayList<GeoNumeric>(2);			
 			AlgoElement parentAlgo = getParentAlgorithm();
 			
 			// dependent point of form P = (a, b)
@@ -395,8 +395,8 @@ GeoPointND, Animatable, Transformable {
 						// don't allow expressions like "a + x(A)" for polar coords (r; phi)
 						ExpressionValue xcoord =vn.getX();
 						ExpressionValue ycoord =vn.getY();
-						GeoNumericInterface xvar = getCoordNumber(xcoord, !hasPolarParentNumbers);
-						GeoNumericInterface yvar = getCoordNumber(ycoord, !hasPolarParentNumbers);
+						GeoNumeric xvar = getCoordNumber(xcoord, !hasPolarParentNumbers);
+						GeoNumeric yvar = getCoordNumber(ycoord, !hasPolarParentNumbers);
 						if (!xcoord.contains(yvar) && !ycoord.contains(xvar)) { // avoid (a,a) 
 							changeableCoordNumbers.add(xvar);
 							changeableCoordNumbers.add(yvar);
@@ -411,7 +411,7 @@ GeoPointND, Animatable, Transformable {
 		
 		return changeableCoordNumbers;
 	}
-	private ArrayList<GeoNumericInterface> changeableCoordNumbers = null;
+	private ArrayList<GeoNumeric> changeableCoordNumbers = null;
 	private boolean hasPolarParentNumbers = false;
 	
 	/**
@@ -426,11 +426,11 @@ GeoPointND, Animatable, Transformable {
 	 * For "a + x(A)" this returns a, for "x(A)" this returns null where A is a free point.
 	 * If A is a dependent point, "a + x(A)" throws an Exception.
 	 */
-	private GeoNumericInterface getCoordNumber(ExpressionValue ev, boolean allowPlusNode) throws Throwable {
+	private GeoNumeric getCoordNumber(ExpressionValue ev, boolean allowPlusNode) throws Throwable {
 		// simple variable "a"
 		if (ev.isLeaf()) {
 			GeoElementInterface geo = kernel.lookupLabel(ev.isGeoElement() ? ((GeoElement)ev).getLabel() : ev.toString(), false);
-			if (geo != null && geo.isGeoNumeric()) return (GeoNumericInterface) geo;
+			if (geo != null && geo.isGeoNumeric()) return (GeoNumeric) geo;
 			else return null;
 		}
 		
@@ -438,15 +438,15 @@ GeoPointND, Animatable, Transformable {
 		if (!allowPlusNode) return null;
 	
 		// return value
-		GeoNumericInterface coordNumeric = null;
+		GeoNumeric coordNumeric = null;
 		
 		// expression + expression
 		ExpressionNode en = (ExpressionNode) ev;
-		if (en.getOperation().equals(Operation.PLUS) && en.getLeft() instanceof GeoNumericInterface) {		
+		if (en.getOperation().equals(Operation.PLUS) && en.getLeft() instanceof GeoNumeric) {		
 			
 			// left branch needs to be a single number variable: get it
 			// e.g. a + x(D)
-			coordNumeric = (GeoNumericInterface) en.getLeft();
+			coordNumeric = (GeoNumeric) en.getLeft();
 			
 			// check that variables in right branch are all independent to avoid circular definitions
 			HashSet<GeoElement> rightVars = en.getRight().getVariables();			
@@ -894,7 +894,7 @@ GeoPointND, Animatable, Transformable {
     /**
      * mirror this point at line g
      */
-    final public void mirror(GeoLineInterface g) {
+    final public void mirror(GeoLine g) {
         // Y = S(phi).(X - Q) + Q
         // where Q is a point on g, S(phi) is the mirrorTransform(phi)
         // and phi/2 is the line's slope angle
@@ -1280,7 +1280,7 @@ GeoPointND, Animatable, Transformable {
 				if (geo.isGeoConic()) {
 					((GeoConicInterface) geo).removePointOnConic(this);//GeoConicND
 				} else if (geo.isGeoLine()) {
-					((GeoLineInterface) geo).removePointOnLine(this);
+					((GeoLine) geo).removePointOnLine(this);
 				}
 			}
 		}
@@ -1690,7 +1690,7 @@ GeoPointND, Animatable, Transformable {
 			if (geo.isGeoConic())
 				((GeoConicInterface)geo).addPointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
-				((GeoLineInterface)geo).addPointOnLine(this);
+				((GeoLine)geo).addPointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
 		}
 		
@@ -1708,7 +1708,7 @@ GeoPointND, Animatable, Transformable {
 			if (geo.isGeoConic())
 				((GeoConicInterface)geo).removePointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
-				((GeoLineInterface)geo).removePointOnLine(this);
+				((GeoLine)geo).removePointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
 		}
 		public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
