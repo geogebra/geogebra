@@ -198,7 +198,7 @@ public class Kernel extends AbstractKernel{
 		this();
 		this.app = app;
 
-		geogebra.common.adapters.FactoryAdapter.prototype = new geogebra.adapters.FactoryAdapter();
+		geogebra.common.factories.AdapterFactory.prototype = new geogebra.factories.AdapterFactory();
 
 		newConstruction();
 		getExpressionNodeEvaluator();
