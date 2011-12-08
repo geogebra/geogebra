@@ -5,12 +5,13 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
-import geogebra.kernel.geos.LimitedPath;
+import geogebra.common.kernel.TransformInterface;
 
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
@@ -97,7 +98,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		keepTypeOnGeometricTransform = flag;
 	}
 
-	public GeoElement[] createTransformedObject(Transform t, String label) {
+	public GeoElement[] createTransformedObject(TransformInterface t, String label) {
 		AlgoElement algoParent = keepTypeOnGeometricTransform ? getParentAlgorithm()
 				: null;
 

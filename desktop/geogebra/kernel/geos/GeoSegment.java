@@ -26,10 +26,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Transform;
+import geogebra.common.kernel.TransformInterface;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 import geogebra.common.awt.Color;
@@ -478,7 +479,7 @@ GeoSegmentND {
 	/**
 	 * creates new transformed segment
 	 */
-    public GeoElement [] createTransformedObject(Transform t,String label) {	
+    public GeoElement [] createTransformedObject(TransformInterface t,String label) {	
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {			
 			// mirror endpoints

@@ -6,6 +6,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.algos.AlgoApplyMatrix;
@@ -18,7 +20,8 @@ import geogebra.kernel.algos.AlgoTranslate;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.LimitedPath;
+
+import geogebra.common.kernel.TransformInterface;
 
 /**
  * Container for transforms
@@ -26,7 +29,7 @@ import geogebra.kernel.geos.LimitedPath;
  * @author kondr
  * 
  */
-public abstract class Transform {
+public abstract class Transform implements TransformInterface {
 
 	/**
 	 * Creates label for transformed geo by appending '. No more than
@@ -180,9 +183,9 @@ public abstract class Transform {
 	 * @param conic
 	 * @return transformed conic
 	 */
-	public GeoConic getTransformedConic(GeoConic conic) {
-		GeoConic ret = (GeoConic) doTransform(conic);
-		ret.setVisualStyleForTransformations(conic);
+	public GeoConicInterface getTransformedConic(GeoConicInterface conic) {
+		GeoConic ret = (GeoConic) doTransform((GeoConic)conic);
+		ret.setVisualStyleForTransformations((GeoConic)conic);
 		return ret;
 	}
 

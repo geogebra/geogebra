@@ -24,10 +24,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
+import geogebra.common.kernel.TransformInterface;
 import geogebra.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.kernel.algos.AlgoDirection;
 import geogebra.kernel.algos.AlgoJoinPointsRay;
@@ -212,7 +214,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
      * @param t transform
      */
 
-	public GeoElement [] createTransformedObject(Transform t,String label) {	
+	public GeoElement [] createTransformedObject(TransformInterface t,String label) {	
 		AlgoElement algoParent = keepTypeOnGeometricTransform ?
 				getParentAlgorithm() : null;				
 		

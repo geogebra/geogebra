@@ -12,6 +12,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
+import geogebra.common.kernel.TransformInterface;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 /**
@@ -343,7 +344,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	/**
 	 * creates new transformed segment
 	 */
-	public GeoElement[] createTransformedObject(Transform t, String label) {
+	public GeoElement[] createTransformedObject(TransformInterface t, String label) {
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {
 
