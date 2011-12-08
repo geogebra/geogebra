@@ -14,25 +14,21 @@ REVISION=`svn info | grep Revision: | awk '{print $2}'`
 RESULT=$?
 
 if [ $RESULT = 1 ]; then
- MAIL="A build problem occurred at revision $REVISION"
+ MESSAGE="A build problem occurred at revision $REVISION"
  fi
 
 if [ $RESULT = 2 ]; then
- MAIL="JAR file creation problem at revision $REVISION"
+ MESSAGE="JAR file creation problem at revision $REVISION"
  fi
 
 if [ $RESULT = 3 ]; then
- MAIL="There is a problem with the output of simpletest at $REVISION"
+ MESSAGE="There is a problem with the output of simpletest at revision $REVISION"
  fi
 
 if [ $RESULT = 0 ]; then
- exit 0 # Not sending an email
+ MESSAGE="Everything is OK at revision $REVISION"
+ # exit 0 # Not sending an email
  fi
 
 # Sending an email to geogebra-dev:
-TO=geogebra-dev@googlegroups.com
-TO=zoltan@geogebra.org
-echo -e $MAIL | mail -s "autotest/alarm report" $TO 2>&1 | grep denied && {
- # If not successful, we send it through ssh:
- echo -e $MAIL | ssh www.geogebra.org mail -s "autotest/alarm report" $TO
- }
+echo $MESSAGE | ssh $REMOTEUSER@www.geogebra.org mail -s "autotest/alarm report" $RECIPIENT

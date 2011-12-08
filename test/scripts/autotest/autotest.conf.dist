@@ -20,3 +20,6 @@ REVDIR=${HOME}/revisions/vanilla
 WAITBETWEENBUILDS=300
 
 SIMPLETESTTIMEOUT=20
+
+REMOTEUSER=some-developer
+RECIPIENT=geogebra-dev@googlegroups.com
