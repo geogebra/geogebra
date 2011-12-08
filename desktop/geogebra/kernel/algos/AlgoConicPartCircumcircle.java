@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Circle arc or sector defined by three points.
@@ -122,7 +122,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 		    
 		    default:
 		    	// this should not happen
-		    	Application.debug("AlgoCirclePartPoints: unexpected conic type: " + conicPart.type);
+		    	AbstractApplication.debug("AlgoCirclePartPoints: unexpected conic type: " + conicPart.type);
 		    	conicPart.setUndefined();
     	}	
     }

@@ -30,6 +30,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;

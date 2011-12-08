@@ -28,8 +28,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.kernelND.GeoConicND;
 
@@ -191,10 +190,10 @@ public class AlgoCircleThreePoints extends AlgoElement {
         cy = ((GeoPoint2) getC()).inhomY;
 
         // A = B = C
-        if (Kernel.isEqual(ax, bx)
-            && Kernel.isEqual(ax, cx)
-            && Kernel.isEqual(ay, by)
-            && Kernel.isEqual(ay, cy)) {
+        if (AbstractKernel.isEqual(ax, bx)
+            && AbstractKernel.isEqual(ax, cx)
+            && AbstractKernel.isEqual(ay, by)
+            && AbstractKernel.isEqual(ay, cy)) {
             circle.setCircle((GeoPoint2) getA(), 0.0); // single point
             return;
         }
@@ -235,7 +234,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
         // A, B, C are collinear: set M to infinite point
         // in perpendicular direction of AB
-        if (Kernel.isZero(maxDet)) {
+        if (AbstractKernel.isZero(maxDet)) {
             center.setCoords(-ABy, ABx, 0.0d);
             circle.setCircle(center, (GeoPoint2) getA());
         }

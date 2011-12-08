@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoRay;
 
 /**
@@ -35,7 +35,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Creates new ray algo
      */
     public AlgoRayPointVector(
-        Construction cons, String label, GeoPoint2 P, GeoVector v) {
+        AbstractConstruction cons, String label, GeoPoint2 P, GeoVector v) {
     	this(cons, P, v);
         ray.setLabel(label);
     }
@@ -44,7 +44,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Creates new ray algo
      */
     public AlgoRayPointVector(
-        Construction cons, GeoPoint2 P, GeoVector v) {
+        AbstractConstruction cons, GeoPoint2 P, GeoVector v) {
         super(cons);
         this.P = P;
         this.v = v;
