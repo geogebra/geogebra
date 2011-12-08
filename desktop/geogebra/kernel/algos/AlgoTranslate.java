@@ -25,7 +25,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.kernel.geos.GeoPolyLineInterface;
 
 /**
  *
@@ -52,7 +51,7 @@ public class AlgoTranslate extends AlgoTransformation {
         inGeo = in;
                 
         // create out
-        if(inGeo instanceof GeoPolyLineInterface || inGeo.isLimitedPath()){
+        if(inGeo.isGeoPolyLine() || inGeo.isGeoPolygon() || inGeo.isLimitedPath()){
         	
 	        outGeo = copyInternal(cons, inGeo);
 	        out = (Translateable) outGeo;

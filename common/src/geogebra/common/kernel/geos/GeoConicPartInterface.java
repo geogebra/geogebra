@@ -1,11 +1,12 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-public interface GeoConicPartInterface extends GeoConicInterface {
+public interface GeoConicPartInterface extends GeoConicInterface, Path {
 
 	// temporary, of course
 	/** conic arc*/
@@ -18,4 +19,8 @@ public interface GeoConicPartInterface extends GeoConicInterface {
 	public void setUndefined();
 	public GeoLine[] getLines();
 	public GeoVec2D getTranslationVector();
+	public boolean positiveOrientation();
+	public GeoPoint2 getPointParam(double param);
+	public double getParameterStart();
+	public double getParameterEnd();
 }
