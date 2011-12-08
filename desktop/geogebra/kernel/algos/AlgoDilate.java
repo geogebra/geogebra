@@ -25,10 +25,10 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLine;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPolyLine;
-import geogebra.kernel.geos.GeoPolygon;
 
 
 /**

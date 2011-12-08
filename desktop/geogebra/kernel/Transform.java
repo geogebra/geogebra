@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.LimitedPath;
@@ -19,7 +20,6 @@ import geogebra.kernel.algos.AlgoRotate;
 import geogebra.kernel.algos.AlgoRotatePoint;
 import geogebra.kernel.algos.AlgoShearOrStretch;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPolygon;
 
 import geogebra.common.kernel.TransformInterface;
 

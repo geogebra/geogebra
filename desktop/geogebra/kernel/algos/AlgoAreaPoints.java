@@ -21,8 +21,8 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPolygon;
 
 public class AlgoAreaPoints extends AlgoElement {
 

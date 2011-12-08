@@ -15,13 +15,13 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPolygon;
 
 /**
  * Algorithm to compute the circumference of a
- * {@link geogebra.kernel.geos.GeoPolygon GeoPolygon}.
+ * {@link geogebra.common.kernel.geos.GeoPolygon GeoPolygon}.
  * 
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */

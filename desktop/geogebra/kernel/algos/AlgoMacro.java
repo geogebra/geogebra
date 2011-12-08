@@ -27,13 +27,13 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.Macro;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPolygon;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.AbstractConstruction;
@@ -30,28 +30,12 @@ import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
-import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoSurfaceFinite;
-import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Rotateable;
-import geogebra.common.kernel.geos.Traceable;
-import geogebra.common.kernel.geos.Transformable;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.awt.Color;
 
 import java.util.ArrayList;
@@ -426,7 +410,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	  */
 	 protected GeoSegmentND createSegment(GeoSegmentND segment, boolean euclidianVisible){
 		 // refresh color to ensure segments have same color as polygon:
-		 segment.setObjColor((geogebra.awt.Color)getObjectColor()); 
+		 segment.setObjColor(getObjectColor()); 
 		 segment.setLineThickness(getLineThickness()); 
 		 segment.setEuclidianVisible(euclidianVisible);
 		 

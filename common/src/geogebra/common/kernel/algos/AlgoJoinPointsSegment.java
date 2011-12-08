@@ -16,17 +16,15 @@ the Free Software Foundation.
  * Created on 21. August 2003
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.kernel.geos.GeoPolygon;
 
 
 /**
@@ -137,7 +135,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         return Q;
     }
     
-    protected GeoPolygon getPoly() {
+    public GeoPolygon getPoly() {//protected
     	return poly;
     }
 
