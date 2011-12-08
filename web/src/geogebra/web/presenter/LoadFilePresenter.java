@@ -5,13 +5,6 @@ import geogebra.web.helper.UrlFetcher;
 import geogebra.web.jso.JsUint8Array;
 
 public class LoadFilePresenter extends BasePresenter {
-
-	public interface View {
-		void showLoadAnimation(String requestedUrl);
-		void showError(String message);
-		void promptUserForGgbFile();
-		void hide();
-	}
 	
 	private final UrlFetcher urlFetcher;
 	

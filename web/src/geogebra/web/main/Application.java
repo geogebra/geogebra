@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,6 +11,7 @@ import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
@@ -444,5 +446,29 @@ public class Application extends AbstractApplication {
 		GWT.log(construction);
 		//tmpmyXMLio.processXmlString(construction, true, false);
 	}
+
+	@Override
+    public ArrayList<GeoElement> getSelectedGeos() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public int getMode() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public void addSelectedGeo(GeoElement selGeo, boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void updateConstructionProtocol() {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

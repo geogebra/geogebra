@@ -13,10 +13,11 @@ import geogebra.web.helper.CodeSplitCallback;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
+import geogebra.web.presenter.BasePresenter;
 import geogebra.web.util.DataUtil;
 
 
-public class ApplicationWrapper {
+public class ApplicationWrapper extends BasePresenter {
 	
 	private final AsyncProvider<Application> appProvider;
 	private Application app;
