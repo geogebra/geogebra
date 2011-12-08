@@ -2,9 +2,10 @@ package geogebra.common.util;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyList;
 
 public interface GgbMat {
 	public void inverseImmediate();
-	//TODO: change ExpressionValue to MyList once ported
-	public void getMyList(ExpressionValue outputListEV,AbstractKernel kernel);
+	
+	public void getMyList(MyList outputListEV,AbstractKernel kernel);
 }

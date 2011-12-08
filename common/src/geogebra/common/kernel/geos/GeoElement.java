@@ -1901,7 +1901,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private void initAnimationSpeedObject() {
 		if (animationSpeedObj == null) {
-			GeoNumericInterface num = kernel.newNumeric(cons);
+			GeoNumericInterface num = new GeoNumeric(cons);
 			num.setValue(1);
 			animationSpeedObj = num;
 		}

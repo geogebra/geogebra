@@ -17,6 +17,7 @@ import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2DInterface;
@@ -178,7 +179,7 @@ public class Inequality {
 			}}*/
 		}
 		if (type == INEQUALITY_PARAMETRIC_X || type == INEQUALITY_PARAMETRIC_Y) {
-			funBorder = kernel.getGeoFunction();
+			funBorder = new GeoFunction(kernel.getConstruction());
 			funBorder.setFunction(fun);
 			if (type == INEQUALITY_PARAMETRIC_X) {
 				funBorder.swapEval();
@@ -223,7 +224,7 @@ public class Inequality {
 		AbstractConstruction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		funBorder = kernel.getGeoFunction();
+		funBorder = new GeoFunction(cons);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));		
 		zeros = kernel.RootMultiple(null, funBorder);
 		/*for(int i=0;i<zeros.length;i++){

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
 //import geogebra.kernel.geos.GeoDummyVariable;
@@ -80,7 +81,7 @@ public class Variable extends ValidExpression implements ExpressionValue {
     	{
     		// resolve unknown variable as dummy geo to keep its name and 
 			// avoid an "unknown variable" error message
-			return kernel.getGeoDummyVariable(name);
+			return new GeoDummyVariable(kernel.getConstruction(),name);
     	}
        
     	// lookup variable name, create missing variables automatically if allowed

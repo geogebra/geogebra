@@ -1006,7 +1006,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).makePolynomialTree(equ);
 		} else if (!(left.isPolynomialInstance())) {
-			left = kernel.getEmptyPolynomial(left);
+			left = new Polynomial(kernel, new Term(kernel, left, ""));
 		}
 
 		// transfer right subtree
@@ -1014,7 +1014,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).makePolynomialTree(equ);
 			} else if (!(right.isPolynomialInstance())) {
-				right = kernel.getEmptyPolynomial(right);
+				right = new Polynomial(kernel, new Term(kernel, left, ""));;
 			}
 		}
 	}

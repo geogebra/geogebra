@@ -203,8 +203,7 @@ public class GgbMat extends Array2DRowRealMatrix implements geogebra.common.util
 	 * @param outputList list for the copy
 	 * @param cons construction
 	 */
-	public void getMyList(ExpressionValue outputListEV,AbstractKernel kernel) {
-		MyList outputList = (MyList) outputListEV;
+	public void getMyList(MyList outputList,AbstractKernel kernel) {
 		if (isUndefined) {
 			return;			
 		}

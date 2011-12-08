@@ -18,11 +18,9 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.adapters.Complex;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.Color;
-import geogebra.common.awt.ColorAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
@@ -30,7 +28,6 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -43,7 +40,6 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.arithmetic.Term;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -52,7 +48,9 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
@@ -60,22 +58,19 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoNumericInterface;
-import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.GeoVec2DInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
-import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.main.MyError;
 import geogebra.common.util.AbstractMyMath2;
+import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
-import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -124,7 +119,6 @@ import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoDummyVariable;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoImage;
@@ -156,9 +150,8 @@ import geogebra.kernel.optimization.ExtremumFinder;
 import geogebra.kernel.parser.Parser;
 import geogebra.kernel.statistics.*;
 import geogebra.main.Application;
-import geogebra.util.AwtColorAdapter;
-import geogebra.util.GgbMat;
 import geogebra.util.GeoLaTeXCache;
+import geogebra.util.GgbMat;
 import geogebra.util.MyMath2;
 import geogebra.util.NumberFormatDesktop;
 import geogebra.util.ScientificFormat;
@@ -8023,11 +8016,7 @@ public class Kernel extends AbstractKernel{
     	return new geogebra.cas.GeoGebraCAS(this);
     }
 
-	@Override
-	public GeoNumericInterface newNumeric(AbstractConstruction cons) {
-		// TODO remove this once GeoNumeric is ported
-		return new GeoNumeric(cons);
-	}
+	
 
 	@Override
 	public GeoListInterface newList() {
@@ -8082,43 +8071,18 @@ public class Kernel extends AbstractKernel{
 		return ges;
 	}
 
-	//TODO: input should be MyList instead of ExpressionValue once ported
 	@Override 
-	public GgbMat getGgbMat(ExpressionValue myList) {
+	public GgbMat getGgbMat(MyList myList) {
 		return new GgbMat((MyList)myList);
 	}
 
-	// This is just a temporary method during refactoring:
-	public boolean isZeroTemporarilyGeoBooleanGeoNumeric(GeoElement geo) {
-		return isZero(((GeoNumeric)geo).getDouble() - 1);
-	}
-
+	@Override
 	public String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo) {
     	AlgoPointOnPath algo1 = (AlgoPointOnPath) algo;
     	return algo.getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());	
     }
 
-	@Override //TODO: temporary; replace by constructors once polynomial is ported
-	public ExpressionValue getEmptyPolynomial(ExpressionValue left) {
-		return new Polynomial(this, new Term(this, left, ""));
-	}
-
-	@Override //TODO: temporary; replace by constructors once GeoDummyVariable is ported
-	public GeoElement getGeoDummyVariable(String name) {
-		return new GeoDummyVariable(getConstruction(),name);
-	}
-
-	@Override //TODO: temporary; replace by constructors once GeoVec2D is ported
-	public GeoVec2DInterface getGeoVec2D(double[] coords) {
-		// TODO Auto-generated method stub
-		return new GeoVec2D(this,coords);
-	}
-
-	@Override
-	public GeoFunctionInterface getGeoFunction() {
-		return new GeoFunction(getConstruction());
-	}
-
+		
 	@Override
 	public GeoConicInterface getGeoConic() {
 		return new GeoConic(getConstruction());

@@ -176,7 +176,7 @@ AbsoluteScreenLocateable {
 		if (geo.isGeoNumeric()) { // eg SetValue[checkbox, 0]
 			// 1 = true
 			// 0 = false
-			setValue(kernel.isZeroTemporarilyGeoBooleanGeoNumeric(geo));
+			setValue(AbstractKernel.isZero(((GeoNumeric)geo).getDouble() - 1));
 			isDefined = true;
 		} else {
 			GeoBoolean b = (GeoBoolean) geo;

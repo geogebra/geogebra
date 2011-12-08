@@ -16,6 +16,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
@@ -1862,8 +1863,7 @@ public abstract class AbstractKernel {
 	public abstract void notifyAdd(GeoElementInterface geoElement);
 	
 	public abstract AbstractAlgebraProcessor getAlgebraProcessor();
-	
-	public abstract GeoNumericInterface newNumeric(AbstractConstruction cons);
+
 	public abstract GeoListInterface newList();
 
 	public abstract GeoElementInterface lookupCasCellLabel(String cmdName);
@@ -1883,29 +1883,13 @@ public abstract class AbstractKernel {
 
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 
-	public abstract GgbMat getGgbMat(ExpressionValue myList);
+	public abstract GgbMat getGgbMat(MyList myList);
 
 	public abstract boolean isInsertLineBreaks();
 	
 	public abstract ExpressionNodeEvaluatorInterface getExpressionNodeEvaluator();
 	
-	// temporary methods just while moving things
-	public abstract boolean isZeroTemporarilyGeoBooleanGeoNumeric(GeoElement geo);
-	public abstract String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo);
-
-	public abstract ExpressionValue getEmptyPolynomial(ExpressionValue left);
-
-	public abstract GeoElement getGeoDummyVariable(String name);
-
-	public abstract GeoVec2DInterface getGeoVec2D(double[] coords);
-
 	public abstract String[] getPolynomialCoeffs(String function, String var);
-
-	public abstract ParserInterface getParser();
-
-	public abstract GeoFunctionInterface getGeoFunction();
-
-	public abstract GeoConicInterface getGeoConic();
 	
 	public abstract GeoPointInterface [] RootMultiple(String [] labels, GeoFunctionInterface f);
 
@@ -1918,8 +1902,37 @@ public abstract class AbstractKernel {
 	public abstract boolean isNotifyViewsActive();
 
 	public abstract GeoFunctionInterface DependentFunction(String label, Function fun);
+	
+	// temporary methods just while moving things
+	
+	/**
+	 * @deprecated
+	 * @param d
+	 * @param e
+	 * @param i
+	 * @return
+	 */
+	public abstract String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo);
+
+
+	public abstract ParserInterface getParser();
+	/**
+	 * @deprecated
+	 * @param d
+	 * @param e
+	 * @param i
+	 * @return
+	 */
+	public abstract GeoConicInterface getGeoConic();
+	
 
 	public abstract ExtremumFinderInterface getExtremumFinder();
-
+	/**
+	 * @deprecated
+	 * @param d
+	 * @param e
+	 * @param i
+	 * @return
+	 */
 	public abstract GeoPointInterface getGeoPoint(double d, double e, int i);
 }
