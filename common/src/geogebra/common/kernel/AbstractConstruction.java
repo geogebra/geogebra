@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -96,6 +97,10 @@ public abstract class AbstractConstruction {
 	//TODO: private again
 		protected boolean collectRedefineCalls = false;
 		protected HashMap<GeoElement,GeoElement> redefineMap;
+		private GeoElement keepGeo;
+		public GeoElement getKeepGeo(){
+			return keepGeo;
+		}
 		private GeoPoint2 origin;
 		/**
 		 * Returns the point (0,0)
@@ -1550,15 +1555,257 @@ public abstract class AbstractConstruction {
 		}
 	}
 	
+	/**
+	 * Moves all predecessors of newGeo (i.e. all objects that newGeo depends
+	 * upon) to the left of oldGeo in the construction list
+	 */
+	private void updateConstructionOrder(GeoElement oldGeo, GeoElement newGeo) {
+		TreeSet<GeoElement> predSet = newGeo.getAllPredecessors();
+
+		// check if moving is needed
+		// find max construction index of newGeo's predecessors and newGeo
+		// itself
+		int maxPredIndex = newGeo.getConstructionIndex();
+		for (GeoElement pred : predSet) {
+			int predIndex = pred.getConstructionIndex();
+			if (predIndex > maxPredIndex)
+				maxPredIndex = predIndex;
+		}
+		
+		// no reordering is needed
+		if (oldGeo.getConstructionIndex() > maxPredIndex)
+			return;
+
+		// reordering is needed
+		// move all predecessors of newGeo (i.e. all objects that geo depends
+		// upon) as far as possible to the left in the construction list
+		for (GeoElement pred: predSet) {
+			moveInConstructionList(pred, pred.getMinConstructionIndex());
+		}
+
+		// move newGeo to the left as well (important if newGeo already existed
+		// in construction)
+		moveInConstructionList(newGeo, newGeo.getMinConstructionIndex());
+
+		// move oldGeo to its maximum construction index
+		moveInConstructionList(oldGeo, oldGeo.getMaxConstructionIndex());
+	}
+	
+	/**
+	 * Makes sure that geoCasCell comes after all its predecessors 
+	 * in  the construction list.
+	 * @return whether construction list order was changed
+	 */
+	protected boolean updateConstructionOrder(GeoCasCell casCell) {
+		// collect all predecessors of casCell
+		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
+		for (GeoElementInterface directInput : casCell.getGeoElementVariables()) {
+			allPred.addAll(((GeoElement) directInput).getAllPredecessors());
+			allPred.add((GeoElement) directInput);
+		}
+		
+		// Find max construction index of casCell's predecessors 
+		int maxPredIndex = 0;
+		for (GeoElement pred : allPred) {
+			int predIndex = pred.getConstructionIndex();
+			if (predIndex > maxPredIndex)
+				maxPredIndex = predIndex;
+		}
+
+		// if casCell comes after all its new predecessors,
+		// no reordering is needed
+		if (casCell.getConstructionIndex() > maxPredIndex)
+			return false;
+		
+		// reordering is needed
+		// maybe we can move casCell down in the construction list
+		if (casCell.getMaxConstructionIndex() > maxPredIndex) {
+			moveInConstructionList(casCell, maxPredIndex + 1);
+			return true;
+		}
+
+		// reordering is needed but we cannot simply move down the casCell
+		// because it has dependent objects:
+		// move all predecessors of casCell up as far as possible
+		maxPredIndex = 0;
+		for (GeoElement pred: allPred) {
+			moveInConstructionList(pred, pred.getMinConstructionIndex());
+			maxPredIndex = Math.max(maxPredIndex, pred.getConstructionIndex());			
+		}
+		
+		// if casCell still comes before one of its predecessors
+		// we have to move casCell
+		if (casCell.getConstructionIndex() < maxPredIndex) {	
+			return true;
+		}
+
+		// maybe we can move casCell down in the construction list now
+		if (casCell.getMaxConstructionIndex() > maxPredIndex) {
+			moveInConstructionList(casCell, maxPredIndex+1);
+			return true;
+		}
+		else {
+			System.err.println("Construction.updateConstructionOrder(GeoCasCell) failed: " + casCell);
+			return false;
+		}			
+	}
+	
+	// 1) remove all brothers and sisters of oldGeo
+	// 2) move all predecessors of newGeo to the left of oldGeo in construction list
+	protected void prepareReplace(GeoElement oldGeo, GeoElement newGeo)  {
+		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
+		AlgoElement newGeoAlgo = newGeo.getParentAlgorithm();
+		
+		// 1) remove all brothers and sisters of oldGeo
+		if (oldGeoAlgo != null) {
+			keepGeo=oldGeo;
+			oldGeoAlgo.removeOutputExcept(oldGeo);
+			keepGeo=null;
+		}
+
+		// if newGeo is not in construction index, we must set its index now
+		// in order to let (2) and (3) work
+		if (newGeo.getConstructionIndex() == -1) {
+			int ind = ceList.size();
+			if (newGeoAlgo == null)
+				newGeo.setConstructionIndex(ind);
+			else
+				newGeoAlgo.setConstructionIndex(ind);
+		}
+		
+		// make sure all output objects of newGeoAlgo are labeled, otherwise
+		// we may end up with several objects that have the same label
+		if (newGeoAlgo != null) {
+			for (int i=0; i < newGeoAlgo.getOutputLength(); i++) {
+				GeoElement geo = newGeoAlgo.getOutput(i);
+				if (geo != newGeo && geo.isDefined() && !geo.isLabelSet()) {
+					geo.setLabel(null); // get free label
+				}				
+			}
+		}
+
+		// 2) move all predecessors of newGeo to the left of oldGeo in
+		// construction list
+		updateConstructionOrder(oldGeo, newGeo);
+	}
+	
+	/**
+	 * Adds the given GeoCasCell to a set with all labeled GeoElements and CAS
+	 * cells needed for notifyAll().
+	 */
+	public void addToGeoSetWithCasCells(GeoCasCell geoCasCell) {
+		geoSetWithCasCells.add((GeoCasCell) geoCasCell);
+	}
+
+	/**
+	 * Removes the given GeoCasCell from a set with all labeled GeoElements and
+	 * CAS cells needed for notifyAll().
+	 */
+	public void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell) {
+		geoSetWithCasCells.remove(geoCasCell);
+	}
+	
+	/**
+	 * Creates a new GeoElement for the spreadsheet of same type as
+	 * neighbourCell.
+	 * 
+	 * @return new GeoElement of desired type
+	 * @param neighbourCell
+	 *            another geo of the desired type
+	 * @param label
+	 *            Label for the new geo
+	 */
+	final public GeoElement createSpreadsheetGeoElement(
+			GeoElement neighbourCell, String label) {
+		GeoElement result;
+
+		// found neighbouring cell: create geo of same type
+		if (neighbourCell != null) {
+			result = neighbourCell.copy();
+		}
+		// no neighbouring cell: create number with value 0
+		else {
+			result = new GeoNumeric(this);
+		}
+
+		// make sure that label creation is turned on
+		boolean oldSuppressLabelsActive = isSuppressLabelsActive();
+		setSuppressLabelCreation(false);
+
+		// set 0 and label
+		result.setZero();
+		result.setAuxiliaryObject(true);
+		result.setLabel(label);
+
+		// revert to previous label creation state
+		setSuppressLabelCreation(oldSuppressLabelsActive);
+
+		return result;
+	}
+
+	/**
+	 * Returns the next free indexed label using the given prefix starting with
+	 * the given index number.
+	 * 
+	 * @param prefix
+	 *            e.g. "c"
+	 * @param startIndex
+	 *            e.g. 2
+	 * @return indexed label, e.g. "c_2"
+	 */
+	public String getIndexLabel(String prefix, int startIndex) {
+		// start numbering with indices using suggestedLabel
+		// as prefix
+		String pref;
+		int pos = prefix.indexOf('_');
+		if (pos == -1)
+			pref = prefix;
+		else
+			pref = prefix.substring(0, pos);
+
+		StringBuilder sbIndexLabel = new StringBuilder();
+
+		int n = startIndex;
+		// int n = 1; // start index
+		// if (startIndex != null) {
+		// try {
+		// n = Integer.parseInt(startIndex);
+		// } catch (NumberFormatException e) {
+		// n = 1;
+		// }
+		// }
+
+		do {
+			sbIndexLabel.setLength(0);
+			sbIndexLabel.append(pref);
+			// n as index
+
+			if (n < 10) {
+				sbIndexLabel.append('_');
+				sbIndexLabel.append(n);
+			} else {
+				sbIndexLabel.append("_{");
+				sbIndexLabel.append(n);
+				sbIndexLabel.append('}');
+			}
+			n++;
+		} while (!isFreeLabel(sbIndexLabel.toString()));
+		return sbIndexLabel.toString();
+	}
+
+	/**
+	 * Returns the next free indexed label using the given prefix.
+	 * 
+	 * @param prefix
+	 *            e.g. "c"
+	 * @return indexed label, e.g. "c_2"
+	 */
+	public String getIndexLabel(String prefix) {
+		return getIndexLabel(prefix, 1);
+	}
+	
 	protected abstract GeoElement autoCreateGeoElement(String label);
 	protected abstract void restoreCurrentUndoInfo();
-
-	
-
-	public abstract String getIndexLabel(String prefix, int startIndex);
-
-	public abstract String getIndexLabel(String prefix);
-
 
 
 	public abstract AbstractConstructionDefaults getConstructionDefaults();
@@ -1570,8 +1817,6 @@ public abstract class AbstractConstruction {
 
 	
 
-	public abstract void addToGeoSetWithCasCells(GeoCasCell geoCasCell);
 
-	public abstract void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell);
 
 }
