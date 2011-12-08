@@ -29,7 +29,7 @@ import geogebra.common.kernel.TransformInterface;
  * @author kondr
  * 
  */
-public abstract class Transform implements TransformInterface {
+public abstract class Transform extends TransformInterface {
 
 	/**
 	 * Creates label for transformed geo by appending '. No more than

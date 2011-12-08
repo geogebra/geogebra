@@ -29,7 +29,9 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinderInterface;
 import geogebra.common.kernel.parser.ParserInterface;
@@ -1905,6 +1907,9 @@ public abstract class AbstractKernel {
 	public abstract GeoFunction DependentFunction(String label, Function fun);
 
 	public abstract GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q);
+	public abstract Object Ray(String label, GeoPoint2 P, GeoPoint2 Q);//GeoRay
+	public abstract Object RayND(String label, GeoPointND P, GeoPointND Q);//GeoRayND
+	public abstract Object Ray(String label, GeoPoint2 P, GeoVector v);//GeoRay
 
 	// temporary methods just while moving things
 	
