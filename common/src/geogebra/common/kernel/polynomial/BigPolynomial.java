@@ -1,4 +1,4 @@
-package geogebra.kernel.polynomial;
+package geogebra.common.kernel.polynomial;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.main.AbstractApplication;
@@ -22,7 +22,7 @@ public class BigPolynomial implements Cloneable {
 	}
 	
 	private BigPolynomial(BigPolynomial p){
-		this(p,p.coefficients.clone());
+		this(p,p.getCoefficients());
 	}
 	
 	/**
@@ -40,7 +40,10 @@ public class BigPolynomial implements Cloneable {
 	
 	private BigPolynomial(BigDecimal[] coeff){
 		this();
-		coefficients=coeff.clone();
+		BigDecimal[] coefficients_clone = new BigDecimal[coeff.length];
+		for (int i = 0; i < coeff.length; i++)
+			coefficients_clone[i] = new BigDecimal(coeff[i].unscaledValue(), coeff[i].scale(), new MathContext(coeff[i].precision()));
+		coefficients=coefficients_clone;
 	}
 	
 	public BigPolynomial(BigDecimal[] coeff,BigDecimal eps,MathContext mc){
@@ -229,9 +232,12 @@ public class BigPolynomial implements Cloneable {
 		}
 		return ret;
 	}
-	
+
 	public BigDecimal[] getCoefficients(){
-		return coefficients.clone();
+		BigDecimal[] coefficients_clone = new BigDecimal[coefficients.length];
+		for (int i = 0; i < coefficients.length; i++)
+			coefficients_clone[i] = new BigDecimal(coefficients[i].unscaledValue(), coefficients[i].scale(), new MathContext(coefficients[i].precision()));
+		return coefficients_clone;
 	}
 	
 	public BigDecimal getCoeff(int index){

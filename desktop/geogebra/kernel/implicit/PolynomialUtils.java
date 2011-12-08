@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.polynomial.BigPolynomial;
+import geogebra.common.kernel.polynomial.BigPolynomial;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 
