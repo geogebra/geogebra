@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication.CasType;
 
 
-public interface GeoGebraCasInterfaceSlim {
+public interface GeoGebraCasInterface {
 
 	public StringType getCurrentCASstringType();
 

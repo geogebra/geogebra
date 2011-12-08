@@ -20,7 +20,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoConicInterface;
@@ -109,7 +109,7 @@ public abstract class AbstractKernel {
 		private boolean continuous = false;
 	private int kernelID;
 	private String casVariablePrefix;
-	private GeoGebraCasInterfaceSlim ggbCAS;
+	private GeoGebraCasInterface ggbCAS;
 	final public static int ANGLE_RADIANT = 1;
 	final public static int ANGLE_DEGREE = 2;
 	final public static int COORD_CARTESIAN = 3;
@@ -1846,7 +1846,7 @@ public abstract class AbstractKernel {
    public abstract void initUndoInfo() ;
    
    
-   public synchronized GeoGebraCasInterfaceSlim getGeoGebraCAS() {
+   public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {
 			ggbCAS = newGeoGebraCAS();
 		}			
@@ -1854,7 +1854,7 @@ public abstract class AbstractKernel {
 		return ggbCAS;
 	}
    
-   abstract public GeoGebraCasInterfaceSlim newGeoGebraCAS();
+   abstract public GeoGebraCasInterface newGeoGebraCAS();
    final public int getCoordStyle() {
 		return coordStyle;
 	}

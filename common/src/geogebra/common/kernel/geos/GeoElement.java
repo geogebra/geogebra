@@ -44,7 +44,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3084,7 +3084,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		try {
-			GeoGebraCasInterfaceSlim cas = kernel.getGeoGebraCAS();
+			GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 			String geoStr = toCasAssignment(cas.getCurrentCASstringType());
 			if (geoStr != null) {
 				// TODO: remove

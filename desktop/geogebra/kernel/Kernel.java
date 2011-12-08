@@ -57,7 +57,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
-import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -7988,7 +7988,7 @@ public class Kernel extends AbstractKernel{
     	return new GeoLaTeXCache();
     }
     
-    public GeoGebraCasInterfaceSlim newGeoGebraCAS(){
+    public GeoGebraCasInterface newGeoGebraCAS(){
     	return new geogebra.cas.GeoGebraCAS(this);
     }
 

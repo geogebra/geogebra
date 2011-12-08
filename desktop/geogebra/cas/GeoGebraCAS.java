@@ -7,10 +7,9 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoGebraCASInterface;
 import geogebra.main.Application;
 import geogebra.common.main.AbstractApplication.CasType;
 
@@ -23,7 +22,7 @@ import java.util.Map;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoGebraCAS implements GeoGebraCASInterface, GeoGebraCasInterfaceSlim {
+public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	private Application app;
 	private CASparser casParser;
