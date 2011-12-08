@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
-import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.main.Application;
 

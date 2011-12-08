@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
@@ -94,7 +94,7 @@ GeoSegmentND {
 	 * @param A first endpoint
 	 * @param B second endpoint
 	 */
-	public GeoSegment(AbstractConstruction c, GeoPoint2 A, GeoPoint2 B) {
+	public GeoSegment(Construction c, GeoPoint2 A, GeoPoint2 B) {
 		this(c);
 		setPoints(A, B);
 	}
@@ -103,7 +103,7 @@ GeoSegmentND {
 	 * common constructor
 	 * @param c
 	 */
-	public GeoSegment(AbstractConstruction c){
+	public GeoSegment(Construction c){
 		super(c);
 	}
 	
@@ -145,7 +145,7 @@ GeoSegmentND {
 	}   */     
 	 
 	@Override
-	public GeoElement copyInternal(AbstractConstruction cons) {
+	public GeoElement copyInternal(Construction cons) {
 		GeoSegment seg = new GeoSegment(cons, 
 										(GeoPoint2) startPoint.copyInternal(cons), 
 										(GeoPoint2) endPoint.copyInternal(cons));

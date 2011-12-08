@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -23,7 +24,6 @@ import geogebra.euclidian.DrawLine;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoBarChart;
 import geogebra.kernel.algos.AlgoBoxPlot;

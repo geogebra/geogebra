@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 
 /**
@@ -36,7 +36,7 @@ public class AlgoDistancePoints extends AlgoElement {
     private GeoNumeric dist; // output       
 
     public AlgoDistancePoints(
-        AbstractConstruction cons,
+        Construction cons,
         String label,
         GeoPointND P,
         GeoPointND Q) {

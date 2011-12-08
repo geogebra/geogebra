@@ -1,8 +1,8 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 

@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -12,7 +12,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra3D.Application3D;
@@ -47,7 +46,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	 * @param c
 	 *            construction
 	 */
-	public GeoPlane3D(AbstractConstruction c) {
+	public GeoPlane3D(Construction c) {
 		super(c);
 
 		// moved from GeoElement's constructor
@@ -67,7 +66,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
-	public GeoPlane3D(AbstractConstruction cons, String label, double a, double b,
+	public GeoPlane3D(Construction cons, String label, double a, double b,
 			double c, double d) {
 		this(cons);
 

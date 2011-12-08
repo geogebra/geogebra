@@ -20,7 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.kernel.algos.AlgoSphereNDPointRadius;
 import geogebra.kernel.kernelND.GeoQuadricND;
 
@@ -34,7 +34,7 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
 
 	public AlgoSpherePointRadius(
-            AbstractConstruction cons,
+            Construction cons,
             String label,
             GeoPointND M,
             NumberValue r) {
@@ -43,7 +43,7 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
         }
         
     AlgoSpherePointRadius(
-            AbstractConstruction cons,
+            Construction cons,
             String label,
             GeoPointND M,
             GeoSegment3D segment, boolean dummy) {
@@ -53,7 +53,7 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
         
     public AlgoSpherePointRadius(
-            AbstractConstruction cons,
+            Construction cons,
             GeoPoint3D M,
             NumberValue r) {
         	
@@ -63,14 +63,14 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
     
     
     AlgoSpherePointRadius(
-            AbstractConstruction cons,
+            Construction cons,
             GeoPoint3D M,
             GeoSegment3D rgeo, boolean dummy) {
         	
             super(cons,M,rgeo,dummy);
         }
     
-    protected GeoQuadricND createSphereND(AbstractConstruction cons){
+    protected GeoQuadricND createSphereND(Construction cons){
     	return new GeoQuadric3D(cons);
     }
     

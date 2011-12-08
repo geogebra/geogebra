@@ -20,7 +20,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -88,11 +88,11 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 * Creates new GeoNumeric
 	 * @param c Construction 
 	 */
-	public GeoNumeric(AbstractConstruction c) {
+	public GeoNumeric(Construction c) {
 		this(c, true);
 	}
 
-	public GeoNumeric(AbstractConstruction c, boolean setDefaults) {
+	public GeoNumeric(Construction c, boolean setDefaults) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -128,7 +128,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 * @param label Label for new number
 	 * @param x Number value
 	 */
-    public GeoNumeric(AbstractConstruction c, String label, double x) {
+    public GeoNumeric(Construction c, String label, double x) {
 		this(c, x);
 		setLabel(label);
 	}
@@ -138,7 +138,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 * @param c Cons
 	 * @param x Number value
 	 */
-	public GeoNumeric(AbstractConstruction c, double x) {
+	public GeoNumeric(Construction c, double x) {
 		this(c);
 
 		value = x;

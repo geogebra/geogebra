@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoConic;
@@ -34,7 +34,7 @@ import geogebra.kernel.kernelND.GeoQuadricND;
 public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
 
      public AlgoCircleTwoPoints(
-        AbstractConstruction cons,
+        Construction cons,
         GeoPoint2 M,
         GeoPoint2 P) {
         super(cons,M,P);
@@ -42,7 +42,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
     }
     
     public AlgoCircleTwoPoints(
-            AbstractConstruction cons,
+            Construction cons,
             String label,
             GeoPoint2 M,
             GeoPoint2 P) {
@@ -55,7 +55,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
     }
     
     @Override
-	protected GeoQuadricND createSphereND(AbstractConstruction cons){
+	protected GeoQuadricND createSphereND(Construction cons){
     	GeoConic circle = new GeoConic(cons);
         circle.addPointOnConic((GeoPoint2) getP()); //TODO do this in AlgoSphereNDTwoPoints
         return circle;

@@ -1,10 +1,10 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.kernel.Construction;
 
 
 public class AlgoTranslate3D extends AlgoTranslate {

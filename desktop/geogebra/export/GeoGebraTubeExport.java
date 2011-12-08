@@ -1,7 +1,7 @@
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.Construction;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

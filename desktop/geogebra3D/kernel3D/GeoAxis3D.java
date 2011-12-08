@@ -1,9 +1,9 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.util.NumberFormatAdapter;
-import geogebra.kernel.Construction;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.Color;

@@ -1,6 +1,6 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
@@ -31,7 +31,6 @@ import geogebra.common.kernel.geos.GeoConicNDInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.algos.AlgoConicFivePoints;
@@ -175,7 +174,7 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 	 * @param c
 	 * @param dimension
 	 */
-	public GeoConicND(AbstractConstruction c, int dimension) {
+	public GeoConicND(Construction c, int dimension) {
 		super(c, dimension);
 		toStringMode = EQUATION_IMPLICIT;
 	}

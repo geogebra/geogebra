@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -12,7 +12,6 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 
 /**
@@ -35,7 +34,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	 * 
 	 * @param c
 	 */
-	public GeoVector3D(AbstractConstruction c) {
+	public GeoVector3D(Construction c) {
 		super(c);
 		matrix = new CoordMatrix(4, 2);
 	}
@@ -48,7 +47,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	 * @param y
 	 * @param z
 	 */
-	public GeoVector3D(AbstractConstruction c, double x, double y, double z) {
+	public GeoVector3D(Construction c, double x, double y, double z) {
 		super(c, x, y, z, 0);
 		matrix = new CoordMatrix(4, 2);
 	}

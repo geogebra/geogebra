@@ -47,7 +47,7 @@ public class MyPoint {
 		return MyMath.length(p.x - x, p.y - y);
 	}
 
-	public GeoPoint2 getGeoPoint(AbstractConstruction cons) {
+	public GeoPoint2 getGeoPoint(Construction cons) {
 		return new GeoPoint2(cons, null, x, y, 1.0);
 	}
 }

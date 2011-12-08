@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.kernel.Construction;
 
 /**
  * Compute the bottom of a limited quadric

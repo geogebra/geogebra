@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
 
@@ -27,7 +27,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 	private boolean inputForm;
 	private boolean validInputForm;
 
-	public GeoUserInputElement(AbstractConstruction c) {
+	public GeoUserInputElement(Construction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -38,7 +38,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 		validInputForm=true;
 	}
 	
-	public GeoUserInputElement(AbstractConstruction c,ValidExpression userInput) {
+	public GeoUserInputElement(Construction c,ValidExpression userInput) {
 		this(c);
 		this.userInput=userInput;
 	}

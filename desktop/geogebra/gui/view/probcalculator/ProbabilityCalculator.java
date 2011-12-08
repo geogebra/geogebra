@@ -1,6 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -37,7 +38,6 @@ import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoBarChart;
 import geogebra.kernel.algos.AlgoSequence;

@@ -4,6 +4,7 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -12,7 +13,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.euclidian.Hits;
 import geogebra.euclidian.Previewable;
 import geogebra.gui.GuiManager.NumberInputHandler;
-import geogebra.kernel.Construction;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.AlgoPolyhedronPointsPrism;

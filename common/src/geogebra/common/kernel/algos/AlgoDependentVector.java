@@ -22,7 +22,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 /**
  * 
@@ -37,13 +37,13 @@ public class AlgoDependentVector extends AlgoElement {
 	private GeoVec2D temp;
 
 	/** Creates new AlgoDependentVector */
-	public AlgoDependentVector(AbstractConstruction cons, String label,
+	public AlgoDependentVector(Construction cons, String label,
 			ExpressionNode root) {
 		this(cons, root);
 		v.setLabel(label);
 	}
 
-	public AlgoDependentVector(AbstractConstruction cons, ExpressionNode root) {
+	public AlgoDependentVector(Construction cons, ExpressionNode root) {
 		super(cons);
 		this.root = root;
 

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.View;
@@ -61,11 +61,11 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     private boolean isPrintedInXML = true;
     private boolean stopUpdateCascade = false;
     
-    public AlgoElement(AbstractConstruction c) {
+    public AlgoElement(Construction c) {
         this(c, true);               
     }
 
-    protected AlgoElement(AbstractConstruction c, boolean addToConstructionList) {
+    protected AlgoElement(Construction c, boolean addToConstructionList) {
         super(c);     
         
         if (addToConstructionList)

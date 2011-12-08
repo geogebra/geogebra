@@ -22,7 +22,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 /**
  * Algorithm for dependent numbers, e.g. c = a + b.
@@ -41,11 +41,11 @@ public class AlgoDependentNumber extends AlgoElement {
      * @param root expression defining the result
      * @param isAngle true for angles 
      * */
-    public AlgoDependentNumber(AbstractConstruction cons, String label, ExpressionNode root, boolean isAngle) {
+    public AlgoDependentNumber(Construction cons, String label, ExpressionNode root, boolean isAngle) {
     	this(cons,root,isAngle);
         number.setLabel(label);
     }   
-    public AlgoDependentNumber(AbstractConstruction cons, ExpressionNode root, boolean isAngle) {
+    public AlgoDependentNumber(Construction cons, ExpressionNode root, boolean isAngle) {
     	super(cons);
         this.root = root;  
         

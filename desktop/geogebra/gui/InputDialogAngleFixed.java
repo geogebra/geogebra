@@ -1,6 +1,7 @@
 package geogebra.gui;
 
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.util.Unicode;
 import geogebra.gui.GuiManager.NumberInputHandler;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 

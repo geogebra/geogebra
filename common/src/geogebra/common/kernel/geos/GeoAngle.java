@@ -20,7 +20,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.AbstractKernel;
@@ -123,7 +123,7 @@ public class GeoAngle extends GeoNumeric {
 	/** Creates new GeoAngle 
 	 * @param c Construction 
 	 */
-	public GeoAngle(AbstractConstruction c) {
+	public GeoAngle(Construction c) {
 		super(c);
 		
 		//setAlphaValue(ConstructionDefaults.DEFAULT_ANGLE_ALPHA);
@@ -143,7 +143,7 @@ public class GeoAngle extends GeoNumeric {
 	 * @param label Name for angle
 	 * @param x Size of the angle
 	 */
-	public GeoAngle(AbstractConstruction c, String label, double x) {
+	public GeoAngle(Construction c, String label, double x) {
 		this(c, x);
 		setLabel(label);
 	}
@@ -168,7 +168,7 @@ public class GeoAngle extends GeoNumeric {
 	 * @param c Construction
 	 * @param x Size of the angle
 	 */
-	public GeoAngle(AbstractConstruction c, double x) {
+	public GeoAngle(Construction c, double x) {
 		this(c);
 		setValue(x);
 	}

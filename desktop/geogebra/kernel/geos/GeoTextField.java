@@ -1,6 +1,6 @@
 package geogebra.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.StringUtil;
@@ -18,7 +18,7 @@ public class GeoTextField extends GeoButton {
 	
 	AutoCompleteTextField textField;
 	
-	public GeoTextField(AbstractConstruction c) {
+	public GeoTextField(Construction c) {
 		
 		super(c);
 		
@@ -27,7 +27,7 @@ public class GeoTextField extends GeoButton {
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
 	}
-	public GeoTextField(AbstractConstruction cons, int labelOffsetX, int labelOffsetY) {
+	public GeoTextField(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;

@@ -13,7 +13,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
@@ -36,7 +36,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	private boolean serifFont = false;
 	
-	public GeoButton(AbstractConstruction c) {
+	public GeoButton(Construction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -48,7 +48,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		setAuxiliaryObject(true);
 	}
 
-	public GeoButton(AbstractConstruction cons, int labelOffsetX, int labelOffsetY) {
+	public GeoButton(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
 
 
@@ -18,6 +18,6 @@ public abstract class AbstractGeoElementSpreadsheet {
 	
 	public abstract void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElementInterface cellGeo);
 
-	public abstract GeoElement autoCreate(String label,AbstractConstruction cons);
+	public abstract GeoElement autoCreate(String label,Construction cons);
 
 }

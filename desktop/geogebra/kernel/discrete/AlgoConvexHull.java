@@ -1,7 +1,7 @@
 package geogebra.kernel.discrete;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Construction;
 
 public class AlgoConvexHull extends AlgoHull{
 

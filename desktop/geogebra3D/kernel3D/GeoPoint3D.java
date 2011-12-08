@@ -21,7 +21,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
@@ -44,7 +44,6 @@ import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 
@@ -90,7 +89,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// if this point is removed, the Locateables have to be notified
 	private LocateableList locateableList;
 
-	public GeoPoint3D(AbstractConstruction c) {
+	public GeoPoint3D(Construction c) {
 		super(c, 4);
 		setUndefined();
 	}
@@ -98,18 +97,18 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	/**
 	 * Creates new GeoPoint
 	 */
-	public GeoPoint3D(AbstractConstruction c, String label, double x, double y,
+	public GeoPoint3D(Construction c, String label, double x, double y,
 			double z, double w) {
 		super(c, x, y, z, w); // GeoVec4D constructor
 		setLabel(label);
 
 	}
 
-	public GeoPoint3D(AbstractConstruction c, String label, Coords v) {
+	public GeoPoint3D(Construction c, String label, Coords v) {
 		this(c, label, v.get(1), v.get(2), v.get(3), v.get(4));
 	}
 
-	public GeoPoint3D(AbstractConstruction c, Path path) {
+	public GeoPoint3D(Construction c, Path path) {
 		super(c, 4);
 		setPath(path);
 	}

@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -44,7 +44,7 @@ public class AlgoTranslate extends AlgoTransformation {
      * @param in
      * @param v
      */
-    public AlgoTranslate(AbstractConstruction cons, GeoElement in, GeoElement v) {
+    public AlgoTranslate(Construction cons, GeoElement in, GeoElement v) {
         super(cons);        
         this.v = v;
         

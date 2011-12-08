@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 
 import geogebra.kernel.Kernel;
 
@@ -53,7 +52,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	 * @param points
 	 *            vertices
 	 */
-	public GeoPolyLine3D(AbstractConstruction c, GeoPointND[] points) {
+	public GeoPolyLine3D(Construction c, GeoPointND[] points) {
 		super(c, points);
 	}
 

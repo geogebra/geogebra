@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
@@ -32,7 +32,7 @@ implements Comparable<ConstructionElement> {
     public static final int DISPLAY = 2;
 	// <-- Added for Intergeo File Format (Yves Kreis)
     
-	public transient AbstractConstruction cons; // parent construction of this element
+	public transient Construction cons; // parent construction of this element
 	public transient AbstractKernel kernel;      // parent kernel of this element
 	protected transient AbstractApplication app;  // parent application of this element
 	
@@ -41,18 +41,18 @@ implements Comparable<ConstructionElement> {
 	private static long ceIDcounter = 1;
 	private long ceID; // creation ID of this ConstructionElement, used for sorting
 		
-	public ConstructionElement(AbstractConstruction c) {			
+	public ConstructionElement(Construction c) {			
 		ceID = ceIDcounter++;
 		setConstruction(c);
 	}
 
-	public void setConstruction(AbstractConstruction c) {
+	public void setConstruction(Construction c) {
 		cons = c;
 		kernel = c.getKernel();
 		app = c.getApplication();
 	}
 	
-	public AbstractConstruction getConstruction() {
+	public Construction getConstruction() {
 		return cons;
 	}
 	

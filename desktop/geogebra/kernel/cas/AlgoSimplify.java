@@ -1,7 +1,7 @@
 package geogebra.kernel.cas;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
-import geogebra.kernel.Construction;
 
 public class AlgoSimplify extends AlgoCasBase {
 

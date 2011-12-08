@@ -14,7 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -73,11 +73,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds 2008-04-02
 
-	public GeoList(AbstractConstruction c) {
+	public GeoList(Construction c) {
 		this(c, 20);
 	}
 
-	private GeoList(AbstractConstruction c, int size) {
+	private GeoList(Construction c, int size) {
 		super(c);
 		
 		// moved from GeoElement's constructor

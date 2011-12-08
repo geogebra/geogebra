@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
@@ -79,7 +79,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param c the construction
 	 * @param points vertices 
 	 */
-	public GeoPolygon(AbstractConstruction c, GeoPointND[] points) {
+	public GeoPolygon(Construction c, GeoPointND[] points) {
 		this(c,points,null,true);
 	}
 	
@@ -89,7 +89,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * @param cs for 3D stuff : 2D coord sys
 	 * @param createSegments says if the polygon has to creates its edges
 	 */	
-	public GeoPolygon(AbstractConstruction c, GeoPointND[] points, CoordSys cs, boolean createSegments) {
+	public GeoPolygon(Construction c, GeoPointND[] points, CoordSys cs, boolean createSegments) {
 		this(c);
 		//Application.printStacktrace("poly");
 		this.createSegments=createSegments;
@@ -102,7 +102,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	 * Creates new GeoPolygon
 	 * @param cons construction
 	 */
-	public GeoPolygon(AbstractConstruction cons) {
+	public GeoPolygon(Construction cons) {
 		super(cons);
 		
 		// moved from GeoElement's constructor
@@ -435,7 +435,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	}    
 	
 	@Override
-	public GeoElement copyInternal(AbstractConstruction cons) {						
+	public GeoElement copyInternal(Construction cons) {						
 		GeoPolygon ret = newGeoPolygon(cons);
 		ret.points = copyPoints(cons);		
 		ret.set(this);
@@ -443,11 +443,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return ret;		
 	} 	
 	
-	protected GeoPolygon newGeoPolygon(AbstractConstruction cons){
+	protected GeoPolygon newGeoPolygon(Construction cons){
 		return new GeoPolygon(cons, null); 
 	}
 	
-	protected GeoPointND[] copyPoints(AbstractConstruction cons){
+	protected GeoPointND[] copyPoints(Construction cons){
 		return GeoElement.copyPoints(cons, points);
 	}
 	

@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Construction;
 
 /**
  * Base class for algorithms using the CAS.

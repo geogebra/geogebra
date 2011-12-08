@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.io;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
@@ -26,7 +27,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;

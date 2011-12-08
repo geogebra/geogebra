@@ -23,7 +23,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -259,7 +259,7 @@ public class Kernel extends AbstractKernel{
 	 * @param cons construction used in MyXMLHandler constructor
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(AbstractConstruction cons){
+	public MyXMLHandler newMyXMLHandler(Construction cons){
 		return newMyXMLHandler(this, cons);		
 	}
 	
@@ -269,7 +269,7 @@ public class Kernel extends AbstractKernel{
 	 * @param cons
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(Kernel kernel, AbstractConstruction cons){
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons){
 		return new MyXMLHandler(kernel, cons);		
 	}
 	
@@ -701,7 +701,7 @@ public class Kernel extends AbstractKernel{
      * Creates a new GeoElement object for the given type string.
      * @param type String as produced by GeoElement.getXMLtypeString()
      */
-    public GeoElement createGeoElement(AbstractConstruction cons, String type) throws MyError {    	
+    public GeoElement createGeoElement(Construction cons, String type) throws MyError {    	
     	// the type strings are the classnames in lowercase without the beginning "geo"
     	// due to a bug in GeoGebra 2.6c the type strings for conics
         // in XML may be "ellipse", "hyperbola", ...  
@@ -8067,11 +8067,11 @@ public class Kernel extends AbstractKernel{
 		return new GeoPoint2(cons, null, d, e, i);
 	}
 
-	public GeoConicPartInterface newGeoConicPart(AbstractConstruction cons, int type) {//temporary
+	public GeoConicPartInterface newGeoConicPart(Construction cons, int type) {//temporary
 		return new GeoConicPart(cons, type);
 	}
 	
-	public GeoLocusInterface newGeoLocus(AbstractConstruction cons) {
+	public GeoLocusInterface newGeoLocus(Construction cons) {
 		return new GeoLocus(cons);
 	}
 	
@@ -8079,12 +8079,12 @@ public class Kernel extends AbstractKernel{
 		return new geogebra3D.kernel3D.Geo3DVec(this, x, y, z);
 	}
 	
-	public UndoManager getUndoManager(AbstractConstruction cons){
+	public UndoManager getUndoManager(Construction cons){
 		return new UndoManager(cons);
 	
 	}
 	
-	public ConstructionDefaults getConstructionDefaults(AbstractConstruction cons){
+	public ConstructionDefaults getConstructionDefaults(Construction cons){
 		return new ConstructionDefaults(cons);
 	
 	}

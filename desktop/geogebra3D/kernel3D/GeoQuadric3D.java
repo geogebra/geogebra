@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -14,7 +14,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.kernelND.GeoQuadricND;
 import geogebra.main.Application;
@@ -36,7 +35,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
 
-	public GeoQuadric3D(AbstractConstruction c) {
+	public GeoQuadric3D(Construction c) {
 		super(c, 3);
 
 		// TODO merge with 2D eigenvec

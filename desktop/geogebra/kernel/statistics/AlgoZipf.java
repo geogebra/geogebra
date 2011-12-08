@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.kernel.Construction;
 
 import org.apache.commons.math.distribution.ZipfDistribution;
 

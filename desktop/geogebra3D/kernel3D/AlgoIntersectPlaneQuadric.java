@@ -20,11 +20,11 @@ package geogebra3D.kernel3D;
 
 import java.awt.Color;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.kernel.Construction;
 import geogebra.main.Application;
 
 

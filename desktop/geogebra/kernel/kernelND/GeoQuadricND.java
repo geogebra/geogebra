@@ -1,6 +1,6 @@
 package geogebra.kernel.kernelND;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -8,7 +8,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 
 
@@ -68,7 +67,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	 * @param c
 	 * @param dimension dimension of the space (2D or 3D)
 	 */
-	public GeoQuadricND(AbstractConstruction c, int dimension) {
+	public GeoQuadricND(Construction c, int dimension) {
 		super(c);
 		
 		// moved from GeoElement's constructor

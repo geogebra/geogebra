@@ -96,7 +96,7 @@ public abstract class AbstractKernel {
 	protected View[] views = new View[20];
 	protected int viewCnt = 0;
 
-	protected AbstractConstruction cons;
+	protected Construction cons;
 
 
 
@@ -1840,7 +1840,7 @@ public abstract class AbstractKernel {
    public abstract LaTeXCache newLaTeXCache();
    public abstract GeoElement lookupLabel(String label);
    public abstract GeoElement lookupLabel(String label,boolean b);
-   public abstract AbstractConstruction getConstruction();
+   public abstract Construction getConstruction();
    public abstract AbstractApplication getApplication();
    public abstract void notifyRepaint();
    public abstract void initUndoInfo() ;
@@ -1916,8 +1916,8 @@ public abstract class AbstractKernel {
 	public abstract Object Ray(String label, GeoPoint2 P, GeoPoint2 Q);//GeoRay
 	public abstract Object RayND(String label, GeoPointND P, GeoPointND Q);//GeoRayND
 	public abstract Object Ray(String label, GeoPoint2 P, GeoVector v);//GeoRay
-	public abstract GeoConicPartInterface newGeoConicPart(AbstractConstruction cons, int type);
-	public abstract GeoLocusInterface newGeoLocus(AbstractConstruction cons);
+	public abstract GeoConicPartInterface newGeoConicPart(Construction cons, int type);
+	public abstract GeoLocusInterface newGeoLocus(Construction cons);
 
 	// temporary methods just while moving things
 	
@@ -2019,7 +2019,7 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 	 * @param cons
 	 * @return undo manager
 	 */
-	public abstract AbstractUndoManager getUndoManager(AbstractConstruction cons);
+	public abstract AbstractUndoManager getUndoManager(Construction cons);
 
 	/**
 	 * @deprecated
@@ -2027,7 +2027,7 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 	 * @return
 	 */
 	public abstract AbstractConstructionDefaults getConstructionDefaults(
-			AbstractConstruction construction);
+			Construction construction);
 
 	
 

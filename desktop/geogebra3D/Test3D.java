@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 
 import geogebra3D.euclidian3D.EuclidianView3D;

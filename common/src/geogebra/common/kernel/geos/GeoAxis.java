@@ -14,7 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Color;
 import geogebra.common.kernel.kernelND.GeoAxisND;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.util.NumberFormatAdapter;
 
 public class GeoAxis extends GeoLine implements GeoAxisND{
@@ -24,7 +24,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	
 	private String axisLabel;
 
-	public GeoAxis(AbstractConstruction cons, int type) {
+	public GeoAxis(Construction cons, int type) {
 		super(cons);
 		this.type = type;
 		origin = new GeoPoint2(cons);

@@ -20,7 +20,7 @@ package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -156,9 +156,9 @@ public class MyXMLHandler implements DocHandler {
 	// too
 	private Kernel kernel, origKernel;
 	/** construction */
-	protected AbstractConstruction cons;
+	protected Construction cons;
 
-	private AbstractConstruction origCons;
+	private Construction origCons;
 	private Parser parser, origParser;
 
 	// List of LocateableExpPair objects
@@ -260,7 +260,7 @@ public class MyXMLHandler implements DocHandler {
 	/** Creates a new instance of MyXMLHandler 
 	 * @param kernel 
 	 * @param cons */
-	public MyXMLHandler(Kernel kernel, AbstractConstruction cons) {
+	public MyXMLHandler(Kernel kernel, Construction cons) {
 		origKernel = kernel;
 		origCons = cons;
 		origParser = new Parser(origKernel, origCons);

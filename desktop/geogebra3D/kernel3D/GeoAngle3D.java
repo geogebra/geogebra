@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoClass;
-import geogebra.kernel.Construction;
 
 final public class GeoAngle3D extends GeoAngle {
 

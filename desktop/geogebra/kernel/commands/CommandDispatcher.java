@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra.kernel.commands;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.main.Application;

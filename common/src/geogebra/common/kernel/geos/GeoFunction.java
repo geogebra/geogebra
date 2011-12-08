@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
@@ -87,7 +87,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * Creates new function
 	 * @param c construction
 	 */
-	public GeoFunction(AbstractConstruction c) {
+	public GeoFunction(Construction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -103,7 +103,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @param label label for function
 	 * @param f function
 	 */
-	public GeoFunction(AbstractConstruction c, String label, Function f) {
+	public GeoFunction(Construction c, String label, Function f) {
 		this(c, f);
 		setLabel(label);
 		//TODO: Remove following code for 5.0 -- it's there to make sure no functions of y are created	
@@ -113,7 +113,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		}
 	}
 	
-	public GeoFunction(AbstractConstruction c, Function f) {
+	public GeoFunction(Construction c, Function f) {
 		this(c);
 		fun = f;				
 		fun.initFunction();
@@ -134,7 +134,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	//Currently, the composite function is only for internal use
 	//The expression is not correct but it is not to be shown anyway.
-	public GeoFunction(AbstractConstruction c, GeoImplicitPolyInterface iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
+	public GeoFunction(Construction c, GeoImplicitPolyInterface iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
 		this(c);
 		this.iPoly = iPoly;
 		geoFunctionType = FUNCTION_COMPOSITE_IPOLY_FUNCS;

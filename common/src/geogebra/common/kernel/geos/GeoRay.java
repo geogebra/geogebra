@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
@@ -44,12 +44,12 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 * @param c construction
 	 * @param A start point
 	 */
-	public GeoRay(AbstractConstruction c, GeoPoint2 A) {
+	public GeoRay(Construction c, GeoPoint2 A) {
 		super(c);		
 		setStartPoint(A);
 	}
 	
-	public GeoRay(AbstractConstruction c) {
+	public GeoRay(Construction c) {
 		super(c);
 	}
 
@@ -74,7 +74,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}*/
 	 
 	
-	public GeoElement copyInternal(AbstractConstruction cons) {
+	public GeoElement copyInternal(Construction cons) {
 		GeoRay ray = new GeoRay(cons, (GeoPoint2) startPoint.copyInternal(cons));
 		ray.set(this);
 		return ray;

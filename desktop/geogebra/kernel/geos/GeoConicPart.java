@@ -16,7 +16,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
@@ -75,7 +75,7 @@ implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
 	 * @param c
 	 * @param type CONIC_PART_ARC or CONIC_PART_SECTOR
 	 */
-	public GeoConicPart(AbstractConstruction c, int type) {
+	public GeoConicPart(Construction c, int type) {
 		super(c);				
 		conic_part_type = type;			
 	}
@@ -114,7 +114,7 @@ implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
 	}  
 	
 	@Override
-	public GeoElement copyInternal(AbstractConstruction cons) {
+	public GeoElement copyInternal(Construction cons) {
 		GeoConicPart ret = new GeoConicPart(cons, conic_part_type);
 		ret.set(this);
 		return ret;

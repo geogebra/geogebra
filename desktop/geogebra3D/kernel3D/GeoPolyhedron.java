@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoClass;
@@ -8,7 +8,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionElementCycle;
 import geogebra.main.Application;
 
@@ -74,7 +73,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	 * @param c
 	 *            construction
 	 */
-	public GeoPolyhedron(AbstractConstruction c) {
+	public GeoPolyhedron(Construction c) {
 		super(c);
 
 		// moved from GeoElement's constructor

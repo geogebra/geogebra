@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -38,7 +37,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	 * @param cs
 	 *            2D coord sys
 	 */
-	public GeoConic3D(AbstractConstruction c, CoordSys cs) {
+	public GeoConic3D(Construction c, CoordSys cs) {
 		this(c);
 		setCoordSys(cs);
 	}
@@ -54,7 +53,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	 * @param c
 	 *            construction
 	 */
-	public GeoConic3D(AbstractConstruction c) {
+	public GeoConic3D(Construction c) {
 		super(c, 2);
 	}
 

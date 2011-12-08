@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoConicInterface;
@@ -37,7 +37,7 @@ public abstract class AlgoConicPart extends AlgoElement {
      * The type is either GeoConicPart.CIRCLE_ARC or 
      * GeoConicPart.CIRCLE_ARC.CIRCLE_SECTOR         
      */
-    public AlgoConicPart(AbstractConstruction cons, int type) {//package private
+    public AlgoConicPart(Construction cons, int type) {//package private
         super(cons);        
         this.type = type;     
     }

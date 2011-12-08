@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoVector;
 
 

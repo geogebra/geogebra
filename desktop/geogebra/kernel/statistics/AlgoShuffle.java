@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Construction;
 
 import java.util.ArrayList;
 

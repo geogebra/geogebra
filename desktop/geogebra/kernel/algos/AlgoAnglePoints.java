@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -49,7 +49,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     transient private double bx, by, vx, vy, wx, wy;
 
     public AlgoAnglePoints(
-        AbstractConstruction cons,
+        Construction cons,
         String label,
         GeoPointND A,
         GeoPointND B,
@@ -59,7 +59,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     }
 
     AlgoAnglePoints(
-        AbstractConstruction cons,
+        Construction cons,
         AlgoAnglePolygon algoAnglePoly,
         GeoPointND A,
         GeoPointND B,
@@ -79,7 +79,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     }
     
     public AlgoAnglePoints(
-        AbstractConstruction cons,
+        Construction cons,
         GeoPointND A,
         GeoPointND B,
         GeoPointND C) {
@@ -94,14 +94,14 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         compute();
     }
     
-    protected GeoAngle newGeoAngle(AbstractConstruction cons){
+    protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle(cons);
     }
     
     public AlgoAnglePoints(
                      GeoPointND A,
             GeoPointND B,
-            GeoPointND C,AbstractConstruction cons) {
+            GeoPointND C,Construction cons) {
     	super(cons);
     	this.cons=cons;
             this.An = A;

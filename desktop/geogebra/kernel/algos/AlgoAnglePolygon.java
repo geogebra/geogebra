@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AngleAlgo;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -36,7 +36,7 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
     protected OutputHandler<GeoElement> outputAngles;
     private AlgoAnglePoints algoAngle;
 
-    public AlgoAnglePolygon(AbstractConstruction cons, String[] labels, GeoPolygon poly) {        
+    public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {        
         this(cons, poly);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
@@ -44,7 +44,7 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
         update();
     }
     
-    AlgoAnglePolygon(AbstractConstruction cons, GeoPolygon p) {
+    AlgoAnglePolygon(Construction cons, GeoPolygon p) {
 		super(cons);
 		this.poly = p;
 		outputAngles=createOutputPoints();

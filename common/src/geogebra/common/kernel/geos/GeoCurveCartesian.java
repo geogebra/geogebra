@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.ParametricCurveDistanceFunction;
@@ -76,7 +76,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            construction
 	 * 
 	 */
-	public GeoCurveCartesian(AbstractConstruction c) {
+	public GeoCurveCartesian(Construction c) {
 		super(c);
 	}
 
@@ -90,7 +90,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @param fy
 	 *            y-coord function
 	 */
-	public GeoCurveCartesian(AbstractConstruction c, Function fx, Function fy) {
+	public GeoCurveCartesian(Construction c, Function fx, Function fy) {
 		super(c);
 		setFunctionX(fx);
 		setFunctionY(fy);

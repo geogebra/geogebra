@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
 import geogebra.common.kernel.TransformInterface;
@@ -38,7 +37,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	 * @param c
 	 *            the construction
 	 */
-	public GeoSegment3D(AbstractConstruction c) {
+	public GeoSegment3D(Construction c) {
 		super(c);
 	}
 
@@ -52,7 +51,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	 * @param p2
 	 *            end point
 	 */
-	public GeoSegment3D(AbstractConstruction c, GeoPointND p1, GeoPointND p2) {
+	public GeoSegment3D(Construction c, GeoPointND p1, GeoPointND p2) {
 		super(c, p1, p2);
 	}
 
@@ -66,7 +65,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	 * @param v2
 	 *            end point
 	 */
-	private GeoSegment3D(AbstractConstruction c, Coords v1, Coords v2) {
+	private GeoSegment3D(Construction c, Coords v1, Coords v2) {
 		super(c, v1, v2.sub(v1));
 	}
 

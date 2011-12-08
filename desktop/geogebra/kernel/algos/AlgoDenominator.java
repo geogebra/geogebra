@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Construction;
 
 /**
  * Find Numerator

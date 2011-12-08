@@ -1,6 +1,6 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 /**
  * Dummy GeoElement to be used for symbolic variable resolving
@@ -13,7 +13,7 @@ public class GeoDummyVariable extends GeoNumeric {
 
 	private String varName;
 	
-	public GeoDummyVariable(AbstractConstruction c, String varName) {
+	public GeoDummyVariable(Construction c, String varName) {
 		super(c);	
 		this.varName = varName;
 	}

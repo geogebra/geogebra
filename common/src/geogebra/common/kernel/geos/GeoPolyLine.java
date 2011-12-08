@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -48,7 +48,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 	 * @param label
 	 * @param points vertices 
 	 */
-	public GeoPolyLine(AbstractConstruction cons, String label, GeoPointND[] points) {
+	public GeoPolyLine(Construction cons, String label, GeoPointND[] points) {
 		this(cons, points);
 		setLabel(label);
 	}
@@ -57,7 +57,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 	 * @param cons
 	 * @param points
 	 */
-	public GeoPolyLine(AbstractConstruction cons, GeoPointND[] points) {
+	public GeoPolyLine(Construction cons, GeoPointND[] points) {
 		super(cons);
 		this.points = points;
 		
@@ -95,7 +95,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		return new GeoNumeric(cons, getLength());        
 	}    
 	
-	public GeoElement copyInternal(AbstractConstruction cons) {						
+	public GeoElement copyInternal(Construction cons) {						
 		GeoPolyLine ret = new GeoPolyLine(cons, null); 
 		ret.points = GeoElement.copyPoints(cons, (GeoPoint2[]) points);		
 		ret.set(this);

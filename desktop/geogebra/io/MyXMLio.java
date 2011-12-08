@@ -19,10 +19,9 @@ the Free Software Foundation.
 package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.main.Application;
@@ -851,7 +850,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * Returns XML representation of all settings and construction needed for
 	 * undo.
 	 */
-	public synchronized StringBuilder getUndoXML(AbstractConstruction c) {
+	public synchronized StringBuilder getUndoXML(Construction c) {
 		Application app = (Application) c.getApplication();
 
 		StringBuilder sb = new StringBuilder();

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.geos.GeoElement;
@@ -23,7 +23,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 	 * 
 	 * @param c
 	 */
-	public AlgoTransformation(AbstractConstruction c) {
+	public AlgoTransformation(Construction c) {
 		super(c);
 	}
 
@@ -68,7 +68,7 @@ public abstract class AlgoTransformation extends AlgoElement implements
 		return geo.copy();
 	}
 
-	protected GeoElement copyInternal(AbstractConstruction cons, GeoElement geo) {
+	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
 		return geo.copyInternal(cons);
 	}
 

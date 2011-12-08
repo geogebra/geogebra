@@ -1,6 +1,6 @@
 package geogebra.util;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyList;
@@ -178,7 +178,7 @@ public class GgbMat extends Array2DRowRealMatrix implements geogebra.common.util
 	 * @param outputList list for the copy
 	 * @param cons construction
 	 */
-	public void getGeoList(GeoList outputList, AbstractConstruction cons) {
+	public void getGeoList(GeoList outputList, Construction cons) {
 
 		if (isUndefined) {
 			outputList.setDefined(false);	

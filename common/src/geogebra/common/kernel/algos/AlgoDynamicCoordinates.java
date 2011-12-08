@@ -15,7 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 /**
  *
@@ -29,7 +29,7 @@ public class AlgoDynamicCoordinates extends AlgoElement {
     private GeoPoint2 M; // output        
 
 	
-    public AlgoDynamicCoordinates(AbstractConstruction cons, String label, GeoPoint2 P, NumberValue x, NumberValue y) {
+    public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint2 P, NumberValue x, NumberValue y) {
         super(cons);
         this.P = P;
         this.x = x;

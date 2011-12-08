@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.Matrix;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoList;
@@ -374,7 +374,7 @@ public class CoordMatrix
 	 * @param cons 
 	 * @return eg { {1,2}, {3,4} }
 	 */
-	public GeoList getGeoList(GeoList outputList, AbstractConstruction cons) {
+	public GeoList getGeoList(GeoList outputList, Construction cons) {
 		
 		if (isSingular) {
 	        outputList.setDefined(false);

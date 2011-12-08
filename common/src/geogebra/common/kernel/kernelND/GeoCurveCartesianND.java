@@ -1,6 +1,6 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -24,7 +24,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	/** common constructor
 	 * @param c
 	 */
-	public GeoCurveCartesianND(AbstractConstruction c) {
+	public GeoCurveCartesianND(Construction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -38,7 +38,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	 * @param c
 	 * @param fun 
 	 */
-	public GeoCurveCartesianND(AbstractConstruction c, Function[] fun) {
+	public GeoCurveCartesianND(Construction c, Function[] fun) {
 		this(c);
 		this.fun = fun;
 	}	

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -35,7 +35,7 @@ implements Traceable {
 	public boolean trace, spreadsheetTrace;		 
 	public boolean hasUpdatePrevilege = false;
     
-    public GeoVec3D(AbstractConstruction c) {
+    public GeoVec3D(Construction c) {
     	super(c);
 	
 		// moved from GeoElement's constructor
@@ -45,13 +45,13 @@ implements Traceable {
     }  
     
     /** Creates new GeoVec3D with coordinates (x,y,z) and label */
-    public GeoVec3D(AbstractConstruction c, double x, double y, double z) {    	
+    public GeoVec3D(Construction c, double x, double y, double z) {    	
     	this(c);    	
        setCoords(x, y, z);
     }                 
     
     /** Copy constructor */
-    public GeoVec3D(AbstractConstruction c, GeoVec3D v) {   
+    public GeoVec3D(Construction c, GeoVec3D v) {   
     	this(c); 	
         set(v);
     }

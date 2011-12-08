@@ -21,6 +21,7 @@ import geogebra.kernel.algos.AlgoRotatePoint;
 import geogebra.kernel.algos.AlgoShearOrStretch;
 import geogebra.kernel.geos.GeoConic;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.TransformInterface;
 
 /**

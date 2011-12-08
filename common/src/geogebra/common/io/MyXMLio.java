@@ -1,9 +1,9 @@
 package geogebra.common.io;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 public interface MyXMLio {
 
-	StringBuilder getUndoXML(AbstractConstruction construction);
+	StringBuilder getUndoXML(Construction construction);
 
 }

@@ -22,7 +22,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.LocateableList;
@@ -101,7 +101,7 @@ GeoPointND, Animatable, Transformable {
      * create an undefined GeoPoint
      * @param c
      */
-    public GeoPoint2(AbstractConstruction c) {     	 
+    public GeoPoint2(Construction c) {     	 
     	super(c);
     	setAnimationType(ANIMATION_INCREASING);
     	setUndefined();
@@ -116,23 +116,23 @@ GeoPointND, Animatable, Transformable {
      * @param y 
      * @param z 
      */  
-    public GeoPoint2(AbstractConstruction c, String label, double x, double y, double z) {               
+    public GeoPoint2(Construction c, String label, double x, double y, double z) {               
         this(c, x, y, z); 
         setLabel(label);
     }
     
-    public GeoPoint2(AbstractConstruction c, double x, double y, double z) {               
+    public GeoPoint2(Construction c, double x, double y, double z) {               
         super(c, x, y, z); // GeoVec3D constructor
     	setAnimationType(ANIMATION_INCREASING);
     }
     
-    public GeoPoint2(AbstractConstruction c, Path path) {
+    public GeoPoint2(Construction c, Path path) {
 		super(c);
     	setAnimationType(ANIMATION_INCREASING);
 		this.path = path;	
 	}
     
-    public GeoPoint2(AbstractConstruction c, Region region) {
+    public GeoPoint2(Construction c, Region region) {
 		super(c);
 		this.region = region;	
 	}

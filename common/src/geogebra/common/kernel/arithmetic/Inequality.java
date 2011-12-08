@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
@@ -221,7 +221,7 @@ public class Inequality {
 	}
 	
 	private void init1varFunction(int varIndex) {
-		AbstractConstruction cons = kernel.getConstruction();
+		Construction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		funBorder = new GeoFunction(cons);

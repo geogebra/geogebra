@@ -24,7 +24,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -351,7 +351,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param c
 	 *            Construction
 	 */
-	public GeoElement(AbstractConstruction c) {
+	public GeoElement(Construction c) {
 		super(c);
 
 		graphicsadapter = kernel.newGeoElementGraphicsAdapter();
@@ -496,7 +496,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            construction
 	 * @return copy in given construction
 	 */
-	public GeoElement copyInternal(AbstractConstruction cons) {
+	public GeoElement copyInternal(Construction cons) {
 		// default implementation: changed in some subclasses
 		GeoElement geoCopy = copy();
 		geoCopy.setConstruction(cons);
@@ -511,7 +511,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPoint2[] copyPoints(AbstractConstruction cons,
+	public static GeoPoint2[] copyPoints(Construction cons,
 			GeoPointND[] points) {
 		GeoPoint2[] pointsCopy = new GeoPoint2[points.length];
 		for (int i = 0; i < points.length; i++) {
@@ -530,7 +530,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPointND[] copyPointsND(AbstractConstruction cons,
+	public static GeoPointND[] copyPointsND(Construction cons,
 			GeoPointND[] points) {
 		GeoPointND[] pointsCopy = new GeoPointND[points.length];
 		for (int i = 0; i < points.length; i++) {

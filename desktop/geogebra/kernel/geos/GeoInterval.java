@@ -1,6 +1,6 @@
 package geogebra.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -25,7 +25,7 @@ public class GeoInterval extends GeoFunction {
 	 * @param label
 	 * @param f
 	 */
-	public GeoInterval(AbstractConstruction c, String label, Function f) {
+	public GeoInterval(Construction c, String label, Function f) {
 		super(c, label, f);
 	}
 
@@ -42,7 +42,7 @@ public class GeoInterval extends GeoFunction {
 	 * Creates new unlabeled interval
 	 * @param cons
 	 */
-	public GeoInterval(AbstractConstruction cons) {
+	public GeoInterval(Construction cons) {
 		super(cons);
 	}
 

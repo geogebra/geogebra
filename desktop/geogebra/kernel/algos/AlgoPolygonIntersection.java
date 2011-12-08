@@ -14,8 +14,8 @@ the Free Software Foundation.
  
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.kernel.Construction;
 
 
 

@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.kernel.Macro;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.main.Application;
@@ -69,7 +69,7 @@ implements EuclidianViewCE, AlgoMacroInterface {
      * @param macro
      * @param input
      */
-    public AlgoMacro(AbstractConstruction cons, String [] labels, Macro macro, GeoElement [] input) {
+    public AlgoMacro(Construction cons, String [] labels, Macro macro, GeoElement [] input) {
     	super(cons);
     	  
     	this.input = input;

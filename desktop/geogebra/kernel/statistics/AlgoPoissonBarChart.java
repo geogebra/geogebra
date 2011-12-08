@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.statistics;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 
 /**

@@ -13,13 +13,13 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
-import geogebra.kernel.Construction;
 import geogebra.kernel.algos.AlgoConicPartCircle;
 import geogebra.kernel.algos.AlgoSemicircle;
 import geogebra.kernel.geos.GeoConic;

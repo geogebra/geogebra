@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
@@ -69,7 +69,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * Creates new image
 	 * @param c construction
 	 */
-	public GeoImage(AbstractConstruction c) {
+	public GeoImage(Construction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -94,7 +94,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * @param label
 	 * @param fileName path to the image
 	 */
-	public GeoImage(AbstractConstruction c, String label, String fileName) {
+	public GeoImage(Construction c, String label, String fileName) {
 		this(c);
 		setImageFileName(fileName);
 		setLabel(label);

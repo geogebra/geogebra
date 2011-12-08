@@ -1,12 +1,11 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Construction;
 
 /**
  * Class for part of a quadric (e.g. side of a limited cone, cylinder, ...)
@@ -26,7 +25,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 	 * 
 	 * @param c
 	 */
-	public GeoQuadric3DPart(AbstractConstruction c) {
+	public GeoQuadric3DPart(Construction c) {
 		super(c);
 	}
 

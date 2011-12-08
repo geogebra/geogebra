@@ -14,7 +14,7 @@ package geogebra.kernel.algos;
 
 
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -30,7 +30,7 @@ public class AlgoColumn extends AlgoElement {
 	private GeoElement geo;  // input
     private GeoNumeric num;     // output              
         
-    public AlgoColumn(AbstractConstruction cons, String label, GeoElement geo) {
+    public AlgoColumn(Construction cons, String label, GeoElement geo) {
     	super(cons);
         this.geo = geo;  
         

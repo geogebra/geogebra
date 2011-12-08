@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -37,11 +37,11 @@ public class AlgoDirection extends AlgoElement {
     private GeoVector v; // output  
 
     /** Creates new AlgoDirection */    
-    public AlgoDirection(AbstractConstruction cons, GeoLine g) {
+    public AlgoDirection(Construction cons, GeoLine g) {
     	this(cons, null, g);
     }
     
-    public AlgoDirection(AbstractConstruction cons, String label, GeoLine g) {
+    public AlgoDirection(Construction cons, String label, GeoLine g) {
         super(cons);
         this.g = g;
         v = new GeoVector(cons);

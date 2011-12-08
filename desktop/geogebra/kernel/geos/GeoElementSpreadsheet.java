@@ -1,6 +1,6 @@
 package geogebra.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -165,7 +165,7 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet{
 			return getSpreadsheetCoordsForLabel(label);
 		}
 
-		public GeoElement autoCreate(String label, AbstractConstruction cons){
+		public GeoElement autoCreate(String label, Construction cons){
 			Matcher cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern
 					.matcher(label);
 			if (cellNameMatcher.matches()) {

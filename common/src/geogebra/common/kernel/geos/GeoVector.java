@@ -20,7 +20,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
@@ -60,7 +60,7 @@ Transformable, GeoVectorND {
 	private HashSet<GeoPointND> waitingPointSet;
 
 	/** Creates new GeoVector */
-	public GeoVector(AbstractConstruction c) {
+	public GeoVector(Construction c) {
 		super(c); 
 		//setEuclidianVisible(false);
 	}
@@ -82,7 +82,7 @@ Transformable, GeoVectorND {
 	}
 
 	/** Creates new GeoVector */
-	public GeoVector(AbstractConstruction c, String label, double x, double y, double z) {
+	public GeoVector(Construction c, String label, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor                 
 		setLabel(label); 
 		//setEuclidianVisible(false);

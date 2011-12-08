@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.functioninspector;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -46,7 +47,6 @@ import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoCurvature;
 import geogebra.kernel.algos.AlgoDependentFunction;

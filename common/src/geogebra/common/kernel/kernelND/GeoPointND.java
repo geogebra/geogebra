@@ -1,6 +1,6 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
@@ -169,7 +169,7 @@ public interface GeoPointND {
 
 	public boolean isAbsoluteStartPoint();
 
-	public GeoElementInterface copyInternal(AbstractConstruction cons);
+	public GeoElementInterface copyInternal(Construction cons);
 
 	
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;

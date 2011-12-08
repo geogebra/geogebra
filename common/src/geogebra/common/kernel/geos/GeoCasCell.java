@@ -1,7 +1,7 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.cas.CASException;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.Command;
@@ -56,7 +56,7 @@ public class GeoCasCell extends GeoElement{
 	private String evalCmd, evalComment;
 	private int row = -1; // for CAS view, set by Construction
 
-	public GeoCasCell(AbstractConstruction c) {
+	public GeoCasCell(Construction c) {
 		super(c);
 		
 		input = "";

@@ -35,7 +35,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 
 
-public  class AbstractConstruction {
+public  class Construction {
 	
 	/**
 	 * Creates a new Construction.
@@ -43,7 +43,7 @@ public  class AbstractConstruction {
 	 * @param k
 	 *            Kernel
 	 */
-	public AbstractConstruction(AbstractKernel k) {
+	public Construction(AbstractKernel k) {
 		this(k, null);
 	}
 
@@ -55,7 +55,7 @@ public  class AbstractConstruction {
 	 * @param parentConstruction
 	 *            parent construction (used for macro constructions)
 	 */
-	protected AbstractConstruction(AbstractKernel k, AbstractConstruction parentConstruction) {
+	protected Construction(AbstractKernel k, Construction parentConstruction) {
 		kernel = k;
 
 		ceList = new ArrayList<ConstructionElement>();

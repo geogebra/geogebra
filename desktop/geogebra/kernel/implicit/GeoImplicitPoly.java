@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
@@ -50,7 +50,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoLocusInterface;
@@ -86,7 +86,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	public GeoLocusInterface locus;
 	public Polynomial poly;
 
-	public GeoImplicitPoly(AbstractConstruction c) {
+	public GeoImplicitPoly(Construction c) {
 		super(c);
 		degX=-1;
 		degY=-1;
@@ -97,7 +97,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		c.registerEuclidianViewCE(this);
 	}
 	
-	private GeoImplicitPoly(AbstractConstruction c, String label,double[][] coeff,boolean calcPath){
+	private GeoImplicitPoly(Construction c, String label,double[][] coeff,boolean calcPath){
 		this(c);
 		setLabel(label);
 		this.calcPath=calcPath;
@@ -106,11 +106,11 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			c.unregisterEuclidianViewCE(this);
 	}
 	
-	protected GeoImplicitPoly(AbstractConstruction c, String label,double[][] coeff){
+	protected GeoImplicitPoly(Construction c, String label,double[][] coeff){
 		this(c,label,coeff,true);
 	}
 	
-	private GeoImplicitPoly(AbstractConstruction c, String label,Polynomial poly,boolean calcPath){
+	private GeoImplicitPoly(Construction c, String label,Polynomial poly,boolean calcPath){
 		this(c);
 		this.poly = poly;
 		setLabel(label);
@@ -120,7 +120,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 			c.unregisterEuclidianViewCE(this);
 	}
 	
-	public GeoImplicitPoly(AbstractConstruction c, String label,Polynomial poly){
+	public GeoImplicitPoly(Construction c, String label,Polynomial poly){
 		this(c,label,poly,true);
 	}
 	
@@ -130,7 +130,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	 * @param coeff
 	 * @return a GeoImplicitPoly witch doesn't calculate it's path.
 	 */
-	public static GeoImplicitPoly createImplicitPolyWithoutPath(AbstractConstruction c,double[][] coeff){
+	public static GeoImplicitPoly createImplicitPolyWithoutPath(Construction c,double[][] coeff){
 		return new GeoImplicitPoly(c,null,coeff,false);
 	}
 	

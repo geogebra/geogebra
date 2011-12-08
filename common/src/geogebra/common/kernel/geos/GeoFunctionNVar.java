@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
@@ -58,7 +58,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * Creates new GeoFunction
 	 * @param c
 	 */
-	public GeoFunctionNVar(AbstractConstruction c) {
+	public GeoFunctionNVar(Construction c) {
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -72,7 +72,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * @param c
 	 * @param f function to be wrapped
 	 */
-	public GeoFunctionNVar(AbstractConstruction c, FunctionNVar f) {
+	public GeoFunctionNVar(Construction c, FunctionNVar f) {
 		this(c);		
 		fun = f;
 		if(fun != null)
@@ -85,7 +85,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * @param label
 	 * @param f function to be wrapped
 	 */
-	public GeoFunctionNVar(AbstractConstruction c, String label, FunctionNVar f) {
+	public GeoFunctionNVar(Construction c, String label, FunctionNVar f) {
 		this(c,f);		
 		setLabel(label);		
 	}

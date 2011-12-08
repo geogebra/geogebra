@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -73,12 +73,12 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	private static boolean KEEP_LEADING_SIGN = true;
     private static final String [] vars = { "x", "y" };
     
-    public GeoLine(AbstractConstruction c) { 
+    public GeoLine(Construction c) { 
     	super(c); 
     	setMode( GeoLine.EQUATION_IMPLICIT );
     }
     
-    public GeoLine(AbstractConstruction c, int mode) { 
+    public GeoLine(Construction c, int mode) { 
     	super(c); 
     	setMode( mode );
     }
@@ -89,7 +89,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
      * @param a 
      * @param b 
      * @param c */     
-    public GeoLine(AbstractConstruction cons, String label, double a, double b, double c) {
+    public GeoLine(Construction cons, String label, double a, double b, double c) {
         super(cons, a, b, c);	// GeoVec3D constructor                 
         setMode( GeoLine.EQUATION_IMPLICIT );
         setLabel(label);                

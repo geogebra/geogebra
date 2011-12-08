@@ -1,6 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 
 public class MyArbitraryConstant extends MyDouble {
@@ -28,7 +28,7 @@ public class MyArbitraryConstant extends MyDouble {
 			e.printStackTrace();
 		}
 		
-		AbstractConstruction cons = kernel.getConstruction();
+		Construction cons = kernel.getConstruction();
 		switch (arbID) {
 			case ARB_INT:	
 				internalString = build("arbint(", numberStr, ")");

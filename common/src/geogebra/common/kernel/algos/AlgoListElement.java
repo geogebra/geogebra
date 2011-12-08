@@ -16,7 +16,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -45,13 +45,13 @@ public class AlgoListElement extends AlgoElement {
 	 * @param geoList
 	 * @param num
 	 */
-	public AlgoListElement(AbstractConstruction cons, String label, GeoList geoList,
+	public AlgoListElement(Construction cons, String label, GeoList geoList,
 			NumberValue num) {
 		this(cons, geoList, num);
 		element.setLabel(label);
 	}
 
-	public AlgoListElement(AbstractConstruction cons, GeoList geoList,
+	public AlgoListElement(Construction cons, GeoList geoList,
 			NumberValue num) {
 		super(cons);
 		this.geoList = geoList;
@@ -85,12 +85,12 @@ public class AlgoListElement extends AlgoElement {
 	/**
 	 * Creates new unlabeed element algo
 	 */
-	public AlgoListElement(AbstractConstruction cons, String label, GeoList geoList,
+	public AlgoListElement(Construction cons, String label, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {
 		this(cons,geoList,num2,shortSyntax);
 		element.setLabel(label);
 	}
-	public AlgoListElement(AbstractConstruction cons, GeoList geoList,
+	public AlgoListElement(Construction cons, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {
 		super(cons);
 		this.geoList = geoList;		

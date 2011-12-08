@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
@@ -67,7 +67,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * Creates a conic
 	 * @param c construction
 	 */
-	public GeoConic(AbstractConstruction c) {
+	public GeoConic(Construction c) {
 		super(c,2);	
 	}		
 	
@@ -77,7 +77,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * @param label label
 	 * @param coeffs coefficients
 	 */
-	public GeoConic(AbstractConstruction c, String label, double[] coeffs) {
+	public GeoConic(Construction c, String label, double[] coeffs) {
 
 		this(c);
 		setCoeffs(coeffs);
@@ -93,7 +93,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		set(conic);
 	}
 	
-	public GeoConic(AbstractConstruction c, String label, GeoList coeffList) {
+	public GeoConic(Construction c, String label, GeoList coeffList) {
 		this(c);
 		
 		int numberCount = 0;

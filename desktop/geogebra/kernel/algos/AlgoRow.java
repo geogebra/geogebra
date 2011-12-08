@@ -15,7 +15,7 @@ package geogebra.kernel.algos;
 
 
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -34,7 +34,7 @@ public class AlgoRow extends AlgoElement {
     /**
      * Creates new row algo
      */
-    public AlgoRow(AbstractConstruction cons, String label, GeoElement geo) {
+    public AlgoRow(Construction cons, String label, GeoElement geo) {
     	super(cons);
         this.geo = geo;  
         

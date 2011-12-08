@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;

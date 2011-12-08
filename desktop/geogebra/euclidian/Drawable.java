@@ -20,8 +20,8 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 

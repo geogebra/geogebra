@@ -12,9 +12,9 @@
 
 package geogebra.gui;
 
+import geogebra.common.kernel.Construction;
 import geogebra.gui.inputfield.MyFormattedTextField;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.Construction;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 

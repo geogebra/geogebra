@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -53,7 +53,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * @param ifFun
 	 * @param elseFun may be null
 	 */
-	public GeoFunctionConditional(AbstractConstruction c, 
+	public GeoFunctionConditional(Construction c, 
 			GeoFunction condFun, GeoFunction ifFun, GeoFunction elseFun) {
 		super(c);
 		this.condFun 	= condFun;		

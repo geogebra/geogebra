@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -13,7 +13,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
@@ -28,7 +27,7 @@ Translateable{
 
 	private boolean isIntersection = false;
 
-	public GeoCoordSys1D(AbstractConstruction c){
+	public GeoCoordSys1D(Construction c){
 		super(c);
 		
 		// moved from GeoElement's constructor
@@ -39,13 +38,13 @@ Translateable{
 		coordsys = new CoordSys(1);
 	}
 	
-	public GeoCoordSys1D(AbstractConstruction c, Coords O, Coords V){
+	public GeoCoordSys1D(Construction c, Coords O, Coords V){
 		this(c);
 		setCoord(O,V);
 	}
 	
 	
-	public GeoCoordSys1D(AbstractConstruction c, GeoPointND O, GeoPointND I){
+	public GeoCoordSys1D(Construction c, GeoPointND O, GeoPointND I){
 		this(c);
 		setCoord(O,I);
 	}	

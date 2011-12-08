@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AngleAlgo;
@@ -44,7 +44,7 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation,
      * @param g first line
      * @param h second line
      */
-    AlgoAngleLines(AbstractConstruction cons,  GeoLine g, GeoLine h) {
+    AlgoAngleLines(Construction cons,  GeoLine g, GeoLine h) {
         super(cons);
         this.g = g;
         this.h = h;
@@ -70,7 +70,7 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation,
      * @param h second line
      */
     
-    public AlgoAngleLines(AbstractConstruction cons, String label, GeoLine g, GeoLine h) {
+    public AlgoAngleLines(Construction cons, String label, GeoLine g, GeoLine h) {
         this(cons,g,h);
         angle.setLabel(label);
     }

@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 
 /**
@@ -41,7 +41,7 @@ public class AlgoVector extends AlgoElement {
     private GeoVectorND  v;     // output     
         
     /** Creates new AlgoVector */  
-    public AlgoVector(AbstractConstruction cons, String label, GeoPointND P, GeoPointND Q) {
+    public AlgoVector(Construction cons, String label, GeoPointND P, GeoPointND Q) {
         super(cons);
         this.P = P;
         this.Q = Q;         

@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package geogebra.kernel.discrete;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.discrete.delauney.Pnt;
 import geogebra.kernel.discrete.delauney.Triangle;
 import geogebra.kernel.discrete.delauney.Triangulation;

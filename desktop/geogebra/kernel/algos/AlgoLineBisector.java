@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -29,7 +29,7 @@ public class AlgoLineBisector extends AlgoElement {
     private GeoPoint2 midPoint;
         
     /** Creates new AlgoLineBisector */
-    public AlgoLineBisector(AbstractConstruction cons, String label,GeoPoint2 A,GeoPoint2 B) {
+    public AlgoLineBisector(Construction cons, String label,GeoPoint2 A,GeoPoint2 B) {
         super(cons);
         this.A = A;
         this.B = B;        

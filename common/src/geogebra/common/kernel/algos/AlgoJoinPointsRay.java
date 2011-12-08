@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.Construction;
 
 
 /**
@@ -37,7 +37,7 @@ public class AlgoJoinPointsRay extends AlgoElement {
     private GeoRay  ray;     // output       
         
     /** Creates new AlgoJoinPoints */
-    public AlgoJoinPointsRay(AbstractConstruction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
+    public AlgoJoinPointsRay(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
         super(cons);
         this.P = P;
         this.Q = Q;                
