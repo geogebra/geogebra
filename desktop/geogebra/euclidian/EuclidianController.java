@@ -13,6 +13,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
@@ -94,7 +95,8 @@ import javax.swing.text.JTextComponent;
  * Created on 16. October 2001, 15:41
  */
 public class EuclidianController implements MouseListener,
-MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniListener {
+MouseMotionListener, MouseWheelListener, ComponentListener, PropertiesPanelMiniListener,
+EuclidianControllerInterface {
 
 	private int mx, my; // keep track of mouse position
 	

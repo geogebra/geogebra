@@ -217,7 +217,7 @@ public final class DrawText extends Drawable {
     final public void draw(Graphics2D g2) { 
         if (isVisible) {
         	
-        	Color bg = (Color) geo.getBackgroundColor().getAwtColor();
+        	Color bg = geo.getBackgroundColor()==null? Color.WHITE:(Color) geo.getBackgroundColor().getAwtColor();
         	
         	if (bg != null) {
         		

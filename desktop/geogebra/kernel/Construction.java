@@ -29,9 +29,8 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.io.MyXMLio;
-//import geogebra.kernel.optimization.ExtremumFinder;
+import geogebra.common.io.MyXMLio;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -406,7 +405,7 @@ public class Construction extends AbstractConstruction {
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			app.addSelectedGeo(selGeo, false);
-			((EuclidianViewInterface) app.getEuclidianView())
+			app.getEuclidianView()
 					.getEuclidianController().handleMovedElement(selGeo, false);
 		}
 	}
