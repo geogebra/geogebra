@@ -1,4 +1,4 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -7,11 +7,8 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.algos.AlgoMacro;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 /**
  * Boolean function of the type a(<|<=)x(<|<=)b
  * @author Markus Hohenwarter
@@ -67,7 +64,7 @@ public class GeoInterval extends GeoFunction {
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's expression
 			if (!geoFun.isIndependent()) {
-				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 				algoMacro.initFunction(this.fun);	
 			}			
 		}
