@@ -18,7 +18,6 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.ConstructionElement;
-import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
@@ -53,8 +52,7 @@ import java.util.regex.Matcher;
  */
 public class Construction extends AbstractConstruction {
 
-	// list of Macro commands used in this construction
-	private ArrayList<Macro> usedMacros;
+	
 
 	/** UndoManager */
 	protected UndoManager undoManager;
@@ -156,62 +154,11 @@ public class Construction extends AbstractConstruction {
 	}
 
 	
-	/**
-	 * Returns a set with all labeled GeoElement objects sorted in alphabetical
-	 * order of their type strings and labels (e.g. Line g, Line h, Point A,
-	 * Point B, ...). Note: the returned TreeSet is a copy of the current
-	 * situation and is not updated by the construction later on.
-	 * 
-	 * @return Set of all labeld GeoElements orted by name and description
-	 */
-	final public TreeSet<GeoElement> getGeoSetNameDescriptionOrder() {
-		// sorted set of geos
-		TreeSet<GeoElement> sortedSet = new TreeSet<GeoElement>(
-				new NameDescriptionComparator());
 
-		// get all GeoElements from construction and sort them
-		Iterator<GeoElement> it = geoSetConsOrder.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			// sorted inserting using name description of geo
-			sortedSet.add(geo);
-		}
-		return sortedSet;
-	}
 
 	// update all indices >= pos
 
-	/**
-	 * Calls remove() for every ConstructionElement in the construction list.
-	 * After this the construction list will be empty.
-	 */
-	public void clearConstruction() {
-		kernel.resetGeoGebraCAS();
-
-		ceList.clear();
-		algoList.clear();
-
-		geoSetConsOrder.clear();
-		geoSetWithCasCells.clear();
-		geoSetLabelOrder.clear();
-
-		geoSetsTypeMap.clear();
-		euclidianViewCE.clear();
-		initGeoTables();
-
-		// reinit construction step
-		step = -1;
-
-		// delete title, author, date
-		title = null;
-		author = null;
-		date = null;
-		worksheetText[0] = null;
-		worksheetText[1] = null;
-
-		usedMacros = null;
-	}
-
+	
 	/**
 	 * Build a set with all algorithms of this construction (in topological
 	 * order). The method updateAll() of this set can be used to update the
@@ -582,25 +529,5 @@ public class Construction extends AbstractConstruction {
 		this.xmlio = xmlio;
 	}
 
-	/**
-	 * Add a macro to list of used macros
-	 * 
-	 * @param macro
-	 *            Macro to be added
-	 */
-	public final void addUsedMacro(Macro macro) {
-		if (usedMacros == null)
-			usedMacros = new ArrayList<Macro>();
-		usedMacros.add(macro);
-	}
-
-	/**
-	 * Returns list of macros used in this construction
-	 * 
-	 * @return list of macros used in this construction
-	 */
-	public ArrayList<Macro> getUsedMacros() {
-		return usedMacros;
-	}
-
+	
 }

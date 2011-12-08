@@ -31,6 +31,9 @@ import geogebra.common.kernel.algos.AlgoDistancePoints;
 
 public abstract class AbstractConstruction {
 
+	// list of Macro commands used in this construction
+	//TODO: specify type once Macro is ported
+		private ArrayList usedMacros;
 	/**
 	 * Added for Intergeo File Format (Yves Kreis) --> writes the <elements> and
 	 * the <constraints> part
@@ -2112,15 +2115,89 @@ public abstract class AbstractConstruction {
 		}
 	}
 	
+	/**
+	 * Returns a set with all labeled GeoElement objects sorted in alphabetical
+	 * order of their type strings and labels (e.g. Line g, Line h, Point A,
+	 * Point B, ...). Note: the returned TreeSet is a copy of the current
+	 * situation and is not updated by the construction later on.
+	 * 
+	 * @return Set of all labeld GeoElements orted by name and description
+	 */
+	final public TreeSet<GeoElement> getGeoSetNameDescriptionOrder() {
+		// sorted set of geos
+		TreeSet<GeoElement> sortedSet = new TreeSet<GeoElement>(
+				new NameDescriptionComparator());
+
+		// get all GeoElements from construction and sort them
+		Iterator<GeoElement> it = geoSetConsOrder.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			// sorted inserting using name description of geo
+			sortedSet.add(geo);
+		}
+		return sortedSet;
+	}
+	
 	protected abstract void restoreCurrentUndoInfo();
 
 
 	public abstract AbstractConstructionDefaults getConstructionDefaults();
 
 
-	public abstract void clearConstruction();
 
 	
+	/**
+	 * Add a macro to list of used macros
+	 * 
+	 * @param macro
+	 *            Macro to be added
+	 */
+	public final void addUsedMacro(MacroInterface macro) {
+		if (usedMacros == null)
+			usedMacros = new ArrayList();
+		usedMacros.add(macro);
+	}
+
+	/**
+	 * Returns list of macros used in this construction
+	 * 
+	 * @return list of macros used in this construction
+	 */
+	public ArrayList getUsedMacros() {
+		return usedMacros;
+	}
+	
+	/**
+	 * Calls remove() for every ConstructionElement in the construction list.
+	 * After this the construction list will be empty.
+	 */
+	public void clearConstruction() {
+		kernel.resetGeoGebraCAS();
+
+		ceList.clear();
+		algoList.clear();
+
+		geoSetConsOrder.clear();
+		geoSetWithCasCells.clear();
+		geoSetLabelOrder.clear();
+
+		geoSetsTypeMap.clear();
+		euclidianViewCE.clear();
+		initGeoTables();
+
+		// reinit construction step
+		step = -1;
+
+		// delete title, author, date
+		title = null;
+		author = null;
+		date = null;
+		worksheetText[0] = null;
+		worksheetText[1] = null;
+
+		usedMacros = null;
+	}
+
 
 
 

@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.NameDescriptionComparator;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
-import geogebra.kernel.NameDescriptionComparator;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
