@@ -938,7 +938,7 @@ public abstract class Drawable extends DrawableND {
 		}
 		else if (geo.getAlphaValue() > 0.0f)
 		{
-			g2.setPaint((Paint) geo.getFillColor().getAwtColor());
+			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getFillColor()));
 			g2.fill(shape);
 
 		}
