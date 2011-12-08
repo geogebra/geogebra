@@ -21,9 +21,9 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoQuadricND;
 

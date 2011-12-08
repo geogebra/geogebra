@@ -20,12 +20,12 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Two tangents through point P to conic section c

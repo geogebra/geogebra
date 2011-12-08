@@ -23,10 +23,10 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoConicND;
 

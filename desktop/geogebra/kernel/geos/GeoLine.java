@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLineInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.LineProperties;

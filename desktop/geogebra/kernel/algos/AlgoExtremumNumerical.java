@@ -17,8 +17,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 

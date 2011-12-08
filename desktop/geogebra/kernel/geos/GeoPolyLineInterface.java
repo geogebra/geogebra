@@ -2,6 +2,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 

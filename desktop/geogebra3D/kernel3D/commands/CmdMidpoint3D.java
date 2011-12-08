@@ -4,13 +4,13 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.CmdMidpoint;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoInterval;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.kernelND.GeoSegmentND;
 

@@ -35,6 +35,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec2D;

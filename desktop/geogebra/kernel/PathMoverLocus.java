@@ -14,8 +14,8 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
 

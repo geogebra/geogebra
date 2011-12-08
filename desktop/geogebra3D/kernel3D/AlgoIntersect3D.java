@@ -14,10 +14,10 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.AlgoIntersectND;
 import geogebra.main.Application;
 

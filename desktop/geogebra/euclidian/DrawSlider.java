@@ -18,7 +18,7 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;

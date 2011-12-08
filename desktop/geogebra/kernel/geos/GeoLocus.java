@@ -18,6 +18,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.MyPoint;

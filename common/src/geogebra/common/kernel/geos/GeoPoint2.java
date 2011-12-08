@@ -18,7 +18,7 @@ the Free Software Foundation.
  * Created on 30. August 2001, 17:39
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -39,38 +39,20 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoDependentPoint;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.geos.Animatable;
-import geogebra.common.kernel.geos.ConicMirrorable;
-import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoLineInterface;
-import geogebra.common.kernel.geos.GeoConicInterface;
-import geogebra.common.kernel.geos.GeoNumericInterface;
-import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.GeoVectorInterface;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Transformable;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.kernel.algos.AlgoDependentPoint;
-import geogebra.kernel.algos.AlgoDynamicCoordinates;
 
 import java.util.ArrayList;
 import java.util.Comparator;

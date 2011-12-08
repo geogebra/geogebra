@@ -14,10 +14,10 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPoint2;
 
 
 

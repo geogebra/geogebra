@@ -23,9 +23,9 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;
 

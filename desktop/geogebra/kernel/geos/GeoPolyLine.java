@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoVec3D;

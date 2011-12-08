@@ -22,9 +22,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.kernelND.GeoVectorND;
 

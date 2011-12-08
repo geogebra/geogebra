@@ -20,8 +20,8 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.AbstractConstruction;
-import geogebra.kernel.geos.GeoPoint2;
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo {

@@ -20,13 +20,13 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.clipping.ClipLine;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;

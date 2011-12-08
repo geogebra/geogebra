@@ -13,6 +13,7 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Transform;
 
 /**

@@ -1,10 +1,10 @@
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoPoint2;
 
 import java.util.ArrayList;
 

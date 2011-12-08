@@ -7,11 +7,11 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoSegmentND;
 
 /**

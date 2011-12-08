@@ -14,8 +14,8 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoPoint2;
 
 
 /**

@@ -23,9 +23,9 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint2;
 
 import java.math.BigDecimal;
 

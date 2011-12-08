@@ -15,10 +15,10 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoPoint2;
 
 /**
  * Semicircle defined by two points A and B (start and end point).

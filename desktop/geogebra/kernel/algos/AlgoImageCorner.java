@@ -16,9 +16,9 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoPoint2;
 
 public class AlgoImageCorner extends AlgoElement 
 implements EuclidianViewCE {

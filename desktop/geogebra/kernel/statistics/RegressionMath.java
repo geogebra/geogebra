@@ -1,7 +1,7 @@
 package geogebra.kernel.statistics;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;

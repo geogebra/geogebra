@@ -17,7 +17,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint2;
 
 
 

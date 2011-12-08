@@ -3,10 +3,10 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.gui.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.algos.AlgoPolyLine;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

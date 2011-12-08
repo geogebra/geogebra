@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

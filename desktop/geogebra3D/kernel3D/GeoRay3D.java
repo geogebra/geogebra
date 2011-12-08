@@ -4,12 +4,12 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Transform;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.LimitedPath;
 
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {

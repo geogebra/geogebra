@@ -2,10 +2,10 @@ package geogebra3D.euclidianFor3D;
 
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianController;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.kernelND.GeoVectorND;
 

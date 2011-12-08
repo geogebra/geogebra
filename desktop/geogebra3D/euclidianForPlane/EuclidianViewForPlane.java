@@ -10,11 +10,11 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.euclidian.EuclidianController;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.kernel.kernelND.GeoPlaneND;
 

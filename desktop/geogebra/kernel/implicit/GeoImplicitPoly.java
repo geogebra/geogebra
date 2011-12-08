@@ -34,6 +34,7 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.kernel.geos.GeoLineInterface;
 import geogebra.common.kernel.geos.GeoConicInterface;
@@ -52,7 +53,6 @@ import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoUserInputElement;
 
 import java.util.ArrayList;

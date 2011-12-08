@@ -21,8 +21,8 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.kernelND.GeoQuadricND;
 
 
