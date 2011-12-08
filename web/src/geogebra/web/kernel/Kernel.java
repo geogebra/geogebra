@@ -16,7 +16,7 @@ import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -249,7 +249,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoPoint2[] RootMultiple(String[] labels, GeoFunctionInterface f) {
+    public GeoPoint2[] RootMultiple(String[] labels, GeoFunction f) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -279,7 +279,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoFunctionInterface DependentFunction(String label, Function fun) {
+    public GeoFunction DependentFunction(String label, Function fun) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

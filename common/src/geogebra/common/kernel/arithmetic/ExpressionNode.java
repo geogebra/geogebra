@@ -24,8 +24,8 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunctionInterface;
-import geogebra.common.kernel.geos.GeoFunctionNVarInterface;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
@@ -921,8 +921,8 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	final public boolean containsGeoFunctionNVar() {
-		if ((left instanceof GeoFunctionNVarInterface)
-				|| (right instanceof GeoFunctionNVarInterface)) {
+		if ((left instanceof GeoFunctionNVar)
+				|| (right instanceof GeoFunctionNVar)) {
 			return true;
 		}
 
@@ -982,7 +982,7 @@ public class ExpressionNode extends ValidExpression implements
 				operation = expr.getOperation();
 			}
 		} else if (operation == Operation.FUNCTION) {
-			if (left instanceof GeoFunctionInterface) {
+			if (left instanceof GeoFunction) {
 				FunctionInterface func = ((Functional) left).getFunction();
 				ExpressionNode expr = (ExpressionNode) func.getExpression()
 						.getCopy(kernel);
@@ -3650,8 +3650,8 @@ public class ExpressionNode extends ValidExpression implements
 
 		case FUNCTION:
 			// GeoFunction and GeoFunctionConditional should not be expanded
-			if (left instanceof GeoFunctionInterface) {
-				GeoFunctionInterface geo = (GeoFunctionInterface) left;
+			if (left instanceof GeoFunction) {
+				GeoFunction geo = (GeoFunction) left;
 				if (geo.isLabelSet()) {
 					sb.append(geo.getLabel());
 					sb.append(leftBracket(STRING_TYPE));

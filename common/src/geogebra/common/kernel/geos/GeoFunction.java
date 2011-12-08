@@ -60,8 +60,7 @@ import java.util.TreeSet;
  */
 public class GeoFunction extends GeoElement
 implements VarString, Path, Translateable, Traceable, Functional, FunctionalNVar, GeoFunctionable,Region,
-CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilateable, Transformable,
-GeoFunctionInterface {
+CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilateable, Transformable {
 
 	/** inner function representation */
 	protected Function fun;		

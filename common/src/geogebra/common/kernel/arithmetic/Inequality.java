@@ -18,7 +18,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -50,7 +50,7 @@ public class Inequality {
 	private int type;
 	/*private GeoImplicitPoly impBorder;*/
 	private GeoConicInterface conicBorder;
-	private GeoFunctionInterface funBorder;
+	private GeoFunction funBorder;
 	private GeoElement border;
 	private AbstractKernel kernel;
 	private boolean isAboveBorder;
@@ -284,7 +284,7 @@ public class Inequality {
 	/**
 	 * @return border for parametric equations
 	 */
-	public GeoFunctionInterface getFunBorder() {
+	public GeoFunction getFunBorder() {
 		return funBorder;
 	}
 

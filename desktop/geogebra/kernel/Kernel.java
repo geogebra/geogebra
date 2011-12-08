@@ -58,7 +58,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
@@ -7228,7 +7228,7 @@ public class Kernel extends AbstractKernel{
 		return g;
 	}	
 	
-	final public GeoPoint2 [] RootMultiple(String [] labels, GeoFunctionInterface f) {
+	final public GeoPoint2 [] RootMultiple(String [] labels, GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) return null;
 		

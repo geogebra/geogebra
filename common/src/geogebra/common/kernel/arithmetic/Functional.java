@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunction;
 
 
 /**
@@ -30,5 +30,5 @@ public interface Functional extends Evaluatable{
 	 * @param order order of the derivative
 	 * @return wrapped derivative
 	 */
-	public GeoFunctionInterface getGeoDerivative(int order);
+	public GeoFunction getGeoDerivative(int order);
 }

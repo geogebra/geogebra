@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -1891,7 +1891,7 @@ public abstract class AbstractKernel {
 	
 	public abstract String[] getPolynomialCoeffs(String function, String var);
 	
-	public abstract GeoPoint2 [] RootMultiple(String [] labels, GeoFunctionInterface f);
+	public abstract GeoPoint2 [] RootMultiple(String [] labels, GeoFunction f);
 
 	public abstract double getViewsXMax(GeoElement geo);
 
@@ -1901,7 +1901,7 @@ public abstract class AbstractKernel {
 
 	public abstract boolean isNotifyViewsActive();
 
-	public abstract GeoFunctionInterface DependentFunction(String label, Function fun);
+	public abstract GeoFunction DependentFunction(String label, Function fun);
 
 	public abstract GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q);
 

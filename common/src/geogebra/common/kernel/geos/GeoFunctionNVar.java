@@ -42,7 +42,7 @@ import geogebra.common.kernel.algos.AlgoMacroInterface;
  */
 public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
- Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable, GeoFunctionNVarInterface{
+ Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable {
 
 	private static final double STRICT_INEQ_OFFSET = 4*AbstractKernel.MIN_PRECISION;
 	private static final int SEEK_DENSITY = 30;

@@ -15,7 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionInterface;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
@@ -638,7 +638,7 @@ implements RealRootFunction, Functional, FunctionInterface {
      * Returns n-th derivative of this function wrapped
      * as a GeoFunction object.
      */
-    public GeoFunctionInterface getGeoDerivative(int n) {
+    public GeoFunction getGeoDerivative(int n) {
     	if (geoDeriv == null)
     		geoDeriv = new GeoFunction(kernel.getConstruction());
     	
@@ -647,7 +647,7 @@ implements RealRootFunction, Functional, FunctionInterface {
     	geoDeriv.setDefined(deriv != null);
     	return geoDeriv;
     }
-    private GeoFunctionInterface geoDeriv;
+    private GeoFunction geoDeriv;
  
     /**
      * Returns n-th derivative of this function
