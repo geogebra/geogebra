@@ -9,7 +9,6 @@ test -r autotest.conf || {
 test -r autotest.conf && . ./autotest.conf
 
 while [ true ]; do
- ./build-latest-desktop
- ./alarm
+ ./build-latest-desktop && ./alarm
  sleep $WAITBETWEENBUILDS
  done
