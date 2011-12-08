@@ -1,0 +1,38 @@
+#!/bin/sh
+# Checks if the current build works properly (basic checks) and alarms, if not
+
+# 1. Start and loading configuration
+test -r autotest.conf || {
+ echo "$0: Cannot find autotest.conf (make sure you edit autotest.conf.dist first)"
+ exit 127
+ }
+test -r autotest.conf && . ./autotest.conf
+
+REVISION=`svn info | grep Revision: | awk '{print $2}'`
+
+./simpletest
+RESULT=$?
+
+if [ $RESULT = 1 ]; then
+ MAIL="A build problem occurred at revision $REVISION"
+ fi
+
+if [ $RESULT = 2 ]; then
+ MAIL="JAR file creation problem at revision $REVISION"
+ fi
+
+if [ $RESULT = 3 ]; then
+ MAIL="There is a problem with the output of simpletest at $REVISION"
+ fi
+
+if [ $RESULT = 0 ]; then
+ exit 0 # Not sending an email
+ fi
+
+# Sending an email to geogebra-dev:
+TO=geogebra-dev@googlegroups.com
+TO=zoltan@geogebra.org
+echo -e $MAIL | mail -s "autotest/alarm report" $TO 2>&1 | grep denied && {
+ # If not successful, we send it through ssh:
+ echo -e $MAIL | ssh www.geogebra.org mail -s "autotest/alarm report" $TO
+ }
