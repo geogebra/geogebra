@@ -47,6 +47,7 @@ import geogebra.common.kernel.geos.Rotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinderInterface;
@@ -372,7 +373,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	final public void mirror(GeoPointInterface P) {
-		dilate(new MyDouble(kernel, -1.0), (GeoPoint2)P);
+		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
 	final public void mirror(GeoLineInterface g) {
@@ -440,9 +441,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @param endInterval
 	 * @return array list of points
 	 */
-	public ArrayList<GeoPoint2> getPointsOnCurve(int n, double startInterval,
+	public ArrayList<GeoPointInterface> getPointsOnCurve(int n, double startInterval,
 			double endInterval) {
-		ArrayList<GeoPoint2> pointList = new ArrayList<GeoPoint2>();
+		ArrayList<GeoPointInterface> pointList = new ArrayList<GeoPointInterface>();
 
 		double step = (endInterval - startInterval) / (n + 1);
 
@@ -450,7 +451,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			double[] point = new double[2];
 			point[0] = funX.evaluate(v);
 			point[1] = funY.evaluate(v);
-			pointList.add(new GeoPoint2(cons, null, point[0], point[1], 1));
+			pointList.add(kernel.getGeoPoint( point[0], point[1], 1));
 		}
 
 		return pointList;
@@ -592,7 +593,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	public void pointChanged(GeoPointND PI) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
@@ -603,7 +604,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 
 		if (P.getPath() == this)
 			return true;
@@ -611,14 +612,14 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
 		double t = getClosestParameter(P, pp.t);
-		boolean onPath = Math.abs(funX.evaluate(t) - P.inhomX) <= eps
-				&& Math.abs(funY.evaluate(t) - P.inhomY) <= eps;
+		boolean onPath = Math.abs(funX.evaluate(t) - P.getInhomX()) <= eps
+				&& Math.abs(funY.evaluate(t) - P.getInhomY()) <= eps;
 		return onPath;
 	}
 
 	public void pathChanged(GeoPointND PI) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPointInterface P = (GeoPointInterface) PI;
 
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < startParam)
@@ -627,9 +628,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			pp.t = endParam;
 
 		// calc point for given parameter
-		P.x = funX.evaluate(pp.t);
-		P.y = funY.evaluate(pp.t);
-		P.z = 1.0;
+		P.setX(funX.evaluate(pp.t));
+		P.setY(funY.evaluate(pp.t));
+		P.setZ(1.0);
 	}
 
 	/**
@@ -642,10 +643,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            point to which the distance is minimized
 	 * @return optimal parameter value t
 	 */
-	public double getClosestParameter(GeoPoint2 P, double startValue) {
+	public double getClosestParameter(GeoPointInterface P, double startValue) {
 		if (distFun == null)
 			distFun = new ParametricCurveDistanceFunction(this);
-		distFun.setDistantPoint(P.x / P.z, P.y / P.z);
+		distFun.setDistantPoint(P.getX() / P.getZ(), P.getY() / P.getZ());
 
 		// check if P is on this curve and has the right path parameter already
 		if (P.getPath() == this || true) {
@@ -823,11 +824,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	final public void mirror(GeoConicInterface c) {
-		if (c.getType() == GeoConic.CONIC_CIRCLE) {
+		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 
 			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
-			GeoVec2D midpoint = ((GeoConic)c).getTranslationVector();
+			GeoVec2D midpoint = (GeoVec2D) c.getTranslationVector();
 			double a = midpoint.x;
 			double b = midpoint.y;
 			this.translate(-a, -b);
@@ -856,8 +857,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	@Override
 	public double distance(GeoPointInterface p) {
-		double t = getClosestParameter((GeoPoint2)p, 0);
-		return MyMath.length(funX.evaluate(t) - ((GeoPoint2)p).x, funY.evaluate(t) - ((GeoPoint2)p).y);
+		double t = getClosestParameter((GeoPointInterface)p, 0);
+		return MyMath.length(funX.evaluate(t) - ((GeoPointInterface)p).getX(),
+				funY.evaluate(t) - ((GeoPointInterface)p).getY());
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
@@ -893,9 +895,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double coef = 0, coefY = 0;
 		double cumulative = 0, cumulativeY = 0;
 		ExpressionNode enx = new ExpressionNode(kernel, new MyDouble(kernel,
-				((GeoPoint2) points[0]).x));
+				((GeoPointInterface) points[0]).getX()));
 		ExpressionNode eny = new ExpressionNode(kernel, new MyDouble(kernel,
-				((GeoPoint2) points[0]).y));
+				((GeoPointInterface) points[0]).getY()));
 		FunctionVariable fv = new FunctionVariable(kernel, "t");
 		double sum = 0;
 		double sumY = 0;
@@ -906,10 +908,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 					new ExpressionNode(kernel, fv, Operation.MINUS,
 							new MyDouble(kernel, i - 1)), Operation.ABS,
 					null);
-			coef = 0.5 * ((GeoPoint2) points[pointIndex]).x - 0.5
-					* ((GeoPoint2) points[i - 1]).x - cumulative;
-			coefY = 0.5 * ((GeoPoint2) points[pointIndex]).y - 0.5
-					* ((GeoPoint2) points[i - 1]).y - cumulativeY;
+			coef = 0.5 * ((GeoPointInterface) points[pointIndex]).getX() - 0.5
+					* ((GeoPointInterface) points[i - 1]).getX() - cumulative;
+			coefY = 0.5 * ((GeoPointInterface) points[pointIndex]).getY() - 0.5
+					* ((GeoPointInterface) points[i - 1]).getY() - cumulativeY;
 			sum += coef * (i - 1);
 			sumY += coefY * (i - 1);
 			cumulative += coef;

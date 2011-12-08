@@ -1920,4 +1920,6 @@ public abstract class AbstractKernel {
 	public abstract GeoFunctionInterface DependentFunction(String label, Function fun);
 
 	public abstract ExtremumFinderInterface getExtremumFinder();
+
+	public abstract GeoPointInterface getGeoPoint(double d, double e, int i);
 }

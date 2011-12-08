@@ -8123,4 +8123,9 @@ public class Kernel extends AbstractKernel{
 	public GeoConicInterface getGeoConic() {
 		return new GeoConic(getConstruction());
 	}
+
+	@Override
+	public GeoPointInterface getGeoPoint(double d, double e, int i) {
+		return new GeoPoint2(cons, null, d, e, i);
+	}
 }

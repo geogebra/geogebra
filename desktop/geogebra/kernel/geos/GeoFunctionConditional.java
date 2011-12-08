@@ -25,6 +25,7 @@ import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPointInterface;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -73,10 +74,12 @@ public class GeoFunctionConditional extends GeoFunction {
 		set(geo);					
 	}	
 	
+	@Override
 	public GeoElement copy() {
 		return new GeoFunctionConditional(this);
 	}		
 	
+	@Override
 	public void set(GeoElement geo) {		
 		GeoFunctionConditional geoFunCond = (GeoFunctionConditional) geo;
 		isDefined = geoFunCond.isDefined;
@@ -119,19 +122,23 @@ public class GeoFunctionConditional extends GeoFunction {
 	}	
 	
 	
+	@Override
 	public String getClassName() {
 		return "GeoFunctionConditional";
 	}
 	
+	@Override
 	protected String getTypeString() {
 		return "Function";
 	}		
 	
-    public GeoClass getGeoClassType() {
+    @Override
+	public GeoClass getGeoClassType() {
     	return GeoClass.FUNCTIONCONDITIONAL;
     }
     
-    public boolean isDefined() {
+    @Override
+	public boolean isDefined() {
 		return isDefined;
 	}    
       
@@ -164,7 +171,8 @@ public class GeoFunctionConditional extends GeoFunction {
      * Replaces geo and all its dependent geos in this function's
      * expressions by copies of their values.
      */
-    public void replaceChildrenByValues(GeoElement geo) {     	
+    @Override
+	public void replaceChildrenByValues(GeoElement geo) {     	
     	if (condFun != null) {
     		condFun.replaceChildrenByValues(geo);
     	}
@@ -182,6 +190,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * @param f
 	 * @param n order of derivative
 	 */
+	@Override
 	public void setDerivative(CasEvaluableFunction f, int n) {		
 		GeoFunctionConditional fcond = (GeoFunctionConditional) f;
 		ifFun.setDerivative(fcond.ifFun, n);
@@ -196,6 +205,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * @param x 
 	 * @return f(x) = condition(x) ? ifFun(x) : elseFun(x)
 	 */
+	@Override
 	final public double evaluate(double x) {	
         if (interval) {
             // check if x is in interval [a, b]
@@ -213,6 +223,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		}		
 	}	
 	
+	@Override
 	public void translate(double vx, double vy) {	
 		// translate condition by vx, thus
 		// changing every x into (x - vx)
@@ -225,7 +236,8 @@ public class GeoFunctionConditional extends GeoFunction {
 		uncondFun = null;
 	}
 	
-	public void dilate(NumberValue r, GeoPoint2 S) {
+	@Override
+	public void dilate(NumberValue r, GeoPointInterface S) {
 		condFun.dilate(r, S);
 		
 		// translate if and else parts too
@@ -239,6 +251,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * Returns non-conditional function f which satisfies f(x)=this(x) if x
 	 * satisfies conditional function and f(x)=0 otherwise
 	 */
+	@Override
 	public Function getFunction() {
 		if (uncondFun == null) {
 			ExpressionNode en = new ExpressionNode(kernel, condFun
@@ -267,6 +280,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * This is important for conditional functions where we have
 	 * two different Function objects.
 	 */
+	@Override
 	public Function getFunction(double x) {
 		if (elseFun == null) { 
 			return ifFun.getFunction(x);
@@ -278,6 +292,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		}
 	}		
 		
+	@Override
 	public GeoFunction getGeoDerivative(int order){	
 		if (derivGeoFun == null) {
 			derivGeoFun = new GeoFunctionConditional(this);
@@ -288,12 +303,14 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 	private GeoFunctionConditional derivGeoFun;
 			
+	@Override
 	public boolean isPolynomialFunction(boolean forRootFinding, boolean symbolic) {		
 		return false;   			
 	}		
 	
 
 	
+	@Override
 	public final String toString() {
 		sbToString.setLength(0);
 		if (isLabelSet()) {
@@ -305,14 +322,17 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 	private StringBuilder sbToString = new StringBuilder(80);
 	
+	@Override
 	final public String toValueString() {					
 		return toString(false);
 	}	
 	
+	@Override
 	final public String toSymbolicString() {					
 		return toString(true);
 	}
 	
+	@Override
 	public String getCASString(boolean symbolic) {
 		return toString(symbolic);
 	}
@@ -370,22 +390,27 @@ public class GeoFunctionConditional extends GeoFunction {
 	}	
 
 	
+	@Override
 	final public String toLaTeXString(boolean symbolic) {	
 		return toString(symbolic);
 	}
 
+	@Override
 	public boolean isGeoFunction() {
 		return true;
 	}		
 	
+	@Override
 	public boolean isGeoFunctionConditional() {		
 		return true;
 	}
 	
+	@Override
 	public boolean isBooleanFunction() {
 		return false;
 	}
 
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 
 		if (!geo.getGeoClassType().equals(GeoClass.FUNCTIONCONDITIONAL))
@@ -402,10 +427,12 @@ public class GeoFunctionConditional extends GeoFunction {
 		
 	}
 	
+	@Override
 	final public boolean evaluateCondition(double x) {
 		return condFun.evaluateBoolean(x);
 	}
 	
+	@Override
 	public double getLimit(double x, int direction) {
 		if (evaluateCondition(x-2*direction*AbstractKernel.getEpsilon()))
 			return ifFun.getLimit(x, direction);
@@ -413,23 +440,27 @@ public class GeoFunctionConditional extends GeoFunction {
 		return Double.NaN;
 	}
 
+	@Override
 	public void getVerticalAsymptotes(GeoFunction f, StringBuilder verticalSB, boolean reverse) {
 		ifFun.getVerticalAsymptotes((GeoFunction)this, verticalSB, false);
 		if (elseFun != null) elseFun.getVerticalAsymptotes((GeoFunction)this, verticalSB, true);
 	}
 
+	@Override
 	public void getDiagonalPositiveAsymptote(GeoFunction f, StringBuilder verticalSB) {
 		if (evaluateCondition(Double.POSITIVE_INFINITY))
 			ifFun.getDiagonalPositiveAsymptote((GeoFunction)this, verticalSB);
 			else if (elseFun != null) elseFun.getDiagonalPositiveAsymptote((GeoFunction)this, verticalSB);
 	}
 
+	@Override
 	public void getDiagonalNegativeAsymptote(GeoFunction f, StringBuilder verticalSB) {
 		if (evaluateCondition(Double.NEGATIVE_INFINITY))
 			ifFun.getDiagonalNegativeAsymptote((GeoFunction)this, verticalSB);
 			else if (elseFun != null) elseFun.getDiagonalNegativeAsymptote((GeoFunction)this, verticalSB);
 	}
 
+	@Override
 	public void getHorizontalPositiveAsymptote(GeoFunction f, StringBuilder verticalSB) {
 		if (evaluateCondition(Double.POSITIVE_INFINITY))
 		ifFun.getHorizontalPositiveAsymptote((GeoFunction)this, verticalSB);
@@ -437,6 +468,7 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	}
 
+	@Override
 	public void getHorizontalNegativeAsymptote(GeoFunction f, StringBuilder verticalSB) {
 		if (evaluateCondition(Double.NEGATIVE_INFINITY))
 		ifFun.getHorizontalNegativeAsymptote((GeoFunction)this, verticalSB);
@@ -451,6 +483,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * where the function f should be substituted, e.g. "Derivative(%,x)"
 	 * @param f the function that the CAS command is applied to
 	 */
+	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic){
 		GeoFunctionConditional ff = (GeoFunctionConditional) f;
 		
@@ -590,6 +623,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		}
 	}
 	
+	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
 		FunctionVariable t = new FunctionVariable(kernel,"t");
 		ExpressionNode en = new ExpressionNode(kernel,this,Operation.FUNCTION,t);
@@ -603,6 +637,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		curve.setHideRangeInFormula(true);
 	}
 
+	@Override
 	public String toOutputValueString() {
 		return toValueString();
 		

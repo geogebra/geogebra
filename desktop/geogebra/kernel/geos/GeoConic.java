@@ -207,7 +207,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * @param n number of points 
 	 * @return Array list of points
 	 */
-	public ArrayList<GeoPoint2> getPointsOnConic(int n)
+	public ArrayList<GeoPointInterface> getPointsOnConic(int n)
 	{
 		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 		this.toGeoCurveCartesian(curve);

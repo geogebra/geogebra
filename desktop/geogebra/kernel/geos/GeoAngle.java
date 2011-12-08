@@ -23,6 +23,7 @@ package geogebra.kernel.geos;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.GeoAngleInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
@@ -35,7 +36,7 @@ import geogebra.kernel.algos.AlgoAnglePolygon;
  * @author Markus
  * @version
  */
-public class GeoAngle extends GeoNumeric {
+public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
 
 	//public int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private int arcSize;
