@@ -12,5 +12,6 @@ public interface GeoListInterface {
 	GeoClass getElementType();
 	void unregisterColorFunctionListener(GeoElementInterface geoElement);
 	void registerColorFunctionListener(GeoElementInterface geoElement);
+	void ensureCapacity(int size);
 
 }

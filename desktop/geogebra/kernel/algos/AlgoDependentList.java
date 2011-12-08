@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.algos.AlgoDependentListInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * @author  Markus Hohenwarter
  * @version 
  */
-public class AlgoDependentList extends AlgoElement {
+public class AlgoDependentList extends AlgoElement implements AlgoDependentListInterface{
 
 	private ArrayList<GeoElement> listItems; //input GeoElements
     private GeoList geoList;     // output    

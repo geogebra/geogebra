@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Path;
@@ -22,6 +23,7 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
@@ -42,13 +44,11 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.algos.AlgoDependentList;
-import geogebra.kernel.algos.AlgoMacro;
-import geogebra.kernel.algos.AlgoMirror;
+import geogebra.common.kernel.algos.AlgoDependentListInterface;
 
-import geogebra.awt.Color;
-import java.awt.Font;
+
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Font;
 import java.util.ArrayList;
 
 /**
@@ -101,6 +101,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		setEuclidianVisible(false);
 	}
 
+	@Override
 	public void setParentAlgorithm(AlgoElement algo) {
 		super.setParentAlgorithm(algo);
 		setEuclidianVisible(true);
@@ -111,14 +112,17 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		set(list);
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoList";
 	}
 
+	@Override
 	protected String getTypeString() {
 		return "List";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.LIST;
 	}
@@ -132,10 +136,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return elementType;
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoList(this);
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
@@ -151,7 +157,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			// MACRO CASE
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in the list
-			AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+			AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 			algoMacro.initList(l, this);
 		} else {
 			// STANDARD CASE
@@ -271,6 +277,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public final void removeColorFunction() {
 		super.removeColorFunction();
 
@@ -314,6 +321,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * }
 	 */
 
+	@Override
 	public final void setShowObjectCondition(GeoBoolean bool)
 			throws CircularDefinitionException {
 		super.setShowObjectCondition(bool);
@@ -330,6 +338,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
+	@Override
 	public void setVisualStyle(GeoElement style) {
 		super.setVisualStyle(style);
 
@@ -378,6 +387,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setEuclidianVisible(boolean visible) {
 		super.setEuclidianVisible(visible);
 
@@ -411,6 +421,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return myList;
 	}
 
+	@Override
 	final public boolean isDefined() {
 		return isDefined;
 	}
@@ -428,18 +439,22 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setUndefined() {
 		setDefined(false);
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined() && isDrawable();
 	}
 
+	@Override
 	public boolean isDrawable() {
 		return isDrawable;
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
@@ -581,6 +596,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return (GeoElement) cacheList.get(index);
 	}
 
+	@Override
 	public String toString() {
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -589,6 +605,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return sbToString.toString();
 	}
 	
+	@Override
 	public String toStringMinimal() {
 		sbBuildValueString.setLength(0);
 		if (!isDefined) {
@@ -617,6 +634,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	StringBuilder sbToString = new StringBuilder(50);
 
+	@Override
 	public String toValueString() {
 		return buildValueString().toString();
 	}
@@ -659,10 +677,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
+	@Override
 	public boolean isGeoList() {
 		return true;
 	}
 
+	@Override
 	public boolean isListValue() {
 		return true;
 	}	
@@ -670,6 +690,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	/**
 	 * save object in XML format
 	 */
+	@Override
 	public final void getXML(StringBuilder sb) {
 
 		// an independent list needs to add
@@ -760,16 +781,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * Calls super.update() and update() for all registered condition listener
 	 * geos. // Michael Borcherds 2008-04-02
 	 */
+	@Override
 	public void update() {
 		super.update();
-
-		if (getParentAlgorithm() instanceof AlgoMirror) {
-			AlgoMirror algo = (AlgoMirror) getParentAlgorithm();
-			GeoElement[] geos = algo.getInput();
-			GeoList list = (GeoList) geos[0];
-			AbstractApplication.debug("size = " + list.size());
-		}
-
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
@@ -788,6 +802,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * Tells conidition listeners that their condition is removed and calls
 	 * super.remove() // Michael Borcherds 2008-04-02
 	 */
+	@Override
 	public void doRemove() {
 
 		if (colorFunctionListener != null) {
@@ -809,6 +824,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	/**
 	 * return whether this list equals GeoList list Michael Borcherds 2008-04-12
 	 */
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 
 		if (!geo.isGeoList())
@@ -852,10 +868,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return true;
 	}
 
+	@Override
 	public void setZero() {
 		geoList.clear();
 	}
 
+	@Override
 	public void setLineThickness(int thickness) {
 
 		super.setLineThickness(thickness);
@@ -872,6 +890,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		// Application.debug("GeoList.setLineThickness "+thickness);
 	}
 
+	@Override
 	public int getLineThickness() {
 		return super.getLineThickness();
 	}
@@ -880,6 +899,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)
 	 */
+	@Override
 	public int getMinimumLineThickness() {
 		if (geoList == null || geoList.size() == 0)
 			return 1;
@@ -894,6 +914,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return 0;
 	}
 
+	@Override
 	public void setLineType(int type) {
 
 		super.setLineType(type);
@@ -911,6 +932,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
+	@Override
 	public int getLineType() {
 		return super.getLineType();
 	}
@@ -948,6 +970,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public float getAlphaValue() {
 		if (super.getAlphaValue() == -1) {
 			// no alphaValue set
@@ -980,6 +1003,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return super.getAlphaValue();
 	}
 
+	@Override
 	public void setAlphaValue(float alpha) {
 
 		if (alpha == -1) {
@@ -1006,6 +1030,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return pointStyle;
 	}
 
+	@Override
 	public boolean isFillable() {
 		if (geoList == null || geoList.size() == 0)
 			return false;
@@ -1024,6 +1049,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return someFillable && !allLabelsSet;
 	}
 
+	@Override
 	public GeoElement getGeoElementForPropertiesDialog() {
 		if (geoList.size() > 0 && elementType != ELEMENT_TYPE_MIXED) {
 			return get(0).getGeoElementForPropertiesDialog(); // getGeoElementForPropertiesDialog()
@@ -1161,6 +1187,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setHatchingAngle(int angle) {
 		super.setHatchingAngle(angle);
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1170,6 +1197,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setHatchingDistance(int distance) {
 		super.setHatchingDistance(distance);
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1179,6 +1207,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setFillType(int type) {
 		super.setFillType(type);
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1188,6 +1217,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setFillImage(String filename) {
 		super.setFillImage(filename);
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1197,6 +1227,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
 	public void setImageFileName(String filename) {
 		super.setImageFileName(filename);
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1240,10 +1271,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return false;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
 
+	@Override
 	public String toLaTeXString(boolean symbolic) {
 
 		if (isMatrix()) {
@@ -1274,6 +1307,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
@@ -1317,6 +1351,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	/*
 	 * mathieu : for drawing 3D elements of the list
 	 */
+	@Override
 	public boolean hasDrawable3D() {
 		return true;
 	}
@@ -1340,14 +1375,17 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return trace;
 	}
 
+	@Override
 	public boolean isTraceable() {
 		return true;
 	}
 
+	@Override
 	public boolean isLimitedPath() {
 		return false;
 	}
 
+	@Override
 	public boolean isPath() {
 		return true;
 	}
@@ -1487,10 +1525,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public boolean justFontSize() {
 		return false;
 	}
-
-	public boolean hasMoveableInputPoints(EuclidianViewInterface view) {
+	@Override
+	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 		//we don't want e.g. DotPlots to be dragged
-		if(!(getParentAlgorithm() == null || getParentAlgorithm() instanceof AlgoDependentList))
+		if(!(getParentAlgorithm() == null || getParentAlgorithm() instanceof AlgoDependentListInterface))
 			return false;		
 		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo = (GeoElement) geoList.get(i);
@@ -1512,7 +1550,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * allow lists like this to be dragged {Segment[A, B], Segment[B, C], (3.92,
 	 * 4)}
 	 */
-	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterface view) {
+	@Override
+	public ArrayList<GeoPointInterface> getFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		ArrayList<GeoPointInterface> al = new ArrayList<GeoPointInterface>();
 		
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1540,10 +1579,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	
+	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
 	
+	@Override
 	public String getCASString(boolean symbolic) {
 		 
 		// isMatrix() is rather expensive, and we only need it 
