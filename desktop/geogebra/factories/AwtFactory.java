@@ -3,8 +3,6 @@ package geogebra.factories;
 import geogebra.common.awt.Color;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
-
-	public static AwtFactory prototype = null;
 	
 	@Override
 	public Color newColor(int red, int green, int blue) {
