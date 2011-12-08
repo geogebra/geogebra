@@ -550,4 +550,12 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		return p;
 	}
 
+	public void fromLine(GeoLineInterface line) {
+		lines = new GeoLine[2];
+		lines[0] = (GeoLine)line;
+		lines[1] = (GeoLine)line;
+		type=GeoConic.CONIC_LINE;
+		
+	}
+
 }

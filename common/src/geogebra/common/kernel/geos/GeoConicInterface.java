@@ -20,4 +20,5 @@ public interface GeoConicInterface extends GeoElementInterface, GeoConicNDConsta
 	public Coords getEigenvec(int i);
 	public void setCoeffs(ExpressionValue[][] coeff);
 	public void setInverseFill(boolean aboveBorder);
+	public void fromLine(GeoLineInterface line);
 }

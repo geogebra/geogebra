@@ -37,6 +37,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -51,10 +52,9 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoAsymptote;
-import geogebra.kernel.algos.AlgoTangentLine;
-import geogebra.kernel.algos.AlgoTangentPoint;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.TangentAlgo;
+import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 
 import java.util.ArrayList;
 
@@ -183,7 +183,7 @@ GeoLineInterface {
 		Coords P = Pnd.getCoordsIn2DView();
 			
 		double simplelength =  Math.abs(x) + Math.abs(y);
-		if (Kernel.isZero(P.getZ())) { //infinite point		
+		if (AbstractKernel.isZero(P.getZ())) { //infinite point		
 			return Math.abs(x * P.getX() + y * P.getY()) < eps * simplelength;
 		}
 		else {
@@ -287,7 +287,7 @@ GeoLineInterface {
     /** @param g line
      * @return true if this line and g are parallel */
     final public boolean isParallel(GeoLine g) {        
-        return Kernel.isEqual(g.x * y, g.y * x);        
+        return AbstractKernel.isEqual(g.x * y, g.y * x);        
     }
     
     /** @param g line
@@ -301,7 +301,7 @@ GeoLineInterface {
     /** @param g line
      * @return true if this line and g are perpendicular */
     final public boolean isPerpendicular(GeoLine g) {        
-        return Kernel.isEqual(g.x * x, -g.y * y);        
+        return AbstractKernel.isEqual(g.x * x, -g.y * y);        
     }
         
     /** Calculates the euclidian distance between this GeoLine and (px, py).
@@ -338,7 +338,7 @@ GeoLineInterface {
      */
     final public double distance(GeoLine g) {          
         // parallel
-        if (Kernel.isZero(g.x * y - g.y * x)) {
+        if (AbstractKernel.isZero(g.x * y - g.y * x)) {
             // get a point (px, py) of g and calc distance
             double px, py; 
             if (Math.abs(g.x) > Math.abs(g.y)) {
@@ -464,7 +464,7 @@ GeoLineInterface {
 
     public boolean isDefined() {
         return (!(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) &&
-                !(Kernel.isZero(x) && Kernel.isZero(y)));  
+                !(AbstractKernel.isZero(x) && AbstractKernel.isZero(y)));  
     }
         
     protected boolean showInEuclidianView() {
@@ -506,11 +506,11 @@ GeoLineInterface {
      * @param c conic
      * @return true iff defined as tangent of given conic
      */
-    final public boolean isDefinedTangent(GeoConic c) {        
+    final public boolean isDefinedTangent(GeoConicInterface c) {        
         boolean isTangent = false;
         
         Object ob = getParentAlgorithm();        
-        if (ob instanceof AlgoTangentLine || ob instanceof AlgoTangentPoint) {        
+        if (ob instanceof TangentAlgo) {        
             GeoElement [] input = ((AlgoElement) ob).getInput();
             for (int i=0; i < input.length; i++) {
                 if (input[i] == c) {
@@ -527,11 +527,11 @@ GeoLineInterface {
      * @param c conic
      * @return true iff defined as a asymptote of conic c
      */
-    final public boolean isDefinedAsymptote(GeoConic c) {        
+    final public boolean isDefinedAsymptote(GeoConicInterface c) {        
         boolean isAsymptote = false;
         
         Object ob = getParentAlgorithm();        
-        if (ob instanceof AlgoAsymptote) {        
+        if (ob instanceof AlgoAsymptoteInterface) {        
             GeoElement [] input = ((AlgoElement) ob).getInput();
             for (int i=0; i < input.length; i++) {
                 if (input[i] == c) {
@@ -744,7 +744,7 @@ GeoLineInterface {
                 g[0] = x;
                 g[1] = y;
                 g[2] = z;                
-                if (Kernel.isZero(x) || Kernel.isZero(y)) 
+                if (AbstractKernel.isZero(x) || AbstractKernel.isZero(y)) 
 					return kernel.buildExplicitLineEquation(g, vars, op);
                 else
                     return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, false, op);
@@ -753,7 +753,7 @@ GeoLineInterface {
                 g[0] = x;
                 g[1] = y;
                 g[2] = z;                
-                if (Kernel.isZero(x) || Kernel.isZero(y)) 
+                if (AbstractKernel.isZero(x) || AbstractKernel.isZero(y)) 
 					return kernel.buildExplicitLineEquation(g, vars, op);
                 else
                     return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, true, op);
@@ -1052,7 +1052,7 @@ GeoLineInterface {
 		
 		double x1,y1;
 		
-		if (Kernel.isZero(y)) {
+		if (AbstractKernel.isZero(y)) {
 			x1 = s;
 			y1 = -q;
 			setCoords(x1 * x, y1 * x , -q * r * z + s * p * z );
@@ -1145,7 +1145,7 @@ GeoLineInterface {
 			// don't create a label for the new dependent function
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			ret = ((Kernel) kernel).DependentFunction(null, fun);
+			ret = (GeoFunction) kernel.DependentFunction(null, fun);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else 
 		{
@@ -1166,15 +1166,12 @@ GeoLineInterface {
 		return true;
 	}
 	
-	public void toGeoConic(GeoConic con){
-		con.lines = new GeoLine[2];
-		con.lines[0] = this;
-		con.lines[1] = this;
-		con.type = GeoConic.CONIC_LINE;		
+	public void toGeoConic(GeoConicInterface con){
+		con.fromLine(this);		
 	}
 
 	public double evaluate(double x_var) {
-		if (Kernel.isZero(y)) return Double.NaN;
+		if (AbstractKernel.isZero(y)) return Double.NaN;
 		return (-x * x_var - z) / y;
 	}
 

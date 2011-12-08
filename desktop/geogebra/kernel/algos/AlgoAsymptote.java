@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -32,7 +33,7 @@ import geogebra.kernel.geos.GeoPoint2;
  * @author  Markus
  * @version 
  */
-public class AlgoAsymptote extends AlgoElement {
+public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface{
 
     private GeoConic c; // input
     private GeoLine[] asymptotes; // output          

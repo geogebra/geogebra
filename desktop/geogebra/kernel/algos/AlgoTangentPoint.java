@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.kernel.Construction;
@@ -25,7 +26,7 @@ import geogebra.kernel.geos.GeoPoint2;
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoTangentPoint extends AlgoElement {
+public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
 
 	private GeoPoint2 P; // input
     private GeoConic c; // input

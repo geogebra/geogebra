@@ -20,6 +20,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -34,7 +35,7 @@ import geogebra.kernel.geos.GeoVector;
  * @author  Markus
  * @version 
  */
-public class AlgoTangentLine extends AlgoElement {
+public class AlgoTangentLine extends AlgoElement implements TangentAlgo{
 
     private GeoLine g;  // input
     private GeoConic c;  // input
