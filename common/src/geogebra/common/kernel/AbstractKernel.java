@@ -37,7 +37,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.optimization.ExtremumFinderInterface;
+import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -1940,7 +1940,7 @@ public abstract class AbstractKernel {
 	public abstract GeoConicInterface getGeoConic();
 	
 
-	public abstract ExtremumFinderInterface getExtremumFinder();
+	public abstract ExtremumFinder getExtremumFinder();
 	/**
 	 * @deprecated
 	 * @param d

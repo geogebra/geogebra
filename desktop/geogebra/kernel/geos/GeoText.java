@@ -22,7 +22,7 @@ import geogebra.kernel.algos.AlgoDependentText;
 import geogebra.kernel.algos.AlgoSequence;
 import geogebra.util.Util;
 
-import java.awt.Font;
+import geogebra.common.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.util.Comparator;
 

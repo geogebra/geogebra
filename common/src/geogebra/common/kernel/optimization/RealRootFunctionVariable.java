@@ -9,7 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 */
 
-package geogebra.kernel.optimization;
+package geogebra.common.kernel.optimization;
 
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;

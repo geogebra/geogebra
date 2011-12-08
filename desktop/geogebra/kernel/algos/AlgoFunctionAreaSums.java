@@ -23,11 +23,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.optimization.ExtremumFinder;
+import geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.optimization.ExtremumFinder;
-import geogebra.kernel.optimization.NegativeRealRootFunction;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

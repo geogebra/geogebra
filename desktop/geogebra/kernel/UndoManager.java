@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
+import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.io.MyXMLio;
 import geogebra.main.Application;
 import geogebra.util.CopyPaste;
@@ -31,7 +32,7 @@ import java.util.ListIterator;
  * It uses an undo info list with construction snapshots in temporary files.
  * @author Markus Hohenwarter
  */
-public class UndoManager {
+public class UndoManager extends AbstractUndoManager{
 
 	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";
 
@@ -66,7 +67,7 @@ public class UndoManager {
 	/**
 	 * Clears undo info list and adds current state to the undo info list.	 
 	 */
-	synchronized void initUndoInfo() {
+	public synchronized void initUndoInfo() {
 		clearUndoInfo();
 		storeUndoInfo();
 	}       
@@ -285,7 +286,7 @@ public class UndoManager {
 	/**
 	 * Processes xml string. Note: this will change the construction.
 	 */
-	synchronized void processXML(String strXML) throws Exception {	
+	public synchronized void processXML(String strXML) throws Exception {	
 		xmlio.processXMLString(strXML, true, false,false);
 	}		
 

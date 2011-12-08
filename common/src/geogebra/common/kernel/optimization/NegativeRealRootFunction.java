@@ -1,4 +1,4 @@
-package geogebra.kernel.optimization;
+package geogebra.common.kernel.optimization;
 
 import geogebra.common.kernel.roots.RealRootFunction;
 

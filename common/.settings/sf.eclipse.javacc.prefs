@@ -1,0 +1,11 @@
+#Thu Dec 08 17:36:52 CET 2011
+CLEAR_CONSOLE=true
+JAVACC_OPTIONS=-STATIC\=false
+JJDOC_OPTIONS=
+JJTREE_OPTIONS=
+JJ_NATURE=true
+JTB_OPTIONS=-ia -jd -tk
+RUNTIME_JJJAR=/home/kondr/bin/eclipse/plugins/sf.eclipse.javacc_1.5.24/javacc.jar
+RUNTIME_JTBJAR=/home/kondr/bin/eclipse/plugins/sf.eclipse.javacc_1.5.24/jtb-1.4.4.jar
+SUPPRESS_WARNINGS=false
+eclipse.preferences.version=1

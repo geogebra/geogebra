@@ -33,7 +33,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.optimization.ExtremumFinderInterface;
+import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.util.MyMath;
 
@@ -665,7 +665,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		// to find minimum
 		double left = Math.max(startParam, minParam - step);
 		double right = Math.min(endParam, minParam + step);
-		ExtremumFinderInterface extFinder = kernel.getExtremumFinder();
+		ExtremumFinder extFinder= kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
 				AbstractKernel.MIN_PRECISION);
 

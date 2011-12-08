@@ -14,6 +14,7 @@ package geogebra.kernel;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -25,19 +26,16 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyXMLio;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.kernel.geos.GeoText;
-import geogebra.kernel.optimization.ExtremumFinder;
-
+//import geogebra.kernel.optimization.ExtremumFinder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
 
 /**
  * A Construction consists of a construction list with objects of type
@@ -55,7 +53,7 @@ public class Construction extends AbstractConstruction {
 	
 
 	/** UndoManager */
-	protected UndoManager undoManager;
+	protected AbstractUndoManager undoManager;
 
 	
 
@@ -112,7 +110,7 @@ public class Construction extends AbstractConstruction {
 	 * 
 	 * @return UndoManager
 	 */
-	public UndoManager getUndoManager() {
+	public AbstractUndoManager getUndoManager() {
 		return undoManager;
 	}
 
@@ -150,7 +148,7 @@ public class Construction extends AbstractConstruction {
 	 * @return extremum finder
 	 */
 	public ExtremumFinder getExtremumFinder() {
-		return (ExtremumFinder) kernel.getExtremumFinder();
+		return kernel.getExtremumFinder();
 	}
 
 	
@@ -194,28 +192,7 @@ public class Construction extends AbstractConstruction {
 
 
 
-	/**
-	 * Returns whether the specified label will automatically create a
-	 * GeoElement when autoCreateGeoElement() is called with it.
-	 * 
-	 * @param label
-	 *            Label
-	 * @return true iff the label will create new geo when
-	 *         autoCreateGeoElement() is called with it.
-	 * 
-	 */
-	final public static boolean willAutoCreateGeoElement(String label) {
-		if ("i".equals(label) || "e".equals(label))
-			return true;
-
-		Matcher cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern
-				.matcher(label);
-		if (cellNameMatcher.matches())
-			return true;
-
-		return false;
-	}
-
+	
 	
 	
 
@@ -350,7 +327,7 @@ public class Construction extends AbstractConstruction {
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
 
-			if (newGeo instanceof GeoText)
+			if (newGeo.isGeoText())
 				newGeo.updateRepaint();
 
 			return;
