@@ -10,11 +10,11 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoList;
 
 /** 

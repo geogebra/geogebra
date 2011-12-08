@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Command;
 
 /*
  * Curve[ <x-coord expression>,  <y-coord expression>, <number-var>, <from>, <to> ]  

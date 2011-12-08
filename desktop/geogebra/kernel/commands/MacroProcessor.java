@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
-import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoPolygon;
 
 /**
@@ -32,7 +32,7 @@ public class MacroProcessor extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {        						 							
 		// resolve command arguments
 		GeoElement [] arg = resArgs(c);
-		Macro macro = c.getMacro();
+		Macro macro = (Macro)c.getMacro();
 				
 		Class<? extends GeoElement> [] macroInputTypes = macro.getInputTypes();		
 		

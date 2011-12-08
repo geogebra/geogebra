@@ -1,9 +1,9 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Command;
 
 /**
  *AxisStepX

@@ -13,6 +13,7 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -24,7 +25,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 

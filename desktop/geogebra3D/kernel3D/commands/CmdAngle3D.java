@@ -1,10 +1,10 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.commands.CmdAngle;
 
 public class CmdAngle3D extends CmdAngle {

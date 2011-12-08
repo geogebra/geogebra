@@ -20,7 +20,7 @@ class CmdProduct extends CommandProcessor{
 	
 
 	@Override
-	public GeoElement[] process(geogebra.kernel.arithmetic.Command c)
+	public GeoElement[] process(geogebra.common.kernel.arithmetic.Command c)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

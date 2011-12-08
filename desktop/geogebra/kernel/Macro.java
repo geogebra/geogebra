@@ -16,16 +16,17 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
-import geogebra.kernel.algos.AlgoMacro;
 import geogebra.kernel.geos.GeoVector;
-import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-public class Macro {
+public class Macro implements MacroInterface {
 	
 	private Kernel kernel;
 	private String cmdName = "", toolName = "", toolHelp = "";
@@ -302,7 +303,7 @@ public class Macro {
     		if (!isOutputLabeled[i])		
     			output[i].labelSet = false;        
     	}    	    	    	    	    
-    	Application.debug(macroConsXML);
+    	AbstractApplication.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
     	Construction macroCons = createMacroConstruction(macroConsXML); 
     	    	
@@ -428,7 +429,7 @@ public class Macro {
     	} 
     	catch (MyError e) {  
     		String msg = e.getLocalizedMessage();
-    		Application.debug(msg);
+    		AbstractApplication.debug(msg);
     		e.printStackTrace(); 
     		throw new Exception(msg);
     	}    	
@@ -444,15 +445,15 @@ public class Macro {
 	 * Add link to algo using this macro 
 	 * @param algoMacro
 	 */
-	public void registerAlgorithm(AlgoMacro algoMacro) {						
-		usingAlgos.add(algoMacro);			
+	public void registerAlgorithm(AlgoMacroInterface algoMacro) {						
+		usingAlgos.add((AlgoElement)algoMacro);			
 	}
 	
 	/**
 	 * Remove link to algo using this macro 
 	 * @param algoMacro
 	 */
-	public void unregisterAlgorithm(AlgoMacro algoMacro) {
+	public void unregisterAlgorithm(AlgoMacroInterface algoMacro) {
 		usingAlgos.remove(algoMacro);			
 	}		
 	
