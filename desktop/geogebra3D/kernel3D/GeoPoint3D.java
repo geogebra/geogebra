@@ -33,6 +33,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -46,7 +47,6 @@ import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.arithmetic3D.Vector3DValue;
 
 import java.util.TreeSet;
 

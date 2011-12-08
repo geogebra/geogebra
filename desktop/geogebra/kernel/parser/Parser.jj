@@ -45,31 +45,31 @@ the Free Software Foundation; either version 2 of the License, or
 PARSER_BEGIN(Parser)
 package geogebra.kernel.parser;
 
-import geogebra.*;
-import geogebra.main.*;
-import geogebra.kernel.*;
-import geogebra.common.kernel.parser.ParserInterface;
-import geogebra.common.kernel.*;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.*;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.kernel.arithmetic.*;
-import geogebra.kernel.arithmetic3D.*;
-import geogebra.kernel.parser.cashandlers.*;
+import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.MyError;
 import geogebra.common.main.MyParseError;
 import geogebra.common.util.Unicode;
-import java.util.*;
-import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.kernel.Kernel;
+import geogebra.kernel.parser.cashandlers.CommandDispatcherMPReduce;
+import geogebra.common.main.AbstractApplication;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
+import java.util.Vector;
 
 
 public class Parser implements ParserInterface{
 
     private Kernel kernel;
-    private Construction cons;
-    private Application app;
+    private AbstractApplication app;
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;
@@ -77,7 +77,6 @@ public class Parser implements ParserInterface{
     public Parser(Kernel kernel, AbstractConstruction cons) {
     	 this ( new java.io.StringReader("") ); // dummy stream for parser initing
          this.kernel = kernel;
-         this.cons = (Construction)cons;
          app = kernel.getApplication();
     }   
     
@@ -2121,7 +2120,7 @@ ExpressionNode numberFunction():
 | 
   <RANDOM_FUNC>
       {  
-      	 Construction cons = kernel.getConstruction();
+      	 AbstractConstruction cons = kernel.getConstruction();
       	 GeoNumeric randNum = new GeoNumeric(cons);
          cons.addRandomGeo(randNum);
          randNum.setValue(Math.random());         

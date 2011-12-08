@@ -1,29 +1,9 @@
-package geogebra.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoListElement;
-import geogebra.common.kernel.arithmetic.BooleanValue;
-import geogebra.common.kernel.arithmetic.Evaluatable;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.FunctionNVar;
-import geogebra.common.kernel.arithmetic.Functional;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.ListValue;
-import geogebra.common.kernel.arithmetic.MyBoolean;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.MyStringBuffer;
-import geogebra.common.kernel.arithmetic.MyVecNode;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.arithmetic.Term;
-import geogebra.common.kernel.arithmetic.TextValue;
-import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -37,7 +17,6 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.arithmetic3D.Vector3DValue;
 
 
 /**
