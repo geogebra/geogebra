@@ -6506,4 +6506,10 @@ public class Application extends AbstractApplication implements
 
 	}
 
+	@Override
+	public void updateConstructionProtocol() {
+		getGuiManager().updateConstructionProtocol();
+		
+	}
+
 }

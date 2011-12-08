@@ -1827,8 +1827,8 @@ public abstract class AbstractKernel {
 
 		
    public abstract LaTeXCache newLaTeXCache();
-   public abstract GeoElementInterface lookupLabel(String label);
-   public abstract GeoElementInterface lookupLabel(String label,boolean b);
+   public abstract GeoElement lookupLabel(String label);
+   public abstract GeoElement lookupLabel(String label,boolean b);
    public abstract AbstractConstruction getConstruction();
    public abstract AbstractApplication getApplication();
    public abstract void notifyRepaint();
@@ -1933,4 +1933,13 @@ public abstract class AbstractKernel {
 	 * @return
 	 */
 	public abstract GeoPointInterface getGeoPoint(double d, double e, int i);
+
+	public abstract void updateConstruction();
+	public abstract void notifyReset();
+
+	public abstract EquationSolverInterface getEquationSolver();
+
+	public abstract void resetGeoGebraCAS();
+
+	public abstract void getKernelXML(StringBuilder sb, boolean b);
 }

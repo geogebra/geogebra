@@ -145,9 +145,9 @@ public abstract class Transform {
 
 		// build the polygon from the transformed points
 		if(oldPoly instanceof GeoPolygon)
-			ret = cons.getKernel().PolygonND(polyLabel, transformedPoints);
+			ret = ((Kernel)cons.getKernel()).PolygonND(polyLabel, transformedPoints);
 		else
-			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
+			ret = ((Kernel)cons.getKernel()).PolyLineND(polyLabel, transformedPoints);
 		
 		for (int i = 0; i < ret.length; i++) {
 			ret[i].setEuclidianVisible(((GeoElement)oldPoly)

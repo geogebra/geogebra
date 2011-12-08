@@ -1,8 +1,12 @@
 package geogebra.common.main;
 
+import java.util.ArrayList;
+
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.ResourceBundleAdapter;
@@ -180,6 +184,14 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public abstract ArrayList<GeoElement> getSelectedGeos();
+	public abstract int getMode();
+	public abstract void addSelectedGeo(GeoElement selGeo, boolean b);
+	
+	/**
+	 * @deprecated added when refactoring
+	 */
+	public abstract void updateConstructionProtocol();
 	
 
 }

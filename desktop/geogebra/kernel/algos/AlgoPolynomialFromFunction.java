@@ -38,7 +38,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
     	super(cons);
         this.f = f;            	
     	
-        parser = new Parser(cons.getKernel(), cons);
+        parser = new Parser((Kernel)cons.getKernel(), cons);
         
         g = new GeoFunction(cons);                
         setInputOutput(); // for AlgoElement        

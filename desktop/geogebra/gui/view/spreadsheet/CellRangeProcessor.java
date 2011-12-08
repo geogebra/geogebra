@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -348,7 +349,7 @@ public class CellRangeProcessor {
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
 
-		Kernel kernel = cons.getKernel();
+		AbstractKernel kernel = cons.getKernel();
 
 		// build the string
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();

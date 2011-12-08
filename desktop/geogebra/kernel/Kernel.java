@@ -1597,7 +1597,7 @@ public class Kernel extends AbstractKernel{
 		} 
 	}
 	
-	final void notifyReset() {
+	final public void notifyReset() {
 		for (int i = 0; i < viewCnt; ++i) {
 			views[i].reset();
 		}

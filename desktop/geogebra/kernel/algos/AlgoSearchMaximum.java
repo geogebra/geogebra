@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
@@ -38,7 +39,7 @@ import geogebra.main.Application;
 
 public class AlgoSearchMaximum {
 
-	private 	 	Kernel						kernel		=	null;
+	private 	 	AbstractKernel						kernel		=	null;
 	private 	 	ExtremumFinder				extrFinder	=	null;		//Uses ExtremumFinder for the dirty work
 	private 	   	RealRootFunctionVariable	i_am_not_a_real_function=null;	
 	private			GeoElement					dep			=	null;

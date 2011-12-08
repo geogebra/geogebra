@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Construction;
 import geogebra.kernel.kernelND.GeoAxisND;
 import geogebra.main.Application;
@@ -101,7 +102,7 @@ public class Construction3D extends Construction {
 		geoTable.remove(zAxis3DLocalName);
 		geoTable.remove(xOyPlaneLocalName);
 
-		Application app = getKernel().getApplication();
+		AbstractApplication app = getKernel().getApplication();
 		zAxis3DLocalName = app.getPlain("zAxis3D");
 		xOyPlaneLocalName = app.getPlain("xOyPlane");
 		

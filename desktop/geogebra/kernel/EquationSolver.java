@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
+import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
@@ -28,7 +29,7 @@ import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.apache.commons.math.complex.Complex;
 
-public class EquationSolver { 
+public class EquationSolver implements EquationSolverInterface{ 
 		
 	private static final double LAGUERRE_EPS = 1E-5;
 	private LaguerreSolver laguerreSolver;
