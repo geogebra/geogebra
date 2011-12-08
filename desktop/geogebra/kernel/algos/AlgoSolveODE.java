@@ -1,5 +1,6 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.MyPoint;
 import geogebra.kernel.geos.GeoLocus;
 
 import java.util.ArrayList;

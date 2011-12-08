@@ -10,9 +10,8 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
@@ -36,8 +35,8 @@ public class MyPoint {
 	}
 	
 	public boolean isEqual(double px, double py) {
-		return Kernel.isEqual(x, px, Kernel.MIN_PRECISION) &&
-			   Kernel.isEqual(y, py, Kernel.MIN_PRECISION);
+		return AbstractKernel.isEqual(x, px, AbstractKernel.MIN_PRECISION) &&
+			   AbstractKernel.isEqual(y, py, AbstractKernel.MIN_PRECISION);
 	}
 	
 	public String toString() {

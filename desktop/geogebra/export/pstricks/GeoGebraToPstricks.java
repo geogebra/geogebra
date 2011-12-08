@@ -8,6 +8,7 @@ the Free Software Foundation.
 
 package geogebra.export.pstricks;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Function;
@@ -32,7 +33,6 @@ import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoAngleLines;
 import geogebra.kernel.algos.AlgoAnglePoints;
 import geogebra.kernel.algos.AlgoAngleVector;

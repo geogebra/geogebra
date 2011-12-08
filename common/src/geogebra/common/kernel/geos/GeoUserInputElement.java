@@ -10,11 +10,10 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.geos.GeoElement;
 
 
 /**
