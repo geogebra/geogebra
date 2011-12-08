@@ -1,4 +1,6 @@
 package geogebra.common.kernel.geos;
+//IMPORTANT: don't change or delete this during the refactoring,
+//as this is an interface intentionally 
 
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.kernelND.GeoPointND;

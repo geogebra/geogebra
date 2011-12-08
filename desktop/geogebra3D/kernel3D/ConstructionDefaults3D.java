@@ -268,7 +268,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// polygon
 		GeoPolygon3D polygon = new GeoPolygon3D(cons, null, null, false);	
 		polygon.setLocalVariableLabel("Polygon3D");
-		polygon.setObjColor(colPolygon3D);
+		polygon.setObjColor(new geogebra.awt.Color(colPolygon3D));
 		polygon.setAlphaValue(DEFAULT_POLYGON3D_ALPHA);
 		defaultGeoElements.put(DEFAULT_POLYGON3D, polygon);
 	

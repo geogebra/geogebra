@@ -40,6 +40,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
@@ -51,8 +52,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.awt.Color;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -751,10 +752,10 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 
 
    public void setObjColor(Color color) {
-   		super.setObjColor(new geogebra.awt.Color(color));
+   		super.setObjColor(color);
    		if (segments != null && createSegments) {
    			for (int i=0; i < segments.length; i++) {
-   				segments[i].setObjColor(new geogebra.awt.Color(color));
+   				segments[i].setObjColor(color);
    				segments[i].update();
    			}
    		}	
