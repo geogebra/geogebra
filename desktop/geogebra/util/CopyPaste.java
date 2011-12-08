@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
@@ -24,7 +25,6 @@ import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.algos.AlgoPolygonRegular;
 import geogebra.kernel.geos.GeoAxis;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.main.Application;
 

@@ -19,13 +19,13 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
 import geogebra.kernel.SliderMover;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra.main.Application;
 

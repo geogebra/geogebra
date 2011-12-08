@@ -23,7 +23,11 @@ import geogebra.common.kernel.arithmetic.Term;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.main.AbstractApplication;
@@ -32,12 +36,8 @@ import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
-import geogebra.kernel.geos.GeoCurveCartesian;
-import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint2;
 
 

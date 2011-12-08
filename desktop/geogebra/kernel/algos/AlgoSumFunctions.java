@@ -18,11 +18,11 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoFunctionable;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoNumeric;
 
 /**
  * Sum of functions, may take whole list or just several first elements 

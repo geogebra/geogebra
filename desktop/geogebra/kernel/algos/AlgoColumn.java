@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
-import geogebra.kernel.geos.GeoNumeric;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 
 /**

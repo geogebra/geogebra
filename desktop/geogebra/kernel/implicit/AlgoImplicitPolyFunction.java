@@ -9,9 +9,9 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.main.Application;
 
 

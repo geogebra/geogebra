@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.MyError;
@@ -18,7 +19,6 @@ import geogebra.kernel.algos.AlgoTableText;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 

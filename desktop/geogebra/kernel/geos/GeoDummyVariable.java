@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Dummy GeoElement to be used for symbolic variable resolving

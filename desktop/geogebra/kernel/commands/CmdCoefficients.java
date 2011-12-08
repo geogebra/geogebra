@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoFunction;
 
 /**
  *Coefficients

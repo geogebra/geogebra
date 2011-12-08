@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoAngleInterface;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoAngleLines;
 import geogebra.kernel.algos.AlgoAnglePoints;
@@ -215,7 +216,7 @@ public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
 	 * @see #setAngleStyle(int)
 	 */
 	@Override
-	void setValue(double val, boolean changeAnimationValue) {
+	public void setValue(double val, boolean changeAnimationValue) {
 		double angVal = calcAngleValue(val);
 		super.setValue(angVal, changeAnimationValue);
 	}

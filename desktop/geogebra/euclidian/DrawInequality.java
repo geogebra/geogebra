@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
 

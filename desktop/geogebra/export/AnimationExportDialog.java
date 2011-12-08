@@ -1,9 +1,9 @@
 package geogebra.export;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

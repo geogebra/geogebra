@@ -1,12 +1,12 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.arithmetic.Command;
 import geogebra.kernel.geos.GeoList;
-import geogebra.kernel.geos.GeoNumeric;
 
 /**
  *FillColumn

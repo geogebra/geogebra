@@ -17,10 +17,10 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoSlope;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoNumeric;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;

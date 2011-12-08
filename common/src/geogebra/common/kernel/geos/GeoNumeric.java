@@ -16,7 +16,7 @@
  * Created on 18. September 2001, 12:04
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -30,12 +30,6 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
-import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.Animatable;
-import geogebra.common.kernel.geos.GeoAngleInterface;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumericInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.AbstractAnimationManager;
 
@@ -344,8 +338,9 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	 * Sets value of the number
 	 * @param x number value
 	 * @param changeAnimationValue if true, value is changed also for animation
+	 * TODO reduce visibility again
 	 */
-	void setValue(double x, boolean changeAnimationValue) {
+	public void setValue(double x, boolean changeAnimationValue) {
 		if (intervalMinActive && x < getIntervalMin()) {			
 			value = getIntervalMin();			
 		}					
@@ -509,7 +504,7 @@ implements NumberValue, GeoNumericInterface, AbsoluteScreenLocateable, GeoFuncti
 	 * Adds the slider tag to the string builder
 	 * @param sb String builder to be written to
 	 */
-	void getXMLsliderTag(StringBuilder sb) {
+	protected void getXMLsliderTag(StringBuilder sb) {
 		if (!isSliderable())
 			return;
 		

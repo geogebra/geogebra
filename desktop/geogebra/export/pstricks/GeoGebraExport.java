@@ -1,8 +1,12 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
@@ -27,13 +31,9 @@ import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoCurveCartesian;
-import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoFunctionNVar;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
 import geogebra.kernel.geos.GeoPolygon;

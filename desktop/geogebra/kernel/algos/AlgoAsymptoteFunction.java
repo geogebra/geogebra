@@ -15,10 +15,10 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 
 /**

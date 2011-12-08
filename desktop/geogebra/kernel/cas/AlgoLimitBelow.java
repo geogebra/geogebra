@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.cas;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoFunction;
 /**
  * Find a limit
  * 

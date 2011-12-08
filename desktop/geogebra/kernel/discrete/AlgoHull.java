@@ -14,6 +14,7 @@ package geogebra.kernel.discrete;
 
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Construction;
 import geogebra.kernel.MyPoint;
@@ -26,7 +27,6 @@ import geogebra.kernel.discrete.signalprocesser.voronoi.representation.triangula
 import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
-import geogebra.kernel.geos.GeoNumeric;
 
 import java.util.ArrayList;
 import java.util.Collection;

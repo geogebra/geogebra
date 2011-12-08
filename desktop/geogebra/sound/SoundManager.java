@@ -1,6 +1,6 @@
 package geogebra.sound;
 
-import geogebra.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.main.Application;
 
 /**

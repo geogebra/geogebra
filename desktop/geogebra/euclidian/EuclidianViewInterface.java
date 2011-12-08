@@ -5,12 +5,12 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 
 
-import geogebra.kernel.geos.GeoNumeric;
 
 
 import java.awt.Color;

@@ -14,10 +14,10 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.kernel.integration.EllipticArcLength;
 
 /**

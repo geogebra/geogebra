@@ -21,11 +21,11 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoCurveCartesian;
-import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 

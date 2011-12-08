@@ -17,7 +17,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;

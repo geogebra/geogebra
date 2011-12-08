@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D.plots;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.TriList;
 import geogebra3D.euclidian3D.TriListElem;

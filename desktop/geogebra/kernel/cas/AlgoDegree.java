@@ -14,9 +14,9 @@ package geogebra.kernel.cas;
 
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoFunction;
-import geogebra.kernel.geos.GeoNumeric;
 /**
  * Try to expand the given function 
  * 

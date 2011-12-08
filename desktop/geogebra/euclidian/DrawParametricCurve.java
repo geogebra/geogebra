@@ -14,9 +14,9 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoFunction;
 import geogebra.kernel.roots.RealRootUtil;
 
 import java.awt.Graphics2D;

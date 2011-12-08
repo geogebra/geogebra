@@ -15,8 +15,8 @@ package geogebra.kernel.statistics;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoNumeric;
 import geogebra.util.MyMath2;
 
 /**

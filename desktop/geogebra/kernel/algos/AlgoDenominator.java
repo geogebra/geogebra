@@ -14,8 +14,8 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoFunction;
 
 /**
  * Find Numerator
