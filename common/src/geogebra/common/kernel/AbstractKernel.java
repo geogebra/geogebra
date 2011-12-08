@@ -1864,8 +1864,6 @@ public abstract class AbstractKernel {
 	
 	public abstract AbstractAlgebraProcessor getAlgebraProcessor();
 
-	public abstract GeoListInterface newList();
-
 	public abstract GeoElementInterface lookupCasCellLabel(String cmdName);
 	public abstract GeoElementInterface lookupCasRowReference(String cmdName);
 

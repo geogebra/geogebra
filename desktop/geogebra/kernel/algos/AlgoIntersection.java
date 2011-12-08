@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoList;
 
 
 public class AlgoIntersection extends AlgoIntersectAbstract {

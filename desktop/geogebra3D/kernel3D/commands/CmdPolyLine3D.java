@@ -2,13 +2,13 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.CmdPolyLine;
 import geogebra.kernel.commands.CmdPolygon;
-import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;

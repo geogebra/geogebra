@@ -23,10 +23,10 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoList;
 
 
 /**

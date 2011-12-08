@@ -13,9 +13,9 @@ the Free Software Foundation.
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoList;
 
 /** 
  * RSquare[<List of Points>,<Funtion>]

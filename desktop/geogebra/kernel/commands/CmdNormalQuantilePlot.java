@@ -1,8 +1,8 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoList;
 
 /**
  * NormalQuantilePlot[ <List of Numeric> ] G.Sturr 2011-6-29

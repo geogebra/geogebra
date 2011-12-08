@@ -2,6 +2,7 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -14,7 +15,6 @@ import geogebra.kernel.algos.AlgoShearOrStretch;
 import geogebra.kernel.algos.AlgoTransformation;
 import geogebra.kernel.algos.AlgoTranslate;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.geos.GeoPolygon;

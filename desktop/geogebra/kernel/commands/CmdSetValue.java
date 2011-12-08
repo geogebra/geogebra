@@ -7,11 +7,11 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentNumber;
-import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.statistics.SetRandomValue;
 import geogebra.main.Application;
 

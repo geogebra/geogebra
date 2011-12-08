@@ -56,6 +56,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionInterface;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -124,7 +125,6 @@ import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoInterval;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoPolyLine;
@@ -8018,12 +8018,6 @@ public class Kernel extends AbstractKernel{
 
 	
 
-	@Override
-	public GeoListInterface newList() {
-		// TODO remove this once GeoNumeric is ported
-		return new GeoList(getConstruction());
-	}
-	
 	// This is a temporary place for adapter creation methods which will move into factories later
 	
 	@Override

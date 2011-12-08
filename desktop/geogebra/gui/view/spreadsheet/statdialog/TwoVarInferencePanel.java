@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

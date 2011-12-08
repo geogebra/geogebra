@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -29,18 +29,6 @@ import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoListInterface;
-import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.LineProperties;
-import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.kernel.geos.Traceable;
-import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
@@ -49,6 +37,7 @@ import geogebra.common.kernel.algos.AlgoDependentListInterface;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
+
 import java.util.ArrayList;
 
 /**
@@ -1448,7 +1437,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		//return get(closestPointIndex).getNearestPoint(p);
 	}
 
-	public double distance(GeoPoint2 p) {
+	public double distance(GeoPointInterface p) {
 		double distance = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo = (GeoElement) geoList.get(i);
@@ -1558,7 +1547,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			GeoElement geo = (GeoElement) geoList.get(i);
 
 			if (geo.isGeoPoint()) {
-				GeoPoint2 p = (GeoPoint2) geo;
+				GeoPointInterface p = (GeoPointInterface) geo;
 				if (p.isMoveable() && !al.contains(p))
 					al.add(p);
 

@@ -15,6 +15,7 @@ package geogebra.common.kernel.Matrix;
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoListInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoNumericInterface;
@@ -384,7 +385,7 @@ public class CoordMatrix
         outputList.setDefined(true);
 		
 	   		for (int r = 0 ; r < rows ; r++) {  	   			
-   			GeoListInterface columnList = cons.getKernel().newList();
+   			GeoListInterface columnList = new GeoList(cons);
    	   		for (int c = 0 ; c < columns ; c++) {
    	   			GeoNumericInterface num = new GeoNumeric(cons);
    	   			num.setValue(get(r + 1, c + 1));

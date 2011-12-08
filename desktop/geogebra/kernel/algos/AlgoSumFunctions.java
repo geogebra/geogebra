@@ -20,9 +20,9 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoList;
 
 /**
  * Sum of functions, may take whole list or just several first elements 

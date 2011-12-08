@@ -7,9 +7,9 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoList;
 import geogebra.main.Application;
 
 public class CmdImplicitPoly extends CommandProcessor {

@@ -3,9 +3,9 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoList;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 

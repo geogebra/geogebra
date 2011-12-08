@@ -15,12 +15,12 @@ package geogebra.kernel.implicit;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoLine;
-import geogebra.kernel.geos.GeoList;
 
 import java.util.ArrayList;
 /**
