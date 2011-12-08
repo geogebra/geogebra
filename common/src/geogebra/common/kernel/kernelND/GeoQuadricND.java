@@ -1,14 +1,10 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.kernel.geos.GeoConic;
 
 
 /** Abstract class describing quadrics in n-dimension space.

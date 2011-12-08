@@ -22,7 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 
 
 /**

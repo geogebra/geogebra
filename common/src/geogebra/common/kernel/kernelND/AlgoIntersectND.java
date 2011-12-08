@@ -10,13 +10,11 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoIntersectAbstract;
 
 
 
@@ -66,7 +64,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
         if (numberOfUsers == 0 && !isPrintedInXML()) {
             //  this algorithm has no users and no labeled output   
             super.remove();
-            ((Kernel) kernel).removeIntersectionAlgorithm(this);
+            	kernel.removeIntersectionAlgorithm(this);
         }
     }
 
@@ -148,7 +146,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
         if (numberOfUsers == 0) {
             //  this algorithm has no users and no labeled output       
             super.remove();
-            ((Kernel) kernel).removeIntersectionAlgorithm(this);
+            	kernel.removeIntersectionAlgorithm(this);
         } else {
             // there are users of this algorithm, so we keep it
             // remove only output

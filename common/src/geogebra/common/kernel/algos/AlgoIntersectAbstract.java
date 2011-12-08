@@ -1,7 +1,6 @@
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 
 public abstract class AlgoIntersectAbstract extends AlgoElement {
 	

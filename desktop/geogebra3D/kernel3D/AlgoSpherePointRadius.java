@@ -20,9 +20,9 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.Construction;
 import geogebra.kernel.algos.AlgoSphereNDPointRadius;
-import geogebra.kernel.kernelND.GeoQuadricND;
 
 /**
  *

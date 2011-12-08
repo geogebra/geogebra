@@ -38,6 +38,7 @@ import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoListElement;
@@ -6437,11 +6438,7 @@ public class Kernel extends AbstractKernel{
 		return point;
 	}
 	
-	/*
-	 * to avoid multiple calculations of the intersection points of the same
-	 * two objects, we remember all the intersection algorithms created
-	 */
-	 private ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<AlgoIntersectAbstract>();
+	
 	 
 	 // intersect polynomial and conic
 	 AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f, GeoConic c) {
@@ -6565,14 +6562,7 @@ public class Kernel extends AbstractKernel{
 		return null;
 	 }
 	 
-	 public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
-		intersectionAlgos.remove(algo);	 
-	 }
 
-
-	 public void addIntersectionAlgorithm(AlgoIntersectAbstract algo) {
-			intersectionAlgos.add(algo);	 
-		 }
 	 
 	 /** 
 	 * polar line to P relativ to c

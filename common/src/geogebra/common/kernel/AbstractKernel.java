@@ -1,6 +1,7 @@
 package geogebra.common.kernel;
 
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import geogebra.common.util.AbstractMyMath2;
@@ -44,6 +45,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.adapters.Complex;
 import geogebra.common.adapters.Geo3DVec;
 
@@ -1889,6 +1891,20 @@ public abstract class AbstractKernel {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	 public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
+		intersectionAlgos.remove(algo);	 
+	 }
+
+
+	 public void addIntersectionAlgorithm(AlgoIntersectAbstract algo) {
+			intersectionAlgos.add(algo);	 
+		 }
+	/*
+	 * to avoid multiple calculations of the intersection points of the same
+	 * two objects, we remember all the intersection algorithms created
+	 */
+	 protected ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<AlgoIntersectAbstract>();
 
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 
