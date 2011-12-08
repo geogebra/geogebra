@@ -28,7 +28,7 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Construction;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.algos.AlgoConicFivePoints;
 import geogebra.kernel.algos.AlgoEllipseFociLength;
 import geogebra.kernel.algos.AlgoEllipseFociPoint;
@@ -36,7 +36,7 @@ import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoSegment;
 import geogebra.kernel.geos.GeoVector;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -113,7 +113,7 @@ Translateable, GeoConicNDConstants
 	protected double[] mu = new double[2];
 	protected GeoVec2D c = new GeoVec2D(kernel);	
 	
-	public double errDetS = Kernel.EPSILON;
+	public double errDetS = AbstractKernel.EPSILON;
 	
 	
 	
@@ -272,7 +272,7 @@ Translateable, GeoConicNDConstants
 		
 		double px, py, ha, hb, hc_2;
 		double abspx, abspy; //for parabola and hyperbola
-		double tolerance = Kernel.EPSILON; //required precision (robustness not proven)
+		double tolerance = AbstractKernel.EPSILON; //required precision (robustness not proven)
 		
 		pp.setPathType(type);
 			
@@ -354,9 +354,9 @@ Translateable, GeoConicNDConstants
 				hb = halfAxes[1];
 				hc_2 = ha*ha - hb*hb;
 
-				if (abspx<Kernel.EPSILON) {
+				if (abspx<AbstractKernel.EPSILON) {
 					pp.setT(Math.asin(Math.max(-1,-hb*abspy/hc_2)));
-				} else if (abspy<Kernel.EPSILON) {
+				} else if (abspy<AbstractKernel.EPSILON) {
 					pp.setT(Math.acos(Math.min(1,ha*abspx/hc_2)));
 				} else {	
 					//To solve (1-u^2)*(b*py + (a^2-b^2)*u)^2-a^2*px^2*u^2 = 0, where u = sin(theta)
@@ -412,7 +412,7 @@ Translateable, GeoConicNDConstants
 				hc_2 = ha*ha + hb*hb;
 				double s;
 
-				if (abspy<Kernel.EPSILON) {
+				if (abspy<AbstractKernel.EPSILON) {
 					s=MyMath.acosh(Math.max(1,ha*abspx/hc_2));
 				} else {	
 					//To solve (1+u^2)*(-(b^2+a^2)*u +b*py)^2 - a^2*px^2, where u=sinh(t)
@@ -795,22 +795,22 @@ Translateable, GeoConicNDConstants
 			case GeoConic.CONIC_CIRCLE:
 			  	// x^2 + y^2 = r^2
 				double radius2 = halfAxes[0]*halfAxes[0];
-			  	result = Kernel.isEqual(px*px/radius2 + py*py/radius2, 1, eps);
+			  	result = AbstractKernel.isEqual(px*px/radius2 + py*py/radius2, 1, eps);
 				break;		   					
 		  	
 			case GeoConic.CONIC_ELLIPSE:
           		// x^2/a^2 + y^2/b^2 = 1
-			  	result = Kernel.isEqual(px*px / (halfAxes[0]*halfAxes[0]) + py*py / (halfAxes[1]*halfAxes[1]), 1, eps);
+			  	result = AbstractKernel.isEqual(px*px / (halfAxes[0]*halfAxes[0]) + py*py / (halfAxes[1]*halfAxes[1]), 1, eps);
 				break;	
 				
 			case GeoConic.CONIC_HYPERBOLA:   
 	          	// 	x^2/a^2 - y^2/b^2 = 1
-			  	result = Kernel.isEqual(px*px / (halfAxes[0]*halfAxes[0]), 1 + py*py / (halfAxes[1]*halfAxes[1]), eps);
+			  	result = AbstractKernel.isEqual(px*px / (halfAxes[0]*halfAxes[0]), 1 + py*py / (halfAxes[1]*halfAxes[1]), eps);
 				break;	
 				
 			case GeoConic.CONIC_PARABOLA: 
           		// y^2 = 2 p x								               
-                result = Kernel.isEqual(py*py, 2*p*px, eps);
+                result = AbstractKernel.isEqual(py*py, 2*p*px, eps);
 				break;	
 		}
 			
@@ -1066,11 +1066,11 @@ Translateable, GeoConicNDConstants
 			case CONIC_ELLIPSE :
 			case CONIC_HYPERBOLA :
 				//	xy vanished 
-				return (Kernel.isZero(matrix[3]));
+				return (AbstractKernel.isZero(matrix[3]));
 
 			case CONIC_PARABOLA :
 				// x\u00b2 or y\u00b2 vanished
-				return Kernel.isZero(matrix[0]) || Kernel.isZero(matrix[1]);
+				return AbstractKernel.isZero(matrix[0]) || AbstractKernel.isZero(matrix[1]);
 
 			default :
 			case CONIC_LINE :
@@ -1085,7 +1085,7 @@ Translateable, GeoConicNDConstants
 	 */
 	final public boolean isExplicitPossible() {
 		if (type == CONIC_LINE) return false;
-		return !Kernel.isZero(matrix[5]) && Kernel.isZero(matrix[3]) && Kernel.isZero(matrix[1]);
+		return !AbstractKernel.isZero(matrix[5]) && AbstractKernel.isZero(matrix[3]) && AbstractKernel.isZero(matrix[1]);
 	}
 
 
@@ -1106,7 +1106,7 @@ Translateable, GeoConicNDConstants
 			}
 				
 			double abs = Math.abs(matrix[i]);			
-			if (abs > Kernel.STANDARD_PRECISION) allZero = false;
+			if (abs > AbstractKernel.STANDARD_PRECISION) allZero = false;
 			maxCoeffAbs = maxCoeffAbs > abs ? maxCoeffAbs : abs;			
 		}
 		if (allZero) {
@@ -1307,7 +1307,7 @@ Translateable, GeoConicNDConstants
 						return sbToValueString;
 
 					case CONIC_ELLIPSE :					
-						if (Kernel.isZero(coeffs[1])) { // xy coeff = 0
+						if (AbstractKernel.isZero(coeffs[1])) { // xy coeff = 0
 							double coeff0, coeff1;
 							// we have to check the first eigenvector: it could be (1,0) or (0,1)
 							// if it is (0,1) we have to swap the coefficients of x^2 and y^2
@@ -1319,7 +1319,7 @@ Translateable, GeoConicNDConstants
 								coeff1 = halfAxes[0];
 							}
 							
-							if (Kernel.isZero(b.x)) {
+							if (AbstractKernel.isZero(b.x)) {
 								sbToValueString.append("x");
 								sbToValueString.append(squared);
 							} else {
@@ -1331,7 +1331,7 @@ Translateable, GeoConicNDConstants
 							sbToValueString.append(" / ");
 							sbToValueString.append(kernel.format(coeff0 * coeff0));
 							sbToValueString.append(" + ");
-							if (Kernel.isZero(b.y)) {
+							if (AbstractKernel.isZero(b.y)) {
 								sbToValueString.append("y");
 								sbToValueString.append(squared);
 							} else {
@@ -1352,7 +1352,7 @@ Translateable, GeoConicNDConstants
 								KEEP_LEADING_SIGN, true, '=');
 
 					case CONIC_HYPERBOLA :
-						if (Kernel.isZero(coeffs[1])) { // xy coeff = 0	
+						if (AbstractKernel.isZero(coeffs[1])) { // xy coeff = 0	
 							char firstVar, secondVar;
 							double b1, b2;
 							// we have to check the first eigenvector: it could be (1,0) or (0,1)
@@ -1369,7 +1369,7 @@ Translateable, GeoConicNDConstants
 								b2 = b.x;
 							}
 							
-							if (Kernel.isZero(b1)) {		
+							if (AbstractKernel.isZero(b1)) {		
 								sbToValueString.append(firstVar);
 								sbToValueString.append(squared);
 							} else {
@@ -1383,7 +1383,7 @@ Translateable, GeoConicNDConstants
 							sbToValueString.append(" / ");
 							sbToValueString.append(kernel.format(halfAxes[0] * halfAxes[0]));
 							sbToValueString.append(" - ");
-							if (Kernel.isZero(b2)) {
+							if (AbstractKernel.isZero(b2)) {
 								sbToValueString.append(secondVar);
 								sbToValueString.append(squared);
 							} else {
@@ -1407,13 +1407,13 @@ Translateable, GeoConicNDConstants
 								true, '=');
 
 					case CONIC_PARABOLA :
-						if (!Kernel.isZero(coeffs[2]))
+						if (!AbstractKernel.isZero(coeffs[2]))
 							return kernel.buildExplicitConicEquation(
 								coeffs,
 								myVars,
 								2,
 								KEEP_LEADING_SIGN);
-						else if (!Kernel.isZero(coeffs[0]))
+						else if (!AbstractKernel.isZero(coeffs[0]))
 							return kernel.buildExplicitConicEquation(
 								coeffs,
 								myVars,
@@ -1615,7 +1615,7 @@ Translateable, GeoConicNDConstants
 		double r=B.distance(C);
 		
 		// check radius
-		if (Kernel.isZero(r)) {
+		if (AbstractKernel.isZero(r)) {
 			r = 0;
 		} 
 		else if (r < 0) {
@@ -1648,7 +1648,7 @@ Translateable, GeoConicNDConstants
 		double r=geoSegment.getLength();
 		
 		// check radius
-		if (Kernel.isZero(r)) {
+		if (AbstractKernel.isZero(r)) {
 			r = 0;
 		} 
 		else if (r < 0) {
@@ -1723,7 +1723,7 @@ Translateable, GeoConicNDConstants
 
 		double halfLengthBC = Math.sqrt((b1-c1)*(b1-c1)+(b2-c2)*(b2-c2))/2;
 
-		if (Kernel.isEqual(halfLengthBC, a)) {
+		if (AbstractKernel.isEqual(halfLengthBC, a)) {
 			defined = false;
 			return;
 		}
@@ -2115,10 +2115,10 @@ Translateable, GeoConicNDConstants
 		if (oldTransform == null)
 			oldTransform = new AffineTransform();
 		boolean eigenVectorsSame = 
-			Kernel.isEqual(transform.getScaleX(), oldTransform.getScaleX(), Kernel.MIN_PRECISION) ||
-			Kernel.isEqual(transform.getScaleY(), oldTransform.getScaleY(), Kernel.MIN_PRECISION) ||
-			Kernel.isEqual(transform.getShearX(), oldTransform.getShearX(), Kernel.MIN_PRECISION) ||
-			Kernel.isEqual(transform.getShearY(), oldTransform.getShearY(), Kernel.MIN_PRECISION);
+				AbstractKernel.isEqual(transform.getScaleX(), oldTransform.getScaleX(), AbstractKernel.MIN_PRECISION) ||
+				AbstractKernel.isEqual(transform.getScaleY(), oldTransform.getScaleY(), AbstractKernel.MIN_PRECISION) ||
+				AbstractKernel.isEqual(transform.getShearX(), oldTransform.getShearX(), AbstractKernel.MIN_PRECISION) ||
+				AbstractKernel.isEqual(transform.getShearY(), oldTransform.getShearY(), AbstractKernel.MIN_PRECISION);
 
 		if (!eigenVectorsSame) {				
 			// updated old transform
@@ -2185,7 +2185,7 @@ Translateable, GeoConicNDConstants
 		} else {
 			eps = kernel.getEpsilon() * maxAbs * maxAbs; //TODO: Also need to care for small coeff 
 		}*/
-		return Kernel.isEqual(matrix[0]*matrix[1], matrix[3]*matrix[3], this.errDetS);				
+		return AbstractKernel.isEqual(matrix[0]*matrix[1], matrix[3]*matrix[3], this.errDetS);				
 	}
 
 	/*************************************
@@ -2194,7 +2194,7 @@ Translateable, GeoConicNDConstants
 
 	final private void classifyMidpointConic(boolean degenerate) {
 		// calc eigenvalues and eigenvectors
-		if (Kernel.isZero(matrix[3])) {
+		if (AbstractKernel.isZero(matrix[3])) {
 			// special case: submatrix S is allready diagonal
 			eigenval[0] = matrix[0];
 			eigenval[1] = matrix[1];
@@ -2232,11 +2232,11 @@ Translateable, GeoConicNDConstants
 		// beta lets us distinguish between Ellipse, Hyperbola,
 		// single singlePoint and intersecting lines
 		//  if (Kernel.isZero(beta)) {
-		if (degenerate || Kernel.isZero(beta)) {
+		if (degenerate || AbstractKernel.isZero(beta)) {
 			setEigenvectors();
 			// single point or intersecting lines
 			mu[0] = eigenval[0] / eigenval[1];
-			if (Kernel.isZero(mu[0])) {
+			if (AbstractKernel.isZero(mu[0])) {
 				mu[0] = 0.0;
 				intersectingLines(mu);
 			} else if (mu[0] < 0.0d) {
@@ -2312,7 +2312,7 @@ Translateable, GeoConicNDConstants
 
 
 		// circle 
-		if (Kernel.isEqual(mu[0]/mu[1],1.0)) {
+		if (AbstractKernel.isEqual(mu[0]/mu[1],1.0)) {
 			
 			//sets eigen vecs parallel to Ox and Oy
 			eigenvecX = 1;
@@ -2401,13 +2401,13 @@ Translateable, GeoConicNDConstants
 
 	final private void classifyParabolicConic(boolean degenerate) {			
 		// calc eigenvalues and first eigenvector               
-		if (Kernel.isZero(matrix[3])) {						
+		if (AbstractKernel.isZero(matrix[3])) {						
 			// special cases: submatrix S is allready diagonal
 			// either A[0] or A[1] have to be zero (due to detS = 0)
-			if (Kernel.isZero(matrix[0])) {
+			if (AbstractKernel.isZero(matrix[0])) {
 
 				// special case: the submatrix S is zero!!!
-				if (Kernel.isZero(matrix[1])) {
+				if (AbstractKernel.isZero(matrix[1])) {
 					handleSzero();
 					return;
 				}
@@ -2445,7 +2445,7 @@ Translateable, GeoConicNDConstants
 			c.y = matrix[5] * eigenvecX - matrix[4] * eigenvecY;
 		}		
 
-		if (degenerate || Kernel.isZero(c.x)) {
+		if (degenerate || AbstractKernel.isZero(c.x)) {
 			setEigenvectors();
 			// b = T . (0, -c.y/lambda)
 			temp = c.y / lambda;
@@ -2458,7 +2458,7 @@ Translateable, GeoConicNDConstants
 					-temp * eigenvecX
 			});
 			mu[0] = -temp * temp + matrix[2] / lambda;
-			if (Kernel.isZero(mu[0])) {			
+			if (AbstractKernel.isZero(mu[0])) {			
 				doubleLine();
 			} else if (mu[0] < 0) {			
 				mu[0] = Math.sqrt(-mu[0]);				
@@ -2506,8 +2506,8 @@ Translateable, GeoConicNDConstants
 	// if S is the zero matrix, set conic as double line or empty
 	final private void handleSzero() {			
 		// conic is line 2*A[4] * x +  2*A[5] * y + A[2] = 0				
-	    if (Kernel.isZero(matrix[4])) {
-	    	if (Kernel.isZero(matrix[5])) {	    		
+	    if (AbstractKernel.isZero(matrix[4])) {
+	    	if (AbstractKernel.isZero(matrix[5])) {	    		
 	    		empty();
 	    		return;
 	    	} 
@@ -2695,8 +2695,8 @@ Translateable, GeoConicNDConstants
 		double lambda = 0.0;
 		boolean aZero, bZero, equal = true;
 		for (int i = 0; i < 6; i++) {
-			aZero = Kernel.isZero(matrix[i]);
-			bZero = Kernel.isZero(B[i]);
+			aZero = AbstractKernel.isZero(matrix[i]);
+			bZero = AbstractKernel.isZero(B[i]);
 
 			// A[i] == 0 and B[i] != 0  => not equal
 			if (aZero && !bZero)
@@ -2711,7 +2711,7 @@ Translateable, GeoConicNDConstants
 					lambda = matrix[i] / B[i];
 				// check equality
 				else
-					equal = Kernel.isEqual(matrix[i], lambda * B[i]);
+					equal = AbstractKernel.isEqual(matrix[i], lambda * B[i]);
 			}
 			// leaf loop
 			if (!equal)
@@ -3247,7 +3247,7 @@ Translateable, GeoConicNDConstants
     		area=0;
     		break;
     	default:
-    		Application.printStacktrace("TODO (type="+type+")");
+    		AbstractApplication.printStacktrace("TODO (type="+type+")");
     	}
     }
     
@@ -3259,7 +3259,7 @@ Translateable, GeoConicNDConstants
     	if (defined)
     		return area;				        
     	else{
-    		Application.printStacktrace("TODO ? (type="+type+")");
+    		AbstractApplication.printStacktrace("TODO ? (type="+type+")");
     		return Double.NaN;	
     	}
     }	

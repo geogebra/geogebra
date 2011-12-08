@@ -108,7 +108,21 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract boolean isShowingEuclidianView2();		
 	public abstract AbstractKernel getKernel();
 	public abstract Object getImageManager();
-	
+
+	// Michael Borcherds 2008-06-22
+	public static void printStacktrace(String message) {
+		try {
+
+			throw new Exception(message);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
 	public static void debug(Object s) {
 		if(s==null)
 			doDebug("<null>", false, false, 0);
