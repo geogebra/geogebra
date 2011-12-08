@@ -213,6 +213,7 @@ public abstract class AbstractKernel {
 		//public abstract ColorAdapter getColorAdapter(int red, int green, int blue);
 		public abstract Color getColorAdapter(int red, int green, int blue);
 		public abstract Color getColorAdapter(int red, int green, int blue, int alpha);
+		public abstract Color getColorAdapter(float red, float green, float blue);
 		public abstract Color getColorAdapter(float red, float green, float blue, float alpha);
 
 		public abstract NumberFormatAdapter getNumberFormat();

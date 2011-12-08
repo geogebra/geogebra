@@ -49,6 +49,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConicInterface;
@@ -125,7 +126,6 @@ import geogebra.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.kernel.discrete.AlgoVoronoi;
-import geogebra.kernel.geos.GeoAxis;
 import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoCasCell;
 import geogebra.kernel.geos.GeoConic;
@@ -8037,7 +8037,11 @@ public class Kernel extends AbstractKernel{
 	public Color getColorAdapter(int red, int green, int blue, int alpha) {
 		return new geogebra.awt.Color(red, green, blue, alpha);
 	}
-	
+
+	public Color getColorAdapter(float red, float green, float blue) {
+		return new geogebra.awt.Color(red, green, blue);
+	}
+
 	public Color getColorAdapter(float red, float green, float blue, float alpha) {
 		return new geogebra.awt.Color(red, green, blue, alpha);
 	}
