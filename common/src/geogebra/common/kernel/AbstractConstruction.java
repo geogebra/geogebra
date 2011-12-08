@@ -6,22 +6,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
+import geogebra.common.kernel.algos.AlgoDistancePoints;
 
 public abstract class AbstractConstruction {
 
@@ -101,6 +107,9 @@ public abstract class AbstractConstruction {
 		public GeoElement getKeepGeo(){
 			return keepGeo;
 		}
+		// axis objects
+		private GeoAxis xAxis, yAxis;
+		private String xAxisLocalName, yAxisLocalName;
 		private GeoPoint2 origin;
 		/**
 		 * Returns the point (0,0)
@@ -113,6 +122,47 @@ public abstract class AbstractConstruction {
 			}
 			return origin;
 		}
+		/**
+		 * Returns x-axis
+		 * 
+		 * @return x-axis
+		 */
+		final public GeoAxis getXAxis() {
+			return xAxis;
+		}
+
+		/**
+		 * Returns y-axis
+		 * 
+		 * @return y-axis
+		 */
+		final public GeoAxis getYAxis() {
+			return yAxis;
+		}
+
+		/**
+		 * init the axis
+		 */
+		protected void initAxis() {
+			xAxis = new GeoAxis(this, GeoAxis.X_AXIS);
+			yAxis = new GeoAxis(this, GeoAxis.Y_AXIS);
+		}
+		
+		/**
+		 * Renames xAxis and yAxis in the geoTable and sets *AxisLocalName-s
+		 * acordingly
+		 */
+		public void updateLocalAxesNames() {
+			geoTable.remove(xAxisLocalName);
+			geoTable.remove(yAxisLocalName);
+
+			AbstractApplication app = kernel.getApplication();
+			xAxisLocalName = app.getPlain("xAxis");
+			yAxisLocalName = app.getPlain("yAxis");
+			geoTable.put(xAxisLocalName, xAxis);
+			geoTable.put(yAxisLocalName, yAxis);
+		}
+
 	/**
 	 * Returns construction's author
 	 * 
@@ -372,7 +422,7 @@ public abstract class AbstractConstruction {
 	 *            Label to be looked up
 	 * @return Geo with given label
 	 */
-	protected GeoElement geoTableVarLookup(String label) {
+	public GeoElement geoTableVarLookup(String label) {
 		GeoElement ret = (GeoElement) geoTable.get(label);
 		return ret;
 	}
@@ -1804,14 +1854,269 @@ public abstract class AbstractConstruction {
 		return getIndexLabel(prefix, 1);
 	}
 	
-	protected abstract GeoElement autoCreateGeoElement(String label);
+	/**
+	 * Automatically creates a GeoElement object for a certain label that is not
+	 * yet used in the geoTable of this construction. This is done for e.g.
+	 * point i = (0,1), number e = Math.E, empty spreadsheet cells
+	 * 
+	 * @param label
+	 * @see #willAutoCreateGeoElement()
+	 */
+	protected GeoElement autoCreateGeoElement(String label) {
+		GeoElement createdGeo = null;
+		boolean fix = true;
+		boolean auxilliary = true;
+
+		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
+		// according to whether A,B are points or numbers
+		if (label.length() == 2) {
+			GeoElement geo1 = kernel.lookupLabel(label.charAt(0) + "");
+			if (geo1 != null && geo1.isGeoPoint()) {
+				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
+				if (geo2 != null && geo2.isGeoPoint()) {
+					AlgoDistancePoints dist = new AlgoDistancePoints(this,
+							null, (GeoPointND) geo1, (GeoPointND) geo2);
+					createdGeo = dist.getDistance();
+					fix = false;
+				}
+			} else if (geo1 != null && geo1.isNumberValue()) {
+				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
+				if (geo2 != null && geo2.isNumberValue()) {
+					ExpressionNode node = new ExpressionNode(kernel,
+							((NumberValue) geo1).evaluate(),
+							Operation.MULTIPLY, ((NumberValue) geo2).evaluate());
+					AlgoDependentNumber algo = new AlgoDependentNumber(this,
+							null, node, false);
+					createdGeo = algo.getNumber();
+					fix = false;
+				}
+			}
+
+		} else if (label.length() == 3) {
+			if (label.equals("lnx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"ln(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			}
+		} else if (label.length() == 4) {
+			if (label.equals("sinx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"sin(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("cosx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"cos(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("tanx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"tan(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("secx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"sec(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("cscx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"csc(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("cotx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"cot(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("logx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"log(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			}
+		} else if (label.length() == 5) {
+			if (label.equals("sinhx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"sinh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("coshx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"cosh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("tanhx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"tanh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("sechx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"sech(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("cothx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"coth(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("acosx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"acos(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("asinx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"asin(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("atanx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"atan(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			}
+		} else if (label.length() == 6) {
+			if (label.equals("cosecx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"cosec(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("arcosx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"acos(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("asinhx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"asinh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("acoshx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"acosh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("atanhx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"atanh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			}
+		} else if (label.length() == 7) {
+			if (label.equals("arccosx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"acos(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("arcsinx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"asin(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("arctanx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"atan(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			}
+		} else if (label.length() == 8) {
+			if (label.equals("arccoshx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"acosh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("arcsinhx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"asinh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			} else if (label.equals("arctanhx")) {
+				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
+						"atanh(x)", true);
+				label = createdGeo.getDefaultLabel();
+				auxilliary = false;
+				fix = false;
+			}
+		}
+
+		// handle i or e case
+		if (createdGeo != null) {
+
+			// removed: not needed for e,i and causes bug with using Circle[D,
+			// CD 2] in locus
+			// boolean oldSuppressLabelsActive = isSuppressLabelsActive();
+			// setSuppressLabelCreation(false);
+
+			createdGeo.setAuxiliaryObject(auxilliary);
+			createdGeo.setLabel(label);
+			createdGeo.setFixed(fix);
+
+			// revert to previous label creation state
+			// setSuppressLabelCreation(oldSuppressLabelsActive);
+			return createdGeo;
+		}
+
+		// check spreadsheet cells
+		else {
+			// for missing spreadsheet cells, create object
+			// of same type as above
+			createdGeo = kernel.getGeoElementSpreadsheet().autoCreate(label,this);
+		}
+
+		return createdGeo;
+	}
+	
+	/**
+	 * Make geoTable contain only xAxis and yAxis
+	 */
+	protected void initGeoTables() {
+		geoTable.clear();
+		geoCasCellTable = null;
+		localVariableTable = null;
+
+		// add axes labels both in English and current language
+		geoTable.put("xAxis", xAxis);
+		geoTable.put("yAxis", yAxis);
+		if (xAxisLocalName != null) {
+			geoTable.put(xAxisLocalName, xAxis);
+			geoTable.put(yAxisLocalName, yAxis);
+		}
+	}
+	
 	protected abstract void restoreCurrentUndoInfo();
 
 
 	public abstract AbstractConstructionDefaults getConstructionDefaults();
 
-	
-	public abstract void updateLocalAxesNames();
 
 	public abstract void clearConstruction();
 

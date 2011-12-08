@@ -1,5 +1,6 @@
 package geogebra.kernel.geos;
 
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -164,5 +165,21 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet{
 			return getSpreadsheetCoordsForLabel(label);
 		}
 
+		public GeoElement autoCreate(String label, AbstractConstruction cons){
+			Matcher cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern
+					.matcher(label);
+			if (cellNameMatcher.matches()) {
+				String col = cellNameMatcher.group(1);
+				int row = Integer.parseInt(cellNameMatcher.group(2));
 
+				// try to get neighbouring cell for object type look above
+				GeoElement neighbourCell = cons.geoTableVarLookup(col + (row - 1));
+				if (neighbourCell == null) // look below
+					neighbourCell = cons.geoTableVarLookup(col + (row + 1));
+
+				label = col + row;
+				return  cons.createSpreadsheetGeoElement(neighbourCell, label);
+			}
+			return null;
+		}
 }

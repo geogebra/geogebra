@@ -16,14 +16,13 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 
 
 /**
@@ -37,7 +36,7 @@ public class AlgoDistancePoints extends AlgoElement {
     private GeoNumeric dist; // output       
 
     public AlgoDistancePoints(
-        Construction cons,
+        AbstractConstruction cons,
         String label,
         GeoPointND P,
         GeoPointND Q) {
