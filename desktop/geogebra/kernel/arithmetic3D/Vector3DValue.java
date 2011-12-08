@@ -21,7 +21,7 @@ package geogebra.kernel.arithmetic3D;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.PointConvertibleToDouble;
-import geogebra3D.kernel3D.Geo3DVec;
+import geogebra.common.adapters.Geo3DVec;
 
 /**
  *

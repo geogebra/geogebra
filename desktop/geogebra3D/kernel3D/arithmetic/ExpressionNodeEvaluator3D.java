@@ -57,16 +57,16 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         	// 3D vector + 3D vector 
         	if (lt.isVector3DValue()) { 
         		if (rt.isVector3DValue()){
-        			Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
-        			Geo3DVec.add(vec3D, ((Vector3DValue)rt).get3DVec(), vec3D);
+        			Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
+        			Geo3DVec.add(vec3D, (Geo3DVec)((Vector3DValue)rt).get3DVec(), vec3D);
         			return vec3D;
         		}else if (rt.isVectorValue()){
-        			Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
+        			Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
         			Geo3DVec.add(vec3D, (GeoVec2D)((VectorValue)rt).getVector(), vec3D);
         			return vec3D;
         		}
         	} else if  (lt.isVectorValue() && rt.isVector3DValue()) { 
-        		Geo3DVec vec3D = ((Vector3DValue)rt).get3DVec();
+        		Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)rt).get3DVec();
         		Geo3DVec.add((GeoVec2D)((VectorValue)lt).getVector(), vec3D, vec3D);
         		return vec3D;
         	}  
@@ -76,16 +76,16 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         	// 3D vector - 3D vector
         	if (lt.isVector3DValue()) { 
         		if (rt.isVector3DValue()){
-        			Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
-        			Geo3DVec.sub(vec3D, ((Vector3DValue)rt).get3DVec(), vec3D);
+        			Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
+        			Geo3DVec.sub(vec3D, (Geo3DVec)((Vector3DValue)rt).get3DVec(), vec3D);
         			return vec3D;
         		}else if (rt.isVectorValue()){
-        			Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
+        			Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
         			Geo3DVec.sub(vec3D, (GeoVec2D)((VectorValue)rt).getVector(), vec3D);
         			return vec3D;
         		}
         	} else if  (lt.isVectorValue() && rt.isVector3DValue()) { 
-        		Geo3DVec vec3D = ((Vector3DValue)rt).get3DVec();
+        		Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)rt).get3DVec();
         		Geo3DVec.sub((GeoVec2D)((VectorValue)lt).getVector(), vec3D, vec3D);
         		return vec3D;
         	}  
@@ -95,22 +95,22 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         	if (lt.isNumberValue()) {
         		// number * 3D vector
         		if (rt.isVector3DValue()) { 
-        			Geo3DVec vec3D = ((Vector3DValue)rt).get3DVec();
+        			Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)rt).get3DVec();
         			Geo3DVec.mult(vec3D, ((NumberValue)lt).getDouble(), vec3D);                                         
         			return vec3D;
         		} 
         	}            
         	// 3D vector * number
             else if (lt.isVector3DValue() && rt.isNumberValue()) { 
-                Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
+                Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
                 Geo3DVec.mult(vec3D, ((NumberValue)rt).getDouble(), vec3D);                                         
                 return vec3D;
             }     
             // 3D vector * 3D Vector (inner/dot product)
             else if (lt.isVector3DValue() && rt.isVector3DValue()) { 
-                Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
+                Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
                 num = new MyDouble(kernel);
-                Geo3DVec.inner(vec3D, ((Vector3DValue)rt).get3DVec(), num);                                         
+                Geo3DVec.inner(vec3D, (Geo3DVec)((Vector3DValue)rt).get3DVec(), num);                                         
                 return num;
             }   
             break;
@@ -119,7 +119,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
             if (rt.isNumberValue()) {
                  // number * 3D vector
                  if (lt.isVector3DValue()) { 
-                     Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
+                     Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
                      Geo3DVec.div(vec3D, ((NumberValue)rt).getDouble(), vec3D);                                         
                      return vec3D;
                  }  
@@ -129,7 +129,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         case POWER:
         	if (lt.isVector3DValue() && rt.isNumberValue()) { 
         		num = ((NumberValue)rt).getNumber();   
-        		Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
+        		Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
         		if (num.getDouble() == 2.0) {                    
         			Geo3DVec.inner(vec3D, vec3D, num);                                   
         		} else {
@@ -142,8 +142,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
         case VECTORPRODUCT:
             // 3D vector * 3D Vector (inner/dot product)
             if (lt.isVector3DValue() && rt.isVector3DValue()) { 
-                Geo3DVec vec3D = ((Vector3DValue)lt).get3DVec();
-                Geo3DVec.vectorProduct(vec3D, ((Vector3DValue)rt).get3DVec(), vec3D);                                         
+                Geo3DVec vec3D = (Geo3DVec)((Vector3DValue)lt).get3DVec();
+                Geo3DVec.vectorProduct(vec3D, (Geo3DVec)((Vector3DValue)rt).get3DVec(), vec3D);                                         
                 return vec3D;
             }     
         }

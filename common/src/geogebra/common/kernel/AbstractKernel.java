@@ -41,6 +41,7 @@ import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.adapters.Complex;
+import geogebra.common.adapters.Geo3DVec;
 
 
 
@@ -1954,4 +1955,9 @@ public abstract class AbstractKernel {
 	public abstract void resetGeoGebraCAS();
 
 	public abstract void getKernelXML(StringBuilder sb, boolean b);
+
+	public Geo3DVec getGeo3DVec(double x, double y, double z) {
+		AbstractApplication.debug("GeoGebraCommon does not support 3D Vectors");
+		return null;
+	}
 }

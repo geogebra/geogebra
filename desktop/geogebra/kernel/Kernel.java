@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractConstruction;
@@ -8102,4 +8103,9 @@ public class Kernel extends AbstractKernel{
 	public GeoConicPartInterface newGeoConicPart(AbstractConstruction cons, int type) {//temporary
 		return new GeoConicPart(cons, type);
 	}
+	
+	public Geo3DVec getGeo3DVec(double x, double y, double z) {
+		return new geogebra3D.kernel3D.Geo3DVec(this, x, y, z);
+	}
+
 }

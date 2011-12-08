@@ -25,8 +25,7 @@ import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
-import geogebra.kernel.Kernel;
-import geogebra3D.kernel3D.Geo3DVec;
+import geogebra.common.adapters.Geo3DVec;
 
 import java.util.HashSet;
 
@@ -40,10 +39,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 	/** Creates new MyVec3D */
-	public MyVec3DNode(Kernel kernel) {
+	public MyVec3DNode(AbstractKernel kernel) {
 		this.kernel = kernel;
 	}
 
@@ -51,14 +50,14 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	 * Creates new MyPoint3DNode with coordinates (x,y,z) as ExpresssionNodes.
 	 * Both nodes must evaluate to NumberValues.
 	 */
-	public MyVec3DNode(Kernel kernel, ExpressionValue x, ExpressionValue y,
+	public MyVec3DNode(AbstractKernel kernel, ExpressionValue x, ExpressionValue y,
 			ExpressionValue z) {
 		this(kernel);
 		setCoords(x, y, z);
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		return new MyVec3DNode((Kernel)kernel, x.deepCopy(kernel), y.deepCopy(kernel),
+		return new MyVec3DNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel),
 				z.deepCopy(kernel));
 	}
 
@@ -209,7 +208,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec(kernel, ((NumberValue) x.evaluate()).getDouble(),
+		return kernel.getGeo3DVec( ((NumberValue) x.evaluate()).getDouble(),
 				((NumberValue) y.evaluate()).getDouble(),
 				((NumberValue) z.evaluate()).getDouble());
 	}
@@ -240,7 +239,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return this;
 	}
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 }
