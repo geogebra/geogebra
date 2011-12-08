@@ -15,6 +15,7 @@ package geogebra.kernel.geos;
 import geogebra.awt.Color;
 
 import geogebra.common.kernel.geos.GeoClass;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.kernel.AbstractConstruction;

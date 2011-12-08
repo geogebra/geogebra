@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 30. August 2001, 17:39
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.MatrixTransformable;
@@ -35,21 +35,6 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoConicInterface;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.kernel.geos.GeoLineInterface;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPointInterface;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.LineProperties;
-import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Transformable;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;

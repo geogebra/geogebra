@@ -2,6 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -9,7 +10,6 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.CmdOrthogonalLine;
 import geogebra.kernel.commands.CmdOrthogonalVector;
-import geogebra.kernel.geos.GeoLine;
 import geogebra3D.kernel3D.GeoPlane3D;
 
 /**

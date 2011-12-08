@@ -16,12 +16,12 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.kernel.Construction;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoLine;
 
 import java.util.Arrays;
 import java.util.Iterator;

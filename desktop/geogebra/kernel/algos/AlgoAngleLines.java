@@ -25,7 +25,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AngleAlgo;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoLine;
 
 
 /**

@@ -24,8 +24,8 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoLine;
 
 /**
  *

@@ -4,12 +4,12 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPolyLineInterface;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 

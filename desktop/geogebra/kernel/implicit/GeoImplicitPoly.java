@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPointInterface;
@@ -51,7 +52,6 @@ import geogebra.kernel.MyPoint;
 import geogebra.kernel.algos.AlgoClosestPoint;
 import geogebra.kernel.algos.AlgoPointOnPath;
 import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoLocus;
 import geogebra.kernel.geos.GeoUserInputElement;
 
