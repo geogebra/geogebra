@@ -1,10 +1,10 @@
-package geogebra.kernel.cas;
+package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.kernel.Construction;
+import geogebra.common.kernel.AbstractConstruction;
 
 import java.util.TreeSet;
 
@@ -49,7 +49,7 @@ public class AlgoDependentCasCell extends AlgoElement {
         setInputOutput();                
         
         // tell construction that order of CAS cells may have changed
-        ((Construction) cons).updateCasCellRows();
+        cons.updateCasCellRows();
         
         // setLabel of twinGeo if we got one
         casCell.setLabelOfTwinGeo();        
