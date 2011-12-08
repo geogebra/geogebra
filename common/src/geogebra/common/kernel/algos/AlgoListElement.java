@@ -10,15 +10,14 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.Construction;
-import geogebra.main.Application;
+import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * n-th element of a GeoList object.
@@ -46,13 +45,13 @@ public class AlgoListElement extends AlgoElement {
 	 * @param geoList
 	 * @param num
 	 */
-	public AlgoListElement(Construction cons, String label, GeoList geoList,
+	public AlgoListElement(AbstractConstruction cons, String label, GeoList geoList,
 			NumberValue num) {
 		this(cons, geoList, num);
 		element.setLabel(label);
 	}
 
-	public AlgoListElement(Construction cons, GeoList geoList,
+	public AlgoListElement(AbstractConstruction cons, GeoList geoList,
 			NumberValue num) {
 		super(cons);
 		this.geoList = geoList;
@@ -86,12 +85,12 @@ public class AlgoListElement extends AlgoElement {
 	/**
 	 * Creates new unlabeed element algo
 	 */
-	public AlgoListElement(Construction cons, String label, GeoList geoList,
+	public AlgoListElement(AbstractConstruction cons, String label, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {
 		this(cons,geoList,num2,shortSyntax);
 		element.setLabel(label);
 	}
-	public AlgoListElement(Construction cons, GeoList geoList,
+	public AlgoListElement(AbstractConstruction cons, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {
 		super(cons);
 		this.geoList = geoList;		
@@ -121,7 +120,7 @@ public class AlgoListElement extends AlgoElement {
 			} while (current.isGeoList() && k < num2.length);
 			element = current.copyInternal(cons);
 		} catch (Exception e) {
-			Application.debug("error initialising list");
+			AbstractApplication.debug("error initialising list");
 		}
 		;
 

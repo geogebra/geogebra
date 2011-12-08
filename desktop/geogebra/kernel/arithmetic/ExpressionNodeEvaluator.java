@@ -1,6 +1,8 @@
 package geogebra.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Evaluatable;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -33,9 +35,6 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoDependentNumber;
-import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.arithmetic3D.Vector3DValue;
 import geogebra.kernel.geos.GeoLine;
 import geogebra.kernel.geos.GeoPoint2;
@@ -65,7 +64,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 			return left.evaluate(); // for wrapping ExpressionValues as
 		// ValidExpression
 
-		Kernel kernel = (Kernel)expressionNode.kernel;
+		AbstractKernel kernel = expressionNode.kernel;
 		ExpressionValue right = expressionNode.right;
 		Operation operation = expressionNode.operation;
 		AbstractApplication app = expressionNode.app;
@@ -307,7 +306,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 		case LESS:
 			// number < number
 			if (lt.isNumberValue() && rt.isNumberValue())
-				return new MyBoolean(kernel, Kernel.isGreater(
+				return new MyBoolean(kernel, AbstractKernel.isGreater(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			else {
@@ -320,7 +319,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 
 			// number > number
 			if (lt.isNumberValue() && rt.isNumberValue())
-				return new MyBoolean(kernel, Kernel.isGreater(
+				return new MyBoolean(kernel, AbstractKernel.isGreater(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			else {
@@ -333,7 +332,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 		case LESS_EQUAL:
 			// number <= number
 			if (lt.isNumberValue() && rt.isNumberValue())
-				return new MyBoolean(kernel, Kernel.isGreaterEqual(
+				return new MyBoolean(kernel, AbstractKernel.isGreaterEqual(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			else {
@@ -345,7 +344,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 		case GREATER_EQUAL:
 			// number >= number
 			if (lt.isNumberValue() && rt.isNumberValue())
-				return new MyBoolean(kernel, Kernel.isGreaterEqual(
+				return new MyBoolean(kernel, AbstractKernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			else {
@@ -628,7 +627,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 				// vector * vector (inner/dot product)
 				else if (rt.isVectorValue()) {
 					vec = (GeoVec2D) ((VectorValue) lt).getVector();
-					if (vec.getMode() == Kernel.COORD_COMPLEX) {
+					if (vec.getMode() == AbstractKernel.COORD_COMPLEX) {
 
 						// complex multiply
 
@@ -792,17 +791,17 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 						double a = ((NumberValue) node.left.evaluate())
 								.getDouble();
 						long al = Math.round(a);
-						if (Kernel.isEqual(a, al)) { // a is integer
+						if (AbstractKernel.isEqual(a, al)) { // a is integer
 							double b = ((NumberValue) node.right.evaluate())
 									.getDouble();
 							long bl = Math.round(b);
 							if (b == 0)
 								// (x^a)^(1/0)
 								num.set(Double.NaN);
-							else if (Kernel.isEqual(b, bl)) { // b is integer
+							else if (AbstractKernel.isEqual(b, bl)) { // b is integer
 								// divide through greatest common divisor of a
 								// and b
-								long gcd = Kernel.gcd(al, bl);
+								long gcd = AbstractKernel.gcd(al, bl);
 								al = al / gcd;
 								bl = bl / gcd;
 
@@ -853,7 +852,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 				vec = (GeoVec2D) ((VectorValue) lt).getVector();
 				num = ((NumberValue) rt).getNumber();
 
-				if (vec.getMode() == Kernel.COORD_COMPLEX) {
+				if (vec.getMode() == AbstractKernel.COORD_COMPLEX) {
 
 					// complex power
 
@@ -1916,7 +1915,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 	 * @param rt
 	 * @return false if not defined
 	 */
-	private MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
+	private MyBoolean evalEquals(AbstractKernel kernel, ExpressionValue lt,
 			ExpressionValue rt) {
 		// booleans
 		if (lt.isBooleanValue() && rt.isBooleanValue())
@@ -1926,7 +1925,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
 
 		// nummber == number
 		else if (lt.isNumberValue() && rt.isNumberValue())
-			return new MyBoolean(kernel, Kernel.isEqual(
+			return new MyBoolean(kernel, AbstractKernel.isEqual(
 					((NumberValue) lt).getDouble(),
 					((NumberValue) rt).getDouble()));
 

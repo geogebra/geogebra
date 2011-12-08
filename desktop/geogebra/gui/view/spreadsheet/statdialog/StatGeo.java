@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -22,7 +23,6 @@ import geogebra.kernel.algos.AlgoDependentListExpression;
 import geogebra.kernel.algos.AlgoDotPlot;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.algos.AlgoHistogram;
-import geogebra.kernel.algos.AlgoListElement;
 import geogebra.kernel.algos.AlgoListMax;
 import geogebra.kernel.algos.AlgoListMin;
 import geogebra.kernel.algos.AlgoNormalQuantilePlot;

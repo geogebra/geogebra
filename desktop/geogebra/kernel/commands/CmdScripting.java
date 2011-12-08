@@ -1,6 +1,7 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -19,7 +20,6 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.RenameInputHandler;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
-import geogebra.kernel.algos.AlgoDependentNumber;
 import geogebra.kernel.geos.GeoPoint2;
 import geogebra.kernel.geos.GeoScriptAction;
 import geogebra.kernel.geos.GeoText;
