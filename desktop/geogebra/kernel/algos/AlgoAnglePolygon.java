@@ -13,10 +13,12 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AngleAlgo;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Construction;
-import geogebra.kernel.geos.GeoAngle;
+//import geogebra.kernel.Construction;
 import geogebra.kernel.geos.GeoPolygon;
 
 
@@ -24,7 +26,7 @@ import geogebra.kernel.geos.GeoPolygon;
  * Creates all angles of a polygon.
  */
 
-public class AlgoAnglePolygon extends AlgoElement {
+public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
 
     /**
 	 * 
@@ -34,7 +36,7 @@ public class AlgoAnglePolygon extends AlgoElement {
     protected OutputHandler<GeoElement> outputAngles;
     private AlgoAnglePoints algoAngle;
 
-    public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {        
+    public AlgoAnglePolygon(AbstractConstruction cons, String[] labels, GeoPolygon poly) {        
         this(cons, poly);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
@@ -42,7 +44,7 @@ public class AlgoAnglePolygon extends AlgoElement {
         update();
     }
     
-    AlgoAnglePolygon(Construction cons, GeoPolygon p) {
+    AlgoAnglePolygon(AbstractConstruction cons, GeoPolygon p) {
 		super(cons);
 		this.poly = p;
 		outputAngles=createOutputPoints();
@@ -99,7 +101,7 @@ public class AlgoAnglePolygon extends AlgoElement {
 		
 		
 		for (int i =0; i<length; i++){
-			algoAngle = new AlgoAnglePoints((Construction) cons,poly.getPoint((i+1)%length), poly.getPoint(i),
+			algoAngle = new AlgoAnglePoints(cons,poly.getPoint((i+1)%length), poly.getPoint(i),
 					poly.getPoint((i+length-1)%length));
 			
     		GeoAngle angle = (GeoAngle) outputAngles.getElement(i);
@@ -114,7 +116,7 @@ public class AlgoAnglePolygon extends AlgoElement {
 				}
     		}
     		angle.setDrawAlgorithm(algoAngle.copy());
-    		((Construction) cons).removeFromConstructionList(algoAngle);
+    		cons.removeFromConstructionList(algoAngle);
     	}
     	//other points are undefined
     	for(int i = length;i<outputAngles.size();i++)

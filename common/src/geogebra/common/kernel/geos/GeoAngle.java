@@ -18,19 +18,13 @@ the Free Software Foundation.
  * Created on 18. September 2001, 12:04
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoAngleInterface;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoAngleLines;
-import geogebra.kernel.algos.AlgoAnglePoints;
-import geogebra.kernel.algos.AlgoAnglePolygon;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.algos.AngleAlgo;
 
 /**
  * 
@@ -57,7 +51,7 @@ public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
 	/** Default minimum value when displayed as slider*/
 	final public static double DEFAULT_SLIDER_MIN = 0;
 	/** Default maximum value when displayed as slider*/
-	final public static double DEFAULT_SLIDER_MAX = Kernel.PI_2;
+	final public static double DEFAULT_SLIDER_MAX = AbstractKernel.PI_2;
 	final public static double DEFAULT_SLIDER_INCREMENT = Math.PI / 180.0;
 	/** Measure angle anticlockwise*/
 	final public static int ANGLE_ISANTICLOCKWISE = 0; // old allowReflexAngle=true
@@ -226,7 +220,7 @@ public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
 	 */
 	private double calcAngleValue(double val) {
 		// limit to [0, 2pi]
-		double angVal = Kernel.convertToAngleValue(val);
+		double angVal = AbstractKernel.convertToAngleValue(val);
 
 		rawValue = angVal;
 
@@ -254,7 +248,7 @@ public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
 
 	@Override
 	public void setIntervalMax(double max) {
-		if (max > Kernel.PI_2)
+		if (max > AbstractKernel.PI_2)
 			return;
 		super.setIntervalMax(max);
 	}
@@ -528,9 +522,7 @@ public class GeoAngle extends GeoNumeric implements GeoAngleInterface{
 	@Override
 	public boolean isDrawable() {		
 		return isDrawable || (getDrawAlgorithm()!=getParentAlgorithm()) || (isIndependent() && isLabelSet()
-				|| getParentAlgorithm() instanceof AlgoAnglePolygon
-				|| getParentAlgorithm() instanceof AlgoAngleLines
-				|| getParentAlgorithm() instanceof AlgoAnglePoints);		
+				|| getParentAlgorithm() instanceof AngleAlgo);		
 	}
 	
 	@Override

@@ -19,14 +19,15 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractConstruction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AngleAlgo;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Construction;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoPoint2;
 
 
@@ -35,7 +36,7 @@ import geogebra.kernel.geos.GeoPoint2;
  * @author  Markus
  * @version 
  */
-public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation{
+public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation, AngleAlgo{
 
     private GeoPointND An, Bn, Cn; // input
     private GeoAngle angle; // output  
@@ -48,7 +49,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     transient private double bx, by, vx, vy, wx, wy;
 
     public AlgoAnglePoints(
-        Construction cons,
+        AbstractConstruction cons,
         String label,
         GeoPointND A,
         GeoPointND B,
@@ -58,7 +59,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     }
 
     AlgoAnglePoints(
-        Construction cons,
+        AbstractConstruction cons,
         AlgoAnglePolygon algoAnglePoly,
         GeoPointND A,
         GeoPointND B,
@@ -78,7 +79,7 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
     }
     
     public AlgoAnglePoints(
-        Construction cons,
+        AbstractConstruction cons,
         GeoPointND A,
         GeoPointND B,
         GeoPointND C) {
@@ -93,14 +94,14 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         compute();
     }
     
-    protected GeoAngle newGeoAngle(Construction cons){
+    protected GeoAngle newGeoAngle(AbstractConstruction cons){
     	return new GeoAngle(cons);
     }
     
     public AlgoAnglePoints(
                      GeoPointND A,
             GeoPointND B,
-            GeoPointND C,Construction cons) {
+            GeoPointND C,AbstractConstruction cons) {
     	super(cons);
     	this.cons=cons;
             this.An = A;

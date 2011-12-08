@@ -1,6 +1,7 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -28,7 +29,6 @@ import geogebra.kernel.algos.AlgoSumRectangle;
 import geogebra.kernel.algos.AlgoSumTrapezoidal;
 import geogebra.kernel.algos.AlgoSumUpper;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
-import geogebra.kernel.geos.GeoAngle;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoLine;
