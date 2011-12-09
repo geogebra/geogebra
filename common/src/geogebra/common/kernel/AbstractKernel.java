@@ -36,6 +36,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -48,6 +49,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.adapters.Complex;
 import geogebra.common.adapters.Geo3DVec;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 
 
 
@@ -1934,6 +1936,7 @@ public abstract class AbstractKernel {
 	public abstract Object Ray(String label, GeoPoint2 P, GeoVector v);//GeoRay
 	public abstract GeoConicPartInterface newGeoConicPart(Construction cons, int type);
 	public abstract GeoLocusInterface newGeoLocus(Construction cons);
+	public abstract GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons);
 
 	// temporary methods just while moving things
 	

@@ -36,9 +36,9 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 
 /**
  *
@@ -180,8 +180,8 @@ public class AlgoMirror extends AlgoTransformation {
     	else if(mirror instanceof GeoConic && geoIn instanceof GeoConic && geoOut instanceof GeoCurveCartesian){
     		((GeoConic)geoIn).toGeoCurveCartesian((GeoCurveCartesian)geoOut);    		
     	}*/
-    	else if(mirror instanceof GeoConic && inGeo instanceof GeoConic && outGeo instanceof GeoImplicitPoly){
-    		((GeoConic)inGeo).toGeoImplicitPoly((GeoImplicitPoly)outGeo);    		
+    	else if(mirror instanceof GeoConic && inGeo instanceof GeoConic && outGeo instanceof GeoImplicitPolyInterface){
+    		((GeoConic)inGeo).toGeoImplicitPoly((GeoImplicitPolyInterface)outGeo);    		
     	}
     	else if(inGeo instanceof GeoFunction && mirror != mirrorPoint){
     		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
@@ -239,7 +239,7 @@ public class AlgoMirror extends AlgoTransformation {
         }
         if (mirror instanceof GeoConic && geo instanceof GeoConic && 
         		(!((GeoConic)geo).isCircle()||!((GeoConic)geo).keepsType()))
-        	return new GeoImplicitPoly(cons);
+        	return (GeoElement)kernel.newGeoImplicitPoly(cons);
 		if(geo instanceof GeoPolyLineInterface  || (geo.isLimitedPath() && mirror!=mirrorConic))
 			return geo.copyInternal(cons);		
 		if(geo.isGeoList())        	
@@ -268,18 +268,18 @@ public class AlgoMirror extends AlgoTransformation {
 			transformedPoint.setCoords(mirrorConic.getTranslationVector());
 			arc.pathChanged(transformedPoint);
 			double e = transformedPoint.getPathParameter().getT();					
-			arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, true);
+			arc.setParameters(d*AbstractKernel.PI_2, e*AbstractKernel.PI_2, true);
 			transformedPoint.removePath();
 			setTransformedObject(
 					arc.getPointParam(0.5),
 					transformedPoint);			
 			compute();			
-			if(!((GeoRay)a).isOnPath(transformedPoint, Kernel.EPSILON))
-				arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, false);
+			if(!((GeoRay)a).isOnPath(transformedPoint, AbstractKernel.EPSILON))
+				arc.setParameters(d*AbstractKernel.PI_2, e*AbstractKernel.PI_2, false);
 			
 			setTransformedObject(a,b);
 		} else if(a instanceof GeoSegment) {
-			arc.setParameters(0, Kernel.PI_2, true);
+			arc.setParameters(0, AbstractKernel.PI_2, true);
 			transformedPoint.removePath();
 			setTransformedObject(
 					((GeoSegment)a).getStartPoint(),
@@ -289,7 +289,7 @@ public class AlgoMirror extends AlgoTransformation {
 			arc.pathChanged(transformedPoint);
 			double d = transformedPoint.getPathParameter().getT();
 			
-			arc.setParameters(0, Kernel.PI_2, true);
+			arc.setParameters(0, AbstractKernel.PI_2, true);
 			transformedPoint.removePath();
 			setTransformedObject(
 					((GeoSegment)a).getEndPoint(),
@@ -298,11 +298,11 @@ public class AlgoMirror extends AlgoTransformation {
 		
 			arc.pathChanged(transformedPoint);
 			double e = transformedPoint.getPathParameter().getT();			
-			arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, true);				
+			arc.setParameters(d*AbstractKernel.PI_2, e*AbstractKernel.PI_2, true);				
 			transformedPoint.removePath();
 			transformedPoint.setCoords(mirrorConic.getTranslationVector());
-			if(arc.isOnPath(transformedPoint, Kernel.EPSILON))
-				arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, false);
+			if(arc.isOnPath(transformedPoint, AbstractKernel.EPSILON))
+				arc.setParameters(d*AbstractKernel.PI_2, e*AbstractKernel.PI_2, false);
 			setTransformedObject(a,b);
 		}
 		if(a instanceof GeoConicPart) {			

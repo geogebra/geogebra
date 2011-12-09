@@ -29,6 +29,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -78,17 +79,14 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
@@ -98,6 +96,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -8067,6 +8066,10 @@ public class Kernel extends AbstractKernel{
 	
 	public GeoLocusInterface newGeoLocus(Construction cons) {
 		return new GeoLocus(cons);
+	}
+
+	public GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons) {
+		return new GeoImplicitPoly(cons);
 	}
 	
 	public Geo3DVec getGeo3DVec(double x, double y, double z) {
