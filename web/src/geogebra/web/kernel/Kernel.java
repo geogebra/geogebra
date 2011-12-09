@@ -2,27 +2,31 @@ package geogebra.web.kernel;
 
 import geogebra.common.awt.Color;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractConstruction;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.cas.GeoGebraCasInterfaceSlim;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.optimization.ExtremumFinderInterface;
+import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.GgbMat;
@@ -105,7 +109,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public AbstractConstruction getConstruction() {
+    public Construction getConstruction() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -129,7 +133,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoGebraCasInterfaceSlim newGeoGebraCAS() {
+    public GeoGebraCasInterface newGeoGebraCAS() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -311,7 +315,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public ExtremumFinderInterface getExtremumFinder() {
+    public ExtremumFinder getExtremumFinder() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -372,6 +376,31 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public Object Ray(String label, GeoPoint2 P, GeoVector v) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoConicPartInterface newGeoConicPart(Construction cons, int type) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoLocusInterface newGeoLocus(Construction cons) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractUndoManager getUndoManager(Construction cons) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractConstructionDefaults getConstructionDefaults(
+            Construction construction) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

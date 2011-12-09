@@ -64,7 +64,8 @@ public class UrlFetcherImpl implements UrlFetcher {
 		if (url.contains(hostPageBase)) {
 			return url;
 		}
-		return hostPageBase + proxyLocation + "?" + proxyParam + "=" + url;
+		//return hostPageBase + proxyLocation + "?" + proxyParam + "=" + url
+		return hostPageBase+url;
 	}
 
 }

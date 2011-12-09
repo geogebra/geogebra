@@ -2,12 +2,16 @@ package geogebra.web.eventbus;
 
 import java.util.ArrayList;
 
+import geogebra.web.html5.ArticleElement;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.presenter.BasePresenter;
+import geogebra.web.presenter.LoadFilePresenter;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class MyEventBus {
+	
+	private ArticleElement container;
 	
 	private ArrayList<BasePresenter> loadHandlers = new ArrayList<BasePresenter>();
 	private ArrayList<BasePresenter> createApplicationHandlers = new ArrayList<BasePresenter>();
@@ -17,11 +21,11 @@ public class MyEventBus {
 	private ArrayList<BasePresenter> worksheetReadyHanlders = new ArrayList<BasePresenter>();
 	
 	
- 	public MyEventBus(HasWidgets container, JsUint8Array zippedContent) {
- 		
+ 	public MyEventBus(ArticleElement article) {
+ 		this.container = article;
     }
 
-	private void pageLoad() {
+	public void pageLoad() {
 	    
 		for (BasePresenter listener : loadHandlers) {
 			listener.onPageLoad();        
@@ -61,4 +65,8 @@ public class MyEventBus {
 			listener.onWorksheetReady();
 		}
 	}
+
+	public void addLoadHandler(BasePresenter loadFilePresenter) {
+	    loadHandlers.add(loadFilePresenter);
+    }
 }

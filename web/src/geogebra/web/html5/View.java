@@ -33,4 +33,9 @@ public class View extends Widget {
 	  	GWT.log("Showing animation");    
     }
 
+	public String getDataParamFileName() {
+	    // TODO Auto-generated method stub
+	    return ((ArticleElement) container).getDataParamFileName();
+    }
+
 }

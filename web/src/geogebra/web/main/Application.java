@@ -472,4 +472,10 @@ public class Application extends AbstractApplication {
 	    
     }
 
+	@Override
+    public int getCurrentLabelingStyle() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
 }

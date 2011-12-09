@@ -56,5 +56,13 @@ public final class ArticleElement extends Element implements HasWidgets {
 		}
 		return false;
     }
+	
+	public String getDataParamFileName() {
+		return (this.getAttribute("data-param-filename") != null) ? this.getAttribute("data-param-filename") : "";
+	}
+	
+	public String getDataParamBase64String() {
+		return this.getAttribute("data-param-ggbbase64");
+	}
 
 }

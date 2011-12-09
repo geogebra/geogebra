@@ -2,6 +2,8 @@ package geogebra.web.presenter;
 
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.UrlFetcher;
+import geogebra.web.html5.ArticleElement;
+import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 
 public class LoadFilePresenter extends BasePresenter {
@@ -9,18 +11,26 @@ public class LoadFilePresenter extends BasePresenter {
 	private final UrlFetcher urlFetcher;
 	
 
-	public LoadFilePresenter(UrlFetcher urlFetcher) {
+	public LoadFilePresenter(UrlFetcher urlFetcher,View view) {
 		this.urlFetcher = urlFetcher;
+		setView(view);
 	}
 	
 	public void onPageLoad() {
-		if (urlFetcher.isGgbFileParameterSpecified()) {
+		if (getView().getDataParamFileName() != "") {
+			fetch(getView().getDataParamFileName());
+		} else if (urlFetcher.isGgbFileParameterSpecified()) {
 			fetch(urlFetcher.getAbsoluteGgbFileUrlFromParameter());
 		} else {
 			getView().promptUserForGgbFile();
 		}
 	}
 	
+	private boolean getDataParamFileName() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
 	public void onWorksheetConstructionFailed(String errorMessage) {
 		getView().showError(errorMessage);
 	}
