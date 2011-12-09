@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra;
 
-//INTENTIONAL ERROR TO TEST AUTOTEST MACHINERY import geogebra.common.GeoGebraConstants;
+import geogebra.common.GeoGebraConstants;
 
 import java.awt.Frame;
 import java.awt.Toolkit;
