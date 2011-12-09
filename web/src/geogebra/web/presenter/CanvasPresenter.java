@@ -5,7 +5,7 @@ import geogebra.web.eventbus.MyEventBus;
 public class CanvasPresenter extends BasePresenter {
 	
 	public CanvasPresenter(MyEventBus eventBus) {
-	    this.eventBus = eventBus;
+	    setEventBus(eventBus);
     }
 	
 	public void onPageLoad() {

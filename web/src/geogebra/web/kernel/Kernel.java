@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
@@ -401,6 +402,12 @@ public class Kernel extends AbstractKernel {
 	@Override
     public AbstractConstructionDefaults getConstructionDefaults(
             Construction construction) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

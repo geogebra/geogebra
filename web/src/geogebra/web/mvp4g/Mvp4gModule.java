@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.web.eventbus.MyEventBus;
+import geogebra.web.ggb.ApplicationWrapper;
+import geogebra.web.gin.AsyncProvider;
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.RequestTemplateXhr2;
 import geogebra.web.helper.UrlFetcher;
@@ -12,12 +14,15 @@ import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
+import geogebra.web.main.Application;
+import geogebra.web.presenter.CanvasPresenter;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import com.gargoylesoftware.htmlunit.javascript.host.Node;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.Event;
@@ -42,17 +47,35 @@ public class Mvp4gModule {
 		
 		ArrayList<ArticleElement> articles = getGeoGebraMobileTags();
 		for (ArticleElement article : articles) {
+			View view = new View(article);
 			MyEventBus _eventFlow = new MyEventBus(article);
-			_eventFlow.addLoadHandler(
-					new LoadFilePresenter(
-							new UrlFetcherImpl(
-									new RequestTemplateXhr2(),
-									GeoGebraConstants.URL_PARAM_GGB_FILE,
-									GeoGebraConstants.URL_PARAM_PROXY,
-									GeoGebraConstants.PROXY_SERVING_LOCATION
-									), new View(article)
-							)
-					);
+			
+			CanvasPresenter canvasP = new CanvasPresenter(_eventFlow);
+			canvasP.setView(view);
+			
+			LoadFilePresenter loadFilePresenter = new LoadFilePresenter(
+					new UrlFetcherImpl(
+							new RequestTemplateXhr2(),
+							GeoGebraConstants.URL_PARAM_GGB_FILE,
+							GeoGebraConstants.URL_PARAM_PROXY,
+							GeoGebraConstants.PROXY_SERVING_LOCATION
+							));
+			loadFilePresenter.setEventBus(_eventFlow);
+			loadFilePresenter.setView(view);
+			ApplicationWrapper appWrapper = new ApplicationWrapper(new AsyncProvider<Application>() {
+				@Override
+				public void get(AsyncCallback<Application> callback) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			appWrapper.setEventBus(_eventFlow);
+			appWrapper.setView(view);
+			
+			_eventFlow.addLoadHandler(loadFilePresenter, canvasP);
+			_eventFlow.addCreateApplicationHandler(appWrapper);
+			_eventFlow.addFileContentLoadHandler(appWrapper);
+					
 			_eventFlow.pageLoad();
 			eventbuses.add(_eventFlow);
 			};

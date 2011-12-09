@@ -2,6 +2,7 @@ package geogebra.web.eventbus;
 
 import java.util.ArrayList;
 
+import geogebra.web.ggb.ApplicationWrapper;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.presenter.BasePresenter;
@@ -66,7 +67,22 @@ public class MyEventBus {
 		}
 	}
 
-	public void addLoadHandler(BasePresenter loadFilePresenter) {
-	    loadHandlers.add(loadFilePresenter);
+	public void addLoadHandler(BasePresenter ... loadListeners) {
+		for (int i = 0; i < loadListeners.length; i++) {
+			loadHandlers.add(loadListeners[i]);
+		}
+    }
+
+	public void addFileContentLoadHandler(BasePresenter ... contentLoadListneres) {
+		for (int i = 0; i < contentLoadListneres.length; i++) {
+			fileContentLoadHandlers.add(contentLoadListneres[i]);
+		}
+    }
+
+	public void addCreateApplicationHandler(BasePresenter ... createApplicationListeners) {
+	    for (int i = 0; i < createApplicationListeners.length; i++) {
+	    	createApplicationHandlers.add(createApplicationListeners[i]);
+	    }
+	    
     }
 }
