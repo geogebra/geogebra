@@ -852,7 +852,7 @@ public class CASInputHandler {
 			System.out.println(selectedRow + ": " + str);
 
 			boolean foundReference = false;
-			boolean addParenthesis = false;
+			boolean addParentheses = false;
 			int referenceNumber = 0;
 
 			for (int i = 0; i < str.length(); i++) {
@@ -869,16 +869,16 @@ public class CASInputHandler {
 					// needed if the reference is the first term in the
 					// expression
 					if (i < str.length() - 1) {
-						addParenthesis = true;
+						addParentheses = true;
 					}
 
 					handleReference(sb, selectedRow, referenceNumber,
-							addParenthesis);
+							addParentheses);
 				}
 
 				if (c != delimiter) {
 					sb.append(c);
-					addParenthesis = true;
+					addParentheses = true;
 				} else {
 					foundReference = true;
 				}
@@ -886,7 +886,7 @@ public class CASInputHandler {
 
 			if (foundReference) {
 				handleReference(sb, selectedRow, referenceNumber,
-						addParenthesis);
+						addParentheses);
 			}
 
 			break;
@@ -895,7 +895,7 @@ public class CASInputHandler {
 	}
 
 	private void handleReference(StringBuilder sb, int selectedRow,
-			int referenceNumber, boolean addParenthesis) {
+			int referenceNumber, boolean addParentheses) {
 
 		if (referenceNumber > 0 && referenceNumber != selectedRow + 1
 				&& referenceNumber <= casView.getRowCount()) {
@@ -903,13 +903,13 @@ public class CASInputHandler {
 			// example #3)
 			String reference = casView.getRowOutputValue(referenceNumber - 1);
 
-			appendReference(sb, reference, addParenthesis);
+			appendReference(sb, reference, addParentheses);
 
 		} else if (referenceNumber == 0 && selectedRow > 0) {
 			// just a # (or $) is in the input (without a number)
 			String reference = casView.getRowOutputValue(selectedRow - 1);
 
-			appendReference(sb, reference, addParenthesis);
+			appendReference(sb, reference, addParentheses);
 
 		} else {
 			// TODO handle incorrect input
@@ -918,15 +918,15 @@ public class CASInputHandler {
 	}
 
 	private static void appendReference(StringBuilder sb, String reference,
-			boolean addParenthesis) {
-		boolean paranthesis = addParenthesis;
+			boolean addParentheses) {
+		boolean parantheses = addParentheses;
 		// don't add parenthesis if the given expression is just a positive
 		// number
 		if (isPositiveNumber(reference)) {
-			paranthesis = false;
+			parantheses = false;
 		}
 
-		if (paranthesis) {
+		if (parantheses) {
 			sb.append("(" + reference + ")");
 		} else {
 			sb.append(reference);
