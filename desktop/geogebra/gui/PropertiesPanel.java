@@ -1249,7 +1249,6 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				// set selectedColor if all selected geos have the same color
 				if (equalObjColor) {
 					if (allFillable) {
-						selectedColor = (Color) geo0.getFillColor().getAwtColor();
 						selectedColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo0.getFillColor());
 						alpha = geo0.getAlphaValue();
 					} else {

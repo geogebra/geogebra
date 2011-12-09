@@ -123,7 +123,7 @@ public class DrawAxis3D extends DrawLine3D {
     			//sets the label visible
     			label.setIsVisible(true);
     			label.update(strNum, getView3D().getApplication().getPlainFont(), 
-    					(Color) getGeoElement().getObjectColor().getAwtColor(),
+    					geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
     					origin.copyVector(),
     					axis.getNumbersXOffset(),axis.getNumbersYOffset());
     			//TODO optimize this
@@ -132,7 +132,7 @@ public class DrawAxis3D extends DrawLine3D {
     			label = new DrawLabel3D(getView3D());
     			label.setAnchor(true);
     			label.update(strNum, getView3D().getApplication().getPlainFont(), 
-    					(Color) getGeoElement().getObjectColor().getAwtColor(),
+    					geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
     					origin.copyVector(),
     					axis.getNumbersXOffset(),axis.getNumbersYOffset());
     			labels.put(strNum, label);
@@ -143,7 +143,7 @@ public class DrawAxis3D extends DrawLine3D {
 		
 		// update end of axis label
 		label.update(axis.getAxisLabel(), getView3D().getApplication().getPlainFont(), 
-				(Color) getGeoElement().getObjectColor().getAwtColor(),
+				geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
 				((GeoAxisND) getGeoElement()).getPointInD(3,minmax[1]),
 				getGeoElement().labelOffsetX-4,getGeoElement().labelOffsetY-6
 		);

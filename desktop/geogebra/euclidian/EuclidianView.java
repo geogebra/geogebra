@@ -3805,12 +3805,12 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 				d = new DrawAngle(this, (GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
-						Color col = (Color) ((Construction) geo
+						Color col = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((Construction) geo
 								.getConstruction())
 								.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_ANGLE)
-								.getObjectColor().getAwtColor();
+								.getObjectColor());
 						Application.debug(col);
 						geo.setObjColor(new geogebra.awt.Color(col));
 					}
@@ -3846,16 +3846,16 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 					AbstractConstructionDefaults consDef = ((Construction) geo
 							.getConstruction()).getConstructionDefaults();
 					if (geo.isIndependent()) {
-						Color col = (Color) consDef
+						Color col = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) consDef
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_NUMBER)
-								.getObjectColor().getAwtColor();
+								.getObjectColor());
 						geo.setObjColor(new geogebra.awt.Color(col));
 					} else {
-						Color col = (Color) consDef
+						Color col = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) consDef
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_POLYGON)
-								.getObjectColor().getAwtColor();
+								.getObjectColor());
 						geo.setObjColor(new geogebra.awt.Color(col));
 					}
 				}

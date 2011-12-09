@@ -853,7 +853,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 					if(geosOK){
 						// get color from first geo
 						Color geoColor;
-						geoColor = (Color) ((GeoElement) geos[0]).getObjectColor().getAwtColor();
+						geoColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement) geos[0]).getObjectColor());
 						
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha value
@@ -915,7 +915,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 				if(geosOK){
 					// get color from first geo
 					Color geoColor;
-					geoColor = (Color) ((GeoElement) geos[0]).getBackgroundColor().getAwtColor();
+					geoColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement) geos[0]).getBackgroundColor());
 					
 					/*
 					// check if selection contains a fillable geo
@@ -1482,7 +1482,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 			GeoElement geo = geos.get(i);
 			// apply object color to all other geos except images or text
 			if(!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo.getGeoElementForPropertiesDialog() instanceof GeoText))
-				if((geo.getObjectColor().getAwtColor() != color || geo.getAlphaValue() != alpha) ){
+				if((geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()) != color || geo.getAlphaValue() != alpha) ){
 					geo.setObjColor(new geogebra.awt.Color(color));
 					//if we change alpha for functions, hit won't work properly
 					if(geo.isFillable())
@@ -1521,7 +1521,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		Color color = btnTextColor.getSelectedColor();
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = geos.get(i);
-			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()) instanceof TextProperties && geo.getObjectColor().getAwtColor() != color){
+			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()) instanceof TextProperties && geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()) != color){
 				geo.setObjColor(new geogebra.awt.Color(color));
 				geo.updateRepaint();
 				needUndo = true;

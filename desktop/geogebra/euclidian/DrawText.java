@@ -170,7 +170,7 @@ public final class DrawText extends Drawable {
 				
 				eqn.setFontname(Application.STANDARD_FONT_NAME);
 				setEqnFontSize();																												
-				eqn.setForeground(geo.getObjectColor().getAwtColor());		
+				eqn.setForeground(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));		
 				eqn.setBackground(view.getBackground());
 	
 //			// set equation 

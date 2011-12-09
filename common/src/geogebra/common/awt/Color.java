@@ -56,8 +56,5 @@ public abstract class Color {
     	}
     	return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
         }
-		
-
-	public abstract Object getAwtColor();
 
 }

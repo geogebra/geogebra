@@ -81,10 +81,6 @@ public class Color extends geogebra.common.awt.Color {
 	public static int HSBtoRGB(float redD, float greenD, float blueD) {
 		return java.awt.Color.HSBtoRGB(redD, greenD, blueD);
 	}
-    
-	public java.awt.Color getAwtColor() {
-		return adaptedColor;
-	}
 
 	public static java.awt.Color getAwtColor(Color color){
 		if (color == null)

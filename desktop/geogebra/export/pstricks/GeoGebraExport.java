@@ -323,7 +323,6 @@ public abstract class GeoGebraExport implements ActionListener{
 				GeoConic geo=(GeoConic)g;
 				GeoPoint2 point = geo.getSinglePoint();
 				point.copyLabel(geo);
-				point.setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
 				point.setObjColor(geo.getObjectColor());
 				point.setLabelColor(geo.getLabelColor());
 				point.pointSize = geo.lineThickness;
@@ -339,7 +338,6 @@ public abstract class GeoGebraExport implements ActionListener{
 				DrawLine[] drawLines = new DrawLine[2];
 				for (int i=0; i < 2; i++) {
 					lines[i].copyLabel(geo);					
-					lines[i].setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
 					lines[i].setObjColor(geo.getObjectColor());
 					lines[i].setLabelColor(geo.getLabelColor());	
 					lines[i].lineThickness = geo.lineThickness;

@@ -125,7 +125,7 @@ public class HatchingHandler {
 	public static void setTexture(Graphics2D g2, GeoElement geo, float alpha) {
 
 		if(geo.getFillImage() == null){
-			g2.setPaint((Paint) geo.getFillColor().getAwtColor()); 
+			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getFillColor())); 
 			return;
 		}
 
