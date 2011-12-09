@@ -76,7 +76,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	StringType oldCASPrintform = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(StringType.PGF);
 
-		format=((ExportFrame)frame).getFormat();
+		format=frame.getFormat();
        	forceGnuplot=((PgfFrame)frame).getGnuplot();
     	// init unit variables
     	try{	
@@ -218,7 +218,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	boolean first=true;
 		boolean out=false;
     	while(it.hasNext()){
-    		MyPoint mp=(MyPoint)it.next();
+    		MyPoint mp=it.next();
     		double x=mp.x;
     		double y=mp.y;
     		boolean b=mp.lineTo;
@@ -847,7 +847,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	}
         // create point for slider
         GeoPoint2 geoPoint = new GeoPoint2(construction);
-        geoPoint.setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
+        geoPoint.setObjColor(geo.getObjectColor());
         String label=Util.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
     	double param =  (value - min) / (max - min);
@@ -1691,7 +1691,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double z=gp.getZ();
 			x=x/z;
 			y=y/z;
-			Color dotcolor=(Color) gp.getObjectColor().getAwtColor();
+			Color dotcolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) gp.getObjectColor());
 			double dotsize=gp.getPointSize();
 			int dotstyle=gp.getPointStyle();
 			
@@ -2487,7 +2487,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				else if(c.equals(Color.RED)) {sb.append("red");return;}
 				else if(c.equals(Color.BLUE)) {sb.append("blue");return;}
 				else if(c.equals(Color.GREEN)) {sb.append("green");return;}
-				colorname=createCustomColor((int)red,(int)green,(int)blue);
+				colorname=createCustomColor(red,green,blue);
 				// Example: \definecolor{orange}{rgb}{1,0.5,0}
 				if (format==GeoGebraToPgf.FORMAT_LATEX||format==GeoGebraToPgf.FORMAT_PLAIN_TEX){
 					codeBeginDoc.insert(0,"\\definecolor{"+colorname+"}{rgb}{"
@@ -2518,7 +2518,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				int red=c.getRed();
 				int green=c.getGreen();
 				int blue=c.getBlue();
-				colorname=createCustomColor((int)red,(int)green,(int)blue);
+				colorname=createCustomColor(red,green,blue);
 				// Example: \definecolor{orange}{rgb}{1,0.5,0}
 				if (format==GeoGebraToPgf.FORMAT_LATEX||format==GeoGebraToPgf.FORMAT_PLAIN_TEX){
 					codeBeginDoc.insert(0,"\\definecolor{"+colorname+"}{rgb}{"

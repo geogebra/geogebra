@@ -68,7 +68,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 		if (ob instanceof GeoElement) {	
 			GeoElement geo = (GeoElement) ob;	
-			setForeground((Color) geo.getAlgebraColor().getAwtColor());
+			setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getAlgebraColor()));
 
 			String text = null;
 			if (geo.isIndependent()) {

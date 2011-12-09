@@ -805,7 +805,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			RowData rd = data.getRow(row);
 			int index = rd.geo.getConstructionIndex();
 			if (useColors)
-				comp.setForeground((Color) ((GeoElement)rd.geo).getObjectColor().getAwtColor());
+				comp.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement)rd.geo).getObjectColor()));
 			else
 				comp.setForeground(Color.black);
 
@@ -1210,7 +1210,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors)
-					return (Color) ((GeoElement)rowList.get(nRow).geo).getObjectColor().getAwtColor();
+					return geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement)rowList.get(nRow).geo).getObjectColor());
 				else
 					return Color.black;
 			} catch (Exception e) {

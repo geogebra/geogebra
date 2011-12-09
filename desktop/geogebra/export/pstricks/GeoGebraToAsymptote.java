@@ -808,7 +808,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
         // create point for slider
         GeoPoint2 geoPoint = new GeoPoint2(construction);
-        geoPoint.setObjColor((geogebra.common.awt.Color) geo.getObjectColor().getAwtColor());
+        geoPoint.setObjColor(geo.getObjectColor());
         String label=Util.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
         double param =  (value - min) / (max - min);

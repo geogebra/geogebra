@@ -1240,9 +1240,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			float alpha = 1;
 			
 			if(equalObjColorBackground){
-				geogebra.awt.Color tempColor = (geogebra.awt.Color) geo0.getBackgroundColor();
-				selectedBGColor  = (tempColor == null) ? null : (Color) geo0.getBackgroundColor().getAwtColor();
-				
+				selectedBGColor  = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo0.getBackgroundColor());
 			}
 			
 			if(this.rbtnBackgroundColor.isSelected())
@@ -1252,9 +1250,10 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 				if (equalObjColor) {
 					if (allFillable) {
 						selectedColor = (Color) geo0.getFillColor().getAwtColor();
+						selectedColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo0.getFillColor());
 						alpha = geo0.getAlphaValue();
 					} else {
-						selectedColor = (Color) geo0.getObjectColor().getAwtColor();
+						selectedColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo0.getObjectColor());
 					}
 				} 
 			}	

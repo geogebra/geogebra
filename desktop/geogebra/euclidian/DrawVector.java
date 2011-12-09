@@ -235,7 +235,7 @@ public class DrawVector extends Drawable implements Previewable {
                                               
             if (labelVisible) {
 				g2.setFont(view.fontVector);
-				g2.setPaint((Paint) ((GeoElement) v).getLabelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color)((GeoElement) v).getLabelColor()));
 				drawLabel(g2);
             }            
         }
@@ -243,7 +243,7 @@ public class DrawVector extends Drawable implements Previewable {
     
     
 	final void drawTrace(Graphics2D g2) {
-		g2.setPaint((Paint) ((GeoElement) v).getObjectColor().getAwtColor());
+		g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color)((GeoElement) v).getObjectColor()));
 		g2.setStroke(objStroke);  
 		if (lineVisible) g2.draw(line);  
 		if (arrowheadVisible) g2.fill(gp);       

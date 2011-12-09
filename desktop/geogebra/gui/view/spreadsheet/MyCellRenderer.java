@@ -275,8 +275,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 						if(geo.isGeoText())
 							isSerif = ((GeoText)geo).isSerifFont();
 						//System.out.println(latexStr);
-						drawLatexImageIcon(latexIcon, latexStr, getFont(), isSerif, (Color) geo
-								.getAlgebraColor().getAwtColor(), bgColor);
+						drawLatexImageIcon(latexIcon, latexStr, getFont(), isSerif,
+								geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getAlgebraColor()), bgColor);
 						setIcon(latexIcon);
 						setText("");
 
