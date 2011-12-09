@@ -12,6 +12,6 @@ DESKTOP_AUTOBUILDDIR=../../../desktop/scripts/autobuild
 DESKTOP_BUILDDIR=../../../desktop/build
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 mkdir -p $REVDIR/$REVISION
-$DESKTOP_AUTOBUILDDIR/make-vanilla-jars -j $JAVA_HOME
+$DESKTOP_AUTOBUILDDIR/make-vanilla-jars -c -j $JAVA_HOME
 
 cp $DESKTOP_BUILDDIR/*.jar $REVDIR/$REVISION
