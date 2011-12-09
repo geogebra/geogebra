@@ -111,7 +111,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 		final Dimension bgColorIconSize = new Dimension(18,iconHeight);
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize, ColorPopupMenuButton.COLORSET_BGCOLOR, false){
 			public ImageIcon getButtonIcon(){		
-				Color c = getSelectedColor();
+				Color c = geogebra.awt.Color.getAwtColor(getSelectedColor());
 				if(c == null) 
 					return GeoGebraIcon.createNullSymbolIcon(bgColorIconSize.width, bgColorIconSize.height);
 				else
@@ -201,7 +201,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 		else if (source == btnBgColor) {
 
 			// set color in table (needed as geos can be renamed, deleted etc)
-			Color bgCol = btnBgColor.getSelectedColor();
+			Color bgCol = geogebra.awt.Color.getAwtColor(btnBgColor.getSelectedColor());
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
 
 			// set color for the actual geos

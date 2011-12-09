@@ -15,6 +15,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.GuiManager;
@@ -28,7 +29,6 @@ import geogebra.gui.util.TableSymbolsLaTeX;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -458,7 +458,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		recentSymbolTable.setSelectedIndex(0);
 		//	this.setUseColorSwatchBorder(true);
 		recentSymbolTable.setShowGrid(true);
-		recentSymbolTable.setGridColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+		recentSymbolTable.setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		recentSymbolTable.setBorder(BorderFactory.createLoweredBevelBorder());  
 		recentSymbolTable.setShowSelection(false);
 

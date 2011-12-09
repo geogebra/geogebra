@@ -1,8 +1,8 @@
 package geogebra.gui.view.functioninspector;
 
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -42,9 +42,9 @@ public class InspectorTable extends JTable{
 
 		// set visual appearance
 		setShowGrid(true);
-		setGridColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+		setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		//setSelectionBackground(new Color(255, 130, 171));
-		setSelectionBackground(GeoGebraColorConstants.PINK);
+		setSelectionBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.PINK));
 		setBorder(BorderFactory.createEmptyBorder());
 
 		// set resizing fields

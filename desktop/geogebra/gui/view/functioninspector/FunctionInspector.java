@@ -37,6 +37,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.InputDialog;
@@ -61,7 +62,6 @@ import geogebra.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -111,7 +111,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
 
 	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
-	private static final Color TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
+	private static final Color TABLE_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 
 	private static final int minRows = 12;
 
@@ -1303,7 +1303,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		// point list
 		pts = new GeoList(cons);
 		pts.setEuclidianVisible(true);
-		pts.setObjColor(new geogebra.awt.Color(GeoGebraColorConstants.DARKGRAY));
+		pts.setObjColor(GeoGebraColorConstants.DARKGRAY);
 		pts.setPointSize(3);
 		pts.setLayer(f.getLayer()+1);
 		for(int i = 0; i < pointCount; i++){

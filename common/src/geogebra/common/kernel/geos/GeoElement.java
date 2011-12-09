@@ -741,7 +741,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		setAlphaValue(alphaValue);
 
 		// selColor = getInverseColor(objColor);
-		selColor = kernel.getColorAdapter(color.getRed(), color.getGreen(),
+		if(color!=null)
+		selColor = geogebra.common.factories.AwtFactory.prototype.newColor(color.getRed(), color.getGreen(),
 				color.getBlue(), 100);
 	}
 

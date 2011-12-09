@@ -1,9 +1,10 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.main.GeoGebraColorConstants;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import geogebra.common.awt.Point;
+import geogebra.common.main.GeoGebraColorConstants;
+
 import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class SpreadsheetBorders {
 	 */
 	public static void drawFormatBorders(Graphics2D g2, MyTable table){
 
-		g2.setColor(GeoGebraColorConstants.BLACK);
+		g2.setColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
 		HashMap<Point,Object> map = table.getCellFormatHandler().getFormatMap(CellFormat.FORMAT_BORDER);

@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.main.GeoGebraColorConstants;
+import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -20,7 +20,7 @@ public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		this.casTable = casTable;
 				
 		setOpaque(true);
-		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, GeoGebraColorConstants.TABLE_GRID_COLOR));
+		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
 
 	public Component getListCellRendererComponent(JList list, Object value,	int index, boolean  isSelected, boolean cellHasFocus) {
@@ -28,10 +28,10 @@ public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		setFont(casTable.getFont());
 		
 		if (isSelected) {
-			setBackground(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+			setBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 		}
 		else {								
-			setBackground(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+			setBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		}
 	
 		// update height		

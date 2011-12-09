@@ -1,7 +1,7 @@
 package geogebra.gui.color;
 
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -346,7 +346,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		private static final long serialVersionUID = 1L;
 
-		protected Color[] colors;
+		protected geogebra.common.awt.Color[] colors;
 
 		protected Dimension swatchSize = new Dimension(largeSwatchSize,
 				largeSwatchSize);
@@ -490,7 +490,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			Color color = getColorForLocation(e.getX(), e.getY());
 			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					color);
+					new geogebra.awt.Color(color));
 			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
 					+ color.getBlue();
 			if (name != null)
@@ -536,7 +536,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		
 		private Color getColorForCell(int column, int row) {
 			if ((row * numSwatches.width) + column < colors.length)
-				return colors[(row * numSwatches.width) + column]; 
+				return geogebra.awt.Color.getAwtColor(colors[(row * numSwatches.width) + column]); 
 			else
 				return Color.WHITE;
 		}
@@ -623,9 +623,9 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 					.getColor("ColorChooser.swatchesDefaultRecentColor");
 			int numColors = numSwatches.width * numSwatches.height;
 
-			colors = new Color[numColors];
+			colors = new geogebra.common.awt.Color[numColors];
 			for (int i = 0; i < numColors; i++) {
-				colors[i] = defaultRecentColor;
+				colors[i] = new geogebra.awt.Color(defaultRecentColor);
 			}
 		}
 
@@ -637,7 +637,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		public void setMostRecentColor(Color c) {
 
 			System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-			colors[0] = c;
+			colors[0] = new geogebra.awt.Color(c);
 			if (swatchCount < swatchSize.width * swatchSize.height)
 				swatchCount++;
 
@@ -671,9 +671,9 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 					.getColor("ColorChooser.swatchesDefaultRecentColor");
 			int numColors = numSwatches.width * numSwatches.height;
 
-			colors = new Color[numColors];
+			colors = new geogebra.common.awt.Color[numColors];
 			for (int i = 0; i < numColors; i++) {
-				colors[i] = defaultRecentColor;
+				colors[i] = new geogebra.awt.Color(defaultRecentColor);
 			}
 		}
 
@@ -685,7 +685,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				repaint();
 			} else {
 				System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-				colors[0] = color;
+				colors[0] = new geogebra.awt.Color(color);
 				myChooser.setSwatchPanelSelection(color);
 				repaint();
 

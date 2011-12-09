@@ -43,6 +43,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.SetLabels;
@@ -69,7 +70,6 @@ import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.kernel.kernelND.LevelOfDetail;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -1311,7 +1311,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		 */
 		public String getToolTipText(Color color) {
 			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					color);
+					new geogebra.awt.Color(color));
 			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
 					+ color.getBlue();
 			if (name != null)

@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -27,7 +28,6 @@ import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 import geogebra.util.AwtColorAdapter;
 import geogebra.util.Util;
 
@@ -867,10 +867,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			// setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 			// better for Macs?
 			setForeground(Color.black);
-			setBackground(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+			setBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			// setBorder(BorderFactory.createBevelBorder(0));
 			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-					GeoGebraColorConstants.TABLE_GRID_COLOR));
+					geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 
 		}
 

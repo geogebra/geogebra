@@ -1,9 +1,9 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -57,7 +57,7 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 		headerModel = new DefaultListModel();	
 		JTable table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.setGridColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+		table.setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		table.setShowGrid(true);
 
 		// table row header

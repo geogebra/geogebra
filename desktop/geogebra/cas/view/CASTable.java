@@ -4,11 +4,11 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -60,7 +60,7 @@ public class CASTable extends JTable {
 		this.table = this;
 
 		setShowGrid(true);
-		setGridColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+		setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 
 		tableModel = new CASTableModel();

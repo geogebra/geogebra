@@ -1,10 +1,10 @@
 package geogebra.gui.util;
 
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -39,7 +39,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 		setSelectedIndex(0);
 		//	this.setUseColorSwatchBorder(true);
 		this.setShowGrid(true);
-		this.setGridColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+		this.setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		this.setBorder(BorderFactory.createLineBorder(MyTable.TABLE_GRID_COLOR));
 		//this.setBorder(BorderFactory.createEmptyBorder());
 		this.setShowSelection(false);

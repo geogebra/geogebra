@@ -7,13 +7,13 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
 
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -88,7 +88,7 @@ public class CASView extends JComponent implements View, Gridable {
 		
 		//set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, GeoGebraColorConstants.TABLE_GRID_COLOR));
+		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		p.setBackground(Color.white);
 		scrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, p);
 		

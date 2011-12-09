@@ -4,6 +4,10 @@ public abstract class Color {
 
 	public static Color black = null;
 	public static Color white = null;
+	public static Color gray = null;
+	public static Color blue = null;
+	public static Color darkGray = null;
+	public static Color lightGray = null;
 	public abstract int getRed();
 	public abstract int getBlue();
 	public abstract int getGreen();

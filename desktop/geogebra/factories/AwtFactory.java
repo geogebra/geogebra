@@ -4,6 +4,10 @@ import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
+	@Override
+	public Color newColor(int RGB) {
+		return new geogebra.awt.Color(RGB);
+	}
 	
 	@Override
 	public Color newColor(int red, int green, int blue) {

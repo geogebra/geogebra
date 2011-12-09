@@ -86,7 +86,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	
 	// polygon 3D
 	/** default color for 3D polygons */
-	public static final Color colPolygon3D = colPolygon;
+	public static final Color colPolygon3D = geogebra.awt.Color.getAwtColor(colPolygon);
 	/** default alpha for 3D polygons*/
 	public static final float DEFAULT_POLYGON3D_ALPHA = DEFAULT_POLYGON_ALPHA;
 
@@ -102,7 +102,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	
 	// polyhedrons	
 	/** default color for polyhedrons */
-	private static final Color colPolyhedron = colPolygon;//new Color(153, 51, 0);
+	private static final Color colPolyhedron = geogebra.awt.Color.getAwtColor(colPolygon);//new Color(153, 51, 0);
 
 	// quadrics 
 	/** default alpha for quadrics*/
@@ -147,7 +147,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		freePoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point3D" + strFree);
-		freePoint.setObjColor(new geogebra.awt.Color(colPoint));
+		freePoint.setObjColor(colPoint);
 		//freePoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_FREE, freePoint);
 		
@@ -156,7 +156,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		depPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point3D" + strDependent);
-		depPoint.setObjColor(new geogebra.awt.Color(colDepPoint));
+		depPoint.setObjColor(colDepPoint);
 		//depPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_DEPENDENT, depPoint);
 		
@@ -165,7 +165,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		pathPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("Point3DOn");
-		pathPoint.setObjColor(new geogebra.awt.Color(colPathPoint));
+		pathPoint.setObjColor(colPathPoint);
 		//pathPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_ON_PATH, pathPoint);
 		
@@ -174,7 +174,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		regionPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("Point3DInRegion");
-		regionPoint.setObjColor(new geogebra.awt.Color(colRegionPoint));
+		regionPoint.setObjColor(colRegionPoint);
 		//regionPoint.setLabelOffset(5, -5);
 		defaultGeoElements.put(DEFAULT_POINT3D_IN_REGION, regionPoint);
 		

@@ -3,12 +3,12 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BasicStroke;
@@ -60,11 +60,11 @@ public class MyTable extends JTable implements FocusListener
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
-	public static final Color SELECTED_BACKGROUND_COLOR = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR; 
-	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
-	public static final Color BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
-	public static final Color TABLE_GRID_COLOR = GeoGebraColorConstants.GRAY2;
-	public static final Color HEADER_GRID_COLOR = GeoGebraColorConstants.GRAY4;
+	public static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR); 
+	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+	public static final Color BACKGROUND_COLOR_HEADER = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+	public static final Color TABLE_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY2);
+	public static final Color HEADER_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY4);
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
 	protected Kernel kernel;
@@ -1103,7 +1103,7 @@ public class MyTable extends JTable implements FocusListener
 
 		// draw special target cell frame
 		if(targetcellFrame != null){
-			g2.setColor(GeoGebraColorConstants.DARKBLUE);
+			g2.setColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.DARKBLUE));
 			g2.setStroke(dashed);
 			g2.draw(targetcellFrame);
 		}

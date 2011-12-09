@@ -2,6 +2,7 @@
 
 package geogebra.gui.view.algebra;
 
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.editor.GeoGebraEditorPane;
@@ -9,7 +10,6 @@ import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -192,7 +192,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		private Color listBackground = Color.white;
 		private Color rolloverBackground = Color.lightGray;
 		private Border gridBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, GeoGebraColorConstants.TABLE_GRID_COLOR),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 				@Override

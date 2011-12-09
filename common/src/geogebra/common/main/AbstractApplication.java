@@ -2,6 +2,7 @@ package geogebra.common.main;
 
 import java.util.ArrayList;
 
+import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractKernel;
@@ -207,6 +208,8 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	 */
 	public abstract void updateConstructionProtocol();
 	public abstract int getCurrentLabelingStyle();
+	public abstract String reverseGetColor(String colorName);
+	public abstract String getColor(String string);
 	
 
 }

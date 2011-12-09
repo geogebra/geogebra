@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -26,7 +27,6 @@ import geogebra.kernel.geos.GeoScriptAction;
 import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.statistics.SetRandomValue;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 import geogebra.sound.SoundManager;
 
 import java.awt.Color;

@@ -302,7 +302,7 @@ public class DrawVector extends Drawable implements Previewable {
     
 	final public void drawPreview(Graphics2D g2) {
 		if (isVisible) {		
-			g2.setPaint(ConstructionDefaults.colPreview);
+			g2.setPaint(geogebra.awt.Color.getAwtColor(ConstructionDefaults.colPreview));
 			g2.setStroke(objStroke);  
 			if (arrowheadVisible) g2.fill(gp);                                    
 			if (lineVisible) g2.draw(line);                                    			      

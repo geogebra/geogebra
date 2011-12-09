@@ -1,9 +1,9 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.PropertiesPanelMiniListener;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -186,8 +186,8 @@ public class PropertiesPanelMini extends JFrame implements ActionListener, Chang
 	        JMenuItem menuItem9 = new JMenuItem(app.getColor("Orange"), new ColorIcon(Color.orange));  
 	        JMenuItem menuItem10 = new JMenuItem(app.getColor("Pink"), new ColorIcon(Color.pink));  
 	        JMenuItem menuItem11 = new JMenuItem(app.getColor("Gray"), new ColorIcon(Color.gray));  
-	        JMenuItem menuItem12 = new JMenuItem(app.getColor("Purple"), new ColorIcon(GeoGebraColorConstants.getGeogebraColor(app, "PURPLE")));  
-	        JMenuItem menuItem13 = new JMenuItem(app.getColor("Brown"), new ColorIcon(GeoGebraColorConstants.getGeogebraColor(app, "BROWN")));  
+	        JMenuItem menuItem12 = new JMenuItem(app.getColor("Purple"), new ColorIcon(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.getGeogebraColor(app, "PURPLE"))));  
+	        JMenuItem menuItem13 = new JMenuItem(app.getColor("Brown"), new ColorIcon(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.getGeogebraColor(app, "BROWN"))));  
 	        menuItem1.addActionListener(this);
 	        menuItem2.addActionListener(this);
 	        menuItem3.addActionListener(this);

@@ -3,12 +3,12 @@ package geogebra.kernel.commands;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoText;
-import geogebra.main.GeoGebraColorConstants;
 
-import java.awt.Color;
+import geogebra.common.awt.Color;
 
 /**
  *SetColor
@@ -60,9 +60,9 @@ class CmdSetColor extends CmdScripting {
 				
 				
 				if (background)
-					arg[0].setBackgroundColor(new geogebra.awt.Color(col));
+					arg[0].setBackgroundColor(col);
 				else
-					arg[0].setObjColor(new geogebra.awt.Color(col));
+					arg[0].setObjColor(col);
 				
 				arg[0].updateRepaint();				
 				

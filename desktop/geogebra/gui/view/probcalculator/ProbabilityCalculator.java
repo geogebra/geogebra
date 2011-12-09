@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidian.EuclidianView;
@@ -50,7 +51,6 @@ import geogebra.kernel.statistics.AlgoInversePoisson;
 import geogebra.kernel.statistics.AlgoPascal;
 import geogebra.kernel.statistics.AlgoPoisson;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 import geogebra.main.settings.ProbabilityCalculatorSettings;
 
 import java.awt.BorderLayout;
@@ -182,8 +182,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	boolean validProb;
 
 	// colors
-	private static final Color COLOR_PDF = GeoGebraColorConstants.DARKBLUE;
-	private static final Color COLOR_PDF_FILL = GeoGebraColorConstants.BLUE;  
+	private static final Color COLOR_PDF = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.DARKBLUE);
+	private static final Color COLOR_PDF_FILL = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.BLUE);  
 	private static final Color COLOR_POINT = Color.BLACK;
 
 	private static final float opacityIntegral = 0.5f; 

@@ -852,8 +852,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 					if(geosOK){
 						// get color from first geo
-						Color geoColor;
-						geoColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement) geos[0]).getObjectColor());
+						geogebra.common.awt.Color geoColor;
+						geoColor = ((GeoElement) geos[0]).getObjectColor();
 						
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha value
@@ -878,7 +878,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 						updateColorTable();
 						
 						// find the geoColor in the table and select it 
-						int index = this.getColorIndex(geoColor);
+						int index = this.getColorIndex(geogebra.awt.Color.getAwtColor(geoColor));
 						setSelectedIndex(index);
 						setDefaultColor(alpha, geoColor);
 
@@ -914,8 +914,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 				if(geosOK){
 					// get color from first geo
-					Color geoColor;
-					geoColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement) geos[0]).getBackgroundColor());
+					geogebra.common.awt.Color geoColor;
+					geoColor = ((GeoElement) geos[0]).getBackgroundColor();
 					
 					/*
 					// check if selection contains a fillable geo
@@ -938,13 +938,13 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 					
 					
 					// find the geoColor in the table and select it 
-					int index = getColorIndex(geoColor);
+					int index = getColorIndex(geogebra.awt.Color.getAwtColor(geoColor));
 					setSelectedIndex(index);
 					setDefaultColor(alpha, geoColor);
 					
 					// if nothing was selected, set the icon to show the non-standard color 
 					if(index == -1){
-						this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, bgColorIconSize, geoColor, null));
+						this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, bgColorIconSize, geogebra.awt.Color.getAwtColor(geoColor), null));
 					}	
 				}
 			}
@@ -1007,7 +1007,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 
 			public ImageIcon getButtonIcon(){				
-				return GeoGebraIcon.createTextSymbolIcon("A", app.getPlainFont(), textColorIconSize,  getSelectedColor(),  null);
+				return GeoGebraIcon.createTextSymbolIcon("A", app.getPlainFont(), textColorIconSize,  geogebra.awt.Color.getAwtColor(getSelectedColor()),  null);
 			}
 
 		};
@@ -1351,7 +1351,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		
 		else if (source == btnColor) {
 			if(mode == EuclidianConstants.MODE_PEN){
-				ec.getPen().setPenColor((Color) btnColor.getSelectedColor());
+				ec.getPen().setPenColor(geogebra.awt.Color.getAwtColor(btnColor.getSelectedColor()));
 				//btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 			} else {
 				applyColor(targetGeos);
@@ -1475,7 +1475,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 	private void applyColor(ArrayList<GeoElement> geos) {
 
-		Color color = btnColor.getSelectedColor();
+		Color color = geogebra.awt.Color.getAwtColor(btnColor.getSelectedColor());
 		float alpha = btnColor.getSliderValue() / 100.0f;
 
 		for (int i = 0 ; i < geos.size() ; i++) {
@@ -1498,7 +1498,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 	private void applyBgColor(ArrayList<GeoElement> geos) {
 
 		
-		Color color = btnBgColor.getSelectedColor();
+		Color color = geogebra.awt.Color.getAwtColor(btnBgColor.getSelectedColor());
 		float alpha = btnBgColor.getSliderValue() / 100.0f;
 
 		for (int i = 0 ; i < geos.size() ; i++) {
@@ -1518,7 +1518,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
-		Color color = btnTextColor.getSelectedColor();
+		Color color = geogebra.awt.Color.getAwtColor(btnTextColor.getSelectedColor());
 		for (int i = 0 ; i < geos.size() ; i++) {
 			GeoElement geo = geos.get(i);
 			if( ((GeoElement)geo.getGeoElementForPropertiesDialog()) instanceof TextProperties && geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()) != color){

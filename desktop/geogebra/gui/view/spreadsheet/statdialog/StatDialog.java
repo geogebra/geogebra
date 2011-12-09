@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
@@ -13,7 +14,6 @@ import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -65,14 +65,14 @@ SpecialNumberFormatInterface {
 	protected boolean leftToRight = true;
 
 	// colors
-	public static final Color TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
+	public static final Color TABLE_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 	public static final Color TABLE_HEADER_COLOR = new Color(240,240,240);   
-	public static final Color HISTOGRAM_COLOR = GeoGebraColorConstants.BLUE;    
-	public static final Color BOXPLOT_COLOR = GeoGebraColorConstants.CRIMSON;
-	public static final Color DOTPLOT_COLOR = GeoGebraColorConstants.GRAY5;    
-	public static final Color NQPLOT_COLOR =  GeoGebraColorConstants.GRAY5;    
+	public static final Color HISTOGRAM_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.BLUE);    
+	public static final Color BOXPLOT_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.CRIMSON);
+	public static final Color DOTPLOT_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY5);    
+	public static final Color NQPLOT_COLOR =  geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY5);    
 	public static final Color REGRESSION_COLOR = Color.RED;   
-	public static final Color OVERLAY_COLOR = GeoGebraColorConstants.DARKBLUE;    
+	public static final Color OVERLAY_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.DARKBLUE);    
 	
 	public static final float opacityBarChart = 0.3f; 
 	public static final int thicknessCurve = 4;

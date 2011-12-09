@@ -294,10 +294,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	final public void drawPreview(Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(ConstructionDefaults.colPreviewFill);
+			g2.setPaint(geogebra.awt.Color.getAwtColor(ConstructionDefaults.colPreviewFill));
 			g2.fill(gp);
 
-			g2.setPaint(ConstructionDefaults.colPreview);
+			g2.setPaint(geogebra.awt.Color.getAwtColor(ConstructionDefaults.colPreview));
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}

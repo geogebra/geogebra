@@ -6,7 +6,7 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_UP;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import geogebra.main.GeoGebraColorConstants;
+import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -295,7 +295,7 @@ public class HistoryPopup implements ListSelectionListener{
 
 		// create grid lines with this border
 		private Border gridBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, GeoGebraColorConstants.TABLE_GRID_COLOR),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		@Override

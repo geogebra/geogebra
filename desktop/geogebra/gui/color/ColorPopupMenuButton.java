@@ -11,11 +11,11 @@ the Free Software Foundation.
 */
 package geogebra.gui.color;
 
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,8 +34,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;
-	private Color[]  colorSet; 
-	private Color defaultColor;
+	private geogebra.common.awt.Color[]  colorSet; 
+	private geogebra.common.awt.Color defaultColor;
 	private HashMap<Color,Integer> lookupMap; 
 
 	private boolean hasSlider;
@@ -53,7 +53,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 
 		lookupMap = new HashMap<Color,Integer>();
 		for(int i = 0; i < colorSet.length; i++) {
-			lookupMap.put(colorSet[i], i);
+			lookupMap.put(geogebra.awt.Color.getAwtColor(colorSet[i]), i);
 		}
 
 		setToolTipArray(getToolTipArray());
@@ -87,7 +87,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 	public ImageIcon getButtonIcon() {
 		ImageIcon icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
-			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
+			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, geogebra.awt.Color.getAwtColor(defaultColor), null);
 		}
 		return icon;
 	}
@@ -108,7 +108,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 	}
 
 
-	public Color getSelectedColor(){
+	public geogebra.common.awt.Color getSelectedColor(){
 		int index = getSelectedIndex();
 		if(index <= -1) {
 			return defaultColor;
@@ -119,14 +119,14 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 		}
 	}
 
-	private static Color[] getColorArray(int colorSetType){
+	private static geogebra.common.awt.Color[] getColorArray(int colorSetType){
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
-	public void setDefaultColor(float alpha, Color gc) {
+	public void setDefaultColor(float alpha, geogebra.common.awt.Color gc) {
 		defaultColor = gc;
 		if(gc!=null)
-			this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, iconSize, gc, null));
+			this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, iconSize, geogebra.awt.Color.getAwtColor(gc), null));
 		else
 			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.width, iconSize.height));
 	}
@@ -143,11 +143,11 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 		return toolTipArray;
 	}
 
-	private static ImageIcon[] getColorSwatchIcons(Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
+	private static ImageIcon[] getColorSwatchIcons(geogebra.common.awt.Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
 		ImageIcon[] a = new ImageIcon[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
 			if(colorArray[i] != null) {
-				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, colorArray[i] , null);
+				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, geogebra.awt.Color.getAwtColor(colorArray[i]) , null);
 			} else {
 				a[i] = GeoGebraIcon.createNullSymbolIcon(iconSize.width, iconSize.height);
 			}

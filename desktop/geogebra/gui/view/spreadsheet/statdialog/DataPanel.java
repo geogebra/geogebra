@@ -3,10 +3,10 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraColorConstants;
 import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BorderLayout;
@@ -66,7 +66,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH; 
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;	
-	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
+	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
 	private static final Color TABLE_GRID_COLOR = StatDialog.TABLE_GRID_COLOR ;
 	private static final Color TABLE_HEADER_COLOR = StatDialog.TABLE_HEADER_COLOR;   
 
@@ -154,7 +154,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 		btnEnableAll.setDisabledIcon(iconChecked);
 		btnEnableAll.setEnabled(false);
 		btnEnableAll.setBorderPainted(false);
-		btnEnableAll.setBackground(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);	
+		btnEnableAll.setBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));	
 		btnEnableAll.setContentAreaFilled(false);
 		btnEnableAll.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEnableAll.addActionListener(this);
@@ -486,7 +486,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 				setOpaque(true);
 
 				setBorder(BorderFactory.createCompoundBorder(
-						BorderFactory.createMatteBorder(0, 0, 1, 1, GeoGebraColorConstants.TABLE_GRID_COLOR), 
+						BorderFactory.createMatteBorder(0, 0, 1, 1, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)), 
 						BorderFactory.createEmptyBorder(0, 5, 0, 2)));
 
 				setHorizontalAlignment(LEFT);
