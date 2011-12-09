@@ -1,29 +1,42 @@
-package geogebra.gui;
-
+package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.gui.GuiManager.NumberInputHandler;
+import geogebra.gui.InputHandler;
+import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-public class InputDialogRegularPolygon extends InputDialog{
-	
-	private GeoPoint2 geoPoint1, geoPoint2;
+/**
+ * abstract class for input radius for any circle
+ * @author mathieu
+ *
+ */
+public abstract class InputDialogRadius extends InputDialog{
 
-	private Kernel kernel;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public InputDialogRegularPolygon(Application app, String title, InputHandler handler, GeoPoint2 point1, GeoPoint2 point2, Kernel kernel) {
-		super(app, app.getPlain("Points"), title, "4", false, handler);
+	/** current kernel */
+	protected Kernel kernel;
+	
+	/**
+	 * 
+	 * @param app
+	 * @param title
+	 * @param handler
+	 * @param kernel
+	 */
+	public InputDialogRadius(Application app, String title, InputHandler handler, Kernel kernel) {
+		super(app, app.getPlain("Radius"), title, "", false, handler);
 		
-		geoPoint1 = point1;
-		geoPoint2 = point2;
 		this.kernel = kernel;
-
 	}
 
 	/**
@@ -57,20 +70,23 @@ public class InputDialogRegularPolygon extends InputDialog{
 		boolean ret = inputHandler.processInput(inputPanel.getText());
 
 		cons.setSuppressLabelCreation(oldVal);
-
+		
 		if (ret) {
-			GeoElement[] geos = kernel.RegularPolygon(null, geoPoint1, geoPoint2, ((NumberInputHandler)inputHandler).getNum());
-			GeoElement[] onlypoly = { null };
-			if (geos != null) {
-				onlypoly[0] = geos[0];
-				app.storeUndoInfo();
-				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
-			}
+			GeoElement circle = createOutput(((NumberInputHandler)inputHandler).getNum());
+			GeoElement[] geos = { circle };
+			app.storeUndoInfo();
+			kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(geos);
 		}
 
 		return ret;
-		
 	}
+	
+	/**
+	 * 
+	 * @param num
+	 * @return the circle
+	 */
+	abstract protected GeoElement createOutput(NumberValue num);	
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {

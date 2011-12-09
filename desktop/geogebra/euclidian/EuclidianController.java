@@ -5772,7 +5772,7 @@ EuclidianControllerInterface {
 
 		if (selPoints() == 2) {					
 			GeoPoint2 [] points = getSelectedPoints();
-			app.getGuiManager().showNumberInputDialogRegularPolygon(app.getMenu(getKernel().getModeText(mode)),
+			app.getGuiManager().getDialogManager().showNumberInputDialogRegularPolygon(app.getMenu(getKernel().getModeText(mode)),
 					points[0], points[1]);
 			return true;
 		}
@@ -5783,7 +5783,7 @@ EuclidianControllerInterface {
 		if (selectionPreview)
 			return false;
 
-		app.getGuiManager().showBooleanCheckboxCreationDialog(mouseLoc, null);
+		app.getGuiManager().getDialogManager().showBooleanCheckboxCreationDialog(mouseLoc, null);
 		return false;
 	}
 
@@ -6451,7 +6451,7 @@ EuclidianControllerInterface {
 			
 			GeoElement[] selGeos = getSelectedGeos();
 			
-			app.getGuiManager().showNumberInputDialogRotate(app.getMenu(getKernel().getModeText(mode)), getSelectedPolygons(), getSelectedPoints(), selGeos);
+			app.getGuiManager().getDialogManager().showNumberInputDialogRotate(app.getMenu(getKernel().getModeText(mode)), getSelectedPolygons(), getSelectedPoints(), selGeos);
 			
 			return null;
 
@@ -6487,7 +6487,7 @@ EuclidianControllerInterface {
 						
 			GeoElement[] selGeos = getSelectedGeos();
 			
-			app.getGuiManager().showNumberInputDialogDilate(app.getMenu(getKernel().getModeText(mode)), getSelectedPolygons(), getSelectedPoints(), selGeos);
+			app.getGuiManager().getDialogManager().showNumberInputDialogDilate(app.getMenu(getKernel().getModeText(mode)), getSelectedPolygons(), getSelectedPoints(), selGeos);
 			
 			return null;
 
@@ -6535,7 +6535,7 @@ EuclidianControllerInterface {
 		// we got the point
 		if (selPoints() == 1) {
 			// get length of segment
-			app.getGuiManager().showNumberInputDialogSegmentFixed(app.getMenu(getKernel().getModeText(mode)),
+			app.getGuiManager().getDialogManager().showNumberInputDialogSegmentFixed(app.getMenu(getKernel().getModeText(mode)),
 					getSelectedPoints()[0]);
 
 			return true;
@@ -6715,7 +6715,7 @@ EuclidianControllerInterface {
 			
 			GeoElement[] selGeos = getSelectedGeos();
 
-			app.getGuiManager().showNumberInputDialogAngleFixed(app.getMenu(getKernel().getModeText(mode)), getSelectedSegments(), getSelectedPoints(), selGeos);
+			app.getGuiManager().getDialogManager().showNumberInputDialogAngleFixed(app.getMenu(getKernel().getModeText(mode)), getSelectedSegments(), getSelectedPoints(), selGeos);
 			
 			return null;
 
@@ -6732,7 +6732,7 @@ EuclidianControllerInterface {
 
 		// we got the center point
 		if (selPoints() == 1) {	
-			app.getGuiManager().showNumberInputDialogCirclePointRadius(app.getMenu(getKernel().getModeText(mode)),
+			app.getGuiManager().getDialogManager().showNumberInputDialogCirclePointRadius(app.getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0],(EuclidianView) view);
 			return true;
 		}
@@ -6802,7 +6802,7 @@ EuclidianControllerInterface {
 			while (++index < macroInput.length) {				
 				// maybe we need a number
 				if (macroInput[index] == GeoNumeric.class) {									
-					NumberValue num = app.getGuiManager().showNumberInputDialog(macro.getToolOrCommandName(),
+					NumberValue num = app.getGuiManager().getDialogManager().showNumberInputDialog(macro.getToolOrCommandName(),
 							app.getPlain("Numeric" ), null);									
 					if (num == null) {
 						// no success: reset mode
@@ -6817,7 +6817,7 @@ EuclidianControllerInterface {
 
 				// maybe we need an angle
 				else if (macroInput[index] == GeoAngle.class) {									
-					Object [] ob = app.getGuiManager().showAngleInputDialog(macro.getToolOrCommandName(),
+					Object [] ob = app.getGuiManager().getDialogManager().showAngleInputDialog(macro.getToolOrCommandName(),
 							app.getPlain("Angle"), "45\u00b0");
 					NumberValue num = (NumberValue) ob[0];						
 

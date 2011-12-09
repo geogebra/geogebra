@@ -1,11 +1,12 @@
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.Transformable;
-import geogebra.gui.GuiManager.NumberInputHandler;
+import geogebra.gui.InputHandler;
+import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 

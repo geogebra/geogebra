@@ -1,25 +1,28 @@
-package geogebra.gui;
+package geogebra.gui.dialog;
+
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.gui.GuiManager.NumberInputHandler;
+import geogebra.gui.InputHandler;
+import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-public class InputDialogSegmentFixed extends InputDialog{
+public class InputDialogRegularPolygon extends InputDialog{
 	
-	private GeoPoint2 geoPoint1;
+	private GeoPoint2 geoPoint1, geoPoint2;
 
 	private Kernel kernel;
 	
-	public InputDialogSegmentFixed(Application app, String title, InputHandler handler, GeoPoint2 point1, Kernel kernel) {
-		super(app, app.getPlain("Length"), title, "", false, handler);
+	public InputDialogRegularPolygon(Application app, String title, InputHandler handler, GeoPoint2 point1, GeoPoint2 point2, Kernel kernel) {
+		super(app, app.getPlain("Points"), title, "4", false, handler);
 		
 		geoPoint1 = point1;
+		geoPoint2 = point2;
 		this.kernel = kernel;
 
 	}
@@ -33,11 +36,11 @@ public class InputDialogSegmentFixed extends InputDialog{
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
-			} else if (source == btApply) {
-				processInput();
-			} else if (source == btCancel) {
-				setVisibleForTools(false);
+					setVisibleForTools(!processInput());
+				} else if (source == btApply) {
+					processInput();
+				} else if (source == btCancel) {
+					setVisibleForTools(false);
 			} 
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		
@@ -56,17 +59,18 @@ public class InputDialogSegmentFixed extends InputDialog{
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		if (ret) { 
-			GeoElement[] segment = kernel.Segment(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
-			GeoElement[] onlysegment = { null };
-			if (segment != null) {
-				onlysegment[0] = segment[0];
+		if (ret) {
+			GeoElement[] geos = kernel.RegularPolygon(null, geoPoint1, geoPoint2, ((NumberInputHandler)inputHandler).getNum());
+			GeoElement[] onlypoly = { null };
+			if (geos != null) {
+				onlypoly[0] = geos[0];
 				app.storeUndoInfo();
-				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlysegment);
+				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
 			}
 		}
 
 		return ret;
+		
 	}
 
 	@Override

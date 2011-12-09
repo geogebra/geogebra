@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.kernel.Macro;

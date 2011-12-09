@@ -9,8 +9,9 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.gui;
+package geogebra.gui.dialog;
 
+import geogebra.gui.InputHandler;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

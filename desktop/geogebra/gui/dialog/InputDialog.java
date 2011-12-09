@@ -10,9 +10,11 @@ the Free Software Foundation.
 
 */
 
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.InputHandler;
+import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;

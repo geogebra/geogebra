@@ -1,6 +1,6 @@
 package geogebra.gui.util;
 
-import geogebra.gui.TextInputDialog;
+import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.main.Application;

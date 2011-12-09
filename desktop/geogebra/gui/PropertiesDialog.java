@@ -85,8 +85,8 @@ public class PropertiesDialog
 	private GeoGebraColorChooser colChooser;
 
 	// stop slider increment being less than 0.00000001
-	final static int TEXT_FIELD_FRACTION_DIGITS = 8;
-	final static int SLIDER_MAX_WIDTH = 170;
+	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
+	public final static int SLIDER_MAX_WIDTH = 170;
 	
 	final private static int MIN_WIDTH = 500;
 	final private static int MIN_HEIGHT = 300;

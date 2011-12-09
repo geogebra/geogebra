@@ -9,13 +9,16 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
+import geogebra.gui.DynamicTextInputPane;
+import geogebra.gui.GuiManager;
+import geogebra.gui.InputHandler;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
@@ -718,7 +721,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		handleDocumentEvent(e);
 	}
 
-	protected void handleDocumentEvent(DocumentEvent e) {
+	public void handleDocumentEvent(DocumentEvent e) {
 
 		textPreviewer.updatePreviewText(editGeo, editor.buildGeoGebraString(isLaTeX), isLaTeX);
 	}

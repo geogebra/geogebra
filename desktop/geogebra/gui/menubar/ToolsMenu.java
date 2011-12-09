@@ -1,8 +1,8 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.ToolCreationDialog;
-import geogebra.gui.ToolManagerDialog;
+import geogebra.gui.dialog.ToolCreationDialog;
+import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
 

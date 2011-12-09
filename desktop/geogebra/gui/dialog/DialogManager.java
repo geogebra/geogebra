@@ -1,5 +1,6 @@
-package geogebra.gui;
+package geogebra.gui.dialog;
 
+import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -8,18 +9,35 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.euclidian.EuclidianView;
+import geogebra.gui.GuiManager;
+import geogebra.gui.InputHandler;
+import geogebra.gui.OptionsDialog;
+import geogebra.gui.PropertiesDialog;
+import geogebra.gui.RedefineInputHandler;
+import geogebra.gui.RenameInputHandler;
+import geogebra.gui.OptionsDialog.Factory;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
+import geogebra.gui.dialog.handler.NumberChangeSignInputHandler;
+import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
@@ -29,7 +47,7 @@ import geogebra.main.MyResourceBundle;
 
 /**
  * Class to manage all kind of dialogs, including the file chooser, appearing in GeoGebra. Supports
- * (explizit) lazy initialization so that dialogs have to be created manually if needed.
+ * (explicit) lazy initialization so that dialogs have to be created manually if needed.
  */
 public class DialogManager {
 	/**
@@ -327,6 +345,136 @@ public class DialogManager {
 		return success;
 	}
 	
+
+
+  /**
+   * Creates a new checkbox at given startPoint
+   */
+  public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
+    CheckboxCreationDialog d = new CheckboxCreationDialog(app, loc, bool);
+    d.setVisible(true);
+  }
+
+  /**
+   * Shows a modal dialog to enter a number or number variable name.
+   */
+  public NumberValue showNumberInputDialog(String title, String message,
+      String initText) {
+    // avoid labeling of num
+    Construction cons = app.getKernel().getConstruction();
+    boolean oldVal = cons.isSuppressLabelsActive();
+    cons.setSuppressLabelCreation(true);
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialog(app, message, title, initText, false,
+        handler, true, false, null);
+    id.setVisible(true);
+
+    cons.setSuppressLabelCreation(oldVal);
+    return handler.getNum();
+  }
+
+  /**
+   * Shows a modal dialog to enter a number or number variable name.
+   */
+  public NumberValue showNumberInputDialog(String title, String message,
+      String initText, boolean changingSign, String checkBoxText) {
+    // avoid labeling of num
+    Construction cons = app.getKernel().getConstruction();
+    boolean oldVal = cons.isSuppressLabelsActive();
+    cons.setSuppressLabelCreation(true);
+
+    NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(app.getKernel().getAlgebraProcessor());
+    NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(app,
+        message, title, initText, handler, changingSign, checkBoxText);
+    id.setVisible(true);
+
+    cons.setSuppressLabelCreation(oldVal);
+
+    return handler.getNum();
+  }
+
+  public void showNumberInputDialogRegularPolygon(String title,
+      GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialogRegularPolygon(app, title, handler,
+        geoPoint1, geoPoint2, app.getKernel());
+    id.setVisible(true);
+
+  }
+
+  public void showNumberInputDialogCirclePointRadius(String title,
+      GeoPointND geoPoint1, EuclidianView view) {
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialogCirclePointRadius(app, title, handler,
+        (GeoPoint2) geoPoint1, app.getKernel());
+    id.setVisible(true);
+
+  }
+
+  public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
+      GeoPoint2[] points, GeoElement[] selGeos) {
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialogRotate(app, title, handler, polys, points,
+        selGeos, app.getKernel());
+    id.setVisible(true);
+
+  }
+
+  public void showNumberInputDialogAngleFixed(String title,
+      GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialogAngleFixed(app, title, handler, segments,
+        points, selGeos, app.getKernel());
+    id.setVisible(true);
+
+  }
+
+  public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
+      GeoPoint2[] points, GeoElement[] selGeos) {
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialogDilate(app, title, handler, points,
+        selGeos, app.getKernel());
+    id.setVisible(true);
+
+  }
+
+  public void showNumberInputDialogSegmentFixed(String title, GeoPoint2 geoPoint1) {
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    InputDialog id = new InputDialogSegmentFixed(app, title, handler,
+        geoPoint1, app.getKernel());
+    id.setVisible(true);
+
+  }
+
+  /**
+   * Shows a modal dialog to enter an angle or angle variable name.
+   * 
+   * @return: Object[] with { NumberValue, AngleInputDialog } pair
+   */
+  public Object[] showAngleInputDialog(String title, String message,
+      String initText) {
+    // avoid labeling of num
+    Construction cons = app.getKernel().getConstruction();
+    boolean oldVal = cons.isSuppressLabelsActive();
+    cons.setSuppressLabelCreation(true);
+
+    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+    AngleInputDialog id = new AngleInputDialog(app, message, title, initText,
+        false, handler, true);
+    id.setVisible(true);
+
+    cons.setSuppressLabelCreation(oldVal);
+    Object[] ret = { handler.getNum(), id };
+    return ret;
+  }
+	
 	/**
 	 * Close all open dialogs.
 	 * 
@@ -497,6 +645,21 @@ public class DialogManager {
 									fileName));
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Factory for the {@link DialogManager} class.
+	 */
+	public static class Factory {
+		/**
+		 * @param app Application instance
+		 * @return a new {@link DialogManager}
+		 */
+		public DialogManager create(Application app) {
+			DialogManager dialogManager = new DialogManager(app);
+			dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
+			return dialogManager;
 		}
 	}
 }

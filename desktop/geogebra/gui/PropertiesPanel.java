@@ -45,8 +45,13 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.color.GeoGebraColorChooser;
+import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.properties.AnimationSpeedPanel;
+import geogebra.gui.properties.AnimationStepPanel;
+import geogebra.gui.properties.SliderPanel;
+import geogebra.gui.properties.UpdateablePropertiesPanel;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
@@ -55,7 +60,6 @@ import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoSlope;
-import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoText;
@@ -582,7 +586,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			boolean oneVisible = false;
 			int size = tabList.size();
 			for (int i=0; i < size; i++) {
-				UpdateablePanel up = (UpdateablePanel) tabList.get(i);
+				UpdateablePropertiesPanel up = (UpdateablePropertiesPanel) tabList.get(i);
 				boolean show = (up.update(geos) != null);						
 				up.setVisible(show);
 				if (show) oneVisible = true;
@@ -643,7 +647,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		/**
 		 * panel with show/hide object checkbox
 		 */
-		private class ShowObjectPanel extends JPanel implements ItemListener, UpdateablePanel, SetLabels {
+		private class ShowObjectPanel extends JPanel implements ItemListener, UpdateablePropertiesPanel, SetLabels {
 		
 			private static final long serialVersionUID = 1L;
 			private Object[] geos; // currently selected geos
@@ -738,7 +742,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		/**
 		 * panel with show/hide object checkbox
 		 */
-		private class SelectionAllowedPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+		private class SelectionAllowedPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		
 			private static final long serialVersionUID = 1L;
 			private Object[] geos; // currently selected geos
@@ -819,7 +823,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		/**
 		 * panel with show/hide trimmed intersection lines
 		 */
-		private class ShowTrimmedIntersectionLines extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+		private class ShowTrimmedIntersectionLines extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		
 			private static final long serialVersionUID = 1L;
 			private Object[] geos; // currently selected geos
@@ -907,7 +911,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	/**
 	 * panel to fix checkbox (boolean object)
 	 */
-	private class CheckBoxFixPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class CheckBoxFixPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -991,7 +995,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	/**
 	 * panel color chooser and preview panel
 	 */
-	private class ColorPanel extends JPanel implements ActionListener, UpdateablePanel,
+	private class ColorPanel extends JPanel implements ActionListener, UpdateablePropertiesPanel,
 			ChangeListener, SetLabels {
 
 		private static final long serialVersionUID = 1L;
@@ -1418,7 +1422,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class LabelPanel
 		extends JPanel
-		implements ItemListener, ActionListener , UpdateablePanel, SetLabels {
+		implements ItemListener, ActionListener , UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -1580,7 +1584,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class TooltipPanel
 		extends JPanel
-		implements ItemListener, ActionListener , UpdateablePanel, SetLabels {
+		implements ItemListener, ActionListener , UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -1697,7 +1701,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class LayerPanel
 		extends JPanel
-		implements ItemListener, ActionListener , UpdateablePanel, SetLabels {
+		implements ItemListener, ActionListener , UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -1800,7 +1804,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for trace
 	 * @author Markus Hohenwarter
 	 */
-	private class TracePanel extends JPanel implements ItemListener,  UpdateablePanel, SetLabels {
+	private class TracePanel extends JPanel implements ItemListener,  UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -1881,7 +1885,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for trace
 	 * @author adapted from TracePanel
 	 */
-	private class AnimatingPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class AnimatingPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -1972,7 +1976,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	/**
 	 * panel to say if an image is to be interpolated
 	 */
-	private class CheckBoxInterpolateImage extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class CheckBoxInterpolateImage extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
@@ -2053,7 +2057,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for fixing an object
 	 * @author Markus Hohenwarter
 	 */
-	private class FixPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class FixPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2131,7 +2135,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 	}
 
-	private class IneqStylePanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class IneqStylePanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2225,7 +2229,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to set object's absoluteScreenLocation flag
 	 * @author Markus Hohenwarter
 	 */
-	private class AbsoluteScreenLocationPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class AbsoluteScreenLocationPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2329,7 +2333,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for angles to set whether reflex angles are allowed 
 	 * @author Markus Hohenwarter
 	 */
-	private class AllowReflexAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class AllowReflexAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2448,7 +2452,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for limted paths to set whether outlying intersection points are allowed 
 	 * @author Markus Hohenwarter
 	 */
-	private class AllowOutlyingIntersectionsPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class AllowOutlyingIntersectionsPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2530,7 +2534,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to set a background image (only one checkbox)
 	 * @author Markus Hohenwarter
 	 */
-	private class BackgroundImagePanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class BackgroundImagePanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2609,7 +2613,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel for making an object auxiliary 
 	 * @author Markus Hohenwarter
 	 */
-	private class AuxiliaryObjectPanel extends JPanel implements ItemListener, SetLabels, UpdateablePanel {
+	private class AuxiliaryObjectPanel extends JPanel implements ItemListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2690,7 +2694,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class StartPointPanel
 		extends JPanel
-		implements ActionListener, FocusListener, SetLabels, UpdateablePanel {
+		implements ActionListener, FocusListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -2826,7 +2830,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class CornerPointsPanel
 		extends JPanel
-		implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
+		implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -2987,7 +2991,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	public class TextEditPanel
 		extends JPanel
-		implements ActionListener, UpdateablePanel, SetLabels {
+		implements ActionListener, UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -3054,7 +3058,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class ScriptEditPanel
 		extends JPanel
-		implements ActionListener, UpdateablePanel, SetLabels {
+		implements ActionListener, UpdateablePropertiesPanel, SetLabels {
 		/**
 		 * 
 		 */
@@ -3134,7 +3138,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 *  for GeoPoint and GeoVector
 	 * @author Markus Hohenwarter
 	 */
-	private class CoordPanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class CoordPanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3263,7 +3267,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 *  for GeoLine 
 	 * @author Markus Hohenwarter
 	 */
-	private class LineEqnPanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class LineEqnPanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3393,7 +3397,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 *  for GeoConic 
 	 * @author Markus Hohenwarter
 	 */
-	private class ConicEqnPanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class ConicEqnPanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		/**
 		 * 
 		 */
@@ -3550,7 +3554,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to select the size of a GeoPoint
 	 * @author Markus Hohenwarter
 	 */
-	private class PointSizePanel extends JPanel implements ChangeListener, SetLabels, UpdateablePanel {
+	private class PointSizePanel extends JPanel implements ChangeListener, SetLabels, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -3648,7 +3652,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Florian Sonner
 	 * @version 2008-07-17
 	 */
-	private class PointStylePanel extends JPanel implements UpdateablePanel, SetLabels, ActionListener {
+	private class PointStylePanel extends JPanel implements UpdateablePropertiesPanel, SetLabels, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 		private JRadioButton[] buttons;
@@ -3807,7 +3811,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to select the size of a GeoText
 	 * @author Markus Hohenwarter
 	 */
-	private class TextOptionsPanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class TextOptionsPanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 		
@@ -4076,7 +4080,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class SlopeTriangleSizePanel
 		extends JPanel
-		implements ChangeListener, UpdateablePanel, SetLabels {
+		implements ChangeListener, UpdateablePropertiesPanel, SetLabels {
 
 		/**
 		 * 
@@ -4181,7 +4185,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to select the size of a GeoAngle's arc
 	 * @author Markus Hohenwarter
 	 */
-	private class ArcSizePanel extends JPanel implements ChangeListener, SetLabels, UpdateablePanel {
+	private class ArcSizePanel extends JPanel implements ChangeListener, SetLabels, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -4307,7 +4311,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author Markus Hohenwarter
 	 */
 	private class FillingPanel extends JPanel implements ChangeListener,
-			SetLabels, UpdateablePanel, ActionListener {
+			SetLabels, UpdateablePropertiesPanel, ActionListener {
 
 		/**
 		 * 
@@ -4712,7 +4716,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	private class LineStylePanel
 		extends JPanel
-		implements ChangeListener, ActionListener, UpdateablePanel, SetLabels {
+		implements ChangeListener, ActionListener, UpdateablePropertiesPanel, SetLabels {
 
 		/**
 		 * 
@@ -4903,7 +4907,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * @author matthieu
 	 * 
 	 */
-	private class LineStyleHiddenPanel extends JPanel implements UpdateablePanel, SetLabels, ActionListener {
+	private class LineStyleHiddenPanel extends JPanel implements UpdateablePropertiesPanel, SetLabels, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 		private JRadioButton[] buttons;
@@ -4996,7 +5000,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to select the fading for endings of a surface
 	 * @author mathieu
 	 */
-	private class FadingPanel extends JPanel implements ChangeListener, SetLabels, UpdateablePanel {
+	private class FadingPanel extends JPanel implements ChangeListener, SetLabels, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -5082,7 +5086,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * panel to select the level of detail of surfaces
 	 * @author mathieu
 	 */
-	private class LodPanel extends JPanel implements ChangeListener, SetLabels, UpdateablePanel {
+	private class LodPanel extends JPanel implements ChangeListener, SetLabels, UpdateablePropertiesPanel {
 
 		/**
 		 * 
@@ -5170,7 +5174,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 * Panel for segment decoration
 	 * @author Loic
 	 */
-	private class DecoSegmentPanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class DecoSegmentPanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		private static final long serialVersionUID = 1L;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
@@ -5237,7 +5241,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		}
 	}
 	
-	private class DecoAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel{
+	private class DecoAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel{
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
 		private Object[] geos;
@@ -5307,7 +5311,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	}
 	
 	// added 3/11/06
-	private class RightAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePanel {
+	private class RightAnglePanel extends JPanel implements ActionListener, SetLabels, UpdateablePropertiesPanel {
 		private JCheckBox emphasizeRightAngle;
 		private Object[] geos;
 		RightAnglePanel(){
@@ -5388,504 +5392,6 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 } // PropertiesPanel
 	
 	
-/**
- * panel for numeric slider
- * @author Markus Hohenwarter
- */
-class SliderPanel
-	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Object[] geos; // currently selected geos
-	private AngleTextField tfMin, tfMax;
-	private JTextField tfWidth;
-	private JTextField [] tfields;
-	private JLabel [] tLabels;
-	private JCheckBox cbSliderFixed, cbRandom;
-	private JComboBox coSliderHorizontal;
-	
-	private Application app;
-	private AnimationStepPanel stepPanel;
-	private AnimationSpeedPanel speedPanel;
-	private Kernel kernel;
-	private PropertiesPanel propPanel;
-	private JPanel intervalPanel, sliderPanel, animationPanel;
-	private boolean useTabbedPane, includeRandom;
-	private boolean actionPerforming;
-
-	public SliderPanel(Application app, PropertiesPanel propPanel, boolean useTabbedPane, boolean includeRandom) {
-		this.app = app;
-		kernel = app.getKernel();
-		this.propPanel = propPanel;
-		this.useTabbedPane = useTabbedPane;
-		this.includeRandom = includeRandom;
-					
-		intervalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5,5));	
-		sliderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5, 5));		
-		animationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5, 5));
-		
-		cbSliderFixed = new JCheckBox("",true);
-		cbSliderFixed.addActionListener(this);
-		sliderPanel.add(cbSliderFixed);		
-		
-		cbRandom = new JCheckBox();
-		cbRandom.addActionListener(this);
-		sliderPanel.add(cbRandom);		
-		
-		coSliderHorizontal = new JComboBox();
-		coSliderHorizontal.addActionListener(this);
-		sliderPanel.add(coSliderHorizontal);				
-					
-		tfMin = new AngleTextField(6, app);
-		tfMax = new AngleTextField(6, app);
-		tfWidth = new MyTextField(app,4);
-		tfields = new MyTextField[3];
-		tLabels = new JLabel[3];
-		tfields[0] = tfMin;
-		tfields[1] = tfMax;
-		tfields[2] = tfWidth;
-		int numPairs = tLabels.length;
-
-		//	add textfields
-		for (int i = 0; i < numPairs; i++) {
-			JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		    tLabels[i] = new JLabel("", SwingConstants.LEADING);
-		    p.add(tLabels[i]);
-		    JTextField textField = tfields[i];
-		    tLabels[i].setLabelFor(textField);
-		    textField.addActionListener(this);
-		    textField.addFocusListener(this);
-		    p.add(textField);
-		    p.setAlignmentX(Component.LEFT_ALIGNMENT);
-		    
-		    if (i < 2)
-		    	intervalPanel.add(p);
-		    else 
-		    	sliderPanel.add(p);
-		}
-		
-		// add increment to intervalPanel
-		stepPanel = new AnimationStepPanel(app);
-		stepPanel.setPartOfSliderPanel();
-		intervalPanel.add(stepPanel);		
-		
-		speedPanel = new AnimationSpeedPanel(app);
-		speedPanel.setPartOfSliderPanel();
-		animationPanel.add(speedPanel);
-		
-		setLabels();
-	}
-	
-	private void initPanels() {
-		removeAll();
-		
-		// put together interval, slider options, animation panels
-		if (useTabbedPane) {
-			setLayout(new FlowLayout());
-			JTabbedPane tabbedPane = new JTabbedPane();
-			tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			tabbedPane.addTab(app.getPlain("Interval"), intervalPanel);
-			tabbedPane.addTab(app.getMenu("Slider"), sliderPanel);
-			tabbedPane.addTab(app.getPlain("Animation"), animationPanel);
-			add(tabbedPane);
-		}
-		else { // no tabs 
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));	
-			intervalPanel.setBorder(BorderFactory.createTitledBorder(app.getPlain("Interval")));					
-			sliderPanel.setBorder(BorderFactory.createTitledBorder(app.getPlain("Slider")));		
-			animationPanel.setBorder(BorderFactory.createTitledBorder(app.getPlain("Animation")));
-			add(intervalPanel);	
-			add(Box.createVerticalStrut(5));
-			add(sliderPanel);					
-			add(Box.createVerticalStrut(5));
-			add(animationPanel);
-		}
-	}
-	
-	public void setLabels() {
-		initPanels();
-		
-		cbSliderFixed.setText(app.getPlain("fixed"));
-		cbRandom.setText(app.getPlain("Random"));
-		
-		String [] comboStr = {app.getPlain("horizontal"), app.getPlain("vertical")};
-		
-		int selectedIndex = coSliderHorizontal.getSelectedIndex();
-		coSliderHorizontal.removeActionListener(this);
-		coSliderHorizontal.removeAllItems();
-		
-		for(int i = 0; i < comboStr.length; ++i) {
-			coSliderHorizontal.addItem(comboStr[i]);
-		}
-		
-		coSliderHorizontal.setSelectedIndex(selectedIndex);
-		coSliderHorizontal.addActionListener(this);
-
-		String[] labels = { app.getPlain("min")+":",
-							app.getPlain("max")+":", app.getPlain("Width")+":"};
-		
-		for(int i = 0; i < tLabels.length; ++i) {
-			tLabels[i].setText(labels[i]);
-		}
-	}
-
-	public JPanel update(Object[] geos) {
-		stepPanel.update(geos);
-		speedPanel.update(geos);
-		
-		this.geos = geos;
-		if (!checkGeos(geos))
-			return null;
-		
-		for (int i=0; i<tfields.length; i++) 
-			tfields[i].removeActionListener(this);
-		coSliderHorizontal.removeActionListener(this);
-		cbSliderFixed.removeActionListener(this);
-		cbRandom.removeActionListener(this);
-
-		// check if properties have same values
-		GeoNumeric temp, num0 = (GeoNumeric) geos[0];
-		boolean equalMax = true;
-		boolean equalMin = true;
-		boolean equalWidth = true;
-		boolean equalSliderFixed = true;
-		boolean random = true;
-		boolean equalSliderHorizontal = true;
-		boolean onlyAngles = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoNumeric) geos[i];
-
-			// we don't check isIntervalMinActive, because we want to display the interval even if it's empty
-			if (num0.getIntervalMinObject() == null || temp.getIntervalMinObject() == null || !Kernel.isEqual(num0.getIntervalMin(), temp.getIntervalMin()))
-				equalMin = false;
-			if (num0.getIntervalMaxObject() == null || temp.getIntervalMaxObject() == null || !Kernel.isEqual(num0.getIntervalMax(), temp.getIntervalMax()))
-				equalMax = false;
-			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth()))
-				equalWidth = false;
-			if (num0.isSliderFixed() != temp.isSliderFixed())
-				equalSliderFixed = false;
-			if (num0.isRandom() != temp.isRandom())
-				random = false;
-			if (num0.isSliderHorizontal() != temp.isSliderHorizontal())
-				equalSliderHorizontal = false;
-			
-			if (!(temp instanceof GeoAngle))
-				onlyAngles = false;
-		}
-
-		
-        kernel.setTemporaryPrintDecimals(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-		if (equalMin){
-			GeoElement min0 = num0.getIntervalMinObject();
-			if (onlyAngles && (min0 == null ||(!min0.isLabelSet() && min0.isIndependent()))){				
-				tfMin.setText(kernel.formatAngle(num0.getIntervalMin()).toString());			
-			}else
-				tfMin.setText(min0.getLabel());
-		} else {
-			tfMin.setText("");
-		}
-		
-		if (equalMax){
-			GeoElement max0 = num0.getIntervalMaxObject();
-			if (onlyAngles &&  (max0 == null ||(!max0.isLabelSet() && max0.isIndependent()) ))
-				tfMax.setText(kernel.formatAngle(num0.getIntervalMax()).toString());
-			else
-				tfMax.setText(max0.getLabel());
-		} else {
-			tfMax.setText("");
-		}
-		
-		if (equalWidth){
-			tfWidth.setText(kernel.format(num0.getSliderWidth()));
-		} else {
-			tfMax.setText("");
-		}
-		
-		//kernel.setMaximumFractionDigits(oldDigits);
-		kernel.restorePrintAccuracy();
-
-		if (equalSliderFixed)
-			cbSliderFixed.setSelected(num0.isSliderFixed());
-		
-		if (random)
-			cbRandom.setSelected(num0.isRandom());
-		
-		cbRandom.setVisible(includeRandom);
-		
-		if (equalSliderHorizontal) {
-			// TODO why doesn't this work when you create a slider
-			coSliderHorizontal.setSelectedIndex(num0.isSliderHorizontal() ? 0 : 1);
-		}
-			
-
-		for (int i=0; i<tfields.length; i++) 
-			tfields[i].addActionListener(this);
-		coSliderHorizontal.addActionListener(this);
-		cbSliderFixed.addActionListener(this);
-		cbRandom.addActionListener(this);
-	
-		return this;
-	}
-
-	private static boolean checkGeos(Object[] geos) {				
-		boolean geosOK = true;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
- 			if (!(geo.isIndependent() && geo.isGeoNumeric())) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
-		if (source == cbSliderFixed) 
-			doCheckBoxActionPerformed((JCheckBox) source);
-		else if (source == cbRandom)
-			doRandomActionPerformed((JCheckBox) source);
-		else if (source == coSliderHorizontal)
-			doComboBoxActionPerformed((JComboBox) source);
-		else
-			doTextFieldActionPerformed((JTextField) e.getSource());
-	}
-	
-	private void doCheckBoxActionPerformed(JCheckBox source) {	
-		boolean fixed = source.isSelected();			
-		for (int i = 0; i < geos.length; i++) {
-			GeoNumeric num = (GeoNumeric) geos[i];
-			num.setSliderFixed(fixed);
-			num.updateRepaint();
-		}
-		update(geos);
-	}
-	
-	private void doRandomActionPerformed(JCheckBox source) {	
-		boolean random = source.isSelected();			
-		for (int i = 0; i < geos.length; i++) {
-			GeoNumeric num = (GeoNumeric) geos[i];
-			num.setRandom(random);
-			num.updateRepaint();
-		}
-		update(geos);
-	}
-	
-	private void doComboBoxActionPerformed(JComboBox source) {	
-		boolean horizontal = source.getSelectedIndex() == 0;			
-		for (int i = 0; i < geos.length; i++) {
-			GeoNumeric num = (GeoNumeric) geos[i];
-			num.setSliderHorizontal(horizontal);
-			num.updateRepaint();
-		}
-		update(geos);
-	}
-
-	private void doTextFieldActionPerformed(JTextField source) {
-		actionPerforming = true;
-		String inputText = source.getText().trim();
-		boolean emptyString = inputText.equals("");
-		NumberValue value = new MyDouble(kernel,Double.NaN);
-		if (!emptyString) {
-			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,false);					
-		}			
-		
-		if (source == tfMin || source == tfMax) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoNumeric num = (GeoNumeric) geos[i];
-				boolean dependsOnListener = false;
-				GeoElement geoValue = (GeoElement)value.toGeoElement();
-				if(num.getMinMaxListeners()!=null)
-					for(GeoNumeric listener : num.getMinMaxListeners()){
-						if(geoValue.isChildOrEqual(listener)) 
-							dependsOnListener = true;
-					}
-				if(dependsOnListener || geoValue.isChildOrEqual(num)){
-					app.showErrorDialog(app.getError("CircularDefinition"));
-				}
-				else{ 
-					if(source == tfMin)
-						num.setIntervalMin(value);
-					else
-						num.setIntervalMax(value);
-				}
-				num.updateRepaint();
-			
-			}
-		}
-		else if (source == tfWidth) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoNumeric num = (GeoNumeric) geos[i];
-				num.setSliderWidth(value.getDouble());
-				num.updateRepaint();
-			}
-		} 
-		
-		if (propPanel != null)		
-			propPanel.updateSelection(geos);
-		else
-			update(geos);
-		actionPerforming = false;
-	}
-
-	public void focusGained(FocusEvent arg0) {
-	}
-
-	public void focusLost(FocusEvent e) {
-		if (!actionPerforming)
-			doTextFieldActionPerformed((JTextField) e.getSource());
-	}
-}	
-
-/**
- * panel for animation step
- * @author Markus Hohenwarter
- */
-class AnimationStepPanel
-	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private Object[] geos; // currently selected geos
-	private JLabel label;	
-	private AngleTextField tfAnimStep;
-	private boolean partOfSliderPanel = false;
-	
-	private Kernel kernel;
-
-	public AnimationStepPanel(Application app) {
-		kernel = app.getKernel();
-		
-		// text field for animation step
-		label = new JLabel();
-		tfAnimStep = new AngleTextField(6, app);
-		label.setLabelFor(tfAnimStep);
-		tfAnimStep.addActionListener(this);
-		tfAnimStep.addFocusListener(this);
-
-		// put it all together
-		JPanel animPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		animPanel.add(label);
-		animPanel.add(tfAnimStep);
-
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		animPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(animPanel);
-				
-		setLabels();
-	}
-	
-	public void setLabels() {
-		label.setText(kernel.getApplication().getPlain("AnimationStep") + ": ");
-	}	
-	
-	public void setPartOfSliderPanel() {
-		partOfSliderPanel = true;
-	}
-
-	public JPanel update(Object[] geos) {		
-		this.geos = geos;
-		if (!checkGeos(geos))
-			return null;
-
-		tfAnimStep.removeActionListener(this);
-
-		// check if properties have same values
-		GeoElement temp, geo0 = (GeoElement) geos[0];
-		boolean equalStep = true;
-		boolean onlyAngles = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoElement) geos[i];
-			// same object visible value
-			if (geo0.getAnimationStep() != temp.getAnimationStep())
-				equalStep = false;
-			if (!(temp.isGeoAngle()))
-				onlyAngles = false;
-		}
-
-		// set trace visible checkbox
-		//int oldDigits = kernel.getMaximumFractionDigits();
-		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-		kernel.setTemporaryPrintDecimals(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-
-        if (equalStep){
-        	GeoElement stepGeo = geo0.getAnimationStepObject();
-			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent())))
-				tfAnimStep.setText(
-					kernel.formatAngle(geo0.getAnimationStep()).toString());
-			else
-				tfAnimStep.setText(stepGeo.getLabel());
-        }
-		else
-			tfAnimStep.setText("");
-        
-		//kernel.setMaximumFractionDigits(oldDigits);
-        kernel.restorePrintAccuracy();
-
-		tfAnimStep.addActionListener(this);
-		return this;
-	}
-
-	private boolean checkGeos(Object[] geos) {
-		boolean geosOK = true;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!geo.isChangeable() 
-					|| geo.isGeoText() 
-					|| geo.isGeoImage()
-					|| geo.isGeoList()
-					|| geo.isGeoBoolean()
-					|| geo.isGeoButton()
-					|| !partOfSliderPanel && geo.isGeoNumeric() && geo.isIndependent() // slider						
-			)  
-			{				
-				geosOK = false;
-				break;
-			}
-		}
-		
-		
-		return geosOK;
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfAnimStep)
-			doActionPerformed();
-	}
-
-	private void doActionPerformed() {
-		NumberValue newVal =
-			kernel.getAlgebraProcessor().evaluateToNumeric(
-				tfAnimStep.getText(),true);
-		if (newVal != null && !Double.isNaN(newVal.getDouble())) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				geo.setAnimationStep(newVal);
-				geo.updateRepaint();
-			}
-		}
-		update(geos);
-	}
-
-	public void focusGained(FocusEvent arg0) {
-	}
-
-	public void focusLost(FocusEvent e) {
-		doActionPerformed();
-	}
-}
 
 /**
  * panel for textfield size
@@ -5893,7 +5399,7 @@ class AnimationStepPanel
  */
 class TextfieldSizePanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -6004,200 +5510,12 @@ class TextfieldSizePanel
 }
 
 /**
- * panel for animation speed
- * @author adapted from AnimationStepPanel
- */
-class AnimationSpeedPanel
-	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private Object[] geos; // currently selected geos
-	private JTextField tfAnimSpeed;
-	private boolean partOfSliderPanel = false;
-	private JComboBox animationModeCB;	
-	private JLabel modeLabel, speedLabel;
-	private Application app;	
-	private Kernel kernel;
-
-	public AnimationSpeedPanel(Application app) {
-		this.app = app;
-		this.kernel = app.getKernel();
-		
-			// combo box for 
-		animationModeCB = new JComboBox();
-		modeLabel = new JLabel();
-		
-		// text field for animation step
-		speedLabel = new JLabel();
-		tfAnimSpeed = new JTextField(5);
-		speedLabel.setLabelFor(tfAnimSpeed);
-		tfAnimSpeed.addActionListener(this);
-		tfAnimSpeed.addFocusListener(this);
-
-		// put it all together
-		JPanel animPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		animPanel.add(speedLabel);
-		animPanel.add(tfAnimSpeed);
-		animPanel.add(modeLabel);
-		animPanel.add(animationModeCB);
-
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		animPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(animPanel);
-		
-		setLabels();
-	}
-	
-	public void setLabels() {
-		modeLabel.setText(app.getPlain("Repeat") + ": ");
-		speedLabel.setText(app.getPlain("AnimationSpeed") + ": ");
-		
-		int selectedIndex = animationModeCB.getSelectedIndex();
-		animationModeCB.removeActionListener(this);
-		
-		animationModeCB.removeAllItems();
-		animationModeCB.addItem("\u21d4 "+app.getPlain("Oscillating")); // index 0
-		animationModeCB.addItem("\u21d2 "+app.getPlain("Increasing")); // index 1
-		animationModeCB.addItem("\u21d0 "+app.getPlain("Decreasing")); // index 2
-		animationModeCB.addItem("\u21d2 "+app.getPlain("IncreasingOnce")); // index 3
-		
-		animationModeCB.setSelectedIndex(selectedIndex);
-		animationModeCB.addActionListener(this);
-	}
-	
-	public void setPartOfSliderPanel() {
-		partOfSliderPanel = true;
-	}
-
-	public JPanel update(Object[] geos) {		
-		this.geos = geos;
-		if (!checkGeos(geos))
-			return null;
-
-		tfAnimSpeed.removeActionListener(this);
-		animationModeCB.removeActionListener(this);
-
-		// check if properties have same values
-		GeoElement temp, geo0 = (GeoElement) geos[0];
-		boolean equalSpeed = true;
-		boolean equalAnimationType = true;
-
-		for (int i = 0; i < geos.length; i++) {
-			temp = (GeoElement) geos[i];
-			// same object visible value
-			if (geo0.getAnimationSpeedObject() != temp.getAnimationSpeedObject())
-				equalSpeed = false;
-			if (geo0.getAnimationType() != temp.getAnimationType())
-				equalAnimationType = false;
-		}
-
-		if (equalAnimationType)
-			animationModeCB.setSelectedIndex(geo0.getAnimationType());
-		else
-			animationModeCB.setSelectedItem(null);
-
-		// set trace visible checkbox
-		//int oldDigits = kernel.getMaximumFractionDigits();
-		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-        kernel.setTemporaryPrintDecimals(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-        
-        if (equalSpeed) {
-        	GeoElement speedObj = geo0.getAnimationSpeedObject();
-        	GeoNumeric num = kernel.getDefaultNumber(geo0.isAngle());
-			tfAnimSpeed.setText(speedObj == null ? num.getAnimationSpeedObject().getLabel() : speedObj.getLabel());
-        } else
-			tfAnimSpeed.setText("");
-        
-		//kernel.setMaximumFractionDigits(oldDigits);
-        kernel.restorePrintAccuracy();
-
-		tfAnimSpeed.addActionListener(this);
-		animationModeCB.addActionListener(this);
-		return this;
-	}
-
-	private boolean checkGeos(Object[] geos) {
-		boolean geosOK = true;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (!geo.isChangeable() 
-					|| geo.isGeoText() 
-					|| geo.isGeoImage()
-					|| (geo instanceof GeoTextField)
-					|| (geo instanceof GeoButton)
-					|| geo.isGeoList()
-					|| geo.isGeoBoolean()
-					|| (geo.isGeoPoint() && !geo.isPointOnPath())
-					|| !partOfSliderPanel && geo.isGeoNumeric() && geo.isIndependent() // slider						
-			)  
-			{				
-				geosOK = false;
-				break;
-			}
-		}
-		
-		
-		return geosOK;
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfAnimSpeed)
-			doActionPerformed();
-		else if (e.getSource() == animationModeCB) 
-			setType(animationModeCB.getSelectedIndex());
-	}
-
-	private void doActionPerformed() {
-		NumberValue animSpeed = 
-			kernel.getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);
-		if (animSpeed != null) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				geo.setAnimationSpeedObject(animSpeed);
-				geo.updateCascade();
-			}
-			kernel.udpateNeedToShowAnimationButton();
-			kernel.notifyRepaint();
-			
-			
-		}
-		update(geos);
-	}
-
-	private void setType(int type) {
-		
-		if (geos == null) return;
-		
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				geo.setAnimationType(type);
-				geo.updateRepaint();
-			}
-		
-		update(geos);
-	}
-
-	public void focusGained(FocusEvent arg0) {
-	}
-
-	public void focusLost(FocusEvent e) {
-		doActionPerformed();
-	}
-}
-
-
-/**
  * panel for condition to show object
  * @author Markus Hohenwarter
  */
 class ShowConditionPanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -6340,7 +5658,7 @@ class ShowConditionPanel
  */
 class ColorFunctionPanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -6674,7 +5992,7 @@ class ColorFunctionPanel
  */
 class GraphicsViewLocationPanel
 	extends JPanel
-	implements ActionListener, UpdateablePanel, SetLabels {
+	implements ActionListener, UpdateablePropertiesPanel, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -6812,7 +6130,7 @@ class GraphicsViewLocationPanel
  */
 class NamePanel
 	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePanel, SetLabels {
+	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 		
@@ -7034,9 +6352,4 @@ class NamePanel
 	}
 	
 	
-}
-
-interface UpdateablePanel {
-	public JPanel update(Object[] geos);
-	public void setVisible(boolean flag);
 }

@@ -10,12 +10,13 @@ the Free Software Foundation.
 
 */
 
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.gui.properties.SliderPanel;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.main.Application;
 

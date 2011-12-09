@@ -5,8 +5,9 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
-import geogebra.gui.InputDialog;
 import geogebra.gui.OptionsDialog;
+import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.gui.layout.Layout;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
@@ -15,6 +16,9 @@ import geogebra3D.Application3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
+import geogebra3D.gui.dialogs.DialogManager3D;
+import geogebra3D.gui.dialogs.InputDialogCirclePointDirectionRadius;
+import geogebra3D.gui.dialogs.InputDialogSpherePointRadius;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
 
@@ -42,13 +46,13 @@ public class GuiManager3D extends GuiManager {
 	public GuiManager3D(Application app) {
 		super(app);
 		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		
+		dialogManagerFactory = new DialogManager3D.Factory();
 	}
 	
 	@Override
 	public void initialize() {
 		super.initialize();
-		
-		dialogManager.setOptionsDialogFactory(new OptionsDialog3D.Factory());
 	}
 	
 	/**
@@ -175,49 +179,6 @@ public class GuiManager3D extends GuiManager {
 	@Override
 	protected AlgebraView newAlgebraView(AlgebraController algc){
 		return new AlgebraView3D(algc);
-	}
-	
-	
-	//////////////////////////////
-	// INPUT HANDLERS
-	//////////////////////////////
-	
-	/**
-	 * @param title 
-	 * @param geoPoint 
-	 * @param forAxis 
-	 * 
-	 */
-	public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
-
-		NumberInputHandler handler = new NumberInputHandler();
-		InputDialog id = new InputDialogCirclePointDirectionRadius(app, title, handler, geoPoint, forAxis, kernel);
-		id.setVisible(true);
-
-	}
-	
-	@Override
-	public void showNumberInputDialogCirclePointRadius(String title, GeoPointND geoPoint1,  EuclidianView view) {
-
-		if (((GeoElement) geoPoint1).isGeoElement3D() || (view instanceof EuclidianViewForPlane))
-			//create a circle parallel to plane containing the view
-			showNumberInputDialogCirclePointDirectionRadius(title, geoPoint1, view.getDirection());
-		else
-			//create 2D circle
-			super.showNumberInputDialogCirclePointRadius(title, geoPoint1, view);
-		
-	}
-	
-	/**
-	 * 
-	 * @param title
-	 * @param geoPoint
-	 */
-	public void showNumberInputDialogSpherePointRadius(String title, GeoPointND geoPoint) {
-
-		NumberInputHandler handler = new NumberInputHandler();
-		InputDialog id = new InputDialogSpherePointRadius(app, title, handler, geoPoint, kernel);
-		id.setVisible(true);
 	}
 	
 	@Override

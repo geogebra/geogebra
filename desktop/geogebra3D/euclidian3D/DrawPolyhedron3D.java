@@ -12,7 +12,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.euclidian.Hits;
 import geogebra.euclidian.Previewable;
-import geogebra.gui.GuiManager.NumberInputHandler;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.AlgoPolyhedronPointsPrism;
@@ -209,7 +208,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable{
 				Application app = getView3D().getApplication();
 				Boolean sign = new Boolean(false);
 				NumberValue num = 
-					app.getGuiManager().showNumberInputDialog(
+					app.getGuiManager().getDialogManager().showNumberInputDialog(
 							app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
 							app.getPlain("Altitude"), null, 
 							//check basis direction / view direction to say if the sign has to be forced

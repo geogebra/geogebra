@@ -28,6 +28,7 @@ import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.main.Application;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
+import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
 import geogebra3D.kernel3D.GeoCoordSys1D;
@@ -902,7 +903,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 		// we got the center point
 		if (selPoints() == 1) {	
-			((GuiManager3D) app.getGuiManager()).showNumberInputDialogSpherePointRadius(app.getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D)app.getGuiManager().getDialogManager()).showNumberInputDialogSpherePointRadius(app.getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -998,7 +999,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 
 		if (selPoints() == 1 && selDirections() == 1) {
-			((GuiManager3D) app.getGuiManager()).showNumberInputDialogCirclePointDirectionRadius(app.getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D) app.getGuiManager().getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(app.getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0],getSelectedDirections()[0]);
 
 			return true;

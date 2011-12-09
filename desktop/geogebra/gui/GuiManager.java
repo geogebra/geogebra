@@ -27,6 +27,11 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.color.GeoGebraColorChooser;
+import geogebra.gui.dialog.ButtonDialog;
+import geogebra.gui.dialog.DialogManager;
+import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogOpenURL;
+import geogebra.gui.dialog.SliderDialog;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.layout.Layout;
@@ -132,6 +137,7 @@ public class GuiManager {
   protected Kernel kernel;
 
   protected DialogManager dialogManager;
+  protected DialogManager.Factory dialogManagerFactory;
 
   private AlgebraInput algebraInput;
   private AlgebraController algebraController;
@@ -172,6 +178,8 @@ public class GuiManager {
 
     // this flag prevents closing opened webpage without save (see #126)
     htmlLoaded = false;
+    
+    dialogManagerFactory = new DialogManager.Factory();
   }
 
   /**
@@ -183,10 +191,9 @@ public class GuiManager {
     // init layout related stuff
     layout.initialize(app);
     initLayoutPanels();
-
+    
     // init dialog manager
-    dialogManager = new DialogManager(app);
-    dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
+    dialogManager = dialogManagerFactory.create(app);
   }
 
   /**
@@ -2493,183 +2500,6 @@ public class GuiManager {
     return showGridAction;
   }
 
-  /**
-   * Creates a new checkbox at given startPoint
-   */
-  public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
-    CheckboxCreationDialog d = new CheckboxCreationDialog(app, loc, bool);
-    d.setVisible(true);
-  }
-
-  /**
-   * Shows a modal dialog to enter a number or number variable name.
-   */
-  public NumberValue showNumberInputDialog(String title, String message,
-      String initText) {
-    // avoid labeling of num
-    Construction cons = kernel.getConstruction();
-    boolean oldVal = cons.isSuppressLabelsActive();
-    cons.setSuppressLabelCreation(true);
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialog(app, message, title, initText, false,
-        handler, true, false, null);
-    id.setVisible(true);
-
-    cons.setSuppressLabelCreation(oldVal);
-    return handler.getNum();
-  }
-
-  /**
-   * Shows a modal dialog to enter a number or number variable name.
-   */
-  public NumberValue showNumberInputDialog(String title, String message,
-      String initText, boolean changingSign, String checkBoxText) {
-    // avoid labeling of num
-    Construction cons = kernel.getConstruction();
-    boolean oldVal = cons.isSuppressLabelsActive();
-    cons.setSuppressLabelCreation(true);
-
-    NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler();
-    NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(app,
-        message, title, initText, handler, changingSign, checkBoxText);
-    id.setVisible(true);
-
-    cons.setSuppressLabelCreation(oldVal);
-
-    return handler.getNum();
-  }
-
-  public void showNumberInputDialogRegularPolygon(String title,
-      GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialogRegularPolygon(app, title, handler,
-        geoPoint1, geoPoint2, kernel);
-    id.setVisible(true);
-
-  }
-
-  public void showNumberInputDialogCirclePointRadius(String title,
-      GeoPointND geoPoint1, EuclidianView view) {
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialogCirclePointRadius(app, title, handler,
-        (GeoPoint2) geoPoint1, kernel);
-    id.setVisible(true);
-
-  }
-
-  public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-      GeoPoint2[] points, GeoElement[] selGeos) {
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialogRotate(app, title, handler, polys, points,
-        selGeos, kernel);
-    id.setVisible(true);
-
-  }
-
-  public void showNumberInputDialogAngleFixed(String title,
-      GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialogAngleFixed(app, title, handler, segments,
-        points, selGeos, kernel);
-    id.setVisible(true);
-
-  }
-
-  public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-      GeoPoint2[] points, GeoElement[] selGeos) {
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialogDilate(app, title, handler, points,
-        selGeos, kernel);
-    id.setVisible(true);
-
-  }
-
-  public void showNumberInputDialogSegmentFixed(String title, GeoPoint2 geoPoint1) {
-
-    NumberInputHandler handler = new NumberInputHandler();
-    InputDialog id = new InputDialogSegmentFixed(app, title, handler,
-        geoPoint1, kernel);
-    id.setVisible(true);
-
-  }
-
-  /**
-   * Shows a modal dialog to enter an angle or angle variable name.
-   * 
-   * @return: Object[] with { NumberValue, AngleInputDialog } pair
-   */
-  public Object[] showAngleInputDialog(String title, String message,
-      String initText) {
-    // avoid labeling of num
-    Construction cons = kernel.getConstruction();
-    boolean oldVal = cons.isSuppressLabelsActive();
-    cons.setSuppressLabelCreation(true);
-
-    NumberInputHandler handler = new NumberInputHandler();
-    AngleInputDialog id = new AngleInputDialog(app, message, title, initText,
-        false, handler, true);
-    id.setVisible(true);
-
-    cons.setSuppressLabelCreation(oldVal);
-    Object[] ret = { handler.getNum(), id };
-    return ret;
-  }
-
-  public class NumberInputHandler implements InputHandler {
-    private NumberValue num = null;
-
-    public boolean processInput(String inputString) {
-      GeoElement[] result = (GeoElement[]) kernel.getAlgebraProcessor()
-          .processAlgebraCommand(inputString, false);
-      boolean success = result != null && result[0].isNumberValue();
-      if (success) {
-        setNum((NumberValue) result[0]);
-      }
-      return success;
-    }
-
-    public void setNum(NumberValue num) {
-      this.num = num;
-    }
-
-    public NumberValue getNum() {
-      return num;
-    }
-  }
-
-  /**
-   * Handler of a number, with possibility of changing the sign
-   * 
-   * @author mathieu
-   * 
-   */
-  public class NumberChangeSignInputHandler extends NumberInputHandler {
-    /**
-     * If (changeSign==true), change sign of the number handled
-     * 
-     * @param inputString
-     * @param changeSign
-     * @return number handled
-     */
-    public boolean processInput(String inputString, boolean changeSign) {
-      if (changeSign) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("-(");
-        sb.append(inputString);
-        sb.append(")");
-        return processInput(sb.toString());
-      } else
-        return processInput(inputString);
-
-    }
-  }
-
   public Toolbar getGeneralToolbar() {
     return toolbarPanel.getFirstToolbar();
   }
@@ -2854,18 +2684,8 @@ public class GuiManager {
   public String getCreatedWithHTML(boolean JSXGraph) {
     String ret;
 
-    // if (!JSXGraph)
-    ret = StringUtil.toHTMLString(app.getPlain("CreatedWithGeoGebra")); // MRB
-    // 2008-06-14
-    // added
-    // Util.toHTMLString
-    // else ret =
-    // Util.toHTMLString(app.getPlain("CreatedWithGeoGebraAndJSXGraph"));
-
-    // examples in other languages:
-    // GeoGebrom
-    // GeoGebrou
-    // GeoGebrarekin
+    ret = StringUtil.toHTMLString(app.getPlain("CreatedWithGeoGebra")); 
+    
     if (ret.toLowerCase(Locale.US).indexOf("geogebr") == -1)
       ret = "Created with GeoGebra";
 
@@ -2883,11 +2703,6 @@ public class GuiManager {
       ret += words[i] + ((i == words.length - 1) ? "" : " ");
     }
 
-    // ret = ret.replaceAll("[Gg]eo[Gg]ebra",
-    // "<a href=\""+GeoGebra.GEOGEBRA_WEBSITE+"\" target=\"_blank\" >GeoGebra</a>");
-    // ret = ret.replaceAll("JSXGraph",
-    // "<a href=\"http://jsxgraph.org/\" target=\"_blank\" >JSXGraph</a>");
-
     return ret;
   }
 
@@ -2902,7 +2717,7 @@ public class GuiManager {
     if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
 
       // show or focus the probability calculator
-      if (app.getGuiManager() != null)
+      if (app.getGuiManager() != null) {
         if (app.getGuiManager().showView(
             Application.VIEW_PROBABILITY_CALCULATOR)) {
           app.getGuiManager().getLayout().getDockManager()
@@ -2913,6 +2728,7 @@ public class GuiManager {
           probCalculator.setProbabilityCalculator(
               ProbabilityManager.DIST_NORMAL, null, false);
         }
+      }
 
       // nothing more to do, so reset to move mode
       app.setMoveMode();

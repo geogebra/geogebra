@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.gui.InputDialog;
+import geogebra.gui.dialog.InputDialog;
 import geogebra.io.DocHandler;
 import geogebra.io.QDParser;
 import geogebra.main.Application;
