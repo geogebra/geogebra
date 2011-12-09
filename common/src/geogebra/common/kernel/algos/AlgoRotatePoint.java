@@ -16,18 +16,17 @@ the Free Software Foundation.
  * Created on 24. September 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Rotateable;
 
 
 /**
@@ -35,58 +34,69 @@ import geogebra.common.kernel.geos.Rotateable;
  * @author  Markus
  * @version 
  */
-public class AlgoRotate extends AlgoTransformation {
+public class AlgoRotatePoint extends AlgoTransformation {
 
-    private Rotateable out;    
+	private GeoPoint2 Q;
+    private PointRotateable out;    
     private NumberValue angle; 
     private GeoElement inGeo, outGeo, angleGeo;
+    
     /**
-     * Creates new generic rotation algo
+     * Creates new point rotation algo
      */
-    AlgoRotate(Construction cons, String label,
-            GeoElement A, NumberValue angle) {
-    	this(cons, A, angle);
+    AlgoRotatePoint(Construction cons, String label,
+            GeoElement A, NumberValue angle, GeoPoint2 Q) {
+    	this(cons, A, angle, Q);
     	outGeo.setLabel(label);
     }
     
     /**
-     * Creates new unlabeled rotation algo
+     * Creates new unlabeled point rotation algo
      */
-    public AlgoRotate(Construction cons, GeoElement A, NumberValue angle) {
-        super(cons);        
+    public AlgoRotatePoint(Construction cons, 
+    		GeoElement A, NumberValue angle, GeoPoint2 Q) {
+        super(cons);               
         this.angle = angle;
+        this.Q = Q;
 
         angleGeo = (GeoElement)angle.toGeoElement();
         inGeo = A;
         
-        
-        // create output object
         outGeo = getResultTemplate(inGeo);
         if(outGeo instanceof PointRotateable)
         	out = (PointRotateable) outGeo;
         
         setInputOutput();
-        compute();       
+        compute();
         if(inGeo.isGeoFunction())
         	cons.registerEuclidianViewCE(this);
     }
 
     @Override
 	public String getClassName() {
-        return "AlgoRotate";
+        return "AlgoRotatePoint";
     }
 
     @Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ROTATE_BY_ANGLE;
-    }   
+    }
+  
+    /**
+     * Returns true iff euclidian view updte is needed (for images)
+     * @return true iff euclidian view updte is needed 
+     */
+    final public boolean wantsEuclidianViewUpdate() {
+        return inGeo.isGeoImage();
+    }
     
     // for AlgoElement
     @Override
-	protected void setInputOutput() {
-        input = new GeoElement[2];
+	protected void setInputOutput() {    	
+        input = new GeoElement[3];
         input[0] = inGeo;
-        input[1] = (GeoElement)angle.toGeoElement();
+        input[1] = angleGeo;
+        input[2] = Q;
 
         setOutputLength(1);
         setOutput(0,outGeo);
@@ -94,8 +104,8 @@ public class AlgoRotate extends AlgoTransformation {
     }
 
     /**
-     * Returns the rotated object
-     * @return rotated object
+     * Returns the rotated point
+     * @return rotated point
      */
     @Override
 	public
@@ -114,26 +124,24 @@ public class AlgoRotate extends AlgoTransformation {
     		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
     	}
     	else outGeo.set(inGeo);
-        out.rotate(angle);
+        out.rotate(angle, Q);
         if(inGeo.isLimitedPath())
         	this.transformLimitedPath(inGeo, outGeo);
     }
-    
        
     @Override
 	final public String toString() {
-        // Michael Borcherds 2008-03-30
+        // Michael Borcherds 2008-03-25
         // simplified to allow better Chinese translation
         return app.getPlain("ARotatedByAngleB",inGeo.getLabel(),angleGeo.getLabel());
     }
-    
+
     @Override
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
 		if(!(outGeo instanceof GeoList))
-			out = (Rotateable)outGeo;
-		
+			out = (PointRotateable)outGeo;		
 	}
     
     @Override
@@ -142,4 +150,5 @@ public class AlgoRotate extends AlgoTransformation {
 			return new GeoCurveCartesian(cons);
 		return super.getResultTemplate(geo);
 	}
+    
 }

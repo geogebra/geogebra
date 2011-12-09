@@ -1,5 +1,10 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
+import geogebra.common.kernel.algos.AlgoApplyMatrix;
+import geogebra.common.kernel.algos.AlgoDilate;
+import geogebra.common.kernel.algos.AlgoRotate;
+import geogebra.common.kernel.algos.AlgoRotatePoint;
+import geogebra.common.kernel.algos.AlgoShearOrStretch;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -15,14 +20,7 @@ import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.algos.AlgoApplyMatrix;
-import geogebra.kernel.algos.AlgoDilate;
-import geogebra.kernel.algos.AlgoRotate;
-import geogebra.kernel.algos.AlgoRotatePoint;
-import geogebra.kernel.algos.AlgoShearOrStretch;
 
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.TransformInterface;
 
 /**
  * Container for transforms
@@ -149,9 +147,9 @@ public abstract class Transform extends TransformInterface {
 
 		// build the polygon from the transformed points
 		if(oldPoly instanceof GeoPolygon)
-			ret = ((Kernel)cons.getKernel()).PolygonND(polyLabel, transformedPoints);
+			ret = cons.getKernel().PolygonND(polyLabel, transformedPoints);
 		else
-			ret = ((Kernel)cons.getKernel()).PolyLineND(polyLabel, transformedPoints);
+			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
 		
 		for (int i = 0; i < ret.length; i++) {
 			ret[i].setEuclidianVisible(((GeoElement)oldPoly)
@@ -223,195 +221,4 @@ public abstract class Transform extends TransformInterface {
 	public boolean changesOrientation() {
 		return false;
 	}	
-}
-
-/**
- * Rotation
- * 
- * @author kondr
- * 
- */
-class TransformRotate extends Transform {
-
-	private GeoPoint2 center;
-	private NumberValue angle;
-
-	/**
-	 * @param cons 
-	 * @param angle
-	 */
-	public TransformRotate(Construction cons,NumberValue angle) {
-		this.angle = angle;
-		this.cons = cons;
-	}
-	
-	/**
-	 * @param cons 
-	 * @param angle
-	 * @param center
-	 */
-	public TransformRotate(Construction cons,NumberValue angle,GeoPoint2 center) {
-		this.angle = angle;
-		this.center = center;
-		this.cons = cons;
-	}
-
-	@Override
-	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoTransformation algo = null;
-		if (center == null) {
-			algo = new AlgoRotate(cons,geo,angle);
-		}
-		else algo = new AlgoRotatePoint(cons,geo,angle,center);
-		return algo;
-	}
-
-}
-
-/**
- * Translation
- * 
- * @author kondr
- * 
- */
-class TransformTranslate extends Transform {
-
-	private GeoVec3D transVec;
-
-	/**
-	 * @param cons 
-	 * @param transVec
-	 */
-	public TransformTranslate(Construction cons,GeoVec3D transVec) {
-		this.transVec = transVec;
-		this.cons = cons;
-	}
-
-	@Override
-	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoTranslate algo = new AlgoTranslate(cons, geo, transVec);
-		return algo;
-	}
-
-}
-
-/**
- * Dilation
- * 
- * @author kondr
- * 
- */
-class TransformDilate extends Transform {
-
-	private NumberValue ratio;
-	private GeoPoint2 center;
-
-	/**
-	 * @param cons 
-	 * @param ratio
-	 */
-	public TransformDilate(Construction cons,NumberValue ratio) {
-		this.ratio = ratio;
-		this.cons = cons;
-	}
-
-	/**
-	 * @param cons 
-	 * @param ratio
-	 * @param center
-	 */
-	public TransformDilate(Construction cons,NumberValue ratio, GeoPoint2 center) {
-		this.ratio = ratio;
-		this.center = center;
-		this.cons = cons;
-	}
-
-	@Override
-	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoDilate algo = new AlgoDilate(cons, geo, ratio, center);
-		return algo;
-	}
-
-}
-
-/**
- * Shear or stretch
- * 
- * @author kondr
- * 
- */
-class TransformShearOrStretch extends Transform {
-
-	private boolean shear;
-	private GeoVec3D line;
-	private NumberValue num;
-
-	/**
-	 * @param cons 
-	 * @param line
-	 * @param num
-	 * @param shear
-	 */
-	public TransformShearOrStretch(Construction cons,GeoVec3D line, GeoNumeric num, boolean shear) {
-		this.shear = shear;
-		this.line = line;
-		this.num = num;
-		this.cons = cons;
-	}
-
-	@Override
-	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoShearOrStretch algo = new AlgoShearOrStretch(cons, geo, line, num,
-				shear);
-		return algo;
-	}
-	
-	@Override
-	public boolean isSimilar() {
-		return false;
-	}
-	
-	public boolean changesOrientation() {
-		return !shear && num.getDouble()<0;
-	}	
-
-}
-
-/**
- * Generic affine transform
- * 
- * @author kondr
- * 
- */
-class TransformApplyMatrix extends Transform {
-
-	private GeoList matrix;
-
-	
-	/**
-	 * @param cons 
-	 * @param matrix
-	 */
-	public TransformApplyMatrix(Construction cons,GeoList matrix) {
-		this.matrix = matrix;
-		this.cons = cons;
-	}
-
-	@Override
-	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoApplyMatrix algo = new AlgoApplyMatrix(cons, geo, matrix);
-		return algo;
-	}
-	
-	@Override
-	public boolean isSimilar() {
-		return false;
-	}
-	
-	public boolean changesOrientation() {
-		AlgoTransformation at = getTransformAlgo(new GeoPoint2(cons));
-		cons.removeFromConstructionList(at);
-		return at.swapOrientation(true);
-	}
-
 }

@@ -9,8 +9,8 @@ import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Transform;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.TransformInterface;
 
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {

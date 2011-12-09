@@ -16,11 +16,10 @@ the Free Software Foundation.
  * Created on 24. September 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -28,7 +27,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 
 
 /**
@@ -157,7 +156,7 @@ public class AlgoDilate extends AlgoTransformation {
    	
    	@Override
    	protected void transformLimitedPath(GeoElement a, GeoElement b){
-   		if(!(a instanceof GeoConicPart))
+   		if(!(a instanceof GeoConicPartInterface))
    			super.transformLimitedPath(a, b);    
    		else
    			super.transformLimitedConic(a, b);

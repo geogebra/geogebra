@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;

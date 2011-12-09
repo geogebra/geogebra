@@ -1934,6 +1934,9 @@ public abstract class AbstractKernel {
 	public abstract Object Ray(String label, GeoPoint2 P, GeoPoint2 Q);//GeoRay
 	public abstract Object RayND(String label, GeoPointND P, GeoPointND Q);//GeoRayND
 	public abstract Object Ray(String label, GeoPoint2 P, GeoVector v);//GeoRay
+	public abstract GeoElement [] PolygonND(String [] labels, GeoPointND [] P);
+	public abstract GeoElement [] PolyLineND(String [] labels, GeoPointND [] P);
+	
 	public abstract GeoConicPartInterface newGeoConicPart(Construction cons, int type);
 	public abstract GeoLocusInterface newGeoLocus(Construction cons);
 	public abstract GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons);

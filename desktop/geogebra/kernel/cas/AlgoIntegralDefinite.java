@@ -21,9 +21,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.roots.RealRootAdapter;
-import geogebra.main.Application;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -185,7 +184,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         // check for equal bounds
         double lowerLimit = a.getDouble();
         double upperLimit = b.getDouble();
-        if (Kernel.isEqual(lowerLimit, upperLimit)) {
+        if (AbstractKernel.isEqual(lowerLimit, upperLimit)) {
             n.setValue(0);
             return;
         }
@@ -289,7 +288,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
 		//else Application.debug(a+" "+b+" error",1);
 		
         // check if both results are equal
-        boolean equal = !error && Kernel.isEqual(firstSum, secondSum, Kernel.STANDARD_PRECISION);
+        boolean equal = !error && AbstractKernel.isEqual(firstSum, secondSum, AbstractKernel.STANDARD_PRECISION);
        
         if (equal) { 
         	// success              
