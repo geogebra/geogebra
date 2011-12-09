@@ -14,6 +14,7 @@ package geogebra.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -30,12 +31,11 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.euclidian.EuclidianView;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.geos.GeoImage;
 import geogebra.kernel.geos.GeoText;
-import geogebra.main.Application;
 import geogebra.main.GeoGebraColorConstants;
 
 import java.awt.Color;
@@ -501,9 +501,10 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		return type;
 	}	
 	
-	protected void setMaxLayerUsed(GeoElement geo, Application app){
+	protected void setMaxLayerUsed(GeoElement geo, AbstractApplication app){
 		if (app != null) {
-			EuclidianView ev = app.getEuclidianView();
+			//TODO: if get EuclidianView returns 3D, this will fail
+			EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
 			if (ev != null)
 				geo.setLayer(ev.getMaxLayerUsed());
 		}
@@ -526,7 +527,7 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		
 		// default
 		GeoElement defaultGeo = getDefaultGeo(type);
-		Application app = (Application) cons.getApplication();
+		AbstractApplication app = cons.getApplication();
 		
 		if (defaultGeo != null) {
 			geo.setAllVisualProperties(defaultGeo, isReset);
@@ -541,24 +542,12 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 
         // label visibility
 		int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS : 
-										app.getLabelingStyle();
+										app.getCurrentLabelingStyle();
 		
 		// automatic labelling: 
 		// if algebra window open -> all labels
 		// else -> no labels
-		if (labelingStyle == LABEL_VISIBLE_AUTOMATIC) {
-			if(app.isUsingFullGui()) {
-				if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()) {
-					labelingStyle = app.getGuiManager().getAlgebraView().isVisible() ?
-							LABEL_VISIBLE_USE_DEFAULTS :
-							LABEL_VISIBLE_ALWAYS_OFF;
-				} else {
-					labelingStyle = LABEL_VISIBLE_ALWAYS_OFF;
-				}
-			} else {
-				labelingStyle = LABEL_VISIBLE_USE_DEFAULTS;
-			}
-		}
+		
 		
 		switch (labelingStyle) {									
 			case LABEL_VISIBLE_ALWAYS_ON:

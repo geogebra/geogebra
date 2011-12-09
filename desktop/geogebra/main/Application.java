@@ -940,6 +940,21 @@ public class Application extends AbstractApplication implements
 	public int getLabelingStyle() {
 		return labelingStyle;
 	}
+	
+	public int getCurrentLabelingStyle(){		
+		if (labelingStyle == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+			if(isUsingFullGui()) {
+				if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
+					return getGuiManager().getAlgebraView().isVisible() ?
+							ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS :
+								ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+				} 
+				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+			} 
+			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+		}
+		return labelingStyle;
+	}
 
 	/**
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.

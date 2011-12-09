@@ -61,5 +61,9 @@ public interface GeoElementInterface {
 	public boolean isGeoConic();
 	public String getCASString(boolean b);
 	public boolean isGeoFunction();	
+	public void setLocalVariableLabel(String string);
+	public void setAlphaValue(float defaultConicAlpha);
+	public void setDefaultGeoType(int defaultConic);
+	public void setObjColor(geogebra.common.awt.Color color);
 	
 }

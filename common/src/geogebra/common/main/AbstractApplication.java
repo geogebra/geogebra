@@ -206,6 +206,7 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	 * @deprecated added when refactoring
 	 */
 	public abstract void updateConstructionProtocol();
+	public abstract int getCurrentLabelingStyle();
 	
 
 }
