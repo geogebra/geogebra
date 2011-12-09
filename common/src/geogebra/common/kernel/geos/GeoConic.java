@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 10. September 2001, 08:52
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
@@ -26,26 +26,11 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.ConicMirrorable;
-import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoConicInterface;
-import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Traceable;
-import geogebra.common.kernel.geos.Transformable;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.kernelND.GeoConicND;
 
 import java.util.ArrayList;
 

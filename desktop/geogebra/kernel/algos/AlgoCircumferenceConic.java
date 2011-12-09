@@ -14,15 +14,15 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.integration.EllipticArcLength;
 
 /**
  * Algorithm to compute the circumference of a
- * {@link geogebra.kernel.geos.GeoConic GeoConic}.
+ * {@link geogebra.common.kernel.geos.GeoConic GeoConic}.
  * 
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  * @author Markus Hohenwarter

@@ -3,6 +3,7 @@ package geogebra.kernel;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -19,7 +20,6 @@ import geogebra.kernel.algos.AlgoDilate;
 import geogebra.kernel.algos.AlgoRotate;
 import geogebra.kernel.algos.AlgoRotatePoint;
 import geogebra.kernel.algos.AlgoShearOrStretch;
-import geogebra.kernel.geos.GeoConic;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.TransformInterface;

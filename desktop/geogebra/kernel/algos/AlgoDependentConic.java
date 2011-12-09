@@ -24,7 +24,7 @@ import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConic;
 
 /**
  *

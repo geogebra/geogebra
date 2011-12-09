@@ -19,13 +19,13 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.kernelND.GeoConicND;
 
 public class AlgoIncircle extends AlgoElement {
 

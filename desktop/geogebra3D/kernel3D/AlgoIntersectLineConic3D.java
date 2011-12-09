@@ -28,11 +28,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoIntersectND;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoIntersectLineConic;
-import geogebra.kernel.kernelND.GeoConicND;
 import geogebra.main.Application;
 
 

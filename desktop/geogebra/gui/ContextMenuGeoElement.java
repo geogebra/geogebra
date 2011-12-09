@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.kernel.geos.Animatable;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -29,7 +30,6 @@ import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 

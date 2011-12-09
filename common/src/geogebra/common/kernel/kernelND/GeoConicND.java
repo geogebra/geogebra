@@ -1,5 +1,6 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -10,14 +11,18 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoConicFivePoints;
+import geogebra.common.kernel.algos.AlgoEllipseFociLength;
+import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -26,26 +31,15 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.geos.GeoConicNDInterface;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoQuadricND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.EquationSolver;
-import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.algos.AlgoConicFivePoints;
-import geogebra.kernel.algos.AlgoEllipseFociLength;
-import geogebra.kernel.algos.AlgoEllipseFociPoint;
-import geogebra.kernel.geos.GeoConic;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
 
-//import java.awt.geom.AffineTransform;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.factories.AwtFactory;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 /** Class for conic in any dimension.
  * 
@@ -3137,7 +3131,7 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 	 * Sets implicit poly to this conic
 	 * @param implicitPoly implicitPoly for storing this conic
 	 */
-	public void toGeoImplicitPoly(GeoImplicitPoly implicitPoly) 
+	public void toGeoImplicitPoly(GeoImplicitPolyInterface implicitPoly) 
 	{
 		double coeff[][] =new double[3][3];
 		coeff[0][0]= matrix[2];

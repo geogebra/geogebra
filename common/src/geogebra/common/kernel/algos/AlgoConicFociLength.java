@@ -16,14 +16,13 @@ the Free Software Foundation.
  * Created on 15. November 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.geos.GeoConic;
 
 /**
  *
@@ -37,7 +36,7 @@ public abstract class AlgoConicFociLength extends AlgoElement {
     private GeoElement ageo;
     private GeoConic conic; // output             
 
-    AlgoConicFociLength(
+    public AlgoConicFociLength(//package private
         Construction cons,
         String label,
         GeoPoint2 A,
