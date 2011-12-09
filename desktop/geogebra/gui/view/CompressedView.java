@@ -1,7 +1,7 @@
 package geogebra.gui.view;
 
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * * This class will collect update events in a time slice and bundles them in a
@@ -18,5 +18,5 @@ public interface CompressedView extends View {
    * @param geo
    *          the GeoElement which has changed
    */
-  public void updateNow(GeoElementInterface geo);
+  public void updateNow(GeoElement geo);
 }
