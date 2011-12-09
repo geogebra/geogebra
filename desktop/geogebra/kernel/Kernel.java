@@ -30,6 +30,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.TransformApplyMatrix;
 import geogebra.common.kernel.TransformDilate;
+import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.TransformShearOrStretch;
 import geogebra.common.kernel.TransformTranslate;

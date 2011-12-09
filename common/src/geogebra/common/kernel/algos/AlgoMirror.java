@@ -16,12 +16,11 @@ the Free Software Foundation.
  * Created on 24. September 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -37,7 +36,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoConicPartInterface;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 
 /**
@@ -233,7 +232,7 @@ public class AlgoMirror extends AlgoTransformation {
 		if((geo instanceof GeoFunction) && mirror != mirrorPoint)
 			return new GeoCurveCartesian(cons);
 		if(geo.isLimitedPath() && mirror == mirrorConic)
-			return new GeoConicPart(cons, GeoConicPart.CONIC_PART_ARC);
+			return (GeoElement)kernel.newGeoConicPart(cons, GeoConicPartInterface.CONIC_PART_ARC);
 		if (mirror instanceof GeoConic && geo instanceof GeoLine){
         	return new GeoConic(cons);        	
         }
@@ -254,7 +253,7 @@ public class AlgoMirror extends AlgoTransformation {
     		return;
     	}
     	
-    	GeoConicPart arc = (GeoConicPart)b;
+    	GeoConicPartInterface arc = (GeoConicPartInterface)b;
     	arc.setParameters(0, 6.28, true);
 		if(a instanceof GeoRay){			
 			transformedPoint.removePath();
@@ -305,7 +304,7 @@ public class AlgoMirror extends AlgoTransformation {
 				arc.setParameters(d*AbstractKernel.PI_2, e*AbstractKernel.PI_2, false);
 			setTransformedObject(a,b);
 		}
-		if(a instanceof GeoConicPart) {			
+		if(a instanceof GeoConicPartInterface) {			
 			transformLimitedConic(a,b);
 		}
 	}
