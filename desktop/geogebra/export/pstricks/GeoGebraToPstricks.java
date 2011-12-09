@@ -889,7 +889,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double startAngle=geo.getParameterStart();
 		double endAngle=geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		AffineTransform af=geo.getAffineTransform();
+		AffineTransform af=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 		double m11=af.getScaleX();
 		double m22=af.getScaleY();
 		double m12=af.getShearX();
@@ -1183,7 +1183,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			// if conic is an ellipse
 			case GeoConic.CONIC_ELLIPSE:
 //	command:  \rput{angle}(x_center,y_center){\psellipse(0,0)(20.81,-10.81)}
-				AffineTransform at=geo.getAffineTransform();
+				AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				double eigenvecX=at.getScaleX();
 				double eigenvecY=at.getShearY();
 				double x1=geo.getTranslationVector().getX();
@@ -1214,7 +1214,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				
 				// parameter of the parabola
 				double p=geo.p;
-				at=geo.getAffineTransform();
+				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				// first eigenvec
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
@@ -1266,7 +1266,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			break;
 			case GeoConic.CONIC_HYPERBOLA:
 // command: \rput{angle_rotation}(x_origin,y_origin){\parametric{-1}{1}{a(1+t^2)/(1-t^2)|2bt/(1-t^2)}
-				at=geo.getAffineTransform();
+				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
 				x1=geo.getTranslationVector().getX();

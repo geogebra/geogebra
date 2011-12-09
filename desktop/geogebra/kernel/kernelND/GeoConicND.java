@@ -41,7 +41,9 @@ import geogebra.kernel.geos.GeoConic;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
 
-import java.awt.geom.AffineTransform;
+//import java.awt.geom.AffineTransform;
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.factories.AwtFactory;
 import java.util.ArrayList;
 
 
@@ -1485,7 +1487,7 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 	 */
 	final public AffineTransform getAffineTransform() {
 		if (transform == null)
-			transform = new AffineTransform();
+			transform = AwtFactory.prototype.newAffineTransform();
 		return transform;
 	}
 
@@ -2116,14 +2118,14 @@ Translateable, GeoConicNDConstants, GeoConicNDInterface
 		// path parameters of all points on this conic.		
 		getAffineTransform();
 		if (oldTransform == null)
-			oldTransform = new AffineTransform();
+			oldTransform = AwtFactory.prototype.newAffineTransform();
 		boolean eigenVectorsSame = 
 				AbstractKernel.isEqual(transform.getScaleX(), oldTransform.getScaleX(), AbstractKernel.MIN_PRECISION) ||
 				AbstractKernel.isEqual(transform.getScaleY(), oldTransform.getScaleY(), AbstractKernel.MIN_PRECISION) ||
 				AbstractKernel.isEqual(transform.getShearX(), oldTransform.getShearX(), AbstractKernel.MIN_PRECISION) ||
 				AbstractKernel.isEqual(transform.getShearY(), oldTransform.getShearY(), AbstractKernel.MIN_PRECISION);
 
-		if (!eigenVectorsSame) {				
+		if (!eigenVectorsSame) {
 			// updated old transform
 			oldTransform.setTransform(transform);
 													

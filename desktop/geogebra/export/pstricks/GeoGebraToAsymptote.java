@@ -988,7 +988,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         double startAngle = geo.getParameterStart();
         double endAngle = geo.getParameterEnd();
         // Get all coefficients form the transform matrix
-        AffineTransform af = geo.getAffineTransform();
+        AffineTransform af = geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
         double m11 = af.getScaleX();
         double m22 = af.getScaleY();
         double m12 = af.getShearX();
@@ -1356,7 +1356,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             break;
         // if conic is an ellipse
             case GeoConic.CONIC_ELLIPSE:
-                AffineTransform at=geo.getAffineTransform();
+                AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
                 double eigenvecX = at.getScaleX();
                 double eigenvecY = at.getShearY();
                 double x1 = geo.getTranslationVector().getX();
@@ -1385,7 +1385,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             case GeoConic.CONIC_PARABOLA:       
                  // parameter of the parabola
                 double p = geo.p;
-                at = geo.getAffineTransform();
+                at = geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
                  // first eigenvector
                 eigenvecX = at.getScaleX();
                 eigenvecY = at.getShearY();
@@ -1459,7 +1459,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             
             case GeoConic.CONIC_HYPERBOLA:
 //              parametric: (a(1+t^2)/(1-t^2), 2bt/(1-t^2))
-                at = geo.getAffineTransform();
+                at = geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
                 eigenvecX = at.getScaleX();
                 eigenvecY = at.getShearY();
                 x1 = geo.getTranslationVector().getX();

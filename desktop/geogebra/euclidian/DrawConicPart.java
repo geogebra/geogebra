@@ -171,7 +171,7 @@ implements Previewable {
 			
 		// transform to screen coords
 		transform.setTransform(view.coordTransform);
-		transform.concatenate(conicPart.getAffineTransform()); 
+		transform.concatenate(geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)conicPart.getAffineTransform())); 
 		
         // BIG RADIUS: larger than screen diagonal
         int BIG_RADIUS = view.width + view.height; // > view's diagonal 

@@ -1098,7 +1098,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		double startAngle=geo.getParameterStart();
 		double endAngle=geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		AffineTransform af=geo.getAffineTransform();
+		AffineTransform af=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 		double m11=af.getScaleX();
 		double m22=af.getScaleY();
 		double m12=af.getShearX();
@@ -1536,7 +1536,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			// if conic is an ellipse
 			case GeoConic.CONIC_ELLIPSE:
 //	command:  \draw[rotate around={angle:center},lineOptions](x_center,y_center) ellipse (R1 and R2)
-				AffineTransform at=geo.getAffineTransform();
+				AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				double eigenvecX=at.getScaleX();
 				double eigenvecY=at.getShearY();
 				double x1=geo.getTranslationVector().getX();
@@ -1570,7 +1570,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 //command:  \draw[rotate around={angle:center},xshift=x1,yshift=y1,lineOptions] plot(\x,\x^2/2/p);
 				// parameter of the parabola
 				double p=geo.p;
-				at=geo.getAffineTransform();
+				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				// first eigenvec
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
@@ -1625,7 +1625,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			case GeoConic.CONIC_HYPERBOLA:
 //command:  \draw[domain=-1:1,rotate around={angle:center},xshift=x1,yshift=y1,lineOptions] 
 //				plot({a(1+\x^2)/(1-\x^2)},2b\x/(1-\x^2));
-				at=geo.getAffineTransform();
+				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
 				x1=geo.getTranslationVector().getX();

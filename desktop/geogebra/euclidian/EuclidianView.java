@@ -5482,7 +5482,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	 * @return affine transform of the conic for this view
 	 */
 	public AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
-		return conic.getAffineTransform();
+		return geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)conic.getAffineTransform());
 	}
 
 	public String getFromPlaneString() {
