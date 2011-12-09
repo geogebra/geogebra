@@ -12,7 +12,7 @@ MYDIR=$SVNDIR/geogebra/test/scripts/autotest
 
 ./check-if-latest || {
  cd $SVNDIR/geogebra
- $SVN_COMMAND update
+ $SVN_COMMAND --force update
  cd $MYDIR
  ./build-desktop
  echo "The latest revision has been built now"
