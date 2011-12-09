@@ -951,12 +951,12 @@ public class DrawParametricCurve extends Drawable {
 	final public void draw(Graphics2D g2) {
         if (isVisible) {         	        	
             if (geo.doHighlighting()) {
-                g2.setPaint((Paint) geo.getSelColor().getAwtColor());
+                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
                 g2.setStroke(selStroke);            
                 drawWithValueStrokePure(gp, g2);		                
             } 
         	            
-		    g2.setPaint((Paint) geo.getObjectColor().getAwtColor());		    
+		    g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));		    
 			g2.setStroke(objStroke);                                   
 			drawWithValueStrokePure(gp, g2);		
 			
@@ -972,7 +972,7 @@ public class DrawParametricCurve extends Drawable {
 			
             if (labelVisible) {
 				g2.setFont(view.fontConic);
-				g2.setPaint((Paint) geo.getLabelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));
 				drawLabel(g2);
             }        
         }
@@ -983,7 +983,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @param g2 Graphic to be used
 	 */
 	final void drawTrace(Graphics2D g2) {	   
-	   g2.setPaint((Paint) geo.getObjectColor().getAwtColor());	   
+	   g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));	   
 	   g2.setStroke(objStroke); 		   
 	   drawWithValueStrokePure(gp, g2);		   
 	}		

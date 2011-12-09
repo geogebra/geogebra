@@ -922,7 +922,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	@Override
 	final public void draw(Graphics2D g2) {
         if (!isVisible) return;                
-        g2.setColor((Color) geo.getObjectColor().getAwtColor());        		
+        g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));        		
         switch (type) {
             case GeoConic.CONIC_SINGLE_POINT:                         
                 drawPoint.draw(g2);
@@ -958,15 +958,15 @@ final public class DrawConic extends Drawable implements Previewable {
 					
                 if (geo.doHighlighting()) {
                     g2.setStroke(selStroke);
-                    g2.setColor((Color) geo.getSelColor().getAwtColor());
+                    g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
                     g2.draw(shape);		
                 }                  
                 g2.setStroke(objStroke);
-                g2.setColor((Color) geo.getObjectColor().getAwtColor());				
+                g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));				
                 g2.draw(shape);    
                 if (labelVisible && geo instanceof GeoConic) {
 					g2.setFont(view.fontConic); 
-					g2.setColor((Color) geo.getLabelColor().getAwtColor());                   
+					g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));                   
 					drawLabel(g2);                                                               
                 }                
                 break;            
@@ -987,19 +987,19 @@ final public class DrawConic extends Drawable implements Previewable {
 	
 				if (geo.doHighlighting()) {
 					 g2.setStroke(selStroke);
-					 g2.setColor((Color) geo.getSelColor().getAwtColor());
+					 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
 					 
 					 if (hypLeftOnScreen) Drawable.drawWithValueStrokePure(hypLeft, g2);                                               
 					 if (hypRightOnScreen) Drawable.drawWithValueStrokePure(hypRight, g2); 				
 				 }  
 				 g2.setStroke(objStroke);
-				 g2.setColor((Color) geo.getObjectColor().getAwtColor());				 
+				 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));				 
 				 if (hypLeftOnScreen) Drawable.drawWithValueStrokePure(hypLeft, g2);                                                
 				 if (hypRightOnScreen) Drawable.drawWithValueStrokePure(hypRight, g2); 
 				             
 				 if (labelVisible) {
 					 g2.setFont(view.fontConic); 
-					 g2.setColor((Color) geo.getLabelColor().getAwtColor());                   
+					 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));                   
 					 drawLabel(g2);                                                                     
 				 }                            
                 break;      
@@ -1033,7 +1033,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param g2
 	 */
 	final public void drawTrace(Graphics2D g2) {             
-	    g2.setColor((Color) conic.getObjectColor().getAwtColor());
+	    g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) conic.getObjectColor()));
 		switch (type) {
 			case GeoConic.CONIC_SINGLE_POINT:                         
 				drawPoint.drawTrace(g2);
@@ -1054,13 +1054,13 @@ final public class DrawConic extends Drawable implements Previewable {
 			case GeoConic.CONIC_ELLIPSE:                                
 			case GeoConic.CONIC_PARABOLA: 			                                                  
 				g2.setStroke(objStroke);
-				g2.setColor((Color) conic.getObjectColor().getAwtColor());				
+				g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) conic.getObjectColor()));				
 				g2.draw(shape);    				            
 				break;            
             
 		   case GeoConic.CONIC_HYPERBOLA:     
 				 g2.setStroke(objStroke);
-				 g2.setColor((Color) conic.getObjectColor().getAwtColor());				 
+				 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) conic.getObjectColor()));				 
 				 g2.draw(hypLeft);                                                
 				 g2.draw(hypRight); 				  
 				break;      

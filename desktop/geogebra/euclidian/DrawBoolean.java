@@ -134,7 +134,7 @@ public final class DrawBoolean extends Drawable {
 			
 			checkBoxIcon.paintIcon(geoBool.getBoolean(), geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5, geoBool.labelOffsetY + 5);
 			
-			g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
+			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
 			textSize = Drawable.drawIndexedString(view.getApplication(), g2, labelDesc, geoBool.labelOffsetX + size + 9, geoBool.labelOffsetY + (size + 9) / 2 + 5, false);
 			
 			updateLabel();

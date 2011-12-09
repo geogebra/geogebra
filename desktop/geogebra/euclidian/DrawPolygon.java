@@ -167,7 +167,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 									// appropriate
 
 			if (geo.doHighlighting()) {
-				g2.setPaint((Paint) poly.getSelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getSelColor()));
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
@@ -175,13 +175,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
 			else if (!poly.wasInitLabelsCalled() && poly.lineThickness > 0) {
-				g2.setPaint((Paint) poly.getObjectColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getObjectColor()));
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint((Paint) poly.getLabelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getLabelColor()));
 				g2.setFont(view.fontPoint);
 				drawLabel(g2);
 			}

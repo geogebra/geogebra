@@ -167,7 +167,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				//button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
 				button.setText(geo.getCaption());
-				button.setForeground((Color) geo.getObjectColor().getAwtColor());
+				button.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
 				return button;
 			}
 
@@ -226,7 +226,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		// Set foreground and background color
 		//===============================================
 		if (geo.getBackgroundColor() != null) {
-			bgColor = (Color) geo.getBackgroundColor().getAwtColor();
+			bgColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getBackgroundColor());
 		}
 
 		if (geo.doHighlighting()) {
@@ -237,7 +237,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			}
 		}
 		setBackground(bgColor);
-		setForeground((Color) geo.getLabelColor().getAwtColor());
+		setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));
 
 
 

@@ -146,7 +146,7 @@ public class HatchingHandler {
 			// set total transparency
 			g2d.setComposite(AlphaComposite.Src);
 
-			Color bgColor = (Color) geo.getBackgroundColor().getAwtColor();
+			Color bgColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getBackgroundColor());
 
 			// paint background transparent
 			if (bgColor == null)

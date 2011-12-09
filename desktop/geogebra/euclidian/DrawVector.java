@@ -223,12 +223,12 @@ public class DrawVector extends Drawable implements Previewable {
         	}
         	
             if (geo.doHighlighting()) {
-                g2.setPaint((Paint) ((GeoElement) v).getSelColor().getAwtColor());
+                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color)((GeoElement) v).getSelColor()));
                 g2.setStroke(selStroke);            
                 if (lineVisible) g2.draw(line);       
             }
             
-            g2.setPaint((Paint) ((GeoElement) v).getObjectColor().getAwtColor());
+            g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color)((GeoElement) v).getObjectColor()));
 			g2.setStroke(objStroke);  
 			if (lineVisible) g2.draw(line);              
 			if (arrowheadVisible) g2.fill(gp);

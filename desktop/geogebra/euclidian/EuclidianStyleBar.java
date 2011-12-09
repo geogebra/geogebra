@@ -987,7 +987,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 				if(geosOK){
 					GeoElement geo = ((GeoElement)geos[0]).getGeoElementForPropertiesDialog(); 
-					geoColor = (Color) geo.getObjectColor().getAwtColor();
+					geoColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 					updateColorTable();
 					
 					// find the geoColor in the table and select it 
@@ -1506,7 +1506,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 
 			// if text geo, then apply background color 
 			if(geo instanceof TextProperties)
-				if(geo.getBackgroundColor().getAwtColor() != color || geo.getAlphaValue() != alpha ){
+				if(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getBackgroundColor()) != color || geo.getAlphaValue() != alpha ){
 					geo.setBackgroundColor(new geogebra.awt.Color(color));
 					// TODO apply background alpha 
 					// --------

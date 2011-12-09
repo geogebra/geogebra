@@ -131,7 +131,7 @@ public final class DrawList extends Drawable {
 	 * @param g2
 	 */
 	final void drawTrace(Graphics2D g2) {
-		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
+		g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
 		g2.setStroke(objStroke);  
     	if (isVisible) {
     		int size = drawables.size();    		

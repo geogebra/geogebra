@@ -583,7 +583,7 @@ public class GgbAPI {
 	public synchronized String getColor(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return "";		
-		return "#" + geogebra.common.util.StringUtil.toHexString(new AwtColorAdapter((Color) geo.getObjectColor().getAwtColor()));		
+		return "#" + geogebra.common.util.StringUtil.toHexString(new AwtColorAdapter(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor())));		
 	}	
 	
 	public synchronized int getLineThickness(String objName) {

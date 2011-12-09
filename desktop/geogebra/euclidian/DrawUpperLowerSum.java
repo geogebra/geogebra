@@ -201,7 +201,7 @@ public class DrawUpperLowerSum extends Drawable {
         if (isVisible) {
         	try {
 	            if (geo.doHighlighting()) {
-	                g2.setPaint((Paint) sum.getSelColor().getAwtColor());
+	                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) sum.getSelColor()));
 	                g2.setStroke(selStroke);            
 	                g2.draw(gp);           
 	            } 
@@ -217,7 +217,7 @@ public class DrawUpperLowerSum extends Drawable {
         	
 			try {
 				if (geo.lineThickness > 0) {
-					g2.setPaint((Paint) sum.getObjectColor().getAwtColor());
+					g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) sum.getObjectColor()));
 					g2.setStroke(objStroke);                                   
 					g2.draw(gp);   
 				}
@@ -227,7 +227,7 @@ public class DrawUpperLowerSum extends Drawable {
 			
             if (labelVisible) {
 				g2.setFont(view.fontConic);
-				g2.setPaint((Paint) geo.getLabelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));
 				drawLabel(g2);
             }        
         }

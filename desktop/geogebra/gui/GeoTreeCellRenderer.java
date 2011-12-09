@@ -71,7 +71,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 				setIcon(iconHidden);
 			}			
 			
-			setForeground((Color) geo.getLabelColor().getAwtColor());			
+			setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));			
 			setText(geo.getLabelTextOrHTML());	
 			setFont(app.getFontCanDisplay(getText(), Font.BOLD));
 			

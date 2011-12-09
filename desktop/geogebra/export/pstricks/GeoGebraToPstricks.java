@@ -451,7 +451,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=(Color) geo.getObjectColor().getAwtColor();
+		Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		startBeamer(codePoint);
 		codePoint.append("\\rput[bl](");
 		codePoint.append(kernel.format(xLabelHor));
@@ -819,7 +819,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			st=st.replaceAll("\\u20ac", "\\\\euro{}");
 			if (!eurosym) codePreamble.append("\\usepackage{eurosym}\n");
 		}
-		Color geocolor=(Color) geo.getObjectColor().getAwtColor();
+		Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		int style=geo.getFontStyle();
 		int size=geo.getFontSize()+app.getGUIFontSize();
 		GeoPoint2 gp;
@@ -1563,7 +1563,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				
-				Color geocolor=(Color) geo.getObjectColor().getAwtColor();
+				Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 				startBeamer(codePoint);
 				codePoint.append("\\rput[bl](");
 				codePoint.append(kernel.format(xLabel));
@@ -1685,7 +1685,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("\n");
 	}
 	private void PointOptionCode(GeoPoint2 geo){
-		Color dotcolor=(Color) geo.getObjectColor().getAwtColor();
+		Color dotcolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		int dotsize=geo.getPointSize();
 		int dotstyle=geo.getPointStyle();
 		if (dotstyle == -1) { // default
@@ -1756,7 +1756,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=(Color) geo.getObjectColor().getAwtColor();
+		Color linecolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 

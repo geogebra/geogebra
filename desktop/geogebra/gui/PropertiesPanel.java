@@ -5826,7 +5826,7 @@ class ColorFunctionPanel
 		nameLabelA.setVisible(someFillable);
 		
 		GeoElement geo = (GeoElement)geos[0];
-		Color col = (Color) geo.getObjectColor().getAwtColor();
+		Color col = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		defaultR = "" + col.getRed() / 255.0;
 		defaultG = "" + col.getGreen() / 255.0;
 		defaultB = "" + col.getBlue() / 255.0;

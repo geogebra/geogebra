@@ -154,19 +154,19 @@ public class DrawSlope extends Drawable {
 			fill(g2, gp, false); // fill using default/hatching/image as appropriate
                 
             if (geo.doHighlighting()) {
-                g2.setPaint((Paint) geo.getSelColor().getAwtColor());
+                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
                 g2.setStroke(selStroke);            
                 g2.draw(gp);       
             }    
             
 			if (geo.lineThickness > 0) {
-	            g2.setPaint((Paint) slope.getObjectColor().getAwtColor());             
+	            g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) slope.getObjectColor()));             
 	            g2.setStroke(objStroke);            
 	            g2.draw(gp);   
 			}
                         
             if (labelVisible) {
-                g2.setPaint((Paint) slope.getLabelColor().getAwtColor());
+                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) slope.getLabelColor()));
                 g2.setFont(view.fontLine);
                 drawLabel(g2);              
                 g2.drawString(horLabel, xLabelHor, yLabelHor);

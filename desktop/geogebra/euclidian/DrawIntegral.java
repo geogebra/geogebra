@@ -122,7 +122,7 @@ public class DrawIntegral extends Drawable {
 	final public void draw(Graphics2D g2) {
         if (isVisible) {        	
             if (geo.doHighlighting()) {
-                g2.setPaint((Paint) n.getSelColor().getAwtColor());
+                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) n.getSelColor()));
                 g2.setStroke(selStroke);            
                 Drawable.drawWithValueStrokePure(gp, g2);     
             } 
@@ -131,14 +131,14 @@ public class DrawIntegral extends Drawable {
 			
 			
 			if (geo.lineThickness > 0) {
-				g2.setPaint((Paint) n.getObjectColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) n.getObjectColor()));
 				g2.setStroke(objStroke);                                   
 				Drawable.drawWithValueStrokePure(gp, g2);   	
 			}
 			
             if (labelVisible) {
 				g2.setFont(view.fontConic);
-				g2.setPaint((Paint) geo.getLabelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));
 				drawLabel(g2);
             }        
         }

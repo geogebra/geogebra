@@ -306,9 +306,9 @@ public final class DrawTextField extends Drawable {
 		label.setOpaque(false);		
 		textField.setFont(font);				
 		label.setFont(font);
-		textField.setForeground((Color) geo.getObjectColor().getAwtColor());
-		label.setForeground((Color) geo.getObjectColor().getAwtColor());
-		Color bgCol = (Color) geo.getBackgroundColor().getAwtColor();
+		textField.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+		label.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+		Color bgCol = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getBackgroundColor());
 		textField.setBackground(bgCol != null ? bgCol : view.getBackground());
 		
 		textField.setFocusable(true);

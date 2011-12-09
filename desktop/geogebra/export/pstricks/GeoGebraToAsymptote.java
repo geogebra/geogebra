@@ -550,7 +550,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         float xLabelHor = (x + xright) /2;
         float yLabelHor = y - (float)(
                 (euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-        Color geocolor = (Color) geo.getObjectColor().getAwtColor();
+        Color geocolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 
         if(!compact)
             codePoint.append("\n");
@@ -871,7 +871,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             st = st.replaceAll("\\u20ac", "\\\\euro{}");
             if (!eurosym) codePreamble.append("usepackage(\"eurosym\"); ");
         }
-        Color geocolor = (Color) geo.getObjectColor().getAwtColor();
+        Color geocolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
         int style = geo.getFontStyle();
         int size = geo.getFontSize()+app.getGUIFontSize();
         GeoPoint2 gp;
@@ -1578,7 +1578,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                z = geo.getZ();
         x = x/z;
         y = y/z;
-        Color dotcolor = (Color) geo.getObjectColor().getAwtColor();
+        Color dotcolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
         
         switch(dotstyle){
             case EuclidianStyleConstants.POINT_STYLE_CROSS:
@@ -2080,7 +2080,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
                 boolean isPointLabel = false;
                 
-                Color geocolor = (Color) geo.getObjectColor().getAwtColor();
+                Color geocolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 
                 if(!compact)
                     codePoint.append("\n");
@@ -2509,7 +2509,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     // Returns point style code with size dotsize. Includes comma.
     private void PointOptionCode(GeoPoint2 geo, StringBuilder sb, double dotsize){
-        Color dotcolor = (Color) geo.getObjectColor().getAwtColor();
+        Color dotcolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
         int dotstyle   = geo.getPointStyle();
         if (dotstyle == -1) { // default
             dotstyle = app.getEuclidianView().getPointStyle();
@@ -2559,7 +2559,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     // Line style code; does not include comma.
     private String LineOptionCode(GeoElement geo,boolean transparency){
         StringBuilder sb = new StringBuilder(); 
-        Color linecolor = (Color) geo.getObjectColor().getAwtColor();
+        Color linecolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
         int linethickness = geo.getLineThickness();
         int linestyle = geo.getLineType();
 
@@ -3068,14 +3068,14 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         if(fillType == ExportFrame.FILL_OPAQUE) {
             packSpaceAfter(sb, ",");
             if(geo.getAlphaValue() >= 0.9) 
-                ColorCode((Color) geo.getObjectColor().getAwtColor(),sb);
+                ColorCode(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()),sb);
             else
                 sb.append("invisible");
         }
         // use opacity(alpha value) pen
         else if(fillType == ExportFrame.FILL_OPACITY_PEN) {
             packSpaceAfter(sb, ",");
-            ColorCode((Color) geo.getObjectColor().getAwtColor(),sb);
+            ColorCode(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()),sb);
             packSpace(sb,"+");
             sb.append("opacity(");
             sb.append(geo.getAlphaValue());
@@ -3083,7 +3083,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
         else if(fillType == ExportFrame.FILL_LAYER) {
             packSpaceAfter(sb, ",");
-            ColorLightCode((Color) geo.getObjectColor().getAwtColor(),geo.getAlphaValue(),sb);        
+            ColorLightCode(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()),geo.getAlphaValue(),sb);        
         }
         if(LineOptionCode(geo,true) != null) {
             packSpaceAfter(sb, ",");

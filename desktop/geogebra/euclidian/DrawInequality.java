@@ -239,13 +239,13 @@ public class DrawInequality extends Drawable {
 		if (!isForceNoFill()) {			
 			if (gpAxis != null) {
 				if (geo.doHighlighting()) {
-					g2.setPaint((Paint) geo.getSelColor().getAwtColor());
+					g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
 					g2.setStroke(selStroke);
 					for (int i = 0; gpAxis[i] != null; i++) {
 						g2.draw(gpAxis[i]);
 					}
 				}
-				g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
 				g2.setStroke(objStroke);
 				for (int i = 0; gpAxis[i] != null; i++) {
 					g2.draw(gpAxis[i]);
@@ -257,7 +257,7 @@ public class DrawInequality extends Drawable {
 		
 		if (labelVisible) {
 			g2.setFont(view.fontConic);
-			g2.setPaint((Paint) geo.getLabelColor().getAwtColor());			
+			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));			
 			drawLabel(g2);
 		}
 	}
@@ -323,7 +323,7 @@ public class DrawInequality extends Drawable {
 		@Override
 		public void draw(Graphics2D g2) {			
 			if (geo.doHighlighting()) {
-				g2.setPaint((Paint) geo.getSelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
 				g2.setStroke(selStroke);
 				Drawable.drawWithValueStrokePure(gp, g2);
 			}
@@ -333,7 +333,7 @@ public class DrawInequality extends Drawable {
 			// appropriate
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
 				g2.setStroke(objStroke);
 				Drawable.drawWithValueStrokePure(gp, g2);
 			}

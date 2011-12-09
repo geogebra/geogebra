@@ -539,7 +539,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=(Color) geo.getObjectColor().getAwtColor();
+		Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		codePoint.append("\\draw[color=");
 		ColorCode(geocolor,codePoint);
 		codePoint.append("] ");
@@ -953,7 +953,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			startBeamer(code);
 			code.append("\\draw ");
 			// Color
-			Color geocolor = (Color) geo.getObjectColor().getAwtColor();
+			Color geocolor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 			if (!geocolor.equals(Color.BLACK)) {
 				code.append("[color=");
 				ColorCode(geocolor, code);
@@ -982,7 +982,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append("\\draw ");
 			
 			// Color
-			Color geocolor=(Color) geo.getObjectColor().getAwtColor();
+			Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 			if (!geocolor.equals(Color.BLACK)){
 				code.append("[color=");
 				ColorCode(geocolor,code);
@@ -2154,7 +2154,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				double yLabel=drawGeo.getyLabel();
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
-				Color geocolor=(Color) geo.getObjectColor().getAwtColor();
+				Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 				startBeamer(codePoint);			
 				FontMetrics fm=euclidianView.getFontMetrics(euclidianView.getFont());
 				int width=fm.stringWidth(Util.toLaTeXString(geo.getLabelDescription(),true));
@@ -2354,7 +2354,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=(Color) geo.getObjectColor().getAwtColor();
+		Color linecolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 

@@ -90,7 +90,7 @@ implements Previewable {
 	
 	final void drawTrace(Graphics2D g2) {
     	if (isVisible) {
-    		g2.setPaint((Paint) geo.getObjectColor().getAwtColor());
+    		g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
     		g2.setStroke(objStroke);  
             Drawable.drawWithValueStrokePure(gp, g2);
     	}
@@ -134,20 +134,20 @@ implements Previewable {
 	final public void draw(Graphics2D g2) {
         if (isVisible) {
 
-			g2.setPaint((Paint) poly.getObjectColor().getAwtColor());                       
+			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getObjectColor()));                       
             g2.setStroke(objStroke);            
 			g2.draw(gp);  				
    	        	
             	
             if (geo.doHighlighting()) {
-                g2.setPaint((Paint) poly.getSelColor().getAwtColor());
+                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getSelColor()));
                 g2.setStroke(selStroke);            
                 g2.draw(gp);                
             }        
         	
                                  
             if (labelVisible) {
-				g2.setPaint((Paint) poly.getLabelColor().getAwtColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getLabelColor()));
 				g2.setFont(view.fontPoint);
 				drawLabel(g2);
             }			
