@@ -221,7 +221,14 @@ public class Kernel extends AbstractKernel{
 
 		geogebra.common.factories.AdapterFactory.prototype = new geogebra.factories.AdapterFactory();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.factories.AwtFactory();
-
+		//TODO: probably there is better way
+		geogebra.common.awt.Color.black = geogebra.awt.Color.black;
+		geogebra.common.awt.Color.white = geogebra.awt.Color.white;
+		geogebra.common.awt.Color.blue = geogebra.awt.Color.blue;
+		geogebra.common.awt.Color.gray = geogebra.awt.Color.gray;
+		geogebra.common.awt.Color.lightGray = geogebra.awt.Color.lightGray;
+		geogebra.common.awt.Color.darkGray = geogebra.awt.Color.darkGray;
+		
 		newConstruction();
 		getExpressionNodeEvaluator();
 		
