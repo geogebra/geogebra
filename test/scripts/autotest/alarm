@@ -27,7 +27,7 @@ if [ $RESULT = 3 ]; then
 
 if [ $RESULT = 0 ]; then
  MESSAGE="Everything is OK at revision $REVISION"
- # exit 0 # Not sending an email
+ exit 0 # Not sending an email
  fi
 
 # Sending an email to geogebra-dev:
