@@ -31,7 +31,7 @@ import javax.swing.event.ChangeListener;
  * @author G. Sturr
  * 
  */
-public class PopupMenuButton extends JButton implements ChangeListener{
+public class PopupMenuButton extends JButton implements ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -491,6 +491,10 @@ public class PopupMenuButton extends JButton implements ChangeListener{
 	public void setFixedIcon(Icon icon){
 		isFixedIcon = true;
 		setIcon(icon);
+	}
+
+	public void setIndex(int mode) {
+		myTable.setSelectedIndex(mode);
 	}
 
 

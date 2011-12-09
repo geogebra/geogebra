@@ -1432,6 +1432,10 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener {
 		}
 	}
 
+	public void updateButtonPointCapture(int mode) {
+		if (mode == 3 || mode ==0) mode = 3 - mode; // swap 0 and 3
+		btnPointCapture.setSelectedIndex(mode);
+	}
 
 	//==============================================
 	//           Apply Styles

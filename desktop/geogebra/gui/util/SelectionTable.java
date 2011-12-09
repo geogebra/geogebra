@@ -34,14 +34,13 @@ import javax.swing.table.TableColumn;
  * @author G.Sturr
  * 
  */
-public class SelectionTable extends JTable{
+public class SelectionTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Application app;
 	private MyCellRenderer renderer;
 	private DefaultTableModel model;
-	private SelectionTable myTable;
 
 	private int rollOverRow = -1;
 	private int rollOverColumn = -1;
@@ -125,7 +124,6 @@ public class SelectionTable extends JTable{
 	public SelectionTable(Application app, Object[] data, int rows, int columns, Dimension iconSize, int mode){
 
 		this.app = app;	
-		this.myTable = this;
 		this.mode = mode;
 		this.iconSize = iconSize;
 		if(mode == MODE_LATEX)
@@ -326,19 +324,17 @@ public class SelectionTable extends JTable{
 			this.clearSelection();
 			return;
 		}
-
 		int row = (int) Math.floor(index / getColumnCount()) ;
 		int column = index - (row * getColumnCount());
 		this.changeSelection(row, column, false, false);
-		// Application.debug("=======SET SELECTED INDEX: " + index + "," + row + ", " + column );
-
+		rollOverRow = -1;
+		rollOverColumn = -1;
 	}
 
 	public Object getSelectedValue(){
 		if(getSelectedRow() != -1 && getSelectedColumn() != -1)
 			return model.getValueAt(getSelectedRow(), getSelectedColumn());
-		else 
-			return null;
+		return null;
 	}
 
 	public int getSliderValue() {
@@ -418,7 +414,6 @@ public class SelectionTable extends JTable{
 		public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected,boolean hasFocus, int row,int column) 
 		{
-			
 			setAlignmentX(CENTER_ALIGNMENT);
 			setAlignmentY(CENTER_ALIGNMENT);
 

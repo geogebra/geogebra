@@ -5626,7 +5626,9 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		setAllowShowMouseCoords(evs.getAllowShowMouseCoords());
 
 		setAllowToolTips(evs.getAllowToolTips());
-
+		
+		synchronizeMenuBarAndEuclidianStyleBar(evs);
+		
 		if (evs.getXmaxObject() == null) {
 			setCoordSystem(evs.getXZero(), evs.getYZero(), evs.getXscale(),
 					evs.getYscale(), true);
@@ -5637,6 +5639,13 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		} else {
 			updateBounds();
 		}
+	}
+
+	private void synchronizeMenuBarAndEuclidianStyleBar(EuclidianSettings evs) {
+		getStyleBar().updateButtonPointCapture(evs.getPointCapturingMode());
+		
+		if(app.getGuiManager() != null)
+		app.getGuiManager().updateMenubar();
 	}
 
 	public int getViewID() {
