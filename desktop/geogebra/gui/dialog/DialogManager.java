@@ -29,15 +29,14 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputHandler;
-import geogebra.gui.OptionsDialog;
-import geogebra.gui.PropertiesDialog;
-import geogebra.gui.RedefineInputHandler;
-import geogebra.gui.RenameInputHandler;
-import geogebra.gui.OptionsDialog.Factory;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.gui.dialog.handler.NumberInputHandler;
+import geogebra.gui.dialog.handler.RedefineInputHandler;
+import geogebra.gui.dialog.handler.RenameInputHandler;
+import geogebra.gui.dialog.options.OptionsDialog;
+import geogebra.gui.dialog.options.OptionsDialog.Factory;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
@@ -493,6 +492,33 @@ public class DialogManager {
 			propDialog.cancel();
 		}
 	}
+
+  /**
+   * Creates a new slider at given location (screen coords).
+   * 
+   * @return whether a new slider (number) was create or not
+   */
+  public boolean showSliderCreationDialog(int x, int y) {
+    app.setWaitCursor();
+
+    SliderDialog dialog = new SliderDialog(app, x, y);
+    dialog.setVisible(true);
+
+    app.setDefaultCursor();
+
+    return true;
+  }
+
+  /**
+   * Creates a new JavaScript button at given location (screen coords).
+   * 
+   * @return whether a new slider (number) was create or not
+   */
+  public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
+    ButtonDialog dialog = new ButtonDialog(app, x, y, textfield);
+    dialog.setVisible(true);
+    return true;
+  }
 	
 	/**
 	 * Close the properties dialog if it is not the current selection

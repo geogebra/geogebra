@@ -10,12 +10,15 @@ the Free Software Foundation.
 
 */
 
-package geogebra.gui;
+package geogebra.gui.dialog.options;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.gui.NumberComboBox;
+import geogebra.gui.SetLabels;
+import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.TableSymbols;
 import geogebra.kernel.Kernel;

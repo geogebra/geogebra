@@ -6943,13 +6943,13 @@ EuclidianControllerInterface {
 	}
 	// new slider
 	final protected boolean slider() {		
-		if (!selectionPreview && mouseLoc != null) app.getGuiManager().showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
+		if (!selectionPreview && mouseLoc != null) app.getGuiManager().getDialogManager().showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
 		return false;
 	}		
 
 	// new button
 	final protected boolean button(boolean textfield) {	
-		if (!selectionPreview && mouseLoc != null) app.getGuiManager().showButtonCreationDialog(mouseLoc.x, mouseLoc.y, textfield);
+		if (!selectionPreview && mouseLoc != null) app.getGuiManager().getDialogManager().showButtonCreationDialog(mouseLoc.x, mouseLoc.y, textfield);
 		return false;
 	}		
 

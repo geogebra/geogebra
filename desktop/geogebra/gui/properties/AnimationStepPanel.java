@@ -3,8 +3,8 @@ package geogebra.gui.properties;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
-import geogebra.gui.PropertiesDialog;
 import geogebra.gui.SetLabels;
+import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 

@@ -1,4 +1,4 @@
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.common.kernel.geos.GeoElement;
 

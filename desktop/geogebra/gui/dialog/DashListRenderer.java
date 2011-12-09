@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.euclidian.EuclidianView;
 
@@ -29,7 +29,7 @@ import javax.swing.ListCellRenderer;
  * used by LineStylePanel for rendering a combobox with different
  * line styles (dashing)
  */
-class DashListRenderer extends JPanel implements ListCellRenderer {
+public class DashListRenderer extends JPanel implements ListCellRenderer {
 	/**
 	 * 
 	 */

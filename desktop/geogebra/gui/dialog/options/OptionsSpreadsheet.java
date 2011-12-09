@@ -10,8 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.gui;
+package geogebra.gui.dialog.options;
 
+import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.FileBrowserPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;

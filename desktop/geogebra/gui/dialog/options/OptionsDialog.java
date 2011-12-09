@@ -1,5 +1,7 @@
-package geogebra.gui;
+package geogebra.gui.dialog.options;
 
+import geogebra.gui.GuiManager;
+import geogebra.gui.SetLabels;
 import geogebra.gui.util.IconTabbedPane;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;

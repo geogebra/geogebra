@@ -1,6 +1,6 @@
 package geogebra3D.gui;
 
-import geogebra.gui.OptionsDialog;
+import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
 

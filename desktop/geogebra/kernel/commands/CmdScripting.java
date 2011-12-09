@@ -19,7 +19,7 @@ import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.gui.RenameInputHandler;
+import geogebra.gui.dialog.handler.RenameInputHandler;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.geos.GeoScriptAction;

@@ -1,9 +1,10 @@
-package geogebra.gui;
+package geogebra.gui.dialog.handler;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
+import geogebra.gui.InputHandler;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.util.CopyPaste;

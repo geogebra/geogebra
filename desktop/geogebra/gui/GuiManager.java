@@ -31,6 +31,9 @@ import geogebra.gui.dialog.ButtonDialog;
 import geogebra.gui.dialog.DialogManager;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.InputDialogOpenURL;
+import geogebra.gui.dialog.PropertiesDialog;
+import geogebra.gui.dialog.PropertiesPanel;
+import geogebra.gui.dialog.PropertiesPanelMini;
 import geogebra.gui.dialog.SliderDialog;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
@@ -1166,33 +1169,6 @@ public class GuiManager {
   }
 
   /**
-   * Creates a new slider at given location (screen coords).
-   * 
-   * @return whether a new slider (number) was create or not
-   */
-  public boolean showSliderCreationDialog(int x, int y) {
-    app.setWaitCursor();
-
-    SliderDialog dialog = new SliderDialog(app, x, y);
-    dialog.setVisible(true);
-
-    app.setDefaultCursor();
-
-    return true;
-  }
-
-  /**
-   * Creates a new JavaScript button at given location (screen coords).
-   * 
-   * @return whether a new slider (number) was create or not
-   */
-  public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-    ButtonDialog dialog = new ButtonDialog(app, x, y, textfield);
-    dialog.setVisible(true);
-    return true;
-  }
-
-  /**
    * Creates a new GeoImage, using an image provided by either a Transferable
    * object or the clipboard contents, then places it at the given location
    * (real world coords). If the transfer content is a list of images, then
@@ -2006,20 +1982,6 @@ public class GuiManager {
   public void allowGUIToRefresh() {
     if (!SwingUtilities.isEventDispatchThread())
       return;
-
-    // // use Foxtrot to wait a bit until screen has refreshed
-    // Worker.post(new Job()
-    // {
-    // public Object run()
-    // {
-    // try {
-    // Thread.sleep(10);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-    // return null;
-    // }
-    // });
   }
 
   /**

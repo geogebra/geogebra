@@ -1,6 +1,6 @@
 package geogebra3D.gui;
 
-import geogebra.gui.OptionsEuclidian;
+import geogebra.gui.dialog.options.OptionsEuclidian;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;

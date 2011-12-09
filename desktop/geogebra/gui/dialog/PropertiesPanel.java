@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.gui;
+package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -45,8 +45,10 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.dialog.TextInputDialog;
+import geogebra.gui.dialog.handler.RedefineInputHandler;
+import geogebra.gui.dialog.handler.RenameInputHandler;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.properties.AnimationSpeedPanel;
