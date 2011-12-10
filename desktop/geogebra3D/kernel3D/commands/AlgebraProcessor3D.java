@@ -69,14 +69,14 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double y = p[1];
 			double z = p[2];
 			if (isVector)
-				ret[0] = kernel.getManager3D().Vector3D(label, x, y, z);	
+				ret[0] = ((Kernel) kernel).getManager3D().Vector3D(label, x, y, z);	
 			else
-				ret[0] = (GeoPoint3D) kernel.getManager3D().Point3D(label, x, y, z);			
+				ret[0] = (GeoPoint3D) ((Kernel) kernel).getManager3D().Point3D(label, x, y, z);			
 		} else {
 			if (isVector)
-				ret[0] = kernel.getManager3D().DependentVector3D(label, n);
+				ret[0] = ((Kernel) kernel).getManager3D().DependentVector3D(label, n);
 			else
-				ret[0] = (GeoPoint3D) kernel.getManager3D().DependentPoint3D(label, n);
+				ret[0] = (GeoPoint3D) ((Kernel) kernel).getManager3D().DependentPoint3D(label, n);
 		}
 
 		return ret;
@@ -92,14 +92,14 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		
 		if (equ.isForcedLine() || inequality)
 			return super.processLine(equ, inequality); //TODO add inequalities in 3D
-		else{
-			//check if the equ is forced plane or if the 3D view has the focus
-			if (equ.isForcedPlane() ||
-					app.getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel() instanceof EuclidianDockPanel3D){
-				return processPlane(equ);
-			}else
-				return super.processLine(equ, inequality);
+		
+		//check if the equ is forced plane or if the 3D view has the focus
+		if (equ.isForcedPlane() ||
+				((Application)app).getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel() instanceof EuclidianDockPanel3D){
+			return processPlane(equ);
 		}
+		return super.processLine(equ, inequality);
+		
 	}
 
 	protected GeoElement[] processPlane(Equation equ) {
@@ -117,9 +117,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("z");
 			d = lhs.getCoeffValue("");
-			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(label, a, b, c, d);
+			plane = (GeoPlane3D) ((Kernel) kernel).getManager3D().Plane3D(label, a, b, c, d);
 		} else
-			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(label, equ);
+			plane = (GeoPlane3D) ((Kernel) kernel).getManager3D().DependentPlane3D(label, equ);
 
 		ret[0] = plane;
 		return ret;

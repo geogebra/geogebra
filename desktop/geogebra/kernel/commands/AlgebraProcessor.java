@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -40,41 +41,40 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;
-import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.Set;
 
 public class AlgebraProcessor extends AbstractAlgebraProcessor {
 	
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 	private Construction cons;
-	protected Application app;
+	protected AbstractApplication app;
 	private Parser parser;
 	protected CommandDispatcher cmdDispatcher;
 	
 	protected ExpressionValue eval; //ggb3D : used by AlgebraProcessor3D in extended processExpressionNode
 	
-	public AlgebraProcessor(Kernel kernel) {
+	public AlgebraProcessor(AbstractKernel kernel) {
 		this.kernel = kernel;
 		cons = kernel.getConstruction();
 		
 		cmdDispatcher = newCommandDispatcher(kernel);
 		app = kernel.getApplication();
-		parser = kernel.getParser();
+		parser = (Parser)kernel.getParser();
 	}
 	
 	/**
 	 * @param kernel 
 	 * @return a new command dispatcher (used for 3D)
 	 */
-	protected CommandDispatcher newCommandDispatcher(Kernel kernel){
+	protected CommandDispatcher newCommandDispatcher(AbstractKernel kernel){
 		return new CommandDispatcher(kernel);
 	}
 	
@@ -287,7 +287,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 				throw new MyError(app, str);
 			}
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -385,10 +385,10 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 
 			return null;
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			throw e;
 		} catch (Exception ex) {
-			Application.debug("Exception");
+			AbstractApplication.debug("Exception");
 			ex.printStackTrace();
 			throw new Exception(app.getError("Error") + ":\n" + ex.getLocalizedMessage());
 		}
@@ -443,7 +443,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			GeoElement [] temp = processValidExpression(ve);
 			bool = (GeoBoolean) temp[0];
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			app.showError("CircularDefinition");
 		} catch (Exception e) {		
 			e.printStackTrace();
@@ -475,7 +475,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			GeoElement [] temp = processValidExpression(ve);
 			list = (GeoList) temp[0];
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			app.showError("CircularDefinition");
 		} catch (Exception e) {		
 			e.printStackTrace();
@@ -514,7 +514,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 				if (!suppressErrors) app.showError("InvalidInput", str);
 			
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			if (!suppressErrors) app.showError("CircularDefinition");
 		} catch (Exception e) {		
 			e.printStackTrace();
@@ -546,7 +546,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			GeoElement [] temp = processValidExpression(ve);
 			num = (NumberValue) temp[0];
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			if (!suppressErrors) app.showError("CircularDefinition");
 		} catch (Exception e) {		
 			e.printStackTrace();
@@ -584,7 +584,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			 p = (GeoPointND) temp[0];
 		} catch (CircularDefinitionException e) {
 			if (showErrors) {
-				Application.debug("CircularDefinition");
+				AbstractApplication.debug("CircularDefinition");
 				app.showError("CircularDefinition");
 			}
 		} catch (Exception e) {		
@@ -624,7 +624,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			text = (GeoText) temp[0];
 		} catch (CircularDefinitionException e) {
 			if (showErrors) {
-				Application.debug("CircularDefinition");
+				AbstractApplication.debug("CircularDefinition");
 				app.showError("CircularDefinition");
 			}
 		} catch (Exception e) {		
@@ -665,7 +665,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			GeoElement [] temp = processValidExpression(ve);
 			geo = temp[0];			
 		} catch (CircularDefinitionException e) {
-			Application.debug("CircularDefinition");
+			AbstractApplication.debug("CircularDefinition");
 			app.showError("CircularDefinition");
 		} catch (Exception e) {		
 			e.printStackTrace();
@@ -745,7 +745,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			ret = doProcessValidExpression(ve);
 			
 			if (ret == null) { // eg (1,2,3) running in 2D
-				Application.debug("Unhandled ValidExpression : " + ve);
+				AbstractApplication.debug("Unhandled ValidExpression : " + ve);
 				throw new MyError(app, app.getError("InvalidInput") + ":\n" + ve);
 			}
 		}
@@ -916,9 +916,9 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 					
 				}
 				
-				//Application.debug(leftDir+" "+rightDir);
-				//Application.debug(leftLeft.getClass()+" "+leftRight.getClass());
-				//Application.debug(rightLeft.getClass()+" "+rightRight.getClass());
+				//AbstractApplication.debug(leftDir+" "+rightDir);
+				//AbstractApplication.debug(leftLeft.getClass()+" "+leftRight.getClass());
+				//AbstractApplication.debug(rightLeft.getClass()+" "+rightRight.getClass());
 				
 				// opposite directions -> OK
 				if (leftDir * rightDir < 0) {
@@ -933,15 +933,15 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 				}
 				
 				
-				//Application.debug(enLeft.operation+"");
-				//Application.debug(enLeft.left.getClass()+"");
-				//Application.debug(enLeft.right.getClass()+"");
+				//AbstractApplication.debug(enLeft.operation+"");
+				//AbstractApplication.debug(enLeft.left.getClass()+"");
+				//AbstractApplication.debug(enLeft.right.getClass()+"");
 				
 
 			}
-			//Application.debug(left.getClass()+"");
-			//Application.debug(right.getClass()+"");
-			//Application.debug("");
+			//AbstractApplication.debug(left.getClass()+"");
+			//AbstractApplication.debug(right.getClass()+"");
+			//AbstractApplication.debug("");
 		} else if (en.operation.equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.left;
 			ExpressionValue right = en.right;
@@ -981,13 +981,13 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 	}
 
 	public GeoElement[] processEquation(Equation equ) throws MyError {		
-//		Application.debug("EQUATION: " + equ);        
-//		Application.debug("NORMALFORM POLYNOMIAL: " + equ.getNormalForm());        		
+//		AbstractApplication.debug("EQUATION: " + equ);        
+//		AbstractApplication.debug("NORMALFORM POLYNOMIAL: " + equ.getNormalForm());        		
 		
 		
 		try {
 			equ.initEquation();	
-			//Application.debug("EQUATION: " + equ.getNormalForm());    	
+			//AbstractApplication.debug("EQUATION: " + equ.getNormalForm());    	
 			// check no terms in z
 			checkNoTermsInZ(equ);
 			
@@ -1119,12 +1119,12 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent()&&lhs.isConstant();
-		GeoImplicitPoly poly;
+		GeoImplicitPolyInterface poly;
 		GeoElement geo=null;
 		if (isIndependent){
 			poly=kernel.ImplicitPoly(label, lhs);
 			poly.setUserInput(equ);
-			geo=poly;
+			geo=(GeoElement)poly;
 		}else{
 			geo=kernel.DependentImplicitPoly(label, equ); //might also return Line or Conic
 			if (geo instanceof GeoUserInputElement){
@@ -1132,7 +1132,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 			}
 		}
 		ret[0]=geo;
-//		Application.debug("User Input: "+equ);
+//		AbstractApplication.debug("User Input: "+equ);
 		ret[0].updateRepaint();
 		return ret;
 	}
@@ -1270,7 +1270,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 		} 
 		//we have to process list in case list=matrix1(1), but not when list=list2 
 		else if (eval instanceof GeoList  && myNode.hasOperations()) {
-			Application.debug("should work");
+			AbstractApplication.debug("should work");
 			return processList(n, ((GeoList) eval).getMyList());
 		} else if (eval.isGeoElement()) {	
 
@@ -1295,7 +1295,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 		 
 		
 		// if we get here, nothing worked
-		Application.debug(
+		AbstractApplication.debug(
 				"Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
 		return null;
 	}
@@ -1408,10 +1408,10 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 		
 		GeoVec2D p = (GeoVec2D)((VectorValue) evaluate).getVector();
 		
-		boolean polar = p.getMode() == Kernel.COORD_POLAR;		
+		boolean polar = p.getMode() == AbstractKernel.COORD_POLAR;		
 		
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
-		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
+		boolean complex = p.getMode() == AbstractKernel.COORD_COMPLEX;
 		
 		GeoVec3D[] ret = new GeoVec3D[1];
 		boolean isIndependent = n.isConstant();
@@ -1446,10 +1446,10 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 				ret[0] = kernel.DependentPoint(label, n, complex);
 		}
 		if (polar) {
-			ret[0].setMode(Kernel.COORD_POLAR);
+			ret[0].setMode(AbstractKernel.COORD_POLAR);
 			ret[0].updateRepaint();
 		} else if (complex) {
-			ret[0].setMode(Kernel.COORD_COMPLEX);
+			ret[0].setMode(AbstractKernel.COORD_COMPLEX);
 			ret[0].updateRepaint();
 		}
 		return ret;

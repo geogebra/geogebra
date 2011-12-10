@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.commands;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
@@ -280,12 +281,12 @@ public class CommandDispatcher {
     
     /**
      * Creates new command dispatcher
-     * @param kernel Kernel of current application
+     * @param kernel2 Kernel of current application
      */
-    public CommandDispatcher(Kernel kernel) {             
-    	this.kernel = kernel;
-    	cons = kernel.getConstruction();  
-    	app = kernel.getApplication();                    
+    public CommandDispatcher(AbstractKernel kernel2) {             
+    	this.kernel = (Kernel)kernel2;
+    	cons = kernel2.getConstruction();  
+    	app = kernel2.getApplication();                    
     }
     
     /**

@@ -243,6 +243,10 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 		// TODO Auto-generated method stub
 		
 	}
+	public void showError(String string, String str) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

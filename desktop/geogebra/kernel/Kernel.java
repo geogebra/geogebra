@@ -23,8 +23,8 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Transform;
@@ -38,7 +38,6 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoAffineRatio;
 import geogebra.common.kernel.algos.AlgoAngleConic;
 import geogebra.common.kernel.algos.AlgoAngleLines;
-import geogebra.common.kernel.algos.AlgoAngleNumeric;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoAnglePolygon;
 import geogebra.common.kernel.algos.AlgoAngleVector;
@@ -62,28 +61,18 @@ import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
-import geogebra.common.kernel.algos.AlgoDependentBoolean;
-import geogebra.common.kernel.algos.AlgoDependentConic;
-import geogebra.common.kernel.algos.AlgoDependentFunction;
-import geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
-import geogebra.common.kernel.algos.AlgoDependentGeoCopy;
-import geogebra.common.kernel.algos.AlgoDependentInterval;
-import geogebra.common.kernel.algos.AlgoDependentLine;
-import geogebra.common.kernel.algos.AlgoDependentList;
-import geogebra.common.kernel.algos.AlgoDependentListExpression;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
-import geogebra.common.kernel.algos.AlgoDependentPoint;
-import geogebra.common.kernel.algos.AlgoDependentText;
-import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
-import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoLineBisector;
+import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
+import geogebra.common.kernel.algos.AlgoLinePointLine;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
@@ -92,16 +81,11 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -152,7 +136,6 @@ import geogebra.common.util.AbstractMyMath2;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
-import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyXMLHandler;
@@ -1811,71 +1794,11 @@ public class Kernel extends AbstractKernel{
 	}
 	
 
-	/***********************************
-	 * FACTORY METHODS FOR GeoElements
-	 ***********************************/
 
-	/** Point label with cartesian coordinates (x,y)   */
-	final public GeoPoint2 Point(String label, double x, double y) {
-		GeoPoint2 p = new GeoPoint2(cons);
-		p.setCoords(x, y, 1.0);
-		p.setMode(COORD_CARTESIAN);
-		p.setLabel(label); // invokes add()                
-		return p;
-	}
-
-	/** Point label with cartesian coordinates (x,y)   */
-	final public GeoPoint2 Point(String label, double x, double y, boolean complex) {
-		GeoPoint2 p = new GeoPoint2(cons);
-		p.setCoords(x, y, 1.0);
-		if (complex) {
-			p.setMode(COORD_COMPLEX);
-			/* removed as this sets the mode back to COORD_CARTESIAN
-
-			// we have to reset the visual style as the constructor
-			// did not know that this was a complex number
-			//p.setConstructionDefaults(); */
-		}
-		else
-			p.setMode(COORD_CARTESIAN);
-		p.setLabel(label); // invokes add()
-		return p;
-	}
-
-	/** Vector label with cartesian coordinates (x,y)   */
-	final public GeoVector Vector(String label, double x, double y) {
-		GeoVector v = new GeoVector(cons);
-		v.setCoords(x, y, 0.0);
-		v.setMode(COORD_CARTESIAN);
-		v.setLabel(label); // invokes add()                
-		return v;
-	}
-
-	/** Line a x + b y + c = 0 named label */
-	final public GeoLine Line(
-		String label,
-		double a,
-		double b,
-		double c) {
-		GeoLine line = new GeoLine(cons, label, a, b, c);
-		return line;
-	}
 
 	
 
-	/** Conic label with equation ax��� + bxy + cy��� + dx + ey + f = 0  */
-	final public GeoConic Conic(
-		String label,
-		double a,
-		double b,
-		double c,
-		double d,
-		double e,
-		double f) {
-		double[] coeffs = { a, b, c, d, e, f };
-		GeoConic conic = new GeoConic(cons, label, coeffs);
-		return conic;
-	}
+
 
 	
 	/** Implicit Polynomial  */
@@ -1897,79 +1820,6 @@ public class Kernel extends AbstractKernel{
 		return implicitPoly;
 	}
 
-	/** Converts number to angle */
-	final public GeoAngle Angle(String label, GeoNumeric num) {
-		AlgoAngleNumeric algo = new AlgoAngleNumeric((Construction)cons, label, num);
-		GeoAngle angle = algo.getAngle();
-		return angle;
-	}
-
-	/** Function in x,  e.g. f(x) = 4 x��� + 3 x���
-	 */
-	final public GeoFunction Function(String label, Function fun) {
-		GeoFunction f = new GeoFunction(cons, label, fun);
-		return f;
-	}
-	
-	/** Function in multiple variables,  e.g. f(x,y) = 4 x^2 + 3 y^2
-	 */
-	final public GeoFunctionNVar FunctionNVar(String label, FunctionNVar fun) {
-		GeoFunctionNVar f = new GeoFunctionNVar(cons, label, fun);
-		return f;
-	}
-	
-	/** Interval in x,  e.g. x > 3 && x < 6
-	 */
-	final public GeoInterval Interval(String label, Function fun) {
-		GeoInterval f = new GeoInterval(cons, label, fun);
-		return f;
-	}
-	
-	final public GeoText Text(String label, String text) {
-		GeoText t = new GeoText(cons);
-		t.setTextString(text);
-		t.setLabel(label);
-		return t;
-	}
-	
-	final public GeoBoolean Boolean(String label, boolean value) {
-		GeoBoolean b = new GeoBoolean(cons);
-		b.setValue(value);
-		b.setLabel(label);
-		return b;
-	}
-		
-	/**
-	 * Creates a free list object with the given
-	 * @param label
-	 * @param geoElementList list of GeoElement objects
-	 * @return
-	 */
-	final public GeoList List(String label, ArrayList<GeoElement> geoElementList, boolean isIndependent) {
-		if (isIndependent) {
-			GeoList list = new GeoList(cons);		
-			int size = geoElementList.size();
-			for (int i=0; i < size; i++) {
-				list.add((GeoElement) geoElementList.get(i));
-			}
-			list.setLabel(label);
-			return list;
-		} 
-		else {
-			AlgoDependentList algoList = new AlgoDependentList((Construction)cons, label, geoElementList);
-			return algoList.getGeoList();
-		}		
-	}
-	
-	/**
-	 * Creates a dependent list object with the given label, 
-	 * e.g. {3, 2, 1} + {a, b, 2}	 
-	 */
-	final public GeoList ListExpression(String label, ExpressionNode root) {
-		AlgoDependentListExpression algo =
-			new AlgoDependentListExpression((Construction)cons, label, root);		
-		return algo.getList();
-	}
 	
 	/**
 	 * Creates a list object for a range of cells in the spreadsheet. 
@@ -2072,134 +1922,14 @@ public class Kernel extends AbstractKernel{
 		}		
 	}
 	
-	/** 
-	 * GeoCasCell dependent on other variables,
-	 * e.g. m := c + 3
-	 * @return resulting casCell created using geoCasCell.copy(). 
-	 */
-	final public static GeoCasCell DependentCasCell(GeoCasCell geoCasCell) {
-		AlgoDependentCasCell algo = new AlgoDependentCasCell(geoCasCell);
-		return algo.getCasCell();
-	}
-	
-	/** Number dependent on arithmetic expression with variables,
-	 * represented by a tree. e.g. t = 6z - 2
-	 */
-	final public GeoNumeric DependentNumber(
-		String label,
-		ExpressionNode root,
-		boolean isAngle) {
-		AlgoDependentNumber algo =
-			new AlgoDependentNumber(cons, label, root, isAngle);
-		GeoNumeric number = algo.getNumber();
-		return number;
-	}
-
-	/** Point dependent on arithmetic expression with variables,
-	 * represented by a tree. e.g. P = (4t, 2s)
-	 */
-	final public GeoPoint2 DependentPoint(
-		String label,
-		ExpressionNode root, boolean complex) {
-		AlgoDependentPoint algo = new AlgoDependentPoint((Construction)cons, label, root, complex);
-		GeoPoint2 P = algo.getPoint();
-		return P;
-	}
-
-	/** Vector dependent on arithmetic expression with variables,
-	 * represented by a tree. e.g. v = u + 3 w
-	 */
-	final public GeoVector DependentVector(
-		String label,
-		ExpressionNode root) {
-		AlgoDependentVector algo = new AlgoDependentVector((Construction)cons, label, root);
-		GeoVector v = algo.getVector();
-		return v;
-	}
-
-	/** Line dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. y = k x + d
-	 */
-	final public GeoLine DependentLine(String label, Equation equ) {
-		AlgoDependentLine algo = new AlgoDependentLine((Construction)cons, label, equ);
-		GeoLine line = algo.getLine();
-		return line;
-	}
-
-	
-
-	/** Conic dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. y��� = 2 p x 
-	 */
-	final public GeoConic DependentConic(String label, Equation equ) {
-		AlgoDependentConic algo = new AlgoDependentConic((Construction)cons, label, equ);
-		GeoConic conic = algo.getConic();
-		return conic;
-	}
-	
+		
 	final public GeoElement  DependentImplicitPoly(String label, Equation equ) {
 		AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly((Construction)cons, label, equ);
 		GeoElement geo = algo.getGeo();
 		return geo;
 	}
 
-	/** Function dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. f(x) = a x��� + b x���
-	 */
-	final public GeoFunction DependentFunction(
-		String label,
-		Function fun) {
-		AlgoDependentFunction algo = new AlgoDependentFunction((Construction)cons, label, fun);
-		GeoFunction f = algo.getFunction();
-		return f;
-	}
-	
-	/** Multivariate Function depending on coefficients of arithmetic expressions with variables,
-	 *  e.g. f(x,y) = a x^2 + b y^2
-	 */
-	final public GeoFunctionNVar DependentFunctionNVar(
-		String label,
-		FunctionNVar fun) {
-		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar((Construction)cons, label, fun);
-		GeoFunctionNVar f = algo.getFunction();
-		return f;
-	}
-	
-	/** Interval dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. x > a && x < b
-	 */
-	final public GeoFunction DependentInterval(
-		String label,
-		Function fun) {
-		AlgoDependentInterval algo = new AlgoDependentInterval((Construction)cons, label, fun);
-		GeoFunction f = algo.getFunction();
-		return f;
-	}
-	
-	/** Text dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. text = "Radius: " + r
-	 */
-	final public GeoText DependentText(
-		String label,
-		ExpressionNode root) {
-		AlgoDependentText algo = new AlgoDependentText((Construction)cons, label, root);
-		GeoText t = algo.getGeoText();
-		return t;
-	}
-	
-	
-	/** 
-	 * Creates a dependent copy of origGeo with label
-	 */
-	final public GeoElement DependentGeoCopy(String label, ExpressionNode origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy((Construction)cons, label, origGeoNode);
-		return algo.getGeo();
-	}
-	
-	final public GeoElement DependentGeoCopy(String label, GeoElement origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy((Construction)cons, label, origGeoNode);
-		return algo.getGeo();
-	}
+
 	
 	/** 
 	 * Name of geo.
@@ -2441,73 +2171,8 @@ public class Kernel extends AbstractKernel{
 		return t;
 	}
 	
-	/** 
-	 * Text dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. c = a & b
-	 */
-	final public GeoBoolean DependentBoolean(
-		String label,
-		ExpressionNode root) {
-		AlgoDependentBoolean algo = new AlgoDependentBoolean((Construction)cons, label, root);
-		return algo.getGeoBoolean();		
-	}
-	
-	/** Point on path with cartesian coordinates (x,y)   */
-	final public GeoPoint2 Point(String label, Path path, double x, double y, boolean addToConstruction, boolean complex) {
-		boolean oldMacroMode = false;
-		if (!addToConstruction) {
-			oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);		
-
-		}
-		AlgoPointOnPath algo = new AlgoPointOnPath(cons, label, path, x, y);
-		GeoPoint2 p = algo.getP();        
-		if (complex) {
-			p.setMode(COORD_COMPLEX);
-			p.update();
-		}
-		if (!addToConstruction) {
-			cons.setSuppressLabelCreation(oldMacroMode);
-		}
-		return p;
-	}
-	
-	/** Point anywhere on path with    */
-	final public GeoPoint2 Point(String label, Path path, NumberValue param) {						
-		// try (0,0)
-		AlgoPointOnPath algo = null;
-		if(param == null)
-			algo = new AlgoPointOnPath(cons, label, path, 0, 0);
-		else
-			algo = new AlgoPointOnPath(cons, label, path, 0, 0,param);
-		GeoPoint2 p = algo.getP(); 
 		
-		// try (1,0) 
-		if (!p.isDefined()) {
-			p.setCoords(1,0,1);
-			algo.update();
-		}
 		
-		// try (random(),0)
-		if (!p.isDefined()) {
-			p.setCoords(Math.random(),0,1);
-			algo.update();
-		}
-				
-		return p;
-	}
-
-	/** Point anywhere on path with    */
-	final public GeoPoint2 ClosestPoint(String label, Path path, GeoPoint2 p) {						
-		AlgoClosestPoint algo = new AlgoClosestPoint(cons, label, path, p);				
-		return algo.getP();
-	}
-
-	public GeoElement Point(String label, Path path) {
-
-		return Point(label,path,null);
-	}
-	
 	
 	/** Point in region with cartesian coordinates (x,y)   */
 	final public GeoPoint2 PointIn(String label, Region region, double x, double y, boolean addToConstruction, boolean complex) {
@@ -2654,14 +2319,7 @@ public class Kernel extends AbstractKernel{
 		return g;
 	}
 
-	/** 
-	 * Line named label through Point P with direction of vector v
-	 */
-	final public GeoLine Line(String label, GeoPoint2 P, GeoVector v) {
-		AlgoLinePointVector algo = new AlgoLinePointVector((Construction)cons, label, P, v);
-		GeoLine g = algo.getLine();
-		return g;
-	}
+
 
 	/** 
 	 *  Ray named label through Points P and Q
