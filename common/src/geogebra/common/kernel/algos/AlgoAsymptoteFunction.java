@@ -10,16 +10,13 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
 
 /**
  * Find asymptotes
@@ -86,7 +83,7 @@ public class AlgoAsymptoteFunction extends AlgoElement {
 		    sb.append("}");
 			
 		    //Application.debug(sb.toString());
-			g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToList(sb.toString()));	
+			g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));	
 	    }
 	    catch (Throwable th) {
 	    	g.setUndefined();

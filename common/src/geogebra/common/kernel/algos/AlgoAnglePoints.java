@@ -16,19 +16,16 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AngleAlgo;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
 
 
 /**
@@ -193,8 +190,8 @@ public class AlgoAnglePoints extends AlgoElement  implements AlgoDrawInformation
         wx = C.inhomX - bx;
         wy = C.inhomY - by;
                 
-        if (Kernel.isZero(vx) && Kernel.isZero(vy) ||
-        		Kernel.isZero(wx) && Kernel.isZero(wy)) {
+        if (AbstractKernel.isZero(vx) && AbstractKernel.isZero(vy) ||
+        		AbstractKernel.isZero(wx) && AbstractKernel.isZero(wy)) {
         	angle.setUndefined();
         	return;
         }

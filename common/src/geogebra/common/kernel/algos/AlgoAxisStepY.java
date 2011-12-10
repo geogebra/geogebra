@@ -10,13 +10,11 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.main.Application;
 
 
 /**
@@ -77,7 +75,7 @@ public class AlgoAxisStepY extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {  
-    	double axisSteps[] = ((Application)kernel.getApplication()).getEuclidianView().getGridDistances();
+    	double axisSteps[] = (kernel.getApplication()).getEuclidianView().getGridDistances();
     	num.setValue(axisSteps[1]);
     }         
 }

@@ -19,6 +19,7 @@ public interface EuclidianViewInterfaceSlim extends View{
 	double toRealWorldCoordY(double i);
 	void updateBounds();
 	void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric);
-	EuclidianControllerInterface getEuclidianController();		
+	EuclidianControllerInterface getEuclidianController();
+	double[] getGridDistances();		
 
 }

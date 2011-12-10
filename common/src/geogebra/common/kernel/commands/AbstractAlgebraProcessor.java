@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 
@@ -20,4 +21,5 @@ public abstract class AbstractAlgebraProcessor {
 	public abstract NumberValue evaluateToNumeric(String string, boolean b);
 	public abstract double evaluateToDouble(String string, boolean b);
 	public abstract GeoElement evaluateToFunction(String string, boolean b);
+	public abstract GeoList evaluateToList(String string) ;
 }

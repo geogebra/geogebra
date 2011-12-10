@@ -10,35 +10,27 @@ the Free Software Foundation.
 
 */
 
-/*
- * AlgoAngleConic.java
- *
- * Created on 30. August 2001, 21:37
- */
-
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoVec3D;
 
 
-/**
- *
- * @author  Markus
- * @version 
- */
-public class AlgoAngleConic extends AlgoElement {
 
-    private GeoConic c; // input
-    private GeoAngle angle; // output                  
+public class AlgoAngleVector extends AlgoElement {
 
-    public AlgoAngleConic(Construction cons, String label, GeoConic c) {
+    private GeoVec3D vec; // input
+    private GeoAngle angle; // output          
+    
+    private double [] coords = new double[2];
+
+    public AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
         super(cons);
-        this.c = c;
+        this.vec = vec;
+        
         angle = new GeoAngle(cons);
         setInputOutput(); // for AlgoElement                
         compute();
@@ -47,7 +39,7 @@ public class AlgoAngleConic extends AlgoElement {
 
     @Override
 	public String getClassName() {
-        return "AlgoAngleConic";
+        return "AlgoAngleVector";
     }
 
     @Override
@@ -59,7 +51,7 @@ public class AlgoAngleConic extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = c;
+        input[0] = vec;
 
         setOutputLength(1);
         setOutput(0,angle);
@@ -70,19 +62,23 @@ public class AlgoAngleConic extends AlgoElement {
         return angle;
     }
     
-    GeoConic getConic() {
-        return c;
+    public GeoVec3D getVec3D() {
+    	return vec;
     }
-
-    // compute conic's angle
+        
     @Override
-	public final void compute() {
-        // take a look at first eigenvector
-        angle.setValue(Math.atan2(c.eigenvec[0].y, c.eigenvec[0].x));
+	public final void compute() {  
+    	vec.getInhomCoords(coords);
+        angle.setValue(
+        		Math.atan2(coords[1], coords[0])
+			);
     }
 
     @Override
 	public final String toString() {
-    	return app.getPlain("AngleOfA",c.getLabel());
+        // Michael Borcherds 2008-03-30
+        // simplified to allow better Chinese translation
+        return app.getPlain("AngleOfA",vec.getLabel());
+
     }
 }
