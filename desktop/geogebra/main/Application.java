@@ -20,6 +20,7 @@ package geogebra.main;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.View;
@@ -1809,9 +1810,13 @@ public class Application extends AbstractApplication implements
 		return imageManager.getInternalImage("/main/nav_pause.png");
 	}
 
-	@Override
 	public BufferedImage getExternalImage(String filename) {
 		return ImageManager.getExternalImage(filename);
+	}
+	
+	@Override
+	public BufferedImageAdapter getExternalImageAdapter(String filename) {
+		return new geogebra.awt.BufferedImage(ImageManager.getExternalImage(filename));
 	}
 
 	public void addExternalImage(String filename, BufferedImage image) {
@@ -6525,6 +6530,10 @@ public class Application extends AbstractApplication implements
 	public void updateConstructionProtocol() {
 		getGuiManager().updateConstructionProtocol();
 		
+	}
+	
+	public int getMD5folderLength(String fullPath) {
+		return fullPath.indexOf(File.separator);
 	}
 
 }

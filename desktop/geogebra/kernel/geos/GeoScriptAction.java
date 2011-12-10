@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.commands.CmdScripting;
+import geogebra.common.kernel.commands.CmdScriptingInterface;
 
 /**
  * List of GeoElements
@@ -24,13 +24,13 @@ import geogebra.kernel.commands.CmdScripting;
 public class GeoScriptAction extends GeoElement  {
 
 	
-	private CmdScripting action;
+	private CmdScriptingInterface action;
 	private Command command;
 	public GeoScriptAction(Construction c) {
 		super(c);
 		// TODO Auto-generated constructor stub
 	}
-	public GeoScriptAction(Construction cons, CmdScripting cmdScripting,Command command) {
+	public GeoScriptAction(Construction cons, CmdScriptingInterface cmdScripting,Command command) {
 		this(cons);
 		action = cmdScripting;
 		this.command = command;

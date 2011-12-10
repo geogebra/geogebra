@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoText;
+import geogebra.main.Application;
 import geogebra.sound.SoundManager;
 
 /**
@@ -31,7 +32,7 @@ class CmdPlaySound extends CmdScripting {
 		GeoElement[] arg;
 		
 		boolean[] ok = new boolean[n];
-		SoundManager sm = app.getSoundManager();
+		SoundManager sm = ((Application) app).getSoundManager();
 
 		switch (n) {
 		case 1:

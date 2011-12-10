@@ -55,6 +55,7 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
+import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;

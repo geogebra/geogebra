@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.geos;
 
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -24,7 +25,6 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -34,10 +34,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.util.BufferedImageAdapterDesktop;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -226,7 +223,7 @@ implements Locateable, AbsoluteScreenLocateable,
 
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
-		this.getGraphicsAdapter().setImageOnly(new BufferedImageAdapterDesktop( (BufferedImage)app.getExternalImage(fileName) ));	
+		this.getGraphicsAdapter().setImageOnly(app.getExternalImageAdapter(fileName));	
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
@@ -843,9 +840,9 @@ implements Locateable, AbsoluteScreenLocateable,
 		if (((GeoImage)geo).pixelHeight != this.pixelHeight) return false;
 		
 		String imageFileName = this.getGraphicsAdapter().getImageFileName();
-		String md5A=imageFileName.substring(0, imageFileName.indexOf(File.separator));
+		String md5A=imageFileName.substring(0, app.getMD5folderLength(imageFileName));
 		String imageFileName2 = ((GeoImage)geo).getGraphicsAdapter().getImageFileName();
-		String md5B=imageFileName2.substring(0, imageFileName2.indexOf(File.separator));
+		String md5B=imageFileName2.substring(0, app.getMD5folderLength(imageFileName));
 		// MD5 checksums equal, so images almost certainly identical
 		if (md5A.equals(md5B)) return true;
 		return false;
@@ -907,7 +904,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 
 	public void clearFillImage() {
-		this.getGraphicsAdapter().setImageOnly(new BufferedImageAdapterDesktop(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_ARGB));
+		this.getGraphicsAdapter().setImageOnly(geogebra.common.factories.AwtFactory.prototype.newBufferedImage(pixelWidth, pixelHeight, BufferedImageAdapter.TYPE_INT_ARGB));
 		this.updateRepaint();
 		
 	}

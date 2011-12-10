@@ -2,6 +2,7 @@ package geogebra.common.main;
 
 import java.util.ArrayList;
 
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -90,7 +91,6 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract Object getTraceXML(Object geoElement);
 	public abstract void removeSelectedGeo(Object geoElement, boolean b);
 	public abstract void changeLayer(Object ge, int layer, int layer2);
-	public abstract Object getExternalImage(String fileName);
 	public abstract boolean freeMemoryIsCritical();
 	public abstract long freeMemory();
 	public abstract int getLabelingStyle();
@@ -210,6 +210,39 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 	public abstract int getCurrentLabelingStyle();
 	public abstract String reverseGetColor(String colorName);
 	public abstract String getColor(String string);
+	public int getMD5folderLength(String fullPath) {
+		return 32;
+	}
+	public abstract BufferedImageAdapter getExternalImageAdapter(String filename);
+	public abstract String getCommandSyntax(String cmd);
+	public void clearSelectedGeos() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setScrollToShow(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setUnsaved() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setActiveView(int viewEuclidian2) {
+		// TODO Auto-generated method stub
+		
+	}
+	public boolean hasEuclidianView2() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void showError(MyError e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

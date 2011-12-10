@@ -1,7 +1,9 @@
 package geogebra.factories;
 
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Rectangle2D;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
@@ -27,5 +29,17 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public AffineTransform newAffineTransform() {
 		return new geogebra.awt.AffineTransform();
+	}
+
+	@Override
+	public Rectangle2D newRectangle() {
+		return new geogebra.awt.Rectangle2D();
+	}
+
+	@Override
+	public BufferedImageAdapter newBufferedImage(int pixelWidth,
+			int pixelHeight, int type) {
+		// TODO Auto-generated method stub
+		return new geogebra.awt.BufferedImage(pixelWidth,pixelHeight,type);
 	}
 }

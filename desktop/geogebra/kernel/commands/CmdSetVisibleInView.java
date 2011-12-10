@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -7,6 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
+import geogebra.main.Application;
 
 /**
  *SetVisibleInView
@@ -41,7 +43,7 @@ class CmdSetVisibleInView extends CmdScripting {
 
 				int viewNo = (int)((NumberValue)arg[1]).getDouble();
 
-				EuclidianView ev = null;
+				EuclidianViewInterfaceSlim ev = null;
 
 				switch (viewNo) {
 				case 1:
@@ -49,7 +51,7 @@ class CmdSetVisibleInView extends CmdScripting {
 					break;
 				case 2:
 					if (!app.hasEuclidianView2()) break;
-					ev = app.getEuclidianView2();
+					ev = ((Application) app).getEuclidianView2();
 					break;
 				default:
 					// do nothing

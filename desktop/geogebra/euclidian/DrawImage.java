@@ -84,7 +84,7 @@ public final class DrawImage extends Drawable {
         	alphaComp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);                
     	}
         
-        image = (BufferedImage)geoImage.getFillImage();             
+        image = geogebra.awt.BufferedImage.getAwtBufferedImage(geoImage.getFillImage());             
         int width = image.getWidth(null);
         int height = image.getHeight(null); 
         absoluteLocation = geoImage.isAbsoluteScreenLocActive();

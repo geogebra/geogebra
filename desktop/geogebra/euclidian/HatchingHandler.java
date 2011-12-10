@@ -129,7 +129,7 @@ public class HatchingHandler {
 			return;
 		}
 
-		BufferedImage image = (BufferedImage)geo.getFillImage();
+		BufferedImage image = geogebra.awt.BufferedImage.getAwtBufferedImage(geo.getFillImage());
 		Rectangle2D tr = new Rectangle2D.Double(0, 0, image.getWidth(), image
 				.getHeight());
 

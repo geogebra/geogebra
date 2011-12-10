@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.commands.CmdScriptingInterface;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -33,7 +34,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class CmdScripting extends CommandProcessor{
+public abstract class CmdScripting extends CommandProcessor implements CmdScriptingInterface{
 
 	
 

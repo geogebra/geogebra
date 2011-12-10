@@ -182,7 +182,7 @@ public class EuclidianPen {
 			// image was selected before Pen Tool selected
 			
 			penUsingOffsets = true;
-			penImage = (BufferedImage)penGeo.getFillImage();
+			penImage = geogebra.awt.BufferedImage.getAwtBufferedImage(penGeo.getFillImage());
 			//lastPenImage = penGeo;
 			
 			penWritingToExistingImage = true;
@@ -231,7 +231,7 @@ public class EuclidianPen {
 		}
 		else if (lastPenImage != null && !penWritingToExistingImage) {
 
-			penImage = (BufferedImage)lastPenImage.getFillImage();
+			penImage = geogebra.awt.BufferedImage.getAwtBufferedImage(lastPenImage.getFillImage());
 
 			GeoPoint2 corner = lastPenImage.getCorner(0);
 			int x = view.toScreenCoordX(corner.getInhomX());
@@ -243,7 +243,7 @@ public class EuclidianPen {
 			// check if image is still the same size as the current euclidian view window
 			if ((penOffsetX >0 && penOffsetY > 0) || 
 					(x == 0 && y == height && height == view.getHeight() && width == view.getWidth()))
-				penImage = (BufferedImage)lastPenImage.getFillImage();
+				penImage = geogebra.awt.BufferedImage.getAwtBufferedImage(lastPenImage.getFillImage());
 			else {
 				penImage = null;
 				lastPenImage = null;
@@ -270,7 +270,7 @@ public class EuclidianPen {
 			if ( y1 == y2 && x1 + width == x2) { // check image isn't rotated / scaled
 				penGeo = hit;
 				penUsingOffsets = true;
-				penImage = (BufferedImage)penGeo.getFillImage();
+				penImage = geogebra.awt.BufferedImage.getAwtBufferedImage(penGeo.getFillImage());
 				//lastPenImage = penGeo;
 				
 				penWritingToExistingImage = true;
@@ -377,7 +377,7 @@ public class EuclidianPen {
 
 	protected void doDrawPoints(GeoImage gi,ArrayList<Point> penPoints2) {
 		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = gi == null? penImage:(BufferedImage)gi.getFillImage();
+		BufferedImage penImage2 = gi == null? penImage:geogebra.awt.BufferedImage.getAwtBufferedImage(gi.getFillImage());
 		boolean giNeedsInit = false;
 		if(penImage2==null){			
 			giNeedsInit = true;

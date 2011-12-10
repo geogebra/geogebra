@@ -23,10 +23,12 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
+//import geogebra.main.Application;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 public abstract class CommandProcessor {
 
 	/** application */
-	protected Application app;
+	protected AbstractApplication app;
 	/** kernel */
 	protected Kernel kernel;
 	/** construction */
@@ -240,7 +242,7 @@ public abstract class CommandProcessor {
 	 * @param arg
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(Application app, String cmd, Object arg) {
+	protected final MyError argErr(AbstractApplication app, String cmd, Object arg) {
 		String localName = app.getCommand(cmd);
 		if (sb == null)
 			sb = new StringBuilder();
@@ -272,7 +274,7 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 * @return wrong parameter count error
 	 */
-	protected final MyError argNumErr(Application app, String cmd, int argNumber) {
+	protected final MyError argNumErr(AbstractApplication app, String cmd, int argNumber) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
@@ -290,7 +292,7 @@ public abstract class CommandProcessor {
 	 * @param argNumber
 	 *            (-1 for just show syntax)
 	 */
-	public static void getCommandSyntax(StringBuilder sb, Application app,
+	public static void getCommandSyntax(StringBuilder sb, AbstractApplication app,
 			String cmd, int argNumber) {
 		sb.append(app.getCommand("Command"));
 		sb.append(' ');
@@ -315,7 +317,7 @@ public abstract class CommandProcessor {
 	 * @param geo
 	 * @return change dependent error
 	 */
-	final static MyError chDepErr(Application app, GeoElement geo) {
+	final static MyError chDepErr(AbstractApplication app, GeoElement geo) {
 		String[] strs = { "ChangeDependent", geo.getLongDescription() };
 		return new MyError(app, strs);
 	}

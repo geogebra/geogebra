@@ -10,5 +10,13 @@ public abstract class AbstractAnimationManager {
 
 	public abstract void addAnimatedGeo(GeoElementInterface ge);
 	public abstract void removeAnimatedGeo(GeoElementInterface ge);
+	public void stopAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void startAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

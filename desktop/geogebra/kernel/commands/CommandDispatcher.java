@@ -14,13 +14,12 @@ package geogebra.kernel.commands;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Macro;
-import geogebra.main.Application;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -351,7 +350,7 @@ public class CommandDispatcher {
 //        cmdName = cmdName.replace(ExpressionNode.GGBCAS_VARIABLE_PREFIX, "");
         
         // MACRO: is there a macro with this command name?        
-        Macro macro = kernel.getMacro(cmdName);
+        MacroInterface macro = kernel.getMacro(cmdName);
         if (macro != null) {    
         	c.setMacro(macro);
         	cmdProc = macroProc;
@@ -918,11 +917,11 @@ public class CommandDispatcher {
     			case BinomialCoefficient: return new CmdBinomial(kernel);
     			case RandomBetween: return new CmdRandom(kernel);  
     			default:
-    				Application.debug("missing case in CommandDispatcher");
+    				AbstractApplication.debug("missing case in CommandDispatcher");
     				return null;
     		}
     	} catch (Exception e) {
-    		Application.debug("Warning: command not found / CAS command called");
+    		AbstractApplication.debug("Warning: command not found / CAS command called");
     	}
     	return null;
     }

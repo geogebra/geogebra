@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoImage;
+import geogebra.main.Application;
 import geogebra.util.ImageManager;
 
 import java.awt.Image;
@@ -46,12 +47,12 @@ class CmdToolImage extends CommandProcessor {
 				if ("".equals(modeStr))
 					throw argErr(app, c.getName(), arg[0]);
 
-				Image im = app.getImageManager().getImageResource(
+				Image im = ((ImageManager) app.getImageManager()).getImageResource(
 						"/geogebra/gui/toolbar/images/mode_" + modeStr
 								+ "_32.gif");
 
 				BufferedImage image = ImageManager.toBufferedImage(im);
-				String fileName = app.createImage(image, "tool.png");
+				String fileName = ((Application) app).createImage(image, "tool.png");
 
 				GeoImage geoImage = new GeoImage(app.getKernel()
 						.getConstruction());

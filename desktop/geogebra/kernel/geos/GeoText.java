@@ -6,6 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -19,11 +20,10 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.algos.AlgoDependentText;
-import geogebra.kernel.algos.AlgoSequence;
 import geogebra.util.Util;
 
 import geogebra.common.awt.Font;
-import java.awt.geom.Rectangle2D;
+import geogebra.common.awt.Rectangle2D;
 import java.util.Comparator;
 
 public class GeoText extends GeoElement
@@ -760,7 +760,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		
 		boolean firstTime = boundingBox == null;
 		if (firstTime) {
-			boundingBox = new Rectangle2D.Double();
+			boundingBox = geogebra.common.factories.AwtFactory.prototype.newRectangle();
 		}
 		
 		boundingBox.setRect(x, y, w, h);
@@ -800,8 +800,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 				        if (comp == 0) 
 				        	// if we return 0 for equal strings, the TreeSet deletes the equal one
 				        	return itemA.getConstructionIndex() > itemB.getConstructionIndex() ? -1 : 1;
-				        else
-				        	return comp;
+				        return comp;
 				      }
 			};
 		}

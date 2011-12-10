@@ -16,11 +16,9 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoDrawInformation;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -28,8 +26,8 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -210,7 +208,7 @@ public class AlgoSequence extends AlgoElement {
     	double to = var_to.getDouble();
     	double step = var_step == null ? 1 : var_step.getDouble();
     	
-    	isEmpty = !((to - from) * step > -Kernel.MIN_PRECISION);    	
+    	isEmpty = !((to - from) * step > -AbstractKernel.MIN_PRECISION);    	
     	
     	// an update may be necessary because another variable in expression
     	// has changed. However, the range (from, to, step) may not have changed:
@@ -271,8 +269,8 @@ public class AlgoSequence extends AlgoElement {
     		double currentVal = from;   
     		
     		
-			while ((step > 0 && currentVal <= to + Kernel.MIN_PRECISION) || 
-				   (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) 
+			while ((step > 0 && currentVal <= to + AbstractKernel.MIN_PRECISION) || 
+				   (step < 0 && currentVal >= to - AbstractKernel.MIN_PRECISION)) 
 			{				
 				
 				// check we haven't run out of memory
@@ -280,7 +278,7 @@ public class AlgoSequence extends AlgoElement {
 					long mem = app.freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					Application.debug("AlgoSequence aborted: free memory reached "+mem);
+					AbstractApplication.debug("AlgoSequence aborted: free memory reached "+mem);
 					return;
 				}
 				
@@ -291,7 +289,7 @@ public class AlgoSequence extends AlgoElement {
 				addElement(i);
 				
 				currentVal += step;
-				if (Kernel.isInteger(currentVal)) {
+				if (AbstractKernel.isInteger(currentVal)) {
 					currentVal = Math.round(currentVal);
 				}
 				i++;
@@ -338,7 +336,7 @@ public class AlgoSequence extends AlgoElement {
 			listElement.set(expression);
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if(listElement instanceof GeoNumeric && drawAlgo instanceof AlgoDrawInformation){
-				Application.debug(expression.getDrawAlgorithm().getClass().getName());
+				AbstractApplication.debug(expression.getDrawAlgorithm().getClass().getName());
         		listElement.setDrawAlgorithm(((AlgoDrawInformation)drawAlgo).copy());
 				listElement.setEuclidianVisible(true);
 			}
@@ -386,8 +384,8 @@ public class AlgoSequence extends AlgoElement {
     	double currentVal = from;
     	int i=0;
     	
-		while ((step > 0 && currentVal <= to + Kernel.MIN_PRECISION) || 
-			   (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) 
+		while ((step > 0 && currentVal <= to + AbstractKernel.MIN_PRECISION) || 
+			   (step < 0 && currentVal >= to - AbstractKernel.MIN_PRECISION)) 
 		{			
 			GeoElement listElement = list.get(i);
 			
@@ -396,7 +394,7 @@ public class AlgoSequence extends AlgoElement {
 				long mem = app.freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				Application.debug("AlgoSequence aborted: free memory reached "+mem);
+				AbstractApplication.debug("AlgoSequence aborted: free memory reached "+mem);
 				return;
 			}
 			
@@ -416,7 +414,7 @@ public class AlgoSequence extends AlgoElement {
 			listElement.update();
 			
 			currentVal += step;
-			if (Kernel.isInteger(currentVal)) {
+			if (AbstractKernel.isInteger(currentVal)) {
 				currentVal = Math.round(currentVal);
 			}
 			i++;
