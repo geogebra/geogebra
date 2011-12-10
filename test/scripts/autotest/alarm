@@ -23,6 +23,11 @@ if [ $RESULT = 2 ]; then
 
 if [ $RESULT = 3 ]; then
  MESSAGE="There is a problem with the output of simpletest at revision $REVISION"
+ # Try to find out exactly what happened:
+ TEMPFILE=`cat $REVDIR/$REVISION/simpletest.stdout | tail -1`
+ if [ -r $TEMPFILE ]; then
+  MESSAGE=`echo "$MESSAGE"; cat $TEMPFILE`
+  fi
  fi
 
 if [ $RESULT = 0 ]; then
