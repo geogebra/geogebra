@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 
 public class LaTeXPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;	
 	private String latex;	
 	private BufferedImage image;

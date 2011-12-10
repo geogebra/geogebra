@@ -7,17 +7,18 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 public class RowHeader extends JList {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public static final int ROW_HEADER_WIDTH = 30;
-	
-	public RowHeader(CASTable table){
+
+	public RowHeader(CASTable table) {
 		this(table, false);
 	}
-	
-	
+
 	public RowHeader(CASTable table, boolean multipleIntervalSelection) {
 		setModel(new RowHeaderListModel(table));
-		
+
 		if (multipleIntervalSelection)
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		else {
@@ -25,19 +26,21 @@ public class RowHeader extends JList {
 		}
 		setFixedCellWidth(ROW_HEADER_WIDTH);
 		setFocusable(true);
-		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
+				geogebra.awt.Color
+						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		// renderer
 		setCellRenderer(new RowHeaderRenderer(table));
-			
-		// listener 
-		RowHeaderListener rhl = new RowHeaderListener(table, this);						
+
+		// listener
+		RowHeaderListener rhl = new RowHeaderListener(table, this);
 		addMouseListener(rhl);
-		addMouseMotionListener(rhl);	
+		addMouseMotionListener(rhl);
 		addKeyListener(rhl);
-		
-//		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-//		table.getSelectionModel().addListSelectionListener(this);
-//		table.setRowSelectionAllowed(true);	
+
+		// table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		// table.getSelectionModel().addListSelectionListener(this);
+		// table.setRowSelectionAllowed(true);
 	}
 
 }

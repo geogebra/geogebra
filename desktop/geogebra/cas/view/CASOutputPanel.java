@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 
 public class CASOutputPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
+	
 	//public static final int INDENT = 20; // pixel
 	
 	private static Color TEXT_COLOR = Color.blue;

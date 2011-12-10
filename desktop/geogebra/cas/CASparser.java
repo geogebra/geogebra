@@ -15,6 +15,7 @@ package geogebra.cas;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -191,7 +192,7 @@ public class CASparser implements CASParserInterface{
 		// convert every single character and append it to sb
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
-			int code = (int) c;
+			int code = c;
 			
 			boolean replaceCharacter = false;			
 			switch (c) {
@@ -224,9 +225,9 @@ public class CASparser implements CASParserInterface{
 			}
 			
 			if (replaceCharacter) {
-				replaceIndices.append(ExpressionNode.UNICODE_PREFIX);
+				replaceIndices.append(ExpressionNodeConstants.UNICODE_PREFIX);
 				replaceIndices.append(code);
-				replaceIndices.append(ExpressionNode.UNICODE_DELIMITER);
+				replaceIndices.append(ExpressionNodeConstants.UNICODE_DELIMITER);
 			} else {
 				replaceIndices.append(c);
 			}
@@ -240,7 +241,7 @@ public class CASparser implements CASParserInterface{
 	 * @see ExpressionNode#operationToString() for XCOORD, YCOORD
 	 */
 	public String insertSpecialChars(String str) {
-		int prefixLen = ExpressionNode.UNICODE_PREFIX.length();
+		int prefixLen = ExpressionNodeConstants.UNICODE_PREFIX.length();
 		
 		if (str.length() < prefixLen) return str;
 		
@@ -248,7 +249,7 @@ public class CASparser implements CASParserInterface{
 		StringBuilder insertSpecial = new StringBuilder();
 
 		// convert every single character and append it to sb
-		char prefixStart = ExpressionNode.UNICODE_PREFIX.charAt(0);
+		char prefixStart = ExpressionNodeConstants.UNICODE_PREFIX.charAt(0);
 		boolean prefixFound;
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
@@ -260,7 +261,7 @@ public class CASparser implements CASParserInterface{
 				// check prefix
 				int j = i;
 				for (int k = 0; k < prefixLen; k++, j++) {
-					if (ExpressionNode.UNICODE_PREFIX.charAt(k) != str
+					if (ExpressionNodeConstants.UNICODE_PREFIX.charAt(k) != str
 							.charAt(j)) {
 						prefixFound = false;
 						break;
@@ -280,7 +281,7 @@ public class CASparser implements CASParserInterface{
 						insertSpecial.append((char) code);
 						i = j;
 					} else { // invalid
-						insertSpecial.append(ExpressionNode.UNICODE_PREFIX);
+						insertSpecial.append(ExpressionNodeConstants.UNICODE_PREFIX);
 						i += prefixLen;
 					}
 				} else {

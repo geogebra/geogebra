@@ -125,19 +125,19 @@ public class CASInputHandler {
 		// resolve static row references and change input field accordingly
 		boolean staticReferenceFound = false;
 		String newPrefix = resolveCASrowReferences(prefix, selRow,
-				ROW_REFERENCE_STATIC);
+				ROW_REFERENCE_STATIC, false);
 		if (!newPrefix.equals(prefix)) {
 			staticReferenceFound = true;
 			prefix = newPrefix;
 		}
 		String newEvalText = resolveCASrowReferences(evalText, selRow,
-				ROW_REFERENCE_STATIC);
+				ROW_REFERENCE_STATIC, true);
 		if (!newEvalText.equals(evalText)) {
 			staticReferenceFound = true;
 			evalText = newEvalText;
 		}
 		String newPostfix = resolveCASrowReferences(postfix, selRow,
-				ROW_REFERENCE_STATIC);
+				ROW_REFERENCE_STATIC, false);
 		if (!newPostfix.equals(postfix)) {
 			staticReferenceFound = true;
 			postfix = newPostfix;
@@ -313,7 +313,7 @@ public class CASInputHandler {
 				cellText = selCellValue.getInputVE().toString();
 			}
 			cellText = resolveCASrowReferences(cellText, selectedIndices[i],
-					ROW_REFERENCE_STATIC);
+					ROW_REFERENCE_STATIC, false);
 			int depth = 0;
 			for (int j = 0; j < cellText.length(); j++) {
 				switch (cellText.charAt(j)) {
@@ -346,7 +346,7 @@ public class CASInputHandler {
 				references[counter] = assignedVariable;
 				equations[counter++] = resolveCASrowReferences(selCellValue
 						.getInputVE().toString(), selectedIndices[i],
-						ROW_REFERENCE_STATIC);
+						ROW_REFERENCE_STATIC, false);
 			} else {
 				if (selectedIndices[i] == selRow) {
 					cellText = consoleTable.getEditor().getInput();
@@ -354,7 +354,7 @@ public class CASInputHandler {
 					cellText = selCellValue.getInputVE().toString();
 				}
 				cellText = resolveCASrowReferences(cellText,
-						selectedIndices[i], ROW_REFERENCE_STATIC);
+						selectedIndices[i], ROW_REFERENCE_STATIC, false);
 				if (!inTheSelectedRow)
 					references[counter] = "$" + (selectedIndices[i] + 1);
 				if (!cellText.startsWith("{")) {
@@ -401,9 +401,9 @@ public class CASInputHandler {
 		StringBuilder equationsVariablesResolved = new StringBuilder("{");
 		for (int i = 0; i < equations.length; i++) {
 			equations[i] = resolveCASrowReferences(equations[i], currentRow,
-					ROW_REFERENCE_DYNAMIC);
+					ROW_REFERENCE_DYNAMIC, false);
 			equations[i] = resolveCASrowReferences(equations[i], currentRow,
-					ROW_REFERENCE_STATIC);
+					ROW_REFERENCE_STATIC, false);
 			GeoCasCell v = new GeoCasCell(kernel.getConstruction());
 			if (equations[i].startsWith("(")) {
 				equations[i] = equations[i].substring(1,
@@ -839,15 +839,19 @@ public class CASInputHandler {
 	 *            the row this expression is in
 	 * @param delimiter
 	 *            the delimiter to look for
+	 * @param noParentheses
+	 *            if true no parentheses will be added in every case<br/>
+	 *            if false parentheses will be added around replaced references
+	 *            except the replacement is just a positive number or the whole
+	 *            term (given by parameter str) was nothing but the reference
 	 * @return the string with resolved references.
 	 * @author Johannes Renner
 	 */
 	public String resolveCASrowReferences(String str, int selectedRow,
-			char delimiter) {
+			char delimiter, boolean noParentheses) {
 		StringBuilder sb = new StringBuilder();
 		switch (delimiter) {
 		case ROW_REFERENCE_DYNAMIC:
-			// TODO ?
 		case ROW_REFERENCE_STATIC:
 			System.out.println(selectedRow + ": " + str);
 
@@ -873,7 +877,7 @@ public class CASInputHandler {
 					}
 
 					handleReference(sb, selectedRow, referenceNumber,
-							addParentheses);
+							addParentheses, noParentheses);
 				}
 
 				if (c != delimiter) {
@@ -886,7 +890,7 @@ public class CASInputHandler {
 
 			if (foundReference) {
 				handleReference(sb, selectedRow, referenceNumber,
-						addParentheses);
+						addParentheses, noParentheses);
 			}
 
 			break;
@@ -895,7 +899,7 @@ public class CASInputHandler {
 	}
 
 	private void handleReference(StringBuilder sb, int selectedRow,
-			int referenceNumber, boolean addParentheses) {
+			int referenceNumber, boolean addParentheses, boolean noParentheses) {
 
 		if (referenceNumber > 0 && referenceNumber != selectedRow + 1
 				&& referenceNumber <= casView.getRowCount()) {
@@ -903,13 +907,13 @@ public class CASInputHandler {
 			// example #3)
 			String reference = casView.getRowOutputValue(referenceNumber - 1);
 
-			appendReference(sb, reference, addParentheses);
+			appendReference(sb, reference, addParentheses, noParentheses);
 
 		} else if (referenceNumber == 0 && selectedRow > 0) {
 			// just a # (or $) is in the input (without a number)
 			String reference = casView.getRowOutputValue(selectedRow - 1);
 
-			appendReference(sb, reference, addParentheses);
+			appendReference(sb, reference, addParentheses, noParentheses);
 
 		} else {
 			// TODO handle incorrect input
@@ -918,7 +922,7 @@ public class CASInputHandler {
 	}
 
 	private static void appendReference(StringBuilder sb, String reference,
-			boolean addParentheses) {
+			boolean addParentheses, boolean noParentheses) {
 		boolean parantheses = addParentheses;
 		// don't add parenthesis if the given expression is just a positive
 		// number
@@ -926,7 +930,7 @@ public class CASInputHandler {
 			parantheses = false;
 		}
 
-		if (parantheses) {
+		if (parantheses && !noParentheses) {
 			sb.append("(" + reference + ")");
 		} else {
 			sb.append(reference);

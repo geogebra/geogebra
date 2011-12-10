@@ -17,6 +17,8 @@ import javax.swing.text.JTextComponent;
 
 public class CASInputPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+
 	private AutoCompleteTextField inputArea;
 	
 	private Application app;
@@ -100,11 +102,13 @@ public class CASInputPanel extends JPanel {
 		return inputArea.requestFocusInWindow();
 	}
 
+	@Override
 	final public void setFont(Font ft) {
 		super.setFont(ft);
 
-		if (inputArea != null)
+		if (inputArea != null) {
 			inputArea.setFont(ft);
+		}
 	}
 
 	public void setLabels() {

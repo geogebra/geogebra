@@ -6,11 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
 
-public class RowHeaderListener extends MouseAdapter implements MouseMotionListener, KeyListener {
+public class RowHeaderListener extends MouseAdapter implements KeyListener {
 
 	private CASTable table;
 	private JList rowHeader;
@@ -40,6 +39,7 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 		rowHeader.requestFocusInWindow();
 	}
 	
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 			
@@ -85,6 +85,7 @@ public class RowHeaderListener extends MouseAdapter implements MouseMotionListen
 	}
 	
 	
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}

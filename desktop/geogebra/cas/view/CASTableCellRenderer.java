@@ -9,7 +9,9 @@ import javax.swing.table.TableCellRenderer;
 
 public class CASTableCellRenderer extends CASTableCell implements
 		TableCellRenderer {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	CASTableCellRenderer(CASView view) {
 		super(view);
 	}
@@ -19,12 +21,12 @@ public class CASTableCellRenderer extends CASTableCell implements
 
 		if (value instanceof GeoCasCell) {
 			// set CASTableCell value
-			setValue((GeoCasCell) value);								
-							
+			setValue((GeoCasCell) value);
+
 			// update font and row height
 			setFont(view.getFont());
-			updateTableRowHeight(table, row);	
-			
+			updateTableRowHeight(table, row);
+
 			// set inputPanel width to match table column width
 			// -1 = set to table column width (even if larger than viewport)
 			setInputPanelWidth(-1);

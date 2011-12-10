@@ -20,6 +20,9 @@ import javax.swing.JPopupMenu;
  * @author Johannes Renner
  */
 public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
+	
 	private final GeoCasCell value;
 	private final Application app;
 

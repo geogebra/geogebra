@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 
 public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		
@@ -16,7 +17,7 @@ public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 	private CASTable casTable;	
 	
 	public RowHeaderRenderer(CASTable casTable) {
-		super("", JLabel.CENTER);		
+		super("", SwingConstants.CENTER);		
 		this.casTable = casTable;
 				
 		setOpaque(true);

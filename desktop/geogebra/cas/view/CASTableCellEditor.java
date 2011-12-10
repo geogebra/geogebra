@@ -18,6 +18,8 @@ import javax.swing.text.JTextComponent;
 //		TableCellEditor {
 public class CASTableCellEditor extends CASTableCell implements TableCellEditor, KeyListener {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private JTable table;
 	private GeoCasCell cellValue;
 	

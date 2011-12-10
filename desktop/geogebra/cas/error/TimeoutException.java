@@ -13,6 +13,8 @@ import geogebra.common.cas.CASException;
  */
 public class TimeoutException extends CASException {
 
+	private static final long serialVersionUID = 1L;
+
 	public TimeoutException(String message) {
 		super( message);
 	}

@@ -16,6 +16,8 @@ import javax.swing.text.JTextComponent;
 
 public abstract class CASTableCell extends JPanel{
 
+	private static final long serialVersionUID = 1L;
+	
 	protected CASInputPanel inputPanel;
 	protected CASOutputPanel outputPanel;
 	protected MyTextField dummyField; // dummy label used to get preferred size;

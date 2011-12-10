@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
@@ -27,6 +28,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -61,37 +63,38 @@ public class CASView extends JComponent implements View, Gridable {
 			}
 		};
 		initCAS.start();
-		
-		//init commands subtable for cas-commands in inputbar-help
+
+		// init commands subtable for cas-commands in inputbar-help
 		kernel.getAlgebraProcessor().enableCAS();
-		
-		GuiManager gm=app.getGuiManager();
-		if (gm!=null){
-			((InputBarHelpPanel)gm.getInputHelpPanel()).setCommands();
+
+		GuiManager gm = app.getGuiManager();
+		if (gm != null) {
+			((InputBarHelpPanel) gm.getInputHelpPanel()).setCommands();
 		}
 
 		// CAS input/output cells
 		createCASTable();
 
 		// row header
-		//final JList rowHeader = new RowHeader(consoleTable);
+		// final JList rowHeader = new RowHeader(consoleTable);
 		rowHeader = new RowHeader(consoleTable, true);
-		
+
 		// init the scroll panel
 		JScrollPane scrollPane = new JScrollPane(
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setRowHeaderView(rowHeader);
 		scrollPane.setViewportView(consoleTable);
 		scrollPane.setBackground(Color.white);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		
-		//set the lower left corner so that the horizontal scroller looks good
+
+		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
+				geogebra.awt.Color
+						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		p.setBackground(Color.white);
-		scrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, p);
-		
+		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, p);
 
 		// put the scrollpanel in
 		setLayout(new BorderLayout());
@@ -117,7 +120,7 @@ public class CASView extends JComponent implements View, Gridable {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int clickedRow = consoleTable.rowAtPoint(e.getPoint());
-				//boolean undoNeeded = false;
+				// boolean undoNeeded = false;
 
 				if (clickedRow < 0) {
 					// clicked outside of console table
@@ -125,7 +128,7 @@ public class CASView extends JComponent implements View, Gridable {
 					if (rows == 0) {
 						// insert first row
 						consoleTable.insertRow(null, true);
-						//undoNeeded = true;
+						// undoNeeded = true;
 					} else {
 						GeoCasCell cellValue = consoleTable
 								.getGeoCasCell(rows - 1);
@@ -133,37 +136,40 @@ public class CASView extends JComponent implements View, Gridable {
 							consoleTable.startEditingRow(rows - 1);
 						} else {
 							consoleTable.insertRow(null, true);
-							//undoNeeded = true;
+							// undoNeeded = true;
 						}
 					}
 				}
 
-//				if (undoNeeded) {
-//					// store undo info
-//					getApp().storeUndoInfo();
-//				}
+				// if (undoNeeded) {
+				// // store undo info
+				// getApp().storeUndoInfo();
+				// }
 			}
 		});
 
 		// input handler
 		casInputHandler = new CASInputHandler(this);
 
-		//addFocusListener(this);
+		// addFocusListener(this);
 	}
-	
-	public void showSubstituteDialog(String prefix, String evalText, String postfix, int selRow) {
-		if (subDialog != null && subDialog.isShowing()) return;
-		
-		CASSubDialog d = new CASSubDialog(this, prefix, evalText, postfix, selRow);
+
+	public void showSubstituteDialog(String prefix, String evalText,
+			String postfix, int selRow) {
+		if (subDialog != null && subDialog.isShowing())
+			return;
+
+		CASSubDialog d = new CASSubDialog(this, prefix, evalText, postfix,
+				selRow);
 		d.setAlwaysOnTop(true);
 		d.setVisible(true);
 		setSubstituteDialog(d);
 	}
-	
+
 	public void setSubstituteDialog(CASSubDialog d) {
 		subDialog = d;
 	}
-	
+
 	public CASSubDialog getSubstituteDialog() {
 		return subDialog;
 	}
@@ -176,14 +182,16 @@ public class CASView extends JComponent implements View, Gridable {
 		casInputHandler.processCurrentRow(ggbcmd, params);
 		getApp().storeUndoInfo();
 	}
-	
+
 	public void processRowThenEdit(int row, boolean flag) {
 		casInputHandler.processRowThenEdit(row, flag);
 	}
-	
+
 	public String resolveCASrowReferences(String inputExp, int row) {
-		String result = casInputHandler.resolveCASrowReferences(inputExp, row, CASInputHandler.ROW_REFERENCE_STATIC);
-		return casInputHandler.resolveCASrowReferences(result, row, CASInputHandler.ROW_REFERENCE_DYNAMIC);
+		String result = casInputHandler.resolveCASrowReferences(inputExp, row,
+				CASInputHandler.ROW_REFERENCE_STATIC, false);
+		return casInputHandler.resolveCASrowReferences(result, row,
+				CASInputHandler.ROW_REFERENCE_DYNAMIC, false);
 	}
 
 	public void updateFonts() {
@@ -208,9 +216,10 @@ public class CASView extends JComponent implements View, Gridable {
 
 		// consoleTable.addKeyListener(new ConsoleTableKeyListener());
 
-//		TableCellMouseListener tableCellMouseListener = new TableCellMouseListener(this);
-//		consoleTable.addMouseListener(tableCellMouseListener);
-		
+		// TableCellMouseListener tableCellMouseListener = new
+		// TableCellMouseListener(this);
+		// consoleTable.addMouseListener(tableCellMouseListener);
+
 	}
 
 	final public synchronized GeoGebraCAS getCAS() {
@@ -251,50 +260,51 @@ public class CASView extends JComponent implements View, Gridable {
 	// return sb.toString();
 	// }
 
-//	public void getSessionXML(StringBuilder sb) {
-//		// get the number of pairs in the view
-//		int numOfRows = consoleTable.getRowCount();
-//		
-//		// don't save session if there is only one empty row
-//		if (numOfRows == 0 || consoleTable.getGeoCasCell(0).isEmpty()) 
-//			return;				
-//
-//		// change kernel settings temporarily
-//		int oldCoordStlye = kernel.getCoordStyle();
-//		StringType oldPrintForm = kernel.getCASPrintForm();
-//        boolean oldValue = kernel.isPrintLocalizedCommandNames();
-//		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);	
-//		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
-//        kernel.setPrintLocalizedCommandNames(false); 
-//
-//		sb.append("<casSession>\n");		
-//
-//		// get the content of each pair in the table with a loop
-//		// append the content to the string sb
-//		for (int i = 0; i < numOfRows; ++i) {
-//			GeoCasCell temp = consoleTable.getGeoCasCell(i);
-//			sb.append(temp.getXML());
-//		}
-//
-//		sb.append("</casSession>\n");
-//		
-//		// set back kernel
-//		kernel.setCoordStyle(oldCoordStlye);
-//		kernel.setCASPrintForm(oldPrintForm);
-//		kernel.setPrintLocalizedCommandNames(oldValue);      
-//	}
+	// public void getSessionXML(StringBuilder sb) {
+	// // get the number of pairs in the view
+	// int numOfRows = consoleTable.getRowCount();
+	//
+	// // don't save session if there is only one empty row
+	// if (numOfRows == 0 || consoleTable.getGeoCasCell(0).isEmpty())
+	// return;
+	//
+	// // change kernel settings temporarily
+	// int oldCoordStlye = kernel.getCoordStyle();
+	// StringType oldPrintForm = kernel.getCASPrintForm();
+	// boolean oldValue = kernel.isPrintLocalizedCommandNames();
+	// kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
+	// kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
+	// kernel.setPrintLocalizedCommandNames(false);
+	//
+	// sb.append("<casSession>\n");
+	//
+	// // get the content of each pair in the table with a loop
+	// // append the content to the string sb
+	// for (int i = 0; i < numOfRows; ++i) {
+	// GeoCasCell temp = consoleTable.getGeoCasCell(i);
+	// sb.append(temp.getXML());
+	// }
+	//
+	// sb.append("</casSession>\n");
+	//
+	// // set back kernel
+	// kernel.setCoordStyle(oldCoordStlye);
+	// kernel.setCASPrintForm(oldPrintForm);
+	// kernel.setPrintLocalizedCommandNames(oldValue);
+	// }
 
 	/**
 	 * Returns the output string in the n-th row of this CAS view.
 	 */
 	public String getRowOutputValue(int n) {
-		ValidExpression outVE = consoleTable.getGeoCasCell(n).getOutputValidExpression();
-		
+		ValidExpression outVE = consoleTable.getGeoCasCell(n)
+				.getOutputValidExpression();
+
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
-		if (outVE == null)
+		if (outVE == null) {
 			return consoleTable.getGeoCasCell(n).getOutput();
-		else
-			return outVE.toString();
+		}
+		return outVE.toString();
 	}
 
 	/**
@@ -315,7 +325,8 @@ public class CASView extends JComponent implements View, Gridable {
 	public JComponent getCASViewComponent() {
 		return this;
 	}
-	public RowHeader getRowHeader(){
+
+	public RowHeader getRowHeader() {
 		return rowHeader;
 	}
 
@@ -323,26 +334,26 @@ public class CASView extends JComponent implements View, Gridable {
 		return app;
 	}
 
-//	public void focusGained(FocusEvent arg0) {
-//		firstSetModeAfterFocusGained = true;
-//		
-////		// start editing last row
-////		int lastRow = consoleTable.getRowCount() - 1;
-////		if (lastRow >= 0)
-////			consoleTable.startEditingRow(lastRow);
-//	}
-//
-//	public void focusLost(FocusEvent arg0) {
-//		firstSetModeAfterFocusGained = true;
-//	}
+	// public void focusGained(FocusEvent arg0) {
+	// firstSetModeAfterFocusGained = true;
+	//
+	// // // start editing last row
+	// // int lastRow = consoleTable.getRowCount() - 1;
+	// // if (lastRow >= 0)
+	// // consoleTable.startEditingRow(lastRow);
+	// }
+	//
+	// public void focusLost(FocusEvent arg0) {
+	// firstSetModeAfterFocusGained = true;
+	// }
 
 	/**
 	 * Defines new functions in the CAS
 	 */
-	public void add(GeoElement geo) {		
-		update(geo);	
+	public void add(GeoElement geo) {
+		update(geo);
 	}
-	
+
 	/**
 	 * Removes function definitions from the CAS
 	 */
@@ -350,7 +361,7 @@ public class CASView extends JComponent implements View, Gridable {
 		if (geo instanceof GeoCasCell) {
 			GeoCasCell casCell = (GeoCasCell) geo;
 			consoleTable.deleteRow(casCell.getRowNumber());
-		}							
+		}
 	}
 
 	/**
@@ -358,11 +369,11 @@ public class CASView extends JComponent implements View, Gridable {
 	 */
 	public void update(GeoElement geo) {
 		if (geo instanceof GeoCasCell) {
-			GeoCasCell casCell = (GeoCasCell) geo;	
+			GeoCasCell casCell = (GeoCasCell) geo;
 			consoleTable.setRow(casCell.getRowNumber(), casCell);
-		}	
+		}
 	}
-	
+
 	final public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
@@ -370,32 +381,33 @@ public class CASView extends JComponent implements View, Gridable {
 	/**
 	 * Handles toolbar mode changes
 	 */
-	public void setMode(int mode) {		
-		if (toolbarIsUpdatedByDockPanel) return;
-		
+	public void setMode(int mode) {
+		if (toolbarIsUpdatedByDockPanel)
+			return;
+
 		String command = kernel.getModeText(mode); // e.g. "Derivative"
-		
-		switch (mode) {		
-			case EuclidianConstants.MODE_CAS_EVALUATE:
-			case EuclidianConstants.MODE_CAS_NUMERIC:
-			case EuclidianConstants.MODE_CAS_KEEP_INPUT:
-			case EuclidianConstants.MODE_CAS_EXPAND:
-			case EuclidianConstants.MODE_CAS_FACTOR:
-			case EuclidianConstants.MODE_CAS_SUBSTITUTE:			
-				// no parameters
-				
-				processInput(command, null);
-				break;
-			
-			case EuclidianConstants.MODE_CAS_SOLVE:
-			case EuclidianConstants.MODE_CAS_DERIVATIVE:
-			case EuclidianConstants.MODE_CAS_INTEGRAL:
-				// use first variable in expression as parameter
-				processInput(command, new String[] {"%0"});
-				break;
-			default:
-				// ignore other modes
-		}				
+
+		switch (mode) {
+		case EuclidianConstants.MODE_CAS_EVALUATE:
+		case EuclidianConstants.MODE_CAS_NUMERIC:
+		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
+		case EuclidianConstants.MODE_CAS_EXPAND:
+		case EuclidianConstants.MODE_CAS_FACTOR:
+		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
+			// no parameters
+
+			processInput(command, null);
+			break;
+
+		case EuclidianConstants.MODE_CAS_SOLVE:
+		case EuclidianConstants.MODE_CAS_DERIVATIVE:
+		case EuclidianConstants.MODE_CAS_INTEGRAL:
+			// use first variable in expression as parameter
+			processInput(command, new String[] { "%0" });
+			break;
+		default:
+			// ignore other modes
+		}
 	}
 
 	/**
@@ -412,12 +424,12 @@ public class CASView extends JComponent implements View, Gridable {
 	}
 
 	public void repaintView() {
-		repaint();	
-		//ensureOneEmptyRow();
+		repaint();
+		// ensureOneEmptyRow();
 	}
 
 	public void reset() {
-		repaintView();		
+		repaintView();
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
@@ -426,54 +438,55 @@ public class CASView extends JComponent implements View, Gridable {
 	public void attachView() {
 		clearView();
 		kernel.notifyAddAll(this);
-		kernel.attach(this);		
+		kernel.attach(this);
 	}
 
 	public void detachView() {
 		kernel.detach(this);
 		clearView();
 	}
-	
+
 	/**
-     * Makes sure we have an empty row at the end.
-     */
-    private void ensureOneEmptyRow() {
-    	int rows = getRowCount();
-    	//  add an empty one when we have no rows or last one is not empty 
-    	//if (rows == 0 || !consoleTable.isRowEmpty(rows-1)) {
-    	if (rows == 0) {
-    		GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
-    		consoleTable.insertRow(rows, casCell, false);
-    	}     	    	
-    }
-	
-	public CASInputHandler getInputHandler()
-	{
+	 * Makes sure we have an empty row at the end.
+	 */
+	private void ensureOneEmptyRow() {
+		int rows = getRowCount();
+		// add an empty one when we have no rows or last one is not empty
+		// if (rows == 0 || !consoleTable.isRowEmpty(rows-1)) {
+		if (rows == 0) {
+			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
+			consoleTable.insertRow(rows, casCell, false);
+		}
+	}
+
+	public CASInputHandler getInputHandler() {
 		return casInputHandler;
 	}
 
-//
-//	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
-//			throws PrinterException {
-//		app.exporting=true;
-//		int r=consoleTable.getPrintable(PrintMode.FIT_WIDTH, null, null).print(graphics, pageFormat, pageIndex);
-//		app.exporting=false;
-//		return r;
-//	}
+	//
+	// public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
+	// throws PrinterException {
+	// app.exporting=true;
+	// int r=consoleTable.getPrintable(PrintMode.FIT_WIDTH, null,
+	// null).print(graphics, pageFormat, pageIndex);
+	// app.exporting=false;
+	// return r;
+	// }
 
 	public void setLabels() {
 		consoleTable.setLabels();
 	}
 
 	public int getViewID() {
-		return Application.VIEW_CAS;
+		return AbstractApplication.VIEW_CAS;
 	}
-	
+
 	public boolean isToolbarIsUpdatedByDockPanel() {
 		return toolbarIsUpdatedByDockPanel;
 	}
 
-	public void setToolbarIsUpdatedByDockPanel(boolean toolbarIsUpdatedByDockPanel) {
+	public void setToolbarIsUpdatedByDockPanel(
+			boolean toolbarIsUpdatedByDockPanel) {
 		this.toolbarIsUpdatedByDockPanel = toolbarIsUpdatedByDockPanel;
 	}
 
@@ -482,48 +495,48 @@ public class CASView extends JComponent implements View, Gridable {
 	}
 
 	public int[] getGridColwidths() {
-		return new int[]{rowHeader.getWidth()+consoleTable.getWidth()};
+		return new int[] { rowHeader.getWidth() + consoleTable.getWidth() };
 	}
 
 	public int[] getGridRowHeights() {
-		int[] heights=new int[consoleTable.getRowCount()];
-		for (int i=0;i<heights.length;i++){
-			heights[i]=consoleTable.getRowHeight(i);
+		int[] heights = new int[consoleTable.getRowCount()];
+		for (int i = 0; i < heights.length; i++) {
+			heights[i] = consoleTable.getRowHeight(i);
 		}
 		return heights;
 	}
 
 	public Component[][] getPrintComponents() {
-		return new Component[][]{{rowHeader,consoleTable}};
+		return new Component[][] { { rowHeader, consoleTable } };
 	}
-	
+
 	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-		
+		add((GeoElement) geo);
+
 	}
 
 	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-		
+		remove((GeoElement) geo);
+
 	}
 
 	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-		
+		rename((GeoElement) geo);
+
 	}
 
 	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-		
+		update((GeoElement) geo);
+
 	}
 
 	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-		
+		updateVisualStyle((GeoElement) geo);
+
 	}
 
 	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-		
+		updateAuxiliaryObject((GeoElement) geo);
+
 	}
 }

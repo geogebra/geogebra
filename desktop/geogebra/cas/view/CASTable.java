@@ -4,6 +4,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
@@ -36,6 +37,8 @@ import javax.swing.table.TableCellRenderer;
  */
 public class CASTable extends JTable {
 
+	private static final long serialVersionUID = 1L;
+
 	public final static int COL_CAS_CELLS = 0;
 
 	private CASTableModel tableModel;
@@ -57,10 +60,11 @@ public class CASTable extends JTable {
 		this.view = view;
 		app = view.getApp();
 		kernel = app.getKernel();
-		this.table = this;
+		this.setTable(this);
 
 		setShowGrid(true);
-		setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		setGridColor(geogebra.awt.Color
+				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 
 		tableModel = new CASTableModel();
@@ -92,7 +96,7 @@ public class CASTable extends JTable {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				clickedRow = rowAtPoint(e.getPoint());
+				setClickedRow(rowAtPoint(e.getPoint()));
 
 				// make sure the CAS view gets the focus and its toolbar when
 				// clicked on the table
@@ -102,35 +106,38 @@ public class CASTable extends JTable {
 				DockManager dockManager = app.getGuiManager().getLayout()
 						.getDockManager();
 				DockPanel panel = dockManager.getFocusedPanel();
-				if (panel == null || panel.getViewId() != Application.VIEW_CAS)
+				if (panel == null
+						|| panel.getViewId() != AbstractApplication.VIEW_CAS)
 					app.getGuiManager().getLayout().getDockManager()
-							.setFocusedPanel(Application.VIEW_CAS);
+							.setFocusedPanel(AbstractApplication.VIEW_CAS);
 
-				if (clickedRow >= 0) {
-					if (rightClick = Application.isRightClick(e)) {
+				if (getClickedRow() >= 0) {
+					setRightClick(Application.isRightClick(e));
+					if (isRightClick()) {
 						return;
 					}
 
 					if (isEditing() && isOutputPanelClicked(e.getPoint())) {
 						// currently editing and output clicked: insert into
 						// currently editing row
-						if (editor.getEditingRow() != clickedRow)
-							editor.insertText(view
-									.getRowOutputValue(clickedRow));
+						if (getEditor().getEditingRow() != getClickedRow())
+							getEditor().insertText(
+									view.getRowOutputValue(getClickedRow()));
 					} else {
 						// set clickedRow selected
-						getSelectionModel().setSelectionInterval(clickedRow,
-								clickedRow);
-						startEditingRow(clickedRow);
+						getSelectionModel().setSelectionInterval(
+								getClickedRow(), getClickedRow());
+						startEditingRow(getClickedRow());
 					}
 				}
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if (rightClick) {
+				if (isRightClick()) {
 					RowContentPopupMenu popupMenu = new RowContentPopupMenu(
-							table.getGeoCasCell(clickedRow), table);
+							getTable().getGeoCasCell(getClickedRow()),
+							getTable());
 					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -140,16 +147,17 @@ public class CASTable extends JTable {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				if (currentWidth == getWidth())
+				if (getCurrentWidth() == getWidth()) {
 					return;
-				else
-					currentWidth = getWidth();
+				}
+
+				setCurrentWidth(getWidth());
 
 				if (isEditing()) {
 					// keep editor value after resizing
-					int row = editor.getEditingRow();
+					int row = getEditor().getEditingRow();
 					if (row >= 0 && row < getRowCount()) {
-						editor.stopCellEditing();
+						getEditor().stopCellEditing();
 						updateRow(row);
 					}
 				}
@@ -163,22 +171,22 @@ public class CASTable extends JTable {
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE
 						|| e.getType() == TableModelEvent.DELETE) {
-					TableCellRenderer renderer;
+					TableCellRenderer tableCellRenderer;
 					int prefWidth = 0;
 					// iterate through all rows and get max preferred width
 					for (int r = 0; r < getRowCount(); r++) {
-						renderer = getCellRenderer(r, 0);
-						int w = prepareRenderer(renderer, r, 0)
+						tableCellRenderer = getCellRenderer(r, 0);
+						int w = prepareRenderer(tableCellRenderer, r, 0)
 								.getPreferredSize().width;
 						prefWidth = Math.max(prefWidth, w);
 					}
 
 					// adjust the width
-					if (prefWidth != table.getColumnModel().getColumn(0)
+					if (prefWidth != getTable().getColumnModel().getColumn(0)
 							.getPreferredWidth()) {
-						table.getColumnModel().getColumn(0)
+						getTable().getColumnModel().getColumn(0)
 								.setPreferredWidth(prefWidth);
-						table.getColumnModel().getColumn(0)
+						getTable().getColumnModel().getColumn(0)
 								.setMinWidth(prefWidth);
 					}
 				}
@@ -204,7 +212,7 @@ public class CASTable extends JTable {
 	 *            clicked position in table coordinates
 	 * @return
 	 */
-	private boolean isOutputPanelClicked(Point p) {
+	boolean isOutputPanelClicked(Point p) {
 		int row = rowAtPoint(p);
 		if (row < 0)
 			return false;
@@ -216,9 +224,9 @@ public class CASTable extends JTable {
 		}
 
 		// get height of input panel in clicked row
-		TableCellRenderer renderer = getCellRenderer(row, 0);
-		CASTableCell tableCell = (CASTableCell) prepareRenderer(renderer, row,
-				0);
+		TableCellRenderer tableCellRenderer = getCellRenderer(row, 0);
+		CASTableCell tableCell = (CASTableCell) prepareRenderer(
+				tableCellRenderer, row, 0);
 		int inputAreaHeight = tableCell.getInputPanelHeight();
 
 		// check if we clicked below input area
@@ -235,9 +243,9 @@ public class CASTable extends JTable {
 		if (!isEditing())
 			return;
 		// stop editing
-		CellEditor editor = (CellEditor) getEditorComponent();
-		if (editor != null)
-			editor.stopCellEditing();
+		CellEditor editor1 = (CellEditor) getEditorComponent();
+		if (editor1 != null)
+			editor1.stopCellEditing();
 	}
 
 	public CASTableCellEditor getEditor() {
@@ -284,7 +292,8 @@ public class CASTable extends JTable {
 
 		tableModel.insertRow(selectedRow, new Object[] { newValue });
 		// make sure the row is shown when at the bottom of the viewport
-		table.scrollRectToVisible(table.getCellRect(selectedRow, 0, false));
+		getTable().scrollRectToVisible(
+				getTable().getCellRect(selectedRow, 0, false));
 
 		// update height of new row
 		if (startEditing)
@@ -337,8 +346,8 @@ public class CASTable extends JTable {
 
 		// Determine highest cell in the row
 		for (int c = 0; c < getColumnCount(); c++) {
-			TableCellRenderer renderer = getCellRenderer(rowIndex, c);
-			Component comp = prepareRenderer(renderer, rowIndex, c);
+			TableCellRenderer tableCellRenderer = getCellRenderer(rowIndex, c);
+			Component comp = prepareRenderer(tableCellRenderer, rowIndex, c);
 			int h = comp.getPreferredSize().height; // + 2*margin;
 			height = Math.max(height, h);
 		}
@@ -518,6 +527,66 @@ public class CASTable extends JTable {
 
 	public void setLabels() {
 		editor.setLabels();
+	}
+
+	/**
+	 * @return the clickedRow
+	 */
+	public int getClickedRow() {
+		return clickedRow;
+	}
+
+	/**
+	 * @return the rightClick
+	 */
+	public boolean isRightClick() {
+		return rightClick;
+	}
+
+	/**
+	 * @param rightClick
+	 *            the rightClick to set
+	 */
+	public void setRightClick(boolean rightClick) {
+		this.rightClick = rightClick;
+	}
+
+	/**
+	 * @param clickedRow
+	 *            the clickedRow to set
+	 */
+	public void setClickedRow(int clickedRow) {
+		this.clickedRow = clickedRow;
+	}
+
+	/**
+	 * @return the table
+	 */
+	public CASTable getTable() {
+		return table;
+	}
+
+	/**
+	 * @param table
+	 *            the table to set
+	 */
+	public void setTable(CASTable table) {
+		this.table = table;
+	}
+
+	/**
+	 * @return the currentWidth
+	 */
+	public int getCurrentWidth() {
+		return currentWidth;
+	}
+
+	/**
+	 * @param currentWidth
+	 *            the currentWidth to set
+	 */
+	public void setCurrentWidth(int currentWidth) {
+		this.currentWidth = currentWidth;
 	}
 
 }
