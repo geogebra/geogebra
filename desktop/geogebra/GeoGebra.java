@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra;
 
-import geogebra.common.GeoGebraConstants;
+// INTENTIONAL ERROR FOR TESTING import geogebra.common.GeoGebraConstants;
 
 import java.awt.Frame;
 import java.awt.Toolkit;
