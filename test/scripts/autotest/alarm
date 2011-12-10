@@ -25,10 +25,11 @@ if [ $RESULT = 2 ]; then
 if [ $RESULT = 3 ]; then
  MESSAGE="There is a problem with the output of simpletest at revision $REVISION"
  # Try to find out exactly what happened:
- TEMPFILE=`cat $REVDIR/$REVISION/simpletest.stdout | tail -1`
+ TEMPFILE=`cat $REVDIR/$REVISION/simpletest.stdout | tail -1 | awk '{print $1}'`
  if [ -r $TEMPFILE ]; then
-  LOG=`cat $TEMPFILE | awk '{printf( "%s\\\n",$0);}'`
-  fi
+  LOG=`cat $TEMPFILE | awk '{printf("%s\\\n",$0);}'`
+ else
+  LOG=`cat $REVDIR/$REVISION/simpletest.stdout | awk '{printf("%s\\\n",$0);}'`
  fi
 
 if [ $RESULT = 0 ]; then
