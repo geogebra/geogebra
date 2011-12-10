@@ -30,6 +30,7 @@ if [ $RESULT = 3 ]; then
   LOG=`cat $TEMPFILE | awk '{printf("%s\\\n",$0);}'`
  else
   LOG=`cat $REVDIR/$REVISION/simpletest.stdout | awk '{printf("%s\\\n",$0);}'`
+  fi
  fi
 
 if [ $RESULT = 0 ]; then
