@@ -9,6 +9,7 @@ test -r autotest.conf || {
 test -r autotest.conf && . ./autotest.conf
 
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
+REV_HTTP="http://www.geogebra.org/trac/changeset/$REVISION"
 
 ./simpletest
 RESULT=$?
@@ -26,7 +27,7 @@ if [ $RESULT = 3 ]; then
  # Try to find out exactly what happened:
  TEMPFILE=`cat $REVDIR/$REVISION/simpletest.stdout | tail -1`
  if [ -r $TEMPFILE ]; then
-  MESSAGE=`echo "$MESSAGE"; cat $TEMPFILE`
+  LOG=`cat $TEMPFILE | awk '{printf( "%s\\\n",$0);}'`
   fi
  fi
 
@@ -36,4 +37,9 @@ if [ $RESULT = 0 ]; then
  fi
 
 # Sending an email to geogebra-dev:
-echo $MESSAGE | ssh $REMOTEUSER@www.geogebra.org mail -s "autotest/alarm report" $RECIPIENT
+echo "$MESSAGE
+$REV_HTTP
+
+$LOG
+
+Automatic message, do not reply" | ssh $REMOTEUSER@www.geogebra.org mail -s "autotest/alarm report" $RECIPIENT
