@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
@@ -572,7 +573,7 @@ public class CopyPasteCut {
 		for (int i = 0; i < lines.length; ++ i) {
 
 			// trim() removes tabs which we need
-			lines[i] = geogebra.util.Util.trimSpaces(lines[i]);
+			lines[i] = StringUtil.trimSpaces(lines[i]);
 			LinkedList list = new LinkedList();
 
 			int firstCommaIndex = lines[i].indexOf(",");

@@ -16,10 +16,9 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
@@ -36,7 +35,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7}
@@ -270,7 +269,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 				list.add(geo);		
 			}
 			else {
-				Application.debug("unsupported list addition: "+element.getClass()+"");
+				AbstractApplication.debug("unsupported list addition: "+element.getClass()+"");
 			}
 		}
     }   

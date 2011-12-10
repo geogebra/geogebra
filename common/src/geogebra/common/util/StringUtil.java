@@ -425,6 +425,74 @@ public class StringUtil {
 	}
 	return sbReplaceExp.toString();
     }
+    
+    private static StringBuilder sb;
+    /*
+     * returns a string with n instances of s
+     * eg string("hello",2) -> "hellohello";
+     */
+    public static String string(String s, int n) {
+    	
+    	if (n == 1) return s; // most common, check first
+    	if (n < 1) return "";
+    	
+    	if (sb == null)
+    		sb = new StringBuilder(); 
+    	
+    	sb.setLength(0);
+    	
+    	for (int i = 0 ; i < n ; i++) {
+    		sb.append(s);
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    public static String removeSpaces(String str) {
+    	
+    	if (str == null || str.length() == 0) return "";
+
+    	if (sb == null)
+    		sb = new StringBuilder(); 
+    	
+    	sb.setLength(0);
+    	char c;
+    	
+    	for (int i = 0 ; i < str.length() ; i++) {
+    		c = str.charAt(i);
+    		if (c != ' ')
+    			sb.append(c);
+    	}
+    	
+    	return sb.toString();
+   	
+    }
+
+    /**
+     * Removes spaces from the start and end
+     * Not the same as trim - it removes ASCII control chars eg tab
+	 * Michael Borcherds 2007-11-23
+     * @param str
+     */
+    public static String trimSpaces(String str) {
+
+    	int len = str.length();
+    	
+    	if (len == 0) return "";
+    	
+    	int start = 0;
+    	while (str.charAt(start) == ' ' && start < len - 1) start++;
+    	
+    	int end = len;
+    	while (str.charAt(end - 1) == ' ' && end > start) end --;
+    	
+    	if (start == end)
+    		return "";
+    	
+    	return str.substring(start, end);
+    	
+	}
+
 
     private static StringBuilder sbReplaceExp = new StringBuilder(200);
 

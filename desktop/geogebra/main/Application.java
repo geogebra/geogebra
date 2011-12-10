@@ -2634,7 +2634,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public String reverseGetColor(String str) {
-		str = Util.removeSpaces(str.toLowerCase(Locale.US));
+		str = StringUtil.removeSpaces(str.toLowerCase(Locale.US));
 		if (rbcolors == null) {
 			initColorsResourceBundle();
 		}
@@ -2644,7 +2644,7 @@ public class Application extends AbstractApplication implements
 			Enumeration<String> enumer = rbcolors.getKeys();
 			while (enumer.hasMoreElements()) {
 				String key = enumer.nextElement();
-				if (str.equals(Util.removeSpaces(rbcolors.getString(key)
+				if (str.equals(StringUtil.removeSpaces(rbcolors.getString(key)
 						.toLowerCase(Locale.US)))) {
 					return key;
 				}

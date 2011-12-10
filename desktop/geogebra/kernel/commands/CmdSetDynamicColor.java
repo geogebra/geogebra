@@ -1,11 +1,11 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoDependentList;
 
 import java.util.ArrayList;
 

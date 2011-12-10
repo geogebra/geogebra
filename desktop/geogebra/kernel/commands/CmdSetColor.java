@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
+import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
 
 import geogebra.common.awt.Color;
@@ -39,7 +40,7 @@ class CmdSetColor extends CmdScripting {
 
 			try {
 
-				String color = geogebra.util.Util.removeSpaces(
+				String color = StringUtil.removeSpaces(
 						((GeoText) arg[1]).getTextString());
 				// lookup Color
 				//HashMap<String, Color> colors = app.getColorsHashMap();

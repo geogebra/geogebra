@@ -17,6 +17,7 @@ import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

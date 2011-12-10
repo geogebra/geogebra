@@ -10,10 +10,10 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -23,8 +23,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 
 /**
  * This class is only needed to handle dependencies
@@ -115,16 +115,16 @@ public class AlgoDependentFunction extends AlgoElement {
             
             try { // needed for eg f(x)=floor(x) f'(x)
             	
-        		boolean internationalizeDigits = Kernel.internationalizeDigits;
-        		Kernel.internationalizeDigits = false;
+        		boolean internationalizeDigits = AbstractKernel.internationalizeDigits;
+        		AbstractKernel.internationalizeDigits = false;
        	
             	ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel));
 
-        		Kernel.internationalizeDigits = internationalizeDigits;
+        		AbstractKernel.internationalizeDigits = internationalizeDigits;
 
             } catch (Exception e) {
             	e.printStackTrace();
-            	Application.debug("derivative failed");
+            	AbstractApplication.debug("derivative failed");
             }
             
             if (ev == null) {
@@ -271,10 +271,10 @@ public class AlgoDependentFunction extends AlgoElement {
 	        			 NumberValue num = (NumberValue)evR;
 	        			 double val = num.getDouble();
 
-	        			 if (val > 0d && Kernel.isInteger(val)) {
+	        			 if (val > 0d && AbstractKernel.isInteger(val)) {
 	        				 
 	        				 // eg f''' if val == 3
-	        				 return geo.getLabel() + geogebra.util.Util.string("'",(int)val); // eg f''''
+	        				 return geo.getLabel() + StringUtil.string("'",(int)val); // eg f''''
 
 	        			 }
 	        		 }

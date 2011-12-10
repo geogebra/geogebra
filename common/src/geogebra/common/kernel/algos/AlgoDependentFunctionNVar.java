@@ -10,13 +10,13 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.main.Application;
+//import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * This class is needed to handle dependent multivariate functions like
@@ -115,7 +115,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     
     @Override
 	public String toRealString() {
-    	Application.printStacktrace("wrong string");
+    	AbstractApplication.printStacktrace("wrong string");
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
