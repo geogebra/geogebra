@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -43,10 +44,11 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.parser.ParseException;
-import geogebra.kernel.parser.Parser;
+//import geogebra.kernel.parser.ParseException;
+//import geogebra.kernel.parser.Parser;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -56,8 +58,8 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 	protected AbstractKernel kernel;
 	private Construction cons;
 	protected AbstractApplication app;
-	private Parser parser;
-	protected CommandDispatcher cmdDispatcher;
+	private ParserInterface parser;
+	protected AbstractCommandDispatcher cmdDispatcher;
 	
 	protected ExpressionValue eval; //ggb3D : used by AlgebraProcessor3D in extended processExpressionNode
 	
@@ -67,15 +69,15 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 		
 		cmdDispatcher = newCommandDispatcher(kernel);
 		app = kernel.getApplication();
-		parser = (Parser)kernel.getParser();
+		parser = kernel.getParser();
 	}
 	
 	/**
 	 * @param kernel 
 	 * @return a new command dispatcher (used for 3D)
 	 */
-	protected CommandDispatcher newCommandDispatcher(AbstractKernel kernel){
-		return new CommandDispatcher(kernel);
+	protected AbstractCommandDispatcher newCommandDispatcher(AbstractKernel kernel){
+		return kernel.getCommandDispatcher();
 	}
 	
 	
@@ -352,7 +354,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 		ValidExpression ve;					
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);
-		} catch (ParseException e) {
+		} catch (Exception e) {//TODO: put back ParseException
 			//e.printStackTrace();
 			if (allowErrorDialog) {app.showError(app.getError("InvalidInput") + ":\n" + cmd);return null;}
 			throw new MyException(app.getError("InvalidInput") + ":\n" + cmd, MyException.INVALID_INPUT);						
@@ -685,7 +687,7 @@ public class AlgebraProcessor extends AbstractAlgebraProcessor {
 	/**
 	 * Checks if label is valid.	 
 	 */
-	public String parseLabel(String label) throws ParseException {
+	public String parseLabel(String label) throws Exception {
 		return parser.parseLabel(label);
 	}
 

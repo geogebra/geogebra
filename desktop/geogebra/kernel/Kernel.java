@@ -87,6 +87,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -169,6 +170,7 @@ import geogebra.kernel.cas.AlgoTangentCurve;
 import geogebra.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.discrete.AlgoConvexHull;
 import geogebra.kernel.discrete.AlgoDelauneyTriangulation;
 import geogebra.kernel.discrete.AlgoHull;
@@ -7790,5 +7792,10 @@ public class Kernel extends AbstractKernel{
 	public ConstructionDefaults getConstructionDefaults(Construction cons){
 		return new ConstructionDefaults(cons);
 	
+	}
+
+	@Override
+	public AbstractCommandDispatcher getCommandDispatcher() {
+		return new CommandDispatcher(this);
 	}
 }

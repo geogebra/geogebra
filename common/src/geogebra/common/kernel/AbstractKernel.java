@@ -11,7 +11,6 @@ import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
-//import geogebra.common.awt.ColorAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -28,6 +27,7 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -2422,6 +2422,12 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 	public abstract GeoImplicitPolyInterface ImplicitPoly(String label, Polynomial lhs);
 
 	public abstract GeoElement DependentImplicitPoly(String label, Equation equ);
+
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	public abstract AbstractCommandDispatcher getCommandDispatcher();
 
 	
 
