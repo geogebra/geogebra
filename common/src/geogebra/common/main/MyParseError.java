@@ -20,7 +20,6 @@ package geogebra.common.main;
 
 import geogebra.common.main.AbstractApplication;
 
-
 /**
  *
  * @author  Markus
@@ -28,10 +27,6 @@ import geogebra.common.main.AbstractApplication;
  */
 public class MyParseError extends MyError {
 
-	
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/** Creates new MyError */
@@ -49,5 +44,4 @@ public class MyParseError extends MyError {
         return  app.getError("InvalidInput") + " :\n" +
                 super.getLocalizedMessage();
     }
-
 }

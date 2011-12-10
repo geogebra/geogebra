@@ -18,7 +18,6 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -186,7 +185,7 @@ public class Inequality {
 			}
 		}
 		if (funBorder != null)
-			border = (GeoElement) funBorder;
+			border = funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else
@@ -194,9 +193,9 @@ public class Inequality {
 	}
 
 	private void setAboveBorderFromConic() {
-		if (conicBorder.getType() == GeoConicInterface.CONIC_INTERSECTING_LINES ||
-				conicBorder.getType() == GeoConicInterface.CONIC_EMPTY ||
-				conicBorder.getType() == GeoConicInterface.CONIC_LINE) {
+		if (conicBorder.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES ||
+				conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY ||
+				conicBorder.getType() == GeoConicNDConstants.CONIC_LINE) {
 			   		isAboveBorder = true;
 			   		return;
 		}
@@ -204,7 +203,7 @@ public class Inequality {
 		ExpressionNode normalCopy = (ExpressionNode) normal
 				.deepCopy(kernel);
 		double midX, midY;	
-		if (conicBorder.getType() == GeoConicInterface.CONIC_PARABOLA){
+		if (conicBorder.getType() == GeoConicNDConstants.CONIC_PARABOLA){
 			//TODO: replace with Eigenvec once GeoVec2D is ported
 			midX = midpoint.getX()+conicBorder.getP()*conicBorder.getEigenvec(0).getX();
 			midY = midpoint.getY()+conicBorder.getP()*conicBorder.getEigenvec(0).getY();
@@ -231,7 +230,7 @@ public class Inequality {
 			Application.debug(zeros[i]);
 		}*/
 		cons.setSuppressLabelCreation(supress);
-		border = (GeoElement)funBorder;
+		border = funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else
@@ -263,6 +262,7 @@ public class Inequality {
 
 	}
 
+	//TODO remove?
 	/**
 	 * @return implicit border
 	 */
@@ -270,6 +270,7 @@ public class Inequality {
 		return impBorder;
 	} */ 
 
+	@Override
 	final public String toString() {
 		return "inequality";
 	}

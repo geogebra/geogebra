@@ -4,7 +4,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.Construction;
 
 import java.util.TreeSet;
 
@@ -78,6 +77,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 		}
 	}	
 	
+	@Override
 	public void remove() {
 		// tell construction that input geos are no longer used by this CAS algorithm
 		for (GeoElement geo : input) {
@@ -92,6 +92,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	 * This method can be called again after the GeoCasCell's input expression
 	 * has changed.
 	 */
+	@Override
 	protected void setInputOutput() {   
 		// init output
 		// twin geo that may be created as a side effect
@@ -132,7 +133,8 @@ public class AlgoDependentCasCell extends AlgoElement {
 	
 	
 	
-    final public String toString() {
+    @Override
+	final public String toString() {
         // return input string, e.g. "m := c + 3"
         return casCell.getInput();
     }	
@@ -140,7 +142,8 @@ public class AlgoDependentCasCell extends AlgoElement {
     /**
      * Returns <cellPair> tag instead of <expression> XML
      */
-    protected String getExpXML() {   
+    @Override
+	protected String getExpXML() {   
     	return casCell.getXML();
     }
     

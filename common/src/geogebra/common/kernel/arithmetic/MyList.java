@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 //import geogebra.kernel.geos.GeoElement;
 import geogebra.common.util.GgbMat;
@@ -354,7 +355,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 		// temp ExpressionNode to do evaluation of single elements
 		ExpressionNode tempNode = new ExpressionNode(kernel,
-				(ExpressionValue) listElements.get(0));
+				listElements.get(0));
 		tempNode.setOperation(operation);
 
 		boolean b = kernel.getConstruction().isSuppressLabelsActive();
@@ -371,12 +372,12 @@ public class MyList extends ValidExpression implements ListValue,
 			// apply operation using singleValue
 			if (right) {
 				// this operation value
-				tempNode.setLeft((ExpressionValue) listElements.get(i));
+				tempNode.setLeft(listElements.get(i));
 				tempNode.setRight(singleValue);
 			} else {
 				// value operation this
 				tempNode.setLeft(singleValue);
-				tempNode.setRight((ExpressionValue) listElements.get(i));
+				tempNode.setRight(listElements.get(i));
 			}
 
 			// evaluate operation
@@ -391,7 +392,7 @@ public class MyList extends ValidExpression implements ListValue,
 				operationResult = new ExpressionNode(kernel, operationResult);
 			}
 
-			listElements.set(i, (ExpressionValue) operationResult);
+			listElements.set(i, operationResult);
 			// }
 			// catch (MyError err) {
 			// err.printStackTrace();
@@ -492,8 +493,7 @@ public class MyList extends ValidExpression implements ListValue,
 			// Application.debug("MULT LISTS"+size);
 
 			// check LHlist is a matrix
-			ExpressionValue singleValue = ((ExpressionValue) LHlist
-					.getListElement(0)).evaluate();
+			ExpressionValue singleValue = LHlist.getListElement(0).evaluate();
 			if (singleValue == null) {
 				matrixRows = matrixCols = 0;
 				return false;
@@ -507,8 +507,7 @@ public class MyList extends ValidExpression implements ListValue,
 														// length
 					{
 						// Application.debug(i);
-						singleValue = ((ExpressionValue) LHlist
-								.getListElement(i)).evaluate();
+						singleValue = LHlist.getListElement(i).evaluate();
 						// Application.debug("size"+((ListValue)singleValue).getMyList().size());
 						if (singleValue.isListValue()) {
 							MyList list = ((ListValue) singleValue).getMyList();
@@ -551,8 +550,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @return cell of a list at given position
 	 */
 	public static ExpressionValue getCell(MyList list, int row, int col) {
-		ExpressionValue singleValue = ((ExpressionValue) list
-				.getListElement(col)).evaluate();
+		ExpressionValue singleValue = list.getListElement(col).evaluate();
 		if (singleValue.isListValue()) {
 			ExpressionValue ret = (((ListValue) singleValue).getMyList()
 					.getListElement(row)).evaluate();
@@ -591,7 +589,7 @@ public class MyList extends ValidExpression implements ListValue,
 			toLaTeXString.append("\\left(\\begin{array}{ll}");
 
 			for (int i = 0; i < size(); i++) {
-				ListValue singleValue = (ListValue) ((ExpressionValue) getListElement(i))
+				ListValue singleValue = (ListValue) getListElement(i)
 						.evaluate();
 				toLaTeXString.append(singleValue.getMyList().getListElement(0)
 						.toLaTeXString(symbolic));
@@ -610,14 +608,13 @@ public class MyList extends ValidExpression implements ListValue,
 			int lastIndex = listElements.size() - 1;
 			if (lastIndex > -1) {
 				for (int i = 0; i < lastIndex; i++) {
-					ExpressionValue exp = (ExpressionValue) listElements.get(i);
+					ExpressionValue exp = listElements.get(i);
 					toLaTeXString.append(exp.toLaTeXString(symbolic));
 					toLaTeXString.append(", ");
 				}
 
 				// last element
-				ExpressionValue exp = (ExpressionValue) listElements
-						.get(lastIndex);
+				ExpressionValue exp = listElements.get(lastIndex);
 				toLaTeXString.append(exp.toLaTeXString(symbolic));
 			}
 
@@ -628,6 +625,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 	// Michael Borcherds 2008-02-04
 	// adapted from GeoList
+	@Override
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder();
@@ -648,13 +646,13 @@ public class MyList extends ValidExpression implements ListValue,
 		int lastIndex = listElements.size() - 1;
 		if (lastIndex > -1) {
 			for (int i = 0; i < lastIndex; i++) {
-				ExpressionValue exp = (ExpressionValue) listElements.get(i);
+				ExpressionValue exp = listElements.get(i);
 				sb.append(exp.toString()); // .toOutputValueString());
 				sb.append(", ");
 			}
 
 			// last element
-			ExpressionValue exp = (ExpressionValue) listElements.get(lastIndex);
+			ExpressionValue exp = listElements.get(lastIndex);
 			sb.append(exp.toString());
 		}
 
@@ -682,8 +680,8 @@ public class MyList extends ValidExpression implements ListValue,
 						sb.deleteCharAt(index2 - 1);
 				}
 				return sb.toString().replaceAll("listofliststomat\\(list", "");
-			} else
-				sb.append(')');
+			}
+			sb.append(')');
 		} else
 			sb.append("}");
 		return sb.toString();
@@ -695,7 +693,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 	public void resolveVariables() {
 		for (int i = 0; i < listElements.size(); i++) {
-			ExpressionValue en = (ExpressionValue) listElements.get(i);
+			ExpressionValue en = listElements.get(i);
 			en.resolveVariables();
 		}
 	}
@@ -705,7 +703,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @return i-th element of the list
 	 */
 	public ExpressionValue getListElement(int i) {
-		return (ExpressionValue) listElements.get(i);
+		return listElements.get(i);
 	}
 
 	/*
@@ -752,17 +750,16 @@ public class MyList extends ValidExpression implements ListValue,
 		MyList c = new MyList(kernel, size());
 
 		for (int i = 0; i < size; i++) {
-			c.addListElement(((ExpressionValue) listElements.get(i))
-					.deepCopy(kernel));
+			c.addListElement(listElements.get(i).deepCopy(kernel));
 		}
 		return c;
 	}
 
-	public HashSet getVariables() {
-		HashSet varSet = new HashSet();
+	public HashSet<GeoElement> getVariables() {
+		HashSet<GeoElement> varSet = new HashSet<GeoElement>();
 		int size = listElements.size();
 		for (int i = 0; i < size; i++) {
-			HashSet s = listElements.get(i).getVariables();
+			HashSet<GeoElement> s = listElements.get(i).getVariables();
 			if (s != null)
 				varSet.addAll(s);
 		}
@@ -786,10 +783,9 @@ public class MyList extends ValidExpression implements ListValue,
 		if (isInTree()) {
 			// used in expression node tree: be careful
 			return (MyList) deepCopy(kernel);
-		} else {
-			// not used anywhere: reuse this object
-			return this;
 		}
+		// not used anywhere: reuse this object
+		return this;
 	}
 
 	public boolean isVector3DValue() {
@@ -974,19 +970,18 @@ public class MyList extends ValidExpression implements ListValue,
 			listElements.set(1, new ExpressionNode(kernel, new MyDouble(kernel,
 					0.0), Operation.NO_OPERATION, null));
 			return;
-		} else { // size 3
-
-			z = new ExpressionNode(kernel, en, Operation.MINUS, en2);
-			ExpressionValue az = getListElement(2);
-			ExpressionValue bz = list.getListElement(2);
-			en = new ExpressionNode(kernel, ay, Operation.MULTIPLY, bz);
-			en2 = new ExpressionNode(kernel, az, Operation.MULTIPLY, by);
-			x = new ExpressionNode(kernel, en, Operation.MINUS, en2);
-
-			en = new ExpressionNode(kernel, az, Operation.MULTIPLY, bx);
-			en2 = new ExpressionNode(kernel, ax, Operation.MULTIPLY, bz);
-			y = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 		}
+		// size 3
+		z = new ExpressionNode(kernel, en, Operation.MINUS, en2);
+		ExpressionValue az = getListElement(2);
+		ExpressionValue bz = list.getListElement(2);
+		en = new ExpressionNode(kernel, ay, Operation.MULTIPLY, bz);
+		en2 = new ExpressionNode(kernel, az, Operation.MULTIPLY, by);
+		x = new ExpressionNode(kernel, en, Operation.MINUS, en2);
+
+		en = new ExpressionNode(kernel, az, Operation.MULTIPLY, bx);
+		en2 = new ExpressionNode(kernel, ax, Operation.MULTIPLY, bz);
+		y = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 
 		listElements.set(0, x);
 		listElements.set(1, y);

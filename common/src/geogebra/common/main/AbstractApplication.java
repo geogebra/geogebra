@@ -45,7 +45,7 @@ public abstract class AbstractApplication {
 
 	public enum CasType {
 		NO_CAS, MATHPIPER, MAXIMA, MPREDUCE
-	};
+	}
 
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs

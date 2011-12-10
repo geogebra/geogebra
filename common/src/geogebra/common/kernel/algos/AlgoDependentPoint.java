@@ -87,7 +87,7 @@ public class AlgoDependentPoint extends AlgoElement {
     @Override
 	public final void compute() {   
     	try {
-	        temp = (GeoVec2D)((VectorValue) root.evaluate()).getVector();
+	        temp = ((VectorValue) root.evaluate()).getVector();
 	        if (Double.isInfinite(temp.x) || Double.isInfinite(temp.y)) {
 	        	P.setUndefined();
 	        } else {

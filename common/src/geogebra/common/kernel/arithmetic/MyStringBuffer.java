@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
 
@@ -99,7 +100,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return this;
 	}
 
-	public HashSet getVariables() {
+	public HashSet<GeoElement> getVariables() {
 		return null;
 	}
 

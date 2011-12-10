@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoRotatePoint.java
@@ -29,137 +29,140 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoConicPartInterface;
 
-
 /**
- *
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoDilate extends AlgoTransformation {
 
 	private GeoPoint2 S;
-    private Dilateable out;    
-    private NumberValue r; 
-    private GeoElement inGeo, outGeo, rgeo;
-    /**
-     * Creates new labeled enlarge geo
-     * @param cons
-     * @param label
-     * @param A
-     * @param r
-     * @param S
-     */
-    AlgoDilate(Construction cons, String label,
-    		GeoElement A, NumberValue r, GeoPoint2 S) {
-    	this(cons, A, r, S);
-    	outGeo.setLabel(label);    
-    }
-    
-  
-    /**
-     * Creates new unlabeled enlarge geo
-     * @param cons
-     * @param A
-     * @param r
-     * @param S
-     */
-    public AlgoDilate(Construction cons, 
-    		GeoElement A, NumberValue r, GeoPoint2 S) {
-        super(cons);        
-        this.r = r;
-        this.S = S;
+	private Dilateable out;
+	private NumberValue r;
+	private GeoElement inGeo, outGeo, rgeo;
 
-        inGeo = A;
-        rgeo = (GeoElement)r.toGeoElement();
-        if(A instanceof GeoPolygon || A instanceof GeoPolyLine || A.isLimitedPath()){
-        	outGeo = inGeo.copyInternal(cons);
-        	out = (Dilateable) outGeo;
-        }
-        else if(!A.isGeoList()){
-        // create output object
-        	outGeo = inGeo.copy();
-        	out = (Dilateable) outGeo;                    
-        }                
-        else outGeo = new GeoList(cons);
-        setInputOutput();        
-        compute();
-           
-    }
+	/**
+	 * Creates new labeled enlarge geo
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param A
+	 * @param r
+	 * @param S
+	 */
+	AlgoDilate(Construction cons, String label, GeoElement A, NumberValue r,
+			GeoPoint2 S) {
+		this(cons, A, r, S);
+		outGeo.setLabel(label);
+	}
 
-    @Override
+	/**
+	 * Creates new unlabeled enlarge geo
+	 * 
+	 * @param cons
+	 * @param A
+	 * @param r
+	 * @param S
+	 */
+	public AlgoDilate(Construction cons, GeoElement A, NumberValue r,
+			GeoPoint2 S) {
+		super(cons);
+		this.r = r;
+		this.S = S;
+
+		inGeo = A;
+		rgeo = (GeoElement) r.toGeoElement();
+		if (A instanceof GeoPolygon || A instanceof GeoPolyLine
+				|| A.isLimitedPath()) {
+			outGeo = inGeo.copyInternal(cons);
+			out = (Dilateable) outGeo;
+		} else if (!A.isGeoList()) {
+			// create output object
+			outGeo = inGeo.copy();
+			out = (Dilateable) outGeo;
+		} else
+			outGeo = new GeoList(cons);
+		setInputOutput();
+		compute();
+
+	}
+
+	@Override
 	public String getClassName() {
-        return "AlgoDilate";
-    }
+		return "AlgoDilate";
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_DILATE_FROM_POINT;
-    }    
-    
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {    	
-        input = new GeoElement[S==null ? 2:3];
-        input[0] = inGeo;
-        input[1] = rgeo;
-        if(S != null)input[2] = S;
+		return EuclidianConstants.MODE_DILATE_FROM_POINT;
+	}
 
-        setOutputLength(1);
-        setOutput(0,outGeo);
-        setDependencies(); // done by AlgoElement
-    }
+	// for AlgoElement
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[S == null ? 2 : 3];
+		input[0] = inGeo;
+		input[1] = rgeo;
+		if (S != null)
+			input[2] = S;
 
-    /**
-     * Returns the resulting GeoElement
-     * @return the resulting GeoElement
-     */
-    @Override
-	public
-	GeoElement getResult() {
-        return outGeo;
-    }
+		setOutputLength(1);
+		setOutput(0, outGeo);
+		setDependencies(); // done by AlgoElement
+	}
 
-    @Override
-	protected void setTransformedObject(GeoElement g,GeoElement g2){
-        inGeo =g;
-        outGeo = g2;
-        if(!(outGeo instanceof GeoList))
-        out = (Dilateable) outGeo;
-       }
-    
-    // calc dilated point
-    @Override
+	/**
+	 * Returns the resulting GeoElement
+	 * 
+	 * @return the resulting GeoElement
+	 */
+	@Override
+	public GeoElement getResult() {
+		return outGeo;
+	}
+
+	@Override
+	protected void setTransformedObject(GeoElement g, GeoElement g2) {
+		inGeo = g;
+		outGeo = g2;
+		if (!(outGeo instanceof GeoList))
+			out = (Dilateable) outGeo;
+	}
+
+	// calc dilated point
+	@Override
 	public final void compute() {
-    	if(inGeo.isGeoList()){    		
-    		transformList((GeoList)inGeo,(GeoList)outGeo);
-    		return;
-    	}
-        outGeo.set(inGeo);
-        if(S==null){
-        	//Application.debug(cons.getOrigin());
-        	out.dilate(r, ((Construction) cons).getOrigin());
-        }
-        else
-        	out.dilate(r, S);
-        if(inGeo.isLimitedPath())
-        	this.transformLimitedPath(inGeo, outGeo);
-    }
-       
-   	@Override
+		if (inGeo.isGeoList()) {
+			transformList((GeoList) inGeo, (GeoList) outGeo);
+			return;
+		}
+		outGeo.set(inGeo);
+		if (S == null) {
+			// Application.debug(cons.getOrigin());
+			out.dilate(r, cons.getOrigin());
+		} else
+			out.dilate(r, S);
+		if (inGeo.isLimitedPath())
+			this.transformLimitedPath(inGeo, outGeo);
+	}
+
+	@Override
 	final public String toString() {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-    	String sLabel = S == null ? ((Construction) cons).getOrigin().toValueString() : S.getLabel();
-    	return app.getPlain("ADilatedByFactorBfromC",inGeo.getLabel(),rgeo.getLabel(),sLabel);
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		String sLabel = S == null ? cons.getOrigin().toValueString() : S
+				.getLabel();
+		return app.getPlain("ADilatedByFactorBfromC", inGeo.getLabel(),
+				rgeo.getLabel(), sLabel);
 
-    }
-   	
-   	@Override
-   	protected void transformLimitedPath(GeoElement a, GeoElement b){
-   		if(!(a instanceof GeoConicPartInterface))
-   			super.transformLimitedPath(a, b);    
-   		else
-   			super.transformLimitedConic(a, b);
+	}
 
-   	}
+	@Override
+	protected void transformLimitedPath(GeoElement a, GeoElement b) {
+		if (!(a instanceof GeoConicPartInterface))
+			super.transformLimitedPath(a, b);
+		else
+			super.transformLimitedConic(a, b);
+
+	}
 }

@@ -166,9 +166,8 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 	public int getConstructionIndex() {
         if (poly != null) {
 			return poly.getConstructionIndex();
-        } else {
-			return super.getConstructionIndex();
         }
+		return super.getConstructionIndex();
     }
 
     @Override
@@ -177,8 +176,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         // simplified to allow better Chinese translation
         if (poly != null) {
         	return app.getPlain("SegmentABofC",P.getLabel(),Q.getLabel(),poly.getNameDescription());
-        } else {
-        	return app.getPlain("SegmentAB",P.getLabel(),Q.getLabel());
         }
+		return app.getPlain("SegmentAB",P.getLabel(),Q.getLabel());
     }
 }

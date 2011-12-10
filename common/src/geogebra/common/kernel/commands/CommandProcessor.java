@@ -107,12 +107,11 @@ public abstract class CommandProcessor {
 	protected final GeoElement[] resArg(ExpressionNode arg) throws MyError {
 		GeoElement[] geos = algProcessor.processExpressionNode(arg);
 
-		if (geos != null)
+		if (geos != null) {
 			return geos;
-		else {
-			String[] str = { "IllegalArgument", arg.toString() };
-			throw new MyError(app, str);
 		}
+		String[] str = { "IllegalArgument", arg.toString() };
+		throw new MyError(app, str);
 	}
 
 	/**
@@ -134,21 +133,23 @@ public abstract class CommandProcessor {
 		}
 		// imaginary unit as local variable name
 		else if (localVarName.equals(Unicode.IMAGINARY)) {
-			// replace all imaginary unit objects in command arguments by a variable "i"object
+			// replace all imaginary unit objects in command arguments by a
+			// variable "i"object
 			localVarName = "i";
 			Variable localVar = new Variable(kernelA, localVarName);
-			c.replace(kernelA.getImaginaryUnit(), localVar);			
+			c.replace(kernelA.getImaginaryUnit(), localVar);
 		}
 		// Euler constant as local variable name
 		else if (localVarName.equals(Unicode.EULER_STRING)) {
-			// replace all imaginary unit objects in command arguments by a variable "i"object
+			// replace all imaginary unit objects in command arguments by a
+			// variable "i"object
 			localVarName = "e";
 			Variable localVar = new Variable(kernelA, localVarName);
 			c.replace(MySpecialDouble.getEulerConstant(kernelA), localVar);
 		}
 
 		// add local variable name to construction
-		Construction cmdCons = (Construction) c.getKernel().getConstruction();
+		Construction cmdCons = c.getKernel().getConstruction();
 		GeoNumeric num = new GeoNumeric(cmdCons);
 		cmdCons.addLocalVariable(localVarName, num);
 
@@ -199,7 +200,7 @@ public abstract class CommandProcessor {
 		}
 
 		// add local variable name to construction
-		Construction cmdCons = (Construction) c.getKernel().getConstruction();
+		Construction cmdCons = c.getKernel().getConstruction();
 		GeoNumeric[] num = new GeoNumeric[varPos.length];
 		for (int i = 0; i < varPos.length; i++) {
 			num[i] = new GeoNumeric(cmdCons);
@@ -240,7 +241,8 @@ public abstract class CommandProcessor {
 	 * @param arg
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(AbstractApplication app, String cmd, Object arg) {
+	protected final MyError argErr(AbstractApplication app, String cmd,
+			Object arg) {
 		String localName = app.getCommand(cmd);
 		if (sb == null)
 			sb = new StringBuilder();
@@ -272,7 +274,8 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 * @return wrong parameter count error
 	 */
-	protected final MyError argNumErr(AbstractApplication app, String cmd, int argNumber) {
+	protected final MyError argNumErr(AbstractApplication app, String cmd,
+			int argNumber) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
@@ -290,8 +293,8 @@ public abstract class CommandProcessor {
 	 * @param argNumber
 	 *            (-1 for just show syntax)
 	 */
-	public static void getCommandSyntax(StringBuilder sb, AbstractApplication app,
-			String cmd, int argNumber) {
+	public static void getCommandSyntax(StringBuilder sb,
+			AbstractApplication app, String cmd, int argNumber) {
 		sb.append(app.getCommand("Command"));
 		sb.append(' ');
 		sb.append(app.getCommand(cmd));
@@ -356,7 +359,8 @@ public abstract class CommandProcessor {
 		boolean correctType = true;
 		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
 		for (int i = 0; i < length; i++) {
-			if (!type.equals(GeoClass.DEFAULT) || args[i].getGeoClassType() == type)
+			if (!type.equals(GeoClass.DEFAULT)
+					|| args[i].getGeoClassType() == type)
 				geoElementList.add(args[i]);
 			else {
 				correctType = false;

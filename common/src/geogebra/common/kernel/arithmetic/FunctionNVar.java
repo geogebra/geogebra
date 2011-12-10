@@ -111,14 +111,16 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @return true if var is function variable of this function
 	 */
 	public boolean isFunctionVariable(String var) {
-		if (fVars == null)
+		if (fVars == null) {
 			return false;
-		else {
-			for (int i = 0; i < fVars.length; i++)
-				if (fVars[i].toString().equals(var))
-					return true;
-			return false; // if none of function vars equals var
 		}
+
+		for (int i = 0; i < fVars.length; i++) {
+			if (fVars[i].toString().equals(var)) {
+				return true;
+			}
+		}
+		return false; // if none of function vars equals var
 	}
 
 	/**
@@ -233,7 +235,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 			// look for Variable objects with name of function variable and
 			// replace them
-			int replacements = expression.replaceVariables(fVar.getSetVarString(), fVar);
+			int replacements = expression.replaceVariables(
+					fVar.getSetVarString(), fVar);
 			isConstantFunction = isConstantFunction && replacements == 0;
 
 			if (replacements == 0) {
@@ -258,16 +261,16 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 		// simplify constant parts in expression
 		expression.simplifyConstantIntegers();
-		
+
 		// evaluate expression to find out about the type of function
 		ExpressionValue ev;
 		try {
 			ev = expression.evaluate();
-		} 
-		catch (MyError err) {
+		} catch (MyError err) {
 			// Evaluation failed: DESPERATE MODE
 			try {
-				// try to fix structure of expression and then try evaluation again
+				// try to fix structure of expression and then try evaluation
+				// again
 				fixStructure();
 				ev = expression.evaluate();
 			} catch (Throwable th) {
@@ -279,36 +282,40 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// initialize type as boolean or numeric function
 		initType(ev);
 	}
-	
+
 	/**
 	 * Tries to fix a structural problem leading to an evaluation error, e.g.
-	 * x(x+1) is interpreted as xcoord(x+1). This can be fixed by changing the structure
-	 * to x*(x+1) for example.
+	 * x(x+1) is interpreted as xcoord(x+1). This can be fixed by changing the
+	 * structure to x*(x+1) for example.
 	 */
 	private void fixStructure() {
 		// get function variables for x, y, z
 		FunctionVariable xVar = null, yVar = null, zVar = null;
 		for (FunctionVariable fVar : fVars) {
-			if ("x".equals(fVar.toString())) xVar = fVar;
-			else if ("y".equals(fVar.toString())) yVar = fVar;
-			else if ("z".equals(fVar.toString())) zVar = fVar;
+			if ("x".equals(fVar.toString()))
+				xVar = fVar;
+			else if ("y".equals(fVar.toString()))
+				yVar = fVar;
+			else if ("z".equals(fVar.toString()))
+				zVar = fVar;
 		}
-		
+
 		// try to replace x(x+1) by x*(x+1)
-		expression.replaceXYZnodes(xVar, yVar, zVar);		
+		expression.replaceXYZnodes(xVar, yVar, zVar);
 	}
 
 	private void initType(ExpressionValue ev) {
 		if (ev.isBooleanValue()) {
 			isBooleanFunction = true;
 		} else if (ev.isNumberValue()) {
-			isBooleanFunction = false;		
-		} else if (ev instanceof FunctionNVar){
-				expression = ((FunctionNVar)ev).getExpression();
-				fVars = ((FunctionNVar)ev).getFunctionVariables();	
-		}else{
-			AbstractApplication.debug("InvalidFunction:" + expression.toString() + " "
-					+ ev.toString() + ev.getClass().getName());
+			isBooleanFunction = false;
+		} else if (ev instanceof FunctionNVar) {
+			expression = ((FunctionNVar) ev).getExpression();
+			fVars = ((FunctionNVar) ev).getFunctionVariables();
+		} else {
+			AbstractApplication.debug("InvalidFunction:"
+					+ expression.toString() + " " + ev.toString()
+					+ ev.getClass().getName());
 			throw new MyError(kernel.getApplication(), "InvalidFunction");
 		}
 	}
@@ -357,14 +364,13 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		if (isBooleanFunction) {
 			// BooleanValue
 			return evaluateBoolean(vals) ? 1 : 0;
-		} else {
-			// NumberValue
-			for (int i = 0; i < fVars.length; i++) {
-				// Application.debug(fVars[i].toString()+" <= "+vals[i]);
-				fVars[i].set(vals[i]);
-			}
-			return ((NumberValue) expression.evaluate()).getDouble();
 		}
+		// NumberValue
+		for (int i = 0; i < fVars.length; i++) {
+			// Application.debug(fVars[i].toString()+" <= "+vals[i]);
+			fVars[i].set(vals[i]);
+		}
+		return ((NumberValue) expression.evaluate()).getDouble();
 	}
 
 	/**
@@ -388,6 +394,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return expression.getGeoElementVariables();
 	}
 
+	@Override
 	public String toString() {
 		return expression.toString();
 	}
@@ -403,8 +410,6 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	final public String toLaTeXString(boolean symbolic) {
 		return expression.toLaTeXString(symbolic);
 	}
-	
-	
 
 	/* ***************
 	 * CAS Stuff **************
@@ -425,23 +430,26 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symbolic) {
 		// remember expression and its CAS string
 		boolean useCaching = true;
-		
+
 		// for multi-variate functions we need to ensure value form,
-		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as Derivative[x^2+2] instead of Derivative[f(x,2)]
+		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as
+		// Derivative[x^2+2] instead of Derivative[f(x,2)]
 		// see http://www.geogebra.org/trac/ticket/1466
 		symbolic = symbolic && !expression.containsGeoFunctionNVar();
 
-		// make sure to use temporary variable names 
-		// e.g. a in Derivative[a*x^2,x] needs to be renamed temporarily when a exists in GeoGebra
+		// make sure to use temporary variable names
+		// e.g. a in Derivative[a*x^2,x] needs to be renamed temporarily when a
+		// exists in GeoGebra
 		// see http://www.geogebra.org/trac/ticket/929
 		boolean oldTempVariableValue = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
-		
+
 		// did expression change since last time?
 		if (casEvalExpression != expression) {
 			casEvalExpression = expression;
 			if (symbolic) {
-				casEvalStringSymbolic = expression.getCASstring(StringType.GEOGEBRA, true);
+				casEvalStringSymbolic = expression.getCASstring(
+						StringType.GEOGEBRA, true);
 			}
 
 			// caching should only be done if the expression doesn't contain
@@ -450,22 +458,19 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			// Derivative(g(x,y), x)
 			// where we cannot cache the derivative of g because g may have
 			// changed
-			useCaching = symbolic
-					&& !expression
-							.containsCasEvaluableFunction();
+			useCaching = symbolic && !expression.containsCasEvaluableFunction();
 		}
 
 		// build command string for CAS
-		String expString = symbolic ? 
-				casEvalStringSymbolic : 
-				expression.getCASstring(StringType.GEOGEBRA, false);
-		
+		String expString = symbolic ? casEvalStringSymbolic : expression
+				.getCASstring(StringType.GEOGEBRA, false);
+
 		// set back kernel
 		kernel.setUseTempVariablePrefix(oldTempVariableValue);
 
 		// substitute % by expString in ggbCasCmd
 		String casString = ggbCasCmd.replaceAll("%", expString);
-		FunctionNVar resultFun = null;		
+		FunctionNVar resultFun = null;
 
 		// eval with CAS
 		try {
@@ -473,16 +478,17 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				// check if result is in cache
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
-					//System.out.println("caching worked: " + casString + " -> " + resultFun);
+					// System.out.println("caching worked: " + casString +
+					// " -> " + resultFun);
 					return resultFun;
-				}					
+				}
 			}
-			
+
 			// evaluate expression by CAS
-			String result = symbolic ?
-					kernel.evaluateGeoGebraCAS(casString) :  // symbolic
+			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString) : // symbolic
 					kernel.evaluateCachedGeoGebraCAS(casString); // value string
-			//System.out.println("evaluateGeoGebraCAS: " + casString + " -> " + result);
+			// System.out.println("evaluateGeoGebraCAS: " + casString + " -> " +
+			// result);
 
 			// parse CAS result back into GeoGebra
 			sb.setLength(0);
@@ -493,12 +499,14 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 			// parse result
 			if (getVarNumber() == 1) {
-				resultFun = (Function)(kernel.getParser().parseFunction(sb.toString()));
+				resultFun = (Function) (kernel.getParser().parseFunction(sb
+						.toString()));
 			} else {
-				resultFun = (FunctionNVar)(kernel.getParser().parseFunctionNVar(sb.toString()));
+				resultFun = (FunctionNVar) (kernel.getParser()
+						.parseFunctionNVar(sb.toString()));
 			}
 
-			resultFun.initFunction();			
+			resultFun.initFunction();
 		} catch (Error err) {
 			err.printStackTrace();
 			resultFun = null;
@@ -513,7 +521,6 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		if (useCaching && resultFun != null) {
 			getCasEvalMap().put(casString, resultFun);
 		}
-			
 
 		// System.out.println("NO caching: " + casString + " -> " + resultFun);
 
@@ -525,39 +532,40 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 	private MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
-			casEvalMap = new MaxSizeHashMap<String, FunctionNVar>(MAX_CAS_EVAL_MAP_SIZE);
+			casEvalMap = new MaxSizeHashMap<String, FunctionNVar>(
+					MAX_CAS_EVAL_MAP_SIZE);
 		}
 		return casEvalMap;
 	}
-	
+
 	private FunctionNVar lookupCasEvalMap(String casString) {
-		if (casEvalMap == null) 
+		if (casEvalMap == null) {
 			return null;
-		else
-			return casEvalMap.get(casString);
+		}
+		return casEvalMap.get(casString);
 	}
 
-//	/**
-//	 * Clears those entries in the function cache which contain this label
-//	 * or clear everything if the label is null (called by clearConstruction)
-//	 * @param label
-//	 */
-//	public void clearCasEvalMap(String label) {
-//		if (casEvalMap == null) return;
-//		
-//		if (label == null) {
-//			casEvalMap.clear();
-//		} else {
-//			Set<String> keyset = getCasEvalMap().keySet();
-//			Iterator<String> it = keyset.iterator();
-//			String actual = null;
-//			while (it.hasNext()) {
-//				actual = it.next();
-//				if (actual.indexOf(label) != -1)
-//					casEvalMap.remove(actual);
-//			}
-//		}
-//	}
+	// /**
+	// * Clears those entries in the function cache which contain this label
+	// * or clear everything if the label is null (called by clearConstruction)
+	// * @param label
+	// */
+	// public void clearCasEvalMap(String label) {
+	// if (casEvalMap == null) return;
+	//
+	// if (label == null) {
+	// casEvalMap.clear();
+	// } else {
+	// Set<String> keyset = getCasEvalMap().keySet();
+	// Iterator<String> it = keyset.iterator();
+	// String actual = null;
+	// while (it.hasNext()) {
+	// actual = it.next();
+	// if (actual.indexOf(label) != -1)
+	// casEvalMap.remove(actual);
+	// }
+	// }
+	// }
 
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
@@ -641,6 +649,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return false;
 	}
 
+	@Override
 	public String getLabelForAssignment() {
 		StringBuilder sb = new StringBuilder();
 		// function, e.g. f(x) := 2*x
@@ -658,7 +667,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * initializes inequalities
 	 * 
-	 * @param fe expression node
+	 * @param fe
+	 *            expression node
 	 * @param functional
 	 *            function to which ineqs are associated
 	 * @return true if the functions consists of inequalities
@@ -666,7 +676,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	public boolean initIneqs(ExpressionNode fe, FunctionalNVar functional) {
 		if (ineqs == null || fe == getExpression())
 			ineqs = new IneqTree();
-		boolean b = initIneqs(fe, functional, ineqs,false);
+		boolean b = initIneqs(fe, functional, ineqs, false);
 		ineqs.recomputeSize();
 		return b;
 	}
@@ -679,7 +689,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)
 				|| op.equals(Operation.LESS) || op.equals(Operation.LESS_EQUAL)) {
 			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
-					adjustOp(op,negate), getFunction().getFunctionVariables(), functional);
+					adjustOp(op, negate), getFunction().getFunctionVariables(),
+					functional);
 			if (newIneq.getType() != Inequality.INEQUALITY_INVALID) {
 				if (newIneq.getType() != Inequality.INEQUALITY_1VAR_X
 						&& newIneq.getType() != Inequality.INEQUALITY_1VAR_Y)
@@ -690,48 +701,56 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		} else if (op.equals(Operation.AND) || op.equals(Operation.OR)
 				|| op.equals(Operation.EQUAL_BOOLEAN)
 				|| op.equals(Operation.NOT_EQUAL)) {
-			tree.operation = adjustOp(op,negate);
+			tree.operation = adjustOp(op, negate);
 			tree.left = new IneqTree();
 			tree.right = new IneqTree();
-			return initIneqs(leftTree, functional, tree.left,negate)
-					&& initIneqs(rightTree, functional, tree.right,negate);
+			return initIneqs(leftTree, functional, tree.left, negate)
+					&& initIneqs(rightTree, functional, tree.right, negate);
 		} else if (op.equals(Operation.NOT)) {
-			return initIneqs(leftTree, functional, tree,!negate);
-		}else if (op.equals(Operation.FUNCTION_NVAR)) {
-			FunctionalNVar nv = (FunctionalNVar)leftTree.getLeft();
-			IneqTree otherTree = (IneqTree)nv.getIneqs();
-			if(otherTree == null || otherTree.getSize()==0){
+			return initIneqs(leftTree, functional, tree, !negate);
+		} else if (op.equals(Operation.FUNCTION_NVAR)) {
+			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
+			IneqTree otherTree = (IneqTree) nv.getIneqs();
+			if (otherTree == null || otherTree.getSize() == 0) {
 				return false;
 			}
 			tree.left = otherTree.left;
 			tree.right = otherTree.right;
-			tree.operation =otherTree.operation;
-			tree.ineq =otherTree.ineq;
+			tree.operation = otherTree.operation;
+			tree.ineq = otherTree.ineq;
 			return true;
-		} 
-		else
+		} else
 			return false;
 
 	}
 
 	private static Operation adjustOp(Operation op, boolean negate) {
-		if(negate==false)
+		if (negate == false)
 			return op;
-		switch(op){
-			case AND: return Operation.OR;
-			case OR: return Operation.AND;
-			case GREATER_EQUAL: return Operation.LESS;
-			case GREATER: return Operation.LESS_EQUAL;
-			case LESS_EQUAL: return Operation.GREATER;
-			case LESS: return Operation.GREATER_EQUAL;
-			case EQUAL_BOOLEAN: return Operation.NOT_EQUAL;
-			case NOT_EQUAL: return Operation.EQUAL_BOOLEAN;
+		switch (op) {
+		case AND:
+			return Operation.OR;
+		case OR:
+			return Operation.AND;
+		case GREATER_EQUAL:
+			return Operation.LESS;
+		case GREATER:
+			return Operation.LESS_EQUAL;
+		case LESS_EQUAL:
+			return Operation.GREATER;
+		case LESS:
+			return Operation.GREATER_EQUAL;
+		case EQUAL_BOOLEAN:
+			return Operation.NOT_EQUAL;
+		case NOT_EQUAL:
+			return Operation.EQUAL_BOOLEAN;
 		}
 		return Operation.NO_OPERATION;
 	}
 
 	/**
 	 * updates list of inequalities
+	 * 
 	 * @return true iff all inequalities are drawable
 	 */
 	public boolean updateIneqs() {
@@ -747,7 +766,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @return function value
 	 */
 	public double evaluate(GeoPoint2 pti) {
-		GeoVec3D pt = (GeoVec3D)pti;
+		GeoVec3D pt = pti;
 		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
 			return evaluate(new double[] { pt.y / pt.z });
 		return evaluate(new double[] { pt.x / pt.z, pt.y / pt.z });
@@ -760,7 +779,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @return function value
 	 */
 	public boolean evaluateBoolean(GeoPoint2 pti) {
-		GeoVec3D pt = (GeoVec3D)pti;
+		GeoVec3D pt = pti;
 		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
 			return evaluateBoolean(new double[] { pt.y / pt.z });
 		return evaluateBoolean(new double[] { pt.x / pt.z, pt.y / pt.z });
@@ -781,8 +800,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// make sure that expression object is changed!
 		// this is needed to know that the expression has changed
 		if (expression.isLeaf() && expression.getLeft().isExpressionNode()) {
-			expression = new ExpressionNode((ExpressionNode) expression
-					.getLeft());
+			expression = new ExpressionNode(
+					(ExpressionNode) expression.getLeft());
 		} else {
 			expression = new ExpressionNode(expression);
 		}
@@ -803,7 +822,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				case PLUS:
 					temp = num.getDouble() - vx;
 					if (AbstractKernel.isZero(temp)) {
-						expression = expression.replaceAndWrap(en, fVars[varNo]);
+						expression = expression
+								.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
 						en.setOperation(Operation.MINUS);
 						num.set(-temp);
@@ -815,7 +835,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				case MINUS:
 					temp = num.getDouble() + vx;
 					if (AbstractKernel.isZero(temp)) {
-						expression = expression.replaceAndWrap(en, fVars[varNo]);
+						expression = expression
+								.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
 						en.setOperation(Operation.PLUS);
 						num.set(-temp);
@@ -846,11 +867,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	private ExpressionNode shiftXnode(double vx, int varNo) {
 		ExpressionNode node;
 		if (vx > 0) {
-			node = new ExpressionNode(kernel, fVars[varNo],
-					Operation.MINUS, new MyDouble(kernel, vx));
+			node = new ExpressionNode(kernel, fVars[varNo], Operation.MINUS,
+					new MyDouble(kernel, vx));
 		} else {
-			node = new ExpressionNode(kernel, fVars[varNo],
-					Operation.PLUS, new MyDouble(kernel, -vx));
+			node = new ExpressionNode(kernel, fVars[varNo], Operation.PLUS,
+					new MyDouble(kernel, -vx));
 		}
 		return node;
 	}
@@ -864,11 +885,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		MyDouble ma11 = new MyDouble(kernel, a11);
 
 		ExpressionNode newX = new ExpressionNode(kernel, ma00,
-				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(
-				kernel, ma01, Operation.MULTIPLY, fVars[1]));
+				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(kernel,
+				ma01, Operation.MULTIPLY, fVars[1]));
 		ExpressionNode newY = new ExpressionNode(kernel, ma10,
-				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(
-				kernel, ma11, Operation.MULTIPLY, fVars[1]));
+				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(kernel,
+				ma11, Operation.MULTIPLY, fVars[1]));
 		expression = expression.replaceAndWrap(fVars[1], newY);
 		expression = expression.replaceAndWrap(dummy, newX);
 		this.initIneqs(expression, this);
@@ -895,15 +916,15 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		ExpressionNode newY = new ExpressionNode(kernel, mbTrans[1][0],
 				Operation.MULTIPLY, fVars[0]).plus(
 				new ExpressionNode(kernel, mbTrans[1][1], Operation.MULTIPLY,
-						fVars[1])).plus(mbTrans[1][2]);				
+						fVars[1])).plus(mbTrans[1][2]);
 		expression = expression.replaceAndWrap(fVars[1], newY.divide(newZ));
 		expression = expression.replaceAndWrap(dummy, newX.divide(newZ));
 		this.initIneqs(expression, this);
 	}
-	
+
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
 		expression = expression.replaceAndWrap(oldOb, newOb);
-        return this;
-    }
+		return this;
+	}
 
 }

@@ -59,7 +59,7 @@ public class ExpressionNode extends ValidExpression implements
 	public boolean leaf = false;
 
 	public ExpressionNode() {
-	};
+	}
 
 	/** Creates new ExpressionNode */
 	public ExpressionNode(AbstractKernel kernel, ExpressionValue left,
@@ -137,9 +137,8 @@ public class ExpressionNode extends ValidExpression implements
 	public ExpressionNode getLeftTree() {
 		if (left.isExpressionNode()) {
 			return (ExpressionNode) left;
-		} else {
-			return new ExpressionNode(kernel, left);
 		}
+		return new ExpressionNode(kernel, left);
 	}
 
 	final public ExpressionValue getRight() {
@@ -164,9 +163,8 @@ public class ExpressionNode extends ValidExpression implements
 
 		if (right.isExpressionNode()) {
 			return (ExpressionNode) right;
-		} else {
-			return new ExpressionNode(kernel, right);
 		}
+		return new ExpressionNode(kernel, right);
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
@@ -388,7 +386,7 @@ public class ExpressionNode extends ValidExpression implements
 		case POWER: // eg e^x
 			if ((left instanceof NumberValue)
 					&& (((NumberValue) left).getDouble() == Math.E)) {
-				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
+				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace e^x with exp(x)
@@ -405,7 +403,7 @@ public class ExpressionNode extends ValidExpression implements
 		case MINUS: // eg 1 - e or e - 1
 			if ((left instanceof NumberValue)
 					&& (((NumberValue) left).getDouble() == Math.E)) {
-				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
+				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace 'e' with exp(1)
@@ -416,7 +414,7 @@ public class ExpressionNode extends ValidExpression implements
 				}
 			} else if ((right instanceof NumberValue)
 					&& (((NumberValue) right).getDouble() == Math.E)) {
-				GeoElement geo = (GeoElement) kernel.lookupLabel("e");
+				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
 					// replace 'e' with exp(1)
@@ -680,8 +678,7 @@ public class ExpressionNode extends ValidExpression implements
 					replacements++;
 				}
 			} else if (right instanceof GeoDummyVariable) {
-				if (varName.equals(((GeoDummyVariable) right)
-						.toString())) {
+				if (varName.equals(((GeoDummyVariable) right).toString())) {
 					right = fVar;
 					replacements++;
 				}
@@ -803,9 +800,8 @@ public class ExpressionNode extends ValidExpression implements
 		// replace root by new object
 		if (ev.isExpressionNode()) {
 			return (ExpressionNode) ev;
-		} else {
-			return new ExpressionNode(kernel, ev);
 		}
+		return new ExpressionNode(kernel, ev);
 	}
 
 	/**
@@ -876,9 +872,8 @@ public class ExpressionNode extends ValidExpression implements
 	final public boolean contains(ExpressionValue ev) {
 		if (leaf) {
 			return left.contains(ev);
-		} else {
-			return left.contains(ev) || right.contains(ev);
 		}
+		return left.contains(ev) || right.contains(ev);
 	}
 
 	/**
@@ -1014,7 +1009,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).makePolynomialTree(equ);
 			} else if (!(right.isPolynomialInstance())) {
-				right = new Polynomial(kernel, new Term(kernel, left, ""));;
+				right = new Polynomial(kernel, new Term(kernel, left, ""));
 			}
 		}
 	}
@@ -1025,9 +1020,8 @@ public class ExpressionNode extends ValidExpression implements
 	final public boolean isConstant() {
 		if (isLeaf()) {
 			return left.isConstant();
-		} else {
-			return left.isConstant() && right.isConstant();
 		}
+		return left.isConstant() && right.isConstant();
 	}
 
 	/**
@@ -1107,7 +1101,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	@Override
-	public void addCommands(Set commands) {
+	public void addCommands(Set<AbstractCommand> commands) {
 		if (left instanceof AbstractCommand) {
 			((AbstractCommand) left).addCommands(commands);
 		} else if (left instanceof ExpressionNode) {
@@ -1122,15 +1116,15 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	final public GeoElement[] getGeoElementVariables() {
-		HashSet varset = getVariables();
+		HashSet<GeoElement> varset = getVariables();
 		if (varset == null) {
 			return null;
 		}
-		Iterator i = varset.iterator();
+		Iterator<GeoElement> i = varset.iterator();
 		GeoElement[] ret = new GeoElement[varset.size()];
 		int j = 0;
 		while (i.hasNext()) {
-			ret[j++] = (GeoElement) i.next();
+			ret[j++] = i.next();
 		}
 		return ret;
 	}
@@ -1316,9 +1310,8 @@ public class ExpressionNode extends ValidExpression implements
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
 				return ((GeoElement) left).getLabel();
-			} else {
-				return left.toString();
 			}
+			return left.toString();
 		}
 
 		// expression node
@@ -3864,9 +3857,8 @@ public class ExpressionNode extends ValidExpression implements
 				return Operation.NOT_EQUAL.ordinal() - 1;
 			}
 			return op.ordinal();
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 
 	public boolean isNumberValue() {
@@ -3890,10 +3882,9 @@ public class ExpressionNode extends ValidExpression implements
 		// should be efficient as it is used in operationToString()
 		if (leaf) {
 			return left.isTextValue();
-		} else {
-			return (operation.equals(Operation.PLUS) && (left.isTextValue() || right
-					.isTextValue()));
 		}
+		return (operation.equals(Operation.PLUS) && (left.isTextValue() || right
+				.isTextValue()));
 	}
 
 	final public boolean isExpressionNode() {
@@ -3980,9 +3971,8 @@ public class ExpressionNode extends ValidExpression implements
 	public AbstractCommand getTopLevelCommand() {
 		if (isTopLevelCommand()) {
 			return (AbstractCommand) left;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	private static String leftBracket(StringType type) {
@@ -4035,8 +4025,7 @@ public class ExpressionNode extends ValidExpression implements
 		if ((lc == null) || (rc == null)) {
 			return null;
 		}
-		if (this.operation.equals(Operation.PLUS) && (lc != null)
-				&& (rc != null)) {
+		if (this.operation.equals(Operation.PLUS)) {
 			return lc + rc;
 		} else if (this.operation.equals(Operation.MINUS)) {
 			return lc - rc;
@@ -4077,9 +4066,8 @@ public class ExpressionNode extends ValidExpression implements
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
 				return ((GeoElement) left).getRealLabel();
-			} else {
-				return left.toRealString();
 			}
+			return left.toRealString();
 		}
 
 		// expression node

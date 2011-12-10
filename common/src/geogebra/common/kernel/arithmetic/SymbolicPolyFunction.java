@@ -59,6 +59,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 	 * in this polynomial's double coefficients.
 	 * @return true when successful 	 
 	 */
+	@Override
 	final public boolean updateCoeffValues() {			
 		try {
 			//	evaluate all the coefficients			

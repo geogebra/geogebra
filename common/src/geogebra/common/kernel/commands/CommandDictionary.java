@@ -21,7 +21,7 @@ import java.util.TreeSet;
  * default sorting.
  * 
  */
-public class CommandDictionary extends TreeSet {
+public class CommandDictionary extends TreeSet<String> {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class CommandDictionary extends TreeSet {
     if("".equals(curr))
 		return null;
     try {
-      SortedSet tailSet = tailSet(curr);
+      SortedSet<String> tailSet = tailSet(curr);
       if(tailSet != null) {
         Object firstObj = tailSet.first();
         if(firstObj != null) {

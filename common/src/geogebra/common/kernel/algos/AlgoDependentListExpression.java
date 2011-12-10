@@ -141,7 +141,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 			
 			// point 
 			else if (element.isVectorValue()) {
-				GeoVec2D vec = (GeoVec2D)((VectorValue) element).getVector();   				
+				GeoVec2D vec = ((VectorValue) element).getVector();   				
 				
 				// try to use cached element of same type
 				if (i < cachedListSize) {

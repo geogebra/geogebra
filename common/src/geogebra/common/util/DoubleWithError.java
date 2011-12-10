@@ -64,9 +64,8 @@ public class DoubleWithError {
 	public String toString() {
 		if (asymmetricError) {
 			return String.valueOf(value) + plus + error + minus + minError;
-		} else {
-			return String.valueOf(value) + plusorminus + error;
 		}
+		return String.valueOf(value) + plusorminus + error;
 	}
 
 	// Not private because used by scientific format

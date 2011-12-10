@@ -1,5 +1,6 @@
 package geogebra.common.cas;
 
+//TODO add import for GeoGebraCAS as soon as it is in common
 /**
  * Base class for all CAS exceptions.
  * All exceptions the CAS throws should be of this type (unless you want
@@ -11,6 +12,8 @@ package geogebra.common.cas;
  *
  */
 public class CASException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
 
 	public CASException(String message)
 	{

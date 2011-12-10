@@ -33,6 +33,7 @@ public class FunctionVariable extends MyDouble {
 	/**
 	 * Returns true to avoid deep copies in an ExpressionNode tree.
 	 */
+	@Override
 	final public boolean isConstant() {
 		return false;
 	}
@@ -45,6 +46,7 @@ public class FunctionVariable extends MyDouble {
 		return varStr;
 	}
 	
+	@Override
 	final public String toString() {
 		return kernel.printVariableName(varStr);
 	}

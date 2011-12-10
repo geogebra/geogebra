@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.arithmetic;
 
@@ -17,55 +17,62 @@ import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
 
-
-
 /**
- * A Parametric is a ValidExpression that
- * represents a Line in parametric form
+ * A Parametric is a ValidExpression that represents a Line in parametric form
  * (px, py) + t (vx, vy)
  */
 public class Parametric extends ValidExpression {
-    private ExpressionNode P, v;
-    private String parameter;
-    private AbstractKernel kernel;
+	private ExpressionNode P, v;
+	private String parameter;
+	private AbstractKernel kernel;
 
-    /**
-     * Creates new Parametric P + parameter * v.
-     * (X = P + parameter * v)
-     */
-    public Parametric(AbstractKernel kernel, ExpressionValue P, ExpressionValue v, String parameter) {
-    	if (P.isExpressionNode())
-    		this.P = (ExpressionNode) P;
-    	else
-    		this.P = new ExpressionNode(kernel, P);
-    	
-    	if (v.isExpressionNode())
-    		this.v = (ExpressionNode) v;
-    	else
-    		this.v = new ExpressionNode(kernel, v);
-        
-        this.parameter = parameter;  
-        this.kernel = kernel;
-    }
+	/**
+	 * Creates new Parametric P + parameter * v. (X = P + parameter * v)
+	 */
+	public Parametric(AbstractKernel kernel, ExpressionValue P,
+			ExpressionValue v, String parameter) {
+		if (P.isExpressionNode())
+			this.P = (ExpressionNode) P;
+		else
+			this.P = new ExpressionNode(kernel, P);
 
-    public ExpressionNode getP() { return P; }
-    public ExpressionNode getv() { return v; }
-    public String getParameter() { return parameter; } 
-    
-  
-    public String toString() {
-        StringBuilder sb = new StringBuilder();        
-        sb.append( getLabel() + " : ");
-        sb.append( "X = " + P.evaluate() + " + " + parameter + " " + v.evaluate() );
-        return sb.toString();    
-    }
+		if (v.isExpressionNode())
+			this.v = (ExpressionNode) v;
+		else
+			this.v = new ExpressionNode(kernel, v);
+
+		this.parameter = parameter;
+		this.kernel = kernel;
+	}
+
+	public ExpressionNode getP() {
+		return P;
+	}
+
+	public ExpressionNode getv() {
+		return v;
+	}
+
+	public String getParameter() {
+		return parameter;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getLabel() + " : ");
+		sb.append("X = " + P.evaluate() + " + " + parameter + " "
+				+ v.evaluate());
+		return sb.toString();
+	}
 
 	public boolean contains(ExpressionValue ev) {
 		return P.contains(ev) || v.contains(ev);
 	}
 
 	public ExpressionValue deepCopy(AbstractKernel kernel) {
-		return new Parametric(kernel, (ExpressionNode) P.deepCopy(kernel), (ExpressionNode) v.deepCopy(kernel), parameter);
+		return new Parametric(kernel, P.deepCopy(kernel), v.deepCopy(kernel),
+				parameter);
 	}
 
 	public ExpressionValue evaluate() {
@@ -79,7 +86,7 @@ public class Parametric extends ValidExpression {
 		return vars;
 	}
 
-	public boolean isBooleanValue() {		
+	public boolean isBooleanValue() {
 		return false;
 	}
 
@@ -117,7 +124,7 @@ public class Parametric extends ValidExpression {
 
 	public void resolveVariables() {
 		P.resolveVariables();
-		v.resolveVariables();		
+		v.resolveVariables();
 	}
 
 	public String toLaTeXString(boolean symbolic) {
@@ -131,8 +138,8 @@ public class Parametric extends ValidExpression {
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;
-	}      
-    
+	}
+
 	public String toOutputValueString() {
 		return toValueString();
 	}

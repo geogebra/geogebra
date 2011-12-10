@@ -122,7 +122,6 @@ public class AlgoListElement extends AlgoElement {
 		} catch (Exception e) {
 			AbstractApplication.debug("error initialising list");
 		}
-		;
 
 		// desperate case: empty list, or malformed 2D array
 		if (element == null)

@@ -15,8 +15,7 @@ import geogebra.common.kernel.algos.AlgoClosestPoint;
 /**
  * Algorithms for transformations
  */
-public abstract class AlgoTransformation extends AlgoElement implements
-		EuclidianViewCE {
+public abstract class AlgoTransformation extends AlgoElement {
 
 	/**
 	 * Create new transformation algo

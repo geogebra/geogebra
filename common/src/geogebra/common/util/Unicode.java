@@ -102,7 +102,6 @@ public class Unicode {
 		 }
 		 
 		 return sb.toString();
-
 	}
 
 	final public static boolean isSuperscriptDigit(char c) {
@@ -114,7 +113,7 @@ public class Unicode {
 	public static Character getTestChar(String lang) {
 		initCharMap();
 				
-		return (Character)testCharMap.get(lang);
+		return testCharMap.get(lang);
 	}
 	
 	public static Iterator<String> getCharMapIterator() {
@@ -149,8 +148,7 @@ public class Unicode {
 			testCharMap.put("mr", '\u092e'); // Marathi
 			testCharMap.put("ne", '\u0947'); // Nepalese
 			
-		}
-		
+		}	
 	}
 	
 }

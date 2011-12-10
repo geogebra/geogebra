@@ -75,7 +75,7 @@ public class AlgoDependentList extends AlgoElement implements AlgoDependentListI
     	int size = listItems.size();
         input = new GeoElement[size];
     	for (int i=0; i < size; i++) {
-    		input[i] = (GeoElement) listItems.get(i);    
+    		input[i] = listItems.get(i);    
     		
     		if (!input[i].isLabelSet()) {
     			input[i].labelWanted = false;

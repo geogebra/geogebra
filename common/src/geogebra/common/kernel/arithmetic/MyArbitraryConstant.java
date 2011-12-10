@@ -47,6 +47,7 @@ public class MyArbitraryConstant extends MyDouble {
 		}			
 	}
 	
+	@Override
 	public String toString() {
 		switch (kernel.getCASPrintForm()) {						
 			case LATEX:

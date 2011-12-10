@@ -129,6 +129,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return args.toArray(new ExpressionNode[0]);
 	}
 
+	@Override
 	public ExpressionNode getArgument(int i) {
 		return args.get(i);
 	}
@@ -137,14 +138,17 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		args.set(i, en);
 	}
 
+	@Override
 	public int getArgumentNumber() {
 		return args.size();
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String toString() {
 		return toString(true, false);
 	}
@@ -195,15 +199,13 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 			boolean LaTeX) {
 		if (LaTeX) {
 			return ev.toLaTeXString(symbolic);
-		} else {
-			return symbolic ? ev.toString() : ev.toValueString();
 		}
+		return symbolic ? ev.toString() : ev.toValueString();
 	}
 
 	public GeoElement[] evaluateMultiple() {
 		GeoElement[] geos = null;
-		geos = (GeoElement[]) kernel.getAlgebraProcessor().processCommand(this,
-				false);
+		geos = kernel.getAlgebraProcessor().processCommand(this, false);
 		return geos;
 	}
 
@@ -295,6 +297,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	 * Replaces geo and all its dependent geos in this tree by copies of their
 	 * values.
 	 */
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
@@ -308,6 +311,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	 * 
 	 * @return whether replacement was done
 	 */
+	@Override
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
 		int size = args.size();
 		boolean didReplacement = false;
@@ -318,11 +322,11 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return didReplacement;
 	}
 
-	public HashSet getVariables() {
-		HashSet set = new HashSet();
+	public HashSet<GeoElement> getVariables() {
+		HashSet<GeoElement> set = new HashSet<GeoElement>();
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
-			HashSet s = args.get(i).getVariables();
+			HashSet<GeoElement> s = args.get(i).getVariables();
 			if (s != null)
 				set.addAll(s);
 		}
@@ -363,10 +367,12 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return false;
 	}
 
+	@Override
 	public boolean isTopLevelCommand() {
 		return true;
 	}
 
+	@Override
 	public AbstractCommand getTopLevelCommand() {
 		return this;
 	}

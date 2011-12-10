@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 /**
@@ -100,7 +101,7 @@ public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface
 	public final void compute() {
         // only hyperbolas have asymptotes
         switch (c.type) {
-            case GeoConic.CONIC_HYPERBOLA :
+            case GeoConicNDConstants.CONIC_HYPERBOLA :
                 // direction0 =  a * eigenvec1 + b * eigenvec2
                 // direction1 = -a * eigenvec1 + b * eigenvec2
                 // lines through midpoint b

@@ -4,10 +4,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.factories.AwtFactory;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map.Entry;
-
-
 
 public class GeoGebraColorConstants {
 

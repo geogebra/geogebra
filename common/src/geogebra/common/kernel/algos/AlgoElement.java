@@ -54,7 +54,8 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
     /** list of output
      * @deprecated (matthieu) use setOutputLength(), setOutput(), getOutputLength(), getOutput() instead
      */
-    protected GeoElement[] output;
+    @Deprecated
+	protected GeoElement[] output;
     private GeoElement [] efficientInput;
     private GeoNumeric [] randomUnlabeledInput;
      
@@ -127,13 +128,13 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
      * One OutputHandler has been changed, we put together the new output.
      */
     protected void refreshOutput(){
-    	Iterator<OutputHandler<?>> it=outputHandler.iterator();
+    	Iterator<OutputHandler<?>> it=getOutputHandler().iterator();
     	int n=0;
     	while(it.hasNext()){
     		n+=it.next().size();
     	}
     	output=new GeoElement[n];
-    	it=outputHandler.iterator();
+    	it=getOutputHandler().iterator();
     	int i=0;
     	while(it.hasNext()){
     		OutputHandler<?> handler=it.next();
@@ -171,9 +172,9 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		public OutputHandler(elementFactory<T> fac) {
 			this.fac = fac;
 			outputList=new ArrayList<T>();
-			if (outputHandler==null)
-				outputHandler=new ArrayList<OutputHandler<?>>();
-			outputHandler.add(this);
+			if (getOutputHandler()==null)
+				setOutputHandler(new ArrayList<OutputHandler<?>>());
+			getOutputHandler().add(this);
 		}
 		
 		/**
@@ -188,7 +189,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		}
 		
 		public void removeFromHandler(){
-			outputHandler.remove(this);
+			getOutputHandler().remove(this);
 		}
 		
 		/**
@@ -338,7 +339,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 		 */
 		public T[] getOutput(T[] a){
 //			Application.debug("getOutput: "+Arrays.deepToString(outputList.toArray())+" length:"+outputList.toArray().length);
-			return (T[])outputList.toArray(a);
+			return outputList.toArray(a);
 		}
 		
 		/**
@@ -551,7 +552,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         if (tempList != null) {
         	randomUnlabeledInput = new GeoNumeric[tempList.size()];
         	for (int i=0; i < randomUnlabeledInput.length; i++) {
-        		randomUnlabeledInput[i] = (GeoNumeric) tempList.get(i);
+        		randomUnlabeledInput[i] = tempList.get(i);
         	}
         }
     }
@@ -770,11 +771,11 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	public int compareTo(ConstructionElement obj) {
     	if (this == obj) return 0;
     	
-    	ConstructionElement ce = (ConstructionElement) obj;   
-    	if (getConstructionIndex() < ce.getConstructionIndex())
+    	ConstructionElement ce = obj;   
+    	if (getConstructionIndex() < ce.getConstructionIndex()) {
     		return -1;
-    	else
-    		return 1;
+    	}
+		return 1;
     }
     
     /**
@@ -823,7 +824,7 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
             algoList = getOutput(k).getAlgorithmList();
             size = algoList.size();                                  
             for (int i=0; i < size; ++i) {                          
-                 index = ((AlgoElement)algoList.get(i)).getConstructionIndex();
+                 index = algoList.get(i).getConstructionIndex();
                  if (index < min) min = index;
             }
          }       
@@ -959,37 +960,40 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
         return toString();
     }    
         
-    @Override
+	@Override
 	public String getCommandDescription() {
-    	return  getCommandDescription(false); 
-    }
-    public String getCommandDescription(boolean real) {
-        String cmdname = getCommandName();          
-        
-        //      command name
-        if (cmdname.equals("Expression"))
-			return real ? toRealString():toString();
-		else {
-			 sbAE.setLength(0);
-            if (kernel.isPrintLocalizedCommandNames()) {
-                sbAE.append(app.getCommand(cmdname));        
-            } else {
-                sbAE.append(cmdname);
-            } 
-            
-            int length = input.length;
-                  
-            sbAE.append("[");
-            // input
-            if (length>0) sbAE.append(real?input[0].getRealLabel():input[0].getLabel()); // Michael Borcherds 2008-05-15 added input.length>0 for Step[]
-            for (int i = 1; i < length; ++i) {
-                sbAE.append(", ");
-                appendCheckVector(sbAE, input[i], real);
-            }
-            sbAE.append("]");
-            return sbAE.toString();           
-        }       
-    }
+		return getCommandDescription(false);
+	}
+
+	public String getCommandDescription(boolean real) {
+		String cmdname = getCommandName();
+
+		// command name
+		if (cmdname.equals("Expression")) {
+			return real ? toRealString() : toString();
+		}
+		sbAE.setLength(0);
+		if (kernel.isPrintLocalizedCommandNames()) {
+			sbAE.append(app.getCommand(cmdname));
+		} else {
+			sbAE.append(cmdname);
+		}
+
+		int length = input.length;
+
+		sbAE.append("[");
+		// input
+		if (length > 0) {
+			sbAE.append(real ? input[0].getRealLabel() : input[0].getLabel()); // Michael Borcherds 2008-05-15 added input.length>0 for Step[]
+		}
+		for (int i = 1; i < length; ++i) {
+			sbAE.append(", ");
+			appendCheckVector(sbAE, input[i], real);
+		}
+		sbAE.append("]");
+		return sbAE.toString();
+
+	}
     
     /*
      * see #1377
@@ -1399,5 +1403,19 @@ public abstract class AlgoElement extends ConstructionElement implements Euclidi
 	public void removeOutputFromPicking(){
 		for (int i=0; i<getOutputLength();i++)
 			getOutput(i).setIsPickable(false);
+	}
+
+	/**
+	 * @return the outputHandler
+	 */
+	public List<OutputHandler<?>> getOutputHandler() {
+		return outputHandler;
+	}
+
+	/**
+	 * @param outputHandler the outputHandler to set
+	 */
+	public void setOutputHandler(List<OutputHandler<?>> outputHandler) {
+		this.outputHandler = outputHandler;
 	}
 }

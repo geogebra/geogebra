@@ -32,7 +32,8 @@ public class MyNumberPair extends MyVecNode {
 		super(kernel, en, en2);
 	}
 
-    public ExpressionValue deepCopy(AbstractKernel kernel) {
+    @Override
+	public ExpressionValue deepCopy(AbstractKernel kernel) {
         return new MyNumberPair(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
     }
     

@@ -19,8 +19,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
@@ -34,7 +34,7 @@ import java.util.HashSet;
  * @version
  */
 public class MyDouble extends ValidExpression implements NumberValue,
-		Comparable {
+		Comparable<Object> {
 
 	private double val;
 	private boolean isAngle = false;
@@ -136,9 +136,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			// http://code.google.com/p/geogebra/issues/detail?id=87
 			double angleVal = AbstractKernel.convertToAngleValue(val);
 			return kernel.formatAngle(angleVal).toString();
-		} else {
-			return kernel.format(val);
 		}
+		return kernel.format(val);
 	}
 
 	final public String toValueString() {
@@ -538,7 +537,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return true;
 	}
 
-	final public HashSet getVariables() {
+	final public HashSet<GeoElement> getVariables() {
 		return null;
 	}
 
@@ -556,7 +555,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	final public GeoElementInterface toGeoElement() {
 		GeoNumeric num = new GeoNumeric(kernel.getConstruction());
-		return (GeoElementInterface) num;
+		return num;
 	}
 
 	public boolean isNumberValue() {
@@ -734,17 +733,19 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public int compareTo(Object arg0) {
 		if (arg0 instanceof MyDouble) {
 			MyDouble d = (MyDouble) arg0;
-			if (AbstractKernel.isEqual(val, d.getDouble()))
+			if (AbstractKernel.isEqual(val, d.getDouble())) {
 				return 0;
+			}
 			return val - d.getDouble() < 0 ? -1 : 1;
 		}
 		return 0;
 	}
 
+	@Override
 	public boolean equals(Object d) {
-
-		if (d == null)
+		if (d == null) {
 			return false;
+		}
 
 		if (d instanceof MyDouble) {
 			return AbstractKernel.isEqual(((MyDouble) d).getDouble(), val);
@@ -752,6 +753,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
 		assert false : "hashCode not designed";
 		return 42; // any arbitrary constant will do

@@ -18,8 +18,6 @@ import geogebra.common.kernel.AbstractKernel;
 
 import java.math.BigDecimal;
 
-
-
 /**
  * @author Markus Hohenwarter
  */
@@ -31,14 +29,15 @@ public final class MyMath {
 
 	/**
 	 * Cubic root
-	 * @param a 
+	 * 
+	 * @param a
 	 * @return cube root
 	 */
 	final public static double cbrt(double a) {
-		if (a > 0.0)
+		if (a > 0.0) {
 			return Math.pow(a, ONE_THIRD);
-		else
-			return -Math.pow(-a, ONE_THIRD);
+		}
+		return -Math.pow(-a, ONE_THIRD);
 	}
 
 	final public static double sgn(AbstractKernel AbstracKernel, double a) {
@@ -95,23 +94,26 @@ public final class MyMath {
 
 	final public static double csc(double a) {
 		double sin = Math.sin(a);
-		if (AbstractKernel.isZero(sin)) return Double.NaN;
-		
-		return 1/sin;
+		if (AbstractKernel.isZero(sin))
+			return Double.NaN;
+
+		return 1 / sin;
 	}
 
 	final public static double sec(double a) {
-		
+
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
-		if (AbstractKernel.isZero(cos)) return Double.NaN;
-		
-		return 1/cos;
+		if (AbstractKernel.isZero(cos))
+			return Double.NaN;
+
+		return 1 / cos;
 	}
 
 	final public static double cot(double a) {
 		double sin = Math.sin(a);
-		if (AbstractKernel.isZero(sin)) return Double.NaN; // not infinity (1/0)
+		if (AbstractKernel.isZero(sin))
+			return Double.NaN; // not infinity (1/0)
 		return Math.cos(a) / sin;
 	}
 
@@ -130,8 +132,9 @@ public final class MyMath {
 
 	/**
 	 * Round a double to the given number of digits
-	 * @param x 
-	 * @param digits 
+	 * 
+	 * @param x
+	 * @param digits
 	 * @return number rounded to given number of digits
 	 */
 	final public static double truncate(double x, int digits) {
@@ -143,25 +146,23 @@ public final class MyMath {
 	public static double[][] adjoint(double a00, double a01, double a02,
 			double a10, double a11, double a12, double a20, double a21,
 			double a22) {
-		
+
 		return new double[][] {
 				new double[] { (a11 * a22 - a21 * a12),
-						-(a10 * a22 - a20 * a12),
-						(a10 * a21 - a20 * a11)},
+						-(a10 * a22 - a20 * a12), (a10 * a21 - a20 * a11) },
 				new double[] { -(a01 * a22 - a02 * a21),
-						(a00 * a22 - a20 * a02), 
-						-(a00 * a21 - a01 * a20) },
+						(a00 * a22 - a20 * a02), -(a00 * a21 - a01 * a20) },
 				new double[] { (a01 * a12 - a02 * a11),
-						-(a00 * a12 - a02 * a10), 
-						(a00 * a11 - a10 * a01) } };
+						-(a00 * a12 - a02 * a10), (a00 * a11 - a10 * a01) } };
 	}
-	
-	public static double nextMultiple(double t, double mod){
+
+	public static double nextMultiple(double t, double mod) {
 		return Math.ceil(t / mod) * mod;
-			
+
 	}
-	public static double nextPrettyNumber(double t){
-		if(t<1)
+
+	public static double nextPrettyNumber(double t) {
+		if (t < 1)
 			return 1;
 		double pot = Math.pow(10, Math.floor(Math.log10(t)));
 		double n = t / pot;
@@ -171,28 +172,28 @@ public final class MyMath {
 		} else if (n > 2) {
 			return 5 * pot;
 		} else {
-			return 2*pot;
+			return 2 * pot;
 		}
 	}
 
 	public static double length(double a, double b) {
-		double res;        
-        double x = Math.abs(a);
-        double y = Math.abs(b);
-        
-        if ( x == 0 ) 
-            res = y;
-        else if ( y == 0 )
-            res = x;
-        else if ( x > y ) {
-            double temp = y / x;
-            res  = x * Math.sqrt(1.0 + temp * temp);
-        } else {
-            double temp = x / y;
-            res  = y * Math.sqrt(1.0 + temp * temp);
-        }
-        return res;
-      
+		double res;
+		double x = Math.abs(a);
+		double y = Math.abs(b);
+
+		if (x == 0)
+			res = y;
+		else if (y == 0)
+			res = x;
+		else if (x > y) {
+			double temp = y / x;
+			res = x * Math.sqrt(1.0 + temp * temp);
+		} else {
+			double temp = x / y;
+			res = y * Math.sqrt(1.0 + temp * temp);
+		}
+		return res;
+
 	}
 
 }

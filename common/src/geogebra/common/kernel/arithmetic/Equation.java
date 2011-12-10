@@ -247,7 +247,7 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
         GeoElement [] ret = new GeoElement[varSet.size()];
         int j=0;
         while (i.hasNext()) {
-            ret[j++] = (GeoElement) i.next();
+            ret[j++] = i.next();
         }                
         return ret;
     }
@@ -297,9 +297,9 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
 		return null;
 	}
 
-	public HashSet getVariables() {
-		HashSet leftVars = lhs.getVariables();
-        HashSet rightVars = rhs.getVariables();        
+	public HashSet<GeoElement> getVariables() {
+		HashSet<GeoElement> leftVars = lhs.getVariables();
+        HashSet<GeoElement> rightVars = rhs.getVariables();        
         if (leftVars == null) {
         	return rightVars;        		
         } 
@@ -392,6 +392,7 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
         return sb.toString();
 	}
 	
+	@Override
 	public String toString() {
         StringBuilder sb = new StringBuilder();
         
@@ -420,11 +421,13 @@ public class Equation extends ValidExpression implements ReplaceableValue, Equat
         return sb.toString();
     }
 	
-	 public String getAssignmentOperator() {
+	 @Override
+	public String getAssignmentOperator() {
 		 return ": ";
 	 }
 	 
-	 public String getAssignmentOperatorLaTeX() {
+	 @Override
+	public String getAssignmentOperatorLaTeX() {
 		 return ": \\, ";
 	 }
 

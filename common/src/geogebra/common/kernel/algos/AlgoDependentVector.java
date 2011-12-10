@@ -78,7 +78,7 @@ public class AlgoDependentVector extends AlgoElement {
 	@Override
 	public final void compute() {
 		try {
-			temp = (GeoVec2D)((VectorValue) root.evaluate()).getVector();
+			temp = ((VectorValue) root.evaluate()).getVector();
 			v.x = temp.x;
 			v.y = temp.y;
 		} catch (Exception e) {

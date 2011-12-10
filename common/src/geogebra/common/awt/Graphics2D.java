@@ -235,7 +235,7 @@ public interface Graphics2D {
 
 	/**
 	 * Renders the text of the specified iterator applying its attributes
-	 * in accordance with the specification of the {@link TextAttribute} class.
+	 * in accordance with the specification of the {@link java.awt.font.TextAttribute} class.
 	 * <p>
 	 * The baseline of the first character is at position
 	 * (<i>x</i>,&nbsp;<i>y</i>) in User Space.
@@ -261,7 +261,7 @@ public interface Graphics2D {
 
 	/**
 	 * Renders the text of the specified iterator applying its attributes
-	 * in accordance with the specification of the {@link TextAttribute} class.
+	 * in accordance with the specification of the {@link java.awt.font.TextAttribute} class.
 	 * <p>
 	 * The baseline of the first character is at position
 	 * (<i>x</i>,&nbsp;<i>y</i>) in User Space.
@@ -381,16 +381,16 @@ public interface Graphics2D {
 	 * there is a security manager, its <code>checkPermission</code>
 	 * method is called with an <code>AWTPermission("readDisplayPixels")</code>
 	 * permission.
+	 * @param comp the <code>Composite</code> object to be used for rendering
 	 * @throws SecurityException
 	 *         if a custom <code>Composite</code> object is being
 	 *         used to render to the screen and a security manager
 	 *         is set and its <code>checkPermission</code> method
 	 *         does not allow the operation.
-	 * @param comp the <code>Composite</code> object to be used for rendering
 	 * @see java.awt.Graphics#setXORMode
 	 * @see java.awt.Graphics#setPaintMode
 	 * @see #getComposite
-	 * @see AlphaComposite
+	 * @see java.awt.AlphaComposite
 	 * @see SecurityManager#checkPermission
 	 * @see java.awt.AWTPermission
 	 */
@@ -406,8 +406,8 @@ public interface Graphics2D {
 	 * color during the rendering process, or <code>null</code>
 	 * @see java.awt.Graphics#setColor
 	 * @see #getPaint
-	 * @see GradientPaint
-	 * @see TexturePaint
+	 * @see java.awt.GradientPaint
+	 * @see java.awt.TexturePaint
 	 */
 	public abstract void setPaint(Paint paint);
 
@@ -429,7 +429,7 @@ public interface Graphics2D {
 	 * @param hintKey the key of the hint to be set.
 	 * @param hintValue the value indicating preferences for the specified
 	 * hint category.
-	 * @see #getRenderingHint(RenderingHints.Key)
+	 * @see #getRenderingHint(Key)
 	 * @see RenderingHints
 	 */
 	public abstract void setRenderingHint(Key hintKey, Object hintValue);
@@ -445,7 +445,7 @@ public interface Graphics2D {
 	 * Some of the keys and their associated values are defined in the
 	 * <code>RenderingHints</code> class.
 	 * @see RenderingHints
-	 * @see #setRenderingHint(RenderingHints.Key, Object)
+	 * @see #setRenderingHint(Key, Object)
 	 */
 	public abstract Object getRenderingHint(Key hintKey);
 
@@ -736,7 +736,7 @@ public interface Graphics2D {
 	 * The <i>user clip</i> modified by this method is independent of the
 	 * clipping associated with device bounds and visibility.  If no clip has
 	 * previously been set, or if the clip has been cleared using
-	 * {@link Graphics#setClip(Shape) setClip} with a <code>null</code>
+	 * {@link java.awt.Graphics#setClip(java.awt.Shape) setClip} with a <code>null</code>
 	 * argument, the specified <code>Shape</code> becomes the new
 	 * user clip.
 	 * @param s the <code>Shape</code> to be intersected with the current
