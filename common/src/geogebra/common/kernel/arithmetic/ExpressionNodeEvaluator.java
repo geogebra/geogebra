@@ -24,8 +24,7 @@ import geogebra.common.main.MyError;
  * 
  *         Evaluator for ExpressionNode (used in Operation.evaluate())
  */
-public class ExpressionNodeEvaluator implements ExpressionNodeConstants,
-	ExpressionNodeEvaluatorInterface{
+public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 	/**
 	 * Evaluates the ExpressionNode described by the parameters

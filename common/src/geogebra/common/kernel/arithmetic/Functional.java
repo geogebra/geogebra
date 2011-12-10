@@ -24,7 +24,7 @@ public interface Functional extends Evaluatable{
 	 * Returns the function
 	 * @return function
 	 */
-	public FunctionInterface getFunction();
+	public Function getFunction();
 	/**
 	 * Returns the function's derivative wrapped in GeoElement
 	 * @param order order of the derivative

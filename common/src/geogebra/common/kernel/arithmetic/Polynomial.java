@@ -24,8 +24,8 @@ import java.util.Iterator;
 /**
  * An Polynomial is a list of Terms
  */
-public class Polynomial extends ValidExpression implements Serializable,
-		PolynomialInterface {
+public class Polynomial extends ValidExpression implements Serializable
+		{
 
 	private static final long serialVersionUID = 1L;
 

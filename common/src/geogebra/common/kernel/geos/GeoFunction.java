@@ -27,7 +27,6 @@ import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionInterface;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
@@ -280,7 +279,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * Sets the inner function
 	 * @param f function
 	 */
-	public void setFunction(FunctionInterface f) {
+	public void setFunction(Function f) {
 		fun = (Function)f;
 	}
 			

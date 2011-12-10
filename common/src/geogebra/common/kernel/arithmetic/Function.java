@@ -30,7 +30,7 @@ import java.util.List;
  * @author Markus Hohenwarter
  */
 public class Function extends FunctionNVar implements RealRootFunction,
-		Functional, FunctionInterface {
+		Functional {
 
 	/**
 	 * Creates new Function from expression where x is the variable. Note: call

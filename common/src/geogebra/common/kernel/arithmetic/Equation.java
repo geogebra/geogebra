@@ -24,7 +24,7 @@ import java.util.Set;
  * stores left and right hand side of an equation as
  * Exprssions
  */
-public class Equation extends ValidExpression implements ReplaceableValue, EquationInterface {
+public class Equation extends ValidExpression implements ReplaceableValue {
 
     protected ExpressionNode lhs;
     protected ExpressionNode rhs;

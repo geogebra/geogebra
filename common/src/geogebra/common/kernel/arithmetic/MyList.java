@@ -39,7 +39,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter
  */
 public class MyList extends ValidExpression implements ListValue,
-		ReplaceableValue, MyListInterface {
+		ReplaceableValue {
 
 	private AbstractKernel kernel;
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
@@ -152,7 +152,7 @@ public class MyList extends ValidExpression implements ListValue,
 				replacements += ((ExpressionNode) element)
 						.replacePolynomials(fVar);
 			}
-			if (element instanceof PolynomialInterface) {
+			if (element instanceof Polynomial) {
 				if (isPolynomialInstance()
 						&& fVar.toString().equals(element.toString())) {
 					listElements.set(i, fVar);
@@ -516,7 +516,7 @@ public class MyList extends ValidExpression implements ListValue,
 							else if ((list.size() > 0)
 									&& (list.getListElement(0) instanceof ExpressionNode)
 									&& (((ExpressionNode) list
-											.getListElement(0)).getLeft() instanceof EquationInterface))
+											.getListElement(0)).getLeft() instanceof Equation))
 								isMatrix = false;
 						} else
 							isMatrix = false;

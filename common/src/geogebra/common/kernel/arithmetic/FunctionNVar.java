@@ -31,7 +31,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter + mathieu
  */
 public class FunctionNVar extends ValidExpression implements ReplaceableValue,
-		FunctionalNVar, FunctionNVarInterface {
+		FunctionalNVar {
 
 	/** function expression */
 	protected ExpressionNode expression;

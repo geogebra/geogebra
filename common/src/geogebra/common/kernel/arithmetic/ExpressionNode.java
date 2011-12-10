@@ -44,7 +44,7 @@ import java.util.TreeSet;
  * @version
  */
 public class ExpressionNode extends ValidExpression implements
-		ReplaceableValue, ExpressionNodeConstants, ExpressionNodeInterface {
+		ReplaceableValue, ExpressionNodeConstants {
 
 	public AbstractApplication app;
 	public AbstractKernel kernel;
@@ -464,8 +464,8 @@ public class ExpressionNode extends ValidExpression implements
 		} else if (left instanceof AbstractCommand) {
 			didReplacement = ((AbstractCommand) left).replaceGeoDummyVariables(
 					var, newOb);
-		} else if (left instanceof EquationInterface) {
-			didReplacement = ((EquationInterface) left)
+		} else if (left instanceof Equation) {
+			didReplacement = ((Equation) left)
 					.replaceGeoDummyVariables(var, newOb);
 		} else if (left.isExpressionNode()) {
 			didReplacement = ((ExpressionNode) left).replaceGeoDummyVariables(
@@ -482,8 +482,8 @@ public class ExpressionNode extends ValidExpression implements
 			} else if (right instanceof AbstractCommand) {
 				didReplacement = ((AbstractCommand) right)
 						.replaceGeoDummyVariables(var, newOb);
-			} else if (right instanceof EquationInterface) {
-				didReplacement = ((EquationInterface) right)
+			} else if (right instanceof Equation) {
+				didReplacement = ((Equation) right)
 						.replaceGeoDummyVariables(var, newOb);
 			} else if (right.isExpressionNode()) {
 				didReplacement = ((ExpressionNode) right)
@@ -554,10 +554,10 @@ public class ExpressionNode extends ValidExpression implements
 				// } else if (right.isListValue()){ //to get polynomial vars in
 				// GeoFunctionNVar
 				// MyList list=((ListValue)right).getMyList();
-			} else if (right instanceof MyListInterface) { // to get polynomial
+			} else if (right instanceof MyList) { // to get polynomial
 															// vars in
 															// GeoFunctionNVar
-				MyListInterface list = (MyListInterface) right;
+				MyList list = (MyList) right;
 				for (int i = 0; i < list.size(); i++) {
 					ExpressionValue elem = list.getListElement(i);
 					if (elem.isExpressionNode()) {
@@ -643,8 +643,8 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			replacements += ((ExpressionNode) left).replaceVariables(varName,
 					fVar);
-		} else if (left instanceof MyListInterface) {
-			replacements += ((MyListInterface) left).replaceVariables(varName,
+		} else if (left instanceof MyList) {
+			replacements += ((MyList) left).replaceVariables(varName,
 					fVar);
 		} else if (left instanceof Variable) {
 			if (varName.equals(((Variable) left).getName())) {
@@ -669,8 +669,8 @@ public class ExpressionNode extends ValidExpression implements
 			if (right.isExpressionNode()) {
 				replacements += ((ExpressionNode) right).replaceVariables(
 						varName, fVar);
-			} else if (right instanceof MyListInterface) {
-				replacements += ((MyListInterface) right).replaceVariables(
+			} else if (right instanceof MyList) {
+				replacements += ((MyList) right).replaceVariables(
 						varName, fVar);
 			} else if (right instanceof Variable) {
 				if (varName.equals(((Variable) right).getName())) {
@@ -705,8 +705,8 @@ public class ExpressionNode extends ValidExpression implements
 		// left tree
 		if (left.isExpressionNode()) {
 			replacements += ((ExpressionNode) left).replacePolynomials(x);
-		} else if (left instanceof MyListInterface) {
-			replacements += ((MyListInterface) left).replacePolynomials(x);
+		} else if (left instanceof MyList) {
+			replacements += ((MyList) left).replacePolynomials(x);
 		} else if (left.isPolynomialInstance()
 				&& x.toString().equals(left.toString())) {
 			left = x;
@@ -717,8 +717,8 @@ public class ExpressionNode extends ValidExpression implements
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				replacements += ((ExpressionNode) right).replacePolynomials(x);
-			} else if (right instanceof MyListInterface) {
-				replacements += ((MyListInterface) right).replacePolynomials(x);
+			} else if (right instanceof MyList) {
+				replacements += ((MyList) right).replacePolynomials(x);
 			} else if (right.isPolynomialInstance()
 					&& x.toString().equals(right.toString())) {
 				right = x;
@@ -938,13 +938,13 @@ public class ExpressionNode extends ValidExpression implements
 	 * needed to enable polynomial simplification by evaluate() TODO possibly
 	 * remove the public modifier once arithmetic is in common
 	 */
-	public final void makePolynomialTree(EquationInterface equ) {
+	public final void makePolynomialTree(Equation equ) {
 
 		if (operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar)
-					&& (right instanceof MyListInterface)) {
-				MyListInterface list = ((MyListInterface) right);
-				FunctionNVarInterface func = ((FunctionalNVar) left)
+					&& (right instanceof MyList)) {
+				MyList list = ((MyList) right);
+				FunctionNVar func = ((FunctionalNVar) left)
 						.getFunction();
 				ExpressionNode expr = (ExpressionNode) func.getExpression()
 						.getCopy(kernel);
@@ -978,7 +978,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 		} else if (operation == Operation.FUNCTION) {
 			if (left instanceof GeoFunction) {
-				FunctionInterface func = ((Functional) left).getFunction();
+				Function func = ((Functional) left).getFunction();
 				ExpressionNode expr = (ExpressionNode) func.getExpression()
 						.getCopy(kernel);
 				if (right instanceof ExpressionNode) {
@@ -1009,7 +1009,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).makePolynomialTree(equ);
 			} else if (!(right.isPolynomialInstance())) {
-				right = new Polynomial(kernel, new Term(kernel, left, ""));
+				right = new Polynomial(kernel, new Term(kernel, right, ""));
 			}
 		}
 	}
@@ -1391,7 +1391,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (right != null) {
 			rightStr = right.toLaTeXString(symbolic);
 			if (((operation == Operation.FUNCTION_NVAR) || (operation == Operation.ELEMENT_OF))
-					&& (right instanceof MyListInterface)) {
+					&& (right instanceof MyList)) {
 				// 1 character will be taken from the left and right
 				// of rightStr in operationToString, but more
 				// is necessary in case of LaTeX, we do that here
@@ -1802,7 +1802,7 @@ public class ExpressionNode extends ValidExpression implements
 					}
 				}
 
-				if (left instanceof EquationInterface) {
+				if (left instanceof Equation) {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -1884,7 +1884,7 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			default:
-				if (left instanceof EquationInterface) {
+				if (left instanceof Equation) {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -3699,7 +3699,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 			}
 			sb.append(", ");
-			sb.append(((MyListInterface) right).getListElement(0).toString());
+			sb.append(((MyList) right).getListElement(0).toString());
 			sb.append(']');
 			break;
 
@@ -3707,15 +3707,15 @@ public class ExpressionNode extends ValidExpression implements
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
 				if ((left instanceof FunctionalNVar)
-						&& (right instanceof MyListInterface)) {
-					FunctionNVarInterface func = ((FunctionalNVar) left)
+						&& (right instanceof MyList)) {
+					FunctionNVar func = ((FunctionalNVar) left)
 							.getFunction();
 					ExpressionNode en = (ExpressionNode) func.getExpression()
 							.getCopy(kernel);
 					for (int i = 0; (i < func.getVarNumber())
-							&& (i < ((MyListInterface) right).size()); i++) {
+							&& (i < ((MyList) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
-								((MyListInterface) right).getListElement(i));
+								((MyList) right).getListElement(i));
 					}
 					// add brackets, see
 					// http://www.geogebra.org/trac/ticket/1446

@@ -28,11 +28,11 @@ public interface FunctionalNVar {
 	/**
 	 * @return function
 	 */
-	public FunctionNVarInterface getFunction();
+	public FunctionNVar getFunction();
 	/**
 	 * @return list of inequalities
 	 */
-	public IneqTreeInterface getIneqs();
+	public IneqTree getIneqs();
 	
 	/**
 	 * Returns true iff the function is boolean
