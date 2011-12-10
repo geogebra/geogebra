@@ -5,9 +5,13 @@ import geogebra.kernel.Kernel;
 
 public abstract class CommandProcessorDesktop extends CommandProcessor{
 	protected Kernel kernel;
+	/**
+	 * Creates new command processor
+	 * @param kernel Kernel
+	 */
 	public CommandProcessorDesktop(Kernel kernel) {
 		super(kernel);
-		kernel = (Kernel)kernelA;
+		this.kernel = (Kernel)kernelA;
 	}
 
 	
