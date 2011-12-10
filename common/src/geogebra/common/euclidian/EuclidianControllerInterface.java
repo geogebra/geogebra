@@ -6,4 +6,8 @@ public interface EuclidianControllerInterface {
 
 	void handleMovedElement(GeoElement selGeo, boolean b);
 
+	void clearJustCreatedGeos();
+
+	void clearSelections();
+
 }

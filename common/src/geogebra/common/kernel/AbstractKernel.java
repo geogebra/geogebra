@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Stack;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.util.AbstractMyMath2;
 import geogebra.common.util.GgbMat;
 import geogebra.common.util.NumberFormatAdapter;
@@ -36,6 +37,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoConicPartInterface;
@@ -62,6 +64,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.algos.AlgoAngleNumeric;
@@ -86,7 +89,7 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.adapters.Complex;
 import geogebra.common.adapters.Geo3DVec;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 
@@ -2037,6 +2040,38 @@ public abstract class AbstractKernel {
 			notifyEuclidianViewCE();
 		}	
 		
+		/**
+		 * 
+		 * {@linkplain #getViewBoundsForGeo(GeoElement)}
+		 * @see #getViewBoundsForGeo(GeoElement)
+		 * @param geo
+		 * @return
+		 */
+		public double getViewsXMin(GeoElement geo){
+			return getViewBoundsForGeo(geo)[0];
+		}
+		
+		public double getViewsXMax(GeoElement geo){
+			return getViewBoundsForGeo(geo)[1];
+		}
+		
+		public double getViewsYMin(GeoElement geo){
+			return getViewBoundsForGeo(geo)[2];
+		}
+		
+		public double getViewsYMax(GeoElement geo){
+			return getViewBoundsForGeo(geo)[3];
+		}
+		
+		public double getViewsXScale(GeoElement geo){
+			return getViewBoundsForGeo(geo)[4];
+		}
+		
+		public double getViewsYScale(GeoElement geo){
+			return getViewBoundsForGeo(geo)[5];
+		}
+		
+		
 		protected abstract void notifyEuclidianViewCE();
 		
 		public double getXmax() {
@@ -2096,8 +2131,8 @@ public abstract class AbstractKernel {
 
    
    public abstract AbstractApplication getApplication();
-   public abstract void notifyRepaint();
-   public abstract void initUndoInfo() ;
+   
+   
    
    
    public synchronized GeoGebraCasInterface getGeoGebraCAS() {
@@ -2162,6 +2197,402 @@ public abstract class AbstractKernel {
 		return geo;
 	}
 	
+	public GeoClass getClassType(String type) throws MyError {   
+    	switch (type.charAt(0)) {
+		case 'a': //angle    			
+			return GeoClass.ANGLE;	    			     		    			
+			
+		case 'b': //angle
+			if (type.equals("boolean"))
+				return GeoClass.BOOLEAN;
+			else
+    			return GeoClass.BUTTON; // "button"
+		
+		case 'c': // conic
+			if (type.equals("conic"))
+				return GeoClass.CONIC;   
+			else if (type.equals("conicpart"))    					
+				return GeoClass.CONICPART;
+			else if (type.equals("circle")) { // bug in GeoGebra 2.6c
+				return GeoClass.CONIC;
+			}
+			
+		case 'd': // doubleLine 			// bug in GeoGebra 2.6c
+			return GeoClass.CONIC;   			
+			
+		case 'e': // ellipse, emptyset	//  bug in GeoGebra 2.6c
+			return GeoClass.CONIC;    			
+				
+		case 'f': // function
+			return GeoClass.FUNCTION;
+		
+		case 'h': // hyperbola			//  bug in GeoGebra 2.6c
+			return GeoClass.CONIC;   			
+			
+		case 'i': // image,implicitpoly
+			if (type.equals("image"))    				
+				return GeoClass.IMAGE;
+			else if (type.equals("intersectinglines")) //  bug in GeoGebra 2.6c
+				return GeoClass.CONIC;
+			else if (type.equals("implicitpoly"))
+				return GeoClass.IMPLICIT_POLY;
+		
+		case 'l': // line, list, locus
+			if (type.equals("line"))
+				return GeoClass.LINE;
+			else if (type.equals("list"))
+				return GeoClass.LIST;    					
+			else 
+				return GeoClass.LOCUS;
+		
+		case 'n': // numeric
+			return GeoClass.NUMERIC;
+			
+		case 'p': // point, polygon
+			if (type.equals("point"))
+				return GeoClass.POINT;
+			else if (type.equals("polygon"))
+				return GeoClass.POLYGON;
+			else if (type.equals("polyline"))
+				return GeoClass.POLYLINE;
+			else // parabola, parallelLines, point //  bug in GeoGebra 2.6c
+				return GeoClass.CONIC;
+			
+		case 'r': // ray
+			return GeoClass.RAY;
+			
+		case 's': // segment    			
+			return GeoClass.SEGMENT;	    			    			
+			
+		case 't': 
+			if (type.equals("text"))
+				return GeoClass.TEXT; // text
+			else
+    			return GeoClass.TEXTFIELD; // textfield
+			
+		case 'v': // vector
+			return GeoClass.VECTOR;
+		
+		default:    			
+			throw new MyError(cons.getApplication(), "Kernel: GeoElement of type "
+		            + type + " could not be created.");		    		
+	}  
+	}
+	
+	/* *******************************************
+	 *  Methods for EuclidianView/EuclidianView3D
+	 * ********************************************/
+    
+
+	public String getModeText(int mode) {
+		switch (mode) {
+		case EuclidianConstants.MODE_SELECTION_LISTENER:
+			return "Select";
+
+		case EuclidianConstants.MODE_MOVE:
+			return "Move";
+
+		case EuclidianConstants.MODE_POINT:
+			return "Point";
+			
+		case EuclidianConstants.MODE_COMPLEX_NUMBER:
+			return "ComplexNumber";
+			
+		case EuclidianConstants.MODE_POINT_ON_OBJECT:
+			return "PointOnObject";
+			
+		case EuclidianConstants.MODE_JOIN:
+			return "Join";
+
+		case EuclidianConstants.MODE_SEGMENT:
+			return "Segment";
+
+		case EuclidianConstants.MODE_SEGMENT_FIXED:
+			return "SegmentFixed";
+
+		case EuclidianConstants.MODE_RAY:
+			return "Ray";
+
+		case EuclidianConstants.MODE_POLYGON:
+			return "Polygon";
+
+		case EuclidianConstants.MODE_POLYLINE:
+			return "PolyLine";
+
+		case EuclidianConstants.MODE_RIGID_POLYGON:
+			return "RigidPolygon";
+
+		case EuclidianConstants.MODE_VECTOR_POLYGON:
+			return "VectorPolygon";
+
+		case EuclidianConstants.MODE_PARALLEL:
+			return "Parallel";
+
+		case EuclidianConstants.MODE_ORTHOGONAL:
+			return "Orthogonal";
+
+		case EuclidianConstants.MODE_INTERSECT:
+			return "Intersect";
+
+		case EuclidianConstants.MODE_INTERSECTION_CURVE:
+			return "IntersectionCurve";
+				
+		case EuclidianConstants.MODE_LINE_BISECTOR:
+			return "LineBisector";
+
+		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+			return "AngularBisector";
+
+		case EuclidianConstants.MODE_TANGENTS:
+			return "Tangent";
+
+		case EuclidianConstants.MODE_POLAR_DIAMETER:
+			return "PolarDiameter";
+
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+			return "Circle2";
+
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			return "Circle3";
+
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			return "Ellipse3";
+
+		case EuclidianConstants.MODE_PARABOLA:
+			return "Parabola";
+
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			return "Hyperbola3";
+
+		// Michael Borcherds 2008-03-13
+		case EuclidianConstants.MODE_COMPASSES:
+			return "Compasses";
+
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			return "Conic5";
+
+		case EuclidianConstants.MODE_RELATION:
+			return "Relation";
+
+		case EuclidianConstants.MODE_TRANSLATEVIEW:
+			return "TranslateView";
+
+		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+			return "ShowHideObject";
+
+		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+			return "ShowHideLabel";
+
+		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+			return "CopyVisualStyle";
+
+		case EuclidianConstants.MODE_DELETE:
+			return "Delete";
+
+		case EuclidianConstants.MODE_VECTOR:
+			return "Vector";
+
+		case EuclidianConstants.MODE_TEXT:
+			return "Text";
+
+		case EuclidianConstants.MODE_IMAGE:
+			return "Image";
+
+		case EuclidianConstants.MODE_MIDPOINT:
+			return "Midpoint";
+
+		case EuclidianConstants.MODE_SEMICIRCLE:
+			return "Semicircle";
+
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			return "CircleArc3";
+
+		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			return "CircleSector3";
+
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			return "CircumcircleArc3";
+
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			return "CircumcircleSector3";
+
+		case EuclidianConstants.MODE_SLIDER:
+			return "Slider";
+
+		case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			return "MirrorAtPoint";
+
+		case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			return "MirrorAtLine";
+
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
+			return "MirrorAtCircle";
+
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			return "TranslateByVector";
+
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			return "RotateByAngle";
+
+		case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			return "DilateFromPoint";
+
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+			return "CirclePointRadius";
+
+		case EuclidianConstants.MODE_ANGLE:
+			return "Angle";
+
+		case EuclidianConstants.MODE_ANGLE_FIXED:
+			return "AngleFixed";
+
+		case EuclidianConstants.MODE_VECTOR_FROM_POINT:
+			return "VectorFromPoint";
+
+		case EuclidianConstants.MODE_DISTANCE:
+			return "Distance";				
+
+		case EuclidianConstants.MODE_MOVE_ROTATE:
+			return "MoveRotate";
+
+		case EuclidianConstants.MODE_ZOOM_IN:
+			return "ZoomIn";
+
+		case EuclidianConstants.MODE_ZOOM_OUT:
+			return "ZoomOut";
+
+		case EuclidianConstants.MODE_LOCUS:
+			return "Locus";
+			
+		case EuclidianConstants.MODE_AREA:
+			return "Area";
+			
+		case EuclidianConstants.MODE_SLOPE:
+			return "Slope";
+			
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
+			return "RegularPolygon";
+			
+		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+			return "ShowCheckBox";
+			
+		case EuclidianConstants.MODE_BUTTON_ACTION:
+			return "ButtonAction";
+			
+		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+			return "TextFieldAction";
+			
+		case EuclidianConstants.MODE_PEN:
+			return "Pen";
+			
+		case EuclidianConstants.MODE_FREEHAND:
+			return "Freehand";
+			
+		case EuclidianConstants.MODE_VISUAL_STYLE:
+			return "VisualStyle";
+			
+		case EuclidianConstants.MODE_FITLINE:
+			return "FitLine";
+
+		case EuclidianConstants.MODE_CREATE_LIST:
+			return "CreateListGraphicsView";
+
+		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
+			return "RecordToSpreadsheet";
+			
+		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
+			return "ProbabilityCalculator";
+		
+		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
+			return "FunctionInspector";
+												
+			
+			
+		// CAS	
+		case EuclidianConstants.MODE_CAS_EVALUATE:
+			return "Evaluate";
+			
+		case EuclidianConstants.MODE_CAS_NUMERIC:
+			return "Numeric";
+		
+		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
+			return "KeepInput";
+			
+		case EuclidianConstants.MODE_CAS_EXPAND:
+			return "Expand";
+			
+		case EuclidianConstants.MODE_CAS_FACTOR:
+			return "Factor";		
+					
+		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
+			return "Substitute";		
+						
+		case EuclidianConstants.MODE_CAS_SOLVE:
+			return "Solve";		
+						
+		case EuclidianConstants.MODE_CAS_DERIVATIVE:
+			return "Derivative";
+			
+		case EuclidianConstants.MODE_CAS_INTEGRAL:
+			return "Integral";											
+			
+		case EuclidianConstants.MODE_ATTACH_DETACH:
+			return "AttachDetachPoint";				
+			
+			
+		// Spreadsheet	
+		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
+			return "OneVarStats";				
+			
+		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
+			return "TwoVarStats";				
+			
+		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
+			return "MultiVarStats";
+	
+		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
+			return "CreateList";		
+			
+		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
+			return "CreateListOfPoints";		
+			
+		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
+			return "CreateMatrix";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
+			return "CreateTable";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
+			return "CreatePolyLine";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_SUM:
+			return "SumCells";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
+			return "MeanCells";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
+			return "CountCells";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_MIN:
+			return "MinCells";
+			
+		case EuclidianConstants.MODE_SPREADSHEET_MAX:
+			return "MaxCells";
+			
+		default:
+			return "";
+		}
+	}
+    
+    
+    
+    
+    
+	
+	
+	
+	
 	/**
      * Finds the polynomial coefficients of
      * the given expression and returns it in ascending order. 
@@ -2175,15 +2606,11 @@ public abstract class AbstractKernel {
     	return getGeoGebraCAS().getPolynomialCoeffs(exp, variable);
     }
 	
-	public abstract void storeUndoInfo();
 	
-	public abstract void notifyUpdate(GeoElementInterface geo);
+	
+	
 	public abstract AbstractAnimationManager getAnimatonManager();
-	public abstract void notifyRename(GeoElementInterface geoElement);
-	public abstract void notifyRemove(GeoElementInterface geoElement);
-	public abstract void notifyUpdateVisualStyle(GeoElementInterface geoElement);
-	public abstract void notifyUpdateAuxiliaryObject(GeoElementInterface geoElement);
-	public abstract void notifyAdd(GeoElementInterface geoElement);
+	
 	
 
 
@@ -2194,10 +2621,7 @@ public abstract class AbstractKernel {
 		return new AbstractMyMath2();
 	}
 
-	public boolean isViewReiniting() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	
 	 public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
 		intersectionAlgos.remove(algo);	 
@@ -2261,6 +2685,364 @@ public abstract class AbstractKernel {
 	 */
 	 protected ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<AlgoIntersectAbstract>();
 
+	 private boolean notifyRepaint = true;
+		
+		public void setNotifyRepaintActive(boolean flag) {
+			if (flag != notifyRepaint) {
+				notifyRepaint = flag;
+				if (notifyRepaint)
+					notifyRepaint();
+			}
+		}
+			
+		final public boolean isNotifyRepaintActive() {
+			return notifyRepaint;
+		}
+		
+		public final void notifyRepaint() {
+			if (notifyRepaint) {
+				for (int i = 0; i < viewCnt; ++i) {			
+					views[i].repaintView();
+				}
+			} 
+		}
+		
+		final public void notifyReset() {
+			for (int i = 0; i < viewCnt; ++i) {
+				views[i].reset();
+			}
+		}
+		
+		protected final void notifyClearView() {
+			for (int i = 0; i < viewCnt; ++i) {
+				views[i].clearView();
+			}
+		}
+		
+		public void clearJustCreatedGeosInViews() {
+			for (int i = 0; i < viewCnt; i++) {
+				if (views[i] instanceof EuclidianViewInterfaceSlim)
+					((EuclidianViewInterfaceSlim)views[i]).getEuclidianController().clearJustCreatedGeos();
+			}
+		}
+	 
+		public void setNotifyViewsActive(boolean flag) {	
+			//Application.debug("setNotifyViews: " + flag);
+			
+			if (flag != notifyViewsActive) {
+				notifyViewsActive = flag;
+				
+				if (flag) {
+					//Application.debug("Activate VIEWS");				
+					viewReiniting = true;
+					
+					// "attach" views again
+					viewCnt = oldViewCnt;		
+									
+					// add all geos to all views
+					for(int i = 0; i < viewCnt; ++i) {
+						notifyAddAll(views[i]);					
+					}				
+					
+					notifyEuclidianViewCE();
+					notifyReset();					
+					viewReiniting = false;
+				} 
+				else {
+					//Application.debug("Deactivate VIEWS");
+
+					// "detach" views
+					notifyClearView();				
+					oldViewCnt = viewCnt;
+					viewCnt = 0;								
+				}					
+			}		
+		}
+		private int oldViewCnt;
+		
+		/* *******************************************************
+		 * methods for view-Pattern (Model-View-Controller)
+		 * *******************************************************/
+
+		public void attach(View view) {							
+		//	Application.debug("ATTACH " + view + ", notifyActive: " + notifyViewsActive);			
+			if (!notifyViewsActive) {			
+				viewCnt = oldViewCnt;
+			}
+			
+			// view already attached?
+			boolean viewFound = false;
+			for (int i = 0; i < viewCnt; i++) {
+				if (views[i] == view) {
+					viewFound = true;
+					break;
+				}				
+			}
+			
+			if (!viewFound) {
+				// new view
+				views[viewCnt++] = view;
+			}
+					
+			//TODO: remove
+			System.out.print("  current views:\n");
+			for (int i = 0; i < viewCnt; i++) {
+				System.out.print(views[i] + "\n");
+			}
+			System.out.print("\n");
+			//Application.debug();
+			
+			
+			if (!notifyViewsActive) {
+				oldViewCnt = viewCnt;
+				viewCnt = 0;
+			}
+			
+			System.err.println("XXXXXXXXX Number of registered views = "+viewCnt);
+			for (int i = 0 ; i < viewCnt ; i++) {
+				System.out.println(views[i].getClass());
+			}
+		}
+		private boolean notifyViewsActive = true;
+		public void detach(View view) {    
+			// Application.debug("detach " + view);
+			
+			if (!notifyViewsActive) {
+				viewCnt = oldViewCnt;
+			}
+			
+			int pos = -1;
+			for (int i = 0; i < viewCnt; ++i) {
+				if (views[i] == view) {
+					pos = i;
+					views[pos] = null; // delete view
+					break;
+				}
+			}
+			
+			// view found
+			if (pos > -1) {						
+				// copy following views
+				viewCnt--;		
+				for (; pos < viewCnt; ++pos) {
+					views[pos] = views[pos + 1];
+				}
+			}
+			
+			/*
+			System.out.print("  current views: ");
+			for (int i = 0; i < viewCnt; i++) {
+				System.out.print(views[i] + ", ");
+			}
+			Application.debug();		
+			*/
+			
+			if (!notifyViewsActive) {
+				oldViewCnt = viewCnt;
+				viewCnt = 0;
+			}
+			
+			System.err.println("XXXXXXXXX Number of registered views = "+viewCnt);
+			for (int i = 0 ; i < viewCnt ; i++) {
+				System.out.println(views[i].getClass());
+			}
+
+		}	
+		
+		/**
+		 * Notify the views that the mode changed.
+		 * 
+		 * @param mode
+		 */
+		final public void notifyModeChanged(int mode) {
+			for(int i = 0; i < viewCnt; ++i) {
+				views[i].setMode(mode);
+			}
+		}
+
+		final public void notifyAddAll(View view) {
+			int consStep = cons.getStep();
+			notifyAddAll(view, consStep);
+		}
+		
+		/**
+		 * Registers an algorithm that needs to be updated when notifyRename(),
+		 * notifyAdd(), or notifyRemove() is called.	 
+		 */
+		public void registerRenameListenerAlgo(AlgoElement algo) {
+			if (renameListenerAlgos == null) {
+				renameListenerAlgos = new ArrayList<AlgoElement>();
+			}
+			
+			if (!renameListenerAlgos.contains(algo))
+				renameListenerAlgos.add(algo);
+		}
+		
+		void unregisterRenameListenerAlgo(AlgoElement algo) {
+			if (renameListenerAlgos != null) 
+				renameListenerAlgos.remove(algo);
+		}
+		private ArrayList<AlgoElement> renameListenerAlgos;
+		
+		private void notifyRenameListenerAlgos() {
+			AlgoElement.updateCascadeAlgos(renameListenerAlgos);
+		}
+			
+		final public void notifyAddAll(View view, int consStep) {
+			if (!notifyViewsActive) return;
+					
+			for (GeoElement geo : ((Construction)cons).getGeoSetWithCasCellsConstructionOrder()) {
+				// stop when not visible for current construction step
+				if (!geo.isAvailableAtConstructionStep(consStep))
+					break;
+				
+				view.add(geo);
+			}			
+		}
+		
+		public final void notifyAdd(GeoElementInterface geo) {
+			if (notifyViewsActive) {
+				for (int i = 0; i < viewCnt; ++i) {
+					if (views[i].getViewID() != AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL
+						|| isNotifyConstructionProtocolViewAboutAddRemoveActive())
+						views[i].add((GeoElement)geo);
+				}
+			}
+			
+			notifyRenameListenerAlgos();
+		}
+
+		public final void notifyRemove(GeoElementInterface geo) {
+			if (notifyViewsActive) {
+				for (int i = 0; i < viewCnt; ++i) {
+					if (views[i].getViewID() != AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL
+							|| isNotifyConstructionProtocolViewAboutAddRemoveActive())
+						views[i].remove((GeoElement)geo);
+				}
+			}
+			
+			notifyRenameListenerAlgos();
+		}
+
+		public final void notifyUpdate(GeoElementInterface geo) {
+			if (notifyViewsActive) {
+				for (int i = 0; i < viewCnt; ++i) {
+					views[i].update((GeoElement)geo);
+				}
+			}
+		}
+		
+		public final void notifyUpdateVisualStyle(GeoElementInterface geo) {
+			if (notifyViewsActive) {
+				for (int i = 0; i < viewCnt; ++i) {
+					views[i].updateVisualStyle((GeoElement)geo);
+				}
+			}
+		}
+		
+		public final void notifyUpdateAuxiliaryObject(GeoElementInterface geo) {
+			if (notifyViewsActive) {
+				for (int i = 0; i < viewCnt; ++i) {
+					views[i].updateAuxiliaryObject((GeoElement)geo);
+				}
+			}
+		}
+
+		public final  void notifyRename(GeoElementInterface geo) {
+			if (notifyViewsActive) {
+				for (int i = 0; i < viewCnt; ++i) {
+					views[i].rename((GeoElement)geo);
+				}
+			}
+			
+			notifyRenameListenerAlgos();
+		}
+		
+			
+		
+		public boolean isNotifyViewsActive() {
+			return notifyViewsActive && !viewReiniting;
+		}
+
+		
+		public boolean isViewReiniting() {
+			return viewReiniting;
+		}
+		
+		/*/**************************
+		 * Undo /Redo
+		 */
+		public void updateConstruction() {
+			cons.updateConstruction();
+			notifyRepaint();
+		}
+
+		/**
+		 * Tests if the current construction has no elements. 
+		 * @return true if the current construction has no GeoElements; false otherwise.
+		 */
+		public boolean isEmpty() {
+			return cons.isEmpty();
+		}
+
+		/* ******************************
+		 * redo / undo for current construction
+		 * ******************************/
+
+		public void setUndoActive(boolean flag) {
+			undoActive = flag;
+		}
+		
+		public boolean isUndoActive() {
+			return undoActive;
+		}
+		
+		public void storeUndoInfo() {
+			if (undoActive) {
+				((Construction)cons).storeUndoInfo();
+			}
+		}
+
+		public void restoreCurrentUndoInfo() {
+			if (undoActive) ((Construction)cons).restoreCurrentUndoInfo();
+		}
+
+		public void initUndoInfo() {
+			if (undoActive) ((Construction)cons).initUndoInfo();
+		}
+
+		public void redo() {
+			if (undoActive){			
+				notifyReset();
+				clearJustCreatedGeosInViews();
+				((Construction)cons).redo();	
+				notifyReset();
+			}
+		}
+
+		public void undo() {
+			if (undoActive) {			
+				notifyReset();
+				clearJustCreatedGeosInViews();						
+				getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
+				((Construction)cons).undo();
+				notifyReset();
+
+				// repaint needed for last undo in second EuclidianView (bugfix)
+				if (!undoPossible())
+					notifyRepaint();
+			}
+		}
+
+		public boolean undoPossible() {
+			return undoActive && ((Construction)cons).undoPossible();
+		}
+
+		public boolean redoPossible() {
+			return undoActive && ((Construction)cons).redoPossible();
+		}
+
+		
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 
 	/**
@@ -2270,18 +3052,37 @@ public abstract class AbstractKernel {
 	 */
 	public abstract GgbMat getGgbMat(MyList myList);
 
-	public abstract boolean isInsertLineBreaks();
+	/**
+	 * Get {@link Kernel#insertLineBreaks insertLineBreaks}.
+	 * 
+	 * @return {@link Kernel#insertLineBreaks insertLineBreaks}.
+	 */
+	public boolean isInsertLineBreaks () {
+		return insertLineBreaks;
+	}
+	public String getXMLFileFormat(){
+		return GeoGebraConstants.XML_FILE_FORMAT;
+	}
+	
+
+	/**
+	 * Set {@link Kernel#insertLineBreaks insertLineBreaks}.
+	 * 
+	 * @param insertLineBreaks The value to set {@link Kernel#insertLineBreaks insertLineBreaks} to.
+	 */
+	public void setInsertLineBreaks (boolean insertLineBreaks) {
+		this.insertLineBreaks = insertLineBreaks;
+	}
+
 	
 	
 	public abstract GeoPoint2 [] RootMultiple(String [] labels, GeoFunction f);
 
-	public abstract double getViewsXMax(GeoElement geo);
 
-	public abstract double getViewsXMin(GeoElement geo);
 
 	public abstract GeoNumeric getDefaultNumber(boolean geoAngle);
 
-	public abstract boolean isNotifyViewsActive();
+	
 
 	public abstract GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q);
 	public abstract Object Ray(String label, GeoPoint2 P, GeoPoint2 Q);//GeoRay
@@ -2327,8 +3128,7 @@ public abstract class AbstractKernel {
 	 */
 	public abstract GeoPoint2 getGeoPoint(double d, double e, int i);
 
-	public abstract void updateConstruction();
-	public abstract void notifyReset();
+	
 
 	public abstract EquationSolverInterface getEquationSolver();
 
