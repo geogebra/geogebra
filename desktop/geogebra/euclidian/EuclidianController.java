@@ -278,7 +278,7 @@ EuclidianControllerInterface {
 
 	protected int mode, oldMode, moveMode = MOVE_NONE;
 	protected Macro macro;
-	protected Class<? extends GeoElement> [] macroInput;
+	protected String [] macroInput;
 
 	protected int DEFAULT_INITIAL_DELAY;
 
@@ -6774,7 +6774,7 @@ EuclidianControllerInterface {
 
 		// standard case: try to get one object of needed input type
 		boolean objectFound = 1 == 
-			handleAddSelected(hits, macroInput.length, false, selectedGeos, macroInput[index]);			
+			handleAddSelectedStr(hits, macroInput.length, false, selectedGeos, macroInput[index]);			
 
 		//some old code for polygon removed in [6779]
 
@@ -6784,7 +6784,7 @@ EuclidianControllerInterface {
 
 
 		// only one point needed: try to create it
-		if (!objectFound && macroInput[index] == GeoPoint2.class) {
+		if (!objectFound && macroInput[index].equals(GeoPoint2.class.getName())) {
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point								
 				selectedGeos.add(getMovedGeoPoint());
@@ -6796,12 +6796,13 @@ EuclidianControllerInterface {
 
 
 		// object found in handleAddSelected()
-		if (objectFound || macroInput[index] == GeoNumeric.class || macroInput[index] == GeoAngle.class) {
+		if (objectFound || macroInput[index].equals(GeoNumeric.class.getName()) || 
+				macroInput[index].equals(GeoAngle.class.getName())) {
 			if(!objectFound)index--;
 			// look ahead if we need a number or an angle next			
 			while (++index < macroInput.length) {				
 				// maybe we need a number
-				if (macroInput[index] == GeoNumeric.class) {									
+				if (macroInput[index].equals(GeoNumeric.class.getName())) {									
 					NumberValue num = app.getGuiManager().getDialogManager().showNumberInputDialog(macro.getToolOrCommandName(),
 							app.getPlain("Numeric" ), null);									
 					if (num == null) {
@@ -6816,7 +6817,7 @@ EuclidianControllerInterface {
 				}	
 
 				// maybe we need an angle
-				else if (macroInput[index] == GeoAngle.class) {									
+				else if (macroInput[index].equals(GeoAngle.class.getName())) {									
 					Object [] ob = app.getGuiManager().getDialogManager().showAngleInputDialog(macro.getToolOrCommandName(),
 							app.getPlain("Angle"), "45\u00b0");
 					NumberValue num = (NumberValue) ob[0];						
@@ -7274,6 +7275,16 @@ EuclidianControllerInterface {
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedGeos, GeoElement.class);
 	}		
+	
+	protected int handleAddSelectedStr(Hits hits, int max, boolean addMore, ArrayList<?> list, String str) {	
+		
+		
+		if (selectionPreview)
+			return addToHighlightedList(list, hits.getHitsStr(str, handleAddSelectedArrayList) , max);
+		else
+			return addToSelectionList(list, hits.getHitsStr(str, handleAddSelectedArrayList), max, addMore,
+					hits.size()==1);
+	}
 	
 	protected int handleAddSelected(Hits hits, int max, boolean addMore, ArrayList<?> list, Class<?> geoClass) {	
 		

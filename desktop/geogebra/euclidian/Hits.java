@@ -432,6 +432,21 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result Hits in which the result should be stored
 	 * @return result
 	 */
+	final public Hits getHitsStr(String str
+			, Hits result) {
+
+
+		result.clear();
+		for (int i = 0; i < size(); ++i) {
+			boolean success = str.equals(get(i).getClass().getName());			
+			if (success)
+				result.add(get(i));
+		}
+		//return result.size() == 0 ? null : result;
+		
+		return result;
+	}
+	
 	final protected Hits getHits(Class<?> geoclass,
 			boolean other, Hits result) {
 

@@ -13,6 +13,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 	protected void initCmdTable() {  
 		super.initCmdTable();
+		Kernel kernel = (Kernel) this.kernel; 
 		//Application.debug("CommandDispatcher3D.initCmdTable()");
 		cmdTable.put("Segment", new CmdSegment3D(kernel));
 		cmdTable.put("Line", new CmdLine3D(kernel));

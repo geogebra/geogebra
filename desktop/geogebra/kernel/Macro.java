@@ -52,7 +52,7 @@ public class Macro implements MacroInterface {
 	//private String macroConsXML;
 	private GeoElement [] macroInput, macroOutput; // input and output objects 
 	private String [] macroInputLabels, macroOutputLabels;
-	private Class<? extends GeoElement> [] inputTypes;
+	private String [] inputTypes;
 	
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<AlgoElement>();	
 		
@@ -140,9 +140,9 @@ public class Macro implements MacroInterface {
 		initInputOutput();
 		
 		// init inputTypes array		
-		inputTypes = new Class[macroInput.length];		
+		inputTypes = new String[macroInput.length];		
 		for (int i=0; i < macroInput.length; i++) {
-			inputTypes[i] = macroInput[i].getClass();
+			inputTypes[i] = macroInput[i].getClass().getName();
 		}			
 		
 		// after initing we turn global variable lookup on again, 
@@ -479,7 +479,7 @@ public class Macro implements MacroInterface {
 	 * as input for this macro.
 	 * @return types of input objects
 	 */
-	final public Class<? extends GeoElement> [] getInputTypes() {	
+	final public String [] getInputTypes() {	
 		return inputTypes;
 	}			
 	

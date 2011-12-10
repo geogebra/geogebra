@@ -23,6 +23,7 @@ import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.awt.Color;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Transform;
@@ -688,9 +689,9 @@ public class Kernel extends AbstractKernel{
 	 * Creates a new algorithm that uses the given macro.
 	 * @return output of macro algorithm
 	 */
-	final public GeoElement [] useMacro(String [] labels, Macro macro, GeoElement [] input) {		
+	final public GeoElement [] useMacro(String [] labels, MacroInterface macro, GeoElement [] input) {		
 		try {
-			AlgoMacro algo = new AlgoMacro(cons, labels, macro, input);
+			AlgoMacro algo = new AlgoMacro(cons, labels, (Macro)macro, input);
 			return algo.getOutput();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -3554,6 +3554,10 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 	 */
 	public abstract AbstractCommandDispatcher getCommandDispatcher();
 
+	public abstract MacroInterface getMacro(String cmdName);
+
+	public abstract GeoElement[] useMacro(String[] labels, MacroInterface macro, GeoElement[] arg);
+
 	
 
 }

@@ -10,32 +10,31 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.Macro;
 
 /**
  * Processes the use of macros from the command line.
  */
 public class MacroProcessor extends CommandProcessor {
 	
-	public MacroProcessor(Kernel kernel) {
+	public MacroProcessor(AbstractKernel kernel) {
 		super(kernel);
 	}	
 		
 	public GeoElement[] process(Command c) throws MyError {        						 							
 		// resolve command arguments
 		GeoElement [] arg = resArgs(c);
-		Macro macro = (Macro)c.getMacro();
+		MacroInterface macro = c.getMacro();
 				
-		Class<? extends GeoElement> [] macroInputTypes = macro.getInputTypes();		
+		String[] macroInputTypes = macro.getInputTypes();		
 		
 		// wrong number of arguments
 		if (arg.length != macroInputTypes.length) {
@@ -62,7 +61,7 @@ public class MacroProcessor extends CommandProcessor {
 		
 		// check whether the types of the arguments are ok for our macro
 		for (int i=0; i < macroInputTypes.length; i++) {
-			if (!macroInputTypes[i].isInstance(arg[i]))	{				
+			if (!macroInputTypes[i].equals(arg[i].getClass().getName()))	{				
 				StringBuilder sb = new StringBuilder();
 		        sb.append(app.getPlain("Macro") + " " + macro.getCommandName() + ":\n");
 		        sb.append(app.getError("IllegalArgument") + ": ");	            
@@ -73,6 +72,6 @@ public class MacroProcessor extends CommandProcessor {
 		}
 		
 		// if we get here we have the right arguments for our macro
-	    return ((Kernel)kernelA).useMacro(c.getLabels(), macro, arg);
+	    return kernelA.useMacro(c.getLabels(), macro, arg);
     }    
 }
