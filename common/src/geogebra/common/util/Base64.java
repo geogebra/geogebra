@@ -90,6 +90,10 @@ import geogebra.common.main.AbstractApplication;
 
 import java.io.IOException;
 
+/**
+ * Encodes / decodes binary file (as array of bytes) to / from Base64 string
+ *
+ */
 public final class Base64
 {	
 
@@ -215,7 +219,8 @@ public final class Base64
   {
     int state = 0, i,j=0;
     byte temp = 0;
-    byte[] result = new byte[b64.length() / 3];
+    //TODO b64.length()*3/4 should be sufficient
+    byte[] result = new byte[b64.length()];
     for (i = 0; i < b64.length(); i++)
       {
         if (AbstractApplication.isWhitespace(b64.charAt(i)))
