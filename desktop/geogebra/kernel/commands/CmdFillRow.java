@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *FillRow
  */
-class CmdFillRow extends CommandProcessor {
+class CmdFillRow extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

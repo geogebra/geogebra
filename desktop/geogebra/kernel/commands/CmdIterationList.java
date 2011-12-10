@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /*
  * IterationList[ <function>, <start>, <n> ]
  */
-public class CmdIterationList extends CommandProcessor {
+public class CmdIterationList extends CommandProcessorDesktop {
 	
 	public CmdIterationList(Kernel kernel) {
 		super(kernel);

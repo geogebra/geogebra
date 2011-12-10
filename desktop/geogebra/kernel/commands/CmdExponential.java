@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *Exponential distribution
  */
-class CmdExponential extends CommandProcessor {
+class CmdExponential extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

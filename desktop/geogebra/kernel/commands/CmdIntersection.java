@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /*
  * Intersection[ <GeoList>, <GeoList> ]
  */
-public class CmdIntersection extends CommandProcessor {
+public class CmdIntersection extends CommandProcessorDesktop {
 	
 	public CmdIntersection(Kernel kernel) {
 		super(kernel);

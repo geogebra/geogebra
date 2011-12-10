@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Directrix[ <GeoConic> ]
  */
-class CmdDirectrix extends CommandProcessor {
+class CmdDirectrix extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

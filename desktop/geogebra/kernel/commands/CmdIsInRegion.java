@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * IsInRegion[<Point>,<Region>]
  */
-class CmdIsInRegion extends CommandProcessor {
+class CmdIsInRegion extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
  * <number-var>, <from>, <to>, <step> ] Sequence[ <number-var>]
  */
-class CmdZip extends CommandProcessor {
+class CmdZip extends CommandProcessorDesktop {
 	/**
 	 * Creates new zip command
 	 * 

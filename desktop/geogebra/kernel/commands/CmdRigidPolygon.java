@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Polygon[ <GeoPoint>, ..., <GeoPoint> ]
  * Polygon[ <GeoPoint>, <GeoPoint>, <Number>] for regular polygon
  */
-public class CmdRigidPolygon extends CommandProcessor {
+public class CmdRigidPolygon extends CommandProcessorDesktop {
 	
 	public CmdRigidPolygon(Kernel kernel) {
 		super(kernel);

@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /*
  * Name[ <GeoElement> ]
  */
-public class CmdLaTeX extends CommandProcessor {
+public class CmdLaTeX extends CommandProcessorDesktop {
 
 	public CmdLaTeX(Kernel kernel) {
 		super(kernel);

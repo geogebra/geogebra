@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 /**
  *Checkbox
  */
-class CmdCheckbox extends CommandProcessor {
+class CmdCheckbox extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

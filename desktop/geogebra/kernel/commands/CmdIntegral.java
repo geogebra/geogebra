@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
  * Integral[ <GeoFunction> ] Integral[ <GeoFunction>, <Number a>, <Number b> ]
  * Integral[ <GeoFunction f>, <GeoFunction g>, <Number a>, <Number b> ]
  */
-class CmdIntegral extends CommandProcessor {
+class CmdIntegral extends CommandProcessorDesktop {
 
 	
 	// from GeoGebra 4.0, Integral has been split into Integral and IntegralBetween

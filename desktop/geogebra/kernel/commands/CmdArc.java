@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Arc[ <GeoConic>, <Number>, <Number> ] Arc[ <GeoConic>, <GeoPoint>, <GeoPoint>
  * ]
  */
-class CmdArc extends CommandProcessor {
+class CmdArc extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

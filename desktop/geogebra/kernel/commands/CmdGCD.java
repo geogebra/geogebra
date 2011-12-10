@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * GCD[list]
  * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
-public class CmdGCD extends CommandProcessor {
+public class CmdGCD extends CommandProcessorDesktop {
 
 	public CmdGCD(Kernel kernel) {
 		super(kernel);

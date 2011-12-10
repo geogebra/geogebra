@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * LCM[list]
  * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
-public class CmdLCM extends CommandProcessor {
+public class CmdLCM extends CommandProcessorDesktop {
 
 	public CmdLCM(Kernel kernel) {
 		super(kernel);

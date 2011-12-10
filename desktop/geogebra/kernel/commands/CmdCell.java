@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *Cell
  */
-class CmdCell extends CommandProcessor {
+class CmdCell extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

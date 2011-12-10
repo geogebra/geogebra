@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Hyperbola[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
  */
-class CmdHyperbola extends CommandProcessor {
+class CmdHyperbola extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

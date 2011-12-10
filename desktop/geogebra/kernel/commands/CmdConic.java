@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Conic[ <List> ]
  * Conic[ five GeoPoints ]
  */
-class CmdConic extends CommandProcessor {
+class CmdConic extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

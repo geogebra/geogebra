@@ -18,7 +18,7 @@ import java.util.Locale;
 /**
  *ToolImage
  */
-class CmdToolImage extends CommandProcessor {
+class CmdToolImage extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

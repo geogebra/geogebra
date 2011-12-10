@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>, <GeoElement>
  * ]
  */
-class CmdIf extends CommandProcessor {
+class CmdIf extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

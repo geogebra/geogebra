@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * TTestPaired (paired t test)
  */
-class CmdTTestPaired extends CommandProcessor {
+class CmdTTestPaired extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
  * 
  * @author Victor Franco Espino
  */
-class CmdCurvatureVector extends CommandProcessor {
+class CmdCurvatureVector extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

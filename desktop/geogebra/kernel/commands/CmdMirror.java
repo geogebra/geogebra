@@ -21,7 +21,7 @@ import geogebra.kernel.implicit.GeoImplicitPoly;
  * Mirror[ <GeoPoint>, <GeoLine> ] Mirror[ <GeoLine>, <GeoLine> ] Mirror[
  * <GeoConic>, <GeoLine> ] Mirror[ <GeoPolygon>, <GeoLine> ]
  */
-class CmdMirror extends CommandProcessor {
+class CmdMirror extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

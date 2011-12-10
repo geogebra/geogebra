@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
  * Michael Borcherds
  * 2008-03-04
  */
-public class CmdLast extends CommandProcessor {
+public class CmdLast extends CommandProcessorDesktop {
 
 	public CmdLast(Kernel kernel) {
 		super(kernel);

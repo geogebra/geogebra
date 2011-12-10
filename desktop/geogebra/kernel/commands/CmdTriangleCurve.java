@@ -8,7 +8,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 
-class CmdTriangleCurve extends CommandProcessor {
+class CmdTriangleCurve extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -12,7 +12,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
-public class CmdImplicitPoly extends CommandProcessor {
+public class CmdImplicitPoly extends CommandProcessorDesktop {
 
 	public CmdImplicitPoly(Kernel kernel) {
 		super(kernel);

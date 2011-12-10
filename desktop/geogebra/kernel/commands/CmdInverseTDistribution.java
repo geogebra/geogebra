@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseTDistribution
  */
-class CmdInverseTDistribution extends CommandProcessor {
+class CmdInverseTDistribution extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

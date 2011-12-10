@@ -8,7 +8,7 @@ import geogebra.kernel.Kernel;
 /**
  *AxisStepY
  */
-class CmdAxisStepY extends CommandProcessor {
+class CmdAxisStepY extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

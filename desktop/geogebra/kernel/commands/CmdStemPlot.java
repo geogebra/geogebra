@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * StemPlot
  */
-class CmdStemPlot extends CommandProcessor {
+class CmdStemPlot extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Shear[<Object>,<Line>,<Ratio>]
  */
-class CmdShear extends CommandProcessor {
+class CmdShear extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

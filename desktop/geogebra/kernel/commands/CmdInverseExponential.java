@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseExponential
  */
-class CmdInverseExponential extends CommandProcessor {
+class CmdInverseExponential extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

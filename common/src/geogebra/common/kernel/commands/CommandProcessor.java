@@ -10,8 +10,9 @@
  * version.
  */
 
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
@@ -19,7 +20,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Variable;
-import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -27,9 +27,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
-//import geogebra.main.Application;
 
 import java.util.ArrayList;
 
@@ -42,9 +39,9 @@ public abstract class CommandProcessor {
 	/** application */
 	protected AbstractApplication app;
 	/** kernel */
-	protected Kernel kernel;
+	protected AbstractKernel kernelA;
 	/** construction */
-	Construction cons;
+	protected Construction cons;
 	private AlgebraProcessor algProcessor;
 
 	/**
@@ -53,8 +50,8 @@ public abstract class CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CommandProcessor(Kernel kernel) {
-		this.kernel = kernel;
+	public CommandProcessor(AbstractKernel kernel) {
+		this.kernelA = kernel;
 		cons = kernel.getConstruction();
 		app = kernel.getApplication();
 		algProcessor = kernel.getAlgebraProcessor();
@@ -107,7 +104,7 @@ public abstract class CommandProcessor {
 	 * @return array of arguments
 	 * @throws MyError
 	 */
-	final GeoElement[] resArg(ExpressionNode arg) throws MyError {
+	protected final GeoElement[] resArg(ExpressionNode arg) throws MyError {
 		GeoElement[] geos = algProcessor.processExpressionNode(arg);
 
 		if (geos != null)
@@ -139,15 +136,15 @@ public abstract class CommandProcessor {
 		else if (localVarName.equals(Unicode.IMAGINARY)) {
 			// replace all imaginary unit objects in command arguments by a variable "i"object
 			localVarName = "i";
-			Variable localVar = new Variable(kernel, localVarName);
-			c.replace(kernel.getImaginaryUnit(), localVar);			
+			Variable localVar = new Variable(kernelA, localVarName);
+			c.replace(kernelA.getImaginaryUnit(), localVar);			
 		}
 		// Euler constant as local variable name
 		else if (localVarName.equals(Unicode.EULER_STRING)) {
 			// replace all imaginary unit objects in command arguments by a variable "i"object
 			localVarName = "e";
-			Variable localVar = new Variable(kernel, localVarName);
-			c.replace(MySpecialDouble.getEulerConstant(kernel), localVar);
+			Variable localVar = new Variable(kernelA, localVarName);
+			c.replace(MySpecialDouble.getEulerConstant(kernelA), localVar);
 		}
 
 		// add local variable name to construction
@@ -353,7 +350,7 @@ public abstract class CommandProcessor {
 	 * @param length
 	 * @date Jan 26, 2008
 	 */
-	public static GeoList wrapInList(Kernel kernel, GeoElement[] args,
+	public static GeoList wrapInList(AbstractKernel kernel, GeoElement[] args,
 			int length, GeoClass type) {
 		Construction cons = kernel.getConstruction();
 		boolean correctType = true;

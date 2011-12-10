@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * or
  * Locus[ <GeoPoint Q>, <GeoNumeric P> ]
  */
-class CmdLocus extends CommandProcessor {
+class CmdLocus extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

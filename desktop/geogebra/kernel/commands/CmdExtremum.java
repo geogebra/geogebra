@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Extremum[ <GeoFunction> ]
  */
-class CmdExtremum extends CommandProcessor {
+class CmdExtremum extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

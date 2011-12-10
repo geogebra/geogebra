@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *SlowPlot
  */
-class CmdSlowPlot extends CommandProcessor {
+class CmdSlowPlot extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *Simplify
  */
-class CmdSimplify extends CommandProcessor {
+class CmdSimplify extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

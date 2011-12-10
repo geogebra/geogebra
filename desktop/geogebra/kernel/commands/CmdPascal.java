@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *Pascal
  */
-class CmdPascal extends CommandProcessor {
+class CmdPascal extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
  * abstract class for Commands with two numberical arguments eg Binomial[ <Number>, <Number> ]
  * Michael Borcherds 2008-04-12
  */
-public abstract class CmdTwoNumFunction extends CommandProcessor {
+public abstract class CmdTwoNumFunction extends CommandProcessorDesktop {
 
 	public CmdTwoNumFunction(Kernel kernel) {
 		super(kernel);

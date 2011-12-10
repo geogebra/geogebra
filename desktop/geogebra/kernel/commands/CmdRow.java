@@ -9,7 +9,7 @@ import geogebra.kernel.geos.GeoElementSpreadsheet;
 /*
  * Row[ <GeoElement> ]
  */
-public class CmdRow extends CommandProcessor {
+public class CmdRow extends CommandProcessorDesktop {
 
 	public CmdRow(Kernel kernel) {
 		super(kernel);

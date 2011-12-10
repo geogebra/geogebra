@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseZipf
  */
-class CmdInverseZipf extends CommandProcessor {
+class CmdInverseZipf extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

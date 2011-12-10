@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * SelectedElement[ <list>, <n> ] SelectedElement[ <point>, <n> ]
  */
-class CmdSelectedIndex extends CommandProcessor {
+class CmdSelectedIndex extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

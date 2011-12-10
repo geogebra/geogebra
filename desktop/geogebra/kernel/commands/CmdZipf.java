@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *Zipf
  */
-class CmdZipf extends CommandProcessor {
+class CmdZipf extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

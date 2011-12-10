@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
  * Line[ <GeoPoint>, <GeoPoint> ] Line[ <GeoPoint>, <GeoVector> ] Line[
  * <GeoPoint>, <GeoLine> ]
  */
-public class CmdRay extends CommandProcessor {
+public class CmdRay extends CommandProcessorDesktop {
 
 	public CmdRay(Kernel kernel) {
 		super(kernel);

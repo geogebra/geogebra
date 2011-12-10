@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * TEstimate (t confidence interval estimate of the difference of means)
  */
-class CmdTMean2Estimate extends CommandProcessor {
+class CmdTMean2Estimate extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

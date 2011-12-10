@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 	/**
 	 *FDistribution
 	 */
-	class CmdFDistribution extends CommandProcessor {
+	class CmdFDistribution extends CommandProcessorDesktop {
 
 		/**
 		 * Create new command processor

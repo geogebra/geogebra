@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * TTest (t test of a sample mean)
  */
-class CmdTTest extends CommandProcessor {
+class CmdTTest extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

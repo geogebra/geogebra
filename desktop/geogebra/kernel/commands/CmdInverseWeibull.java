@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseWeibull
  */
-class CmdInverseWeibull extends CommandProcessor {
+class CmdInverseWeibull extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

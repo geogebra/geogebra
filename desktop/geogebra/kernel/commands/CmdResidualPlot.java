@@ -23,7 +23,7 @@ import geogebra.kernel.Kernel;
  * @author G.Sturr
  * @version 2010-9-13
  */
-public class CmdResidualPlot extends CommandProcessor{
+public class CmdResidualPlot extends CommandProcessorDesktop{
 
     public CmdResidualPlot(Kernel kernel) {super(kernel);}
     

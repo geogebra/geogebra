@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * TurningPoint[ <GeoFunction> ]
  */
-class CmdTurningPoint extends CommandProcessor {
+class CmdTurningPoint extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

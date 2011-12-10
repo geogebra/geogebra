@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 /**
  * TTest2 (t test of two sample means)
  */
-class CmdTTest2 extends CommandProcessor {
+class CmdTTest2 extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

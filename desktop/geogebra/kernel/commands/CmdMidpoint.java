@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
 /**
  * Midpoint[ <GeoConic> ] Midpoint[ <GeoPoint>, <GeoPoint> ]
  */
-public class CmdMidpoint extends CommandProcessor {
+public class CmdMidpoint extends CommandProcessorDesktop {
 	
 	public CmdMidpoint(Kernel kernel) {
 		super(kernel);

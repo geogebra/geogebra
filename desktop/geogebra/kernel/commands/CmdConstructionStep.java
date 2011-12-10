@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
  * Michael Borcherds
  * 2008-03-06
  */
-public class CmdConstructionStep extends CommandProcessor {
+public class CmdConstructionStep extends CommandProcessorDesktop {
 
 	public CmdConstructionStep(Kernel kernel) {
 		super(kernel);

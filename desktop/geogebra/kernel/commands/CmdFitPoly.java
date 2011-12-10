@@ -24,7 +24,7 @@ import geogebra.kernel.Kernel;
  * @author Hans-Petter Ulven
  * @version 06.04.08
  */
-public class CmdFitPoly extends CommandProcessor{
+public class CmdFitPoly extends CommandProcessorDesktop{
 
     public CmdFitPoly(Kernel kernel) {super(kernel);}
     

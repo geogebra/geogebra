@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * ANOVA test 
  */
-class CmdANOVA extends CommandProcessor {
+class CmdANOVA extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

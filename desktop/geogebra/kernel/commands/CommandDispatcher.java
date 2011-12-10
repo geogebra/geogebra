@@ -18,6 +18,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;

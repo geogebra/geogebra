@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *FractionText
  */
-class CmdFractionText extends CommandProcessor {
+class CmdFractionText extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

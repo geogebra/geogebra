@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *Chi Squared Distribution
  */
-class CmdChiSquared extends CommandProcessor {
+class CmdChiSquared extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

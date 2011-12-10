@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Area[ <GeoPoint>, ..., <GeoPoint> ] Area[ <GeoConic> ] Area[ <Polygon> ]
  * (returns Polygon directly)
  */
-class CmdArea extends CommandProcessor {
+class CmdArea extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

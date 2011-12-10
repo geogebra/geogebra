@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * AngularBisector[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] AngularBisector[
  * <GeoLine>, <GeoLine> ]
  */
-class CmdAngularBisector extends CommandProcessor {
+class CmdAngularBisector extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *Append
  */
-class CmdIndexOf extends CommandProcessor {
+class CmdIndexOf extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

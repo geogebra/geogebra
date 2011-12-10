@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
  * Line[ <GeoPoint>, <GeoPoint> ] Line[ <GeoPoint>, <GeoVector> ] Line[
  * <GeoPoint>, <GeoLine> ]
  */
-public class CmdLine extends CommandProcessor {
+public class CmdLine extends CommandProcessorDesktop {
 	
 	public CmdLine(Kernel kernel) {
 		super(kernel);

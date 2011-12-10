@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *SolveODE
  */
-class CmdSolveODE extends CommandProcessor {
+class CmdSolveODE extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

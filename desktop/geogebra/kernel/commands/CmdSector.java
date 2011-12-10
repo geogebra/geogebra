@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Sector[ <GeoConic>, <Number>, <Number> ] Sector[ <GeoConic>, <GeoPoint>,
  * <GeoPoint> ]
  */
-class CmdSector extends CommandProcessor {
+class CmdSector extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

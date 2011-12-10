@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /*
  * LogNormal distribution
  */
-class CmdLogNormal extends CommandProcessor {
+class CmdLogNormal extends CommandProcessorDesktop {
 
 	public CmdLogNormal(Kernel kernel) {
 		super(kernel);

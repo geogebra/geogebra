@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * CircleArc[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
  */
-class CmdCircleArc extends CommandProcessor {
+class CmdCircleArc extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

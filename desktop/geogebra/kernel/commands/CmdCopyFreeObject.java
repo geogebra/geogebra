@@ -8,7 +8,7 @@ import geogebra.kernel.Kernel;
 /**
  *CopyFreeObject
  */
-class CmdCopyFreeObject extends CommandProcessor {
+class CmdCopyFreeObject extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

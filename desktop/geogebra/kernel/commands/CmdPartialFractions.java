@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *PartialFractions
  */
-class CmdPartialFractions extends CommandProcessor {
+class CmdPartialFractions extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 	/*
 	 * Segment[ <GeoPoint>, <GeoPoint> ] Segment[ <GeoPoint>, <Number> ]
 	 */
-public class CmdSegment extends CommandProcessor {
+public class CmdSegment extends CommandProcessorDesktop {
 		
 		public CmdSegment(Kernel kernel) {
 			super(kernel);

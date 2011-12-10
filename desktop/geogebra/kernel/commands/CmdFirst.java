@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
  * Michael Borcherds
  * 2008-03-04
  */
-public class CmdFirst extends CommandProcessor {
+public class CmdFirst extends CommandProcessorDesktop {
 
 	public CmdFirst(Kernel kernel) {
 		super(kernel);

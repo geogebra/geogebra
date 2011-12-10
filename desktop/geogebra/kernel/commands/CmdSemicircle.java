@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Semicircle[ <GeoPoint>, <GeoPoint> ]
  */
-class CmdSemicircle extends CommandProcessor {
+class CmdSemicircle extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

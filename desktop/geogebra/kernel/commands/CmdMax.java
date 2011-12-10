@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 /*
  * Max[ <Number>, <Number> ]
  */
-public class CmdMax extends CommandProcessor {
+public class CmdMax extends CommandProcessorDesktop {
 
 	public CmdMax(Kernel kernel) {
 		super(kernel);

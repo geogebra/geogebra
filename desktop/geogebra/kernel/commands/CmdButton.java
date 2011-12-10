@@ -12,7 +12,7 @@ import geogebra.kernel.geos.GeoButton;
  * @author Zbynek
  *
  */
-class CmdButton extends CommandProcessor {
+class CmdButton extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

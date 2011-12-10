@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * CircumcircleSector[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
  */
-class CmdCircumcircleSector extends CommandProcessor {
+class CmdCircumcircleSector extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

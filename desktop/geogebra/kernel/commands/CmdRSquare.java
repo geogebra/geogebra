@@ -23,7 +23,7 @@ import geogebra.kernel.Kernel;
  * @author G.Sturr
  * @version 2010-9-13
  */
-public class CmdRSquare extends CommandProcessor{
+public class CmdRSquare extends CommandProcessorDesktop{
 
     public CmdRSquare(Kernel kernel) {super(kernel);}
     

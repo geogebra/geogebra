@@ -34,7 +34,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class CmdScripting extends CommandProcessor implements CmdScriptingInterface{
+public abstract class CmdScripting extends CommandProcessorDesktop implements CmdScriptingInterface{
 
 	
 

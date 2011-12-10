@@ -19,7 +19,7 @@ import geogebra.kernel.Kernel;
  * <GeoLine> ] Angle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] Angle[ <GeoPoint>,
  * <GeoPoint>, <Number> ]
  */
-public class CmdAngle extends CommandProcessor {
+public class CmdAngle extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

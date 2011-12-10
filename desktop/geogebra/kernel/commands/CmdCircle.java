@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
  * Circle[ <GeoPoint>, <GeoNumeric> ] Circle[ <GeoPoint>, <GeoPoint> ] Circle[
  * <GeoPoint>, <GeoPoint>, <GeoPoint> ]
  */
-public class CmdCircle extends CommandProcessor {
+public class CmdCircle extends CommandProcessorDesktop {
 	
 	public CmdCircle(Kernel kernel) {
 		super(kernel);

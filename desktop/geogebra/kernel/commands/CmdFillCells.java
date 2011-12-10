@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 /**
  *FillCells
  */
-class CmdFillCells extends CommandProcessor {
+class CmdFillCells extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

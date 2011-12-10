@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
  * 
  * Michael Borcherds 2008-04-12
  */
-public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
+public abstract class CmdOneOrTwoListsFunction extends CommandProcessorDesktop {
 
 	public CmdOneOrTwoListsFunction(Kernel kernel) {
 		super(kernel);

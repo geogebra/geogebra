@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Ellipse[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
  */
-class CmdEllipse extends CommandProcessor {
+class CmdEllipse extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

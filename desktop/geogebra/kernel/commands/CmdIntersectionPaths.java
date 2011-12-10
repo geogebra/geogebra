@@ -15,7 +15,7 @@ import geogebra.kernel.Kernel;
  * IntersectionPaths[ <GeoPlane>, <GeoPolygon> ]
  * IntersectionPaths[ <GeoPlane>, <GeoQuadric> ]
  */
-public class CmdIntersectionPaths extends CommandProcessor {
+public class CmdIntersectionPaths extends CommandProcessorDesktop {
 	
 	public CmdIntersectionPaths(Kernel kernel) {
 		super(kernel);

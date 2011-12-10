@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * LeftSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
  */
-class CmdLeftSum extends CommandProcessor {
+class CmdLeftSum extends CommandProcessorDesktop {
 
 	/**
 	* Create new command processor

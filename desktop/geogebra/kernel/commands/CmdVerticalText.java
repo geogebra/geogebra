@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *VerticalText
  */
-class CmdVerticalText extends CommandProcessor {
+class CmdVerticalText extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

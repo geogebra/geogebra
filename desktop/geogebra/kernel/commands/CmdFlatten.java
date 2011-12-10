@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 	/**
 	 * Flatten[ <GeoList> ]
 	 */
-class CmdFlatten extends CommandProcessor {
+class CmdFlatten extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

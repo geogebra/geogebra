@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /*
  * Max[ <Number>, <Number> ]
  */
-public class CmdUnicodeToText extends CommandProcessor {
+public class CmdUnicodeToText extends CommandProcessorDesktop {
 
 	public CmdUnicodeToText(Kernel kernel) {
 		super(kernel);

@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *DynamicCoordinates
  */
-class CmdDynamicCoordinates extends CommandProcessor {
+class CmdDynamicCoordinates extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

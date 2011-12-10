@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InversePascal
  */
-class CmdInversePascal extends CommandProcessor {
+class CmdInversePascal extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

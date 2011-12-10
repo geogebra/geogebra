@@ -18,7 +18,7 @@ import geogebra.kernel.Kernel;
  * <GeoPolygon>, <GeoVector> ]
  * 
  */
-public class CmdTranslate extends CommandProcessor {
+public class CmdTranslate extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

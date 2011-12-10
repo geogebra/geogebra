@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Centroid[ <Polygon> ]
  */
-class CmdCentroid extends CommandProcessor {
+class CmdCentroid extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

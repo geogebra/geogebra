@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -8,7 +9,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessor;
+import geogebra.kernel.commands.CommandProcessorDesktop;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -17,7 +18,7 @@ import geogebra3D.kernel3D.Kernel3D;
 /*
  * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
  */
-public class CmdPlaneBisector extends CommandProcessor {
+public class CmdPlaneBisector extends CommandProcessorDesktop {
 	
 	
 	

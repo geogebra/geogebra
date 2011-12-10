@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -72,6 +73,6 @@ public class MacroProcessor extends CommandProcessor {
 		}
 		
 		// if we get here we have the right arguments for our macro
-	    return kernel.useMacro(c.getLabels(), macro, arg);
+	    return ((Kernel)kernelA).useMacro(c.getLabels(), macro, arg);
     }    
 }

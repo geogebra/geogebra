@@ -11,7 +11,7 @@ import geogebra.kernel.implicit.GeoImplicitPoly;
 /**
  * Asymptote[ <GeoConic> ]
  */
-class CmdAsymptote extends CommandProcessor {
+class CmdAsymptote extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

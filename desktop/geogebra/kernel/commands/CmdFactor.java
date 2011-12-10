@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-class CmdFactor extends CommandProcessor {
+class CmdFactor extends CommandProcessorDesktop {
 	
 	public CmdFactor (Kernel kernel) {
 		super(kernel);

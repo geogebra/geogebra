@@ -8,7 +8,7 @@ import geogebra.kernel.Kernel;
 /*
  * Name[ <GeoElement> ]
  */
-public class CmdName extends CommandProcessor {
+public class CmdName extends CommandProcessorDesktop {
 
 	public CmdName(Kernel kernel) {
 		super(kernel);

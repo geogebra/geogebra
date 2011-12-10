@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Direction[ <GeoLine> ]
  */
-class CmdDirection extends CommandProcessor {
+class CmdDirection extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

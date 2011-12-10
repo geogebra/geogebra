@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * TEstimate (t confidence interval estimate of a mean)
  */
-class CmdTMeanEstimate extends CommandProcessor {
+class CmdTMeanEstimate extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

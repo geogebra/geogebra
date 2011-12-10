@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *HyperGeometric
  */
-class CmdHyperGeometric extends CommandProcessor {
+class CmdHyperGeometric extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -9,7 +9,7 @@ import geogebra.kernel.geos.GeoElementSpreadsheet;
 /*
  * CellRange[ <start cell>, <end cell> ], e.g. CellRange[A1, B2]
  */
-public class CmdCellRange extends CommandProcessor {
+public class CmdCellRange extends CommandProcessorDesktop {
 
 	public CmdCellRange(Kernel kernel) {
 		super(kernel);

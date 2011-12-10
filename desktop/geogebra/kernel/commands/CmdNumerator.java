@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Numerator[ <Function> ]
  */
-class CmdNumerator extends CommandProcessor {
+class CmdNumerator extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * Diameter[ <GeoVector>, <GeoConic> ] Diameter[ <GeoLine>, <GeoConic> ]
  */
-class CmdDiameter extends CommandProcessor {
+class CmdDiameter extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseHyperGeometric
  */
-class CmdInverseHyperGeometric extends CommandProcessor {
+class CmdInverseHyperGeometric extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

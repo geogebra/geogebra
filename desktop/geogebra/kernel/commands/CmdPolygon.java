@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
  * Polygon[ <GeoPoint>, ..., <GeoPoint> ]
  * Polygon[ <GeoPoint>, <GeoPoint>, <Number>] for regular polygon
  */
-public class CmdPolygon extends CommandProcessor {
+public class CmdPolygon extends CommandProcessorDesktop {
 	
 	public CmdPolygon(Kernel kernel) {
 		super(kernel);

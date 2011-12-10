@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /*
  * Name[ <GeoElement> ]
  */
-public class CmdText extends CommandProcessor {
+public class CmdText extends CommandProcessorDesktop {
 
 	public CmdText(Kernel kernel) {
 		super(kernel);

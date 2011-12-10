@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * Frequency
  */
-class CmdFrequency extends CommandProcessor {
+class CmdFrequency extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

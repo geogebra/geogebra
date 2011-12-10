@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * RectangleSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
  */
-class CmdRectangleSum extends CommandProcessor {
+class CmdRectangleSum extends CommandProcessorDesktop {
 
 	/**
 	* Create new command processor

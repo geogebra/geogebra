@@ -23,7 +23,7 @@ import geogebra.kernel.Kernel;
  * @author Hans-Petter Ulven
  * @version 2011-03-15
  */
-public class CmdFit extends CommandProcessor{
+public class CmdFit extends CommandProcessorDesktop{
 
     public CmdFit(Kernel kernel) {super(kernel);}
     

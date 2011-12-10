@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import java.util.SortedSet;
 import java.util.TreeSet;

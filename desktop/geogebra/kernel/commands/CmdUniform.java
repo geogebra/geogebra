@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-	class CmdUniform extends CommandProcessor {
+	class CmdUniform extends CommandProcessorDesktop {
 
 		public CmdUniform(Kernel kernel) {
 			super(kernel);

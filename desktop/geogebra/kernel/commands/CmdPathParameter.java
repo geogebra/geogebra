@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
  * PathParameter[Point on path]
  * 
  */
-class CmdPathParameter extends CommandProcessor {
+class CmdPathParameter extends CommandProcessorDesktop {
 
 	/**
 	 * @param kernel

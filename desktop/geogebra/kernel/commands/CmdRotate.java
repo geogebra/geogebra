@@ -16,7 +16,7 @@ import geogebra.kernel.Kernel;
  * <NumberValue>, <GeoPoint> ] Rotate[ <GeoConic>, <NumberValue>, <GeoPoint> ]
  * Rotate[ <GeoPolygon>, <NumberValue>, <GeoPoint> ]
  */
-class CmdRotate extends CommandProcessor {
+class CmdRotate extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

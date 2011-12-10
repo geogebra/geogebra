@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /*
  * Vector[ <GeoPoint>, <GeoPoint> ] Vector[ <GeoPoint> ]
  */
-public class CmdVector extends CommandProcessor {
+public class CmdVector extends CommandProcessorDesktop {
 
 	public CmdVector(Kernel kernel) {
 		super(kernel);

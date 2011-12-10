@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-class CmdIntersectRegion extends CommandProcessor {
+class CmdIntersectRegion extends CommandProcessorDesktop {
 
 	/**
 	 * @param kernel

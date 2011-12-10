@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * Roots[ <GeoFunction>, <Number> , <Number> ]
  * (Numerical version, more than one root.)
  */
-class CmdRoots extends CommandProcessor {
+class CmdRoots extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

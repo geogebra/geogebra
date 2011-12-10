@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseGamma
  */
-class CmdInverseGamma extends CommandProcessor {
+class CmdInverseGamma extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

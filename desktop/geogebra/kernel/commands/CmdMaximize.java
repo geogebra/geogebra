@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Maximize[ <dependent variable>, <independent variable> ]
  */
-public class CmdMaximize extends CommandProcessor {
+public class CmdMaximize extends CommandProcessorDesktop {
 
 	public CmdMaximize(Kernel kernel) {
 		super(kernel);

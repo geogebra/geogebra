@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * TaylorSeries[ <GeoFunction>, <Number>, <Number> ]
  */
-class CmdTaylorSeries extends CommandProcessor {
+class CmdTaylorSeries extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

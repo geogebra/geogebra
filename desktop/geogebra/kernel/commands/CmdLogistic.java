@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /*
  * Logistic Distribution
  */
-class CmdLogistic extends CommandProcessor {
+class CmdLogistic extends CommandProcessorDesktop {
 
 	public CmdLogistic(Kernel kernel) {
 		super(kernel);

@@ -16,7 +16,7 @@ import geogebra.kernel.Kernel;
 /**
  * Orthogonal[ <GeoPoint>, <GeoVector> ] Orthogonal[ <GeoPoint>, <GeoLine> ]
  */
-public class CmdOrthogonalLine extends CommandProcessor {
+public class CmdOrthogonalLine extends CommandProcessorDesktop {
 
 	/**
 	* Create new command processor

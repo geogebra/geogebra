@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * Histogram[ <List>, <List> ]
  */
-class CmdHistogram extends CommandProcessor {
+class CmdHistogram extends CommandProcessorDesktop {
 	private boolean right;
 	/**
 	 * Create new command processor

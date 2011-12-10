@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
  * Derivative[ <GeoFunction> ] Derivative[ <GeoFunctionNVar>, <var> ]
  * Derivative[ <GeoCurveCartesian> ]
  */
-class CmdDerivative extends CommandProcessor {
+class CmdDerivative extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

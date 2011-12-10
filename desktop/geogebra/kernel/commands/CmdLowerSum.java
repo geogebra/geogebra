@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * LowerSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
  */
-class CmdLowerSum extends CommandProcessor {
+class CmdLowerSum extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * LinearEccentricity[ <GeoConic> ] Excentricity[ <GeoConic> ]
  */
-class CmdExcentricity extends CommandProcessor {
+class CmdExcentricity extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

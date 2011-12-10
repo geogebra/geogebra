@@ -14,7 +14,7 @@ import geogebra.main.Application;
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
-public class CmdNormal extends CommandProcessor {
+public class CmdNormal extends CommandProcessorDesktop {
 
 	public CmdNormal(Kernel kernel) {
 		super(kernel);

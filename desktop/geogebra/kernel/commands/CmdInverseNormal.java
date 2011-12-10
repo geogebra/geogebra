@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
-public class CmdInverseNormal extends CommandProcessor {
+public class CmdInverseNormal extends CommandProcessorDesktop {
 
 	public CmdInverseNormal(Kernel kernel) {
 		super(kernel);

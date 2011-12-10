@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * CountIf[ <GeoBoolean>, <GeoList> ]
  */
-class CmdCountIf extends CommandProcessor {
+class CmdCountIf extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

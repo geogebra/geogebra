@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /*
  * Max[ <Number>, <Number> ]
  */
-public class CmdOrdinal extends CommandProcessor {
+public class CmdOrdinal extends CommandProcessorDesktop {
 
 	public CmdOrdinal(Kernel kernel) {
 		super(kernel);

@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Sum[ list ]
  * adapted from CmdLcm by Michael Borcherds 2008-02-16
  */
-public class CmdSum extends CommandProcessor {
+public class CmdSum extends CommandProcessorDesktop {
 
 	public CmdSum(Kernel kernel) {
 		super(kernel);

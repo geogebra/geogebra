@@ -24,7 +24,7 @@ import geogebra.kernel.implicit.GeoImplicitPoly;
  * Intersect[ <GeoImplicitPoly>, <GeoFunction(Polynomial)> ]
  * Intersect[ <GeoFunction>, <GeoFunction>, <NumberValue>, <NumberValue> ]
  */
-public class CmdIntersect extends CommandProcessor {
+public class CmdIntersect extends CommandProcessorDesktop {
 	
 	public CmdIntersect(Kernel kernel) {
 		super(kernel);

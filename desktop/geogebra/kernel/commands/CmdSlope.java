@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Slope[ <GeoLine> ] Slope[ <GeoFunction> ]
  */
-class CmdSlope extends CommandProcessor {
+class CmdSlope extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

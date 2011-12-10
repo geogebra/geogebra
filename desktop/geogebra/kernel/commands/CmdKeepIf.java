@@ -11,7 +11,7 @@ import geogebra.main.Application;
 /**
  *KeepIf
  */
-class CmdKeepIf extends CommandProcessor {
+class CmdKeepIf extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

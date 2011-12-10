@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * Percentile[ <List>, <Value> ]
  * G. Sturr
  */
-public class CmdPercentile extends CommandProcessor {
+public class CmdPercentile extends CommandProcessorDesktop {
 
 	public CmdPercentile(Kernel kernel) {
 		super(kernel);

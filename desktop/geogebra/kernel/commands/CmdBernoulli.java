@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *Binomial Distribution
  */
-class CmdBernoulli extends CommandProcessor {
+class CmdBernoulli extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

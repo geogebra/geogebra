@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Polar[ <GeoPoint>, <GeoConic> ]
  */
-class CmdPolar extends CommandProcessor {
+class CmdPolar extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

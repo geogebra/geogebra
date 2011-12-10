@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *ParseToNumber
  */
-class CmdParseToNumber extends CommandProcessor {
+class CmdParseToNumber extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Radius[ <GeoConic> ]
  */
-class CmdRadius extends CommandProcessor {
+class CmdRadius extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

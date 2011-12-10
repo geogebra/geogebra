@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *Gamma Distribution
  */
-class CmdGamma extends CommandProcessor {
+class CmdGamma extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

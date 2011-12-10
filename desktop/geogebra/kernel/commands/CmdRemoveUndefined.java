@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * Michael Borcherds
  * 2008-03-06
  */
-public class CmdRemoveUndefined extends CommandProcessor {
+public class CmdRemoveUndefined extends CommandProcessorDesktop {
 
 	public CmdRemoveUndefined(Kernel kernel) {
 		super(kernel);

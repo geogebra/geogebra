@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * PointIn[ <Region> ] 
  * @version 2010-05-17
  */
-public class CmdPointIn extends CommandProcessor {
+public class CmdPointIn extends CommandProcessorDesktop {
 
 	/**
 	 * Initiates command processor for PointIn command

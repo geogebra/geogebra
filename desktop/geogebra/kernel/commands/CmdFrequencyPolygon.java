@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * Histogram[ <List>, <List> ]
  */
-class CmdFrequencyPolygon extends CommandProcessor {
+class CmdFrequencyPolygon extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

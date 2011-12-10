@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Focus[ <GeoConic> ]
  */
-class CmdFocus extends CommandProcessor {
+class CmdFocus extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

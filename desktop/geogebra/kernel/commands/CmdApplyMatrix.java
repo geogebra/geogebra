@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * ApplyMatrix[<Matrix>,<Object>]
  */
-class CmdApplyMatrix extends CommandProcessor {
+class CmdApplyMatrix extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * BarChart[ <Number>, <Number>, <List> ]
  */
-class CmdBarChart extends CommandProcessor {
+class CmdBarChart extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

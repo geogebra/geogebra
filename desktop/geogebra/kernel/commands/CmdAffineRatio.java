@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * 
  * @author Victor Franco Espino
  */
-class CmdAffineRatio extends CommandProcessor {
+class CmdAffineRatio extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

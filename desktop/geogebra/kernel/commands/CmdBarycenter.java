@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-class CmdBarycenter extends CommandProcessor 
+class CmdBarycenter extends CommandProcessorDesktop 
 {
 
 	public CmdBarycenter(Kernel kernel) 

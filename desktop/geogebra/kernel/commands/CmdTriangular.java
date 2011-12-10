@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-public class CmdTriangular extends CommandProcessor {
+public class CmdTriangular extends CommandProcessorDesktop {
 
 	public CmdTriangular(Kernel kernel) {
 		super(kernel);

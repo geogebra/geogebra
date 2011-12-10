@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 /**
  * Stretch[<Object>,<Line>,<Ratio>]
  */
-class CmdStretch extends CommandProcessor {
+class CmdStretch extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

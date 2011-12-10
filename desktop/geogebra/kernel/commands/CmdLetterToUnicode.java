@@ -7,7 +7,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
 
-public class CmdLetterToUnicode extends CommandProcessor {
+public class CmdLetterToUnicode extends CommandProcessorDesktop {
 
 	public CmdLetterToUnicode(Kernel kernel) {
 		super(kernel);

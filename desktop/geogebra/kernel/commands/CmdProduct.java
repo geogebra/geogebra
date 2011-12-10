@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * Product[ list ]
  * adapted from CmdSum by Michael Borcherds 2008-02-16
  */
-class CmdProduct extends CommandProcessor{
+class CmdProduct extends CommandProcessorDesktop{
 
 	public CmdProduct(Kernel kernel) {
 		super(kernel);

@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * ShortestDistance[ <List of Segments>, <Start Point>, <End Point>, <Boolean
  * Weighted> ] Michael Borcherds 2008-03-04
  */
-class CmdShortestDistance extends CommandProcessor {
+class CmdShortestDistance extends CommandProcessorDesktop {
 
 	/**
 	 * @param kernel

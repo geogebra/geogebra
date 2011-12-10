@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
 /**
  * Vertex[ <GeoConic> ]
  */
-class CmdVertex extends CommandProcessor {
+class CmdVertex extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

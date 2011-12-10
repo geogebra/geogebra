@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *Poisson Distribution
  */
-class CmdPoisson extends CommandProcessor {
+class CmdPoisson extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

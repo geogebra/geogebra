@@ -6567,7 +6567,7 @@ EuclidianControllerInterface {
 			if (selPoints() > 1) 
 			{					
 				GeoPoint2[] points = getSelectedPoints();
-				list = geogebra.kernel.commands.CommandProcessor.wrapInList(kernel,points, points.length, GeoClass.POINT);
+				list = geogebra.common.kernel.commands.CommandProcessor.wrapInList(kernel,points, points.length, GeoClass.POINT);
 				if (list != null) {
 					ret[0] = kernel.FitLineY(null, list);
 					return ret;             	     	 

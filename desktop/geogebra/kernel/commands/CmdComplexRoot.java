@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * ComplexRoot[ <GeoFunction> ]
  */
-class CmdComplexRoot extends CommandProcessor {
+class CmdComplexRoot extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

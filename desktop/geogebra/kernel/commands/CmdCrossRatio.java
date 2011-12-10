@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * 
  * @author Victor Franco Espino
  */
-class CmdCrossRatio extends CommandProcessor {
+class CmdCrossRatio extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

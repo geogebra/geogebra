@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Distance[ <GeoPoint>, <GeoPoint> ] Distance[ <GeoPoint>, <GeoLine> ]
  * Distance[ <GeoLine>, <GeoPoint> ] Distance[ <GeoLine>, <GeoLine> ]
  */
-class CmdDistance extends CommandProcessor {
+class CmdDistance extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

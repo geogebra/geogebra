@@ -14,7 +14,7 @@ import geogebra.kernel.Kernel;
  * @author Victor Franco Espino
  */
 
-class CmdOsculatingCircle extends CommandProcessor {
+class CmdOsculatingCircle extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

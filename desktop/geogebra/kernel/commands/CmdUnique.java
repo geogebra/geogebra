@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * Unique
  */
-class CmdUnique extends CommandProcessor {
+class CmdUnique extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

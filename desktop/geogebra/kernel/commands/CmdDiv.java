@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Div[ a, b ]
  */
-class CmdDiv extends CommandProcessor {
+class CmdDiv extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

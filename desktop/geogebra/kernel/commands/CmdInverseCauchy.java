@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseCauchy
  */
-class CmdInverseCauchy extends CommandProcessor {
+class CmdInverseCauchy extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

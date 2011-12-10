@@ -7,7 +7,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
 
-class CmdCompleteSquare extends CommandProcessor {
+class CmdCompleteSquare extends CommandProcessorDesktop {
 	
 	public CmdCompleteSquare (Kernel kernel) {
 		super(kernel);

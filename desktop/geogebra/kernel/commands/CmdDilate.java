@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
  * <NumberValue>, <GeoPoint> ] Dilate[ <GeoConic>, <NumberValue>, <GeoPoint> ]
  * Dilate[ <GeoPolygon>, <NumberValue>, <GeoPoint> ]
  */
-class CmdDilate extends CommandProcessor {
+class CmdDilate extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

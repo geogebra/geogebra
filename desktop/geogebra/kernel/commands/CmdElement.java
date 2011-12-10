@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  * Element[ <list>, <n> ]
  * Element[ <point>, <n> ]
  */
-public class CmdElement extends CommandProcessor {
+public class CmdElement extends CommandProcessorDesktop {
 
 	public CmdElement(Kernel kernel) {
 		super(kernel);

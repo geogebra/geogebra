@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 /**
  * UnitOrthogonalVector[ <GeoLine> ] UnitOrthogonalVector[ <GeoVector> ]
  */
-public class CmdUnitOrthogonalVector extends CommandProcessor {
+public class CmdUnitOrthogonalVector extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

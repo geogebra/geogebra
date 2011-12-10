@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /*
  * Curve[ <x-coord expression>,  <y-coord expression>, <number-var>, <from>, <to> ]  
  */
-public class CmdCurveCartesian extends CommandProcessor {
+public class CmdCurveCartesian extends CommandProcessorDesktop {
 	
 	public CmdCurveCartesian(Kernel kernel) {
 		super(kernel);

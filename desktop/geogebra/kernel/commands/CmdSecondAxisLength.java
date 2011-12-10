@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  * SecondAxisLength[ <GeoConic> ]
  */
-class CmdSecondAxisLength extends CommandProcessor {
+class CmdSecondAxisLength extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

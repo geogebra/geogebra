@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
  * Incircle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ]
  * dsun [6/26/2011]
  */
-class CmdIncircle extends CommandProcessor {
+class CmdIncircle extends CommandProcessorDesktop {
     public CmdIncircle(Kernel kernel) {
 	super(kernel);
     }

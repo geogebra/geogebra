@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * ClosestPoint[Point,Path] ClosestPoint[Path,Point]
  */
-class CmdClosestPoint extends CommandProcessor {
+class CmdClosestPoint extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

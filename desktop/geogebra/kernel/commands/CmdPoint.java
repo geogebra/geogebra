@@ -15,7 +15,7 @@ import geogebra.kernel.Kernel;
 /**
  * Point[ <Path> ] Point[ <Point>, <Vector> ]
  */
-public class CmdPoint extends CommandProcessor {
+public class CmdPoint extends CommandProcessorDesktop {
 	
 	public CmdPoint (Kernel kernel) {
 		super(kernel);

@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *PrimeFactors
  */
-class CmdPrimeFactors extends CommandProcessor {
+class CmdPrimeFactors extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

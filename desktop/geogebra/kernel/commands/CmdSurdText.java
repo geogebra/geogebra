@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *SurdText
  */
-class CmdSurdText extends CommandProcessor {
+class CmdSurdText extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

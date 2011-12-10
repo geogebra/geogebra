@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-class CmdFrequencyTable extends CommandProcessor {
+class CmdFrequencyTable extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

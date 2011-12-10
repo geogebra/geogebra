@@ -15,7 +15,7 @@ import geogebra.kernel.Kernel;
  * Animating>,<Random>]
  * 
  */
-class CmdSlider extends CommandProcessor {
+class CmdSlider extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

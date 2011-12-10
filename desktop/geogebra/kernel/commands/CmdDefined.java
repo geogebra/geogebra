@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
  * Michael Borcherds
  * 2008-03-06
  */
-public class CmdDefined extends CommandProcessor {
+public class CmdDefined extends CommandProcessorDesktop {
 
 	public CmdDefined(Kernel kernel) {
 		super(kernel);

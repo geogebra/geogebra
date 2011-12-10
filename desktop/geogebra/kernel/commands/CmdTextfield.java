@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
  *
  */
 
-class CmdTextfield extends CommandProcessor {
+class CmdTextfield extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

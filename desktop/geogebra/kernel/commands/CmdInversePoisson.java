@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InversePoisson
  */
-class CmdInversePoisson extends CommandProcessor {
+class CmdInversePoisson extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -21,7 +21,7 @@ import geogebra.kernel.Kernel;
  * <Function>, <Point>, <Point> ] add Length[ <Curve>, <Number>, <Number> ] add
  * Length[ <Curve>, <Point>, <Point> ]
  */
-public class CmdLength extends CommandProcessor {
+public class CmdLength extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

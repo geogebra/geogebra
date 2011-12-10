@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseChiSquared
  */
-class CmdInverseChiSquared extends CommandProcessor {
+class CmdInverseChiSquared extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

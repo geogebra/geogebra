@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 	/**
 	 *Erlang Distribution
 	 */
-	class CmdErlang extends CommandProcessor {
+	class CmdErlang extends CommandProcessorDesktop {
 
 		/**
 		 * Create new command processor

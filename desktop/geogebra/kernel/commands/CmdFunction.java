@@ -13,7 +13,7 @@ import geogebra.kernel.Kernel;
 /*
  * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
  */
-public class CmdFunction extends CommandProcessor {
+public class CmdFunction extends CommandProcessorDesktop {
 
 	public CmdFunction (Kernel kernel) {
 		super(kernel);

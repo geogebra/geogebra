@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * Polynomial[ <GeoFunction> ]
  */
-class CmdPolynomial extends CommandProcessor {
+class CmdPolynomial extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

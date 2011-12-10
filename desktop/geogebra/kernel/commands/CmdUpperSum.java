@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * UpperSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
  */
-class CmdUpperSum extends CommandProcessor {
+class CmdUpperSum extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

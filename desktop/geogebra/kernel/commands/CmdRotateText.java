@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *RotateText
  */
-class CmdRotateText extends CommandProcessor {
+class CmdRotateText extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

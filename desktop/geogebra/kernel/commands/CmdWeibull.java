@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *Weibull Distribution
  */
-class CmdWeibull extends CommandProcessor {
+class CmdWeibull extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

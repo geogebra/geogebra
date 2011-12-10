@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  * LineBisector[ <GeoPoint>, <GeoPoint> ] LineBisector[ <GeoSegment> ]
  */
-class CmdLineBisector extends CommandProcessor {
+class CmdLineBisector extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

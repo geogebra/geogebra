@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * TableText[<Matrix>],TableText[<Matrix>,<Point>]
  */
 
-class CmdTableText extends CommandProcessor {
+class CmdTableText extends CommandProcessorDesktop {
 	/**
 	 * Create new command processor
 	 * 

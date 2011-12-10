@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Perimeter[ <GeoPolygon> ]
  * Perimeter[ <Conic> ]
  */
-public class CmdPerimeter extends CommandProcessor {
+public class CmdPerimeter extends CommandProcessorDesktop {
 
 	public CmdPerimeter(Kernel kernel) {
 		super(kernel);

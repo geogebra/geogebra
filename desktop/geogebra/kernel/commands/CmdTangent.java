@@ -18,7 +18,7 @@ import geogebra.kernel.implicit.GeoImplicitPoly;
  * <GeoPoint>, <GeoCurveCartesian> ] Tangent[<GeoPoint>,<GeoImplicitPoly>]
  * Tangent[ <GeoLine>, <GeoImplicitPoly>]
  */
-class CmdTangent extends CommandProcessor {
+class CmdTangent extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

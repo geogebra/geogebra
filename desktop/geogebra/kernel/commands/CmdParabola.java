@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * Parabola[ <GeoPoint>, <GeoLine> ]
  */
-class CmdParabola extends CommandProcessor {
+class CmdParabola extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

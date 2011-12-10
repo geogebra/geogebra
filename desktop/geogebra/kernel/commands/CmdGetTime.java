@@ -13,7 +13,7 @@ import java.util.Calendar;
 /**
  *CmdGetTime
  */
-class CmdGetTime extends CommandProcessor {
+class CmdGetTime extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

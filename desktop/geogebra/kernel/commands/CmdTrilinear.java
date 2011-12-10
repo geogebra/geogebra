@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-class CmdTrilinear extends CommandProcessor {
+class CmdTrilinear extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
  * Sequence[ <expression>, <number-var>, <from>, <to>, <step> ]  
  * Sequence[ <number-var>]
  */
-public class CmdSequence extends CommandProcessor {
+public class CmdSequence extends CommandProcessorDesktop {
 	/**
 	 * Creates new sequence command
 	 * @param kernel

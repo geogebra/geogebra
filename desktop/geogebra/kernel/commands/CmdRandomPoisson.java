@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *RandomPoisson
  */
-class CmdRandomPoisson extends CommandProcessor {
+class CmdRandomPoisson extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

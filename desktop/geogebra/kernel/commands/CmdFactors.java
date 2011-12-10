@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  *Factors
  */
-class CmdFactors extends CommandProcessor {
+class CmdFactors extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

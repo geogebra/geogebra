@@ -12,7 +12,7 @@ import geogebra.kernel.Kernel;
 /*
  * Min[ <Number>, <Number> ]
  */
-public class CmdMin extends CommandProcessor {
+public class CmdMin extends CommandProcessorDesktop {
 
 	public CmdMin(Kernel kernel) {
 		super(kernel);

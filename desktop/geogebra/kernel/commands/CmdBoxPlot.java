@@ -10,7 +10,7 @@ import geogebra.kernel.Kernel;
 /**
  * BarChart[ <Number>, <Number>, <List> ]
  */
-class CmdBoxPlot extends CommandProcessor {
+class CmdBoxPlot extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

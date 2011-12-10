@@ -11,7 +11,7 @@ import geogebra.kernel.Kernel;
 /**
  *Cauchy Distribution
  */
-class CmdCauchy extends CommandProcessor {
+class CmdCauchy extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor

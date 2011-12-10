@@ -23,7 +23,7 @@ import geogebra.kernel.Kernel;
  * @author Hans-Petter Ulven
  * @version 2010-02-21
  */
-public class CmdSumSquaredErrors extends CommandProcessor{
+public class CmdSumSquaredErrors extends CommandProcessorDesktop{
 
     public CmdSumSquaredErrors(Kernel kernel) {super(kernel);}
     

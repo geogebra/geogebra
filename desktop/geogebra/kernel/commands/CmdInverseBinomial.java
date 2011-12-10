@@ -9,7 +9,7 @@ import geogebra.kernel.Kernel;
 /**
  *InverseBinomial
  */
-class CmdInverseBinomial extends CommandProcessor {
+class CmdInverseBinomial extends CommandProcessorDesktop {
 
 	/**
 	 * Create new command processor
