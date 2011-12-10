@@ -1,6 +1,6 @@
 package geogebra.gui.dialog.handler;
 
-import geogebra.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 
 /**
  * Handler of a number, with possibility of changing the sign

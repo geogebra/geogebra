@@ -15,6 +15,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.euclidian.EuclidianView;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
 

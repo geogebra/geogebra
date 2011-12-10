@@ -1,9 +1,9 @@
 package geogebra.gui.dialog.handler;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.InputHandler;
-import geogebra.kernel.commands.AlgebraProcessor;
 
 public class NumberInputHandler implements InputHandler {
   private AlgebraProcessor algebraProcessor;

@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -23,8 +23,6 @@ import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -47,13 +45,14 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.kernel.commands.MyException;
 //import geogebra.kernel.parser.ParseException;
 //import geogebra.kernel.parser.Parser;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class AlgebraProcessor extends AbstractAlgebraProcessor {
+public class AlgebraProcessor  {
 	
 	protected AbstractKernel kernel;
 	private Construction cons;

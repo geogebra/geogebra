@@ -13,10 +13,10 @@ package geogebra.kernel;
 
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.io.MyXMLHandler;
-import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -124,11 +124,11 @@ public class MacroKernel extends Kernel  {
 	}
 	
 	
-	protected AlgebraProcessor newAlgebraProcessor(Kernel kernel){
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel){
 		return parentKernel.newAlgebraProcessor(kernel);
 	}
 	
-	protected ExpressionNodeEvaluator newExpressionNodeEvaluator(){
+	public ExpressionNodeEvaluator newExpressionNodeEvaluator(){
 		return parentKernel.newExpressionNodeEvaluator();
 	}
 	

@@ -2,6 +2,8 @@ package geogebra.common.kernel;
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Stack;
 
 import geogebra.common.util.AbstractMyMath2;
@@ -15,6 +17,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluatorInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -26,15 +29,17 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
@@ -48,6 +53,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -77,9 +83,11 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoLinePointVector;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.adapters.Complex;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 
 
@@ -133,8 +141,9 @@ public abstract class AbstractKernel {
 	protected Construction cons;
 
 
-
-
+	protected AlgebraProcessor algProcessor;
+	/** Evaluator for ExpressionNode */
+	protected ExpressionNodeEvaluator expressionNodeEvaluator;
 	/** CAS variable handling */	
 	private static final String GGBCAS_VARIABLE_PREFIX = "ggbcasvar";
 	private static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
@@ -249,6 +258,41 @@ public abstract class AbstractKernel {
 
 			setCASPrintForm(StringType.GEOGEBRA);
 		}
+		
+		/**
+		 * Returns this kernel's algebra processor that handles
+		 * all input and commands.
+		 * @return Algebra processor
+		 */	
+		public AlgebraProcessor getAlgebraProcessor() {
+	    	if (algProcessor == null)
+	    		algProcessor = newAlgebraProcessor(this);
+	    	return algProcessor;
+	    }
+		/**
+		 * @param kernel 
+		 * @return a new algebra processor (used for 3D)
+		 */
+		public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel){
+			return new AlgebraProcessor(kernel);
+		}
+		
+		/**
+		 * creates the Evaluator for ExpressionNode
+		 * @return the Evaluator for ExpressionNode
+		 */
+		public ExpressionNodeEvaluator newExpressionNodeEvaluator(){
+			return new ExpressionNodeEvaluator();
+		}
+		
+		/** return the Evaluator for ExpressionNode
+		 * @return the Evaluator for ExpressionNode
+		 */
+		public ExpressionNodeEvaluator getExpressionNodeEvaluator(){
+			if (expressionNodeEvaluator == null)
+				expressionNodeEvaluator = newExpressionNodeEvaluator();
+			return expressionNodeEvaluator;
+		}
 
 		// This is a temporary place for abstract adapter methods which will go into factories later
 		// Arpad Fekete, 2011-12-01
@@ -261,8 +305,182 @@ public abstract class AbstractKernel {
 		public abstract NumberFormatAdapter getNumberFormat();
 		public abstract NumberFormatAdapter getNumberFormat(String s);
 		public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
-
 		public abstract ScientificFormatAdapter getScientificFormat(int a, int b, boolean c);
+		
+		/* *******************************************
+		 *  Methods for MyXMLHandler
+		 * ********************************************/
+		public boolean handleCoords(GeoElement geo, LinkedHashMap<String, String> attrs) {
+			
+			if (!(geo instanceof GeoVec3D)) {
+				AbstractApplication.debug("wrong element type for <coords>: "
+						+ geo.getClass());
+				return false;
+			}
+			GeoVec3D v = (GeoVec3D) geo;
+			
+
+
+			try {
+				double x = Double.parseDouble((String) attrs.get("x"));
+				double y = Double.parseDouble((String) attrs.get("y"));
+				double z = Double.parseDouble((String) attrs.get("z"));
+				v.hasUpdatePrevilege = true;
+				v.setCoords(x, y, z);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+	    
+	    
+	    
+		/* *******************************************
+		 *  Construction specific methods
+		 * ********************************************/
+
+		/**
+		 * Returns the ConstructionElement for the given GeoElement.
+		 * If geo is independent geo itself is returned. If geo is dependent
+		 * it's parent algorithm is returned.	 
+		 */
+		public static ConstructionElement getConstructionElement(GeoElement geo) {
+			AlgoElement algo = geo.getParentAlgorithm();
+			if (algo == null)
+				return geo;
+			else
+				return algo;
+		}
+		
+		/**
+		 * Returns the Construction object of this kernel.
+		 */
+		public Construction getConstruction() {
+			return (Construction)cons;
+		}
+		
+		
+		/**
+		 * Returns the ConstructionElement for the given construction index.
+		 */
+		public ConstructionElement getConstructionElement(int index) {
+			return cons.getConstructionElement(index);
+		}
+
+		public void setConstructionStep(int step) {
+			if (cons.getStep() != step) {
+				cons.setStep(step);
+				getApplication().setUnsaved();
+			}
+		}
+
+		public void setShowOnlyBreakpoints(boolean flag) {
+			 ((Construction)cons).setShowOnlyBreakpoints(flag);
+		}
+		
+		final public boolean showOnlyBreakpoints() {
+			return ((Construction)cons).showOnlyBreakpoints();
+		}
+		public int getConstructionStep() {
+			return cons.getStep();
+		}
+
+		public int getLastConstructionStep() {
+			return cons.steps() - 1;
+		}
+		
+		/**
+		 * Sets construction step to 
+		 * first step of construction protocol. 
+		 * Note: showOnlyBreakpoints() is important here
+		 */
+		public void firstStep() {
+			int step = 0;
+			
+			if (showOnlyBreakpoints()) {
+				setConstructionStep(getNextBreakpoint(step));		
+			} else {	
+				setConstructionStep(step);
+	    	}
+		}
+		
+		/**
+		 * Sets construction step to 
+		 * last step of construction protocol. 
+		 * Note: showOnlyBreakpoints() is important here
+		 */
+		public void lastStep() {
+			int step = getLastConstructionStep();
+			
+			if (showOnlyBreakpoints()) {
+				setConstructionStep(getPreviousBreakpoint(step));		
+			} else {	
+				setConstructionStep(step);
+	    	}
+		}
+		
+		/**
+		 * Sets construction step to 
+		 * next step of construction protocol. 
+		 * Note: showOnlyBreakpoints() is important here
+		 */
+		public void nextStep() {		
+			int step = cons.getStep() + 1;
+			
+			if (showOnlyBreakpoints()) {
+				setConstructionStep(getNextBreakpoint(step));		
+			} else {	
+				setConstructionStep(step);
+	    	}
+		}
+		
+		private int getNextBreakpoint(int step) {
+			int lastStep = getLastConstructionStep();
+			// go to next breakpoint
+			while (step <= lastStep) {
+				if (cons.getConstructionElement(step).isConsProtocolBreakpoint()) {				
+					return step;
+				}
+					
+				step++;
+			}
+			
+			return lastStep;
+		}
+
+		/**
+		 * Sets construction step to 
+		 * previous step of construction protocol	
+		 * Note: showOnlyBreakpoints() is important here 
+		 */
+		public void previousStep() {		
+			int step = cons.getStep() - 1;
+			
+			if (showOnlyBreakpoints()) {
+				cons.setStep(getPreviousBreakpoint(step));
+			}
+	    	else {		
+	    		cons.setStep(step);
+	    	}
+		}
+		
+		private int getPreviousBreakpoint(int step) {
+			// go to previous breakpoint
+			while (step >= 0) {
+				if (cons.getConstructionElement(step).isConsProtocolBreakpoint())
+					return step;				
+				step--;
+			}
+			return -1;
+		}
+		
+		/**
+		 * Move object at position from to position to in current construction.
+		 */
+		public boolean moveInConstructionList(int from, int to) {
+			return ((Construction)cons).moveInConstructionList(from, to);
+		}
+
 		public void setSaveScriptsToXML(boolean flag) {
 			saveScriptsToXML = flag;
 		}
@@ -1870,11 +2088,13 @@ public abstract class AbstractKernel {
 				return yscale;
 		}
 
-		
+	/**
+	 * @deprecated	
+	 * @return
+	 */
    public abstract LaTeXCache newLaTeXCache();
-   public abstract GeoElement lookupLabel(String label);
-   public abstract GeoElement lookupLabel(String label,boolean b);
-   public abstract Construction getConstruction();
+
+   
    public abstract AbstractApplication getApplication();
    public abstract void notifyRepaint();
    public abstract void initUndoInfo() ;
@@ -1895,10 +2115,68 @@ public abstract class AbstractKernel {
 	public void setCoordStyle(int coordStlye) {
 		coordStyle = coordStlye;		
 	}
-	public abstract int getConstructionStep();
+	
+	/**
+     * Returns a GeoElement for the given label. 
+     * @return may return null
+     */
+	final public GeoElement lookupLabel(String label) {		
+		return lookupLabel(label, false);
+	}
+	
+	/**
+     * Returns a GeoCasCell for the given label. 
+     * @return may return null
+     */
+	final public GeoCasCell lookupCasCellLabel(String label) {		
+		return ((Construction)cons).lookupCasCellLabel(label);
+	}
+	
+	/**
+     * Returns a GeoCasCell for the given cas row. 
+     * @return may return null
+     */
+	final public GeoCasCell lookupCasRowReference(String label) {		
+		return ((Construction)cons).lookupCasRowReference(label);
+	}
+	
+	/**
+	 * Finds element with given the label and possibly creates it
+	 * @param label Label of element we are looking for
+	 * @param autoCreate true iff new geo should be created if missing
+	 * @return GeoElement with given label
+	 */
+	final public GeoElement lookupLabel(String label, boolean autoCreate) {	
+		GeoElement geo = (GeoElement)cons.lookupLabel(label, autoCreate);
+				
+		if (geo == null && isResolveUnkownVarsAsDummyGeos()) {
+			// lookup CAS variables too
+			geo = lookupCasCellLabel(label);
+			
+			// resolve unknown variable as dummy geo to keep its name and 
+			// avoid an "unknown variable" error message
+			if (geo == null)
+				geo = new GeoDummyVariable(cons, label);
+		}
+		
+		return geo;
+	}
+	
+	/**
+     * Finds the polynomial coefficients of
+     * the given expression and returns it in ascending order. 
+     * If exp is not a polynomial null is returned.
+     * 
+     * @param exp expression in MPreduce syntax, e.g. "3*a*x^2 + b*x"
+     * @param variable e.g "x"
+     * @return array of coefficients, e.g. ["0", "b", "3*a"]
+     */
+    final public String [] getPolynomialCoeffs(String exp, String variable) {
+    	return getGeoGebraCAS().getPolynomialCoeffs(exp, variable);
+    }
+	
 	public abstract void storeUndoInfo();
 	
-	public abstract double[] getViewBoundsForGeo(GeoElementInterface geo);
 	public abstract void notifyUpdate(GeoElementInterface geo);
 	public abstract AbstractAnimationManager getAnimatonManager();
 	public abstract void notifyRename(GeoElementInterface geoElement);
@@ -1907,10 +2185,7 @@ public abstract class AbstractKernel {
 	public abstract void notifyUpdateAuxiliaryObject(GeoElementInterface geoElement);
 	public abstract void notifyAdd(GeoElementInterface geoElement);
 	
-	public abstract AbstractAlgebraProcessor getAlgebraProcessor();
 
-	public abstract GeoElementInterface lookupCasCellLabel(String cmdName);
-	public abstract GeoElementInterface lookupCasRowReference(String cmdName);
 
 	public abstract GeoElementInterface Semicircle(String label, GeoPoint2 geoPoint,
 			GeoPoint2 geoPoint2);
@@ -1932,6 +2207,54 @@ public abstract class AbstractKernel {
 	 public void addIntersectionAlgorithm(AlgoIntersectAbstract algo) {
 			intersectionAlgos.add(algo);	 
 		 }
+	 
+	 /**
+		 * @param geo
+		 * @return RealWorld Coordinates of the rectangle covering all euclidian views
+		 *  in which <b>geo</b> is shown.<br /> Format: {xMin,xMax,yMin,yMax,xScale,yScale}
+		 */
+		public double[] getViewBoundsForGeo(GeoElementInterface geo){
+			List<Integer> viewSet=geo.getViewSet();
+			double[] viewBounds=new double[6];
+			for (int i=0;i<6;i++)
+				viewBounds[i]=Double.NEGATIVE_INFINITY;
+			viewBounds[0]=viewBounds[2]=Double.POSITIVE_INFINITY;
+			for(int id:viewSet){
+				View view=getApplication().getView(id);
+				if (view!=null&&view instanceof EuclidianViewInterfaceSlim){
+					EuclidianViewInterfaceSlim ev=(EuclidianViewInterfaceSlim)view;
+					viewBounds[0]=Math.min(viewBounds[0],ev.getXmin());
+					viewBounds[1]=Math.max(viewBounds[1],ev.getXmax());
+					viewBounds[2]=Math.min(viewBounds[2],ev.getYmin());
+					viewBounds[3]=Math.max(viewBounds[3],ev.getYmax());
+					viewBounds[4]=Math.max(viewBounds[4],ev.getXscale());
+					viewBounds[5]=Math.max(viewBounds[5],ev.getYscale());
+				}
+			}
+//			if (viewBounds[0]==Double.POSITIVE_INFINITY){
+//				//standard values if no view
+//				viewBounds[0]=viewBounds[2]=-10;
+//				viewBounds[1]=viewBounds[3]=10;
+//				viewBounds[5]=viewBounds[6]=1;
+//			}
+			return viewBounds;
+		}	
+		
+		final public GeoAxis getXAxis() {
+			return ((Construction)cons).getXAxis();
+		}
+		
+		final public GeoAxis getYAxis() {
+			return ((Construction)cons).getYAxis();
+		}
+		
+		final public boolean isAxis(GeoElement geo) {
+			return (geo == ((Construction)cons).getXAxis() || geo == ((Construction)cons).getYAxis());
+		}
+		
+	    public void updateLocalAxesNames() {
+	    	cons.updateLocalAxesNames();
+	    }
 	/*
 	 * to avoid multiple calculations of the intersection points of the same
 	 * two objects, we remember all the intersection algorithms created
@@ -1940,13 +2263,15 @@ public abstract class AbstractKernel {
 
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 
+	/**
+	 * @deprecated
+	 * @param myList
+	 * @return
+	 */
 	public abstract GgbMat getGgbMat(MyList myList);
 
 	public abstract boolean isInsertLineBreaks();
 	
-	public abstract ExpressionNodeEvaluatorInterface getExpressionNodeEvaluator();
-	
-	public abstract String[] getPolynomialCoeffs(String function, String var);
 	
 	public abstract GeoPoint2 [] RootMultiple(String [] labels, GeoFunction f);
 

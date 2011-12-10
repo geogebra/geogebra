@@ -16,6 +16,7 @@ import geogebra.GeoGebra3D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -31,7 +32,6 @@ import geogebra.common.main.MyError;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
-import geogebra.kernel.commands.AlgebraProcessor;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra3D.Application3D;
 import geogebra3D.io.MyXMLHandler3D;
@@ -182,7 +182,7 @@ public class Kernel3D extends Kernel {
 		return new MyXMLHandler3D(kernel, cons);
 	}
 
-	protected ExpressionNodeEvaluator newExpressionNodeEvaluator() {
+	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
 		return new ExpressionNodeEvaluator3D();
 	}
 

@@ -45,7 +45,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractAlgebraProcessor;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -5773,7 +5773,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		String ggbScript = update ? updateScript : clickScript;
 
-		AbstractAlgebraProcessor ab = kernel.getAlgebraProcessor();
+		AlgebraProcessor ab = kernel.getAlgebraProcessor();
 		String script[] = (arg == null) ? ggbScript.split("\n") : ggbScript
 				.replaceAll("%0", arg).split("\n");
 

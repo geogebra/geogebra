@@ -7,6 +7,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -235,18 +236,10 @@ public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loadi
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void showError(MyError e) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void showError(String string, String str) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void showRelation(GeoElement geoElement, GeoElement geoElement2);
+	public abstract void showError(MyError e);
+	public abstract void showError(String string, String str);
+	public abstract View getView(int id);
 	
 
 }
