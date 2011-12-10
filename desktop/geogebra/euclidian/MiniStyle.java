@@ -2,9 +2,9 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.kernel.ConstructionDefaults;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Color;

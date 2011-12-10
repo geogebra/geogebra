@@ -17,8 +17,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoText;
 import geogebra.util.Util;
 
 import java.util.ArrayList;

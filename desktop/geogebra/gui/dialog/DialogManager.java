@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -40,7 +41,6 @@ import geogebra.gui.dialog.options.OptionsDialog.Factory;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
 

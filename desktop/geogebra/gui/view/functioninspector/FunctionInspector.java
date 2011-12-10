@@ -34,6 +34,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
@@ -60,7 +61,6 @@ import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.cas.AlgoLengthFunction;
 import geogebra.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

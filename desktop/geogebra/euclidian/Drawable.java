@@ -22,7 +22,7 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;

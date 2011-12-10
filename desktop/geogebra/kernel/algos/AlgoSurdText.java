@@ -16,9 +16,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import org.apache.commons.math.util.MathUtils;
 

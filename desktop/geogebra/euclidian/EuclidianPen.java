@@ -2,9 +2,9 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoImage;
 import geogebra.main.Application;
 
 import java.awt.AlphaComposite;

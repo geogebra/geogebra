@@ -23,7 +23,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoText;
 
 import java.util.ArrayList;
 

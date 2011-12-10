@@ -1,19 +1,19 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoDependentText;
-import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.TokenMgrError;
 import geogebra.main.Application;

@@ -28,9 +28,11 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
@@ -46,7 +48,6 @@ import geogebra.kernel.algos.AlgoIntegralFunctions;
 import geogebra.kernel.algos.AlgoSlope;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
 import geogebra.util.Util;
@@ -353,9 +354,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     String sb = kernel.format(b);
     // String Expression of f and g
     String valueF=f.toValueString();
-	valueF=killSpace(Util.toLaTeXString(valueF,true));
+	valueF=killSpace(StringUtil.toLaTeXString(valueF,true));
     String valueG=g.toValueString();
-	valueG=killSpace(Util.toLaTeXString(valueG,true));
+	valueG=killSpace(StringUtil.toLaTeXString(valueG,true));
 	// String expressions for f(a) and g(b) 
 	String fa=kernel.format(f.evaluate(a));
 	String gb=kernel.format(g.evaluate(b));
@@ -395,7 +396,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	String a = kernel.format(algo.getA().getDouble());
         String b = kernel.format(algo.getB().getDouble());    
     	String value=f.toValueString();
-    	value=killSpace(Util.toLaTeXString(value,true));
+    	value=killSpace(StringUtil.toLaTeXString(value,true));
 		startBeamer(codeFilledObject);
     	codeFilledObject.append("\\pscustom");
     	codeFilledObject.append(LineOptionCode(geo,true));
@@ -744,7 +745,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
         // create point for slider
         GeoPoint2 geoPoint = new GeoPoint2(construction);
         geoPoint.setObjColor(geo.getObjectColor());
-        String label=Util.toLaTeXString(geo.getLabelDescription(),true);
+        String label=StringUtil.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
     	double param =  (value - min) / (max - min);
     	geoPoint.pointSize = 2 + (geo.lineThickness+1) / 3;  
@@ -958,9 +959,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double end=geo.getMaxParameter();
 //		boolean isClosed=geo.isClosedPath();
 		String fx=geo.getFunX();
-		fx=killSpace(Util.toLaTeXString(fx,true));
+		fx=killSpace(StringUtil.toLaTeXString(fx,true));
 		String fy=geo.getFunY();
-		fy=killSpace(Util.toLaTeXString(fy,true));
+		fy=killSpace(StringUtil.toLaTeXString(fy,true));
 		String variable=geo.getVarString();
 		boolean warning=!(variable.equals("t"));
 		startBeamer(code);
@@ -989,7 +990,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		Function f=geo.getFunction();
 		if (null==f) return;
 		String value=f.toValueString();
-		value=killSpace(Util.toLaTeXString(value,true));
+		value=killSpace(StringUtil.toLaTeXString(value,true));
 		double a=xmin;
 		double b=xmax;
 		if (geo.hasInterval()) {
@@ -1550,7 +1551,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				String name;
 				if (geo.getLabelMode()==GeoElement.LABEL_CAPTION)
 					name=geo.getLabelDescription();
-				else name="$"+Util.toLaTeXString(geo.getLabelDescription(),true)+"$";
+				else name="$"+StringUtil.toLaTeXString(geo.getLabelDescription(),true)+"$";
 				if (name.indexOf("\u00b0")!=-1){
 					name=name.replaceAll("\u00b0", "\\\\textrm{\\\\degre}");
 					if (codePreamble.indexOf("\\degre")==-1)

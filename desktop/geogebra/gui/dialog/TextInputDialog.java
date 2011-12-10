@@ -14,6 +14,7 @@ package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
@@ -27,7 +28,6 @@ import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbols;
 import geogebra.gui.util.TableSymbolsLaTeX;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

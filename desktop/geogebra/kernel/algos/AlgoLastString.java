@@ -14,7 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoText;
 
 /**
  * Take first n objects from a list

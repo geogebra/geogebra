@@ -17,10 +17,10 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoButton;
-import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
 

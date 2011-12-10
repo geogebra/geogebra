@@ -15,7 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoText;
 
 
 public class AlgoVerticalText extends AlgoElement {

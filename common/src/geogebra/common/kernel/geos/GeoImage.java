@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -20,20 +20,9 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.Mirrorable;
-import geogebra.common.kernel.geos.PointRotateable;
-import geogebra.common.kernel.geos.Transformable;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -106,11 +95,13 @@ implements Locateable, AbsoluteScreenLocateable,
 		set(img);				
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoImage(this);
 	}
 	
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	
     	return EuclidianConstants.MODE_IMAGE;
     	/*
@@ -137,6 +128,7 @@ implements Locateable, AbsoluteScreenLocateable,
 			corners[0] = tempPoints[0];
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		GeoImage img = (GeoImage) geo;
 		setImageFileName(img.getGraphicsAdapter().getImageFileName());
@@ -171,6 +163,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		defined = img.defined;
 	}
 	
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		
@@ -190,6 +183,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		}		
 	}
 	
+	@Override
 	public boolean showToolTipText() {
 		return !inBackground && super.showToolTipText();
 	}
@@ -212,6 +206,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * Tries to load the image using the given fileName.
 	 * @param fileName
 	 */
+	@Override
 	public void setImageFileName(String fileName) {
 		
 		// this will be rewrited later during the refactoring - Arpad Fekete, 2011-12-01
@@ -326,6 +321,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		}
 	}		
 	
+	@Override
 	public void doRemove() {
 		instances.remove(this);		
 		
@@ -385,6 +381,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 	
 	
+	@Override
 	final public boolean isDefined() {
 		if(!defined) return false;
 		for (int i=0; i < corners.length; i++) {
@@ -398,35 +395,43 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * makes image invisible
 	 * needed for Sequence's cached images
  	*/
+	@Override
 	public void setUndefined() {
 		defined = false;		
 	}
 
+	@Override
 	public String toValueString() {
 		return toString();
 	}
 	
+	@Override
 	public String toString() {				
 		return label == null ? app.getPlain("Image") : label;
 	}	
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {		
 		return getGraphicsAdapter().getImageOnly() != null && isDefined();
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoImage";
 	}
 	
+	@Override
 	protected String getTypeString() {
 		return "Image";
 	}
 	
-    public GeoClass getGeoClassType() {
+    @Override
+	public GeoClass getGeoClassType() {
     	return GeoClass.IMAGE;
     }
 	
@@ -434,6 +439,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * Returns whether this image can be 
 	 * moved in Euclidian View.
 	 */
+	@Override
 	final public boolean isMoveable() {		
 		return (hasAbsoluteScreenLocation || hasAbsoluteLocation) && isChangeable();
 	}
@@ -442,6 +448,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	 * Returns whether this image can be 
 	 * rotated in Euclidian View.
 	 */
+	@Override
 	final public boolean isRotateMoveable() {
 		return !hasAbsoluteScreenLocation && hasAbsoluteLocation && isChangeable();
 	}
@@ -453,26 +460,32 @@ implements Locateable, AbsoluteScreenLocateable,
 		return (hasAbsoluteScreenLocation || hasAbsoluteLocation) && isIndependent();
 	}*/
 	
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 	
+	@Override
 	public boolean isGeoImage() {
 		return true;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}
 	
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}
@@ -480,6 +493,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	/**
 	* returns all class-specific xml tags for getXML
 	*/
+	@Override
 	protected void getXMLtags(StringBuilder sb) {  		   	
 			   	
 	   	// name of image file
@@ -607,6 +621,7 @@ implements Locateable, AbsoluteScreenLocateable,
 		return hasAbsoluteScreenLocation;
 	}
 	
+	@Override
 	public boolean isAbsoluteScreenLocateable() {
 		return isIndependent();
 	}
@@ -792,6 +807,7 @@ implements Locateable, AbsoluteScreenLocateable,
     	}     
 	}
 	
+	@Override
 	public boolean isMatrixTransformable() { 
 		return true;
 	}
@@ -816,6 +832,7 @@ implements Locateable, AbsoluteScreenLocateable,
     	}  
 	}	
 	
+	@Override
 	final public boolean isTranslateable() {
 		return true;
 	}
@@ -831,6 +848,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 
 	// Michael Borcherds 2008-04-30
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
 		if (!geo.isGeoImage()) return false;
@@ -852,11 +870,13 @@ implements Locateable, AbsoluteScreenLocateable,
 		return false;
 	}	
 
+	@Override
 	public boolean isVector3DValue() {		
 		return false;
 	}
 	
-	public boolean hasMoveableInputPoints(EuclidianViewInterface view) {
+	@Override
+	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
 		
 		if (hasAbsoluteLocation()) return false;
 		
@@ -871,7 +891,8 @@ implements Locateable, AbsoluteScreenLocateable,
 	/**
 	 * Returns all free parent points of this GeoElement.	 
 	 */
-	public ArrayList<GeoPoint2> getFreeInputPoints(EuclidianViewInterface view) {		
+	@Override
+	public ArrayList<GeoPoint2> getFreeInputPoints(EuclidianViewInterfaceSlim view) {		
 			if (hasAbsoluteLocation()) return null;
 			
 			if (al == null) al = new ArrayList<GeoPoint2>();
@@ -884,10 +905,12 @@ implements Locateable, AbsoluteScreenLocateable,
 			return al;
 	}
 	
+	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
 		return true;
 	}
 
+	@Override
 	final public boolean isAlgebraViewEditable() {
 		return false;
 	}

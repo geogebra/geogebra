@@ -5,9 +5,9 @@ import java.awt.Color;
 import java.awt.Font;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 

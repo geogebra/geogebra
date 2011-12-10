@@ -29,9 +29,11 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
@@ -47,7 +49,6 @@ import geogebra.kernel.algos.AlgoIntegralFunctions;
 import geogebra.kernel.algos.AlgoSlope;
 import geogebra.kernel.cas.AlgoIntegralDefinite;
 import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.geos.GeoText;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
 import geogebra.util.Util;
@@ -809,7 +810,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // create point for slider
         GeoPoint2 geoPoint = new GeoPoint2(construction);
         geoPoint.setObjColor(geo.getObjectColor());
-        String label=Util.toLaTeXString(geo.getLabelDescription(),true);
+        String label=StringUtil.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
         double param =  (value - min) / (max - min);
         geoPoint.pointSize = 2 + (geo.lineThickness+1) / 3;  
@@ -865,7 +866,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         boolean isLatex = geo.isLaTeX();
         String st = geo.getTextString();
         if(isLatex)
-            st = Util.toLaTeXString(st, true);
+            st = StringUtil.toLaTeXString(st, true);
         // try to replace euro symbol
         if (st.indexOf("\u20ac") != -1) {
             st = st.replaceAll("\\u20ac", "\\\\euro{}");
@@ -2061,11 +2062,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                    name = convertUnicodeToText(geo.getLabelDescription()).replaceAll("\\$","dollar");
                 }
                 else if (compactcse5) {
-                   name = Util.toLaTeXString(geo.getLabelDescription(),true);
+                   name = StringUtil.toLaTeXString(geo.getLabelDescription(),true);
                    name = convertUnicodeToLatex(name);
                 }
                 else {
-                   name = "$"+Util.toLaTeXString(geo.getLabelDescription(),true)+"$";
+                   name = "$"+StringUtil.toLaTeXString(geo.getLabelDescription(),true)+"$";
                    name = convertUnicodeToLatex(name);
                 }
                 if (name.indexOf("\u00b0") != -1){
@@ -2268,9 +2269,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         
         String lx = "", ly = "";    // axis labels
         if(label[0] != null)
-            lx = "$"+Util.toLaTeXString(label[0], true)+"$";
+            lx = "$"+StringUtil.toLaTeXString(label[0], true)+"$";
         if(label[1] != null)
-            ly = "$"+Util.toLaTeXString(label[1], true)+"$";
+            ly = "$"+StringUtil.toLaTeXString(label[1], true)+"$";
 /* follow format:       
         void xaxis(picture pic=currentpicture, Label L="", axis axis=YZero,
                 real xmin=-infinity, real xmax=infinity, pen p=currentpen, 
@@ -3254,7 +3255,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      */
     protected String parseFunction(String s){
         // Unicode?
-        return killSpace(Util.toLaTeXString(s,true));
+        return killSpace(StringUtil.toLaTeXString(s,true));
     }
     
 /* Rewrite the function: TODO

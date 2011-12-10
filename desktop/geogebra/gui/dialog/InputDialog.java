@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.util.StringUtil;
 import geogebra.gui.InputHandler;
 import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.inputfield.AutoCompleteTextField;
@@ -250,7 +251,7 @@ public class InputDialog extends JDialog implements ActionListener,
 		boolean convertGreekLetters = !app.getLocale().getLanguage().equals("gr");
 		if (str != null){
 			if(isLatex){
-				str = Util.toLaTeXString(str, convertGreekLetters);
+				str = StringUtil.toLaTeXString(str, convertGreekLetters);
 			}		
 			inputPanel.insertString(str);
 		}

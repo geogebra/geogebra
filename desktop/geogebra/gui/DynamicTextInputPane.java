@@ -1,13 +1,13 @@
 package geogebra.gui;
 
+import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.algos.AlgoDependentText;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Color;

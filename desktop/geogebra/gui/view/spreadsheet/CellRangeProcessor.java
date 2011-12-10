@@ -12,12 +12,12 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoDependentList;
 import geogebra.kernel.algos.AlgoPolyLine;
 import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import geogebra.common.awt.Point;

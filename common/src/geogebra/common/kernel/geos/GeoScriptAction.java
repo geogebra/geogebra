@@ -10,12 +10,10 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.commands.CmdScriptingInterface;
 
 /**

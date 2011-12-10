@@ -1,9 +1,9 @@
 package geogebra.gui.util;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.euclidian.DrawText;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
 

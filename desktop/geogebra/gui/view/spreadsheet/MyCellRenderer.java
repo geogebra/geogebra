@@ -3,10 +3,10 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.Color;

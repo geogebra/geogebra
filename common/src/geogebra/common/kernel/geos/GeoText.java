@@ -1,4 +1,4 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -10,17 +10,10 @@ import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoTextInterface;
-import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
-import geogebra.kernel.algos.AlgoDependentText;
-import geogebra.util.Util;
+import geogebra.common.kernel.algos.AlgoDependentText;
 
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle2D;
@@ -150,7 +143,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		
 		if (isLaTeX) {
 			//TODO: check greek letters of latex string
-			str = Util.toLaTeXString(text, false);
+			str = StringUtil.toLaTeXString(text, false);
 		} else {
 			// replace "\\n" with a proper newline
 			// for eg Text["Hello\\nWorld",(1,1)]

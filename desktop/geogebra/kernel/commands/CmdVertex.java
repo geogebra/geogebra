@@ -4,11 +4,11 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoText;
 
 /**
  * Vertex[ <GeoConic> ]

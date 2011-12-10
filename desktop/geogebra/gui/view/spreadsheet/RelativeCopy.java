@@ -6,11 +6,11 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.kernel.geos.GeoImage;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import geogebra.common.awt.Point;

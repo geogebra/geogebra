@@ -4,8 +4,8 @@ package geogebra.euclidian;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
-import geogebra.kernel.geos.GeoText;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
 
