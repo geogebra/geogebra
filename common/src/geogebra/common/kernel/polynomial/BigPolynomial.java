@@ -79,7 +79,6 @@ public class BigPolynomial implements Cloneable {
 		return new BigPolynomial(this);
 	}
 
-	@Override
 	public Object clone() {
 		return copy();
 	}
