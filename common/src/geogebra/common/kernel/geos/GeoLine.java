@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.Evaluatable;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
@@ -53,7 +54,7 @@ import java.util.ArrayList;
 public class GeoLine extends GeoVec3D 
 implements Path, 
 Translateable,PointRotateable, Mirrorable, Dilateable, LineProperties,
-GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
+GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable, Functional {
 	
 	// modes
     public static final int EQUATION_IMPLICIT = 0;
@@ -1327,5 +1328,13 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable {
 	
 	public boolean isFromPolyhedron(){
 		return false;
+	}
+
+	public Function getFunction() {
+		return getGeoFunction().getFunction();
+	}
+
+	public GeoFunction getGeoDerivative(int order) {
+		return getGeoFunction().getGeoDerivative(order);
 	}
 }
