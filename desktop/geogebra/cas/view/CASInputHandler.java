@@ -131,7 +131,7 @@ public class CASInputHandler {
 			prefix = newPrefix;
 		}
 		String newEvalText = resolveCASrowReferences(evalText, selRow,
-				ROW_REFERENCE_STATIC, true);
+				ROW_REFERENCE_STATIC, hasSelectedText);
 		if (!newEvalText.equals(evalText)) {
 			staticReferenceFound = true;
 			evalText = newEvalText;
@@ -849,6 +849,8 @@ public class CASInputHandler {
 	 */
 	public String resolveCASrowReferences(String str, int selectedRow,
 			char delimiter, boolean noParentheses) {
+		boolean newNoParentheses = noParentheses;
+
 		StringBuilder sb = new StringBuilder();
 		switch (delimiter) {
 		case ROW_REFERENCE_DYNAMIC:
@@ -874,15 +876,25 @@ public class CASInputHandler {
 					// expression
 					if (i < str.length() - 1) {
 						addParentheses = true;
+						newNoParentheses = false;
 					}
 
 					handleReference(sb, selectedRow, referenceNumber,
-							addParentheses, noParentheses);
+							addParentheses, newNoParentheses);
 				}
 
 				if (c != delimiter) {
 					sb.append(c);
 					addParentheses = true;
+					// if a part of the expression was selected the given String
+					// str has parentheses in the beginning and the end
+					// --> if just the reference is between these parentheses no
+					// more parenthesis should be added (--> leave
+					// newNoParentheses true), otherwise newNoParentheses will
+					// be set to false above in the for-loop
+					if (i == 0 && c != '(' || i > 0 && c != ')') {
+						newNoParentheses = false;
+					}
 				} else {
 					foundReference = true;
 				}
@@ -890,7 +902,7 @@ public class CASInputHandler {
 
 			if (foundReference) {
 				handleReference(sb, selectedRow, referenceNumber,
-						addParentheses, noParentheses);
+						addParentheses, newNoParentheses);
 			}
 
 			break;
