@@ -37,7 +37,7 @@ public class DrawBoxPlot extends Drawable {
 		if (isVisible) {
         	try {
 	            if (geo.doHighlighting()) {
-	                g2.setPaint((Paint) sum.getSelColor());
+	                g2.setPaint(geogebra.awt.Color.getAwtColor(sum.getSelColor()));
 	                g2.setStroke(selStroke);            
 	                g2.draw(gp);           
 	            } 
@@ -53,7 +53,7 @@ public class DrawBoxPlot extends Drawable {
         	
 			try {
 				if (geo.lineThickness > 0) {
-					g2.setPaint((Paint) sum.getObjectColor());
+					g2.setPaint(geogebra.awt.Color.getAwtColor(sum.getObjectColor()));
 					g2.setStroke(objStroke);                                   
 					g2.draw(gp);   
 				}
@@ -63,7 +63,7 @@ public class DrawBoxPlot extends Drawable {
 			
             if (labelVisible) {
 				g2.setFont(view.fontConic);
-				g2.setPaint((Paint) geo.getLabelColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor( geo.getLabelColor()));
 				drawLabel(g2);
             }        
         }

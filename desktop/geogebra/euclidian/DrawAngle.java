@@ -600,13 +600,13 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (geo.doHighlighting()) {
-				g2.setPaint((Paint) angle.getSelColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor(angle.getSelColor()));
 				g2.setStroke(selStroke);
 				g2.draw(shape);
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint((Paint) angle.getObjectColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor(angle.getObjectColor()));
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 			}
@@ -664,7 +664,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 			
 			if (labelVisible) {
-				g2.setPaint((Paint) angle.getLabelColor());
+				g2.setPaint(geogebra.awt.Color.getAwtColor(angle.getLabelColor()));
 				g2.setFont(view.fontAngle);
 				drawLabel(g2);
 			}
