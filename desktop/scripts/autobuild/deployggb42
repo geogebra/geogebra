@@ -143,9 +143,7 @@ cd $SVNDIR/geogebra/desktop/scripts/autobuild
 
 # 10. Sending an email to geogebra-dev:
 REVISION=`cat $SVNDIR/geogebra/desktop/scripts/autobuild/.revision`
-MAIL="New version of GeoGebra 4.2 has just been uploaded: $MYVER\n
-http://www.geogebra.org/trac/log/trunk?rev=$REVISION\n
-Automatic message, do not reply"
+MAIL="New version of GeoGebra 4.2 has just been uploaded: $MYVER\nhttp://www.geogebra.org/trac/log/trunk?rev=$REVISION\nAutomatic message, do not reply"
 echo -e $MAIL | mail -s "deployggb42 report" geogebra-dev@googlegroups.com 2>&1 | grep denied && {
  # If not successful, we send it through ssh:
  echo -e $MAIL | ssh www.geogebra.org mail -s "deployggb42 report" geogebra-dev@googlegroups.com
