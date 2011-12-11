@@ -24,11 +24,10 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -156,11 +155,11 @@ public abstract class GeoElement extends ConstructionElement implements
 			'\u0648', '\u064a' };
 
 	private static final char[] greekUpperCase = { // Michael Borcherds
-													// 2008-02-23
-	'\u0391', '\u0392', '\u0393', '\u0394', '\u0395', '\u0396', '\u0397',
-			'\u0398', '\u0399', '\u039a', '\u039b', '\u039c', '\u039d',
-			'\u039e', '\u039f', '\u03a0', '\u03a1', '\u03a3', '\u03a4',
-			'\u03a5', '\u03a6', '\u03a7', '\u03a8', '\u03a9' };
+			// 2008-02-23
+			'\u0391', '\u0392', '\u0393', '\u0394', '\u0395', '\u0396',
+			'\u0397', '\u0398', '\u0399', '\u039a', '\u039b', '\u039c',
+			'\u039d', '\u039e', '\u039f', '\u03a0', '\u03a1', '\u03a3',
+			'\u03a4', '\u03a5', '\u03a6', '\u03a7', '\u03a8', '\u03a9' };
 
 	public static final int LABEL_NAME = 0;
 	public static final int LABEL_NAME_VALUE = 1;
@@ -277,7 +276,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// function to determine color
 	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
-											// GeoNumeric Blue }
+									// GeoNumeric Blue }
 
 	private boolean useVisualDefaults = true;
 	protected boolean isColorSet = false;
@@ -511,8 +510,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPoint2[] copyPoints(Construction cons,
-			GeoPointND[] points) {
+	public static GeoPoint2[] copyPoints(Construction cons, GeoPointND[] points) {
 		GeoPoint2[] pointsCopy = new GeoPoint2[points.length];
 		for (int i = 0; i < points.length; i++) {
 			pointsCopy[i] = (GeoPoint2) ((GeoPoint2) points[i])
@@ -741,9 +739,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		setAlphaValue(alphaValue);
 
 		// selColor = getInverseColor(objColor);
-		if(color!=null)
-		selColor = geogebra.common.factories.AwtFactory.prototype.newColor(color.getRed(), color.getGreen(),
-				color.getBlue(), 100);
+		if (color != null) {
+			selColor = geogebra.common.factories.AwtFactory.prototype.newColor(
+					color.getRed(), color.getGreen(), color.getBlue(), 100);
+		}
 	}
 
 	/**
@@ -779,7 +778,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// get rgb values from color list
 		double redD = 0, greenD = 0, blueD = 0;
 		for (int i = 0; i < 3; i++) {
-			GeoElement geo = (GeoElement) colFunction.get(i);
+			GeoElement geo = colFunction.get(i);
 			if (geo.isDefined()) {
 				double val = ((NumberValue) geo).getDouble();
 				switch (i) {
@@ -1103,7 +1102,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return alphaValue;
 		}
 
-		GeoElement geo = (GeoElement) colFunction.get(3);
+		GeoElement geo = colFunction.get(3);
 		if (geo.isDefined()) {
 			double alpha = ((NumberValue) geo).getDouble();
 
@@ -1163,9 +1162,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		// if (isGeoPoint() && geo.isGeoPoint()) {
 		if (getGeoClassType().equals(GeoClass.POINT)
 				&& geo.getGeoClassType().equals(GeoClass.POINT)) {
-			((GeoPoint2) this)
-					.setSpreadsheetTrace(((GeoPoint2) geo)
-							.getSpreadsheetTrace());
+			((GeoPoint2) this).setSpreadsheetTrace(((GeoPoint2) geo)
+					.getSpreadsheetTrace());
 		}
 
 		// copy color function
@@ -1574,7 +1572,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (label == null) {
 				return "";
 			}
-			GeoElement geo = (GeoElement) kernel.lookupLabel(label);
+			GeoElement geo = kernel.lookupLabel(label);
 			return (geo == null) ? "" : geo.toValueString();
 		}
 
@@ -1786,14 +1784,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
-	private static boolean containsOnlyMoveableGeos(
-			ArrayList<GeoPoint2> geos) {
+	private static boolean containsOnlyMoveableGeos(ArrayList<GeoPoint2> geos) {
 		if ((geos == null) || (geos.size() == 0)) {
 			return false;
 		}
 
 		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = (GeoElement) geos.get(i);
+			GeoElement geo = geos.get(i);
 			if (!geo.isMoveable()) {
 				return false;
 			}
@@ -2155,7 +2152,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			// until they are shown in one of the views to get a label
 			if (isVisible()) {
 				// newLabel is used already: rename the using geo
-				GeoElement geo = (GeoElement) kernel.lookupLabel(newLabel);
+				GeoElement geo = kernel.lookupLabel(newLabel);
 				if (geo != null) {
 					geo.doRenameLabel(getFreeLabel(newLabel));
 				}
@@ -2269,8 +2266,8 @@ public abstract class GeoElement extends ConstructionElement implements
 						captionSB.append(kernel.format(((GeoPointND) this)
 								.getInhomCoords().getX()));
 					} else if (isGeoLine()) {
-						captionSB.append(kernel
-								.format(((GeoLine) this).getX()));
+						captionSB
+								.append(kernel.format(((GeoLine) this).getX()));
 					} else {
 						captionSB.append("%x");
 					}
@@ -2281,8 +2278,8 @@ public abstract class GeoElement extends ConstructionElement implements
 						captionSB.append(kernel.format(((GeoPointND) this)
 								.getInhomCoords().getY()));
 					} else if (isGeoLine()) {
-						captionSB.append(kernel
-								.format(((GeoLine) this).getY()));
+						captionSB
+								.append(kernel.format(((GeoLine) this).getY()));
 					} else {
 						captionSB.append("%y");
 					}
@@ -2292,8 +2289,8 @@ public abstract class GeoElement extends ConstructionElement implements
 						captionSB.append(kernel.format(((GeoPointND) this)
 								.getInhomCoords().getZ()));
 					} else if (isGeoLine()) {
-						captionSB.append(kernel
-								.format(((GeoLine) this).getZ()));
+						captionSB
+								.append(kernel.format(((GeoLine) this).getZ()));
 					} else {
 						captionSB.append("%z");
 					}
@@ -2797,7 +2794,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// remove Listeners
 		AlgoElement algo = getParentAlgorithm();
-		if (algo instanceof EuclidianViewCE) {
+		if (algo != null) {
 			cons.unregisterEuclidianViewCE(algo);
 		}
 
@@ -3119,7 +3116,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	final private void updateDependentObjects() {
 		if ((correspondingCasCell != null) && isIndependent()) {
-			updateAlgoUpdateSetWith((GeoElement) correspondingCasCell);
+			updateAlgoUpdateSetWith(correspondingCasCell);
 		} else if (algoUpdateSet != null) {
 			// update all algorithms in the algorithm set of this GeoElement
 			algoUpdateSet.updateAll();
@@ -3987,8 +3984,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		StringBuilder sb = new StringBuilder();
 
 		if (geo.isGeoList()
-				&& ((GeoList) geo).getElementType().equals(
-						GeoClass.TEXT)) {
+				&& ((GeoList) geo).getElementType().equals(GeoClass.TEXT)) {
 			return null;
 		}
 		// handle undefined
@@ -4586,8 +4582,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		/*
 		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
-		 * GeoPoint2 p = (GeoPoint2) this; if
-		 * (p.getSpreadsheetTrace()) {
+		 * GeoPoint2 p = (GeoPoint2) this; if (p.getSpreadsheetTrace()) {
 		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
 		 */
 		// END G.Sturr
@@ -4940,7 +4935,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/*
-	 *  ** hightlighting and selecting only for internal purpouses, i.e. this is
+	 * ** hightlighting and selecting only for internal purpouses, i.e. this is
 	 * not saved
 	 */
 
@@ -5203,7 +5198,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					GeoPoint2 p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
-					geo = (GeoElement) p;
+					geo = p;
 				} else {
 					movedGeo = movePoint(rwTransVec, endPosition);
 				}
@@ -6204,8 +6199,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Sets corresponding GeoCasCell for this GeoElement. See
 	 * GeoCasCell.getTwinGeo().
 	 */
-	final public void setCorrespondingCasCell(
-			GeoCasCell correspondingCasCell) {
+	final public void setCorrespondingCasCell(GeoCasCell correspondingCasCell) {
 		this.correspondingCasCell = correspondingCasCell;
 	}
 
