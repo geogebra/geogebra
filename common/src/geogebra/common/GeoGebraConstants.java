@@ -45,5 +45,9 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRATUBE_WEBSITE = "http://www.geogebratube.org/";
 	// max possible heap space for applets in MB
 	public final static int MAX_HEAP_SPACE = 512;
+	public static final String URL_PARAM_GGB_FILE = "ggb-file";
+	public static final String URL_PARAM_PROXY = "url";
+	public static final String PROXY_SERVING_LOCATION = "proxy";
+	public static final String GGM_CLASS_NAME = "geogebramobile";
 
 }
