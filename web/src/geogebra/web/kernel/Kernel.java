@@ -38,7 +38,7 @@ import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.web.main.Application;
-
+import geogebra.web.util.NumberFormat;
 
 public class Kernel extends AbstractKernel {
 
@@ -73,7 +73,7 @@ public class Kernel extends AbstractKernel {
 	@Override
     public NumberFormatAdapter getNumberFormat() {
 	    // TODO Auto-generated method stub
-	    return null;
+	    return new NumberFormat();
     }
 
 	@Override
