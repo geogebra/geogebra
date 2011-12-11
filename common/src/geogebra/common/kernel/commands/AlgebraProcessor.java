@@ -989,7 +989,7 @@ public class AlgebraProcessor {
 			if (left.isLeaf() && left.isGeoElement() && right.isLeaf()
 					&& right.isNumberValue() && !isIndependent) {
 				f = (GeoFunction) kernel.DependentGeoCopy(label,
-						(GeoElement) left);
+						((GeoFunctionable)left).getGeoFunction());
 				ret[0] = f;
 				return ret;
 			}
