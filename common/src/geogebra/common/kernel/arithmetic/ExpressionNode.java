@@ -465,8 +465,8 @@ public class ExpressionNode extends ValidExpression implements
 			didReplacement = ((AbstractCommand) left).replaceGeoDummyVariables(
 					var, newOb);
 		} else if (left instanceof Equation) {
-			didReplacement = ((Equation) left)
-					.replaceGeoDummyVariables(var, newOb);
+			didReplacement = ((Equation) left).replaceGeoDummyVariables(var,
+					newOb);
 		} else if (left.isExpressionNode()) {
 			didReplacement = ((ExpressionNode) left).replaceGeoDummyVariables(
 					var, newOb);
@@ -483,8 +483,8 @@ public class ExpressionNode extends ValidExpression implements
 				didReplacement = ((AbstractCommand) right)
 						.replaceGeoDummyVariables(var, newOb);
 			} else if (right instanceof Equation) {
-				didReplacement = ((Equation) right)
-						.replaceGeoDummyVariables(var, newOb);
+				didReplacement = ((Equation) right).replaceGeoDummyVariables(
+						var, newOb);
 			} else if (right.isExpressionNode()) {
 				didReplacement = ((ExpressionNode) right)
 						.replaceGeoDummyVariables(var, newOb) || didReplacement;
@@ -555,8 +555,8 @@ public class ExpressionNode extends ValidExpression implements
 				// GeoFunctionNVar
 				// MyList list=((ListValue)right).getMyList();
 			} else if (right instanceof MyList) { // to get polynomial
-															// vars in
-															// GeoFunctionNVar
+													// vars in
+													// GeoFunctionNVar
 				MyList list = (MyList) right;
 				for (int i = 0; i < list.size(); i++) {
 					ExpressionValue elem = list.getListElement(i);
@@ -644,8 +644,7 @@ public class ExpressionNode extends ValidExpression implements
 			replacements += ((ExpressionNode) left).replaceVariables(varName,
 					fVar);
 		} else if (left instanceof MyList) {
-			replacements += ((MyList) left).replaceVariables(varName,
-					fVar);
+			replacements += ((MyList) left).replaceVariables(varName, fVar);
 		} else if (left instanceof Variable) {
 			if (varName.equals(((Variable) left).getName())) {
 				left = fVar;
@@ -670,8 +669,8 @@ public class ExpressionNode extends ValidExpression implements
 				replacements += ((ExpressionNode) right).replaceVariables(
 						varName, fVar);
 			} else if (right instanceof MyList) {
-				replacements += ((MyList) right).replaceVariables(
-						varName, fVar);
+				replacements += ((MyList) right)
+						.replaceVariables(varName, fVar);
 			} else if (right instanceof Variable) {
 				if (varName.equals(((Variable) right).getName())) {
 					right = fVar;
@@ -941,13 +940,10 @@ public class ExpressionNode extends ValidExpression implements
 	public final void makePolynomialTree(Equation equ) {
 
 		if (operation == Operation.FUNCTION_NVAR) {
-			if ((left instanceof FunctionalNVar)
-					&& (right instanceof MyList)) {
+			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
 				MyList list = ((MyList) right);
-				FunctionNVar func = ((FunctionalNVar) left)
-						.getFunction();
-				ExpressionNode expr = (ExpressionNode) func.getExpression()
-						.getCopy(kernel);
+				FunctionNVar func = ((FunctionalNVar) left).getFunction();
+				ExpressionNode expr = func.getExpression().getCopy(kernel);
 				if (func.getFunctionVariables().length == list.size()) {
 					for (int i = 0; i < list.size(); i++) {
 						ExpressionValue ev = list.getListElement(i);
@@ -979,8 +975,7 @@ public class ExpressionNode extends ValidExpression implements
 		} else if (operation == Operation.FUNCTION) {
 			if (left instanceof GeoFunction) {
 				Function func = ((Functional) left).getFunction();
-				ExpressionNode expr = (ExpressionNode) func.getExpression()
-						.getCopy(kernel);
+				ExpressionNode expr = func.getExpression().getCopy(kernel);
 				if (right instanceof ExpressionNode) {
 					if (!equ.isFunctionDependent()) {
 						equ.setFunctionDependent(((ExpressionNode) right)
@@ -3708,10 +3703,8 @@ public class ExpressionNode extends ValidExpression implements
 				// TODO: avoid replacing of expressions in operationToString
 				if ((left instanceof FunctionalNVar)
 						&& (right instanceof MyList)) {
-					FunctionNVar func = ((FunctionalNVar) left)
-							.getFunction();
-					ExpressionNode en = (ExpressionNode) func.getExpression()
-							.getCopy(kernel);
+					FunctionNVar func = ((FunctionalNVar) left).getFunction();
+					ExpressionNode en = func.getExpression().getCopy(kernel);
 					for (int i = 0; (i < func.getVarNumber())
 							&& (i < ((MyList) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
@@ -4025,22 +4018,35 @@ public class ExpressionNode extends ValidExpression implements
 		if ((lc == null) || (rc == null)) {
 			return null;
 		}
-		if (this.operation.equals(Operation.PLUS)) {
+		switch (this.operation) {
+		case PLUS:
 			return lc + rc;
-		} else if (this.operation.equals(Operation.MINUS)) {
+
+		case MINUS:
 			return lc - rc;
-		} else if (this.operation.equals(Operation.MULTIPLY)
-				&& !getRightTree().containsFunctionVariable()) {
-			return lc * ((NumberValue) getRightTree().evaluate()).getDouble();
-		} else if (this.operation.equals(Operation.MULTIPLY)
-				&& !getLeftTree().containsFunctionVariable()) {
-			return rc * ((NumberValue) getLeftTree().evaluate()).getDouble();
-		} else if (this.operation.equals(Operation.DIVIDE)
-				&& !getRightTree().containsFunctionVariable()) {
-			return lc / ((NumberValue) getRightTree().evaluate()).getDouble();
-		} else if ((left.contains(fv) || right.contains(fv))) {
+
+		case MULTIPLY:
+			if (!getRightTree().containsFunctionVariable()) {
+				return lc
+						* ((NumberValue) getRightTree().evaluate()).getDouble();
+			} else if (!getLeftTree().containsFunctionVariable()) {
+				return rc
+						* ((NumberValue) getLeftTree().evaluate()).getDouble();
+			}
+			break;
+
+		case DIVIDE:
+			if (!getRightTree().containsFunctionVariable()) {
+				return lc
+						/ ((NumberValue) getRightTree().evaluate()).getDouble();
+			}
+			break;
+		}
+
+		if ((left.contains(fv) || right.contains(fv))) {
 			return null;
 		}
+
 		return 0.0;
 
 	}
