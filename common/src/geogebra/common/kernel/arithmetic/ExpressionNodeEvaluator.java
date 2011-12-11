@@ -18,13 +18,12 @@ import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
-
 /**
  * @author ggb3D
  * 
  *         Evaluator for ExpressionNode (used in Operation.evaluate())
  */
-public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
+public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Evaluates the ExpressionNode described by the parameters
@@ -38,9 +37,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 		boolean leaf = expressionNode.leaf;
 		ExpressionValue left = expressionNode.left;
 
-		if (leaf)
+		if (leaf) {
 			return left.evaluate(); // for wrapping ExpressionValues as
-		// ValidExpression
+			// ValidExpression
+		}
 
 		AbstractKernel kernel = expressionNode.kernel;
 		ExpressionValue right = expressionNode.right;
@@ -58,48 +58,55 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 		Polynomial poly;
 
 		lt = left.evaluate(); // left tree
-		if (operation.equals(Operation.NO_OPERATION))
+		if (operation.equals(Operation.NO_OPERATION)) {
 			return lt;
+		}
 		rt = right.evaluate(); // right tree
 
 		// handle list operations first
 
 		if (lt.isListValue()) {
-			if (operation == Operation.MULTIPLY && rt.isVectorValue()) {
+			if ((operation == Operation.MULTIPLY) && rt.isVectorValue()) {
 				MyList myList = ((ListValue) lt).getMyList();
 				boolean isMatrix = myList.isMatrix();
 				int rows = myList.getMatrixRows();
 				int cols = myList.getMatrixCols();
-				if (isMatrix && rows == 2 && cols == 2) {
+				if (isMatrix && (rows == 2) && (cols == 2)) {
 					GeoVec2D myVec = ((VectorValue) rt).getVector();
 					// 2x2 matrix
 					myVec.multiplyMatrix(myList);
 
 					return myVec;
-				} else if (isMatrix && rows == 3 && cols == 3) {
+				} else if (isMatrix && (rows == 3) && (cols == 3)) {
 					GeoVec2D myVec = ((VectorValue) rt).getVector();
 					// 3x3 matrix, assume it's affine
 					myVec.multiplyMatrixAffine(myList, rt);
 					return myVec;
 				}
 
-			} else if (operation == Operation.VECTORPRODUCT && rt.isListValue()) {
+			} else if ((operation == Operation.VECTORPRODUCT)
+					&& rt.isListValue()) {
 
 				MyList listL = ((ListValue) lt.evaluate()).getMyList();
 				MyList listR = ((ListValue) rt.evaluate()).getMyList();
-				if ((listL.size() == 3 && listR.size() == 3) || (listL.size() == 2 && listR.size() == 2)) {
+				if (((listL.size() == 3) && (listR.size() == 3))
+						|| ((listL.size() == 2) && (listR.size() == 2))) {
 					listL.vectorProduct(listR);
 					return listL;
 				}
 
-			} else if (operation != Operation.EQUAL_BOOLEAN // added EQUAL_BOOLEAN Michael
-													// Borcherds 2008-04-12
-					&& operation != Operation.NOT_EQUAL // ditto
-					&& operation != Operation.IS_SUBSET_OF // ditto
-					&& operation != Operation.IS_SUBSET_OF_STRICT // ditto
-					&& operation != Operation.SET_DIFFERENCE // ditto
-					&& operation != Operation.ELEMENT_OF // list1(1) to get first element
-					&& !rt.isVectorValue() // eg {1,2} + (1,2)
+			} else if ((operation != Operation.EQUAL_BOOLEAN // added
+																// EQUAL_BOOLEAN
+																// Michael
+					)
+					// Borcherds 2008-04-12
+					&& (operation != Operation.NOT_EQUAL // ditto
+					) && (operation != Operation.IS_SUBSET_OF // ditto
+					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
+					) && (operation != Operation.SET_DIFFERENCE // ditto
+					) && (operation != Operation.ELEMENT_OF // list1(1) to get
+															// first element
+					) && !rt.isVectorValue() // eg {1,2} + (1,2)
 					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
 											// 2008-06-05
 			{
@@ -127,7 +134,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			return myList;
 		}
 
-		else if (lt instanceof FunctionalNVar && rt instanceof FunctionalNVar
+		else if ((lt instanceof FunctionalNVar)
+				&& (rt instanceof FunctionalNVar)
 				&& !operation.equals(Operation.EQUAL_BOOLEAN)
 				&& !operation.equals(Operation.NOT_EQUAL)) {
 			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
@@ -135,11 +143,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 		}
 		// we want to use function arithmetic in cases like f*2 or f+x^2, but
 		// not for f(2), f'(2) etc.
-		else if (lt instanceof FunctionalNVar && rt.isNumberValue()
-				&& operation.ordinal() < Operation.FUNCTION.ordinal()) {
+		else if ((lt instanceof FunctionalNVar) && rt.isNumberValue()
+				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
 					right, true);
-		} else if (rt instanceof FunctionalNVar && lt.isNumberValue()) {
+		} else if ((rt instanceof FunctionalNVar) && lt.isNumberValue()) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
 					left, false);
 		}
@@ -283,11 +291,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case LESS:
 			// number < number
-			if (lt.isNumberValue() && rt.isNumberValue())
+			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, AbstractKernel.isGreater(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
-			else {
+			} else {
 				String[] str = { "IllegalComparison", lt.toString(), "<",
 						rt.toString() };
 				throw new MyError(app, str);
@@ -296,11 +304,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 		case GREATER:
 
 			// number > number
-			if (lt.isNumberValue() && rt.isNumberValue())
+			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, AbstractKernel.isGreater(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
-			else {
+			} else {
 				String[] str = { "IllegalComparison", lt.getClass().getName(),
 						lt.toString(), ">", rt.toString(),
 						rt.getClass().getName() };
@@ -309,11 +317,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case LESS_EQUAL:
 			// number <= number
-			if (lt.isNumberValue() && rt.isNumberValue())
+			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, AbstractKernel.isGreaterEqual(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
-			else {
+			} else {
 				String[] str = { "IllegalComparison", lt.toString(),
 						strLESS_EQUAL, rt.toString() };
 				throw new MyError(app, str);
@@ -321,11 +329,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case GREATER_EQUAL:
 			// number >= number
-			if (lt.isNumberValue() && rt.isNumberValue())
+			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, AbstractKernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
-			else {
+			} else {
 				String[] str = { "IllegalComparison", lt.toString(),
 						strGREATER_EQUAL, rt.toString() };
 				throw new MyError(app, str);
@@ -333,7 +341,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case PARALLEL:
 			// line parallel to line
-			if (lt instanceof GeoLine && rt instanceof GeoLine) {
+			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
 				return new MyBoolean(kernel,
 						((GeoLine) lt).isParallel((GeoLine) rt));
 			} else {
@@ -344,7 +352,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case PERPENDICULAR:
 			// line perpendicular to line
-			if (lt instanceof GeoLine && rt instanceof GeoLine) {
+			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
 				return new MyBoolean(kernel,
 						((GeoLine) lt).isPerpendicular((GeoLine) rt));
 			} else {
@@ -366,8 +374,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			// vector + vector
 			else if (lt.isVectorValue() && rt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.add(vec, ((VectorValue) rt).getVector(),
-						vec);
+				GeoVec2D.add(vec, ((VectorValue) rt).getVector(), vec);
 				return vec;
 			}
 			// vector + number (for complex addition)
@@ -469,8 +476,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			// vector - vector
 			else if (lt.isVectorValue() && rt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.sub(vec, ((VectorValue) rt).getVector(),
-						vec);
+				GeoVec2D.sub(vec, ((VectorValue) rt).getVector(), vec);
 				return vec;
 			}
 			// 3D vector - 3D vector
@@ -614,8 +620,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 						return vec;
 					} else {
 						num = new MyDouble(kernel);
-						GeoVec2D.inner(vec,
-								((VectorValue) rt).getVector(), num);
+						GeoVec2D.inner(vec, ((VectorValue) rt).getVector(), num);
 						return num;
 					}
 				}
@@ -709,23 +714,22 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			// vector / vector (complex division Michael Borcherds 2007-12-09)
 			else if (lt.isVectorValue() && rt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.complexDivide(vec,
-						((VectorValue) rt).getVector(), vec);
+				GeoVec2D.complexDivide(vec, ((VectorValue) rt).getVector(), vec);
 				return vec;
 
 			}
 			// number / vector (complex division Michael Borcherds 2007-12-09)
 			else if (lt.isNumberValue() && rt.isVectorValue()) {
 				vec = ((VectorValue) rt).getVector(); // just to
-																	// initialise
-																	// vec
+														// initialise
+														// vec
 				GeoVec2D.complexDivide((NumberValue) lt,
 						((VectorValue) rt).getVector(), vec);
 				return vec;
 
 			}
 
-			else if (rt instanceof GeoFunction && lt.isNumberValue()) {
+			else if ((rt instanceof GeoFunction) && lt.isNumberValue()) {
 				return GeoFunction.applyNumberSymb(Operation.DIVIDE,
 						(GeoFunction) rt, left, false);
 			} else {
@@ -762,7 +766,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 				// special case: left side is negative and
 				// right side is a fraction a/b with a and b integers
 				// x^(a/b) := (x^a)^(1/b)
-				if (base < 0 && right.isExpressionNode()) {
+				if ((base < 0) && right.isExpressionNode()) {
 					ExpressionNode node = (ExpressionNode) right;
 					if (node.operation.equals(Operation.DIVIDE)) {
 						// check if we have a/b with a and b integers
@@ -773,10 +777,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 							double b = ((NumberValue) node.right.evaluate())
 									.getDouble();
 							long bl = Math.round(b);
-							if (b == 0)
+							if (b == 0) {
 								// (x^a)^(1/0)
 								num.set(Double.NaN);
-							else if (AbstractKernel.isEqual(b, bl)) { // b is integer
+							} else if (AbstractKernel.isEqual(b, bl)) { // b is
+																		// integer
 								// divide through greatest common divisor of a
 								// and b
 								long gcd = AbstractKernel.gcd(al, bl);
@@ -786,13 +791,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 								// we will now evaluate (x^a)^(1/b) instead of
 								// x^(a/b)
 								// set base = x^a
-								if (al != 1)
+								if (al != 1) {
 									base = Math.pow(base, al);
+								}
 								if (base > 0) {
 									// base > 0 => base^(1/b) is no problem
 									num.set(Math.pow(base, 1d / bl));
 								} else { // base < 0
-									boolean oddB = Math.abs(bl) % 2 == 1;
+									boolean oddB = (Math.abs(bl) % 2) == 1;
 									if (oddB) {
 										// base < 0 and b odd: (base)^(1/b) =
 										// -(-base^(1/b))
@@ -911,7 +917,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 				// get constant coefficent of given polynomial
 				double exponent = ((Polynomial) rt).getConstantCoeffValue();
-				if ((AbstractKernel.isInteger(exponent) && (int) exponent >= 0)) {
+				if ((AbstractKernel.isInteger(exponent) && ((int) exponent >= 0))) {
 					poly = new Polynomial(kernel, (Polynomial) lt);
 					poly.power((int) exponent);
 					return poly;
@@ -921,8 +927,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 					throw new MyError(app, str);
 				}
 			} else {
-				AbstractApplication.debug("power: lt :" + lt.getClass() + ", rt: "
-						+ rt.getClass());
+				AbstractApplication.debug("power: lt :" + lt.getClass()
+						+ ", rt: " + rt.getClass());
 				String[] str = { "IllegalExponent", lt.toString(), "^",
 						rt.toString() };
 				throw new MyError(app, str);
@@ -930,10 +936,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case COS:
 			// cos(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().cos();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -945,10 +951,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case SIN:
 			// sin(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sin();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -966,19 +972,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 				if (rt.isGeoElement()) {
 					GeoList list = (GeoList) rt;
 					int n = list.size() - 3;
-					if (n >= 1
+					if ((n >= 1)
 							&& list.getElementType().equals(GeoClass.NUMERIC)) {
 						double min = ((GeoNumeric) (list.get(0))).getDouble();
 						double max = ((GeoNumeric) (list.get(1))).getDouble();
 
-						if (min > max || x > max || x < min)
+						if ((min > max) || (x > max) || (x < min)) {
 							return new MyDouble(kernel, Double.NaN);
+						}
 
 						double step = (max - min) / n;
 
 						int index = (int) Math.floor((x - min) / step);
 
-						if (index > n - 1) {
+						if (index > (n - 1)) {
 							ret = ((GeoNumeric) (list.get(n + 2))).getDouble();
 						} else {
 
@@ -986,11 +993,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 									.getDouble();
 							double y2 = ((GeoNumeric) (list.get(index + 3)))
 									.getDouble();
-							double x1 = min + index * step;
+							double x1 = min + (index * step);
 
 							// linear interpolation between (x1,y1) and
 							// (x2,y2+step) to give (x,ret)
-							ret = y1 + (x - x1) * (y2 - y1) / step;
+							ret = y1 + (((x - x1) * (y2 - y1)) / step);
 						}
 					}
 				}
@@ -1007,10 +1014,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case TAN:
 			// tan(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().tan();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1022,10 +1029,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ARCCOS:
 			// arccos(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().acos();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ARCCOS, null),
@@ -1037,10 +1044,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ARCSIN:
 			// arcsin(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().asin();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ARCSIN, null),
@@ -1052,10 +1059,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ARCTAN:
 			// arctan(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().atan();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ARCTAN, null),
@@ -1078,10 +1085,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case COSH:
 			// cosh(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().cosh();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.COSH, null),
@@ -1093,10 +1100,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case SINH:
 			// sinh(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sinh();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.SINH, null),
@@ -1108,10 +1115,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case TANH:
 			// tanh(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().tanh();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.TANH, null),
@@ -1123,10 +1130,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ACOSH:
 			// acosh(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().acosh();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ACOSH, null),
@@ -1138,10 +1145,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ASINH:
 			// asinh(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().asinh();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ASINH, null),
@@ -1153,10 +1160,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ATANH:
 			// tanh(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().atanh();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ATANH, null),
@@ -1168,10 +1175,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case CSC:
 			// csc(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().csc();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1183,10 +1190,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case SEC:
 			// sec(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sec();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1198,10 +1205,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case COT:
 			// cot(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().cot();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1213,10 +1220,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case CSCH:
 			// csch(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().csch();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.CSCH, null),
@@ -1228,10 +1235,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case SECH:
 			// sech(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sech();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.SECH, null),
@@ -1243,10 +1250,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case COTH:
 			// coth(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().coth();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.COTH, null),
@@ -1258,10 +1265,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case EXP:
 			// exp(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().exp();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1281,10 +1288,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case LOG:
 			// log(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().log();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1399,10 +1406,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case LOG10:
 			// log(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().log10();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.LOG10, null),
@@ -1414,10 +1421,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case LOG2:
 			// log(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().log2();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.LOG2, null),
@@ -1429,10 +1436,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case SQRT:
 			// sqrt(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sqrt();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.SQRT, null),
@@ -1451,10 +1458,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case CBRT:
 			// cbrt(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().cbrt();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.CBRT, null),
@@ -1473,9 +1480,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case CONJUGATE:
 			// cbrt(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber();
-			else if (lt.isVectorValue()) {
+			} else if (lt.isVectorValue()) {
 				vec = ((VectorValue) lt).getVector();
 
 				// complex cbrt
@@ -1504,10 +1511,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ABS:
 			// abs(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().abs();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1527,10 +1534,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case SGN:
 			// sgn(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sgn();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel,
 						new Term(kernel, new ExpressionNode(kernel, lt,
@@ -1545,7 +1552,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().floor();
 			} else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.FLOOR, null),
@@ -1560,7 +1567,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().ceil();
 			} else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.CEIL, null),
@@ -1575,7 +1582,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().round();
 			} else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ROUND, null),
@@ -1587,10 +1594,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case FACTORIAL:
 			// factorial(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().factorial();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.FACTORIAL,
@@ -1602,10 +1609,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case GAMMA:
 			// ceil(number)
-			if (lt.isNumberValue())
+			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().gamma();
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.GAMMA, null),
@@ -1623,11 +1630,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case XCOORD:
 			// x(vector)
-			if (lt.isVectorValue())
+			if (lt.isVectorValue()) {
 				return new MyDouble(kernel, ((VectorValue) lt).getVector()
 						.getX());
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.XCOORD, null),
@@ -1644,11 +1651,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case YCOORD:
 			// y(vector)
-			if (lt.isVectorValue())
+			if (lt.isVectorValue()) {
 				return new MyDouble(kernel, ((VectorValue) lt).getVector()
 						.getY());
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.YCOORD, null),
@@ -1665,10 +1672,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case ZCOORD:
 			// z(vector)
-			if (lt.isVectorValue())
+			if (lt.isVectorValue()) {
 				return new MyDouble(kernel, 0);
-			else if (lt.isPolynomialInstance()
-					&& ((Polynomial) lt).degree() == 0) {
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
 						new ExpressionNode(kernel, lt, Operation.ZCOORD, null),
@@ -1688,7 +1695,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			 */
 		case ELEMENT_OF:
 			// Application.debug(rt.getClass()+" "+rt.getClass());
-			if (rt.isListValue() && lt instanceof GeoList) {
+			if (rt.isListValue() && (lt instanceof GeoList)) {
 
 				GeoElement subList = ((GeoList) lt);
 				ListValue lv = (ListValue) rt;
@@ -1698,9 +1705,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 				for (int i = 0; i < lv.size(); i++) {
 					ExpressionNode ith = (ExpressionNode) lv.getMyList()
 							.getListElement(i);
-					if (ith.isConstant())
+					if (ith.isConstant()) {
 						nvs[i] = (NumberValue) ith.evaluate();
-					else {
+					} else {
 						AlgoDependentNumber adn = new AlgoDependentNumber(
 								kernel.getConstruction(), ith, false);
 						nvs[i] = adn.getNumber();
@@ -1724,11 +1731,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 			if (rt.isNumberValue()) {
 				if (lt instanceof Evaluatable) {
 					NumberValue arg = (NumberValue) rt;
-					if (lt instanceof GeoFunction
-							&& ((GeoFunction) lt).isBooleanFunction())
+					if ((lt instanceof GeoFunction)
+							&& ((GeoFunction) lt).isBooleanFunction()) {
 						return new MyBoolean(kernel,
 								((GeoFunction) lt).evaluateBoolean(arg
 										.getDouble()));
+					}
 					return arg.getNumber().apply((Evaluatable) lt);
 				}
 			} else if (rt instanceof GeoPoint2) {
@@ -1736,21 +1744,22 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 					GeoPoint2 pt = (GeoPoint2) rt;
 					if (lt instanceof GeoFunction) {
 						FunctionNVar fun = ((GeoFunction) lt).getFunction();
-						if (lt instanceof GeoFunction
-								&& fun.isBooleanFunction())
+						if (fun.isBooleanFunction()) {
 							return new MyBoolean(kernel,
 									fun.evaluateBoolean(pt));
+						}
 						return new MyDouble(kernel, fun.evaluate(pt));
 					} else if (lt instanceof GeoFunctionable) {
 						// eg GeoLine
 						return new MyDouble(kernel, ((GeoFunctionable) lt)
 								.getGeoFunction().getFunction().evaluate(pt));
-					} else
+					} else {
 						AbstractApplication
 								.debug("missing case in ExpressionNodeEvaluator");
+					}
 				}
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-					&& ((Polynomial) rt).degree() == 0) {
+					&& (((Polynomial) rt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
@@ -1765,15 +1774,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 		case FUNCTION_NVAR:
 			// function(list of numbers)
-			if (rt.isListValue() && lt instanceof FunctionalNVar) {
-				FunctionNVar funN = (FunctionNVar)((FunctionalNVar) lt).getFunction();
+			if (rt.isListValue() && (lt instanceof FunctionalNVar)) {
+				FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 				ListValue list = (ListValue) rt;
 				if (funN.getVarNumber() == list.size()) {
 					double[] args = list.toDouble();
 					if (args != null) {
-						if (funN.isBooleanFunction())
+						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,
 									funN.evaluateBoolean(args));
+						}
 						return new MyDouble(kernel, funN.evaluate(args));
 					}
 					// let's assume that we called this as f(x,y) and we
@@ -1783,32 +1793,35 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 					ExpressionValue ev = list.getMyList().getListElement(0)
 							.evaluate();
 					AbstractApplication.debug(ev.getClass());
-					if (funN.getVarNumber() == 2 && ev instanceof GeoPoint2) {
+					if ((funN.getVarNumber() == 2) && (ev instanceof GeoPoint2)) {
 						GeoPoint2 pt = (GeoPoint2) ev;
-						if (funN.isBooleanFunction())
+						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,
 									funN.evaluateBoolean(pt));
+						}
 						return new MyDouble(kernel, funN.evaluate(pt));
-					} else if (funN.getVarNumber() == 2
-							&& ev instanceof MyVecNode) {
+					} else if ((funN.getVarNumber() == 2)
+							&& (ev instanceof MyVecNode)) {
 						MyVecNode pt = (MyVecNode) ev;
 						double[] vals = new double[] {
 								((NumberValue) pt.getX().evaluate())
 										.getDouble(),
 								((NumberValue) pt.getY().evaluate())
 										.getDouble() };
-						if (funN.isBooleanFunction())
+						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,
 									funN.evaluateBoolean(vals));
+						}
 						return new MyDouble(kernel, funN.evaluate(vals));
-					} else if (ev instanceof ListValue
+					} else if ((ev instanceof ListValue)
 							&& ((ListValue) ev).getMyList().getListElement(0)
 									.evaluate().isNumberValue()) {
 						double[] vals = ((ListValue) ev).toDouble();
 						if (vals != null) {
-							if (funN.isBooleanFunction())
+							if (funN.isBooleanFunction()) {
 								return new MyBoolean(kernel,
 										funN.evaluateBoolean(vals));
+							}
 							return new MyDouble(kernel, funN.evaluate(vals));
 						}
 					} else if (ev instanceof ListValue) { // f(x,y) called with
@@ -1843,7 +1856,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 				NumberValue arg = (NumberValue) rt;
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-					&& ((Polynomial) rt).degree() == 0) {
+					&& (((Polynomial) rt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(kernel,
@@ -1869,7 +1882,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 							.round(((NumberValue) rt).getDouble()));
 				}
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
-					&& ((Polynomial) rt).degree() == 0) {
+					&& (((Polynomial) rt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				rt = ((Polynomial) rt).getConstantCoefficient();
 				return new Polynomial(kernel,
@@ -1896,27 +1909,23 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 	private MyBoolean evalEquals(AbstractKernel kernel, ExpressionValue lt,
 			ExpressionValue rt) {
 		// booleans
-		if (lt.isBooleanValue() && rt.isBooleanValue())
+		if (lt.isBooleanValue() && rt.isBooleanValue()) {
 			return new MyBoolean(kernel,
 					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
 							.getBoolean());
-
-		// nummber == number
-		else if (lt.isNumberValue() && rt.isNumberValue())
+		} else if (lt.isNumberValue() && rt.isNumberValue()) {
 			return new MyBoolean(kernel, AbstractKernel.isEqual(
 					((NumberValue) lt).getDouble(),
 					((NumberValue) rt).getDouble()));
-
-		// needed for eg If[""=="a",0,1]
-		// when lt and rt are MyStringBuffers
-		else if (lt.isTextValue() && rt.isTextValue()) {
+		} else if (lt.isTextValue() && rt.isTextValue()) {
 
 			String strL = ((TextValue) lt).toValueString();
 			String strR = ((TextValue) rt).toValueString();
 
 			// needed for eg Sequence[If[Element[list1,i]=="b",0,1],i,i,i]
-			if (strL == null || strR == null)
+			if ((strL == null) || (strR == null)) {
 				return new MyBoolean(kernel, false);
+			}
 
 			return new MyBoolean(kernel, strL.equals(strR));
 		} else if (lt.isListValue() && rt.isListValue()) {
@@ -1926,13 +1935,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 
 			int size = list1.size();
 
-			if (size != list2.size())
+			if (size != list2.size()) {
 				return new MyBoolean(kernel, false);
+			}
 
 			for (int i = 0; i < size; i++) {
 				if (!evalEquals(kernel, list1.getListElement(i).evaluate(),
-						list2.getListElement(i).evaluate()).getBoolean())
+						list2.getListElement(i).evaluate()).getBoolean()) {
 					return new MyBoolean(kernel, false);
+				}
 			}
 
 			return new MyBoolean(kernel, true);
@@ -1945,9 +1956,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants{
 		} else if (lt.isVectorValue() && rt.isVectorValue()) {
 			VectorValue vec1 = (VectorValue) lt;
 			VectorValue vec2 = (VectorValue) rt;
-			return new MyBoolean(kernel,
-					vec1.getVector().isEqual(vec2
-							.getVector()));
+			return new MyBoolean(kernel, vec1.getVector().isEqual(
+					vec2.getVector()));
 		} else if (lt.isVector3DValue() && rt.isVector3DValue()) {
 			Vector3DValue vec1 = (Vector3DValue) lt;
 			Vector3DValue vec2 = (Vector3DValue) rt;
