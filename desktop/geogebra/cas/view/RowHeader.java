@@ -19,9 +19,9 @@ public class RowHeader extends JList {
 	public RowHeader(CASTable table, boolean multipleIntervalSelection) {
 		setModel(new RowHeaderListModel(table));
 
-		if (multipleIntervalSelection)
+		if (multipleIntervalSelection) {
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		else {
+		} else {
 			setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		}
 		setFixedCellWidth(ROW_HEADER_WIDTH);
@@ -35,7 +35,7 @@ public class RowHeader extends JList {
 		// listener
 		RowHeaderListener rhl = new RowHeaderListener(table, this);
 		addMouseListener(rhl);
-		addMouseMotionListener(rhl);
+		// addMouseMotionListener(rhl);
 		addKeyListener(rhl);
 
 		// table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
