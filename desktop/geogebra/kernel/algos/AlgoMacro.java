@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
@@ -25,16 +26,13 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.euclidian.EuclidianView;
-import geogebra.common.kernel.Construction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Macro;
-import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -142,7 +140,7 @@ implements EuclidianViewCE, AlgoMacroInterface {
     		getMacroConstructionState();
     		
     	} catch (Exception e) {
-    		Application.debug("AlgoMacro compute():\n");
+    		AbstractApplication.debug("AlgoMacro compute():\n");
     		e.printStackTrace();
     		for (int i=0; i < getOutputLength(); i++) {
     			getOutput(i).setUndefined();
@@ -177,7 +175,7 @@ implements EuclidianViewCE, AlgoMacroInterface {
 			try{
 				if(macroInput[i]instanceof GeoVector)((GeoVector)macroInput[i]).setStartPoint(null);
 			}catch(Exception e){
-				Application.debug("Exception while handling vector input: "+e);
+				AbstractApplication.debug("Exception while handling vector input: "+e);
 			}
 			macroInput[i].setRealLabel(input[i].label);		
 			//Application.debug("SET INPUT object: " + input[i] + " => " + macroInput[i]);
@@ -403,19 +401,19 @@ implements EuclidianViewCE, AlgoMacroInterface {
 	 * in its construction.
 	 */	
 	private void initLocateable(Locateable macroLocateable, Locateable locateable) {
-		GeoPoint2 [] macroStartPoints = (GeoPoint2[]) macroLocateable.getStartPoints();
+		GeoPointND [] macroStartPoints = macroLocateable.getStartPoints();
 		if (macroStartPoints == null) return;
 		
 		try {					
 			for (int i=0; i < macroStartPoints.length; i++) {
-				GeoPoint2 point = (GeoPoint2) getAlgoGeo(macroStartPoints[i]);
+				GeoPointND point = (GeoPointND) getAlgoGeo((GeoElement)macroStartPoints[i]);
 				locateable.initStartPoint(point, i);
 				
 				//Application.debug("set start point: " + locateable + " => " + point + "(" + point.cons +")");
 				
 			}	
 		} catch (Exception e) {
-			Application.debug("AlgoMacro.initLocateable:");
+			AbstractApplication.debug("AlgoMacro.initLocateable:");
 			e.printStackTrace();
 		}
 	}		
