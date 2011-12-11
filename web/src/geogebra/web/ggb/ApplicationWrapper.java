@@ -5,6 +5,8 @@ import java.util.Map;
 
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 
@@ -41,13 +43,33 @@ public class ApplicationWrapper extends BasePresenter {
 		final Canvas canvas = Canvas.createIfSupported();
 		container.add(canvas);
 		
-		appProvider.get(new CodeSplitCallback<Application>() {
+		/*
+		 * It is a better way to do that, as Ajax instance is 
+		 * reused. But external jars needed for that, so left it
+		 * for later.
+		 * 
+		 * appProvider.get(new CodeSplitCallback<Application>() {
 			@Override public void onSuccess(Application result) {
 				app = result;
 				app.init(canvas);
 				maybeLoadFile();
 			}
+		});*/
+		
+		GWT.runAsync(new RunAsyncCallback() {
+
+            public void onSuccess() {
+				app = new Application();
+				app.init(canvas);
+				maybeLoadFile();            
+            }
+
+			@Override
+            public void onFailure(Throwable reason) {
+				GWT.log("App loading failed");
+			}
 		});
+		
 	}
 	
 	private void maybeLoadFile() {

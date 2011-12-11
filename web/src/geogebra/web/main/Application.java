@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
-
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -272,9 +271,6 @@ public class Application extends AbstractApplication {
 
 	}
 
-	
-
-	@Override
 	public boolean freeMemoryIsCritical() {
 		// TODO Auto-generated method stub
 		return false;
@@ -472,57 +468,56 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-	public Object getImageManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Object getImageManager() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 	@Override
-	public String reverseGetColor(String colorName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String reverseGetColor(String colorName) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 	@Override
-	public String getColor(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getColor(String string) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 	@Override
-	public BufferedImageAdapter getExternalImageAdapter(String filename) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public BufferedImageAdapter getExternalImageAdapter(String filename) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 	@Override
-	public String getCommandSyntax(String cmd) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getCommandSyntax(String cmd) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 	@Override
-	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 	@Override
-	public void showError(MyError e) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void showError(MyError e) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 	@Override
-	public void showError(String string, String str) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void showError(String string, String str) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 	@Override
-	public View getView(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    public View getView(int id) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 }
