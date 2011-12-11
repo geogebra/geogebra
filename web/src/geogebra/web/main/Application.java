@@ -7,13 +7,15 @@ import java.util.Map.Entry;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 
-import geogebra.common.awt.ImageManager;
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.gui.GuiManager;
+
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -270,11 +272,7 @@ public class Application extends AbstractApplication {
 
 	}
 
-	@Override
-	public Object getExternalImage(String fileName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public boolean freeMemoryIsCritical() {
@@ -378,12 +376,7 @@ public class Application extends AbstractApplication {
 		return null;
 	}
 
-	@Override
-	public ImageManager getImageManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public String translateCommand(String name) {
 		// TODO Auto-generated method stub
@@ -477,5 +470,59 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    return 0;
     }
+
+	@Override
+	public Object getImageManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String reverseGetColor(String colorName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getColor(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BufferedImageAdapter getExternalImageAdapter(String filename) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getCommandSyntax(String cmd) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showError(MyError e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showError(String string, String str) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public View getView(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
