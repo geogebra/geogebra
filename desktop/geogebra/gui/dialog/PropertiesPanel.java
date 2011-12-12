@@ -13,11 +13,13 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -44,7 +46,9 @@ import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -3189,13 +3193,13 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			else
 				mode = -1;
 			switch (mode) {
-				case Kernel.COORD_CARTESIAN :
+				case AbstractKernel.COORD_CARTESIAN :
 					coordCB.setSelectedIndex(0);
 					break;
-				case Kernel.COORD_POLAR :
+				case AbstractKernel.COORD_POLAR :
 					coordCB.setSelectedIndex(1);
 					break;
-				case Kernel.COORD_COMPLEX :
+				case AbstractKernel.COORD_COMPLEX :
 					coordCB.setSelectedIndex(2);
 					break;
 				default :
@@ -3238,7 +3242,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					case 0 : // Kernel.CARTESIAN					
 						for (int i = 0; i < geos.length; i++) {
 							geo = (GeoVec3D) geos[i];
-							geo.setMode(Kernel.COORD_CARTESIAN);
+							geo.setMode(AbstractKernel.COORD_CARTESIAN);
 							geo.updateRepaint();
 						}
 						break;
@@ -3246,14 +3250,14 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 					case 1 : // Kernel.POLAR					
 						for (int i = 0; i < geos.length; i++) {
 							geo = (GeoVec3D) geos[i];
-							geo.setMode(Kernel.COORD_POLAR);
+							geo.setMode(AbstractKernel.COORD_POLAR);
 							geo.updateRepaint();
 						}
 						break;
 					case 2 : // Kernel.COMPLEX					
 						for (int i = 0; i < geos.length; i++) {
 							geo = (GeoVec3D) geos[i];
-								geo.setMode(Kernel.COORD_COMPLEX);
+								geo.setMode(AbstractKernel.COORD_COMPLEX);
 								geo.updateRepaint();
 						}
 						break;
@@ -3486,17 +3490,17 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 			else
 				mode = -1;
 			switch (mode) {
-				case GeoConic.EQUATION_SPECIFIC :
+				case GeoConicND.EQUATION_SPECIFIC :
 					if (specificIndex > -1)
 						eqnCB.setSelectedIndex(specificIndex);
 					break;
 
-				case GeoConic.EQUATION_EXPLICIT :
+				case GeoConicND.EQUATION_EXPLICIT :
 					if (explicitIndex > -1)
 						eqnCB.setSelectedIndex(explicitIndex);
 					break;
 
-				case GeoConic.EQUATION_IMPLICIT :
+				case GeoConicND.EQUATION_IMPLICIT :
 					eqnCB.setSelectedIndex(implicitIndex);
 					break;
 
@@ -3902,7 +3906,7 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 		    public ComboBoxRenderer() {
 		      setOpaque(true);
 		      setBorder(new EmptyBorder(1, 1, 1, 1));
-		      separator = new JSeparator(JSeparator.HORIZONTAL);
+		      separator = new JSeparator(SwingConstants.HORIZONTAL);
 		    }
 
 		    public Component getListCellRendererComponent(JList list, Object value,
@@ -5378,14 +5382,14 @@ public	class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	public static String replaceEqualsSigns(String strCond) {
 		// needed to make next replace easier
-		strCond = strCond.replaceAll(">=", ExpressionNode.strGREATER_EQUAL);
-		strCond = strCond.replaceAll("<=", ExpressionNode.strLESS_EQUAL);
-		strCond = strCond.replaceAll("==", ExpressionNode.strEQUAL_BOOLEAN);
-		strCond = strCond.replaceAll("!=", ExpressionNode.strNOT_EQUAL);
+		strCond = strCond.replaceAll(">=", ExpressionNodeConstants.strGREATER_EQUAL);
+		strCond = strCond.replaceAll("<=", ExpressionNodeConstants.strLESS_EQUAL);
+		strCond = strCond.replaceAll("==", ExpressionNodeConstants.strEQUAL_BOOLEAN);
+		strCond = strCond.replaceAll("!=", ExpressionNodeConstants.strNOT_EQUAL);
 		
 		// allow A=B as well as A==B
 		// also stops A=B doing an assignment of B to A :)
-		return strCond.replaceAll("=", ExpressionNode.strEQUAL_BOOLEAN);
+		return strCond.replaceAll("=", ExpressionNodeConstants.strEQUAL_BOOLEAN);
 
 	}
 
@@ -5701,13 +5705,13 @@ class ColorFunctionPanel
 		tfAlpha.addActionListener(this);
 		tfAlpha.addFocusListener(this);
 		
-		nameLabelR = new JLabel("", JLabel.TRAILING);	
+		nameLabelR = new JLabel("", SwingConstants.TRAILING);	
 		nameLabelR.setLabelFor(inputPanelR);
-		nameLabelG = new JLabel("", JLabel.TRAILING);	
+		nameLabelG = new JLabel("", SwingConstants.TRAILING);	
 		nameLabelG.setLabelFor(inputPanelG);
-		nameLabelB = new JLabel("", JLabel.TRAILING);	
+		nameLabelB = new JLabel("", SwingConstants.TRAILING);	
 		nameLabelB.setLabelFor(inputPanelB);
-		nameLabelA = new JLabel("", JLabel.TRAILING);	
+		nameLabelA = new JLabel("", SwingConstants.TRAILING);	
 		nameLabelA.setLabelFor(inputPanelA);
 		
 		btRemove = new JButton("\u2718");
@@ -6045,9 +6049,9 @@ class GraphicsViewLocationPanel
 
 		for (int i=0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];	
-			if (geo.isVisibleInView(Application.VIEW_EUCLIDIAN)) 
+			if (geo.isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN)) 
 				isInEV = true;
-			if (geo.isVisibleInView(Application.VIEW_EUCLIDIAN2)) 
+			if (geo.isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN2)) 
 				isInEV2 = true;
 		}		
 
@@ -6102,10 +6106,10 @@ class GraphicsViewLocationPanel
 				EuclidianView ev2 = (EuclidianView)app.getEuclidianView2();
 				
 				if(cbGraphicsView2.isSelected()){
-					geo.addView(Application.VIEW_EUCLIDIAN2);
+					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
 					ev2.add(geo);
 				}else{
-					geo.removeView(Application.VIEW_EUCLIDIAN2);
+					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
 					ev2.remove(geo);
 				}
 			}

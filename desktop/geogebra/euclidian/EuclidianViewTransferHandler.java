@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
@@ -213,7 +214,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 						}
 					}
 					catch (Exception e) {
-						Application.debug("Caught exception decoding text transfer:" + e.getMessage());
+						AbstractApplication.debug("Caught exception decoding text transfer:" + e.getMessage());
 					}
 
 					// if the reader didn't work, try to get whatever string is available
@@ -270,9 +271,9 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 	 */
 	private void requestViewFocus(){
 		if(ev.equals(app.getEuclidianView()))
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(Application.VIEW_EUCLIDIAN);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN);
 		else
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(Application.VIEW_EUCLIDIAN2);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN2);
 	}
 
 	public Transferable createTransferable(JComponent comp) {

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -85,7 +86,7 @@ public class DrawVector extends Drawable implements Previewable {
 		P = v.getStartPoint();            		                            
         if (P != null && !P.isInfinite()) {
         	coords = view.getCoordsForView(P.getInhomCoordsInD(3));//P.getCoordsInD(3);
-            if (!Kernel.isZero(coords.getZ())){
+            if (!AbstractKernel.isZero(coords.getZ())){
             	isVisible = false;
             	return;
             }else{
@@ -99,7 +100,7 @@ public class DrawVector extends Drawable implements Previewable {
         
         // vector
         coords = view.getCoordsForView(v.getCoordsInD(3));//v.getCoordsInD(3);
-        if (!Kernel.isZero(coords.getZ())){
+        if (!AbstractKernel.isZero(coords.getZ())){
         	isVisible = false;
         	return;
         }else{

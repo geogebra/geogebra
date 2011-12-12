@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -122,7 +123,7 @@ public class DrawParametricCurve extends Drawable {
 		
 		
 		
-		if (Kernel.isEqual(min, max)) {
+		if (AbstractKernel.isEqual(min, max)) {
 			double [] eval = new double[2];
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
@@ -311,7 +312,7 @@ public class DrawParametricCurve extends Drawable {
 			lineTo(gp, x0, y0);
 		}else if (moveToAllowed == GAP_RESET_XMIN){
 			double d = gp.getCurrentPoint().getY();
-			if(!Kernel.isEqual(d, y0)){
+			if(!AbstractKernel.isEqual(d, y0)){
 				lineTo(gp, -10,d);
 				lineTo(gp, -10,y0);
 			}
@@ -320,7 +321,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 		else if (moveToAllowed == GAP_RESET_XMAX){
 			double d = gp.getCurrentPoint().getY();
-			if(!Kernel.isEqual(d, y0)){
+			if(!AbstractKernel.isEqual(d, y0)){
 				lineTo(gp, view.width+10,d);
 				lineTo(gp, view.width+10,y0);
 			}
@@ -329,7 +330,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 		else if (moveToAllowed == GAP_RESET_YMIN){
 			double d = gp.getCurrentPoint().getX();
-			if(!Kernel.isEqual(d, x0)){
+			if(!AbstractKernel.isEqual(d, x0)){
 				lineTo(gp, d,-10);
 				lineTo(gp, x0,-10);
 			}
@@ -337,7 +338,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 		else if (moveToAllowed == GAP_RESET_YMAX){
 			double d = gp.getCurrentPoint().getX();
-			if(!Kernel.isEqual(d, x0)){
+			if(!AbstractKernel.isEqual(d, x0)){
 			lineTo(gp, gp.getCurrentPoint().getX(),view.height+10);
 			lineTo(gp, x0,view.height+10);
 			}
@@ -530,7 +531,7 @@ public class DrawParametricCurve extends Drawable {
 	  * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	  */
 	 private static boolean isContinuous(ParametricCurve c, double t1, double t2, int MAX_ITERATIONS) {
-		 if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) return true;
+		 if (AbstractKernel.isEqual(t1, t2, AbstractKernel.MAX_DOUBLE_PRECISION)) return true;
 		 
 		 // left = c(t1)
 		 double [] left = new double[2];
@@ -575,7 +576,7 @@ public class DrawParametricCurve extends Drawable {
 				 t1 = m;
 			 }
 			 
-			 if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) 
+			 if (AbstractKernel.isEqual(t1, t2, AbstractKernel.MAX_DOUBLE_PRECISION)) 
 				 return true;
 			 //System.out.println("  largest dist: " + dist + ", [" + t1 + ", " + t2 +"]");
 		 }
@@ -812,8 +813,8 @@ public class DrawParametricCurve extends Drawable {
 		
 		// only add points that are more than MIN_PIXEL_DISTANCE 
 		// from current location
-		else if (!Kernel.isEqual(x, point.getX(), MIN_PIXEL_DISTANCE) || 
-				 !Kernel.isEqual(y, point.getY(), MIN_PIXEL_DISTANCE)) 
+		else if (!AbstractKernel.isEqual(x, point.getX(), MIN_PIXEL_DISTANCE) || 
+				 !AbstractKernel.isEqual(y, point.getY(), MIN_PIXEL_DISTANCE)) 
 		{
 			if (lineTo) {
 				gp.lineTo(x, y);

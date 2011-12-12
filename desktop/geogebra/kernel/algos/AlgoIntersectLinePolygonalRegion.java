@@ -73,8 +73,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
         this.g = g;
         this.p = p;
 
-        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
-        newSegmentCoords = new TreeMap<Double, Coords[]>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
+        newSegmentCoords = new TreeMap<Double, Coords[]>(Kernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
         
         init();
         setInputOutput(); // for AlgoElement 
@@ -157,8 +157,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     		if (AbstractKernel.isZero(coords.getLast())){
     			Coords segStart = seg.getPointInD(2, 0);
     			Coords segEnd = seg.getPointInD(2, 1);
-    			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
-    					((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)	) {
+    			if (((GeoLine) g).isOnPath(segStart, AbstractKernel.EPSILON) &&
+    					((GeoLine) g).isOnPath(segEnd, AbstractKernel.EPSILON)	) {
     				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);
     				newCoords.put(((GeoLine) g).getPossibleParameter(segEnd), segEnd);
     			}
@@ -250,7 +250,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
     			
-    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, AbstractKernel.EPSILON)) {
     				tOld_m++;
     			} else {
     				continue;
@@ -314,7 +314,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     		int tOld_m = 0;
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
-    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, AbstractKernel.EPSILON)) {
     				tOld_m++;
     			} else {
     				continue;

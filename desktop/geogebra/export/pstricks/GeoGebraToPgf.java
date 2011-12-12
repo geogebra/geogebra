@@ -1,6 +1,7 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
@@ -28,6 +29,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -655,7 +657,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		angExt+=angSt;
 		double r = arcSize /euclidianView.getXscale();
 		// if angle=90 and decoration=little square
-		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+		if (AbstractKernel.isEqual(geo.getValue(), AbstractKernel.PI_HALF)
 				&& geo.isEmphasizeRightAngle()
 				&& euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
 			r = r / Math.sqrt(2);
@@ -663,11 +665,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			x[0] = m[0] + r * Math.cos(angSt);
 			x[1] = m[1] + r * Math.sin(angSt);
 			x[2] = m[0] + r * Math.sqrt(2)
-					* Math.cos(angSt + Kernel.PI_HALF / 2);
+					* Math.cos(angSt + AbstractKernel.PI_HALF / 2);
 			x[3] = m[1] + r * Math.sqrt(2)
-					* Math.sin(angSt + Kernel.PI_HALF / 2);
-			x[4] = m[0] + r * Math.cos(angSt + Kernel.PI_HALF);
-			x[5] = m[1] + r * Math.sin(angSt + Kernel.PI_HALF);
+					* Math.sin(angSt + AbstractKernel.PI_HALF / 2);
+			x[4] = m[0] + r * Math.cos(angSt + AbstractKernel.PI_HALF);
+			x[5] = m[1] + r * Math.sin(angSt + AbstractKernel.PI_HALF);
 			x[6] = m[0];
 			x[7] = m[1];
 			startBeamer(codeFilledObject);
@@ -714,7 +716,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     		endBeamer(codeFilledObject);
 
 		// draw the dot if angle= 90 and decoration=dot
-			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+			if (AbstractKernel.isEqual(geo.getValue(), AbstractKernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle()
 					&& euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
 				double diameter = geo.lineThickness / euclidianView.getXscale();
@@ -896,7 +898,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     protected void drawPolygon(GeoPolygon geo){
 		// command: \pspolygon[par](x0,y0)....(xn,yn)
 		float alpha = geo.getAlphaValue();
-		if (alpha == 0.0f && geo.getFillType() != GeoPolygon.FILL_HATCH)
+		if (alpha == 0.0f && geo.getFillType() != GeoElement.FILL_HATCH)
 			return;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\fill");
@@ -1530,11 +1532,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawGeoConic(GeoConic geo){	
 		switch(geo.getType()){
 		// if conic is a circle
-			case GeoConic.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_CIRCLE:
 				drawCircle(geo);
 			break;
 			// if conic is an ellipse
-			case GeoConic.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
 //	command:  \draw[rotate around={angle:center},lineOptions](x_center,y_center) ellipse (R1 and R2)
 				AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
 				double eigenvecX=at.getScaleX();
@@ -1566,7 +1568,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			break;
 			
 		// if conic is a parabola 
-			case GeoConic.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_PARABOLA:
 //command:  \draw[rotate around={angle:center},xshift=x1,yshift=y1,lineOptions] plot(\x,\x^2/2/p);
 				// parameter of the parabola
 				double p=geo.p;
@@ -1622,7 +1624,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				code.append(");\n");
 				endBeamer(code);
 			break;
-			case GeoConic.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
 //command:  \draw[domain=-1:1,rotate around={angle:center},xshift=x1,yshift=y1,lineOptions] 
 //				plot({a(1+\x^2)/(1-\x^2)},2b\x/(1-\x^2));
 				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());

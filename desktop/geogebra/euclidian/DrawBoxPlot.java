@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.algos.AlgoBoxPlot;
 import geogebra.main.Application;
 
@@ -42,7 +43,7 @@ public class DrawBoxPlot extends Drawable {
 	                g2.draw(gp);           
 	            } 
         	} catch (Exception e) {
-        		Application.debug(e.getMessage());
+        		AbstractApplication.debug(e.getMessage());
         	}
             
         	try {
@@ -58,7 +59,7 @@ public class DrawBoxPlot extends Drawable {
 					g2.draw(gp);   
 				}
 			} catch (Exception e) {
-				Application.debug(e.getMessage());
+				AbstractApplication.debug(e.getMessage());
 			}    
 			
             if (labelVisible) {

@@ -17,6 +17,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.SetLabels;
@@ -928,7 +929,7 @@ public class PropertiesDialog
 		}
 
 		public int getViewID() {
-			return Application.VIEW_NONE;
+			return AbstractApplication.VIEW_NONE;
 		}
 
 	} // JTreeGeoElements

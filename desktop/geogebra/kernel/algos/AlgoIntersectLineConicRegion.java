@@ -28,6 +28,8 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+
 import java.awt.Color;
 
 /**
@@ -381,7 +383,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
       Coords ex = null;
       double t0, t1 = 0;
       switch (c.type){
-      case GeoConic.CONIC_PARABOLA:
+      case GeoConicNDConstants.CONIC_PARABOLA:
       	ex = c.getEigenvec(0);
       	if (numberOfLineParts == 2) {
       	
@@ -389,7 +391,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
       				g.getCoords().dotproduct(ex));
       	}
       	break;
-      case GeoConic.CONIC_HYPERBOLA:
+      case GeoConicNDConstants.CONIC_HYPERBOLA:
       	ex = c.getEigenvec(0);
       	
       	if (numberOfLineParts == 2) {
@@ -409,7 +411,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
       				AbstractKernel.isGreater(1, t1); 
       	}
       	break;
-      case GeoConic.CONIC_INTERSECTING_LINES:
+      case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
       	if (numberOfLineParts == 1) {
       		currentPartIsInRegion = true;
       	} else if (numberOfLineParts == 2) {
@@ -430,7 +432,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
       			(inOpenInterval(t1,0,1) && inOpenInterval(t0,2,3));
       	}
       	break;
-      case GeoConic.CONIC_PARALLEL_LINES:
+      case GeoConicNDConstants.CONIC_PARALLEL_LINES:
       	if (numberOfLineParts == 1) {
       		if (AbstractKernel.isGreater( -g.z/((g.x)*(g.x)+(g.y)*(g.y)), 0))
       			currentPartIsInRegion = true;

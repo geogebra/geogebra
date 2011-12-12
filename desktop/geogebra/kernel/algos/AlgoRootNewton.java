@@ -104,7 +104,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     final double calcRoot(Function fun, double start) {
     	double root = Double.NaN;
   		if (rootFinderBrent == null)
-    		rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);
+    		rootFinderBrent = new BrentSolver(AbstractKernel.STANDARD_PRECISION);
     	
     	// try Brent method with borders close to start value
     	try {	

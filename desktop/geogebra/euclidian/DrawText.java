@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -102,7 +103,7 @@ public final class DrawText extends Drawable {
 
 	        	//looks if it's on view     	
 	        	Coords p = view.getCoordsForView(loc.getInhomCoordsInD(3));
-	        	if (!Kernel.isZero(p.getZ())){
+	        	if (!AbstractKernel.isZero(p.getZ())){
 	        		isVisible = false;
 	        		return;
 	        	}

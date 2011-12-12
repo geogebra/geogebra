@@ -21,6 +21,7 @@ package geogebra.io;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
@@ -203,7 +204,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 					BufferedImage img = ImageIO.read(zip);
 					app.addExternalImage(name, img);
 				} catch (IOException e) {
-					Application
+					AbstractApplication
 							.debug("readZipFromURL: image could not be loaded: "
 									+ name);
 					e.printStackTrace();
@@ -704,12 +705,12 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 				javax.imageio.ImageIO.setUseCache(useCache);
 			}
 		} catch (Exception e) {
-			Application.debug(e.getMessage());
+			AbstractApplication.debug(e.getMessage());
 			try {
 				// if this did not work save image as png
 				ImageIO.write(img, "png", os);
 			} catch (Exception ex) {
-				Application.debug(ex.getMessage());
+				AbstractApplication.debug(ex.getMessage());
 				return;
 			}
 		}

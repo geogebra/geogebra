@@ -8,6 +8,8 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import geogebra.common.awt.Point;
+import geogebra.common.main.AbstractApplication;
+
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -22,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -133,7 +136,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 		private Color defaultBackground;
 
 		public RowHeaderRenderer(JTable table, JList rowHeader) {
-			super("", JLabel.CENTER);
+			super("", SwingConstants.CENTER);
 			setOpaque(true);
 			defaultBackground = MyTable.BACKGROUND_COLOR_HEADER;
 			this.rowHeader = rowHeader;
@@ -239,7 +242,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 		int y = e.getY();
 		
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(Application.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
 
 		
 		// Update resizingRow. If nonnegative, then mouse is over a boundary

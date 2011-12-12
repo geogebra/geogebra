@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.kernel.Kernel;
@@ -252,7 +253,7 @@ implements ActionListener {
             }                                    
             
             mi = new JCheckBoxMenuItem(sb.toString());           
-            mi.setSelected(Kernel.isEqual(axesRatios[i], scaleRatio));
+            mi.setSelected(AbstractKernel.isEqual(axesRatios[i], scaleRatio));
             mi.setActionCommand("" + axesRatios[i]);
             mi.addActionListener(al);           
             mi.setBackground(getBackground());

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,6 +21,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
@@ -125,7 +127,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		// first point
 		Coords v = view.getCoordsForView(points[0].getInhomCoordsInD(3));
-		if (!Kernel.isZero(v.getZ()))
+		if (!AbstractKernel.isZero(v.getZ()))
 			return false;
 		coords[0] = v.getX();
 		coords[1] = v.getY();
@@ -138,7 +140,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		for (int i = 1; i < points.length; i++) {
 			v = view.getCoordsForView(points[i].getInhomCoordsInD(3));
-			if (!Kernel.isZero(v.getZ())) { 
+			if (!AbstractKernel.isZero(v.getZ())) { 
 				return false;
 			}
 			coords[0] = v.getX();
@@ -313,8 +315,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	final public boolean isInside(Rectangle rect) {
-		Application.debug(gp.getBounds());
-		Application.debug(rect);
+		AbstractApplication.debug(gp.getBounds());
+		AbstractApplication.debug(rect);
 		return gp != null && gp.getBounds() != null && rect.contains(gp.getBounds());
 	}
 

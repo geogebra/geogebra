@@ -21,6 +21,7 @@ package geogebra.kernel;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.awt.Color;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroInterface;
@@ -82,6 +83,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AbstractMyMath2;
@@ -6255,7 +6257,7 @@ public class Kernel extends AbstractKernel{
 		
 		// angle unit
 		sb.append("\t<angleUnit val=\"");
-		sb.append(getAngleUnit() == Kernel.ANGLE_RADIANT ? "radiant" : "degree");
+		sb.append(getAngleUnit() == AbstractKernel.ANGLE_RADIANT ? "radiant" : "degree");
 		sb.append("\"/>\n");
 		
 		// algebra style
@@ -6348,7 +6350,7 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	public void setLibraryJavaScript(String str) {
-		Application.debug(str);
+		AbstractApplication.debug(str);
 		libraryJavaScript = str;
 		
 		//libraryJavaScript = "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');ggbApplet.registerObjectUpdateListener('A','listener');}function listener() {//java.lang.System.out.println('add listener called'); var x = ggbApplet.getXcoord('A');var y = ggbApplet.getYcoord('A');var len = Math.sqrt(x*x + y*y);if (len > 5) { x=x*5/len; y=y*5/len; }ggbApplet.unregisterObjectUpdateListener('A');ggbApplet.setCoords('A',x,y);ggbApplet.registerObjectUpdateListener('A','listener');}";
@@ -6528,8 +6530,8 @@ public class Kernel extends AbstractKernel{
 	
 	public GeoNumeric getDefaultNumber(boolean isAngle){
 		return (GeoNumeric)((Construction)cons).getConstructionDefaults().
-			getDefaultGeo(isAngle?ConstructionDefaults.DEFAULT_ANGLE:
-			ConstructionDefaults.DEFAULT_NUMBER);
+			getDefaultGeo(isAngle?AbstractConstructionDefaults.DEFAULT_ANGLE:
+			AbstractConstructionDefaults.DEFAULT_NUMBER);
 	}
 
 	

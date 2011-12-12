@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 
@@ -462,7 +463,7 @@ public final class AlgoFitLogistic extends AlgoElement{
     
     //20.11: ->Application.debug()
     private final static void errorMsg(String s){
-    	geogebra.main.Application.debug(s);
+    	AbstractApplication.debug(s);
     }//errorMsg(String)        
     
     

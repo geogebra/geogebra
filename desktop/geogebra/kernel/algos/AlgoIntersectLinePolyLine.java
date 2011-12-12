@@ -72,7 +72,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         this.g = g;
         this.pi = p;
         
-        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
     
         compute();
         
@@ -148,12 +148,12 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     		Coords coords = segStart.crossProduct(segEnd).crossProduct(gCoords);
     		
     		if (AbstractKernel.isZero(coords.getLast())){
-    			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
-    					((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)	) {
+    			if (((GeoLine) g).isOnPath(segStart, AbstractKernel.EPSILON) &&
+    					((GeoLine) g).isOnPath(segEnd, AbstractKernel.EPSILON)	) {
     				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);
     				newCoords.put(((GeoLine) g).getPossibleParameter(segEnd), segEnd);
     			}
-    		} else if ( GeoSegment.checkOnPath(segStart,segEnd,coords,false,Kernel.EPSILON) ) {
+    		} else if ( GeoSegment.checkOnPath(segStart,segEnd,coords,false,AbstractKernel.EPSILON) ) {
        			double t = ((GeoLine) g).getPossibleParameter(coords);
     			//Application.debug("parameter("+i+") : "+t);
        			if (t>=min && t<=max)

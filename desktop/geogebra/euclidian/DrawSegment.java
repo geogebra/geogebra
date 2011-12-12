@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -91,7 +92,7 @@ implements Previewable {
         Coords B = view.getCoordsForView(s.getEndInhomCoords());
         
         //check if in view
-        if (!Kernel.isZero(A.getZ()) || !Kernel.isZero(B.getZ())){
+        if (!AbstractKernel.isZero(A.getZ()) || !AbstractKernel.isZero(B.getZ())){
     		isVisible = false;
     		return;
         }

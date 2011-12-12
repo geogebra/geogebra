@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
@@ -1728,7 +1729,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 		}
 		
 		catch (Exception e) {
-			Application.debug(e.getMessage());
+			AbstractApplication.debug(e.getMessage());
 			return false;        			
 		}
 

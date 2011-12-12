@@ -3,6 +3,7 @@ package geogebra.plugin;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
@@ -56,7 +57,7 @@ public class ScriptManager {
 			if (!app.getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
 					CallJavaScript.evalScript(app, "ggbOnInit();", null);
 		} catch (Exception e) {
-			Application.debug("Error calling ggbOnInit(): "+e.getMessage());
+			AbstractApplication.debug("Error calling ggbOnInit(): "+e.getMessage());
 		}
 	}
 	
@@ -125,7 +126,7 @@ public class ScriptManager {
 			listenerList = new ArrayList<String>();			
 		}		
 		listenerList.add(jSFunctionName);				
-		Application.debug(string + ": " + jSFunctionName);
+		AbstractApplication.debug(string + ": " + jSFunctionName);
 		
 	}
 
@@ -136,7 +137,7 @@ public class ScriptManager {
 	public synchronized void unregisterAddListener(String JSFunctionName) {
 		if (addListeners != null) {
 			addListeners.remove(JSFunctionName);
-			Application.debug("unregisterAddListener: " + JSFunctionName);
+			AbstractApplication.debug("unregisterAddListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -156,7 +157,7 @@ public class ScriptManager {
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		if (removeListeners != null) {
 			removeListeners.remove(JSFunctionName);
-			Application.debug("unregisterRemoveListener: " + JSFunctionName);
+			AbstractApplication.debug("unregisterRemoveListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -176,7 +177,7 @@ public class ScriptManager {
 	public synchronized void unregisterClearListener(String JSFunctionName) {
 		if (clearListeners != null) {
 			clearListeners.remove(JSFunctionName);
-			Application.debug("unregisterClearListener: " + JSFunctionName);
+			AbstractApplication.debug("unregisterClearListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -196,7 +197,7 @@ public class ScriptManager {
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
 		if (renameListeners != null) {
 			renameListeners.remove(JSFunctionName);
-			Application.debug("unregisterRenameListener: " + JSFunctionName);
+			AbstractApplication.debug("unregisterRenameListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -216,7 +217,7 @@ public class ScriptManager {
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
 		if (updateListeners != null) {
 			updateListeners.remove(JSFunctionName);
-			Application.debug("unregisterUpdateListener: " + JSFunctionName);
+			AbstractApplication.debug("unregisterUpdateListener: " + JSFunctionName);
 		}	
 	}
 	
@@ -227,7 +228,7 @@ public class ScriptManager {
 	public synchronized void unregisterPenListener(String JSFunctionName) {
 		if (penListeners != null) {
 			penListeners.remove(JSFunctionName);
-			Application.debug("unregisterPenListener: " + JSFunctionName);
+			AbstractApplication.debug("unregisterPenListener: " + JSFunctionName);
 		}	
 	}
 	
@@ -260,7 +261,7 @@ public class ScriptManager {
 		
 		// add map entry
 		updateListenerMap.put(geo, JSFunctionName);		
-		Application.debug("registerUpdateListener: object: " + objName + ", function: " + JSFunctionName);
+		AbstractApplication.debug("registerUpdateListener: object: " + objName + ", function: " + JSFunctionName);
 	}
 	
 	/**
@@ -272,7 +273,7 @@ public class ScriptManager {
 			GeoElement geo = app.getKernel().lookupLabel(objName);
 			if (geo != null) {
 				updateListenerMap.remove(geo);
-				Application.debug("unregisterUpdateListener for object: " + objName);
+				AbstractApplication.debug("unregisterUpdateListener for object: " + objName);
 			}
 		}
 	}			
@@ -413,7 +414,7 @@ public class ScriptManager {
     	}
 
 		public int getViewID() {
-			return Application.VIEW_NONE;
+			return AbstractApplication.VIEW_NONE;
 		}
 		
 		public void add(GeoElementInterface geo) {
@@ -486,7 +487,7 @@ public class ScriptManager {
 			}
 			sb.append(");");
 			
-			Application.debug(sb.toString());
+			AbstractApplication.debug(sb.toString());
 			
 			CallJavaScript.evalScript(app, sb.toString(), null);
 

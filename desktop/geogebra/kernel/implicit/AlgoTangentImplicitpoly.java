@@ -163,8 +163,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 			//A convenient necessary condition of this is  (dF/dx)^2 <= |dF1/dx| * EPSILON.
 			//Not very reasonably, now we use (dF/dx)^2 <= EPSILON only, to avoid evaluation of dF1/dx 
 			//TODO: have a more reasonable choice
-			if(AbstractKernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.EPSILON_SQRT)
-					&& AbstractKernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.EPSILON_SQRT))
+			if(AbstractKernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), AbstractKernel.EPSILON_SQRT)
+					&& AbstractKernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), AbstractKernel.EPSILON_SQRT))
 				continue;
 			
 			tangents.adjustOutputSize(n+1);

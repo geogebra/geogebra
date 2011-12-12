@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
@@ -161,7 +162,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	public void mousePressed(MouseEvent e) {
 
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(Application.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
 
 
 		boolean rightClick = Application.isRightClick(e); 

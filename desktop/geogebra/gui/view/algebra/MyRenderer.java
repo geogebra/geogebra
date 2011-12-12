@@ -1,5 +1,6 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.DrawEquation;
 import geogebra.kernel.Kernel;
@@ -75,15 +76,15 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 				text = getAlgebraDescriptionTextOrHTML(geo);
 			} else {
 				switch (kernel.getAlgebraStyle()) {
-				case Kernel.ALGEBRA_STYLE_VALUE:
+				case AbstractKernel.ALGEBRA_STYLE_VALUE:
 					text = getAlgebraDescriptionTextOrHTML(geo);
 					break;
 
-				case Kernel.ALGEBRA_STYLE_DEFINITION:
+				case AbstractKernel.ALGEBRA_STYLE_DEFINITION:
 					text = geo.addLabelTextOrHTML(geo.getDefinitionDescription());
 					break;
 
-				case Kernel.ALGEBRA_STYLE_COMMAND:
+				case AbstractKernel.ALGEBRA_STYLE_COMMAND:
 					text = geo.addLabelTextOrHTML(geo.getCommandDescription());
 					break;
 				}	
@@ -106,7 +107,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 			}
 
 			// if enabled, render with LaTeX
-			if(view.isRenderLaTeX()  && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE){
+			if(view.isRenderLaTeX()  && kernel.getAlgebraStyle() == AbstractKernel.ALGEBRA_STYLE_VALUE){
 				latexFont = new Font(app.getBoldFont().getName(), app.getBoldFont().getStyle(), app.getFontSize() - 1);
 				latexStr = geo.getLaTeXAlgebraDescription(true);
 				if(latexStr != null && geo.isLaTeXDrawableGeo(latexStr)){

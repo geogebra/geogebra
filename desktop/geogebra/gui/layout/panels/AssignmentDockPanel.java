@@ -2,6 +2,7 @@ package geogebra.gui.layout.panels;
 
 import javax.swing.JComponent;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
@@ -13,7 +14,7 @@ public class AssignmentDockPanel extends DockPanel {
 
 	public AssignmentDockPanel(Application app) {
 		super(
-			Application.VIEW_ASSIGNMENT, 	// view id
+			AbstractApplication.VIEW_ASSIGNMENT, 	// view id
 			"Assignment", 					// view title phrase 
 			null,	// toolbar string
 			true,					// style bar?

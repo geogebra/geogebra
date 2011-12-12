@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.kernel.Kernel;
@@ -383,7 +384,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 			case KeyEvent.VK_TAB:
 				if(isFormulaBarListener) return;
-				Application.debug(" tab");
+				AbstractApplication.debug(" tab");
 				//Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right

@@ -13,6 +13,7 @@ package geogebra.plugin;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -25,7 +26,9 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -354,12 +357,12 @@ public class GgbAPI {
 		try{
 			ret= ggbcas.evaluateGeoGebraCAS(cmdString);
 		}catch(Throwable t){
-			Application.debug(t.toString());
+			AbstractApplication.debug(t.toString());
 		}//try-catch
 		
 		// useful for debugging JavaScript
 		if (debugOutput)
-			Application.debug("evalGeoGebraCAS\n input:"+cmdString+"\n"+"output: "+ret);
+			AbstractApplication.debug("evalGeoGebraCAS\n input:"+cmdString+"\n"+"output: "+ret);
 		return ret;
 	}//evalGeoGebraCAS(String)
 	
@@ -369,7 +372,7 @@ public class GgbAPI {
 	 */
 	public synchronized void debug(String string) {
 		
-		Application.debug(string);
+		AbstractApplication.debug(string);
 	}
 
 	/**
@@ -897,7 +900,7 @@ public class GgbAPI {
 			((GeoNumeric) geo).setValue(x);
 			geo.updateRepaint();
 		} else if (geo.isGeoBoolean()) {
-			((GeoBoolean) geo).setValue(Kernel.isZero(x) ? false : true);
+			((GeoBoolean) geo).setValue(AbstractKernel.isZero(x) ? false : true);
 			geo.updateRepaint();
 		}
 	}
@@ -936,8 +939,8 @@ public class GgbAPI {
 	 * Shows or hides the x- and y-axis of the coordinate system in the graphics window.
 	 */
 	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {		
-		app.getEuclidianView().setShowAxis(EuclidianView.AXIS_X, xVisible, false);
-		app.getEuclidianView().setShowAxis(EuclidianView.AXIS_Y, yVisible, false);
+		app.getEuclidianView().setShowAxis(EuclidianViewInterface.AXIS_X, xVisible, false);
+		app.getEuclidianView().setShowAxis(EuclidianViewInterface.AXIS_Y, yVisible, false);
 		kernel.notifyRepaint();
 	}	
 	
@@ -1063,10 +1066,10 @@ public class GgbAPI {
 					
 					return true;
 				} catch (Exception ex) {
-					Application.debug(ex.toString());
+					AbstractApplication.debug(ex.toString());
 					return false;
 				} catch (Error ex) {
-					Application.debug(ex.toString());
+					AbstractApplication.debug(ex.toString());
 					return false;
 				} 
 

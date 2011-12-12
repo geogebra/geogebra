@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.optimization.FitRealFunction;
 
 import org.apache.commons.math.optimization.fitting.CurveFitter;
@@ -179,7 +180,7 @@ public class AlgoFitNL extends AlgoElement {
 	
 	/// --- Debug --- ///
     private final static void errorMsg(String s){
-    	geogebra.main.Application.debug(s);
+    	AbstractApplication.debug(s);
     }//errorMsg(String)   
     
   // --- SNIP --- /// *** Comment out when finished ***

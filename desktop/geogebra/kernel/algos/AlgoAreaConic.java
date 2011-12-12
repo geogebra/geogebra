@@ -23,6 +23,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.kernel.geos.GeoConicPart;
 
 
@@ -104,13 +105,13 @@ public class AlgoAreaConic extends AlgoElement {
     	// standard case: area of conic
     	int type = conic.getType();		
 		switch (type) {
-			case GeoConic.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_CIRCLE:
 				// r is length of one of the half axes
 				double r = conic.halfAxes[0];
 				area.setValue(r * r * Math.PI);
 				break;
 				
-			case GeoConic.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
 				// lengths of the half axes
 				double a = conic.halfAxes[0];
 				double b = conic.halfAxes[1];

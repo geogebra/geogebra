@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoClass;
@@ -629,7 +630,7 @@ public class SpreadsheetTraceManager {
 				++column;
 				++traceIndex;
 
-				if (((GeoPoint2) geos[i]).getMode() == Kernel.COORD_POLAR)
+				if (((GeoPoint2) geos[i]).getMode() == AbstractKernel.COORD_POLAR)
 					setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.ANGLE);
 				else
 					setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
@@ -829,7 +830,7 @@ public class SpreadsheetTraceManager {
 		case POINT:
 
 			GeoPoint2 P = (GeoPoint2) geo;
-			boolean polar = P.getMode() == Kernel.COORD_POLAR;
+			boolean polar = P.getMode() == AbstractKernel.COORD_POLAR;
 
 			if (polar)
 				P.getPolarCoords(coords);

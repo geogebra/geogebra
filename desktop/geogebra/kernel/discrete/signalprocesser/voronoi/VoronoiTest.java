@@ -40,6 +40,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 public class VoronoiTest extends javax.swing.JFrame {
@@ -965,7 +966,7 @@ public class VoronoiTest extends javax.swing.JFrame {
         panelGenerationSelection.setLayout(new java.awt.GridLayout(0, 1));
 
         txtLetter.setFont(new java.awt.Font("Tahoma", 1, 12));
-        txtLetter.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtLetter.setHorizontalAlignment(SwingConstants.CENTER);
         txtLetter.setText("S");
         txtLetter.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {

@@ -10,6 +10,7 @@ import org.concord.sensor.SensorDataProducer;
 import org.concord.sensor.SensorRequest;
 import org.concord.sensor.device.SensorDevice;
 import org.concord.sensor.device.impl.DeviceConfigImpl;
+import org.concord.sensor.device.impl.DeviceID;
 import org.concord.sensor.device.impl.InterfaceManager;
 import org.concord.sensor.device.impl.JavaDeviceFactory;
 import org.concord.sensor.impl.ExperimentRequestImpl;
@@ -27,7 +28,7 @@ public class USBLogger {
 		// This should be loaded from the OTrunk.  Each computer
 		// might have a different set of devices configured.
 		DeviceConfig [] dConfigs = new DeviceConfig[1];
-		dConfigs[0] = new DeviceConfigImpl(JavaDeviceFactory.VERNIER_GO_LINK, null);		
+		dConfigs[0] = new DeviceConfigImpl(DeviceID.VERNIER_GO_LINK, null);		
 		((InterfaceManager)sdManager).setDeviceConfigs(dConfigs);
 				
 		// Check what is attached, this isn't necessary if you know what you want

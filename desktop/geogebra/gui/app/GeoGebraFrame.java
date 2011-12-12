@@ -19,6 +19,7 @@ package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.kernel.Macro;
@@ -29,6 +30,7 @@ import geogebra.util.Util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -229,7 +231,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 				UIManager.setLookAndFeel(UIManager
 						.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
-			Application.debug(e + "");
+			AbstractApplication.debug(e + "");
 		}
 		if (args.containsArg("resetSettings")) {
 			GeoGebraPreferences.getPref().clearPreferences();
@@ -269,7 +271,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 		} catch (Exception e) {
-			Application.debug(e + "");
+			AbstractApplication.debug(e + "");
 		}
 	}
 
@@ -344,17 +346,17 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 		if (args != null) {
 			if(args.containsArg("showAlgebraWindow")) {
 				boolean showAlgebraWindow = args.getBooleanValue("showAlgebraWindow", true);
-				app.getGuiManager().setShowView(showAlgebraWindow, Application.VIEW_ALGEBRA);
+				app.getGuiManager().setShowView(showAlgebraWindow, AbstractApplication.VIEW_ALGEBRA);
 			}
 			
 			else if(args.containsArg("showSpreadsheet")) {
 				boolean showSpreadsheet = args.getBooleanValue("showSpreadsheet", true);
-				app.getGuiManager().setShowView(showSpreadsheet, Application.VIEW_SPREADSHEET);
+				app.getGuiManager().setShowView(showSpreadsheet, AbstractApplication.VIEW_SPREADSHEET);
 			}
 			
 			else if(args.containsArg("showCAS")) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
-				app.getGuiManager().setShowView(showCAS, Application.VIEW_CAS);
+				app.getGuiManager().setShowView(showCAS, AbstractApplication.VIEW_CAS);
 			}
 		}
 		
@@ -433,18 +435,18 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			boolean checkNeeded = false;
 			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
 				checkNeeded = true;
-				Application.debug("version check needed: no check was done yet");
+				AbstractApplication.debug("version check needed: no check was done yet");
 			}
 
 			else {
 				Long lastVersionCheckL = Long.valueOf(lastVersionCheck);
 				if (lastVersionCheckL + 1000L * 60 * 60 * 24 * VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
-					Application.debug("version check needed: lastVersionCheckL="
+					AbstractApplication.debug("version check needed: lastVersionCheckL="
 							+ lastVersionCheckL + " nowL=" + nowL);
 				}
 				else {
-					Application.debug("no version check needed: lastVersionCheck="
+					AbstractApplication.debug("no version check needed: lastVersionCheck="
 							+ lastVersionCheckL + " nowL=" + nowL);
 				}
 			}
@@ -459,7 +461,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);
-					Application.debug("current=" + currentVersionL + " newest="
+					AbstractApplication.debug("current=" + currentVersionL + " newest="
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
 						String q = app.getPlain("NewerVersionA").replaceAll(
@@ -551,7 +553,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 	}
 
 	public boolean isIconified() {
-		return getExtendedState() == JFrame.ICONIFIED;
+		return getExtendedState() == Frame.ICONIFIED;
 	}
 
 	/**

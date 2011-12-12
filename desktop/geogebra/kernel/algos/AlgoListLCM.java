@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -82,7 +83,7 @@ public class AlgoListLCM extends AlgoElement {
     	for (int i = 1 ; i < geoList.size() ; i++) {
     		double nd = ((GeoNumeric)(geoList.get(i))).getDouble();
     		
-    		if(!Kernel.isInteger(nd)){
+    		if(!AbstractKernel.isInteger(nd)){
     			num.setUndefined();
     			return;
     		}    		

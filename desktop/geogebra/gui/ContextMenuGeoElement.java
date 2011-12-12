@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -24,7 +25,9 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.inputbar.AlgebraInput;
@@ -96,7 +99,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		}
 		setTitle(title);        
 
-		if (app.getGuiManager().showView(Application.VIEW_ALGEBRA)) {
+		if (app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA)) {
 			addPointItems();
 			addLineItems();
 			addVectorItems();
@@ -127,7 +130,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		int mode = point.getMode();
 		AbstractAction action;
 
-		if (mode != Kernel.COORD_CARTESIAN && !geo.isFixed() && point.getMode() != Kernel.COORD_COMPLEX) {
+		if (mode != AbstractKernel.COORD_CARTESIAN && !geo.isFixed() && point.getMode() != AbstractKernel.COORD_COMPLEX) {
 			action = new AbstractAction(app.getPlain("CartesianCoords")) {
 				/**
 				 * 
@@ -139,7 +142,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoPoint2) {
 							point = (GeoPoint2)geo;
-							point.setMode(Kernel.COORD_CARTESIAN);
+							point.setMode(AbstractKernel.COORD_CARTESIAN);
 							point.updateRepaint();
 						}
 					}
@@ -149,7 +152,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addAction(action);
 		}
 
-		if (mode != Kernel.COORD_POLAR && !geo.isFixed() && point.getMode() != Kernel.COORD_COMPLEX) {
+		if (mode != AbstractKernel.COORD_POLAR && !geo.isFixed() && point.getMode() != AbstractKernel.COORD_COMPLEX) {
 			action = new AbstractAction(app.getPlain("PolarCoords")) {
 				/**
 				 * 
@@ -161,7 +164,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoPoint2) {
 							point = (GeoPoint2)geo;
-							point.setMode(Kernel.COORD_POLAR);
+							point.setMode(AbstractKernel.COORD_POLAR);
 							point.updateRepaint();
 						}
 					}
@@ -283,7 +286,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		int mode = vector.getMode();
 		AbstractAction action;
 
-		if (mode != Kernel.COORD_CARTESIAN) {
+		if (mode != AbstractKernel.COORD_CARTESIAN) {
 			action = new AbstractAction(app.getPlain("CartesianCoords")) {
 				/**
 				 * 
@@ -295,7 +298,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoVector) {
 							vector = (GeoVector)geo;
-							vector.setMode(Kernel.COORD_CARTESIAN);
+							vector.setMode(AbstractKernel.COORD_CARTESIAN);
 							vector.updateRepaint();
 						}
 					}
@@ -305,7 +308,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addAction(action);
 		}
 
-		if (mode != Kernel.COORD_POLAR) {
+		if (mode != AbstractKernel.COORD_POLAR) {
 			action = new AbstractAction(app.getPlain("PolarCoords")) {
 				/**
 				 * 
@@ -317,7 +320,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoVector) {
 							vector = (GeoVector)geo;
-							vector.setMode(Kernel.COORD_POLAR);
+							vector.setMode(AbstractKernel.COORD_POLAR);
 							vector.updateRepaint();
 						}
 					}
@@ -358,7 +361,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		AbstractAction action;
 		StringBuilder sb = new StringBuilder();
 
-		if (mode != GeoConic.EQUATION_IMPLICIT) {
+		if (mode != GeoConicND.EQUATION_IMPLICIT) {
 			sb.append(app.getPlain("Equation"));
 			sb.append(' ');
 			sb.append(app.getPlain("ImplicitConicEquation"));
@@ -383,7 +386,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addAction(action);
 		}
 
-		if (specificPossible && mode != GeoConic.EQUATION_SPECIFIC) {
+		if (specificPossible && mode != GeoConicND.EQUATION_SPECIFIC) {
 			// specific conic string
 			String conicEqn = conic.getSpecificEquation();
 			if (conicEqn != null) {
@@ -413,7 +416,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			}
 		}
 
-		if (explicitPossible && mode != GeoConic.EQUATION_EXPLICIT) {
+		if (explicitPossible && mode != GeoConicND.EQUATION_EXPLICIT) {
 			sb.setLength(0);
 			sb.append(app.getPlain("Equation"));
 			sb.append(' ');
@@ -657,7 +660,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			// G.Sturr 2010-5-12 
 			// modified to use SpreadsheetTrace Dialog
 			
-			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(Application.VIEW_SPREADSHEET)) {
+			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET)) {
 				cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
 				cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
 				cbItem.setSelected(geo.getSpreadsheetTrace());
@@ -717,7 +720,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 			// AUXILIARY OBJECT
 
-			if (app.getGuiManager().showView(Application.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
+			if (app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
 					geo.isAlgebraShowable()) {
 
 				// show object

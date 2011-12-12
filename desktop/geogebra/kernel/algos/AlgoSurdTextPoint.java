@@ -17,6 +17,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 public class AlgoSurdTextPoint extends AlgoSurdText {
@@ -73,13 +74,13 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			
 			sb.setLength(0);
 			sb.append(" \\left( ");
-			Application.debug(sb.toString());
+			AbstractApplication.debug(sb.toString());
 			PSLQappend(sb, p.inhomX);
-			Application.debug(sb.toString());
+			AbstractApplication.debug(sb.toString());
 			sb.append(" , ");
-			Application.debug(sb.toString());
+			AbstractApplication.debug(sb.toString());
 			PSLQappend(sb, p.inhomY);
-			Application.debug(sb.toString());
+			AbstractApplication.debug(sb.toString());
 			sb.append(" \\right) ");
 			
 			text.setTextString(sb.toString());

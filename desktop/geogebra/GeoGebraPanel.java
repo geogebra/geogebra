@@ -1,6 +1,7 @@
 package geogebra;
 
 import geogebra.common.kernel.View;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 import geogebra.plugin.GgbAPI;
 
@@ -148,7 +149,7 @@ public class GeoGebraPanel extends JPanel {
 	 * method to update the panel's structure.
 	 */
 	public synchronized void setShowAlgebraView(boolean show) {
-		app.getGuiManager().setShowView(show, Application.VIEW_ALGEBRA);	
+		app.getGuiManager().setShowView(show, AbstractApplication.VIEW_ALGEBRA);	
 	}
 	
 	/**
@@ -157,7 +158,7 @@ public class GeoGebraPanel extends JPanel {
 	 * method to update the panel's structure.
 	 */
 	public synchronized void setShowSpreadsheetView(boolean show) {
-		app.getGuiManager().setShowView(show, Application.VIEW_SPREADSHEET);	
+		app.getGuiManager().setShowView(show, AbstractApplication.VIEW_SPREADSHEET);	
 	}
 	
 	/**

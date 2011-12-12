@@ -189,7 +189,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 		//header.add(lblData);
 
 
-		header.setHorizontalAlignment(JLabel.LEFT);
+		header.setHorizontalAlignment(SwingConstants.LEFT);
 		header.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createEtchedBorder(),	
 				BorderFactory.createEmptyBorder(2,5,2,2)));

@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
@@ -321,7 +322,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
 			  				geoCopy.set(geoOrig);	  				
 			  				geoCopy.update();      	      			 
 			  			} catch (Exception e) {
-			  				Application.debug("AlgoLocusSlider: error in resetMacroConstruction(): " + e.getMessage());
+			  				AbstractApplication.debug("AlgoLocusSlider: error in resetMacroConstruction(): " + e.getMessage());
 			  			}
 		      		}
 	      		}
@@ -554,7 +555,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
 	       			       	
 	       		// if it takes too much time to calculate a single step, we stop
 	       		if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-	       			Application.debug("AlgoLocusSlider: max time exceeded " + updateTime);	       			
+	       			AbstractApplication.debug("AlgoLocusSlider: max time exceeded " + updateTime);	       			
 	       			maxTimeExceeded = true;
 	       		}
 	    		

@@ -1,5 +1,6 @@
 package geogebra.gui.properties;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -204,11 +205,11 @@ public class SliderPanel
 			temp = (GeoNumeric) geos[i];
 
 			// we don't check isIntervalMinActive, because we want to display the interval even if it's empty
-			if (num0.getIntervalMinObject() == null || temp.getIntervalMinObject() == null || !Kernel.isEqual(num0.getIntervalMin(), temp.getIntervalMin()))
+			if (num0.getIntervalMinObject() == null || temp.getIntervalMinObject() == null || !AbstractKernel.isEqual(num0.getIntervalMin(), temp.getIntervalMin()))
 				equalMin = false;
-			if (num0.getIntervalMaxObject() == null || temp.getIntervalMaxObject() == null || !Kernel.isEqual(num0.getIntervalMax(), temp.getIntervalMax()))
+			if (num0.getIntervalMaxObject() == null || temp.getIntervalMaxObject() == null || !AbstractKernel.isEqual(num0.getIntervalMax(), temp.getIntervalMax()))
 				equalMax = false;
-			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth()))
+			if (!AbstractKernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth()))
 				equalWidth = false;
 			if (num0.isSliderFixed() != temp.isSliderFixed())
 				equalSliderFixed = false;

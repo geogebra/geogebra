@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootUtil;
 import geogebra.main.Application;
@@ -220,9 +221,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     					m=m*2;
     				}//
     			}while( m<MAX_SAMPLES );
-    			if(m>MAX_SAMPLES) Application.debug("We have probably lost some roots...");
+    			if(m>MAX_SAMPLES) AbstractApplication.debug("We have probably lost some roots...");
     		}catch(Exception e){
-    			Application.debug("Exception in compute() "+e.toString());
+    			AbstractApplication.debug("Exception in compute() "+e.toString());
     		}//try-catch    
     	
     	//}//if
@@ -362,7 +363,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	
     private final static void debug(String s) {
         if(DEBUG) {
-        	Application.debug(s);
+        	AbstractApplication.debug(s);
         }//if()
     }//debug()       
     

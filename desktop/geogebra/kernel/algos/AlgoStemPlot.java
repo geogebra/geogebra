@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -128,9 +129,9 @@ public class AlgoStemPlot extends AlgoElement {
 		// test for outliers and adjust the indicies accordingly
 		double IQRplus = 1.5 * (Q3 - Q1) ;
 
-		for(int i=0; i< data.length && data[i] <  Q1 - IQRplus - Kernel.EPSILON; i++)
+		for(int i=0; i< data.length && data[i] <  Q1 - IQRplus - AbstractKernel.EPSILON; i++)
 			outlierIndex[0]++;
-		for(int i=data.length-1; i>=0 && data[i] > Q3 + IQRplus + Kernel.EPSILON; i--)
+		for(int i=data.length-1; i>=0 && data[i] > Q3 + IQRplus + AbstractKernel.EPSILON; i--)
 			outlierIndex[1]--;
 
 		return outlierIndex;

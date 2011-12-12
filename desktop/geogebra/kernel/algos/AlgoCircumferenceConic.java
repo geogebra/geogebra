@@ -17,6 +17,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.kernel.integration.EllipticArcLength;
 
@@ -90,7 +91,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
     	if (conic.isGeoConicPart()) {
     		GeoConicPart conicPart = (GeoConicPart) conic;
     		int partType = conicPart.getConicPartType();
-    		if (type == GeoConic.CONIC_CIRCLE && partType == GeoConicPart.CONIC_PART_SECTOR) {				
+    		if (type == GeoConicNDConstants.CONIC_CIRCLE && partType == GeoConicPart.CONIC_PART_SECTOR) {				
 				/* value of sector is area:
 					area = r*r * paramExtent / 2;
 					arclength = r * paramExtent;
@@ -103,7 +104,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 				// circumference of sector
 				circum.setValue(arclength + 2 * r);					
 			}
-			else if (type == GeoConic.CONIC_CIRCLE && partType == GeoConicPart.CONIC_PART_ARC) {				
+			else if (type == GeoConicNDConstants.CONIC_CIRCLE && partType == GeoConicPart.CONIC_PART_ARC) {				
 				// value of arc is curved length
 			double arclength = conicPart.getValue();
 			double r = conic.halfAxes[0]; 
@@ -123,13 +124,13 @@ public class AlgoCircumferenceConic extends AlgoElement {
     	
     	// standard case: conic			
 		switch (type) {
-			case GeoConic.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_CIRCLE:
 				// r is length of one of the half axes
 				double r = conic.halfAxes[0];
 				circum.setValue(2 * r * Math.PI);
 				break;
 				
-			case GeoConic.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
 				if (ellipticArcLength == null)
 					ellipticArcLength = new EllipticArcLength(conic);
 				circum.setValue(ellipticArcLength.compute(0, 2 * Math.PI));

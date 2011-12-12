@@ -13,8 +13,10 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
 import geogebra.main.Application;
@@ -159,16 +161,16 @@ public class EquationSolver implements EquationSolverInterface{
         double b = eqn[1];
         double c = eqn[0];
         int roots = 0;
-        if (Math.abs(a) < Kernel.EPSILON) {
+        if (Math.abs(a) < AbstractKernel.EPSILON) {
             // The quadratic parabola has degenerated to a line.
-            if (Math.abs(b) < Kernel.EPSILON)
+            if (Math.abs(b) < AbstractKernel.EPSILON)
 				// The line has degenerated to a constant.
 				return -1; 
             res[roots++] = -c / b;
         } else {
             // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
             double d = b * b - 4.0 * a * c;
-            if (Math.abs(d) < Kernel.EPSILON) 
+            if (Math.abs(d) < AbstractKernel.EPSILON) 
                res[roots++] = - b /(2.0 * a);
             else {
                 if (d < 0.0)
@@ -199,9 +201,9 @@ public class EquationSolver implements EquationSolverInterface{
         int roots = 0;
         
         
-        if (Math.abs(a) < Kernel.EPSILON) {
+        if (Math.abs(a) < AbstractKernel.EPSILON) {
             // The quadratic parabola has degenerated to a line.
-            if (Math.abs(b) < Kernel.EPSILON)
+            if (Math.abs(b) < AbstractKernel.EPSILON)
 				// The line has degenerated to a constant.
 				return -1; 
             complex[roots] = 0;
@@ -209,7 +211,7 @@ public class EquationSolver implements EquationSolverInterface{
         } else {
             // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
             double d = b * b - 4.0 * a * c;
-            if (Math.abs(d) < Kernel.EPSILON) {
+            if (Math.abs(d) < AbstractKernel.EPSILON) {
                 complex[roots] = 0;
                 real[roots++] = - b /(2.0 * a);
             }
@@ -274,7 +276,7 @@ public class EquationSolver implements EquationSolverInterface{
 
     	int roots = 0;
     	double d = eqn[3];
-    	if (Math.abs(d) < Kernel.EPSILON) {
+    	if (Math.abs(d) < AbstractKernel.EPSILON) {
     		// The cubic has degenerated to quadratic (or line or ...).
     		return solveQuadratic(eqn, res);
     	}
@@ -297,7 +299,7 @@ public class EquationSolver implements EquationSolverInterface{
 	
     	//Application.debug(Math.abs(CR2 - CQ3)+"");
     	
-    	if (Math.abs(R) < Kernel.EPSILON && Math.abs(Q) < Kernel.EPSILON ) // if (R == 0 && Q == 0)
+    	if (Math.abs(R) < AbstractKernel.EPSILON && Math.abs(Q) < AbstractKernel.EPSILON ) // if (R == 0 && Q == 0)
     	{
     		res[roots++] = - a / 3 ;
     		res[roots++] = - a / 3 ;
@@ -309,7 +311,7 @@ public class EquationSolver implements EquationSolverInterface{
     	// |D(CR2-CQ3)|< (|r(aa-3b) - 4qa| + |-3ar -6q| + |9r|)*13122*sqrt(q) / |2a+3| *kernel.EPSILON
     	// for simplicity, it (may be)  about 10* max(CR2,CR3)/|2a+3| * kernel.EPSILON
     	//else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * kernel.EPSILON) // else if (CR2 == CQ3)
-    	else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) *10 / Math.max(1,Math.abs(2*a+3)) * Kernel.EPSILON) // else if (CR2 == CQ3) 
+    	else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) *10 / Math.max(1,Math.abs(2*a+3)) * AbstractKernel.EPSILON) // else if (CR2 == CQ3) 
     	{
     		// this test is actually R2 == Q3, written in a form suitable
     	    //     for exact computation with integers 
@@ -682,7 +684,7 @@ public class EquationSolver implements EquationSolverInterface{
 					}
 					//System.out.println("    find extremum successfull: " + root);
 				} catch (Exception ex) {
-					Application.debug(ex.getMessage());
+					AbstractApplication.debug(ex.getMessage());
 				}
 			}
 
@@ -721,7 +723,7 @@ public class EquationSolver implements EquationSolverInterface{
 			}		
 			complexRoots = laguerreSolver.solveAll(real, LAGUERRE_START);
 		} catch (Exception e) {
-			Application.debug("Problem solving with LaguerreSolver"+e.getLocalizedMessage());
+			AbstractApplication.debug("Problem solving with LaguerreSolver"+e.getLocalizedMessage());
 			return 0;
 		}
 	
@@ -1114,11 +1116,11 @@ public class EquationSolver implements EquationSolverInterface{
 		        
 						double compReal = itemA.getReal() - itemB.getReal();
 	
-						if (Kernel.isZero(compReal)) {
+						if (AbstractKernel.isZero(compReal)) {
 							double compImaginary = itemA.getImaginary() - itemB.getImaginary();
 							
 							// if real parts equal, sort on imaginary
-							if (!Kernel.isZero(compImaginary))
+							if (!AbstractKernel.isZero(compImaginary))
 								return compImaginary < 0 ? -1 : +1;
 							
 							// return 0 -> remove duplicates!

@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
@@ -436,10 +437,10 @@ StatPanelInterface{
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setOpaque(true);
 		fldNumClasses.setColumns(2);
-		fldNumClasses.setHorizontalAlignment(JTextField.CENTER);
+		fldNumClasses.setHorizontalAlignment(SwingConstants.CENTER);
 		fldNumClasses.setBackground(Color.WHITE);
 
-		sliderNumClasses = new JSlider(JSlider.HORIZONTAL, 3, 20, numClasses);
+		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20, numClasses);
 		Dimension d = sliderNumClasses.getPreferredSize();
 		d.width = 80;
 		sliderNumClasses.setPreferredSize(d);
@@ -779,7 +780,7 @@ StatPanelInterface{
 				// add the geo to our view and remove it from EV		
 				listGeo.addView(plotPanel.getViewID());
 				plotPanel.add(listGeo);
-				listGeo.removeView(Application.VIEW_EUCLIDIAN);
+				listGeo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 				app.getEuclidianView().remove(listGeo);
 			}
 		}
@@ -945,7 +946,7 @@ StatPanelInterface{
 		public MyRenderer() {
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));
-			separator = new JSeparator(JSeparator.HORIZONTAL);
+			separator = new JSeparator(SwingConstants.HORIZONTAL);
 		}
 
 		public Component getListCellRendererComponent(JList list, Object value,
@@ -978,9 +979,9 @@ StatPanelInterface{
 
 			public void actionPerformed(ActionEvent e) {
 				if(app.getShiftDown())
-					exportGeosToEV(Application.VIEW_EUCLIDIAN2);
+					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN2);
 				else
-					exportGeosToEV(Application.VIEW_EUCLIDIAN);
+					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN);
 
 			}
 		};
@@ -1093,14 +1094,14 @@ StatPanelInterface{
 		geo.setLabel(null);
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(false);
-		if(viewID == Application.VIEW_EUCLIDIAN){
-			geo.addView(Application.VIEW_EUCLIDIAN);
-			geo.removeView(Application.VIEW_EUCLIDIAN2);
+		if(viewID == AbstractApplication.VIEW_EUCLIDIAN){
+			geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
+			geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
 			geo.update();
 		}
-		if(viewID == Application.VIEW_EUCLIDIAN2){
-			geo.addView(Application.VIEW_EUCLIDIAN2);
-			geo.removeView(Application.VIEW_EUCLIDIAN);
+		if(viewID == AbstractApplication.VIEW_EUCLIDIAN2){
+			geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
+			geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 			geo.update();
 		}
 

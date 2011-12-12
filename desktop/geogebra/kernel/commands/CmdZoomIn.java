@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,7 +34,7 @@ class CmdZoomIn extends CmdScripting {
 				double py = ev.getHeight() / 2; // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
-				if (Kernel.isZero(factor))
+				if (AbstractKernel.isZero(factor))
 					throw argErr(app, c.getName(), arg[0]);
 
 				ev.zoom(px, py, factor, 4, true);
@@ -57,7 +58,7 @@ class CmdZoomIn extends CmdScripting {
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
-				if (Kernel.isZero(factor))
+				if (AbstractKernel.isZero(factor))
 					throw argErr(app, c.getName(), arg[0]);
 
 				ev.zoom(px, py, factor, 4, true);

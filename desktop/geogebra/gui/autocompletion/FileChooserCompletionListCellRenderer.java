@@ -1,5 +1,6 @@
 package geogebra.gui.autocompletion;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -70,7 +71,7 @@ public class FileChooserCompletionListCellRenderer extends DefaultListCellRender
 	private static Icon loadIcon(String iconImage) {
 		URL iconUrl = FileChooserCompletionListCellRenderer.class.getResource(ICON_LOCATION + iconImage);
 		if (iconUrl == null) {
-			Application.debug("Could not load icon: " + iconImage);
+			AbstractApplication.debug("Could not load icon: " + iconImage);
 			return new ImageIcon();
 		}
 		return new ImageIcon(iconUrl);

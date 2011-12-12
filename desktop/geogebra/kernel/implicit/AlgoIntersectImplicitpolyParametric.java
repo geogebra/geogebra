@@ -18,6 +18,7 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
@@ -178,7 +179,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 			--orgSize;
 		
 		int newSize = orgSize;
-		double EPS2 = Kernel.EPSILON;  //TODO: have a better guess of the error
+		double EPS2 = AbstractKernel.EPSILON;  //TODO: have a better guess of the error
 		
 		for (int i = 0; i<tangentPoints.length; ++i) {
 			if (tangentPoints[i].getIncidenceList()!=null

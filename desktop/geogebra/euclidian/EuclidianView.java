@@ -16,6 +16,7 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -50,6 +51,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.MyMath;
@@ -1041,7 +1043,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 				} catch (Exception exc) {
 					// Catch exceptions so that we don't try to set a null
 					// cursor
-					Application.debug("Unable to create custom cursor.");
+					AbstractApplication.debug("Unable to create custom cursor.");
 				}
 			}
 		}
@@ -1381,12 +1383,12 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean repaint) {
-		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
-				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
+		if (Double.isNaN(xscale) || (xscale < AbstractKernel.MAX_DOUBLE_PRECISION)
+				|| (xscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
-		if (Double.isNaN(yscale) || (yscale < Kernel.MAX_DOUBLE_PRECISION)
-				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
+		if (Double.isNaN(yscale) || (yscale < AbstractKernel.MAX_DOUBLE_PRECISION)
+				|| (yscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
 
@@ -1538,7 +1540,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
 			if ((axis == 1) && automaticAxesNumberingDistances[0]
-					&& Kernel.isEqual(xscale, yscale)) {
+					&& AbstractKernel.isEqual(xscale, yscale)) {
 				axesNumberingDistances[1] = axesNumberingDistances[0];
 			} else if (piAxisUnit[axis]) {
 				axesNumberingDistances[axis] = Math.PI;
@@ -2631,7 +2633,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 				sb.setLength(0);
 				sb.append('(');
 				sb.append(kernel.formatPiE(xmin, axesNumberFormat[0]));
-				sb.append(Application.unicodeComma);
+				sb.append(AbstractApplication.unicodeComma);
 				sb.append(" ");
 				sb.append(kernel.formatPiE(ymax, axesNumberFormat[1]));
 				sb.append(')');
@@ -2644,7 +2646,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 				sb.setLength(0);
 				sb.append('(');
 				sb.append(kernel.formatPiE(xmax, axesNumberFormat[0]));
-				sb.append(Application.unicodeComma);
+				sb.append(AbstractApplication.unicodeComma);
 				sb.append(" ");
 				sb.append(kernel.formatPiE(ymin, axesNumberFormat[1]));
 				sb.append(')');
@@ -2889,14 +2891,14 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		sb.setLength(0);
 		sb.append('(');
-		sb.append(kernel.format(kernel
+		sb.append(kernel.format(AbstractKernel
 				.checkDecimalFraction(euclidianController.xRW)));
-		if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN) {
+		if (kernel.getCoordStyle() == AbstractKernel.COORD_STYLE_AUSTRIAN) {
 			sb.append(" | ");
 		} else {
 			sb.append(", ");
 		}
-		sb.append(kernel.format(kernel
+		sb.append(kernel.format(AbstractKernel
 				.checkDecimalFraction(euclidianController.yRW)));
 		sb.append(')');
 
@@ -3809,9 +3811,9 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 								.getConstruction())
 								.getConstructionDefaults()
 								.getDefaultGeo(
-										ConstructionDefaults.DEFAULT_ANGLE)
+										AbstractConstructionDefaults.DEFAULT_ANGLE)
 								.getObjectColor());
-						Application.debug(col);
+						AbstractApplication.debug(col);
 						geo.setObjColor(new geogebra.awt.Color(col));
 					}
 				}
@@ -3848,13 +3850,13 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 					if (geo.isIndependent()) {
 						Color col = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) consDef
 								.getDefaultGeo(
-										ConstructionDefaults.DEFAULT_NUMBER)
+										AbstractConstructionDefaults.DEFAULT_NUMBER)
 								.getObjectColor());
 						geo.setObjColor(new geogebra.awt.Color(col));
 					} else {
 						Color col = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) consDef
 								.getDefaultGeo(
-										ConstructionDefaults.DEFAULT_POLYGON)
+										AbstractConstructionDefaults.DEFAULT_POLYGON)
 								.getObjectColor());
 						geo.setObjColor(new geogebra.awt.Color(col));
 					}
@@ -4242,7 +4244,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			if (drawBorderAxes[i]) {
 				sb.append("\" axisCrossEdge=\"");
 				sb.append(true);
-			} else if (!Kernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
+			} else if (!AbstractKernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
 				sb.append("\" axisCross=\"");
 				sb.append(axisCross[i]);
 			}
@@ -4382,7 +4384,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		;
 
 		Rectangle rect = getBounds();
-		if (Kernel.isZero(rect.getHeight()) || Kernel.isZero(rect.getWidth())) {
+		if (AbstractKernel.isZero(rect.getHeight()) || AbstractKernel.isZero(rect.getWidth())) {
 			if (noVisible == 0) {
 				return; // no functions or objects
 			}
@@ -4414,7 +4416,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			x0RW = Math.min(xmin, x0RW);
 			x1RW = Math.max(xmax, x1RW);
 
-			if (Kernel.isEqual(x0RW, xmin) && Kernel.isEqual(x1RW, xmax)) {
+			if (AbstractKernel.isEqual(x0RW, xmin) && AbstractKernel.isEqual(x1RW, xmax)) {
 				// just functions (at sides!), don't need a gap
 				xGap = 0;
 			} else {
@@ -4458,7 +4460,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		}
 
-		if (!Kernel.isZero(y1RWfunctions - y0RWfunctions) && ok) {
+		if (!AbstractKernel.isZero(y1RWfunctions - y0RWfunctions) && ok) {
 			y0RW = Math.min(y0RW, y0RWfunctions);
 			y1RW = Math.max(y1RW, y1RWfunctions);
 			// Application.debug("min height "+y0RW+" max height "+y1RW);
@@ -4544,7 +4546,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		ox += (getXZero() - ox) * f;
 		oy += (getYZero() - oy) * f;
 
-		if (!Kernel.isEqual(xscale, newScale)) {
+		if (!AbstractKernel.isEqual(xscale, newScale)) {
 			// different scales: zoom back to standard view
 			double factor = newScale / xscale;
 			zoom((ox - (xZero * factor)) / (1.0 - factor),
@@ -4807,7 +4809,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		public synchronized void startAnimation() {
 			dx = xZero - ox;
 			dy = yZero - oy;
-			if (Kernel.isZero(dx) && Kernel.isZero(dy)) {
+			if (AbstractKernel.isZero(dx) && AbstractKernel.isZero(dy)) {
 				return;
 			}
 
@@ -5024,7 +5026,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 	public void setGridDistances(double[] dist) {
 		if (dist == null) {
-			Application.debug("NULL");
+			AbstractApplication.debug("NULL");
 			return;
 		}
 		gridDistances = dist;
@@ -5444,8 +5446,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 				ymax2 = c + (newHeight / 2);
 			}
 		}
-		if (((xmax2 - xmin2) > Kernel.MIN_PRECISION)
-				&& ((ymax2 - ymin2) > Kernel.MIN_PRECISION)) {
+		if (((xmax2 - xmin2) > AbstractKernel.MIN_PRECISION)
+				&& ((ymax2 - ymin2) > AbstractKernel.MIN_PRECISION)) {
 			setRealWorldCoordSystem(xmin2, xmax2, ymin2, ymax2);
 		}
 		updatingBounds = false;
@@ -5651,11 +5653,11 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	public int getViewID() {
 		switch (evNo) {
 		case 1:
-			return Application.VIEW_EUCLIDIAN;
+			return AbstractApplication.VIEW_EUCLIDIAN;
 		case 2:
-			return Application.VIEW_EUCLIDIAN2;
+			return AbstractApplication.VIEW_EUCLIDIAN2;
 		default:
-			return Application.VIEW_NONE;
+			return AbstractApplication.VIEW_NONE;
 		}
 	}
 
@@ -5667,7 +5669,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	public void drawPoints(GeoImage ge, double[] x, double[] y) {
 		ArrayList<Point> ptList = new ArrayList<Point>();
 
-		Application.debug("x0" + x[0]);
+		AbstractApplication.debug("x0" + x[0]);
 		for (int i = 0; i < x.length; i++) {
 			int xi = toScreenCoordX(x[i]);
 			int yi = toScreenCoordY(y[i]);
@@ -5692,7 +5694,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 						/ ((dx1 * dy2) - (dx2 * dy1));
 				double ratio2 = ((-(x[i] - cx[0]) * dy1) + (dx1 * (y[i] - cy[0])))
 						/ ((dx1 * dy2) - (dx2 * dy1));
-				Application.debug(cx[2] + "," + cy[2] + "," + h + "," + w);
+				AbstractApplication.debug(cx[2] + "," + cy[2] + "," + h + "," + w);
 				xi = (int) Math.round(w * ratio1);
 				yi = (int) Math.round(h * (1 - ratio2));
 

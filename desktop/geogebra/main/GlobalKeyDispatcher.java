@@ -2,6 +2,7 @@ package geogebra.main;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -267,8 +269,8 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 				// however .isAltDown() stops AltGr-1 from working (| on some keyboards)
 				if (event.isShiftDown()) {// || event.isAltDown()) {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(Application.VIEW_EUCLIDIAN),
-							Application.VIEW_EUCLIDIAN);
+							!app.getGuiManager().showView(AbstractApplication.VIEW_EUCLIDIAN),
+							AbstractApplication.VIEW_EUCLIDIAN);
 					consumed = true;
 
 				} else if (!event.isAltDown()) { // make sure not triggered on AltGr
@@ -284,8 +286,8 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 				// however .isAltDown() stops AltGr-2 from working (superscript 2 on some keyboards)
 				if (event.isShiftDown()) {// || event.isAltDown()) {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(Application.VIEW_EUCLIDIAN2),
-							Application.VIEW_EUCLIDIAN2);
+							!app.getGuiManager().showView(AbstractApplication.VIEW_EUCLIDIAN2),
+							AbstractApplication.VIEW_EUCLIDIAN2);
 					consumed = true;
 
 				} else if (!event.isAltDown()) { // make sure not triggered on AltGr
@@ -302,8 +304,8 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 				// however .isAltDown() stops AltGr-3 from working (^ on Croatian keyboard)
 				if (event.isShiftDown()){ // || event.isAltDown()) {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(Application.VIEW_EUCLIDIAN3D),
-							Application.VIEW_EUCLIDIAN3D);
+							!app.getGuiManager().showView(AbstractApplication.VIEW_EUCLIDIAN3D),
+							AbstractApplication.VIEW_EUCLIDIAN3D);
 					consumed = true;
 
 				} else if (!event.isAltDown()){ // make sure not triggered on AltGr
@@ -489,8 +491,8 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			case KeyEvent.VK_S:
 				if (event.isShiftDown() && app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(Application.VIEW_SPREADSHEET),
-							Application.VIEW_SPREADSHEET);
+							!app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET),
+							AbstractApplication.VIEW_SPREADSHEET);
 					consumed = true;
 				}
 				break;
@@ -843,12 +845,14 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 					if (geo.isGeoNumeric() && (!twoSliders || ((vertical && i == 0) || (!vertical && i == 1)))) {
 						GeoNumeric num = (GeoNumeric) geo;
 						double newValue = num.getValue() + changeVal * num.getAnimationStep();
-						if (num.getAnimationStep() > Kernel.MIN_PRECISION) {
+						if (num.getAnimationStep() > AbstractKernel.MIN_PRECISION) {
 							// round to decimal fraction, e.g. 2.800000000001 to 2.8
-							if (num.isGeoAngle())
-								newValue = Kernel.PI_180 * app.getKernel().checkDecimalFraction(newValue * Kernel.CONST_180_PI, 1 / num.getAnimationStep());
-							else
-								newValue = app.getKernel().checkDecimalFraction(newValue, 1 / num.getAnimationStep());
+							if (num.isGeoAngle()) {
+								app.getKernel();
+								app.getKernel();
+								newValue = AbstractKernel.PI_180 * AbstractKernel.checkDecimalFraction(newValue * AbstractKernel.CONST_180_PI, 1 / num.getAnimationStep());
+							} else
+								newValue = AbstractKernel.checkDecimalFraction(newValue, 1 / num.getAnimationStep());
 						}
 						num.setValue(newValue);					
 					} 

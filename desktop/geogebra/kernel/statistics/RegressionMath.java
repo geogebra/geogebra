@@ -2,6 +2,7 @@ package geogebra.kernel.statistics;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -140,7 +141,7 @@ public final  class RegressionMath {
    	        //System.out.println(System.currentTimeMillis()-time);
     		//diff(pararray,par);
 		} catch (Throwable t) {
-			Application.debug(t.toString());
+			AbstractApplication.debug(t.toString());
 			error=true;    		
     	}//try-catch.  ToDo: A bit more fine-grained error-handling...
     	return !error;

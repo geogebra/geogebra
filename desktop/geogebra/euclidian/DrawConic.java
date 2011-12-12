@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -34,7 +35,9 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -214,33 +217,33 @@ final public class DrawConic extends Drawable implements Previewable {
         type = conic.getType();               
         
         switch (type) {
-        	case GeoConic.CONIC_EMPTY:
+        	case GeoConicNDConstants.CONIC_EMPTY:
         		setShape(conic.evaluate(0,0)<0?null:new Area(view.getBoundingPath()));
         		shape = null;
-            case GeoConic.CONIC_SINGLE_POINT:                
+            case GeoConicNDConstants.CONIC_SINGLE_POINT:                
                 updateSinglePoint();
                 break;       
                 
-            case GeoConic.CONIC_INTERSECTING_LINES:  
-            case GeoConic.CONIC_DOUBLE_LINE: 
-            case GeoConic.CONIC_PARALLEL_LINES:
-            case GeoConic.CONIC_LINE:
+            case GeoConicNDConstants.CONIC_INTERSECTING_LINES:  
+            case GeoConicNDConstants.CONIC_DOUBLE_LINE: 
+            case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+            case GeoConicNDConstants.CONIC_LINE:
                 updateLines();
                 break;                             
                 
-            case GeoConic.CONIC_CIRCLE:                                               
+            case GeoConicNDConstants.CONIC_CIRCLE:                                               
                 updateCircle();
                 break;                                                    
                 
-            case GeoConic.CONIC_ELLIPSE:   
+            case GeoConicNDConstants.CONIC_ELLIPSE:   
                 updateEllipse();
                 break;
                 
-            case GeoConic.CONIC_HYPERBOLA:    
+            case GeoConicNDConstants.CONIC_HYPERBOLA:    
                 updateHyperbola();
                 break;
                 
-            case GeoConic.CONIC_PARABOLA:
+            case GeoConicNDConstants.CONIC_PARABOLA:
                 updateParabola();
                 break;                          
         }
@@ -251,9 +254,9 @@ final public class DrawConic extends Drawable implements Previewable {
         // shape on screen?
         Rectangle viewRect = new Rectangle(0,0,view.width,view.height);
         switch (type) {	                          	            
-	        case GeoConic.CONIC_CIRCLE:                                               
-	        case GeoConic.CONIC_ELLIPSE:   
-	        case GeoConic.CONIC_PARABOLA:
+	        case GeoConicNDConstants.CONIC_CIRCLE:                                               
+	        case GeoConicNDConstants.CONIC_ELLIPSE:   
+	        case GeoConicNDConstants.CONIC_PARABOLA:
 	        	boolean includesScreenCompletely = shape.contains(viewRect);
 	        	
 	        	// offScreen = includesScreenCompletely or the shape does not intersect the view rectangle
@@ -271,7 +274,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	        	}	        	
 	        	break;
 	            
-	        case GeoConic.CONIC_HYPERBOLA:
+	        case GeoConicNDConstants.CONIC_HYPERBOLA:
 	        	// hyperbola wings on screen?
 	        	hypLeftOnScreen = hypLeft.intersects(viewRect);
 	        	hypRightOnScreen = hypRight.intersects(viewRect);
@@ -355,12 +358,12 @@ final public class DrawConic extends Drawable implements Previewable {
 			drawLines[i].update();			
         }
         
-        if(conic.type == GeoConic.CONIC_PARALLEL_LINES||
-        		conic.type == GeoConic.CONIC_INTERSECTING_LINES
-        		|| conic.type == GeoConic.CONIC_LINE){
+        if(conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES||
+        		conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES
+        		|| conic.type == GeoConicNDConstants.CONIC_LINE){
         	
 	       shape = lineToGpc(drawLines[0]);
-	       if(conic.type != GeoConic.CONIC_LINE)
+	       if(conic.type != GeoConicNDConstants.CONIC_LINE)
 	    	   ((Area)shape).exclusiveOr(lineToGpc(drawLines[1]));
 	       //FIXME: buggy when conic(RW(0),RW(0))=0
 	       
@@ -381,7 +384,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	       double[] yTry = new double[] {0,0,0,10,10,20};	       
 	       for(int i=0;i<6;i++){
 	    	   double val1=conic.evaluate(view.toRealWorldCoordX(xTry[i]), view.toRealWorldCoordY(yTry[i]));
-	    	   if(!Kernel.isZero(val1))
+	    	   if(!AbstractKernel.isZero(val1))
 	    	    return (val1<0)^shape.contains(xTry[i], yTry[i]);
 	       }
 		return false;
@@ -401,7 +404,7 @@ final public class DrawConic extends Drawable implements Previewable {
         gpc.lineTo(drawLine.x2,drawLine.y2);
     	//cross top and bottom
     	if(drawLine.x1>0 && drawLine.x2<=view.width){
-    		Application.debug("top-bot");
+    		AbstractApplication.debug("top-bot");
         	if(drawLines[0].y2<drawLine.y1){
         		gpc.lineTo(0, 0);
         		gpc.lineTo(0, view.height);
@@ -468,14 +471,14 @@ final public class DrawConic extends Drawable implements Previewable {
             	M = conic.getMidpoint3D().getInhomCoords();
             else{
             	M = view.getCoordsForView(conic.getMidpoint3D());            
-            	if (!Kernel.isZero(M.getZ())){//check if in view
+            	if (!AbstractKernel.isZero(M.getZ())){//check if in view
             		isVisible = false;
             		return;
             	}
             	//check if eigen vec are in view
             	for(int j=0; j<2; j++){
             		Coords ev = view.getCoordsForView(conic.getEigenvec3D(j));   
-            		if (!Kernel.isZero(ev.getZ())){//check if in view
+            		if (!AbstractKernel.isZero(ev.getZ())){//check if in view
             			isVisible = false;
             			return;
             		}
@@ -489,14 +492,14 @@ final public class DrawConic extends Drawable implements Previewable {
         // draw arc according to midpoint position        	        	        	
         	// of the arc
         	Coords M = view.getCoordsForView(conic.getMidpoint3D());
-            if (!Kernel.isZero(M.getZ())){//check if in view
+            if (!AbstractKernel.isZero(M.getZ())){//check if in view
         		isVisible = false;
         		return;
             }
             //check if eigen vec are in view
             for(int j=0; j<2; j++){
             	Coords ev = view.getCoordsForView(conic.getEigenvec3D(j));   
-                if (!Kernel.isZero(ev.getZ())){//check if in view
+                if (!AbstractKernel.isZero(ev.getZ())){//check if in view
             		isVisible = false;
             		return;
                 }
@@ -667,14 +670,14 @@ final public class DrawConic extends Drawable implements Previewable {
 		
 		//check if in view
         Coords M = view.getCoordsForView(conic.getMidpoint3D());            
-        if (!Kernel.isZero(M.getZ())){//check if in view
+        if (!AbstractKernel.isZero(M.getZ())){//check if in view
     		isVisible = false;
     		return;
         }       
         Coords[] ev = new Coords[2];
         for(int j=0; j<2; j++){
         	ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));   
-            if (!Kernel.isZero(ev[j].getZ())){//check if in view
+            if (!AbstractKernel.isZero(ev[j].getZ())){//check if in view
         		isVisible = false;
         		return;
             }
@@ -716,14 +719,14 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		//check if in view
         Coords M = view.getCoordsForView(conic.getMidpoint3D());            
-        if (!Kernel.isZero(M.getZ())){//check if in view
+        if (!AbstractKernel.isZero(M.getZ())){//check if in view
     		isVisible = false;
     		return;
         }       
         Coords[] ev = new Coords[2];
         for(int j=0; j<2; j++){
         	ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));   
-            if (!Kernel.isZero(ev[j].getZ())){//check if in view
+            if (!AbstractKernel.isZero(ev[j].getZ())){//check if in view
         		isVisible = false;
         		return;
             }
@@ -847,14 +850,14 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		//check if in view
         Coords M = view.getCoordsForView(conic.getMidpoint3D());            
-        if (!Kernel.isZero(M.getZ())){//check if in view
+        if (!AbstractKernel.isZero(M.getZ())){//check if in view
     		isVisible = false;
     		return;
         }       
         Coords[] ev = new Coords[2];
         for(int j=0; j<2; j++){
         	ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));   
-            if (!Kernel.isZero(ev[j].getZ())){//check if in view
+            if (!AbstractKernel.isZero(ev[j].getZ())){//check if in view
         		isVisible = false;
         		return;
             }
@@ -924,13 +927,13 @@ final public class DrawConic extends Drawable implements Previewable {
         if (!isVisible) return;                
         g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));        		
         switch (type) {
-            case GeoConic.CONIC_SINGLE_POINT:                         
+            case GeoConicNDConstants.CONIC_SINGLE_POINT:                         
                 drawPoint.draw(g2);
                 break;     
                 
-            case GeoConic.CONIC_INTERSECTING_LINES:
-            case GeoConic.CONIC_DOUBLE_LINE: 
-            case GeoConic.CONIC_PARALLEL_LINES:
+            case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+            case GeoConicNDConstants.CONIC_DOUBLE_LINE: 
+            case GeoConicNDConstants.CONIC_PARALLEL_LINES:
                 drawLines[0].draw(g2);
                 drawLines[1].draw(g2);                
                 if(conic.isInverseFill()){                    	                	
@@ -939,13 +942,13 @@ final public class DrawConic extends Drawable implements Previewable {
                 else fill(g2, shape, false);
                 break;             
                 
-            case GeoConic.CONIC_LINE:
+            case GeoConicNDConstants.CONIC_LINE:
                 drawLines[0].draw(g2);
                 break;             
                 
-            case GeoConic.CONIC_CIRCLE:                                                                                 
-            case GeoConic.CONIC_ELLIPSE:                                
-			case GeoConic.CONIC_PARABOLA: 	
+            case GeoConicNDConstants.CONIC_CIRCLE:                                                                                 
+            case GeoConicNDConstants.CONIC_ELLIPSE:                                
+			case GeoConicNDConstants.CONIC_PARABOLA: 	
                     if(conic.isInverseFill()){                    	
                     	fill(g2, getShape(), false);
                     }
@@ -971,7 +974,7 @@ final public class DrawConic extends Drawable implements Previewable {
                 }                
                 break;            
             
-           case GeoConic.CONIC_HYPERBOLA:               		          
+           case GeoConicNDConstants.CONIC_HYPERBOLA:               		          
         	   if(conic.isInverseFill()){                    	
 	               	Area a1 = new Area(hypLeft);
 	               	Area a2 = new Area(hypRight);
@@ -1016,11 +1019,11 @@ final public class DrawConic extends Drawable implements Previewable {
 			return null;
 		
 		switch (type) {
-	        case GeoConic.CONIC_SINGLE_POINT:                         
+	        case GeoConicNDConstants.CONIC_SINGLE_POINT:                         
 	            return drawPoint.getBounds();              
 	                                         
-	        case GeoConic.CONIC_CIRCLE:  
-	        case GeoConic.CONIC_ELLIPSE:     
+	        case GeoConicNDConstants.CONIC_CIRCLE:  
+	        case GeoConicNDConstants.CONIC_ELLIPSE:     
 	        	return shape.getBounds();
 	        	
 	        default:
@@ -1035,30 +1038,30 @@ final public class DrawConic extends Drawable implements Previewable {
 	final public void drawTrace(Graphics2D g2) {             
 	    g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) conic.getObjectColor()));
 		switch (type) {
-			case GeoConic.CONIC_SINGLE_POINT:                         
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:                         
 				drawPoint.drawTrace(g2);
 				break;     
                 
-			case GeoConic.CONIC_INTERSECTING_LINES:
-			case GeoConic.CONIC_DOUBLE_LINE: 
-			case GeoConic.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE: 
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				drawLines[0].drawTrace(g2);
 				drawLines[1].drawTrace(g2);
 				break;             
                 
-			case GeoConic.CONIC_LINE:
+			case GeoConicNDConstants.CONIC_LINE:
 				drawLines[0].drawTrace(g2);
 				break;             
                 
-			case GeoConic.CONIC_CIRCLE:                                                                                 
-			case GeoConic.CONIC_ELLIPSE:                                
-			case GeoConic.CONIC_PARABOLA: 			                                                  
+			case GeoConicNDConstants.CONIC_CIRCLE:                                                                                 
+			case GeoConicNDConstants.CONIC_ELLIPSE:                                
+			case GeoConicNDConstants.CONIC_PARABOLA: 			                                                  
 				g2.setStroke(objStroke);
 				g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) conic.getObjectColor()));				
 				g2.draw(shape);    				            
 				break;            
             
-		   case GeoConic.CONIC_HYPERBOLA:     
+		   case GeoConicNDConstants.CONIC_HYPERBOLA:     
 				 g2.setStroke(objStroke);
 				 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) conic.getObjectColor()));				 
 				 g2.draw(hypLeft);                                                
@@ -1074,7 +1077,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		//set a flag that says if the point is on the filling
 		boolean isOnFilling = false;
 		if ((geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) 
-				&& type != GeoConic.CONIC_SINGLE_POINT && type != GeoConic.CONIC_DOUBLE_LINE){
+				&& type != GeoConicNDConstants.CONIC_SINGLE_POINT && type != GeoConicNDConstants.CONIC_DOUBLE_LINE){
 			double realX = view.toRealWorldCoordX(x);
 			double realY = view.toRealWorldCoordY(y);
 			double x3 = view.toRealWorldCoordX(3)-view.toRealWorldCoordX(0);
@@ -1093,26 +1096,26 @@ final public class DrawConic extends Drawable implements Previewable {
 		//set a flag to say if point is on the boundary
 		boolean isOnBoundary = false;
         switch (type) {
-            case GeoConic.CONIC_SINGLE_POINT:                         
+            case GeoConicNDConstants.CONIC_SINGLE_POINT:                         
                 isOnBoundary = drawPoint.hit(x, y);                                
                 break;
-            case GeoConic.CONIC_INTERSECTING_LINES:  
-            case GeoConic.CONIC_DOUBLE_LINE: 
-            case GeoConic.CONIC_PARALLEL_LINES:                
+            case GeoConicNDConstants.CONIC_INTERSECTING_LINES:  
+            case GeoConicNDConstants.CONIC_DOUBLE_LINE: 
+            case GeoConicNDConstants.CONIC_PARALLEL_LINES:                
             	isOnBoundary = drawLines[0].hit(x, y) || drawLines[1].hit(x, y);
             	break;                              
-            case GeoConic.CONIC_LINE:                
+            case GeoConicNDConstants.CONIC_LINE:                
             	isOnBoundary = drawLines[0].hit(x, y);
             	break;                               
-            case GeoConic.CONIC_CIRCLE:  
-            case GeoConic.CONIC_ELLIPSE:
-            case GeoConic.CONIC_PARABOLA:
+            case GeoConicNDConstants.CONIC_CIRCLE:  
+            case GeoConicNDConstants.CONIC_ELLIPSE:
+            case GeoConicNDConstants.CONIC_PARABOLA:
             	if (strokedShape == null) {
         			strokedShape = objStroke.createStrokedShape(shape);
         		}    		
             	isOnBoundary = strokedShape.intersects(x-hitThreshold,y-hitThreshold,2*hitThreshold,2*hitThreshold);            	
             	break;
-            case GeoConic.CONIC_HYPERBOLA: 
+            case GeoConicNDConstants.CONIC_HYPERBOLA: 
             	if (strokedShape == null) {
         			strokedShape = objStroke.createStrokedShape(hypLeft);
         			strokedShape2 = objStroke.createStrokedShape(hypRight);
@@ -1145,11 +1148,11 @@ final public class DrawConic extends Drawable implements Previewable {
 	@Override
 	final public boolean isInside(Rectangle rect) {				
 		switch (type) {
-           case GeoConic.CONIC_SINGLE_POINT:                         
+           case GeoConicNDConstants.CONIC_SINGLE_POINT:                         
                return drawPoint.isInside(rect);                          
                                                
-           case GeoConic.CONIC_CIRCLE:  
-           case GeoConic.CONIC_ELLIPSE:                         	
+           case GeoConicNDConstants.CONIC_CIRCLE:  
+           case GeoConicNDConstants.CONIC_ELLIPSE:                         	
         	   return rect != null && rect.contains(shape.getBounds());
 		}        
 		

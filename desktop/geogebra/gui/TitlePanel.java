@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,8 +61,8 @@ public class TitlePanel extends JPanel {
 		setLayout(new BorderLayout(5, 5));
 		titleField = new MyTextField(app);
 		authorField = new MyTextField(app);
-		dateField = new MyFormattedTextField(app.getGuiManager(),SimpleDateFormat
-				.getDateInstance(SimpleDateFormat.LONG));
+		dateField = new MyFormattedTextField(app.getGuiManager(),DateFormat
+				.getDateInstance(DateFormat.LONG));
 		dateField.setColumns(12);
 		dateField.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		dateField.setFont(app.getPlainFont());
@@ -126,7 +127,7 @@ public class TitlePanel extends JPanel {
 
 		// If no date specified use current date
 		if (src.equals("")) {
-			return SimpleDateFormat.getDateInstance(SimpleDateFormat.LONG)
+			return DateFormat.getDateInstance(DateFormat.LONG)
 					.format(date);
 		} else
 			return src;

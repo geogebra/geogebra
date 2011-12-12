@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
  * Panel with fields to enter width and height of graphic file to be exported.
@@ -71,8 +72,8 @@ public class GraphicSizePanel extends JPanel implements ActionListener,
 	add(new JLabel(app.getPlain("Height") + ":"));
 	add(tfHeight);
 	
-	tfWidth.setHorizontalAlignment(JTextField.RIGHT);
-	tfHeight.setHorizontalAlignment(JTextField.RIGHT);
+	tfWidth.setHorizontalAlignment(SwingConstants.RIGHT);
+	tfHeight.setHorizontalAlignment(SwingConstants.RIGHT);
 
 	setValues(width, height, keepRatio);
 

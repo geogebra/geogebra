@@ -217,7 +217,7 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
 
            return tok;
         } catch (Exception e) {
-           return LaTeXLexerConstants.DEFAULT;
+           return LexerConstants.DEFAULT;
         }
      }
 
@@ -593,7 +593,7 @@ public final int yylength() {
 
       switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
         case 8: 
-          { return LaTeXLexerConstants.WHITE;
+          { return LexerConstants.WHITE;
           }
         case 11: break;
         case 3: 
@@ -605,7 +605,7 @@ public final int yylength() {
           }
         case 13: break;
         case 7: 
-          { return LaTeXLexerConstants.TAB;
+          { return LexerConstants.TAB;
           }
         case 14: break;
         case 2: 
@@ -621,7 +621,7 @@ public final int yylength() {
           }
         case 17: break;
         case 1: 
-          { return LaTeXLexerConstants.DEFAULT;
+          { return LexerConstants.DEFAULT;
           }
         case 18: break;
         case 9: 

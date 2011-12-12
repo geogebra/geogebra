@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.SystemOfEquationsSolver;
@@ -210,8 +211,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
      */
     private boolean handleSpecialCase() {
     	// we need two circles
-    	if (A.type != GeoConic.CONIC_CIRCLE ||
-    		B.type != GeoConic.CONIC_CIRCLE)
+    	if (A.type != GeoConicNDConstants.CONIC_CIRCLE ||
+    		B.type != GeoConicNDConstants.CONIC_CIRCLE)
     		return false;
     	
     		
@@ -290,7 +291,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 						p.getIncidenceList().contains(B)) {
 					
 					//TODO: a potential temporary fix for #94.
-    				if (A.isOnPath(p, Kernel.EPSILON) && B.isOnPath(p, Kernel.EPSILON))
+    				if (A.isOnPath(p, AbstractKernel.EPSILON) && B.isOnPath(p, AbstractKernel.EPSILON))
     					pointOnConic = p;
     				
 					
@@ -502,9 +503,9 @@ public class AlgoIntersectConics extends AlgoIntersect {
         }
         
         // STANDARD PROCEDURE
-        double epsilon = Kernel.STANDARD_PRECISION;
+        double epsilon = AbstractKernel.STANDARD_PRECISION;
         while (!ok && epsilon <= AbstractKernel.MIN_PRECISION) { 
-            Kernel.setEpsilon(epsilon);                        
+            AbstractKernel.setEpsilon(epsilon);                        
             
             // find intersection points conics through intersection points
         	ok = calcIntersectionPoints(conic1, conic2, points, epsilon);  
@@ -558,28 +559,28 @@ public class AlgoIntersectConics extends AlgoIntersect {
                                                GeoPoint2 [] points) {
         if (degConic.isDefined()) {
             switch (degConic.getType()) {
-                case GeoConic.CONIC_INTERSECTING_LINES:
-                case GeoConic.CONIC_PARALLEL_LINES:                                    
+                case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+                case GeoConicNDConstants.CONIC_PARALLEL_LINES:                                    
                     AlgoIntersectLineConic.intersectLineConic(degConic.lines[0], conic, points);
                     points[2].setCoords(points[0]);
                     points[3].setCoords(points[1]);
                     AlgoIntersectLineConic.intersectLineConic(degConic.lines[1], conic, points);
                     return;
 
-				case GeoConic.CONIC_EMPTY: 
+				case GeoConicNDConstants.CONIC_EMPTY: 
 					// this shouldn't happen: try it with doubleline conic
 					degConic.enforceDoubleLine();					
 					//Application.debug("intersectWithDegenerate: empty degenerate conic, try double line");	
 					//degConic.setToSpecific();
 					//Application.debug("degConic: " + degConic);
 					
-                case GeoConic.CONIC_DOUBLE_LINE:                    
+                case GeoConicNDConstants.CONIC_DOUBLE_LINE:                    
                     AlgoIntersectLineConic.intersectLineConic(degConic.lines[0], conic, points);
                     points[2].setUndefined();
                     points[3].setUndefined();
                     return;
                     
-                case GeoConic.CONIC_SINGLE_POINT:                                        
+                case GeoConicNDConstants.CONIC_SINGLE_POINT:                                        
                     //Application.debug("intersectConics: single point: " + p);                    
                     points[0].setCoords(degConic.getSinglePoint());                    
                     points[1].setUndefined();

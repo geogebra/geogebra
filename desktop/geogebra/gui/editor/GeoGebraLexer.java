@@ -260,7 +260,7 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
 
            return tok;
         } catch (Exception e) {
-           return GeoGebraLexerConstants.DEFAULT;
+           return LexerConstants.DEFAULT;
         }
      }
 
@@ -3950,7 +3950,7 @@ public final int yylength() {
           }
         case 16: break;
         case 8: 
-          { return GeoGebraLexerConstants.WHITE;
+          { return LexerConstants.WHITE;
           }
         case 17: break;
         case 12: 
@@ -3969,11 +3969,11 @@ public final int yylength() {
   								   		return GeoGebraLexerConstants.COMMAND;
   								   }
   								   
-  								   return GeoGebraLexerConstants.UNKNOWN;
+  								   return LexerConstants.UNKNOWN;
           }
         case 20: break;
         case 1: 
-          { return GeoGebraLexerConstants.DEFAULT;
+          { return LexerConstants.DEFAULT;
           }
         case 21: break;
         case 6: 
@@ -3981,7 +3981,7 @@ public final int yylength() {
           }
         case 22: break;
         case 9: 
-          { return GeoGebraLexerConstants.TAB;
+          { return LexerConstants.TAB;
           }
         case 23: break;
         case 3: 
@@ -3999,7 +3999,7 @@ public final int yylength() {
   								   		return GeoGebraLexerConstants.VARIABLE;
   								   }
   								   
-  								   return GeoGebraLexerConstants.UNKNOWN;
+  								   return LexerConstants.UNKNOWN;
           }
         case 26: break;
         default: 

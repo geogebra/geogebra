@@ -1,6 +1,8 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
@@ -496,8 +498,8 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		cbUseLocalDigits.setSelected(app.isUsingLocalizedDigits());
 		cbUseLocalLabels.setSelected(app.isUsingLocalizedLabels());
 
-		angleUnitRadioDegree.setSelected(app.getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE);
-		angleUnitRadioRadian.setSelected(app.getKernel().getAngleUnit() != Kernel.ANGLE_DEGREE);
+		angleUnitRadioDegree.setSelected(app.getKernel().getAngleUnit() == AbstractKernel.ANGLE_DEGREE);
+		angleUnitRadioRadian.setSelected(app.getKernel().getAngleUnit() != AbstractKernel.ANGLE_DEGREE);
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
@@ -635,7 +637,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 				delay = 1000 * Integer.parseInt(tooltipTimeouts[index]);
 			}
 			ToolTipManager.sharedInstance().setDismissDelay(delay);
-			Application.debug(delay);
+			AbstractApplication.debug(delay);
 
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;
@@ -665,11 +667,11 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		} else if(source == cbAllowStyleBar) {
 			settings.getLayout().setAllowStyleBar(cbAllowStyleBar.isSelected());
 		} else if (source == angleUnitRadioDegree) {
-			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
+			app.getKernel().setAngleUnit(AbstractKernel.ANGLE_DEGREE);
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == angleUnitRadioRadian) {
-			app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+			app.getKernel().setAngleUnit(AbstractKernel.ANGLE_RADIANT);
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == continuityRadioOn) {

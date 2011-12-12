@@ -1,6 +1,8 @@
 package geogebra.gui;
 
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.Application;
@@ -117,7 +119,7 @@ public class GeoGebraKeys implements KeyListener {
 			if (!e.isAltDown() && numpad)
 				keyString = e.getKeyChar() + "";
 			
-			Application.debug("Key pressed "+StringUtil.toHexString(e.getKeyChar())+" "+keyString);
+			AbstractApplication.debug("Key pressed "+StringUtil.toHexString(e.getKeyChar())+" "+keyString);
 			
 			// workaround for different Java versions!!
 			if (keyString.equals("minus"))
@@ -130,7 +132,7 @@ public class GeoGebraKeys implements KeyListener {
 				keyString = ".";
 			else if (keyString.equals("equals"))
 				keyString = "=";
-			else if (keyString.length() > 1) Application.debug("Unknown keyString: "+keyString);
+			else if (keyString.length() > 1) AbstractApplication.debug("Unknown keyString: "+keyString);
 			
 			switch (e.getKeyChar()) {
 			// workaround for shifted characters:
@@ -157,18 +159,18 @@ public class GeoGebraKeys implements KeyListener {
 
 				case '*' :
 					if (italian && !numpad) insertStr = e.isShiftDown() ? "}" : "]"; // Italian keyboard			
-					else insertStr = ExpressionNode.strVECTORPRODUCT; // alt-* -> vector product
+					else insertStr = ExpressionNodeConstants.strVECTORPRODUCT; // alt-* -> vector product
 					break;
 				case '+' :
 					if (italian) insertStr = e.isShiftDown() ? "}" : "]"; // Italian keyboard			
 					else insertStr = "\u00b1"; // alt-+ -> plusOrMinus
 					break;
 				case Unicode.eGrave :
-					Application.debug("matched eGrave "+e.isShiftDown());
+					AbstractApplication.debug("matched eGrave "+e.isShiftDown());
 					insertStr = e.isShiftDown() ? "{" : "["; // for Italian keyboard
 					break;					
 				case Unicode.eAcute : // Shift+eGrave on Italian keyboard
-					Application.debug("matched eAcute "+e.isShiftDown());
+					AbstractApplication.debug("matched eAcute "+e.isShiftDown());
 					insertStr = e.isShiftDown() ? "{" : "["; // for Italian keyboard
 					break;					
 				case '=' :
@@ -305,7 +307,7 @@ Ctrl Alt               {   }
 					insertStr = "\u2079"; // alt-9 -> unicode superscript 9
 					break;
 				default:
-					Application.debug("no key matched "+keyString+" "+StringUtil.toHexString(keyString));
+					AbstractApplication.debug("no key matched "+keyString+" "+StringUtil.toHexString(keyString));
 				}
 
 			if (!insertStr.equals("")) {

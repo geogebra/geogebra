@@ -23,6 +23,7 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
@@ -319,7 +320,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 			  				geoCopy.set(geoOrig);	  				
 			  				geoCopy.update();      	      			 
 			  			} catch (Exception e) {
-			  				Application.debug("AlgoLocus: error in resetMacroConstruction(): " + e.getMessage());
+			  				AbstractApplication.debug("AlgoLocus: error in resetMacroConstruction(): " + e.getMessage());
 			  			}
 		      		}
 	      		}
@@ -546,7 +547,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 	       			       	
 	       		// if it takes too much time to calculate a single step, we stop
 	       		if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-	       			Application.debug("AlgoLocus: max time exceeded " + updateTime);	       			
+	       			AbstractApplication.debug("AlgoLocus: max time exceeded " + updateTime);	       			
 	       			maxTimeExceeded = true;
 	       		}
 	    		

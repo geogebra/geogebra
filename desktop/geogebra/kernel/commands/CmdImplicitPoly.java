@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -55,7 +56,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 				GeoElement[] ret = { kernel.ImplicitPoly(c.getLabel(),((GeoFunctionNVar)arg[0])) };
 				return ret;
 			} else {
-				Application.debug(arg[0] + ": " + arg[0].getClassName() + "; "
+				AbstractApplication.debug(arg[0] + ": " + arg[0].getClassName() + "; "
 						+ arg[0].getClass());
 				throw argErr(app, c.getName(), arg[0]);
 			}

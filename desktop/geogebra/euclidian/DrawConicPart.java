@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.algos.AlgoConicPartCircle;
@@ -115,12 +116,12 @@ implements Previewable {
 			updateStrokes(conicPart);
 				
 			switch (conicPart.getType()) {
-				case GeoConic.CONIC_CIRCLE:
-			    case GeoConic.CONIC_ELLIPSE:
+				case GeoConicNDConstants.CONIC_CIRCLE:
+			    case GeoConicNDConstants.CONIC_ELLIPSE:
 			    	updateEllipse();
 					break;
 				
-				case GeoConic.CONIC_PARALLEL_LINES:
+				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 					updateParallelLines();
 					break;
 					

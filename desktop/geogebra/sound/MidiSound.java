@@ -1,5 +1,6 @@
 package geogebra.sound;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.io.BufferedReader;
@@ -69,7 +70,7 @@ public class MidiSound implements MetaEventListener  {
 
 			if (synthesizer == null) {
 				if ((synthesizer = MidiSystem.getSynthesizer()) == null) {
-					Application.debug("getSynthesizer() failed!");
+					AbstractApplication.debug("getSynthesizer() failed!");
 					return false;
 				}
 

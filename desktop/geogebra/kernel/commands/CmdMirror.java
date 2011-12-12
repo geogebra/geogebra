@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.implicit.GeoImplicitPoly;
@@ -48,7 +49,7 @@ class CmdMirror extends CommandProcessorDesktop {
 										// Borcherds 2008-02-10
 				GeoConic conic1 = (GeoConic) arg[1];
 
-				if (conic1.getType() == GeoConic.CONIC_CIRCLE
+				if (conic1.getType() == GeoConicNDConstants.CONIC_CIRCLE
 						&& arg[0].isGeoConic() || arg[0].isGeoPoint()
 						|| arg[0] instanceof GeoCurveCartesian
 						|| arg[0] instanceof GeoLine

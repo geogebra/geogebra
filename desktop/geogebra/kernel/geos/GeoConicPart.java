@@ -37,6 +37,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.LineProperties;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.TransformInterface;
 import geogebra.kernel.algos.AlgoConicPartCircle;
@@ -235,7 +236,7 @@ implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
 		
 		// handle conic types
 		switch (type) {
-			case GeoConic.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_CIRCLE:
 				paramStart = AbstractKernel.convertToAngleValue(a);
 				paramEnd = AbstractKernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
@@ -254,7 +255,7 @@ implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
 								!Double.isInfinite(value);
 				break;
 			
-			case GeoConic.CONIC_ELLIPSE:					
+			case GeoConicNDConstants.CONIC_ELLIPSE:					
 				paramStart = AbstractKernel.convertToAngleValue(a);
 				paramEnd = AbstractKernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
@@ -277,7 +278,7 @@ implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
 				
 			// a circular arc through 3 points may degenerate
 			// to a segment or two rays
-			case GeoConic.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				if (conic_part_type == CONIC_PART_ARC && posOrientation) {
 				    // length of segment 
 					// bugfix Michael Borcherds 2008-05-27

@@ -16,6 +16,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
@@ -54,6 +55,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -126,7 +128,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		// build input dialog GUI
 		createGUI(title, "", false, cols, rows, false, false, false, false, false, false, true);	
-		addHelpButton(Application.WIKI_TEXT_TOOL);
+		addHelpButton(AbstractApplication.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
 		textPreviewer = new TextPreviewPanel(app.getKernel());
 
@@ -405,7 +407,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		geoList.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));
 		JScrollPane scroller = new JScrollPane(geoList);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
-		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		// add a list selection listener that will insert a selected geo into the editor
 		geoList.getSelectionModel().addListSelectionListener(new ListSelectionListener(){

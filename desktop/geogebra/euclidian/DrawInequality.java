@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
@@ -165,7 +166,7 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawImplicitPoly(view, ineq.getImpBorder());
 			break; TODO put this back when implicit polynomial can be shaded*/ 
 		default:
-			Application.debug("Unhandled inequality type");
+			AbstractApplication.debug("Unhandled inequality type");
 			return;
 		}
 		drawable.setGeoElement(geo);

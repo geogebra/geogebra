@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.InputHandler;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.kernel.Kernel;
@@ -165,7 +166,7 @@ public class ScriptInputDialog extends InputDialog {
 	 */
 	@Override
 	public void insertGeoElement(GeoElement geo) {
-		Application.debug("TODO: unimplemented");
+		AbstractApplication.debug("TODO: unimplemented");
 	}
 	
 	/**

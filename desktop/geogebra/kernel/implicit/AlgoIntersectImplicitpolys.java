@@ -24,6 +24,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.polynomial.BigPolynomial;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
@@ -317,7 +318,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		double roots[]=det.getRealRootsDouble(precision);
 		int nrRealRoots=roots.length;
 		if (nrRealRoots==0){
-			Application.debug(det);
+			AbstractApplication.debug(det);
 		}
 //		double roots[]=det.getCoefficientsDouble();
 
@@ -648,11 +649,11 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					pair[0]=newCoeff[i];
 					pair[1]=t;
 				}
-				Application.debug("polishing pair "+Arrays.toString(pair));
+				AbstractApplication.debug("polishing pair "+Arrays.toString(pair));
 				if (PolynomialUtils.rootPolishing(pair,p1,p2))
 					insert(pair);
 				else{
-					Application.debug("polishing pair "+Arrays.toString(pair)+" failed.");
+					AbstractApplication.debug("polishing pair "+Arrays.toString(pair)+" failed.");
 				}
 			}
 		}
@@ -705,7 +706,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double x=0;
 			double err=Math.abs(poly.value(x));
 			double lastErr=err*2;
-			while(err<lastErr&&err>Kernel.STANDARD_PRECISION){
+			while(err<lastErr&&err>AbstractKernel.STANDARD_PRECISION){
 				double devVal=derivative.value(x);
 				if (!AbstractKernel.isZero(devVal))
 					x=x-poly.value(x)/devVal;

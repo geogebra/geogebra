@@ -12,6 +12,7 @@ package geogebra.plugin;
 
  */
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -103,11 +104,11 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			url = new URL(path);
 			ClassPathManipulator.addURL(url, null);
 		} catch (MalformedURLException e) {
-			Application
+			AbstractApplication
 					.debug("addPath: MalformedURLExcepton for "
 							+ path);
 		} catch (Throwable e) {
-			Application.debug("addPath: " + e.getMessage()
+			AbstractApplication.debug("addPath: " + e.getMessage()
 					+ " for " + path);
 		}// try-catch
 	}// addURL(String)
@@ -138,10 +139,10 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 				}
 				pluginmenu.add(menuitem); // add to menu
 			} catch (Throwable t) {
-				Application.debug("addPlugin: " + t.toString());
+				AbstractApplication.debug("addPlugin: " + t.toString());
 			}// try-catch
 		} else {
-			Application.debug("PluginManager could not reflect out plugin "
+			AbstractApplication.debug("PluginManager could not reflect out plugin "
 					+ cname);
 		}// if plugin null
 	}// addPlugin(cname,patharray[],args)
@@ -218,7 +219,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			// plugin.execute(app.getGgbApi());
 			plugin.execute();
 		} else {
-			Application
+			AbstractApplication
 					.debug("No PlugLetIF called " + name + "in plugintable!");
 		}// if-else
 	}// actionPerformed(ActionEvent)
@@ -252,16 +253,16 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			Object o = get.invoke(c, emptyobj);
 			pluglet = (PlugLetIF) o;
 		} catch (NoSuchMethodException t) {
-			Application.debug(method
+			AbstractApplication.debug(method
 					+ " gives NoSuchMethodExcepton.");
 		} catch (IllegalAccessException e) {
-			Application.debug(method
+			AbstractApplication.debug(method
 					+ " gives IllegalAccesException.");
 		} catch (InvocationTargetException e) {
-			Application.debug(method
+			AbstractApplication.debug(method
 					+ " gives InvocationTargetException");
 		} catch (Throwable t) {
-			Application.debug(method + " gives "
+			AbstractApplication.debug(method + " gives "
 					+ t.toString());
 		}// end try catch
 		return pluglet;
@@ -287,10 +288,10 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 						lines.add(line); // debug(line);
 					}// while lines
 				} else {
-					Application.debug("Not a valid plugin.properties file");
+					AbstractApplication.debug("Not a valid plugin.properties file");
 				}// if br
 			} catch (IOException ioe) {
-				Application.debug("IOException reading "
+				AbstractApplication.debug("IOException reading "
 						+ PLUGINFILE);
 			}// try-catch
 		}// if is
@@ -299,7 +300,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 	// /// ----- Debug ----- /////
 	private final static void debug(String s) {
 		if (DEBUG) {
-			Application.debug(s);
+			AbstractApplication.debug(s);
 		}// if()
 	}// debug()
 	
@@ -338,10 +339,10 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 	        	
 	        	return url;
 	        }catch(MalformedURLException e) {
-	            Application.debug("addPath: MalformedURLExcepton for "+path);
+	            AbstractApplication.debug("addPath: MalformedURLExcepton for "+path);
 	            return null;
 	        }catch(Throwable e){
-	            Application.debug("addPath: "+e.getMessage()+" for "+path);
+	            AbstractApplication.debug("addPath: "+e.getMessage()+" for "+path);
 	            return null;
 	        }//try-catch        
 	    }//addPath(String)

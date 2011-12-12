@@ -8,6 +8,7 @@ the Free Software Foundation.
 
 package geogebra.export.pstricks;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
@@ -36,6 +37,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -669,16 +671,16 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // StringBuilder tempsb = new StringBuilder();
         startTransparentFill(codeFilledObject);
         // if right angle and decoration is a little square 
-        if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF) && geo.isEmphasizeRightAngle()
+        if (AbstractKernel.isEqual(geo.getValue(), AbstractKernel.PI_HALF) && geo.isEmphasizeRightAngle()
                 && euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE){
             r = r/Math.sqrt(2);
             double[] x = new double[8];
             x[0] = m[0] + r*Math.cos(angSt);
             x[1] = m[1] + r*Math.sin(angSt);
-            x[2] = m[0] + r*Math.sqrt(2)*Math.cos(angSt+Kernel.PI_HALF/2);
-            x[3] = m[1] + r*Math.sqrt(2)*Math.sin(angSt+Kernel.PI_HALF/2);
-            x[4] = m[0] + r*Math.cos(angSt+Kernel.PI_HALF);
-            x[5] = m[1] + r*Math.sin(angSt+Kernel.PI_HALF);
+            x[2] = m[0] + r*Math.sqrt(2)*Math.cos(angSt+AbstractKernel.PI_HALF/2);
+            x[3] = m[1] + r*Math.sqrt(2)*Math.sin(angSt+AbstractKernel.PI_HALF/2);
+            x[4] = m[0] + r*Math.cos(angSt+AbstractKernel.PI_HALF);
+            x[5] = m[1] + r*Math.sin(angSt+AbstractKernel.PI_HALF);
             x[6] = m[0];
             x[7] = m[1];
             
@@ -709,7 +711,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             endTransparentFill(geo,codeFilledObject);
             
             // draw the [circular?] dot if right angle and decoration is dot
-            if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF) && geo.isEmphasizeRightAngle() 
+            if (AbstractKernel.isEqual(geo.getValue(), AbstractKernel.PI_HALF) && geo.isEmphasizeRightAngle() 
                     && euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT){
                 double diameter = geo.lineThickness/euclidianView.getXscale();
                 double radius = arcSize/euclidianView.getXscale()/1.7;
@@ -1352,11 +1354,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     protected void drawGeoConic(GeoConic geo){  
         switch(geo.getType()){
         // if conic is a circle
-            case GeoConic.CONIC_CIRCLE:
+            case GeoConicNDConstants.CONIC_CIRCLE:
                 drawCircle(geo);
             break;
         // if conic is an ellipse
-            case GeoConic.CONIC_ELLIPSE:
+            case GeoConicNDConstants.CONIC_ELLIPSE:
                 AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
                 double eigenvecX = at.getScaleX();
                 double eigenvecY = at.getShearY();
@@ -1383,7 +1385,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             break;
             
         // if conic is a parabola 
-            case GeoConic.CONIC_PARABOLA:       
+            case GeoConicNDConstants.CONIC_PARABOLA:       
                  // parameter of the parabola
                 double p = geo.p;
                 at = geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
@@ -1458,7 +1460,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                     code.append("/* parabola construction */");
             break;
             
-            case GeoConic.CONIC_HYPERBOLA:
+            case GeoConicNDConstants.CONIC_HYPERBOLA:
 //              parametric: (a(1+t^2)/(1-t^2), 2bt/(1-t^2))
                 at = geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
                 eigenvecX = at.getScaleX();

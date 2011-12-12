@@ -17,6 +17,7 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebraAppletPreloader;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.arithmetic.MyBoolean;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.plugin.GgbAPI;
@@ -106,7 +107,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			{
 
 				Component c = e.getComponent();
-				Application.debug("Applet resized to: "+c.getWidth()+", "+c.getHeight());
+				AbstractApplication.debug("Applet resized to: "+c.getWidth()+", "+c.getHeight());
 
 				if (allowRescaling && app != null && !app.runningInFrame && app.onlyGraphicsViewShowing())
 				{
@@ -147,7 +148,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * in a separate thread.
 	 */
 	public void initInBackground() {	
-		Application.debug("initInBackground");
+		AbstractApplication.debug("initInBackground");
 
 		// start animation if wanted by ggb file
 		if (kernel.wantAnimationStarted())
@@ -158,7 +159,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		Object [] noArgs = { };
 		Object [] arg = { ggbOnInitParam };
 
-		Application.debug("calling ggbOnInit("+(((ggbOnInitParam == null) ? "" : ggbOnInitParam))+")");
+		AbstractApplication.debug("calling ggbOnInit("+(((ggbOnInitParam == null) ? "" : ggbOnInitParam))+")");
 		app.getScriptManager().callJavaScript("ggbOnInit", (ggbOnInitParam == null) ? noArgs : arg );
 
 		// give applet time to repaint
@@ -218,7 +219,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			if (fileBase64 != null)
 				fileStr = "base64://" + fileBase64;
 		}
-		Application.debug("loading "+fileStr);
+		AbstractApplication.debug("loading "+fileStr);
 
 		// type = "button" or parameter is not available 
 		String typeStr = applet.getParameter("type");
@@ -333,7 +334,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			else // Linux or others
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
-			Application.debug(e+"");
+			AbstractApplication.debug(e+"");
 		}
 
 		if (fileStr == null) {
@@ -411,7 +412,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// replace applet's content pane
 		Container cp = applet.getContentPane();
 
-		Application.debug("Initial size = "+cp.getWidth()+", "+cp.getHeight());
+		AbstractApplication.debug("Initial size = "+cp.getWidth()+", "+cp.getHeight());
 		//Application.debug("EuclidianView size = "+app.getEuclidianView().getPreferredSize().getWidth()+", "+app.getEuclidianView().getPreferredSize().getHeight());
 
 		width = cp.getWidth();
@@ -784,7 +785,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * prints a string to the Java Console
 	 */
 	public synchronized void debug(String string) {		
-		Application.debug(string);
+		AbstractApplication.debug(string);
 	}
 
 	//	/**
@@ -1343,10 +1344,10 @@ public class AppletImplementation implements AppletImplementationInterface {
 				browserWindow = JSObject.getWindow(applet);
 				
 				if (browserWindow == null)
-					Application.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet");
+					AbstractApplication.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet");
 				
 			} catch (Exception e) {							
-				Application.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
+				AbstractApplication.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
 			}    			
 		}
 	}
@@ -1359,10 +1360,10 @@ public class AppletImplementation implements AppletImplementationInterface {
 		
 		try {			
 			if (browserWindow != null) {
-				Application.debug("callJavaScript: "+jsFunction);
+				AbstractApplication.debug("callJavaScript: "+jsFunction);
 				browserWindow.call(jsFunction, args);
 			}
-			else Application.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "+jsFunction);
+			else AbstractApplication.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "+jsFunction);
 		} catch (Exception e) {						
 			System.err.println("Warning: Error calling JavaScript function '"+jsFunction+"' ("+e.getLocalizedMessage()+")");
 			//e.printStackTrace();

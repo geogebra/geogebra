@@ -15,6 +15,7 @@ package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.NameDescriptionComparator;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.kernel.Kernel;
@@ -281,7 +282,7 @@ implements GeoElementSelectionListener {
 		}
 		
 		}else{
-			Application.debug("not compatible");
+			AbstractApplication.debug("not compatible");
 			JOptionPane.showMessageDialog(this,app.getError("InvalidInput") + ":\n"+macro.toString());
 		}
 	}

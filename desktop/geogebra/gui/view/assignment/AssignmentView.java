@@ -12,6 +12,7 @@ import geogebra.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import javax.swing.JComponent;
@@ -100,7 +101,7 @@ public class AssignmentView extends JPanel implements View, Gridable {
 	}
 
 	public int getViewID() {
-		return Application.VIEW_ASSIGNMENT;
+		return AbstractApplication.VIEW_ASSIGNMENT;
 	}
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)

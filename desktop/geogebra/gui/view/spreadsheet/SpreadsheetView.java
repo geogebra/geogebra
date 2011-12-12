@@ -4,6 +4,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.gui.inputfield.MyTextField;
@@ -38,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -197,9 +199,9 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 				table.selectAll();
 			}
 		});
-		spreadsheet.setCorner(JScrollPane.UPPER_LEFT_CORNER, upperLeftCorner);
-		spreadsheet.setCorner(JScrollPane.LOWER_LEFT_CORNER, new Corner());
-		spreadsheet.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new Corner());
+		spreadsheet.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, upperLeftCorner);
+		spreadsheet.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, new Corner());
+		spreadsheet.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, new Corner());
 
 
 		// Add a resize listener to the table so it can auto-enlarge if needed
@@ -1255,10 +1257,10 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	public void setShowVScrollBar(boolean showVScrollBar) {
 		if (showVScrollBar) {
 			spreadsheet
-			.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		} else {
 			spreadsheet
-			.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+			.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		}
 	}
 
@@ -1266,10 +1268,10 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		if (showHScrollBar) {
 			spreadsheet
-			.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		} else {
 			spreadsheet
-			.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		}
 	}
 
@@ -1518,7 +1520,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		return table.hasFocus()
 		|| rowHeader.hasFocus()
 		|| (table.getTableHeader() != null && table.getTableHeader().hasFocus())
-		|| spreadsheet.getCorner(JScrollPane.UPPER_LEFT_CORNER).hasFocus()
+		|| spreadsheet.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER).hasFocus()
 		|| (formulaBar != null && formulaBar.hasFocus());
 	}
 
@@ -1534,7 +1536,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 	public int getViewID() {
-		return Application.VIEW_SPREADSHEET;
+		return AbstractApplication.VIEW_SPREADSHEET;
 	}
 
 
@@ -1565,7 +1567,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	public Component[][] getPrintComponents() {
 		return new Component[][]{
-				{spreadsheet.getCorner(JScrollPane.UPPER_LEFT_CORNER), spreadsheet.getColumnHeader()},
+				{spreadsheet.getCorner(ScrollPaneConstants.UPPER_LEFT_CORNER), spreadsheet.getColumnHeader()},
 				{spreadsheet.getRowHeader(),table}};
 	}
 	public void add(GeoElementInterface geo) {

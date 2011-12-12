@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputHandler;
@@ -551,7 +552,7 @@ public class DialogManager {
 				// list
 				// Java bug
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
-				Application
+				AbstractApplication
 						.debug("Error creating GeoGebraFileChooser - using fallback option");
 				setFileChooser(new GeoGebraFileChooser(app,
 						app.getCurrentImagePath(), true)); // restricted version

@@ -18,6 +18,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -79,7 +80,7 @@ public class AlgoSurdText extends AlgoElement {
 			
 			double decimal = num.getDouble();
 			
-			if ( AbstractKernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
+			if ( AbstractKernel.isEqual(decimal - Math.round(decimal) , 0.0, AbstractKernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal)));
 			} else {
 				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, Kernel.EPSILON);
@@ -119,7 +120,7 @@ public class AlgoSurdText extends AlgoElement {
     
     protected void PSLQappend(StringBuilder sb, double num) {
 		double[] numPowers = {num * num, num, 1.0};
-		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
+		int[] coeffs = PSLQ(numPowers,AbstractKernel.STANDARD_PRECISION,10);
 		
 		if (coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0 ) {
 			sb.append("\\text{"+app.getPlain("undefined")+"}");
@@ -304,7 +305,7 @@ public class AlgoSurdText extends AlgoElement {
 			P[i][i]+=1;
 		
 		//debug: |P|^2=|H|^2 = n-1
-		Application.debug("Frobenius Norm Squares: \n"
+		AbstractApplication.debug("Frobenius Norm Squares: \n"
 				+ "|P|^2 = " + frobNormSq(P,n,n)
 				+ "|H|^2 = " + frobNormSq(H,n,n-1)
 				);
@@ -344,7 +345,7 @@ public class AlgoSurdText extends AlgoElement {
 		//iteration
 		int itCount = 0;
 		double itBound = 2.0*gamma/deltaSq * n*n*(n+1)*Math.log(Math.sqrt(bound*bound*n)*n*n)/Math.log(2);
-		Application.debug("itBound = " + itBound);
+		AbstractApplication.debug("itBound = " + itBound);
 		while (itCount < itBound){
 			
 			//0. test if we have found a relation in a column of B

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.io;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -26,6 +27,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.parser.Parser;
@@ -181,7 +183,7 @@ debug("startElement", eName);
                 }
 
             default :
-                Application.debug("unknown mode: " + mode);
+                AbstractApplication.debug("unknown mode: " + mode);
         }
     }
 
@@ -244,7 +246,7 @@ debug("startConstruction", eName);
         } else if (eName.equals("display")) {
             mode = MODE_DISPLAY;           
         } else {
-            Application.debug("unknown tag in <construction>: " + eName);
+            AbstractApplication.debug("unknown tag in <construction>: " + eName);
         }
     }
     
@@ -253,7 +255,7 @@ debug("endConstruction", eName);
 		if (eName.equals("construction")) {
 			mode = MODE_CONSTRUCTION;
 		} else {
-			Application.debug("invalid closing tag </" + eName + "> instead of </construction>");
+			AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </construction>");
 			mode = MODE_INVALID;
 		}
     }
@@ -267,13 +269,13 @@ debug("startElements", eName);
     		case MODE_INVALID :
     			// TODO -> extend to further objects
     			if (!eName.equals("line") && !eName.equals("line_segment") && !eName.equals("point")) {
-            		Application.debug("unknown tag in <elements>: " + eName);
+            		AbstractApplication.debug("unknown tag in <elements>: " + eName);
             		break;
     			}
     			
     	        String label = (String) attrs.get("id");
     	        if (label == null) {
-    	            Application.debug("attribute id missing in <" + eName + ">");
+    	            AbstractApplication.debug("attribute id missing in <" + eName + ">");
     	            break;
     	        }
 
@@ -281,7 +283,7 @@ debug("startElements", eName);
     	        geo = kernel.lookupLabel(label);
     	        if (geo != null) {        
     	        	geo = null;
-    	        	Application.debug("an element with id \"" + label + "\" already exists");
+    	        	AbstractApplication.debug("an element with id \"" + label + "\" already exists");
     	        	break;
     	        }
     	        
@@ -315,10 +317,10 @@ debug("startElements", eName);
     				}
     			}
     			if (i >= tags.length) {
-            		Application.debug("unknown tag in <" + geo.getI2GtypeString() + ">: " + eName);
+            		AbstractApplication.debug("unknown tag in <" + geo.getI2GtypeString() + ">: " + eName);
             		break;
     			} else if (!(geo instanceof GeoVec3D)) {
-		            Application.debug("wrong element type for coordinates: " + geo.getI2GtypeString());
+		            AbstractApplication.debug("wrong element type for coordinates: " + geo.getI2GtypeString());
 		            break;
 		        }
     			
@@ -339,7 +341,7 @@ debug("startElements", eName);
         		} else if (cmdName.equals("homogeneous_coordinates") && eName.equals("complex")) {
         			subMode = MODE_COORDINATES_COMPLEX;
         		} else {
-            		Application.debug("unknown tag in <" + cmdName + ">: " + eName);
+            		AbstractApplication.debug("unknown tag in <" + cmdName + ">: " + eName);
             		break;
         		}
     			if (coord >= coords.length) {
@@ -355,7 +357,7 @@ debug("startElements", eName);
         			if (cmdName.equals("homogeneous_coordinates")) {
         				tag = "<double> or <complex>";
         			}
-    				Application.debug("more than " + coords.length + " " + tag + " specified for <" + cmdName + ">");
+    				AbstractApplication.debug("more than " + coords.length + " " + tag + " specified for <" + cmdName + ">");
     			}
         		break;
 
@@ -363,13 +365,13 @@ debug("startElements", eName);
         		if (eName.equals("double")) {
                     subMode = MODE_COORDINATES_COMPLEX_DOUBLE;
         		} else {
-            		Application.debug("unknown tag in <complex>: " + eName);
+            		AbstractApplication.debug("unknown tag in <complex>: " + eName);
         		}
         		break;
 
     		case MODE_COORDINATES_REAL_DOUBLE :
     		case MODE_COORDINATES_COMPLEX_DOUBLE :
-        		Application.debug("unknown tag in <double>: " + eName);        	
+        		AbstractApplication.debug("unknown tag in <double>: " + eName);        	
         		break;
     	}
     }
@@ -389,10 +391,10 @@ debug("textElements", str);
     		        	} else if (Double.isNaN(coords[coord].getImaginary())) {
     		        		coords[coord] = new Complex(coords[coord].getReal(),Double.parseDouble(str));
     		        	} else {
-            				Application.debug("more than 2 <double> specified for <complex>");
+            				AbstractApplication.debug("more than 2 <double> specified for <complex>");
     		        	}
     		        } catch (Exception e) {
-    		        	Application.debug("could not parse double: " + str);
+    		        	AbstractApplication.debug("could not parse double: " + str);
     		        }
     			}
     			break;
@@ -404,7 +406,7 @@ debug("endElements", eName);
     	switch (subMode) {
     		case MODE_INVALID :
     			if (!eName.equals("elements")) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </elements>");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </elements>");
     			}
 				mode = MODE_CONSTRUCTION;
     			break;
@@ -414,7 +416,7 @@ debug("endElements", eName);
     				GeoVec3D.lineThroughPoints(segmentStart, segmentEnd, (GeoLine) geo);
     			}
     			if (!eName.equals(geo.getI2GtypeString())) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </" + geo.getI2GtypeString() + ">");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </" + geo.getI2GtypeString() + ">");
     			}
 				subMode = MODE_INVALID;
     			break;
@@ -425,7 +427,7 @@ debug("endElements", eName);
         			if (cmdName.equals("homogeneous_coordinates")) {
         				tag = "<double> or <complex>";
         			}
-					Application.debug("only " + (coords.length - 1) + " " + tag + " specified for <" + eName + ">");
+					AbstractApplication.debug("only " + (coords.length - 1) + " " + tag + " specified for <" + eName + ">");
 				} else {
 					GeoVec3D v;
 					if (segment) {
@@ -448,7 +450,7 @@ debug("endElements", eName);
 			            if (isReal(coords[0]) && isReal(coords[1]) && isReal(coords[2])) {
 							v.setCoords(coords[0].getReal(), coords[1].getReal(), coords[2].getReal());
 			            } else {
-			            	Application.debug("could not import complex coordinates");
+			            	AbstractApplication.debug("could not import complex coordinates");
 			            }
 			        } else if (coords.length == 2) {
 			        	if (cmdName.equals("euclidean_coordinates")) {
@@ -457,12 +459,12 @@ debug("endElements", eName);
 					            v.setCoords(coords[0].getReal() * Math.cos( coords[1].getReal() ), coords[0].getReal() * Math.sin( coords[1].getReal() ), 1);
 					            // TODO -> do not modify point/kernel mode when these settings are stored in the file format
 					            v.setPolar();
-					            kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
+					            kernel.setAngleUnit(AbstractKernel.ANGLE_RADIANT);
 			        	}
 			        }
 				}
     			if (!eName.equals(cmdName)) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </" + cmdName + ">");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </" + cmdName + ">");
     			}
 				subMode = MODE_ELEMENTS;
     			break;
@@ -471,14 +473,14 @@ debug("endElements", eName);
 				if (coord < coords.length && coords[coord].isNaN()) {
 					if (Double.isNaN(coords[coord].getReal())) {
 						coords[coord] = new Complex(0, 0);
-    					Application.debug("no <double> specified for <complex>");
+    					AbstractApplication.debug("no <double> specified for <complex>");
 					} else if (Double.isNaN(coords[coord].getImaginary())) {
 						coords[coord] = new Complex(coords[coord].getReal(), 0);
-    					Application.debug("only 1 <double> specified for <complex>");
+    					AbstractApplication.debug("only 1 <double> specified for <complex>");
 					}
 				}
     			if (!eName.equals("complex")) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </complex>");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </complex>");
     			}
     			subMode = MODE_COORDINATES;
     			break;
@@ -486,7 +488,7 @@ debug("endElements", eName);
     		case MODE_COORDINATES_REAL_DOUBLE :
     		case MODE_COORDINATES_COMPLEX_DOUBLE :
     			if (!eName.equals("double")) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </double>");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </double>");
     			}
     			subMode = subMode - 1;
     			break;
@@ -494,7 +496,7 @@ debug("endElements", eName);
     }
     
 	final public boolean isReal(Complex c) {
-		return Kernel.isZero(c.getImaginary());
+		return AbstractKernel.isZero(c.getImaginary());
 	}
 
 
@@ -545,7 +547,7 @@ debug("startConstraints", eName);
     				name = "Point";
     				subMode = MODE_POINT_ON_LINE;
         		} else {
-            		Application.debug("unknown tag in <constraints>: " + eName);        	
+            		AbstractApplication.debug("unknown tag in <constraints>: " + eName);        	
             		break;
         		}
 
@@ -602,7 +604,7 @@ debug("startConstraints", eName);
     			break;
 
     		default:
-    			Application.debug("unknown tag in <" + cmdName + ">: " + eName);
+    			AbstractApplication.debug("unknown tag in <" + cmdName + ">: " + eName);
     	}
     }
     
@@ -620,7 +622,7 @@ debug("endConstraints", eName);
 		switch (subMode) {
 			case MODE_INVALID :
     			if (!eName.equals("constraints")) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </constraints>");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </constraints>");
     			}
 				mode = MODE_CONSTRUCTION;
     			break;
@@ -653,7 +655,7 @@ debug("endConstraints", eName);
 				            e.printStackTrace();
 						}
 				} else {
-					Application.debug("could not generate vector for <" + eName + ">");
+					AbstractApplication.debug("could not generate vector for <" + eName + ">");
 				}
 				handleConstraintsEnd(eName, 1, 2);
 				break;
@@ -692,7 +694,7 @@ debug("endConstraints", eName);
 							break;
 							
 						default:
-				    		Application.debug("unknown subMode, this should never happen! :-(");
+				    		AbstractApplication.debug("unknown subMode, this should never happen! :-(");
 					}
 				}
 		}
@@ -700,7 +702,7 @@ debug("endConstraints", eName);
     
     private void handleConstraintsStart(String eName, LinkedHashMap attrs, String outputType, int outputQuantity, String[] inputType, int[] inputQuantity) {
     	if (inputType.length != inputQuantity.length) {
-    		Application.debug("call of handleConstraintsStart with invalid arguments, this should never happen :-(");
+    		AbstractApplication.debug("call of handleConstraintsStart with invalid arguments, this should never happen :-(");
     		return;
     	}
     	
@@ -710,7 +712,7 @@ debug("endConstraints", eName);
     		if (inputType.length > 0 && outputType.equals(inputType[0])) {
     			if ("true".equals((String) attrs.get("out"))) {
     				if (cmd.labelCount() >= outputQuantity) {
-        				Application.debug("more than " + outputQuantity + " <" + eName + " out=\"true\"> specified for <" + cmdName + ">");
+        				AbstractApplication.debug("more than " + outputQuantity + " <" + eName + " out=\"true\"> specified for <" + cmdName + ">");
         				return;
     				}
     				lastType = outputType;
@@ -723,10 +725,10 @@ debug("endConstraints", eName);
     			}
     		} else {
     			if (!"true".equals((String) attrs.get("out"))) {
-    				Application.debug("tag <" + eName + "> not set as output tag");
+    				AbstractApplication.debug("tag <" + eName + "> not set as output tag");
     			}
     			if (cmd.labelCount() >= outputQuantity) {
-    				Application.debug("more than " + outputQuantity + " <" + eName + "> specified for <" + cmdName + ">");
+    				AbstractApplication.debug("more than " + outputQuantity + " <" + eName + "> specified for <" + cmdName + ">");
     				return;
     			}
 				lastType = outputType;
@@ -744,7 +746,7 @@ debug("endConstraints", eName);
 				}
 			}
     	}
-		Application.debug("unknown tag in <" + cmdName + ">: " + eName);        	
+		AbstractApplication.debug("unknown tag in <" + cmdName + ">: " + eName);        	
     }
     
     private boolean handleConstraintsCheck(String inputType, int inputQuantity) {
@@ -759,7 +761,7 @@ debug("endConstraints", eName);
 			}
 		}
 		if (count >= inputQuantity) {
-			Application.debug("more than " + inputQuantity + " <" + inputType + "> specified for <" + cmdName + ">");
+			AbstractApplication.debug("more than " + inputQuantity + " <" + inputType + "> specified for <" + cmdName + ">");
 			return false;
 		}
     	return true;
@@ -774,29 +776,29 @@ debug("endConstraints", eName);
     	
 		if (cmd.labelCount() < outputQuantity) {
 			error = true;
-			Application.debug("not enough output elements specified for <" + cmdName + ">");
+			AbstractApplication.debug("not enough output elements specified for <" + cmdName + ">");
 		} else if (cmd.labelCount() > outputQuantity) {
 			error = true;
-			Application.debug("too many output elements specified for <" + cmdName + ">");
+			AbstractApplication.debug("too many output elements specified for <" + cmdName + ">");
 		}
 		if (cmd.getArgumentNumber() < inputQuantity) {
 			error = true;
-			Application.debug("not enough input elements specified for <" + cmdName + ">");
+			AbstractApplication.debug("not enough input elements specified for <" + cmdName + ">");
 		} else if (cmd.getArgumentNumber() > inputQuantity) {
 			error = true;
-			Application.debug("too many input elements specified for <" + cmdName + ">");
+			AbstractApplication.debug("too many input elements specified for <" + cmdName + ">");
 		}
 		
 		if (!processCommand) {
 			// do not process the command, the constraint is not supported
-			Application.debug("ignoring constraint <" + cmdName + ">, GeoGebra does not support it");
+			AbstractApplication.debug("ignoring constraint <" + cmdName + ">, GeoGebra does not support it");
 		} else if (error) {
 			// do not process the command, the number of input/output arguments does not match
 		} else if (cmd.getName().equals("Free")) {
 			if (label != null) {
 				GeoElement geo = kernel.lookupLabel(label);
 				if (!geo.isIndependent() && !geo.isPointOnPath()) {
-					Application.debug(lastType + " " + label + " is not free");
+					AbstractApplication.debug(lastType + " " + label + " is not free");
 				}
 			}
 		} else {
@@ -819,7 +821,7 @@ System.out.println(eName);
 		}
 		
 		if (!eName.equals(cmdName)) {
-			Application.debug("invalid closing tag </" + eName + "> instead of </" + cmdName + ">");
+			AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </" + cmdName + ">");
 		}
 		subMode = MODE_INVALID;
     }
@@ -841,20 +843,20 @@ System.out.println(eName);
     	
     	if (label == null) {
     		ok = false;
-    		Application.debug("no id specified for " + lastType);
+    		AbstractApplication.debug("no id specified for " + lastType);
     	} else {
             geo = kernel.lookupLabel(label);
             if (geo == null) {
             	ok = false;
-            	Application.debug("an element with id \"" + label + "\" does not exist");
+            	AbstractApplication.debug("an element with id \"" + label + "\" does not exist");
             } else if (!geo.getI2GtypeString().equals(lastType)) {
             	ok = false;
-            	Application.debug("the element with id \"" + label + "\" is not a " + lastType);
+            	AbstractApplication.debug("the element with id \"" + label + "\" is not a " + lastType);
             }
     	}
 		if (!eName.equals(lastType)) {
 			ok = false;
-			Application.debug("invalid closing tag </" + eName + "> instead of </" + lastType + ">");
+			AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </" + lastType + ">");
 		}
         subMode = newMode;
         return ok;
@@ -869,20 +871,20 @@ debug("startDisplay", eName);
 			case MODE_INVALID :
     			// TODO -> extend to further objects
     			if (!eName.equals("point") && !eName.equals("line")) {
-            		Application.debug("unknown tag in <elements>: " + eName);
+            		AbstractApplication.debug("unknown tag in <elements>: " + eName);
             		break;
     			}
     			
     	        String label = (String) attrs.get("id");
     	        if (label == null) {
-    	            Application.debug("attribute id missing in <" + eName + ">");
+    	            AbstractApplication.debug("attribute id missing in <" + eName + ">");
     	            break;
     	        }
     	        
     	        // does a geo element with this label exist?
     	        geo = kernel.lookupLabel(label);
     	        if (geo == null) {        
-    	        	Application.debug("an element with id \"" + label + "\" does not exist");
+    	        	AbstractApplication.debug("an element with id \"" + label + "\" does not exist");
     	        	break;
     	        }
     	        
@@ -895,12 +897,12 @@ debug("startDisplay", eName);
 					label = null;
 					subMode = MODE_LABEL;
 				} else {
-            		Application.debug("unknown tag in <" + cmdName + ">: " + eName);
+            		AbstractApplication.debug("unknown tag in <" + cmdName + ">: " + eName);
 				}
 				break;
 				
 			case MODE_LABEL :
-        		Application.debug("unknown tag in <label>: " + eName);        	
+        		AbstractApplication.debug("unknown tag in <label>: " + eName);        	
         		break;
 		}
     }
@@ -920,31 +922,31 @@ debug("endDisplay", eName);
 		switch (subMode) {
 			case MODE_INVALID :
 				if (!eName.equals("display")) {
-					Application.debug("invalid closing tag </" + eName + "> instead of </display>");
+					AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </display>");
 				}
 				mode = MODE_CONSTRUCTION;
 				break;
 			
 			case MODE_DISPLAY :
     			if (!eName.equals(cmdName)) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </" + cmdName + ">");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </" + cmdName + ">");
     			}
 		        subMode = MODE_INVALID;
 				break;
 				
 			case MODE_LABEL :
 				if (label == null) {
-		    		Application.debug("no label specified for " + geo.getI2GtypeString());
+		    		AbstractApplication.debug("no label specified for " + geo.getI2GtypeString());
 				} else {
     		    	try {        	
     		        	geo.setCaption(label);
     		        	geo.setLabelMode(GeoElement.LABEL_CAPTION);
     		        } catch (Exception e) {
-    		        	Application.debug("could not set label " + label + " for " + geo.getI2GtypeString());
+    		        	AbstractApplication.debug("could not set label " + label + " for " + geo.getI2GtypeString());
     		        }	
 				}
     			if (!eName.equals("label")) {
-    				Application.debug("invalid closing tag </" + eName + "> instead of </label>");
+    				AbstractApplication.debug("invalid closing tag </" + eName + "> instead of </label>");
     			}
 		        subMode = MODE_DISPLAY;
 				break;

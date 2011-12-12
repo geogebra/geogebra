@@ -2,6 +2,7 @@ package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -182,7 +183,7 @@ public class GeoGebraTubeExport {
 						statusLabel.setText(app.getPlain("UploadError"));
 						progressBar.setEnabled(false);
 						
-						Application.debug("Upload failed. Response: " + output.toString());
+						AbstractApplication.debug("Upload failed. Response: " + output.toString());
 					} else {
 						app.getGuiManager().showURLinBrowser(uploadURL + "/" + results.getUID());
 						hideDialog();
@@ -190,7 +191,7 @@ public class GeoGebraTubeExport {
 					
 					progressDialog.pack();
 				} else {
-					Application.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
+					AbstractApplication.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
 					
 					BufferedReader errors = new BufferedReader(new InputStreamReader(urlConn.getErrorStream()));
 					StringBuffer errorBuffer = new StringBuffer();
@@ -201,7 +202,7 @@ public class GeoGebraTubeExport {
 					}
 					errors.close();
 					
-					Application.debug(errorBuffer.toString());
+					AbstractApplication.debug(errorBuffer.toString());
 					
 					statusLabel.setText(app.getPlain("UploadError", Integer.toString(responseCode)));
 					progressBar.setEnabled(false);
@@ -212,14 +213,14 @@ public class GeoGebraTubeExport {
 				progressBar.setEnabled(false);
 				progressDialog.pack();
 				
-				Application.debug(e.getMessage());
+				AbstractApplication.debug(e.getMessage());
 			}
 		} catch (IOException e) {
 			statusLabel.setText(app.getPlain("UploadError", Integer.toString(400)));
 			progressBar.setEnabled(false);
 			progressDialog.pack();
 			
-			Application.debug(e.getMessage());
+			AbstractApplication.debug(e.getMessage());
 		}
 	}
 	

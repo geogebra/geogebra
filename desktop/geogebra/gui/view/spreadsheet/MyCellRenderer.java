@@ -1,11 +1,13 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
@@ -28,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -148,7 +151,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		// use special rendering for buttons, booleans and lists
 		//=======================================================
 
-		if(view.allowSpecialEditor() && kernel.getAlgebraStyle()==Kernel.ALGEBRA_STYLE_VALUE){
+		if(view.allowSpecialEditor() && kernel.getAlgebraStyle()==AbstractKernel.ALGEBRA_STYLE_VALUE){
 
 			if(geo.isGeoBoolean()){
 				checkBox.setBackground(table.getBackground());
@@ -195,15 +198,15 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			text = geo.toValueString();
 		} else {
 			switch (kernel.getAlgebraStyle()) {
-			case Kernel.ALGEBRA_STYLE_VALUE:
+			case AbstractKernel.ALGEBRA_STYLE_VALUE:
 				text = geo.toValueString();
 				break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
+			case AbstractKernel.ALGEBRA_STYLE_DEFINITION:
 				text = GeoElement.convertIndicesToHTML(geo.getDefinitionDescription());
 				break;
 
-			case Kernel.ALGEBRA_STYLE_COMMAND:
+			case AbstractKernel.ALGEBRA_STYLE_COMMAND:
 				text = GeoElement.convertIndicesToHTML(geo.getCommandDescription());
 				break;
 			}	
@@ -249,9 +252,9 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		if (alignment != null) {
 			setHorizontalAlignment(alignment);
 		} else if (geo.isGeoText()) {
-			setHorizontalAlignment(JLabel.LEFT);
+			setHorizontalAlignment(SwingConstants.LEFT);
 		} else {
-			setHorizontalAlignment(JLabel.RIGHT);
+			setHorizontalAlignment(SwingConstants.RIGHT);
 		}	
 
 
@@ -261,13 +264,13 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		if(geo.isGeoImage()){		
 			latexIcon.setImage(geogebra.awt.BufferedImage.getAwtBufferedImage(((GeoImage) geo).getFillImage()));
 			setIcon(latexIcon);
-			setHorizontalAlignment(this.CENTER);
+			setHorizontalAlignment(SwingConstants.CENTER);
 			setText("");
 
 		}else{
 
 			boolean isSerif = false;
-			if (geo.isDefined() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+			if (geo.isDefined() && kernel.getAlgebraStyle() == AbstractKernel.ALGEBRA_STYLE_VALUE) {
 
 				latexStr = geo.getFormulaString(StringType.LATEX, true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {
@@ -281,7 +284,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 						setText("");
 
 					} catch (Exception e) {
-						Application.debug("error in drawing latex" + e);
+						AbstractApplication.debug("error in drawing latex" + e);
 					}
 				}
 			}

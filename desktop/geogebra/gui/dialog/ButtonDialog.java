@@ -14,6 +14,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
@@ -260,7 +261,7 @@ public class ButtonDialog extends JDialog
 		
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		Application.debug(tfScript.getText());				
+		AbstractApplication.debug(tfScript.getText());				
 		if (source == btApply) {		
 			Construction cons = app.getKernel().getConstruction();
 			button = textField ? app.getKernel().textfield(null, linkedGeo) : new GeoButton(cons);

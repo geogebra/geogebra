@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
@@ -412,7 +413,7 @@ public class MyTable extends JTable implements FocusListener
 
 		Point p = new Point(column, row);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p) 
-				&& kernel.getAlgebraStyle()==Kernel.ALGEBRA_STYLE_VALUE){
+				&& kernel.getAlgebraStyle()==AbstractKernel.ALGEBRA_STYLE_VALUE){
 
 			switch (oneClickEditMap.get(p).getGeoClassType()){
 			case BOOLEAN:

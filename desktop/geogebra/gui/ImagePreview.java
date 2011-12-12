@@ -1,5 +1,6 @@
 package geogebra.gui;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -93,7 +94,7 @@ public class ImagePreview extends JPanel implements PropertyChangeListener {
 			// This is thrown if you select .ico files
 			// TODO Print error message, or do nothing?
 		} catch (Throwable t) {
-			Application.debug(t.getClass() + "");
+			AbstractApplication.debug(t.getClass() + "");
 			img = null;
 		}
 	}

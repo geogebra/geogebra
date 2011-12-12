@@ -244,7 +244,7 @@ public final class JavascriptLexer extends Lexer implements JavascriptLexerConst
 
            return tok;
         } catch (Exception e) {
-           return JavascriptLexerConstants.DEFAULT;
+           return LexerConstants.DEFAULT;
         }
      }
 
@@ -5254,7 +5254,7 @@ public final int yylength() {
           }
         case 34: break;
         case 3: 
-          { return JavascriptLexerConstants.DEFAULT;
+          { return LexerConstants.DEFAULT;
           }
         case 35: break;
         case 23: 
@@ -5319,7 +5319,7 @@ public final int yylength() {
           }
         case 47: break;
         case 9: 
-          { return JavascriptLexerConstants.WHITE;
+          { return LexerConstants.WHITE;
           }
         case 48: break;
         case 6: 
@@ -5345,7 +5345,7 @@ public final int yylength() {
           }
         case 53: break;
         case 8: 
-          { return JavascriptLexerConstants.TAB;
+          { return LexerConstants.TAB;
           }
         case 54: break;
         case 7: 

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.virtualkeyboard;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -51,6 +52,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 /**
  * @author Michael Borcherds
@@ -170,7 +172,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		kit.setDynamicLayout(true);
 
 		if (app != null)
-			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		else
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setVisible(true);
@@ -792,7 +794,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		keys ret1 = myKeys.get(sb.toString());
 
 		if (ret1 == null)
-			Application.debug("KB Error: "+sb.toString());
+			AbstractApplication.debug("KB Error: "+sb.toString());
 
 		sb.append(KEYBOARD_MODE); // append 'A' for acute , ' ' for default etc
 

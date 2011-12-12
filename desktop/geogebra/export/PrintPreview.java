@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.export;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.layout.DockPanel;
@@ -128,7 +129,7 @@ public class PrintPreview extends JDialog {
 							setVisible(false);
 						} catch (PrinterException ex) {
 							ex.printStackTrace();
-							Application.debug("Printing error: " + ex.toString());
+							AbstractApplication.debug("Printing error: " + ex.toString());
 						}
 					}
 				};
@@ -430,7 +431,7 @@ public class PrintPreview extends JDialog {
 		pageFormat.setOrientation(m_orientation);
 	
 		if (pageFormat.getWidth() == 0 ||  pageFormat.getHeight() == 0) {
-			Application.debug("Unable to determine default page size");
+			AbstractApplication.debug("Unable to determine default page size");
 			return;
 		}
 		
@@ -489,7 +490,7 @@ public class PrintPreview extends JDialog {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
 			if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
-				Application.debug("Unable to determine default page size");
+				AbstractApplication.debug("Unable to determine default page size");
 				return;
 			}		
 			PagePreview pp = new PagePreview(m_target, pageFormat, comps.length);

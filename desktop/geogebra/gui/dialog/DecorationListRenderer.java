@@ -1,5 +1,6 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoSegment;
 
 import java.awt.Color;
@@ -61,20 +62,20 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 		g.drawLine(0, mid, getWidth(), mid);
 
 		switch (id) {
-		case GeoSegment.DECORATION_NONE:
+		case GeoElement.DECORATION_NONE:
 			break;
-		case GeoSegment.DECORATION_SEGMENT_ONE_TICK:
+		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 			int quart = mid / 2;
 			int mid_width = getWidth() / 2;
 			g.drawLine(mid_width, quart, mid_width, mid + quart);
 			break;
-		case GeoSegment.DECORATION_SEGMENT_TWO_TICKS:
+		case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
 			quart = mid / 2;
 			mid_width = getWidth() / 2;
 			g.drawLine(mid_width - 1, quart, mid_width - 1, mid + quart);
 			g.drawLine(mid_width + 2, quart, mid_width + 2, mid + quart);
 			break;
-		case GeoSegment.DECORATION_SEGMENT_THREE_TICKS:
+		case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
 			quart = mid / 2;
 			mid_width = getWidth() / 2;
 			g.drawLine(mid_width, quart, mid_width, mid + quart);
@@ -82,13 +83,13 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 			g.drawLine(mid_width - 3, quart, mid_width - 3, mid + quart);
 			break;
 		// Michael Borcherds 20071006 start
-		case GeoSegment.DECORATION_SEGMENT_ONE_ARROW:
+		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
 			quart = mid / 2;
 			mid_width = getWidth() / 2;
 			g.drawLine(mid_width, mid, mid_width - quart, mid - quart);
 			g.drawLine(mid_width, mid, mid_width - quart, mid + quart);
 			break;
-		case GeoSegment.DECORATION_SEGMENT_TWO_ARROWS:
+		case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
 			quart = mid / 2;
 			mid_width = getWidth() / 2;
 			g.drawLine(mid_width - 3, mid, mid_width - quart - 3, mid - quart);
@@ -96,7 +97,7 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 			g.drawLine(mid_width + 3, mid, mid_width - quart + 3, mid - quart);
 			g.drawLine(mid_width + 3, mid, mid_width - quart + 3, mid + quart);
 			break;
-		case GeoSegment.DECORATION_SEGMENT_THREE_ARROWS:
+		case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
 			quart = mid / 2;
 			mid_width = getWidth() / 2;
 			g.drawLine(mid_width, mid, mid_width - quart, mid - quart);

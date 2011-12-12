@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -198,10 +199,10 @@ public final class DrawImage extends Drawable {
 		    // turns false if the image doen't want interpolation
 		    needsInterpolationRenderingHint = 
 		    	(geoImage.isInterpolate()) &&
-		    	!(	Kernel.isEqual(at.getScaleX(), 1.0, Kernel.MAX_PRECISION) && 
-		    			Kernel.isEqual(at.getScaleY(), 1.0, Kernel.MAX_PRECISION) &&
-		    			Kernel.isEqual(at.getShearX(), 0.0, Kernel.MAX_PRECISION) &&
-		    			Kernel.isEqual(at.getShearY(), 0.0, Kernel.MAX_PRECISION));
+		    	!(	AbstractKernel.isEqual(at.getScaleX(), 1.0, AbstractKernel.MAX_PRECISION) && 
+		    			AbstractKernel.isEqual(at.getScaleY(), 1.0, AbstractKernel.MAX_PRECISION) &&
+		    			AbstractKernel.isEqual(at.getShearX(), 0.0, AbstractKernel.MAX_PRECISION) &&
+		    			AbstractKernel.isEqual(at.getShearY(), 0.0, AbstractKernel.MAX_PRECISION));
         }
 	    	    
 	    if (isInBackground != geoImage.isInBackground()) {	

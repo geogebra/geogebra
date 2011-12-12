@@ -15,6 +15,7 @@ package geogebra.kernel;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -300,7 +301,7 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		angle.setIntervalMax(GeoAngle.DEFAULT_SLIDER_MAX);
 		angle.setIntervalMin(GeoAngle.DEFAULT_SLIDER_MIN);
 		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT);
-		angle.setAnimationSpeed(GeoAngle.DEFAULT_SLIDER_SPEED);
+		angle.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		angle.setDefaultGeoType(DEFAULT_ANGLE);
 		angle.setLineTypeHidden(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
@@ -414,7 +415,7 @@ public class ConstructionDefaults extends AbstractConstructionDefaults{
 		case POINT:
 			GeoPoint2 p = (GeoPoint2) geo;
 			
-			if(p.getMode() == Kernel.COORD_COMPLEX) {
+			if(p.getMode() == AbstractKernel.COORD_COMPLEX) {
 				type = DEFAULT_POINT_COMPLEX;
 			} else if (p.isIndependent()) {
 				type = DEFAULT_POINT_FREE;

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
@@ -28,6 +29,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoConicPart;
 import geogebra.main.Application;
@@ -107,7 +109,7 @@ public final class DrawPoint extends Drawable {
         }else{
         	//looks if it's on view     	
         	Coords p = view.getCoordsForView(P.getInhomCoordsInD(3));
-        	if (!Kernel.isZero(p.getZ())){
+        	if (!AbstractKernel.isZero(p.getZ())){
         		isVisible = false;
         	}else{
         		coords[0] = p.getX(); coords[1] = p.getY();
@@ -332,7 +334,7 @@ public final class DrawPoint extends Drawable {
     		
     		default:
     			drawable = null;
-    			Application.debug("unsupported type for restriced drawing "+geo.getClass()+"");
+    			AbstractApplication.debug("unsupported type for restriced drawing "+geo.getClass()+"");
     	}
    		
     	if (drawable != null) {

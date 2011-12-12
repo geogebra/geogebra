@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.kernel.Kernel;
@@ -315,7 +316,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						Application.debug("before"+app.hashCode());
+						AbstractApplication.debug("before"+app.hashCode());
 						app.setWaitCursor();
 						GeoGebraFrame newframe=GeoGebraFrame.createNewWindow(null,macro);
 						newframe.setTitle(macro.getCommandName());

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.export.epsgraphics.ColorMode;
@@ -50,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.freehep.graphics2d.VectorGraphics;
+import org.freehep.graphicsio.AbstractVectorGraphicsIO;
 import org.freehep.graphicsio.emf.EMFGraphics2D;
 import org.freehep.graphicsio.emf.EMFPlusGraphics2D;
 import org.freehep.graphicsio.pdf.PDFGraphics2D;
@@ -509,7 +511,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		}
 	}
@@ -557,11 +559,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		}
 	}
@@ -595,7 +597,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			props.setProperty(PDFGraphics2D.EMBED_FONTS, !textAsShapes);
 			// props.setProperty(PDFGraphics2D.EMBED_FONTS_AS,
 			// FontConstants.EMBED_FONTS_TYPE1);
-			props.setProperty(PDFGraphics2D.TEXT_AS_SHAPES, textAsShapes);
+			props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
 			PDFGraphics2D.setDefaultProperties(props);
 
 			VectorGraphics g = new PDFGraphics2D(file, new Dimension(
@@ -668,7 +670,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			UserProperties props = (UserProperties) SVGGraphics2D
 					.getDefaultProperties();
 			props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
-			props.setProperty(SVGGraphics2D.TEXT_AS_SHAPES, textAsShapes);
+			props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
 			SVGGraphics2D.setDefaultProperties(props);
 
 			// Michael Borcherds 2008-03-01
@@ -709,11 +711,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		} finally {
 			ev.restoreOldCoordSystem();
@@ -760,13 +762,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			if (showError) {
 				app.showError("SaveFileFailed");
 			}
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			if (showError) {
 				app.showError("SaveFileFailed");
 			}
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		}
 	}

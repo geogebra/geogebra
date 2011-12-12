@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.cas.AlgoCoefficients;
 import geogebra.main.Application;
@@ -58,7 +59,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		for(int i=0;i<checkpoints.length;i++){
 			double x=checkpoints[i];
 			if(!AbstractKernel.isZero(p*x*x+q*x+r- f.evaluate(x))){
-				Application.debug(p+","+q+","+r+","+(p*x*x+q*x+r- f.evaluate(x)));
+				AbstractApplication.debug(p+","+q+","+r+","+(p*x*x+q*x+r- f.evaluate(x)));
 				isQuadratic = false;
 			}
 		}

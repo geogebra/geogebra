@@ -23,8 +23,11 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractConstructionDefaults;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -571,7 +574,7 @@ public class Application extends AbstractApplication implements
 
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
-		Application.dbg = new DebugPrinterDesktop();
+		AbstractApplication.dbg = new DebugPrinterDesktop();
 		if (args != null) {
 			handleHelpVersionArgs(args);
 		}
@@ -620,7 +623,7 @@ public class Application extends AbstractApplication implements
 
 		// init kernel
 		initKernel();
-		kernel.setPrintDecimals(Kernel.STANDARD_PRINT_DECIMALS);
+		kernel.setPrintDecimals(AbstractKernel.STANDARD_PRINT_DECIMALS);
 
 		// init settings
 		settings = new Settings();
@@ -1362,7 +1365,7 @@ public class Application extends AbstractApplication implements
 				kernel.setPrintDecimals(0); // rounding to 0dp
 				GeoAngle defaultAngle = (GeoAngle) getKernel()
 						.getConstruction().getConstructionDefaults()
-						.getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE);
+						.getDefaultGeo(AbstractConstructionDefaults.DEFAULT_ANGLE);
 				defaultAngle.setAllowReflexAngle(false);
 			}
 		}
@@ -1621,7 +1624,7 @@ public class Application extends AbstractApplication implements
 		boolean justEuclidianVisible = false;
 
 		for (DockPanelData panel : docPerspective.getDockPanelData()) {
-			if ((panel.getViewId() == Application.VIEW_EUCLIDIAN)
+			if ((panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN)
 					&& panel.isVisible()) {
 				justEuclidianVisible = true;
 			} else if (panel.isVisible()) {
@@ -2070,7 +2073,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	final public boolean isRightToLeftDigits() {
-		if (!Kernel.internationalizeDigits) {
+		if (!AbstractKernel.internationalizeDigits) {
 			return false;
 		}
 		return rightToLeftDigits;
@@ -3448,7 +3451,7 @@ public class Application extends AbstractApplication implements
 					}
 				}
 			} catch (Exception e) {
-				Application
+				AbstractApplication
 						.debug("Application.getModeText(): macro does not exist: ID = "
 								+ macroID);
 				// e.printStackTrace();
@@ -3489,7 +3492,7 @@ public class Application extends AbstractApplication implements
 					icon = new ImageIcon(ImageManager.addBorder(img, border));
 				}
 			} catch (Exception e) {
-				Application.debug("macro does not exist: ID = " + macroID);
+				AbstractApplication.debug("macro does not exist: ID = " + macroID);
 				return null;
 			}
 		} else {
@@ -3500,7 +3503,7 @@ public class Application extends AbstractApplication implements
 					+ "_32.gif";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
-				Application.debug("icon missing for mode " + modeText + " ("
+				AbstractApplication.debug("icon missing for mode " + modeText + " ("
 						+ mode + ")");
 			}
 		}
@@ -3513,7 +3516,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		return getGuiManager().getLayout().isOnlyVisible(
-				Application.VIEW_EUCLIDIAN);
+				AbstractApplication.VIEW_EUCLIDIAN);
 	}
 
 	public boolean showAlgebraInput() {
@@ -4015,7 +4018,7 @@ public class Application extends AbstractApplication implements
 		try {
 
 			// make sure objects are displayed in the correct View
-			setActiveView(Application.VIEW_EUCLIDIAN);
+			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
 			myXMLio.readZipFromString(zipFile);
 
@@ -4040,7 +4043,7 @@ public class Application extends AbstractApplication implements
 		try {
 
 			// make sure objects are displayed in the correct View
-			setActiveView(Application.VIEW_EUCLIDIAN);
+			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
 			myXMLio.processXMLString(xml, true, false);
 
@@ -4066,7 +4069,7 @@ public class Application extends AbstractApplication implements
 			}
 
 			// make sure objects are displayed in the correct View
-			setActiveView(Application.VIEW_EUCLIDIAN);
+			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
 			// reset unique id (for old files, in case they don't have one)
 			resetUniqueId();
@@ -4156,7 +4159,7 @@ public class Application extends AbstractApplication implements
 		try {
 
 			// make sure objects are displayed in the correct View
-			setActiveView(Application.VIEW_EUCLIDIAN);
+			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
 			myXMLio.processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
@@ -5220,7 +5223,7 @@ public class Application extends AbstractApplication implements
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				if (img == null) {
-					Application.debug("image==null");
+					AbstractApplication.debug("image==null");
 				}
 				ImageIO.write(img, "png", baos);
 				byte[] fileData = baos.toByteArray();
@@ -5232,7 +5235,7 @@ public class Application extends AbstractApplication implements
 				md5hash = md.digest();
 				zip_directory = convertToHex(md5hash);
 			} catch (Exception e) {
-				Application.debug("MD5 Error");
+				AbstractApplication.debug("MD5 Error");
 				zip_directory = "images";
 				// e.printStackTrace();
 			}
@@ -5305,7 +5308,7 @@ public class Application extends AbstractApplication implements
 			showError("LoadFileFailed");
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
-			Application.debug("Out of memory");
+			AbstractApplication.debug("Out of memory");
 			System.gc();
 			setDefaultCursor();
 			// t.printStackTrace();
@@ -5560,7 +5563,7 @@ public class Application extends AbstractApplication implements
 			Dimension dim = Toolkit.getDefaultToolkit().getBestCursorSize(48,
 					48);
 
-			Application.debug("getBestCursorSize = " + dim.width + " "
+			AbstractApplication.debug("getBestCursorSize = " + dim.width + " "
 					+ dim.width);
 
 			int size = Math.max(dim.width, dim.height);
@@ -5735,7 +5738,7 @@ public class Application extends AbstractApplication implements
 		}
 		logFile.append(".txt");
 
-		Application.debug(logFile.toString());
+		AbstractApplication.debug(logFile.toString());
 
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
@@ -5920,12 +5923,12 @@ public class Application extends AbstractApplication implements
 	private boolean scriptingDisabled = false;
 
 	public void addToEuclidianView(GeoElement geo) {
-		geo.addView(Application.VIEW_EUCLIDIAN);
+		geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
 		getEuclidianView().add(geo);
 	}
 
 	public void removeFromEuclidianView(GeoElement geo) {
-		geo.removeView(Application.VIEW_EUCLIDIAN);
+		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 		getEuclidianView().remove(geo);
 	}
 
@@ -6329,7 +6332,7 @@ public class Application extends AbstractApplication implements
 		rbcommandOld = rbcommand;
 
 		commandDictCAS = new LowerCaseDictionary();
-		subCommandDict[CommandDispatcher.TABLE_CAS].clear();
+		subCommandDict[AbstractCommandDispatcher.TABLE_CAS].clear();
 
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
@@ -6339,14 +6342,14 @@ public class Application extends AbstractApplication implements
 				String local = rbcommand.getString(cmd);
 				if (local != null) {
 					commandDictCAS.addEntry(local);
-					subCommandDict[CommandDispatcher.TABLE_CAS].addEntry(local);
+					subCommandDict[AbstractCommandDispatcher.TABLE_CAS].addEntry(local);
 				} else {
 					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandDispatcher.TABLE_CAS].addEntry(cmd);
+					subCommandDict[AbstractCommandDispatcher.TABLE_CAS].addEntry(cmd);
 				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandDispatcher.TABLE_CAS].addEntry(cmd);
+				subCommandDict[AbstractCommandDispatcher.TABLE_CAS].addEntry(cmd);
 			}
 		}
 
@@ -6380,7 +6383,7 @@ public class Application extends AbstractApplication implements
 
 	public void setFileVersion(String version) {
 
-		Application.debug("file version: " + version);
+		AbstractApplication.debug("file version: " + version);
 
 		if (version == null) {
 			return;

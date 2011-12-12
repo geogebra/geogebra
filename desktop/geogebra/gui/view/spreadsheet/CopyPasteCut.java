@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -310,7 +311,7 @@ public class CopyPasteCut {
 				buf = (String)contents.getTransferData(DataFlavor.stringFlavor);
 				//Application.debug("pasting from String: "+buf);
 			} catch (Exception ex) {
-				Application.debug("transferable has no String");
+				AbstractApplication.debug("transferable has no String");
 				//ex.printStackTrace();
 				//app.showError(ex.getMessage());
 			}
@@ -412,7 +413,7 @@ public class CopyPasteCut {
 		}
 
 		catch (Exception e) {
-			Application.debug("clipboard: no HTML");
+			AbstractApplication.debug("clipboard: no HTML");
 		}			
 
 
@@ -845,7 +846,7 @@ public class CopyPasteCut {
 			return y2;
 		}
 		public int compareTo(Object o) {
-			Application.debug(o.getClass()+"");
+			AbstractApplication.debug(o.getClass()+"");
 			//int id = ((Record) o).getId();
 			//return id - this.id;
 			return 0;

@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.DrawLine;
@@ -376,16 +377,16 @@ public abstract class GeoGebraExport implements ActionListener{
     }
     protected boolean isSinglePointConic(GeoElement geo){
 		if (geo.isGeoConic()){
-			if (((GeoConic)geo).getType()==GeoConic.CONIC_SINGLE_POINT) 
+			if (((GeoConic)geo).getType()==GeoConicNDConstants.CONIC_SINGLE_POINT) 
 				return true;
 		}
 		return false;
 }
 	protected boolean isDoubleLineConic(GeoElement geo){
 		if (geo.isGeoConic()){
-			if (((GeoConic)geo).getType()==GeoConic.CONIC_DOUBLE_LINE
-					|| ((GeoConic)geo).getType()==GeoConic.CONIC_INTERSECTING_LINES
-					|| ((GeoConic)geo).getType()==GeoConic.CONIC_PARALLEL_LINES
+			if (((GeoConic)geo).getType()==GeoConicNDConstants.CONIC_DOUBLE_LINE
+					|| ((GeoConic)geo).getType()==GeoConicNDConstants.CONIC_INTERSECTING_LINES
+					|| ((GeoConic)geo).getType()==GeoConicNDConstants.CONIC_PARALLEL_LINES
 					) 
 				return true;
 		}
@@ -393,7 +394,7 @@ public abstract class GeoGebraExport implements ActionListener{
 	}
 	protected boolean isEmpty(GeoElement geo){
 		if (geo.isGeoConic()){
-			if (((GeoConic)geo).getType()==GeoConic.CONIC_EMPTY	) 
+			if (((GeoConic)geo).getType()==GeoConicNDConstants.CONIC_EMPTY	) 
 				return true;
 		}
 		return false;	

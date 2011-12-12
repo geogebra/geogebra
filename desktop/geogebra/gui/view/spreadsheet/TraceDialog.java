@@ -48,6 +48,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -392,8 +393,8 @@ implements
 		
 		promptPanel = new JPanel(new BorderLayout());			
 		prompt = new JLabel(app.getMenu("SelectAnObjectToTrace"));
-		prompt.setHorizontalAlignment(JLabel.CENTER);
-		prompt.setVerticalAlignment(JLabel.CENTER);
+		prompt.setHorizontalAlignment(SwingConstants.CENTER);
+		prompt.setVerticalAlignment(SwingConstants.CENTER);
 		promptPanel.add(prompt, BorderLayout.CENTER);
 		promptPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		//promptPanel.setVisible(false);

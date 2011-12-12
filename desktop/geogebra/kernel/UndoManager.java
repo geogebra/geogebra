@@ -14,6 +14,7 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.main.AbstractApplication;
 import geogebra.io.MyXMLio;
 import geogebra.main.Application;
 import geogebra.util.CopyPaste;
@@ -201,11 +202,11 @@ public class UndoManager extends AbstractUndoManager{
 
 					} 
 					catch (Exception e) {		
-						Application.debug("storeUndoInfo: " + e.toString());
+						AbstractApplication.debug("storeUndoInfo: " + e.toString());
 						e.printStackTrace();
 					}     	
 					catch (java.lang.OutOfMemoryError err) {
-						Application.debug("UndoManager.storeUndoInfo: " + err.toString());
+						AbstractApplication.debug("UndoManager.storeUndoInfo: " + err.toString());
 						err.printStackTrace();
 						System.gc();
 					}
@@ -247,7 +248,7 @@ public class UndoManager extends AbstractUndoManager{
 					InputStream is = new FileInputStream(tempFile);	
 					
 					// make sure objects are displayed in the correct View
-					app.setActiveView(Application.VIEW_EUCLIDIAN);
+					app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
 					// load undo info
 					app.getScriptManager().disableListeners();

@@ -12,6 +12,8 @@
 
 package geogebra.main;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -119,7 +121,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 				properties.store(os,COMMENT);											//Application.debug("storePreferences(): ");properties.list(System.out);
 				os.close();
 			} catch (Exception e) {
-				Application.debug("Problem with storing of preferences.properties..."+e.toString());
+				AbstractApplication.debug("Problem with storing of preferences.properties..."+e.toString());
 			}//try-catch		
 		}//if not read-only. (else do nothing...)
 	}//storePreferences()
@@ -314,7 +316,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    		//ggbPrefs.flush();
    		storePreferences();
    	} catch (Exception e) {
-   		Application.debug(e+"");
+   		AbstractApplication.debug(e+"");
    	}
    }
    
@@ -360,7 +362,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    
 	private final static void debug(String s) {
 		if (DEBUG) {
-			Application.debug(s);
+			AbstractApplication.debug(s);
 		}// if()
 	}// debug()
 	

@@ -1,8 +1,10 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
@@ -193,7 +195,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	public void setEVParams() {
 
 		showGrid(plotSettings.showGrid);
-		setShowAxis(EuclidianView.AXIS_Y, plotSettings.showYAxis, false);
+		setShowAxis(EuclidianViewInterface.AXIS_Y, plotSettings.showYAxis, false);
 
 		setAutomaticGridDistance(plotSettings.gridIntervalAuto);
 		if (!plotSettings.gridIntervalAuto) {
@@ -396,7 +398,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 							d.setVisible(true);
 
 						} catch (Exception e) {
-							Application
+							AbstractApplication
 									.debug("GraphicExportDialog not available");
 						}
 						app.setDefaultCursor();

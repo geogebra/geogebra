@@ -1,4 +1,5 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.EventQueue;
 import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VCircleEvent;
 import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VEvent;
@@ -93,7 +94,7 @@ public class VoronoiAlgorithm {
                     VEvent nextevent = eventqueue.getFirstEvent();
                     if ( nextevent!=null && event.getY()==nextevent.getY() ) {
                         // Increment original event by small amount to fix error
-                        Application.debug("Please note: easy fix done to prevent degrading case");
+                        AbstractApplication.debug("Please note: easy fix done to prevent degrading case");
                         siteevent.getPoint().y-=0.00000001;
                         
                         /*// Move remove entirely from queue and re-add - changing

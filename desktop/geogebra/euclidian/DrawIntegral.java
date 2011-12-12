@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -92,7 +93,7 @@ public class DrawIntegral extends Drawable {
 				
 		// plot definite integral
 		
-		if (Kernel.isEqual(aRW, bRW)) {
+		if (AbstractKernel.isEqual(aRW, bRW)) {
 			gp.moveTo(ax, y0); 
 			gp.lineTo(ax, view.toScreenCoordYd(f.evaluate(aRW)));
 			gp.lineTo(ax, y0); 						

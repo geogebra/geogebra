@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerInterface;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -51,12 +52,14 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
@@ -480,8 +483,8 @@ EuclidianControllerInterface {
 			if (geo.isGeoPoint() && geo.isIndependent()) {
 				for (int j = 0; j < persistentStickyPointList.size(); j++) {
 					GeoPoint2 geo2 = (GeoPoint2)persistentStickyPointList.get(j);
-					if (Kernel.isEqual(geo2.getInhomX(), ((GeoPoint2)geo).getInhomX()) &&
-						Kernel.isEqual(geo2.getInhomY(), ((GeoPoint2)geo).getInhomY()))
+					if (AbstractKernel.isEqual(geo2.getInhomX(), ((GeoPoint2)geo).getInhomX()) &&
+						AbstractKernel.isEqual(geo2.getInhomY(), ((GeoPoint2)geo).getInhomY()))
 					{
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
@@ -601,8 +604,8 @@ EuclidianControllerInterface {
 			if (!app.getGuiManager().hasSpreadsheetView()) {
 				app.getGuiManager().attachSpreadsheetView();
 			}
-			if (!app.getGuiManager().showView(Application.VIEW_SPREADSHEET)) {
-				app.getGuiManager().setShowView(true, Application.VIEW_SPREADSHEET);
+			if (!app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET)) {
+				app.getGuiManager().setShowView(true, AbstractApplication.VIEW_SPREADSHEET);
 			}
 		}
 
@@ -1102,7 +1105,7 @@ EuclidianControllerInterface {
 	
 	protected void createNewPointForModePoint(Hits hits, boolean complex){
 		if (mode==EuclidianConstants.MODE_POINT || mode==EuclidianConstants.MODE_COMPLEX_NUMBER){//remove polygons : point inside a polygon is created free, as in v3.2
-			Application.debug("complex"+complex);
+			AbstractApplication.debug("complex"+complex);
 			hits.removeAllPolygons();
 			hits.removeConicsHittedOnFilling();
 			createNewPoint(hits, true, false, true, true, complex);
@@ -1131,7 +1134,7 @@ EuclidianControllerInterface {
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:				
 			view.setHits(mouseLoc);
 			hits = view.getHits();
-			Application.debug(hits);
+			AbstractApplication.debug(hits);
 			// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in a region
 			createNewPointForModePoint(hits, false); 
 			break;
@@ -1708,7 +1711,7 @@ EuclidianControllerInterface {
 //				if (f instanceof GeoPoint && f.getParentAlgorithm().getInput().length==1 && f.getParentAlgorithm().getInput()[0] instanceof Path){
 				if (f instanceof GeoPoint2 && movedGeoImplicitPoly.isParentOf(f)){
 					GeoPoint2 g=(GeoPoint2) f;
-					if(!Kernel.isZero(g.getZ())){
+					if(!AbstractKernel.isZero(g.getZ())){
 						moveDependentPoints.add(g);
 						tempDependentPointX.add(g.getX()/g.getZ());
 						tempDependentPointY.add(g.getY()/g.getZ());
@@ -2999,7 +3002,7 @@ EuclidianControllerInterface {
 		}			
 		else {
 			if (e.isShiftDown() && hits.size() == 1 && hits.get(0) instanceof GeoAxis)
-				if (((GeoAxis)hits.get(0)).getType() == GeoAxis.X_AXIS)
+				if (((GeoAxis)hits.get(0)).getType() == GeoAxisND.X_AXIS)
 					view.setResizeXAxisCursor();
 				else view.setResizeYAxisCursor();
 			else
@@ -3618,7 +3621,7 @@ EuclidianControllerInterface {
 	}
 
 	protected void movePoint(boolean repaint) {
-		movedGeoPoint.setCoords(kernel.checkDecimalFraction(xRW), kernel.checkDecimalFraction(yRW), 1.0);
+		movedGeoPoint.setCoords(AbstractKernel.checkDecimalFraction(xRW), AbstractKernel.checkDecimalFraction(yRW), 1.0);
 		((GeoElement) movedGeoPoint).updateCascade();	
 		movedGeoPointDragged = true;
 
@@ -3817,21 +3820,21 @@ EuclidianControllerInterface {
 		param = param * (max - min) / movedGeoNumeric.getSliderWidth();					
 
 		// round to animation step scale				
-		param = Kernel.roundToScale(param, movedGeoNumeric.getAnimationStep());
+		param = AbstractKernel.roundToScale(param, movedGeoNumeric.getAnimationStep());
 		double val = min + param;	
 
-		if (movedGeoNumeric.getAnimationStep() > Kernel.MIN_PRECISION) {
+		if (movedGeoNumeric.getAnimationStep() > AbstractKernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			val = kernel.checkDecimalFraction(val);
+			val = AbstractKernel.checkDecimalFraction(val);
 		}
 
 		if (movedGeoNumeric.isGeoAngle()) {
 			if (val < 0) 
 				val = 0;
-			else if (val > Kernel.PI_2)
-				val = Kernel.PI_2;
+			else if (val > AbstractKernel.PI_2)
+				val = AbstractKernel.PI_2;
 			
-			val = kernel.checkDecimalFraction(val * Kernel.CONST_180_PI) / Kernel.CONST_180_PI;
+			val = AbstractKernel.checkDecimalFraction(val * AbstractKernel.CONST_180_PI) / AbstractKernel.CONST_180_PI;
 
 		}
 
@@ -3999,15 +4002,15 @@ EuclidianControllerInterface {
 
 				double root3=Math.sqrt(3.0);
 				double isoGrid=view.getGridDistances(0);
-				int oddOrEvenRow = (int)Math.round(2.0*Math.abs(yRW - Kernel.roundToScale(yRW, isoGrid))/isoGrid);
+				int oddOrEvenRow = (int)Math.round(2.0*Math.abs(yRW - AbstractKernel.roundToScale(yRW, isoGrid))/isoGrid);
 
 				//Application.debug(oddOrEvenRow);
 
 				if (oddOrEvenRow == 0)
 				{
 					// X = (x, y) ... next grid point
-					double x = Kernel.roundToScale(xRW/root3, isoGrid);
-					double y = Kernel.roundToScale(yRW, isoGrid);
+					double x = AbstractKernel.roundToScale(xRW/root3, isoGrid);
+					double y = AbstractKernel.roundToScale(yRW, isoGrid);
 					// if |X - XRW| < gridInterval * pointCapturingPercentage  then take the grid point
 					double a = Math.abs(x - xRW/root3);
 					double b = Math.abs(y - yRW);
@@ -4024,8 +4027,8 @@ EuclidianControllerInterface {
 				else
 				{
 					// X = (x, y) ... next grid point
-					double x = Kernel.roundToScale(xRW/root3- view.getGridDistances(0)/2, isoGrid);
-					double y = Kernel.roundToScale(yRW- isoGrid/2, isoGrid);
+					double x = AbstractKernel.roundToScale(xRW/root3- view.getGridDistances(0)/2, isoGrid);
+					double y = AbstractKernel.roundToScale(yRW- isoGrid/2, isoGrid);
 					// if |X - XRW| < gridInterval * pointCapturingPercentage  then take the grid point
 					double a = Math.abs(x - (xRW/root3- isoGrid/2));
 					double b = Math.abs(y - (yRW-isoGrid/2));
@@ -4045,8 +4048,8 @@ EuclidianControllerInterface {
 
 				// X = (x, y) ... next grid point
 				
-				double x = Kernel.roundToScale(xRW, view.getGridDistances(0));
-				double y = Kernel.roundToScale(yRW, view.getGridDistances(1));
+				double x = AbstractKernel.roundToScale(xRW, view.getGridDistances(0));
+				double y = AbstractKernel.roundToScale(yRW, view.getGridDistances(1));
 				
 				
 				
@@ -4069,7 +4072,7 @@ EuclidianControllerInterface {
 				
 			// r = get nearest grid circle radius
 			double r = MyMath.length(xRW, yRW);
-			double r2 = Kernel.roundToScale(r, view.getGridDistances(0));
+			double r2 = AbstractKernel.roundToScale(r, view.getGridDistances(0));
 			
 			// get nearest radial gridline angle
 			double angle = Math.atan2(yRW, xRW);
@@ -4388,12 +4391,12 @@ EuclidianControllerInterface {
 	}
 	
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex){
-		GeoPointND ret = kernel.Point(null, kernel.checkDecimalFraction(xRW), kernel.checkDecimalFraction(yRW), complex);
+		GeoPointND ret = kernel.Point(null, AbstractKernel.checkDecimalFraction(xRW), AbstractKernel.checkDecimalFraction(yRW), complex);
 		return ret;
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex){
-		return createNewPoint(forPreviewable, path, kernel.checkDecimalFraction(xRW), kernel.checkDecimalFraction(yRW), 0, complex);
+		return createNewPoint(forPreviewable, path, AbstractKernel.checkDecimalFraction(xRW), AbstractKernel.checkDecimalFraction(yRW), 0, complex);
 	}
 	
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, double x, double y, double z, boolean complex){
@@ -4409,7 +4412,7 @@ EuclidianControllerInterface {
 	}
 		
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex){
-		return createNewPoint(forPreviewable, region, kernel.checkDecimalFraction(xRW), kernel.checkDecimalFraction(yRW), 0, complex);
+		return createNewPoint(forPreviewable, region, AbstractKernel.checkDecimalFraction(xRW), AbstractKernel.checkDecimalFraction(yRW), 0, complex);
 	}	
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, double x, double y, double z, boolean complex){
@@ -5937,12 +5940,12 @@ EuclidianControllerInterface {
 			// hide axis
 			if (geo instanceof GeoAxis)	{
 				switch (((GeoAxis) geo).getType()) {
-				case GeoAxis.X_AXIS:
+				case GeoAxisND.X_AXIS:
 					//view.showAxes(false, view.getShowYaxis());
 					view.setShowAxis(EuclidianViewInterface.AXIS_X, false, true);
 					break;
 
-				case GeoAxis.Y_AXIS:
+				case GeoAxisND.Y_AXIS:
 					//view.showAxes(view.getShowXaxis(), false);
 					view.setShowAxis(EuclidianViewInterface.AXIS_Y, false, true);
 					break;

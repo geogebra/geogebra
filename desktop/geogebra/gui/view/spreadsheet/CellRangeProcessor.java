@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoSort;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
@@ -449,7 +450,7 @@ public class CellRangeProcessor {
 
 
 		catch (Exception ex) {
-			Application.debug("Creating list of points expression failed with exception " + ex);
+			AbstractApplication.debug("Creating list of points expression failed with exception " + ex);
 		}
 		
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
@@ -493,7 +494,7 @@ public class CellRangeProcessor {
 				pointString = "(" + xCoord.getLabel() + separator + yCoord.getLabel() + ")";
 
 		} catch (Exception ex) {
-			Application.debug("Creating point string failed with exception: " + ex);
+			AbstractApplication.debug("Creating point string failed with exception: " + ex);
 		}
 
 		return pointString;
@@ -697,7 +698,7 @@ public class CellRangeProcessor {
 
 
 		} catch (Exception ex) {
-			Application.debug("Creating list failed with exception " + ex);
+			AbstractApplication.debug("Creating list failed with exception " + ex);
 		}
 
 		if(doStoreUndo)
@@ -758,7 +759,7 @@ public class CellRangeProcessor {
 
 
 		} catch (Exception ex) {
-			Application.debug("Creating list from frequency table failed with exception " + ex);
+			AbstractApplication.debug("Creating list from frequency table failed with exception " + ex);
 		}
 
 		if(doStoreUndo)
@@ -928,7 +929,7 @@ public class CellRangeProcessor {
 			geos = (GeoElement[])table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
 		} 
 		catch (Exception ex) {
-			Application.debug("creating matrix failed "+ expr);
+			AbstractApplication.debug("creating matrix failed "+ expr);
 			ex.printStackTrace();
 		} 
 
@@ -969,7 +970,7 @@ public class CellRangeProcessor {
 
 		} 
 		catch (Exception ex) {
-			Application.debug("creating TableText failed " + text);
+			AbstractApplication.debug("creating TableText failed " + text);
 			ex.printStackTrace();
 		} 
 

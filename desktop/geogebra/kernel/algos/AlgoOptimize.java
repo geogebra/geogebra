@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.RealRootFunctionVariable;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 /**
@@ -132,7 +133,7 @@ public abstract class AlgoOptimize extends AlgoElement{
         if(DEBUG) {
             System.out.println(s);
         }else{
-        	Application.debug(s);
+        	AbstractApplication.debug(s);
         }//if debug or errormsg
     }//debug()
 

@@ -15,6 +15,7 @@ package geogebra.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import org.apache.commons.math.distribution.BinomialDistribution;
@@ -59,7 +60,7 @@ public class AlgoBinomialDist extends AlgoDistribution {
 					num.setValue(dist.probability(val));   // P(X = val)
 			}
 			catch (Exception e) {
-				Application.debug(e.getMessage());
+				AbstractApplication.debug(e.getMessage());
 				num.setUndefined();        			
 			}
 		} else

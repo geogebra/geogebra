@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoCellRange;
@@ -44,7 +45,7 @@ class CmdFillCells extends CommandProcessorDesktop {
 				GeoList cellRange = (GeoList) arg[0];
 
 				if (!(cellRange.getParentAlgorithm() instanceof AlgoCellRange)) {
-					Application.debug("not cell range");
+					AbstractApplication.debug("not cell range");
 					throw argErr(app, c.getName(), arg[0]);
 
 				}

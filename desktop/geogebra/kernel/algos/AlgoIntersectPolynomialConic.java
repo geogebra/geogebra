@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 
@@ -96,7 +97,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			
 			double nroots = 0;
 			double res[] = new double[2];
-			if (c.getType()==GeoConicND.CONIC_CIRCLE || c.getType()==GeoConicND.CONIC_ELLIPSE) {
+			if (c.getType()==GeoConicNDConstants.CONIC_CIRCLE || c.getType()==GeoConicNDConstants.CONIC_ELLIPSE) {
 				nroots = ((Kernel) kernel).getEquationSolver().solveQuadratic(new double[]
 				          {- A[5] * A[5] + A[1] * A[2],
 						2 * (A[1] * A[4] - A[3] * A[5]),

@@ -1,5 +1,6 @@
 package geogebra;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class CommandLineArguments {
 					args.put("file"+(noOfFiles++), cmdArgs[i]);
 				}
 			} else {
-				Application.debug("unknown argument "+cmdArgs[i]);
+				AbstractApplication.debug("unknown argument "+cmdArgs[i]);
 			}
 		}
 	}

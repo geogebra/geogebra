@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
@@ -821,7 +822,7 @@ SpecialNumberFormatInterface {
 	}
 
 	public int getViewID() {
-		return Application.VIEW_NONE;
+		return AbstractApplication.VIEW_NONE;
 	}
 	
 	public void add(GeoElementInterface geo) {

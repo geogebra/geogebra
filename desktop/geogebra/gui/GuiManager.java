@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.util.Base64;
@@ -547,7 +548,7 @@ public class GuiManager {
     lastUsedPlotPanelID--;
     int viewID = lastUsedPlotPanelID;
     getPlotPanelIDMap().put(viewID, plotPanel);
-    Application.debug(viewID);
+    AbstractApplication.debug(viewID);
     return viewID;
   }
 
@@ -559,7 +560,7 @@ public class GuiManager {
     if (euclidianView2 == null) {
       boolean[] showAxis = { true, true };
       boolean showGrid = false;
-      Application.debug("XXXXX Creating 2nd Euclidian View XXXXX", 1);
+      AbstractApplication.debug("XXXXX Creating 2nd Euclidian View XXXXX", 1);
       euclidianView2 = newEuclidianView(showAxis, showGrid, 2);
       // euclidianView2.setEuclidianViewNo(2);
       euclidianView2.setAntialiasing(true);
@@ -618,25 +619,25 @@ public class GuiManager {
    */
   public void attachView(int viewId) {
     switch (viewId) {
-    case Application.VIEW_ALGEBRA:
+    case AbstractApplication.VIEW_ALGEBRA:
       attachAlgebraView();
       break;
-    case Application.VIEW_SPREADSHEET:
+    case AbstractApplication.VIEW_SPREADSHEET:
       attachSpreadsheetView();
       break;
-    case Application.VIEW_CAS:
+    case AbstractApplication.VIEW_CAS:
       attachCasView();
       break;
-    case Application.VIEW_CONSTRUCTION_PROTOCOL:
+    case AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL:
       attachConstructionProtocolView();
       break;
-    case Application.VIEW_PROBABILITY_CALCULATOR:
+    case AbstractApplication.VIEW_PROBABILITY_CALCULATOR:
       attachProbabilityCalculatorView();
       break;
-    case Application.VIEW_ASSIGNMENT:
+    case AbstractApplication.VIEW_ASSIGNMENT:
       attachAssignmentView();
       break;
-    case Application.VIEW_PROPERTIES:
+    case AbstractApplication.VIEW_PROPERTIES:
       attachPropertiesView();
       break;
     }
@@ -652,22 +653,22 @@ public class GuiManager {
    */
   public void detachView(int viewId) {
     switch (viewId) {
-    case Application.VIEW_ALGEBRA:
+    case AbstractApplication.VIEW_ALGEBRA:
       detachAlgebraView();
       break;
-    case Application.VIEW_SPREADSHEET:
+    case AbstractApplication.VIEW_SPREADSHEET:
       detachSpreadsheetView();
       break;
-    case Application.VIEW_CAS:
+    case AbstractApplication.VIEW_CAS:
       detachCasView();
       break;
-    case Application.VIEW_CONSTRUCTION_PROTOCOL:
+    case AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL:
       detachConstructionProtocolView();
       break;
-    case Application.VIEW_PROBABILITY_CALCULATOR:
+    case AbstractApplication.VIEW_PROBABILITY_CALCULATOR:
       detachProbabilityCalculatorView();
       break;
-    case Application.VIEW_ASSIGNMENT:
+    case AbstractApplication.VIEW_ASSIGNMENT:
       detachAssignmentView();
       break;
 
@@ -825,13 +826,13 @@ public class GuiManager {
     if (flag) {
       layout.getDockManager().show(viewId);
 
-      if (viewId == Application.VIEW_SPREADSHEET) {
+      if (viewId == AbstractApplication.VIEW_SPREADSHEET) {
         getSpreadsheetView().requestFocus();
       }
     } else {
       layout.getDockManager().hide(viewId);
 
-      if (viewId == Application.VIEW_SPREADSHEET) {
+      if (viewId == AbstractApplication.VIEW_SPREADSHEET) {
         app.getEuclidianView().requestFocus();
       }
     }
@@ -2072,7 +2073,7 @@ public class GuiManager {
 
         // no valid URL?
         if (start == -1) {
-          Application.debug("problem parsing: " + urlString);
+          AbstractApplication.debug("problem parsing: " + urlString);
           return false;
         }
 
@@ -2092,7 +2093,7 @@ public class GuiManager {
 
         urlString = "http://www.geogebratube.org/files/material-" + id + ".ggb";
 
-        Application.debug(urlString);
+        AbstractApplication.debug(urlString);
 
         URL url = getEscapedUrl(urlString);
         success = app.loadXML(url, false);
@@ -2507,11 +2508,11 @@ public class GuiManager {
   }
 
   public void showURLinBrowser(URL url) {
-    Application.debug("opening URL:" + url);
+    AbstractApplication.debug("opening URL:" + url);
     if (app.getJApplet() != null) {
       app.getJApplet().getAppletContext().showDocument(url, "_blank");
     } else {
-      Application.debug("opening URL:" + url.toExternalForm());
+      AbstractApplication.debug("opening URL:" + url.toExternalForm());
       BrowserLauncher.openURL(url.toExternalForm());
     }
   }
@@ -2554,7 +2555,7 @@ public class GuiManager {
     } catch (MyError e) {
       app.showError(e);
     } catch (Exception e) {
-      Application.debug("openHelp error: " + e.toString() + " "
+      AbstractApplication.debug("openHelp error: " + e.toString() + " "
           + e.getMessage() + " " + page + " " + type);
       app.showError(e.getMessage());
       e.printStackTrace();
@@ -2586,7 +2587,7 @@ public class GuiManager {
     urlOffline.append(app.getLocale().getLanguage()); // eg en
     urlOffline.append("/");
 
-    urlSB.append(GeoGebra.GEOGEBRA_WEBSITE);
+    urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
     urlSB.append("help/");
     urlSB.append(app.getLocale().toString()); // eg en_GB
 
@@ -2681,12 +2682,12 @@ public class GuiManager {
       // show or focus the probability calculator
       if (app.getGuiManager() != null) {
         if (app.getGuiManager().showView(
-            Application.VIEW_PROBABILITY_CALCULATOR)) {
+            AbstractApplication.VIEW_PROBABILITY_CALCULATOR)) {
           app.getGuiManager().getLayout().getDockManager()
-              .setFocusedPanel(Application.VIEW_PROBABILITY_CALCULATOR);
+              .setFocusedPanel(AbstractApplication.VIEW_PROBABILITY_CALCULATOR);
         } else {
           app.getGuiManager().setShowView(true,
-              Application.VIEW_PROBABILITY_CALCULATOR);
+              AbstractApplication.VIEW_PROBABILITY_CALCULATOR);
           probCalculator.setProbabilityCalculator(
               ProbabilityManager.DIST_NORMAL, null, false);
         }

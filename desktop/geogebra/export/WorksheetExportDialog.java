@@ -14,6 +14,7 @@ package geogebra.export;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -188,7 +189,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		helpButton = new JButton(app.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app, app.getImageIcon("help.png"),
-				app.getMenu("Help"), Application.WIKI_EXPORT_WORKSHEET);
+				app.getMenu("Help"), AbstractApplication.WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
 		exportButton = new JButton(app.getPlain("Upload"));
@@ -227,7 +228,7 @@ public class WorksheetExportDialog extends JDialog {
 										}
 									} catch (Exception e) {
 										app.showError("SaveFileFailed");
-										Application.debug(e.toString());
+										AbstractApplication.debug(e.toString());
 									}
 									break;
 
@@ -237,7 +238,7 @@ public class WorksheetExportDialog extends JDialog {
 								} catch (Exception e) {
 									app.showError("SaveFileFailed");
 									e.printStackTrace();
-									Application.debug(e.toString());
+									AbstractApplication.debug(e.toString());
 								}
 								break;
 							case TYPE_MULTIPLE_FILES:
@@ -246,7 +247,7 @@ public class WorksheetExportDialog extends JDialog {
 								} catch (Exception e) {
 									app.showError("SaveFileFailed");
 									e.printStackTrace();
-									Application.debug(e.toString());
+									AbstractApplication.debug(e.toString());
 								}
 								break;
 							}
@@ -893,7 +894,7 @@ public class WorksheetExportDialog extends JDialog {
 						guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
 						app.showError("SaveFileFailed");
-						Application.debug(ex.toString());
+						AbstractApplication.debug(ex.toString());
 					}
 				}
 			};
@@ -901,7 +902,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 		}
 	}
 
@@ -1023,7 +1024,7 @@ public class WorksheetExportDialog extends JDialog {
 					guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 				} catch (Exception ex) {
 					app.showError("SaveFileFailed");
-					Application.debug(ex.toString());
+					AbstractApplication.debug(ex.toString());
 				}
 			}
 		};
@@ -1098,7 +1099,7 @@ public class WorksheetExportDialog extends JDialog {
 					guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 				} catch (Exception ex) {
 					app.showError("SaveFileFailed");
-					Application.debug(ex.toString());
+					AbstractApplication.debug(ex.toString());
 				}
 			}
 		};

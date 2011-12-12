@@ -12,6 +12,7 @@
 
 package geogebra.gui;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.datatransfer.DataFlavor;
@@ -116,7 +117,7 @@ public class FileDropTargetListener implements DropTargetListener {
 		try {
 			// try to get an image
 			if (transferable.isDataFlavorSupported (DataFlavor.imageFlavor)) { 
-				Application.debug("image flavor not supported"); 
+				AbstractApplication.debug("image flavor not supported"); 
 				//Image img = (Image) trans.getTransferData (DataFlavor.imageFlavor); 
 			} else if (transferable.isDataFlavorSupported (DataFlavor.javaFileListFlavor)) {
 				//Application.debug("javaFileList is supported");
@@ -143,9 +144,9 @@ public class FileDropTargetListener implements DropTargetListener {
 					}
 				}
 			} else if (transferable.isDataFlavorSupported (urlFlavor)) {
-				Application.debug("url flavor not supported");
+				AbstractApplication.debug("url flavor not supported");
 				//URL url = (URL) trans.getTransferData (urlFlavor);
-			} else Application.debug("flavor not supported: "+transferable);
+			} else AbstractApplication.debug("flavor not supported: "+transferable);
 		} catch (Exception e) {
 			e.printStackTrace( );
 		} 

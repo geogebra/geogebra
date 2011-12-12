@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.export;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
@@ -89,7 +90,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, BorderLayout.WEST);
-		if (app.getGuiManager().showView(Application.VIEW_ALGEBRA)) {
+		if (app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA)) {
 			picPanel.add(cbScreenshotPicture, BorderLayout.SOUTH);
 		}
 
@@ -181,7 +182,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception e) {
 							app.showError("SaveFileFailed");
-							Application.debug(e.toString());
+							AbstractApplication.debug(e.toString());
 						}	
 					}
 				};
@@ -289,7 +290,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	                        app.getGuiManager().showURLinBrowser(HTMLfile.toURI().toURL());
 	                } catch (Exception ex) {                        
 	                        app.showError("SaveFileFailed");
-	                        Application.debug(ex.toString());
+	                        AbstractApplication.debug(ex.toString());
 	                } 
 	        }
 	        };
@@ -297,7 +298,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			
 		} catch (IOException ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 		}
 						
 	}

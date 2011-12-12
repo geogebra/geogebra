@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
@@ -67,7 +68,7 @@ public class MiniStyle{
 		lineSize = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		colorIndex = 0;  // index for red
 		color = colorList[colorIndex];
-		alpha = ConstructionDefaults.DEFAULT_POLYGON_ALPHA;
+		alpha = AbstractConstructionDefaults.DEFAULT_POLYGON_ALPHA;
 	}
 	
 	

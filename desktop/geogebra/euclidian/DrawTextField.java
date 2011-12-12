@@ -13,6 +13,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
@@ -215,7 +216,7 @@ public final class DrawTextField extends Drawable {
 				} else if (linkedGeo.isGeoText()) {
 					defineText = "\"" + defineText + "\"";
 				} else if (linkedGeo.isGeoPoint()) {
-					if (((GeoPoint2) linkedGeo).toStringMode == Kernel.COORD_COMPLEX) {
+					if (((GeoPoint2) linkedGeo).toStringMode == AbstractKernel.COORD_COMPLEX) {
 						// z=2 doesn't work for complex numbers (parses to
 						// GeoNumeric)
 						defineText = defineText + "+0" + Unicode.IMAGINARY;

@@ -20,6 +20,7 @@ package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.arithmetic.Command;
@@ -50,6 +51,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.KeyboardSettings;
@@ -390,7 +392,7 @@ public class MyXMLHandler implements DocHandler {
 					ggbFileFormat = Double.parseDouble((String) attrs
 							.get("format"));
 					
-					ggbFileFormat = kernel.checkDecimalFraction(ggbFileFormat);
+					ggbFileFormat = AbstractKernel.checkDecimalFraction(ggbFileFormat);
 
 					if (ggbFileFormat > FORMAT) {
 						System.err.println(app.getError("FileFormatNewer")
@@ -643,7 +645,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 */
 	protected void startEuclidianView3DElement(String eName, LinkedHashMap<String, String> attrs) {
-		Application.debug("TODO : warn that it's a 3D file");
+		AbstractApplication.debug("TODO : warn that it's a 3D file");
 	}
 	
 	
@@ -1382,9 +1384,9 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 
 		if (angleUnit.equals("degree"))
-			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
+			kernel.setAngleUnit(AbstractKernel.ANGLE_DEGREE);
 		else if (angleUnit.equals("radiant"))
-			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
+			kernel.setAngleUnit(AbstractKernel.ANGLE_RADIANT);
 		else
 			return false;
 		return true;
@@ -1586,9 +1588,9 @@ public class MyXMLHandler implements DocHandler {
 		// construct default xml data in case we're using an old version which didn't
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
-			new DockPanelData(Application.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(400, 400), defEV, 200),
-			new DockPanelData(Application.VIEW_ALGEBRA, null, tmp_showAlgebra, false, false, new Rectangle(200, 400), defAV, 200),
-			new DockPanelData(Application.VIEW_SPREADSHEET, null, tmp_showSpreadsheet, false, false, new Rectangle(400, 400), defSV, 200)
+			new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(400, 400), defEV, 200),
+			new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, tmp_showAlgebra, false, false, new Rectangle(200, 400), defAV, 200),
+			new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, tmp_showSpreadsheet, false, false, new Rectangle(400, 400), defSV, 200)
 		};
 		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
@@ -1816,7 +1818,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -1828,7 +1830,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -1945,7 +1947,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		} catch (Exception e) {
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -1967,7 +1969,7 @@ public class MyXMLHandler implements DocHandler {
 			app.setPreferredSize(size);
 			return true;
 		} catch (Exception e) {
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2084,10 +2086,10 @@ public class MyXMLHandler implements DocHandler {
 		if(eName.equals("perspective"))
 			ok = handlePerspective(attrs);
 		else 
-			Application.debug("unknown tag in <perspectives>: " + eName);
+			AbstractApplication.debug("unknown tag in <perspectives>: " + eName);
 
 		if (!ok)
-			Application.debug("error in <perspectives>: " + eName);
+			AbstractApplication.debug("error in <perspectives>: " + eName);
 	}
 	
 	/**
@@ -2116,7 +2118,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			return true;
 		} catch(Exception e) {
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2166,11 +2168,11 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 		default:
-			Application.debug("unknown tag in <perspective>: " + eName);
+			AbstractApplication.debug("unknown tag in <perspective>: " + eName);
 		}
 
 		if (!ok)
-			Application.debug("error in <perspective>: " + eName);
+			AbstractApplication.debug("error in <perspective>: " + eName);
 	}
 	
 	private boolean handleAlgebraInput(LinkedHashMap<String, String> attrs) {
@@ -2181,7 +2183,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			return true;
 		} catch(Exception e) {
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2202,10 +2204,10 @@ public class MyXMLHandler implements DocHandler {
 		if(eName.equals("view"))
 			ok = handleView(attrs);
 		else 
-			Application.debug("unknown tag in <views>: " + eName);
+			AbstractApplication.debug("unknown tag in <views>: " + eName);
 
 		if (!ok)
-			Application.debug("error in <views>: " + eName);
+			AbstractApplication.debug("error in <views>: " + eName);
 	}
 	
 	/**
@@ -2241,7 +2243,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			return true;
 		} catch(Exception e) {
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2255,10 +2257,10 @@ public class MyXMLHandler implements DocHandler {
 		if(eName.equals("pane"))
 			ok = handlePane(attrs);
 		else 
-			Application.debug("unknown tag in <panes>: " + eName);
+			AbstractApplication.debug("unknown tag in <panes>: " + eName);
 
 		if (!ok)
-			Application.debug("error in <panes>: " + eName);
+			AbstractApplication.debug("error in <panes>: " + eName);
 	}
 	
 	/**
@@ -2278,7 +2280,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			return true;
 		} catch(Exception e) {
-			Application.debug(e.getMessage() + ": " + e.getCause());
+			AbstractApplication.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2466,7 +2468,7 @@ public class MyXMLHandler implements DocHandler {
 				// create algorithm for dependent cell
 				// this also creates twinGeo if necessary
 				// output is not computed again, see AlgoDependenCasCell constructor
-				Kernel.DependentCasCell(geoCasCell);
+				AbstractKernel.DependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
 			System.err.println("error when processing <cellpair>: " + e.getMessage());
@@ -2980,14 +2982,14 @@ public class MyXMLHandler implements DocHandler {
 			  EVs = Integer.parseInt(str);
 			
 			if ((EVs & 1) == 0) // bit 0
-				geo.addView(Application.VIEW_EUCLIDIAN);
+				geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
 			else
-				geo.removeView(Application.VIEW_EUCLIDIAN);
+				geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 			
 			if ((EVs & 2) == 2) { // bit 1
-				geo.addView(Application.VIEW_EUCLIDIAN2);		
+				geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);		
 			} else {
-				geo.removeView(Application.VIEW_EUCLIDIAN2);
+				geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
 			}
 			return true;
 			
@@ -3290,7 +3292,7 @@ public class MyXMLHandler implements DocHandler {
 		boolean isButton = geo.isGeoButton();
 
 		if (!(isNumber || isBoolean || isButton)) {
-			Application.debug("wrong element type for <value>: "
+			AbstractApplication.debug("wrong element type for <value>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -3321,7 +3323,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handlePointSize(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof PointProperties)) {
-			Application.debug("wrong element type for <pointSize>: "
+			AbstractApplication.debug("wrong element type for <pointSize>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -3338,7 +3340,7 @@ public class MyXMLHandler implements DocHandler {
 	// Florian Sonner 2008-07-17
 	private boolean handlePointStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof PointProperties)) {
-			Application.debug("wrong element type for <pointStyle>: "
+			AbstractApplication.debug("wrong element type for <pointStyle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -3786,7 +3788,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAbsoluteScreenLocation(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
-			Application
+			AbstractApplication
 					.debug("wrong element type for <absoluteScreenLocation>: "
 							+ geo.getClass());
 			return false;
@@ -3860,7 +3862,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleOutlyingIntersections(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof LimitedPath)) {
-			Application
+			AbstractApplication
 					.debug("wrong element type for <outlyingIntersections>: "
 							+ geo.getClass());
 			return false;
@@ -3878,7 +3880,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKeepTypeOnTransform(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof LimitedPath)) {
-			Application
+			AbstractApplication
 					.debug("wrong element type for <outlyingIntersections>: "
 							+ geo.getClassName());
 			return false;
@@ -4279,7 +4281,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
 	//	Application.debug(attrs.toString());
 		if (!(geo.isGeoImplicitPoly())) {
-			Application.debug("wrong element type for <coefficients>: "
+			AbstractApplication.debug("wrong element type for <coefficients>: "
 					+ geo.getClass(),1);
 			return false;
 		}
@@ -4333,7 +4335,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
 //		Application.debug(attrs.toString());
 		if (!(geo instanceof GeoUserInputElement)) {
-			Application.debug("wrong element type for <userinput>: "
+			AbstractApplication.debug("wrong element type for <userinput>: "
 					+ geo.getClass(),1);
 			return false;
 		}
@@ -4354,7 +4356,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		}catch (Exception e) {
-			Application.debug(e.getMessage());
+			AbstractApplication.debug(e.getMessage());
 			return false;
 		}
 	}
@@ -4478,7 +4480,7 @@ public class MyXMLHandler implements DocHandler {
 
 			// ensure that labels are set for invisible objects too
 			if (attrs.size() != cmdOutput.length) {
-				Application
+				AbstractApplication
 						.debug("error in <output>: wrong number of labels for command "
 								+ cmdName);
 				System.err.println("   cmdOutput.length = " + cmdOutput.length

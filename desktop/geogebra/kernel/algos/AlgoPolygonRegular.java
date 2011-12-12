@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -249,7 +250,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     	// some temp values
     	double mx = (A.inhomX + B.inhomX) / 2; // midpoint of AB
     	double my = (A.inhomY + B.inhomY) / 2;
-    	double alpha = Kernel.PI_2 / n; // center angle ACB
+    	double alpha = AbstractKernel.PI_2 / n; // center angle ACB
     	double beta = (Math.PI - alpha) / 2; // base angle CBA = BAC
     	
     	// normal vector of AB

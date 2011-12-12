@@ -13,6 +13,7 @@
 package geogebra.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -106,7 +107,7 @@ public class GeoGebraPreferences {
 	
 	/* Set in geogebra.gui.app.GeoGebraFrame before first call to getPref()*/
 	public static void setPropertyFileName(String pfname){
-		PROPERTY_FILEPATH=pfname;									Application.debug("Prferences in: "+PROPERTY_FILEPATH);
+		PROPERTY_FILEPATH=pfname;									AbstractApplication.debug("Prferences in: "+PROPERTY_FILEPATH);
 	}//setPropertyFileName(String)
 	
 	public synchronized static GeoGebraPreferences getPref() {
@@ -276,7 +277,7 @@ public class GeoGebraPreferences {
     	try {
     		ggbPrefs.flush();
     	} catch (Exception e) {
-    		Application.debug(e+"");
+    		AbstractApplication.debug(e+"");
     	}
     }
     
@@ -443,7 +444,7 @@ public class GeoGebraPreferences {
     		ggbPrefs.clear();    		
     		ggbPrefs.flush();
     	} catch (Exception e) {
-    		Application.debug(e+"");
+    		AbstractApplication.debug(e+"");
     	}
     }
     

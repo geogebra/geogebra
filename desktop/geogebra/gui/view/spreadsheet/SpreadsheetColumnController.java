@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import geogebra.common.awt.Point;
+import geogebra.common.main.AbstractApplication;
+
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -99,7 +101,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		boolean rightClick = Application.isRightClick(e); 	 
 
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(Application.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
 
 
 		if (!rightClick) {

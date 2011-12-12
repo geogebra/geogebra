@@ -27,6 +27,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSlider;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -54,7 +55,7 @@ public class PropertiesPanelMini extends JFrame implements ActionListener, Chang
 		
 		this.setFocusableWindowState(false);
 		this.setAlwaysOnTop(true);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		
 		try { // Java 6u10+ only
 			Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
