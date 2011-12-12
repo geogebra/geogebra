@@ -10,8 +10,15 @@ test -r autotest.conf && . ./autotest.conf
 
 DESKTOP_AUTOBUILDDIR=../../../desktop/scripts/autobuild
 DESKTOP_BUILDDIR=../../../desktop/build
+DESKTOPDIR=../../../desktop
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
+COMMONDIR=../../../common/src/geogebra/common/
 mkdir -p $REVDIR/$REVISION
+mv $COMMONDIR/Common.java $COMMONDIR/Common.java.dontcompile
 $DESKTOP_AUTOBUILDDIR/make-vanilla-jars -c -j $JAVA_HOME
+mv $COMMONDIR/Common.java.dontcompile $COMMONDIR/Common.java
 
 cp $DESKTOP_BUILDDIR/*.jar $REVDIR/$REVISION
+cat $DESKTOPDIR/.ecjlog | grep -A 3 ". ERROR" > $REVDIR/$REVISION/ecjerrors && exit 1
+
+exit 0

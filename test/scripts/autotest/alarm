@@ -33,6 +33,11 @@ if [ $RESULT = 3 ]; then
   fi
  fi
 
+if [ $RESULT = 4 ]; then
+ MESSAGE="There is a compilation problem at revision $REVISION, however GeoGebra starts properly"
+ LOG=`cat $REVDIR/$REVISION/ecjerror | awk '{printf("%s\\\n",$0);}'`
+ fi
+
 if [ $RESULT = 0 ]; then
  MESSAGE="Everything is OK at revision $REVISION"
  exit 0 # Not sending an email
