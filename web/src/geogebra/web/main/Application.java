@@ -449,7 +449,7 @@ public class Application extends AbstractApplication {
 		
 		// Process Construction
 		construction = DataUtil.utf8Decode(construction);
-		//tmpmyXMLio.processXmlString(construction, true, false);
+		myXMLio.processXmlString(construction, true, false);
 	}
 	
 	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();

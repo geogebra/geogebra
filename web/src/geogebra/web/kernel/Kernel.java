@@ -37,6 +37,7 @@ import geogebra.common.util.GgbMat;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
+import geogebra.web.io.DocHandler;
 import geogebra.web.main.Application;
 import geogebra.web.util.NumberFormat;
 
@@ -276,6 +277,16 @@ public class Kernel extends AbstractKernel {
             GeoElement[] arg) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	public DocHandler newMyXMLHandler(Construction cons) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public void clearConstruction() {
+	    // TODO Auto-generated method stub
+	    
     }
 
 	
