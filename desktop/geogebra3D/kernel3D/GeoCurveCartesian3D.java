@@ -4,11 +4,11 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
+import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import geogebra.kernel.algos.AlgoMacro;
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**

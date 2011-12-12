@@ -11,18 +11,16 @@ the Free Software Foundation.
 */
 
 /*
- * AlgoOrthoVectorLine.java
+ * AlgoUnitVectorVector.java
  *
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.util.MyMath;
@@ -33,20 +31,20 @@ import geogebra.common.util.MyMath;
  * @author  Markus
  * @version 
  */
-public class AlgoUnitVectorLine extends AlgoElement {
+public class AlgoUnitVectorVector extends AlgoElement {
     
-    private GeoLine g; // input
+    private GeoVector v; // input
     private GeoVector  u;     // output       
     
-    private double length; 
+    private double length;
         
-    /** Creates new AlgoOrthoVectorLine */
-    public AlgoUnitVectorLine(Construction cons, String label,GeoLine g) {        
+    /** Creates new AlgoOrthoVectorVector */
+    public AlgoUnitVectorVector(Construction cons, String label,GeoVector v) {        
         super(cons);
-        this.g = g;                
+        this.v = v;                
         u = new GeoVector(cons); 
-       
-        GeoPoint2 possStartPoint = g.getStartPoint();
+        
+        GeoPoint2 possStartPoint = v.getStartPoint();
         if (possStartPoint != null && possStartPoint.isLabelSet()) {
 	        try{
 	            u.setStartPoint(possStartPoint);
@@ -55,43 +53,42 @@ public class AlgoUnitVectorLine extends AlgoElement {
         
         setInputOutput(); // for AlgoElement
         
-        // compute line through P, Q
         u.z = 0.0d;
         compute();      
         u.setLabel(label);
     }   
     
-    @Override
-	public String getClassName() {
-        return "AlgoUnitVectorLine";
-    }
-    
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];        
-        input[0] = g;
-             
+        input[0] = v;
+        
         super.setOutputLength(1);
         super.setOutput(0, u);
         setDependencies(); // done by AlgoElement
     }    
     
-    public GeoVector getVector() { return u; }    
-    GeoLine getg() { return g; }
-    
-    // line through P normal to v
     @Override
-	public final void compute() {        
-        length = MyMath.length(g.x, g.y);
-        u.x = g.y / length;
-        u.y = -g.x / length;        
+	public String getClassName() {
+        return "AlgoUnitVectorVector";
+    }
+    
+    public GeoVector getVector() { return u; }    
+    GeoVector getv() { return v; }
+    
+    // unit vector of v
+    @Override
+	public final void compute() {
+        length = MyMath.length(v.x, v.y);        
+        u.x = v.x / length;
+        u.y = v.y / length;
     }   
     
     @Override
 	final public String toString() {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-        return app.getPlain("UnitVectorOfA",g.getLabel());
+    	return app.getPlain("UnitVectorOfA",v.getLabel());
     }
 }

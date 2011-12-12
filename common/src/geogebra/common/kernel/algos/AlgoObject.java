@@ -10,15 +10,13 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.kernel.Kernel;
+
 
 import java.util.Iterator;
 
@@ -52,7 +50,7 @@ public class AlgoObject extends AlgoElement {
         compute();  
         
         // register as rename listener algorithm
-        ((Kernel) kernel).registerRenameListenerAlgo(this);
+        kernel.registerRenameListenerAlgo(this);
         
         geo.setLabel(label);
     }   

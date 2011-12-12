@@ -29,8 +29,7 @@ import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
+//import geogebra.kernel.Kernel;
 
 import java.util.ArrayList;
 
@@ -339,7 +338,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	 * @param N 
 	 */
 	protected AlgoFunctionAreaSums(NumberValue a, NumberValue b, double[]vals,double[]borders,int N) {
-		super(((Kernel)a.getKernel()).getConstruction(), false);
+		super((a.getKernel()).getConstruction(), false);
 		type = TYPE_BARCHART;	
 		this.a = a;
 		this.b = b;					
@@ -436,7 +435,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	 * @param N 
 	 */
 	protected AlgoFunctionAreaSums(NumberValue width,double[]vals,double[]borders,int N) {
-		super(((Kernel)width.getKernel()).getConstruction(), false);
+		super((width.getKernel()).getConstruction(), false);
 		
 		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;		
 		
@@ -1690,7 +1689,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				dist = new PascalDistributionImpl(n, p);
 				
 				first = 0;
-				last = (int)Math.max(1,((Kernel)kernel).getXmax()+1);
+				last = (int)Math.max(1,(kernel).getXmax()+1);
 				break;
 			case TYPE_BARCHART_ZIPF:
 				if(!(p1geo.isDefined() && p2geo.isDefined()))
@@ -1708,7 +1707,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 				double lambda = p1.getDouble();
 				dist = new PoissonDistributionImpl(lambda);
 				first = 0;
-				last = (int)Math.max(1,((Kernel)kernel)                                                                                                                                                                                               .getXmax()+1);
+				last = (int)Math.max(1, kernel.getXmax()+1);
 				break;
 				
 			case TYPE_BARCHART_HYPERGEOMETRIC:
