@@ -10,10 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -24,13 +23,13 @@ public abstract class AlgoIntervalAbstract extends AlgoElement {
 	protected GeoInterval interval; //input
     protected GeoNumeric result; //output	
 
-    AlgoIntervalAbstract(Construction cons, String label, GeoInterval interval) {
+    protected AlgoIntervalAbstract(Construction cons, String label, GeoInterval interval) {
         this(cons, interval);
         
         result.setLabel(label);
     }
 
-    AlgoIntervalAbstract(Construction cons, GeoInterval interval) {
+    protected AlgoIntervalAbstract(Construction cons, GeoInterval interval) {
         super(cons);
         this.interval = interval;
                

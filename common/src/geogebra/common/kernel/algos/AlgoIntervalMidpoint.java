@@ -10,26 +10,27 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoInterval;
 
 
-public class AlgoIntervalMin extends AlgoIntervalAbstract {
+public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 
-	public AlgoIntervalMin(Construction cons, String label, GeoInterval s) {
+
+	public AlgoIntervalMidpoint(Construction cons, String label, GeoInterval s) {
 		super(cons, label, s);
 	}
 
 	@Override
 	public String getClassName() {
-        return "AlgoIntervalMin";
+        return "AlgoIntervalMidpoint";
     }
 
     @Override
-	public final void compute() {    	
-    	result.setValue(interval.getMin());
+	public final void compute() {   	
+    	result.setValue(interval.getMidPoint());
     }
     
 }

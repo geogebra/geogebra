@@ -11,20 +11,18 @@ the Free Software Foundation.
 */
 
 /*
- * AlgoDiameterLine.java
+ * AlgoDistanceLineLine.java
  *
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 
 /**
@@ -32,71 +30,69 @@ import geogebra.common.kernel.geos.GeoVector;
  * @author  Markus
  * @version 
  */
-public class AlgoDiameterLine extends AlgoElement {
+public class AlgoDistanceLineLine extends AlgoElement {
 
-    private GeoConic c; // input
-    private GeoLine g; // input
-    private GeoLine diameter; // output
+    private GeoLine g, h; // input
+    private GeoNumeric dist; // output       
 
-    private GeoVector v;
-
-    /** Creates new AlgoJoinPoints */
-    public AlgoDiameterLine(Construction cons, String label, GeoConic c, GeoLine g) {
+    public AlgoDistanceLineLine(
+        Construction cons,
+        String label,
+        GeoLine g,
+        GeoLine h) {
         super(cons);
-        this.c = c;
+        this.h = h;
         this.g = g;
-        diameter = new GeoLine(cons);
-        v = new GeoVector(cons);
-
+        dist = new GeoNumeric(cons);
         setInputOutput(); // for AlgoElement
 
+        // compute length
         compute();
-        diameter.setLabel(label);
+        dist.setLabel(label);
     }
 
     @Override
 	public String getClassName() {
-        return "AlgoDiameterLine";
+        return "AlgoDistanceLineLine";
     }
 
     @Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_POLAR_DIAMETER;
+    	return EuclidianConstants.MODE_DISTANCE;
     }
     
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[2];
-        input[0] = g;
-        input[1] = c;
+        input[0] = h;
+        input[1] = g;
 
         super.setOutputLength(1);
-        super.setOutput(0, diameter);
+        super.setOutput(0, dist);
         setDependencies(); // done by AlgoElement
     }
 
-    GeoLine getLine() {
+    public GeoNumeric getDistance() {
+        return dist;
+    }
+    GeoLine getg() {
         return g;
     }
-    GeoConic getConic() {
-        return c;
-    }
-    public GeoLine getDiameter() {
-        return diameter;
+    GeoLine geth() {
+        return h;
     }
 
-    // calc diameter line of v relativ to c
+    // calc length of vector v   
     @Override
 	public final void compute() {
-        g.getDirection(v);
-        c.diameterLine(v, diameter);
+        dist.setValue(g.distance(h));
     }
 
     @Override
 	final public String toString() {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("DiameterOfAConjugateToB",c.getLabel(),g.getLabel());
+        return app.getPlain("DistanceOfAandB",g.getLabel(),h.getLabel());
     }
 }
