@@ -338,4 +338,9 @@ public abstract class AbstractApplication {
 
 	public abstract View getView(int id);
 
+	public String getCompleteUserInterfaceXML(boolean b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -3552,6 +3552,11 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 
 	public abstract GeoElement[] useMacro(String[] labels, MacroInterface macro, GeoElement[] arg);
 
+	public void getKernelXML(StringBuilder sb) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }
