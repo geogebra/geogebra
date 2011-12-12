@@ -35,7 +35,7 @@ if [ $RESULT = 3 ]; then
 
 if [ $RESULT = 4 ]; then
  MESSAGE="There is a compilation problem at revision $REVISION, however GeoGebra starts properly"
- LOG=`cat $REVDIR/$REVISION/ecjerror | awk '{printf("%s\\\n",$0);}'`
+ LOG=`cat $REVDIR/$REVISION/ecjerrors | awk '{printf("%s\\\n",$0);}'`
  fi
 
 if [ $RESULT = 0 ]; then

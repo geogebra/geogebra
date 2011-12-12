@@ -23,7 +23,7 @@ xvfb-run timeout -k $SIMPLETESTTIMEOUT $SIMPLETESTTIMEOUT \
 
 diff simpletest.out $MYDIR/simpletest.out || exit 3 # Problem with simple testing
 
-ECJERROR=`cat ecjerror`
+ECJERROR=`cat ecjerrors`
 if [ "$ECJERROR" != "" ]; then
  exit 4 # Compilation error (but GeoGebra started)
  fi
