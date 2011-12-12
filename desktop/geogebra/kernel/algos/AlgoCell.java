@@ -18,7 +18,7 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 import java.util.Iterator;
@@ -50,7 +50,7 @@ public class AlgoCell extends AlgoElement {
         compute();  
         
         // register as rename listener algorithm
-        ((Kernel)kernel).registerRenameListenerAlgo(this);
+        ((AbstractKernel)kernel).registerRenameListenerAlgo(this);
         
         geo.setLabel(label);
     }   
@@ -128,7 +128,7 @@ public class AlgoCell extends AlgoElement {
 		*/
 		
 		// lookup new object for new label
-		refObject = ((Kernel)kernel).lookupLabel(currentLabel);
+		refObject = ((AbstractKernel)kernel).lookupLabel(currentLabel);
 		inputForUpdateSetPropagation[2] = refObject;			
 		
 		// change dependencies for this newly referenced object

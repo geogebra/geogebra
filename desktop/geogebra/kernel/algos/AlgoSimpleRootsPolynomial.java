@@ -18,11 +18,11 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.Kernel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,7 +112,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			Arrays.sort(roots,0,nrRealRoots);
 			double last=roots[0];
 			for (int i=1;i<nrRealRoots;i++){
-				if (roots[i]-last<=Kernel.MIN_PRECISION){
+				if (roots[i]-last<=AbstractKernel.MIN_PRECISION){
 					c++;
 				}else{
 					last=roots[i];
@@ -140,8 +140,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			nrRealRoots=getRoots(roots,eqnSolver);
 		
 		for (int i=0; i<nrRealRoots; ++i) {
-			if (Kernel.isGreater(roots[i], max, Kernel.getEpsilon()) || 
-					Kernel.isGreater(min, roots[i], Kernel.getEpsilon()))
+			if (AbstractKernel.isGreater(roots[i], max, AbstractKernel.getEpsilon()) || 
+					AbstractKernel.isGreater(min, roots[i], AbstractKernel.getEpsilon()))
 				roots[i] = Double.NaN;
 		}
 		makePoints(roots,nrRealRoots);
@@ -159,7 +159,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			for (int j=0;j<len;j++){
 				double[] pair=getXYPair(roots[i],j);
 				for (int k=0;k<valPairs.size();k++){
-					if (distancePairSq(pair, valPairs.get(k))<Kernel.STANDARD_PRECISION){
+					if (distancePairSq(pair, valPairs.get(k))<AbstractKernel.STANDARD_PRECISION){
 						pair=null;
 						break;
 					}

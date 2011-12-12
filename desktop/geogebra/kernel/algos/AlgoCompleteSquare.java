@@ -1,5 +1,6 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -56,7 +57,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		double[] checkpoints = {1000,-1000,Math.PI,Math.E};
 		for(int i=0;i<checkpoints.length;i++){
 			double x=checkpoints[i];
-			if(!Kernel.isZero(p*x*x+q*x+r- f.evaluate(x))){
+			if(!AbstractKernel.isZero(p*x*x+q*x+r- f.evaluate(x))){
 				Application.debug(p+","+q+","+r+","+(p*x*x+q*x+r- f.evaluate(x)));
 				isQuadratic = false;
 			}
@@ -71,7 +72,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 			degInt = coefs.size()-1;
 			isQuadratic = coefs.isDefined() && coefs.get(0).isDefined();
 			for(int i=1;i<degInt;i++){
-				if(2*i != degInt && !Kernel.isZero(((GeoNumeric)coefs.get(i)).getDouble())){
+				if(2*i != degInt && !AbstractKernel.isZero(((GeoNumeric)coefs.get(i)).getDouble())){
 					isQuadratic = false;
 				}
 			r = ((GeoNumeric)coefs.get(0)).getDouble();

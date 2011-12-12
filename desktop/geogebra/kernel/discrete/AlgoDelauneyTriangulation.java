@@ -1,11 +1,11 @@
 package geogebra.kernel.discrete;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VoronoiAlgorithm;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.AbstractRepresentation;
@@ -107,12 +107,12 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 					
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap
-					if (Kernel.isEqual(p1A.x, p2B.x) && Kernel.isEqual(p1A.y, p2B.y) && Kernel.isEqual(p2A.x, p1B.x) && Kernel.isEqual(p2A.y, p1B.y)) {
+					if (AbstractKernel.isEqual(p1A.x, p2B.x) && AbstractKernel.isEqual(p1A.y, p2B.y) && AbstractKernel.isEqual(p2A.x, p1B.x) && AbstractKernel.isEqual(p2A.y, p1B.y)) {
 						//Application.debug("equal2");
 						return 0;
 					}
 					// check this one second (doesn't occur in practice)
-					if (Kernel.isEqual(p1A.x, p1B.x) && Kernel.isEqual(p1A.y, p1B.y) && Kernel.isEqual(p2A.x, p2B.x) && Kernel.isEqual(p2A.y, p2B.y)) {
+					if (AbstractKernel.isEqual(p1A.x, p1B.x) && AbstractKernel.isEqual(p1A.y, p1B.y) && AbstractKernel.isEqual(p2A.x, p2B.x) && AbstractKernel.isEqual(p2A.y, p2B.y)) {
 						//Application.debug("equal1");
 						return 0;
 					}

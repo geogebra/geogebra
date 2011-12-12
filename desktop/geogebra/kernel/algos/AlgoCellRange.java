@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 import geogebra.common.awt.Point;
@@ -138,7 +138,7 @@ public class AlgoCellRange extends AlgoElement {
     		for (int rowIndex = minRow; rowIndex <= maxRow; rowIndex++) {
     			// get cell object for col, row
     			String cellLabel = GeoElementSpreadsheet.getSpreadsheetCellName(colIndex, rowIndex);    			
-    			GeoElement geo = ((Kernel)kernel).lookupLabel(cellLabel);
+    			GeoElement geo = ((AbstractKernel)kernel).lookupLabel(cellLabel);
     			
     			// create missing object in cell range
     			if (geo == null) {

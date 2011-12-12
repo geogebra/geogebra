@@ -12,11 +12,10 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.kernel.Kernel;
-
 import java.math.BigInteger;
 
 /**
@@ -46,7 +45,7 @@ public class AlgoLCM extends AlgoTwoNumFunction {
     			return;
     		}
     		//this is the only case whwn gcd == zero
-    		if(Kernel.isZero(a.getDouble()) && Kernel.isZero(b.getDouble())){
+    		if(AbstractKernel.isZero(a.getDouble()) && AbstractKernel.isZero(b.getDouble())){
     			num.setValue(0);
     			return;
     		}

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.TangentAlgo;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.kernel.Kernel;
 
 
 /**
@@ -136,7 +136,7 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo{
 	public void initForNearToRelationship() {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
-    	if (!tangents[0].isOnFullLine(tangentPoints[0], Kernel.MIN_PRECISION)) {
+    	if (!tangents[0].isOnFullLine(tangentPoints[0], AbstractKernel.MIN_PRECISION)) {
         	algoIntersect.initForNearToRelationship();
         	
         	// remember first point

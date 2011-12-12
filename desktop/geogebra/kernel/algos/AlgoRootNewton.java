@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.arithmetic.Function;
@@ -165,7 +166,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     
     private static boolean checkRoot(Function fun, double root) {
     	 // check what we got
-        return !Double.isNaN(root) && (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION );
+        return !Double.isNaN(root) && (Math.abs(fun.evaluate(root)) < AbstractKernel.MIN_PRECISION );
     }
     
     /**

@@ -74,7 +74,7 @@ public class AlgoInvert extends AlgoElement {
    			
    			double det = matrix.det();
    			
-   			if (kernel.isZero(det)) {
+   			if (AbstractKernel.isZero(det)) {
    	  			outputList.setUndefined();
    		   		return;   		
    		   	}

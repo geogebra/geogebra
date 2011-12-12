@@ -1,5 +1,6 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -8,8 +9,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.Kernel;
-
 import java.util.ArrayList;
 
 import org.apache.commons.math.ode.DerivativeException;
@@ -76,7 +75,7 @@ public class AlgoSolveODE extends AlgoElement {
 
 	    @Override
 		public final void compute() {       
-	        if (!((GeoElement)f0).isDefined() || !x.isDefined() || !y.isDefined() || !step.isDefined() || !end.isDefined() || Kernel.isZero(step.getDouble())) {
+	        if (!((GeoElement)f0).isDefined() || !x.isDefined() || !y.isDefined() || !step.isDefined() || !end.isDefined() || AbstractKernel.isZero(step.getDouble())) {
 	        	//g.setUndefined();
 	        	locus.setUndefined();
 	        	return;

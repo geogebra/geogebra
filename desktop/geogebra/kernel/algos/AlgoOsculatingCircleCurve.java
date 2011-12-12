@@ -1,5 +1,6 @@
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoCurvatureCurve;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -9,7 +10,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.kernel.Kernel;
 
 
 /**
@@ -80,7 +80,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     	
     	// bugfix Michael Borcherds
     	// undefined unless A is a point on f
-        if (!f.isOnPath(A, Kernel.MIN_PRECISION)) {
+        if (!f.isOnPath(A, AbstractKernel.MIN_PRECISION)) {
         	circle.setUndefined();
         	return;
         }

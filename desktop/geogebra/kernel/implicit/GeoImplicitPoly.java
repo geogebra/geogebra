@@ -39,8 +39,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -50,9 +48,7 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 
 import java.util.ArrayList;

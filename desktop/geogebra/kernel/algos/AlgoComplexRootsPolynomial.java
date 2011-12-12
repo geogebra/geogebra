@@ -87,7 +87,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial{
             double maxRoot = curRoots[0];            
             int maxIndex = 0;
             for (int i = 1; i < curRealRoots; i++) {
-                if ((curRoots[i] - maxRoot) >  Kernel.MIN_PRECISION) {
+                if ((curRoots[i] - maxRoot) >  AbstractKernel.MIN_PRECISION) {
                 	maxRoot = curRoots[i];
 	                maxIndex++;
 	                curRoots[maxIndex] = maxRoot;

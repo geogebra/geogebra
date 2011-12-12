@@ -13,12 +13,12 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.EquationSolver;
 import geogebra.kernel.Kernel;
 
@@ -93,7 +93,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		int tn=solver.polynomialRoots(tRoots,false);
 		int shift=0;
 		for (int j=1;j<tn;j++){
-			if (Kernel.isEqual(tRoots[j-shift-1],tRoots[j])){
+			if (AbstractKernel.isEqual(tRoots[j-shift-1],tRoots[j])){
 				shift++;
 			}else{
 				if (shift>0){
@@ -146,7 +146,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         
         double last=Double.NaN;
         for (int i=0;i<n;i++){
-        	if (!Kernel.isEqual(last, roots[i])){
+        	if (!AbstractKernel.isEqual(last, roots[i])){
         		int r=Integer.MAX_VALUE;
         		ArrayList<Double> p=new ArrayList<Double>();
         		double[] divisor=new double[]{-roots[i],1};
@@ -176,7 +176,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         					throw new Error("Zero Polynomial");
         				l=r-k;
         			}else{
-        				while(Kernel.isZero(rk)){
+        				while(AbstractKernel.isZero(rk)){
 	        				if (r-k<=l){
 	        					rk=0;
 	        					break;

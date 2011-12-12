@@ -19,13 +19,13 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.kernel.Kernel;
 
 
 /**
@@ -100,8 +100,8 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
         // test the intersection point
         // this is needed for the intersection of segments
         if (S.isDefined()) {
-        	if (!(g.isIntersectionPointIncident(S, Kernel.MIN_PRECISION) &&
-			      h.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)) )
+        	if (!(g.isIntersectionPointIncident(S, AbstractKernel.MIN_PRECISION) &&
+			      h.isIntersectionPointIncident(S, AbstractKernel.MIN_PRECISION)) )
 				S.setUndefined();
         }
     }

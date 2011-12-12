@@ -1,5 +1,6 @@
 package geogebra.kernel.barycentric;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -7,14 +8,12 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.Parser;
-import geogebra.kernel.Kernel;
 
 
 /**
@@ -81,7 +80,7 @@ public class AlgoTriangleCubic extends AlgoElement {
 		String equation = "";
 		
 		double det = (-x2 + x3)*(y1 - y3) + (x1 - x3)*(y2 - y3);
-		if(Kernel.isZero(det)){
+		if(AbstractKernel.isZero(det)){
 			poly.setUndefined();
 			return;
 		}

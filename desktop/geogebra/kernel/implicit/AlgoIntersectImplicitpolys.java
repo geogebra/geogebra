@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -101,7 +102,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 //			qx=p2.evalDiffXPolyAt(x, y);
 //			qy=p2.evalDiffYPolyAt(x, y);
 //			double det=px*qy-py*qx;
-//			if (Kernel.isZero(det)){
+//			if (AbstractKernel.isZero(det)){
 //				break;
 //			}
 //			x-=(p*qy-q*py)/det;
@@ -174,7 +175,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		//this row to help eliminate aNew[leadIndex].
 		while (leadIndex>= 2*n) {
 //			aNew[leadIndex]=aNew[leadIndex];
-			if ( !(aNew[leadIndex].degree() == 0  && Kernel.isZero(aNew[leadIndex].getCoeffDouble(0))) ) {
+			if ( !(aNew[leadIndex].degree() == 0  && AbstractKernel.isZero(aNew[leadIndex].getCoeffDouble(0))) ) {
 				for (int j = n-1; j<leadIndex-n; ++j)
 					aNew[j] = aNew[j].multiply(bPolys[n]);
 				for (int j = leadIndex-n; j<leadIndex; ++j)
@@ -185,7 +186,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		}
 		while (leadIndex>= n) {
 //			aNew[leadIndex]=aNew[leadIndex];
-			if ( !(aNew[leadIndex].degree() == 0  && Kernel.isZero(aNew[leadIndex].getCoeffDouble(0))) ) {
+			if ( !(aNew[leadIndex].degree() == 0  && AbstractKernel.isZero(aNew[leadIndex].getCoeffDouble(0))) ) {
 				for (int j = leadIndex-n; j<leadIndex; ++j)
 					aNew[j] = aNew[j].multiply(bPolys[n]).subtract(
 							bPolys[j-leadIndex+n].multiply(aNew[leadIndex]));
@@ -391,7 +392,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			for (int i=0;i<hints.size();i++){
 				double[] pair=new double[2];
 				GeoPoint2 g=hints.get(i);
-				if (g.isDefined()&&!Kernel.isZero(g.getZ())){
+				if (g.isDefined()&&!AbstractKernel.isZero(g.getZ())){
 					pair[0]=g.getX()/g.getZ();
 					pair[1]=g.getY()/g.getZ();
 				}
@@ -555,14 +556,14 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double glc=0; //greatest leading coefficient
 			for (int i=k;i<n;i++){
 				double lc=PolynomialUtils.getLeadingCoeff(mat[i][k]);
-				if (!Kernel.isZero(lc)){
+				if (!AbstractKernel.isZero(lc)){
 					if (Math.abs(lc)>Math.abs(glc)){
 						glc=lc;
 						r=i;
 					}
 				}
 			}
-			if (Kernel.isZero(glc)){
+			if (AbstractKernel.isZero(glc)){
 				det=new PolynomialFunction(new double[]{0});
 				break;
 			}else if (r>k){
@@ -659,7 +660,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			for (int i=0;i<hints.size();i++){
 				double[] pair=new double[2];
 				GeoPoint2 g=hints.get(i);
-				if (g.isDefined()&&!Kernel.isZero(g.getZ())){
+				if (g.isDefined()&&!AbstractKernel.isZero(g.getZ())){
 					pair[0]=g.getX()/g.getZ();
 					pair[1]=g.getY()/g.getZ();
 				}
@@ -682,7 +683,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		int nrRoots=getRoots(roots, solver);
 		int nrDeRoots=getRoots(rootsDerivative,solver);
 		for (int i=0;i<nrDeRoots;i++){
-			if (Kernel.isEqual(poly.value(rootsDerivative[i]),0,epsilon)){
+			if (AbstractKernel.isEqual(poly.value(rootsDerivative[i]),0,epsilon)){
 				if (nrRoots<roots.length){
 					roots[nrRoots++]=rootsDerivative[i];
 				}
@@ -694,7 +695,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double[] c=poly.getCoefficients();
 			int n=c.length-1;
 			double x=-c[n-1]/n/c[n];
-			if (Kernel.isEqual(poly.value(x), 0)){
+			if (AbstractKernel.isEqual(poly.value(x), 0)){
 				roots[0]=x;
 				return 1;
 			}
@@ -706,14 +707,14 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double lastErr=err*2;
 			while(err<lastErr&&err>Kernel.STANDARD_PRECISION){
 				double devVal=derivative.value(x);
-				if (!Kernel.isZero(devVal))
+				if (!AbstractKernel.isZero(devVal))
 					x=x-poly.value(x)/devVal;
 				else
 					break;
 				lastErr=err;
 				err=Math.abs(poly.value(x));
 			}
-			if (Kernel.isEqual(poly.value(x),0,epsilon)){
+			if (AbstractKernel.isEqual(poly.value(x),0,epsilon)){
 				roots[0]=x;
 				return 1;
 			}
@@ -846,16 +847,16 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		double eps=1E-3; //find good value...
 		while(it.hasNext()){
 			double[] p=it.next();
-			if (Kernel.isGreater(p[0],pair[0],eps)){
+			if (AbstractKernel.isGreater(p[0],pair[0],eps)){
 				it.previous();
 				break;
 			}
-			if (Kernel.isEqual(p[0],pair[0],eps)){
-				if (Kernel.isGreater(p[1],pair[1],eps)){
+			if (AbstractKernel.isEqual(p[0],pair[0],eps)){
+				if (AbstractKernel.isGreater(p[1],pair[1],eps)){
 					it.previous();
 					break;
 				}
-				if (Kernel.isEqual(p[1], pair[1],eps))
+				if (AbstractKernel.isEqual(p[1], pair[1],eps))
 					return; //do not add
 			}
 		}

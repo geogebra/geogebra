@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -113,7 +114,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 		}
 
 		ExpressionNode series = null; // expression for the Taylor series
-		if (!Kernel.isZero(coeff)) {
+		if (!AbstractKernel.isZero(coeff)) {
 			series = new ExpressionNode(kernel, new MyDouble(kernel, coeff));
 		}
 
@@ -124,7 +125,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 			ExpressionValue diffExp;
 
 			// build the expression (x - a)
-			if (Kernel.isZero(ad)) { // only x
+			if (AbstractKernel.isZero(ad)) { // only x
 				diffExp = fVar;
 			} else if (ad > 0) { // (x - a)
 				diffExp = new ExpressionNode(kernel, fVar,
@@ -147,7 +148,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 					g.setUndefined();
 					return;
-				} else if (Kernel.isZero(coeff))
+				} else if (AbstractKernel.isZero(coeff))
 					continue; // this part vanished
 
 				boolean negativeCoeff = coeff < 0;
@@ -170,7 +171,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				// (k-thDerivative of f at a) * (x - a)^k / k!
 				ExpressionValue partExp;
 				MyDouble coeffMyDouble = null;
-				if (Kernel.isEqual(coeff, 1.0)) {
+				if (AbstractKernel.isEqual(coeff, 1.0)) {
 					partExp = powerExp;
 				} else {
 					coeffMyDouble = new MyDouble(kernel, coeff);

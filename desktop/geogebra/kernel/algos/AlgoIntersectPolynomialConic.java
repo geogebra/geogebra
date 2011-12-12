@@ -113,8 +113,8 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 					res[1] = temp;
 				}
 				algo = new AlgoRoots((Construction)cons, paramEquation, 
-						new GeoNumeric(cons, Math.max(res[1]-Kernel.MIN_PRECISION,h.getMinParameter())),
-						new GeoNumeric(cons, Math.min(res[0]+Kernel.MIN_PRECISION,h.getMaxParameter())));
+						new GeoNumeric(cons, Math.max(res[1]-AbstractKernel.MIN_PRECISION,h.getMinParameter())),
+						new GeoNumeric(cons, Math.min(res[0]+AbstractKernel.MIN_PRECISION,h.getMaxParameter())));
 			} else { 
 				algo = new AlgoRoots((Construction)cons, paramEquation, 
 						new GeoNumeric(cons, h.getMinParameter()),

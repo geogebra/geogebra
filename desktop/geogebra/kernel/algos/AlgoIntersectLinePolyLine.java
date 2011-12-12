@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -146,7 +147,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     		
     		Coords coords = segStart.crossProduct(segEnd).crossProduct(gCoords);
     		
-    		if (Kernel.isZero(coords.getLast())){
+    		if (AbstractKernel.isZero(coords.getLast())){
     			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
     					((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)	) {
     				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -78,7 +79,7 @@ public class AlgoSurdText extends AlgoElement {
 			
 			double decimal = num.getDouble();
 			
-			if ( Kernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
+			if ( AbstractKernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal)));
 			} else {
 				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, Kernel.EPSILON);
@@ -352,7 +353,7 @@ public class AlgoSurdText extends AlgoElement {
 				xB[i]=0;
 				for (int k=0; k<n; k++)
 					xB[i]+= x[k]*B[k][i];
-				if (Kernel.isEqual(xB[i],0,AccuracyFactor)) {
+				if (AbstractKernel.isEqual(xB[i],0,AccuracyFactor)) {
 					for (int k=0; k<n; k++)
 						coeffs[k] = B[k][i];
 					return coeffs;

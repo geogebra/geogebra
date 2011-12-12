@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
@@ -895,7 +896,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
             double noOfSamples = app.countPixels(visibleMin, visibleMax) / SAMPLE_PIXELS;
             
 			double subStep = Math.abs(visibleMax - visibleMin) / noOfSamples;	
-			boolean doSubSamples = !Kernel.isZero(subStep) && Math.abs(STEP) > subStep;	
+			boolean doSubSamples = !AbstractKernel.isZero(subStep) && Math.abs(STEP) > subStep;	
 			boolean positiveStep = 	STEP >= 0; 		
 			for (int i=0; i < N ; i++) { 
 				leftBorder[i] = ad + i * STEP;	
@@ -1088,7 +1089,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			int rawDataSize = list1.size();
 			
-			if (step < 0 || Kernel.isZero(step) || rawDataSize < 2) {
+			if (step < 0 || AbstractKernel.isZero(step) || rawDataSize < 2) {
 				sum.setUndefined();
 				return;
 			}
@@ -1263,7 +1264,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			//Application.debug("N = "+N+" start = "+start+" end = "+end+" width = "+width);
 
-			if (!Kernel.isEqual(end - start, step * (N-2)) // check first list is (consistent) with being AP 
+			if (!AbstractKernel.isEqual(end - start, step * (N-2)) // check first list is (consistent) with being AP 
 					|| step <= 0) {
 						sum.setUndefined();
 						return;
@@ -1368,7 +1369,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 			
 			//Application.debug("N = "+N+" start = "+start+" end = "+end+" colWidth = "+colWidth);
 
-			if (!Kernel.isEqual(end - start, step * (N-2)) // check first list is (consistent) with being AP 
+			if (!AbstractKernel.isEqual(end - start, step * (N-2)) // check first list is (consistent) with being AP 
 					|| step <= 0) {
 						sum.setUndefined();
 						return;
@@ -1510,7 +1511,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 
 						// check which class this datum is in
 						for (int j=1; j < N; j++) {
-							if (Kernel.isGreater(leftBorder[j],datum)) {
+							if (AbstractKernel.isGreater(leftBorder[j],datum)) {
 								yval[j-1]++;
 								break;
 							}
@@ -1526,7 +1527,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 
 						// check which class this datum is in
 						for (int j=1; j < N; j++) {
-							if (Kernel.isGreaterEqual(leftBorder[j],datum)) {
+							if (AbstractKernel.isGreaterEqual(leftBorder[j],datum)) {
 								yval[j-1]++;
 								break;
 							}

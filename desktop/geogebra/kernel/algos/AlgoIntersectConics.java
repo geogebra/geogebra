@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PointPair;
 import geogebra.common.kernel.PointPairList;
@@ -283,7 +284,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
 				GeoPoint2 p = (GeoPoint2) pointsOnConic.get(i);
-				//if (B.isOnPath(p, Kernel.MIN_PRECISION)) {
+				//if (B.isOnPath(p, AbstractKernel.MIN_PRECISION)) {
 				if (p.isLabelSet() && 
 						p.getIncidenceList()!=null && 
 						p.getIncidenceList().contains(B)) {
@@ -438,8 +439,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
     
     
     private boolean pointLiesOnBothPaths(GeoPoint2 P) {
-    	return A.isIntersectionPointIncident(P, Kernel.MIN_PRECISION) 
-				&& B.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
+    	return A.isIntersectionPointIncident(P, AbstractKernel.MIN_PRECISION) 
+				&& B.isIntersectionPointIncident(P, AbstractKernel.MIN_PRECISION);
     }
     
 	/**
@@ -493,16 +494,16 @@ public class AlgoIntersectConics extends AlgoIntersect {
         // input is already degenerate
         if (conic1.isLineConic()) {
             intersectWithDegenerate(conic2, conic1, points);
-            ok = testPoints(conic1, conic2, points, Kernel.MIN_PRECISION);
+            ok = testPoints(conic1, conic2, points, AbstractKernel.MIN_PRECISION);
         }
         else if (conic2.isLineConic()) {
             intersectWithDegenerate(conic1, conic2, points);
-            ok = testPoints(conic1, conic2, points, Kernel.MIN_PRECISION);
+            ok = testPoints(conic1, conic2, points, AbstractKernel.MIN_PRECISION);
         }
         
         // STANDARD PROCEDURE
         double epsilon = Kernel.STANDARD_PRECISION;
-        while (!ok && epsilon <= Kernel.MIN_PRECISION) { 
+        while (!ok && epsilon <= AbstractKernel.MIN_PRECISION) { 
             Kernel.setEpsilon(epsilon);                        
             
             // find intersection points conics through intersection points
@@ -648,12 +649,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
             
         	// try first conic
         	intersectWithDegenerate(A, degConic, points);
-        	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+        	if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
         		return true;
         	
         	// try second conic
         	intersectWithDegenerate(B, degConic, points);
-        	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+        	if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
         		return true;
         		*/
         	        	
@@ -740,12 +741,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
 			   	
 		    // try first conic
         	intersectWithDegenerate(A, degConic, points);
-        	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+        	if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
         		return true;
         	
         	// try second conic
         	intersectWithDegenerate(B, degConic, points);
-        	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+        	if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
         		return true;			   		   		   	               	
 	   }
 	  	  	   
@@ -783,12 +784,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
 		   
 		    // try first conic
         	intersectWithDegenerate(A, degConic, points);
-        	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+        	if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
         		return true;
         	
         	// try second conic
         	intersectWithDegenerate(B, degConic, points);
-        	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+        	if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
         		return true;			   	               
  	   }
  	   
@@ -823,7 +824,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	    for(i=solnr; i<4; i++)
 	    	points[i].setUndefined();
 	    
-	    if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+	    if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
     		return true;
 		
         //Application.debug("no solutions found");
@@ -850,12 +851,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
 		        	        	        	
 		// try first conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, A, points);        	
-		if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+		if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
 			return true;
 		
 		// try second conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, B, points);
-		if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+		if (testPoints(A, B, points, AbstractKernel.MIN_PRECISION))
 			return true; 
 		
 		return false;

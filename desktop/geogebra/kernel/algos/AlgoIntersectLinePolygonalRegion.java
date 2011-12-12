@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -153,7 +154,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     	for(int i=0; i<p.getSegments().length; i++){
     		GeoSegment seg = (GeoSegment) p.getSegments()[i];
     		Coords coords = GeoVec3D.cross((GeoLine) g, seg);
-    		if (Kernel.isZero(coords.getLast())){
+    		if (AbstractKernel.isZero(coords.getLast())){
     			Coords segStart = seg.getPointInD(2, 0);
     			Coords segEnd = seg.getPointInD(2, 1);
     			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
@@ -161,7 +162,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);
     				newCoords.put(((GeoLine) g).getPossibleParameter(segEnd), segEnd);
     			}
-    		} else if (seg.respectLimitedPath(coords, Kernel.MIN_PRECISION)){
+    		} else if (seg.respectLimitedPath(coords, AbstractKernel.MIN_PRECISION)){
        			double t = ((GeoLine) g).getPossibleParameter(coords);
     			//Application.debug("parameter("+i+") : "+t);
        			if (t>=min && t<=max)//TODO optimize that
@@ -225,7 +226,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
    		coordsOld = ((GeoLine)g).getPointInD(spaceDim, tOld);//TODO optimize it
 
     	if (isEnteringRegion = (p.isInRegion(coordsOld.get(1),coordsOld.get(2))
-    			&& !Kernel.isEqual(tOld, maxKey))) 
+    			&& !AbstractKernel.isEqual(tOld, maxKey))) 
     		newSegmentCoords.put(tOld,
     				new Coords[] {coordsFirst, newCoords.get(maxKey)}
     		);
@@ -260,9 +261,9 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     				tOld_m--;
     				
     				double currSegIncline = currSeg.getDirectionInD3().dotproduct(gRight);
-    				if (Kernel.isGreater(currSegIncline, 0))
+    				if (AbstractKernel.isGreater(currSegIncline, 0))
     					tOld_mRight++;
-    				else if (Kernel.isGreater(0, currSegIncline))
+    				else if (AbstractKernel.isGreater(0, currSegIncline))
     					tOld_mLeft++;
     				else {//logically saying currSeg is along the line; can have potential computational problem unknown
     					segmentAlongLine = true;
@@ -309,7 +310,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     		coordsOld = newCoords.get(tOld);
     	}
     	
-    	if(!Kernel.isEqual(tOld, tLast)) {
+    	if(!AbstractKernel.isEqual(tOld, tLast)) {
     		int tOld_m = 0;
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
