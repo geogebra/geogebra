@@ -8,7 +8,7 @@ import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
 /**
- *ParseToFunction
+ * ParseToFunction
  */
 class CmdParseToFunction extends CommandProcessorDesktop {
 
@@ -22,6 +22,7 @@ class CmdParseToFunction extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -31,7 +32,7 @@ class CmdParseToFunction extends CommandProcessorDesktop {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if (ok = arg[0].isGeoFunction() && arg[1].isGeoText()) {
+			if ((ok = arg[0].isGeoFunction()) && arg[1].isGeoText()) {
 
 				GeoFunction fun = (GeoFunction) arg[0];
 				String str = ((GeoText) arg[1]).getTextString();
@@ -41,16 +42,19 @@ class CmdParseToFunction extends CommandProcessorDesktop {
 							str, true));
 					fun.updateCascade();
 				} catch (Exception e) {
-					fun.setUndefined();
+					// eg ParseToFunction[f, "hello"]
+					fun.set(kernel.getAlgebraProcessor().evaluateToFunction(
+							"?", true));
 					fun.updateCascade();
 				}
 
 				GeoElement[] ret = { fun };
 				return ret;
-			} else if (!ok)
+			} else if (!ok) {
 				throw argErr(app, c.getName(), arg[0]);
-			else
+			} else {
 				throw argErr(app, c.getName(), arg[1]);
+			}
 
 		default:
 			throw argNumErr(app, c.getName(), n);
