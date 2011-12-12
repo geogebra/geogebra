@@ -83,8 +83,32 @@ public final class DrawTextField extends Drawable {
 	    box.add(label);
 	    box.add(textField);
 		view.add(box);
-
 		
+		
+		// Add mouse listeners to textField so that it becomes draggable 
+		// on a right click. These listeners are registered first to prevent 
+		// the JTextField listeners from initiating editing.
+		
+		MouseListener[] ml = textField.getMouseListeners();
+		for(int i = 0; i<ml.length; i++){
+			textField.removeMouseListener(ml[i]);
+		}
+		MouseMotionListener[] mml = textField.getMouseMotionListeners();
+		for(int i = 0; i<mml.length; i++){
+			textField.removeMouseMotionListener(mml[i]);
+		}
+
+		textField.addMouseListener(bl);
+		for(int i = 0; i<mml.length; i++){
+			textField.addMouseMotionListener(mml[i]);
+		}
+		
+		textField.addMouseMotionListener(bl);
+		for(int i = 0; i<ml.length; i++){
+			textField.addMouseListener(ml[i]);
+		}
+
+
 		update();
 	}
 
@@ -127,12 +151,18 @@ public final class DrawTextField extends Drawable {
 
 		public void mousePressed(MouseEvent e) {
 			
+			// prevent textField editing on right click
+			if(Application.isRightClick(e)) e.consume();
+			
 			dragging = false;	
 			e.translatePoint(box.getX(), box.getY());
 			ec.mousePressed(e);		
 		}
 
 		public void mouseReleased(MouseEvent e) {	
+			
+			// prevent textField editing on right click
+			if(Application.isRightClick(e)) e.consume();
 			
 			if (!dragging && !e.isMetaDown() && !e.isPopupTrigger()
 					&& view.getMode() == EuclidianConstants.MODE_MOVE) 
