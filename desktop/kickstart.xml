@@ -35,7 +35,7 @@ instructions.
 	</target>
 
 	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close"
-	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
+	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 
 	<target name="geogebra5-packager" depends="_classpath-open, geogebra5-developer, _lib-pack, _classpath-close"
