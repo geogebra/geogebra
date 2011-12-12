@@ -23,13 +23,13 @@ public abstract class AlgoIntervalAbstract extends AlgoElement {
 	protected GeoInterval interval; //input
     protected GeoNumeric result; //output	
 
-    protected AlgoIntervalAbstract(Construction cons, String label, GeoInterval interval) {
+    AlgoIntervalAbstract(Construction cons, String label, GeoInterval interval) {
         this(cons, interval);
         
         result.setLabel(label);
     }
 
-    protected AlgoIntervalAbstract(Construction cons, GeoInterval interval) {
+    AlgoIntervalAbstract(Construction cons, GeoInterval interval) {
         super(cons);
         this.interval = interval;
                

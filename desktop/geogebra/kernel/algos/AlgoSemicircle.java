@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;

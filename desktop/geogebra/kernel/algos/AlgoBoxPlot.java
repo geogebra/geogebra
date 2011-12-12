@@ -15,6 +15,8 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoListMax;
+import geogebra.common.kernel.algos.AlgoListMin;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

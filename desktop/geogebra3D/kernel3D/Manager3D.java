@@ -8,6 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -29,7 +30,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
-import geogebra.kernel.algos.AlgoPolygon;
 import geogebra.kernel.kernelND.GeoPlaneND;
 
 /**

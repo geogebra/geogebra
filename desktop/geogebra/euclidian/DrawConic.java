@@ -21,6 +21,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
@@ -36,7 +37,6 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoCirclePointRadius;
 import geogebra.main.Application;
 
 import java.awt.Color;

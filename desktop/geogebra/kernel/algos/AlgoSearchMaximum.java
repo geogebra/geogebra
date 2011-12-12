@@ -18,7 +18,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.RealRootFunctionVariable;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 /**
