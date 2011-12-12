@@ -426,12 +426,18 @@ public class Application extends AbstractApplication {
 			//tmpaddMacroXML(macros);
 		}	
 		
-		// Images BUGGY! I will continue here
+		/* This code is buggy, maybe because of GWT versions?
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
 			//tmpmaybeProcessImage(entry.getKey(), entry.getValue());
 				GWT.log(entry.getKey()+" "+entry.getValue());
 			}
+		}
+		*/
+		ArrayList<String> keys = new ArrayList<String>(archive.keySet());
+		for (String key : keys) {
+			GWT.log(key+" :  "+archive.remove(key));
+			//maybeProcessImage(key,archive.remove(key));
 		}
 		
 		// Process Construction
