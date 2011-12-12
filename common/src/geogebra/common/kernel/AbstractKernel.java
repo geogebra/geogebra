@@ -299,11 +299,6 @@ public abstract class AbstractKernel {
 		// This is a temporary place for abstract adapter methods which will go into factories later
 		// Arpad Fekete, 2011-12-01
 		//public abstract ColorAdapter getColorAdapter(int red, int green, int blue);
-		public abstract Color getColorAdapter(int red, int green, int blue);
-		public abstract Color getColorAdapter(int red, int green, int blue, int alpha);
-		public abstract Color getColorAdapter(float red, float green, float blue);
-		public abstract Color getColorAdapter(float red, float green, float blue, float alpha);
-
 		public abstract NumberFormatAdapter getNumberFormat();
 		public abstract NumberFormatAdapter getNumberFormat(String s);
 		public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();

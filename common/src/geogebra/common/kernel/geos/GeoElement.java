@@ -23,6 +23,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
@@ -836,7 +837,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			redD = (rgb >> 16) & 0xFF;
 			greenD = (rgb >> 8) & 0xFF;
 			blueD = rgb & 0xFF;
-			return kernel.getColorAdapter((int) redD, (int) greenD,
+			return AwtFactory.prototype.newColor((int) redD, (int) greenD,
 					(int) blueD, alpha);
 
 		case GeoElement.COLORSPACE_HSL:
@@ -883,13 +884,13 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			double m = L - (.5 * C);
 
-			Color c = kernel.getColorAdapter((int) ((R1 + m) * 255.0),
+			Color c = AwtFactory.prototype.newColor((int) ((R1 + m) * 255.0),
 					(int) ((G1 + m) * 255.0), (int) ((B1 + m) * 255.0), alpha);
 			return c;
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
-			return kernel.getColorAdapter((int) (redD * 255.0),
+			return AwtFactory.prototype.newColor((int) (redD * 255.0),
 					(int) (greenD * 255.0), (int) (blueD * 255.0), alpha);
 
 		}
@@ -1094,7 +1095,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		float[] rgb = new float[3];
 		fillColor.getRGBColorComponents(rgb);
-		fillColor = kernel.getColorAdapter(rgb[0], rgb[1], rgb[2], alpha);
+		fillColor = AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2], alpha);
 	}
 
 	public float getAlphaValue() {
@@ -3719,7 +3720,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 
 			if (colored) {
-				Color colorAdapter = kernel.getColorAdapter(getAlgebraColor()
+				Color colorAdapter = AwtFactory.prototype.newColor(getAlgebraColor()
 						.getRed(), getAlgebraColor().getGreen(),
 						getAlgebraColor().getBlue());
 				sbLongDescHTML.append("<b><font color=\"#");
@@ -4189,7 +4190,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			Color colorAdapter = kernel.getColorAdapter(getAlgebraColor()
+			Color colorAdapter = AwtFactory.prototype.newColor(getAlgebraColor()
 					.getRed(), getAlgebraColor().getGreen(), getAlgebraColor()
 					.getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");

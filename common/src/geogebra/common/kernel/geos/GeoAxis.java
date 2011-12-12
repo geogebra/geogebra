@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Color;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.Construction;
 import geogebra.common.util.NumberFormatAdapter;
@@ -36,14 +37,14 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 				setCoords(0, 1, 0);
 				label = "xAxis";
 				setAxisLabel("x");
-				setObjColor(kernel.getColorAdapter(255, 0, 0));//will be Color.RED
+				setObjColor(AwtFactory.prototype.newColor(255, 0, 0));//will be Color.RED
 				break;
 			
 			case Y_AXIS:
 				setCoords(-1, 0, 0);
 				label = "yAxis";
 				setAxisLabel("y");
-				setObjColor(kernel.getColorAdapter(0,0.5f,0));
+				setObjColor(AwtFactory.prototype.newColor(0,0.5f,0));
 				break;
 		}
 		setFixed(true);

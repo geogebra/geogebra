@@ -27,6 +27,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 
 	@Override
+	public Color newColor(int red, float green, int blue) {
+		return new geogebra.awt.Color(red, green, blue);
+	}
+	
+	@Override
 	public AffineTransform newAffineTransform() {
 		return new geogebra.awt.AffineTransform();
 	}

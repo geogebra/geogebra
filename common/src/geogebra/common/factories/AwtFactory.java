@@ -11,8 +11,10 @@ public abstract class AwtFactory {
 	public abstract Color newColor(int red, int green, int blue);
 	public abstract Color newColor(int red, int green, int blue, int alpha);
 	public abstract Color newColor(float red, float green, float blue, float alpha);
+	public abstract Color newColor(int red, float f, int blue);
 	public abstract AffineTransform newAffineTransform();
 	public abstract Rectangle2D newRectangle();
 	public abstract BufferedImageAdapter newBufferedImage(int pixelWidth,
 			int pixelHeight, int typeIntArgb);
+	
 }
