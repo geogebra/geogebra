@@ -426,9 +426,12 @@ public class Application extends AbstractApplication {
 			//tmpaddMacroXML(macros);
 		}	
 		
-		// Images
-		for (Entry<String, String> entry : archive.entrySet()) {
+		// Images BUGGY! I will continue here
+		if (archive.entrySet() != null) {
+			for (Entry<String, String> entry : archive.entrySet()) {
 			//tmpmaybeProcessImage(entry.getKey(), entry.getValue());
+				GWT.log(entry.getKey()+" "+entry.getValue());
+			}
 		}
 		
 		// Process Construction
