@@ -19,6 +19,6 @@ $DESKTOP_AUTOBUILDDIR/make-vanilla-jars -c -j $JAVA_HOME
 mv $COMMONDIR/Common.java.dontcompile $COMMONDIR/Common.java
 
 cp $DESKTOP_BUILDDIR/*.jar $REVDIR/$REVISION
-cat $DESKTOPDIR/.ecjlog | grep -A 3 ". ERROR" > $REVDIR/$REVISION/ecjerrors && exit 1
+cat $DESKTOPDIR/.ecjlog | grep -A 3 "\. ERROR" > $REVDIR/$REVISION/ecjerrors && exit 1
 
 exit 0
