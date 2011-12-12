@@ -158,6 +158,7 @@ import java.util.TreeSet;
 
 public class Kernel extends AbstractKernel{
 		
+	@Override
 	protected void notifyEuclidianViewCE() {
 		if (macroManager != null) 
 			macroManager.notifyEuclidianViewCE();
@@ -279,18 +280,21 @@ public class Kernel extends AbstractKernel{
 	
 	
 	
+	@Override
 	final public Application getApplication() {
 		return app;
 	}		
 	
 	
 	
+	@Override
 	final public EquationSolver getEquationSolver() {
 		if (eqnSolver == null)
 			eqnSolver = new EquationSolver(this);
 		return eqnSolver;
 	}
 	
+	@Override
 	final public ExtremumFinder getExtremumFinder() {
 		if (extrFinder == null)
 			extrFinder = new ExtremumFinder();
@@ -303,6 +307,7 @@ public class Kernel extends AbstractKernel{
 		return regMath;
 	}
 	
+	@Override
 	final public Parser getParser() {
     	if (parser == null)
     		parser = new Parser(this, cons);
@@ -349,6 +354,7 @@ public class Kernel extends AbstractKernel{
 	/**
 	 * Resets the GeoGebraCAS and clears all variables.
 	 */
+	@Override
 	public void resetGeoGebraCAS() {
 		if (!isGeoGebraCASready()) return;
 		
@@ -604,6 +610,7 @@ public class Kernel extends AbstractKernel{
 	 * Returns the macro object for a given macro name.
 	 * Note: null may be returned.
 	 */
+	@Override
 	public Macro getMacro(String name) {
 		return (macroManager == null) ? null : macroManager.getMacro(name);		
 	}		
@@ -650,6 +657,7 @@ public class Kernel extends AbstractKernel{
 	 * Creates a new algorithm that uses the given macro.
 	 * @return output of macro algorithm
 	 */
+	@Override
 	final public GeoElement [] useMacro(String [] labels, MacroInterface macro, GeoElement [] input) {		
 		try {
 			AlgoMacro algo = new AlgoMacro(cons, labels, (Macro)macro, input);
@@ -689,6 +697,7 @@ public class Kernel extends AbstractKernel{
 
 	
 	/** Implicit Polynomial  */
+	@Override
 	final public GeoImplicitPoly ImplicitPoly(String label,Polynomial poly) {
 		GeoImplicitPoly implicitPoly = new GeoImplicitPoly((Construction)cons, label, poly);
 		return implicitPoly;
@@ -810,6 +819,7 @@ public class Kernel extends AbstractKernel{
 	}
 	
 		
+	@Override
 	final public GeoElement  DependentImplicitPoly(String label, Equation equ) {
 		AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly((Construction)cons, label, equ);
 		GeoElement geo = algo.getGeo();
@@ -1189,6 +1199,7 @@ public class Kernel extends AbstractKernel{
 		return s;
 	}
 	
+	@Override
 	public GeoSegmentND SegmentND(
 			String label,
 			GeoPointND P,
@@ -1211,11 +1222,13 @@ public class Kernel extends AbstractKernel{
 	/** 
 	 *  Ray named label through Points P and Q
 	 */
+	@Override
 	final public GeoRay Ray(String label, GeoPoint2 P, GeoPoint2 Q) {
 		AlgoJoinPointsRay algo = new AlgoJoinPointsRay((Construction)cons, label, P, Q);
 		return algo.getRay();
 	}
 	
+	@Override
 	public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
 		return Ray(label, (GeoPoint2) P, (GeoPoint2) Q);
 	}
@@ -1223,6 +1236,7 @@ public class Kernel extends AbstractKernel{
 	/** 
 	 * Ray named label through Point P with direction of vector v
 	 */
+	@Override
 	final public GeoRay Ray(String label, GeoPoint2 P, GeoVector v) {
 		AlgoRayPointVector algo = new AlgoRayPointVector((Construction)cons, label, P, v);
 		return algo.getRay();
@@ -3760,6 +3774,7 @@ public class Kernel extends AbstractKernel{
 		return algo.getOutput();
 	}
 	
+	@Override
 	public GeoElement [] PolygonND(String [] labels, GeoPointND [] P) {
 		return Polygon(labels,P);
 	}
@@ -3784,6 +3799,7 @@ public class Kernel extends AbstractKernel{
 		return algo.getOutput();
 	}
 	
+	@Override
 	public GeoElement [] PolyLineND(String [] labels, GeoPointND [] P) {
 		return PolyLine(labels,P);
 	}
@@ -4296,6 +4312,7 @@ public class Kernel extends AbstractKernel{
 	/** 
 	 * semicircle with midpoint M through point P
 	 */
+	@Override
 	final public GeoConicPart Semicircle(String label, GeoPoint2 M, GeoPoint2 P) {
 		AlgoSemicircle algo = new AlgoSemicircle((Construction)cons, label, (GeoPoint2)M, (GeoPoint2)P);
 		return algo.getSemicircle();
@@ -5826,6 +5843,7 @@ public class Kernel extends AbstractKernel{
 		return g;
 	}	
 	
+	@Override
 	final public GeoPoint2 [] RootMultiple(String [] labels, GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) return null;
@@ -6231,6 +6249,7 @@ public class Kernel extends AbstractKernel{
 	/**
 	 * Returns the kernel settings in XML format.
 	 */
+	@Override
 	public void getKernelXML(StringBuilder sb, boolean asPreference) {
 	
 		// kernel settings
@@ -6308,6 +6327,7 @@ public class Kernel extends AbstractKernel{
 	
 	private AnimationManager animationManager;
 	
+	@Override
 	final public AnimationManager getAnimatonManager() {		
 		if (animationManager == null) {
 			animationManager = new AnimationManager(this);			
@@ -6494,31 +6514,7 @@ public class Kernel extends AbstractKernel{
 	}
 
 	
-	
-	
-	/**
-	 * 
-	 * @param precision
-	 * @return a double comparator which says doubles are equal if their diff is less than precision
-	 */
-	final static public Comparator<Double> DoubleComparator(double precision){
-		
-		final double eps = precision;
-		
-		Comparator<Double> ret = new Comparator<Double>() {
 
-			public int compare(Double d1, Double d2) {
-				if (Math.abs(d1-d2)<eps)
-					return 0;
-				else if (d1<d2)
-					return -1;
-				else
-					return 1;
-			}		
-		};
-		
-		return ret;
-	}
 	
 	/**
 	 * 
@@ -6528,6 +6524,7 @@ public class Kernel extends AbstractKernel{
 		return null;
 	}
 	
+	@Override
 	public GeoNumeric getDefaultNumber(boolean isAngle){
 		return (GeoNumeric)((Construction)cons).getConstructionDefaults().
 			getDefaultGeo(isAngle?AbstractConstructionDefaults.DEFAULT_ANGLE:
@@ -6554,7 +6551,8 @@ public class Kernel extends AbstractKernel{
     	return new GeoLaTeXCache();
     }
     
-    public GeoGebraCasInterface newGeoGebraCAS(){
+    @Override
+	public GeoGebraCasInterface newGeoGebraCAS(){
     	return new geogebra.cas.GeoGebraCAS(this);
     }
 
@@ -6562,22 +6560,27 @@ public class Kernel extends AbstractKernel{
 
 	// This is a temporary place for adapter creation methods which will move into factories later
 
+	@Override
 	public NumberFormatAdapter getNumberFormat(){
 		return new NumberFormatDesktop();
 	}
 	
+	@Override
 	public NumberFormatAdapter getNumberFormat(String pattern){
 		return new NumberFormatDesktop(pattern);
 	}
 	
+	@Override
 	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
 		return new GeoElementGraphicsAdapterDesktop(app);
 	} 
 	
+	@Override
 	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
 		return new ScientificFormat(a, b, c);
 	}
 	private MyMath2 myMath2;
+	@Override
 	public AbstractMyMath2 getMyMath2() {
 		if(myMath2==null)
 			myMath2 = new MyMath2();
@@ -6612,27 +6615,33 @@ public class Kernel extends AbstractKernel{
 		return new GeoPoint2(cons, null, d, e, i);
 	}
 
+	@Override
 	public GeoConicPartInterface newGeoConicPart(Construction cons, int type) {//temporary
 		return new GeoConicPart(cons, type);
 	}
 	
+	@Override
 	public GeoLocusInterface newGeoLocus(Construction cons) {
 		return new GeoLocus(cons);
 	}
 
+	@Override
 	public GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons) {
 		return new GeoImplicitPoly(cons);
 	}
 	
+	@Override
 	public Geo3DVec getGeo3DVec(double x, double y, double z) {
 		return new geogebra3D.kernel3D.Geo3DVec(this, x, y, z);
 	}
 	
+	@Override
 	public UndoManager getUndoManager(Construction cons){
 		return new UndoManager(cons);
 	
 	}
 	
+	@Override
 	public ConstructionDefaults getConstructionDefaults(Construction cons){
 		return new ConstructionDefaults(cons);
 	

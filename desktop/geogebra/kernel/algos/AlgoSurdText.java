@@ -83,7 +83,7 @@ public class AlgoSurdText extends AlgoElement {
 			if ( AbstractKernel.isEqual(decimal - Math.round(decimal) , 0.0, AbstractKernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal)));
 			} else {
-				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, Kernel.EPSILON);
+				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, AbstractKernel.EPSILON);
 				if (frac[1]<10000)
 					Fractionappend(sb, (int)frac[0], (int)frac[1]);
 				else*/

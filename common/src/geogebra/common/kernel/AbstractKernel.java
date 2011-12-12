@@ -2,6 +2,7 @@ package geogebra.common.kernel;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Stack;
@@ -294,6 +295,30 @@ public abstract class AbstractKernel {
 			if (expressionNodeEvaluator == null)
 				expressionNodeEvaluator = newExpressionNodeEvaluator();
 			return expressionNodeEvaluator;
+		}
+		
+		/**
+		 * 
+		 * @param precision
+		 * @return a double comparator which says doubles are equal if their diff is less than precision
+		 */
+		final static public Comparator<Double> DoubleComparator(double precision){
+			
+			final double eps = precision;
+			
+			Comparator<Double> ret = new Comparator<Double>() {
+
+				public int compare(Double d1, Double d2) {
+					if (Math.abs(d1-d2)<eps)
+						return 0;
+					else if (d1<d2)
+						return -1;
+					else
+						return 1;
+				}		
+			};
+			
+			return ret;
 		}
 
 		// This is a temporary place for abstract adapter methods which will go into factories later
