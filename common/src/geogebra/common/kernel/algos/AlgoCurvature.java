@@ -1,25 +1,26 @@
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+
 
 /**
  * @author  Victor Franco Espino, Markus Hohenwarter
  * @version 11-02-2007
  * 
- * Calculate Curvature for curve: k(t) = (a'(t)b''(t)-a''(t)b'(t))/T^3, T = sqrt(a'(t)^2+b'(t)^2)
+ * Calculate Curvature for function:
  */
-public class AlgoCurvatureCurve extends AlgoElement {
+
+public class AlgoCurvature extends AlgoElement {
 
 	private GeoPoint2 A; // input
-	private GeoCurveCartesian f;
+	private GeoFunction f;
     private GeoNumeric K; //output
     
-    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint2 A, GeoCurveCartesian f){
+    public AlgoCurvature(Construction cons, String label, GeoPoint2 A, GeoFunction f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -30,19 +31,19 @@ public class AlgoCurvatureCurve extends AlgoElement {
     	}    	
     }
     
-    AlgoCurvatureCurve(Construction cons, GeoPoint2 A, GeoCurveCartesian f) {
+    public AlgoCurvature(Construction cons, GeoPoint2 A, GeoFunction f) {
         super(cons);
         this.f = f;
         this.A = A;
-        K = new GeoNumeric(cons);             
-		        
+        K = new GeoNumeric(cons);              
+				
         setInputOutput();
         compute();
     }
  
     @Override
 	public String getClassName() {
-        return "AlgoCurvatureCurve";
+        return "AlgoCurvature";
     }
 
     // for AlgoElement
@@ -63,11 +64,15 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
     @Override
 	public final void compute() {
-    	if (f.isDefined()) {	    	
-	    	double t = f.getClosestParameter(A, f.getMinParameter());	    		        
-	        K.setValue( f.evaluateCurvature(t) );
-    	} else {
-    		K.setUndefined();
-    	}
+    	if (f.isDefined())
+    		K.setValue( f.evaluateCurvature(A.inhomX) );
+    	else     	
+    		K.setUndefined();    	
     }   
+    
+	@Override
+	public void remove() {  
+    	super.remove();  
+    }
+
 }
