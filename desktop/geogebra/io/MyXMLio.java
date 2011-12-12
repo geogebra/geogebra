@@ -20,11 +20,11 @@ package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Macro;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

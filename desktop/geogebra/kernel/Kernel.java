@@ -25,6 +25,8 @@ import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.MacroManager;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Transform;
@@ -569,7 +571,7 @@ public class Kernel extends AbstractKernel{
 	 */
 	public void addMacro(Macro macro) {
 		if (macroManager == null) {
-			macroManager = new MacroManager();
+			macroManager = new MacroManager(app);
 		}						
 		macroManager.addMacro(macro);				
 	}

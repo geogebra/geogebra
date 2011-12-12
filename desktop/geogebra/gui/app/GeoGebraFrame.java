@@ -19,10 +19,10 @@ package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
-import geogebra.kernel.Macro;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;

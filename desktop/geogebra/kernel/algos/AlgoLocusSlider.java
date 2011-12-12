@@ -16,6 +16,7 @@ package geogebra.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Macro;
 import geogebra.kernel.MacroKernel;
 import geogebra.main.Application;
 

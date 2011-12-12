@@ -13,13 +13,14 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.NameDescriptionComparator;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Macro;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -221,7 +222,7 @@ implements GeoElementSelectionListener {
 		
 		Application appToSave=app;
 		if(app.getMacro()!=null)
-			appToSave=app.getMacro().getKernel().getApplication();
+			appToSave=(Application)app.getMacro().getKernel().getApplication();
 			
 		
 		Kernel kernel = appToSave.getKernel();
@@ -265,8 +266,8 @@ implements GeoElementSelectionListener {
 	         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 	         null, options, options[1]);     
 	    	if (returnVal == 1 ) return;
-		Kernel kernel = macro.getKernel();
-		Application appToSave = kernel.getApplication();
+		AbstractKernel kernel = macro.getKernel();
+		Application appToSave = (Application) kernel.getApplication();
 		boolean compatible = newTool.getNeededTypesString().equals(macro.getNeededTypesString());
 		for(int i=0;compatible && i<macro.getMacroOutput().length;i++)
 			compatible = compatible &&  macro.getMacroOutput()[i].getClass().equals(newTool.getMacroOutput()[i].getClass());

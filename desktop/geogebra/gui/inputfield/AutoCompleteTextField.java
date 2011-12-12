@@ -1,4 +1,5 @@
 package geogebra.gui.inputfield;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -8,7 +9,6 @@ import geogebra.common.util.Korean;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.kernel.Macro;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

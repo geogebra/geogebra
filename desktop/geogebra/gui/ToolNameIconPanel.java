@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.kernel.Macro;
 import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.kernel.Macro;
 import geogebra.main.Application;
 
 import java.awt.GridBagConstraints;

@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Macro;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

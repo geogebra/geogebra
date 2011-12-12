@@ -3582,6 +3582,20 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 		
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	public MacroKernelInterface newMacroKernel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void removeMacro(Macro macro) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

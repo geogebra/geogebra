@@ -14,6 +14,9 @@ package geogebra.kernel;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.io.MyXMLHandler;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.MacroConstruction;
+import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -28,7 +31,7 @@ import java.util.LinkedHashMap;
 /**
  * Kernel with its own construction for macros.
  */
-public class MacroKernel extends Kernel  {
+public class MacroKernel extends Kernel implements MacroKernelInterface  {
 
 	private Kernel parentKernel;
 	private MacroConstruction macroCons;

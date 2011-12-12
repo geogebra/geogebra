@@ -10,13 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.Locateable;
-import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -43,7 +39,7 @@ import java.util.TreeSet;
  */
 public class Macro implements MacroInterface {
 	
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private String cmdName = "", toolName = "", toolHelp = "";
 	private String iconFileName = ""; // image file		
 	private boolean showInToolBar = true;
@@ -65,7 +61,7 @@ public class Macro implements MacroInterface {
 	 * @param output Array of output objects
 	 * @throws Exception if	macro initialization fails (unnecessary input,	independent output)  
 	 */
-	public Macro(Kernel kernel, String cmdName,  
+	public Macro(AbstractKernel kernel, String cmdName,  
 					GeoElement [] input, GeoElement [] output) 
 	throws Exception {
 		this(kernel, cmdName);				
@@ -78,7 +74,7 @@ public class Macro implements MacroInterface {
 	 * @param kernel Kernel
 	 * @param cmdName Command name
 	 */
-	public Macro(Kernel kernel, String cmdName) { 	
+	public Macro(AbstractKernel kernel, String cmdName) { 	
 		this.kernel = kernel;
 		setCommandName(cmdName);	
 		copyCaptions = true;
@@ -96,7 +92,7 @@ public class Macro implements MacroInterface {
 	 * Returns kernel
 	 * @return kernel
 	 */
-	public Kernel getKernel(){
+	public AbstractKernel getKernel(){
 		return kernel;
 	}
 	
@@ -132,7 +128,7 @@ public class Macro implements MacroInterface {
 	 * @param outputLabels
 	 */
 	public void initMacro(Construction macroCons, String [] inputLabels, String [] outputLabels) {				
-		this.macroCons = (Construction)macroCons;
+		this.macroCons = macroCons;
 		//this.macroConsXML = macroCons.getConstructionXML();
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;	
@@ -417,7 +413,7 @@ public class Macro implements MacroInterface {
 	  */
 	 private Construction createMacroConstruction(String macroConsXML) throws Exception {		 
     	// build macro construction
-    	MacroKernel mk = new MacroKernel(kernel);   
+    	MacroKernelInterface mk = kernel.newMacroKernel();   
     	mk.setContinuous(false);
     	
     	// during initing we turn global variable lookup off, so we can be sure

@@ -9,18 +9,18 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.AbstractUndoManager;
 
 import java.util.HashSet;
 
 /**
  * Construction for macros.
   */
-class MacroConstruction extends Construction {
+public class MacroConstruction extends Construction {
 	
 	private Construction parentCons;
 	private HashSet<String> reservedLabels;
@@ -30,8 +30,8 @@ class MacroConstruction extends Construction {
 	 * Creates new macro construction
 	 * @param kernel Kernel
 	 */
-	public MacroConstruction(MacroKernel kernel) {
-		super(kernel, kernel.getParentKernel().getConstruction());
+	public MacroConstruction(MacroKernelInterface kernel) {
+		super((AbstractKernel)kernel, kernel.getParentKernel().getConstruction());
 		parentCons = kernel.getParentKernel().getConstruction();
 		reservedLabels = new HashSet<String>();
 	}		   
@@ -43,7 +43,7 @@ class MacroConstruction extends Construction {
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		if (undoManager == null)
-			undoManager = new UndoManager(this);
+			undoManager = kernel.getUndoManager(this);
 		
 		undoManager.processXML(xmlString);		
 	}
@@ -100,7 +100,7 @@ class MacroConstruction extends Construction {
      * Set to true if geos of parent costruction should be referenced
      * @param globalVariableLookup true if geos of parent costruction should be referenced
      */
-	void setGlobalVariableLookup(boolean globalVariableLookup) {
+	public void setGlobalVariableLookup(boolean globalVariableLookup) {
 		this.globalVariableLookup = globalVariableLookup;
 	}
 }

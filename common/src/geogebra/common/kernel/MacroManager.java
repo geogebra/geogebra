@@ -10,11 +10,12 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
+
+import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 /**
  * Manages macros (user defined tools).
@@ -25,23 +26,25 @@ public class MacroManager {
 	
 	private HashMap<String, Macro> macroMap; // maps macro name to macro object
 	private ArrayList<Macro> macroList; // lists all macros	
+	private AbstractApplication app;
 	
-	public MacroManager() {
+	public MacroManager(AbstractApplication app) {
 		macroMap = new HashMap<String, Macro>();
 		macroList = new ArrayList<Macro>();
+		this.app = app;
 	}
 		
 	public void addMacro(Macro macro) {						
-		macroMap.put(macro.getCommandName().toLowerCase(Locale.US), macro);
+		macroMap.put(app.toLowerCase(macro.getCommandName()), macro);
 		macroList.add(macro);
 	}
 	
 	public Macro getMacro(String name) {
-		return (Macro) macroMap.get(name.toLowerCase(Locale.US));
+		return (Macro) macroMap.get(app.toLowerCase(name));
 	}
 	
 	public void removeMacro(Macro macro) {
-		macroMap.remove(macro.getCommandName().toLowerCase(Locale.US));	
+		macroMap.remove(app.toLowerCase(macro.getCommandName()));	
 		macroList.remove(macro);		
 	}	
 	
@@ -56,9 +59,9 @@ public class MacroManager {
 	 * Sets the command name of a macro.
 	 */
 	public void setMacroCommandName(Macro macro, String cmdName) {
-		macroMap.remove(macro.getCommandName().toLowerCase(Locale.US));
+		macroMap.remove(app.toLowerCase(macro.getCommandName()));
 		macro.setCommandName(cmdName);
-		macroMap.put(macro.getCommandName().toLowerCase(Locale.US), macro);			
+		macroMap.put(app.toLowerCase(macro.getCommandName()), macro);			
 	}
 	
 	public Macro getMacro(int i) {
@@ -96,7 +99,7 @@ public class MacroManager {
 	/**
 	 * Updates all macros that need to be 
 	 */
-	final void notifyEuclidianViewCE() {		
+	public final void notifyEuclidianViewCE() {		
 		// save selected macros
 		for (int i=0; i < macroList.size(); i++) {			
 			Macro macro = (Macro) macroList.get(i);			

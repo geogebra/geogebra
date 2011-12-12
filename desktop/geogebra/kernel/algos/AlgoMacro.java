@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
@@ -32,7 +33,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Macro;
 
 import java.util.ArrayList;
 import java.util.HashMap;
