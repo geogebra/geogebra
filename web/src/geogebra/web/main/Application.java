@@ -1,13 +1,13 @@
 package geogebra.web.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 

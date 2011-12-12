@@ -11,7 +11,8 @@
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
-  <!-- Other module inherits                                      -->
+  <!-- Other module inherits        -->
+  <inherits name='com.google.gwt.xml.XML' /> 
   <inherits name='geogebra.Common'/>
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
