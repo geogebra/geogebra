@@ -4643,13 +4643,13 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	final public void removeSelectedGeo(Object geo, boolean repaint) {
+	final public void removeSelectedGeo(GeoElement geo, boolean repaint) {
 		if (geo == null) {
 			return;
 		}
 
 		selectedGeos.remove(geo);
-		((GeoElement) geo).setSelected(false);
+		geo.setSelected(false);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
@@ -6460,16 +6460,16 @@ public class Application extends AbstractApplication implements
 
 	// TODO: change parameter to GeoElement once it is ported
 	@Override
-	public String getTraceXML(Object ge) {
+	public String getTraceXML(GeoElement ge) {
 		return getGuiManager().getSpreadsheetView().getTraceManager()
-				.getTraceXML((GeoElement) ge);
+				.getTraceXML( ge);
 	}
 
 	@Override
-	public void changeLayer(Object ge, int layer, int layer2) {
+	public void changeLayer(GeoElement ge, int layer, int layer2) {
 		EuclidianViewInterface ev = getActiveEuclidianView();// app.getEuclidianView();
 		if (ev != null) {
-			ev.changeLayer((GeoElement) ge, ((GeoElement) ge).layer, layer);
+			ev.changeLayer(ge,  ge.layer, layer2);
 		}
 
 	}

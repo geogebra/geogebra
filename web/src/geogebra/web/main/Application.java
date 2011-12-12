@@ -254,19 +254,19 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public Object getTraceXML(Object geoElement) {
+	public Object getTraceXML(GeoElement geoElement) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void removeSelectedGeo(Object geoElement, boolean b) {
+	public void removeSelectedGeo(GeoElement geoElement, boolean b) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void changeLayer(Object ge, int layer, int layer2) {
+	public void changeLayer(GeoElement ge, int layer, int layer2) {
 		// TODO Auto-generated method stub
 
 	}

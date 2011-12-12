@@ -126,11 +126,11 @@ public abstract class AbstractApplication {
 
 	public abstract void initJavaScriptViewWithoutJavascript();
 
-	public abstract Object getTraceXML(Object geoElement);
+	public abstract Object getTraceXML(GeoElement geoElement);
 
-	public abstract void removeSelectedGeo(Object geoElement, boolean b);
+	public abstract void removeSelectedGeo(GeoElement geoElement, boolean b);
 
-	public abstract void changeLayer(Object ge, int layer, int layer2);
+	public abstract void changeLayer(GeoElement ge, int layer, int layer2);
 
 	public abstract boolean freeMemoryIsCritical();
 
