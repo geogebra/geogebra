@@ -21,6 +21,14 @@ public class NumberFormat extends Format implements NumberFormatAdapter {
 	private int minimumFractionDigits = 0;
 	private boolean groupingUsed;
 	 
+	public NumberFormat(String s) {
+	   this.nf = com.google.gwt.i18n.client.NumberFormat.getFormat(s);
+    }
+
+	public NumberFormat() {
+	    // TODO Auto-generated constructor stub
+    }
+
 	@Override
 	public int getMaximumFractionDigits() {
 		return maximumFractionDigits;

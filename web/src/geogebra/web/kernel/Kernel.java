@@ -47,30 +47,6 @@ public class Kernel extends AbstractKernel {
 	}
 
 	@Override
-    public Color getColorAdapter(int red, int green, int blue) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Color getColorAdapter(int red, int green, int blue, int alpha) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Color getColorAdapter(float red, float green, float blue) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Color getColorAdapter(float red, float green, float blue, float alpha) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public NumberFormatAdapter getNumberFormat() {
 	    // TODO Auto-generated method stub
 	    return new NumberFormat();
@@ -79,7 +55,7 @@ public class Kernel extends AbstractKernel {
 	@Override
     public NumberFormatAdapter getNumberFormat(String s) {
 	    // TODO Auto-generated method stub
-	    return null;
+	    return new NumberFormat(s);
     }
 
 	@Override
