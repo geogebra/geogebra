@@ -3,9 +3,14 @@ package geogebra.web.main;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.util.collect.HashMap;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ImageElement;
+
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -32,6 +37,8 @@ public class Application extends AbstractApplication {
 	
 	private boolean[] showAxes = {true,true};
 	private boolean showGrid = false;
+	
+	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
 
 
 	@Override
@@ -409,7 +416,7 @@ public class Application extends AbstractApplication {
 	
 	private void loadFile(Map<String, String> archive) throws ConstructionException {
 		// Reset file
-		//tmpimages.clear();
+		images.clear();
 		
 		// Handling of construction and macro file
 		String construction = archive.remove("geogebra.xml");
@@ -436,14 +443,48 @@ public class Application extends AbstractApplication {
 		*/
 		ArrayList<String> keys = new ArrayList<String>(archive.keySet());
 		for (String key : keys) {
-			GWT.log(key+" :  "+archive.remove(key));
-			//maybeProcessImage(key,archive.remove(key));
+			//GWT.log(key+" :  "+archive.remove(key));
+			maybeProcessImage(key,archive.remove(key));
 		}
 		
 		// Process Construction
 		construction = DataUtil.utf8Decode(construction);
-		GWT.log(construction);
 		//tmpmyXMLio.processXmlString(construction, true, false);
+	}
+	
+	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
+	static {
+		IMAGE_EXTENSIONS.add("bmp");
+		IMAGE_EXTENSIONS.add("gif");
+		IMAGE_EXTENSIONS.add("jpg");
+		IMAGE_EXTENSIONS.add("png");
+	}
+	private void maybeProcessImage(String filename, String binaryContent) {
+		String fn = filename.toLowerCase();
+		if (fn.equals("geogebra_thumbnail.png")) {
+			return;			// Ignore thumbnail
+		}
+		
+		int index = fn.lastIndexOf('.');
+		if (index == -1) {
+			return;			// Ignore files without extension
+		}
+		
+		String ext = fn.substring(index + 1);
+		if (! IMAGE_EXTENSIONS.contains(ext)) {
+			return;			// Ignore non image files
+		}
+		
+		String base64 = DataUtil.base64Encode(binaryContent);
+		images.put(filename, createImage(ext, base64));
+	}
+	
+	private ImageElement createImage(String ext, String base64) {
+		String dataUrl = "data:image/" + ext + ";base64," + base64;
+		ImageElement image = Document.get().createImageElement();
+		image.setSrc(dataUrl);
+		
+		return image;
 	}
 
 	@Override
