@@ -14,6 +14,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.GeoGebra3D;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -33,6 +34,7 @@ import geogebra.io.MyXMLHandler;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.kernelND.GeoPlaneND;
+import geogebra.main.Application;
 import geogebra3D.Application3D;
 import geogebra3D.io.MyXMLHandler3D;
 import geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
@@ -194,7 +196,8 @@ public class Kernel3D extends Kernel {
 	 * @param kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
-	protected AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
+	@Override
+	public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel){
 		return new AlgebraProcessor3D(kernel);
 	}
 

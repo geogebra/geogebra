@@ -55,7 +55,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		createPolyhedron(polyhedron);
-		polyhedron.updateFaces();
+		updateFaces();
 		
 		compute();
 		
@@ -65,7 +65,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			input[i] = (GeoElement) points[i];		
 		addAlgoToInput();
 		
-		polyhedron.updateFaces();
+		updateFaces();
 		setOutput();
 		
 		
@@ -104,7 +104,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 
 		
-		polyhedron.updateFaces();
+		updateFaces();
 		setOutput(); 
         
         setLabels(labels);
@@ -146,7 +146,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		input[1]=(GeoElement) height;
 		addAlgoToInput();
 		
-		polyhedron.updateFaces();
+		updateFaces();
 		setOutput(); 
 		
 		if (height instanceof GeoNumeric){
@@ -165,6 +165,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
         polyhedron.initLabels(labels);
 	}
 
+    private void updateFaces(){
+    	getPolyhedron().updateFacesDeprecated();
+    }
 	
 	/**
 	 * create the polyhedron (faces and edges)
@@ -181,7 +184,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * @param polyhedron
 	 * @return bottom key (if one)
 	 */
-	protected long setBottom(GeoPolyhedron polyhedron){
+	protected int setBottom(GeoPolyhedron polyhedron){
 		if (bottom!=null){
 			polyhedron.addPolygonLinked(bottom);
 			return -1;

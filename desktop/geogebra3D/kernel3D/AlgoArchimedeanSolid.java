@@ -67,7 +67,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		setInput();	
 		addAlgoToInput();
 		
-		polyhedron.updateFaces();
+		polyhedron.updateFacesDeprecated();
 		polyhedron.setReverseNormals();
 		setOutput();
 		

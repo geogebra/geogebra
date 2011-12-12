@@ -1,11 +1,13 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -23,11 +25,13 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	
 	
 
-	public AlgebraProcessor3D(Kernel kernel) {
+	public AlgebraProcessor3D(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
-	protected CommandDispatcher newCommandDispatcher(Kernel kernel){
+	@Override
+	final protected AbstractCommandDispatcher newCommandDispatcher(
+			AbstractKernel kernel) {
 		return new CommandDispatcher3D(kernel);
 	}
 	

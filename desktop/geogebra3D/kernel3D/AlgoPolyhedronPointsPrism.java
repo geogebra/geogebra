@@ -16,7 +16,7 @@ import geogebra.main.Application;
 public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 
-	private long[] faces;
+	private int[] faces;
 	private GeoPointND[] points;
 
 	/**
@@ -85,7 +85,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		//faces
 		///////////
 		
-		faces = new long[2+bottomPointsLength];
+		faces = new int[2+bottomPointsLength];
 		
 		//bottom
 		faces[0]=setBottom(polyhedron);
@@ -180,7 +180,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polyhedron.endCurrentFace();
 		}
 		
-		polyhedron.updateFaces();
+		polyhedron.updateFacesDeprecated();
 		
 	}
 	

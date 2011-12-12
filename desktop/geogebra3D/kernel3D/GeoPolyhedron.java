@@ -49,13 +49,15 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	protected TreeMap<ConstructionElementCycle, GeoSegmentND> segmentsLinked;
 
 	/** faces index */
-	protected TreeMap<ConstructionElementCycle, Long> polygonsIndex;
+	protected TreeMap<ConstructionElementCycle, Integer> polygonsIndex;
+	/** faces descriptions */
+	protected ArrayList<ConstructionElementCycle> polygonsDescriptions;
 
 	/** max faces index */
-	protected long polygonsIndexMax = 0;
+	protected int polygonsIndexMax = 0;
 
 	/** faces */
-	protected TreeMap<Long, GeoPolygon3D> polygons;
+	protected TreeMap<Integer, GeoPolygon3D> polygons;
 
 	/** faces linked */
 	protected TreeSet<GeoPolygon> polygonsLinked;
@@ -81,8 +83,9 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		polygonsIndex = new TreeMap<ConstructionElementCycle, Long>();
-		polygons = new TreeMap<Long, GeoPolygon3D>();
+		polygonsIndex = new TreeMap<ConstructionElementCycle, Integer>();
+		polygonsDescriptions = new ArrayList<ConstructionElementCycle>();
+		polygons = new TreeMap<Integer, GeoPolygon3D>();
 
 		segmentsIndex = new TreeMap<ConstructionElementCycle, Long>();
 		segments = new TreeMap<Long, GeoSegment3D>();
@@ -149,11 +152,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	 * ends the current face and store it in the faces list
 	 * @return face created
 	 */
-	public long endCurrentFace() {
+	public int endCurrentFace() {
 		currentFace.setDirection();
 
 		//add to index
-		polygonsIndex.put(currentFace, new Long(polygonsIndexMax));
+		polygonsIndex.put(currentFace, new Integer(polygonsIndexMax));
+		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
 		
 		return polygonsIndexMax-1;
@@ -165,19 +169,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	/**
 	 * update the faces regarding vertices and faces description
 	 */
-	public void updateFaces() {
-
-		/*
-		 * //remove old faces and edges for (ConstructionElementCycle key :
-		 * oldPolygons){
-		 * 
-		 * GeoPolygon3D polygon = polygons.get(key); if (polygon!=null){
-		 * Application.debug("polygon : "+polygon.getLabel()); polygon.remove();
-		 * polygons.remove(key); } } for (ConstructionElementCycle key :
-		 * oldSegments){ GeoSegment3D segment = segments.get(key); if
-		 * (segment!=null){ Application.debug("segment : "+segment.getLabel());
-		 * segment.remove(); segments.remove(key); } }
-		 */
+	public void updateFacesDeprecated() {
 
 		// create missing faces
 		for (ConstructionElementCycle currentFace : polygonsIndex.keySet()) {
@@ -212,15 +204,61 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 			// last segment
 			s[j] = createSegment(endPoint, firstPoint);
 
-			/*
+			
 			String st = "poly : ";
 			for (int i = 0; i < p.length; i++)
 				st += p[i].getLabel();
 			Application.debug(st);
-			*/
+			
 
 			GeoPolygon3D polygon = createPolygon(p);
 			polygons.put(polygonsIndex.get(currentFace), polygon);
+			polygon.setSegments(s);
+		}
+	}
+	
+	
+	public void updateFaces() {
+
+		for (int index = 0; index<polygonsDescriptions.size(); index++) {
+
+
+			currentFace = polygonsDescriptions.get(index);
+
+			// vertices of the face
+			GeoPointND[] p = new GeoPointND[currentFace.size()];
+
+			// edges linked to the face
+			GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
+
+			Iterator<ConstructionElement> it2 = currentFace.iterator();
+			GeoPointND endPoint = (GeoPointND) it2.next();
+			int j = 0;
+			p[j] = endPoint; // first point for the polygon
+			GeoPointND firstPoint = endPoint;
+			for (; it2.hasNext();) {
+				// creates edges
+				GeoPointND startPoint = endPoint;
+				endPoint = (GeoPointND) it2.next();
+				s[j] = createSegment(startPoint, endPoint);
+
+				// points for the polygon
+				j++;
+				p[j] = endPoint;
+
+			}
+			// last segment
+			s[j] = createSegment(endPoint, firstPoint);
+
+			
+			String st = "poly : ";
+			for (int i = 0; i < p.length; i++)
+				st += p[i].getLabel();
+			Application.debug(st);
+			
+
+			GeoPolygon3D polygon = createPolygon(p);
+			polygons.put(index, polygon);
 			polygon.setSegments(s);
 		}
 	}
@@ -618,7 +656,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		return polygonsArray;
 	}
 	
-	public GeoPolygon3D getFace(long index){
+	public GeoPolygon3D getFace(int index){
 		return polygons.get(index);
 	}
 
@@ -856,6 +894,8 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 			polygons.putAll(polyhedron.polygons);
 			polygonsIndex.clear();
 			polygonsIndex.putAll(polyhedron.polygonsIndex);
+			polygonsDescriptions.clear();
+			polygonsDescriptions.addAll(polyhedron.polygonsDescriptions);
 			polygonsLinked.clear();
 			polygonsLinked.addAll(polyhedron.polygonsLinked);
 			polygonsIndexMax = polyhedron.polygonsIndexMax;
