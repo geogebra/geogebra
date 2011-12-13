@@ -1143,8 +1143,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (classname.startsWith("AlgoDependent")) {
 			cmdname = "Expression";
 		} else if (classname.equals("AlgoPointOnPath")) {
-			cmdname = kernel.temporaryGetInterGeoStringForAlgoPointOnPath(
-					classname, this);
+			AlgoPointOnPath algo1 = (AlgoPointOnPath) this;
+			cmdname = getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());
 		} else {
 			// translate algorithm class name to Intergeo name
 			cmdname = getIntergeoString(classname);

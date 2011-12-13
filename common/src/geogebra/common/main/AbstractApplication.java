@@ -446,6 +446,11 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public boolean isUsingLocalizedDigits() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }

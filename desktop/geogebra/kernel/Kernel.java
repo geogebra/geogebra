@@ -670,21 +670,7 @@ public class Kernel extends AbstractKernel{
 		return (GeoCurveCartesian) algo.getCurve();		
 	}	
 	
-	/**
-	 * Converts a NumberValue object to an ExpressionNode object. 
-	 */
-	public ExpressionNode convertNumberValueToExpressionNode(NumberValue nv) {
-		GeoElement geo = (GeoElement)nv.toGeoElement();
-		AlgoElement algo = geo.getParentAlgorithm();
-		
-		if (algo != null && algo instanceof AlgoDependentNumber) {
-			AlgoDependentNumber algoDep = (AlgoDependentNumber) algo;
-			return algoDep.getExpression().getCopy(this);
-		}
-		else {
-			return new ExpressionNode(this, geo);
-		}		
-	}
+	
 	
 		
 	@Override
@@ -1055,196 +1041,11 @@ public class Kernel extends AbstractKernel{
 		return n;
 	}
 
-	/** 
-		* LineSegment named label from Point P to Point Q
-		*/
-	final public GeoSegment Segment(
-		String label,
-		GeoPoint2 P,
-		GeoPoint2 Q) {
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, label, P, Q);
-		GeoSegment s = algo.getSegment();
-		return s;
-	}
 	
-	@Override
-	public GeoSegmentND SegmentND(
-			String label,
-			GeoPointND P,
-			GeoPointND Q) {
-			
-			return Segment(label, (GeoPoint2) P, (GeoPoint2) Q);
-		}
-
-	/** 
-	 * Line named label through Points P and Q
-	 */
-	final public GeoLine Line(String label, GeoPoint2 P, GeoPoint2 Q) {
-		AlgoJoinPoints algo = new AlgoJoinPoints((Construction)cons, label, P, Q);
-		GeoLine g = algo.getLine();
-		return g;
-	}
-
-
-
-	/** 
-	 *  Ray named label through Points P and Q
-	 */
-	@Override
-	final public GeoRay Ray(String label, GeoPoint2 P, GeoPoint2 Q) {
-		AlgoJoinPointsRay algo = new AlgoJoinPointsRay((Construction)cons, label, P, Q);
-		return algo.getRay();
-	}
 	
-	@Override
-	public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
-		return Ray(label, (GeoPoint2) P, (GeoPoint2) Q);
-	}
-
-	/** 
-	 * Ray named label through Point P with direction of vector v
-	 */
-	@Override
-	final public GeoRay Ray(String label, GeoPoint2 P, GeoVector v) {
-		AlgoRayPointVector algo = new AlgoRayPointVector((Construction)cons, label, P, v);
-		return algo.getRay();
-	}
 	
-	/** 
-	* Line named label through Point P parallel to Line l
-	*/
-	final public GeoLine Line(String label, GeoPoint2 P, GeoLine l) {
-		AlgoLinePointLine algo = new AlgoLinePointLine(cons, label, P, l);
-		GeoLine g = algo.getLine();
-		return g;
-	}
+	
 
-	/** 
-	* Line named label through Point P orthogonal to vector v
-	*/
-	final public GeoLine OrthogonalLine(
-		String label,
-		GeoPoint2 P,
-		GeoVector v) {
-		AlgoOrthoLinePointVector algo =
-			new AlgoOrthoLinePointVector((Construction)cons, label, P, v);
-		GeoLine g = algo.getLine();
-		return g;
-	}
-
-	/** 
-	 * Line named label through Point P orthogonal to line l
-	 */
-	final public GeoLine OrthogonalLine(
-		String label,
-		GeoPoint2 P,
-		GeoLine l) {
-		AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine((Construction)cons, label, P, l);
-		GeoLine g = algo.getLine();
-		return g;
-	}
-
-	public GeoLineND OrthogonalLine(
-			String label,
-			GeoPointND P,
-			GeoLineND l, 
-			GeoDirectionND direction) {
-		return OrthogonalLine(label, (GeoPoint2) P, (GeoLine) l);
-	}
-
-
-	/** 
-	 * Line bisector of points A, B
-	 */
-	final public GeoLine LineBisector(
-		String label,
-		GeoPoint2 A,
-		GeoPoint2 B) {
-		AlgoLineBisector algo = new AlgoLineBisector(cons, label, A, B);
-		GeoLine g = algo.getLine();
-		return g;
-	}
-
-	/** 
-	  * Line bisector of segment s
-	  */
-	final public GeoLine LineBisector(String label, GeoSegment s) {
-		AlgoLineBisectorSegment algo = new AlgoLineBisectorSegment((Construction)cons, label, s);
-		GeoLine g = algo.getLine();
-		return g;		
-	}
-
-	/** 
-	 * Angular bisector of points A, B, C
-	 */
-	final public GeoLine AngularBisector(
-		String label,
-		GeoPoint2 A,
-		GeoPoint2 B,
-		GeoPoint2 C) {
-		AlgoAngularBisectorPoints algo =
-			new AlgoAngularBisectorPoints((Construction)cons, label, A, B, C);
-		GeoLine g = algo.getLine();
-		return g;
-	}
-
-	/** 
-	 * Angular bisectors of lines g, h
-	 */
-	final public GeoLine[] AngularBisector(
-		String[] labels,
-		GeoLine g,
-		GeoLine h) {
-		AlgoAngularBisectorLines algo =
-			new AlgoAngularBisectorLines((Construction)cons, labels, g, h);
-		GeoLine[] lines = algo.getLines();
-		return lines;
-	}
-
-	/** 
-	 * Vector named label from Point P to Q
-	 */
-	final public GeoVector Vector(
-		String label,
-		GeoPoint2 P,
-		GeoPoint2 Q) {
-		AlgoVector algo = new AlgoVector(cons, label, P, Q);
-		GeoVector v = (GeoVector) algo.getVector();
-		v.setEuclidianVisible(true);
-		v.update();
-		notifyUpdate(v);
-		return v;
-	}
-
-	/** 
-	* Vector (0,0) to P
-	*/
-	final public GeoVector Vector(String label, GeoPoint2 P) {
-		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, P);
-		GeoVector v = algo.getVector();
-		v.setEuclidianVisible(true);
-		v.update();
-		notifyUpdate(v);
-		return v;
-	}
-
-	/** 
-	 * Direction vector of line g
-	 */
-	final public GeoVector Direction(String label, GeoLine g) {
-		AlgoDirection algo = new AlgoDirection(cons, label, g);
-		GeoVector v = algo.getVector();
-		return v;
-	}
-
-	/** 
-	 * Slope of line g
-	 */
-	final public GeoNumeric Slope(String label, GeoLine g) {
-		AlgoSlope algo = new AlgoSlope(cons, label, g);
-		GeoNumeric slope = algo.getSlope();
-		return slope;
-	}	
 	
 	/** 
 	 * BarChart	
@@ -6114,77 +5915,7 @@ public class Kernel extends AbstractKernel{
 		isSaving = saving;
 	}
 	
-	/**
-	 * Returns the kernel settings in XML format.
-	 */
-	@Override
-	public void getKernelXML(StringBuilder sb, boolean asPreference) {
-	
-		// kernel settings
-		sb.append("<kernel>\n");
-	
-		// continuity: true or false, since V3.0
-		sb.append("\t<continuous val=\"");
-		sb.append(isContinuous());
-		sb.append("\"/>\n");
 		
-		if (useSignificantFigures) {
-			// significant figures
-			sb.append("\t<significantfigures val=\"");
-			sb.append(getPrintFigures());
-			sb.append("\"/>\n");			
-		}
-		else
-		{
-			// decimal places
-			sb.append("\t<decimals val=\"");
-			sb.append(getPrintDecimals());
-			sb.append("\"/>\n");
-		}
-		
-		// angle unit
-		sb.append("\t<angleUnit val=\"");
-		sb.append(getAngleUnit() == AbstractKernel.ANGLE_RADIANT ? "radiant" : "degree");
-		sb.append("\"/>\n");
-		
-		// algebra style
-		sb.append("\t<algebraStyle val=\"");
-		sb.append(algebraStyle);
-		sb.append("\"/>\n");
-		
-		// coord style
-		sb.append("\t<coordStyle val=\"");
-		sb.append(getCoordStyle());
-		sb.append("\"/>\n");
-		
-		// whether return angle from inverse trigonometric functions
-		if (!asPreference) {
-			sb.append("\t<angleFromInvTrig val=\"");
-			sb.append(getInverseTrigReturnsAngle());
-			sb.append("\"/>\n");
-		}
-		
-		// animation
-		if (isAnimationRunning()) {
-			sb.append("\t<startAnimation val=\"");
-			sb.append(isAnimationRunning());
-			sb.append("\"/>\n");
-		}
-		
-		if (asPreference) {
-			sb.append("\t<localization");
-			sb.append(" digits=\"");
-			sb.append(app.isUsingLocalizedDigits());
-			sb.append("\"");
-			sb.append(" labels=\"");
-			sb.append(app.isUsingLocalizedLabels());
-			sb.append("\"");
-			sb.append("/>\n");
-		}
-	
-		sb.append("</kernel>\n");
-	}
-	
 	
 	
 
@@ -6214,7 +5945,7 @@ public class Kernel extends AbstractKernel{
 	
 	String libraryJavaScript = defaultLibraryJavaScript;
 
-	private boolean wantAnimationStarted = false;
+	
 	
 	public void resetLibraryJavaScript() {
 		libraryJavaScript = defaultLibraryJavaScript;
@@ -6287,16 +6018,7 @@ public class Kernel extends AbstractKernel{
 	
 	
 	
-	/*
-	 * used to delay animation start until everything loaded
-	 */
-	public void setWantAnimationStarted(boolean b) {
-		wantAnimationStarted   = true;		
-	}
 	
-	public boolean wantAnimationStarted() {
-		return wantAnimationStarted;
-	}
 
 	/**
 	 * Determine whether point is inregion
@@ -6449,31 +6171,12 @@ public class Kernel extends AbstractKernel{
 		return new GgbMat((MyList)myList);
 	}
 
-	@Override
-	public String temporaryGetInterGeoStringForAlgoPointOnPath(String classname, AlgoElement algo) {
-    	AlgoPointOnPath algo1 = (AlgoPointOnPath) algo;
-    	return algo.getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());	
-    }
-
+	
 		
-	@Override
-	public GeoConicInterface getGeoConic() {
-		return new GeoConic(getConstruction());
-	}
-
-	@Override
-	public GeoPoint2 getGeoPoint(double d, double e, int i) {
-		return new GeoPoint2(cons, null, d, e, i);
-	}
-
+	
 	@Override
 	public GeoConicPartInterface newGeoConicPart(Construction cons, int type) {//temporary
 		return new GeoConicPart(cons, type);
-	}
-	
-	@Override
-	public GeoLocusInterface newGeoLocus(Construction cons) {
-		return new GeoLocus(cons);
 	}
 
 	@Override

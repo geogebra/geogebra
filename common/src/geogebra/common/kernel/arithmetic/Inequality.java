@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -65,12 +66,12 @@ public class Inequality {
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
 	 * NumberValue and build an Inequality out of them
 	 * 
-	 * @param kernel
-	 * @param lhs
-	 * @param rhs
-	 * @param op
-	 * @param fv
-	 * @param function
+	 * @param kernel Kernel
+	 * @param lhs left hand side of the equation
+	 * @param rhs right hand side of the equation
+	 * @param op operation
+	 * @param fv variable
+	 * @param function function to which this ineq belongs 
 	 */
 	public Inequality(AbstractKernel kernel, ExpressionValue lhs, ExpressionValue rhs,
 			Operation op, FunctionVariable[] fv, FunctionalNVar function) {
@@ -159,7 +160,7 @@ public class Inequality {
 			Polynomial newBorder =  equ.getNormalForm();			
 			if(newBorder.degree()<3){
 				if (conicBorder == null)
-					conicBorder = kernel.getGeoConic();
+					conicBorder = new GeoConic(kernel.getConstruction());
 				//conicBorder.setLabel("res");
 				conicBorder.setCoeffs(equ.getNormalForm().getCoeff());
 				type = INEQUALITY_CONIC;

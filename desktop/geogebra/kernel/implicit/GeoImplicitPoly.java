@@ -38,6 +38,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoUserInputElement;
@@ -87,7 +88,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		degX=-1;
 		degY=-1;
 		coeffSquarefree=new double[0][0];
-		locus=kernel.newGeoLocus(c);
+		locus=new GeoLocus(c);
 		locus.setDefined(true);
 		calcPath=true;
 		c.registerEuclidianViewCE(this);

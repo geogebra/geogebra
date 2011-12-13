@@ -434,7 +434,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			double[] point = new double[2];
 			point[0] = funX.evaluate(v);
 			point[1] = funY.evaluate(v);
-			pointList.add(kernel.getGeoPoint( point[0], point[1], 1));
+			pointList.add(new GeoPoint2(cons, point[0], point[1], 1));
 		}
 
 		return pointList;

@@ -134,30 +134,8 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
-	@Override
-    public Object Ray(String label, GeoPoint2 P, GeoPoint2 Q) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Object RayND(String label, GeoPointND P, GeoPointND Q) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Object Ray(String label, GeoPoint2 P, GeoVector v) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
+	
 	@Override
     public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
 	    // TODO Auto-generated method stub
@@ -175,12 +153,7 @@ public class Kernel extends AbstractKernel {
 	    // TODO Auto-generated method stub
 	    return null;
     }
-
-	@Override
-    public GeoLocusInterface newGeoLocus(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	
 
 	@Override
     public GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons) {
@@ -188,13 +161,7 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    public String temporaryGetInterGeoStringForAlgoPointOnPath(
-            String classname, AlgoElement algo) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
+	
 	@Override
     public ParserInterface getParser() {
 	    // TODO Auto-generated method stub
@@ -202,19 +169,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoConicInterface getGeoConic() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public ExtremumFinder getExtremumFinder() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoPoint2 getGeoPoint(double d, double e, int i) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -227,12 +182,6 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public void resetGeoGebraCAS() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void getKernelXML(StringBuilder sb, boolean b) {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -280,14 +229,6 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	
-
-	@Override
-    public ExpressionNode convertNumberValueToExpressionNode(
-            NumberValue numberValue) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public GeoElement createGeoElement(Construction cons2, String type) {

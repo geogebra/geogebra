@@ -20,10 +20,12 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.AbstractKernel;
@@ -40,7 +42,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
 	private GeoPointND A, B, C; // input
 	// protected GeoConicND circle; // output
-	protected GeoConicNDInterface circle; // output
+	protected GeoConicND circle; // output
 
 	// line bisectors
 	private GeoLine s0, s1;
@@ -111,7 +113,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 	 * create the object circle
 	 */
 	protected void createCircle() {
-		circle = kernel.getGeoConic();
+		circle = new GeoConic(cons);
 	}
 
 	@Override

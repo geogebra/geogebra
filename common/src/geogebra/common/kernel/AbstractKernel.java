@@ -5,6 +5,8 @@ import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.algos.AlgoAngleNumeric;
+import geogebra.common.kernel.algos.AlgoAngularBisectorLines;
+import geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDependentBoolean;
 import geogebra.common.kernel.algos.AlgoDependentConic;
@@ -19,10 +21,23 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
+import geogebra.common.kernel.algos.AlgoJoinPoints;
+import geogebra.common.kernel.algos.AlgoJoinPointsRay;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoLineBisector;
+import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
+import geogebra.common.kernel.algos.AlgoLinePointLine;
 import geogebra.common.kernel.algos.AlgoLinePointVector;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointVector;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.AlgoRayPointVector;
+import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoVector;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -60,12 +75,17 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoRay;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
@@ -226,6 +246,8 @@ public abstract class AbstractKernel {
 	// i.e. in silentMode no labels are created and no objects are added to
 	// views
 	private boolean silentMode = false;
+	
+	private boolean wantAnimationStarted = false;
 
 	// setResolveUnkownVarsAsDummyGeos
 	private boolean resolveUnkownVarsAsDummyGeos = false;
@@ -3239,14 +3261,6 @@ public abstract class AbstractKernel {
 
 	public abstract GeoNumeric getDefaultNumber(boolean geoAngle);
 
-	public abstract GeoSegmentND SegmentND(String label, GeoPointND P,
-			GeoPointND Q);
-
-	public abstract Object Ray(String label, GeoPoint2 P, GeoPoint2 Q);// GeoRay
-
-	public abstract Object RayND(String label, GeoPointND P, GeoPointND Q);// GeoRayND
-
-	public abstract Object Ray(String label, GeoPoint2 P, GeoVector v);// GeoRay
 
 	public abstract GeoElement[] PolygonND(String[] labels, GeoPointND[] P);
 
@@ -3255,53 +3269,21 @@ public abstract class AbstractKernel {
 	public abstract GeoConicPartInterface newGeoConicPart(Construction cons,
 			int type);
 
-	public abstract GeoLocusInterface newGeoLocus(Construction cons);
 
 	public abstract GeoImplicitPolyInterface newGeoImplicitPoly(
 			Construction cons);
 
 	// temporary methods just while moving things
 
-	/**
-	 * @deprecated
-	 * @param d
-	 * @param e
-	 * @param i
-	 * @return
-	 */
-	@Deprecated
-	public abstract String temporaryGetInterGeoStringForAlgoPointOnPath(
-			String classname, AlgoElement algo);
-
 	public abstract ParserInterface getParser();
 
-	/**
-	 * @deprecated
-	 * @param d
-	 * @param e
-	 * @param i
-	 * @return
-	 */
-	@Deprecated
-	public abstract GeoConicInterface getGeoConic();
 
 	public abstract ExtremumFinder getExtremumFinder();
-
-	/**
-	 * @deprecated
-	 * @param d
-	 * @param e
-	 * @param i
-	 * @return
-	 */
-	@Deprecated
-	public abstract GeoPoint2 getGeoPoint(double d, double e, int i);
 
 	public abstract EquationSolverInterface getEquationSolver();
 
 	public abstract void resetGeoGebraCAS();
 
-	public abstract void getKernelXML(StringBuilder sb, boolean b);
 
 	public Geo3DVec getGeo3DVec(double x, double y, double z) {
 		AbstractApplication.debug("GeoGebraCommon does not support 3D Vectors");
@@ -3531,12 +3513,199 @@ public abstract class AbstractKernel {
 		t.setLabel(label);
 		return t;
 	}
+	
+	/** 
+	 * Line named label through Points P and Q
+	 */
+	final public GeoLine Line(String label, GeoPoint2 P, GeoPoint2 Q) {
+		AlgoJoinPoints algo = new AlgoJoinPoints((Construction)cons, label, P, Q);
+		GeoLine g = algo.getLine();
+		return g;
+	}
+
+
+
+	/** 
+	 *  Ray named label through Points P and Q
+	 */
+	final public GeoRay Ray(String label, GeoPoint2 P, GeoPoint2 Q) {
+		AlgoJoinPointsRay algo = new AlgoJoinPointsRay((Construction)cons, label, P, Q);
+		return algo.getRay();
+	}
+
+	public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
+		return Ray(label, (GeoPoint2) P, (GeoPoint2) Q);
+	}
+
+	/** 
+	 * Ray named label through Point P with direction of vector v
+	 */
+	final public GeoRay Ray(String label, GeoPoint2 P, GeoVector v) {
+		AlgoRayPointVector algo = new AlgoRayPointVector((Construction)cons, label, P, v);
+		return algo.getRay();
+	}
+	
+	/** 
+	* Line named label through Point P parallel to Line l
+	*/
+	final public GeoLine Line(String label, GeoPoint2 P, GeoLine l) {
+		AlgoLinePointLine algo = new AlgoLinePointLine(cons, label, P, l);
+		GeoLine g = algo.getLine();
+		return g;
+	}
+
+	/** 
+	* Line named label through Point P orthogonal to vector v
+	*/
+	final public GeoLine OrthogonalLine(
+		String label,
+		GeoPoint2 P,
+		GeoVector v) {
+		AlgoOrthoLinePointVector algo =
+			new AlgoOrthoLinePointVector((Construction)cons, label, P, v);
+		GeoLine g = algo.getLine();
+		return g;
+	}
+
+	/** 
+	 * Line named label through Point P orthogonal to line l
+	 */
+	final public GeoLine OrthogonalLine(
+		String label,
+		GeoPoint2 P,
+		GeoLine l) {
+		AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine((Construction)cons, label, P, l);
+		GeoLine g = algo.getLine();
+		return g;
+	}
+
+	public GeoLineND OrthogonalLine(
+			String label,
+			GeoPointND P,
+			GeoLineND l, 
+			GeoDirectionND direction) {
+		return OrthogonalLine(label, (GeoPoint2) P, (GeoLine) l);
+	}
+
+
+	/** 
+	 * Line bisector of points A, B
+	 */
+	final public GeoLine LineBisector(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B) {
+		AlgoLineBisector algo = new AlgoLineBisector(cons, label, A, B);
+		GeoLine g = algo.getLine();
+		return g;
+	}
+
+	/** 
+	  * Line bisector of segment s
+	  */
+	final public GeoLine LineBisector(String label, GeoSegment s) {
+		AlgoLineBisectorSegment algo = new AlgoLineBisectorSegment((Construction)cons, label, s);
+		GeoLine g = algo.getLine();
+		return g;		
+	}
+
+	/** 
+	 * Angular bisector of points A, B, C
+	 */
+	final public GeoLine AngularBisector(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C) {
+		AlgoAngularBisectorPoints algo =
+			new AlgoAngularBisectorPoints((Construction)cons, label, A, B, C);
+		GeoLine g = algo.getLine();
+		return g;
+	}
+
+	/** 
+	 * Angular bisectors of lines g, h
+	 */
+	final public GeoLine[] AngularBisector(
+		String[] labels,
+		GeoLine g,
+		GeoLine h) {
+		AlgoAngularBisectorLines algo =
+			new AlgoAngularBisectorLines((Construction)cons, labels, g, h);
+		GeoLine[] lines = algo.getLines();
+		return lines;
+	}
+
+	/** 
+	 * Vector named label from Point P to Q
+	 */
+	final public GeoVector Vector(
+		String label,
+		GeoPoint2 P,
+		GeoPoint2 Q) {
+		AlgoVector algo = new AlgoVector(cons, label, P, Q);
+		GeoVector v = (GeoVector) algo.getVector();
+		v.setEuclidianVisible(true);
+		v.update();
+		notifyUpdate(v);
+		return v;
+	}
+
+	/** 
+	* Vector (0,0) to P
+	*/
+	final public GeoVector Vector(String label, GeoPoint2 P) {
+		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, P);
+		GeoVector v = algo.getVector();
+		v.setEuclidianVisible(true);
+		v.update();
+		notifyUpdate(v);
+		return v;
+	}
+
+	/** 
+	 * Direction vector of line g
+	 */
+	final public GeoVector Direction(String label, GeoLine g) {
+		AlgoDirection algo = new AlgoDirection(cons, label, g);
+		GeoVector v = algo.getVector();
+		return v;
+	}
+
+	/** 
+	 * Slope of line g
+	 */
+	final public GeoNumeric Slope(String label, GeoLine g) {
+		AlgoSlope algo = new AlgoSlope(cons, label, g);
+		GeoNumeric slope = algo.getSlope();
+		return slope;
+	}	
+
 
 	final public GeoBoolean Boolean(String label, boolean value) {
 		GeoBoolean b = new GeoBoolean(cons);
 		b.setValue(value);
 		b.setLabel(label);
 		return b;
+	}
+	
+	public GeoSegmentND SegmentND(
+			String label,
+			GeoPointND P,
+			GeoPointND Q) {
+			
+			return Segment(label, (GeoPoint2) P, (GeoPoint2) Q);
+		}
+	/** 
+	* LineSegment named label from Point P to Point Q
+	*/
+	final public GeoSegment Segment(
+			String label,
+			GeoPoint2 P,
+			GeoPoint2 Q) {
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, label, P, Q);
+		GeoSegment s = algo.getSegment();
+		return s;
 	}
 
 	/**
@@ -3749,10 +3918,76 @@ public abstract class AbstractKernel {
 	public abstract GeoElement[] useMacro(String[] labels,
 			MacroInterface macro, GeoElement[] arg);
 
-	public void getKernelXML(StringBuilder sb) {
-		// TODO Auto-generated method stub
-
+	/**
+	 * Returns the kernel settings in XML format.
+	 */
+	public void getKernelXML(StringBuilder sb, boolean asPreference) {
+	
+		// kernel settings
+		sb.append("<kernel>\n");
+	
+		// continuity: true or false, since V3.0
+		sb.append("\t<continuous val=\"");
+		sb.append(isContinuous());
+		sb.append("\"/>\n");
+		
+		if (useSignificantFigures) {
+			// significant figures
+			sb.append("\t<significantfigures val=\"");
+			sb.append(getPrintFigures());
+			sb.append("\"/>\n");			
+		}
+		else
+		{
+			// decimal places
+			sb.append("\t<decimals val=\"");
+			sb.append(getPrintDecimals());
+			sb.append("\"/>\n");
+		}
+		
+		// angle unit
+		sb.append("\t<angleUnit val=\"");
+		sb.append(getAngleUnit() == AbstractKernel.ANGLE_RADIANT ? "radiant" : "degree");
+		sb.append("\"/>\n");
+		
+		// algebra style
+		sb.append("\t<algebraStyle val=\"");
+		sb.append(algebraStyle);
+		sb.append("\"/>\n");
+		
+		// coord style
+		sb.append("\t<coordStyle val=\"");
+		sb.append(getCoordStyle());
+		sb.append("\"/>\n");
+		
+		// whether return angle from inverse trigonometric functions
+		if (!asPreference) {
+			sb.append("\t<angleFromInvTrig val=\"");
+			sb.append(getInverseTrigReturnsAngle());
+			sb.append("\"/>\n");
+		}
+		
+		// animation
+		if (isAnimationRunning()) {
+			sb.append("\t<startAnimation val=\"");
+			sb.append(isAnimationRunning());
+			sb.append("\"/>\n");
+		}
+		
+		if (asPreference) {
+			sb.append("\t<localization");
+			sb.append(" digits=\"");
+			sb.append(getApplication().isUsingLocalizedDigits());
+			sb.append("\"");
+			sb.append(" labels=\"");
+			sb.append(getApplication().isUsingLocalizedLabels());
+			sb.append("\"");
+			sb.append("/>\n");
+		}
+	
+		sb.append("</kernel>\n");
 	}
+
 
 	/**
 	 * @deprecated
@@ -3884,12 +4119,31 @@ public abstract class AbstractKernel {
 			
 		}
 	
+		/*
+		 * used to delay animation start until everything loaded
+		 */
 		public void setWantAnimationStarted(boolean b) {
-			// TODO Auto-generated method stub
-			
+			wantAnimationStarted   = true;		
+		}
+		
+		public boolean wantAnimationStarted() {
+			return wantAnimationStarted;
 		}
 	
-	public abstract ExpressionNode convertNumberValueToExpressionNode(
-			NumberValue numberValue);
+		/**
+		 * Converts a NumberValue object to an ExpressionNode object. 
+		 */
+		public ExpressionNode convertNumberValueToExpressionNode(NumberValue nv) {
+			GeoElement geo = (GeoElement)nv.toGeoElement();
+			AlgoElement algo = geo.getParentAlgorithm();
+			
+			if (algo != null && algo instanceof AlgoDependentNumber) {
+				AlgoDependentNumber algoDep = (AlgoDependentNumber) algo;
+				return algoDep.getExpression().getCopy(this);
+			}
+			else {
+				return new ExpressionNode(this, geo);
+			}		
+		}
 
 }
