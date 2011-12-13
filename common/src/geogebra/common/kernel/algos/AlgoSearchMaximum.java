@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
@@ -19,7 +19,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.RealRootFunctionVariable;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 /**
  * AlgoSearchMaximum:

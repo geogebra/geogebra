@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoOptimize;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 

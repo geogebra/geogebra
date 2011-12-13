@@ -18,7 +18,6 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 import java.util.Iterator;
