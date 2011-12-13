@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
+import geogebra.common.factories.AdapterFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.MyPoint;
@@ -59,8 +60,7 @@ import java.util.List;
 
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import geogebra.common.adapters.RealMatrix;
 
 /**
  * Represents implicit bivariat polynomial equations, with degree greater than 2.
@@ -846,8 +846,8 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		int degree = (int)(0.5*Math.sqrt(8*(1+points.size()))) - 1;
 		int realDegree = degree;
 		
-		RealMatrix extendMatrix = new RealMatrixImpl(points.size(), points.size()+1);
-		RealMatrix matrix = new RealMatrixImpl(points.size(), points.size());
+		RealMatrix extendMatrix = AdapterFactory.prototype.newRealMatrixImpl(points.size(), points.size()+1);
+		RealMatrix matrix = AdapterFactory.prototype.newRealMatrixImpl(points.size(), points.size());
 		double [][] coeffMatrix = new double[degree+1][degree+1];
 		
 		DecompositionSolver solver;
@@ -880,7 +880,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 					return;
 				}
 				
-				extendMatrix = new RealMatrixImpl(noPoints, noPoints+1);
+				extendMatrix = AdapterFactory.prototype.newRealMatrixImpl(noPoints, noPoints+1);
 				realDegree-=1;
 				matrixRow = new double[noPoints+1];
 				
@@ -895,7 +895,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 					extendMatrix.setRow(i, matrixRow);
 				}
 					
-				matrix = new RealMatrixImpl(noPoints, noPoints);
+				matrix = AdapterFactory.prototype.newRealMatrixImpl(noPoints, noPoints);
 				solutionColumn = 0;
 			}
 						
@@ -908,7 +908,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 					matrix.setColumn(j++, extendMatrix.getColumn(i));
 			solutionColumn++;
 			
-			solver = new LUDecompositionImpl(matrix).getSolver();
+			solver = new LUDecompositionImpl((geogebra.adapters.RealMatrixImpl)matrix).getSolver();
 		} while (!solver.isNonSingular());
 		
 		for(int i=0; i<results.length; i++)
