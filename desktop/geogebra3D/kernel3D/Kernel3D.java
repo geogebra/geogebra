@@ -154,6 +154,7 @@ public class Kernel3D extends Kernel {
 	 * Methods for 3D manager *******************************************
 	 */
 
+	@Override
 	protected Manager3DInterface newManager3D(Kernel kernel) {
 		return new Manager3D(kernel);
 	}
@@ -176,14 +177,17 @@ public class Kernel3D extends Kernel {
 	/**
 	 * creates the 3D construction cons
 	 */
+	@Override
 	protected void newConstruction() {
 		cons = new Construction3D(this);
 	}
 
-	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons) {
-		return new MyXMLHandler3D(kernel, cons);
+	@Override
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction construction) {
+		return new MyXMLHandler3D(kernel, construction);
 	}
 
+	@Override
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
 		return new ExpressionNodeEvaluator3D();
 	}
@@ -193,7 +197,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	/**
-	 * @param kernel
+	 * @param kernel kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
 	@Override
