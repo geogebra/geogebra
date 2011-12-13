@@ -1,7 +1,5 @@
-package geogebra.main.settings;
+package geogebra.common.main.settings;
 
-import geogebra.common.main.settings.AbstractSettings;
-import geogebra.common.main.settings.SettingListener;
 
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Point;

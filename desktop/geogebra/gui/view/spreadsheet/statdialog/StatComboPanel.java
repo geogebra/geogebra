@@ -3,12 +3,12 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.kernel.algos.AlgoHistogram;
 import geogebra.main.Application;
-import geogebra.main.settings.EuclidianSettings;
 import geogebra.util.Validation;
 
 import java.awt.BorderLayout;

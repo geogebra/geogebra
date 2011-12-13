@@ -1,8 +1,6 @@
-package geogebra.main.settings;
+package geogebra.common.main.settings;
 
-import geogebra.common.main.settings.AbstractSettings;
-import geogebra.common.main.settings.SettingListener;
-import geogebra.gui.view.probcalculator.ProbabilityManager;
+//import geogebra.gui.view.probcalculator.ProbabilityManager;
 
 import java.util.LinkedList;
 
@@ -10,9 +8,32 @@ import java.util.LinkedList;
  * Settings for the probability calculator view.
  */
 public class ProbabilityCalculatorSettings extends AbstractSettings {
+	
+	// continuous distribution identifiers
+	public static final int DIST_NORMAL = 0;
+	public static final int DIST_STUDENT = 1;
+	public static final int DIST_CHISQUARE = 2;
+	public static final int DIST_F = 3;
+	public static final int DIST_CAUCHY = 4;
+	public static final int DIST_EXPONENTIAL = 5;
+	public static final int DIST_GAMMA = 6;
+	public static final int DIST_WEIBULL = 7;
+	public static final int DIST_LOGISTIC = 8;
+	public static final int DIST_LOGNORMAL = 9;
+	public static final int DIST_ERLANG = 10;
+	//public static final int DIST_UNIFORM = 11;
+	//public static final int DIST_TRIANGULAR = 12;
+
+	// discrete distribution identifiers
+	public static final int DIST_BINOMIAL = 11;
+	public static final int DIST_PASCAL = 12;
+	public static final int DIST_HYPERGEOMETRIC = 13;
+	public static final int DIST_POISSON = 14;
+
+	public static final int distCount = 15;
 
 	private double[] parameters = {0.0d, 1.0d};
-	private int distributionType = ProbabilityManager.DIST_NORMAL;
+	private int distributionType = DIST_NORMAL;
 	private boolean isCumulative = false;
 	
 	public ProbabilityCalculatorSettings(LinkedList<SettingListener> listeners) {

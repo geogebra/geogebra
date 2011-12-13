@@ -1,8 +1,8 @@
 package geogebra.gui.dialog.options;
 
+import geogebra.common.main.settings.CASSettings;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
-import geogebra.main.settings.CASSettings;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

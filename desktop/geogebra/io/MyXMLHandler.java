@@ -58,7 +58,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
@@ -67,10 +69,7 @@ import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.Parser;
 import geogebra.main.Application;
-import geogebra.main.settings.EuclidianSettings;
-import geogebra.main.settings.SpreadsheetSettings;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1031,7 +1030,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int width = Integer.parseInt((String) attrs.get("width"));
 			int height = Integer.parseInt((String) attrs.get("height"));
-			ev.setPreferredSize(new Dimension(width, height));
+			ev.setPreferredSize(geogebra.common.factories.AwtFactory.prototype.newDimension(width, height));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1191,7 +1190,7 @@ public class MyXMLHandler implements DocHandler {
 //	}
 
 	private boolean handleBgColor(EuclidianSettings evSet, LinkedHashMap<String, String> attrs) {
-		Color col = handleColorAttrs(attrs);
+		geogebra.common.awt.Color col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		evSet.setBackground(col);
@@ -1199,7 +1198,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAxesColor(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
-		Color col = handleColorAttrs(attrs);
+		geogebra.common.awt.Color col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		ev.setAxesColor(col);
@@ -1207,7 +1206,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleGridColor(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
-		Color col = handleColorAttrs(attrs);
+		geogebra.common.awt.Color col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		ev.setGridColor(col);
@@ -1592,11 +1591,11 @@ public class MyXMLHandler implements DocHandler {
 		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
 		
-		Dimension evSize = app.getSettings().getEuclidian(1).getPreferredSize();
+		geogebra.common.awt.Dimension evSize = app.getSettings().getEuclidian(1).getPreferredSize();
 		
 		// calculate window dimensions
-		int width = evSize.width;
-		int height = evSize.height;
+		int width = (int) evSize.getWidth();
+		int height = (int) evSize.getHeight();
 		
 		// minimal size for documents, necessary for GeoGebra < 3
 		if(width <= 100 || height <= 100) {
@@ -3011,10 +3010,10 @@ public class MyXMLHandler implements DocHandler {
 	
 	
 	private boolean handleObjColor(LinkedHashMap<String, String> attrs) {
-		Color col = handleColorAttrs(attrs);
+		geogebra.common.awt.Color col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
-		geo.setObjColor(new geogebra.awt.Color(col));
+		geo.setObjColor(col);
 
 		// Dynamic colors
 		// Michael Borcherds 2008-04-02
@@ -3087,10 +3086,10 @@ public class MyXMLHandler implements DocHandler {
 	}
 	
 	private boolean handleBgColor(LinkedHashMap<String, String> attrs) {
-		Color col = handleColorAlphaAttrs(attrs);
+		geogebra.common.awt.Color col = handleColorAlphaAttrs(attrs);
 		if (col == null)
 			return false;
-		geo.setBackgroundColor(new geogebra.awt.Color(col));
+		geo.setBackgroundColor(col);
 		geo.updateRepaint();
 
 		return true;
@@ -3099,12 +3098,12 @@ public class MyXMLHandler implements DocHandler {
 	/*
 	 * expects r, g, b attributes to build a color
 	 */
-	private static Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
+	private static geogebra.common.awt.Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt((String) attrs.get("r"));
 			int green = Integer.parseInt((String) attrs.get("g"));
 			int blue = Integer.parseInt((String) attrs.get("b"));
-			return new Color(red, green, blue);
+			return geogebra.common.factories.AwtFactory.prototype.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
 		}
@@ -3113,13 +3112,13 @@ public class MyXMLHandler implements DocHandler {
 	/*
 	 * expects r, g, b, alpha attributes to build a color
 	 */
-	private static Color handleColorAlphaAttrs(LinkedHashMap<String, String> attrs) {
+	private static geogebra.common.awt.Color handleColorAlphaAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt((String) attrs.get("r"));
 			int green = Integer.parseInt((String) attrs.get("g"));
 			int blue = Integer.parseInt((String) attrs.get("b"));
 			int alpha = Integer.parseInt((String) attrs.get("alpha"));
-			return new Color(red, green, blue, alpha);
+			return  geogebra.common.factories.AwtFactory.prototype.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;
 		}

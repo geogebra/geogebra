@@ -18,5 +18,7 @@ public abstract class AwtFactory {
 	public abstract Rectangle newRectangle(int x,int y,int w,int h);
 	public abstract BufferedImageAdapter newBufferedImage(int pixelWidth,
 			int pixelHeight, int typeIntArgb);
+	public abstract geogebra.common.awt.Dimension newDimension(int width,
+			int height);
 	
 }

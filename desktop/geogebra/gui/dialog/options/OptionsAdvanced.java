@@ -4,13 +4,13 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.main.settings.Settings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.io.MyXMLHandler;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.settings.Settings;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

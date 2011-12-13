@@ -6,11 +6,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
-import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

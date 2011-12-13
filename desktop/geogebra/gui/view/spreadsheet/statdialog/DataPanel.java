@@ -4,10 +4,10 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
-import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

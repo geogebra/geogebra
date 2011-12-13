@@ -1,5 +1,6 @@
 package geogebra.factories;
 
+import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
@@ -51,5 +52,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 			int pixelHeight, int type) {
 		// TODO Auto-generated method stub
 		return new geogebra.awt.BufferedImage(pixelWidth,pixelHeight,type);
+	}
+
+	@Override
+	public Dimension newDimension(int width, int height) {
+		return new geogebra.awt.Dimension(width, height);
 	}
 }

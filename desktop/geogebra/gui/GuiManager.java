@@ -1,25 +1,16 @@
 package geogebra.gui;
 
 import geogebra.CommandLineArguments;
-import geogebra.GeoGebra;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -28,16 +19,13 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
-import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.dialog.ButtonDialog;
 import geogebra.gui.dialog.DialogManager;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.InputDialogOpenURL;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.dialog.PropertiesPanelMini;
-import geogebra.gui.dialog.SliderDialog;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.layout.Layout;
@@ -53,19 +41,16 @@ import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.gui.layout.panels.SpreadsheetDockPanel;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.BrowserLauncher;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.CompressedAlgebraView;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.assignment.AssignmentView;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.gui.view.assignment.AssignmentView;
-import geogebra.gui.view.functioninspector.FunctionInspector;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
-import geogebra.gui.view.probcalculator.ProbabilityManager;
 import geogebra.gui.view.properties.PropertiesView;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
@@ -74,7 +59,6 @@ import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.main.MyResourceBundle;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -92,8 +76,6 @@ import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -102,12 +84,10 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
@@ -122,7 +102,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -2689,7 +2668,7 @@ public class GuiManager {
           app.getGuiManager().setShowView(true,
               AbstractApplication.VIEW_PROBABILITY_CALCULATOR);
           probCalculator.setProbabilityCalculator(
-              ProbabilityManager.DIST_NORMAL, null, false);
+              ProbabilityCalculatorSettings.DIST_NORMAL, null, false);
         }
       }
 

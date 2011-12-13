@@ -55,6 +55,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
@@ -74,7 +75,6 @@ import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.main.Application;
-import geogebra.main.settings.EuclidianSettings;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -5558,9 +5558,9 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		setYminObject(evs.getYminObject());
 		setYmaxObject(evs.getYmaxObject());
 
-		setBackground(evs.getBackground());
-		setAxesColor(evs.getAxesColor());
-		setGridColor(evs.getGridColor());
+		setBackground(geogebra.awt.Color.getAwtColor(evs.getBackground()));
+		setAxesColor(geogebra.awt.Color.getAwtColor(evs.getAxesColor()));
+		setGridColor(geogebra.awt.Color.getAwtColor(evs.getGridColor()));
 		setAxesLineStyle(evs.getAxesLineStyle());
 		setGridLineStyle(evs.getGridLineStyle());
 
@@ -5604,7 +5604,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		positiveAxes[0] = evs.getPositiveAxes()[0];
 		positiveAxes[1] = evs.getPositiveAxes()[1];
 
-		Dimension ps = evs.getPreferredSize();
+		Dimension ps = geogebra.awt.Dimension.getAWTDimension(evs.getPreferredSize());
 		if (ps != null) {
 			setPreferredSize(ps);
 		}

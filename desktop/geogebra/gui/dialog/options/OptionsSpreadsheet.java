@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.FileBrowserPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
-import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

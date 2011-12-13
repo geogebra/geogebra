@@ -9,10 +9,10 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.kernel.Kernel;
 import geogebra.main.MyResourceBundle;
-import geogebra.main.settings.CASSettings;
 
 import java.util.Enumeration;
 import java.util.HashSet;

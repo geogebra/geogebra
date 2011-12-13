@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
@@ -51,7 +52,6 @@ import geogebra.kernel.statistics.AlgoInversePoisson;
 import geogebra.kernel.statistics.AlgoPascal;
 import geogebra.kernel.statistics.AlgoPoisson;
 import geogebra.main.Application;
-import geogebra.main.settings.ProbabilityCalculatorSettings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -111,7 +111,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	// selected distribution mode
-	private int selectedDist = ProbabilityManager.DIST_NORMAL;  // default: startup with normal distribution
+	private int selectedDist = ProbabilityCalculatorSettings.DIST_NORMAL;  // default: startup with normal distribution
 
 
 	// distribution fields 
@@ -446,7 +446,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		setLabelArrays();
 		comboDistribution = new JComboBox();
 		comboDistribution.setRenderer(getComboRenderer());
-		comboDistribution.setMaximumRowCount(ProbabilityManager.distCount+1);
+		comboDistribution.setMaximumRowCount(ProbabilityCalculatorSettings.distCount+1);
 		//setComboDistribution();
 		comboDistribution.addActionListener(this);
 		lblDist = new JLabel();
@@ -974,24 +974,24 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		boolean isValid = true;
 		switch (selectedDist){
 
-		case ProbabilityManager.DIST_BINOMIAL:
-		case ProbabilityManager.DIST_HYPERGEOMETRIC: 
+		case ProbabilityCalculatorSettings.DIST_BINOMIAL:
+		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC: 
 			isValid = xLow >= getDiscreteXMin() && xHigh <= getDiscreteXMax();
 			break;
 
-		case ProbabilityManager.DIST_POISSON: 
-		case ProbabilityManager.DIST_PASCAL: 
+		case ProbabilityCalculatorSettings.DIST_POISSON: 
+		case ProbabilityCalculatorSettings.DIST_PASCAL: 
 			isValid = xLow >= getDiscreteXMin();   
 			break;
 
 
-		case ProbabilityManager.DIST_CHISQUARE:
-		case ProbabilityManager.DIST_EXPONENTIAL:
+		case ProbabilityCalculatorSettings.DIST_CHISQUARE:
+		case ProbabilityCalculatorSettings.DIST_EXPONENTIAL:
 			if(probMode != PROB_LEFT)
 				isValid = xLow >= 0;   
 				break;
 
-		case ProbabilityManager.DIST_F:	
+		case ProbabilityCalculatorSettings.DIST_F:	
 			if(probMode != PROB_LEFT)
 				isValid = xLow > 0;   
 				break;
@@ -1276,8 +1276,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		// make result field editable for inverse probability calculation  
 		// TODO: remove lognormal and logistic filters when their inverse cmds become available
 		if(probMode != PROB_INTERVAL
-				&& selectedDist != ProbabilityManager.DIST_LOGNORMAL
-				&& selectedDist != ProbabilityManager.DIST_LOGISTIC){
+				&& selectedDist != ProbabilityCalculatorSettings.DIST_LOGNORMAL
+				&& selectedDist != ProbabilityCalculatorSettings.DIST_LOGISTIC){
 			fldResult.setBackground(fldLow.getBackground());
 			fldResult.setBorder(fldLow.getBorder());
 			fldResult.setEditable(true);
@@ -1470,23 +1470,23 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_NORMAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_STUDENT));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_CHISQUARE));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_F));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_EXPONENTIAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_CAUCHY));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_WEIBULL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_GAMMA));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_LOGNORMAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_LOGISTIC));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_NORMAL));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_STUDENT));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_CHISQUARE));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_F));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_EXPONENTIAL));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_CAUCHY));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_WEIBULL));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_GAMMA));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_LOGNORMAL));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_LOGISTIC));
 
 		comboDistribution.addItem(ListSeparatorRenderer.SEPARATOR);
 
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_BINOMIAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_PASCAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_POISSON));
-		comboDistribution.addItem(distributionMap.get(ProbabilityManager.DIST_HYPERGEOMETRIC));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_BINOMIAL));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_PASCAL));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_POISSON));
+		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC));
 
 		comboDistribution.setSelectedItem(distributionMap.get(selectedDist));
 		comboDistribution.addActionListener(this);
@@ -1618,7 +1618,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		AlgoDependentNumber plusOneAlgo;
 		switch(selectedDist){
 
-		case ProbabilityManager.DIST_BINOMIAL:	
+		case ProbabilityCalculatorSettings.DIST_BINOMIAL:	
 
 			/*n = "Element[" + parmList.getLabel() + ",1]";
 			p = "Element[" + parmList.getLabel() + ",2]";
@@ -1656,7 +1656,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			break;
 
-		case ProbabilityManager.DIST_PASCAL:	
+		case ProbabilityCalculatorSettings.DIST_PASCAL:	
 
 			nGeo = new GeoNumeric(cons,parameters[0]);
 			pGeo = new GeoNumeric(cons,parameters[1]);	
@@ -1688,7 +1688,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			break;
 
-		case ProbabilityManager.DIST_POISSON:
+		case ProbabilityCalculatorSettings.DIST_POISSON:
 
 			GeoNumeric meanGeo = new GeoNumeric(cons,parameters[0]);
 			k = new GeoNumeric(cons);
@@ -1720,7 +1720,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			break;
 
 
-		case ProbabilityManager.DIST_HYPERGEOMETRIC:	
+		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC:	
 			/*
 			p = "" + parameters[0];  // population size
 			n = "" + parameters[1];  // n
