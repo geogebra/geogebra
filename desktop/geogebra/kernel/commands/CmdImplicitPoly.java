@@ -11,7 +11,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 public class CmdImplicitPoly extends CommandProcessorDesktop {
 
@@ -19,14 +18,18 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
-	protected GeoElement doCommand(String a, GeoList b) {
+	protected GeoElement doCommand(String a, GeoList b, Command c) {
 		int n = b.size();
-		if (n == 0 || (int) Math.sqrt(9 + 8 * n) != Math.sqrt(9 + 8 * n))
-			throw argNumErr(app, "ImplicitCurve", n);
+		if ((n == 0)
+				|| ((int) Math.sqrt(9 + (8 * n)) != Math.sqrt(9 + (8 * n)))) {
+			throw argNumErr(app, c.getName(), n);
+		}
 
-		for (int i = 0; i < n; i++)
-			if (!b.get(i).isGeoPoint())
-				throw argErr(app, "ImplicitCurve", b.get(i));
+		for (int i = 0; i < n; i++) {
+			if (!b.get(i).isGeoPoint()) {
+				throw argErr(app, c.getName(), b.get(i));
+			}
+		}
 
 		GeoElement ret = kernel.ImplicitPoly(a, b);
 
@@ -45,19 +48,21 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0],
+						c) };
 				return ret;
 			} else if (arg[0] instanceof GeoFunctionNVar) {
-				FunctionNVar f=((GeoFunctionNVar)arg[0]).getFunction();
-				FunctionVariable[] fvars=f.getFunctionVariables();
-				if (fvars.length!=2){
-					throw new MyError(app,"InvalidEquation");
+				FunctionNVar f = ((GeoFunctionNVar) arg[0]).getFunction();
+				FunctionVariable[] fvars = f.getFunctionVariables();
+				if (fvars.length != 2) {
+					throw new MyError(app, "InvalidEquation");
 				}
-				GeoElement[] ret = { kernel.ImplicitPoly(c.getLabel(),((GeoFunctionNVar)arg[0])) };
+				GeoElement[] ret = { kernel.ImplicitPoly(c.getLabel(),
+						((GeoFunctionNVar) arg[0])) };
 				return ret;
 			} else {
-				AbstractApplication.debug(arg[0] + ": " + arg[0].getClassName() + "; "
-						+ arg[0].getClass());
+				AbstractApplication.debug(arg[0] + ": " + arg[0].getClassName()
+						+ "; " + arg[0].getClass());
 				throw argErr(app, c.getName(), arg[0]);
 			}
 
@@ -68,7 +73,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
-					GeoElement[] ret = { doCommand(c.getLabel(), list) };
+					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
 					return ret;
 				}
 			} else if (arg[0].isVectorValue()) {
@@ -76,7 +81,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.POINT);
 				if (list != null) {
-					GeoElement[] ret = { doCommand(c.getLabel(), list) };
+					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
 					return ret;
 				}
 			}

@@ -35,10 +35,10 @@ class CmdParameter extends CommandProcessorDesktop {
 						(GeoConic) arg[0]) };
 				return ret;
 			} else
-				throw argErr(app, "Parameter", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Parameter", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

@@ -34,10 +34,10 @@ class CmdCentroid extends CommandProcessorDesktop {
 						(GeoPolygon) arg[0]) };
 				return ret;
 			} else
-				throw argErr(app, "Centroid", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Centroid", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

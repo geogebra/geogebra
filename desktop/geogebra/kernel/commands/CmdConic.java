@@ -51,7 +51,7 @@ class CmdConic extends CommandProcessorDesktop {
 					return ret;
 				}
 			}
-			throw argNumErr(app, "Conic", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

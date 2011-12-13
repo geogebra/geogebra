@@ -42,13 +42,13 @@ class CmdPolar extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (!ok[0])
-					throw argErr(app, "Polar", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Polar", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Polar", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

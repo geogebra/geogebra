@@ -40,15 +40,15 @@ class CmdRoots extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Root", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else if (!ok[1])
-					throw argErr(app, "Root", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 				else
-					throw argErr(app, "Root", arg[2]);
+					throw argErr(app, c.getName(), arg[2]);
 			}//if
 
 		default:
-			throw argNumErr(app, "Roots", n);
+			throw argNumErr(app, c.getName(), n);
 		}//switch
 	}//process(command)
 }//class CmdRoots

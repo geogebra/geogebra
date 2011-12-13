@@ -7,7 +7,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 
-
 /**
  * AngularBisector[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] AngularBisector[
  * <GeoLine>, <GeoLine> ]
@@ -24,6 +23,7 @@ class CmdAngularBisector extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -35,14 +35,15 @@ class CmdAngularBisector extends CommandProcessorDesktop {
 
 			// angular bisector of 2 lines
 			if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoLine())))
+					&& (ok[1] = (arg[1].isGeoLine()))) {
 				return kernel.AngularBisector(c.getLabels(), (GeoLine) arg[0],
 						(GeoLine) arg[1]);
-			else {
-				if (!ok[0])
-					throw argErr(app, "AngularBisector", arg[0]);
-				else
-					throw argErr(app, "AngularBisector", arg[1]);
+			} else {
+				if (!ok[0]) {
+					throw argErr(app, c.getName(), arg[0]);
+				} else {
+					throw argErr(app, c.getName(), arg[1]);
+				}
 			}
 
 		case 3:
@@ -52,24 +53,25 @@ class CmdAngularBisector extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel
-						.AngularBisector(c.getLabel(), (GeoPoint2) arg[0],
-								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
+				GeoElement[] ret = { kernel.AngularBisector(c.getLabel(),
+						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
+						(GeoPoint2) arg[2]) };
 				return ret;
 			}
 
 			// syntax error
 			else {
-				if (!ok[0])
-					throw argErr(app, "AngularBisector", arg[0]);
-				else if (!ok[1])
-					throw argErr(app, "AngularBisector", arg[1]);
-				else
-					throw argErr(app, "AngularBisector", arg[2]);
+				if (!ok[0]) {
+					throw argErr(app, c.getName(), arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(app, c.getName(), arg[1]);
+				} else {
+					throw argErr(app, c.getName(), arg[2]);
+				}
 			}
 
 		default:
-			throw argNumErr(app, "AngularBisector", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

@@ -46,13 +46,13 @@ class CmdHyperbola extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Hyperbola", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Hyperbola", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Hyperbola", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

@@ -49,7 +49,7 @@ class CmdTriangleCubic extends CommandProcessorDesktop {
 				throw argErr(app, c.getName(), arg[3]);
 			}
 		default:
-			throw argNumErr(app, "TriangleCubic", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

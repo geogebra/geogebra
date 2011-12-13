@@ -90,7 +90,7 @@ public class CmdFunction2Var extends CmdFunction {
 				int i=0;
 				while (i<7 && ok[i])
 					i++;
-				throw argErr(app, "Function", arg[i]);
+				throw argErr(app, c.getName(), arg[i]);
 			}
 			
 		case 5 :   
@@ -120,7 +120,7 @@ public class CmdFunction2Var extends CmdFunction {
 				int i=0;
 				while (i<5 && ok[i])
 					i++;
-				throw argErr(app, "Function", arg[i]);
+				throw argErr(app, c.getName(), arg[i]);
 			}
 
 

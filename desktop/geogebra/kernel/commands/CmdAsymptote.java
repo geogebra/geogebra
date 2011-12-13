@@ -45,10 +45,10 @@ class CmdAsymptote extends CommandProcessorDesktop {
 						(GeoImplicitPoly) arg[0])} ;
 				return ret;
 			}
-			throw argErr(app, "Asymptote", arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Asymptote", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

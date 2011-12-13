@@ -74,13 +74,13 @@ public class CmdOrthogonalLine extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (!ok[0])
-					throw argErr(app, "OrthogonalLine", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "OrthogonalLine", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default :
-			throw argNumErr(app, "OrthogonalLine", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

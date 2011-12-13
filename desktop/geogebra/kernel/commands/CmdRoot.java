@@ -36,7 +36,7 @@ class CmdRoot extends CommandProcessorDesktop {
 				return kernel.Root(c.getLabels(), ((GeoFunctionable) arg[0])
 						.getGeoFunction());
 			else
-				throw argErr(app, "Root", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 			// root with start value
 		case 2:
@@ -49,9 +49,9 @@ class CmdRoot extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Root", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Root", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 			// root in interval
@@ -66,15 +66,15 @@ class CmdRoot extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Root", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else if (!ok[1])
-					throw argErr(app, "Root", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 				else
-					throw argErr(app, "Root", arg[2]);
+					throw argErr(app, c.getName(), arg[2]);
 			}
 
 		default:
-			throw argNumErr(app, "Root", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

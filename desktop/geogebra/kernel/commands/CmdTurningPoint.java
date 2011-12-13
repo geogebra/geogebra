@@ -33,10 +33,10 @@ class CmdTurningPoint extends CommandProcessorDesktop {
 				return kernel.TurningPoint(c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
 			else
-				throw argErr(app, "TurningPoint", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "TurningPoint", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

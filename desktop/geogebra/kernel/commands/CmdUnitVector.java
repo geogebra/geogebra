@@ -40,11 +40,11 @@ class CmdUnitVector extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "UnitVector", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 			}
 
 		default:
-			throw argNumErr(app, "UnitVector", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

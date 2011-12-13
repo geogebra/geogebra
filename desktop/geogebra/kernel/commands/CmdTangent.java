@@ -106,13 +106,13 @@ class CmdTangent extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (!ok[0])
-					throw argErr(app, "Tangent", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Tangent", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Tangent", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

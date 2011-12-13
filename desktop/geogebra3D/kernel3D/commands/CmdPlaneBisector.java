@@ -47,7 +47,7 @@ public class CmdPlaneBisector extends CommandProcessorDesktop {
 	    						(GeoSegmentND) arg[0])};
 	    		return ret;
 	    	}else{
-	    		throw argErr(app, "PlaneBisector", arg[0]);
+	    		throw argErr(app, c.getName(), arg[0]);
 	    	}
 
 	    case 2 :
@@ -65,13 +65,13 @@ public class CmdPlaneBisector extends CommandProcessorDesktop {
 	    		return ret;
 	    	}else{
 	    		if (!ok[0])
-	    			throw argErr(app, "PlaneBisector", arg[0]);
+	    			throw argErr(app, c.getName(), arg[0]);
 	    		else 
-	    			throw argErr(app, "PlaneBisector", arg[1]);
+	    			throw argErr(app, c.getName(), arg[1]);
 	    	}
 	    	
 	    default :
-	    	throw argNumErr(app, "PlaneBisector", n);
+	    	throw argNumErr(app, c.getName(), n);
 	    }
 	    
 

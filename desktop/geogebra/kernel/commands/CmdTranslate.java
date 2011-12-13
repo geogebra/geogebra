@@ -63,13 +63,13 @@ public class CmdTranslate extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (!ok[0])
-					throw argErr(app, "Translate", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Translate", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Translate", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

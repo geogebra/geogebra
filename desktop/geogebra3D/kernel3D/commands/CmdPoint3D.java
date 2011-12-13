@@ -50,7 +50,7 @@ public class CmdPoint3D extends CmdPoint {
 					return ret;
 				}
 				
-				throw argErr(app, "Point", arg[0]); 
+				throw argErr(app, c.getName(), arg[0]); 
 			}
 
 

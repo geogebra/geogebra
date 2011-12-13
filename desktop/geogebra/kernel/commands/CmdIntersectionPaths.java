@@ -132,13 +132,13 @@ public  GeoElement[] process(Command c) throws MyError {
             
 			else {
                 if (!ok[0])
-                    throw argErr(app, "IntersectionPaths", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else
-                    throw argErr(app, "IntersectionPaths", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
             }
 
         default :
-            throw argNumErr(app, "IntersectionPaths", n);
+            throw argNumErr(app, c.getName(), n);
     }
 }
 }

@@ -214,9 +214,9 @@ public  GeoElement[] process(Command c) throws MyError {
             
 			else {
                 if (!ok[0])
-                    throw argErr(app, "Intersect", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else
-                    throw argErr(app, "Intersect", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
             }
 
         case 3 : // only one of the intersection points: the third argument
@@ -458,11 +458,11 @@ public  GeoElement[] process(Command c) throws MyError {
             // Syntax Error
             else {
                 if (!ok[0])
-                    throw argErr(app, "Intersect", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else if (!ok[1])
-                    throw argErr(app, "Intersect", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
                 else
-                    throw argErr(app, "Intersect", arg[2]);
+                    throw argErr(app, c.getName(), arg[2]);
             }
             
         case 4:
@@ -488,18 +488,18 @@ public  GeoElement[] process(Command c) throws MyError {
             // Syntax Error
             else {
                 if (!ok[0])
-                    throw argErr(app, "Intersect", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else if (!ok[1])
-                    throw argErr(app, "Intersect", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
                 else if (!ok[2])
-                    throw argErr(app, "Intersect", arg[2]);
+                    throw argErr(app, c.getName(), arg[2]);
                 else
-                	throw argErr(app, "Intersect",  arg[3]);
+                	throw argErr(app, c.getName(),  arg[3]);
             }//if
      	
 
         default :
-            throw argNumErr(app, "Intersect", n);
+            throw argNumErr(app, c.getName(), n);
     }
 }
 }

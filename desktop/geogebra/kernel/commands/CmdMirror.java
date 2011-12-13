@@ -93,7 +93,7 @@ class CmdMirror extends CommandProcessorDesktop {
 			}
 
 		default:
-			throw argNumErr(app, "Mirror", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

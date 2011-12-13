@@ -44,10 +44,10 @@ class CmdRectangleSum extends CommandProcessorDesktop {
 								(NumberValue) arg[4])};
 				return ret;
 			} else
-				throw argErr(app, "RectangleSum", null);
+				throw argErr(app, c.getName(), null);
 
 		default :
-			throw argNumErr(app, "RectangleSum", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }//CmdRectangleSum

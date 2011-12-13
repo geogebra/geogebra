@@ -24,6 +24,7 @@ class CmdArc extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -42,21 +43,22 @@ class CmdArc extends CommandProcessorDesktop {
 			} else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel
-						.ConicArc(c.getLabel(), (GeoConic) arg[0],
-								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
+				GeoElement[] ret = { kernel.ConicArc(c.getLabel(),
+						(GeoConic) arg[0], (GeoPoint2) arg[1],
+						(GeoPoint2) arg[2]) };
 				return ret;
 			} else {
-				if (!ok[0])
-					throw argErr(app, "Arc", arg[0]);
-				else if (!ok[1])
-					throw argErr(app, "Arc", arg[1]);
-				else
-					throw argErr(app, "Arc", arg[2]);
+				if (!ok[0]) {
+					throw argErr(app, c.getName(), arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(app, c.getName(), arg[1]);
+				} else {
+					throw argErr(app, c.getName(), arg[2]);
+				}
 			}
 
 		default:
-			throw argNumErr(app, "Arc", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

@@ -39,7 +39,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     { kernel.Point(c.getLabel(), (Path) arg[0])};
                 return ret;
             } else 
-				throw argErr(app, "Point", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
         case 2 :
             arg = resArgs(c);
@@ -64,13 +64,13 @@ public  GeoElement[] process(Command c) throws MyError {
                 return ret;
             } else {                
                 if (!ok[0])
-                    throw argErr(app, "Point", arg[0]);     
+                    throw argErr(app, c.getName(), arg[0]);     
                 else
-                    throw argErr(app, "Point", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
             }
 
         default :
-            throw argNumErr(app, "Point", n);
+            throw argNumErr(app, c.getName(), n);
     }
 }
 }

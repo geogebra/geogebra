@@ -34,7 +34,7 @@ class CmdExtremum extends CommandProcessorDesktop {
 				return kernel.Extremum(c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
 			else
-				throw argErr(app, "Extremum", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 		case 3: // Ulven 04.02.2011 for Extremum[f,start-x,end-x]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
@@ -48,10 +48,10 @@ class CmdExtremum extends CommandProcessorDesktop {
 						(NumberValue) arg[2]
 						);
 			else
-				throw argErr(app, "Extremum", n);
+				throw argErr(app, c.getName(), n);
 
 		default:
-			throw argNumErr(app, "Extremum", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

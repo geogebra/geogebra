@@ -38,12 +38,12 @@ public class CmdTop extends CommandProcessorDesktop {
 	    						(GeoQuadric3DLimited) arg[0])};
 	    		return ret;
 	    	}else{
-	    		throw argErr(app, "Top", arg[0]);
+	    		throw argErr(app, c.getName(), arg[0]);
 	    	}
 	    	
 
 	    default :
-	    	throw argNumErr(app, "Top", n);
+	    	throw argNumErr(app, c.getName(), n);
 	    }
 	    
 

@@ -57,7 +57,7 @@ public class CmdArchimedeanSolid extends CommandProcessorDesktop {
 	    	break;	    
 	    }
 		
-		throw argNumErr(app, "Length", n);
+		throw argNumErr(app, c.getName(), n);
 
 		
 

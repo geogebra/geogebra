@@ -35,10 +35,10 @@ class CmdExcentricity extends CommandProcessorDesktop {
 						(GeoConic) arg[0]) };
 				return ret;
 			} else
-				throw argErr(app, "Excentricity", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Excentricity", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

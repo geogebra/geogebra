@@ -24,6 +24,7 @@ class CmdArea extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -42,8 +43,9 @@ class CmdArea extends CommandProcessorDesktop {
 				GeoElement[] ret = { kernel.Area(c.getLabel(),
 						(GeoPolygon) arg[0]) };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c.getName(), arg[0]);
+			}
 		}
 
 		// area of points
@@ -52,16 +54,17 @@ class CmdArea extends CommandProcessorDesktop {
 			GeoPoint2[] points = new GeoPoint2[n];
 			// check arguments
 			for (int i = 0; i < n; i++) {
-				if (!(arg[i].isGeoPoint()))
-					throw argErr(app, "Area", arg[i]);
-				else {
+				if (!(arg[i].isGeoPoint())) {
+					throw argErr(app, c.getName(), arg[i]);
+				} else {
 					points[i] = (GeoPoint2) arg[i];
 				}
 			}
 			// everything ok
 			GeoElement[] ret = { kernel.Area(c.getLabel(), points) };
 			return ret;
-		} else
-			throw argNumErr(app, "Area", n);
+		} else {
+			throw argNumErr(app, c.getName(), n);
+		}
 	}
 }

@@ -42,10 +42,10 @@ class CmdLeftSum extends CommandProcessorDesktop {
 								(NumberValue) arg[3])};
 				return ret;
 			} else
-				throw argErr(app, "LeftSum", null);
+				throw argErr(app, c.getName(), null);
 
 		default :
-			throw argNumErr(app, "LeftSum", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }//CmdLeftSum

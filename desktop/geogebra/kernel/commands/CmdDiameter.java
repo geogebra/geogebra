@@ -51,13 +51,13 @@ class CmdDiameter extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (!ok[0])
-					throw argErr(app, "Diameter", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Diameter", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Diameter", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

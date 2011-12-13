@@ -46,13 +46,13 @@ class CmdEllipse extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Ellipse", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Ellipse", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Ellipse", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

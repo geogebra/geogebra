@@ -41,7 +41,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 				GeoElement[] ret = { kernel.Derivative(label, f, null, null) };
 				return ret;
 			} else
-				throw argErr(app, "Derivative", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -86,7 +86,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 			}
 
 			// if we get here, the first argument must have been wrong
-			throw argErr(app, "Derivative", arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 3:
 			// Derivative[ f(a,b), a, 2 ]
@@ -114,10 +114,10 @@ class CmdDerivative extends CommandProcessorDesktop {
 				return ret;
 			}
 			// if we get here, the first argument must have been wrong
-			throw argErr(app, "Derivative", arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Derivative", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 
 	}

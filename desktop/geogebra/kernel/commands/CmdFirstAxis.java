@@ -35,10 +35,10 @@ class CmdFirstAxis extends CommandProcessorDesktop {
 						(GeoConic) arg[0]) };
 				return ret;
 			} else
-				throw argErr(app, "FirstAxis", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "FirstAxis", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

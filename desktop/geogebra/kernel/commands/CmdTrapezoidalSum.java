@@ -40,10 +40,10 @@ class CmdTrapezoidalSum extends CommandProcessorDesktop {
 						(NumberValue) arg[3]) };
 				return ret;
 			} else
-				throw argErr(app, "TrapezoidalSum", null);
+				throw argErr(app, c.getName(), null);
 
 		default:
-			throw argNumErr(app, "TrapezoidalSum", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

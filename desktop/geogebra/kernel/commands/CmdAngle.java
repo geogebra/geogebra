@@ -1,6 +1,5 @@
 package geogebra.kernel.commands;
 
-
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
@@ -13,6 +12,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
+
 /**
  * Angle[ number ] Angle[ <GeoPolygon> ] Angle[ <GeoConic> ] Angle[ <GeoVector>
  * ] Angle[ <GeoPoint> ] Angle[ <GeoVector>, <GeoVector> ] Angle[ <GeoLine>,
@@ -31,6 +31,7 @@ public class CmdAngle extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -63,11 +64,12 @@ public class CmdAngle extends CommandProcessorDesktop {
 					arg[0].setLabel(c.getLabel());
 
 					// make sure that arg[0] is in construction list
-					if (arg[0].isIndependent())
+					if (arg[0].isIndependent()) {
 						cons.addToConstructionList(arg[0], true);
-					else
+					} else {
 						cons.addToConstructionList(arg[0].getParentAlgorithm(),
 								true);
+					}
 				}
 				GeoElement[] ret = { arg[0] };
 				return ret;
@@ -90,11 +92,12 @@ public class CmdAngle extends CommandProcessorDesktop {
 					GeoElement[] ret = { kernel.Angle(c.getLabel(),
 							(GeoConic) arg[0]) };
 					return ret;
-				} else if (arg[0].isGeoPolygon())
+				} else if (arg[0].isGeoPolygon()) {
 					return kernel.Angles(c.getLabels(), (GeoPolygon) arg[0]);
+				}
 			}
 
-			throw argErr(app, "Angle", arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -115,10 +118,11 @@ public class CmdAngle extends CommandProcessorDesktop {
 			}
 			// syntax error
 			else {
-				if (ok[0] && !ok[1])
-					throw argErr(app, "Angle", arg[1]);
-				else
-					throw argErr(app, "Angle", arg[0]);
+				if (ok[0] && !ok[1]) {
+					throw argErr(app, c.getName(), arg[1]);
+				} else {
+					throw argErr(app, c.getName(), arg[0]);
+				}
 			}
 
 		case 3:
@@ -128,22 +132,23 @@ public class CmdAngle extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel
-						.Angle(c.getLabel(), (GeoPoint2) arg[0],
-								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
+				GeoElement[] ret = { kernel.Angle(c.getLabel(),
+						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
+						(GeoPoint2) arg[2]) };
 				return ret;
 			}
 			// fixed angle
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isNumberValue())))
+					&& (ok[2] = (arg[2].isNumberValue()))) {
 				return kernel.Angle(c.getLabels(), (GeoPoint2) arg[0],
 						(GeoPoint2) arg[1], (NumberValue) arg[2]);
-			else
-				throw argErr(app, "Angle", arg[0]);
+			} else {
+				throw argErr(app, c.getName(), arg[0]);
+			}
 
 		default:
-			throw argNumErr(app, "Angle", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

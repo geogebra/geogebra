@@ -48,9 +48,9 @@ public GeoElement[] process(Command c) throws MyError {
                 return ret;
             } else {
                 if (!ok[0])
-                    throw argErr(app, "Circle", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else
-                    throw argErr(app, "Circle", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
             }
 
         case 3 :
@@ -68,15 +68,15 @@ public GeoElement[] process(Command c) throws MyError {
                 return ret;
             } else {
                 if (!ok[0])
-                    throw argErr(app, "Circle", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else if (!ok[1])
-                    throw argErr(app, "Circle", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
                 else
-                    throw argErr(app, "Circle", arg[2]);
+                    throw argErr(app, c.getName(), arg[2]);
             }
 
         default :
-            throw argNumErr(app, "Circle", n);
+            throw argNumErr(app, c.getName(), n);
     }
 }
 }

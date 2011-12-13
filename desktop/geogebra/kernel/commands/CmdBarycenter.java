@@ -34,7 +34,7 @@ class CmdBarycenter extends CommandProcessorDesktop
 				throw argErr(app, c.getName(), arg[1]);
 			}
 		default:
-			throw argNumErr(app, "Barycenter", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

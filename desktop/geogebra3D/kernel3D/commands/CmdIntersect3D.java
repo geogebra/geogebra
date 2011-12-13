@@ -310,7 +310,7 @@ public  GeoElement[] process(Command c) throws MyError {
 
         default :
             return super.process(c);
-        	//throw argNumErr(app, "Intersect", n);
+        	//throw argNumErr(app, c.getName(), n);
     }
 }
 }

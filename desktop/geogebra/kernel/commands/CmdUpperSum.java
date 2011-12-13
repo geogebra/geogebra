@@ -40,10 +40,10 @@ class CmdUpperSum extends CommandProcessorDesktop {
 						(NumberValue) arg[3]) };
 				return ret;
 			} else
-				throw argErr(app, "UpperSum", null);
+				throw argErr(app, c.getName(), null);
 
 		default:
-			throw argNumErr(app, "UpperSum", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

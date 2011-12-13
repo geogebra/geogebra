@@ -34,14 +34,14 @@ class CmdIncircle extends CommandProcessorDesktop {
 		return ret;
 	    } else {
 		if (!ok[0])
-		    throw argErr(app, "Incircle", arg[0]);
+		    throw argErr(app, c.getName(), arg[0]);
 		else if (!ok[1])
-		    throw argErr(app, "Incircle", arg[1]);
+		    throw argErr(app, c.getName(), arg[1]);
 		else
-		    throw argErr(app, "Incircle", arg[2]);
+		    throw argErr(app, c.getName(), arg[2]);
 	    }
 	default :
-	    throw argNumErr(app, "Incircle", n);
+	    throw argNumErr(app, c.getName(), n);
 	}
     }
 } // CmdIncircle

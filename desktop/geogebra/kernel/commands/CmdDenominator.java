@@ -35,10 +35,10 @@ class CmdDenominator extends CommandProcessorDesktop {
 				return ret;
 
 			}
-			throw argErr(app, "Denominator", arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Denominator", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

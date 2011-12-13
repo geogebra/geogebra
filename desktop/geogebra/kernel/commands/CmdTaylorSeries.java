@@ -38,10 +38,10 @@ class CmdTaylorSeries extends CommandProcessorDesktop {
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
 			} else
-				throw argErr(app, "TaylorSeries", null);
+				throw argErr(app, c.getName(), null);
 
 		default:
-			throw argNumErr(app, "TaylorSeries", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

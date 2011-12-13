@@ -49,9 +49,9 @@ public class CmdSegment extends CommandProcessorDesktop {
 	                            (NumberValue) arg[1]);
 				else {
 	                if (!ok[0])
-	                    throw argErr(app, "Segment", arg[0]);
+	                    throw argErr(app, c.getName(), arg[0]);
 	                else
-	                    throw argErr(app, "Segment", arg[1]);
+	                    throw argErr(app, c.getName(), arg[1]);
 	            }
 
 	        case 3 : // special case for Segment[A,B,poly1] -> do nothing!
@@ -63,10 +63,10 @@ public class CmdSegment extends CommandProcessorDesktop {
 	                GeoElement[] ret = {};
 	                return ret;
 	            }
-	            throw argNumErr(app, "Segment", n);
+	            throw argNumErr(app, c.getName(), n);
 
 	        default :
-	            throw argNumErr(app, "Segment", n);
+	            throw argNumErr(app, c.getName(), n);
 	    }
 	}
 }

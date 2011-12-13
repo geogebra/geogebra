@@ -36,7 +36,7 @@ public class CmdFunction extends CommandProcessorDesktop {
 				return ret;
 			}                                
 			else {
-				throw argErr(app, "Function", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 			}
 
 		case 3 :            	                
@@ -55,15 +55,15 @@ public class CmdFunction extends CommandProcessorDesktop {
 			}                                
 			else {
 				if (!ok[0])
-					throw argErr(app, "Function", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else if (!ok[1])
-					throw argErr(app, "Function", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 				else
-					throw argErr(app, "Function", arg[2]);
+					throw argErr(app, c.getName(), arg[2]);
 			}
 
 		default :
-			throw argNumErr(app, "Function", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

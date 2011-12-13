@@ -39,9 +39,9 @@ public class CmdPointIn3D extends CmdPointIn {
 				}else
 					return super.process(c);
 			} else
-				throw argErr(app, "Point", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 		}else
-			throw argNumErr(app, "Point", n);
+			throw argNumErr(app, c.getName(), n);
 
 
 	}

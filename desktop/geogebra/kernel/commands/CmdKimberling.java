@@ -46,7 +46,7 @@ class CmdKimberling extends CommandProcessorDesktop {
 				throw argErr(app, c.getName(), arg[3]);
 			}
 		default:
-			throw argNumErr(app, "Kimberling", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

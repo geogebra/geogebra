@@ -52,9 +52,9 @@ public class CmdVector3D extends CmdVector {
 					return ret;
 				} else {
 					if (!ok[0])
-						throw argErr(app, "Vector", arg[0]);
+						throw argErr(app, c.getName(), arg[0]);
 					else
-						throw argErr(app, "Vector", arg[1]);
+						throw argErr(app, c.getName(), arg[1]);
 				}
 			}
 		default :

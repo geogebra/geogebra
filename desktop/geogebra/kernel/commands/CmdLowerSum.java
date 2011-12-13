@@ -40,10 +40,10 @@ class CmdLowerSum extends CommandProcessorDesktop {
 						(NumberValue) arg[3]) };
 				return ret;
 			} else
-				throw argErr(app, "LowerSum", null);
+				throw argErr(app, c.getName(), null);
 
 		default:
-			throw argNumErr(app, "LowerSum", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

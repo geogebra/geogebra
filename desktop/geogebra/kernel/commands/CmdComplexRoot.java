@@ -21,6 +21,7 @@ class CmdComplexRoot extends CommandProcessorDesktop {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -30,14 +31,15 @@ class CmdComplexRoot extends CommandProcessorDesktop {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoFunctionable()))
+			if (ok[0] = (arg[0].isGeoFunctionable())) {
 				return kernel.ComplexRoot(c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
-			else
-				throw argErr(app, "ComplexRoot", arg[0]);
+			} else {
+				throw argErr(app, c.getName(), arg[0]);
+			}
 
 		default:
-			throw argNumErr(app, "ComplexRoot", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

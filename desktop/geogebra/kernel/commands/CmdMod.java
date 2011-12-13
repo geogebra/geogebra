@@ -42,13 +42,13 @@ class CmdMod extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Mod", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Mod", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "Mod", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

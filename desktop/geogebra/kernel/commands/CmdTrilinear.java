@@ -52,7 +52,7 @@ class CmdTrilinear extends CommandProcessorDesktop {
 				throw argErr(app, c.getName(), arg[5]);
 			}
 		default:
-			throw argNumErr(app, "Trilinear", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

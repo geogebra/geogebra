@@ -51,7 +51,7 @@ public class CmdVector extends CommandProcessorDesktop {
 				GeoElement[] ret = { arg[0] };
 				return ret;
 			} else
-				throw argErr(app, "Vector", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		case 2 :
 			arg = resArgs(c);
@@ -66,13 +66,13 @@ public class CmdVector extends CommandProcessorDesktop {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, "Vector", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "Vector", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default :
-			throw argNumErr(app, "Vector", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

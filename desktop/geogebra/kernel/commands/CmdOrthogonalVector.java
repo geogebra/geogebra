@@ -46,11 +46,11 @@ public class CmdOrthogonalVector extends CommandProcessorDesktop {
 					return ret;
 				} else {
 					if (!ok[0])
-						throw argErr(app, "OrthogonalVector", arg[0]);
+						throw argErr(app, c.getName(), arg[0]);
 				}
 
 			default :
-				throw argNumErr(app, "OrthogonalVector", n);
+				throw argNumErr(app, c.getName(), n);
 			}
 		}
 	}

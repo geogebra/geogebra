@@ -60,9 +60,9 @@ public class CmdPrism extends CommandProcessorDesktop {
 								(NumberValue) arg[1]);		
 			} else {
                 if (!ok[0])
-                    throw argErr(app, "Prism", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else
-                    throw argErr(app, "Prism", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
             }
 
 		}else if (n>2){
@@ -81,7 +81,7 @@ public class CmdPrism extends CommandProcessorDesktop {
 			return kernel.getManager3D().Prism(c.getLabels(), points);
 
 		}else{
-			throw argNumErr(app, "Prism", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 
 	}

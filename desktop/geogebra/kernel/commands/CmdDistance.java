@@ -66,13 +66,13 @@ class CmdDistance extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (ok[0] && !ok[1])
-					throw argErr(app, "Distance", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 				else
-					throw argErr(app, "Distance", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 			}
 
 		default:
-			throw argNumErr(app, "Distance", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

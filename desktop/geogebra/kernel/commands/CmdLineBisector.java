@@ -40,7 +40,7 @@ class CmdLineBisector extends CommandProcessorDesktop {
 
 			// syntax error
 			else
-				throw argErr(app, "LineBisector", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		case 2: // two points
 			arg = resArgs(c);
@@ -56,13 +56,13 @@ class CmdLineBisector extends CommandProcessorDesktop {
 			// syntax error
 			else {
 				if (!ok[0])
-					throw argErr(app, "LineBisector", arg[0]);
+					throw argErr(app, c.getName(), arg[0]);
 				else
-					throw argErr(app, "LineBisector", arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:
-			throw argNumErr(app, "LineBisector", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

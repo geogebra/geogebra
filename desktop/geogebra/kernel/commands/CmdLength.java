@@ -121,7 +121,7 @@ public class CmdLength extends CommandProcessorDesktop {
 
 			// Victor Franco 18-04-2007 (end)
 		default:
-			throw argNumErr(app, "Length", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

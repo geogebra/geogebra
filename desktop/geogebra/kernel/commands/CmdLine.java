@@ -70,13 +70,13 @@ public GeoElement[] process(Command c) throws MyError {
             // syntax error
             else {
                 if (!ok[0])
-                    throw argErr(app, "Line", arg[0]);
+                    throw argErr(app, c.getName(), arg[0]);
                 else
-                    throw argErr(app, "Line", arg[1]);
+                    throw argErr(app, c.getName(), arg[1]);
             }
 
         default :
-            throw argNumErr(app, "Line", n);
+            throw argNumErr(app, c.getName(), n);
     }
 }
 }

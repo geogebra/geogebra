@@ -35,10 +35,10 @@ class CmdNumerator extends CommandProcessorDesktop {
 				return ret;
 
 			}
-			throw argErr(app, "Numerator", arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Numerator", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

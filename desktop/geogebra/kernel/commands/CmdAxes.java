@@ -33,10 +33,10 @@ class CmdAxes extends CommandProcessorDesktop {
 			if (arg[0].isGeoConic())
 				return kernel.Axes(c.getLabels(), (GeoConic) arg[0]);
 			else
-				throw argErr(app, "Axes", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Axes", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

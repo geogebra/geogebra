@@ -35,10 +35,10 @@ class CmdDelete extends CmdScripting {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 				return;
 			} else
-				throw argErr(app, "Delete", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Delete", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

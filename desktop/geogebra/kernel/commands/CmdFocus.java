@@ -32,10 +32,10 @@ class CmdFocus extends CommandProcessorDesktop {
 			if (ok[0] = (arg[0].isGeoConic()))
 				return kernel.Focus(c.getLabels(), (GeoConic) arg[0]);
 			else
-				throw argErr(app, "Focus", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Focus", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

@@ -38,7 +38,7 @@ public class CmdPlane extends CommandProcessorDesktop {
 	    					(GeoCoordSys2D) arg[0])};
 	    	return ret;
 	    	}else{
-	    		throw argErr(app, "Plane", arg[0]);
+	    		throw argErr(app, c.getName(), arg[0]);
 	    	}
 	    case 2 :
 	    	arg = resArgs(c);
@@ -67,9 +67,9 @@ public class CmdPlane extends CommandProcessorDesktop {
 
 	    	}else{
 	    		if (!ok[0])
-	    			throw argErr(app, "Plane", arg[0]);
+	    			throw argErr(app, c.getName(), arg[0]);
 	    		else 
-	    			throw argErr(app, "Plane", arg[1]);
+	    			throw argErr(app, c.getName(), arg[1]);
 	    	}
 
 	    case 3 :
@@ -87,15 +87,15 @@ public class CmdPlane extends CommandProcessorDesktop {
 	    		return ret;
 	    	}else{
 	    		if (!ok[0])
-	    			throw argErr(app, "Plane", arg[0]);
+	    			throw argErr(app, c.getName(), arg[0]);
 	    		else if (!ok[1])
-	    			throw argErr(app, "Plane", arg[1]);
+	    			throw argErr(app, c.getName(), arg[1]);
 	    		else
-	    			throw argErr(app, "Plane", arg[2]);
+	    			throw argErr(app, c.getName(), arg[2]);
 	    	}
 
 	    default :
-	    	throw argNumErr(app, "Plane", n);
+	    	throw argNumErr(app, c.getName(), n);
 	    }
 	    
 

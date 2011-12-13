@@ -33,10 +33,10 @@ class CmdSlope extends CommandProcessorDesktop {
 						(GeoLine) arg[0]) };
 				return ret;
 			} else
-				throw argErr(app, "Slope", arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
-			throw argNumErr(app, "Slope", n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }
