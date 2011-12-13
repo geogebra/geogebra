@@ -20,6 +20,7 @@ package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;

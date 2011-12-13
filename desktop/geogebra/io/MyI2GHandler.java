@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.io;
 
+import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;

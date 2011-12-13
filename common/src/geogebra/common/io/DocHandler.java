@@ -15,7 +15,7 @@ the Free Software Foundation.
  * http://www.javaworld.com/javaworld/javatips/jw-javatip128.html
  */
 
-package geogebra.io;
+package geogebra.common.io;
 
 import java.util.LinkedHashMap;
 
