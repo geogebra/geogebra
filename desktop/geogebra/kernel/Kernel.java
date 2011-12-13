@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.adapters.Geo3DVec;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -157,14 +158,8 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class Kernel extends AbstractKernel{
-		
-	@Override
-	protected void notifyEuclidianViewCE() {
-		if (macroManager != null) 
-			macroManager.notifyEuclidianViewCE();
-		
-		cons.notifyEuclidianViewCE();
-	}
+			
+	
 
 	protected Application app;	
 	
@@ -173,7 +168,7 @@ public class Kernel extends AbstractKernel{
 	private ExtremumFinder extrFinder;
 	protected Parser parser;
 
-	private MacroManager macroManager;
+	
 
 	
 	
@@ -520,23 +515,7 @@ public class Kernel extends AbstractKernel{
     
     
 	
-	public void clearConstruction() {		
-		if (macroManager != null)
-			macroManager.setAllMacrosUnused();
-		
-		// clear animations
-		if (animationManager != null) {
-			animationManager.stopAnimation();
-			animationManager.clearAnimatedGeos();
-		}
-				
-		cons.clearConstruction();
-		notifyClearView();
-		notifyRepaint();
-
-		System.gc();
-	}
-
+	
 	
 	
 	
@@ -559,99 +538,6 @@ public class Kernel extends AbstractKernel{
 	
 	
 	
-	/* **********************************
-	 *   MACRO handling
-	 * **********************************/			
-	
-	/**
-	 * Creates a new macro within the kernel. A macro is a user defined
-	 * command in GeoGebra.
-	 */
-	public void addMacro(Macro macro) {
-		if (macroManager == null) {
-			macroManager = new MacroManager(app);
-		}						
-		macroManager.addMacro(macro);				
-	}
-	
-	/**
-	 * Removes a macro from the kernel.
-	 */
-	public void removeMacro(Macro macro) {
-		if (macroManager != null)								
-			macroManager.removeMacro(macro);
-	}
-	
-	/**
-	 * Removes all macros from the kernel. 
-	 */
-	public void removeAllMacros() {
-		if (macroManager != null) {								
-			app.removeMacroCommands();			
-			macroManager.removeAllMacros();			
-		}
-	}
-	
-	/**
-	 * Sets the command name of a macro. Note: if the given name is
-	 * already used nothing is done.
-	 * @return if the command name was really set
-	 */
-	public boolean setMacroCommandName(Macro macro, String cmdName) {
-		boolean nameUsed = macroManager.getMacro(cmdName) != null;
-		if (nameUsed || cmdName == null || cmdName.length() == 0) 
-			return false;
-		
-		macroManager.setMacroCommandName(macro, cmdName);		
-		return true;		
-	}
-	
-	/**
-	 * Returns the macro object for a given macro name.
-	 * Note: null may be returned.
-	 */
-	@Override
-	public Macro getMacro(String name) {
-		return (macroManager == null) ? null : macroManager.getMacro(name);		
-	}		
-	
-	/**
-	 * Returns the number of currently registered macros
-	 */
-	public int getMacroNumber() {
-		if (macroManager == null)
-			return 0;
-		else
-			return macroManager.getMacroNumber();
-	}
-	
-	/**
-	 * Returns a list with all currently registered macros.
-	 */
-	public ArrayList<Macro> getAllMacros() {
-		if (macroManager == null)
-			return null;
-		else
-			return macroManager.getAllMacros();
-	}
-	
-	/**
-	 * Returns i-th registered macro
-	 */
-	public Macro getMacro(int i) {
-		try {
-			return macroManager.getMacro(i);
-		} catch (Exception e) {
-			return null;
-		}		
-	}
-	
-	/**
-	 * Returns the ID of the given macro.
-	 */
-	public int getMacroID(Macro macro) {
-		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);	
-	}
 	
 	/**
 	 * Creates a new algorithm that uses the given macro.
@@ -668,25 +554,7 @@ public class Kernel extends AbstractKernel{
 		}						
 	}
 	
-	/**
-	 * Returns an XML represenation of the given macros in this kernel.
-	 * 
-	 * @return
-	 */
-	public String getMacroXML(ArrayList<Macro> macros) {
-		if (hasMacros())					
-			return MacroManager.getMacroXML(macros);
-		else
-			return "";
-	}
 	
-	/**
-	 * Returns whether any macros have been added to this kernel. 
-	 * @return whether any macros have been added to this kernel.
-	 */
-	public boolean hasMacros() {
-		return (macroManager != null && macroManager.getMacroNumber() > 0);
-	}
 	
 
 
@@ -6325,34 +6193,17 @@ public class Kernel extends AbstractKernel{
 
 	
 	
-	private AnimationManager animationManager;
+	
 	
 	@Override
-	final public AnimationManager getAnimatonManager() {		
+	final public AbstractAnimationManager getAnimatonManager() {		
 		if (animationManager == null) {
 			animationManager = new AnimationManager(this);			
 		}
 		return animationManager;		
 	}
 	
-	final public boolean isAnimationRunning() {
-		return animationManager != null && animationManager.isRunning();
-	}
 	
-	final public boolean isAnimationPaused() {
-		return animationManager != null && animationManager.isPaused();
-	}
-	
-	final public boolean needToShowAnimationButton() {
-		return animationManager != null && animationManager.needToShowAnimationButton();		
-	}
-	
-	final public void udpateNeedToShowAnimationButton() {
-		if (animationManager != null)
-			animationManager.updateNeedToShowAnimationButton();		
-		
-	}	
-
 	
 	
 	

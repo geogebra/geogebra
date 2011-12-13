@@ -1,11 +1,16 @@
 package geogebra.common.main;
 
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.Dimension;
+import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.settings.Settings;
 import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.ResourceBundleAdapter;
 
@@ -50,6 +55,16 @@ public abstract class AbstractApplication {
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	public int maxLayerUsed = 0;
+	public int pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+	public int booleanSize = 13;
+	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
+
+	public boolean useJavaFontsForLaTeX = false;
+
+	public boolean useJavaFontsForLaTeX() {
+		return useJavaFontsForLaTeX;
+
+	}
 
 	public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
 
@@ -342,5 +357,90 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public abstract Settings getSettings();
+
+	public abstract void setScriptingDisabled(boolean scriptingDisabled);
+
+	public void setFontSize(int guiSize) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setGUIFontSize(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setUniqueId(String uniqueId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFileVersion(String ggbVersion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setLabelingStyle(int style) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void reverseMouseWheel(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setUseLocalizedDigits(boolean digits) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPreferredSize(Dimension size) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getTooltipTimeout() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setUseLocalizedLabels(boolean labels) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTooltipLanguage(String ttl) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public abstract DrawEquationInterface getDrawEquation();
+
+	public void setShowConstructionProtocolNavigation(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTmpPerspectives(ArrayList<Perspective> tmp_perspectives) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public abstract void setShowConstructionProtocolNavigation(boolean show,
+			boolean playButton, double playDelay, boolean showProtButton);
+
+	public void removeMacroCommands() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }

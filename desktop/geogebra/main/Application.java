@@ -36,6 +36,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.ResourceBundleAdapter;
@@ -513,12 +514,8 @@ public class Application extends AbstractApplication implements
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	private boolean allowToolTips = true;
 
-	// moved to Application from EuclidianView as the same value is used across
-	// multiple EVs
-	// public int maxLayerUsed = 0;
-	public int pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-	public int booleanSize = 13;
-	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
+	
+	
 
 	private boolean rightClickEnabled = true;
 	private boolean chooserPopupsEnabled = true;
@@ -1579,8 +1576,8 @@ public class Application extends AbstractApplication implements
 		return preferredSize;
 	}
 
-	public void setPreferredSize(Dimension size) {
-		preferredSize = size;
+	public void setPreferredSize(geogebra.common.awt.Dimension size) {
+		preferredSize = geogebra.awt.Dimension.getAWTDimension(size);
 	}
 
 	/**
@@ -1906,7 +1903,15 @@ public class Application extends AbstractApplication implements
 	/*
 	 * sets secondary language
 	 */
-	public void setTooltipLanguage(Locale locale) {
+	public void setTooltipLanguage(String s) {
+		
+		Locale locale = null;
+		
+		for(int i=0;i<supportedLocales.size();i++)
+			if(supportedLocales.get(i).toString().equals(s)){
+				locale = supportedLocales.get(i);
+				break;
+			}
 
 		boolean updateNeeded = (rbplainTT != null) || (rbmenuTT != null);
 
@@ -6308,12 +6313,7 @@ public class Application extends AbstractApplication implements
 		return drawEquation;
 	}
 
-	public boolean useJavaFontsForLaTeX = false;
-
-	public boolean useJavaFontsForLaTeX() {
-		return useJavaFontsForLaTeX;
-
-	}
+	
 
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
@@ -6537,6 +6537,27 @@ public class Application extends AbstractApplication implements
 	
 	public int getMD5folderLength(String fullPath) {
 		return fullPath.indexOf(File.separator);
+	}
+
+	@Override
+	public void setShowConstructionProtocolNavigation(boolean show,
+			boolean playButton, double playDelay, boolean showProtButton) {
+		// TODO the settings should *always* be stored in the ConstructionProtoclSettings object 
+					if(getGuiManager()!=null){
+						setShowConstructionProtocolNavigation(show);			
+						
+						if (show) {
+							getGuiManager().setShowConstructionProtocolNavigation(show,
+								playButton, playDelay, showProtButton);
+						}
+					} else {
+						ConstructionProtocolSettings cpSettings = getSettings().getConstructionProtocol(); 
+						cpSettings.setShowPlayButton(playButton);
+						cpSettings.setPlayDelay(playDelay);
+						cpSettings.setShowConstructionProtocol(showProtButton);
+						setShowConstructionProtocolNavigation(show);			
+					}
+		
 	}
 
 }

@@ -642,7 +642,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;
 			if (index == -1) app.setTooltipLanguage(null);
-			else app.setTooltipLanguage(Application.supportedLocales.get(index));
+			else app.setTooltipLanguage(Application.supportedLocales.get(index).toString());
 		} else if(source == cbEnableScripting) {
 			app.setScriptingDisabled(!cbEnableScripting.isSelected());
 		} else if(source == cbUseJavaFonts) {

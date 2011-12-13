@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -26,7 +27,7 @@ import org.scilab.forge.jlatexmath.WebStartAlphabetRegistration;
 import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
 import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
 
-public class DrawEquation {
+public class DrawEquation implements DrawEquationInterface{
 	private JLabel jl = new JLabel();
 	boolean drawEquationJLaTeXMathFirstCall = true;
 	private Object initJLaTeXMath;
@@ -239,7 +240,7 @@ public class DrawEquation {
 		return new Dimension(width, height);
 	}
 
-	public void setUseJavaFontsForLaTeX(Application app, boolean b) {
+	public void setUseJavaFontsForLaTeX(AbstractApplication app, boolean b) {
 		if (b != app.useJavaFontsForLaTeX) {
 			app.useJavaFontsForLaTeX = b;
 			String serifFont = b ? "Serif" : null;

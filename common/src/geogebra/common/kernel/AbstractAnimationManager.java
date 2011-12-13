@@ -18,5 +18,25 @@ public abstract class AbstractAnimationManager {
 		// TODO Auto-generated method stub
 		
 	}
+	public boolean isRunning() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public boolean isPaused() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public boolean needToShowAnimationButton() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public void updateNeedToShowAnimationButton() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void clearAnimatedGeos() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

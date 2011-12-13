@@ -26,6 +26,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -63,14 +64,10 @@ import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
-import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.Parser;
-import geogebra.main.Application;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -139,7 +136,7 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	/** application */
-	protected Application app;
+	protected AbstractApplication app;
 	
 	private String[] macroInputLabels, macroOutputLabels;
 	private GeoElement[] cmdOutput;
@@ -152,7 +149,7 @@ public class MyXMLHandler implements DocHandler {
 
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
-	private Kernel kernel, origKernel;
+	private AbstractKernel kernel, origKernel;
 	/** construction */
 	protected Construction cons;
 
@@ -258,7 +255,7 @@ public class MyXMLHandler implements DocHandler {
 	/** Creates a new instance of MyXMLHandler 
 	 * @param kernel 
 	 * @param cons */
-	public MyXMLHandler(Kernel kernel, Construction cons) {
+	public MyXMLHandler(AbstractKernel kernel, Construction cons) {
 		origKernel = kernel;
 		origCons = cons;
 		origParser = new Parser(origKernel, origCons);
@@ -1086,7 +1083,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 			
 		} catch (Exception e) {
-			Application.printStacktrace(e.getMessage());
+			AbstractApplication.printStacktrace(e.getMessage());
 			return false;
 		}
 	}
@@ -1658,11 +1655,11 @@ public class MyXMLHandler implements DocHandler {
 		
 		tmp_perspectives = new ArrayList<Perspective>();
 		tmp_perspectives.add(tmp_perspective);
-		app.setPreferredSize(new Dimension(width, height));
+		app.setPreferredSize(geogebra.common.factories.AwtFactory.prototype.newDimension(width, height));
 		app.setTmpPerspectives(tmp_perspectives);
 	}
 
-	private boolean handleConsProtColumns(Application app, LinkedHashMap<String, String> attrs) {
+	private boolean handleConsProtColumns(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			// TODO: set visible state of columns in consProt
 			/*
@@ -1692,7 +1689,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleConsProtocol(Application app, LinkedHashMap<String, String> attrs) {
+	private boolean handleConsProtocol(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			// boolean useColors = parseBoolean((String)
 			// attrs.get("useColors"));
@@ -1708,7 +1705,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleConsProtNavigationBar(Application app,
+	private boolean handleConsProtNavigationBar(AbstractApplication app,
 			LinkedHashMap<String, String> attrs) {
 		try {
 			boolean show = parseBoolean((String) attrs.get("show"));
@@ -1720,22 +1717,9 @@ public class MyXMLHandler implements DocHandler {
 			
 			//Maybe there is not guiManager yet. In this case we store the
 			//navigation bar's states in ConstructionProtocolSettings
+			app.setShowConstructionProtocolNavigation(show,
+					playButton, playDelay, showProtButton);
 			
-			// TODO the settings should *always* be stored in the ConstructionProtoclSettings object 
-			if(app.getGuiManager()!=null){
-				app.setShowConstructionProtocolNavigation(show);			
-				
-				if (show) {
-					app.getGuiManager().setShowConstructionProtocolNavigation(show,
-						playButton, playDelay, showProtButton);
-				}
-			} else {
-				ConstructionProtocolSettings cpSettings = app.getSettings().getConstructionProtocol(); 
-				cpSettings.setShowPlayButton(playButton);
-				cpSettings.setPlayDelay(playDelay);
-				cpSettings.setShowConstructionProtocol(showProtButton);
-				app.setShowConstructionProtocolNavigation(show);			
-			}
 			
 			
 			// construction step: handled at end of parsing
@@ -1757,7 +1741,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private boolean handleGuiShow(Application app, LinkedHashMap<String, String> attrs) {
+	private boolean handleGuiShow(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			// backward compatibility to versions without the layout component
 			if(ggbFileFormat < 3.3) {
@@ -1798,7 +1782,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private static boolean handleGuiSettings(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleGuiSettings(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			boolean ignoreDocument = !((String)attrs.get("ignoreDocument")).equals("false");
 			app.getSettings().getLayout().setIgnoreDocumentLayout(ignoreDocument);
@@ -1838,7 +1822,7 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private boolean handleSplitDivider(Application app, LinkedHashMap<String, String> attrs) {
+	private boolean handleSplitDivider(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			tmp_spHorizontal = !"false".equals((String) attrs.get("horizontal"));
 			
@@ -1873,7 +1857,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleToolbar(Application app, LinkedHashMap<String, String> attrs) {
+	private boolean handleToolbar(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			String toolbarStr = (String)attrs.get("str");
 			if (toolbarStr != null) {
@@ -1956,9 +1940,9 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private static boolean handleWindowSize(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleWindowSize(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			Dimension size = new Dimension(
+			geogebra.common.awt.Dimension size = geogebra.common.factories.AwtFactory.prototype.newDimension(
 				Integer.parseInt((String)attrs.get("width")),
 				Integer.parseInt((String)attrs.get("height"))
 			);
@@ -1970,7 +1954,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleFont(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleFont(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {			
 			int guiSize = Integer.parseInt((String) attrs.get("size"));			
 
@@ -1994,7 +1978,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 	
-	private static boolean handleMenuFont(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleMenuFont(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {			
 			int guiSize = Integer.parseInt((String) attrs.get("size"));
 			if (guiSize <= 0) {
@@ -2016,21 +2000,14 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleTooltipSettings(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleTooltipSettings(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			String ttl = (String) attrs.get("language");
 			if (ttl != null) {
-				boolean found = false;
-				for (int i = 0; i < Application.supportedLocales.size(); i++) {
-					if (Application.supportedLocales.get(i).toString().equals(ttl)) {
-						app.setTooltipLanguage(Application.supportedLocales.get(i));
-						found = true;
-						break;
-					}
-				}
-				if (!found) {
-					app.setTooltipLanguage(null);
-				}
+				
+				
+					app.setTooltipLanguage(ttl);
+				
 			}
 			int ttt = -1;
 			try { // "off" will be -1
@@ -2053,7 +2030,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleMouse(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleMouse(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {			
 			app.reverseMouseWheel(!((String)attrs.get("reverseWheel")).equals("false"));
 
@@ -2063,7 +2040,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleLabelingStyle(Application app, LinkedHashMap<String, String> attrs) {
+	private static boolean handleLabelingStyle(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			int style = Integer.parseInt((String) attrs.get("val"));
 			app.setLabelingStyle(style);
@@ -2335,9 +2312,9 @@ public class MyXMLHandler implements DocHandler {
 			// we have to change the construction object temporarily so
 			// everything
 			// is done in the macro construction from now on
-			kernel = (Kernel) macroKernel;
+			kernel = (AbstractKernel) macroKernel;
 			cons = macroKernel.getConstruction();
-			parser = new Parser((Kernel)macroKernel, cons);
+			parser = new Parser((AbstractKernel)macroKernel, cons);
 
 		} catch (Exception e) {
 			System.err.println("error in <macro>");
