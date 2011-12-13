@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 
 /**
  * LineBisector[ <GeoPoint>, <GeoPoint> ] LineBisector[ <GeoSegment> ]
  */
-class CmdLineBisector extends CommandProcessorDesktop {
+public class CmdLineBisector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ class CmdLineBisector extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLineBisector(Kernel kernel) {
+	public CmdLineBisector(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,7 +33,7 @@ class CmdLineBisector extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			// line through point orthogonal to segment
 			if (ok[0] = (arg[0].isGeoSegment())) {
-				GeoElement[] ret = { kernel.LineBisector(c.getLabel(),
+				GeoElement[] ret = { kernelA.LineBisector(c.getLabel(),
 						(GeoSegment) arg[0]) };
 				return ret;
 			}
@@ -48,7 +48,7 @@ class CmdLineBisector extends CommandProcessorDesktop {
 			// line through point orthogonal to vector
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernel.LineBisector(c.getLabel(),
+				GeoElement[] ret = { kernelA.LineBisector(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoPoint2) arg[1]) };
 				return ret;
 			}

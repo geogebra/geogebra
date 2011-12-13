@@ -1,13 +1,13 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CmdLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CmdLine;
 import geogebra3D.kernel3D.GeoElement3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -47,7 +47,7 @@ public class CmdLine3D extends CmdLine {
 						&& (ok[1] = (geo1.isGeoPoint()))) { // line between two 3D points
 					GeoElement[] ret =
 					{
-							kernel.getManager3D().Line3D(
+							((Kernel)kernelA).getManager3D().Line3D(
 									c.getLabel(),
 									(GeoPointND) geo0,
 									(GeoPointND) geo1)};
@@ -56,7 +56,7 @@ public class CmdLine3D extends CmdLine {
 						&& (ok[1] = (geo1.isGeoVector()))) { // line directed
 					GeoElement[] ret =
 					{
-							(GeoElement) kernel.getManager3D().Line3D(
+							(GeoElement) ((Kernel)kernelA).getManager3D().Line3D(
 									c.getLabel(),
 									(GeoPointND) geo0,
 									(GeoVectorND) geo1)};
@@ -67,7 +67,7 @@ public class CmdLine3D extends CmdLine {
 						&& (ok[1] = (geo1 instanceof GeoLineND))) { // line parallel
 					GeoElement[] ret =
 					{
-							(GeoElement) kernel.getManager3D().Line3D(
+							(GeoElement) ((Kernel)kernelA).getManager3D().Line3D(
 									c.getLabel(),
 									(GeoPointND) geo0,
 									(GeoLineND) geo1)};

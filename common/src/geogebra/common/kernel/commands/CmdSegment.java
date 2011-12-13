@@ -1,20 +1,20 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 
 	/*
 	 * Segment[ <GeoPoint>, <GeoPoint> ] Segment[ <GeoPoint>, <Number> ]
 	 */
-public class CmdSegment extends CommandProcessorDesktop {
+public class CmdSegment extends CommandProcessor {
 		
-		public CmdSegment(Kernel kernel) {
+		public CmdSegment(AbstractKernel kernel) {
 			super(kernel);
 		}
 		
@@ -32,7 +32,7 @@ public class CmdSegment extends CommandProcessorDesktop {
 	                && (ok[1] = (arg[1] .isGeoPoint()))) {
 	                GeoElement[] ret =
 	                    {
-	                         kernel.Segment(
+	                         kernelA.Segment(
 	                            c.getLabel(),
 	                            (GeoPoint2) arg[0],
 	                            (GeoPoint2) arg[1])};
@@ -43,7 +43,7 @@ public class CmdSegment extends CommandProcessorDesktop {
 	            else if ((ok[0] = (arg[0] .isGeoPoint()))
 	                && (ok[1] = (arg[1] .isNumberValue())))
 					return
-	                         kernel.Segment(
+	                         kernelA.Segment(
 	                            c.getLabels(),
 	                            (GeoPoint2) arg[0],
 	                            (NumberValue) arg[1]);

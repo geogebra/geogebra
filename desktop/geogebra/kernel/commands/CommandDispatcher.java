@@ -14,6 +14,9 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.CmdLine;
+import geogebra.common.kernel.commands.CmdLineBisector;
+import geogebra.common.kernel.commands.CmdSegment;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;

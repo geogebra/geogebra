@@ -4,10 +4,26 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAngleNumeric;
+import geogebra.common.kernel.algos.AlgoAnglePoints;
+import geogebra.common.kernel.algos.AlgoAnglePolygon;
+import geogebra.common.kernel.algos.AlgoAngleVector;
+import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.algos.AlgoAngularBisectorLines;
 import geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
+import geogebra.common.kernel.algos.AlgoCenterConic;
+import geogebra.common.kernel.algos.AlgoCentroidPolygon;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
+import geogebra.common.kernel.algos.AlgoConicFivePoints;
+import geogebra.common.kernel.algos.AlgoConicFromCoeffList;
+import geogebra.common.kernel.algos.AlgoConicPartCircle;
+import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
+import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
+import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoDependentBoolean;
 import geogebra.common.kernel.algos.AlgoDependentConic;
 import geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -21,9 +37,19 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.AlgoDiameterLine;
+import geogebra.common.kernel.algos.AlgoDiameterVector;
 import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoEllipseFociLength;
+import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
+import geogebra.common.kernel.algos.AlgoFocus;
+import geogebra.common.kernel.algos.AlgoHyperbolaFociLength;
+import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
+import geogebra.common.kernel.algos.AlgoImageCorner;
+import geogebra.common.kernel.algos.AlgoIncircle;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
+import geogebra.common.kernel.algos.AlgoIsInRegion;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -31,13 +57,23 @@ import geogebra.common.kernel.algos.AlgoLineBisector;
 import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
 import geogebra.common.kernel.algos.AlgoLinePointLine;
 import geogebra.common.kernel.algos.AlgoLinePointVector;
+import geogebra.common.kernel.algos.AlgoOrthoLinePointConic;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointVector;
+import geogebra.common.kernel.algos.AlgoParabolaPointLine;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.AlgoPolarLine;
+import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
+import geogebra.common.kernel.algos.AlgoSemicircle;
+import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoTextCorner;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
+import geogebra.common.kernel.algos.AlgoVertex;
+import geogebra.common.kernel.algos.AlgoVertexPolygon;
+import geogebra.common.kernel.algos.AlgoZip;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -69,12 +105,15 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -2779,8 +2818,6 @@ public abstract class AbstractKernel {
 
 	public abstract AbstractAnimationManager getAnimatonManager();
 
-	public abstract GeoElementInterface Semicircle(String label,
-			GeoPoint2 geoPoint, GeoPoint2 geoPoint2);
 
 	public AbstractMyMath2 getMyMath2() {
 		return new AbstractMyMath2();
@@ -3258,8 +3295,6 @@ public abstract class AbstractKernel {
 	}
 
 	public abstract GeoPoint2[] RootMultiple(String[] labels, GeoFunction f);
-
-	public abstract GeoNumeric getDefaultNumber(boolean geoAngle);
 
 
 	public abstract GeoElement[] PolygonND(String[] labels, GeoPointND[] P);
@@ -3873,6 +3908,586 @@ public abstract class AbstractKernel {
 		GeoLine g = algo.getLine();
 		return g;
 	}
+	
+	/** 
+	 * Creates new point B with distance n from A and  new segment AB 
+	 * The labels[0] is for the segment, labels[1] for the new point	 
+	 */
+	final public GeoElement [] Segment (String [] labels, GeoPoint2 A, NumberValue n) {
+		// this is actually a macro
+		String pointLabel = null, segmentLabel = null;
+		if (labels != null) {
+			switch (labels.length) {
+				case 2:
+					pointLabel = labels[1];
+					
+				case 1:
+					segmentLabel = labels[0];
+					
+				default:
+			}
+		}
+		
+		// create a circle around A with radius n
+		AlgoCirclePointRadius algoCircle = new AlgoCirclePointRadius((Construction)cons, A, n);
+		cons.removeFromConstructionList(algoCircle);
+		// place the new point on the circle
+		AlgoPointOnPath algoPoint = new AlgoPointOnPath(cons, pointLabel, algoCircle.getCircle(), A.inhomX+ n.getDouble(), A.inhomY );
+		
+		// return segment and new point
+		GeoElement [] ret = { (GeoElement) Segment(segmentLabel, A, algoPoint.getP()),
+											algoPoint.getP() };
+		return ret;		
+	}
+	
+	/** 
+	 * Creates a new point C by rotating B around A using angle alpha and
+	 * a new angle BAC. 
+	 * The labels[0] is for the angle, labels[1] for the new point	 
+	 */
+	final public GeoElement [] Angle (String [] labels, GeoPoint2 B, GeoPoint2 A, NumberValue alpha) {
+		return Angle(labels, B, A, alpha, true);	
+	}
+	
+	/** 
+	 * Creates a new point C by rotating B around A using angle alpha and
+	 * a new angle BAC (for positive orientation) resp. angle CAB (for negative orientation). 
+	 * The labels[0] is for the angle, labels[1] for the new point	 
+	 */
+	final public GeoElement [] Angle (String [] labels, GeoPoint2 B, GeoPoint2 A, NumberValue alpha, boolean posOrientation) {
+		// this is actually a macro
+		String pointLabel = null, angleLabel = null;
+		if (labels != null) {
+			switch (labels.length) {
+				case 2:
+					pointLabel = labels[1];
+					
+				case 1:
+					angleLabel = labels[0];
+					
+				default:
+			}
+		}
+		
+		// rotate B around A using angle alpha
+		GeoPoint2 C = (GeoPoint2) Rotate(pointLabel, B, alpha, A)[0];
+		
+		// create angle according to orientation
+		GeoAngle angle;
+		if (posOrientation) {
+			angle = Angle(angleLabel, B, A, C);
+		} else {
+			angle = Angle(angleLabel, C, A, B);
+		}
+		
+		//return angle and new point
+		GeoElement [] ret = { angle, C };
+		return ret;		
+	}
+
+	public abstract GeoElement[] Rotate(String label,GeoElement A,NumberValue Alpha,GeoPoint2 B);
+	/** 
+	 * Angle named label between line g and line h
+	 */
+	final public GeoAngle Angle(String label, GeoLine g, GeoLine h) {
+		AlgoAngleLines algo = new AlgoAngleLines((Construction)cons, label, g, h);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+
+	/** 
+	 * Angle named label between vector v and vector w
+	 */
+	final public GeoAngle Angle(
+		String label,
+		GeoVector v,
+		GeoVector w) {
+		AlgoAngleVectors algo = new AlgoAngleVectors((Construction)cons, label, v, w);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+	
+	/** 
+	 * Angle named label for a point or a vector
+	 */
+	final public GeoAngle Angle(
+		String label,
+		GeoVec3D v) {
+		AlgoAngleVector algo = new AlgoAngleVector((Construction)cons, label, v);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+
+
+	/** 
+	 * Angle named label between three points
+	 */
+	final public GeoAngle Angle(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C) {
+		AlgoAnglePoints algo = new AlgoAnglePoints((Construction)cons, label, A, B, C);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
+	
+	/** 
+	 * all angles of given polygon
+	 */
+	final public GeoElement [] Angles(String [] labels, GeoPolygon poly) {
+		AlgoAnglePolygon algo = new AlgoAnglePolygon((Construction)cons, labels, poly);
+		GeoElement [] angles = algo.getAngles();
+		//for (int i=0; i < angles.length; i++) {
+		//	angles[i].setAlphaValue(0.0f);
+		//}
+		return angles;
+	}
+
+	
+	
+	public GeoNumeric getDefaultNumber(boolean isAngle){
+		return (GeoNumeric)((Construction)cons).getConstructionDefaults().
+			getDefaultGeo(isAngle?ConstructionDefaults.DEFAULT_ANGLE:
+			ConstructionDefaults.DEFAULT_NUMBER);
+	}
+
+	/** 
+	 * circle with through points A, B, C
+	 */
+	final public GeoConic Circle(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C) {
+		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(cons, label, A, B, C);
+		GeoConic circle = (GeoConic) algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+	
+	/** 
+	 * incircle with vertex points A, B, C
+	 * dsun48 [6/26/2011]
+	 */
+	final public GeoConic Incircle(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C) {
+		AlgoIncircle algo = new AlgoIncircle((Construction)cons, label, A, B, C);
+		GeoConic circle = (GeoConic) algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+
+	/** 
+	 * conic arc from conic and parameters
+	 */
+	final public GeoConicPart ConicArc(String label, GeoConic conic, NumberValue a, NumberValue b) {
+		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(cons, label, conic, a, b, 															
+				GeoConicPart.CONIC_PART_ARC);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * conic sector from conic and points
+	 */
+	final public GeoConicPart ConicArc(String label, GeoConic conic, GeoPoint2 P, GeoPoint2 Q) {
+		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons, label, conic, P, Q, 															
+				GeoConicPart.CONIC_PART_ARC);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * conic sector from conic and parameters
+	 */
+	final public GeoConicPart ConicSector(String label, GeoConic conic, NumberValue a, NumberValue b) {
+		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(cons, label, conic, a, b, 															
+				GeoConicPart.CONIC_PART_SECTOR);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * conic sector from conic and points
+	 */
+	final public GeoConicPart ConicSector(String label, GeoConic conic, GeoPoint2 P, GeoPoint2 Q) {
+		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons, label, conic, P, Q, 															
+				GeoConicPart.CONIC_PART_SECTOR);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * circle arc from three points
+	 */
+	final public GeoConicPart CircumcircleArc(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, A,B, C, 															
+				GeoConicPart.CONIC_PART_ARC);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * circle sector from three points
+	 */
+	final public GeoConicPart CircumcircleSector(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons, label, A,B, C, 															
+				GeoConicPart.CONIC_PART_SECTOR);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * circle arc from center and twho points on arc
+	 */
+	final public GeoConicPart CircleArc(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+		AlgoConicPartCircle algo = new AlgoConicPartCircle((Construction)cons, label, A,B, C, 															
+				GeoConicPart.CONIC_PART_ARC);
+		return (GeoConicPart)algo.getConicPart();
+	}
+	
+	/** 
+	 * circle sector from center and twho points on arc
+	 */
+	final public GeoConicPart CircleSector(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+		AlgoConicPartCircle algo = new AlgoConicPartCircle((Construction)cons, label, A,B, C, 															
+				GeoConicPart.CONIC_PART_SECTOR);
+		return (GeoConicPart)algo.getConicPart();
+	}
+
+	/** 
+	 * Focuses of conic. returns 2 GeoPoints
+	 */
+	final public GeoPoint2[] Focus(String[] labels, GeoConic c) {
+		AlgoFocus algo = new AlgoFocus((Construction)cons, labels, c);
+		GeoPoint2[] focus = algo.getFocus();
+		return focus;
+	}
+
+	/** 
+	 * Vertices of conic. returns 4 GeoPoints
+	 */
+	final public GeoPoint2[] Vertex(String[] labels, GeoConic c) {
+		AlgoVertex algo = new AlgoVertex((Construction)cons, labels, c);
+		GeoPoint2[] vertex = algo.getVertex();
+		return vertex;
+	}
+	
+	/** 
+	 * Vertices of polygon. returns 3+ GeoPoints
+	 */
+	final public GeoElement[] Vertex(String[] labels, GeoPolyLineInterface p) {
+		AlgoVertexPolygon algo = new AlgoVertexPolygon((Construction)cons, labels, p);
+		GeoElement[] vertex = algo.getVertex();
+		return vertex;
+	}
+	
+	/** 
+	 * Vertex of polygon. returns a GeoPoint
+	 */
+	final public GeoPoint2 Vertex(String label, GeoPolyLineInterface p,NumberValue v) {
+		AlgoVertexPolygon algo = new AlgoVertexPolygon((Construction)cons, label, p,v);
+		GeoPoint2 vertex = algo.getOneVertex();
+		return vertex;
+	}
+
+	/** 
+	 * Center of conic
+	 */
+	final public GeoPoint2 Center(String label, GeoConic c) {
+		AlgoCenterConic algo = new AlgoCenterConic((Construction)cons, label, c);
+		GeoPoint2 midpoint = algo.getPoint();
+		return midpoint;
+	}
+	
+	/** 
+	 * Centroid of a 
+	 */
+	final public GeoPoint2 Centroid(String label, GeoPolygon p) {
+		AlgoCentroidPolygon algo = new AlgoCentroidPolygon((Construction)cons, label, p);
+		GeoPoint2 centroid = algo.getPoint();
+		return centroid;
+	}
+	
+	/** 
+	 * Corner of image
+	 */
+	final public GeoPoint2 Corner(String label, GeoImage img, NumberValue number) {
+		AlgoImageCorner algo = new AlgoImageCorner((Construction)cons, label, img, number);	
+		return algo.getCorner();
+	}
+
+	/** 
+	 * Corner of text Michael Borcherds 2007-11-26
+	 */
+	final public GeoPoint2 Corner(String label, GeoText txt, NumberValue number) {
+		AlgoTextCorner algo = new AlgoTextCorner((Construction)cons, label, txt, number);	
+		return algo.getCorner();
+	}
+
+	/*********************************************
+	 * CONIC PART
+	 *********************************************/
+
+	/** 
+	 * circle with midpoint M and radius r
+	 */
+	final public GeoConic Circle(
+		String label,
+		GeoPoint2 M,
+		NumberValue r) {
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, M, r);
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+
+	/** 
+	 * circle with midpoint M and radius BC
+	 * Michael Borcherds 2008-03-14
+	 */
+	final public GeoConic Circle(
+			// this is actually a macro
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C, boolean dummy) {
+
+		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, B, C, null);
+		cons.removeFromConstructionList(algoSegment);
+		
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A, algoSegment.getSegment(),true);
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+
+	/** 
+	 * circle with midpoint A and radius the same as circle
+	 * Michael Borcherds 2008-03-14
+	 */
+	final public GeoConic Circle(
+			// this is actually a macro
+		String label,
+		GeoPoint2 A,
+		GeoConic c) {
+
+		AlgoRadius radius = new AlgoRadius((Construction)cons, c);
+		cons.removeFromConstructionList(radius);
+		
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A, radius.getRadius());
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+
+	/** 
+	 * circle with midpoint M and radius segment
+	 * Michael Borcherds 2008-03-15
+	 */
+	final public GeoConic Circle(
+		String label,
+		GeoPoint2 A,
+		GeoSegment segment) {
+
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A, segment, true);
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+
+	/** 
+	 * circle with midpoint M through point P
+	 */
+	final public GeoConic Circle(String label, GeoPoint2 M, GeoPoint2 P) {
+		AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons, label, M, P);
+		GeoConic circle = algo.getCircle();
+		circle.setToSpecific();
+		circle.update();
+		notifyUpdate(circle);
+		return circle;
+	}
+	
+	/** 
+	 * semicircle with midpoint M through point P
+	 */
+	final public GeoConicPart Semicircle(String label, GeoPoint2 M, GeoPoint2 P) {
+		AlgoSemicircle algo = new AlgoSemicircle((Construction)cons, label, (GeoPoint2)M, (GeoPoint2)P);
+		return algo.getSemicircle();
+	}
+
+	
+	/** 
+	 * parabola with focus F and line l
+	 */
+	final public GeoConic Parabola(
+		String label,
+		GeoPoint2 F,
+		GeoLine l) {
+		AlgoParabolaPointLine algo = new AlgoParabolaPointLine((Construction)cons, label, F, l);
+		GeoConic parabola = algo.getParabola();
+		return parabola;
+	}
+
+	/** 
+	 * ellipse with foci A, B and length of first half axis a
+	 */
+	final public GeoConic Ellipse(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		NumberValue a) {
+		AlgoEllipseFociLength algo = new AlgoEllipseFociLength((Construction)cons, label, A, B, a);
+		GeoConic ellipse = algo.getConic();
+		return ellipse;
+	}
+
+	/** 
+	 * ellipse with foci A, B passing thorugh C
+	 * Michael Borcherds 2008-04-06
+	 */
+	final public GeoConic Ellipse(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C) {
+		AlgoEllipseFociPoint algo = new AlgoEllipseFociPoint((Construction)cons, label, A, B, C);
+		GeoConic ellipse = algo.getEllipse();
+		return ellipse;
+	}
+
+	/** 
+	 * hyperbola with foci A, B and length of first half axis a
+	 */
+	final public GeoConic Hyperbola(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		NumberValue a) {
+		AlgoHyperbolaFociLength algo =
+			new AlgoHyperbolaFociLength((Construction)cons, label, A, B, a);
+		GeoConic hyperbola = algo.getConic();
+		return hyperbola;
+	}
+
+	/** 
+	 * hyperbola with foci A, B passing thorugh C
+	 * Michael Borcherds 2008-04-06
+	 */
+	final public GeoConic Hyperbola(
+		String label,
+		GeoPoint2 A,
+		GeoPoint2 B,
+		GeoPoint2 C) {
+		AlgoHyperbolaFociPoint algo =
+			new AlgoHyperbolaFociPoint((Construction)cons, label, A, B, C);
+		GeoConic hyperbola = algo.getHyperbola();
+		return hyperbola;
+	}
+
+	/** 
+	 * conic through five points
+	 */
+	final public GeoConic Conic(String label, GeoPoint2[] points) {
+		AlgoConicFivePoints algo = new AlgoConicFivePoints((Construction)cons, label, points);
+		GeoConic conic = algo.getConic();
+		return conic;
+	}
+	
+	/**
+	 * conic from coefficients
+	 * @param coeffList
+	 * @return
+	 */
+	final public GeoElement [] Conic(String label, GeoList coeffList) {
+		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(
+				(Construction)cons, label, coeffList);
+		
+		return new GeoElement[] {algo.getConic()};
+		
+	}
+
+	/** 
+	 * polar line to P relativ to c
+	 */
+	final public GeoLine PolarLine(
+		String label,
+		GeoPoint2 P,
+		GeoConic c) {
+		AlgoPolarLine algo = new AlgoPolarLine((Construction)cons, label, c, P);
+		GeoLine polar = algo.getLine();
+		return polar;
+	}
+
+	/** 
+	 * diameter line conjugate to direction of g relative to c
+	 */
+	final public GeoLine DiameterLine(
+		String label,
+		GeoLine g,
+		GeoConic c) {
+		AlgoDiameterLine algo = new AlgoDiameterLine((Construction)cons, label, c, g);
+		GeoLine diameter = algo.getDiameter();
+		return diameter;
+	}
+
+	/** 
+	 * diameter line conjugate to v relative to c
+	 */
+	final public GeoLine DiameterLine(
+		String label,
+		GeoVector v,
+		GeoConic c) {
+		AlgoDiameterVector algo = new AlgoDiameterVector((Construction)cons, label, c, v);
+		GeoLine diameter = algo.getDiameter();
+		return diameter;
+	}
+
+	
+	/**
+	 * Determine whether point is inregion
+	 * @param label
+	 * @param pi
+	 * @param region
+	 * @return GeoBoolean which is true iff point is in region
+	 */
+	public GeoBoolean isInRegion(String label,GeoPointND pi, Region region) {
+		AlgoIsInRegion algo = new AlgoIsInRegion((Construction)cons,label,pi,region);
+		return algo.getResult();
+	}
+
+
+	public GeoElement[] Sequence(String label, GeoNumeric upTo) {
+		AlgoSequence algo = new AlgoSequence((Construction)cons,label,upTo);
+		return algo.getOutput();
+	}
+
+
+	public GeoElement[] Zip(String label, GeoElement expression,
+			GeoElement[] vars, GeoList[] over) {
+		//Application.debug("expr:"+expression+"label:"+label+"var:"+vars+"over:"+over);
+		AlgoZip algo = new AlgoZip((Construction)cons,label,expression,vars,over);
+		return algo.getOutput();
+	}
+	
+
+	public GeoElement[] OrthogonalLineToConic(String label, GeoPoint2 geoPoint,
+			GeoConic conic) {
+		AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic((Construction)cons, label, geoPoint, conic);
+		GeoElement[] lines = algo.getOutput();
+		return lines;
+	}
+
 
 	private GeoVec2D imaginaryUnit;
 

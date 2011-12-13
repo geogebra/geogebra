@@ -1,22 +1,22 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 
 /*
  * Line[ <GeoPoint>, <GeoPoint> ] Line[ <GeoPoint>, <GeoVector> ] Line[
  * <GeoPoint>, <GeoLine> ]
  */
-public class CmdLine extends CommandProcessorDesktop {
+public class CmdLine extends CommandProcessor {
 	
-	public CmdLine(Kernel kernel) {
+	public CmdLine(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -34,7 +34,7 @@ public GeoElement[] process(Command c) throws MyError {
                 && (ok[1] = (arg[1] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernel.Line(
+                         kernelA.Line(
                             c.getLabel(),
                             (GeoPoint2) arg[0],
                             (GeoPoint2) arg[1])};
@@ -47,7 +47,7 @@ public GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoVector()))) {
                 GeoElement[] ret =
                     {
-                         kernel.Line(
+                         kernelA.Line(
                             c.getLabel(),
                             (GeoPoint2) arg[0],
                             (GeoVector) arg[1])};
@@ -60,7 +60,7 @@ public GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoLine()))) {
                 GeoElement[] ret =
                     {
-                         kernel.Line(
+                         kernelA.Line(
                             c.getLabel(),
                             (GeoPoint2) arg[0],
                             (GeoLine) arg[1])};

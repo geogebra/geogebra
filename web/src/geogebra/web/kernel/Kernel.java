@@ -9,6 +9,7 @@ import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
@@ -88,13 +89,6 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public AbstractAnimationManager getAnimatonManager() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElementInterface Semicircle(String label, GeoPoint2 geoPoint,
-            GeoPoint2 geoPoint2) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -214,6 +208,13 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public GeoElement createGeoElement(Construction cons2, String type) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement[] Rotate(String label, GeoElement A, NumberValue Alpha,
+            GeoPoint2 B) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
