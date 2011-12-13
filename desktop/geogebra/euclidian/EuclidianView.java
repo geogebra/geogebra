@@ -438,9 +438,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
-	// since V3.0 this factor is 1, before it was 0.5
-	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
-	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
+	
+	
 
 	double[] gridDistances = { 2, 2, Math.PI / 6 };
 
@@ -1569,7 +1568,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		if (automaticGridDistance) {
 			gridDistances[axis] = axesNumberingDistances[axis]
-					* automaticGridDistanceFactor;
+					* EuclidianStyleConstants.automaticGridDistanceFactor;
 		}
 	}
 
@@ -4254,7 +4253,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		// grid distances
 		if (!automaticGridDistance || (// compatibility to v2.7:
-				automaticGridDistanceFactor != DEFAULT_GRID_DIST_FACTOR)) {
+				EuclidianStyleConstants.automaticGridDistanceFactor != EuclidianStyleConstants.DEFAULT_GRID_DIST_FACTOR)) {
 			sb.append("\t<grid distX=\"");
 			sb.append(gridDistances[0]);
 			sb.append("\" distY=\"");

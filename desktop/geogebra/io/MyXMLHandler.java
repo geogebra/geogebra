@@ -34,6 +34,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -63,9 +64,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.TraceSettings;
-import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.geos.GeoTextField;
-import geogebra.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.kernel.parser.Parser;
 
 import java.util.ArrayList;
@@ -75,8 +74,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
-import javax.swing.JSplitPane;
-import javax.swing.ToolTipManager;
 
 import org.xml.sax.SAXException;
 
@@ -126,6 +123,11 @@ public class MyXMLHandler implements DocHandler {
 		"60",
 		"0"
 	};
+
+	/** See JSplitPane.HORIZONTAL_SPLIT */
+	private static final int JSplitPane_HORIZONTAL_SPLIT = 2;
+	/** See JSplitPane.VERTICAL_SPLIT */
+	private static final int JSplitPane_VERTICAL_SPLIT = 1;
 
 	private int mode;
 	private int constMode; // submode for <construction>
@@ -406,7 +408,7 @@ public class MyXMLHandler implements DocHandler {
 							kernel.setContinuous(true);
 
 						// before V3.0 the automaticGridDistanceFactor was 0.5
-						EuclidianView.automaticGridDistanceFactor = 0.5;
+						EuclidianStyleConstants.automaticGridDistanceFactor = 0.5;
 					}
 
 				} catch (Exception e) {
@@ -1539,12 +1541,12 @@ public class MyXMLHandler implements DocHandler {
 	 * Take care of backward compatibility for the dynamic layout component
 	 */
 	private void createCompabilityLayout() {
-		int splitOrientation = tmp_spHorizontal ? JSplitPane.HORIZONTAL_SPLIT : JSplitPane.VERTICAL_SPLIT;
+		int splitOrientation = tmp_spHorizontal ? JSplitPane_HORIZONTAL_SPLIT : JSplitPane_VERTICAL_SPLIT;
 		
 		String defEV, defSV, defAV;
 		
 		// we have to create the definitions for the single views manually to prevent nullpointers
-		if(splitOrientation == JSplitPane.HORIZONTAL_SPLIT) {
+		if(splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
 			if(tmp_showSpreadsheet && tmp_showAlgebra) {
 				defEV = "1,3";
 				defSV = "1,1";
@@ -1600,7 +1602,7 @@ public class MyXMLHandler implements DocHandler {
 			height = 440;
 		}
 	
-		if(splitOrientation == JSplitPane.HORIZONTAL_SPLIT) {
+		if(splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
 			if(tmp_showSpreadsheet) {
 				width += 5 + app.getSettings().getSpreadsheet().preferredSize().getWidth();
 			} 
@@ -1621,15 +1623,15 @@ public class MyXMLHandler implements DocHandler {
 		
 		// use two split panes in case all three views are visible
 		if(tmp_showSpreadsheet && tmp_showAlgebra) {
-			int total = (splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? width : height);
+			int total = (splitOrientation == JSplitPane_HORIZONTAL_SPLIT ? width : height);
 			float relative1 = (float)tmp_sp2 / total;
 			float relative2 = (float)tmp_sp1 / (total - tmp_sp2);
 			spXml = new DockSplitPaneData[] {
 				new DockSplitPaneData("", relative1, splitOrientation),
-				new DockSplitPaneData((splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? "1" : "2"), relative2, splitOrientation)
+				new DockSplitPaneData((splitOrientation == JSplitPane_HORIZONTAL_SPLIT ? "1" : "2"), relative2, splitOrientation)
 			}; 
 		} else {
-			int total = (splitOrientation == JSplitPane.HORIZONTAL_SPLIT ? width : height);
+			int total = (splitOrientation == JSplitPane_HORIZONTAL_SPLIT ? width : height);
 			float relative;
 			if(tmp_showSpreadsheet) {
 				relative = (float)tmp_sp1 / total;
@@ -2014,16 +2016,7 @@ public class MyXMLHandler implements DocHandler {
 				ttt = Integer.parseInt(attrs.get("timeout"));
 			} catch (NumberFormatException e) {
 			}
-			if (ttt > 0)
-			{
-				ToolTipManager.sharedInstance().setDismissDelay(ttt * 1000);
-				// make it fit into tooltipTimeouts array:
-				ToolTipManager.sharedInstance().setDismissDelay(app.getTooltipTimeout() * 1000);
-			}
-			else
-			{
-				ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-			}
+			app.setTooltipTimeout(ttt);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3989,8 +3982,8 @@ public class MyXMLHandler implements DocHandler {
 		// name of linked geo
 		String val = (String) attrs.get("val");
 
-		if (geo instanceof GeoTextField) {
-			((GeoTextField)geo).setLength(Integer.parseInt(val));
+		if (geo instanceof AbstractGeoTextField) {
+			((AbstractGeoTextField)geo).setLength(Integer.parseInt(val));
 		} else {
 			throw new MyError(app, "handleLength: " + geo.getClassName());
 		}
@@ -4030,7 +4023,7 @@ public class MyXMLHandler implements DocHandler {
 			while (it.hasNext()) {
 				GeoExpPair pair = (GeoExpPair) it.next();
 				
-				((GeoTextField)pair.geo).setLinkedGeo(kernel.lookupLabel(pair.exp));
+				((AbstractGeoTextField)pair.geo).setLinkedGeo(kernel.lookupLabel(pair.exp));
 			}
 		} catch (Exception e) {
 			linkedGeoList.clear();
@@ -4296,7 +4289,7 @@ public class MyXMLHandler implements DocHandler {
 						coeff[i][j]=row.get(j);
 					}
 				}
-				((GeoImplicitPoly)geo).setCoeff(coeff);
+				((GeoImplicitPolyInterface)geo).setCoeff(coeff);
 				return true;
 			}
 		} catch (Exception e) {

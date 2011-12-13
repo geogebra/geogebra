@@ -6559,5 +6559,18 @@ public class Application extends AbstractApplication implements
 					}
 		
 	}
+	//TODO: should be moved to ApplicationSettings
+	public void setTooltipTimeout(int ttt){
+		if (ttt > 0)
+		{
+			ToolTipManager.sharedInstance().setDismissDelay(ttt * 1000);
+			// make it fit into tooltipTimeouts array:
+			ToolTipManager.sharedInstance().setDismissDelay(getTooltipTimeout() * 1000);
+		}
+		else
+		{
+			ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		}
+	}
 
 }

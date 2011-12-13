@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
@@ -11,9 +12,9 @@ import geogebra.gui.inputfield.AutoCompleteTextField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class GeoTextField extends GeoButton {
+public class GeoTextField extends AbstractGeoTextField {
 
-	private GeoElement linkedGeo = null;
+	
 	
 	private static int defaultLength = 20;
 	
@@ -34,33 +35,7 @@ public class GeoTextField extends GeoButton {
 		this.labelOffsetY = labelOffsetY;
 	}
 
-	public String getClassName() {
-		return "GeoTextField";
-	}
-	public boolean isChangeable(){
-		return true;
-	}
 	
-    protected String getTypeString() {
-		return "TextField";
-	}
-    
-    public GeoClass getGeoClassType() {
-    	return GeoClass.TEXTFIELD;
-    }
-    
-	public boolean isTextField() {
-		return true;
-	}
-	
-	public void setLinkedGeo(GeoElement geo) {
-		linkedGeo = geo;
-		text = geo.getValueForInputBar();
-	}
-	
-	public GeoElement getLinkedGeo() {
-		return linkedGeo;
-	}
 	
 	protected void getXMLtags(StringBuilder sb) {
 
@@ -106,21 +81,8 @@ public class GeoTextField extends GeoButton {
 		}
 	}
 	
-	private String text = null;
-	public String toValueString() {
-		if (linkedGeo == null) return "";
-		return text;
-	}
-	public void setText(String text2) {
-		text = text2;		
-	}
-	
 	public GeoElement copy() {
 		return new GeoTextField(cons, labelOffsetX, labelOffsetY);
-	}
-	
-	public boolean isGeoTextField(){
-		return true;
 	}
 
 }

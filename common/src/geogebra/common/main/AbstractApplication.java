@@ -441,6 +441,11 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void setTooltipTimeout(int ttt) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
