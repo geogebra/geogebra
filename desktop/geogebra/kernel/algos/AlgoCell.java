@@ -50,7 +50,7 @@ public class AlgoCell extends AlgoElement {
         compute();  
         
         // register as rename listener algorithm
-        ((AbstractKernel)kernel).registerRenameListenerAlgo(this);
+        kernel.registerRenameListenerAlgo(this);
         
         geo.setLabel(label);
     }   
@@ -128,7 +128,7 @@ public class AlgoCell extends AlgoElement {
 		*/
 		
 		// lookup new object for new label
-		refObject = ((AbstractKernel)kernel).lookupLabel(currentLabel);
+		refObject = kernel.lookupLabel(currentLabel);
 		inputForUpdateSetPropagation[2] = refObject;			
 		
 		// change dependencies for this newly referenced object

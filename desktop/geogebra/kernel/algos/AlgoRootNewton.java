@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
 import geogebra.kernel.roots.RealRootUtil;

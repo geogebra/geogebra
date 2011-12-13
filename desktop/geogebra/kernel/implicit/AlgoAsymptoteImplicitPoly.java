@@ -15,13 +15,11 @@ package geogebra.kernel.implicit;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.EquationSolver;
-import geogebra.kernel.Kernel;
-
 import java.util.ArrayList;
 /**
  * Find asymptotes of ImplicitCurves
@@ -34,13 +32,13 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 	private GeoImplicitPoly ip; // input
 //	private OutputHandler<GeoLine> lines;
     private GeoList g; // output
-    private EquationSolver solver;
+    private EquationSolverInterface solver;
     
    
     public AlgoAsymptoteImplicitPoly(Construction c, String label, GeoImplicitPoly ip) {
     	super(c);
         this.ip = ip;            
-        solver = ((Kernel) getKernel()).getEquationSolver();
+        solver = getKernel().getEquationSolver();
         
 //    	lines=new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
 //			public GeoLine newElement() {

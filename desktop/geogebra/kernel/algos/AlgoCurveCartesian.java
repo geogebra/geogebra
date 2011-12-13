@@ -28,7 +28,6 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import geogebra.kernel.Kernel;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from, to]
@@ -56,14 +55,14 @@ public class AlgoCurveCartesian extends AlgoElement {
     	// we need to create Function objects for the coord NumberValues,
 		// so let's get the expressions of xcoord and ycoord and replace
 		// the localVar by a functionVar		
-		FunctionVariable funVar = new FunctionVariable((Kernel)kernel);
+		FunctionVariable funVar = new FunctionVariable(kernel);
 		funVar.setVarString(localVar.label);
 		
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
 		Function[] fun = new Function[coords.length];
 
 		for (int i=0;i<coords.length;i++){
-			exp[i]= ((Kernel)kernel).convertNumberValueToExpressionNode(coords[i]);
+			exp[i]= kernel.convertNumberValueToExpressionNode(coords[i]);
 			exp[i].replaceAndWrap(localVar, funVar);
 			fun[i] = new Function(exp[i], funVar);
 		}

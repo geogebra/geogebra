@@ -25,8 +25,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.kernel.Kernel;
-
 import java.util.ArrayList;
 
 

@@ -22,7 +22,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Kernel;
 
 /**
  * Find Numerator
@@ -85,11 +84,11 @@ public class AlgoNumerator extends AlgoElement {
         	Function fun = new Function((ExpressionNode)ev, f.getFunction().getFunctionVariable());
         	g.setFunction(fun);
         } else if (ev instanceof FunctionVariable) {
-        	g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToFunction("x", false));
+        	g.set(kernel.getAlgebraProcessor().evaluateToFunction("x", false));
         }
         else if (ev.isNumberValue()) {
         	double val = ((NumberValue)ev).getDouble();
-        	g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToFunction(""+val, false));
+        	g.set(kernel.getAlgebraProcessor().evaluateToFunction(""+val, false));
         }
         else
         {

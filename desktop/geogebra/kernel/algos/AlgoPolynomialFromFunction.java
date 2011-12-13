@@ -20,7 +20,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.parser.Parser;
 
 /**
@@ -38,7 +37,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
     	super(cons);
         this.f = f;            	
     	
-        parser = new Parser((Kernel)cons.getKernel(), cons);
+        parser = new Parser(cons.getKernel(), cons);
         
         g = new GeoFunction(cons);                
         setInputOutput(); // for AlgoElement        
@@ -82,7 +81,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
         kernel.setCASPrintForm(oldPrintForm);
         
         // expand expression and get polynomial coefficients
-        String [] strCoeffs = ((Kernel) kernel).getPolynomialCoeffs(function, var);
+        String [] strCoeffs = kernel.getPolynomialCoeffs(function, var);
         if (strCoeffs == null) {
         	 g.setDefined(false);
         	 return;

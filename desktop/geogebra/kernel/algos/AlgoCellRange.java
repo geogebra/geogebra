@@ -90,8 +90,8 @@ public class AlgoCellRange extends AlgoElement {
     	ArrayList<GeoElement> listItems = initCellRangeList(startCoords, endCoords);   
     	
     	// create dependent geoList for cells in range
-    	AlgoDependentList algo = new AlgoDependentList((Construction)cons, listItems, true);
-    	((Construction) cons).removeFromConstructionList(algo);
+    	AlgoDependentList algo = new AlgoDependentList(cons, listItems, true);
+    	cons.removeFromConstructionList(algo);
         geoList = algo.getGeoList();
 		
 		
@@ -138,11 +138,11 @@ public class AlgoCellRange extends AlgoElement {
     		for (int rowIndex = minRow; rowIndex <= maxRow; rowIndex++) {
     			// get cell object for col, row
     			String cellLabel = GeoElementSpreadsheet.getSpreadsheetCellName(colIndex, rowIndex);    			
-    			GeoElement geo = ((AbstractKernel)kernel).lookupLabel(cellLabel);
+    			GeoElement geo = kernel.lookupLabel(cellLabel);
     			
     			// create missing object in cell range
     			if (geo == null) {
-    				geo = ((Construction)cons).createSpreadsheetGeoElement(startCell, cellLabel);    				
+    				geo = cons.createSpreadsheetGeoElement(startCell, cellLabel);    				
     			}
     			
     			// we got the cell object, add it to the list

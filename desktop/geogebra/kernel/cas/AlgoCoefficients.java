@@ -17,7 +17,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Kernel;
 
 /**
  * Try to expand the given function 
@@ -81,7 +80,7 @@ public class AlgoCoefficients extends AlgoElement {
 		String functionOut;
 		try {
 			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
-			g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToList(functionOut));	
+			g.set(kernel.getAlgebraProcessor().evaluateToList(functionOut));	
 			g.setDefined(true);	
 		} catch (Throwable e) {
 			g.setUndefined();

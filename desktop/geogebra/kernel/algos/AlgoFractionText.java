@@ -19,7 +19,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.Unicode;
-import geogebra.kernel.Kernel;
 
 
 public class AlgoFractionText extends AlgoElement {

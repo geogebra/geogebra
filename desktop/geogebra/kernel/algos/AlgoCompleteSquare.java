@@ -29,8 +29,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 		h = new MyDouble(kernel);
 		k = new MyDouble(kernel);
 		
-		fv = new FunctionVariable(((AbstractKernel)kernel));	
-		ExpressionNode squareE = new ExpressionNode(((AbstractKernel)kernel),fv,Operation.MINUS,h)
+		fv = new FunctionVariable(kernel);	
+		ExpressionNode squareE = new ExpressionNode(kernel,fv,Operation.MINUS,h)
 					.power(new MyDouble(kernel,2)).multiply(a).plus(k);
 		Function squareF = new Function(squareE,fv);
 		squareF.initFunction();
@@ -63,8 +63,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 		}
 		if(!isQuadratic){
 			if(algoCoef==null) {
-				algoCoef = new AlgoCoefficients((Construction)cons,f);
-				((Construction) cons).removeFromConstructionList(algoCoef);
+				algoCoef = new AlgoCoefficients(cons,f);
+				cons.removeFromConstructionList(algoCoef);
 			}
 			coefs = algoCoef.getResult();
 
@@ -90,11 +90,11 @@ public class AlgoCompleteSquare extends AlgoElement {
 		if(lastDeg != degInt){
 			ExpressionNode squareE;
 			if(degInt == 2)
-			 squareE = new ExpressionNode(((AbstractKernel)kernel),fv,Operation.MINUS,h)
+			 squareE = new ExpressionNode(kernel,fv,Operation.MINUS,h)
 			.power(new MyDouble(kernel,2)).multiply(a).plus(k);
 			else
-			squareE = new ExpressionNode(((AbstractKernel)kernel),
-						new ExpressionNode(((AbstractKernel)kernel),fv,Operation.POWER,new MyDouble(kernel,degInt/2))
+			squareE = new ExpressionNode(kernel,
+						new ExpressionNode(kernel,fv,Operation.POWER,new MyDouble(kernel,degInt/2))
 					,Operation.MINUS,h)
 					.power(new MyDouble(kernel,2)).multiply(a).plus(k);
 			square.getFunction().setExpression(squareE);

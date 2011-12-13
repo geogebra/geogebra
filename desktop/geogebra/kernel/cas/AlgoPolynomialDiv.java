@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Kernel;
 /**
  * Polynomial division
  * 
@@ -85,7 +84,7 @@ public class AlgoPolynomialDiv extends AlgoElement {
 			}
 			else {
 				// read result back into function
-				g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToFunction(functionOut, false));		
+				g.set(kernel.getAlgebraProcessor().evaluateToFunction(functionOut, false));		
 			}
 	    } catch (Throwable th) {
 	    	g.setUndefined();

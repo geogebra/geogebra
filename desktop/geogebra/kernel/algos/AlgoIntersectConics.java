@@ -29,7 +29,6 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.SystemOfEquationsSolver;
 
 import java.util.ArrayList;

@@ -17,7 +17,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Kernel;
 /**
  * Try to expand the given function 
  * 
@@ -82,7 +81,7 @@ public class AlgoFactors extends AlgoElement {
 			}
 			else {
 				// read result back into list
-				g.set(((Kernel) kernel).getAlgebraProcessor().evaluateToList(listOut));
+				g.set(kernel.getAlgebraProcessor().evaluateToList(listOut));
 			}
 	    } catch (Throwable th) {
 	    	g.setUndefined();

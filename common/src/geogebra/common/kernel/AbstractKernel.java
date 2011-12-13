@@ -3592,6 +3592,9 @@ final public ExpressionNode handleTrigPower(String image, ExpressionNode en, Ope
 		
 	}
 
+	public abstract ExpressionNode convertNumberValueToExpressionNode(
+			NumberValue numberValue);
+
 	
 
 }

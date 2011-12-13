@@ -8,4 +8,6 @@ public interface EquationSolverInterface {
 
 	int solveQuartic(double[] eqn, double[] roots);
 
+	int polynomialRoots(double[] tRoots, boolean b);
+
 }
