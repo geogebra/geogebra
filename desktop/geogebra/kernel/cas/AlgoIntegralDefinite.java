@@ -24,11 +24,10 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.main.AbstractApplication;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxIterationsExceededException;
+import geogebra.common.adapters.ConvergenceException;
+import geogebra.common.adapters.FunctionEvaluationException;
+import geogebra.common.adapters.MaxIterationsExceededException;
 import geogebra.common.adapters.LegendreGaussIntegrator;
 
 /**
@@ -283,9 +282,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
 		} catch (FunctionEvaluationException e) {
 			return Double.NaN;
 		} catch (IllegalArgumentException e) {
-			return Double.NaN;
-		} catch (Exception e) {
-			AbstractApplication.printStacktrace("Unwanted type of exception.");
 			return Double.NaN;
 		}
 		
