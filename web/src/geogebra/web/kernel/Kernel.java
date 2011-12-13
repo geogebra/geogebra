@@ -1,38 +1,27 @@
 package geogebra.web.kernel;
 
-import geogebra.common.awt.Color;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.MacroInterface;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Equation;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
@@ -188,13 +177,6 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public AbstractUndoManager getUndoManager(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public AbstractConstructionDefaults getConstructionDefaults(
-            Construction construction) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

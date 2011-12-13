@@ -25,7 +25,7 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractConstructionDefaults;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -723,7 +723,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public void setConstructionDefaults() {
 		if (useVisualDefaults) {
-			AbstractConstructionDefaults consDef = cons
+			ConstructionDefaults consDef = cons
 					.getConstructionDefaults();
 			if (consDef != null) {
 				consDef.setDefaultVisualStyles(this, false);

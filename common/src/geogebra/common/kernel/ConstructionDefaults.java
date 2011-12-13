@@ -10,14 +10,11 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
@@ -49,10 +46,37 @@ import java.util.Set;
  * Manages default settings for GeoElement objects in a construction.
  * @author Markus Hohenwarter
  */
-public class ConstructionDefaults extends AbstractConstructionDefaults{
+public class ConstructionDefaults {
+	public static final float DEFAULT_POLYGON_ALPHA = 0.1f;
 	
 	// DEFAULT GeoElement types
+	public static final int DEFAULT_NONE = -1;
+	public static final int DEFAULT_POINT_FREE = 10;
+	public static final int DEFAULT_POINT_DEPENDENT = 11;
+	public static final int DEFAULT_POINT_ON_PATH = 12;
+	public static final int DEFAULT_POINT_IN_REGION = 13;
+	public static final int DEFAULT_POINT_COMPLEX =  14;
+	
+	public static final int DEFAULT_LINE = 20;			
+	public static final int DEFAULT_SEGMENT = 21;			
+	public static final int DEFAULT_INEQUALITY = 23; 
+	public static final int DEFAULT_INEQUALITY_1VAR = 24;
+	public static final int DEFAULT_VECTOR = 30;	
+	public static final int DEFAULT_CONIC = 40;
+	public static final int DEFAULT_CONIC_SECTOR = 41;
 		
+	public static final int DEFAULT_NUMBER = 50;	
+	public static final int DEFAULT_ANGLE = 52;			
+	
+	public static final int DEFAULT_FUNCTION = 60;		
+	public static final int DEFAULT_POLYGON = 70;
+	public static final int DEFAULT_LOCUS = 80;
+	
+	public static final int DEFAULT_TEXT = 100;
+	public static final int DEFAULT_IMAGE = 110;
+	public static final int DEFAULT_BOOLEAN = 120;
+	
+	public static final int DEFAULT_LIST = 130;	
 	// DEFAULT COLORs
 	// points
 	public static final Color colPoint = Color.blue;

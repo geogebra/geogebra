@@ -2,11 +2,11 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.main.Application;
 
 import java.awt.Color;

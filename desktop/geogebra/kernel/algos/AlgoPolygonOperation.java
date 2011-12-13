@@ -14,8 +14,8 @@ the Free Software Foundation.
 
 package geogebra.kernel.algos;
 
-import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.geos.GeoElement;
@@ -25,7 +25,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.GeneralPathClipped;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.main.Application;
 
 import java.awt.geom.Area;
@@ -290,7 +289,8 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 
 		boolean pointsSegmentsShowLabel = (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
-		|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && ((Construction) cons).getConstructionDefaults().getDefaultGeo(AbstractConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
+		|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && 
+		 cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
 
 		// set labels for points only if the original points had labels
 		if (labelPointsAndSegments) {

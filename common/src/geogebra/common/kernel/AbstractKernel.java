@@ -3893,15 +3893,6 @@ public abstract class AbstractKernel {
 	@Deprecated
 	public abstract AbstractUndoManager getUndoManager(Construction cons);
 
-	/**
-	 * @deprecated
-	 * @param construction
-	 * @return
-	 */
-	@Deprecated
-	public abstract AbstractConstructionDefaults getConstructionDefaults(
-			Construction construction);
-
 	public abstract GeoImplicitPolyInterface ImplicitPoly(String label,
 			Polynomial lhs);
 

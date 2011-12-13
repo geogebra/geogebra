@@ -21,9 +21,9 @@ package geogebra.kernel;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.MacroManager;
 import geogebra.common.kernel.Macro;
@@ -6100,8 +6100,8 @@ public class Kernel extends AbstractKernel{
 	@Override
 	public GeoNumeric getDefaultNumber(boolean isAngle){
 		return (GeoNumeric)((Construction)cons).getConstructionDefaults().
-			getDefaultGeo(isAngle?AbstractConstructionDefaults.DEFAULT_ANGLE:
-			AbstractConstructionDefaults.DEFAULT_NUMBER);
+			getDefaultGeo(isAngle?ConstructionDefaults.DEFAULT_ANGLE:
+			ConstructionDefaults.DEFAULT_NUMBER);
 	}
 
 	
@@ -6192,12 +6192,6 @@ public class Kernel extends AbstractKernel{
 	@Override
 	public UndoManager getUndoManager(Construction cons){
 		return new UndoManager(cons);
-	
-	}
-	
-	@Override
-	public ConstructionDefaults getConstructionDefaults(Construction cons){
-		return new ConstructionDefaults(cons);
 	
 	}
 

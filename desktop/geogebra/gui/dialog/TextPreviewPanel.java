@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -14,7 +14,6 @@ import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.parser.ParseException;
 import geogebra.kernel.parser.TokenMgrError;
@@ -310,7 +309,7 @@ public class TextPreviewPanel extends EuclidianView {
 		// set error message style
 		if (isErrorMessage) {
 			geo.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(
-					AbstractConstructionDefaults.DEFAULT_TEXT));
+					ConstructionDefaults.DEFAULT_TEXT));
 			geo.setObjColor(new geogebra.awt.Color(Color.red));
 			geo.setBackgroundColor(new geogebra.awt.Color(Color.white));
 			// geo.setFontSize(app.getFontSize());

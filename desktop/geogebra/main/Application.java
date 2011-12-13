@@ -25,8 +25,8 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -57,7 +57,6 @@ import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
 import geogebra.io.MyXMLHandler;
 import geogebra.io.MyXMLio;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Relation;
 import geogebra.kernel.commands.CommandDispatcher;
@@ -1362,7 +1361,7 @@ public class Application extends AbstractApplication implements
 				kernel.setPrintDecimals(0); // rounding to 0dp
 				GeoAngle defaultAngle = (GeoAngle) getKernel()
 						.getConstruction().getConstructionDefaults()
-						.getDefaultGeo(AbstractConstructionDefaults.DEFAULT_ANGLE);
+						.getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE);
 				defaultAngle.setAllowReflexAngle(false);
 			}
 		}

@@ -23,6 +23,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
@@ -44,7 +45,6 @@ import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 
 import java.util.TreeSet;

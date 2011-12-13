@@ -88,7 +88,7 @@ public  class Construction {
 	 * creates the ConstructionDefaults consDefaults
 	 */
 	protected void newConstructionDefaults() {
-		consDefaults = kernel.getConstructionDefaults(this);
+		consDefaults = new ConstructionDefaults(this);
 	}
 
 
@@ -112,7 +112,7 @@ public  class Construction {
 	
 
 	/** default elements */
-	protected AbstractConstructionDefaults consDefaults;
+	protected ConstructionDefaults consDefaults;
 	// TODO: make private once we port ClearConstruction
 	protected String title, author, date;
 	// text for dynamic worksheets: 0 .. above, 1 .. below
@@ -238,7 +238,7 @@ public  class Construction {
 		 * 
 		 * @return construction default object of this construction.
 		 */
-		final public AbstractConstructionDefaults getConstructionDefaults() {
+		final public ConstructionDefaults getConstructionDefaults() {
 			return consDefaults;
 		}
 	/**

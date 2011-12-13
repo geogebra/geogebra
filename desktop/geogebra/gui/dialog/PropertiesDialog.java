@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
@@ -23,7 +24,6 @@ import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;

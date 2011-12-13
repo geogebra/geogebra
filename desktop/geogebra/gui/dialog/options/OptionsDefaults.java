@@ -1,11 +1,10 @@
 package geogebra.gui.dialog.options;
 
-import geogebra.common.kernel.AbstractConstructionDefaults;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.gui.GuiManager;
 import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
-import geogebra.kernel.ConstructionDefaults;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -131,7 +130,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		GeoGebraColorChooser colorChooser = new GeoGebraColorChooser(app);
 		propPanel = new PropertiesPanel(app, colorChooser, true);
 		propPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		propPanel.updateSelection(new Object[] { defaults.getDefaultGeo(AbstractConstructionDefaults.DEFAULT_POINT_FREE) });
+		propPanel.updateSelection(new Object[] { defaults.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });
 		
 		// set the labels of the components
 		setLabels();
@@ -214,25 +213,25 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 	private void createDefaultMap(){
 			
 		typeToNode = new Hashtable<DefaultMutableTreeNode, Integer>(15);
-		typeToNode.put(pointsFreeNode, AbstractConstructionDefaults.DEFAULT_POINT_FREE);
-		typeToNode.put(pointsDepNode, AbstractConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-		typeToNode.put(pointsPathNode, AbstractConstructionDefaults.DEFAULT_POINT_ON_PATH);
-		typeToNode.put(pointsInRegionNode, AbstractConstructionDefaults.DEFAULT_POINT_IN_REGION);
-		typeToNode.put(pointsComplexNode, AbstractConstructionDefaults.DEFAULT_POINT_COMPLEX);
-		typeToNode.put(lineNode, AbstractConstructionDefaults.DEFAULT_LINE);
-		typeToNode.put(segmentNode, AbstractConstructionDefaults.DEFAULT_SEGMENT);
-		typeToNode.put(vectorNode, AbstractConstructionDefaults.DEFAULT_VECTOR);
-		typeToNode.put(conicNode, AbstractConstructionDefaults.DEFAULT_CONIC);
-		typeToNode.put(conicSectorNode, AbstractConstructionDefaults.DEFAULT_CONIC_SECTOR);
-		typeToNode.put(functionNode, AbstractConstructionDefaults.DEFAULT_FUNCTION);
-		typeToNode.put(polygonNode, AbstractConstructionDefaults.DEFAULT_POLYGON);
-		typeToNode.put(locusNode, AbstractConstructionDefaults.DEFAULT_LOCUS);
-		typeToNode.put(textNode, AbstractConstructionDefaults.DEFAULT_TEXT);
-		typeToNode.put(imageNode, AbstractConstructionDefaults.DEFAULT_IMAGE);
-		typeToNode.put(numberNode, AbstractConstructionDefaults.DEFAULT_NUMBER);
-		typeToNode.put(angleNode, AbstractConstructionDefaults.DEFAULT_ANGLE);
-		typeToNode.put(booleanNode, AbstractConstructionDefaults.DEFAULT_BOOLEAN);
-		typeToNode.put(listNode, AbstractConstructionDefaults.DEFAULT_LIST);
+		typeToNode.put(pointsFreeNode, ConstructionDefaults.DEFAULT_POINT_FREE);
+		typeToNode.put(pointsDepNode, ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
+		typeToNode.put(pointsPathNode, ConstructionDefaults.DEFAULT_POINT_ON_PATH);
+		typeToNode.put(pointsInRegionNode, ConstructionDefaults.DEFAULT_POINT_IN_REGION);
+		typeToNode.put(pointsComplexNode, ConstructionDefaults.DEFAULT_POINT_COMPLEX);
+		typeToNode.put(lineNode, ConstructionDefaults.DEFAULT_LINE);
+		typeToNode.put(segmentNode, ConstructionDefaults.DEFAULT_SEGMENT);
+		typeToNode.put(vectorNode, ConstructionDefaults.DEFAULT_VECTOR);
+		typeToNode.put(conicNode, ConstructionDefaults.DEFAULT_CONIC);
+		typeToNode.put(conicSectorNode, ConstructionDefaults.DEFAULT_CONIC_SECTOR);
+		typeToNode.put(functionNode, ConstructionDefaults.DEFAULT_FUNCTION);
+		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
+		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
+		typeToNode.put(textNode, ConstructionDefaults.DEFAULT_TEXT);
+		typeToNode.put(imageNode, ConstructionDefaults.DEFAULT_IMAGE);
+		typeToNode.put(numberNode, ConstructionDefaults.DEFAULT_NUMBER);
+		typeToNode.put(angleNode, ConstructionDefaults.DEFAULT_ANGLE);
+		typeToNode.put(booleanNode, ConstructionDefaults.DEFAULT_BOOLEAN);
+		typeToNode.put(listNode, ConstructionDefaults.DEFAULT_LIST);
 		
 	}
 	

@@ -14,7 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractConstructionDefaults;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
@@ -95,7 +95,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		this.createSegments=createSegments;
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
-		setAlphaValue(AbstractConstructionDefaults.DEFAULT_POLYGON_ALPHA);
+		setAlphaValue(ConstructionDefaults.DEFAULT_POLYGON_ALPHA);
 	}
 	
 	/**
