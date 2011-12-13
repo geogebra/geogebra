@@ -5,7 +5,7 @@ import geogebra.common.kernel.roots.RealRootFunction;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
-public class RealRootAdapter implements UnivariateRealFunction {
+public class RealRootAdapter implements UnivariateRealFunction, geogebra.common.adapters.RealRootAdapter {
 
 	private RealRootFunction fun;
 

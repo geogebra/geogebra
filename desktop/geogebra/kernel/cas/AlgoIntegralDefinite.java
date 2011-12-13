@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.kernel.cas;
 
+import geogebra.common.factories.AdapterFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -23,7 +24,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.roots.RealRootAdapter;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -271,9 +271,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         
         // integrate using gauss quadrature
         try {
-	        firstSum = firstGauss.integrate(new RealRootAdapter(fun), a, b);
+	        firstSum = firstGauss.integrate((geogebra.kernel.roots.RealRootAdapter)AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
 	        if (Double.isNaN(firstSum)) return Double.NaN;        
-	        secondSum = secondGauss.integrate(new RealRootAdapter(fun), a, b);
+	        secondSum = secondGauss.integrate((geogebra.kernel.roots.RealRootAdapter)AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
 	        if (Double.isNaN(secondSum)) return Double.NaN;
         } catch (MaxIterationsExceededException e) {
         	error = true;
