@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianView;
+//import geogebra.euclidian.EuclidianView;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,7 +51,7 @@ public class EuclidianSettings extends AbstractSettings {
 	private final boolean[] drawBorderAxes = { false, false };
 	private NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 
-	private int tooltipsInThisView = EuclidianView.TOOLTIPS_AUTOMATIC;
+	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
 	// settings for the base EuclidianView (or null if this is the base)
 	private final EuclidianSettings euclidianSettings1;
@@ -76,7 +76,7 @@ public class EuclidianSettings extends AbstractSettings {
 		setGridColor(Color.lightGray);
 		setBackground(Color.white);
 
-		pointCapturingMode = EuclidianView.POINT_CAPTURING_AUTOMATIC;
+		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
 		showAxesNumbers[0] = true;
 		showAxesNumbers[1] = true;
@@ -294,7 +294,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int gridType;
 
-	private int pointCapturingMode = EuclidianView.POINT_CAPTURING_AUTOMATIC;
+	private int pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
 	private boolean allowShowMouseCoords = true;
 

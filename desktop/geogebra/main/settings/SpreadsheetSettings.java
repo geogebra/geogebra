@@ -2,10 +2,9 @@ package geogebra.main.settings;
 
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.gui.view.spreadsheet.MyTable;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Point;
 import java.util.HashMap;
 import java.util.LinkedList;
 

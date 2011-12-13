@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -518,11 +519,11 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         if (view instanceof EuclidianView) {
         	cbTooltips.removeActionListener(this);
         	int ind = ((EuclidianView)view).getAllowToolTips();
-        	if (ind == EuclidianView.TOOLTIPS_ON)
+        	if (ind == EuclidianStyleConstants.TOOLTIPS_ON)
         		cbTooltips.setSelectedIndex(0);
-        	else if (ind == EuclidianView.TOOLTIPS_AUTOMATIC)
+        	else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)
         		cbTooltips.setSelectedIndex(1);
-        	else if (ind == EuclidianView.TOOLTIPS_OFF)
+        	else if (ind == EuclidianStyleConstants.TOOLTIPS_OFF)
         		cbTooltips.setSelectedIndex(2);
         	cbTooltips.addActionListener(this);
         }
@@ -741,11 +742,11 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		} else if (source == cbTooltips) {
 			int ind = cbTooltips.getSelectedIndex();
 			if (ind == 0)  {
-				ind = EuclidianView.TOOLTIPS_ON;
+				ind = EuclidianStyleConstants.TOOLTIPS_ON;
 			} else if(ind == 1) {
-				ind = EuclidianView.TOOLTIPS_AUTOMATIC;
+				ind = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 			} else if(ind == 2) {
-				ind = EuclidianView.TOOLTIPS_OFF;
+				ind = EuclidianStyleConstants.TOOLTIPS_OFF;
 			}
 			if (view instanceof EuclidianView) {
 				if (view == app.getEuclidianView()) {

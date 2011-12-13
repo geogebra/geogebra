@@ -1473,7 +1473,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		getTable().getCellFormatHandler().processXMLString(settings().cellFormat());	
 
 		// preferredSize
-		this.setPreferredSize(settings().preferredSize());
+		this.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(settings().preferredSize()));
 
 
 		// initial position

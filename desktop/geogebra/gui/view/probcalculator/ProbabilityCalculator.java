@@ -891,7 +891,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		if(probManager.isDiscrete(selectedDist)){
 			// discrete axis points should jump from point to point 
-			plotSettings.pointCaptureStyle = EuclidianView.POINT_CAPTURING_ON_GRID;
+			plotSettings.pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_ON_GRID;
 			//TODO --- need an adaptive setting here for when we have too many intervals
 			plotSettings.gridInterval[0] = 1;
 			plotSettings.gridIntervalAuto = false;
@@ -899,7 +899,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		}
 		else
 		{	
-			plotSettings.pointCaptureStyle = EuclidianView.POINT_CAPTURING_OFF;
+			plotSettings.pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
 			plotSettings.xAxesIntervalAuto = true;
 			plotPanel.updateSettings(plotSettings);
 		}	

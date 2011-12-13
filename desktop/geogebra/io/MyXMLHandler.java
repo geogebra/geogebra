@@ -72,7 +72,6 @@ import geogebra.main.settings.SpreadsheetSettings;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -975,7 +974,7 @@ public class MyXMLHandler implements DocHandler {
 					pointCapturingMode = Integer.parseInt(str);
 				ev.setPointCapturing(pointCapturingMode);
 			} else {
-				ev.setPointCapturing(EuclidianView.POINT_CAPTURING_AUTOMATIC);
+				ev.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 			}
 			
 			// if there is a point style given save it
@@ -1006,7 +1005,7 @@ public class MyXMLHandler implements DocHandler {
 			if (att != null)
 				ev.setAllowToolTips(Integer.parseInt(att));
 			else
-				ev.setAllowToolTips(EuclidianView.TOOLTIPS_AUTOMATIC);
+				ev.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
 
 			// v3.0: appearance of right angle
 			String strRightAngleStyle = (String) attrs.get("rightAngleStyle");
@@ -1046,7 +1045,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int width = Integer.parseInt((String) attrs.get("width"));
 			int height = Integer.parseInt((String) attrs.get("height"));
-			app.getSettings().getSpreadsheet().setPreferredSize(new Dimension(width,height));
+			app.getSettings().getSpreadsheet().setPreferredSize(new geogebra.awt.Dimension(width,height));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1135,12 +1134,12 @@ public class MyXMLHandler implements DocHandler {
 			
 			int hScroll = Integer.parseInt((String) attrs.get("hScroll"));
 			int vScroll = Integer.parseInt((String) attrs.get("vScroll"));
-			settings.setScrollPosition(new Point(hScroll, vScroll));
+			settings.setScrollPosition(new geogebra.common.awt.Point(hScroll, vScroll));
 			
 			
 			int row = Integer.parseInt((String) attrs.get("row"));
 			int column = Integer.parseInt((String) attrs.get("column"));
-			settings.setScrollPosition(new Point(row, column));
+			settings.setScrollPosition(new geogebra.common.awt.Point(row, column));
 			
 			return true;
 			
@@ -1607,7 +1606,7 @@ public class MyXMLHandler implements DocHandler {
 	
 		if(splitOrientation == JSplitPane.HORIZONTAL_SPLIT) {
 			if(tmp_showSpreadsheet) {
-				width += 5 + app.getSettings().getSpreadsheet().preferredSize().width;
+				width += 5 + app.getSettings().getSpreadsheet().preferredSize().getWidth();
 			} 
 			
 			if(tmp_showAlgebra) {
@@ -1615,7 +1614,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 		} else {
 			if(tmp_showSpreadsheet) {
-				height += 5 + app.getSettings().getSpreadsheet().preferredSize().height;
+				height += 5 + app.getSettings().getSpreadsheet().preferredSize().getHeight();
 			} 
 			if(tmp_showAlgebra) {
 				height += 5 + tmp_sp2;

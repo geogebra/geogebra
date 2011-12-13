@@ -153,15 +153,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 	// as a near-horizontal thick vector isn't drawn correctly otherwise
 	public static final int CLIP_DISTANCE = 5;
 
-	public static final int POINT_CAPTURING_OFF = 0;
-	public static final int POINT_CAPTURING_ON = 1;
-	public static final int POINT_CAPTURING_ON_GRID = 2;
-	public static final int POINT_CAPTURING_AUTOMATIC = 3;
-	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
 
-	public static final int TOOLTIPS_AUTOMATIC = 0;
-	public static final int TOOLTIPS_ON = 1;
-	public static final int TOOLTIPS_OFF = 2;
 
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
@@ -190,7 +182,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 	// end
 
-	protected int tooltipsInThisView = TOOLTIPS_AUTOMATIC;
+	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
 	// Michael Borcherds 2008-04-28
 	public static final int GRID_CARTESIAN = 0;
@@ -646,7 +638,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		// showAxes = true;
 		// showGrid = false;
-		pointCapturingMode = POINT_CAPTURING_AUTOMATIC;
+		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
 		// added by Loic BEGIN
 		// app.rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
@@ -838,8 +830,8 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 	@Override
 	public void setToolTipText(String plain) {
-		if ((tooltipsInThisView == TOOLTIPS_ON)
-				|| (tooltipsInThisView == TOOLTIPS_AUTOMATIC)) {
+		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
+				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
 			super.setToolTipText(plain);
 		}
 	}

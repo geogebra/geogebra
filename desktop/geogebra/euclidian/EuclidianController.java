@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerInterface;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
@@ -427,7 +428,7 @@ EuclidianControllerInterface {
 		}
 		if (pastePreviewSelected != null && !pastePreviewSelected.isEmpty()) {
 			previousPointCapturing = view.getPointCapturingMode();
-			view.setPointCapturing(EuclidianView.POINT_CAPTURING_STICKY_POINTS);
+			view.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS);
 
 			// remove moved points from sticky points temporarily
 			for (int i = 0; i < pastePreviewSelectedAndDependent.size(); i++) {
@@ -3044,7 +3045,7 @@ EuclidianControllerInterface {
 			if (!hits.isEmpty()) {
 				boolean alwaysOn = false;
 				if (view instanceof EuclidianView)
-					if (((EuclidianView)view).getAllowToolTips() == EuclidianView.TOOLTIPS_ON)
+					if (((EuclidianView)view).getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON)
 						alwaysOn = true;
 				String text = GeoElement.getToolTipDescriptionHTML(hits,
 						true, true, alwaysOn);				
@@ -3962,7 +3963,7 @@ EuclidianControllerInterface {
 		double pointCapturingPercentage = 1;
 		switch (view.getPointCapturingMode()) {
 
-		case EuclidianView.POINT_CAPTURING_STICKY_POINTS:
+		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
 			pointCapturingPercentage = 0.125;
 			ArrayList<GeoPointND> spl = view.getStickyPointList();
 			boolean captured = false;
@@ -3981,13 +3982,13 @@ EuclidianControllerInterface {
 			if (captured)
 				break;
 
-		case EuclidianView.POINT_CAPTURING_AUTOMATIC:				
+		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:				
 			if (!view.isGridOrAxesShown())break;
 
-		case EuclidianView.POINT_CAPTURING_ON:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON:
 			pointCapturingPercentage = 0.125;
 
-		case EuclidianView.POINT_CAPTURING_ON_GRID:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
 			
 			xRW += transformCoordsOffset[0];
 			yRW += transformCoordsOffset[1];

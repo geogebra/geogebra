@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.euclidian.EuclidianView;
+import geogebra.common.euclidian.EuclidianStyleConstants;
 
 public class PlotSettings {
 	
@@ -16,7 +16,7 @@ public class PlotSettings {
 	public double[] gridInterval = {1,1};
 	public boolean gridIntervalAuto = true;
 	
-	public int pointCaptureStyle = EuclidianView.POINT_CAPTURING_OFF;
+	public int pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
 	
 	public boolean showYAxis = false;
 	public boolean showArrows = false;

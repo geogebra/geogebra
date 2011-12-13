@@ -72,4 +72,14 @@ public class EuclidianStyleConstants {
 	public static final int MAX_POINT_STYLE = 9;
 	
 	public static final int MAX_LAYERS = 9;
+	
+	public static final int POINT_CAPTURING_OFF = 0;
+	public static final int POINT_CAPTURING_ON = 1;
+	public static final int POINT_CAPTURING_ON_GRID = 2;
+	public static final int POINT_CAPTURING_AUTOMATIC = 3;
+	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
+
+	public static final int TOOLTIPS_AUTOMATIC = 0;
+	public static final int TOOLTIPS_ON = 1;
+	public static final int TOOLTIPS_OFF = 2;
 }

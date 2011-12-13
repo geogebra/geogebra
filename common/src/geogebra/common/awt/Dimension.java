@@ -2,7 +2,7 @@ package geogebra.common.awt;
 
 public abstract class Dimension {
 
-	public abstract double width();
-	public abstract double height();
+	public abstract double getWidth();
+	public abstract double getHeight();
 
 }
