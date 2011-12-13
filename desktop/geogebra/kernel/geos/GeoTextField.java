@@ -1,6 +1,7 @@
 package geogebra.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.StringUtil;

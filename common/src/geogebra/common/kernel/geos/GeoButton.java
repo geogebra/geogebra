@@ -10,16 +10,12 @@
  
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.TextProperties;
 
-import java.awt.Font;
+import geogebra.common.awt.Font;
 
 
 /**

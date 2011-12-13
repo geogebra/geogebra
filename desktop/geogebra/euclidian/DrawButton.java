@@ -13,8 +13,8 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoButton;
 import geogebra.main.Application;
 
 import java.awt.Dimension;

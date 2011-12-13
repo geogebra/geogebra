@@ -1,12 +1,12 @@
 package geogebra.gui.properties;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoButton;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
 
