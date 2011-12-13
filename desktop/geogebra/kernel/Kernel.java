@@ -20,7 +20,6 @@ package geogebra.kernel;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.adapters.Geo3DVec;
-import geogebra.common.awt.Color;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -155,7 +154,6 @@ import geogebra.util.ScientificFormat;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.TreeSet;
 
 public class Kernel extends AbstractKernel{

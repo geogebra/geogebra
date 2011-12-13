@@ -19,7 +19,6 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.Kernel;
 
 /**
  *	Algorithm to calculate all tangents to the implicit polynomial equation

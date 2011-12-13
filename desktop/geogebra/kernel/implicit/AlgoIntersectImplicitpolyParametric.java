@@ -24,7 +24,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoRoots;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 			if (!f.isPolynomialFunction(false)) {
 				
 				
-				Kernel ker = (Kernel) cons.getKernel();
+				AbstractKernel ker = cons.getKernel();
 				
 				ker.setSilentMode(true);
 				

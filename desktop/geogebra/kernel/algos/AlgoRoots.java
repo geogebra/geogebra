@@ -23,8 +23,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootUtil;
-import geogebra.main.Application;
-
 import java.util.ArrayList;
 
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;

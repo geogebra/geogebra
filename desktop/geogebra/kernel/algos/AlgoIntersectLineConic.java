@@ -29,9 +29,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
-
 import java.util.ArrayList;
 
 /**

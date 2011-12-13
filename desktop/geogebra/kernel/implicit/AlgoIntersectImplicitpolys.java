@@ -26,10 +26,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.EquationSolver;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
-import geogebra.main.Application;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;

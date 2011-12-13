@@ -32,8 +32,6 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
-
 import java.util.TreeMap;
 
 
@@ -72,7 +70,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         this.g = g;
         this.pi = p;
         
-        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
+        newCoords = new TreeMap<Double, Coords>(AbstractKernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
     
         compute();
         

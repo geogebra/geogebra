@@ -29,7 +29,6 @@ import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
-//import geogebra.kernel.Kernel;
 
 import java.util.ArrayList;
 

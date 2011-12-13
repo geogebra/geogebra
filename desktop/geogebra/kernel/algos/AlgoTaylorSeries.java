@@ -24,7 +24,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Kernel;
 
 /**
  * Taylor series of a function (GeoFunction)
