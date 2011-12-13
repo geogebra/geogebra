@@ -14,7 +14,7 @@ the Free Software Foundation.
  * Created on 03.12.2004
  */
 
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
@@ -30,22 +30,14 @@ import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoClass;
-import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.LimitedPath;
-import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.TransformInterface;
-import geogebra.kernel.algos.AlgoConicPartCircle;
-import geogebra.kernel.algos.AlgoConicPartConicParameters;
-import geogebra.kernel.algos.AlgoConicPartConicPoints;
-import geogebra.kernel.algos.AlgoSemicircle;
-import geogebra.kernel.integration.EllipticArcLength;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.algos.AlgoConicPartCircle;
+import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
+import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
+import geogebra.common.kernel.algos.AlgoSemicircle;
+import geogebra.common.kernel.integration.EllipticArcLength;
 
 /**
  * GeoCirclePart for 
@@ -949,10 +941,10 @@ implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
     	AlgoElement algo = this.getParentAlgorithm();
     	if(algo==null)//should never happen, just to be sure
     		return false; 
-    	if(algo instanceof geogebra.kernel.algos.AlgoConicPartConicPoints)
+    	if(algo instanceof AlgoConicPartConicPoints)
     		return ((AlgoConicPartConicPoints)algo).getStartPoint().isLabelSet() &&
     		((AlgoConicPartConicPoints)algo).getEndPoint().isLabelSet();
-    	if(algo instanceof geogebra.common.kernel.algos.AlgoConicPartCircumcircle)
+    	if(algo instanceof AlgoConicPartCircumcircle)
     		return algo.getInput()[0].isLabelSet() && algo.getInput()[1].isLabelSet() &&
     		algo.getInput()[2].isLabelSet();	
     	return false;		

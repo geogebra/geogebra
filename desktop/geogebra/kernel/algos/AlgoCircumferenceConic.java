@@ -15,11 +15,11 @@ package geogebra.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.integration.EllipticArcLength;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.kernel.geos.GeoConicPart;
-import geogebra.kernel.integration.EllipticArcLength;
 
 /**
  * Algorithm to compute the circumference of a

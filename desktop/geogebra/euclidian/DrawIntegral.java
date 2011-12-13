@@ -14,11 +14,11 @@ package geogebra.euclidian;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.cas.AlgoIntegralDefinite;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
