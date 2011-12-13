@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 
 /**
@@ -87,12 +87,12 @@ public abstract class AlgoTransformation extends AlgoElement {
 			compute();
 			setTransformedObject(a, b);
 		}
-		if (a instanceof GeoConicPartInterface) {
-			double p = ((GeoConicPartInterface) a).getParameterStart();
-			double q = ((GeoConicPartInterface) a).getParameterEnd();
+		if (a instanceof GeoConicPart) {
+			double p = ((GeoConicPart) a).getParameterStart();
+			double q = ((GeoConicPart) a).getParameterEnd();
 			// Application.debug(p+","+q);
-			((GeoConicPartInterface) b).setParameters(p, q,
-					swapOrientation(((GeoConicPartInterface) a).positiveOrientation()));
+			((GeoConicPart) b).setParameters(p, q,
+					swapOrientation(((GeoConicPart) a).positiveOrientation()));
 		}
 	}
 
@@ -106,23 +106,23 @@ public abstract class AlgoTransformation extends AlgoElement {
 
 	protected void transformLimitedConic(GeoElement a, GeoElement b) {
 
-		GeoConicPartInterface arc = (GeoConicPartInterface) b;
-		if (a instanceof GeoConicPartInterface) {
-			((GeoConicPartInterface) b).setParameters(0, AbstractKernel.PI_2, true);
+		GeoConicPart arc = (GeoConicPart) b;
+		if (a instanceof GeoConicPart) {
+			((GeoConicPart) b).setParameters(0, AbstractKernel.PI_2, true);
 			if (pt == null) {
 				transformedPoint = new GeoPoint2(cons);
 				pt = new AlgoClosestPoint( cons, arc, transformedPoint);
 				cons.removeFromConstructionList(pt);
 			}
 			transformedPoint.removePath();
-			setTransformedObject(((GeoConicPartInterface) a).getPointParam(0),
+			setTransformedObject(((GeoConicPart) a).getPointParam(0),
 					transformedPoint);
 			compute();
 			transformedPoint.updateCascade();
 			// Application.debug("start"+transformedPoint);
 			double d = pt.getP().getPathParameter().getT();
 			transformedPoint.removePath();
-			setTransformedObject(((GeoConicPartInterface) a).getPointParam(1),
+			setTransformedObject(((GeoConicPart) a).getPointParam(1),
 					transformedPoint);
 			compute();
 			transformedPoint.updateCascade();
@@ -130,7 +130,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 			double e = pt.getP().getPathParameter().getT();
 			// Application.debug(d+","+e);
 			arc.setParameters(d * AbstractKernel.PI_2, e * AbstractKernel.PI_2,
-					swapOrientation(((GeoConicPartInterface) a).positiveOrientation()));
+					swapOrientation(((GeoConicPart) a).positiveOrientation()));
 
 			setTransformedObject(a, b);
 		}

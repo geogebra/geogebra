@@ -16,7 +16,6 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoConicInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -49,7 +48,7 @@ public class Inequality {
 	private Operation op = Operation.LESS;
 	private int type;
 	/*private GeoImplicitPoly impBorder;*/
-	private GeoConicInterface conicBorder;
+	private GeoConic conicBorder;
 	private GeoFunction funBorder;
 	private GeoElement border;
 	private AbstractKernel kernel;
@@ -323,7 +322,7 @@ public class Inequality {
 	/**
 	 * @return the conicBorder
 	 */
-	public GeoConicInterface getConicBorder() {
+	public GeoConic getConicBorder() {
 		return conicBorder;
 	}
 

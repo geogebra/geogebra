@@ -29,7 +29,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.geos.GeoConicNDInterface;
+import geogebra.common.kernel.kernelND.GeoConicND;
 
 //import geogebra.kernel.kernelND.GeoConicND;
 
@@ -147,7 +147,7 @@ public class AlgoCircleThreePoints extends AlgoElement {
 	}
 
 	// public GeoConicND getCircle() {
-	public GeoConicNDInterface getCircle() {
+	public GeoConicND getCircle() {
 		return circle;
 	}
 

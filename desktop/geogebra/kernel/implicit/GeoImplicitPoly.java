@@ -40,7 +40,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -160,7 +160,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 	 * Construct GeoImplicitPoly from GeoConic
 	 * @param c
 	 */
-	public GeoImplicitPoly(GeoConicInterface c){
+	public GeoImplicitPoly(GeoConic c){
 		this(c.getConstruction());
 		coeff=new double[3][3];
 		coeff[0][0]=c.getMatrix()[2];
@@ -1056,7 +1056,7 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
     	return deg;
     }
 
-	public void mirror(GeoConicInterface c) 
+	public void mirror(GeoConic c) 
 	{
 		
 		if(c.getCircleRadius() < 10e-2)

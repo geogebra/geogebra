@@ -61,8 +61,8 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoConicInterface;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -3266,7 +3266,7 @@ public abstract class AbstractKernel {
 
 	public abstract GeoElement[] PolyLineND(String[] labels, GeoPointND[] P);
 
-	public abstract GeoConicPartInterface newGeoConicPart(Construction cons,
+	public abstract GeoConicPart newGeoConicPart(Construction cons,
 			int type);
 
 
@@ -3276,7 +3276,6 @@ public abstract class AbstractKernel {
 	// temporary methods just while moving things
 
 	public abstract ParserInterface getParser();
-
 
 	public abstract ExtremumFinder getExtremumFinder();
 

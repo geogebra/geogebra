@@ -16,7 +16,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -182,7 +182,7 @@ public abstract class Transform extends TransformInterface {
 	 * @param conic
 	 * @return transformed conic
 	 */
-	public GeoConicInterface getTransformedConic(GeoConicInterface conic) {
+	public GeoConic getTransformedConic(GeoConic conic) {
 		GeoConic ret = (GeoConic) doTransform((GeoConic)conic);
 		ret.setVisualStyleForTransformations((GeoConic)conic);
 		return ret;

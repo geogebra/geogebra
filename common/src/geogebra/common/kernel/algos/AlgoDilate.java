@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConicPart;
 
 /**
  * 
@@ -159,7 +159,7 @@ public class AlgoDilate extends AlgoTransformation {
 
 	@Override
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {
-		if (!(a instanceof GeoConicPartInterface))
+		if (!(a instanceof GeoConicPart))
 			super.transformLimitedPath(a, b);
 		else
 			super.transformLimitedConic(a, b);

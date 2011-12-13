@@ -492,7 +492,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable, Fun
      * @param c conic
      * @return true iff defined as tangent of given conic
      */
-    final public boolean isDefinedTangent(GeoConicInterface c) {        
+    final public boolean isDefinedTangent(GeoConic c) {        
         boolean isTangent = false;
         
         Object ob = getParentAlgorithm();        
@@ -513,7 +513,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable, Fun
      * @param c conic
      * @return true iff defined as a asymptote of conic c
      */
-    final public boolean isDefinedAsymptote(GeoConicInterface c) {        
+    final public boolean isDefinedAsymptote(GeoConic c) {        
         boolean isAsymptote = false;
         
         Object ob = getParentAlgorithm();        
@@ -1152,7 +1152,7 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable, Fun
 		return true;
 	}
 	
-	public void toGeoConic(GeoConicInterface con){
+	public void toGeoConic(GeoConic con){
 		con.fromLine(this);		
 	}
 

@@ -39,7 +39,7 @@ import java.util.ArrayList;
  */
 public class GeoConic extends GeoConicND
 implements Region, Traceable, ConicMirrorable, Transformable, 
- PointRotateable, Mirrorable, Dilateable, MatrixTransformable, GeoConicInterface
+ PointRotateable, Mirrorable, Dilateable, MatrixTransformable
 {
 
 	/* 
@@ -224,7 +224,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	 * @author Michael Borcherds 
 	 * @param c Circle used as mirror
 	 */	
-	    final public void mirror(GeoConicInterface c) {
+	    final public void mirror(GeoConic c) {
 	    	if (c.isCircle() && this.isCircle() )
 	    	{ // Mirror point in circle
 	    		double r1 =  c.getHalfAxes()[0];

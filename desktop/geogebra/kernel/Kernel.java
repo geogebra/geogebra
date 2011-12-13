@@ -55,9 +55,9 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoConicInterface;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -6175,7 +6175,7 @@ public class Kernel extends AbstractKernel{
 		
 	
 	@Override
-	public GeoConicPartInterface newGeoConicPart(Construction cons, int type) {//temporary
+	public GeoConicPart newGeoConicPart(Construction cons, int type) {//temporary
 		return new GeoConicPart(cons, type);
 	}
 

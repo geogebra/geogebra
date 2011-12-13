@@ -20,8 +20,8 @@ import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoConicInterface;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -149,7 +149,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoConicPartInterface newGeoConicPart(Construction cons, int type) {
+    public GeoConicPart newGeoConicPart(Construction cons, int type) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

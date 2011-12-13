@@ -114,7 +114,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio {
 		//app.getEuclidianView().getXML(sb);
 		
 		// save kernel settings
-		c.getKernel().getKernelXML(sb);
+		c.getKernel().getKernelXML(sb, false);
 
 		// save construction
 		c.getConstructionXML(sb);

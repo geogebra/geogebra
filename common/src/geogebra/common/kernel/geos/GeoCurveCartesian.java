@@ -806,7 +806,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return false;
 	}
 
-	final public void mirror(GeoConicInterface c) {
+	final public void mirror(GeoConic c) {
 		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 
 			// Mirror point in circle

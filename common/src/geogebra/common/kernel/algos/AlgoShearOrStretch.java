@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConicPart;
 
 
 /**
@@ -179,7 +179,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
     
     @Override
     protected void transformLimitedPath(GeoElement a, GeoElement b){
-       	if(!(a instanceof GeoConicPartInterface)) {
+       	if(!(a instanceof GeoConicPart)) {
        		super.transformLimitedPath(a, b);   	
        	} else {
        		super.transformLimitedConic(a, b);

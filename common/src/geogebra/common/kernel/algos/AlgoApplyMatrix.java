@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConicPart;
 
 /**
  * 
@@ -203,7 +203,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 	@Override
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {
-		if (!(a instanceof GeoConicPartInterface)) {
+		if (!(a instanceof GeoConicPart)) {
 			super.transformLimitedPath(a, b);
 		} else {
 			super.transformLimitedConic(a, b);

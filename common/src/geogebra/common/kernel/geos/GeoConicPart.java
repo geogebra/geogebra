@@ -45,7 +45,7 @@ import geogebra.common.kernel.integration.EllipticArcLength;
  * 
  */
 public class GeoConicPart extends GeoConic
-implements LimitedPath, NumberValue, LineProperties, GeoConicPartInterface {
+implements LimitedPath, NumberValue, LineProperties {
 	
 	/** conic arc*/
 	public static final int CONIC_PART_ARC = 1;

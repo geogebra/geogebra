@@ -18,8 +18,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.GeoConicInterface;
-import geogebra.common.kernel.geos.GeoConicPartInterface;
+import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -53,7 +53,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
         AlgoCircleThreePoints algo = 
         	new AlgoCircleThreePoints(cons, A, B, C);
         cons.removeFromConstructionList(algo);		
-        conic = (GeoConicInterface) algo.getCircle(); 
+        conic = (GeoConic) algo.getCircle(); 
         
         conicPart = kernel.newGeoConicPart(cons, type);
         conicPart.addPointOnConic(A);
@@ -74,7 +74,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	@Override
 	public String getClassName() {
 		switch (type) {
-			case GeoConicPartInterface.CONIC_PART_ARC:
+			case GeoConicPart.CONIC_PART_ARC:
 				return "AlgoCircumcircleArc";
 			default:
 				return "AlgoCircumcircleSector";
@@ -84,7 +84,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 	@Override
 	public int getRelatedModeID() {
 		switch (type) {
-			case GeoConicPartInterface.CONIC_PART_ARC:
+			case GeoConicPart.CONIC_PART_ARC:
 				return EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS;
 			default:
 				return EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS;

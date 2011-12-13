@@ -492,7 +492,7 @@ GeoPointND, Animatable, Transformable {
         // of conics correctly for path parameter calculation of point P
         GeoElement geo = (GeoElement)path.toGeoElement();
         if (geo.isGeoConic()) {
-        	((GeoConicInterface) geo).addPointOnConic(this);//GeoConicND
+        	((GeoConic) geo).addPointOnConic(this);//GeoConicND
         }   
 	}
 	
@@ -871,7 +871,7 @@ GeoPointND, Animatable, Transformable {
  * Michael Borcherds 2008-02-10
  * Invert point in circle
  */
-    final public void mirror(GeoConicInterface c) {
+    final public void mirror(GeoConic c) {
     	if (c.getType()==4/*GeoConic.CONIC_CIRCLE*/)
     	{ // Mirror point in circle
     		double r =  c.getHalfAxes()[0];
@@ -1269,7 +1269,7 @@ GeoPointND, Animatable, Transformable {
 		if (path != null) {
 			GeoElement geo = (GeoElement)path.toGeoElement();
 			if (geo.isGeoConic()) {
-				((GeoConicInterface) geo).removePointOnConic(this);//GeoConicND
+				((GeoConic) geo).removePointOnConic(this);//GeoConicND
 			}
 		}
 		
@@ -1278,7 +1278,7 @@ GeoPointND, Animatable, Transformable {
 			for (int i=0; i<incidenceList.size(); ++i) {
 				GeoElement geo = incidenceList.get(i);
 				if (geo.isGeoConic()) {
-					((GeoConicInterface) geo).removePointOnConic(this);//GeoConicND
+					((GeoConic) geo).removePointOnConic(this);//GeoConicND
 				} else if (geo.isGeoLine()) {
 					((GeoLine) geo).removePointOnLine(this);
 				}
@@ -1688,7 +1688,7 @@ GeoPointND, Animatable, Transformable {
 			
 			//GeoConicND, GeoLine, GeoPoint are the three types who have an incidence list 
 			if (geo.isGeoConic())
-				((GeoConicInterface)geo).addPointOnConic(this);//GeoConicND
+				((GeoConic)geo).addPointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
 				((GeoLine)geo).addPointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
@@ -1706,7 +1706,7 @@ GeoPointND, Animatable, Transformable {
 				incidenceList.remove(geo);
 			
 			if (geo.isGeoConic())
-				((GeoConicInterface)geo).removePointOnConic(this);//GeoConicND
+				((GeoConic)geo).removePointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
 				((GeoLine)geo).removePointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
