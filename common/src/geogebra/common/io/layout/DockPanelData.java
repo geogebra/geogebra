@@ -161,13 +161,13 @@ public class DockPanelData {
 		sb.append("\" size=\"");
 		sb.append(getEmbeddedSize());
 		sb.append("\" window=\"");
-		sb.append(getFrameBounds().getX());
+		sb.append((int)getFrameBounds().getX());
 		sb.append(",");
-		sb.append(getFrameBounds().getY());
+		sb.append((int)getFrameBounds().getY());
 		sb.append(",");
-		sb.append(getFrameBounds().getWidth());
+		sb.append((int)getFrameBounds().getWidth());
 		sb.append(",");
-		sb.append(getFrameBounds().getHeight());
+		sb.append((int)getFrameBounds().getHeight());
 		sb.append("\" />\n");
 		return sb.toString();
 	}
