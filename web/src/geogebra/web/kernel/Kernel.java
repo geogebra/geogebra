@@ -10,8 +10,10 @@ import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
@@ -287,6 +289,13 @@ public class Kernel extends AbstractKernel {
 	public void clearConstruction() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public ExpressionNode convertNumberValueToExpressionNode(
+            NumberValue numberValue) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 	

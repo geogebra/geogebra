@@ -6,7 +6,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.Kernel;
 import geogebra.web.main.Application;
 
-public class MyXMLio {
+public class MyXMLio implements geogebra.common.io.MyXMLio {
 	
 	private AbstractApplication app;
 	private Kernel kernel;
@@ -100,7 +100,7 @@ public class MyXMLio {
 	 * Returns XML representation of all settings and construction needed for
 	 * undo.
 	 */
-	public static synchronized StringBuilder getUndoXML(Construction c) {
+	public synchronized StringBuilder getUndoXML(Construction c) {
 		AbstractApplication app = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
