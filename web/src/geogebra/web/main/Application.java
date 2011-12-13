@@ -403,7 +403,7 @@ public class Application extends AbstractApplication {
 	    
     }
 	
-	public void loadGgbFile(Map<String, String> archiveContent) throws ConstructionException {
+	public void loadGgbFile(Map<String, String> archiveContent) throws Exception {
 		euclidianview.setDisableRepaint(true);
 		loadFile(archiveContent);
 		euclidianview.setDisableRepaint(false);
@@ -414,7 +414,7 @@ public class Application extends AbstractApplication {
 	   GWT.log(message);
     }
 	
-	private void loadFile(Map<String, String> archive) throws ConstructionException {
+	private void loadFile(Map<String, String> archive) throws Exception {
 		// Reset file
 		images.clear();
 		

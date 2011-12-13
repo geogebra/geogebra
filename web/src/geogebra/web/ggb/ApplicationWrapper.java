@@ -79,7 +79,7 @@ public class ApplicationWrapper extends BasePresenter {
 		
 		try {
 			app.loadGgbFile(archiveContent);
-		} catch (ConstructionException ex) {
+		} catch (Exception ex) {
 				Application.log(ex.getMessage());
 			return;
 		}

@@ -1,6 +1,7 @@
 package geogebra.web.kernel;
 
 import geogebra.common.awt.Color;
+import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
@@ -39,7 +40,6 @@ import geogebra.common.util.GgbMat;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
-import geogebra.web.io.DocHandler;
 import geogebra.web.main.Application;
 import geogebra.web.util.NumberFormat;
 

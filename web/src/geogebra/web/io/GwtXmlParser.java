@@ -1,7 +1,10 @@
 package geogebra.web.io;
 
 
+import geogebra.common.io.DocHandler;
+
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.gwt.xml.client.Attr;
@@ -15,15 +18,14 @@ import com.google.gwt.xml.client.impl.DOMParseException;
 
 public class GwtXmlParser implements XmlParser {
 	
-	@Override
-	public void parse(DocHandler docHandler, String xml) throws ConstructionException {
+	public void parse(DocHandler docHandler, String xml) throws Exception {
 		Document doc = parseXml(xml);
 		docHandler.startDocument();
 		recursiveElementWalk(docHandler, doc.getDocumentElement());
 		docHandler.endDocument();
 	}
 	
-	private Document parseXml(String xml) throws ConstructionException {
+	private Document parseXml(String xml) throws Exception {
 		try {
 			return XMLParser.parse(xml);
 		} catch (DOMParseException ex) {
@@ -31,7 +33,7 @@ public class GwtXmlParser implements XmlParser {
 		}
 	}
 
-	private void recursiveElementWalk(DocHandler docHandler, Element element) {
+	private void recursiveElementWalk(DocHandler docHandler, Element element) throws Exception {
 		docHandler.startElement(element.getTagName(), getAttributesFor(element));
 		
 		NodeList children = element.getChildNodes();
@@ -45,8 +47,8 @@ public class GwtXmlParser implements XmlParser {
 		docHandler.endElement(element.getTagName());
 	}
 
-	private Map<String, String> getAttributesFor(Element element) {
-		HashMap<String, String> copiedAttributes = new HashMap<String, String>();
+	private LinkedHashMap<String, String> getAttributesFor(Element element) {
+		LinkedHashMap<String, String> copiedAttributes = new LinkedHashMap<String, String>();
 		NamedNodeMap attributes = element.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
 			Attr attr = (Attr) attributes.item(i);

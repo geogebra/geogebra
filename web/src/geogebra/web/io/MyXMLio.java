@@ -1,6 +1,7 @@
 package geogebra.web.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.Kernel;
@@ -68,7 +69,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio {
 		return sb.toString();
 	}
 	
-	public void processXmlString(String xml, boolean clearConstruction, boolean isGgtFile) throws ConstructionException {
+	public void processXmlString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		if (!isGgtFile) {
 			kernel.setNotifyViewsActive(false);
