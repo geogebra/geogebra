@@ -1,4 +1,4 @@
-package geogebra.io.layout;
+package geogebra.common.io.layout;
 
 /**
  * Structure for a perspective which consists of the docks and the toolbar

@@ -1,10 +1,10 @@
 package geogebra.gui.layout;
 
+import geogebra.common.io.layout.DockPanelData;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.io.layout.DockPanelData;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -886,7 +886,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 			visible,
 			openInFrame, 
 			showStyleBar, 
-			frameBounds, 
+			new geogebra.awt.Rectangle(frameBounds), 
 			embeddedDef, 
 			embeddedSize
 		);

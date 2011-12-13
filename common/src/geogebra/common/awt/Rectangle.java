@@ -1,16 +1,18 @@
 package geogebra.common.awt;
 
-public interface Rectangle {
+public abstract class Rectangle {
+	
+	public abstract double getY();
+	public abstract double getX();
+	public abstract double getWidth();
+	public abstract double getHeight();
 
-	int width = 0;
-	int height = 0;
+	public abstract void setBounds(int xLabel, int i, int width, int height);
 
-	void setBounds(int xLabel, int i, int width, int height);
+	public abstract void setLocation(int xLabel, int i);
 
-	void setLocation(int xLabel, int i);
+	public abstract void setBounds(Rectangle rectangle);
 
-	void setBounds(Rectangle rectangle);
-
-	boolean contains(int x, int y);
+	public abstract boolean contains(int x, int y);
 
 }

@@ -1,8 +1,8 @@
-package geogebra.io.layout;
+package geogebra.common.io.layout;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
+import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Point;
+import geogebra.common.awt.Rectangle;
 
 /**
  * A storage container with all information which need to
@@ -55,7 +55,7 @@ public class DockPanelData {
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
 	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, int windowX, int windowY, int windowWidth, int windowHeight, String embeddedDef, int embeddedSize) {
-		this(viewId, toolbar, isVisible, inFrame, showStyleBar, new Rectangle(windowX, windowY, windowWidth, windowHeight), embeddedDef, embeddedSize);
+		this(viewId, toolbar, isVisible, inFrame, showStyleBar, geogebra.common.factories.AwtFactory.prototype.newRectangle(windowX, windowY, windowWidth, windowHeight), embeddedDef, embeddedSize);
 	}
 	
 	/**
@@ -70,10 +70,10 @@ public class DockPanelData {
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
 	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, Point windowLoc, Dimension windowSize, String embeddedDef, int embeddedSize) {
-		this(viewId, toolbar, isVisible, inFrame, showStyleBar, new Rectangle(windowLoc, windowSize), embeddedDef, embeddedSize);
+		this(viewId, toolbar, isVisible, inFrame, showStyleBar, geogebra.common.factories.AwtFactory.prototype.newRectangle(windowLoc.getX(), windowLoc.getY(),(int)windowSize.width(),(int)windowSize.height()), embeddedDef, embeddedSize);
 	}
 
-	/**
+	/** 
 	 * @return The view ID.
 	 */
 	public int getViewId() {
@@ -161,13 +161,13 @@ public class DockPanelData {
 		sb.append("\" size=\"");
 		sb.append(getEmbeddedSize());
 		sb.append("\" window=\"");
-		sb.append(getFrameBounds().x);
+		sb.append(getFrameBounds().getX());
 		sb.append(",");
-		sb.append(getFrameBounds().y);
+		sb.append(getFrameBounds().getY());
 		sb.append(",");
-		sb.append(getFrameBounds().width);
+		sb.append(getFrameBounds().getWidth());
 		sb.append(",");
-		sb.append(getFrameBounds().height);
+		sb.append(getFrameBounds().getHeight());
 		sb.append("\" />\n");
 		return sb.toString();
 	}

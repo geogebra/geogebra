@@ -1,12 +1,12 @@
 package geogebra.gui.layout;
 
+import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.io.layout.DockPanelData;
-import geogebra.io.layout.DockSplitPaneData;
 import geogebra.main.Application;
 
 import java.awt.AWTEvent;
@@ -122,7 +122,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					// TODO insert error panel
 				}else{
 					panel.setToolbarString(dpData[i].getToolbarString());
-					panel.setFrameBounds(dpData[i].getFrameBounds());
+					panel.setFrameBounds(geogebra.awt.Rectangle.getAWTRectangle(dpData[i].getFrameBounds()));
 					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
 					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 					panel.setShowStyleBar(dpData[i].showStyleBar());

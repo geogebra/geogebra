@@ -1,4 +1,4 @@
-package geogebra.io.layout;
+package geogebra.common.io.layout;
 
 /**
  * A storage container for a split pane. Just used for saving & loading a

@@ -1,5 +1,8 @@
 package geogebra.gui.layout;
 
+import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.io.layout.DockSplitPaneData;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -7,9 +10,6 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.io.layout.DockPanelData;
-import geogebra.io.layout.DockSplitPaneData;
-import geogebra.io.layout.Perspective;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.main.settings.LayoutSettings;
@@ -112,10 +112,10 @@ public class Layout implements SettingListener {
 
 		// algebra & graphics (default settings of GeoGebra < 3.2)
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, true, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
-		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
-		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1,3", 300);
 
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", 0.25, JSplitPane.HORIZONTAL_SPLIT);
@@ -126,10 +126,10 @@ public class Layout implements SettingListener {
 		
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3", 200);
-		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,1", 300);
-		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "1,3", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 250, 400), "3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1,1", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1,3", 300);
 		
 		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
@@ -142,19 +142,19 @@ public class Layout implements SettingListener {
 		spData[0] = new DockSplitPaneData("", 0.45, JSplitPane.HORIZONTAL_SPLIT);
 		
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
-		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
-		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 250, 400), "3,3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "3", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "3,1", 300);
 		
 		defaultPerspectives[3] = new Perspective("TableAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 		
 		// CAS & Graphics - cas and euclidian view
 		dpData = new DockPanelData[4];
-		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new Rectangle(100, 100, 600, 400), "1", 500);
-		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new Rectangle(100, 100, 250, 400), "3,3", 200);
-		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new Rectangle(100, 100, 600, 400), "3,1", 300);
-		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, true, false, false, new Rectangle(100, 100, 600, 400), "3", 300);
+		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "1", 500);
+		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 250, 400), "3,3", 200);
+		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "3,1", 300);
+		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, true, false, false, new geogebra.awt.Rectangle(100, 100, 600, 400), "3", 300);
 		
 		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 

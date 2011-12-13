@@ -1,6 +1,6 @@
 package geogebra.gui.layout;
 
-import geogebra.io.layout.DockSplitPaneData;
+import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.main.Application;
 
 import java.awt.Component;

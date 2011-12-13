@@ -1,5 +1,6 @@
 package geogebra.factories;
 
+import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
@@ -39,6 +40,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Rectangle2D newRectangle() {
 		return new geogebra.awt.Rectangle2D();
+	}
+	
+	public Rectangle newRectangle(int x,int y,int w, int h) {
+		return new geogebra.awt.Rectangle(x,y,w,h);
 	}
 
 	@Override

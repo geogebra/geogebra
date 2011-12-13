@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.io.layout.Perspective;
 import geogebra.gui.layout.Layout;
-import geogebra.io.layout.Perspective;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;

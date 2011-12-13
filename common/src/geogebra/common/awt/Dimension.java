@@ -1,8 +1,8 @@
 package geogebra.common.awt;
 
-public interface Dimension {
+public abstract class Dimension {
 
-	int width = 0;
-	int height = 0;
+	public abstract double width();
+	public abstract double height();
 
 }
