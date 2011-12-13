@@ -24,11 +24,12 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.main.AbstractApplication;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
+import geogebra.common.adapters.LegendreGaussIntegrator;
 
 /**
  * Integral of a function (GeoFunction)
@@ -260,8 +261,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
     	
     	// init GaussQuad classes for numerical integration
         if (firstGauss == null) {
-            firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MAX_ITER);
-            secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MAX_ITER);
+            firstGauss = AdapterFactory.prototype.newLegendreGaussIntegrator(FIRST_ORDER, MAX_ITER);
+            secondGauss = AdapterFactory.prototype.newLegendreGaussIntegrator(SECOND_ORDER, MAX_ITER);
         }
         
         double firstSum = 0;
@@ -271,9 +272,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         
         // integrate using gauss quadrature
         try {
-	        firstSum = firstGauss.integrate((geogebra.kernel.roots.RealRootAdapter)AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
+	        firstSum = firstGauss.integrate(AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
 	        if (Double.isNaN(firstSum)) return Double.NaN;        
-	        secondSum = secondGauss.integrate((geogebra.kernel.roots.RealRootAdapter)AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
+	        secondSum = secondGauss.integrate(AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
 	        if (Double.isNaN(secondSum)) return Double.NaN;
         } catch (MaxIterationsExceededException e) {
         	error = true;
@@ -282,6 +283,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
 		} catch (FunctionEvaluationException e) {
 			return Double.NaN;
 		} catch (IllegalArgumentException e) {
+			return Double.NaN;
+		} catch (Exception e) {
+			AbstractApplication.printStacktrace("Unwanted type of exception.");
 			return Double.NaN;
 		}
 		
