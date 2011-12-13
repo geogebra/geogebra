@@ -64,7 +64,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.MacroKernel;
+import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.Parser;
@@ -405,7 +405,7 @@ public class MyXMLHandler implements DocHandler {
 					
 					if (ggbFileFormat < 3.0) {
 						// before V3.0 the kernel had continuity always on
-						if (!(kernel instanceof MacroKernel))
+						if (!(kernel instanceof MacroKernelInterface))
 							kernel.setContinuous(true);
 
 						// before V3.0 the automaticGridDistanceFactor was 0.5
@@ -2329,15 +2329,15 @@ public class MyXMLHandler implements DocHandler {
 					: parseBoolean(strShowInToolBar);
 			macro.setShowInToolBar(showTool);
 
-			MacroKernel macroKernel = new MacroKernel(kernel);
+			MacroKernelInterface macroKernel = kernel.newMacroKernel();
 			macroKernel.setContinuous(false);
 
 			// we have to change the construction object temporarily so
 			// everything
 			// is done in the macro construction from now on
-			kernel = macroKernel;
+			kernel = (Kernel) macroKernel;
 			cons = macroKernel.getConstruction();
-			parser = new Parser(macroKernel, cons);
+			parser = new Parser((Kernel)macroKernel, cons);
 
 		} catch (Exception e) {
 			System.err.println("error in <macro>");
