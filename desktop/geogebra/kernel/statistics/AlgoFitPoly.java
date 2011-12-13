@@ -135,7 +135,7 @@ public class AlgoFitPoly extends AlgoElement{
                 geofunction.setUndefined();
                 return;  
             }else{
-                geofunction.setFunction(geogebra.kernel.algos.AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(cons.getKernel(),cof));
+                geofunction.setFunction(geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(cons.getKernel(),cof));
                 geofunction.setDefined(true);
             }//if error in regression   
         }//if error in parameters

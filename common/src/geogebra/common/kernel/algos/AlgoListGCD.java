@@ -10,11 +10,9 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -22,19 +20,18 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import java.math.BigInteger;
 
 /**
- * LCM of a list.
+ * GCD of a list.
  * adapted from AlgoListMax
  * @author Michael Borcherds
- * @version 01-08-2011
+ * @version 03-01-2008
  */
 
-public class AlgoListLCM extends AlgoElement {
+public class AlgoListGCD extends AlgoElement {
 
-	private static final BigInteger bigZero = BigInteger.valueOf(0);
 	private GeoList geoList; //input
     private GeoNumeric num; //output	
 
-    public AlgoListLCM(Construction cons, String label, GeoList geoList) {
+    public AlgoListGCD(Construction cons, String label, GeoList geoList) {
         super(cons);
         this.geoList = geoList;
                
@@ -47,7 +44,7 @@ public class AlgoListLCM extends AlgoElement {
 
     @Override
 	public String getClassName() {
-        return "AlgoListLCM";
+        return "AlgoListGCD";
     }
 
     @Override
@@ -55,15 +52,15 @@ public class AlgoListLCM extends AlgoElement {
         input = new GeoElement[1];
         input[0] = geoList;
 
-        setOutputLength(1);
-        setOutput(0, num);
+        super.setOutputLength(1);
+        super.setOutput(0, num);
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoNumeric getLCM() {
+    public GeoNumeric getGCD() {
         return num;
     }
-    
+
     @Override
 	public final void compute() {
     	int size = geoList.size();
@@ -77,33 +74,22 @@ public class AlgoListLCM extends AlgoElement {
     		return;   		
     	}
     	
-    	BigInteger lcm = BigInteger.valueOf((long)((GeoNumeric)(geoList.get(0))).getDouble());
+    	BigInteger gcd = BigInteger.valueOf((long)((GeoNumeric)(geoList.get(0))).getDouble());
     	
     	for (int i = 1 ; i < geoList.size() ; i++) {
-    		double nd = ((GeoNumeric)(geoList.get(i))).getDouble();
-    		
-    		if(!AbstractKernel.isInteger(nd)){
-    			num.setUndefined();
-    			return;
-    		}    		
-        	BigInteger n = BigInteger.valueOf((long)nd);
-        	if(n.compareTo(bigZero)==0){
-        		lcm = bigZero;
-        	}else{
-        		BigInteger product = n.multiply(lcm);
-        		lcm =  product.divide(lcm.gcd(n));
-        	}
+        	BigInteger n = BigInteger.valueOf((long)((GeoNumeric)(geoList.get(i))).getDouble());
+    		gcd = gcd.gcd(n);
     	}
     	
-    	double resultD = Math.abs(lcm.doubleValue());
+    	double result = Math.abs(gcd.doubleValue());
     	
     	// can't store integers greater than this in a double accurately
-    	if(Math.abs(lcm.doubleValue())>1e15){
-			num.setUndefined();
-			return;
-		}    		
-    	num.setValue(resultD);
+    	if (result > 1e15) {
+    		num.setUndefined();
+    		return;
+    	}
     	
+    	num.setValue(result);   	
     }
     
 }
