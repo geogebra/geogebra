@@ -1520,18 +1520,22 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 			// allow dragging of Translate[Object, vector] if 'vector' is
 			// independent
+			Application.debug(1);
 			if (movedGeoElement.isGeoPolygon()) {
 				GeoPolygon poly = (GeoPolygon) movedGeoElement;
 				GeoPointND[] pts = poly.getPoints();
 
+				Application.debug(2);
 				// get vector for first point
 				AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
 				if (algo instanceof AlgoTranslate) {
+					Application.debug(3);
 					GeoElement[] input = algo.getInput();
 					vec = (GeoVector) input[1];
 
 					// now check other points are translated by the same vector
 					for (int i = 1; i < pts.length; i++) {
+						Application.debug(4);
 						algo = ((GeoElement) pts[i]).getParentAlgorithm();
 						if (!(algo instanceof AlgoTranslate)) {
 							sameVector = false;
@@ -1541,6 +1545,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 						GeoVector vec2 = (GeoVector) input[1];
 						if (vec != vec2) {
+							Application.debug(5);
 							sameVector = false;
 							break;
 						}
@@ -1573,13 +1578,16 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 					}
 				}
 			} else if (movedGeoElement.isTranslateable()) {
+				Application.debug(11);
 				AlgoElement algo = movedGeoElement.getParentAlgorithm();
 				if (algo instanceof AlgoTranslate) {
+					Application.debug(12);
 					GeoElement[] input = algo.getInput();
 					vec = (GeoVector) input[1];
 				}
 			}
-			if ((vec != null) && sameVector && vec.isIndependent()) {
+			if ((vec != null) && sameVector
+					&& ((vec.label == null) || vec.isIndependent())) {
 				transformCoordsOffset[0] = xRW - vec.x;
 				transformCoordsOffset[1] = yRW - vec.y;
 				movedGeoVector = vec;
@@ -2040,7 +2048,18 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 				GeoElement topHit = hits.get(0);
 
 				if (topHit.isTranslateable() || topHit.isGeoPolygon()) {
-					GeoVector vec = kernel.Vector(0, 0);
+					GeoVector vec;
+					if (topHit.isGeoPolygon()) {
+						// for polygons, we need a labelled vector so that all
+						// the vertices move together
+						vec = kernel.Vector(null, 0, 0);
+						vec.setEuclidianVisible(false);
+						vec.setAuxiliaryObject(true);
+					} else {
+						vec = kernel.Vector(0, 0);
+					}
+					vec.setEuclidianVisible(false);
+					vec.setAuxiliaryObject(true);
 					kernel.Translate(null, hits.get(0), vec);
 					transformCoordsOffset[0] = xRW;
 					transformCoordsOffset[1] = yRW;
