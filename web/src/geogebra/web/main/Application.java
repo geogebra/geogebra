@@ -12,6 +12,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
@@ -20,6 +21,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.main.settings.Settings;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -569,5 +571,30 @@ public class Application extends AbstractApplication {
     public View getView(int id) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	@Override
+    public Settings getSettings() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public void setScriptingDisabled(boolean scriptingDisabled) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public DrawEquationInterface getDrawEquation() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public void setShowConstructionProtocolNavigation(boolean show,
+            boolean playButton, double playDelay, boolean showProtButton) {
+	    // TODO Auto-generated method stub
+	    
     }
 }

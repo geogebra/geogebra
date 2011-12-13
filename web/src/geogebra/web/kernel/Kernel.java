@@ -269,12 +269,6 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public MacroInterface getMacro(String cmdName) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public GeoElement[] useMacro(String[] labels, MacroInterface macro,
             GeoElement[] arg) {
 	    // TODO Auto-generated method stub
@@ -286,14 +280,17 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	public void clearConstruction() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	
 
 	@Override
     public ExpressionNode convertNumberValueToExpressionNode(
             NumberValue numberValue) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement createGeoElement(Construction cons2, String type) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
