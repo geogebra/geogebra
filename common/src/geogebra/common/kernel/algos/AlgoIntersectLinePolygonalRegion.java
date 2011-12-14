@@ -16,13 +16,13 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -33,7 +33,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.util.TreeMap;
 
 
@@ -330,7 +330,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
    
 	}
 
-    private Color BLUE_VIOLET= new Color(153,0,255);
+    private Color BLUE_VIOLET= geogebra.common.factories.AwtFactory.prototype.newColor(153,0,255);
     private int THICK_LINE_WITHIN_LINE = 4;
     
     @Override
@@ -388,7 +388,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 	protected void setStyle(GeoSegmentND segment) {
 		//TODO:  set styles in somewhere else
 		segment.setLineThickness(THICK_LINE_WITHIN_LINE); 
-		segment.setObjColor(new geogebra.awt.Color(BLUE_VIOLET));
+		segment.setObjColor(BLUE_VIOLET);
 	}
 
 	@Override
