@@ -42,5 +42,14 @@ cd $MYDIR
 rsync -avPO --rsh=ssh $PROP_DIR/tube/* $TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 rsync -avPO --rsh=ssh $PROP_DIR/nav/* $NAV_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
+# The script should also remove all files
+# /Library/WebServer/GeoGebra/navigation/cache/* and
+# /Library/WebServer/GeoGebraTube/tmp/cache/zend_cache---Zend_Translate_*
+# so that the properties are really used.
+ssh www.geogebra.org \
+ "cd /Library/WebServer/GeoGebra/navigation/cache && find . -name '*.php' | xargs rm"
+ssh www.geogebra.org \
+ "cd /Library/WebServer/GeoGebraTube/tmp/cache && find . -name 'zend_cache---Zend_Translate*' | xargs rm"
+
 date
 echo "$0: end"
