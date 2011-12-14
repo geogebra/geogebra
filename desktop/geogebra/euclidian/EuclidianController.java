@@ -25,6 +25,8 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.algos.AlgoVector;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
@@ -49,6 +51,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -143,6 +146,8 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	public static final int MOVE_ROTATE_VIEW = 120; // for 3D
 
 	protected static final int MOVE_IMPLICITPOLY = 121;
+	protected static final int MOVE_VECTOR_NO_GRID = 122;
+	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 
 	protected Application app;
 
@@ -1520,22 +1525,18 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 			// allow dragging of Translate[Object, vector] if 'vector' is
 			// independent
-			Application.debug(1);
 			if (movedGeoElement.isGeoPolygon()) {
 				GeoPolygon poly = (GeoPolygon) movedGeoElement;
 				GeoPointND[] pts = poly.getPoints();
 
-				Application.debug(2);
 				// get vector for first point
 				AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
 				if (algo instanceof AlgoTranslate) {
-					Application.debug(3);
 					GeoElement[] input = algo.getInput();
 					vec = (GeoVector) input[1];
 
 					// now check other points are translated by the same vector
 					for (int i = 1; i < pts.length; i++) {
-						Application.debug(4);
 						algo = ((GeoElement) pts[i]).getParentAlgorithm();
 						if (!(algo instanceof AlgoTranslate)) {
 							sameVector = false;
@@ -1545,7 +1546,6 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 						GeoVector vec2 = (GeoVector) input[1];
 						if (vec != vec2) {
-							Application.debug(5);
 							sameVector = false;
 							break;
 						}
@@ -1554,10 +1554,33 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 				}
 			} else if (movedGeoElement.isGeoSegment()
-					|| movedGeoElement.isGeoRay()) {
-				GeoLine line = (GeoLine) movedGeoElement;
-				GeoPoint2 start = line.getStartPoint();
-				GeoPoint2 end = line.getEndPoint();
+					|| movedGeoElement.isGeoRay()
+					|| (movedGeoElement.getParentAlgorithm() instanceof AlgoVector)) {
+				GeoPoint2 start = null;
+				GeoPoint2 end = null;
+				if (movedGeoElement.getParentAlgorithm() instanceof AlgoVector) {
+					// Vector[A,B]
+					AlgoVector algoVec = (AlgoVector) movedGeoElement
+							.getParentAlgorithm();
+					start = algoVec.getInputPoints().get(0);
+					end = algoVec.getInputPoints().get(1);
+
+					if (start.isIndependent() && !end.isIndependent()) {
+						end = null;
+						transformCoordsOffset[0] = xRW - start.inhomX;
+						transformCoordsOffset[1] = yRW - start.inhomY;
+						moveMode = MOVE_POINT_WITH_OFFSET;
+						movedGeoPoint = start;
+						return;
+
+					}
+
+				} else {
+					// Segment/ray
+					GeoLine line = (GeoLine) movedGeoElement;
+					start = line.getStartPoint();
+					end = line.getEndPoint();
+				}
 
 				if ((start != null) && (end != null)) {
 					// get vector for first point
@@ -1578,21 +1601,35 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 					}
 				}
 			} else if (movedGeoElement.isTranslateable()) {
-				Application.debug(11);
 				AlgoElement algo = movedGeoElement.getParentAlgorithm();
 				if (algo instanceof AlgoTranslate) {
-					Application.debug(12);
 					GeoElement[] input = algo.getInput();
 					vec = (GeoVector) input[1];
 				}
+			} else if (movedGeoElement.getParentAlgorithm() instanceof AlgoVectorPoint) {
+				// allow Vector[(1,2)] to be dragged
+				vec = (GeoVector) movedGeoElement;
 			}
-			if ((vec != null) && sameVector
-					&& ((vec.label == null) || vec.isIndependent())) {
-				transformCoordsOffset[0] = xRW - vec.x;
-				transformCoordsOffset[1] = yRW - vec.y;
-				movedGeoVector = vec;
-				moveMode = MOVE_VECTOR;
-				return;
+
+			if (vec != null) {
+				if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
+					// unwrap Vector[(1,2)]
+					AlgoVectorPoint algo = (AlgoVectorPoint) vec
+							.getParentAlgorithm();
+					moveMode = MOVE_POINT_WITH_OFFSET;
+					transformCoordsOffset[0] = xRW - vec.x;
+					transformCoordsOffset[1] = yRW - vec.y;
+					movedGeoPoint = algo.getP();
+					return;
+				}
+
+				if (sameVector && ((vec.label == null) || vec.isIndependent())) {
+					transformCoordsOffset[0] = xRW - vec.x;
+					transformCoordsOffset[1] = yRW - vec.y;
+					movedGeoVector = vec;
+					moveMode = MOVE_VECTOR_NO_GRID;
+					return;
+				}
 			}
 
 			// point with changeable coord parent numbers
@@ -2047,6 +2084,41 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 				GeoElement topHit = hits.get(0);
 
+				if (topHit.isGeoVector()) {
+
+					if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
+						AlgoVector algo = (AlgoVector) topHit
+								.getParentAlgorithm();
+						GeoPoint2 p = algo.getInputPoints().get(0);
+						GeoPoint2 q = algo.getInputPoints().get(1);
+						GeoVector vec = kernel.Vector(null, 0, 0);
+						vec.setEuclidianVisible(false);
+						vec.setAuxiliaryObject(true);
+						GeoElement[] pp = kernel.Translate(null, p, vec);
+						GeoElement[] qq = kernel.Translate(null, q, vec);
+						new AlgoVector(kernel.getConstruction(), null,
+								(GeoPointND) pp[0], (GeoPointND) qq[0]);
+						transformCoordsOffset[0] = xRW;
+						transformCoordsOffset[1] = yRW;
+
+						app.setMode(EuclidianConstants.MODE_MOVE);
+						movedGeoVector = vec;
+						moveMode = MOVE_VECTOR_NO_GRID;
+						return;
+					} else {// if (topHit.isIndependent()) {
+						movedGeoPoint = new GeoPoint2(kernel.getConstruction(),
+								null, 0, 0, 0);
+						AlgoTranslate algoTP = new AlgoTranslate(
+								kernel.getConstruction(), null,
+								(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
+						GeoPoint2 p = (GeoPoint2) algoTP.getGeoElements()[0];
+
+						new AlgoVector(kernel.getConstruction(), null,
+								movedGeoPoint, p);
+						moveMode = MOVE_POINT;
+					}
+				}
+
 				if (topHit.isTranslateable() || topHit.isGeoPolygon()) {
 					GeoVector vec;
 					if (topHit.isGeoPolygon()) {
@@ -2058,14 +2130,13 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 					} else {
 						vec = kernel.Vector(0, 0);
 					}
-					vec.setEuclidianVisible(false);
-					vec.setAuxiliaryObject(true);
 					kernel.Translate(null, hits.get(0), vec);
 					transformCoordsOffset[0] = xRW;
 					transformCoordsOffset[1] = yRW;
+
 					app.setMode(EuclidianConstants.MODE_MOVE);
 					movedGeoVector = vec;
-					moveMode = MOVE_VECTOR;
+					moveMode = MOVE_VECTOR_NO_GRID;
 					return;
 				}
 			}
@@ -2316,10 +2387,11 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			break;
 
 		case MOVE_POINT:
-
-			// view.incrementTraceRow(); // for spreadsheet/trace
-
 			movePoint(repaint);
+			break;
+
+		case MOVE_POINT_WITH_OFFSET:
+			movePointWithOffset(repaint);
 			break;
 
 		case MOVE_LINE:
@@ -2327,6 +2399,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			break;
 
 		case MOVE_VECTOR:
+		case MOVE_VECTOR_NO_GRID:
 			moveVector(repaint);
 			break;
 
@@ -3860,6 +3933,19 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		}
 	}
 
+	protected void movePointWithOffset(boolean repaint) {
+		movedGeoPoint.setCoords(
+				kernel.checkDecimalFraction(xRW - transformCoordsOffset[0]),
+				kernel.checkDecimalFraction(yRW - transformCoordsOffset[1]),
+				1.0);
+		((GeoElement) movedGeoPoint).updateCascade();
+		movedGeoPointDragged = true;
+
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
+	}
+
 	final protected void moveLine(boolean repaint) {
 		// make parallel geoLine through (xRW, yRW)
 		movedGeoLine.setCoords(movedGeoLine.x, movedGeoLine.y,
@@ -4226,8 +4312,9 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		}
 
 		if ((mode == EuclidianConstants.MODE_MOVE)
-				&& (moveMode == MOVE_NUMERIC)) {
-			return; // Michael Borcherds 2008-03-24 bugfix: don't want grid on
+				&& ((moveMode == MOVE_NUMERIC)
+						|| (moveMode == MOVE_VECTOR_NO_GRID) || (moveMode == MOVE_POINT_WITH_OFFSET))) {
+			return;
 		}
 
 		// point capturing to grid
