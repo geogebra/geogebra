@@ -1,0 +1,40 @@
+#!/bin/sh
+# Explodes properties files from ggbtrans and inserts them into SVN.
+# Since SVN can confuse itself on file deletion and re-addition,
+# here we use Ralf Hemmecke's idea instead: working on a git
+# clone of the SVN repository, do the changes, and push (rebase)
+# the changes into the SVN repository back.
+
+# For Ralf's original script (suggested for MathPiper update)
+# see http://groups.google.com/group/geogebra-dev/browse_thread/thread/64f155a0ae709c39/c34c3c027d2342fb
+
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# Edit these variables if needed:
+GGBTRANS_DIR=/home/arnaud/ggbtrans
+GITCLONE_DIR=../geogebra
+
+# Remove the previous working copy of the git clone:
+rm -fR geogebra
+
+# Copy the git-svn clone here:
+cp -a $GITCLONE_DIR .
+
+# Update this working directory to latest GeoGebra trunk:
+cd geogebra
+git svn rebase
+
+# Delete the properties directory:
+PROP_DIR=desktop/geogebra/properties
+git rm -r $PROP_DIR
+
+# Explode the properties files:
+mkdir -p $PROP_DIR
+$GGBTRANS_DIR/export.py trunk $PROP_DIR
+
+# Add new files (with directory):
+git add $PROP_DIR
+git commit -m "*.properties files automatically updated from ggbtrans"
+
+# Commit to official GeoGebra SVN:
+git svn dcommit
