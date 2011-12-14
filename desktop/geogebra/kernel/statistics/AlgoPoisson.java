@@ -16,8 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
-
 import org.apache.commons.math.distribution.PoissonDistribution;
 
 

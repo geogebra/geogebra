@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.kernel.Kernel;
 
 
 /**************
@@ -101,7 +101,7 @@ public class AlgoFitSin extends AlgoElement{
 	private final static double TWO_PI			=	PI*2;	
 	
 	// Properties
-	private static geogebra.main.Application app=	null;
+	private static AbstractApplication app=	null;
 	private static geogebra.kernel.Kernel 	 k  =   null;
     private static double 					 a,b,c,d;			//a+bsin(cx+d)
     private static double[] 				 xd,yd;				//datapoints
@@ -123,8 +123,8 @@ public class AlgoFitSin extends AlgoElement{
 
     public AlgoFitSin(Construction cons, GeoList geolist) {
         super(cons);
-        app=(Application) kernel.getApplication();
-        k=app.getKernel();
+        app=kernel.getApplication();
+        k=(Kernel) app.getKernel();
         this.geolist=geolist;
         geofunction=new GeoFunction(cons);
         setInputOutput();
