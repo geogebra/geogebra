@@ -926,6 +926,13 @@ implements LimitedPath, NumberValue, LineProperties {
 	
 	@Override
 	public void regionChanged(GeoPointND PI){
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChangedForRegion(PI);
+			return;
+		}
+		
 		super.regionChanged(PI);
 		PI.updateCoords2D();
 		if(!isInRegion(PI))

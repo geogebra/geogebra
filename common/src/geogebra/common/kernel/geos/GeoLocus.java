@@ -283,6 +283,12 @@ public class GeoLocus extends GeoElement implements Path, Traceable, GeoLocusInt
 	public boolean trace;
 
 	public void pathChanged(GeoPointND PI) {
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(PI);
+			return;
+		}
 
 		// find closest point on changed path to P
 		if (getParentAlgorithm() instanceof AlgoLocusSliderInterface) {

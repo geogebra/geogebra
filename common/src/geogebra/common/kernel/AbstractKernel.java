@@ -200,6 +200,7 @@ public abstract class AbstractKernel {
 	private static int kernelInstances = 0;
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
+	private boolean usePathAndRegionParameters = true;
 	private final int kernelID;
 	private final String casVariablePrefix;
 	private GeoGebraCasInterface ggbCAS;
@@ -612,6 +613,22 @@ public abstract class AbstractKernel {
 		this.continuous = continuous;
 	}
 
+	/**
+	 * States whether path/region parameters are used.
+	 */
+	final public boolean usePathAndRegionParameters() {
+		return usePathAndRegionParameters;
+	}
+
+	/**
+	 * Turns the using of path/region parameters on or off.
+	 */
+	public void setUsePathAndRegionParameters(boolean flag) {
+		this.usePathAndRegionParameters = flag;
+	}
+	
+	
+	
 	// loading mode: true when a ggb file is being loaded. Devised for backward
 	// compatibility.
 	private boolean loadingMode;
@@ -4537,6 +4554,14 @@ public abstract class AbstractKernel {
 		sb.append("\t<continuous val=\"");
 		sb.append(isContinuous());
 		sb.append("\"/>\n");
+		
+
+		if (!usePathAndRegionParameters()){
+			sb.append("\t<usePathAndRegionParameters val=\"");
+			sb.append(usePathAndRegionParameters());
+			sb.append("\"/>\n");
+		}
+		
 		
 		if (useSignificantFigures) {
 			// significant figures

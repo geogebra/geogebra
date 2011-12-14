@@ -277,7 +277,13 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		return false;
 	}
 
-	public void pathChanged(GeoPointND PI) {		
+	public void pathChanged(GeoPointND PI) {	
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(PI);
+			return;
+		}
 		
 		GeoPoint2 P = (GeoPoint2) PI;
 		

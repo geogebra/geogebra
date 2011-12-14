@@ -1467,6 +1467,13 @@ GeoPointND, Animatable, Transformable {
 		}
 
 		public void pathChanged(GeoPointND PI) {
+			
+			//if kernel doesn't use path/region parameters, do as if point changed its coords
+			if(!getKernel().usePathAndRegionParameters()){
+				pointChanged(PI);
+				return;
+			}
+			
 			PI.setCoords(x, y, z);
 			PI.getPathParameter().setT(0);
 			

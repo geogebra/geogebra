@@ -122,6 +122,12 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 
 	public void pathChanged(GeoPointND PI) {
 		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(PI);
+			return;
+		}
+		
 		GeoPoint2 P = (GeoPoint2) PI;
 		
 		PathParameter pp = P.getPathParameter();

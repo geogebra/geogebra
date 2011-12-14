@@ -916,7 +916,13 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return false;
 	}
 
-	public void pathChanged(GeoPointND PI) {		
+	public void pathChanged(GeoPointND PI) {	
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(PI);
+			return;
+		}
 		
 		// parameter is between 0 and segment.length,
 		// i.e. floor(parameter) gives the segment index
@@ -1024,7 +1030,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	
 	final public void regionChanged(GeoPointND P){
 		
-
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChangedForRegion(P);
+			return;
+		}
 		
 		//GeoPoint P = (GeoPoint) PI;
 		RegionParameters rp = P.getRegionParameters();

@@ -545,7 +545,14 @@ Transformable, GeoVectorND {
 		pathSegment.pointChanged(P);
 	}
 
-	public void pathChanged(GeoPointND P) {		
+	public void pathChanged(GeoPointND P) {	
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(P);
+			return;
+		}
+		
 		updatePathSegment();
 		pathSegment.pathChanged(P);
 	}

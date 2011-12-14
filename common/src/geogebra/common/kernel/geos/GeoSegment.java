@@ -387,6 +387,12 @@ GeoSegmentND {
 
 	public void pathChanged(GeoPointND P) {
 		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(P);
+			return;
+		}
+		
 		PathParameter pp = P.getPathParameter();
 		
 		// special case: segment of length 0

@@ -522,7 +522,11 @@ Translateable, GeoConicNDConstants
 	
 	public void pathChanged(GeoPointND P) {
 		
-		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(P);
+			return;
+		}
 		
 		//Application.debug(getEigenvec(0));
 		
@@ -3015,6 +3019,13 @@ Translateable, GeoConicNDConstants
 	 */
 	
 	public void regionChanged(GeoPointND PI) {
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChangedForRegion(PI);
+			return;
+		}
+		
 		//GeoPoint P = (GeoPoint) PI;
 		RegionParameters rp = PI.getRegionParameters();
 		

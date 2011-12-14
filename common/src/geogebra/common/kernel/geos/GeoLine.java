@@ -868,6 +868,12 @@ GeoLineND, MatrixTransformable, GeoFunctionable, Evaluatable, Transformable, Fun
 
 	public void pathChanged(GeoPointND P) {
 		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(P);
+			return;
+		}
+		
 		Coords coords = P.getCoordsInD(2);
 		PathParameter pp = P.getPathParameter();
 		
