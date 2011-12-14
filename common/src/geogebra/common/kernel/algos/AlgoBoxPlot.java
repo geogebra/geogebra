@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoMedian;
 import geogebra.common.kernel.statistics.AlgoQ1;
 import geogebra.common.kernel.statistics.AlgoQ3;
+import geogebra.common.util.Cloner;
 
 /**
  * Boxplot algorithm. See AlgoFunctionAreaSums for implementation.
@@ -159,10 +160,7 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	}
 
 	public AlgoBoxPlot copy() {
-		double[] leftBorderClone = new double[leftBorder.length];
-		for(int i=0;i<leftBorder.length;i++)
-			leftBorderClone[i]=leftBorder[i];
-		return new AlgoBoxPlot(cons, leftBorderClone,
+		return new AlgoBoxPlot(cons, Cloner.clone(leftBorder),
 					(NumberValue) a.deepCopy(kernel), (NumberValue) b
 							.deepCopy(kernel));		
 	}
