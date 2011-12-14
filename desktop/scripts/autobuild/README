@@ -13,8 +13,10 @@ Usage:
 3. Run ./buildggb42 or ./deployggb42 to create a fresh numbered
    version build into the test42 or 4.2 directory, respectively.
 
-For more details, please read this page:
+For more details, please read these pages:
 
   http://www.geogebra.org/trac/wiki/Deploy
+  http://www.geogebra.org/trac/wiki/SetUpCommandLine
+  http://www.geogebra.org/trac/wiki/BuildingProcess
 
 Maintainer: Zoltan Kovacs <zoltan@geogebra.org>
