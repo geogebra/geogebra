@@ -439,15 +439,15 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	final public GeoQuadric3D Cone(String label, GeoPointND origin,
 			GeoVectorND direction, NumberValue angle) {
-		AlgoQuadric algo = new AlgoQuadricPointVectorNumber(cons, label,
-				origin, direction, angle, new AlgoQuadricComputerCone());
+		AlgoQuadric algo = new AlgoConeInfinitePointVectorNumber(cons, label,
+				origin, direction, angle);
 		return algo.getQuadric();
 	}
 
 	final public GeoQuadric3D Cone(String label, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue angle) {
-		AlgoQuadric algo = new AlgoQuadricPointPointNumber(cons, label, origin,
-				secondPoint, angle, new AlgoQuadricComputerCone());
+		AlgoQuadric algo = new AlgoConeInfinitePointPointNumber(cons, label, origin,
+				secondPoint, angle);
 		return algo.getQuadric();
 	}
 
@@ -470,15 +470,15 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	final public GeoQuadric3D Cylinder(String label, GeoPointND origin,
 			GeoVectorND direction, NumberValue r) {
-		AlgoQuadric algo = new AlgoQuadricPointVectorNumber(cons, label,
-				origin, direction, r, new AlgoQuadricComputerCylinder());
+		AlgoQuadric algo = new AlgoCylinderInfinitePointVectorNumber(cons, label,
+				origin, direction, r);
 		return algo.getQuadric();
 	}
 
 	final public GeoQuadric3D Cylinder(String label, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r) {
-		AlgoQuadric algo = new AlgoQuadricPointPointNumber(cons, label, origin,
-				secondPoint, r, new AlgoQuadricComputerCylinder());
+		AlgoQuadric algo = new AlgoCylinderInfinitePointPointNumber(cons, label, origin,
+				secondPoint, r);
 		return algo.getQuadric();
 	}
 

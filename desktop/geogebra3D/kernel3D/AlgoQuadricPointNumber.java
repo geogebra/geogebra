@@ -74,7 +74,11 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	}
 	
 
-	
+	/**
+	 * 
+	 * @return plain name
+	 */
+	abstract protected String getPlainName();
 	
 
 }

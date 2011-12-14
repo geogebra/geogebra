@@ -30,9 +30,14 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 	}
 	
     final public String toString() {
-    	return app.getPlain("ConeWithCenterAAxisParallelToBAngleC",getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
+    	return app.getPlain(getPlainName(),getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
 
     }
+
+	@Override
+	final protected String getPlainName() {
+		return "ConeWithCenterAAxisParallelToBAngleC";
+	}
     
     
 	

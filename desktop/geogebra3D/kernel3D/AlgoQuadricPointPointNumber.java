@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author ggb3D
  *
  */
-public class AlgoQuadricPointPointNumber extends AlgoQuadricPointNumber {
+public abstract class AlgoQuadricPointPointNumber extends AlgoQuadricPointNumber {
 	
 	/**
 	 * @param c construction
@@ -30,7 +30,7 @@ public class AlgoQuadricPointPointNumber extends AlgoQuadricPointNumber {
 	}
 	
     final public String toString() {
-    	return app.getPlain(getClassName()+"FromQuadricPointsABNumberC",getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
+    	return app.getPlain(getPlainName(),getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
 
     }
 	

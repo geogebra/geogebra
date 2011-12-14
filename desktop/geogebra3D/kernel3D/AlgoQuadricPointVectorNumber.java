@@ -11,7 +11,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
  * @author ggb3D
  *
  */
-public class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumber {
+public abstract class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumber {
 	
 	/**
 	 * @param c construction
@@ -29,11 +29,12 @@ public class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumber {
 	}
 	
     final public String toString() {
-    	return app.getPlain(getClassName()+"FromQuadricPointAVectorBNumberC",getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
+    	return app.getPlain(getPlainName(),getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
 
     }
 
 
+ 
 
 
 	
