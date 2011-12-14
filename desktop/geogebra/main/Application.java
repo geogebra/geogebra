@@ -571,6 +571,9 @@ public class Application extends AbstractApplication implements
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
 		AbstractApplication.dbg = new DebugPrinterDesktop();
+		
+		setFileVersion(GeoGebraConstants.VERSION_STRING);
+		
 		if (args != null) {
 			handleHelpVersionArgs(args);
 		}
@@ -6382,7 +6385,7 @@ public class Application extends AbstractApplication implements
 
 	public void setFileVersion(String version) {
 
-		AbstractApplication.debug("file version: " + version);
+		//AbstractApplication.debug("file version: " + version);
 
 		if (version == null) {
 			return;
