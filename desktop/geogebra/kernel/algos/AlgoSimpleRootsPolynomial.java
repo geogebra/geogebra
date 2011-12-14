@@ -20,9 +20,9 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.EquationSolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,13 +33,13 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 
 	protected boolean setLabels;
-    protected EquationSolver eqnSolver;
+    protected EquationSolverInterface eqnSolver;
     protected GeoElement[] geos;
     protected OutputHandler<GeoPoint2> points;
 	
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
-		eqnSolver= (EquationSolver) cons.getKernel().getEquationSolver();
+		eqnSolver= cons.getKernel().getEquationSolver();
 		points = new OutputHandler<GeoPoint2>(new elementFactory<GeoPoint2>() {
 					public GeoPoint2 newElement() {
 						GeoPoint2 p=new GeoPoint2(cons);
@@ -98,7 +98,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	 * @param eqnSolver 
 	 * @return number of distinct roots
 	 */
-	public static int getRoots(double[] roots,EquationSolver eqnSolver){
+	public static int getRoots(double[] roots,EquationSolverInterface eqnSolver){
 		int nrRealRoots=eqnSolver.polynomialRoots(roots,false);
 //		StringBuilder sb=new StringBuilder();
 //		for (int i=0;i<nrRealRoots;i++){

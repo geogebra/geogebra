@@ -7,6 +7,7 @@ import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.SystemOfEquationsSolverInterface;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -17,7 +18,6 @@ import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -215,6 +215,13 @@ public class Kernel extends AbstractKernel {
 	@Override
     public GeoElement[] Rotate(String label, GeoElement A, NumberValue Alpha,
             GeoPoint2 B) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public SystemOfEquationsSolverInterface getSystemOfEquationsSolver(
+            EquationSolverInterface eSolver) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

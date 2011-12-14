@@ -3315,6 +3315,8 @@ public abstract class AbstractKernel {
 	public abstract ExtremumFinder getExtremumFinder();
 
 	public abstract EquationSolverInterface getEquationSolver();
+	
+	public abstract SystemOfEquationsSolverInterface getSystemOfEquationsSolver(EquationSolverInterface eSolver);
 
 	public abstract void resetGeoGebraCAS();
 

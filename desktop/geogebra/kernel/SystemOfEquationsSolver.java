@@ -1,5 +1,7 @@
 package geogebra.kernel;
 
+import geogebra.common.kernel.SystemOfEquationsSolverInterface;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +12,7 @@ import java.util.Arrays;
  * @author ddrakulic
  *
  */
-public class SystemOfEquationsSolver {
+public class SystemOfEquationsSolver implements SystemOfEquationsSolverInterface{
 	
 	private double epsilon = Kernel.STANDARD_PRECISION;
 	

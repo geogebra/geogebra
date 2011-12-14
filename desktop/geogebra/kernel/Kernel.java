@@ -23,6 +23,7 @@ import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Path;
@@ -170,6 +171,7 @@ public class Kernel extends AbstractKernel{
 	protected Application app;	
 	
 	private EquationSolver eqnSolver;
+	private SystemOfEquationsSolver sysEqSolv;
 	private RegressionMath regMath;
 	private ExtremumFinder extrFinder;
 	protected Parser parser;
@@ -293,6 +295,13 @@ public class Kernel extends AbstractKernel{
 		if (eqnSolver == null)
 			eqnSolver = new EquationSolver(this);
 		return eqnSolver;
+	}
+	
+	@Override
+	final public SystemOfEquationsSolver getSystemOfEquationsSolver(EquationSolverInterface eSolver) {
+		if (sysEqSolv == null)
+			sysEqSolv = new SystemOfEquationsSolver((EquationSolver)eSolver);
+		return sysEqSolv;
 	}
 	
 	@Override

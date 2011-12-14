@@ -10,4 +10,6 @@ public interface EquationSolverInterface {
 
 	int polynomialRoots(double[] tRoots, boolean b);
 
+	int polynomialComplexRoots(double[] real, double[] complex);
+
 }

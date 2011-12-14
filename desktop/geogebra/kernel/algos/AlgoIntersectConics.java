@@ -28,8 +28,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.kernel.EquationSolver;
-import geogebra.kernel.SystemOfEquationsSolver;
+import geogebra.common.kernel.EquationSolverInterface;
+import geogebra.common.kernel.SystemOfEquationsSolverInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,8 +66,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
       
     private PointPairList pointList = new PointPairList();
     
-    private EquationSolver eqnSolver;
-    private SystemOfEquationsSolver sysSolver;
+    private EquationSolverInterface eqnSolver;
+    private SystemOfEquationsSolverInterface sysSolver;
         
 	@Override
 	public String getClassName() {
@@ -82,8 +82,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	public AlgoIntersectConics(Construction cons) {           
     	super(cons); 
     	
-		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();
-		sysSolver = new SystemOfEquationsSolver(eqnSolver);
+		eqnSolver = cons.getKernel().getEquationSolver();
+		sysSolver = cons.getKernel().getSystemOfEquationsSolver(eqnSolver);
 		
 		degConic = new GeoConic(cons);  
 	       

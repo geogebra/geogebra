@@ -14,6 +14,7 @@ package geogebra.kernel.algos;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -21,7 +22,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.kernel.EquationSolver;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -48,7 +48,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private String[] labels;
 	private boolean initLabels;
 	protected boolean setLabels;
-	protected EquationSolver eqnSolver;
+	protected EquationSolverInterface eqnSolver;
 	double[] curRoots = new double[30]; // current roots
 	int curRealRoots;
 
@@ -101,7 +101,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		this.labels = labels;
 		this.setLabels = setLabels; // should lables be used?
 
-		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();
+		eqnSolver = cons.getKernel().getEquationSolver();
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
@@ -131,7 +131,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// set mode
 		mode = MULTIPLE_ROOTS;
 
-		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();;
+		eqnSolver = cons.getKernel().getEquationSolver();;
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
@@ -161,7 +161,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// set mode
 		mode = ROOTS;
 
-		eqnSolver = (EquationSolver) cons.getKernel().getEquationSolver();
+		eqnSolver = cons.getKernel().getEquationSolver();
 
 		// make sure root points is not null
 		int number = 1;

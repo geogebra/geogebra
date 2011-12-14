@@ -21,11 +21,11 @@ package geogebra.kernel.implicit;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.EquationSolver;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -669,12 +669,12 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 
 	}
 	
-	public static int getNearRoots3(double[] roots,EquationSolver solver, double epsilon){
+	public static int getNearRoots3(double[] roots,EquationSolverInterface solver, double epsilon){
 //		solver.setMaxIterationCount(1000);
 		return getRoots(roots,solver);
 	}
 	
-	public static int getNearRoots(double[] roots,EquationSolver solver, double epsilon){
+	public static int getNearRoots(double[] roots,EquationSolverInterface solver, double epsilon){
 		PolynomialFunction poly=new PolynomialFunction(roots);
 		double[] rootsDerivative=poly.polynomialDerivative().getCoefficients();
 		
