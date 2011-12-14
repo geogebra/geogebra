@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 1. Dezember 2001
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;

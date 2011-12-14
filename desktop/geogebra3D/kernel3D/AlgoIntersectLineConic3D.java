@@ -24,6 +24,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
+import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -32,7 +33,6 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoIntersectLineConic;
 import geogebra.main.Application;
 
 
