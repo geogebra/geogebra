@@ -41,6 +41,6 @@ fi
 
 for i in common desktop web; do
     echo -n "$i.value "
-    find $rootdir/geogebra -name '*.java' | wc -l
+    find $rootdir/geogebra/$i -name '*.java' | wc -l
     done
     
