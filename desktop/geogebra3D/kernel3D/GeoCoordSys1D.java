@@ -286,6 +286,12 @@ Translateable{
 	
 	public void pathChanged(GeoPointND P){
 		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(P);
+			return;
+		}
+		
 		PathParameter pp = P.getPathParameter();
 		P.setCoords(getPoint(pp.getT()),false);
 

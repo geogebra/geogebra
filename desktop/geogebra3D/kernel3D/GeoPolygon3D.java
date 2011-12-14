@@ -416,6 +416,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	// TODO merge with GeoPolygon
 	public void pathChanged(GeoPointND PI) {
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(PI);
+			return;
+		}
 
 		// TODO remove that
 		if (!(PI instanceof GeoPoint3D))

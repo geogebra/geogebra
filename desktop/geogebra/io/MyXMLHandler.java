@@ -560,7 +560,9 @@ public class MyXMLHandler implements DocHandler {
 		}else if (eName.equals("algebraView")) {
 			mode = MODE_ALGEBRA_VIEW;
 		} else if (eName.equals("kernel")) {
-				mode = MODE_KERNEL;
+			//default value
+			kernel.setUsePathAndRegionParameters(true);
+			mode = MODE_KERNEL;
 		} else if (eName.equals("spreadsheetView")) {
 			mode = MODE_SPREADSHEET_VIEW;
 //		} else if (eName.equals("casView")) {
@@ -1348,7 +1350,7 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	// <kernel>
 	// ====================================
-	private void startKernelElement(String eName, LinkedHashMap<String, String> attrs) {
+	private void startKernelElement(String eName, LinkedHashMap<String, String> attrs) {		
 		if (eName.equals("angleUnit")) {
 			handleAngleUnit(attrs);
 		} else if (eName.equals("algebraStyle")) {    //G.Sturr 2009-10-18
@@ -1359,6 +1361,8 @@ public class MyXMLHandler implements DocHandler {
 			handleKernelInvTrig(attrs);
 		} else if (eName.equals("continuous")) {
 			handleKernelContinuous(attrs);
+		} else if (eName.equals("usePathAndRegionParameters")) {
+			handleKernelUsePathAndRegionParameters(attrs);
 		} else if (eName.equals("decimals")) {
 			handleKernelDecimals(attrs);
 		} else if (eName.equals("significantfigures")) {
@@ -1463,6 +1467,17 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+	
+
+	private boolean handleKernelUsePathAndRegionParameters(LinkedHashMap<String, String> attrs) {
+		try {
+			kernel.setUsePathAndRegionParameters(parseBoolean((String) attrs.get("val")));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 
 	// ====================================
 	// <gui>

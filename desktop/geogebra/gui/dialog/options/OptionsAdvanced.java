@@ -56,7 +56,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 	private Settings settings;
 
 	/** */
-	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel, languagePanel,  perspectivesPanel, miscPanel, angleUnitPanel, continuityPanel, pointStylePanel, checkboxSizePanel, rightAnglePanel, coordinatesPanel;
+	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel, languagePanel,  perspectivesPanel, miscPanel, angleUnitPanel, continuityPanel, usePathAndRegionParametersPanel, pointStylePanel, checkboxSizePanel, rightAnglePanel, coordinatesPanel;
 	
 	/**	*/
 	private JLabel keyboardLanguageLabel, guiFontSizeLabel, widthLabel, heightLabel, opacityLabel, tooltipLanguageLabel, tooltipTimeoutLabel;
@@ -68,10 +68,10 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits, cbUseLocalLabels, cbReturnAngleInverseTrig, cbIgnoreDocumentLayout, cbShowTitleBar, cbAllowStyleBar, cbEnableScripting, cbUseJavaFonts, cbReverseMouseWheel;
 	
 	/** */
-	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian, continuityRadioOn, continuityRadioOff, pointStyleRadio0, pointStyleRadio1, pointStyleRadio2, pointStyleRadio3, pointStyleRadio4, pointStyleRadio6, pointStyleRadio7, checkboxSizeRadioRegular, checkboxSizeRadioLarge, rightAngleRadio1, rightAngleRadio2, rightAngleRadio3, rightAngleRadio4, coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
+	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian, continuityRadioOn, continuityRadioOff, usePathAndRegionParametersRadioOn, usePathAndRegionParametersRadioOff, pointStyleRadio0, pointStyleRadio1, pointStyleRadio2, pointStyleRadio3, pointStyleRadio4, pointStyleRadio6, pointStyleRadio7, checkboxSizeRadioRegular, checkboxSizeRadioLarge, rightAngleRadio1, rightAngleRadio2, rightAngleRadio3, rightAngleRadio4, coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
 	
 	/** */
-	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup, pointStyleButtonGroup, checkboxSizeButtonGroup, rightAngleButtonGroup, coordinatesButtonGroup;
+	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup, usePathAndRegionParametersButtonGroup, pointStyleButtonGroup, checkboxSizeButtonGroup, rightAngleButtonGroup, coordinatesButtonGroup;
 	
 	/** */
 	private JTextField tfKeyboardWidth, tfKeyboardHeight;
@@ -125,6 +125,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		initScriptingPanel();
 		initAngleUnitPanel();
 		initContinuityPanel();
+		initUsePathAndRegionParametersPanel();
 		initPointStylePanel();
 		initCheckboxSizePanel();
 		initRightAnglePanel();
@@ -139,6 +140,7 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		panel.add(perspectivesPanel);
 		panel.add(angleUnitPanel);
 		panel.add(continuityPanel);
+		panel.add(usePathAndRegionParametersPanel);
 		panel.add(pointStylePanel);
 		panel.add(checkboxSizePanel);
 		panel.add(rightAnglePanel);
@@ -371,6 +373,28 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		continuityPanel.add(continuityRadioOff);
 		continuityButtonGroup.add(continuityRadioOff);
 	}
+	
+	
+	/**
+	 * Initialize the use of path/region parameters panel
+	 */
+	private void initUsePathAndRegionParametersPanel() {		
+		usePathAndRegionParametersPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+		usePathAndRegionParametersButtonGroup = new ButtonGroup();
+		
+		usePathAndRegionParametersRadioOn = new JRadioButton();
+		usePathAndRegionParametersRadioOn.addActionListener(this);
+		usePathAndRegionParametersPanel.add(usePathAndRegionParametersRadioOn);
+		usePathAndRegionParametersButtonGroup.add(usePathAndRegionParametersRadioOn);
+
+		usePathAndRegionParametersRadioOff = new JRadioButton();
+		usePathAndRegionParametersRadioOff.addActionListener(this);
+		usePathAndRegionParametersPanel.add(usePathAndRegionParametersRadioOff);
+		usePathAndRegionParametersButtonGroup.add(usePathAndRegionParametersRadioOff);
+	}
+	
+	
 
 	/**
 	 * Initialize the point style panel
@@ -503,6 +527,9 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
+
+		usePathAndRegionParametersRadioOn.setSelected(app.getKernel().usePathAndRegionParameters());
+		usePathAndRegionParametersRadioOff.setSelected(!app.getKernel().usePathAndRegionParameters());
 
 		checkboxSizeRadioRegular.setSelected(app.getEuclidianView().getBooleanSize() == 13);
 		checkboxSizeRadioLarge.setSelected(app.getEuclidianView().getBooleanSize() == 26);
@@ -682,6 +709,14 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 			app.getKernel().setContinuous(false);
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
+		} else if (source == usePathAndRegionParametersRadioOn) {
+			app.getKernel().setUsePathAndRegionParameters(true);
+			//app.getKernel().updateConstruction();
+			app.setUnsaved();
+		} else if (source == usePathAndRegionParametersRadioOff) {
+			app.getKernel().setUsePathAndRegionParameters(false);
+			//app.getKernel().updateConstruction();
+			app.setUnsaved();
 		} else if (source == pointStyleRadio0) {
 			app.getEuclidianView().setPointStyle(0);
 			if (app.hasEuclidianView2())
@@ -826,6 +861,10 @@ public class OptionsAdvanced  extends JPanel implements ActionListener, ChangeLi
 		continuityPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Continuity")));
 		continuityRadioOn.setText(app.getMenu("on"));
 		continuityRadioOff.setText(app.getMenu("off"));
+		
+		usePathAndRegionParametersPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("UsePathAndRegionParameters")));
+		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
+		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
 
 		checkboxSizePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("CheckboxSize")));
 		checkboxSizeRadioRegular.setText(app.getMenu("CheckboxSize.Regular"));

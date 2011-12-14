@@ -134,6 +134,14 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	public void regionChanged(GeoPointND P) {
+		
+
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChangedForRegion(P);
+			return;
+		}
+		
 		// pointChangedForRegion(P);
 		RegionParameters rp = P.getRegionParameters();
 		P.setCoords(getPoint(rp.getT1(), rp.getT2()), false);

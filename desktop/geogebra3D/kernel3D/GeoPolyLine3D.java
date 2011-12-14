@@ -137,6 +137,12 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	}
 
 	public void pathChanged(GeoPointND P) {
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(P);
+			return;
+		}
 
 		// parameter is between 0 and points.length - 1,
 		// i.e. floor(parameter) gives the point index

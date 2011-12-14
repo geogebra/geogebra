@@ -971,7 +971,15 @@ Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
 		}
 	}
 
+	
 	public void pathChanged(GeoPointND PI) {
+		
+		//if kernel doesn't use path/region parameters, do as if point changed its coords
+		if(!getKernel().usePathAndRegionParameters()){
+			pointChanged(PI);
+			return;
+		}
+		
 		if (locus.getPoints().size()>0){
 			locus.pathChanged(PI);
 			polishPointOnPath(PI);
