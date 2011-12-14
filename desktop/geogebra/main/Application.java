@@ -59,7 +59,6 @@ import geogebra.io.MyXMLHandler;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Relation;
-import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPI;
 import geogebra.plugin.PluginManager;
@@ -513,9 +512,6 @@ public class Application extends AbstractApplication implements
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	private boolean allowToolTips = true;
 
-	
-	
-
 	private boolean rightClickEnabled = true;
 	private boolean chooserPopupsEnabled = true;
 	private boolean labelDragsEnabled = true;
@@ -571,9 +567,9 @@ public class Application extends AbstractApplication implements
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
 		AbstractApplication.dbg = new DebugPrinterDesktop();
-		
+
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
-		
+
 		if (args != null) {
 			handleHelpVersionArgs(args);
 		}
@@ -817,6 +813,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return
 	 */
+	@Override
 	final public Settings getSettings() {
 		return settings;
 	}
@@ -897,6 +894,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * Sets application state to "unsaved" so that user is reminded on close.
 	 */
+	@Override
 	public void setUnsaved() {
 		isSaved = false;
 	}
@@ -943,17 +941,18 @@ public class Application extends AbstractApplication implements
 	public int getLabelingStyle() {
 		return labelingStyle;
 	}
-	
-	public int getCurrentLabelingStyle(){		
+
+	@Override
+	public int getCurrentLabelingStyle() {
 		if (labelingStyle == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
-			if(isUsingFullGui()) {
-				if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
-					return getGuiManager().getAlgebraView().isVisible() ?
-							ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS :
-								ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
-				} 
+			if (isUsingFullGui()) {
+				if ((getGuiManager() != null)
+						&& getGuiManager().hasAlgebraView()) {
+					return getGuiManager().getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+				}
 				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
-			} 
+			}
 			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
 		}
 		return labelingStyle;
@@ -963,6 +962,7 @@ public class Application extends AbstractApplication implements
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 */
+	@Override
 	public void setLabelingStyle(int labelingStyle) {
 		this.labelingStyle = labelingStyle;
 	}
@@ -1578,6 +1578,7 @@ public class Application extends AbstractApplication implements
 		return preferredSize;
 	}
 
+	@Override
 	public void setPreferredSize(geogebra.common.awt.Dimension size) {
 		preferredSize = geogebra.awt.Dimension.getAWTDimension(size);
 	}
@@ -1588,6 +1589,7 @@ public class Application extends AbstractApplication implements
 	 * 
 	 * @param perspectives
 	 */
+	@Override
 	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
 		tmpPerspectives = perspectives;
 	}
@@ -1652,6 +1654,7 @@ public class Application extends AbstractApplication implements
 		return getGuiManager().getEuclidianView2();
 	}
 
+	@Override
 	public boolean hasEuclidianView2() {
 		return (guiManager != null) && getGuiManager().hasEuclidianView2();
 	}
@@ -1815,10 +1818,11 @@ public class Application extends AbstractApplication implements
 	public BufferedImage getExternalImage(String filename) {
 		return ImageManager.getExternalImage(filename);
 	}
-	
+
 	@Override
 	public BufferedImageAdapter getExternalImageAdapter(String filename) {
-		return new geogebra.awt.BufferedImage(ImageManager.getExternalImage(filename));
+		return new geogebra.awt.BufferedImage(
+				ImageManager.getExternalImage(filename));
 	}
 
 	public void addExternalImage(String filename, BufferedImage image) {
@@ -1905,15 +1909,17 @@ public class Application extends AbstractApplication implements
 	/*
 	 * sets secondary language
 	 */
+	@Override
 	public void setTooltipLanguage(String s) {
-		
+
 		Locale locale = null;
-		
-		for(int i=0;i<supportedLocales.size();i++)
-			if(supportedLocales.get(i).toString().equals(s)){
+
+		for (int i = 0; i < supportedLocales.size(); i++) {
+			if (supportedLocales.get(i).toString().equals(s)) {
 				locale = supportedLocales.get(i);
 				break;
 			}
+		}
 
 		boolean updateNeeded = (rbplainTT != null) || (rbmenuTT != null);
 
@@ -1940,6 +1946,7 @@ public class Application extends AbstractApplication implements
 		return tooltipLocale;
 	}
 
+	@Override
 	public int getTooltipTimeout() {
 		int dmd = ToolTipManager.sharedInstance().getDismissDelay();
 		if ((dmd <= 0) || (dmd == Integer.MAX_VALUE)) {
@@ -2022,6 +2029,7 @@ public class Application extends AbstractApplication implements
 	 * @return If localized digits are used for certain languages (Arabic,
 	 *         Hebrew, etc).
 	 */
+	@Override
 	public boolean isUsingLocalizedDigits() {
 		return useLocalizedDigits;
 	}
@@ -2032,6 +2040,7 @@ public class Application extends AbstractApplication implements
 	 * Calls {@link #updateReverseLanguage(Locale)} to apply the change, but
 	 * just if the new flag differs from the current.
 	 */
+	@Override
 	public void setUseLocalizedDigits(boolean useLocalizedDigits) {
 		if (this.useLocalizedDigits == useLocalizedDigits) {
 			return;
@@ -2063,6 +2072,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * Use localized labels for certain languages.
 	 */
+	@Override
 	public void setUseLocalizedLabels(boolean useLocalizedLabels) {
 		this.useLocalizedLabels = useLocalizedLabels;
 	}
@@ -2416,9 +2426,9 @@ public class Application extends AbstractApplication implements
 	 * MyResourceBundle.createBundle(RB_COLORS, currentLocale); } //
 	 */
 
-	public final static String syntaxCAS = "SyntaxCAS";
-	public final static String syntax3D = "Syntax3D";
-	public final static String syntaxStr = "Syntax";
+	public final static String syntaxCAS = ".SyntaxCAS";
+	public final static String syntax3D = ".Syntax3D";
+	public final static String syntaxStr = ".Syntax";
 
 	private void fillCommandDict() {
 		rbcommand = getCommandResourceBundle();
@@ -2582,6 +2592,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public void removeMacroCommands() {
 		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
 			return;
@@ -2602,6 +2613,7 @@ public class Application extends AbstractApplication implements
 	 * properties methods
 	 */
 
+	@Override
 	final public String getColor(String key) {
 
 		if (key == null) {
@@ -2643,6 +2655,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public String reverseGetColor(String str) {
 		str = StringUtil.removeSpaces(str.toLowerCase(Locale.US));
 		if (rbcolors == null) {
@@ -2941,7 +2954,7 @@ public class Application extends AbstractApplication implements
 		enume = rbcommand.getKeys();
 		while (enume.hasMoreElements()) {
 			s = enume.nextElement();
-			if (!s.endsWith("Syntax") && !s.endsWith(syntaxCAS)) {
+			if (!s.endsWith(syntaxStr) && !s.endsWith(syntaxCAS)) {
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
 				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
@@ -3040,14 +3053,25 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public String getCommandSyntax(String key) {
 
-		return getCommand(key + syntaxStr);
+		String command = getCommand(key);
+		String syntax = getCommand(key + syntaxStr);
+
+		syntax = syntax.replace("[", command + '[');
+
+		return syntax;
 	}
 
 	public String getCommandSyntaxCAS(String key) {
 
-		return getCommand(key + syntaxCAS);
+		String command = getCommand(key);
+		String syntax = getCommand(key + syntaxCAS);
+
+		syntax = syntax.replace("[", command + '[');
+
+		return syntax;
 	}
 
 	final public String getSetting(String key) {
@@ -3095,6 +3119,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public void showRelation(GeoElement a, GeoElement b) {
 		JOptionPane.showConfirmDialog(mainComp,
 				new Relation(kernel).relation(a, b),
@@ -3117,10 +3142,12 @@ public class Application extends AbstractApplication implements
 		showErrorDialog(getError(key));
 	}
 
+	@Override
 	public void showError(String key, String error) {
 		showErrorDialog(getError(key) + ":\n" + error);
 	}
 
+	@Override
 	public void showError(MyError e) {
 		String command = e.getcommandName();
 
@@ -3303,6 +3330,7 @@ public class Application extends AbstractApplication implements
 		getGuiManager().updateFrameTitle();
 	}
 
+	@Override
 	public void setFontSize(int points) {
 		setFontSize(points, true);
 	}
@@ -3356,6 +3384,7 @@ public class Application extends AbstractApplication implements
 		return guiFontSize == -1 ? appFontSize : guiFontSize;
 	}
 
+	@Override
 	public void setGUIFontSize(int size) {
 		guiFontSize = size;
 		updateFonts();
@@ -3499,7 +3528,8 @@ public class Application extends AbstractApplication implements
 					icon = new ImageIcon(ImageManager.addBorder(img, border));
 				}
 			} catch (Exception e) {
-				AbstractApplication.debug("macro does not exist: ID = " + macroID);
+				AbstractApplication.debug("macro does not exist: ID = "
+						+ macroID);
 				return null;
 			}
 		} else {
@@ -3510,8 +3540,8 @@ public class Application extends AbstractApplication implements
 					+ "_32.gif";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
-				AbstractApplication.debug("icon missing for mode " + modeText + " ("
-						+ mode + ")");
+				AbstractApplication.debug("icon missing for mode " + modeText
+						+ " (" + mode + ")");
 			}
 		}
 		return icon;
@@ -3582,6 +3612,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * Displays the construction protocol navigation
 	 */
+	@Override
 	public void setShowConstructionProtocolNavigation(boolean flag) {
 		if ((flag == showConsProtNavigation)
 				&& (showConstProtNavigationNeedsUpdate == false)) {
@@ -3606,6 +3637,7 @@ public class Application extends AbstractApplication implements
 		return showAuxiliaryObjects;
 	}
 
+	@Override
 	public void setShowAuxiliaryObjects(boolean flag) {
 		showAuxiliaryObjects = flag;
 
@@ -3909,6 +3941,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public int getMode() {
 		return euclidianView.getMode();
 	}
@@ -4103,6 +4136,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public void setActiveView(int view) {
 		if (getGuiManager() != null) {
 			getGuiManager().getLayout().getDockManager().setFocusedPanel(view);
@@ -4329,6 +4363,7 @@ public class Application extends AbstractApplication implements
 		return sb.toString();
 	}
 
+	@Override
 	public String getCompleteUserInterfaceXML(boolean asPreference) {
 		StringBuilder sb = new StringBuilder();
 
@@ -4488,6 +4523,7 @@ public class Application extends AbstractApplication implements
 		return selectedGeos.size();
 	}
 
+	@Override
 	final public ArrayList<GeoElement> getSelectedGeos() {
 		return selectedGeos;
 	}
@@ -4598,6 +4634,7 @@ public class Application extends AbstractApplication implements
 		updateSelection();
 	}
 
+	@Override
 	final public void clearSelectedGeos() {
 		clearSelectedGeos(true);
 	}
@@ -4752,6 +4789,7 @@ public class Application extends AbstractApplication implements
 		addSelectedGeo(geo, true);
 	}
 
+	@Override
 	final public void addSelectedGeo(GeoElement geo, boolean repaint) {
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
@@ -5923,6 +5961,7 @@ public class Application extends AbstractApplication implements
 	 * @param sd
 	 *            the scriptingDisabled to set
 	 */
+	@Override
 	public void setScriptingDisabled(boolean sd) {
 		this.scriptingDisabled = sd;
 	}
@@ -5951,6 +5990,7 @@ public class Application extends AbstractApplication implements
 		return reverseMouseWheel;
 	}
 
+	@Override
 	public void reverseMouseWheel(boolean b) {
 		reverseMouseWheel = b;
 	}
@@ -6261,12 +6301,14 @@ public class Application extends AbstractApplication implements
 		sb.append("\"/>");
 	}
 
+	@Override
 	public void setScrollToShow(boolean b) {
 		if (guiManager != null) {
 			guiManager.setScrollToShow(b);
 		}
 	}
 
+	@Override
 	public View getView(int viewID) {
 
 		// check for PlotPanel ID family first
@@ -6308,14 +6350,13 @@ public class Application extends AbstractApplication implements
 
 	DrawEquation drawEquation;
 
+	@Override
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			drawEquation = new DrawEquation();
 		}
 		return drawEquation;
 	}
-
-	
 
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
@@ -6344,14 +6385,17 @@ public class Application extends AbstractApplication implements
 				String local = rbcommand.getString(cmd);
 				if (local != null) {
 					commandDictCAS.addEntry(local);
-					subCommandDict[AbstractCommandDispatcher.TABLE_CAS].addEntry(local);
+					subCommandDict[AbstractCommandDispatcher.TABLE_CAS]
+							.addEntry(local);
 				} else {
 					commandDictCAS.addEntry(cmd);
-					subCommandDict[AbstractCommandDispatcher.TABLE_CAS].addEntry(cmd);
+					subCommandDict[AbstractCommandDispatcher.TABLE_CAS]
+							.addEntry(cmd);
 				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
-				subCommandDict[AbstractCommandDispatcher.TABLE_CAS].addEntry(cmd);
+				subCommandDict[AbstractCommandDispatcher.TABLE_CAS]
+						.addEntry(cmd);
 			}
 		}
 
@@ -6369,6 +6413,7 @@ public class Application extends AbstractApplication implements
 		return uniqueId;
 	}
 
+	@Override
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
@@ -6383,9 +6428,10 @@ public class Application extends AbstractApplication implements
 
 	private int[] version = null;
 
+	@Override
 	public void setFileVersion(String version) {
 
-		//AbstractApplication.debug("file version: " + version);
+		// AbstractApplication.debug("file version: " + version);
 
 		if (version == null) {
 			return;
@@ -6467,14 +6513,14 @@ public class Application extends AbstractApplication implements
 	@Override
 	public String getTraceXML(GeoElement ge) {
 		return getGuiManager().getSpreadsheetView().getTraceManager()
-				.getTraceXML( ge);
+				.getTraceXML(ge);
 	}
 
 	@Override
 	public void changeLayer(GeoElement ge, int layer, int layer2) {
 		EuclidianViewInterface ev = getActiveEuclidianView();// app.getEuclidianView();
 		if (ev != null) {
-			ev.changeLayer(ge,  ge.layer, layer2);
+			ev.changeLayer(ge, ge.layer, layer2);
 		}
 
 	}
@@ -6534,9 +6580,10 @@ public class Application extends AbstractApplication implements
 	@Override
 	public void updateConstructionProtocol() {
 		getGuiManager().updateConstructionProtocol();
-		
+
 	}
-	
+
+	@Override
 	public int getMD5folderLength(String fullPath) {
 		return fullPath.indexOf(File.separator);
 	}
@@ -6544,33 +6591,35 @@ public class Application extends AbstractApplication implements
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
-		// TODO the settings should *always* be stored in the ConstructionProtoclSettings object 
-					if(getGuiManager()!=null){
-						setShowConstructionProtocolNavigation(show);			
-						
-						if (show) {
-							getGuiManager().setShowConstructionProtocolNavigation(show,
-								playButton, playDelay, showProtButton);
-						}
-					} else {
-						ConstructionProtocolSettings cpSettings = getSettings().getConstructionProtocol(); 
-						cpSettings.setShowPlayButton(playButton);
-						cpSettings.setPlayDelay(playDelay);
-						cpSettings.setShowConstructionProtocol(showProtButton);
-						setShowConstructionProtocolNavigation(show);			
-					}
-		
+		// TODO the settings should *always* be stored in the
+		// ConstructionProtoclSettings object
+		if (getGuiManager() != null) {
+			setShowConstructionProtocolNavigation(show);
+
+			if (show) {
+				getGuiManager().setShowConstructionProtocolNavigation(show,
+						playButton, playDelay, showProtButton);
+			}
+		} else {
+			ConstructionProtocolSettings cpSettings = getSettings()
+					.getConstructionProtocol();
+			cpSettings.setShowPlayButton(playButton);
+			cpSettings.setPlayDelay(playDelay);
+			cpSettings.setShowConstructionProtocol(showProtButton);
+			setShowConstructionProtocolNavigation(show);
+		}
+
 	}
-	//TODO: should be moved to ApplicationSettings
-	public void setTooltipTimeout(int ttt){
-		if (ttt > 0)
-		{
+
+	// TODO: should be moved to ApplicationSettings
+	@Override
+	public void setTooltipTimeout(int ttt) {
+		if (ttt > 0) {
 			ToolTipManager.sharedInstance().setDismissDelay(ttt * 1000);
 			// make it fit into tooltipTimeouts array:
-			ToolTipManager.sharedInstance().setDismissDelay(getTooltipTimeout() * 1000);
-		}
-		else
-		{
+			ToolTipManager.sharedInstance().setDismissDelay(
+					getTooltipTimeout() * 1000);
+		} else {
 			ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		}
 	}
