@@ -59,11 +59,20 @@ CP=`cd $SVNDIR/geogebra/desktop/scripts/autobuild; ./classpath`
 BCP=../java150-rt.jar
 
 # 4/4. Creating *.class files
+# FIXME: here the make-vanilla-jars script could be used instead (too much common code)
 echo "$0: Creating class files"
+COMMONJAVA=../common/src/geogebra/common/Common.java
+echo "$0: Putting away (renaming) $COMMONJAVA to avoid errors"
+mv $COMMONJAVA $COMMONJAVA.temporarily_renamed
+
 $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BCP\
- -time -proceedOnError -g ../desktop ../common  > .ecjlog 2>&1
+ -time -proceedOnError -g ../desktop ../common/src/geogebra/common ../common/src/org  > .ecjlog 2>&1
 tail -1 .ecjlog
 echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
+
+echo "$0: Putting back $COMMON"
+mv $COMMONJAVA.temporarily_renamed $COMMONJAVA
+fi
 
 # 4/5. Packaging
 ant -f pack.xml geogebra || exit 3
