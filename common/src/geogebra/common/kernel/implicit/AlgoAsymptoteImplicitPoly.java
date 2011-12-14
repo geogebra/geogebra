@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.implicit;
+package geogebra.common.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractKernel;
@@ -20,8 +20,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.implicit.PolynomialUtils;
+import geogebra.common.util.Cloner;
 
 import java.util.ArrayList;
 /**
@@ -133,7 +132,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         }
         
         ArrayList<double[]> homogenPolys=new ArrayList<double[]>();
-        homogenPolys.add(roots.clone());
+        homogenPolys.add(Cloner.clone(roots));
         
         int n=solver.polynomialRoots(roots,false);
 //        StringBuilder sb=new StringBuilder();

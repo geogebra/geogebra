@@ -16,19 +16,17 @@ the Free Software Foundation.
  * Created on 04.08.2010, 23:12
  */
 
-package geogebra.kernel.implicit;
+package geogebra.common.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
+import geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.implicit.PolynomialUtils;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;

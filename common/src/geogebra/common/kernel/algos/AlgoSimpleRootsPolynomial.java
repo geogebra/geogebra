@@ -16,12 +16,11 @@ the Free Software Foundation.
  * Created on 27.07.2010, 17:41
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
-import geogebra.common.kernel.algos.AlgoIntersect;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 

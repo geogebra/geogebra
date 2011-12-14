@@ -1,11 +1,9 @@
-package geogebra.kernel.implicit;
+package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.implicit.PolynomialUtils;
 
 public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	

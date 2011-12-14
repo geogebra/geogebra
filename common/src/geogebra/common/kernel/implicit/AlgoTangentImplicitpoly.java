@@ -9,7 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.kernel.implicit;
+package geogebra.common.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
@@ -19,7 +19,6 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 
 /**
  *	Algorithm to calculate all tangents to the implicit polynomial equation
