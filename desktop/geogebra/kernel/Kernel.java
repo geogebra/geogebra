@@ -36,9 +36,6 @@ import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.TransformShearOrStretch;
 import geogebra.common.kernel.TransformTranslate;
 import geogebra.common.kernel.algos.*;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.common.kernel.algos.AlgoSumUpper;
-import geogebra.common.kernel.algos.AlgoSumLower;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -116,7 +113,6 @@ import geogebra.kernel.algos.AlgoSolveODE2;
 import geogebra.kernel.algos.AlgoStemPlot;
 import geogebra.kernel.algos.AlgoSurdText;
 import geogebra.kernel.algos.AlgoSurdTextPoint;
-import geogebra.kernel.algos.AlgoTextfield;
 import geogebra.kernel.algos.AlgoUnique;
 import geogebra.kernel.barycentric.AlgoBarycenter;
 import geogebra.kernel.barycentric.AlgoKimberling;
@@ -5493,7 +5489,7 @@ public class Kernel extends AbstractKernel{
 
 	public GeoTextField textfield(String label,GeoElement geoElement) {
 		AlgoTextfield at = new AlgoTextfield((Construction)cons,label,geoElement);
-		return  at.getResult();		
+		return  (GeoTextField) at.getResult();		
 		
 		
 	}
@@ -5594,4 +5590,9 @@ public class Kernel extends AbstractKernel{
 	public AbstractCommandDispatcher getCommandDispatcher() {
 		return new CommandDispatcher(this);
 	}
+	
+	@Override
+	public AbstractGeoTextField getGeoTextField(Construction cons) {
+		return new GeoTextField(cons);
+	}	
 }

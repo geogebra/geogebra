@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -222,6 +223,12 @@ public class Kernel extends AbstractKernel {
 	@Override
     public SystemOfEquationsSolverInterface getSystemOfEquationsSolver(
             EquationSolverInterface eSolver) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractGeoTextField getGeoTextField(Construction cons) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

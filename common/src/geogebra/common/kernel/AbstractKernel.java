@@ -91,6 +91,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -4777,5 +4778,7 @@ public abstract class AbstractKernel {
 				return new ExpressionNode(this, geo);
 			}		
 		}
+
+		public abstract AbstractGeoTextField getGeoTextField(Construction cons);
 
 }

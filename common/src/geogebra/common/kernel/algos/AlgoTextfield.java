@@ -10,13 +10,12 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.geos.GeoTextField;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 
 
 /**
@@ -27,13 +26,13 @@ import geogebra.kernel.geos.GeoTextField;
 public class AlgoTextfield extends AlgoElement {
 
 	private GeoElement inputGeo; //input
-    private GeoTextField textfield; //output	
+    private AbstractGeoTextField textfield; //output	
 
     public AlgoTextfield(Construction cons, String label, GeoElement inputGeo) {
         super(cons);
         this.inputGeo = inputGeo;
                
-        textfield = new GeoTextField(cons);
+        textfield = cons.getKernel().getGeoTextField(cons);
         if(inputGeo != null)
         	textfield.setLinkedGeo(inputGeo);
         textfield.setAbsoluteScreenLoc(30, 30);
@@ -64,7 +63,7 @@ public class AlgoTextfield extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoTextField getResult() {
+    public AbstractGeoTextField getResult() {
         return textfield;
     }
 
