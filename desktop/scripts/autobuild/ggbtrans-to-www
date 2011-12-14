@@ -29,7 +29,7 @@ for i in tube nav; do
  done
 
 # Tube files must be renamed:
-cd $PROP_DIR/nav
+cd $PROP_DIR/tube
 for i in tube_*.properties; do
  NAME=`echo $i | sed s/^tube_//`
  mv $i $NAME
