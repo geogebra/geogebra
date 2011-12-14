@@ -18,6 +18,6 @@
 
   <!-- Specify the paths for translatable code                    -->
   <source path='common'/>
-  <super-source pat='jre' />
+  <super-source path='jre' />
 
 </module>
