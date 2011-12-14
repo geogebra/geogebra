@@ -29,7 +29,7 @@ if [ "$1" = "config" ]; then
 
         echo 'graph_title Change of Java files'
         echo 'graph_args --base 1000 -l 0'
-        echo 'graph_vlabel visits'
+        echo 'graph_vlabel files'
         echo 'graph_category system' # fixme
         echo 'graph_info This graph shows the change of Java files.'
         for i in common desktop web; do
