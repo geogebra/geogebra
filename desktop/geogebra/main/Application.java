@@ -2954,7 +2954,8 @@ public class Application extends AbstractApplication implements
 		enume = rbcommand.getKeys();
 		while (enume.hasMoreElements()) {
 			s = enume.nextElement();
-			if (!s.endsWith(syntaxStr) && !s.endsWith(syntaxCAS)) {
+			// check isn't .Syntax, .SyntaxCAS, .Syntax3D
+			if (s.indexOf(syntaxStr) == -1) {
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
 				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
