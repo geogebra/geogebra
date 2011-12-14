@@ -8,12 +8,12 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.cas.AlgoCoefficients;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.cas.AlgoCoefficients;
 
 public class AlgoCompleteSquare extends AlgoElement {
 	

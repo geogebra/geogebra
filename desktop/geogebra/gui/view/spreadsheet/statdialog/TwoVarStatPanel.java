@@ -6,10 +6,10 @@ import geogebra.common.kernel.algos.AlgoListLength;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoMean;
+import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
+import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.statistics.AlgoMean;
-import geogebra.kernel.statistics.AlgoSampleStandardDeviation;
-import geogebra.kernel.statistics.AlgoStandardDeviation;
 import geogebra.main.Application;
 
 import java.awt.Component;

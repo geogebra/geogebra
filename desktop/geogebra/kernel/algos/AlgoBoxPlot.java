@@ -21,9 +21,9 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.statistics.AlgoMedian;
-import geogebra.kernel.statistics.AlgoQ1;
-import geogebra.kernel.statistics.AlgoQ3;
+import geogebra.common.kernel.statistics.AlgoMedian;
+import geogebra.common.kernel.statistics.AlgoQ1;
+import geogebra.common.kernel.statistics.AlgoQ3;
 
 /**
  * Boxplot algorithm. See AlgoFunctionAreaSums for implementation.

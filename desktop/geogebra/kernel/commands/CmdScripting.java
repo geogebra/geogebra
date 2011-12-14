@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoScriptAction;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.statistics.SetRandomValue;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
@@ -26,7 +27,6 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.dialog.handler.RenameInputHandler;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.statistics.SetRandomValue;
 import geogebra.main.Application;
 import geogebra.sound.SoundManager;
 

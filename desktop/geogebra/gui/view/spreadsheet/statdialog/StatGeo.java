@@ -27,6 +27,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.statistics.AlgoMean;
+import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoBoxPlot;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
@@ -40,8 +42,6 @@ import geogebra.kernel.statistics.AlgoFitLogistic;
 import geogebra.kernel.statistics.AlgoFitPoly;
 import geogebra.kernel.statistics.AlgoFitPow;
 import geogebra.kernel.statistics.AlgoFitSin;
-import geogebra.kernel.statistics.AlgoMean;
-import geogebra.kernel.statistics.AlgoStandardDeviation;
 import geogebra.main.Application;
 
 import java.awt.Color;
