@@ -28,6 +28,14 @@ for i in tube nav; do
  $GGBTRANS_DIR/export.py $i $PROP_DIR/$i
  done
 
+# Tube files must be renamed:
+cd $PROP_DIR/nav
+for i in tube_*.properties
+ NAME=`echo $i | sed s/^tube_//`
+ mv $i $NAME
+ done
+mv tube.properties en.properties
+
 # Rsync files to www:
 rsync -avPO --rsh=ssh $PROP_DIR/tube/* $TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 rsync -avPO --rsh=ssh $PROP_DIR/nav/* $NAV_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
