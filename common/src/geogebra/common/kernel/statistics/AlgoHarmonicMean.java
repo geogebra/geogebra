@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -19,27 +19,24 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
-
 
 
 
 /**
- * Returns the geometric mean for a list of numbers
+ * Returns the harmonic mean for a list of numbers
  */
 
-public class AlgoGeometricMean extends AlgoElement {
+public class AlgoHarmonicMean extends AlgoElement {
 
 	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoNumeric result; //output	
 	private int size;
-	private GeometricMean geoMean;
-	private double[] inputArray;	
+	private double sum;
 
 
 
-	public AlgoGeometricMean(Construction cons, String label, GeoList inputList) {
+	public AlgoHarmonicMean(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -50,7 +47,7 @@ public class AlgoGeometricMean extends AlgoElement {
 	}
 
 	public String getClassName() {
-		return "AlgoGeometricMean";
+		return "AlgoHarmonicMean";
 	}
 
 	protected void setInputOutput(){
@@ -80,24 +77,21 @@ public class AlgoGeometricMean extends AlgoElement {
 		//==========================
 		// compute result
 
-		inputArray = new double[size];
+		sum = 0;
 
 		// load input value array from  geoList
 		for (int i=0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isNumberValue()) {
 				NumberValue num = (NumberValue) geo;
-				inputArray[i] = num.getDouble();	
+				sum += 1/num.getDouble();	
 			} else {
 				result.setUndefined();
 				return;
 			}    		    		
 		}   
 
-		if(geoMean == null)
-			geoMean = new GeometricMean();
-
-		result.setValue(geoMean.evaluate(inputArray,0,size));
+		result.setValue(size/sum);
 	}
 
 

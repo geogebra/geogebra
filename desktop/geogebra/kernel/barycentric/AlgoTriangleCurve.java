@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.kernel.implicit.GeoImplicitPoly;
-import geogebra.main.Application;
 
 
 /**

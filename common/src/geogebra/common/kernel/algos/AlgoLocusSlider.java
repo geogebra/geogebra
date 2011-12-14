@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
@@ -20,9 +20,6 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
-import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -30,7 +27,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 
 
-import java.awt.geom.Point2D;
+import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -541,7 +538,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
 	    	// NON-CONTINOUS construction    	
 	    	// check if the path parameter's resulting Qcopy is already in cache
 	    	double param = Pcopy.getValue();
-	    	Point2D.Double cachedPoint = getCachedPoint(param);        
+	    	Point2D cachedPoint = getCachedPoint(param);        
 	    	    	    	    	
 	    	if (cachedPoint == null) {    		
 	    		// measure time needed for update of construction
@@ -562,7 +559,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
 	    		putCachedPoint(param, Qcopy);   		
 	    	} else {    		
 	    		// use cached result to set Qcopy
-	    		Qcopy.setCoords(cachedPoint.x, cachedPoint.y, 1.0);
+	    		Qcopy.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
 	    		useCache++;
 	    	}    	   
     	}	    	    
@@ -594,11 +591,11 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
     	for (int i=0; i < paramCache.length; i++) {
     		paramCache[i] = Double.NaN;
     		if (qcopyCache[i] == null)
-    			qcopyCache[i] = new Point2D.Double();
+    			qcopyCache[i] = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
     	}
     }
     
-    private Point2D.Double getCachedPoint(double param) {
+    private Point2D getCachedPoint(double param) {
     	// search for cached parameter
     	for (int i=0; i < paramCache.length; i++) {
     		if (param == paramCache[i])
@@ -613,13 +610,13 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
     	if (cacheIndex >= paramCache.length) cacheIndex = 0;
     	
     	paramCache[cacheIndex] = param;
-    	qcopyCache[cacheIndex].x = Qcopy.inhomX;
-    	qcopyCache[cacheIndex].y = Qcopy.inhomY;
+    	qcopyCache[cacheIndex].setX(Qcopy.inhomX);
+    	qcopyCache[cacheIndex].setY(Qcopy.inhomY);
     }
     
     // small cache of 3 last parameters and Qcopy positions 
     private double [] paramCache = new double[3];
-    private Point2D.Double [] qcopyCache = new Point2D.Double[paramCache.length];
+    private Point2D [] qcopyCache = new Point2D[paramCache.length];
     private int cacheIndex = 0;   
     private long useCache = 0;
             

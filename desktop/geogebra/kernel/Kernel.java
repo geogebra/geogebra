@@ -106,8 +106,6 @@ import geogebra.kernel.algos.AlgoIntersectPolynomialConic;
 import geogebra.kernel.algos.AlgoIntersectPolynomialLine;
 import geogebra.kernel.algos.AlgoIntersectPolynomials;
 import geogebra.kernel.algos.AlgoIntersectSingle;
-import geogebra.kernel.algos.AlgoLocus;
-import geogebra.kernel.algos.AlgoLocusSlider;
 import geogebra.kernel.algos.AlgoNormalQuantilePlot;
 import geogebra.kernel.algos.AlgoPolygonIntersection;
 import geogebra.kernel.algos.AlgoPolygonUnion;

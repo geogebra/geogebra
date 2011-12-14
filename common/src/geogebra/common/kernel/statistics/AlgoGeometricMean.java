@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -21,22 +21,19 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 
 
-
 /**
- * Returns the harmonic mean for a list of numbers
+ * Returns the geometric mean for a list of numbers
  */
 
-public class AlgoHarmonicMean extends AlgoElement {
+public class AlgoGeometricMean extends AlgoElement {
 
 	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoNumeric result; //output	
 	private int size;
-	private double sum;
 
 
-
-	public AlgoHarmonicMean(Construction cons, String label, GeoList inputList) {
+	public AlgoGeometricMean(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -47,7 +44,7 @@ public class AlgoHarmonicMean extends AlgoElement {
 	}
 
 	public String getClassName() {
-		return "AlgoHarmonicMean";
+		return "AlgoGeometricMean";
 	}
 
 	protected void setInputOutput(){
@@ -76,22 +73,21 @@ public class AlgoHarmonicMean extends AlgoElement {
 
 		//==========================
 		// compute result
-
-		sum = 0;
-
+		//We don't use Apache's GeometricMean anymore here -- the implementation in Apache
+		//is the same as below, only uses FastMath instead of Math
+		
+		double resultLog = 0;
 		// load input value array from  geoList
 		for (int i=0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
-			if (geo.isNumberValue()) {
-				NumberValue num = (NumberValue) geo;
-				sum += 1/num.getDouble();	
-			} else {
+			if (!geo.isNumberValue() || Double.isNaN(resultLog)) {
 				result.setUndefined();
 				return;
-			}    		    		
-		}   
-
-		result.setValue(size/sum);
+			} 
+			double val = ((NumberValue) geo).getDouble();
+			resultLog += Math.log(val);	
+		}
+		result.setValue(Math.exp(resultLog/size));
 	}
 
 
