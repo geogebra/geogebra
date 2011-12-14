@@ -34,6 +34,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
@@ -42,7 +43,6 @@ import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

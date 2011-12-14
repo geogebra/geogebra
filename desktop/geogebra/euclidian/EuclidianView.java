@@ -48,6 +48,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -69,7 +70,6 @@ import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.geos.GeoTextField;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.main.Application;
 

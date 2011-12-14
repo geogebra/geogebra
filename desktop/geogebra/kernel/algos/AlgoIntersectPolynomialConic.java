@@ -26,8 +26,8 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 
 import java.util.ArrayList;
 import java.util.List;

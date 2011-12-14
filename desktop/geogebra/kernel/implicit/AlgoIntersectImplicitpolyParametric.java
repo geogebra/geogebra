@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.algos.AlgoRoots;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;
 import java.util.ArrayList;

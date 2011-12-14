@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 03. June 2010, 11:57
  */
 
-package geogebra.kernel.implicit;
+package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
@@ -47,7 +47,6 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoLocusInterface;

@@ -10,9 +10,9 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 
 
 /*

@@ -24,6 +24,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.implicit.PolynomialUtils;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.algos.AlgoSimpleRootsPolynomial;

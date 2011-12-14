@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 17.08.2011, 13:05
  */
 
-package geogebra.kernel.implicit;
+package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.polynomial.BigPolynomial;
@@ -33,7 +33,11 @@ public class PolynomialUtils {
 	 */
 	public static double[] polynomialDivision(double[] cp,double[] cd){
 		double[] cq;
-		cp=cp.clone();
+		double[] cpclone;
+		cpclone=new double[cp.length];
+		for (int i=0;i<cp.length;i++){
+			cpclone[i]=cp[i];
+		}
 		int degD=cd.length-1;
 		while(degD>=0&&AbstractKernel.isZero(cd[degD])){
 			degD--;
@@ -41,17 +45,17 @@ public class PolynomialUtils {
 		if (degD<0){ // => division by zero
 			throw new ArithmeticException("divide by zero polynomial");
 		}
-		if (cp.length-1<degD){ 
+		if (cpclone.length-1<degD){ 
 			return new double[]{0};
 		}else{
-			cq=new double[cp.length-degD];
+			cq=new double[cpclone.length-degD];
 		}
 		double lcd=cd[degD];
-		int k=cp.length-1;
+		int k=cpclone.length-1;
 		for (int i=cq.length-1;i>=0;i--){
-			cq[i]=cp[k]/lcd;
+			cq[i]=cpclone[k]/lcd;
 			for (int j=0;j<=degD-1;j++){
-				cp[j+i]=cp[j+i]-cq[i]*cd[j];
+				cpclone[j+i]=cpclone[j+i]-cq[i]*cd[j];
 			}
 			k--;
 		}

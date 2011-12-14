@@ -57,6 +57,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -67,7 +68,6 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

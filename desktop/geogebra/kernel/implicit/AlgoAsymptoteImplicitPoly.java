@@ -20,6 +20,9 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.implicit.PolynomialUtils;
+
 import java.util.ArrayList;
 /**
  * Find asymptotes of ImplicitCurves

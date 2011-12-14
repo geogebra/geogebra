@@ -9,10 +9,10 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.implicit.GeoImplicitPoly;
 
 /**
  * (2nd argument is the mirror) Mirror[ <GeoPoint>, <GeoPoint> ]
