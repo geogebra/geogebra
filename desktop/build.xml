@@ -331,6 +331,11 @@ office@geogebra.org
 	</target>
 
 	<target name="ggb-algos-jar" depends="clean" description="create unsigned geogebra_algos.jar">
+		<copy todir="${src.dir}/org/apache">
+			<fileset dir="${src.dir}/../common/src/org/apache">
+				<include name="**/*" />
+			</fileset>
+		</copy>
 		<jar jarfile="${build.dir}/geogebra_algos.jar"
 			basedir="${src.dir}"
 			includes="geogebra/kernel/discrete/**,
