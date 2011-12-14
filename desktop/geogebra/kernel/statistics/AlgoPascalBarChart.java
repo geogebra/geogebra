@@ -17,7 +17,7 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 
 /**
  * @author G. Sturr

@@ -42,7 +42,7 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.Drawable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.main.Application;
 import geogebra.util.Util;
 

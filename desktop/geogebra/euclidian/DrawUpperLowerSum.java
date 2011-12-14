@@ -16,11 +16,9 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.main.Application;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Rectangle;
 
 /**

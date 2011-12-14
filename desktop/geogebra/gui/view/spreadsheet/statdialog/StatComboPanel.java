@@ -7,7 +7,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.kernel.algos.AlgoHistogram;
+import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.main.Application;
 import geogebra.util.Validation;
 

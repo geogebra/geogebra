@@ -68,7 +68,7 @@ import geogebra.euclidian.DrawableList.DrawableIterator;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.main.Application;

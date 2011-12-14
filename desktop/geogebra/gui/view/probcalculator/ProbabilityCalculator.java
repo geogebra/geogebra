@@ -44,7 +44,7 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoBarChart;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.kernel.statistics.AlgoBinomialDist;
 import geogebra.kernel.statistics.AlgoHyperGeometric;
 import geogebra.kernel.statistics.AlgoInversePascal;
