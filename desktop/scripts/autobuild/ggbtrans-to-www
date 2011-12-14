@@ -10,7 +10,7 @@
 # Edit these variables if needed (you can override them by use settings from autobuild.conf):
 GGBTRANS_DIR=/home/arnaud/ggbtrans
 TUBE_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-tube
-NAVIGATION_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-navigation
+NAV_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-nav
 
 test -r autobuild.conf || {
  echo "Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
@@ -23,14 +23,14 @@ PROP_DIR=properties
 rm -fR $PROP_DIR
 
 # Explode the properties files:
-for i in tube navigation; do
+for i in tube nav; do
  mkdir -p $PROP_DIR/$i
  $GGBTRANS_DIR/export.py $i $PROP_DIR/$i
  done
 
 # Rsync files to www:
 rsync -avPO --rsh=ssh $PROP_DIR/tube/* $TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
-rsync -avPO --rsh=ssh $PROP_DIR/navigation/* $NAVIGATION_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+rsync -avPO --rsh=ssh $PROP_DIR/nav/* $NAV_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
 date
 echo "$0: end"
