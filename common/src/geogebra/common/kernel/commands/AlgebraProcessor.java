@@ -40,7 +40,7 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.ParserInterface;
@@ -1156,7 +1156,7 @@ public class AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant();
-		GeoImplicitPolyInterface poly;
+		GeoImplicitPoly poly;
 		GeoElement geo = null;
 		if (isIndependent) {
 			poly = kernel.ImplicitPoly(label, lhs);

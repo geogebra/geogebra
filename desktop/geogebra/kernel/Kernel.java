@@ -69,7 +69,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.*;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -5578,7 +5578,7 @@ public class Kernel extends AbstractKernel{
 	}
 
 	@Override
-	public GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons) {
+	public GeoImplicitPoly newGeoImplicitPoly(Construction cons) {
 		return new GeoImplicitPoly(cons);
 	}
 	

@@ -66,7 +66,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  */
 public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
-Dilateable, Transformable, EuclidianViewCE, GeoImplicitPolyInterface {
+Dilateable, Transformable, EuclidianViewCE {
 	
 	private double[][] coeff;
 	private double[][] coeffSquarefree;

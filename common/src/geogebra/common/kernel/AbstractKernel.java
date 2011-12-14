@@ -120,7 +120,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3322,7 +3322,7 @@ public abstract class AbstractKernel {
 			int type);
 
 
-	public abstract GeoImplicitPolyInterface newGeoImplicitPoly(
+	public abstract GeoImplicitPoly newGeoImplicitPoly(
 			Construction cons);
 
 	// temporary methods just while moving things
@@ -4527,7 +4527,7 @@ public abstract class AbstractKernel {
 	@Deprecated
 	public abstract AbstractUndoManager getUndoManager(Construction cons);
 
-	public abstract GeoImplicitPolyInterface ImplicitPoly(String label,
+	public abstract GeoImplicitPoly ImplicitPoly(String label,
 			Polynomial lhs);
 
 	public abstract GeoElement DependentImplicitPoly(String label, Equation equ);

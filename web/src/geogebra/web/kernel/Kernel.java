@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
@@ -139,7 +139,7 @@ public class Kernel extends AbstractKernel {
 	
 
 	@Override
-    public GeoImplicitPolyInterface newGeoImplicitPoly(Construction cons) {
+    public GeoImplicitPoly newGeoImplicitPoly(Construction cons) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -176,7 +176,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GeoImplicitPolyInterface ImplicitPoly(String label, Polynomial lhs) {
+    public GeoImplicitPoly ImplicitPoly(String label, Polynomial lhs) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

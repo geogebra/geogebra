@@ -37,7 +37,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Operation;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
@@ -125,7 +125,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		}
 	}
 
-	GeoImplicitPolyInterface iPoly;
+	GeoImplicitPoly iPoly;
 	GeoFunction[] substituteFunctions;
 	static int FUNCTION_DIRECT = 1;
 	static int FUNCTION_COMPOSITE_IPOLY_FUNCS = 3;
@@ -133,7 +133,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	//Currently, the composite function is only for internal use
 	//The expression is not correct but it is not to be shown anyway.
-	public GeoFunction(Construction c, GeoImplicitPolyInterface iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
+	public GeoFunction(Construction c, GeoImplicitPoly iPoly, GeoFunction f, GeoFunction g) { // composite iPoly(f(x), g(x))
 		this(c);
 		this.iPoly = iPoly;
 		geoFunctionType = FUNCTION_COMPOSITE_IPOLY_FUNCS;

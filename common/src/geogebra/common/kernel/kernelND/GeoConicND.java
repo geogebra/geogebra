@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.util.MyMath;
 import geogebra.common.main.AbstractApplication;
 
@@ -3142,7 +3142,7 @@ Translateable, GeoConicNDConstants
 	 * Sets implicit poly to this conic
 	 * @param implicitPoly implicitPoly for storing this conic
 	 */
-	public void toGeoImplicitPoly(GeoImplicitPolyInterface implicitPoly) 
+	public void toGeoImplicitPoly(GeoImplicitPoly implicitPoly) 
 	{
 		double coeff[][] =new double[3][3];
 		coeff[0][0]= matrix[2];

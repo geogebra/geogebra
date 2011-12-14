@@ -64,7 +64,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.TraceSettings;
-import geogebra.common.kernel.implicit.GeoImplicitPolyInterface;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.kernel.parser.Parser;
 
 import java.util.ArrayList;
@@ -4304,7 +4304,7 @@ public class MyXMLHandler implements DocHandler {
 						coeff[i][j]=row.get(j);
 					}
 				}
-				((GeoImplicitPolyInterface)geo).setCoeff(coeff);
+				((GeoImplicitPoly)geo).setCoeff(coeff);
 				return true;
 			}
 		} catch (Exception e) {
