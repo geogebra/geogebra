@@ -20,7 +20,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.roots.RealRootAdapter;
+import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootUtil;
 
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;

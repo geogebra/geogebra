@@ -21,12 +21,14 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.AbstractKernel;
 
-import geogebra.common.adapters.ConvergenceException;
-import geogebra.common.adapters.FunctionEvaluationException;
-import geogebra.common.adapters.MaxIterationsExceededException;
-import geogebra.common.adapters.LegendreGaussIntegrator;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Integral of a function (GeoFunction)
@@ -258,8 +260,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
     	
     	// init GaussQuad classes for numerical integration
         if (firstGauss == null) {
-            firstGauss = AdapterFactory.prototype.newLegendreGaussIntegrator(FIRST_ORDER, MAX_ITER);
-            secondGauss = AdapterFactory.prototype.newLegendreGaussIntegrator(SECOND_ORDER, MAX_ITER);
+            firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MAX_ITER);
+            secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MAX_ITER);
         }
         
         double firstSum = 0;
@@ -269,9 +271,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements AlgoDr
         
         // integrate using gauss quadrature
         try {
-	        firstSum = firstGauss.integrate(AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
+	        firstSum = firstGauss.integrate((UnivariateRealFunction)(new RealRootAdapter(fun)), a, b);
 	        if (Double.isNaN(firstSum)) return Double.NaN;        
-	        secondSum = secondGauss.integrate(AdapterFactory.prototype.newRealRootAdapter(fun), a, b);
+	        secondSum = secondGauss.integrate((UnivariateRealFunction)(new RealRootAdapter(fun)), a, b);
 	        if (Double.isNaN(secondSum)) return Double.NaN;
         } catch (MaxIterationsExceededException e) {
         	error = true;

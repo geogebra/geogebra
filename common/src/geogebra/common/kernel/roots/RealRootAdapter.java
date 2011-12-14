@@ -1,11 +1,10 @@
-package geogebra.kernel.roots;
+package geogebra.common.kernel.roots;
 
-import geogebra.common.kernel.roots.RealRootFunction;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
-public class RealRootAdapter implements UnivariateRealFunction, geogebra.common.adapters.RealRootAdapter {
+public class RealRootAdapter implements UnivariateRealFunction {
 
 	private RealRootFunction fun;
 

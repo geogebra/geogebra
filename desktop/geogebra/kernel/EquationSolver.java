@@ -16,8 +16,8 @@ package geogebra.kernel;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.roots.RealRootAdapter;
 import geogebra.kernel.roots.RealRootDerivAdapter;
 import geogebra.main.Application;
 

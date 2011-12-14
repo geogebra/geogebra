@@ -19,5 +19,6 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='common'/>
   <super-source path='jre' />
+  <super-source path='webapache' />
 
 </module>

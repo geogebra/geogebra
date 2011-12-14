@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="jre/java/io/|jre/java/|jre/|geogebra/jre/" kind="src" path="src"/>
+	<classpathentry excluding="geogebra/jre/|geogebra/webapache/|geogebra/webapache/|geogebra/webapache/|jre/|jre/java/|jre/java/io/|webapache|webapache/org" kind="src" path="src"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="src" path="war/WEB-INF/lib"/>
 	<classpathentry kind="src" path="src/geogebra/jre"/>
+	<classpathentry excluding="org/" kind="src" path="src/geogebra/webapache"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
