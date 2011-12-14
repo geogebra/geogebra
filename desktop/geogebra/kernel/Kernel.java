@@ -174,7 +174,6 @@ public class Kernel extends AbstractKernel{
 		this();
 		this.app = app;
 
-		geogebra.common.factories.AdapterFactory.prototype = new geogebra.factories.AdapterFactory();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.factories.AwtFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		//TODO: probably there is better way

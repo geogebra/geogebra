@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.kernel.implicit;
 
-import geogebra.common.factories.AdapterFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.MyPoint;

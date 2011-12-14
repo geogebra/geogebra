@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
-import geogebra.common.factories.AdapterFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
