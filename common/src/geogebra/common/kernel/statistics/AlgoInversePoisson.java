@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;

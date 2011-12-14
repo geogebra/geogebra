@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -250,7 +250,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	}
 	
 	
-	BinomialDistribution getBinomialDistribution(int param, double param2) {
+	protected BinomialDistribution getBinomialDistribution(int param, double param2) {
 		if (binomial == null) 
 			binomial = new BinomialDistributionImpl(param, param2);
 		else {

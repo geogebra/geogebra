@@ -15,8 +15,8 @@ package geogebra.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.statistics.AlgoDistribution;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import org.apache.commons.math.distribution.BinomialDistribution;
 

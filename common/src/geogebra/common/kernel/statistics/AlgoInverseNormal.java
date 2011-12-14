@@ -10,41 +10,40 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.HypergeometricDistribution;
+import org.apache.commons.math.distribution.NormalDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoInverseHyperGeometric extends AlgoDistribution {
+public class AlgoInverseNormal extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoInverseHyperGeometric(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c, NumberValue d) {
-        super(cons, label, a, b, c, d);
+    public AlgoInverseNormal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
+        super(cons, label, a, b, c, null);
     }
 
     public String getClassName() {
-        return "AlgoInverseHyperGeometric";
+        return "AlgoInverseNormal";
     }
-    
+
 	public final void compute() {
     	
     	
     	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
-		    int param = (int)Math.round(a.getDouble());
-		    int param2 = (int)Math.round(b.getDouble());
-		    int param3 = (int)Math.round(c.getDouble());
-    		    double val = d.getDouble();
+		    double param = a.getDouble();
+		    double param2 = b.getDouble();
+    		    double val = c.getDouble();
         		try {
-        			HypergeometricDistribution dist = getHypergeometricDistribution(param, param2, param3);
-        			num.setValue(dist.inverseCumulativeProbability(val) + 1);     // P(T <= val)
+        			NormalDistribution dist = getNormalDistribution(param, param2);
+        			num.setValue(dist.inverseCumulativeProbability(val));    
         			
         		}
         		catch (Exception e) {

@@ -16,13 +16,11 @@ the Free Software Foundation.
  * Created on 14.07.2010, 14:28
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.algos.AlgoRoots;
-import geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoFunction;

@@ -10,40 +10,39 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.NormalDistribution;
+import org.apache.commons.math.distribution.ExponentialDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoInverseNormal extends AlgoDistribution {
+public class AlgoInverseExponential extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoInverseNormal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
-        super(cons, label, a, b, c, null);
+    public AlgoInverseExponential(Construction cons, String label, NumberValue a,NumberValue b) {
+        super(cons, label, a, b, null, null);
     }
 
     public String getClassName() {
-        return "AlgoInverseNormal";
+        return "AlgoInverseExponential";
     }
-
+    
 	public final void compute() {
     	
     	
-    	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
-		    double param = a.getDouble();
-		    double param2 = b.getDouble();
-    		    double val = c.getDouble();
+    	if (input[0].isDefined() && input[1].isDefined()) {
+    		    double param = a.getDouble();
+    		    double val = b.getDouble();
         		try {
-        			NormalDistribution dist = getNormalDistribution(param, param2);
-        			num.setValue(dist.inverseCumulativeProbability(val));    
+        			ExponentialDistribution dist = getExponentialDistribution(param);
+        			num.setValue(dist.inverseCumulativeProbability(val));     // P(T <= val)
         			
         		}
         		catch (Exception e) {

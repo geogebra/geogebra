@@ -10,39 +10,40 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.CauchyDistribution;
+import org.apache.commons.math.distribution.WeibullDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoCauchy extends AlgoDistribution {
+public class AlgoWeibull extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoCauchy(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
+    public AlgoWeibull(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
 
     public String getClassName() {
-        return "AlgoCauchy";
+        return "AlgoWeibull";
     }
-    
+
+    @SuppressWarnings("deprecation")
 	public final void compute() {
     	
     	
-    	if (input[0].isDefined() && input[1].isDefined()) {
+    	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 		    double param = a.getDouble();
 		    double param2 = b.getDouble();
     		    double val = c.getDouble();
         		try {
-        			CauchyDistribution dist = getCauchyDistribution(param, param2);
+        			WeibullDistribution dist = getWeibullDistribution(param, param2);
         			num.setValue(dist.cumulativeProbability(val));     // P(T <= val)
         			
         		}

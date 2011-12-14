@@ -10,31 +10,30 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.WeibullDistribution;
+import org.apache.commons.math.distribution.GammaDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoWeibull extends AlgoDistribution {
+public class AlgoInverseGamma extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoWeibull(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
+    public AlgoInverseGamma(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
 
     public String getClassName() {
-        return "AlgoWeibull";
+        return "AlgoInverseGamma";
     }
-
-    @SuppressWarnings("deprecation")
+    
 	public final void compute() {
     	
     	
@@ -43,8 +42,8 @@ public class AlgoWeibull extends AlgoDistribution {
 		    double param2 = b.getDouble();
     		    double val = c.getDouble();
         		try {
-        			WeibullDistribution dist = getWeibullDistribution(param, param2);
-        			num.setValue(dist.cumulativeProbability(val));     // P(T <= val)
+        			GammaDistribution dist = getGammaDistribution(param, param2);
+        			num.setValue(dist.inverseCumulativeProbability(val));     // P(T <= val)
         			
         		}
         		catch (Exception e) {

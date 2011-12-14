@@ -10,40 +10,40 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.ExponentialDistribution;
+import org.apache.commons.math.distribution.NormalDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoExponential extends AlgoDistribution {
+public class AlgoNormal extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoExponential(Construction cons, String label, NumberValue a,NumberValue b) {
-        super(cons, label, a, b, null, null);
+    public AlgoNormal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
+        super(cons, label, a, b, c, null);
     }
 
     public String getClassName() {
-        return "AlgoExponential";
+        return "AlgoNormal";
     }
 
-    @SuppressWarnings("deprecation")
 	public final void compute() {
     	
     	
-    	if (input[0].isDefined() && input[1].isDefined()) {
-    		    double param = a.getDouble();
-    		    double val = b.getDouble();
+    	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
+		    double param = a.getDouble();
+		    double param2 = b.getDouble();
+    		    double val = c.getDouble();
         		try {
-        			ExponentialDistribution dist = getExponentialDistribution(param);
-        			num.setValue(dist.cumulativeProbability(val));     // P(T <= val)
+        			NormalDistribution dist = getNormalDistribution(param, param2);
+        			num.setValue(dist.cumulativeProbability(val));    
         			
         		}
         		catch (Exception e) {

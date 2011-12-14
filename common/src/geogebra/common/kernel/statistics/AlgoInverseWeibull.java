@@ -10,28 +10,28 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.FDistribution;
+import org.apache.commons.math.distribution.WeibullDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoInverseFDistribution extends AlgoDistribution {
+public class AlgoInverseWeibull extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoInverseFDistribution(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
+    public AlgoInverseWeibull(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);
     }
 
     public String getClassName() {
-        return "AlgoInverseFDistribution";
+        return "AlgoInverseWeibull";
     }
     
 	public final void compute() {
@@ -42,11 +42,11 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
 		    double param2 = b.getDouble();
     		    double val = c.getDouble();
         		try {
-        			FDistribution dist = getFDistribution(param, param2);
-        			num.setValue(dist.inverseCumulativeProbability(val));     // P(T <= val)
+        			WeibullDistribution dist = getWeibullDistribution(param, param2);
+        			num.setValue(dist.inverseCumulativeProbability(val));    
+        			
         		}
         		catch (Exception e) {
-        			e.printStackTrace();
         			num.setUndefined();        			
         		}
     	} else

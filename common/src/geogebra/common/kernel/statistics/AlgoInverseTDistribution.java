@@ -10,28 +10,28 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
-import org.apache.commons.math.distribution.ChiSquaredDistribution;
+import org.apache.commons.math.distribution.TDistribution;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoInverseChiSquared extends AlgoDistribution {
+public class AlgoInverseTDistribution extends AlgoDistribution {
 
 	private static final long serialVersionUID = 1L;
     
-    public AlgoInverseChiSquared(Construction cons, String label, NumberValue a,NumberValue b) {
+    public AlgoInverseTDistribution(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);
     }
 
     public String getClassName() {
-        return "AlgoInverseChiSquared";
+        return "AlgoInverseTDistribution";
     }
     
 	public final void compute() {
@@ -41,8 +41,8 @@ public class AlgoInverseChiSquared extends AlgoDistribution {
     		    double param = a.getDouble();
     		    double val = b.getDouble();
         		try {
-        			ChiSquaredDistribution dist = getChiSquaredDistribution(param);
-        			num.setValue(dist.inverseCumulativeProbability(val));    
+        			TDistribution t = getTDistribution(param);
+        			num.setValue(t.inverseCumulativeProbability(val));    
         			
         		}
         		catch (Exception e) {
