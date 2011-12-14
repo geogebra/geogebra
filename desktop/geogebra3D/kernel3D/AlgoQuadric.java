@@ -41,6 +41,7 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	}
 	
 	
+	@Override
 	public String getClassName(){
 		return computer.getClassName();
 	}

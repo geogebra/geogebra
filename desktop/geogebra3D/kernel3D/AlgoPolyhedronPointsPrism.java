@@ -148,6 +148,13 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	}
 	
 	
+    protected void updateFaces(){
+    	if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+    		super.updateFaces();
+    	else
+    		getPolyhedron().updateFaces();
+    }
+	
 	protected void setLabels(String[] labels){
 		if (labels==null || labels.length <= 1 || app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
 			super.setLabels(labels);

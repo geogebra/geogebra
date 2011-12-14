@@ -55,9 +55,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		createPolyhedron(polyhedron);
-		updateFaces();
 		
-		compute();
+		
+		update();
 		
 		// input : inputPoints or list of faces
 		input = new GeoElement[points.length];
@@ -165,7 +165,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
         polyhedron.initLabels(labels);
 	}
 
-    private void updateFaces(){
+    protected void updateFaces(){
     	getPolyhedron().updateFacesDeprecated();
     }
 	
