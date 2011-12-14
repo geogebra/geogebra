@@ -297,7 +297,9 @@ public final class DrawTextField extends Drawable {
 					text = text.replaceAll("\n", "\\\\\\\\n");
 				}
 			}
-			textField.setText(text);
+			if (!textField.getText().equals(text)) { // avoid redraw error
+				textField.setText(text);
+			}
 
 		}
 
