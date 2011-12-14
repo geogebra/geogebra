@@ -27,12 +27,12 @@ public final class ArticleElement extends Element implements HasWidgets {
 		
 	}
 
-	@Override
+	
     public void add(Widget w) {
 	    this.appendChild(w.getElement());
     }
 
-	@Override
+	
     public void clear() {
 	    for (int i = 0; i < this.getChildCount(); i++) {
 	    	this.removeChild(this.getChild(i));
@@ -40,13 +40,13 @@ public final class ArticleElement extends Element implements HasWidgets {
 	    
     }
 
-	@Override
+	
     public Iterator<Widget> iterator() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
 
-	@Override
+	
     public boolean remove(Widget w) {
 		for (int i = 0; i < this.getChildCount(); i++) {
 			if (this.getChild(i).equals(w.getElement())) {

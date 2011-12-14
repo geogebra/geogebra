@@ -29,22 +29,22 @@ public class NumberFormat extends Format implements NumberFormatAdapter {
 	    // TODO Auto-generated constructor stub
     }
 
-	@Override
+	
 	public int getMaximumFractionDigits() {
 		return maximumFractionDigits;
 	}
 
-	@Override
+	
 	public void setGroupingUsed(boolean b) {
 		groupingUsed = b;
 	}
 
-	@Override
+	
 	public String format(double x) {
 		return nf.format(x);
 	}
 
-	@Override
+	
 	public void setMaximumFractionDigits(int decimals) {
 		 maximumFractionDigits = Math.max(0,decimals);
 		 if (maximumFractionDigits < minimumFractionDigits) {

@@ -63,7 +63,6 @@ public class Mvp4gModule {
 			loadFilePresenter.setEventBus(_eventFlow);
 			loadFilePresenter.setView(view);
 			ApplicationWrapper appWrapper = new ApplicationWrapper(new AsyncProvider<Application>() {
-				@Override
 				public void get(AsyncCallback<Application> callback) {
 					// TODO Do it right! It does nothing, as mvp4g library is not used. 
 					//See ApplicationWrapper for real work.

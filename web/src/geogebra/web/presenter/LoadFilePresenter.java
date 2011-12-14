@@ -50,11 +50,11 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 	
 	private final FileLoadCallback fileLoadCallback = new FileLoadCallback() {
-		@Override public void onSuccess(JsUint8Array zippedContent) {
+		public void onSuccess(JsUint8Array zippedContent) {
 			getEventBus().fileContentLoaded(zippedContent);
 		}
 		
-		@Override public void onError(String errorMessage) {
+		public void onError(String errorMessage) {
 			getView().showError(errorMessage);
 		}
 	};

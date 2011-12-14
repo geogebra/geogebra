@@ -16,7 +16,7 @@ public interface DomHelper {
 	
 	abstract class SinkHandler implements Handler {
 
-		@Override
+		
 		public final void handleEvent(Event nativeEvent) {
 			nativeEvent.preventDefault();
 			nativeEvent.stopPropagation();

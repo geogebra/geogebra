@@ -5,12 +5,12 @@ import com.google.gwt.dom.client.Element;
 
 public class DomHelperImpl implements DomHelper {
 
-	@Override
+	
 	public void setProperty(JavaScriptObject target, String name, String value) {
 		nativeSetProperty(target, name, value);
 	}
 	
-	@Override
+	
 	public void setNativeEventHandler(Element element, String eventName, Handler handler) {
 		nativeSetNativeEventHandler(element, "on" + eventName, handler);
 	}

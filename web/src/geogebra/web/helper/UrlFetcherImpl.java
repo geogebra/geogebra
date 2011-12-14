@@ -22,22 +22,22 @@ public class UrlFetcherImpl implements UrlFetcher {
 	}
 	
 	// Public Methods
-	@Override
+	
 	public boolean isGgbFileParameterSpecified() {
 		return !(getGgbFileUrlFromParameter() == null ? "" : getGgbFileUrlFromParameter()).isEmpty();
 	}
 	
-	@Override
+	
 	public String getAbsoluteGgbFileUrlFromParameter() {
 		return makeAbsolute(getGgbFileUrlFromParameter());
 	}
 	
-	@Override
+	
 	public String getAbsoluteGgbFileUrl(String absoluteOrRelativeUrl) {
 		return makeAbsolute(absoluteOrRelativeUrl);
 	}
 	
-	@Override
+	
 	public void fetchGgbFileFrom(String absoluteUrl, FileLoadCallback callback) {
 		String proxiedUrl = makeProxyFetchUrlIfNecessary(absoluteUrl);
 		requestTemplate.fetchBinary(proxiedUrl, callback);

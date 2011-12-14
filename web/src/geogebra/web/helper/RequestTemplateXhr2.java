@@ -4,7 +4,7 @@ import com.google.gwt.core.client.JavaScriptException;
 
 public class RequestTemplateXhr2 implements RequestTemplate {
 
-	@Override
+	
 	public void fetchBinary(String url, FileLoadCallback callback) {
 		try {
 			nativeFetchBinary(url, callback);

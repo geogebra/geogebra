@@ -7,7 +7,7 @@ import geogebra.web.jso.JsFileList;
 
 public class FileReaderImpl implements FileReader {
 
-	@Override
+	
 	public void readSingleGgbFile(JsFileList fileList, FileLoadCallback callback) {
 		if (fileList.getLength() != 1) {
 			callback.onError("Please drop exactly one file");

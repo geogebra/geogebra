@@ -64,7 +64,6 @@ public class ApplicationWrapper extends BasePresenter {
 				maybeLoadFile();            
             }
 
-			@Override
             public void onFailure(Throwable reason) {
 				GWT.log("App loading failed");
 			}
