@@ -17,8 +17,6 @@
 
 package java.io;
 
-import com.google.gwt.core.client.GWT;
-
 
 
 /**
@@ -330,7 +328,6 @@ public class InputStreamReader extends Reader {
 	@Override
 	public int read(char[] buf, int offset, int count) throws IOException {
 		// TODO Auto-generated method stub
-		GWT.log("inputstreamreader");
 		return 0;
 	}
 }
