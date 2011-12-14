@@ -16,13 +16,12 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -31,7 +30,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
-import java.awt.Color;
+import geogebra.common.awt.Color;
 
 /**
  *
@@ -78,7 +77,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         tMin = g.getMinParameter();
         tMax = g.getMaxParameter();
         
-        Color BLUE_VIOLET= new Color(153,0,255);
+        Color BLUE_VIOLET= geogebra.common.factories.AwtFactory.prototype.newColor(153,0,255);
         int THICK_LINE_WITHIN_LINE = 4;
         
         //TODO: this initialization of input assumes the type 
@@ -100,7 +99,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         for (int i = 0; i<4; i++) {
         	setOutputDependencies(lines[i]);
            	lines[i].setLineThickness(THICK_LINE_WITHIN_LINE); 
-            lines[i].setObjColor(new geogebra.awt.Color(BLUE_VIOLET));
+            lines[i].setObjColor(BLUE_VIOLET);
         }
         
         //paramSet.add(tMin);

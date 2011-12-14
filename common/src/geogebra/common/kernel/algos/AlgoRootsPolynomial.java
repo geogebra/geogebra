@@ -10,12 +10,11 @@ the Free Software Foundation.
 
  */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
-import geogebra.common.kernel.algos.AlgoIntersect;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
