@@ -1,0 +1,36 @@
+#!/bin/sh
+# Explodes properties files from ggbtrans and uploads them to www.geogebra.org.
+
+# The 'tube' keys go to Library/WebServer/GeoGebraTube/languages/,
+# the 'navigation' keys go to /Library/WebServer/GeoGebra/navigation/
+# (see http://www.geogebra.org/trac/ticket/1628 for details).
+
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# Edit these variables if needed (you can override them by use settings from autobuild.conf):
+GGBTRANS_DIR=/home/arnaud/ggbtrans
+TUBE_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-tube
+NAVIGATION_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-navigation
+
+test -r autobuild.conf || {
+ echo "Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ exit 1
+ }
+. ./autobuild.conf
+
+# Remove the previous working directory:
+PROP_DIR=properties
+rm -fR $PROP_DIR
+
+# Explode the properties files:
+for i in tube navigation; do
+ mkdir -p $PROP_DIR/$i
+ $GGBTRANS_DIR/export.py $i $PROP_DIR/$i
+ done
+
+# Rsync files to www:
+rsync -avPO --rsh=ssh $PROP_DIR/tube/* $TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+rsync -avPO --rsh=ssh $PROP_DIR/navigation/* $NAVIGATION_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+
+date
+echo "$0: end"
