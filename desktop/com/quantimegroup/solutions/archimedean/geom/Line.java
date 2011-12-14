@@ -17,46 +17,42 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.quantimegroup.solutions.archimedean.scene;
+package com.quantimegroup.solutions.archimedean.geom;
 
 import com.quantimegroup.solutions.archimedean.utils.OrderedTriple;
 
-public interface ISolid {
-	/**
-	 * Get the number of vertices in this IArchimedeanSolid
-	 * 
-	 * @return
-	 */
-	public int getVertexCount();
+public class Line {
+	private OrderedTriple point;
+	private OrderedTriple vector;
 
-	/**
-	 * Return all the vertices of this IArchimedeanSolid.
-	 * 
-	 * @return an array of vertices
-	 */
-	public OrderedTriple[] getVertices();
+	protected Line(OrderedTriple p, OrderedTriple v) {
+		this.point = p;
+		this.vector = v;
+	}
 
-	/**
-	 * Return all the normals of this IArchimedeanSolid.
-	 * 
-	 * @return an array of normals
-	 */
-	public OrderedTriple[] getNormals();
+	static public Line fromTwoPoints(OrderedTriple p1, OrderedTriple p2) {
+		return new Line(p1, p1.minus(p2).unit());
+	}
 
-	/**
-	 * Get the number of faces in this IArchimedeanSolid
-	 * 
-	 * @return
-	 */
-	public int getSideCount();
+	public boolean same(Line l) {
+		OrderedTriple unit = vector.unit();
+		OrderedTriple lunit = l.vector.unit();
+		if (!unit.equals(lunit) && !unit.equals(lunit.negative())) {
+			return false;
+		}
+		if (point.equals(l.point)) {
+			return true;
+		}
+		OrderedTriple pDiff = point.minus(l.point).unit();
+		return pDiff.equals(unit) || pDiff.equals(unit.negative());
+	}
 
-	/**
-	 * Return all the faces of this IArchimedeanSolid.
-	 * 
-	 * @return an array of faces
-	 */
-	public ISide[] getSides();
+	public OrderedTriple getPoint() {
+		return point;
+	}
 
-	public ISide createFace();
+	public OrderedTriple getVector() {
+		return vector;
+	}
 
 }

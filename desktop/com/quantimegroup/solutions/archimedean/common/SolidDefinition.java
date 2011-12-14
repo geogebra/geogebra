@@ -22,6 +22,7 @@ package com.quantimegroup.solutions.archimedean.common;
 import java.util.Arrays;
 import java.util.List;
 
+import com.quantimegroup.solutions.archimedean.utils.IntList;
 import com.quantimegroup.solutions.archimedean.utils.Misc;
 import com.quantimegroup.solutions.archimedean.utils.ObjectList;
 
@@ -417,6 +418,21 @@ public class SolidDefinition {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	static public int[] getSignature(int[] polys, int length) {
+		IntList sign = new IntList(length);
+		for (int i = 0; i < length; ++i) {
+			sign.add(polys[i]);
+		}
+		IntList bestSign = sign, temp;
+		for (int i = 0; i < length; ++i) {
+			temp = sign.wrapCopy(i, 1);
+			if (Misc.arrayCompare(temp.ints, bestSign.ints) < 0)
+				bestSign = temp;
+			temp = sign.wrapCopy(i, -1);
+		}
+		return bestSign.ints;
 	}
 
 	/**

@@ -26,7 +26,7 @@ import com.quantimegroup.solutions.archimedean.utils.Quick3X3Matrix;
  * @author kasparianr
  * 
  */
-abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
+abstract class AbstractArchimedeanSolid2 implements IArchimedeanSolid {
 	private Point[] vertices;
 	private Face[] faces;
 	private Coords[] verticesInABv;
@@ -101,7 +101,7 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 	 * @throws Exception
 	 */
 
-	protected AbstractArchimedeanSolid(int[] polyTypes, int numPolys, boolean untwist) throws Exception {
+	protected AbstractArchimedeanSolid2(int[] polyTypes, int numPolys, boolean untwist) throws Exception {
 		Surface surface = new ArchiBuilder(polyTypes, numPolys, untwist).createSurface();
 		ObjectList<OrderedTriple> ots = surface.getPoints();
 		Facet firstSide = surface.getRootFacet(0);

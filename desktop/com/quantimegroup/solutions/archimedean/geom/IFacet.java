@@ -17,16 +17,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.quantimegroup.solutions.archimedean.scene;
+package com.quantimegroup.solutions.archimedean.geom;
 
-public interface ITruncableSpaceObject extends ISpaceObject {
+import com.quantimegroup.solutions.archimedean.utils.OrderedTriple;
 
-	public double getTruncPercent();
+public interface IFacet {
 
-	public void setTruncPercent(double percent);
+	int getVertexCount();
 
-	public double getTruncStage();
+	OrderedTriple getPoint(int i);
 
-	public int getNumTruncStages();
+	OrderedTriple getNormal();
 
 }

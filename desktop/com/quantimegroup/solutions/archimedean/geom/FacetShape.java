@@ -17,4 +17,31 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.quantimegroup.solutions.archimedean.scene;public class TruncableSpaceSide extends SpaceSide {	private boolean cornerSide;	private int[] neighbors = new int[4];	public TruncableSpaceSide(int numPoints) {		super(numPoints);	}	public int theoreticalNumPoints() {		throw new UnsupportedOperationException();	}	public boolean isCornerSide() {		return cornerSide;	}	public void setCornerSide(boolean cornerSide) {		this.cornerSide = cornerSide;	}	public void setNeighbors(int... neighbors) {		for (int i = 0; i < this.neighbors.length; ++i) {			this.neighbors[i] = neighbors[i];		}	}	public int[] getNeighbors() {		return neighbors;	}}
+package com.quantimegroup.solutions.archimedean.geom;
+
+public class FacetShape {
+	private int vertexCount;
+	boolean regular;
+
+	public FacetShape(int vertexCount, boolean regular) {
+		this.vertexCount = vertexCount;
+		this.regular = regular;
+	}
+
+	public int getVertexCount() {
+		return vertexCount;
+	}
+
+	public void setVertexCount(int vertexCount) {
+		this.vertexCount = vertexCount;
+	}
+
+	public boolean isRegular() {
+		return regular;
+	}
+
+	public void setRegular(boolean regular) {
+		this.regular = regular;
+	}
+
+}

@@ -91,4 +91,37 @@ public class GeometryUtils {
 		return Math.sqrt(s * (s - a) * (s - b) * (s - c));
 	}
 
+	public static OrderedTriple[] threeDistinctPoints(IFacet facet) {
+		// assumes that there are three distinct points
+		OrderedTriple[] p = new OrderedTriple[3];
+		double epsilon = 1e-10;
+
+		p[0] = facet.getPoint(0);
+		int i;
+		for (i = 1; i < facet.getVertexCount(); ++i) {
+			p[1] = facet.getPoint(i);
+			if (!p[1].isApprox(p[0], epsilon))
+				break;
+		}
+		for (i = i + 1; i < facet.getVertexCount(); ++i) {
+			p[2] = facet.getPoint(i);
+			if (!p[2].isApprox(p[1], epsilon))
+				break;
+		}
+		return p;
+	}
+	
+	
+	public static OrderedTriple sectLine(IFacet facet, OrderedTriple L1, OrderedTriple L2) {
+		OrderedTriple[] p = GeometryUtils.threeDistinctPoints(facet);
+		return OrderedTriple.sectPlaneLine(p[0], p[1], p[2], L1, L2);
+	}
+
+	
+	public static OrderedTriple getCenter(IFacet facet) {// works only for sides that can be
+		// inscribed in circles
+		OrderedTriple[] p = threeDistinctPoints(facet);
+		return GeometryUtils.getCircumcenter(p[0], p[1], p[2]);
+	}
+	
 }

@@ -17,37 +17,35 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.quantimegroup.solutions.archimedean.scene;
+package com.quantimegroup.solutions.archimedean.geom;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.quantimegroup.solutions.archimedean.utils.ObjectList;
 import com.quantimegroup.solutions.archimedean.utils.OrderedTriple;
 
-
-
-public class Surface extends Geometry {
-	private List<Facet> facets = new ArrayList<Facet>();
+public class Geometry {
+	private ObjectList<OrderedTriple> points;
 	private List<Listener> listeners = new ArrayList<Listener>();
 
-	public Surface(OrderedTriple[] points) {
-		super(points);
+	public Geometry(ObjectList<OrderedTriple> points) {
+		this.points = new ObjectList<OrderedTriple>(points.size(), 10);
+		for (OrderedTriple p : points) {
+			this.points.add(p);
+		}
 	}
 
-	public void addFacet(Facet f) {
-		facets.add(f);
+	public OrderedTriple getPoint(int index) {
+		return points.get(index);
 	}
 
-	public Facet getFacet(int index) {
-		return facets.get(index);
+	public int getPointCount() {
+		return points.size();
 	}
 
-	public List<Facet> getFacets() {
-		return facets;
-	}
-
-	public int getFacetCount() {
-		return facets.size();
+	public ObjectList<OrderedTriple> getPoints() {
+		return points;
 	}
 
 	public void addListener(Listener listener) {
@@ -58,11 +56,31 @@ public class Surface extends Geometry {
 
 	public void notifyListeners() {
 		for (Listener listener : listeners) {
-			listener.surfaceChanged();
+			listener.geometryChanged();
 		}
 	}
 
-	static interface Listener {
-		public void surfaceChanged();
+	public double getMaxRadius() {
+		double cur, max = Double.NEGATIVE_INFINITY;
+		for (int i = 0; i < points.num; ++i) {
+			cur = getPoint(i).lengthSquared();
+			if (cur > max)
+				max = cur;
+		}
+		return Math.sqrt(max);
+	}
+
+	public int registerPoint(OrderedTriple p) throws Exception {// adds point if
+		for (int i = 0; i < points.num; ++i) {
+			OrderedTriple curp = (OrderedTriple) points.get(i);
+			if (p.distanceSquared(curp) < ArchiBuilder.REGISTER_POINT_EPSILON) {
+				return i;
+			}
+		}
+		return points.addReturnIndex(p);
+	}
+
+	public interface Listener {
+		public void geometryChanged();
 	}
 }

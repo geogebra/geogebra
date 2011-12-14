@@ -17,35 +17,38 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.quantimegroup.solutions.archimedean.utils;
+package com.quantimegroup.solutions.archimedean.geom;
 
-public abstract class Solver {
-	protected double minx;
-	protected double maxx;
+public class FacetState {
+	public static final FacetState REAL = new FacetState(true, true);
+	public static final FacetState NOT_REAL = new FacetState(false, true);
 
-	public double solve() {
-		return solve(0);
+	private boolean real;
+	private boolean primary;
+
+	public FacetState(boolean real, boolean primary) {
+		this.real = real;
+		this.primary = primary;
 	}
 
-	public double solve(double e) {
-		//y = f(x); f(x) must be continous and have no local maximums or minimums
-		//within the range minx to maxx
-		int inverse = compute(maxx) < compute(minx) ? -1 : 1;
-		double x = maxx, y;
-		do{
-			double newx = (minx + maxx) / 2;
-			if (newx == x)
-				break;
-			x = newx;
-			y = compute(x) * inverse;
-			//System.out.println( " x = " + x + " y = " + y );
-			if (y > 0)
-				maxx = x;
-			else
-				minx = x;
-		}while (Math.abs(y) > e);
-		return x;
+	public boolean isReal() {
+		return real;
 	}
 
-	public abstract double compute(double x);
+	public void setReal(boolean real) {
+		this.real = real;
+	}
+
+	public String toString() {
+		return real ? "real" : "not real";
+	}
+
+	public boolean isPrimary() {
+		return primary;
+	}
+
+	public void setPrimary(boolean primary) {
+		this.primary = primary;
+	}
+
 }

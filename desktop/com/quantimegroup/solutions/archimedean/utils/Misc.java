@@ -19,6 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.quantimegroup.solutions.archimedean.utils;
 
+import java.lang.reflect.Array;
+
+import com.quantimegroup.solutions.archimedean.geom.IFacet;
+
 public class Misc {
 	private Misc() {
 	}
@@ -65,6 +69,15 @@ public class Misc {
 
 	}
 
+	public static void arrayReverse(Object[] a) {
+		for (int i = 0; i < a.length / 2; ++i) {
+			Object temp = a[i];
+			a[i] = a[a.length - i - 1];
+			a[a.length - i - 1] = temp;
+		}
+
+	}
+
 	public static double round(double d, int mantissaLength) {
 		for (int i = 0; i < mantissaLength; ++i) {
 			d *= 10;
@@ -90,6 +103,85 @@ public class Misc {
 			buf.append(strings[i]);
 		}
 		return buf.toString();
+	}
+
+	public static <K> K[] addArrays(K[] a, K[] b) {
+		K[] c = (K[]) Array.newInstance(a.getClass().getComponentType(), a.length + b.length);
+		System.arraycopy(a, 0, c, 0, a.length);
+		System.arraycopy(b, 0, c, a.length, b.length);
+		return c;
+	}
+
+	public static double clamp(double value, double min, double max) {
+		if (value < min) {
+			return min;
+		} else if (value > max) {
+			return max;
+		} else {
+			return value;
+		}
+	}
+
+	public static int countOccurences(int[] array, int value) {
+		int count = 0;
+		for (int i : array) {
+			if (i == value) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public static boolean betweenExclusive(double value, double rangeStart, double rangeEnd) {
+		if (rangeEnd < rangeStart) {
+			double temp = rangeStart;
+			rangeStart = rangeEnd;
+			rangeEnd = temp;
+		}
+		return value > rangeStart && value < rangeEnd;
+	}
+
+	public static boolean betweenInclusive(double value, double rangeStart, double rangeEnd, double epsilon) {
+		if (rangeEnd < rangeStart) {
+			double temp = rangeStart;
+			rangeStart = rangeEnd;
+			rangeEnd = temp;
+		}
+		return (value >= rangeStart && value <= rangeEnd) || OrderedTriple.isApprox(value, rangeStart, epsilon)
+				|| OrderedTriple.isApprox(value, rangeEnd, epsilon);
+	}
+
+	public static boolean betweenInclusive(double value, double rangeStart, double rangeEnd) {
+		if (rangeEnd < rangeStart) {
+			double temp = rangeStart;
+			rangeStart = rangeEnd;
+			rangeEnd = temp;
+		}
+		return value >= rangeStart && value <= rangeEnd;
+	}
+
+	public static OrderedTriple[] threeDistinctPoints(IFacet facet) {
+		// assumes that there are three distinct points
+		OrderedTriple[] p = new OrderedTriple[3];
+		double epsilon = 1e-10;
+		//double epsilon = 1e-8;
+
+		p[0] = facet.getPoint(0);
+		int i;
+		for (i = 1; i < facet.getVertexCount(); ++i) {
+			p[1] = facet.getPoint(i);
+			if (!p[1].isApprox(p[0], epsilon))
+				break;
+		}
+		for (i = i + 1; i < facet.getVertexCount(); ++i) {
+			p[2] = facet.getPoint(i);
+			if (!p[2].isApprox(p[1], epsilon) && !p[2].isApprox(p[0], epsilon))
+				break;
+		}
+		if(p[0] == null || p[1] == null || p[2] == null){
+			throw new NullPointerException();
+		}
+		return p;
 	}
 
 }
