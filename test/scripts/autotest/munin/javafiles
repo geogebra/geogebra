@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Munin plugin to graph the change of Java files.
+#
+# Parameters:
+#
+# 	rootdir      - directory path to the parent of geogebra/{desktop,common,web} (if omitted, default is /home/tester/svn)
+#
+# This script is based on the acpi script (rev. 1.6).
+# Modified by Zoltan Kovacs <zoltan@geogebra.org>
+#
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$rootdir" = "" ]; then
+    rootdir=/home/tester/svn
+    fi
+    
+if [ "$1" = "autoconf" ]; then
+	test -d $rootdir/geogebra || {
+	    echo "no (no $rootdir/geogebra/ directory found)"
+	    exit 1
+	    }
+	echo yes
+	exit 0
+	fi
+
+if [ "$1" = "config" ]; then
+
+        echo 'graph_title Change of Java files'
+        echo 'graph_args --base 1000 -l 0'
+        echo 'graph_vlabel visits'
+        echo 'graph_category system' # fixme
+        echo 'graph_info This graph shows the change of Java files.'
+        for i in common desktop web; do
+    	    echo "$i.label $i"
+    	    echo "$i.info Java files in $i"
+    	    done
+        exit 0
+fi
+
+for i in common desktop web; do
+    echo -n "$i.value "
+    find $rootdir/geogebra -name '*.java' | wc -l
+    done
+    
