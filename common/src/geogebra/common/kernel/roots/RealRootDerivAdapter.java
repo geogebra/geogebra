@@ -1,6 +1,5 @@
-package geogebra.kernel.roots;
+package geogebra.common.kernel.roots;
 
-import geogebra.common.kernel.roots.RealRootDerivFunction;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;

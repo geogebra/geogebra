@@ -26,6 +26,7 @@ import geogebra.common.kernel.algos.AlgoFunctionInterval;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoOsculatingCircle;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.AlgoRoots;
 import geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -60,7 +61,6 @@ import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.algos.AlgoRoots;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 

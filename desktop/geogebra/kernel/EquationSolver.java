@@ -17,8 +17,8 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.roots.RealRootAdapter;
+import geogebra.common.kernel.roots.RealRootDerivAdapter;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.roots.RealRootDerivAdapter;
 import geogebra.main.Application;
 
 import java.util.Arrays;

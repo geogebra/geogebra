@@ -21,9 +21,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.roots.RealRootAdapter;
+import geogebra.common.kernel.roots.RealRootDerivAdapter;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
-import geogebra.kernel.roots.RealRootDerivAdapter;
-import geogebra.kernel.roots.RealRootUtil;
+import geogebra.common.kernel.roots.RealRootUtil;
 
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.NewtonSolver;
