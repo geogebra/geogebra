@@ -6434,6 +6434,7 @@ public class Application extends AbstractApplication implements
 		// AbstractApplication.debug("file version: " + version);
 
 		if (version == null) {
+			this.version = null;
 			return;
 		}
 

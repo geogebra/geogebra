@@ -50,14 +50,17 @@ public class CmdPrism extends CommandProcessorDesktop {
 				//for older version, make forcing labels not working
 				if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
 					return new GeoElement[] {ret[0]};
-				else
-					return ret;
+				return ret;
 			} else if ((ok[0] = (arg[0] .isGeoPolygon()))
 					&& (ok[1] = (arg[1] .isNumberValue()))) {
-				return kernel.getManager3D().Prism(
+				GeoElement[] ret = kernel.getManager3D().Prism(
 								c.getLabels(),
 								(GeoPolygon) arg[0],
-								(NumberValue) arg[1]);		
+								(NumberValue) arg[1]);	
+				//for older version, make forcing labels not working
+				if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+					return new GeoElement[] {ret[0]};
+				return ret;
 			} else {
                 if (!ok[0])
                     throw argErr(app, c.getName(), arg[0]);
@@ -78,8 +81,11 @@ public class CmdPrism extends CommandProcessorDesktop {
 				}
 			}
 			// everything ok
-			return kernel.getManager3D().Prism(c.getLabels(), points);
-
+			GeoElement[] ret = kernel.getManager3D().Prism(c.getLabels(), points);
+			//for older version, make forcing labels not working
+			if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+				return new GeoElement[] {ret[0]};
+			return ret;
 		}else{
 			throw argNumErr(app, c.getName(), n);
 		}

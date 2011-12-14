@@ -154,6 +154,8 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	 */
 	public int endCurrentFace() {
 		currentFace.setDirection();
+		
+		//Application.debug(polygonsIndexMax);
 
 		//add to index
 		polygonsIndex.put(currentFace, new Integer(polygonsIndexMax));
@@ -204,12 +206,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 			// last segment
 			s[j] = createSegment(endPoint, firstPoint);
 
-			
+			/*
 			String st = "poly : ";
 			for (int i = 0; i < p.length; i++)
 				st += p[i].getLabel();
 			Application.debug(st);
-			
+			*/
 
 			GeoPolygon3D polygon = createPolygon(p);
 			polygons.put(polygonsIndex.get(currentFace), polygon);
@@ -230,32 +232,30 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 			// edges linked to the face
 			GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
-
-			Iterator<ConstructionElement> it2 = currentFace.iterator();
-			GeoPointND endPoint = (GeoPointND) it2.next();
-			int j = 0;
-			p[j] = endPoint; // first point for the polygon
+			
+			GeoPointND endPoint = (GeoPointND) currentFace.get(0);
+			p[0] = endPoint; // first point for the polygon
 			GeoPointND firstPoint = endPoint;
-			for (; it2.hasNext();) {
+			int j;
+			for (j=1; j<currentFace.size(); j++) {
 				// creates edges
 				GeoPointND startPoint = endPoint;
-				endPoint = (GeoPointND) it2.next();
-				s[j] = createSegment(startPoint, endPoint);
+				endPoint = (GeoPointND) currentFace.get(j);
+				s[j-1] = createSegment(startPoint, endPoint);
 
 				// points for the polygon
-				j++;
 				p[j] = endPoint;
 
 			}
 			// last segment
-			s[j] = createSegment(endPoint, firstPoint);
+			s[j-1] = createSegment(endPoint, firstPoint);
 
-			
+			/*
 			String st = "poly : ";
 			for (int i = 0; i < p.length; i++)
 				st += p[i].getLabel();
 			Application.debug(st);
-			
+			*/
 
 			GeoPolygon3D polygon = createPolygon(p);
 			polygons.put(index, polygon);
@@ -654,6 +654,10 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 
 		return polygonsArray;
+	}
+	
+	public Collection<GeoPolygon3D> getFacesCollection(){
+		return polygons.values();
 	}
 	
 	public GeoPolygon3D getFace(int index){

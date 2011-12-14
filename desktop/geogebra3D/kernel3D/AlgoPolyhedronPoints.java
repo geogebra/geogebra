@@ -69,10 +69,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		setOutput();
 		
 		
-        
-        
-        //polyhedron.defaultLabels(labels);
-        polyhedron.initLabels(labels);
+        setLabels(labels);
 	}
 	
 	
@@ -116,6 +113,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		getPolyhedron().initLabels(labels);
 	}
 	
+	protected boolean isOldFileVersion(){
+		return app.fileVersionBefore(Application.getSubValues("4.9.10.0"));
+	}
 	
 	/** creates a polyhedron regarding bottom face and top vertex 
 	 * @param c construction 
@@ -162,7 +162,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			}
 		}
       
-        polyhedron.initLabels(labels);
+		setLabels(labels);
 	}
 
     protected void updateFaces(){
