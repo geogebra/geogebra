@@ -1,10 +1,10 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.algos.AlgoBoxPlot;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;

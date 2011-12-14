@@ -17,6 +17,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -25,12 +26,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.MacroKernel;
-import geogebra.main.Application;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import geogebra.common.awt.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -68,13 +66,13 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 		maxYdist, xmin, xmax, ymin, ymax,
 		farXmin, farXmax, farYmin, farYmax;
     //private Line2D.Double tempLine = new Line2D.Double();
-    private Rectangle2D.Double nearToScreenRect = new Rectangle2D.Double();   
+    private Rectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype.newRectangle();   
     private boolean continuous;
     private boolean lastFarAway;
     private boolean foundDefined;
     private boolean maxTimeExceeded;
     private Construction macroCons;
-    private MacroKernel macroKernel;
+    private MacroKernelInterface macroKernel;
     //private AlgorithmSet macroConsAlgoSet;
 	// list with all original elements used for the macro construction
     private TreeSet<ConstructionElement> locusConsOrigElements;
@@ -248,7 +246,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
    
     private void buildLocusMacroConstruction(TreeSet<ConstructionElement> locusConsElements) {       	
     	// build macro construction
-    	macroKernel = new MacroKernel((Kernel)kernel); 
+    	macroKernel = kernel.newMacroKernel(); 
     	macroKernel.setGlobalVariableLookup(true);
     	
     	// tell the macro construction about reserved names:
@@ -265,7 +263,7 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     	
     	try {    	
     		// get XML for macro construction of P -> Q        	
-        	String locusConsXML = Macro.buildMacroXML((Kernel)kernel, locusConsElements);  
+        	String locusConsXML = Macro.buildMacroXML(kernel, locusConsElements);  
 
     		macroKernel.loadXML(locusConsXML);
     	
@@ -665,15 +663,15 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
     }    
     
     private void updateScreenBorders() {
-    	xmax = ((Kernel)kernel).getXmax();
-    	xmin = ((Kernel)kernel).getXmin();
-    	ymax = ((Kernel)kernel).getYmax();
-    	ymin = ((Kernel)kernel).getYmin();
+    	xmax = kernel.getXmax();
+    	xmin = kernel.getXmin();
+    	ymax = kernel.getYmax();
+    	ymin = kernel.getYmin();
     	
     	double widthRW = xmax - xmin;
     	double heightRW = ymax - ymin;    	
-    	maxXdist = MAX_X_PIXEL_DIST / ((Kernel)kernel).getXscale(); // widthRW / 100;
-    	maxYdist = MAX_Y_PIXEL_DIST / ((Kernel)kernel).getYscale(); // heightRW / 100;   
+    	maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(); // widthRW / 100;
+    	maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(); // heightRW / 100;   
 
     	// we take a bit more than the screen
     	// itself so that we don't loose locus

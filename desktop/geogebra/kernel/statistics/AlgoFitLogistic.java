@@ -13,6 +13,7 @@ the Free Software Foundation.
 */
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -26,7 +27,8 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.kernel.Kernel;
+
 
 
 /******************* 
@@ -90,8 +92,8 @@ public final class AlgoFitLogistic extends AlgoElement{
 //	private final static boolean DEBUG			=	false;		//set false when finished
 	
 	// Properties
-	private static geogebra.main.Application app=	null;
-	private static geogebra.kernel.Kernel 	 k  =   null;
+	private static AbstractApplication app=	null;
+	private static Kernel 	 k  =   null;
     private static double 		a,b,c;				//c/(1+a*exp(-bx))
     private static double[] 	xd,yd;				//datapoints
     private static int      	size;				//of xd and yd
@@ -114,8 +116,8 @@ public final class AlgoFitLogistic extends AlgoElement{
     
     public AlgoFitLogistic(Construction cons, GeoList geolist) {
         super(cons);
-        app=(Application) kernel.getApplication();
-        k=app.getKernel();
+        app=kernel.getApplication();
+        k=(Kernel)app.getKernel();
         this.geolist=geolist;
         geofunction=new GeoFunction(cons);
         setInputOutput();

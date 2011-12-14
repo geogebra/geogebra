@@ -160,6 +160,10 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet{
 		public String dogetSpreadsheetColumnName(int x) {
 			return getSpreadsheetColumnName(x);
 		}
+		
+		public String dogetSpreadsheetColumnName(String s) {
+			return getSpreadsheetColumnName(s);
+		}
 
 		public Point dogetSpreadsheetCoordsForLabel(String label) {
 			return getSpreadsheetCoordsForLabel(label);

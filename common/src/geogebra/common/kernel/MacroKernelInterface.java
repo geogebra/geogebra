@@ -1,5 +1,7 @@
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.geos.GeoElement;
+
 public interface MacroKernelInterface {
 
 	void setContinuous(boolean b);
@@ -11,5 +13,9 @@ public interface MacroKernelInterface {
 	Construction getConstruction();
 
 	AbstractKernel getParentKernel();
+
+	void addReservedLabel(String label);
+
+	GeoElement lookupLabel(String label);
 
 }

@@ -15,6 +15,7 @@ package geogebra.kernel.algos;
 //import geogebra.kernel.AlgoElement;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoGeoPointsFunction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;

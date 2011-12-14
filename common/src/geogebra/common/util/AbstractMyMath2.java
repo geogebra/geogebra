@@ -65,6 +65,9 @@ public class AbstractMyMath2 {
 			return Double.NaN;
 		}
 
+	public double logGamma(double d){
+		return Double.NaN;
+	}
 
 
 }

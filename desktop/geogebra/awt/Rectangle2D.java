@@ -33,4 +33,16 @@ public class Rectangle2D extends geogebra.common.awt.Rectangle2D{
 		
 	}
 
+	@Override
+	public void setFrame(double x, double y, double width, double height) {
+		impl.setFrame(x, y, width, height);
+		
+	}
+
+	@Override
+	public boolean intersects(double minX, double minY, double lengthX,
+			double lengthY) {
+		return impl.intersects(minX, minY, lengthX, lengthY);
+	}
+
 }

@@ -131,6 +131,10 @@ public class MyMath2 extends AbstractMyMath2{
 	final public double psi(double x) {
 		return Gamma.digamma(x);
 	}
+	
+	final public double logGama(double x) {
+		return Gamma.logGamma(x);
+	}
 
 	final public double polyGamma(NumberValue order, double x) {
 		int o = (int) order.getDouble();

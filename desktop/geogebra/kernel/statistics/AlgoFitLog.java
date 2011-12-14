@@ -73,7 +73,7 @@ public class AlgoFitLog extends AlgoElement{
         if(!geolist.isDefined() || (size<2) ) {	//24.04.08: 2
             geofunction.setUndefined();
             return;
-        }else{
+        }
         	RegressionMath regMath = ((Kernel) kernel).getRegressionMath();
             regok=regMath.doLog(geolist);
             if(regok){
@@ -92,7 +92,7 @@ public class AlgoFitLog extends AlgoElement{
                 geofunction.setUndefined();
                 return;  
             }//if error in regression   
-        }//if error in parameters
+        //if error in parameters
     }//compute()
     
 }// class AlgoFitLog
