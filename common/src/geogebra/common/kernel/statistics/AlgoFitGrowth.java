@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
@@ -23,7 +23,6 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Kernel;
 
 /**
  * Fits an a*b^x to a list of points.
@@ -44,7 +43,7 @@ public class AlgoFitGrowth extends AlgoElement {
 	public AlgoFitGrowth(Construction cons, String label, GeoList geolist) {
 		super(cons);
 
-		regMath = ((Kernel)kernel).getRegressionMath();
+		regMath = kernel.getRegressionMath();
 
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
@@ -84,9 +83,9 @@ public class AlgoFitGrowth extends AlgoElement {
 				b=Math.exp(b);
 				MyDouble A = new MyDouble(kernel, a);
 				MyDouble B = new MyDouble(kernel, b);
-				FunctionVariable X = new FunctionVariable((Kernel)kernel);
-				ExpressionValue expr = new ExpressionNode((Kernel)kernel, B,Operation.POWER, X);
-				ExpressionNode node = new ExpressionNode((Kernel)kernel, A,Operation.MULTIPLY, expr);
+				FunctionVariable X = new FunctionVariable(kernel);
+				ExpressionValue expr = new ExpressionNode(kernel, B,Operation.POWER, X);
+				ExpressionNode node = new ExpressionNode(kernel, A,Operation.MULTIPLY, expr);
 				Function f = new Function(node, X);
 				geofunction.setFunction(f);
 				geofunction.setDefined(true);

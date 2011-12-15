@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
@@ -24,29 +24,28 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Kernel;
 
 
 /** 
- * Fits a*x^b  to a list of points.
+ * Fits a+bln(x)  to a list of points.
  * Adapted from AlgoFitLine and AlgoPolynomialFromCoordinates
  * (Borcherds)
  * @author Hans-Petter Ulven
  * @version 24.04.08
  */
-public class AlgoFitPow extends AlgoElement{
+public class AlgoFitLog extends AlgoElement{
 
     private static final long serialVersionUID  =   1L;
     private GeoList         geolist;                        //input
     private GeoFunction     geofunction;                    //output
 
     
-    public AlgoFitPow(Construction cons, String label, GeoList geolist) {
+    public AlgoFitLog(Construction cons, String label, GeoList geolist) {
         this(cons, geolist);
         geofunction.setLabel(label);
     }//Constructor
     
-    public AlgoFitPow(Construction cons, GeoList geolist) {
+    public AlgoFitLog(Construction cons, GeoList geolist) {
         super(cons);
         this.geolist=geolist;
         geofunction=new GeoFunction(cons);
@@ -54,7 +53,7 @@ public class AlgoFitPow extends AlgoElement{
         compute();
     }//Constructor
     
-    public String getClassName() {return "AlgoFitPow";}
+    public String getClassName() {return "AlgoFitLog";}
         
     protected void setInputOutput(){
         input=new GeoElement[1];
@@ -64,7 +63,7 @@ public class AlgoFitPow extends AlgoElement{
         setDependencies();
     }//setInputOutput()
     
-    public GeoFunction getFitPow() {return geofunction;}
+    public GeoFunction getFitLog() {return geofunction;}
     
     public final void compute() {
         int size=geolist.size();
@@ -73,17 +72,18 @@ public class AlgoFitPow extends AlgoElement{
         if(!geolist.isDefined() || (size<2) ) {	//24.04.08: 2
             geofunction.setUndefined();
             return;
-        }else{
-        	RegressionMath regMath = ((Kernel) kernel).getRegressionMath();
-            regok=regMath.doPow(geolist);
+        }
+        	RegressionMath regMath = kernel.getRegressionMath();
+            regok=regMath.doLog(geolist);
             if(regok){
                 a=regMath.getP1();
                 b=regMath.getP2();
                 MyDouble A=new MyDouble(kernel,a);
                 MyDouble B=new MyDouble(kernel,b);
                 FunctionVariable X=new FunctionVariable(kernel);
-                ExpressionValue expr=new ExpressionNode(kernel,X,Operation.POWER,B);
-                ExpressionNode node=new ExpressionNode(kernel,A,Operation.MULTIPLY,expr);
+                ExpressionValue expr=new ExpressionNode(kernel,X,Operation.LOG,X);
+                expr=new ExpressionNode(kernel,B,Operation.MULTIPLY,expr);
+                ExpressionNode node=new ExpressionNode(kernel,A,Operation.PLUS,expr);
                 Function f=new Function(node,X);
                 geofunction.setFunction(f); 
                 geofunction.setDefined(true);
@@ -91,7 +91,7 @@ public class AlgoFitPow extends AlgoElement{
                 geofunction.setUndefined();
                 return;  
             }//if error in regression   
-        }//if error in parameters
+        //if error in parameters
     }//compute()
     
-}// class AlgoFitPow
+}// class AlgoFitLog

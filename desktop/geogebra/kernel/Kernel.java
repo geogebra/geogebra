@@ -76,7 +76,6 @@ import geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
 import geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -94,6 +93,9 @@ import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.io.MyXMLHandler;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.kernel.algos.AlgoDrawingPadCorner;
+import geogebra.common.kernel.algos.AlgoFitPoly;
+import geogebra.common.kernel.algos.AlgoFitPow;
+import geogebra.common.kernel.algos.AlgoFitSin;
 import geogebra.common.kernel.algos.AlgoFrequencyPolygon;
 import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomialConic;
@@ -151,7 +153,6 @@ public class Kernel extends AbstractKernel{
 	
 	private EquationSolver eqnSolver;
 	private SystemOfEquationsSolver sysEqSolv;
-	private RegressionMath regMath;
 	private ExtremumFinder extrFinder;
 	protected Parser parser;
 
@@ -289,11 +290,6 @@ public class Kernel extends AbstractKernel{
 		return extrFinder;
 	}
 	
-	final public RegressionMath getRegressionMath() {
-		if (regMath == null)
-			regMath = new RegressionMath();
-		return regMath;
-	}
 	
 	@Override
 	final public Parser getParser() {

@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
@@ -23,7 +23,6 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Kernel;
 
 /**
  * Fits an a*e^(b*x) to a list of pints. Adapted from AlgoFitLine and
@@ -47,7 +46,7 @@ public class AlgoFitExp extends AlgoElement {
 	public AlgoFitExp(Construction cons, GeoList geolist) {
 		super(cons);
 
-		regMath = ((Kernel)kernel).getRegressionMath();
+		regMath = kernel.getRegressionMath();
 
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
@@ -86,13 +85,13 @@ public class AlgoFitExp extends AlgoElement {
 				MyDouble A = new MyDouble(kernel, a);
 				MyDouble B = new MyDouble(kernel, b);
 				// 24.04.08: not: MyDouble E=new MyDouble(kernel,Math.E);
-				FunctionVariable X = new FunctionVariable((Kernel)kernel);
-				ExpressionValue expr = new ExpressionNode((Kernel)kernel, B,
+				FunctionVariable X = new FunctionVariable(kernel);
+				ExpressionValue expr = new ExpressionNode(kernel, B,
 						Operation.MULTIPLY, X);
-				expr = new ExpressionNode((Kernel)kernel, expr, Operation.EXP,
+				expr = new ExpressionNode(kernel, expr, Operation.EXP,
 						null); // 24.04.08: changed 2.71..to "e" with the null
 								// trick!
-				ExpressionNode node = new ExpressionNode((Kernel)kernel, A,
+				ExpressionNode node = new ExpressionNode(kernel, A,
 						Operation.MULTIPLY, expr);
 				Function f = new Function(node, X);
 				geofunction.setFunction(f);

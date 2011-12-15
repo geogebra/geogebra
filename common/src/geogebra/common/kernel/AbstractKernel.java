@@ -129,6 +129,7 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
+import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.main.MyError;
@@ -157,6 +158,7 @@ public abstract class AbstractKernel {
 	protected int algebraStyle = AbstractKernel.ALGEBRA_STYLE_VALUE;// private
 	// end G.Sturr
 	private MacroManager macroManager;
+	private RegressionMath regMath;
 	/**
 	 * Specifies whether possible line breaks are to be marked in the String
 	 * representation of {@link ExpressionNode ExpressionNodes}.
@@ -4781,4 +4783,9 @@ public abstract class AbstractKernel {
 
 		public abstract AbstractGeoTextField getGeoTextField(Construction cons);
 
+		final public RegressionMath getRegressionMath() {
+			if (regMath == null)
+				regMath = new RegressionMath();
+			return regMath;
+		}
 }

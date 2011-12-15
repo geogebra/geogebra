@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;

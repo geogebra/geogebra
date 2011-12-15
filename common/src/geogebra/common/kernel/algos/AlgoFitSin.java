@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.algos;
 
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 */
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -24,8 +24,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
 
 
 /**************
@@ -102,7 +102,7 @@ public class AlgoFitSin extends AlgoElement{
 	
 	// Properties
 	private static AbstractApplication app=	null;
-	private static geogebra.kernel.Kernel 	 k  =   null;
+	private static AbstractKernel 	 k  =   null;
     private static double 					 a,b,c,d;			//a+bsin(cx+d)
     private static double[] 				 xd,yd;				//datapoints
     private static int      				 size;				//data arrays
@@ -124,7 +124,7 @@ public class AlgoFitSin extends AlgoElement{
     public AlgoFitSin(Construction cons, GeoList geolist) {
         super(cons);
         app=kernel.getApplication();
-        k=(Kernel) app.getKernel();
+        k=app.getKernel();
         this.geolist=geolist;
         geofunction=new GeoFunction(cons);
         setInputOutput();

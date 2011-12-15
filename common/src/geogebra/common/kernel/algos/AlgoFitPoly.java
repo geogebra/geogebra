@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.algos;
 
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
@@ -14,12 +14,11 @@ the Free Software Foundation.
 
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.statistics.RegressionMath;
 
 
 
@@ -79,7 +78,7 @@ public class AlgoFitPoly extends AlgoElement{
             geofunction.setUndefined();
             return;
         }else{
-        	RegressionMath regMath = ((Kernel) kernel).getRegressionMath();
+        	RegressionMath regMath = kernel.getRegressionMath();
             switch(par){
             case RegressionMath.LINEAR:          //24.04.08: moved up linear case from default
             	   	regok=regMath.doLinear(geolist);

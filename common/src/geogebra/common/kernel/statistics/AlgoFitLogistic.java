@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
@@ -27,7 +27,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
 
 
 
@@ -93,7 +92,7 @@ public final class AlgoFitLogistic extends AlgoElement{
 	
 	// Properties
 	private static AbstractApplication app=	null;
-	private static Kernel 	 k  =   null;
+	private static AbstractKernel 	 k  =   null;
     private static double 		a,b,c;				//c/(1+a*exp(-bx))
     private static double[] 	xd,yd;				//datapoints
     private static int      	size;				//of xd and yd
@@ -117,7 +116,7 @@ public final class AlgoFitLogistic extends AlgoElement{
     public AlgoFitLogistic(Construction cons, GeoList geolist) {
         super(cons);
         app=kernel.getApplication();
-        k=(Kernel)app.getKernel();
+        k=app.getKernel();
         this.geolist=geolist;
         geofunction=new GeoFunction(cons);
         setInputOutput();
