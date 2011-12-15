@@ -84,7 +84,7 @@ office@geogebra.org
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
 	<target name="compile-grammar">
 		<javacc
-		   target="./geogebra/kernel/parser/Parser.jj"
+		   target="../common/src/geogebra/common/kernel/parser/Parser.jj"
 		   javacchome="${src.dir}/lib/build/javacc"
 		   static="false"
 		/>
