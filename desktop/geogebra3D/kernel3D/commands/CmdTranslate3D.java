@@ -2,6 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -12,7 +13,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CmdAngle;
 import geogebra.kernel.commands.CmdTranslate;
 
 public class CmdTranslate3D extends CmdTranslate {

@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * AngularBisector[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] AngularBisector[
  * <GeoLine>, <GeoLine> ]
  */
-class CmdAngularBisector extends CommandProcessorDesktop {
+public class CmdAngularBisector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ class CmdAngularBisector extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAngularBisector(Kernel kernel) {
+	public CmdAngularBisector(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -36,7 +36,7 @@ class CmdAngularBisector extends CommandProcessorDesktop {
 			// angular bisector of 2 lines
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				return kernel.AngularBisector(c.getLabels(), (GeoLine) arg[0],
+				return kernelA.AngularBisector(c.getLabels(), (GeoLine) arg[0],
 						(GeoLine) arg[1]);
 			} else {
 				if (!ok[0]) {
@@ -53,7 +53,7 @@ class CmdAngularBisector extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel.AngularBisector(c.getLabel(),
+				GeoElement[] ret = { kernelA.AngularBisector(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
 						(GeoPoint2) arg[2]) };
 				return ret;

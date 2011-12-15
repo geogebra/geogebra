@@ -2304,7 +2304,6 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	
-	
 	/** ANOVATest[]  */
 	final public GeoList ANOVATest(String label, GeoList dataArrayList) {
 		AlgoANOVA algo = new AlgoANOVA((Construction)cons, label, dataArrayList);
@@ -4536,14 +4535,6 @@ public class Kernel extends AbstractKernel{
 		return length;
 	}
 
-	/** 
-	 * angle of c (angle between first eigenvector and (1,0))
-	 */
-	final public GeoAngle Angle(String label, GeoConic c) {
-		AlgoAngleConic algo = new AlgoAngleConic((Construction)cons, label, c);
-		GeoAngle angle = algo.getAngle();
-		return angle;
-	}
 
 	/********************************************************************
 	 * TRANSFORMATIONS
@@ -5091,19 +5082,7 @@ public class Kernel extends AbstractKernel{
 		GeoPoint2 [] g = algo.getRootPoints();
 		return g;
 	}	
-	/**
-	 * Victor Franco Espino 18-04-2007: New commands
-	 *
-	 * Calculate affine ratio: (A,B,C) = (t(C)-t(A)) : (t(C)-t(B)) 
-	 */
 
-	final public GeoNumeric AffineRatio(String label, GeoPoint2 A, GeoPoint2 B,
-			GeoPoint2 C) {
-		AlgoAffineRatio affine = new AlgoAffineRatio((Construction)cons, label, A, B, C);
-		GeoNumeric M = affine.getResult();
-		return M;
-
-	}
 
 	  
 

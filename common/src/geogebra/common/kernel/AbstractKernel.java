@@ -4,6 +4,8 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.kernel.algos.AlgoAffineRatio;
+import geogebra.common.kernel.algos.AlgoAngleConic;
 import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAngleNumeric;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
@@ -3540,7 +3542,30 @@ public abstract class AbstractKernel {
 		GeoAngle angle = algo.getAngle();
 		return angle;
 	}
+	
+	/** 
+	 * angle of c (angle between first eigenvector and (1,0))
+	 */
+	final public GeoAngle Angle(String label, GeoConic c) {
+		AlgoAngleConic algo = new AlgoAngleConic(cons, label, c);
+		GeoAngle angle = algo.getAngle();
+		return angle;
+	}
 
+	/**
+	 * Victor Franco Espino 18-04-2007: New commands
+	 *
+	 * Calculate affine ratio: (A,B,C) = (t(C)-t(A)) : (t(C)-t(B)) 
+	 */
+
+	final public GeoNumeric AffineRatio(String label, GeoPoint2 A, GeoPoint2 B,
+			GeoPoint2 C) {
+		AlgoAffineRatio affine = new AlgoAffineRatio(cons, label, A, B, C);
+		GeoNumeric M = affine.getResult();
+		return M;
+
+	}
+	
 	/**
 	 * Function in x, e.g. f(x) = 4 x��� + 3 x���
 	 */

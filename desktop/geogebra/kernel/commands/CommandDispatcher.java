@@ -14,6 +14,9 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.CmdAffineRatio;
+import geogebra.common.kernel.commands.CmdAngle;
+import geogebra.common.kernel.commands.CmdAngularBisector;
 import geogebra.common.kernel.commands.CmdLine;
 import geogebra.common.kernel.commands.CmdLineBisector;
 import geogebra.common.kernel.commands.CmdSegment;

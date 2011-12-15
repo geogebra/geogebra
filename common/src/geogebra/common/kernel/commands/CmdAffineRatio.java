@@ -1,24 +1,24 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * AffineRatio[<Point>,<Point>,<Point>]
  * 
  * @author Victor Franco Espino
  */
-class CmdAffineRatio extends CommandProcessorDesktop {
+public class CmdAffineRatio extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAffineRatio(Kernel kernel) {
+	public CmdAffineRatio(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,7 +33,7 @@ class CmdAffineRatio extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel
+				GeoElement[] ret = { kernelA
 						.AffineRatio(c.getLabel(), (GeoPoint2) arg[0],
 								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
