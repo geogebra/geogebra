@@ -1,11 +1,20 @@
-#Wed Dec 14 20:26:23 CET 2011
 CLEAR_CONSOLE=true
+# This is the only required setting for GeoGebra compilation:
 JAVACC_OPTIONS=-STATIC\=false
 JJDOC_OPTIONS=
 JJTREE_OPTIONS=
-JJ_NATURE=false
-JTB_OPTIONS=-ia -jd -tk
-RUNTIME_JJJAR=/home/kondr/bin/eclipse/plugins/sf.eclipse.javacc_1.5.24/javacc.jar
-RUNTIME_JTBJAR=/home/kondr/bin/eclipse/plugins/sf.eclipse.javacc_1.5.24/jtb-1.4.4.jar
+JJ_NATURE=true
+JTB_OPTIONS=
+RUNTIME_JAR=
+# We use the JavaCC plugin for the Eclipse build and
+# an external javacc.jar for the command line build
+# (../lib/build/javacc/javacc.jar):
+# RUNTIME_JJJAR=${project_loc}/lib/build/javacc/javacc.jar
+# RUNTIME_JTBJAR=${project_loc}/lib/build/javacc/jtb-1.4.0.jar
+# Since the installation directory for the JavaCC plugin can
+# be various, we don't set these variables here:
+# RUNTIME_JJJAR=${eclipse_home}/plugins/sf.eclipse.javacc_1.5.24/javacc.jar
+# RUNTIME_JTBJAR=${eclipse_home}/plugins/sf.eclipse.javacc_1.5.24/jtb-1.4.4.jar
+SHOW_CONSOLE=true
 SUPPRESS_WARNINGS=false
 eclipse.preferences.version=1
