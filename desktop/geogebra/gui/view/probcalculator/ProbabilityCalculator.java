@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.statistics.AlgoBinomialDist;
 import geogebra.common.kernel.statistics.AlgoHyperGeometric;
 import geogebra.common.kernel.statistics.AlgoInversePascal;
 import geogebra.common.kernel.statistics.AlgoInversePoisson;
@@ -49,7 +50,6 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.statistics.AlgoBinomialDist;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.main.Application;
 
