@@ -18,10 +18,8 @@
 
 package geogebra.util;
 
-import geogebra.common.awt.ColorAdapter;
 import geogebra.main.Application;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyListener;

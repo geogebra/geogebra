@@ -18,4 +18,6 @@ public interface GgbMat {
 	public double getDeterminant();
 
 	public void transposeImmediate();
+
+	public void reducedRowEchelonFormImmediate();
 }

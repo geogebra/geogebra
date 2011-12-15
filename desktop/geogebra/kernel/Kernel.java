@@ -98,20 +98,20 @@ import geogebra.common.kernel.algos.AlgoFitPow;
 import geogebra.common.kernel.algos.AlgoFitSin;
 import geogebra.common.kernel.algos.AlgoFrequencyPolygon;
 import geogebra.common.kernel.algos.AlgoHistogram;
+import geogebra.common.kernel.algos.AlgoIntersectFunctions;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomialConic;
+import geogebra.common.kernel.algos.AlgoPolynomialFromFunction;
+import geogebra.common.kernel.algos.AlgoReducedRowEchelonForm;
 import geogebra.common.kernel.algos.AlgoRootInterval;
 import geogebra.common.kernel.algos.AlgoSurdText;
 import geogebra.common.kernel.algos.AlgoSurdTextPoint;
 import geogebra.kernel.algos.AlgoFrequency;
 import geogebra.kernel.algos.AlgoFrequencyTable;
 import geogebra.kernel.algos.AlgoIntersectFunctionLineNewton;
-import geogebra.kernel.algos.AlgoIntersectFunctions;
 import geogebra.kernel.algos.AlgoIntersectFunctionsNewton;
 import geogebra.kernel.algos.AlgoNormalQuantilePlot;
 import geogebra.kernel.algos.AlgoPolygonIntersection;
 import geogebra.kernel.algos.AlgoPolygonUnion;
-import geogebra.kernel.algos.AlgoPolynomialFromFunction;
-import geogebra.kernel.algos.AlgoReducedRowEchelonForm;
 import geogebra.kernel.algos.AlgoRootNewton;
 import geogebra.kernel.algos.AlgoSolveODE;
 import geogebra.kernel.algos.AlgoSolveODE2;
@@ -5558,7 +5558,10 @@ public class Kernel extends AbstractKernel{
 		return new GgbMat((MyList)myList);
 	}
 
-	
+	@Override 
+	public GgbMat getGgbMat(GeoList inputList) {
+		return new GgbMat(inputList);
+	}	
 		
 	
 	@Override

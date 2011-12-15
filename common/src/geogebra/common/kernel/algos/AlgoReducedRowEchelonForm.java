@@ -10,13 +10,12 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.util.GgbMat;
+import geogebra.common.util.GgbMat;
 
 /**
  * ReducedRowEchelonForm a matrix. Adapted from AlgoSort
@@ -72,7 +71,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
     @Override
 	public final void compute() {
     	   		
-   		GgbMat matrix = new GgbMat(inputList);
+   		GgbMat matrix = cons.getKernel().getGgbMat(inputList);
    		
    		if (matrix.isUndefined()) {
   			outputList.setUndefined();

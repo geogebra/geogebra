@@ -3289,6 +3289,8 @@ public abstract class AbstractKernel {
 	 */
 	@Deprecated
 	public abstract GgbMat getGgbMat(MyList myList);
+	
+	public abstract GgbMat getGgbMat(GeoList inputList);
 
 	/**
 	 * Get {@link Kernel#insertLineBreaks insertLineBreaks}.
@@ -4788,4 +4790,6 @@ public abstract class AbstractKernel {
 				regMath = new RegressionMath();
 			return regMath;
 		}
+
+		
 }

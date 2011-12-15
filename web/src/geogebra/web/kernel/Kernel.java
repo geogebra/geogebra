@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -229,6 +230,12 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public AbstractGeoTextField getGeoTextField(Construction cons) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GgbMat getGgbMat(GeoList inputList) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
