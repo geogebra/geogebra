@@ -3,7 +3,7 @@
 	<classpathentry excluding="geogebra/jre/|geogebra/webapache/" kind="src" path="src"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="src" path="war/WEB-INF/lib"/>
-	<classpathentry excluding="java/" kind="src" path="src/geogebra/jre"/>
+	<classpathentry excluding="java/|geogebra/common/kernel/parser/|geogebra/common/kernel/|geogebra/common/|geogebra/" kind="src" path="src/geogebra/jre"/>
 	<classpathentry excluding="org/" kind="src" path="src/geogebra/webapache"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>

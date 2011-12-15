@@ -21,7 +21,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.parser.Parser;
+import geogebra.common.kernel.parser.Parser;
 
 /**
  * Try to expand the given function to a polynomial.

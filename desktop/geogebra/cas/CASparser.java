@@ -24,8 +24,8 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.parser.ParseException;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.parser.ParseException;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.

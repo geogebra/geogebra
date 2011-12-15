@@ -9,10 +9,10 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.parser.ParseException;
+import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.kernel.parser.ParseException;
-import geogebra.kernel.parser.Parser;
 
 
 /**

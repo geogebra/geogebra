@@ -57,6 +57,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -65,7 +66,6 @@ import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.TraceSettings;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.kernel.parser.Parser;
 
 import java.util.ArrayList;
 import java.util.Collection;

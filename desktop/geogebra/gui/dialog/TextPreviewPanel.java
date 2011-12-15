@@ -9,14 +9,14 @@ import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.parser.ParseException;
+import geogebra.common.kernel.parser.TokenMgrError;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.parser.ParseException;
-import geogebra.kernel.parser.TokenMgrError;
 import geogebra.main.Application;
 
 import java.awt.Color;
