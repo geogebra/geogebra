@@ -150,9 +150,8 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	/**
 	 * ends the current face and store it in the faces list
-	 * @return face created
 	 */
-	public int endCurrentFace() {
+	public void endCurrentFace() {
 		currentFace.setDirection();
 		
 		//Application.debug(polygonsIndexMax);
@@ -162,9 +161,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
 		
-		return polygonsIndexMax-1;
-
-
 	}
 	
 
@@ -644,6 +640,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 		return ret;
 	}
+	
 
 	public GeoPolygon3D[] getFaces() {
 		GeoPolygon3D[] polygonsArray = new GeoPolygon3D[polygons.size()];

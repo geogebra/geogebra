@@ -3,6 +3,8 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
+import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -19,7 +21,8 @@ import geogebra3D.archimedean.support.IFace;
  */
 public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
-	
+
+	protected OutputHandler<GeoSegment3D> outputSegments;
 	
 	private GeoPointND A, B;
 	private GeoDirectionND v;
@@ -59,7 +62,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		matrix = new CoordMatrix4x4();
 
-		createPolyhedron(polyhedron);
+		createPolyhedron();
 		
 		compute();
 		
@@ -100,12 +103,30 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 	}
 	
+	@Override
+	protected void createOutputSegments(){
+		outputSegments=createOutputSegmentsHandler();
+	}
+	
+
+	
+
+	@Override
+	protected void updateOutput(){
+		
+		//add polyhedron's segments and polygons, without setting this algo as algoparent
+		
+		outputPolygons.addOutput(polyhedron.getFaces(),false,false);
+		outputSegments.addOutput(polyhedron.getSegments(),false,true);
+		
+	}
+
 	
 	/**
 	 * create the polyhedron (faces and edges)
 	 * @param polyhedron
 	 */
-	protected void createPolyhedron(GeoPolyhedron polyhedron) {
+	protected void createPolyhedron() {
 		
 		IArchimedeanSolid solid = ArchimedeanSolidFactory.create(name);
 		int vertexCount = solid.getVertexCount();
@@ -142,7 +163,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	@Override
 	public void compute() {
 		
-		getPolyhedron().setDefined();
+		polyhedron.setDefined();
 		
 		Coords o = getA().getInhomCoordsInD(3);
 		
@@ -192,7 +213,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	
 	
 	private void setUndefined(){
-		getPolyhedron().setUndefined();
+		polyhedron.setUndefined();
 		
 		for (int i=0; i<outputPoints.size(); i++)
 			outputPoints.getElement(i).setUndefined();

@@ -1,14 +1,12 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
 
 /**
@@ -21,6 +19,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 
 	
 	private GeoPointND[] bottomPoints;
+	protected GeoPointND[] points;
 	private GeoPointND topPoint;
 	protected GeoPolygon bottom;
 	private NumberValue height;
@@ -28,7 +27,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	protected boolean bottomAsInput = false;
 	protected int bottomPointsLength = -1;
 	
-
+	protected OutputHandler<GeoSegment3D> outputSegmentsBottom, outputSegmentsSide, outputSegmentsTop;
 	
 	
 	/////////////////////////////////////////////
@@ -44,7 +43,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPointND[] points) {
 		super(c);
-
+		setIsOldFileVersion();
 
 		bottomPoints = new GeoPointND[points.length-1];
 		for (int i=0; i<points.length-1; i++)
@@ -54,7 +53,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
-		createPolyhedron(polyhedron);
+		createPolyhedron();
 		
 		
 		update();
@@ -81,6 +80,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon, GeoPointND point) {
 		super(c);
+		setIsOldFileVersion();
 		
 		bottom = polygon;
 		bottomAsInput = true;
@@ -89,7 +89,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
-		createPolyhedron(polyhedron);
+		createPolyhedron();
 
 		update();
 		
@@ -109,12 +109,41 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	}
 	
 	
-	protected void setLabels(String[] labels){
-		getPolyhedron().initLabels(labels);
+	
+	@Override
+	protected void createOutputSegments(){
+		outputSegmentsBottom=createOutputSegmentsHandler();
+		outputSegmentsSide=createOutputSegmentsHandler();
+		outputSegmentsTop=createOutputSegmentsHandler();
 	}
 	
+	
+
+	protected void setLabels(String[] labels){
+		if (labels==null || labels.length <= 1 || isOldFileVersion())
+			polyhedron.initLabels(labels);
+		else{
+			for (int i=0; i<labels.length; i++)
+				getOutput(i).setLabel(labels[i]);
+		}
+		
+	}
+
+	
+	private boolean isOldFileVersion;
+	
+	/**
+	 * sets if it's an old file version
+	 */
+	protected void setIsOldFileVersion(){
+		isOldFileVersion = app.fileVersionBefore(Application.getSubValues("4.9.10.0"));
+	}
+	
+	/**
+	 * @return if it's an old file version
+	 */	
 	protected boolean isOldFileVersion(){
-		return app.fileVersionBefore(Application.getSubValues("4.9.10.0"));
+		return isOldFileVersion;
 	}
 	
 	/** creates a polyhedron regarding bottom face and top vertex 
@@ -125,8 +154,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
 		super(c);
-
-		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
+		setIsOldFileVersion();
 		
 		bottom = polygon;
 		bottomAsInput = true;
@@ -136,7 +164,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		outputPoints.augmentOutputSize(1);
 		topPoint=outputPoints.getElement(0);
 		polyhedron.addPointCreated((GeoPoint3D) topPoint);
-		createPolyhedron(polyhedron);
+		createPolyhedron();
 		
 		update();
 		
@@ -152,7 +180,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		if (height instanceof GeoNumeric){
 			if (((GeoNumeric) height).isIndependent()){
 
-				for (GeoPolygon p : getPolyhedron().getPolygons()){
+				for (GeoPolygon p : polyhedron.getPolygons()){
 					p.setCoordParentNumber((GeoNumeric) height);
 					p.setCoordParentDirector(bottom);
 				}
@@ -165,15 +193,21 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		setLabels(labels);
 	}
 
+    
+	
     protected void updateFaces(){
-    	getPolyhedron().updateFacesDeprecated();
+    	
+    	if (isOldFileVersion())
+    		polyhedron.updateFacesDeprecated();
+    	else
+    		polyhedron.updateFaces();
     }
 	
 	/**
 	 * create the polyhedron (faces and edges)
 	 * @param polyhedron
 	 */
-	protected abstract void createPolyhedron(GeoPolyhedron polyhedron);
+	protected abstract void createPolyhedron();
 	
 	protected abstract void addBottomPoints(int length);
 	
@@ -184,19 +218,17 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * @param polyhedron
 	 * @return bottom key (if one)
 	 */
-	protected int setBottom(GeoPolyhedron polyhedron){
+	protected void setBottom(GeoPolyhedron polyhedron){
 		if (bottom!=null){
 			polyhedron.addPolygonLinked(bottom);
-			return -1;
 		}else{
 			GeoPointND[] bottomPoints = getBottomPoints();
 			
 			polyhedron.startNewFace();
 			for (int i=0; i<bottomPoints.length; i++){
-				//polyhedron.createSegment(bottomPoints[i], bottomPoints[(i+1)%(bottomPointsLength)]);
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
 			}
-			return polyhedron.endCurrentFace();
+			polyhedron.endCurrentFace();
 		}
 	}
 	
@@ -297,8 +329,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * @param visible
 	 */
 	public void setOutputSegmentsAndPolygonsEuclidianVisible(boolean visible){
-		for (int i=0; i<outputSegments.size(); i++)
-			outputSegments.getElement(i).setEuclidianVisible(visible);
+		for (int i=0; i<outputSegmentsBottom.size(); i++)
+			outputSegmentsBottom.getElement(i).setEuclidianVisible(visible);
+		for (int i=0; i<outputSegmentsSide.size(); i++)
+			outputSegmentsSide.getElement(i).setEuclidianVisible(visible);
+		for (int i=0; i<outputSegmentsTop.size(); i++)
+			outputSegmentsTop.getElement(i).setEuclidianVisible(visible);
 		for (int i=0; i<outputPolygons.size(); i++)
 			outputPolygons.getElement(i).setEuclidianVisible(visible, false);
 	}
@@ -307,8 +343,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * notify kernel update of output segments and polygons
 	 */
 	public void notifyUpdateOutputSegmentsAndPolygons(){
-		for (int i=0; i<outputSegments.size(); i++)
-			getKernel().notifyUpdate(outputSegments.getElement(i));
+		for (int i=0; i<outputSegmentsBottom.size(); i++)
+			getKernel().notifyUpdate(outputSegmentsBottom.getElement(i));
+		for (int i=0; i<outputSegmentsSide.size(); i++)
+			getKernel().notifyUpdate(outputSegmentsSide.getElement(i));
+		for (int i=0; i<outputSegmentsTop.size(); i++)
+			getKernel().notifyUpdate(outputSegmentsTop.getElement(i));
 		for (int i=0; i<outputPolygons.size(); i++)
 			getKernel().notifyUpdate(outputPolygons.getElement(i));
 	}
@@ -372,7 +412,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		return height;
 	}
     
-	
 	
 	
 	

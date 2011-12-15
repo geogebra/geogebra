@@ -1,8 +1,12 @@
 package geogebra3D.kernel3D;
 
+import java.util.Collection;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * @author ggb3D
@@ -23,24 +27,35 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 	}
 	
-	protected void createPolyhedron(GeoPolyhedron polyhedron){
+	protected void createPolyhedron(){
 
 		GeoPointND[] bottomPoints = getBottomPoints();
 		GeoPointND topPoint = getTopPoint();
 		
-		int numPoints = bottomPoints.length;
-		
+		bottomPointsLength = bottomPoints.length;
 		
 
+		///////////
+		//vertices
+		///////////
+
+		points = new GeoPointND[bottomPointsLength+1];
+		for(int i=0;i<bottomPointsLength;i++)
+			points[i] = bottomPoints[i];
+		points[bottomPointsLength] = topPoint;
+
+		///////////
+		//faces
+		///////////
 
 		//base of the pyramid
 		setBottom(polyhedron);
 
 		//sides of the pyramid
-		for (int i=0; i<numPoints; i++){
+		for (int i=0; i<bottomPointsLength; i++){
 			polyhedron.startNewFace();
 			polyhedron.addPointToCurrentFace(bottomPoints[i]);
-			polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%(numPoints)]);
+			polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%(bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(topPoint);//apex
 			polyhedron.endCurrentFace();
 		}
@@ -69,7 +84,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	public void compute() {
 
 
-		GeoPolyhedron polyhedron = getPolyhedron();
 		GeoPointND[] bottomPoints = getBottomPoints();
 
 		//TODO remove this and replace with tesselation
@@ -92,5 +106,49 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
     	return "AlgoPyramid";
 
     }
+    
+    
+
+	protected void updateOutput(){
+		if (isOldFileVersion()){
+			//add polyhedron's segments and polygons, without setting this algo as algoparent		
+			int index = 0;
+			if (!bottomAsInput){ //check bottom
+				outputPolygons.addOutput(polyhedron.getFace(index), false);
+				index++;
+				for (int i=0; i<bottomPointsLength; i++)
+					outputSegmentsBottom.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[(i+1) % bottomPointsLength]),false);
+			}
+			
+			//sides
+			for (int i=0; i<bottomPointsLength; i++){
+				outputPolygons.addOutput(polyhedron.getFace(index), false);
+				index++;
+				outputSegmentsSide.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[bottomPointsLength]),false);
+			}
+
+		}else{
+			Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
+			int step = 1;
+			for (GeoPolygon polygon : faces){
+				outputPolygons.addOutput((GeoPolygon3D) polygon, false);
+				GeoSegmentND[] segments = polygon.getSegments();
+				if(step==1 && !bottomAsInput){//bottom
+					for (int i=0; i<segments.length; i++)
+						outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],false);	
+					step++;
+				}else{//sides
+					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);		
+					step++;
+				}
+			}
+		}
+		
+
+		
+		refreshOutput();
+		
+	}
+
 	
 }

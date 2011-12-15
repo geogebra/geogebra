@@ -7,6 +7,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.CommandProcessorDesktop;
+import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
 
@@ -43,9 +44,11 @@ public class CmdPyramid extends CommandProcessorDesktop {
             }
         }
         // everything ok
-        return kernel.getManager3D().Pyramid(c.getLabels(), points);
-		
-		
+		GeoElement[] ret = kernel.getManager3D().Pyramid(c.getLabels(), points);
+		//for older version, make forcing labels not working
+		if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+			return new GeoElement[] {ret[0]};
+		return ret;
 
 	}
 

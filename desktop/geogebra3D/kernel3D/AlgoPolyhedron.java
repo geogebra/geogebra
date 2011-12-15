@@ -1,6 +1,8 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
+import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -15,13 +17,14 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 
 	
 	
-	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
 	
 	/** points generated as output  */
 	protected OutputHandler<GeoPoint3D> outputPoints;
 
 	protected OutputHandler<GeoPolyhedron> outputPolyhedron;
+	
+	protected GeoPolyhedron polyhedron;
 	
 	
 	/////////////////////////////////////////////
@@ -40,9 +43,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 			}
 		});
 		
-
 		outputPolyhedron.adjustOutputSize(1);
-		//polyhedron = outputPolyhedron.getElement(0);
+		polyhedron = getPolyhedron();
+		
 		
 		
 		outputPoints=new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
@@ -62,20 +65,33 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 			}
 		});
 		
-		
+		createOutputSegments();
 			
 		
-		outputSegments=new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
+		
+		
+
+
+		
+		
+	}
+	
+	/**
+	 * create the output segments handlers
+	 */
+	abstract protected void createOutputSegments();
+		
+	/**
+	 * 
+	 * @return an output handler for segments
+	 */
+	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler(){
+		return new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
 			public GeoSegment3D newElement() {
 				GeoSegment3D s=new GeoSegment3D(cons);
 				return s;
 			}
 		});
-		
-
-
-		
-		
 	}
 	
 
@@ -86,15 +102,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	}
 	
 	
-	protected void updateOutput(){
-		
-		//add polyhedron's segments and polygons, without setting this algo as algoparent
-		GeoPolyhedron polyhedron = getPolyhedron();
-		
-		outputPolygons.addOutput(polyhedron.getFaces(),false,false);
-		outputSegments.addOutput(polyhedron.getSegments(),false,true);
-		
-	}
+	abstract protected void updateOutput();
 
 	
 
@@ -123,7 +131,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
         compute();
         
         //polyhedron
-        getPolyhedron().update();
+        polyhedron.update();
         
 
     }
@@ -135,7 +143,6 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	
 	protected void getOutputXML(StringBuilder sb){
 		super.getOutputXML(sb);
-		GeoPolyhedron polyhedron = getPolyhedron();
 		
 		//append XML for polygon and segments linked once more, to avoid override of specific properties		
 		for (GeoPolygon polygon : polyhedron.getPolygonsLinked())
