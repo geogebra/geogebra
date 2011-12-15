@@ -18,6 +18,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -656,4 +657,12 @@ GeoSegmentND {
 	public boolean isAllEndpointsLabelsSet() {
 		return !forceSimpleTransform && startPoint.isLabelSet() && endPoint.isLabelSet();		
 	}
+	
+	
+
+
+    public void modifyInputPoints(GeoPointND P, GeoPointND Q){
+    	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
+    	algo.modifyInputPoints((GeoPoint2) P, (GeoPoint2) Q);    	
+    }
 }

@@ -1,10 +1,9 @@
 package geogebra.common.kernel.kernelND;
 
+import geogebra.common.awt.Color;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LimitedPath;
-
-import geogebra.common.awt.Color;
 
 /**
  * Simple interface used to join GeoSegment and GeoSegment3D
@@ -90,5 +89,12 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath {
 	public void updateVisualStyle();
 
 	public boolean keepsTypeOnGeometricTransform();
+
+	/**
+	 * modify the input points
+	 * @param P new first point
+	 * @param Q new second point
+	 */
+	public void modifyInputPoints(GeoPointND P, GeoPointND Q);
 
 }

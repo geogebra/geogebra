@@ -132,7 +132,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
         //create 2 first segments
         outputSegments.augmentOutputSize(2,false);
         outputSegments.getElement(0).setAuxiliaryObject(false);
-        modifyInputPoints(outputSegments.getElement(1),B,A);
+        outputSegments.getElement(1).modifyInputPoints(B,A);
     
         // for AlgoElement
         setInputOutput(); 
@@ -276,7 +276,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     	//update new segments
     	for(int i=numOld-1; i<n; i++){
     		//Application.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
-            modifyInputPoints(outputSegments.getElement(i),points[i], points[(i+1)%n]);
+            outputSegments.getElement(i).modifyInputPoints(points[i], points[(i+1)%n]);
         }
 
     	
@@ -299,10 +299,6 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     
     
     
-    private void modifyInputPoints(GeoSegment segment, GeoPoint2 P, GeoPoint2 Q){
-    	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) segment.getParentAlgorithm();
-    	algo.modifyInputPoints(P,Q);    	
-    }
     
     /**
      * Ensures that the pointList holds n points.
@@ -341,9 +337,9 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     		}
     		//update last segment
     		if (n>2)
-    			modifyInputPoints(outputSegments.getElement(n-1),outputPoints.getElement(n-3),A);
+    			outputSegments.getElement(n-1).modifyInputPoints(outputPoints.getElement(n-3),A);
     		else
-    			modifyInputPoints(outputSegments.getElement(n-1),B,A);
+    			outputSegments.getElement(n-1).modifyInputPoints(B,A);
     	}
     	
     }
