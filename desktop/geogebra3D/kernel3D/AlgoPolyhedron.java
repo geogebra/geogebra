@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 /**
  * @author ggb3D
@@ -17,7 +18,6 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 
 	
 	
-	protected OutputHandler<GeoPolygon3D> outputPolygons;
 	
 	/** points generated as output  */
 	protected OutputHandler<GeoPoint3D> outputPoints;
@@ -34,6 +34,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	protected AlgoPolyhedron(Construction c){
 		super(c);
 
+		setIsOldFileVersion();
 
 		outputPolyhedron=new OutputHandler<GeoPolyhedron>(new elementFactory<GeoPolyhedron>() {
 			public GeoPolyhedron newElement() {
@@ -57,13 +58,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 			}
 		});
 		
-
-		outputPolygons=new OutputHandler<GeoPolygon3D>(new elementFactory<GeoPolygon3D>() {
-			public GeoPolygon3D newElement() {
-				GeoPolygon3D p=new GeoPolygon3D(cons);
-				return p;
-			}
-		});
+		createOutputPolygons();
+		
 		
 		createOutputSegments();
 			
@@ -76,13 +72,40 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 		
 	}
 	
+	
+	private boolean isOldFileVersion;
+	
+	/**
+	 * sets if it's an old file version
+	 */
+	protected void setIsOldFileVersion(){
+		isOldFileVersion = app.fileVersionBefore(Application.getSubValues("4.9.10.0"));
+	}
+	
+	/**
+	 * @return if it's an old file version
+	 */	
+	protected boolean isOldFileVersion(){
+		return isOldFileVersion;
+	}
+
+	/**
+	 * create the faces of the polyhedron
+	 */
+    protected void createFaces(){
+    	
+    	if (isOldFileVersion())
+    		polyhedron.updateFacesDeprecated();
+    	else
+    		polyhedron.createFaces();
+    }
+	
 	/**
 	 * create the output segments handlers
 	 */
 	abstract protected void createOutputSegments();
-		
+	
 	/**
-	 * 
 	 * @return an output handler for segments
 	 */
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler(){
@@ -94,6 +117,24 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 		});
 	}
 	
+
+	/**
+	 * create the output polygons handlers
+	 */
+	abstract protected void createOutputPolygons();
+		
+	
+	/**
+	 * @return an output handler for polygons
+	 */
+	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler(){
+		return new OutputHandler<GeoPolygon3D>(new elementFactory<GeoPolygon3D>() {
+			public GeoPolygon3D newElement() {
+				GeoPolygon3D p=new GeoPolygon3D(cons);
+				return p;
+			}
+		});
+	}
 
 	protected void addAlgoToInput(){
 		for (int i = 0; i < input.length; i++) {

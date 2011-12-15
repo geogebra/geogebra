@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
@@ -455,4 +456,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		thisSegment.setObjColor(objectColor);
 		
 	}
+	
+	   public void modifyInputPoints(GeoPointND P, GeoPointND Q){
+	    	AlgoJoinPoints3D algo = (AlgoJoinPoints3D) getParentAlgorithm();
+	    	algo.modifyInputPoints(P,Q);    	
+	    }
 }

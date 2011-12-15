@@ -21,6 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -157,6 +158,22 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
             poly.remove();
         }
     }  
+    
+    /**
+     * modify input points
+     * @param A first point
+     * @param B second point
+     */
+    public void modifyInputPoints(GeoPointND A, GeoPointND B){
+    	for (int i=0;i<2;i++)
+    		input[i].removeAlgorithm(this);
+    	
+    	P=A;
+    	Q=B;   	
+    	compute();
+    	setInputOutput();   	
+    	
+    }
     
 	public String getClassName() {
 		String s = 	"AlgoJoinPoints3D";

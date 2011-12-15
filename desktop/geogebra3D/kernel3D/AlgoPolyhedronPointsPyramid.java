@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -15,6 +16,8 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
  *
  */
 public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
+	
+
 
 	
 	/** creates a pyramid regarding vertices and faces description
@@ -65,11 +68,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		
 	}
 	
-	protected void addBottomPoints(int length){
-		
-	}
 	
-	protected void removeBottomPoints(int length){
+	protected void updateOutput(int n) {
 		
 	}
 	
@@ -114,7 +114,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			//add polyhedron's segments and polygons, without setting this algo as algoparent		
 			int index = 0;
 			if (!bottomAsInput){ //check bottom
-				outputPolygons.addOutput(polyhedron.getFace(index), false);
+				outputPolygonsBottom.addOutput(polyhedron.getFace(index), false);
 				index++;
 				for (int i=0; i<bottomPointsLength; i++)
 					outputSegmentsBottom.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[(i+1) % bottomPointsLength]),false);
@@ -122,7 +122,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			
 			//sides
 			for (int i=0; i<bottomPointsLength; i++){
-				outputPolygons.addOutput(polyhedron.getFace(index), false);
+				outputPolygonsSide.addOutput(polyhedron.getFace(index), false);
 				index++;
 				outputSegmentsSide.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[bottomPointsLength]),false);
 			}
@@ -131,13 +131,14 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
 			int step = 1;
 			for (GeoPolygon polygon : faces){
-				outputPolygons.addOutput((GeoPolygon3D) polygon, false);
 				GeoSegmentND[] segments = polygon.getSegments();
 				if(step==1 && !bottomAsInput){//bottom
+					outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
 					for (int i=0; i<segments.length; i++)
 						outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],false);	
 					step++;
 				}else{//sides
+					outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
 					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);		
 					step++;
 				}

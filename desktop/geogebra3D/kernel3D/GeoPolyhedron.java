@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -166,8 +167,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	/**
 	 * update the faces regarding vertices and faces description
+	 * @deprecated since version 4.9.10.0
 	 */
+	@Deprecated
 	public void updateFacesDeprecated() {
+		
+		AbstractApplication.debug("old file version");
 
 		// create missing faces
 		for (ConstructionElementCycle currentFace : polygonsIndex.keySet()) {
@@ -216,46 +221,59 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	}
 	
 	
-	public void updateFaces() {
 
+	/**
+	 * creates a polygon corresponding to the index
+	 * @param index index of the polygon
+	 * @return polygon corresponding
+	 */
+	public GeoPolygon3D createPolygon(int index) {
+		
+		currentFace = polygonsDescriptions.get(index);
+
+		// vertices of the face
+		GeoPointND[] p = new GeoPointND[currentFace.size()];
+
+		// edges linked to the face
+		GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
+		
+		GeoPointND endPoint = (GeoPointND) currentFace.get(0);
+		p[0] = endPoint; // first point for the polygon
+		GeoPointND firstPoint = endPoint;
+		int j;
+		for (j=1; j<currentFace.size(); j++) {
+			// creates edges
+			GeoPointND startPoint = endPoint;
+			endPoint = (GeoPointND) currentFace.get(j);
+			s[j-1] = createSegment(startPoint, endPoint);
+
+			// points for the polygon
+			p[j] = endPoint;
+
+		}
+		// last segment
+		s[j-1] = createSegment(endPoint, firstPoint);
+
+		/*
+		String st = "poly : ";
+		for (int i = 0; i < p.length; i++)
+			st += p[i].getLabel();
+		Application.debug(st);
+		*/
+
+		GeoPolygon3D polygon = createPolygon(p);
+		polygons.put(index, polygon);
+		polygon.setSegments(s);
+		
+		return polygon;
+	}
+	
+	/**
+	 * update the faces
+	 */
+	public void createFaces() {
 		for (int index = 0; index<polygonsDescriptions.size(); index++) {
-
-
-			currentFace = polygonsDescriptions.get(index);
-
-			// vertices of the face
-			GeoPointND[] p = new GeoPointND[currentFace.size()];
-
-			// edges linked to the face
-			GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
-			
-			GeoPointND endPoint = (GeoPointND) currentFace.get(0);
-			p[0] = endPoint; // first point for the polygon
-			GeoPointND firstPoint = endPoint;
-			int j;
-			for (j=1; j<currentFace.size(); j++) {
-				// creates edges
-				GeoPointND startPoint = endPoint;
-				endPoint = (GeoPointND) currentFace.get(j);
-				s[j-1] = createSegment(startPoint, endPoint);
-
-				// points for the polygon
-				p[j] = endPoint;
-
-			}
-			// last segment
-			s[j-1] = createSegment(endPoint, firstPoint);
-
-			/*
-			String st = "poly : ";
-			for (int i = 0; i < p.length; i++)
-				st += p[i].getLabel();
-			Application.debug(st);
-			*/
-
-			GeoPolygon3D polygon = createPolygon(p);
-			polygons.put(index, polygon);
-			polygon.setSegments(s);
+			createPolygon(index);
 		}
 	}
 
@@ -279,53 +297,6 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		return polygon;
 	}
 	
-	
-	/**
-	 * creates a polygon corresponding to the currentFace description
-	 * assume that vertices and edges are set
-	 * @param currentFace
-	 * @return polygon corresponding
-	 */
-	public GeoPolygon3D createPolygon(ConstructionElementCycle currentFace) {
-		
-		// vertices of the face
-		GeoPointND[] p = new GeoPointND[currentFace.size()];
-
-		// edges linked to the face
-		GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
-
-		Iterator<ConstructionElement> it2 = currentFace.iterator();
-		GeoPointND endPoint = (GeoPointND) it2.next();
-		int j = 0;
-		p[j] = endPoint; // first point for the polygon
-		GeoPointND firstPoint = endPoint;
-		for (; it2.hasNext();) {
-			// creates edges
-			GeoPointND startPoint = endPoint;
-			endPoint = (GeoPointND) it2.next();
-			s[j] = createSegment(startPoint, endPoint);
-
-			// points for the polygon
-			j++;
-			p[j] = endPoint;
-
-		}
-		// last segment
-		s[j] = createSegment(endPoint, firstPoint);
-
-		
-		String st = "poly : ";
-		for (int i = 0; i < p.length; i++)
-			st += p[i].getLabel();
-		Application.debug(st);
-		
-
-		GeoPolygon3D polygon = createPolygon(p);
-		polygons.put(polygonsIndex.get(currentFace), polygon);
-		polygon.setSegments(s);
-		
-		return polygon;
-	}
 	
 
 	/**

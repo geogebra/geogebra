@@ -8,6 +8,7 @@ import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.gui.SetLabels;
 import geogebra.kernel.Kernel;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
@@ -22,6 +23,7 @@ import geogebra3D.archimedean.support.IFace;
 public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
 
+	protected OutputHandler<GeoPolygon3D> outputPolygons;
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	
 	private GeoPointND A, B;
@@ -54,7 +56,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		this.name = name;
 		this.className = "Algo"+name;
 
-		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 
 		this.A=A;
 		this.B=B;
@@ -70,15 +71,38 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		setInput();	
 		addAlgoToInput();
 		
-		polyhedron.updateFacesDeprecated();
+		polyhedron.createFaces();
+		
 		polyhedron.setReverseNormals();
 		setOutput();
 		
 		
+		setLabels(labels);
         
-        polyhedron.initLabels(labels);
         
         update();
+	}
+	
+	
+	/**
+	 * set the labels
+	 * @param labels lables
+	 */
+	protected void setLabels(String[] labels){
+	
+		if(isOldFileVersion() && labels.length>1){
+			String name = labels[0];
+			labels = new String[1];
+			labels[0] = name;
+		}
+		
+		if (labels==null || labels.length <= 1 || isOldFileVersion())
+			polyhedron.initLabels(labels);
+		else{
+			for (int i=0; i<labels.length; i++)
+				getOutput(i).setLabel(labels[i]);
+		}
+		
 	}
 	
 	
@@ -108,7 +132,10 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		outputSegments=createOutputSegmentsHandler();
 	}
 	
-
+	@Override
+	protected void createOutputPolygons(){
+		outputPolygons=createOutputPolygonsHandler();
+	}
 	
 
 	@Override
