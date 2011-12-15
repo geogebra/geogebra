@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Area[ <GeoPoint>, ..., <GeoPoint> ] Area[ <GeoConic> ] Area[ <Polygon> ]
  * (returns Polygon directly)
  */
-class CmdArea extends CommandProcessorDesktop {
+public class CmdArea extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +20,7 @@ class CmdArea extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdArea(Kernel kernel) {
+	public CmdArea(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -34,13 +34,13 @@ class CmdArea extends CommandProcessorDesktop {
 
 			// area of conic
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernel.Area(c.getLabel(),
+				GeoElement[] ret = { kernelA.Area(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 			}
 			// area of polygon = polygon variable
 			else if (arg[0].isGeoPolygon()) {
-				GeoElement[] ret = { kernel.Area(c.getLabel(),
+				GeoElement[] ret = { kernelA.Area(c.getLabel(),
 						(GeoPolygon) arg[0]) };
 				return ret;
 			} else {
@@ -61,7 +61,7 @@ class CmdArea extends CommandProcessorDesktop {
 				}
 			}
 			// everything ok
-			GeoElement[] ret = { kernel.Area(c.getLabel(), points) };
+			GeoElement[] ret = { kernelA.Area(c.getLabel(), points) };
 			return ret;
 		} else {
 			throw argNumErr(app, c.getName(), n);

@@ -867,27 +867,8 @@ public class Kernel extends AbstractKernel{
 		return ret;
 	}
 	
-	/** 
-	 * returns the current x-axis step
-	 * Michael Borcherds 
-	 */
-	final public GeoNumeric AxisStepX(
-		String label) {
-		AlgoAxisStepX algo = new AlgoAxisStepX((Construction)cons, label);
-		GeoNumeric t = algo.getResult();
-		return t;
-	}
-	
-	/** 
-	 * returns the current y-axis step
-	 * Michael Borcherds 
-	 */
-	final public GeoNumeric AxisStepY(
-		String label) {
-		AlgoAxisStepY algo = new AlgoAxisStepY((Construction)cons, label);
-		GeoNumeric t = algo.getResult();
-		return t;
-	}
+
+
 	
 	/** 
 	 * returns the current construction protocol step
@@ -1448,32 +1429,7 @@ public class Kernel extends AbstractKernel{
 		return num;
 	}
 	
-	/** 
-	 * Area named label of  P[0], ..., P[n]
-	 */
-	final public GeoNumeric Area(String label, GeoPoint2 [] P) {
-		AlgoAreaPoints algo = new AlgoAreaPoints((Construction)cons, label, P);
-		GeoNumeric num = algo.getArea();
-		return num;
-	}
-	
-	/** 
-	 * Area named label of  conic
-	 */
-	final public GeoNumeric Area(String label, GeoConic c) {
-		AlgoAreaConic algo = new AlgoAreaConic((Construction)cons, label, c);
-		GeoNumeric num = algo.getArea();
-		return num;
-	}
-	
-	/** 
-	 * Area named label of  polygon
-	 */
-	final public GeoNumeric Area(String label, GeoPolygon p) {
-		AlgoAreaPolygon algo = new AlgoAreaPolygon((Construction)cons, label, p);
-		GeoNumeric num = algo.getArea();
-		return num;
-	}
+
 	
 	/** 
 	 * Mod[a, b]
@@ -4436,23 +4392,6 @@ public class Kernel extends AbstractKernel{
 		return tangents;
 	}
 	
-	/** 
-	 * asymptotes to c
-	 */
-	final public GeoLine[] Asymptote(String[] labels, GeoConic c) {
-		AlgoAsymptote algo = new AlgoAsymptote((Construction)cons, labels, c);
-		GeoLine[] asymptotes = algo.getAsymptotes();
-		return asymptotes;
-	}
-
-	/** 
-	 * axes of c
-	 */
-	final public GeoLine[] Axes(String[] labels, GeoConic c) {
-		AlgoAxes algo = new AlgoAxes((Construction)cons, labels, c);
-		GeoLine[] axes = algo.getAxes();
-		return axes;
-	}
 
 	/** 
 	 * first axis of c
@@ -4775,24 +4714,7 @@ public class Kernel extends AbstractKernel{
 		return algo.getResult();			
 	}
 	
-	/**
-	 * Asymptotes
-	 * Michael Borcherds 
-	 */
-	final public GeoList AsymptoteFunction(String label, GeoFunction func) {		
-		AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
-	/**
-	 * Asymptotes to ImplicitPoly
-	 * Michael Borcherds 
-	 */
-	final public GeoList AsymptoteImplicitpoly(String label, GeoImplicitPoly ip) {		
-		AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly((Construction)cons, label, ip);
-		return algo.getResult();			
-	}
-	
+
 	/**
 	 * Numerator
 	 * Michael Borcherds 

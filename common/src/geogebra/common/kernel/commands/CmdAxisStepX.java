@@ -1,14 +1,14 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *AxisStepX
  */
-class CmdAxisStepX extends CommandProcessorDesktop {
+public class CmdAxisStepX extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -16,7 +16,7 @@ class CmdAxisStepX extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAxisStepX(Kernel kernel) {
+	public CmdAxisStepX(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -26,7 +26,7 @@ class CmdAxisStepX extends CommandProcessorDesktop {
 		switch (n) {
 		case 0:
 
-			GeoElement[] ret = { kernel.AxisStepX(c.getLabel()) };
+			GeoElement[] ret = { kernelA.AxisStepX(c.getLabel()) };
 			return ret;
 
 		default:

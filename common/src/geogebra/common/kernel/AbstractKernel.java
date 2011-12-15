@@ -14,6 +14,14 @@ import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.algos.AlgoAngularBisectorLines;
 import geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
+import geogebra.common.kernel.algos.AlgoAreaConic;
+import geogebra.common.kernel.algos.AlgoAreaPoints;
+import geogebra.common.kernel.algos.AlgoAreaPolygon;
+import geogebra.common.kernel.algos.AlgoAsymptote;
+import geogebra.common.kernel.algos.AlgoAsymptoteFunction;
+import geogebra.common.kernel.algos.AlgoAxes;
+import geogebra.common.kernel.algos.AlgoAxisStepX;
+import geogebra.common.kernel.algos.AlgoAxisStepY;
 import geogebra.common.kernel.algos.AlgoCenterConic;
 import geogebra.common.kernel.algos.AlgoCentroidPolygon;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -123,6 +131,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -4816,5 +4825,90 @@ public abstract class AbstractKernel {
 			return regMath;
 		}
 
+		/** 
+		 * returns the current x-axis step
+		 * Michael Borcherds 
+		 */
+		final public GeoNumeric AxisStepX(
+			String label) {
+			AlgoAxisStepX algo = new AlgoAxisStepX(cons, label);
+			GeoNumeric t = algo.getResult();
+			return t;
+		}
 		
+		
+		/** 
+		 * returns the current y-axis step
+		 * Michael Borcherds 
+		 */
+		final public GeoNumeric AxisStepY(
+			String label) {
+			AlgoAxisStepY algo = new AlgoAxisStepY(cons, label);
+			GeoNumeric t = algo.getResult();
+			return t;
+		}
+		
+		/** 
+		 * asymptotes to c
+		 */
+		final public GeoLine[] Asymptote(String[] labels, GeoConic c) {
+			AlgoAsymptote algo = new AlgoAsymptote(cons, labels, c);
+			GeoLine[] asymptotes = algo.getAsymptotes();
+			return asymptotes;
+		}
+
+		/** 
+		 * axes of c
+		 */
+		final public GeoLine[] Axes(String[] labels, GeoConic c) {
+			AlgoAxes algo = new AlgoAxes(cons, labels, c);
+			GeoLine[] axes = algo.getAxes();
+			return axes;
+		}
+		
+		/**
+		 * Asymptotes
+		 * Michael Borcherds 
+		 */
+		final public GeoList AsymptoteFunction(String label, GeoFunction func) {		
+			AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons, label, func);
+			return algo.getResult();			
+		}
+		
+		/**
+		 * Asymptotes to ImplicitPoly
+		 * Michael Borcherds 
+		 */
+		final public GeoList AsymptoteImplicitpoly(String label, GeoImplicitPoly ip) {		
+			AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(cons, label, ip);
+			return algo.getResult();			
+		}
+		
+		/** 
+		 * Area named label of  P[0], ..., P[n]
+		 */
+		final public GeoNumeric Area(String label, GeoPoint2 [] P) {
+			AlgoAreaPoints algo = new AlgoAreaPoints(cons, label, P);
+			GeoNumeric num = algo.getArea();
+			return num;
+		}
+		
+		/** 
+		 * Area named label of  conic
+		 */
+		final public GeoNumeric Area(String label, GeoConic c) {
+			AlgoAreaConic algo = new AlgoAreaConic(cons, label, c);
+			GeoNumeric num = algo.getArea();
+			return num;
+		}
+		
+		/** 
+		 * Area named label of  polygon
+		 */
+		final public GeoNumeric Area(String label, GeoPolygon p) {
+			AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, label, p);
+			GeoNumeric num = algo.getArea();
+			return num;
+		}
+
 }
