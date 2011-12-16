@@ -2,7 +2,7 @@ package geogebra.common.awt;
 
 import java.util.Map;
 
-public interface Graphics2D {
+public abstract class Graphics2D {
 	
 	/**
 	 * Draws a 3-D highlighted outline of the specified rectangle.
