@@ -1,0 +1,36 @@
+#!/bin/sh
+# Explodes properties files from ggbtrans and inserts them into SVN.
+# SVN can confuse itself on file deletion and re-addition, so
+# we use a workaround by running the ./svnsync script.
+# Hopefully this will do the trick! Fingers crossed. ;-)
+
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# Edit these variables if needed:
+GGBTRANS_DIR=/home/arnaud/ggbtrans
+BRANCHES_DIR=/home/zoltan/svn/geogebra-branches
+SVNSYNC=`pwd`/svnsync
+
+# Updating SVN:
+cd $BRANCHES_DIR/ggb40
+svn update --force
+
+cd $BRANCHES_DIR/wiki
+svn update --force
+
+# Deleting old properties files:
+cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
+rm -f *.properties
+
+cd $BRANCHES_DIR/wiki/geogebra/properties
+rm -f *.properties
+
+# Explode the properties files:
+$GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
+cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
+$SVNSYNC
+
+$GGBTRANS_DIR/export.py wiki $BRANCHES_DIR/wiki/geogebra/properties
+cd $BRANCHES_DIR/wiki/geogebra/properties
+$SVNSYNC
+
