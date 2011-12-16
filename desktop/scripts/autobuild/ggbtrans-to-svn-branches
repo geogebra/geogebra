@@ -25,13 +25,14 @@ rm -f *.properties
 cd $BRANCHES_DIR/wiki/geogebra/properties
 rm -f *.properties
 
-# Explode the properties files:
+# Explode the properties files and commit:
 $GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 cp $BRANCHES_DIR/ggb40/geogebra/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
-$SVNSYNC
+`$SVNSYNC`
+svn commit -m "ggb40: *.properties files automatically updated from ggbtrans"
 
 $GGBTRANS_DIR/export.py wiki $BRANCHES_DIR/wiki/geogebra/properties
 cd $BRANCHES_DIR/wiki/geogebra/properties
-$SVNSYNC
-
+`$SVNSYNC`
+svn commit -m "wiki: *.properties files automatically updated from ggbtrans"
