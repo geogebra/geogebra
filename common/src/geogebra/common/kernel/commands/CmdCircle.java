@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.arithmetic.Command;
@@ -6,16 +6,16 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 
 /*
  * Circle[ <GeoPoint>, <GeoNumeric> ] Circle[ <GeoPoint>, <GeoPoint> ] Circle[
  * <GeoPoint>, <GeoPoint>, <GeoPoint> ]
  */
-public class CmdCircle extends CommandProcessorDesktop {
+public class CmdCircle extends CommandProcessor {
 	
-	public CmdCircle(Kernel kernel) {
+	public CmdCircle(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -31,7 +31,7 @@ public GeoElement[] process(Command c) throws MyError {
                 && (ok[1] = (arg[1] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.Circle(
+                         kernelA.Circle(
                             c.getLabel(),
                             (GeoPoint2) arg[0],
                             (NumberValue) arg[1])};
@@ -41,7 +41,7 @@ public GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernel.Circle(
+                         kernelA.Circle(
                             c.getLabel(),
                             (GeoPoint2) arg[0],
                             (GeoPoint2) arg[1])};
@@ -60,7 +60,7 @@ public GeoElement[] process(Command c) throws MyError {
                 && (ok[2] = (arg[2] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernel.Circle(
+                         kernelA.Circle(
                             c.getLabel(),
                             (GeoPoint2) arg[0],
                             (GeoPoint2) arg[1],

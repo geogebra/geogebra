@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * ApplyMatrix[<Matrix>,<Object>]
  */
-class CmdApplyMatrix extends CommandProcessorDesktop {
+public class CmdApplyMatrix extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdApplyMatrix extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdApplyMatrix(Kernel kernel) {
+	public CmdApplyMatrix(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -36,7 +36,7 @@ class CmdApplyMatrix extends CommandProcessorDesktop {
 
 				if (arg[1].isMatrixTransformable() || arg[1].isGeoFunction()
 						|| arg[1].isGeoPolygon() || arg[0].isGeoList()) {
-					ret = kernel.ApplyMatrix(label, arg[1], (GeoList) arg[0]);
+					ret = kernelA.ApplyMatrix(label, arg[1], (GeoList) arg[0]);
 					return ret;
 				} else
 					throw argErr(app, c.getName(), arg[1]);

@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- * CircleSector[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
+ * CircleArc[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
  */
-class CmdCircleSector extends CommandProcessorDesktop {
+public class CmdCircleArc extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdCircleSector extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCircleSector(Kernel kernel) {
+	public CmdCircleArc(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,8 +32,8 @@ class CmdCircleSector extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel
-						.CircleSector(c.getLabel(), (GeoPoint2) arg[0],
+				GeoElement[] ret = { kernelA
+						.CircleArc(c.getLabel(), (GeoPoint2) arg[0],
 								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
 			} else {

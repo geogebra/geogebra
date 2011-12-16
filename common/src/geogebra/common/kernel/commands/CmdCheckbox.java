@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
@@ -7,12 +7,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Checkbox
  */
-class CmdCheckbox extends CommandProcessorDesktop {
+public class CmdCheckbox extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +20,7 @@ class CmdCheckbox extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCheckbox(Kernel kernel) {
+	public CmdCheckbox(AbstractKernel kernel) {
 		super(kernel);
 	}
 

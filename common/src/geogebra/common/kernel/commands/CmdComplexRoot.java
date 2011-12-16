@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- * Centroid[ <Polygon> ]
+ * ComplexRoot[ <GeoFunction> ]
  */
-class CmdCentroid extends CommandProcessorDesktop {
+public class CmdComplexRoot extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,24 +17,26 @@ class CmdCentroid extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCentroid(Kernel kernel) {
+	public CmdComplexRoot(AbstractKernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
+		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoPolygon())) {
-				GeoElement[] ret = { kernel.Centroid(c.getLabel(),
-						(GeoPolygon) arg[0]) };
-				return ret;
-			} else
+			if (ok[0] = (arg[0].isGeoFunctionable())) {
+				return kernelA.ComplexRoot(c.getLabels(),
+						((GeoFunctionable) arg[0]).getGeoFunction());
+			} else {
 				throw argErr(app, c.getName(), arg[0]);
+			}
 
 		default:
 			throw argNumErr(app, c.getName(), n);

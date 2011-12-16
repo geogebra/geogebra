@@ -1,22 +1,22 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Cell
  */
-class CmdCell extends CommandProcessorDesktop {
+public class CmdCell extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCell(Kernel kernel) {
+	public CmdCell(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,7 +29,7 @@ class CmdCell extends CommandProcessorDesktop {
 		switch (n) {
 		case 2:
 			if ((ok = (arg[0].isNumberValue()) && arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernel.Cell(c.getLabel(),
+				GeoElement[] ret = { kernelA.Cell(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			} else {

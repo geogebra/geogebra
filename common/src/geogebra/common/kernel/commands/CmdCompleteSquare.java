@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 
-class CmdCompleteSquare extends CommandProcessorDesktop {
+public class CmdCompleteSquare extends CommandProcessor {
 	
-	public CmdCompleteSquare (Kernel kernel) {
+	public CmdCompleteSquare (AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -23,7 +23,7 @@ final public GeoElement[] process(Command c) throws MyError {
          case 1 :             
         	 if (ok[0] = (arg[0].isGeoFunction())) {
 	                 GeoElement[] ret =
-	                 { kernel.CompleteSquare(c.getLabel(), (GeoFunction) arg[0] )};
+	                 { kernelA.CompleteSquare(c.getLabel(), (GeoFunction) arg[0] )};
 	             return ret;                
 	         }                        
               else

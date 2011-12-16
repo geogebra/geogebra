@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -6,13 +6,13 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Arc[ <GeoConic>, <Number>, <Number> ] Arc[ <GeoConic>, <GeoPoint>, <GeoPoint>
  * ]
  */
-class CmdArc extends CommandProcessorDesktop {
+public class CmdArc extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +20,7 @@ class CmdArc extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdArc(Kernel kernel) {
+	public CmdArc(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -36,14 +36,14 @@ class CmdArc extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = { kernel.ConicArc(c.getLabel(),
+				GeoElement[] ret = { kernelA.ConicArc(c.getLabel(),
 						(GeoConic) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel.ConicArc(c.getLabel(),
+				GeoElement[] ret = { kernelA.ConicArc(c.getLabel(),
 						(GeoConic) arg[0], (GeoPoint2) arg[1],
 						(GeoPoint2) arg[2]) };
 				return ret;

@@ -14,6 +14,7 @@ import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.algos.AlgoAngularBisectorLines;
 import geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
+import geogebra.common.kernel.algos.AlgoAppend;
 import geogebra.common.kernel.algos.AlgoAreaConic;
 import geogebra.common.kernel.algos.AlgoAreaPoints;
 import geogebra.common.kernel.algos.AlgoAreaPolygon;
@@ -22,12 +23,16 @@ import geogebra.common.kernel.algos.AlgoAsymptoteFunction;
 import geogebra.common.kernel.algos.AlgoAxes;
 import geogebra.common.kernel.algos.AlgoAxisStepX;
 import geogebra.common.kernel.algos.AlgoAxisStepY;
+import geogebra.common.kernel.algos.AlgoCell;
 import geogebra.common.kernel.algos.AlgoCenterConic;
 import geogebra.common.kernel.algos.AlgoCentroidPolygon;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
+import geogebra.common.kernel.algos.AlgoColumn;
+import geogebra.common.kernel.algos.AlgoCompleteSquare;
+import geogebra.common.kernel.algos.AlgoComplexRootsPolynomial;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoConicFromCoeffList;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
@@ -140,6 +145,8 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
+import geogebra.common.kernel.statistics.AlgoCauchy;
+import geogebra.common.kernel.statistics.AlgoChiSquared;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -4911,4 +4918,85 @@ public abstract class AbstractKernel {
 			return num;
 		}
 
+		/** 
+		 * Append[list,object]
+		 * Michael Borcherds
+		 */
+		final public GeoList Append(String label, GeoList list, GeoElement geo) {
+			AlgoAppend algo = new AlgoAppend((Construction)cons, label, list, geo);
+			GeoList list2 = algo.getResult();
+			return list2;
+		}
+		
+		/** 
+		 * Append[object,list]
+		 * Michael Borcherds
+		 */
+		final public GeoList Append(String label, GeoElement geo, GeoList list) {
+			AlgoAppend algo = new AlgoAppend((Construction)cons, label, geo, list);
+			GeoList list2 = algo.getResult();
+			return list2;
+		}
+		
+		/**
+		 * apply matrix 
+		 * Michael Borcherds 2010-05-27
+		 */
+		final public GeoElement [] ApplyMatrix(String label, GeoElement Q, GeoList matrix) {	
+			Transform t = new TransformApplyMatrix((Construction)cons, matrix);
+			return t.transform(Q, label);
+		}
+		
+		
+		final public GeoNumeric Cauchy(String label, NumberValue a, NumberValue b, NumberValue c) {
+			AlgoCauchy algo = new AlgoCauchy((Construction)cons, label, a, b, c);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * Spreadsheet Object from coords
+		 */
+		final public GeoElement Cell(
+			String label,
+			NumberValue a, NumberValue b) {
+			AlgoCell algo = new AlgoCell((Construction)cons, label, a, b);
+			GeoElement ret = algo.getResult();
+			return ret;
+		}
+		
+		final public GeoNumeric ChiSquared(String label, NumberValue a, NumberValue b) {
+			AlgoChiSquared algo = new AlgoChiSquared((Construction)cons, label, a, b);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		final public GeoElement CompleteSquare(String label, GeoFunction func) {		
+			AlgoCompleteSquare algo = new AlgoCompleteSquare((Construction)cons, label, func);
+			return algo.getResult();			
+		}
+		
+		/**
+		 * all Complex Roots of polynomial f (works only for polynomials)
+		 */
+		final public GeoPoint2 [] ComplexRoot(String [] labels, GeoFunction f) {
+			// allow functions that can be simplified to factors of polynomials
+			if (!f.isPolynomialFunction(true)) return null;
+			
+			AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial((Construction)cons, labels, f);
+			GeoPoint2 [] g = algo.getRootPoints();
+			return g;
+		}	
+		
+		/** 
+		 * Column of geo.
+		 */
+		final public GeoNumeric Column(
+			String label,
+			GeoElement geo) {
+			AlgoColumn algo = new AlgoColumn(cons, label, geo);
+			GeoNumeric ret = algo.getResult();
+			return ret;
+		}
+		
 }

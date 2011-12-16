@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *Chi Squared Distribution
  */
-class CmdChiSquared extends CommandProcessorDesktop {
+public class CmdChiSquared extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ class CmdChiSquared extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdChiSquared(Kernel kernel) {
+	public CmdChiSquared(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -49,10 +49,10 @@ class CmdChiSquared extends CommandProcessorDesktop {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString().equals("x")) {
 
 					// needed for eg Normal[1, 0.001, x] 
-					kernel.setTemporaryPrintFigures(15);
+					kernelA.setTemporaryPrintFigures(15);
 					String k = arg[0].getLabel();
 					String command = null;
-					kernel.restorePrintAccuracy();
+					kernelA.restorePrintAccuracy();
 					
 					if (cumulative) {
 						command = "If[x<0,0,gamma(("+k+")/2,x/2)/gamma(("+k+")/2)]";
@@ -61,12 +61,12 @@ class CmdChiSquared extends CommandProcessorDesktop {
 					}
 					
 					
-					GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand(command, true);
+					GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
 					return ret;
 
 
 				} else if (arg[1].isNumberValue()) {
-					GeoElement[] ret = { kernel.ChiSquared(c.getLabel(),
+					GeoElement[] ret = { kernelA.ChiSquared(c.getLabel(),
 							(NumberValue) arg[0], (NumberValue) arg[1]) };
 					return ret;
 				} else

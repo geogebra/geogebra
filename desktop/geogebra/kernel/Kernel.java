@@ -693,16 +693,6 @@ public class Kernel extends AbstractKernel{
 		return ret;
 	}
 	
-	/** 
-	 * Spreadsheet Object from coords
-	 */
-	final public GeoElement Cell(
-		String label,
-		NumberValue a, NumberValue b) {
-		AlgoCell algo = new AlgoCell((Construction)cons, label, a, b);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
 	
 	/** 
 	 * ColumnName[]
@@ -803,16 +793,7 @@ public class Kernel extends AbstractKernel{
 		return ret;
 	}
 	
-	/** 
-	 * Column of geo.
-	 */
-	final public GeoNumeric Column(
-		String label,
-		GeoElement geo) {
-		AlgoColumn algo = new AlgoColumn(cons, label, geo);
-		GeoNumeric ret = algo.getResult();
-		return ret;
-	}
+
 	
 	/** 
 	 * ToNumber
@@ -2043,11 +2024,7 @@ public class Kernel extends AbstractKernel{
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
-	final public GeoNumeric ChiSquared(String label, NumberValue a, NumberValue b) {
-		AlgoChiSquared algo = new AlgoChiSquared((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	final public GeoNumeric InverseChiSquared(String label, NumberValue a, NumberValue b) {
 		AlgoInverseChiSquared algo = new AlgoInverseChiSquared((Construction)cons, label, a, b);
@@ -2089,12 +2066,7 @@ public class Kernel extends AbstractKernel{
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
-	
-	final public GeoNumeric Cauchy(String label, NumberValue a, NumberValue b, NumberValue c) {
-		AlgoCauchy algo = new AlgoCauchy((Construction)cons, label, a, b, c);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	final public GeoNumeric InverseCauchy(String label, NumberValue a, NumberValue b, NumberValue c) {
 		AlgoInverseCauchy algo = new AlgoInverseCauchy((Construction)cons, label, a, b, c);
@@ -2475,15 +2447,7 @@ public class Kernel extends AbstractKernel{
 		return list2;
 	}
 	
-	/** 
-	 * Append[list,object]
-	 * Michael Borcherds
-	 */
-	final public GeoList Append(String label, GeoList list, GeoElement geo) {
-		AlgoAppend algo = new AlgoAppend((Construction)cons, label, list, geo);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
+
 	/** 
 	 * IndexOf[text,text]
 	 */
@@ -2517,15 +2481,6 @@ public class Kernel extends AbstractKernel{
 		return index;
 	}
 	
-	/** 
-	 * Append[object,list]
-	 * Michael Borcherds
-	 */
-	final public GeoList Append(String label, GeoElement geo, GeoList list) {
-		AlgoAppend algo = new AlgoAppend((Construction)cons, label, geo, list);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
 	
 	/** 
 	 * Join[list,list]
@@ -4547,14 +4502,7 @@ public class Kernel extends AbstractKernel{
 		return t.transform(Q, label);
 	}
 
-	/**
-	 * apply matrix 
-	 * Michael Borcherds 2010-05-27
-	 */
-	final public GeoElement [] ApplyMatrix(String label, GeoElement Q, GeoList matrix) {	
-		Transform t = new TransformApplyMatrix((Construction)cons, matrix);
-		return t.transform(Q, label);
-	}
+
 	
 	/**
 	 * shear
@@ -4687,10 +4635,7 @@ public class Kernel extends AbstractKernel{
 		return algo.getResult();			
 	}
 	
-	final public GeoElement CompleteSquare(String label, GeoFunction func) {		
-		AlgoCompleteSquare algo = new AlgoCompleteSquare((Construction)cons, label, func);
-		return algo.getResult();			
-	}
+
 	
 	/**
 	 * Factors
@@ -4894,17 +4839,7 @@ public class Kernel extends AbstractKernel{
 		GeoPoint2 [] g = algo.getRootPoints();
 		return g;
 	}
-	/**
-	 * all Complex Roots of polynomial f (works only for polynomials)
-	 */
-	final public GeoPoint2 [] ComplexRoot(String [] labels, GeoFunction f) {
-		// allow functions that can be simplified to factors of polynomials
-		if (!f.isPolynomialFunction(true)) return null;
-		
-		AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial((Construction)cons, labels, f);
-		GeoPoint2 [] g = algo.getRootPoints();
-		return g;
-	}	
+
 	
 	/**
 	 * Root of a function f to given start value a (works only if first derivative of f exists)

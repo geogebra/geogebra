@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Append
  */
-class CmdAppend extends CommandProcessorDesktop {
+public class CmdAppend extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdAppend extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAppend(Kernel kernel) {
+	public CmdAppend(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,11 +30,11 @@ class CmdAppend extends CommandProcessorDesktop {
 		case 2:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernel.Append(c.getLabel(),
+				GeoElement[] ret = { kernelA.Append(c.getLabel(),
 						(GeoList) arg[0], arg[1]) };
 				return ret;
 			} else if (arg[1].isGeoList()) {
-				GeoElement[] ret = { kernel.Append(c.getLabel(), arg[0],
+				GeoElement[] ret = { kernelA.Append(c.getLabel(), arg[0],
 						(GeoList) arg[1]) };
 				return ret;
 			} else
