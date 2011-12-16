@@ -115,7 +115,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     }
     
     public void modifyInputPoints(GeoPoint2 A, GeoPoint2 B){
-    	for (int i=0;i<2;i++)
+    	for (int i=0;i<input.length;i++)
     		input[i].removeAlgorithm(this);
     	
     	P=A;

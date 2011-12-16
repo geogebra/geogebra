@@ -333,7 +333,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     	}else{
     		for(int i=n; i<nOld; i++){
     			outputPoints.getElement(i-2).setUndefined();
-    			outputSegments.getElement(i).setUndefined();
+    			//outputSegments.getElement(i).setUndefined();
     		}
     		//update last segment
     		if (n>2)

@@ -103,6 +103,11 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     		cs = null;
     	}
     	
+    	setInputOutput();
+    }  
+    
+    @Override
+	protected void setInputOutput(){
     	if (poly==null) {
     		setInputOutput(new GeoElement[] {(GeoElement) P,(GeoElement) Q}, new GeoElement[] {cs});
     	} else {
@@ -110,7 +115,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     				new GeoElement[] {(GeoElement) P,(GeoElement) Q},
     				new GeoElement[] {cs});
     	}
-    }        
+    }
     
     /**
      * return the first point
@@ -165,7 +170,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
      * @param B second point
      */
     public void modifyInputPoints(GeoPointND A, GeoPointND B){
-    	for (int i=0;i<2;i++)
+    	for (int i=0;i<input.length;i++)
     		input[i].removeAlgorithm(this);
     	
     	P=A;

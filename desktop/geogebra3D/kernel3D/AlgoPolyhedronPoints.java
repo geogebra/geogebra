@@ -50,7 +50,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		topPoint = points[points.length-1];
 		shift=1; //output points are shifted of 1 to input points (one less)
 			
-		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		createPolyhedron();
 		
@@ -84,8 +83,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		bottomAsInput = true;
 		topPoint = point;
 		shift=1; //output points are shifted of 1 to input points (one less)
-		
-		GeoPolyhedron polyhedron = outputPolyhedron.getElement(0);
 		
 		createPolyhedron();
 
@@ -125,6 +122,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	}
 	
 
+	/**
+	 * 
+	 * @param labels labels
+	 */
 	protected void setLabels(String[] labels){
 		if (labels==null || labels.length <= 1 || isOldFileVersion())
 			polyhedron.initLabels(labels);
@@ -230,22 +231,40 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 
 	private Coords uptranslation;
 	
+	/**
+	 * 
+	 * @return translation vector from bottom to top
+	 */
 	protected Coords getUpTranslation(){
 		return uptranslation;
 	}
 	
 	private int shift;
 	
+	/**
+	 * shift used when first top point is input
+	 * @return 1 when first top point is input, 0 else
+	 */
 	protected int getShift(){
 		return shift;
 	}
 	
 	
-	public void compute() {
+	/**
+	 * pre computation
+	 * @return true if the polyhedron is defined
+	 */
+	public boolean preCompute() {
 		
 		//check if bottom points length has changed (e.g. with regular polygon)
-		if (bottomAsInput)
+		if (bottomAsInput){
+			if (!getBottom().isDefined()){
+				polyhedron.setUndefined();
+				return false;
+			}
+			polyhedron.setDefined();
 			updateOutput(bottom.getPointsLength());
+		}
 		
 		
 		
@@ -256,6 +275,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
 		
 
+		return true;
 	}
 	
 	

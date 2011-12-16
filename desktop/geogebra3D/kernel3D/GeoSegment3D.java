@@ -140,7 +140,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	 */
 	protected boolean showInEuclidianView() {
 
-		return true;
+		return isDefined();
 	}
 
 	public String toValueString() {

@@ -1,13 +1,12 @@
 package geogebra3D.kernel3D;
 
-import java.util.Collection;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+
+import java.util.Collection;
 
 /**
  * @author ggb3D
@@ -22,7 +21,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	/** creates a pyramid regarding vertices and faces description
 	 * @param c construction 
-	 * @param labels 
+	 * @param labels labels
 	 * @param points vertices
 	 */
 	public AlgoPolyhedronPointsPyramid(Construction c, String[] labels, GeoPointND[] points) {
@@ -30,6 +29,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 	}
 	
+	@Override
 	protected void createPolyhedron(){
 
 		GeoPointND[] bottomPoints = getBottomPoints();
@@ -69,6 +69,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	}
 	
 	
+	@Override
 	protected void updateOutput(int n) {
 		
 	}
@@ -81,6 +82,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 	
+	@Override
 	public void compute() {
 
 
@@ -93,7 +95,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		}
 		interiorPoint = interiorPoint.add(getTopPoint().getCoordsInD(3));
 		
-		interiorPoint = (Coords) interiorPoint.mul((double) 1/(bottomPoints.length+1));
+		interiorPoint = interiorPoint.mul((double) 1/(bottomPoints.length+1));
 		polyhedron.setInteriorPoint(interiorPoint);
 		//Application.debug("interior\n"+interiorPoint);
 
@@ -101,7 +103,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
 
     	return "AlgoPyramid";
 
@@ -109,6 +112,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
     
     
 
+	@Override
 	protected void updateOutput(){
 		if (isOldFileVersion()){
 			//add polyhedron's segments and polygons, without setting this algo as algoparent		

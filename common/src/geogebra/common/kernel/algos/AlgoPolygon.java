@@ -162,7 +162,21 @@ public class AlgoPolygon extends AlgoElement {
     	}    
 
     	return efficientInput;
-    }    
+    } 
+    
+    /**
+     * modify input points
+     * @param newPoints new input points
+     */
+    public void modifyInputPoints(GeoPointND[] newPoints){
+    	for (int i=0;i<input.length;i++)
+    		input[i].removeAlgorithm(this);
+    	
+    	points = newPoints; 	
+    	poly.setPoints(points);
+    	setInputOutput();   	
+    	
+    }
     
     // for AlgoElement
     @Override

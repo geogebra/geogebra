@@ -67,6 +67,8 @@ public class AlgoPolygon3D extends AlgoPolygon {
     	//check if a coord sys is possible
     	if (((GeoPolygon3D) poly).updateCoordSys())
     		super.compute();
+    	else
+    		poly.setUndefined();
     	
     }
 
