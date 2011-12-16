@@ -1,15 +1,16 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * FirstAxis[ <GeoConic> ]
  */
-class CmdFirstAxis extends CommandProcessorDesktop {
+class CmdFirstAxis extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +18,7 @@ class CmdFirstAxis extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFirstAxis(Kernel kernel) {
+	public CmdFirstAxis(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +32,7 @@ class CmdFirstAxis extends CommandProcessorDesktop {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernel.FirstAxis(c.getLabel(),
+				GeoElement[] ret = { kernelA.FirstAxis(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 			} else

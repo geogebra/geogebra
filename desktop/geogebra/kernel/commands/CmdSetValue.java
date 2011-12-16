@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -13,7 +14,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.SetRandomValue;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.util.Iterator;
@@ -29,7 +29,7 @@ class CmdSetValue extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetValue(Kernel kernel) {
+	public CmdSetValue(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -83,7 +83,7 @@ class CmdSetValue extends CmdScripting {
 				if (nn < 1 || nn > list.size() + 1)
 					throw argErr(app, c.getName(), arg[1]);
 				if(nn > list.size()){
-					list.add((GeoElement)arg[2].deepCopy(kernel));
+					list.add((GeoElement)arg[2].deepCopy(kernelA));
 					list.updateRepaint();
 					return;
 				}
@@ -103,7 +103,7 @@ class CmdSetValue extends CmdScripting {
 
 				// update the list too if necessary
 				if (!geo.isLabelSet()) { // eg like first element of {1,2,a}
-					Iterator<GeoElement> it = kernel.getConstruction()
+					Iterator<GeoElement> it = kernelA.getConstruction()
 							.getGeoSetConstructionOrder().iterator();
 					while (it.hasNext()) {
 						GeoElement geo2 = it.next();

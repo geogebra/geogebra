@@ -1,15 +1,16 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Eccentricity[ <GeoConic> ]
  */
-class CmdEccentricity extends CommandProcessorDesktop {
+class CmdEccentricity extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +18,7 @@ class CmdEccentricity extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdEccentricity(Kernel kernel) {
+	public CmdEccentricity(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +32,7 @@ class CmdEccentricity extends CommandProcessorDesktop {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { kernel.Eccentricity(c.getLabel(),
+				GeoElement[] ret = { kernelA.Eccentricity(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 			} else

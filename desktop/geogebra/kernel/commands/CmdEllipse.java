@@ -2,15 +2,16 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Ellipse[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
  */
-class CmdEllipse extends CommandProcessorDesktop {
+class CmdEllipse extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +19,7 @@ class CmdEllipse extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdEllipse(Kernel kernel) {
+	public CmdEllipse(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,14 +34,14 @@ class CmdEllipse extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = { kernel.Ellipse(c.getLabel(),
+				GeoElement[] ret = { kernelA.Ellipse(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel
+				GeoElement[] ret = { kernelA
 						.Ellipse(c.getLabel(), (GeoPoint2) arg[0],
 								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;

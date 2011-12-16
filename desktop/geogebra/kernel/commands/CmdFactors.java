@@ -1,16 +1,17 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Factors
  */
-class CmdFactors extends CommandProcessorDesktop {
+class CmdFactors extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +19,7 @@ class CmdFactors extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFactors(Kernel kernel) {
+	public CmdFactors(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,11 +32,11 @@ class CmdFactors extends CommandProcessorDesktop {
 		switch (n) {
 		case 1:
 			if (ok[0] = (arg[0].isGeoFunction())) {
-				GeoElement[] ret = { kernel.Factors(c.getLabel(),
+				GeoElement[] ret = { kernelA.Factors(c.getLabel(),
 						(GeoFunction) arg[0]) };
 				return ret;
 			} else	if (ok[0] = (arg[0].isGeoNumeric())) {
-					GeoElement[] ret = { kernel.PrimeFactorisation(c.getLabel(),
+					GeoElement[] ret = { kernelA.PrimeFactorisation(c.getLabel(),
 							(GeoNumeric) arg[0]) };
 					return ret;
 			} else

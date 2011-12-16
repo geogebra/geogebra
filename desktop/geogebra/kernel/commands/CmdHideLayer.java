@@ -1,10 +1,10 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 import java.util.Iterator;
 
@@ -19,7 +19,7 @@ class CmdHideLayer extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHideLayer(Kernel kernel) {
+	public CmdHideLayer(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -34,7 +34,7 @@ class CmdHideLayer extends CmdScripting {
 				GeoNumeric layerGeo = (GeoNumeric) arg[0];
 				int layer = (int) layerGeo.getDouble();
 
-				Iterator<GeoElement> it = kernel.getConstruction()
+				Iterator<GeoElement> it = kernelA.getConstruction()
 						.getGeoSetLabelOrder().iterator();
 				while (it.hasNext()) {
 					GeoElement geo = it.next();

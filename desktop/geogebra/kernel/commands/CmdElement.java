@@ -2,18 +2,19 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Element[ <list>, <n> ]
  * Element[ <point>, <n> ]
  */
-public class CmdElement extends CommandProcessorDesktop {
+public class CmdElement extends CommandProcessor {
 
-	public CmdElement(Kernel kernel) {
+	public CmdElement(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +32,7 @@ public class CmdElement extends CommandProcessorDesktop {
 			// list
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernel.Element(c.getLabel(),
+				GeoElement[] ret = { kernelA.Element(c.getLabel(),
 						(GeoList) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			}
@@ -56,7 +57,7 @@ public class CmdElement extends CommandProcessorDesktop {
 					throw argErr(app, c.getName(), arg[i]);
 			}
 
-			GeoElement[] ret = { kernel.Element(c.getLabel(), (GeoList) arg[0],
+			GeoElement[] ret = { kernelA.Element(c.getLabel(), (GeoList) arg[0],
 					nvs) };
 			return ret;
 		}

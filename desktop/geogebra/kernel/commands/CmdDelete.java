@@ -1,9 +1,9 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Delete[ <GeoElement> ]
@@ -16,7 +16,7 @@ class CmdDelete extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDelete(Kernel kernel) {
+	public CmdDelete(AbstractKernel kernel) {
 		super(kernel);
 	}
 

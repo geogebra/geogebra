@@ -1769,20 +1769,10 @@ public class Kernel extends AbstractKernel{
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
-	final public GeoNumeric Exponential(String label, NumberValue a, NumberValue b) {
-		AlgoExponential algo = new AlgoExponential((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	final public GeoNumeric InverseExponential(String label, NumberValue a, NumberValue b) {
 		AlgoInverseExponential algo = new AlgoInverseExponential((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	final public GeoNumeric FDistribution(String label, NumberValue a, NumberValue b, NumberValue c) {
-		AlgoFDistribution algo = new AlgoFDistribution((Construction)cons, label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -2114,37 +2104,8 @@ public class Kernel extends AbstractKernel{
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
-	
-	/** 
-	 * First[list,n]
-	 * Michael Borcherds
-	 */
-	final public GeoList First(String label, GeoList list, GeoNumeric n) {
-		AlgoFirst algo = new AlgoFirst((Construction)cons, label, list, n);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-	
-	/** 
-	 * FirstLocus[locus,n]
-	 * Michael Borcherds
-	 */
-	final public GeoList FirstLocus(String label, GeoLocus locus, GeoNumeric n) {
-		AlgoFirstLocus algo = new AlgoFirstLocus((Construction)cons, label, locus, n);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
-	
-	/** 
-	 * First[string,n]
-	 * Michael Borcherds
-	 */
-	final public GeoText First(String label, GeoText list, GeoNumeric n) {
-		AlgoFirstString algo = new AlgoFirstString((Construction)cons, label, list, n);
-		GeoText list2 = algo.getResult();
-		return list2;
-	}
-	
+
+
 	/** 
 	 * Last[string,n]
 	 * Michael Borcherds
@@ -2326,12 +2287,7 @@ public class Kernel extends AbstractKernel{
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
-	
-	final public GeoList PrimeFactorisation(String label, NumberValue num) {
-		AlgoPrimeFactorization algo = new AlgoPrimeFactorization((Construction)cons, label, num);
-		GeoList list2 = algo.getResult();
-		return list2;
-	}
+
 	
 	/** 
 	 * Invert[matrix]
@@ -2939,14 +2895,7 @@ public class Kernel extends AbstractKernel{
 		return geo;
 	}		
 	
-	/** 
-	 * Element[list, number]
-	 */
-	final public GeoElement Element(String label, GeoList list, NumberValue n) {
-		AlgoListElement algo = new AlgoListElement((Construction)cons, label, list, n);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}		
+	
 	
 	/** 
 	 * SelectedElement[list]
@@ -2966,14 +2915,6 @@ public class Kernel extends AbstractKernel{
 		return geo;
 	}		
 	
-	/** 
-	 * Element[list, number, number]
-	 */
-	final public GeoElement Element(String label, GeoList list, NumberValue[] n) {
-		AlgoListElement algo = new AlgoListElement((Construction)cons, label, list, n, false);
-		GeoElement geo = algo.getElement();
-		return geo;
-	}		
 	
 	/** 
 	 * Length[list]
@@ -4036,14 +3977,6 @@ public class Kernel extends AbstractKernel{
 	}
 	
 
-	/** 
-	 * first axis of c
-	 */
-	final public GeoLine FirstAxis(String label, GeoConic c) {
-		AlgoAxisFirst algo = new AlgoAxisFirst((Construction)cons, label, c);
-		GeoLine axis = algo.getAxis();
-		return axis;
-	}
 
 	/** 
 	 * second axis of c
@@ -4055,33 +3988,6 @@ public class Kernel extends AbstractKernel{
 	}
 
 
-
-	/** 
-	 * linear eccentricity of c
-	 */
-	final public GeoNumeric Excentricity(String label, GeoConic c) {
-		AlgoExcentricity algo = new AlgoExcentricity((Construction)cons, label, c);
-		GeoNumeric linearEccentricity = algo.getLinearEccentricity();
-		return linearEccentricity;
-	}
-
-	/** 
-	 * eccentricity of c
-	 */
-	final public GeoNumeric Eccentricity(String label, GeoConic c) {
-		AlgoEccentricity algo = new AlgoEccentricity((Construction)cons, label, c);
-		GeoNumeric eccentricity = algo.getEccentricity();
-		return eccentricity;
-	}
-
-	/** 
-	 * first axis' length of c
-	 */
-	final public GeoNumeric FirstAxisLength(String label, GeoConic c) {
-		AlgoAxisFirstLength algo = new AlgoAxisFirstLength((Construction)cons, label, c);
-		GeoNumeric length = algo.getLength();
-		return length;
-	}
 
 	/** 
 	 * second axis' length of c
@@ -4257,10 +4163,6 @@ public class Kernel extends AbstractKernel{
 		return algo.getPolynomial();			
 	}
 
-	final public GeoElement Expand(String label, CasEvaluableFunction func) {		
-		AlgoExpand algo = new AlgoExpand((Construction)cons, label, func);
-		return algo.getResult();			
-	}
 	
 	final public GeoElement Simplify(String label, CasEvaluableFunction func) {		
 		AlgoSimplify algo = new AlgoSimplify((Construction)cons, label, func);
@@ -4281,27 +4183,9 @@ public class Kernel extends AbstractKernel{
 		return algo.getGeoText();		
 	}
 	
-	final public GeoElement DynamicCoordinates(String label, GeoPoint2 geoPoint,
-			NumberValue num1, NumberValue num2) {
-		AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates((Construction)cons, label, geoPoint, num1, num2);
-		return algo.getPoint();
-	}
-
-	final public GeoElement Factor(String label, CasEvaluableFunction func) {		
-		AlgoFactor algo = new AlgoFactor((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
 
 	
-	/**
-	 * Factors
-	 * Michael Borcherds 
-	 */
-	final public GeoList Factors(String label, GeoFunction func) {		
-		AlgoFactors algo = new AlgoFactors((Construction)cons, label, func);
-		return algo.getResult();			
-	}
+
 	
 	final public GeoLocus SolveODE(String label, FunctionalNVar f, FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end, GeoNumeric step) {		
 		AlgoSolveODE algo = new AlgoSolveODE((Construction)cons, label, f, g, x, y, end, step);
@@ -4496,17 +4380,7 @@ public class Kernel extends AbstractKernel{
 		return pts;
 	}//Roots(label,f,a,b)
 	
-	/**
-	 * all Extrema of function f (works only for polynomials)
-	 */
-	final public GeoPoint2 [] Extremum(String [] labels, GeoFunction f) {
-		//	check if this is a polynomial at the moment
-		if (!f.isPolynomialFunction(true)) return null;
-			 
-		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial((Construction)cons, labels, f);
-		GeoPoint2 [] g = algo.getRootPoints();
-		return g;
-	}	
+
 	/**
 	 * Numeric search for extremum of function f in interval [left,right]
 	 * Ulven 2011-2-5
@@ -4519,12 +4393,6 @@ public class Kernel extends AbstractKernel{
 		return result;
 	}//Extremum(label,geofunction,numbervalue,numbervalue)
 	*/
-	final public GeoPoint2[] Extremum(String[] labels,GeoFunction f,NumberValue left,NumberValue right) {
-		AlgoExtremumMulti algo=new AlgoExtremumMulti((Construction)cons,labels,f,left,right);
-		GeoPoint2[] gpts=algo.getExtremumPoints();	//All variants return array...
-		return gpts;
-	}//Extremum(label,geofunction,numbervalue,numbervalue)
-	
 
 	/**
 	* Trying to maximize dependent variable with respect to independen variable

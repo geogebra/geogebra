@@ -2,15 +2,16 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Extremum[ <GeoFunction> ]
  */
-class CmdExtremum extends CommandProcessorDesktop {
+class CmdExtremum extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +19,7 @@ class CmdExtremum extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdExtremum(Kernel kernel) {
+	public CmdExtremum(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +32,7 @@ class CmdExtremum extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (ok[0] = (arg[0].isGeoFunctionable()))
-				return kernel.Extremum(c.getLabels(),
+				return kernelA.Extremum(c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
 			else
 				throw argErr(app, c.getName(), arg[0]);
@@ -42,7 +43,7 @@ class CmdExtremum extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2].isNumberValue()))
 
 			)
-				return kernel.Extremum(c.getLabels(), 
+				return kernelA.Extremum(c.getLabels(), 
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1],
 						(NumberValue) arg[2]

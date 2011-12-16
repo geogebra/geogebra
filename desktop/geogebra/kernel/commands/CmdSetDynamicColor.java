@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +21,7 @@ class CmdSetDynamicColor extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetDynamicColor(Kernel kernel) {
+	public CmdSetDynamicColor(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -44,7 +45,7 @@ class CmdSetDynamicColor extends CmdScripting {
 				listItems.add((GeoElement) arg[3]); 
 				//listItems.add((GeoElement) arg[4]); // no opacity 
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
-				kernel.getConstruction().removeFromConstructionList(algo);
+				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
@@ -75,7 +76,7 @@ class CmdSetDynamicColor extends CmdScripting {
 				listItems.add((GeoElement) arg[3]); 
 				listItems.add((GeoElement) arg[4]); // opacity 
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
-				kernel.getConstruction().removeFromConstructionList(algo);
+				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);

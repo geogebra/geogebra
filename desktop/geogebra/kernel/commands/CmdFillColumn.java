@@ -1,17 +1,18 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *FillColumn
  */
-class CmdFillColumn extends CommandProcessorDesktop {
+class CmdFillColumn extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +20,7 @@ class CmdFillColumn extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFillColumn(Kernel kernel) {
+	public CmdFillColumn(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -49,7 +50,7 @@ class CmdFillColumn extends CommandProcessorDesktop {
 					GeoElement cellGeo = list.get(row).copy();
 
 					try {
-						kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col, cellGeo);
+						kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col, cellGeo);
 					} catch (Exception e) {
 						e.printStackTrace();
 						throw argErr(app, c.getName(), arg[1]);

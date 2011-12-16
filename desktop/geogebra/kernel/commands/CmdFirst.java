@@ -1,22 +1,23 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * First[ <List>,n ]
  * Michael Borcherds
  * 2008-03-04
  */
-public class CmdFirst extends CommandProcessorDesktop {
+public class CmdFirst extends CommandProcessor {
 
-	public CmdFirst(Kernel kernel) {
+	public CmdFirst(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,12 +31,12 @@ public class CmdFirst extends CommandProcessorDesktop {
 
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
-						kernel.First(c.getLabel(),
+						kernelA.First(c.getLabel(),
 						(GeoList) arg[0], null ) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = { 
-						kernel.First(c.getLabel(),
+						kernelA.First(c.getLabel(),
 						(GeoText) arg[0], null ) };
 				return ret;
 			} else
@@ -46,17 +47,17 @@ public class CmdFirst extends CommandProcessorDesktop {
 			boolean locus = arg[0].isGeoLocus();
 			if ( list && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernel.First(c.getLabel(),
+						kernelA.First(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else if ( string && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernel.First(c.getLabel(),
+						kernelA.First(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else if ( locus && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernel.FirstLocus(c.getLabel(),
+						kernelA.FirstLocus(c.getLabel(),
 						(GeoLocus) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else

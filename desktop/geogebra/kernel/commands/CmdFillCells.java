@@ -3,13 +3,14 @@ package geogebra.kernel.commands;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoCellRange;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
@@ -20,7 +21,7 @@ import java.util.regex.Matcher;
 /**
  *FillCells
  */
-class CmdFillCells extends CommandProcessorDesktop {
+class CmdFillCells extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -28,7 +29,7 @@ class CmdFillCells extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFillCells(Kernel kernel) {
+	public CmdFillCells(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -88,18 +89,18 @@ class CmdFillCells extends CommandProcessorDesktop {
 						try {
 							// cell will have been autocreated by eg A1:A3 in
 							// command, so delete
-							kernel.lookupLabel(
+							kernelA.lookupLabel(
 									GeoElementSpreadsheet.getSpreadsheetCellName(minCol,
 											row)).remove();
-							kernel.lookupLabel(
+							kernelA.lookupLabel(
 									GeoElementSpreadsheet.getSpreadsheetCellName(
 											minCol + 1, row)).remove();
 
 							MyPoint p = al.get(i);														
 
-							kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol,
+							kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol,
 									new GeoNumeric(cons, p.x));
-							kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol + 1,
+							kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol + 1,
 									new GeoNumeric(cons, p.y));
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -120,11 +121,11 @@ class CmdFillCells extends CommandProcessorDesktop {
 								// cell will have been autocreated by eg A1:A3
 								// in command, so delete
 								// in case it's being filled by eg GeoText
-								kernel.lookupLabel(
+								kernelA.lookupLabel(
 										GeoElementSpreadsheet.getSpreadsheetCellName(col,
 												row)).remove();
 
-								kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
+								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
 										geo);
 							} catch (Exception e) {
 								app.setScrollToShow(true);
@@ -177,7 +178,7 @@ class CmdFillCells extends CommandProcessorDesktop {
 							for (int r = 0; r < rows; r++) {
 								GeoList rowList = (GeoList) list.get(r);
 								for (int c1 = 0; c1 < cols; c1++) {
-									kernel.getGeoElementSpreadsheet()
+									kernelA.getGeoElementSpreadsheet()
 											.setSpreadsheetCell(app, row + r,
 													column + c1, rowList
 															.get(c1).copy());
@@ -197,7 +198,7 @@ class CmdFillCells extends CommandProcessorDesktop {
 						for (int i = list.size() - 1; i >= 0; i--)
 							try {
 								// Application.debug("setting "+row+" "+(column+i)+" to "+list.get(i).toString());
-								kernel.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, column
+								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, column
 										+ i, list.get(i).copy());
 							} catch (Exception e) {
 								e.printStackTrace();

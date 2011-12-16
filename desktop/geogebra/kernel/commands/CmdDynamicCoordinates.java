@@ -1,16 +1,17 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *DynamicCoordinates
  */
-class CmdDynamicCoordinates extends CommandProcessorDesktop {
+class CmdDynamicCoordinates extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +19,7 @@ class CmdDynamicCoordinates extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDynamicCoordinates(Kernel kernel) {
+	public CmdDynamicCoordinates(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,7 +34,7 @@ class CmdDynamicCoordinates extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoPoint() && arg[0].isMoveable()))
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernel.DynamicCoordinates(c.getLabel(),
+				GeoElement[] ret = { kernelA.DynamicCoordinates(c.getLabel(),
 						(GeoPoint2) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
