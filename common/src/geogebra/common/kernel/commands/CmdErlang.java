@@ -1,7 +1,6 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -11,7 +10,7 @@ import geogebra.common.kernel.AbstractKernel;
 	/**
 	 *Erlang Distribution
 	 */
-	class CmdErlang extends CommandProcessor {
+	public class CmdErlang extends CommandProcessor {
 
 		/**
 		 * Create new command processor

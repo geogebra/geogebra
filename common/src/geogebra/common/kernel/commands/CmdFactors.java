@@ -1,7 +1,6 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -11,7 +10,7 @@ import geogebra.common.kernel.AbstractKernel;
 /**
  *Factors
  */
-class CmdFactors extends CommandProcessor {
+public class CmdFactors extends CommandProcessor {
 
 	/**
 	 * Create new command processor

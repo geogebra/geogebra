@@ -1,6 +1,8 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CmdTwoNumFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
 
@@ -10,12 +12,12 @@ import geogebra.kernel.Kernel;
  */
 class CmdBinomial extends CmdTwoNumFunction {
 
-	public CmdBinomial(Kernel kernel) {
+	public CmdBinomial(AbstractKernel kernel) {
 		super(kernel);
 	}
 
 	final protected GeoElement doCommand(String a, NumberValue b, NumberValue c)
 	{
-		return kernel.Binomial(a, b, c);
+		return kernelA.Binomial(a, b, c);
 	}
 }

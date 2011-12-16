@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -8,7 +8,7 @@ import geogebra.common.main.MyError;
 /**
  * Delete[ <GeoElement> ]
  */
-class CmdDelete extends CmdScripting {
+public class CmdDelete extends CmdScripting {
 
 	/**
 	 * Create new command processor

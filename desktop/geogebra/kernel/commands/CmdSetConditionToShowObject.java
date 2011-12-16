@@ -2,6 +2,7 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;

@@ -1,7 +1,6 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
@@ -10,7 +9,7 @@ import geogebra.common.kernel.AbstractKernel;
 /**
  * FirstAxis[ <GeoConic> ]
  */
-class CmdFirstAxis extends CommandProcessor {
+public class CmdFirstAxis extends CommandProcessor {
 
 	/**
 	 * Create new command processor

@@ -1,16 +1,17 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * BarChart[ <Number>, <Number>, <List> ]
  */
-class CmdBoxPlot extends CommandProcessorDesktop {
+class CmdBoxPlot extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +19,7 @@ class CmdBoxPlot extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdBoxPlot(Kernel kernel) {
+	public CmdBoxPlot(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,7 +34,7 @@ class CmdBoxPlot extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isGeoList()))) {
-				GeoElement[] ret = { kernel.BoxPlot(c.getLabel(),
+				GeoElement[] ret = { kernelA.BoxPlot(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(GeoList) arg[2]) };
 				return ret;
@@ -50,7 +51,7 @@ class CmdBoxPlot extends CommandProcessorDesktop {
 					&& (ok[5] = (arg[5].isNumberValue()))
 					&& (ok[6] = (arg[6].isNumberValue())))) {
 
-				GeoElement[] ret = { kernel.BoxPlot(c.getLabel(),
+				GeoElement[] ret = { kernelA.BoxPlot(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2], (NumberValue) arg[3],
 						(NumberValue) arg[4], (NumberValue) arg[5],

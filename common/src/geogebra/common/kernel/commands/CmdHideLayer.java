@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -11,7 +11,7 @@ import java.util.Iterator;
 /**
  *HideLayer
  */
-class CmdHideLayer extends CmdScripting {
+public class CmdHideLayer extends CmdScripting {
 
 	/**
 	 * Create new command processor

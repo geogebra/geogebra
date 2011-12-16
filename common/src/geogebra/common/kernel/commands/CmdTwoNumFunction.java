@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /*
  * abstract class for Commands with two numberical arguments eg Binomial[ <Number>, <Number> ]
  * Michael Borcherds 2008-04-12
  */
-public abstract class CmdTwoNumFunction extends CommandProcessorDesktop {
+public abstract class CmdTwoNumFunction extends CommandProcessor {
 
-	public CmdTwoNumFunction(Kernel kernel) {
+	public CmdTwoNumFunction(AbstractKernel kernel) {
 		super(kernel);
 	}
 

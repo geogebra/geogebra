@@ -1,15 +1,14 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.AbstractKernel;
 
-class CmdFactor extends CommandProcessor {
+public class CmdExpand extends CommandProcessor {
 	
-	public CmdFactor (AbstractKernel kernel) {
+	public CmdExpand (AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -21,11 +20,11 @@ final public GeoElement[] process(Command c) throws MyError {
      
      switch (n) {
          case 1 :             
-        	 if (ok[0] = (arg[0] instanceof CasEvaluableFunction)) {
+             if (ok[0] = (arg[0] instanceof CasEvaluableFunction)) {
 	                 GeoElement[] ret =
-	                 { kernelA.Factor(c.getLabel(), (CasEvaluableFunction) arg[0] )};
+	                 { kernelA.Expand(c.getLabel(), (CasEvaluableFunction) arg[0] )};
 	             return ret;                
-	         }                        
+	         }    
               else
             	 throw argErr(app, c.getName(), arg[0]);         
 			 

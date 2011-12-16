@@ -932,105 +932,8 @@ public class Kernel extends AbstractKernel{
 	}
 
 	
-	
-	
-	
 
-	
-	/** 
-	 * BarChart	
-	 */
-	final public GeoNumeric BarChart(String label, 
-					NumberValue a, NumberValue b, GeoList list) {
-		AlgoBarChart algo = new AlgoBarChart((Construction)cons, label, a, b, list);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/** 
-	 * BarChart	
-	 */
-	final public GeoNumeric BarChart(String label, 
-			GeoList list1, GeoList list2) {
-		AlgoBarChart algo = new AlgoBarChart((Construction)cons, label, list1, list2);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/** 
-	 * BarChart	
-	 */
-	final public GeoNumeric BarChart(String label, 
-			GeoList list1, GeoList list2, NumberValue width) {
-		AlgoBarChart algo = new AlgoBarChart((Construction)cons, label, list1, list2, width);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/** 
-	 * BarChart	
-	 */
-	final public GeoNumeric BarChart(String label, 
-			GeoList list, GeoNumeric a) {
-		AlgoBarChart algo = new AlgoBarChart((Construction)cons, label, list, a);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/** 
-	 * BarChart	
-	 */
-	final public GeoNumeric BarChart(String label, 
-					NumberValue a, NumberValue b, GeoElement expression, GeoNumeric localVar, 
-					NumberValue from, NumberValue to, NumberValue step) {
-		
-		AlgoSequence seq = new AlgoSequence((Construction)cons, expression, localVar, from, to, step);
-		cons.removeFromConstructionList(seq);
-		
-		AlgoBarChart algo = new AlgoBarChart((Construction)cons, label, a, b, (GeoList)seq.getOutput()[0]);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/** 
-	 * BoxPlot
-	 */
-	final public GeoNumeric BoxPlot(String label, 
-			NumberValue a, NumberValue b, GeoList rawData) {
-		
-		/*
-		AlgoListMin min = new AlgoListMin(cons,rawData);
-		cons.removeFromConstructionList(min);
-		AlgoQ1 Q1 = new AlgoQ1(cons,rawData);
-		cons.removeFromConstructionList(Q1);
-		AlgoMedian median = new AlgoMedian(cons,rawData);
-		cons.removeFromConstructionList(median);
-		AlgoQ3 Q3 = new AlgoQ3(cons,rawData);
-		cons.removeFromConstructionList(Q3);
-		AlgoListMax max = new AlgoListMax(cons,rawData);
-		cons.removeFromConstructionList(max);
-	
-		AlgoBoxPlot algo = new AlgoBoxPlot(cons, label, a, b, (NumberValue)(min.getMin()),
-				(NumberValue)(Q1.getQ1()), (NumberValue)(median.getMedian()), (NumberValue)(Q3.getQ3()), (NumberValue)(max.getMax()));
-		*/
-		
-		AlgoBoxPlot algo = new AlgoBoxPlot((Construction)cons, label, a, b, rawData);
-		
-		
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
-	
-	/** 
-	 * BoxPlot
-	 */
-	final public GeoNumeric BoxPlot(String label, 
-			NumberValue a, NumberValue b, NumberValue min, NumberValue Q1,
-			NumberValue median, NumberValue Q3, NumberValue max) {
-		AlgoBoxPlot algo = new AlgoBoxPlot((Construction)cons, label, a, b, min, Q1, median, Q3, max);
-		GeoNumeric sum = algo.getSum();
-		return sum;
-	}
+
 	
 	/** 
 	 * Histogram[classList, dataList]
@@ -1665,56 +1568,8 @@ public class Kernel extends AbstractKernel{
 		GeoFunction function=algo.getFitGrowth();
 		return function;
 	}
+	
 
-	/** 
-	 * Binomial[n,r]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric Binomial(String label, NumberValue a, NumberValue b) {
-		AlgoBinomial algo = new AlgoBinomial((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * RandomNormal[mean,variance]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric RandomNormal(String label, NumberValue a, NumberValue b) {
-		AlgoRandomNormal algo = new AlgoRandomNormal((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * Random[max,min]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric Random(String label, NumberValue a, NumberValue b) {
-		AlgoRandom algo = new AlgoRandom((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * RandomUniform[max,min]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric RandomUniform(String label, NumberValue a, NumberValue b) {
-		AlgoRandomUniform algo = new AlgoRandomUniform((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * RandomBinomial[n,p]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric RandomBinomial(String label, NumberValue a, NumberValue b) {
-		AlgoRandomBinomial algo = new AlgoRandomBinomial((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
 	
 	/** 
 	 * RandomPoisson[lambda]

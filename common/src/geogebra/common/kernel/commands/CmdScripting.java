@@ -1,10 +1,8 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScriptingInterface;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoScriptAction;
 import geogebra.common.main.MyError;

@@ -1,21 +1,21 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Kernel;
 
 /*
  * Random[ <Number>, <Number> ]
  */
-class CmdRandom extends CmdTwoNumFunction {
+public class CmdRandom extends CmdTwoNumFunction {
 
-	public CmdRandom(Kernel kernel) {
+	public CmdRandom(AbstractKernel kernel) {
 		super(kernel);
 	}
 
 	protected GeoElement doCommand(String a, NumberValue b, NumberValue c)
 	{
-		return kernel.Random(a, b, c);
+		return kernelA.Random(a, b, c);
 	}
 
 }

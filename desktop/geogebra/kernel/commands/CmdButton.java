@@ -1,18 +1,19 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Button[],Button[caption]
  * @author Zbynek
  *
  */
-class CmdButton extends CommandProcessorDesktop {
+class CmdButton extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +21,7 @@ class CmdButton extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdButton(Kernel kernel) {
+	public CmdButton(AbstractKernel kernel) {
 		super(kernel);
 	}
 
