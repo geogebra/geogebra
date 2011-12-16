@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 
+import geogebra.web.awt.Graphics2D;
 import geogebra.web.kernel.gawt.canvas.CssColor;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -8,27 +9,25 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.dom.client.ImageElement;
 
-public class BaseEuclidianView {
-	
-	protected final Canvas canvas;
-	private final Context2d context;
+public class BaseEuclidianView {	
 
+	Graphics2D g2 = null;
+	
 	protected BaseEuclidianView() {
 		this(Canvas.createIfSupported());
 	}
 	
 	protected BaseEuclidianView(Canvas canvas) {
-		this.canvas = canvas;
-		this.context = canvas.getContext2d();
+		this.g2 = new Graphics2D(canvas);
 	}
 
 	public void setCoordinateSpaceSize(int width, int height) {
-		canvas.setCoordinateSpaceWidth(width);
-		canvas.setCoordinateSpaceHeight(height);
+		g2.setCoordinateSpaceWidth(width);
+		g2.setCoordinateSpaceHeight(height);
 	}
 	
 	public void synCanvasSize() {
-		setCoordinateSpaceSize(canvas.getOffsetWidth(), canvas.getOffsetHeight());
+		setCoordinateSpaceSize(g2.getOffsetWidth(), g2.getOffsetHeight());
 	}
 	
 	/**
@@ -37,7 +36,7 @@ public class BaseEuclidianView {
 	 * @return the logical width
 	 */
 	public int getWidth() {
-		return canvas.getCoordinateSpaceWidth();
+		return g2.getCoordinateSpaceWidth();
 	}
 
 	/**
@@ -46,7 +45,7 @@ public class BaseEuclidianView {
 	 * @return the logical height
 	 */
 	public int getHeight() {
-		return canvas.getCoordinateSpaceHeight();
+		return g2.getCoordinateSpaceHeight();
 	}
 	
 	/**
@@ -55,7 +54,7 @@ public class BaseEuclidianView {
 	 * @return the physical width in pixels
 	 */
 	public int getPhysicalWidth() {
-		return canvas.getOffsetWidth();
+		return g2.getOffsetWidth();
 	}
 	
 	/**
@@ -64,22 +63,22 @@ public class BaseEuclidianView {
 	 * @return the physical height in pixels
 	 */
 	public int getPhysicalHeight() {
-		return canvas.getOffsetHeight();
+		return g2.getOffsetHeight();
 	}
 	
 	public int getAbsoluteTop() {
-		return canvas.getAbsoluteTop();
+		return g2.getAbsoluteTop();
 	}
 	
 	public int getAbsoluteLeft() {
-		return canvas.getAbsoluteLeft();
+		return g2.getAbsoluteLeft();
 	}
 	
 	
 	// Canvas Drawing and Context Methods
-	
+	/*
 	protected void fillRect(double x,double y,double width,double height) {
-		context.fillRect(x, y, width, height);
+		g2.fillRect(x, y, width, height);
 	}
 	
 	protected void setLineWidth(double lineWidth) {
@@ -179,6 +178,6 @@ public class BaseEuclidianView {
 	
 	protected void restoreContext() {
 		context.restore();
-	}
+	}*/
 	
 }

@@ -19,12 +19,28 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
-import geogebra.common.awt.Shape;
 import geogebra.common.awt.Stroke;
+import geogebra.web.kernel.gawt.PathIterator;
+import geogebra.web.kernel.gawt.Shape;
 
 import java.util.Map;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
+
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
+	
+	protected final Canvas canvas;
+	private final Context2d context;
+
+	/**
+	 * @param canvas
+	 */
+	public Graphics2D(Canvas canvas) {
+	    this.canvas = canvas;
+	    this.context = canvas.getContext2d();
+    }
 
 	@Override
 	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
@@ -38,9 +54,39 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	}
 
-	@Override
-	public void draw(Shape s) {
-		// TODO Auto-generated method stub
+	//tmp@Override
+	public void draw(Shape shape) {
+		if (shape == null) {
+			GWT.log("Error in EuclidianView.draw");
+			return;
+		}
+		context.beginPath();
+		PathIterator it = shape.getPathIterator(null);
+		double[] coords = new double[6];
+		while (!it.isDone()) {
+			int cu = it.currentSegment(coords);
+			switch (cu) {
+			case PathIterator.SEG_MOVETO:
+				context.moveTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_LINETO:
+				context.lineTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_CUBICTO: 
+				context.bezierCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
+				break;
+			case PathIterator.SEG_QUADTO:			
+				context.quadraticCurveTo(coords[0], coords[1], coords[2], coords[3]);
+				break;
+			case PathIterator.SEG_CLOSE:
+				context.closePath();
+			default:
+				break;
+			}
+			it.next();
+		}
+		//this.closePath();
+		context.stroke();
 
 	}
 
@@ -100,13 +146,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	}
 
-	@Override
+
 	public void fill(Shape s) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
 		// TODO Auto-generated method stub
 		return false;
@@ -250,7 +296,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return null;
 	}
 
-	@Override
 	public void clip(Shape s) {
 		// TODO Auto-generated method stub
 
@@ -285,5 +330,62 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void setCoordinateSpaceHeight(int height) {
+		canvas.setCoordinateSpaceHeight(height);
+    }
+
+	public void setCoordinateSpaceWidth(int width) {
+	    canvas.setCoordinateSpaceWidth(width);
+    }
+
+	public int getOffsetWidth() {
+		return canvas.getOffsetWidth();
+    }
+
+	public int getOffsetHeight() {
+	   return canvas.getOffsetHeight();
+    }
+
+	public int getCoordinateSpaceWidth() {
+	   return canvas.getCoordinateSpaceWidth();
+    }
+
+	public int getCoordinateSpaceHeight() {
+	    return canvas.getCoordinateSpaceHeight();
+    }
+
+	public int getAbsoluteTop() {
+	    return canvas.getAbsoluteTop();
+    }
+
+	public int getAbsoluteLeft() {
+	    return canvas.getAbsoluteLeft(); 
+    }
+
+	@Override
+    public void draw(geogebra.common.awt.Shape s) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void fill(geogebra.common.awt.Shape s) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public boolean hit(Rectangle rect, geogebra.common.awt.Shape s,
+            boolean onStroke) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public void clip(geogebra.common.awt.Shape s) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }
