@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -6,21 +6,21 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- * Curvature[<Point>,<Curve>], Curvature[<Point>,<Function>]
+ * CurvatureVector[<Point>,<Curve>], CurvatureVector[<Point>,<Function>]
  * 
  * @author Victor Franco Espino
  */
-class CmdCurvature extends CommandProcessorDesktop {
+public class CmdCurvatureVector extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCurvature(Kernel kernel) {
+	public CmdCurvatureVector(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -34,12 +34,12 @@ class CmdCurvature extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				GeoElement[] ret = { kernel.Curvature(c.getLabel(),
+				GeoElement[] ret = { kernelA.CurvatureVector(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoFunction) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
-				GeoElement[] ret = { kernel.CurvatureCurve(c.getLabel(),
+				GeoElement[] ret = { kernelA.CurvatureVectorCurve(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
 			} else {

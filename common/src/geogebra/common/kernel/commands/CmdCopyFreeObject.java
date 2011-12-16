@@ -1,14 +1,14 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *CopyFreeObject
  */
-class CmdCopyFreeObject extends CommandProcessorDesktop {
+public class CmdCopyFreeObject extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -16,7 +16,7 @@ class CmdCopyFreeObject extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCopyFreeObject(Kernel kernel) {
+	public CmdCopyFreeObject(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,13 +32,13 @@ class CmdCopyFreeObject extends CommandProcessorDesktop {
 			if (arg[0].isGeoFunctionConditional()|| arg[0].isGeoFunctionNVar() || arg[0].isGeoFunction()) {
 				String command = label == null ? "" : label + "="; 
 
-				kernel.setTemporaryPrintFigures(15); 
+				kernelA.setTemporaryPrintFigures(15); 
 				command += arg[0].toOutputValueString(); 
-				kernel.restorePrintAccuracy(); 
+				kernelA.restorePrintAccuracy(); 
 
 				try { 
 
-					GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor() 
+					GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor() 
 							.processAlgebraCommandNoExceptions(command, true); 
 
 					ret[0].setVisualStyle(arg[0]); 

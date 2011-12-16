@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- *Degree
+ * Direction[ <GeoLine> ]
  */
-class CmdDegree extends CommandProcessorDesktop {
+public class CmdDirection extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdDegree extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDegree(Kernel kernel) {
+	public CmdDirection(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -25,18 +25,19 @@ class CmdDegree extends CommandProcessorDesktop {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		arg = resArgs(c);
 
 		switch (n) {
 		case 1:
-			if (ok[0] = (arg[0].isGeoFunction())) {
-				GeoElement[] ret = { kernel.Degree(c.getLabel(),
-						(GeoFunction) arg[0]) };
+			arg = resArgs(c);
+			if (ok[0] = (arg[0].isGeoLine())) {
+				GeoElement[] ret = { kernelA.Direction(c.getLabel(),
+						(GeoLine) arg[0]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			} else {
+				if (!ok[0])
+					throw argErr(app, c.getName(), arg[0]);
+			}
 
-			// more than one argument
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

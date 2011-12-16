@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
- * Direction[ <GeoLine> ]
+ * Denominator[ <Function> ]
  */
-class CmdDirection extends CommandProcessorDesktop {
+public class CmdDenominator extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,26 +17,25 @@ class CmdDirection extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDirection(Kernel kernel) {
+	public CmdDenominator(AbstractKernel kernel) {
 		super(kernel);
 	}
 
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoLine())) {
-				GeoElement[] ret = { kernel.Direction(c.getLabel(),
-						(GeoLine) arg[0]) };
+
+			if (arg[0].isGeoFunction()) {
+				GeoElement[] ret = { kernelA.Denominator(c.getLabel(),
+						(GeoFunction) arg[0]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
+
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

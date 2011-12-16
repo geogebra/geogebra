@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Defined[ Object ]
  * Michael Borcherds
  * 2008-03-06
  */
-public class CmdConstructionStep extends CommandProcessorDesktop {
+public class CmdConstructionStep extends CommandProcessor {
 
-	public CmdConstructionStep(Kernel kernel) {
+	public CmdConstructionStep(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -25,12 +25,12 @@ public class CmdConstructionStep extends CommandProcessorDesktop {
 		case 0:
 
 			GeoElement[] ret = { 
-					kernel.ConstructionStep(c.getLabel() ) };
+					kernelA.ConstructionStep(c.getLabel() ) };
 			return ret;
 	
 		case 1:
 			GeoElement[] ret3 = { 
-					kernel.ConstructionStep(c.getLabel(), arg[0] ) };
+					kernelA.ConstructionStep(c.getLabel(), arg[0] ) };
 			//kernel.Step(c.getLabel() ) };
 			return ret3;
 	

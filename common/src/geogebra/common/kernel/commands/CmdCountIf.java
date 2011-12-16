@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * CountIf[ <GeoBoolean>, <GeoList> ]
  */
-class CmdCountIf extends CommandProcessorDesktop {
+public class CmdCountIf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdCountIf extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCountIf(Kernel kernel) {
+	public CmdCountIf(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -39,7 +39,7 @@ class CmdCountIf extends CommandProcessorDesktop {
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						&& (ok[1] = arg[1].isGeoList())) {
 
-					GeoElement[] ret = { kernel.CountIf(c.getLabel(),
+					GeoElement[] ret = { kernelA.CountIf(c.getLabel(),
 							(GeoFunction) booleanFun, ((GeoList) arg[1])) };
 					return ret;
 				}

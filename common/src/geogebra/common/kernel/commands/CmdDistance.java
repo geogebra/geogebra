@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -6,13 +6,13 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Distance[ <GeoPoint>, <GeoPoint> ] Distance[ <GeoPoint>, <GeoLine> ]
  * Distance[ <GeoLine>, <GeoPoint> ] Distance[ <GeoLine>, <GeoLine> ]
  */
-class CmdDistance extends CommandProcessorDesktop {
+public class CmdDistance extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +20,7 @@ class CmdDistance extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDistance(Kernel kernel) {
+	public CmdDistance(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -36,21 +36,21 @@ class CmdDistance extends CommandProcessorDesktop {
 			// distance between two points
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { kernel.Distance(c.getLabel(),
+				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
 						(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 				return ret;
 			}
 
 			// distance between point and line
 			else if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = { kernel.Distance(c.getLabel(),
+				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
 						(GeoPoint2) arg[0], arg[1]) };
 				return ret;
 			}
 
 			// distance between line and point
 			else if (arg[1].isGeoPoint()) {
-				GeoElement[] ret = { kernel.Distance(c.getLabel(),
+				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
 						(GeoPoint2) arg[1], arg[0]) };
 				return ret;
 			}
@@ -58,7 +58,7 @@ class CmdDistance extends CommandProcessorDesktop {
 			// distance between line and line
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { kernel.Distance(c.getLabel(),
+				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
 						(GeoLine) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			}

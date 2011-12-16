@@ -1,16 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- *Coefficients
+ * Directrix[ <GeoConic> ]
  */
-class CmdCoefficients extends CommandProcessorDesktop {
+public class CmdDirectrix extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,29 +17,26 @@ class CmdCoefficients extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCoefficients(Kernel kernel) {
+	public CmdDirectrix(AbstractKernel kernel) {
 		super(kernel);
 	}
 
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
 
 		switch (n) {
 		case 1:
-			if ((arg[0].isGeoFunction())) {
-				GeoElement[] ret = { kernel.Coefficients(c.getLabel(),
-						(GeoFunction) arg[0]) };
-				return ret;
-			} else if ((arg[0].isGeoConic())) {
-				GeoElement[] ret = { kernel.Coefficients(c.getLabel(),
+			arg = resArgs(c);
+
+			// asymptotes to conic
+			if (arg[0].isGeoConic()) {
+				GeoElement[] ret = { kernelA.Directrix(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
 
-			// more than one argument
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -6,14 +6,14 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Dilate[ <GeoPoint>, <NumberValue>, <GeoPoint> ] Dilate[ <GeoLine>,
  * <NumberValue>, <GeoPoint> ] Dilate[ <GeoConic>, <NumberValue>, <GeoPoint> ]
  * Dilate[ <GeoPolygon>, <NumberValue>, <GeoPoint> ]
  */
-class CmdDilate extends CommandProcessorDesktop {
+public class CmdDilate extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -21,7 +21,7 @@ class CmdDilate extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDilate(Kernel kernel) {
+	public CmdDilate(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -41,7 +41,7 @@ class CmdDilate extends CommandProcessorDesktop {
 					.isGeoList()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
 				NumberValue phi = (NumberValue) arg[1];
-				ret = kernel.Dilate(label, arg[0], phi);
+				ret = kernelA.Dilate(label, arg[0], phi);
 				return ret;
 			}
 
@@ -62,7 +62,7 @@ class CmdDilate extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				NumberValue phi = (NumberValue) arg[1];
 				GeoPoint2 Q = (GeoPoint2) arg[2];
-				ret = kernel.Dilate(label, arg[0], phi, Q);
+				ret = kernelA.Dilate(label, arg[0], phi, Q);
 				return ret;
 			}
 

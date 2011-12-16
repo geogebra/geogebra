@@ -1,20 +1,20 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /*
  * Perimeter[ <GeoPolygon> ]
  * Perimeter[ <Conic> ]
  */
-public class CmdPerimeter extends CommandProcessorDesktop {
+public class CmdPerimeter extends CommandProcessor {
 
-	public CmdPerimeter(Kernel kernel) {
+	public CmdPerimeter(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -28,20 +28,20 @@ public class CmdPerimeter extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ( (arg[0].isGeoPolygon())) {
 
-				GeoElement[] ret = { kernel.Perimeter(c.getLabel(),
+				GeoElement[] ret = { kernelA.Perimeter(c.getLabel(),
 						(GeoPolygon) arg[0]) };
 				return ret;
 
 				// Perimeter[ <Conic> ]
 			} else if ( (arg[0].isGeoConic())) {
 
-				GeoElement[] ret = { kernel.Circumference(c.getLabel(),
+				GeoElement[] ret = { kernelA.Circumference(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
 
 			} else if ( (arg[0].isGeoLocus())) {
 				//Perimeter[locus]
-				GeoElement[] ret = { kernel.Perimeter(c.getLabel(),
+				GeoElement[] ret = { kernelA.Perimeter(c.getLabel(),
 						(GeoLocus) arg[0]) };
 				return ret;
 

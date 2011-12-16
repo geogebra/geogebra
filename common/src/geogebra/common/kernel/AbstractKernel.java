@@ -4,92 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.algos.AlgoAffineRatio;
-import geogebra.common.kernel.algos.AlgoAngleConic;
-import geogebra.common.kernel.algos.AlgoAngleLines;
-import geogebra.common.kernel.algos.AlgoAngleNumeric;
-import geogebra.common.kernel.algos.AlgoAnglePoints;
-import geogebra.common.kernel.algos.AlgoAnglePolygon;
-import geogebra.common.kernel.algos.AlgoAngleVector;
-import geogebra.common.kernel.algos.AlgoAngleVectors;
-import geogebra.common.kernel.algos.AlgoAngularBisectorLines;
-import geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
-import geogebra.common.kernel.algos.AlgoAppend;
-import geogebra.common.kernel.algos.AlgoAreaConic;
-import geogebra.common.kernel.algos.AlgoAreaPoints;
-import geogebra.common.kernel.algos.AlgoAreaPolygon;
-import geogebra.common.kernel.algos.AlgoAsymptote;
-import geogebra.common.kernel.algos.AlgoAsymptoteFunction;
-import geogebra.common.kernel.algos.AlgoAxes;
-import geogebra.common.kernel.algos.AlgoAxisStepX;
-import geogebra.common.kernel.algos.AlgoAxisStepY;
-import geogebra.common.kernel.algos.AlgoCell;
-import geogebra.common.kernel.algos.AlgoCenterConic;
-import geogebra.common.kernel.algos.AlgoCentroidPolygon;
-import geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import geogebra.common.kernel.algos.AlgoCircleThreePoints;
-import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
-import geogebra.common.kernel.algos.AlgoClosestPoint;
-import geogebra.common.kernel.algos.AlgoColumn;
-import geogebra.common.kernel.algos.AlgoCompleteSquare;
-import geogebra.common.kernel.algos.AlgoComplexRootsPolynomial;
-import geogebra.common.kernel.algos.AlgoConicFivePoints;
-import geogebra.common.kernel.algos.AlgoConicFromCoeffList;
-import geogebra.common.kernel.algos.AlgoConicPartCircle;
-import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
-import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
-import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
-import geogebra.common.kernel.algos.AlgoDependentBoolean;
-import geogebra.common.kernel.algos.AlgoDependentConic;
-import geogebra.common.kernel.algos.AlgoDependentFunction;
-import geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
-import geogebra.common.kernel.algos.AlgoDependentGeoCopy;
-import geogebra.common.kernel.algos.AlgoDependentInterval;
-import geogebra.common.kernel.algos.AlgoDependentLine;
-import geogebra.common.kernel.algos.AlgoDependentList;
-import geogebra.common.kernel.algos.AlgoDependentListExpression;
-import geogebra.common.kernel.algos.AlgoDependentNumber;
-import geogebra.common.kernel.algos.AlgoDependentPoint;
-import geogebra.common.kernel.algos.AlgoDependentText;
-import geogebra.common.kernel.algos.AlgoDependentVector;
-import geogebra.common.kernel.algos.AlgoDiameterLine;
-import geogebra.common.kernel.algos.AlgoDiameterVector;
-import geogebra.common.kernel.algos.AlgoDirection;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoEllipseFociLength;
-import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
-import geogebra.common.kernel.algos.AlgoFocus;
-import geogebra.common.kernel.algos.AlgoHyperbolaFociLength;
-import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
-import geogebra.common.kernel.algos.AlgoImageCorner;
-import geogebra.common.kernel.algos.AlgoIncircle;
-import geogebra.common.kernel.algos.AlgoIntersectAbstract;
-import geogebra.common.kernel.algos.AlgoIsInRegion;
-import geogebra.common.kernel.algos.AlgoJoinPoints;
-import geogebra.common.kernel.algos.AlgoJoinPointsRay;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.algos.AlgoLineBisector;
-import geogebra.common.kernel.algos.AlgoLineBisectorSegment;
-import geogebra.common.kernel.algos.AlgoLinePointLine;
-import geogebra.common.kernel.algos.AlgoLinePointVector;
-import geogebra.common.kernel.algos.AlgoOrthoLinePointConic;
-import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
-import geogebra.common.kernel.algos.AlgoOrthoLinePointVector;
-import geogebra.common.kernel.algos.AlgoParabolaPointLine;
-import geogebra.common.kernel.algos.AlgoPointOnPath;
-import geogebra.common.kernel.algos.AlgoPolarLine;
-import geogebra.common.kernel.algos.AlgoRadius;
-import geogebra.common.kernel.algos.AlgoRayPointVector;
-import geogebra.common.kernel.algos.AlgoSemicircle;
-import geogebra.common.kernel.algos.AlgoSequence;
-import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.algos.AlgoTextCorner;
-import geogebra.common.kernel.algos.AlgoVector;
-import geogebra.common.kernel.algos.AlgoVectorPoint;
-import geogebra.common.kernel.algos.AlgoVertex;
-import geogebra.common.kernel.algos.AlgoVertexPolygon;
-import geogebra.common.kernel.algos.AlgoZip;
-import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.algos.*;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -101,12 +16,17 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.cas.AlgoCoefficients;
+import geogebra.common.kernel.cas.AlgoDegree;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
+import geogebra.common.kernel.cas.AlgoDerivative;
+import geogebra.common.kernel.cas.AlgoPolynomialDiv;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -115,6 +35,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -125,6 +46,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -147,6 +69,22 @@ import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.kernel.statistics.AlgoCauchy;
 import geogebra.common.kernel.statistics.AlgoChiSquared;
+import geogebra.common.kernel.statistics.AlgoDoubleListCovariance;
+import geogebra.common.kernel.statistics.AlgoDoubleListPMCC;
+import geogebra.common.kernel.statistics.AlgoDoubleListSXX;
+import geogebra.common.kernel.statistics.AlgoDoubleListSXY;
+import geogebra.common.kernel.statistics.AlgoListCovariance;
+import geogebra.common.kernel.statistics.AlgoListMeanX;
+import geogebra.common.kernel.statistics.AlgoListMeanY;
+import geogebra.common.kernel.statistics.AlgoListPMCC;
+import geogebra.common.kernel.statistics.AlgoListSDX;
+import geogebra.common.kernel.statistics.AlgoListSDY;
+import geogebra.common.kernel.statistics.AlgoListSXX;
+import geogebra.common.kernel.statistics.AlgoListSXY;
+import geogebra.common.kernel.statistics.AlgoListSYY;
+import geogebra.common.kernel.statistics.AlgoListSampleSDX;
+import geogebra.common.kernel.statistics.AlgoListSampleSDY;
+import geogebra.common.kernel.statistics.AlgoSXX;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -4997,6 +4935,491 @@ public abstract class AbstractKernel {
 			AlgoColumn algo = new AlgoColumn(cons, label, geo);
 			GeoNumeric ret = algo.getResult();
 			return ret;
+		}
+		
+		/**
+		 * Creates a list object for a range of cells in the spreadsheet. 
+		 * e.g. A1:B2
+		 */
+		final public GeoList CellRange(String label, GeoElement startCell, GeoElement endCell) {
+			AlgoCellRange algo =
+				new AlgoCellRange((Construction)cons, label, startCell, endCell);		
+			return algo.getList();
+		}
+		
+		/** 
+		 * Classes[dataList, start, width]
+		 * G. Sturr
+		 */
+		final public GeoList Classes(String label, GeoList dataList, GeoNumeric start, GeoNumeric width ) {
+			AlgoClasses algo = new AlgoClasses((Construction)cons, label, dataList, start, width, null);
+			GeoList list = algo.getResult();
+			return list;
+		}
+		
+		
+
+		/** 
+		 * Classes[dataList, number of classes]
+		 * G. Sturr
+		 */
+		final public GeoList Classes(String label, GeoList dataList, GeoNumeric numClasses) {
+			AlgoClasses algo = new AlgoClasses((Construction)cons, label, dataList, null, null, numClasses);
+			GeoList list = algo.getResult();
+			return list;
+		}
+		
+		/**
+		 * Coefficients
+		 * Michael Borcherds 2008-04-04
+		 */
+		final public GeoList Coefficients(String label, GeoFunction func) {		
+			AlgoCoefficients algo = new AlgoCoefficients((Construction)cons, label, func);
+			return algo.getResult();			
+		}
+		
+		
+		/**
+		 * Coefficients
+		 * Michael Borcherds 2008-04-04
+		 */
+		final public GeoList Coefficients(String label, GeoConic func) {		
+			AlgoConicCoefficients algo = new AlgoConicCoefficients((Construction)cons, label, func);
+			return algo.getResult();			
+		}
+		
+		/** 
+		 * ColumnName[]
+		 */
+		final public GeoText ColumnName(
+			String label,
+			GeoElement geo) {
+			AlgoColumnName algo = new AlgoColumnName((Construction)cons, label, geo);
+			GeoText t = algo.getGeoText();
+			return t;
+		}	
+		
+
+		
+		/** 
+		 * returns the current construction protocol step
+		 * Michael Borcherds 2008-05-15
+		 */
+		final public GeoNumeric ConstructionStep(
+			String label) {
+			AlgoConstructionStep algo = new AlgoConstructionStep((Construction)cons, label);
+			GeoNumeric t = algo.getResult();
+			return t;
+		}
+		
+		/** 
+		 * returns  current construction protocol step for an object
+		 * Michael Borcherds 2008-05-15
+		 */
+		final public GeoNumeric ConstructionStep(
+			String label, GeoElement geo) {
+			AlgoStepObject algo = new AlgoStepObject((Construction)cons, label, geo);
+			GeoNumeric t = algo.getResult();
+			return t;
+		}
+		
+		
+		/** 
+		 * If-then-else construct for functions. 
+		 *  example: If[ x < 2, x^2, x + 2 ]
+		 */
+		final public GeoNumeric CountIf(String label, 
+				GeoFunction boolFun,
+				GeoList list) {
+			
+			AlgoCountIf algo = new AlgoCountIf((Construction)cons, label, boolFun, list);
+			return algo.getResult();
+		}	
+
+		
+
+		/**
+		 * Calculate Curvature for function: k(x) = f''/T^3, T = sqrt(1+(f')^2)
+		 */
+
+		final public GeoNumeric Curvature(String label,GeoPoint2 A,GeoFunction f){
+
+			  AlgoCurvature algo = new AlgoCurvature((Construction)cons,label,A,f);
+			  GeoNumeric k = algo.getResult();
+			  return k;
+
+		}
+
+			
+
+		/**
+		 * Calculate Curvature for Curve: k(t) = (a'(t)b''(t)-a''(t)b'(t))/T^3, T = sqrt(a'(t)^2+b'(t)^2)
+		 */
+
+		final public GeoNumeric CurvatureCurve(String label,GeoPoint2 A, GeoCurveCartesian f){
+
+			  AlgoCurvatureCurve algo = new AlgoCurvatureCurve((Construction)cons,label,A,f);
+			  GeoNumeric k = algo.getResult();
+			  return k;
+
+		}
+
+		  
+
+		/**
+		 * Calculate cross ratio: (A,B,C,D) = affineRatio(A, B, C) / affineRatio(A, B, D)
+		 */
+
+		final public GeoNumeric CrossRatio(String label,GeoPoint2 A,GeoPoint2 B,GeoPoint2 C,GeoPoint2 D){
+
+			  AlgoCrossRatio cross = new AlgoCrossRatio((Construction)cons,label,A,B,C,D);
+			  GeoNumeric M = cross.getResult();
+			  return M;
+
+		}
+		
+		/** 
+		 * Covariance[list,list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric Covariance(String label, GeoList listX, GeoList listY) {
+			AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance((Construction)cons, label, listX, listY);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		
+		/** 
+		 * Covariance[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric Covariance(String label, GeoList list) {
+			AlgoListCovariance algo = new AlgoListCovariance((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+
+		/**
+		 * Calculate Curvature Vector for function: c(x) = (1/T^4)*(-f'*f'',f''), T = sqrt(1+(f')^2)
+		 */
+
+		final public GeoVector CurvatureVector(String label,GeoPoint2 A,GeoFunction f){
+
+			  AlgoCurvatureVector algo = new AlgoCurvatureVector((Construction)cons,label,A,f);
+			  GeoVector v = algo.getVector();
+			  return v;
+
+		}
+
+
+
+		/**
+
+		 * Calculate Curvature Vector for curve: c(t) = ((a'(t)b''(t)-a''(t)b'(t))/T^4) * (-b'(t),a'(t))
+	     *                                       T = sqrt(a'(t)^2+b'(t)^2)
+		 */
+
+		final public GeoVector CurvatureVectorCurve(String label,GeoPoint2 A,GeoCurveCartesian f){
+
+			  AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve((Construction)cons,label,A,f);
+			  GeoVector v = algo.getVector();
+			  return v;
+
+		}
+
+		
+		/** 
+		 * Cartesian curve command:
+	 	 * Curve[ <expression x-coord>, <expression x-coord>, <number-var>, <from>, <to> ]  
+		 */
+		final public GeoCurveCartesian CurveCartesian(String label, 
+				NumberValue xcoord, NumberValue ycoord, 
+				GeoNumeric localVar, NumberValue from, NumberValue to) 
+		{									
+			AlgoCurveCartesian algo = new AlgoCurveCartesian((Construction)cons, label, new NumberValue[] {xcoord, ycoord} , localVar, from, to);
+			return (GeoCurveCartesian) algo.getCurve();		
+		}	
+		
+		/**
+		 * Perimeter named label of GeoPolygon
+		 */
+		final public GeoNumeric Perimeter(String label, GeoPolygon polygon) {
+		    AlgoPerimeterPoly algo = new AlgoPerimeterPoly((Construction)cons, label, polygon);
+		    return algo.getCircumference();
+		}
+		
+		/**
+		 * Perimeter of Locus
+		 */
+		final public GeoNumeric Perimeter(String label, GeoLocus locus) {
+			AlgoPerimeterLocus algo = new AlgoPerimeterLocus((Construction)cons, label, locus);
+		    return algo.getResult();
+		}
+		
+		/**
+		 * Circumference named label of GeoConic
+		 */
+		final public GeoNumeric Circumference(String label, GeoConic conic) {
+		    AlgoCircumferenceConic algo = new AlgoCircumferenceConic((Construction)cons, label, conic);
+		    return algo.getCircumference();
+		}
+		
+		
+		/** 
+		 * PMCC[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric PMCC(String label, GeoList list) {
+			AlgoListPMCC algo = new AlgoListPMCC((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * PMCC[list,list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric PMCC(String label, GeoList listX, GeoList listY) {
+			AlgoDoubleListPMCC algo = new AlgoDoubleListPMCC((Construction)cons, label, listX, listY);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * MeanX[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric MeanX(String label, GeoList list) {
+			AlgoListMeanX algo = new AlgoListMeanX((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		
+		/** 
+		 * MeanY[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric MeanY(String label, GeoList list) {
+			AlgoListMeanY algo = new AlgoListMeanY((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		final public GeoNumeric SDY(String label, GeoList list) {
+			AlgoListSDY algo = new AlgoListSDY((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		final public GeoNumeric SDX(String label, GeoList list) {
+			AlgoListSDX algo = new AlgoListSDX((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * SampleSDX[list]
+		 * G. Sturr
+		 */
+		final public GeoNumeric SampleSDX(String label, GeoList list) {
+			AlgoListSampleSDX algo = new AlgoListSampleSDX((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		
+		/** 
+		 * SampleSDY[list]
+		 * G. Sturr
+		 */
+		final public GeoNumeric SampleSDY(String label, GeoList list) {
+			AlgoListSampleSDY algo = new AlgoListSampleSDY((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+
+		/** 
+		 * SXX[list,list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric SXX(String label, GeoList listX, GeoList listY) {
+			AlgoDoubleListSXX algo = new AlgoDoubleListSXX((Construction)cons, label, listX, listY);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * SXY[list,list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric SXY(String label, GeoList listX, GeoList listY) {
+			AlgoDoubleListSXY algo = new AlgoDoubleListSXY((Construction)cons, label, listX, listY);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		
+		/** 
+		 * SXY[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric SXY(String label, GeoList list) {
+			AlgoListSXY algo = new AlgoListSXY((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * SYY[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric SYY(String label, GeoList list) {
+			AlgoListSYY algo = new AlgoListSYY((Construction)cons, label, list);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+
+		
+		/** 
+		 * SXX[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric SXX(String label, GeoList list) {
+			GeoNumeric num;
+			GeoElement geo = list.get(0);
+			if (geo.isNumberValue())
+			{  // list of numbers
+				AlgoSXX algo = new AlgoSXX((Construction)cons, label, list);
+				num = algo.getResult();
+			}
+			else
+			{  // (probably) list of points
+				AlgoListSXX algo = new AlgoListSXX((Construction)cons, label, list);			
+				num = algo.getResult();
+			}
+			return num;
+		}
+		
+		/**
+		 * Degree
+		 * Michael Borcherds 
+		 */
+		final public GeoNumeric Degree(String label, GeoFunction func) {		
+			AlgoDegree algo = new AlgoDegree((Construction)cons, label, func);
+			return algo.getResult();			
+		}
+		
+		/** 
+		 * Defined[object]
+		 * Michael Borcherds
+		 */
+		final public GeoBoolean Defined(String label, GeoElement geo) {
+			AlgoDefined algo = new AlgoDefined((Construction)cons, label, geo);
+			GeoBoolean result = algo.getResult();
+			return result;
+		}
+
+		/**
+		 * Denominator
+		 * Michael Borcherds 
+		 */
+		final public GeoFunction Denominator(String label, GeoFunction func) {		
+			AlgoDenominator algo = new AlgoDenominator((Construction)cons, label, func);
+			return algo.getResult();			
+		}
+		
+		/**
+		 * n-th derivative of multivariate function f
+		 */
+		final public GeoElement Derivative(
+			String label,
+			CasEvaluableFunction f, GeoNumeric var,
+			NumberValue n) {
+			
+			AlgoDerivative algo = new AlgoDerivative((Construction)cons, label, f, var, n);
+			return algo.getResult();	
+		}
+		/**
+		 * dilate geoRot by r from S
+		 */
+		final public GeoElement [] Dilate(String label, GeoElement geoDil, NumberValue r, GeoPoint2 S) {
+			Transform t = new TransformDilate((Construction)cons, r,S);
+			return t.transform(geoDil, label);		
+		}
+		
+		/**
+		 * dilate geoRot by r from origin
+		 */
+		final public GeoElement [] Dilate(String label, GeoElement geoDil, NumberValue r) {
+			Transform t = new TransformDilate((Construction)cons, r);
+			return t.transform(geoDil, label);
+		}
+		
+		/** 
+		 * directrix of c
+		 */
+		final public GeoLine Directrix(String label, GeoConic c) {
+			AlgoDirectrix algo = new AlgoDirectrix((Construction)cons, label, c);
+			GeoLine directrix = algo.getDirectrix();
+			return directrix;
+		}
+		
+		/** 
+		 * Distance named label between points P and Q
+		 */
+		final public GeoNumeric Distance(
+			String label,
+			GeoPointND P,
+			GeoPointND Q) {
+			AlgoDistancePoints algo = new AlgoDistancePoints((Construction)cons, label, P, Q);
+			GeoNumeric num = algo.getDistance();
+			return num;
+		}
+
+		/** 
+		 * Distance named label between point P and line g
+		 */
+		final public GeoNumeric Distance(
+			String label,
+			GeoPoint2 P,
+			GeoElement g) {
+			AlgoDistancePointObject algo = new AlgoDistancePointObject((Construction)cons, label, P, g);
+			GeoNumeric num = algo.getDistance();
+			return num;
+		}
+
+		/** 
+		 * Distance named label between line g and line h
+		 */
+		final public GeoNumeric Distance(
+			String label,
+			GeoLine g,
+			GeoLine h) {
+			AlgoDistanceLineLine algo = new AlgoDistanceLineLine((Construction)cons, label, g, h);
+			GeoNumeric num = algo.getDistance();
+			return num;
+		}
+		
+		/** 
+		 * Div[a, b]
+		 */
+		final public GeoNumeric Div(String label, NumberValue a, NumberValue b) {
+			AlgoDiv algo = new AlgoDiv((Construction)cons, label, a, b);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * Div[a, b] Polynomial Division
+		 */
+		final public GeoFunction Div(String label, GeoFunction a, GeoFunction b) {
+			AlgoPolynomialDiv algo = new AlgoPolynomialDiv((Construction)cons, label, a, b);
+			GeoFunction f = algo.getResult();
+			return f;
 		}
 		
 }

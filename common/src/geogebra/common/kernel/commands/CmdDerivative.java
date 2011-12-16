@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -8,13 +8,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Derivative[ <GeoFunction> ] Derivative[ <GeoFunctionNVar>, <var> ]
  * Derivative[ <GeoCurveCartesian> ]
  */
-class CmdDerivative extends CommandProcessorDesktop {
+public class CmdDerivative extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -23,7 +22,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 	 *            kernel
 	 */
 	public CmdDerivative(AbstractKernel kernel) {
-		super((Kernel)kernel);
+		super(kernel);
 	}
 
 	final public GeoElement[] process(Command c) throws MyError {
@@ -38,7 +37,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
 				if (label == null)
 					label = getDerivLabel((GeoElement)f.toGeoElement(), 1);
-				GeoElement[] ret = { kernel.Derivative(label, f, null, null) };
+				GeoElement[] ret = { kernelA.Derivative(label, f, null, null) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
@@ -55,7 +54,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 					int iorder = (int) Math.round(order);
 					label = getDerivLabel((GeoElement)f.toGeoElement(), iorder);
 				}
-				GeoElement[] ret = { kernel.Derivative(label, f, null,
+				GeoElement[] ret = { kernelA.Derivative(label, f, null,
 						(NumberValue) arg[1]) };
 				return ret;
 
@@ -66,7 +65,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 				arg2 = resArgsLocalNumVar(c, 1, 1);
 				if (arg2[0] instanceof CasEvaluableFunction
 						&& arg2[1].isGeoNumeric()) {
-					GeoElement[] ret = { kernel.Derivative(label,
+					GeoElement[] ret = { kernelA.Derivative(label,
 							(CasEvaluableFunction) arg2[0], // function
 							(GeoNumeric) arg2[1], null) }; // var
 					return ret;
@@ -79,7 +78,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 					&& arg[1].isGeoFunction()) {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1].toString());
-				GeoElement[] ret = { kernel.Derivative(label,
+				GeoElement[] ret = { kernelA.Derivative(label,
 						(CasEvaluableFunction) arg[0], // function
 						(GeoNumeric) var, null) }; // var
 				return ret;
@@ -94,7 +93,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 				arg = resArgsLocalNumVar(c, 1, 1);
 				if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoNumeric()
 						&& arg[2].isNumberValue()) {
-					GeoElement[] ret = { kernel.Derivative(label,
+					GeoElement[] ret = { kernelA.Derivative(label,
 							(GeoFunctionNVar) arg[0], // function
 							(GeoNumeric) arg[1], (NumberValue) arg[2]) }; // var
 					return ret;
@@ -108,7 +107,7 @@ class CmdDerivative extends CommandProcessorDesktop {
 					&& arg[2].isNumberValue()) {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1].toString());
-				GeoElement[] ret = { kernel.Derivative(label,
+				GeoElement[] ret = { kernelA.Derivative(label,
 						(GeoFunctionNVar) arg[0], // function
 						(GeoNumeric) var, (NumberValue) arg[2]) }; // var
 				return ret;

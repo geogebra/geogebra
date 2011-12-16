@@ -1,17 +1,18 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 /*
  * CellRange[ <start cell>, <end cell> ], e.g. CellRange[A1, B2]
  */
-public class CmdCellRange extends CommandProcessorDesktop {
+public class CmdCellRange extends CommandProcessor {
 
-	public CmdCellRange(Kernel kernel) {
+	public CmdCellRange(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -28,7 +29,7 @@ public class CmdCellRange extends CommandProcessorDesktop {
 				(ok[1] = GeoElementSpreadsheet.isSpreadsheetLabel(arg[1].getLabel()))) 
 			{
 				GeoElement[] ret = { 
-						kernel.CellRange(c.getLabel(), arg[0], arg[1]) };
+						kernelA.CellRange(c.getLabel(), arg[0], arg[1]) };
 				return ret;
 				
 			}  

@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Curve[ <x-coord expression>,  <y-coord expression>, <number-var>, <from>, <to> ]  
  */
-public class CmdCurveCartesian extends CommandProcessorDesktop {
+public class CmdCurveCartesian extends CommandProcessor {
 	
-	public CmdCurveCartesian(Kernel kernel) {
+	public CmdCurveCartesian(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -35,7 +35,7 @@ public  GeoElement[] process(Command c) throws MyError {
                	 && (ok[4] = arg[4].isNumberValue()))
                {
             	   GeoElement [] ret = new GeoElement[1];
-                   ret[0] = kernel.CurveCartesian(
+                   ret[0] = kernelA.CurveCartesian(
                                 c.getLabel(),
                                 (NumberValue) arg[0],
                                 (NumberValue) arg[1],

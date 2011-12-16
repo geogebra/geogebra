@@ -1,22 +1,23 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 /**
  *ColumnName
  */
-class CmdColumnName extends CommandProcessorDesktop {
+class CmdColumnName extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdColumnName(Kernel kernel) {
+	public CmdColumnName(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +31,7 @@ class CmdColumnName extends CommandProcessorDesktop {
 
 			if (arg[0].getLabel() != null
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabel())) {
-				GeoElement[] ret = { kernel.ColumnName(c.getLabel(), arg[0]) };
+				GeoElement[] ret = { kernelA.ColumnName(c.getLabel(), arg[0]) };
 
 				return ret;
 			} else {

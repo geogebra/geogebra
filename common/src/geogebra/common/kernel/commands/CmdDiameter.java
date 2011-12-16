@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Diameter[ <GeoVector>, <GeoConic> ] Diameter[ <GeoLine>, <GeoConic> ]
  */
-class CmdDiameter extends CommandProcessorDesktop {
+public class CmdDiameter extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ class CmdDiameter extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDiameter(Kernel kernel) {
+	public CmdDiameter(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -35,7 +35,7 @@ class CmdDiameter extends CommandProcessorDesktop {
 			// diameter line conjugate to vector relative to conic
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { kernel.DiameterLine(c.getLabel(),
+				GeoElement[] ret = { kernelA.DiameterLine(c.getLabel(),
 						(GeoVector) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}
@@ -43,7 +43,7 @@ class CmdDiameter extends CommandProcessorDesktop {
 			// diameter line conjugate to line relative to conic
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { kernel.DiameterLine(c.getLabel(),
+				GeoElement[] ret = { kernelA.DiameterLine(c.getLabel(),
 						(GeoLine) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}

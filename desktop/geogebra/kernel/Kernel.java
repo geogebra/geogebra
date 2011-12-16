@@ -574,15 +574,7 @@ public class Kernel extends AbstractKernel{
 	}
 
 	
-	/**
-	 * Creates a list object for a range of cells in the spreadsheet. 
-	 * e.g. A1:B2
-	 */
-	final public GeoList CellRange(String label, GeoElement startCell, GeoElement endCell) {
-		AlgoCellRange algo =
-			new AlgoCellRange((Construction)cons, label, startCell, endCell);		
-		return algo.getList();
-	}
+
 	
 	/********************
 	 * ALGORITHMIC PART *
@@ -622,17 +614,7 @@ public class Kernel extends AbstractKernel{
 		return algo.getGeoFunction();
 	}	
 	
-	/** 
-	 * If-then-else construct for functions. 
-	 *  example: If[ x < 2, x^2, x + 2 ]
-	 */
-	final public GeoNumeric CountIf(String label, 
-			GeoFunction boolFun,
-			GeoList list) {
-		
-		AlgoCountIf algo = new AlgoCountIf((Construction)cons, label, boolFun, list);
-		return algo.getResult();
-	}	
+
 	
 	/** 
 	 * Sequence command:
@@ -646,19 +628,7 @@ public class Kernel extends AbstractKernel{
 			AlgoSequence algo = new AlgoSequence((Construction)cons, label, expression, localVar, from, to, step);
 			return algo.getOutput();	
 	}	
-	
-	/** 
-	 * Cartesian curve command:
- 	 * Curve[ <expression x-coord>, <expression x-coord>, <number-var>, <from>, <to> ]  
-	 */
-	final public GeoCurveCartesian CurveCartesian(String label, 
-			NumberValue xcoord, NumberValue ycoord, 
-			GeoNumeric localVar, NumberValue from, NumberValue to) 
-	{									
-		AlgoCurveCartesian algo = new AlgoCurveCartesian((Construction)cons, label, new NumberValue[] {xcoord, ycoord} , localVar, from, to);
-		return (GeoCurveCartesian) algo.getCurve();		
-	}	
-	
+
 	
 	
 		
@@ -694,16 +664,7 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	
-	/** 
-	 * ColumnName[]
-	 */
-	final public GeoText ColumnName(
-		String label,
-		GeoElement geo) {
-		AlgoColumnName algo = new AlgoColumnName((Construction)cons, label, geo);
-		GeoText t = algo.getGeoText();
-		return t;
-	}		
+	
 	
 	/** 
 	 * LaTeX of geo.
@@ -850,28 +811,6 @@ public class Kernel extends AbstractKernel{
 	
 
 
-	
-	/** 
-	 * returns the current construction protocol step
-	 * Michael Borcherds 2008-05-15
-	 */
-	final public GeoNumeric ConstructionStep(
-		String label) {
-		AlgoConstructionStep algo = new AlgoConstructionStep((Construction)cons, label);
-		GeoNumeric t = algo.getResult();
-		return t;
-	}
-	
-	/** 
-	 * returns  current construction protocol step for an object
-	 * Michael Borcherds 2008-05-15
-	 */
-	final public GeoNumeric ConstructionStep(
-		String label, GeoElement geo) {
-		AlgoStepObject algo = new AlgoStepObject((Construction)cons, label, geo);
-		GeoNumeric t = algo.getResult();
-		return t;
-	}
 	
 		
 		
@@ -1374,42 +1313,7 @@ public class Kernel extends AbstractKernel{
 		return num;
 	}
 
-	/** 
-	 * Distance named label between points P and Q
-	 */
-	final public GeoNumeric Distance(
-		String label,
-		GeoPointND P,
-		GeoPointND Q) {
-		AlgoDistancePoints algo = new AlgoDistancePoints((Construction)cons, label, P, Q);
-		GeoNumeric num = algo.getDistance();
-		return num;
-	}
 
-	/** 
-	 * Distance named label between point P and line g
-	 */
-	final public GeoNumeric Distance(
-		String label,
-		GeoPoint2 P,
-		GeoElement g) {
-		AlgoDistancePointObject algo = new AlgoDistancePointObject((Construction)cons, label, P, g);
-		GeoNumeric num = algo.getDistance();
-		return num;
-	}
-
-	/** 
-	 * Distance named label between line g and line h
-	 */
-	final public GeoNumeric Distance(
-		String label,
-		GeoLine g,
-		GeoLine h) {
-		AlgoDistanceLineLine algo = new AlgoDistanceLineLine((Construction)cons, label, g, h);
-		GeoNumeric num = algo.getDistance();
-		return num;
-	}
-	
 
 	
 	/** 
@@ -1420,15 +1324,7 @@ public class Kernel extends AbstractKernel{
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
-	
-	/** 
-	 * Div[a, b]
-	 */
-	final public GeoNumeric Div(String label, NumberValue a, NumberValue b) {
-		AlgoDiv algo = new AlgoDiv((Construction)cons, label, a, b);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	/** 
 	 * Mod[a, b] Polynomial remainder
@@ -1439,14 +1335,7 @@ public class Kernel extends AbstractKernel{
 		return f;
 	}
 	
-	/** 
-	 * Div[a, b] Polynomial Division
-	 */
-	final public GeoFunction Div(String label, GeoFunction a, GeoFunction b) {
-		AlgoPolynomialDiv algo = new AlgoPolynomialDiv((Construction)cons, label, a, b);
-		GeoFunction f = algo.getResult();
-		return f;
-	}
+
 	
 	/** 
 	 * Min[a, b]
@@ -1565,16 +1454,7 @@ public class Kernel extends AbstractKernel{
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
-	
-	/** 
-	 * Covariance[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric Covariance(String label, GeoList list) {
-		AlgoListCovariance algo = new AlgoListCovariance((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	
 	/** 
@@ -1600,111 +1480,7 @@ public class Kernel extends AbstractKernel{
 	
 	
 	
-	
-	/** 
-	 * SXX[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric SXX(String label, GeoList list) {
-		GeoNumeric num;
-		GeoElement geo = list.get(0);
-		if (geo.isNumberValue())
-		{  // list of numbers
-			AlgoSXX algo = new AlgoSXX((Construction)cons, label, list);
-			num = algo.getResult();
-		}
-		else
-		{  // (probably) list of points
-			AlgoListSXX algo = new AlgoListSXX((Construction)cons, label, list);			
-			num = algo.getResult();
-		}
-		return num;
-	}
-	
-	
-	/** 
-	 * SXY[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric SXY(String label, GeoList list) {
-		AlgoListSXY algo = new AlgoListSXY((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * SYY[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric SYY(String label, GeoList list) {
-		AlgoListSYY algo = new AlgoListSYY((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * MeanX[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric MeanX(String label, GeoList list) {
-		AlgoListMeanX algo = new AlgoListMeanX((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * MeanY[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric MeanY(String label, GeoList list) {
-		AlgoListMeanY algo = new AlgoListMeanY((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * SampleSDX[list]
-	 * G. Sturr
-	 */
-	final public GeoNumeric SampleSDX(String label, GeoList list) {
-		AlgoListSampleSDX algo = new AlgoListSampleSDX((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	
-	/** 
-	 * SampleSDY[list]
-	 * G. Sturr
-	 */
-	final public GeoNumeric SampleSDY(String label, GeoList list) {
-		AlgoListSampleSDY algo = new AlgoListSampleSDY((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	final public GeoNumeric SDY(String label, GeoList list) {
-		AlgoListSDY algo = new AlgoListSDY((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	final public GeoNumeric SDX(String label, GeoList list) {
-		AlgoListSDX algo = new AlgoListSDX((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	
-	/** 
-	 * PMCC[list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric PMCC(String label, GeoList list) {
-		AlgoListPMCC algo = new AlgoListPMCC((Construction)cons, label, list);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	/** 
 	 * SigmaXY[list,list]
@@ -1736,45 +1512,7 @@ public class Kernel extends AbstractKernel{
 		return num;
 	}
 	
-	/** 
-	 * Covariance[list,list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric Covariance(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance((Construction)cons, label, listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * SXX[list,list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric SXX(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSXX algo = new AlgoDoubleListSXX((Construction)cons, label, listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * SXY[list,list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric SXY(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListSXY algo = new AlgoDoubleListSXY((Construction)cons, label, listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
-	
-	/** 
-	 * PMCC[list,list]
-	 * Michael Borcherds
-	 */
-	final public GeoNumeric PMCC(String label, GeoList listX, GeoList listY) {
-		AlgoDoubleListPMCC algo = new AlgoDoubleListPMCC((Construction)cons, label, listX, listY);
-		GeoNumeric num = algo.getResult();
-		return num;
-	}
+
 	
 	/** 
 	 * FitLineY[list of coords]
@@ -2557,15 +2295,7 @@ public class Kernel extends AbstractKernel{
 		return list2;
 	}
 	
-	/** 
-	 * Defined[object]
-	 * Michael Borcherds
-	 */
-	final public GeoBoolean Defined(String label, GeoElement geo) {
-		AlgoDefined algo = new AlgoDefined((Construction)cons, label, geo);
-		GeoBoolean result = algo.getResult();
-		return result;
-	}
+
 	
 	/** 
 	 * IsInteger[number]
@@ -2998,28 +2728,9 @@ public class Kernel extends AbstractKernel{
 		return list;
 	}
 	
+
 	
 
-	/** 
-	 * Classes[dataList, number of classes]
-	 * G. Sturr
-	 */
-	final public GeoList Classes(String label, GeoList dataList, GeoNumeric numClasses) {
-		AlgoClasses algo = new AlgoClasses((Construction)cons, label, dataList, null, null, numClasses);
-		GeoList list = algo.getResult();
-		return list;
-	}
-	
-	
-	/** 
-	 * Classes[dataList, start, width]
-	 * G. Sturr
-	 */
-	final public GeoList Classes(String label, GeoList dataList, GeoNumeric start, GeoNumeric width ) {
-		AlgoClasses algo = new AlgoClasses((Construction)cons, label, dataList, start, width, null);
-		GeoList list = algo.getResult();
-		return list;
-	}
 	
 	
 	
@@ -3299,29 +3010,6 @@ public class Kernel extends AbstractKernel{
 	
 	// PhilippWeissenbacher 2007-04-10
 	
-	/**
-	 * Perimeter named label of GeoPolygon
-	 */
-	final public GeoNumeric Perimeter(String label, GeoPolygon polygon) {
-	    AlgoPerimeterPoly algo = new AlgoPerimeterPoly((Construction)cons, label, polygon);
-	    return algo.getCircumference();
-	}
-	
-	/**
-	 * Perimeter of Locus
-	 */
-	final public GeoNumeric Perimeter(String label, GeoLocus locus) {
-		AlgoPerimeterLocus algo = new AlgoPerimeterLocus((Construction)cons, label, locus);
-	    return algo.getResult();
-	}
-	
-	/**
-	 * Circumference named label of GeoConic
-	 */
-	final public GeoNumeric Circumference(String label, GeoConic conic) {
-	    AlgoCircumferenceConic algo = new AlgoCircumferenceConic((Construction)cons, label, conic);
-	    return algo.getCircumference();
-	}
 	
 	/**
 	 * Path Parameter for eg point on circle
@@ -4366,14 +4054,7 @@ public class Kernel extends AbstractKernel{
 		return axis;
 	}
 
-	/** 
-	 * directrix of c
-	 */
-	final public GeoLine Directrix(String label, GeoConic c) {
-		AlgoDirectrix algo = new AlgoDirectrix((Construction)cons, label, c);
-		GeoLine directrix = algo.getDirectrix();
-		return directrix;
-	}
+
 
 	/** 
 	 * linear eccentricity of c
@@ -4469,21 +4150,7 @@ public class Kernel extends AbstractKernel{
 		return t.transform(geoRot, label);		
 	}
 		
-	/**
-	 * dilate geoRot by r from S
-	 */
-	final public GeoElement [] Dilate(String label, GeoElement geoDil, NumberValue r, GeoPoint2 S) {
-		Transform t = new TransformDilate((Construction)cons, r,S);
-		return t.transform(geoDil, label);		
-	}
-	
-	/**
-	 * dilate geoRot by r from origin
-	 */
-	final public GeoElement [] Dilate(String label, GeoElement geoDil, NumberValue r) {
-		Transform t = new TransformDilate((Construction)cons, r);
-		return t.transform(geoDil, label);
-	}
+
 
 	/**
 	 * mirror geoMir at point Q
@@ -4571,17 +4238,7 @@ public class Kernel extends AbstractKernel{
 		return g;
 	}
 
-	/**
-	 * n-th derivative of multivariate function f
-	 */
-	final public GeoElement Derivative(
-		String label,
-		CasEvaluableFunction f, GeoNumeric var,
-		NumberValue n) {
-		
-		AlgoDerivative algo = new AlgoDerivative((Construction)cons, label, f, var, n);
-		return algo.getResult();	
-	}
+
 	
 	/**
 	 * Tries to expand a function f to a polynomial.
@@ -4669,24 +4326,9 @@ public class Kernel extends AbstractKernel{
 		return algo.getResult();			
 	}
 	
-	/**
-	 * Denominator
-	 * Michael Borcherds 
-	 */
-	final public GeoFunction Denominator(String label, GeoFunction func) {		
-		AlgoDenominator algo = new AlgoDenominator((Construction)cons, label, func);
-		return algo.getResult();			
-	}
+
 	
-	/**
-	 * Degree
-	 * Michael Borcherds 
-	 */
-	final public GeoNumeric Degree(String label, GeoFunction func) {		
-		AlgoDegree algo = new AlgoDegree((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
+
 	/**
 	 * Limit
 	 * Michael Borcherds 
@@ -4723,23 +4365,8 @@ public class Kernel extends AbstractKernel{
 		return algo.getResult();			
 	}
 	
-	/**
-	 * Coefficients
-	 * Michael Borcherds 2008-04-04
-	 */
-	final public GeoList Coefficients(String label, GeoFunction func) {		
-		AlgoCoefficients algo = new AlgoCoefficients((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
-	/**
-	 * Coefficients
-	 * Michael Borcherds 2008-04-04
-	 */
-	final public GeoList Coefficients(String label, GeoConic func) {		
-		AlgoConicCoefficients algo = new AlgoConicCoefficients((Construction)cons, label, func);
-		return algo.getResult();			
-	}
+
+
 	
 	/**
 	 * Taylor series of function f about point x=a of order n
@@ -4941,79 +4568,11 @@ public class Kernel extends AbstractKernel{
 	}	
 
 
-	  
 
-	/**
-	 * Calculate cross ratio: (A,B,C,D) = affineRatio(A, B, C) / affineRatio(A, B, D)
-	 */
-
-	final public GeoNumeric CrossRatio(String label,GeoPoint2 A,GeoPoint2 B,GeoPoint2 C,GeoPoint2 D){
-
-		  AlgoCrossRatio cross = new AlgoCrossRatio((Construction)cons,label,A,B,C,D);
-		  GeoNumeric M = cross.getResult();
-		  return M;
-
-	}
 
 	
 
-	/**
-	 * Calculate Curvature Vector for function: c(x) = (1/T^4)*(-f'*f'',f''), T = sqrt(1+(f')^2)
-	 */
 
-	final public GeoVector CurvatureVector(String label,GeoPoint2 A,GeoFunction f){
-
-		  AlgoCurvatureVector algo = new AlgoCurvatureVector((Construction)cons,label,A,f);
-		  GeoVector v = algo.getVector();
-		  return v;
-
-	}
-
-
-
-	/**
-
-	 * Calculate Curvature Vector for curve: c(t) = ((a'(t)b''(t)-a''(t)b'(t))/T^4) * (-b'(t),a'(t))
-     *                                       T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-
-	final public GeoVector CurvatureVectorCurve(String label,GeoPoint2 A,GeoCurveCartesian f){
-
-		  AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve((Construction)cons,label,A,f);
-		  GeoVector v = algo.getVector();
-		  return v;
-
-	}
-
-	
-
-	/**
-	 * Calculate Curvature for function: k(x) = f''/T^3, T = sqrt(1+(f')^2)
-	 */
-
-	final public GeoNumeric Curvature(String label,GeoPoint2 A,GeoFunction f){
-
-		  AlgoCurvature algo = new AlgoCurvature((Construction)cons,label,A,f);
-		  GeoNumeric k = algo.getResult();
-		  return k;
-
-	}
-
-		
-
-	/**
-	 * Calculate Curvature for Curve: k(t) = (a'(t)b''(t)-a''(t)b'(t))/T^3, T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-
-	final public GeoNumeric CurvatureCurve(String label,GeoPoint2 A, GeoCurveCartesian f){
-
-		  AlgoCurvatureCurve algo = new AlgoCurvatureCurve((Construction)cons,label,A,f);
-		  GeoNumeric k = algo.getResult();
-		  return k;
-
-	}
-
-	
 
 	/**
 	 * Osculating Circle of a function f in point A

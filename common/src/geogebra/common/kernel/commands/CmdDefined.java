@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /*
  * Defined[ Object ]
  * Michael Borcherds
  * 2008-03-06
  */
-public class CmdDefined extends CommandProcessorDesktop {
+public class CmdDefined extends CommandProcessor {
 
-	public CmdDefined(Kernel kernel) {
+	public CmdDefined(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -25,7 +25,7 @@ public class CmdDefined extends CommandProcessorDesktop {
 		case 1:
 
 				GeoElement[] ret = { 
-						kernel.Defined(c.getLabel(),
+						kernelA.Defined(c.getLabel(),
 						 arg[0] ) };
 				return ret;
 		
