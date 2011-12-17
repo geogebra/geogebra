@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *FractionText
  */
-class CmdFractionText extends CommandProcessorDesktop {
+public class CmdFractionText extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdFractionText extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFractionText(Kernel kernel) {
+	public CmdFractionText(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ class CmdFractionText extends CommandProcessorDesktop {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernel.FractionText(c.getLabel(),
+				GeoElement[] ret = { kernelA.FractionText(c.getLabel(),
 						(GeoNumeric) arg[0]) };
 				return ret;
 			} else

@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Identity[<number>]
  */
-class CmdIdentity extends CommandProcessorDesktop {
+public class CmdIdentity extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdIdentity extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIdentity(Kernel kernel) {
+	public CmdIdentity(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -52,7 +52,7 @@ class CmdIdentity extends CommandProcessorDesktop {
 		}
 		sb.append('}');
 		
-		kernel.getAlgebraProcessor()
+		kernelA.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionsOrErrors(sb.toString()
 								, true);
 		return new GeoElement[] {};

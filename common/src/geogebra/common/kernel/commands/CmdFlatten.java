@@ -1,16 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 	/**
 	 * Flatten[ <GeoList> ]
 	 */
-class CmdFlatten extends CommandProcessorDesktop {
+public class CmdFlatten extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +17,7 @@ class CmdFlatten extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFlatten(Kernel kernel) {
+	public CmdFlatten(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -35,7 +34,7 @@ class CmdFlatten extends CommandProcessorDesktop {
 		ok = arg.isGeoList();
 
 		if (ok) {
-			GeoElement[] ret = { kernel
+			GeoElement[] ret = { kernelA
 					.Flatten(c.getLabel(), (GeoList) arg) };
 			return ret;
 		} else

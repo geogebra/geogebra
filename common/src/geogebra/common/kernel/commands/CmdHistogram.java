@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Histogram[ <List>, <List> ]
  */
-class CmdHistogram extends CommandProcessorDesktop {
+public class CmdHistogram extends CommandProcessor {
 	private boolean right;
 	/**
 	 * Create new command processor
@@ -19,11 +19,11 @@ class CmdHistogram extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHistogram(Kernel kernel) {		
+	public CmdHistogram(AbstractKernel kernel) {		
 		this(kernel,false);
 	}
 	
-	public CmdHistogram(Kernel kernel,boolean right) {
+	public CmdHistogram(AbstractKernel kernel,boolean right) {
 		super(kernel);
 		this.right = right;
 	}
@@ -38,7 +38,7 @@ class CmdHistogram extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
-				GeoElement[] ret = { kernel.Histogram(c.getLabel(),
+				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],right) };
 				return ret;
 			} else if (!ok[0])
@@ -52,7 +52,7 @@ class CmdHistogram extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
-				GeoElement[] ret = { kernel.Histogram(c.getLabel(),
+				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], null,right) };
 				return ret;
@@ -70,7 +70,7 @@ class CmdHistogram extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { kernel.Histogram(c.getLabel(),
+				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], (GeoNumeric) arg[3],right) };
 				return ret;
@@ -80,7 +80,7 @@ class CmdHistogram extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { kernel.Histogram(c.getLabel(),
+				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3],right) };
 				return ret;
@@ -102,7 +102,7 @@ class CmdHistogram extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
-				GeoElement[] ret = { kernel.Histogram(c.getLabel(),
+				GeoElement[] ret = { kernelA.Histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3], (GeoNumeric) arg[4],right) };
 				return ret;

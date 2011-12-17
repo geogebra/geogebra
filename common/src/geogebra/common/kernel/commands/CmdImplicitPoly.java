@@ -1,5 +1,6 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -10,11 +11,10 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
-public class CmdImplicitPoly extends CommandProcessorDesktop {
+public class CmdImplicitPoly extends CommandProcessor {
 
-	public CmdImplicitPoly(Kernel kernel) {
+	public CmdImplicitPoly(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +31,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 			}
 		}
 
-		GeoElement ret = kernel.ImplicitPoly(a, b);
+		GeoElement ret = kernelA.ImplicitPoly(a, b);
 
 		return ret;
 	}
@@ -57,7 +57,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 				if (fvars.length != 2) {
 					throw new MyError(app, "InvalidEquation");
 				}
-				GeoElement[] ret = { kernel.ImplicitPoly(c.getLabel(),
+				GeoElement[] ret = { kernelA.ImplicitPoly(c.getLabel(),
 						((GeoFunctionNVar) arg[0])) };
 				return ret;
 			} else {
@@ -70,7 +70,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 		default:
 			if (arg[0].isNumberValue()) {
 				// try to create list of numbers
-				GeoList list = wrapInList(kernel, arg, arg.length,
+				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
@@ -78,7 +78,7 @@ public class CmdImplicitPoly extends CommandProcessorDesktop {
 				}
 			} else if (arg[0].isVectorValue()) {
 				// try to create list of points (eg FitExp[])
-				GeoList list = wrapInList(kernel, arg, arg.length,
+				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.POINT);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };

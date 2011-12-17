@@ -1,21 +1,21 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 
 /*
  * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
  */
-public class CmdFunction extends CommandProcessorDesktop {
+public class CmdFunction extends CommandProcessor {
 
-	public CmdFunction (Kernel kernel) {
+	public CmdFunction (AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,7 +29,7 @@ public class CmdFunction extends CommandProcessorDesktop {
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret =
 				{
-						kernel.Function(
+						kernelA.Function(
 								c.getLabel(),
 								(GeoList)arg[0])
 				};
@@ -45,7 +45,7 @@ public class CmdFunction extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2] .isNumberValue()))) {
 				GeoElement[] ret =
 				{
-						kernel.Function(
+						kernelA.Function(
 								c.getLabel(),
 								((GeoFunctionable) arg[0]).getGeoFunction(),
 								(NumberValue) arg[1],

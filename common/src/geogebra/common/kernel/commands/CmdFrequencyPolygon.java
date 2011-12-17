@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Histogram[ <List>, <List> ]
  */
-class CmdFrequencyPolygon extends CommandProcessorDesktop {
+public class CmdFrequencyPolygon extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ class CmdFrequencyPolygon extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFrequencyPolygon(Kernel kernel) {
+	public CmdFrequencyPolygon(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,7 +33,7 @@ class CmdFrequencyPolygon extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
-				GeoElement[] ret = { kernel.FrequencyPolygon(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyPolygon(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]) };
 				return ret;
 			} else if (!ok[0])
@@ -47,7 +47,7 @@ class CmdFrequencyPolygon extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
-				GeoElement[] ret = { kernel.FrequencyPolygon(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyPolygon(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], null) };
 				return ret;
@@ -65,7 +65,7 @@ class CmdFrequencyPolygon extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { kernel.FrequencyPolygon(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyPolygon(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], (GeoNumeric) arg[3]) };
 				return ret;
@@ -75,7 +75,7 @@ class CmdFrequencyPolygon extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { kernel.FrequencyPolygon(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyPolygon(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
@@ -97,7 +97,7 @@ class CmdFrequencyPolygon extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
-				GeoElement[] ret = { kernel.FrequencyPolygon(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyPolygon(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3], (GeoNumeric) arg[4]) };
 				return ret;

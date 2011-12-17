@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>, <GeoElement>
  * ]
  */
-class CmdIf extends CommandProcessorDesktop {
+public class CmdIf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +20,7 @@ class CmdIf extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIf(Kernel kernel) {
+	public CmdIf(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -37,7 +37,7 @@ class CmdIf extends CommandProcessorDesktop {
 
 			// standard case: simple boolean condition
 			if (ok[0] = arg[0].isGeoBoolean()) {
-				GeoElement[] ret = { kernel.If(c.getLabel(),
+				GeoElement[] ret = { kernelA.If(c.getLabel(),
 						(GeoBoolean) arg[0], arg[1], geoElse) };
 				return ret;
 			}
@@ -56,7 +56,7 @@ class CmdIf extends CommandProcessorDesktop {
 					GeoFunction elseFun = geoElse == null ? null
 							: ((GeoFunctionable) geoElse).getGeoFunction();
 
-					GeoElement[] ret = { kernel.If(c.getLabel(),
+					GeoElement[] ret = { kernelA.If(c.getLabel(),
 							(GeoFunction) booleanFun,
 							((GeoFunctionable) arg[1]).getGeoFunction(),
 							elseFun) };

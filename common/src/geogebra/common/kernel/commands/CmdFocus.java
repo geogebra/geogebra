@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Focus[ <GeoConic> ]
  */
-class CmdFocus extends CommandProcessorDesktop {
+public class CmdFocus extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdFocus extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFocus(Kernel kernel) {
+	public CmdFocus(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ class CmdFocus extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (ok[0] = (arg[0].isGeoConic()))
-				return kernel.Focus(c.getLabels(), (GeoConic) arg[0]);
+				return kernelA.Focus(c.getLabels(), (GeoConic) arg[0]);
 			else
 				throw argErr(app, c.getName(), arg[0]);
 

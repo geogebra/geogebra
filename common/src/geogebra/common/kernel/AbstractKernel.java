@@ -53,6 +53,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
@@ -62,6 +63,8 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
+import geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
+import geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -78,6 +81,7 @@ import geogebra.common.kernel.statistics.AlgoDoubleListSXX;
 import geogebra.common.kernel.statistics.AlgoDoubleListSXY;
 import geogebra.common.kernel.statistics.AlgoExponential;
 import geogebra.common.kernel.statistics.AlgoFDistribution;
+import geogebra.common.kernel.statistics.AlgoGamma;
 import geogebra.common.kernel.statistics.AlgoListCovariance;
 import geogebra.common.kernel.statistics.AlgoListMeanX;
 import geogebra.common.kernel.statistics.AlgoListMeanY;
@@ -5733,4 +5737,223 @@ public abstract class AbstractKernel {
 			GeoNumeric sum = algo.getSum();
 			return sum;
 		}
+		
+		/** Point P + v   */
+		final public GeoPoint2 Point(String label, GeoPoint2 P, GeoVector v) {
+			AlgoPointVector algo = new AlgoPointVector(cons, label, P, v);
+			GeoPoint2 p = algo.getQ();        
+			return p;
+		}
+		
+		
+		/**
+		 * 
+		 */
+		final public GeoPoint2 [] PointsFromList(String [] labels, GeoList list) {
+			
+			AlgoPointsFromList algo = new AlgoPointsFromList((Construction)cons, labels, true, list);
+			GeoPoint2 [] g = algo.getPoints();
+			return g;
+		}	
+		
+		/**
+		 * Flatten[list]
+		 * Simon Weitzhofer
+		 */
+		
+		final public GeoList Flatten(String label, GeoList list) {
+			AlgoFlatten algo = new AlgoFlatten((Construction)cons, label, list);
+			GeoList list2 = algo.getResult();
+			return list2;
+		}
+		
+		/** 
+		 * ToFraction[number]
+		 * Michael Borcherds
+		 */
+		final public GeoText FractionText(String label, GeoNumeric num) {
+			AlgoFractionText algo = new AlgoFractionText((Construction)cons, label, num);
+			GeoText text = algo.getResult();
+			return text;
+		}
+		
+		
+		/** 
+		 * FrequencyPolygon with list of class boundaries and list of heights
+		 */
+		final public GeoPolyLine FrequencyPolygon(String label, 
+						GeoList list1, GeoList list2) {
+			AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon((Construction)cons, label, list1, list2);
+			GeoPolyLine result = algo.getResult();
+			return result;
+		}
+		
+		/** 
+		 * FrequencyPolygon with density scale factor  (no cumulative parameter)
+		 */
+		final public GeoPolyLine FrequencyPolygon(String label, 
+						GeoList list1, GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
+			AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon((Construction)cons, label, null, list1, list2, useDensity, density);
+			GeoPolyLine result = algo.getResult();
+			return result;
+		}
+		
+		/** 
+		 * FrequencyPolygon with density scale factor and cumulative parameter
+		 */
+		final public GeoPolyLine FrequencyPolygon(String label, GeoBoolean isCumulative,
+						GeoList list1, GeoList list2, GeoBoolean useDensity) {
+			AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon((Construction)cons, label, isCumulative, list1, list2, useDensity, null);
+			GeoPolyLine result = algo.getResult();
+			return result;
+		}
+		
+		
+		/** 
+		 * FrequencyPolygon with density scale factor and cumulative parameter
+		 */
+		final public GeoPolyLine FrequencyPolygon(String label, GeoBoolean isCumulative,
+						GeoList list1, GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
+			AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon((Construction)cons, label, isCumulative, list1, list2, useDensity, density);
+			GeoPolyLine result = algo.getResult();
+			return result;
+		}
+		
+		
+		/** function limited to interval [a, b]
+		 */
+		final public GeoFunction Function(String label, GeoFunction f, 
+				NumberValue a, NumberValue b) {
+			AlgoFunctionInterval algo = new AlgoFunctionInterval((Construction)cons, label, f, a, b);		
+			GeoFunction g = algo.getFunction();
+			return g;
+		}
+
+		/*
+		 * freehand function defined by list
+		 */
+		final public GeoFunction Function(String label, GeoList f) {
+			AlgoFunctionFreehand algo = new AlgoFunctionFreehand((Construction)cons, label, f);		
+			GeoFunction g = algo.getFunction();
+			return g;
+		}
+
+		final public GeoNumeric Gamma(String label, NumberValue a, NumberValue b, NumberValue c) {
+			AlgoGamma algo = new AlgoGamma((Construction)cons, label, a, b, c);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		/** 
+		 * GCD[list]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric GCD(String label, GeoList list) {
+			AlgoListGCD algo = new AlgoListGCD((Construction)cons, label, list);
+			GeoNumeric num = algo.getGCD();
+			return num;
+		}
+		
+		
+		/** 
+		 * GCD[a, b]
+		 * Michael Borcherds
+		 */
+		final public GeoNumeric GCD(String label, NumberValue a, NumberValue b) {
+			AlgoGCD algo = new AlgoGCD((Construction)cons, label, a, b);
+			GeoNumeric num = algo.getResult();
+			return num;
+		}
+		
+		
+		/** 
+		 * Histogram[classList, dataList]
+		 */
+		final public GeoNumeric Histogram(String label, 
+						GeoList list1, GeoList list2, boolean right) {
+			AlgoHistogram algo = new AlgoHistogram((Construction)cons, label, list1, list2, right);
+			GeoNumeric sum = algo.getSum();
+			return sum;
+		}
+		
+		/** 
+		 *  Histogram[classList, dataList, useDensity, density]
+		 */
+		final public GeoNumeric Histogram(String label, 
+						GeoList list1, GeoList list2, GeoBoolean useDensity, GeoNumeric density, boolean right) {
+			AlgoHistogram algo = new AlgoHistogram((Construction)cons, label, null, list1, list2, useDensity, density, right);
+			GeoNumeric sum = algo.getSum();
+			return sum;
+		}
+		
+		/** 
+		 * Histogram[isCumulative, classList, dataList, useDensity]
+		 */
+		final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
+						GeoList list1, GeoList list2, GeoBoolean useDensity, boolean right) {
+			AlgoHistogram algo = new AlgoHistogram((Construction)cons, label, isCumulative, list1, list2, useDensity, null, right);
+			GeoNumeric sum = algo.getSum();
+			return sum;
+		}
+		
+		
+		/** 
+		  * Histogram[isCumulative, classList, dataList, useDensity, density]
+		 */
+		final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
+						GeoList list1, GeoList list2, GeoBoolean useDensity, GeoNumeric density, boolean right) {
+			AlgoHistogram algo = new AlgoHistogram((Construction)cons, label, isCumulative, list1, list2, useDensity, density, right);
+			GeoNumeric sum = algo.getSum();
+			return sum;
+		}
+		
+
+		/** 
+		 * If-then-else construct.
+		 */
+		final public GeoElement If(String label, 
+				GeoBoolean condition,
+				GeoElement geoIf, GeoElement geoElse) {
+			
+			// check if geoIf and geoElse are of same type
+		/*	if (geoElse == null ||
+				geoIf.isNumberValue() && geoElse.isNumberValue() ||
+				geoIf.getTypeString().equals(geoElse.getTypeString())) 
+			{*/
+				AlgoIf algo = new AlgoIf((Construction)cons, label, condition, geoIf, geoElse);
+				return algo.getGeoElement();			
+		/*	}
+			else {
+				// incompatible types
+				Application.debug("if incompatible: " + geoIf + ", " + geoElse);
+				return null;
+			}	*/			
+		}
+		
+		/** 
+		 * If-then-else construct for functions. 
+		 *  example: If[ x < 2, x^2, x + 2 ]
+		 */
+		final public GeoFunction If(String label, 
+				GeoFunction boolFun,
+				GeoFunction ifFun, GeoFunction elseFun) {
+			
+			AlgoIfFunction algo = new AlgoIfFunction((Construction)cons, label, boolFun, ifFun, elseFun);
+			return algo.getGeoFunction();
+		}	
+
+
+		
+		/** Implicit Polynomial through points */
+		final public GeoImplicitPoly ImplicitPoly(String label, GeoList points) {
+			AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints((Construction)cons, label, points);
+			GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
+			return implicitPoly;
+		}
+		
+		final public GeoImplicitPoly ImplicitPoly(String label,GeoFunctionNVar func){
+			AlgoImplicitPolyFunction algo=new AlgoImplicitPolyFunction((Construction)cons, label, func);
+			GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
+			return implicitPoly;
+		}	
 }
