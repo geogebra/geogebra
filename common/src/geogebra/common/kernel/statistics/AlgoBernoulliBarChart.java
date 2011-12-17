@@ -10,13 +10,14 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.util.Cloner;
 
 /**
  * @author G. Sturr
@@ -53,7 +54,7 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 		return new AlgoBernoulliBarChart(
 				(NumberValue)this.getP1().deepCopy(kernel),
 				b,(NumberValue)this.getA().deepCopy(kernel),(NumberValue)this.getB().deepCopy(kernel),
-				getValues().clone(),getLeftBorder().clone(),getIntervals());
+				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
 	}
 }
 
