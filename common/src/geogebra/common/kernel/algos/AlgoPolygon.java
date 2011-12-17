@@ -173,7 +173,7 @@ public class AlgoPolygon extends AlgoElement {
     		input[i].removeAlgorithm(this);
     	
     	points = newPoints; 	
-    	poly.setPoints(points);
+    	poly.setPoints(points,null,false); //don't recreate segments
     	setInputOutput();   	
     	
     }
@@ -208,17 +208,19 @@ public class AlgoPolygon extends AlgoElement {
     private void setOutput() {
     	GeoSegmentND [] segments = poly.getSegments();
     	int size = 1;
-    	if (segments!=null) {
+    	
+    	if (segments!=null && polyhedron==null) {//if from polyhedron, segments are output of algo for the polyhedron
     		size+=segments.length;
     	}
     	
         super.setOutputLength(size);
         super.setOutput(0, poly);
-        
-        for (int i=0; i < size-1; i++) {
-            super.setOutput(i+1, (GeoElement) segments[i]);
+
+        if (polyhedron==null){//if from polyhedron, segments are output of algo for the polyhedron
+        	for (int i=0; i < size-1; i++) {
+        		super.setOutput(i+1, (GeoElement) segments[i]);
+        	}
         }
-        
         /*
         String s="output = ";
         for (int i=0; i < size-1; i++) {

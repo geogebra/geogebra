@@ -26,6 +26,7 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -1496,6 +1497,15 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			str = name + kernel.internationalizeDigits(counter+"");
 		} while (!cons.isFreeLabel(str));
 		return str;
+	}
+	
+	/**
+	 * modify input points. Assume that parent algo is an instance of AlgoPolygon
+	 * @param newPoints new input points
+	 */
+	public void modifyInputPoints(GeoPointND[] newPoints){
+		AlgoPolygon algo = (AlgoPolygon) getParentAlgorithm();
+		algo.modifyInputPoints(newPoints);
 	}
 }
 

@@ -177,7 +177,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			p[0]=getTopPoint();
 			for(int i=0;i<n-1;i++)
 				p[1+i] = getTopPoint(i+1);				
-			polygon.setPoints(p,null,false); //don't create segments
+			//polygon.setPoints(p,null,false); //don't create segments
+			polygon.modifyInputPoints(p);
 			polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[n]));
 			polygon.calcArea();  
 			
@@ -223,7 +224,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		p[0]=getTopPoint();
 		for(int i=0;i<n-1;i++)
 			p[1+i] = getTopPoint(i+1);				
-		polygon.setPoints(p,null,false); //don't create segments
+		//polygon.setPoints(p,null,false); //don't create segments
+		polygon.modifyInputPoints(p);
 		polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[n]));
 		polygon.calcArea();  
 	}
