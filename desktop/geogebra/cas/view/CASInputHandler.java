@@ -1,5 +1,6 @@
 package geogebra.cas.view;
 
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.kernel.Kernel;
@@ -122,127 +123,135 @@ public class CASInputHandler {
 			postfix = "";
 		}
 
-		// resolve static row references and change input field accordingly
-		boolean staticReferenceFound = false;
-		String newPrefix = resolveCASrowReferences(prefix, selRow,
-				ROW_REFERENCE_STATIC, false);
-		if (!newPrefix.equals(prefix)) {
-			staticReferenceFound = true;
-			prefix = newPrefix;
-		}
-		String newEvalText = resolveCASrowReferences(evalText, selRow,
-				ROW_REFERENCE_STATIC, hasSelectedText);
-		if (!newEvalText.equals(evalText)) {
-			staticReferenceFound = true;
-			evalText = newEvalText;
-		}
-		String newPostfix = resolveCASrowReferences(postfix, selRow,
-				ROW_REFERENCE_STATIC, false);
-		if (!newPostfix.equals(postfix)) {
-			staticReferenceFound = true;
-			postfix = newPostfix;
-		}
-		if (staticReferenceFound) {
-			// change input if necessary
-			cellValue.setInput(newPrefix + newEvalText + newPostfix);
-		}
-
-		// FIX common INPUT ERRORS in evalText
-		if (!hasSelectedText
-				&& (ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
-			String fixedInput = fixInputErrors(selRowInput);
-			if (!fixedInput.equals(selRowInput)) {
-				cellValue.setInput(fixedInput);
-				evalText = fixedInput;
+		try {
+			// resolve static row references and change input field accordingly
+			boolean staticReferenceFound = false;
+			String newPrefix = resolveCASrowReferences(prefix, selRow,
+					ROW_REFERENCE_STATIC, false);
+			if (!newPrefix.equals(prefix)) {
+				staticReferenceFound = true;
+				prefix = newPrefix;
 			}
-		}
-
-		// remember input selection information for future calls of processRow()
-		// check if structure of selection is ok
-		boolean structureOK = cellValue
-				.isStructurallyEqualToLocalizedInput(prefix + evalText
-						+ postfix);
-		if (!structureOK) {
-			// show current selection again
-			consoleTable.startEditingRow(selRow);
-			cellEditor = consoleTable.getEditor();
-			cellEditor.setInputSelectionStart(selStart);
-			cellEditor.setInputSelectionEnd(selEnd);
-			return;
-		}
-
-		boolean isAssignment = cellValue.getAssignmentVariable() != null;
-		boolean isEvaluate = ggbcmd.equals("Evaluate");
-		boolean isNumeric = ggbcmd.equals("Numeric");
-		boolean isKeepInput = ggbcmd.equals("KeepInput");
-
-		// assignments are processed immediately, the ggbcmd creates a new row
-		// below
-		if (isAssignment) {
-			// tell row that KeepInput was used
-			if (isKeepInput)
-				cellValue.setEvalCommand("KeepInput");
-
-			// evaluate assignment row
-			boolean needInsertRow = !isEvaluate && !isKeepInput;
-			boolean success = processRowThenEdit(selRow, !needInsertRow);
-
-			// insert a new row below with the assignment label and process it
-			// using the current command
-			if (success && needInsertRow) {
-				String assignmentLabel = cellValue.getEvalVE()
-						.getLabelForAssignment();
-				GeoCasCell newRowValue = new GeoCasCell(
-						kernel.getConstruction());
-				newRowValue.setInput(assignmentLabel);
-				consoleTable.insertRow(newRowValue, true);
-				processCurrentRow(ggbcmd, params);
+			String newEvalText = resolveCASrowReferences(evalText, selRow,
+					ROW_REFERENCE_STATIC, hasSelectedText);
+			if (!newEvalText.equals(evalText)) {
+				staticReferenceFound = true;
+				evalText = newEvalText;
+			}
+			String newPostfix = resolveCASrowReferences(postfix, selRow,
+					ROW_REFERENCE_STATIC, false);
+			if (!newPostfix.equals(postfix)) {
+				staticReferenceFound = true;
+				postfix = newPostfix;
+			}
+			if (staticReferenceFound) {
+				// change input if necessary
+				cellValue.setInput(newPrefix + newEvalText + newPostfix);
 			}
 
-			return;
-		}
-
-		// Substitute dialog
-		if (ggbcmd.equals("Substitute")) {
-			// show substitute dialog
-			casView.showSubstituteDialog(prefix, evalText, postfix, selRow);
-			return;
-		}
-
-		// standard case: build eval command
-		String paramString = null;
-
-		// don't wrap Numeric[pi, 20] with a second Numeric command
-		// as this would remove precision
-		boolean wrapEvalText = !isEvaluate
-				&& !(isNumeric && (evalText.startsWith("N[")
-						|| evalText.startsWith("N(")
-						|| evalText.startsWith("Numeric[") || evalText
-							.startsWith("Numeric(")));
-
-		if (wrapEvalText) {
-			// prepare evalText as ggbcmd[ evalText, parameters ... ]
-			StringBuilder sb = new StringBuilder();
-			sb.append(ggbcmd);
-			sb.append("[");
-			sb.append(evalText);
-			if (params != null) {
-				StringBuilder paramSB = new StringBuilder();
-				for (int i = 0; i < params.length; i++) {
-					paramSB.append(", ");
-					paramSB.append(resolveButtonParameter(params[i], cellValue));
+			// FIX common INPUT ERRORS in evalText
+			if (!hasSelectedText
+					&& (ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
+				String fixedInput = fixInputErrors(selRowInput);
+				if (!fixedInput.equals(selRowInput)) {
+					cellValue.setInput(fixedInput);
+					evalText = fixedInput;
 				}
-				paramString = paramSB.substring(2);
-				sb.append(paramSB);
 			}
-			sb.append("]");
-			evalText = sb.toString();
+
+			// remember input selection information for future calls of
+			// processRow()
+			// check if structure of selection is ok
+			boolean structureOK = cellValue
+					.isStructurallyEqualToLocalizedInput(prefix + evalText
+							+ postfix);
+			if (!structureOK) {
+				// show current selection again
+				consoleTable.startEditingRow(selRow);
+				cellEditor = consoleTable.getEditor();
+				cellEditor.setInputSelectionStart(selStart);
+				cellEditor.setInputSelectionEnd(selEnd);
+				return;
+			}
+
+			boolean isAssignment = cellValue.getAssignmentVariable() != null;
+			boolean isEvaluate = ggbcmd.equals("Evaluate");
+			boolean isNumeric = ggbcmd.equals("Numeric");
+			boolean isKeepInput = ggbcmd.equals("KeepInput");
+
+			// assignments are processed immediately, the ggbcmd creates a new
+			// row
+			// below
+			if (isAssignment) {
+				// tell row that KeepInput was used
+				if (isKeepInput)
+					cellValue.setEvalCommand("KeepInput");
+
+				// evaluate assignment row
+				boolean needInsertRow = !isEvaluate && !isKeepInput;
+				boolean success = processRowThenEdit(selRow, !needInsertRow);
+
+				// insert a new row below with the assignment label and process
+				// it
+				// using the current command
+				if (success && needInsertRow) {
+					String assignmentLabel = cellValue.getEvalVE()
+							.getLabelForAssignment();
+					GeoCasCell newRowValue = new GeoCasCell(
+							kernel.getConstruction());
+					newRowValue.setInput(assignmentLabel);
+					consoleTable.insertRow(newRowValue, true);
+					processCurrentRow(ggbcmd, params);
+				}
+
+				return;
+			}
+
+			// Substitute dialog
+			if (ggbcmd.equals("Substitute")) {
+				// show substitute dialog
+				casView.showSubstituteDialog(prefix, evalText, postfix, selRow);
+				return;
+			}
+
+			// standard case: build eval command
+			String paramString = null;
+
+			// don't wrap Numeric[pi, 20] with a second Numeric command
+			// as this would remove precision
+			boolean wrapEvalText = !isEvaluate
+					&& !(isNumeric && (evalText.startsWith("N[")
+							|| evalText.startsWith("N(")
+							|| evalText.startsWith("Numeric[") || evalText
+								.startsWith("Numeric(")));
+
+			if (wrapEvalText) {
+				// prepare evalText as ggbcmd[ evalText, parameters ... ]
+				StringBuilder sb = new StringBuilder();
+				sb.append(ggbcmd);
+				sb.append("[");
+				sb.append(evalText);
+				if (params != null) {
+					StringBuilder paramSB = new StringBuilder();
+					for (int i = 0; i < params.length; i++) {
+						paramSB.append(", ");
+						paramSB.append(resolveButtonParameter(params[i],
+								cellValue));
+					}
+					paramString = paramSB.substring(2);
+					sb.append(paramSB);
+				}
+				sb.append("]");
+				evalText = sb.toString();
+			}
+
+			// remember evalText and selection for future calls of processRow()
+			cellValue.setProcessingInformation(prefix, evalText, postfix);
+			cellValue.setEvalComment(paramString);
+
+		} catch (CASException ex) {
+			cellValue.setError(ex.getKey());
 		}
-
-		// remember evalText and selection for future calls of processRow()
-		cellValue.setProcessingInformation(prefix, evalText, postfix);
-		cellValue.setEvalComment(paramString);
-
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, true);
 	}
@@ -548,14 +557,16 @@ public class CASInputHandler {
 	 * 
 	 * @param selRow
 	 * @param startEditing
-	 * @return
+	 * @return success
 	 */
 	public boolean processRowThenEdit(int selRow, boolean startEditing) {
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		boolean success;
 
-		// evaluate output and update twin geo
-		kernel.getAlgebraProcessor().processCasCell(cellValue);
+		if (!cellValue.isError()) {
+			// evaluate output and update twin geo
+			kernel.getAlgebraProcessor().processCasCell(cellValue);
+		}
 
 		kernel.notifyRepaint();
 
@@ -653,7 +664,6 @@ public class CASInputHandler {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -859,13 +869,20 @@ public class CASInputHandler {
 
 			boolean foundReference = false;
 			boolean addParentheses = false;
-			int referenceNumber = 0;
+			boolean startOfReferenceNumber = false;
+			
+			// -1 means reference without a number (to the last row)
+			int referenceNumber = -1;
 
 			for (int i = 0; i < str.length(); i++) {
 				char c = str.charAt(i);
 
 				if (foundReference) {
 					if (Character.isDigit(c)) {
+						if(startOfReferenceNumber) {
+							startOfReferenceNumber = false;
+							referenceNumber = 0;
+						}
 						referenceNumber = referenceNumber * 10
 								+ Character.digit(c, 10);
 						continue;
@@ -897,6 +914,7 @@ public class CASInputHandler {
 					}
 				} else {
 					foundReference = true;
+					startOfReferenceNumber = true;
 				}
 			}
 
@@ -921,15 +939,16 @@ public class CASInputHandler {
 
 			appendReference(sb, reference, addParentheses, noParentheses);
 
-		} else if (referenceNumber == 0 && selectedRow > 0) {
+		} else if (referenceNumber == -1 && selectedRow > 0) {
 			// just a # (or $) is in the input (without a number)
 			String reference = casView.getRowOutputValue(selectedRow - 1);
 
 			appendReference(sb, reference, addParentheses, noParentheses);
 
 		} else {
-			// TODO handle incorrect input
-			System.out.println("incorrect");
+			CASException ex = new CASException("CAS.InvalidReferenceError");
+			ex.setKey("CAS.InvalidReferenceError");
+			throw ex;
 		}
 	}
 

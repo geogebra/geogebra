@@ -14,6 +14,7 @@ package geogebra.common.cas;
 public class CASException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
+	private String key;
 
 	public CASException(String message)
 	{
@@ -31,6 +32,16 @@ public class CASException extends RuntimeException {
 	 */
 	public String getKey()
 	{
+		if(key != null) {
+			return key;
+		}
 		return "CAS.GeneralErrorMessage";
+	}
+
+	/**
+	 * @param key the key to set
+	 */
+	public void setKey(String key) {
+		this.key = key;
 	}
 }
