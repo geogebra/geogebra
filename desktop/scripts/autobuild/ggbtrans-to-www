@@ -36,6 +36,8 @@ for i in tube_*.properties; do
  mv $i $NAME
  done
 mv tube.properties en.properties
+# 0 length files must be deleted:
+find -name '*.properties' -size 0 | xargs rm
 cd $MYDIR
 
 # Rsync files to www:
