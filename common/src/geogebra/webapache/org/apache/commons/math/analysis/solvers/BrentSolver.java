@@ -174,7 +174,10 @@ public class BrentSolver extends UnivariateRealSolverImpl {
               NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
 
     }
-
+    public double solve(int maxIterations,final UnivariateRealFunction f,
+            final double min, final double max, final double initial)throws Exception{
+    	return solve(f,min,max,initial);
+    }
     /**
      * Find a zero in the given interval.
      * <p>

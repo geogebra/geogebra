@@ -134,5 +134,9 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
             throw MathRuntimeException.createIllegalArgumentException("function is not differentiable");
         }
     }
+    public double solve(int maxIterations,final UnivariateRealFunction f,
+            final double min, final double max, final double initial)throws Exception{
+    	return solve(f,min,max,initial) ;
+    }
 
 }

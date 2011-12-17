@@ -10,15 +10,13 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 
@@ -28,21 +26,20 @@ import geogebra.common.kernel.geos.GeoPoint2;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
+public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     
-    private GeoFunction f; // input
-    private GeoLine line; // input
+    private GeoFunction f, g; // input
     private GeoPoint2 startPoint, rootPoint;
     
-    private Function diffFunction;    
+    private Function diffFunction;
                 
-    public AlgoIntersectFunctionLineNewton(Construction cons, String label, 
-                GeoFunction f, GeoLine line, GeoPoint2 startPoint) {
+    public AlgoIntersectFunctionsNewton(Construction cons, String label, 
+                GeoFunction f, GeoFunction g, GeoPoint2 startPoint) {
         super(cons);
         this.f = f;
-        this.line = line;
+        this.g = g;
         this.startPoint = startPoint;
-                
+        
         diffFunction = new Function(kernel);
                 
         // output
@@ -54,59 +51,46 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     
     @Override
 	public String getClassName() {
-        return "AlgoIntersectFunctionLineNewton";
+        return "AlgoIntersectFunctionsNewton";
     }
     
     @Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
-    }   
+    }
+    
     
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[3];      
         input[0] = f;               
-        input[1] = line;
+        input[1] = g;
         input[2] = startPoint;
-        
+
         super.setOutputLength(1);
         super.setOutput(0, rootPoint);
         setDependencies();                  
     }
-    
+      
     @Override
-	public final void compute() {          	
-        if (!(f.isDefined() && line.isDefined() && startPoint.isDefined())) {           
+	public final void compute() {      
+        if (!(f.isDefined() && g.isDefined() && startPoint.isDefined())) {        	
             rootPoint.setUndefined();
         } else {
-            double x;
-            //  check for vertical line a*x + c = 0: intersection at x=-c/a 
-            if (AbstractKernel.isZero(line.y)) {
-                x = -line.z / line.x;                               
-            } 
-            // standard case
-            else {
-                //get difference f - line
-                Function.difference(f.getFunction(startPoint.inhomX), line, diffFunction);            	                
-                x = calcRoot(diffFunction, startPoint.inhomX);                                 
-            }               
-                        
-            if (Double.isNaN(x)) {
+            // get difference f - g            
+        	Function.difference(f.getFunction(startPoint.inhomX), g.getFunction(startPoint.inhomX), diffFunction);         
+            double x = calcRoot(diffFunction, startPoint.inhomX);
+               
+            // check if x and g(x) are defined 
+            if (Double.isNaN(x) || Double.isNaN(g.evaluate(x))) {
                 rootPoint.setUndefined();
                 return;
             }
             double y = f.evaluate(x);
             rootPoint.setCoords(x, y, 1.0);
             
-            // check if the intersection point really is on the line
-            // this is important for segments and rays            
-        	if (!line.isIntersectionPointIncident(rootPoint, AbstractKernel.MIN_PRECISION) ) {
-        		 rootPoint.setUndefined();
-                 return;       	                
-            } 
-        	
-        	// if we got here we have a new valid rootPoint
+            // if we got here we have a new valid rootPoint
         	// in order to make dynamic moving of the intersecting objects
         	// a little bit more stable, we try to be clever here:
         	// let's take the new rootPoints position as the next starting point
@@ -114,10 +98,10 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         	// Note: we should only do this if the starting point is not labeled,
         	// i.e. not visible on screen (and was probably created by clicking
         	// on an intersection)
-        	if (!startPoint.isLabelSet() && startPoint.isIndependent() && rootPoint.isDefined()) {
+            if (!startPoint.isLabelSet() && startPoint.isIndependent() && rootPoint.isDefined()) {
         		startPoint.setCoords(rootPoint);
         	}
-        }                   
+        }           
     }
     
     public GeoPoint2 getIntersectionPoint() {
