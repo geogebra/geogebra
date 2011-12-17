@@ -20,6 +20,7 @@ package geogebra.kernel;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.adapters.Geo3DVec;
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -90,7 +91,6 @@ import geogebra.common.util.AbstractMyMath2;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
-import geogebra.io.MyXMLHandler;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.kernel.algos.AlgoDrawingPadCorner;
 import geogebra.common.kernel.algos.AlgoFitPoly;

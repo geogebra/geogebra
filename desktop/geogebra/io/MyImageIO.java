@@ -26,8 +26,8 @@ public class MyImageIO {
 
 	public static void write(BufferedImage img, String format, float DPI, File outFile) throws IOException {
 				 
-	    Iterator it = ImageIO.getImageWritersByFormatName(format);
-	    ImageWriter writer = (ImageWriter) it.next();
+	    Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName(format);
+	    ImageWriter writer = it.next();
 	    FileImageOutputStream fios = new FileImageOutputStream(outFile);
 	    writer.setOutput(fios);
 	

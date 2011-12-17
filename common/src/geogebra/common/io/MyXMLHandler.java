@@ -16,11 +16,10 @@ the Free Software Foundation.
  * Created on 14. Juni 2003, 12:04
  */
 
-package geogebra.io;
+package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.io.DocHandler;
 import geogebra.common.io.layout.*;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -1045,7 +1044,8 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int width = Integer.parseInt((String) attrs.get("width"));
 			int height = Integer.parseInt((String) attrs.get("height"));
-			app.getSettings().getSpreadsheet().setPreferredSize(new geogebra.awt.Dimension(width,height));
+			app.getSettings().getSpreadsheet().setPreferredSize(
+					geogebra.common.factories.AwtFactory.prototype.newDimension(width,height));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1598,9 +1598,9 @@ public class MyXMLHandler implements DocHandler {
 		// construct default xml data in case we're using an old version which didn't
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
-			new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, new geogebra.awt.Rectangle(400, 400), defEV, 200),
-			new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, tmp_showAlgebra, false, false, new geogebra.awt.Rectangle(200, 400), defAV, 200),
-			new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, tmp_showSpreadsheet, false, false, new geogebra.awt.Rectangle(400, 400), defSV, 200)
+			new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, geogebra.common.factories.AwtFactory.prototype.newRectangle(400, 400), defEV, 200),
+			new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, tmp_showAlgebra, false, false, geogebra.common.factories.AwtFactory.prototype.newRectangle(200, 400), defAV, 200),
+			new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, tmp_showSpreadsheet, false, false, geogebra.common.factories.AwtFactory.prototype.newRectangle(400, 400), defSV, 200)
 		};
 		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
@@ -2210,7 +2210,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = ((String)attrs.get("window")).split(",");
-			geogebra.awt.Rectangle windowRect = new geogebra.awt.Rectangle(
+			geogebra.common.awt.Rectangle windowRect = geogebra.common.factories.AwtFactory.prototype.newRectangle(
 				Integer.parseInt(window[0]),
 				Integer.parseInt(window[1]),
 				Integer.parseInt(window[2]),

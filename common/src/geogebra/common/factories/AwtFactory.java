@@ -22,4 +22,5 @@ public abstract class AwtFactory {
 	public abstract geogebra.common.awt.Dimension newDimension(int width,
 			int height);
 	public abstract Point2D newPoint2D();
+	public abstract Rectangle newRectangle(int i, int j);
 }

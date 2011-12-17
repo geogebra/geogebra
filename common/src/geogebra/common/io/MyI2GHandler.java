@@ -16,9 +16,8 @@ the Free Software Foundation.
  * Created on 14. Juli 2008, 18:25
  */
 
-package geogebra.io;
+package geogebra.common.io;
 
-import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
@@ -31,8 +30,6 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 import java.util.LinkedHashMap;
 
@@ -98,10 +95,10 @@ public class MyI2GHandler implements DocHandler {
     private GeoElement geo;
     private Command cmd;
     private String cmdName;
-    private Application app;   
+    private AbstractApplication app;   
 
     // for macros we need to change the kernel, so remember the original kernel too
-    private Kernel kernel, origKernel;     
+    private AbstractKernel kernel, origKernel;     
     private Construction cons, origCons;
     private Parser parser, origParser;    
 
@@ -120,7 +117,7 @@ public class MyI2GHandler implements DocHandler {
 	private GeoPoint2 segmentVia;
     
     /** Creates a new instance of MyI2GHandler */
-    public MyI2GHandler(Kernel kernel, Construction cons) {             
+    public MyI2GHandler(AbstractKernel kernel, Construction cons) {             
         origKernel = kernel;
         origCons = cons;
         origParser = new Parser(origKernel, origCons);                                                       

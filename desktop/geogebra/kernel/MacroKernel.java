@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.util.MaxSizeHashMap;
-import geogebra.io.MyXMLHandler;
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroConstruction;

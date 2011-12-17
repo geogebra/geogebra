@@ -20,6 +20,7 @@ package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.DocHandler;
+import geogebra.common.io.MyI2GHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;

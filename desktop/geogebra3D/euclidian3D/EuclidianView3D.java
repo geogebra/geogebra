@@ -2356,7 +2356,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 	/**
 	 * returns settings in XML format, read by xml handlers
-	 * @see geogebra.io.MyXMLHandler
+	 * @see geogebra.common.io.MyXMLHandler
 	 * @see geogebra3D.io.MyXMLHandler3D
 	 * @return the XML description of 3D view settings
 	 */

@@ -14,6 +14,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.GeoGebra3D;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
@@ -30,7 +31,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
-import geogebra.io.MyXMLHandler;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.Manager3DInterface;
 import geogebra.kernel.kernelND.GeoPlaneND;
