@@ -80,6 +80,10 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	}
 	
 
+	@Override
+	public String getClassName(){
+		return "AlgoCylinderInfiniteAxisRadius";
+	}
 	
 	
 

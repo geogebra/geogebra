@@ -18,9 +18,6 @@ public class AlgoQuadricComputerSide extends AlgoQuadricComputer {
 	}
 	
 
-	public String getClassName() {
-		return "AlgoQuadricSide";
-	}
 
 
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,

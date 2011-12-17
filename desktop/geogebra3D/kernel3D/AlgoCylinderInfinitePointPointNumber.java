@@ -29,6 +29,11 @@ public class AlgoCylinderInfinitePointPointNumber extends
 		return "CylinderInfiniteFromQuadricPointsABNumberC";
 	}
 	
+
+	@Override
+	public String getClassName(){
+		return "AlgoCylinderInfinitePointPointNumber";
+	}
 	
 
 }

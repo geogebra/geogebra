@@ -40,6 +40,11 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 	}
     
     
-	
+
+	@Override
+	public String getClassName(){
+		return "AlgoConeInfinitePointLineAngle";
+	}
+
 
 }

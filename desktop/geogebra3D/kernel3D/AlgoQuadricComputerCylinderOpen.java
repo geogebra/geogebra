@@ -18,9 +18,6 @@ public class AlgoQuadricComputerCylinderOpen extends AlgoQuadricComputerCylinder
 	}
 	
 
-	public String getClassName() {
-		return "AlgoCylinderOpen";
-	}
 
 
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,

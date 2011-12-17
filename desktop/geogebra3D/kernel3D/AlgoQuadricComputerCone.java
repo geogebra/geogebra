@@ -10,9 +10,6 @@ import geogebra.kernel.Kernel;
  */
 public class AlgoQuadricComputerCone extends AlgoQuadricComputer {
 
-	public String getClassName() {
-		return "AlgoConeInfinite";
-	}
 
 
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,

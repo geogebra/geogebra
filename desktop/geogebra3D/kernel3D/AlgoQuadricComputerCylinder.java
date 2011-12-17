@@ -11,9 +11,6 @@ import geogebra.kernel.Kernel;
  */
 public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 
-	public String getClassName() {
-		return "AlgoCylinderInfinite";
-	}
 
 
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,

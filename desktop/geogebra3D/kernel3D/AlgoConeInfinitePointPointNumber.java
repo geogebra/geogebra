@@ -29,6 +29,9 @@ public class AlgoConeInfinitePointPointNumber extends
 		return "ConeInfiniteFromQuadricPointsABNumberC";
 	}
 	
-	
+	@Override
+	public String getClassName(){
+		return "AlgoConeInfinitePointPointNumber";
+	}
 
 }

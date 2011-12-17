@@ -30,6 +30,9 @@ public class AlgoConeInfinitePointVectorNumber extends
 		return "ConeInfiniteFromQuadricPointAVectorBNumberC";
 	}
 	
-	
+	@Override
+	public String getClassName(){
+		return "AlgoConeInfinitePointVectorNumber";
+	}
 
 }

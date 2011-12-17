@@ -32,4 +32,9 @@ public class AlgoCylinderInfinitePointVectorNumber extends
 	
 	
 
+	@Override
+	public String getClassName(){
+		return "AlgoCylinderInfinitePointVectorNumber";
+	}
+	
 }

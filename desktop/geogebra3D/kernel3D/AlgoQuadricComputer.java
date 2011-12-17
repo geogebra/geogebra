@@ -21,11 +21,6 @@ public abstract class AlgoQuadricComputer {
 	}
 	
 
-	/**
-	 * 
-	 * @return the class name of the algo calling
-	 */
-	abstract public String getClassName() ;
 	
 
 	/**
