@@ -56,7 +56,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 	public SpreadsheetContextMenu(MyTable table, boolean isShiftDown) {
 
 		this.table = table;
-		app = table.kernel.getApplication();
+		app = (Application)table.kernel.getApplication();
 		cp = table.getCellRangeProcessor();
 		view = table.getView();
 

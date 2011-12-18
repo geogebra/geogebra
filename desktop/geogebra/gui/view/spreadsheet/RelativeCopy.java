@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
+import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,7 +58,7 @@ public class RelativeCopy {
 		// -|1|-
 		// 2|-|3
 		// -|4|-
-		kernel.getApplication().setWaitCursor();
+		((Application)kernel.getApplication()).setWaitCursor();
 		Construction cons = kernel.getConstruction();
 
 		try {
@@ -224,7 +225,7 @@ public class RelativeCopy {
 			return false;
 		} finally {
 			cons.stopCollectingRedefineCalls();
-			kernel.getApplication().setDefaultCursor();
+			((Application)kernel.getApplication()).setDefaultCursor();
 		}
 	}
 
@@ -876,7 +877,7 @@ public class RelativeCopy {
 			if (newValue.getGeoClassType() == oldValue.getGeoClassType()) {
 				// newValue.setVisualStyle(oldValue);
 			} else {
-				kernel.getApplication().refreshViews();
+				((Application)kernel.getApplication()).refreshViews();
 			}
 		} catch (CircularDefinitionException cde) {
 			kernel.getApplication().showError("CircularDefinition");

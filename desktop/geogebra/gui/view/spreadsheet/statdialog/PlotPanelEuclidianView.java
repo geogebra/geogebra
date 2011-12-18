@@ -99,7 +99,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		plotPanelEV = this;
 		this.ec = this.getEuclidianController();
 
-		viewID = kernel.getApplication().getGuiManager()
+		viewID = ((Application)kernel.getApplication()).getGuiManager()
 				.assignPlotPanelID(this);
 
 		grabCursor = getCursorForImage(app.getImageIcon("cursor_grab.gif")

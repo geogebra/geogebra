@@ -318,7 +318,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	 **********************************************/
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
-		setApplication(kernel.getApplication());
+		setApplication((Application)kernel.getApplication());
 
 		// for tooltip manager
 		DEFAULT_INITIAL_DELAY = ToolTipManager.sharedInstance()

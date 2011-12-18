@@ -16,11 +16,8 @@ the Free Software Foundation.
  * Created on 12. Dezember 2001, 12:37
  */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoIntersectConics;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -35,7 +32,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 /**
  *
@@ -44,11 +41,11 @@ import geogebra.main.Application;
  */
 public class Relation extends java.lang.Object {
 
-    private Application app;
-    private Kernel kernel;
+    private AbstractApplication app;
+    private AbstractKernel kernel;
     private Construction cons;
 
-    public Relation(Kernel kernel) {
+    public Relation(AbstractKernel kernel) {
         this.kernel = kernel;
         app = kernel.getApplication();
         cons = kernel.getConstruction();

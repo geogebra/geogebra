@@ -64,7 +64,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 	/** Creates new CommandProcessor */
 	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
-		app = kernel.getApplication();		
+		app = (Application)kernel.getApplication();		
 	}
 
 	void setView(AlgebraView view) {

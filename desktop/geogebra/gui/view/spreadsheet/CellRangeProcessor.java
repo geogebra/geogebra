@@ -44,7 +44,7 @@ public class CellRangeProcessor {
 	public CellRangeProcessor(MyTable table) {
 
 		this.table = table;
-		app = table.kernel.getApplication();
+		app = (Application)table.kernel.getApplication();
 		cons = table.kernel.getConstruction();
 
 	}

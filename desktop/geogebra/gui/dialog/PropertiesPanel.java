@@ -5772,7 +5772,7 @@ class ColorFunctionPanel
 	}
 	
 	public void setLabels() {
-		Application app = kernel.getApplication();
+		Application app = (Application)kernel.getApplication();
 		
 		setBorder(
 			BorderFactory.createTitledBorder(

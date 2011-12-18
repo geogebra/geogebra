@@ -78,7 +78,7 @@ public class CopyPasteCut {
 		table = table0;
 		tableModel = (DefaultTableModel) table.getModel();
 		kernel = kernel0;	
-		app = kernel.getApplication();
+		app = (Application)kernel.getApplication();
 
 		view = table.getView();
 
@@ -201,7 +201,7 @@ public class CopyPasteCut {
 
 		if (doInternalPaste  && cellBufferGeo != null) {
 			Construction cons = kernel.getConstruction();
-			kernel.getApplication().setWaitCursor();
+			((Application)kernel.getApplication()).setWaitCursor();
 			try {
 				succ = true;
 				int columnStep = cellBufferGeo.length;
@@ -241,7 +241,7 @@ public class CopyPasteCut {
 
 			} finally {
 				cons.stopCollectingRedefineCalls();
-				kernel.getApplication().setDefaultCursor();
+				((Application) kernel.getApplication()).setDefaultCursor();
 			}
 		}
 

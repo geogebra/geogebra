@@ -17,8 +17,8 @@ public class GeoElementGraphicsAdapterDesktop implements GeoElementGraphicsAdapt
 	protected BufferedImageAdapter image;
 	protected Application app;
 
-	public GeoElementGraphicsAdapterDesktop(Application appl) {
-		app = appl;
+	public GeoElementGraphicsAdapterDesktop(AbstractApplication appl) {
+		app = (Application)appl;
 	}
 
 	public BufferedImageAdapter getImageOnly() {

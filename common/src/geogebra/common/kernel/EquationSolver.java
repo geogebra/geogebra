@@ -10,16 +10,13 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 
-import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootDerivAdapter;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -37,7 +34,7 @@ public class EquationSolver implements EquationSolverInterface{
 	private LaguerreSolver laguerreSolver;
 	private UnivariateRealSolver rootFinderBrent, rootFinderNewton; 
 	
-    public EquationSolver(Kernel kernel) {		
+    public EquationSolver(AbstractKernel kernel) {		
 		// we need someone to polish our roots
 		//rootPolisher = new RealRoot();
 		//extrFinder = kernel.getExtremumFinder();

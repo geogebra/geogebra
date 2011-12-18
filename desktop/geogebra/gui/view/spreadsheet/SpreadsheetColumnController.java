@@ -158,7 +158,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 	public void mouseReleased(MouseEvent e)	{
 		boolean rightClick = Application.isRightClick(e); 	 
 
-		if (!kernel.getApplication().letShowPopupMenu()) return;    
+		if (!((Application)kernel.getApplication()).letShowPopupMenu()) return;    
 
 		if (rightClick) { 	 
 

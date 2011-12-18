@@ -24,12 +24,14 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.EquationSolver;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.SystemOfEquationsSolver;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.TransformRotate;
@@ -131,7 +133,6 @@ import geogebra.kernel.discrete.AlgoVoronoi;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.kernel.geos.GeoTextField;
-import geogebra.main.Application;
 import geogebra.util.GeoLaTeXCache;
 import geogebra.util.GgbMat;
 import geogebra.util.MyMath2;
@@ -145,7 +146,7 @@ public class Kernel extends AbstractKernel{
 			
 	
 
-	protected Application app;	
+	protected AbstractApplication app;	
 	
 	private EquationSolver eqnSolver;
 	private SystemOfEquationsSolver sysEqSolv;
@@ -160,7 +161,7 @@ public class Kernel extends AbstractKernel{
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 				
-	public Kernel(Application app) {
+	public Kernel(AbstractApplication app) {
 		this();
 		this.app = app;
 
@@ -259,7 +260,7 @@ public class Kernel extends AbstractKernel{
 	
 	
 	@Override
-	final public Application getApplication() {
+	final public AbstractApplication getApplication() {
 		return app;
 	}		
 	

@@ -52,9 +52,9 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	public MyCellEditor(Kernel kernel) {
 
-		super(new AutoCompleteTextField(0, kernel.getApplication(), false));
+		super(new AutoCompleteTextField(0, (Application)kernel.getApplication(), false));
 		this.kernel = kernel;
-		app = kernel.getApplication();
+		app = (Application)kernel.getApplication();
 		textField = (AutoCompleteTextField) editorComponent;
 
 		editorComponent.addKeyListener(new SpreadsheetCellEditorKeyListener(false));		

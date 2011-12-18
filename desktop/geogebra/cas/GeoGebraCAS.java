@@ -32,7 +32,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public CasType currentCAS = CasType.NO_CAS;
 
 	public GeoGebraCAS(Kernel kernel) {
-		app = kernel.getApplication();
+		app = (Application)kernel.getApplication();
 		casParser = new CASparser(kernel);
 
 		// see http://www.geogebra.org/trac/ticket/1565

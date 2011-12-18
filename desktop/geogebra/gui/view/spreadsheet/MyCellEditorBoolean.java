@@ -30,7 +30,7 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 		
 		super(new JCheckBox());
 		checkBox = (JCheckBox) editorComponent;
-		app = kernel.getApplication();
+		app = (Application)kernel.getApplication();
 	}
 
 	

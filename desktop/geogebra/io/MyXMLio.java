@@ -109,7 +109,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	public MyXMLio(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;	
-		app = kernel.getApplication();
+		app = (Application)kernel.getApplication();
 
 		xmlParser = new QDParser();
 		handler = getGGBHandler();

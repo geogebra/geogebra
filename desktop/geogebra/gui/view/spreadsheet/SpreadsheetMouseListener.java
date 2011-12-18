@@ -382,7 +382,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 		//handle right click
 		if (rightClick){
-			if (!kernel.getApplication().letShowPopupMenu()) return;
+			if (!((Application) kernel.getApplication()).letShowPopupMenu()) return;
 
 			Point p = table.getIndexFromPixel(e.getX(), e.getY());
 

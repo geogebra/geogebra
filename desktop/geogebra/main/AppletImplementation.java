@@ -1137,7 +1137,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		kernel.getApplication().setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
+		((Application)kernel.getApplication()).setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
 	}	
 
 	public synchronized boolean isAnimationRunning() {
