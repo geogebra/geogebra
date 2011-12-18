@@ -12,6 +12,7 @@ import geogebra.common.kernel.algos.AlgoFitSin;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoListMax;
 import geogebra.common.kernel.algos.AlgoListMin;
+import geogebra.common.kernel.algos.AlgoNormalQuantilePlot;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoResidualPlot;
 import geogebra.common.kernel.algos.AlgoText;
@@ -40,7 +41,6 @@ import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoHistogram;
-import geogebra.kernel.algos.AlgoNormalQuantilePlot;
 import geogebra.kernel.algos.AlgoStemPlot;
 import geogebra.main.Application;
 

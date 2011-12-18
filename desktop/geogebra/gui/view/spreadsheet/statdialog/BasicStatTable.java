@@ -25,11 +25,11 @@ import geogebra.common.kernel.statistics.AlgoQ3;
 import geogebra.common.kernel.statistics.AlgoRSquare;
 import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSigmaXX;
+import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.statistics.AlgoSpearman;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

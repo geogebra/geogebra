@@ -1559,5 +1559,36 @@ public final class MathUtils {
         return max;
     }
 
+
+    /**
+     * Returns true if both arguments are NaN or neither is NaN and they are
+     * equal as defined by {@link #equals(double,double,int) equals(x, y, 1)}.
+     *
+     * @param x first value
+     * @param y second value
+     * @return {@code true} if the values are equal or both are NaN.
+     * @since 2.2
+     */
+    public static boolean equalsIncludingNaN(double x, double y) {
+        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, 1);
+    }
+
+
+    /**
+     * Returns true if both arguments are NaN or are equal or within the range
+     * of allowed error (inclusive).
+     *
+     * @param x first value
+     * @param y second value
+     * @param eps the amount of absolute error to allow.
+     * @return {@code true} if the values are equal or within range of each other,
+     * or both are NaN.
+     * @since 2.2
+     */
+    public static boolean equalsIncludingNaN(double x, double y, double eps) {
+        return equalsIncludingNaN(x, y) || (Math.abs(y - x) <= eps);
+    }
+
+
     
 }
