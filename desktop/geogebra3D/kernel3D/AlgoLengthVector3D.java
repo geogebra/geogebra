@@ -22,6 +22,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 
 
 /**
@@ -35,10 +36,10 @@ public class AlgoLengthVector3D extends AlgoElement {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GeoVector3D v; // input
+	private GeoVectorND v; // input
     private GeoNumeric num; // output 
     
-    AlgoLengthVector3D(Construction cons, String label, GeoVector3D v) {
+    AlgoLengthVector3D(Construction cons, String label, GeoVectorND v) {
         super(cons);
         this.v = v;
         num = new GeoNumeric(cons);
@@ -56,7 +57,7 @@ public class AlgoLengthVector3D extends AlgoElement {
     // for AlgoElement
     protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = v;
+        input[0] = (GeoElement)v;
 
         output = new GeoElement[1];
         output[0] = num;
@@ -69,12 +70,12 @@ public class AlgoLengthVector3D extends AlgoElement {
 
     // calc length of vector v   
     public final void compute() {
-    	Coords coords = v.getCoords();
+    	Coords coords = v.getDirectionInD3();
     	coords.calcNorm();
         num.setValue(coords.getNorm());
     }
 
     final public String toString() {
-        return app.getPlain("LengthOfA",v.getLabel());
+        return app.getPlain("LengthOfA",((GeoElement)v).getLabel());
     }
 }

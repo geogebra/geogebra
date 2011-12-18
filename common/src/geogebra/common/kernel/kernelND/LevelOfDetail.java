@@ -1,4 +1,4 @@
-package geogebra.kernel.kernelND;
+package geogebra.common.kernel.kernelND;
 
 /**
  * Interface to set the level of detail of surface, curve, etc.

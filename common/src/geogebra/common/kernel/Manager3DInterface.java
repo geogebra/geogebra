@@ -1,7 +1,5 @@
-package geogebra.kernel;
+package geogebra.common.kernel;
 
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -18,18 +16,16 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.kernel.kernelND.GeoPlaneND;
-import geogebra3D.kernel3D.GeoVector3D;
-import geogebra3D.kernel3D.Manager3D;
 
 /**
  * Interface for managing all 3D methods in Kernel. <br/>
- * See Also {@link Manager3D}.
+ * See Also {@link geogebra3D.kernel3D.Manager3D}.
  * @author mathieu
  *
  */
@@ -562,7 +558,7 @@ public interface Manager3DInterface {
 			 * Length named label of vector v
 			 * @return length of the vector
 			 */
-			public GeoNumeric Length(String label, GeoVector3D v);
+			public GeoNumeric Length(String label, GeoVectorND v);
 
 			/**
 			 * @return cube with A, B for first points and v for direction

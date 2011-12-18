@@ -52,6 +52,7 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -70,7 +71,6 @@ import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.geos.GeoTextField;
-import geogebra.kernel.kernelND.GeoPlaneND;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;

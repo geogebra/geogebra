@@ -9,9 +9,9 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
+import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.kernel.kernelND.LevelOfDetail;
-import geogebra.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**

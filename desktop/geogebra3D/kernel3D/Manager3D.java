@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -24,13 +25,12 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.Manager3DInterface;
-import geogebra.kernel.kernelND.GeoPlaneND;
 
 /**
  * Class that for manage all 3D methods in Kernel.
@@ -1042,7 +1042,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @param v
 	 * @return length of the vector
 	 */
-	final public GeoNumeric Length(String label, GeoVector3D v) {
+	final public GeoNumeric Length(String label, GeoVectorND v) {
 		AlgoLengthVector3D algo = new AlgoLengthVector3D(cons, label, v);
 		GeoNumeric num = algo.getLength();
 		return num;

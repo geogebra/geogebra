@@ -48,7 +48,9 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.euclidian.EuclidianView;
@@ -71,8 +73,6 @@ import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoTextField;
-import geogebra.kernel.kernelND.GeoPlaneND;
-import geogebra.kernel.kernelND.LevelOfDetail;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;

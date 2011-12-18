@@ -26,8 +26,8 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.kernelND.GeoSurfaceCartesianND;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from, to]
