@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Name[ <GeoElement> ]
  */
-public class CmdLaTeX extends CommandProcessorDesktop {
+public class CmdLaTeX extends CommandProcessor {
 
-	public CmdLaTeX(Kernel kernel) {
+	public CmdLaTeX(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -24,7 +24,7 @@ public class CmdLaTeX extends CommandProcessorDesktop {
 			
 			arg = resArgs(c);	
 
-				GeoElement[] ret = { kernel.LaTeX(c.getLabel(),
+				GeoElement[] ret = { kernelA.LaTeX(c.getLabel(),
 									arg[0]) };
 				return ret;
 
@@ -32,7 +32,7 @@ public class CmdLaTeX extends CommandProcessorDesktop {
 			
 			arg = resArgs(c);	
 			if (arg[1].isGeoBoolean()) {
-				GeoElement[] ret2 = { kernel.LaTeX(c.getLabel(),
+				GeoElement[] ret2 = { kernelA.LaTeX(c.getLabel(),
 									arg[0], (GeoBoolean)arg[1], null) };
 				return ret2;
 			}
@@ -43,7 +43,7 @@ public class CmdLaTeX extends CommandProcessorDesktop {
 			
 			arg = resArgs(c);	
 			if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
-				GeoElement[] ret2 = { kernel.LaTeX(c.getLabel(),
+				GeoElement[] ret2 = { kernelA.LaTeX(c.getLabel(),
 									arg[0], (GeoBoolean)arg[1], (GeoBoolean)arg[2]) };
 				return ret2;
 			}

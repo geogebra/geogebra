@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.arithmetic.Command;
@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Length[ <GeoVector> ] Length[ <GeoPoint> ] Length[ <GeoList> ] Victor Franco
@@ -21,7 +21,7 @@ import geogebra.kernel.Kernel;
  * <Function>, <Point>, <Point> ] add Length[ <Curve>, <Number>, <Number> ] add
  * Length[ <Curve>, <Point>, <Point> ]
  */
-public class CmdLength extends CommandProcessorDesktop {
+public class CmdLength extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -29,7 +29,7 @@ public class CmdLength extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLength(Kernel kernel) {
+	public CmdLength(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -42,23 +42,23 @@ public class CmdLength extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoVector() || arg[0].isGeoPoint()) {
-				GeoElement[] ret = { kernel.Length(c.getLabel(),
+				GeoElement[] ret = { kernelA.Length(c.getLabel(),
 						(GeoVec3D) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoList()) {
-				GeoElement[] ret = { kernel.Length(c.getLabel(),
+				GeoElement[] ret = { kernelA.Length(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = { kernel.Length(c.getLabel(),
+				GeoElement[] ret = { kernelA.Length(c.getLabel(),
 						(GeoText) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoLocus()) {
-				GeoElement[] ret = { kernel.Length(c.getLabel(),
+				GeoElement[] ret = { kernelA.Length(c.getLabel(),
 						(GeoLocus) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {
-					GeoElement[] ret = { kernel.Length(c.getLabel(),
+					GeoElement[] ret = { kernelA.Length(c.getLabel(),
 							(GeoSegmentND) arg[0]) };
 					return ret;
 				
@@ -72,7 +72,7 @@ public class CmdLength extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
-				GeoElement[] ret = { kernel.FunctionLength(c.getLabel(),
+				GeoElement[] ret = { kernelA.FunctionLength(c.getLabel(),
 						(GeoFunction) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2]) };
 				return ret;
@@ -82,7 +82,7 @@ public class CmdLength extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
-				GeoElement[] ret = { kernel.FunctionLength2Points(c.getLabel(),
+				GeoElement[] ret = { kernelA.FunctionLength2Points(c.getLabel(),
 						(GeoFunction) arg[0], (GeoPoint2) arg[1],
 						(GeoPoint2) arg[2]) };
 				return ret;
@@ -92,7 +92,7 @@ public class CmdLength extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
 
-				GeoElement[] ret = { kernel.CurveLength(c.getLabel(),
+				GeoElement[] ret = { kernelA.CurveLength(c.getLabel(),
 						(GeoCurveCartesian) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2]) };
 				return ret;
@@ -103,7 +103,7 @@ public class CmdLength extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
-				GeoElement[] ret = { kernel.CurveLength2Points(c.getLabel(),
+				GeoElement[] ret = { kernelA.CurveLength2Points(c.getLabel(),
 						(GeoCurveCartesian) arg[0], (GeoPoint2) arg[1],
 						(GeoPoint2) arg[2]) };
 				return ret;

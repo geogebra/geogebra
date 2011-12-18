@@ -1,13 +1,13 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
-class CmdKimberling extends CommandProcessorDesktop {
+public class CmdKimberling extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -15,7 +15,7 @@ class CmdKimberling extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdKimberling(Kernel kernel) {
+	public CmdKimberling(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +31,7 @@ class CmdKimberling extends CommandProcessorDesktop {
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
 					(ok[3] = arg[3].isNumberValue())) {
-				GeoElement[] ret = { kernel.Kimberling(c.getLabel(),
+				GeoElement[] ret = { kernelA.Kimberling(c.getLabel(),
 						(GeoPoint2)arg[0], (GeoPoint2)arg[1], (GeoPoint2)arg[2],
 						(NumberValue) arg[3])} ;
 				return ret;

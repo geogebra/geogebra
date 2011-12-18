@@ -1,19 +1,19 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * , (NumberValue) arg[1][ <Number>, <Number>,<Number> ]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
-public class CmdInverseNormal extends CommandProcessorDesktop {
+public class CmdInverseNormal extends CommandProcessor {
 
-	public CmdInverseNormal(Kernel kernel) {
+	public CmdInverseNormal(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ public class CmdInverseNormal extends CommandProcessorDesktop {
 				(ok[2] = arg[2].isNumberValue())) 
 			{
 				GeoElement[] ret = { 
-						kernel.InverseNormal(c.getLabel(),
+						kernelA.InverseNormal(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
 				

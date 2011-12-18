@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 
 /*
@@ -15,9 +15,9 @@ import geogebra.kernel.Kernel;
  * IntersectionPaths[ <GeoPlane>, <GeoPolygon> ]
  * IntersectionPaths[ <GeoPlane>, <GeoQuadric> ]
  */
-public class CmdIntersectionPaths extends CommandProcessorDesktop {
+public class CmdIntersectionPaths extends CommandProcessor {
 	
-	public CmdIntersectionPaths(Kernel kernel) {
+	public CmdIntersectionPaths(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -34,7 +34,7 @@ public  GeoElement[] process(Command c) throws MyError {
             if ((ok[0] = (arg[0] .isGeoLine()))
             		&& (ok[1] = (arg[1] .isGeoPolygon()))) {
                 GeoElement[] ret =
-                         kernel.IntersectLinePolygonalRegion(
+                         kernelA.IntersectLinePolygonalRegion(
                             c.getLabels(),
                             (GeoLine) arg[0],
                             (GeoPolygon) arg[1]);
@@ -42,7 +42,7 @@ public  GeoElement[] process(Command c) throws MyError {
             } else if ((ok[0] = (arg[0] .isGeoPolygon()))
             		&& (ok[1] = (arg[1] .isGeoLine()))) {
                 GeoElement[] ret =
-                         kernel.IntersectLinePolygonalRegion(
+                         kernelA.IntersectLinePolygonalRegion(
                             c.getLabels(),
                             (GeoLine) arg[1],
                             (GeoPolygon) arg[0]);
@@ -52,14 +52,14 @@ public  GeoElement[] process(Command c) throws MyError {
             else if (
                 (ok[0] = (arg[0] .isGeoLine()))
                     && (ok[1] = (arg[1] .isGeoConic())))
-				return kernel.IntersectLineConicRegion(
+				return kernelA.IntersectLineConicRegion(
                     c.getLabels(),
                     (GeoLine) arg[0],
                     (GeoConic) arg[1]);
 			else if (
                 (ok[0] = (arg[0] .isGeoConic()))
                     && (ok[1] = (arg[1] .isGeoLine())))
-				return kernel.IntersectLineConicRegion(
+				return kernelA.IntersectLineConicRegion(
                     c.getLabels(),
                     (GeoLine) arg[1],
                     (GeoConic) arg[0]);

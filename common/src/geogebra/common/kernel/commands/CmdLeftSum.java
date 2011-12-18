@@ -1,22 +1,22 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * LeftSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
  */
-class CmdLeftSum extends CommandProcessorDesktop {
+public class CmdLeftSum extends CommandProcessor {
 
 	/**
 	* Create new command processor
 	* @param kernel kernel
 	*/
-	public CmdLeftSum (Kernel kernel) {
+	public CmdLeftSum (AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -34,7 +34,7 @@ class CmdLeftSum extends CommandProcessorDesktop {
 					&& (ok[3] = (arg[3] .isNumberValue()))) {
 				GeoElement[] ret =
 				{
-						kernel.LeftSum(
+						kernelA.LeftSum(
 								c.getLabel(),
 								((GeoFunctionable) arg[0]).getGeoFunction(),
 								(NumberValue) arg[1],

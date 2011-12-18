@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 
 /*
@@ -24,9 +24,9 @@ import geogebra.kernel.Kernel;
  * Intersect[ <GeoImplicitPoly>, <GeoFunction(Polynomial)> ]
  * Intersect[ <GeoFunction>, <GeoFunction>, <NumberValue>, <NumberValue> ]
  */
-public class CmdIntersect extends CommandProcessorDesktop {
+public class CmdIntersect extends CommandProcessor {
 	
-	public CmdIntersect(Kernel kernel) {
+	public CmdIntersect(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -45,7 +45,7 @@ public  GeoElement[] process(Command c) throws MyError {
                 && (ok[1] = (arg[1] .isGeoLine()))) {
                 GeoElement[] ret =
                     {
-                         (GeoElement) kernel.IntersectLines(
+                         (GeoElement) kernelA.IntersectLines(
                             c.getLabel(),
                             (GeoLine) arg[0],
                             (GeoLine) arg[1])};
@@ -55,7 +55,7 @@ public  GeoElement[] process(Command c) throws MyError {
             else if ((ok[0] = (arg[0] .isGeoLine()))
             		&& (ok[1] = (arg[1] instanceof GeoPolyLine))) {
                 GeoElement[] ret =
-                         kernel.IntersectLinePolyLine(
+                         kernelA.IntersectLinePolyLine(
                             c.getLabels(),
                             (GeoLine) arg[0],
                             (GeoPolyLine) arg[1]);
@@ -63,7 +63,7 @@ public  GeoElement[] process(Command c) throws MyError {
             } else if ((ok[0] = (arg[0] instanceof GeoPolyLine))
             		&& (ok[1] = (arg[1] .isGeoLine()))) {
                 GeoElement[] ret =
-                         kernel.IntersectLinePolyLine(
+                         kernelA.IntersectLinePolyLine(
                             c.getLabels(),
                             (GeoLine) arg[1],
                             (GeoPolyLine) arg[0]);
@@ -73,7 +73,7 @@ public  GeoElement[] process(Command c) throws MyError {
             else if ((ok[0] = (arg[0] .isGeoLine()))
             		&& (ok[1] = (arg[1] .isGeoPolygon()))) {
                 GeoElement[] ret =
-                         kernel.IntersectLinePolygon(
+                         kernelA.IntersectLinePolygon(
                             c.getLabels(),
                             (GeoLine) arg[0],
                             (GeoPolygon) arg[1]);
@@ -81,7 +81,7 @@ public  GeoElement[] process(Command c) throws MyError {
             } else if ((ok[0] = (arg[0] .isGeoPolygon()))
             		&& (ok[1] = (arg[1] .isGeoLine()))) {
                 GeoElement[] ret =
-                         kernel.IntersectLinePolygon(
+                         kernelA.IntersectLinePolygon(
                             c.getLabels(),
                             (GeoLine) arg[1],
                             (GeoPolygon) arg[0]);
@@ -95,14 +95,14 @@ public  GeoElement[] process(Command c) throws MyError {
             else if (
                 (ok[0] = (arg[0] .isGeoLine()))
                     && (ok[1] = (arg[1] .isGeoConic())))
-				return kernel.IntersectLineConic(
+				return kernelA.IntersectLineConic(
                     c.getLabels(),
                     (GeoLine) arg[0],
                     (GeoConic) arg[1]);
 			else if (
                 (ok[0] = (arg[0] .isGeoConic()))
                     && (ok[1] = (arg[1] .isGeoLine())))
-				return kernel.IntersectLineConic(
+				return kernelA.IntersectLineConic(
                     c.getLabels(),
                     (GeoLine) arg[1],
                     (GeoConic) arg[0]);
@@ -110,14 +110,14 @@ public  GeoElement[] process(Command c) throws MyError {
             else if (
                 (ok[0] = (arg[0] .isGeoFunction()))
                     && (ok[1] = (arg[1] .isGeoConic())))
-				return kernel.IntersectPolynomialConic(
+				return kernelA.IntersectPolynomialConic(
                     c.getLabels(),
                     (GeoFunction) arg[0],
                     (GeoConic) arg[1]);
 			else if (
                 (ok[0] = (arg[0] .isGeoConic()))
                     && (ok[1] = (arg[1] .isGeoFunction())))
-				return kernel.IntersectPolynomialConic(
+				return kernelA.IntersectPolynomialConic(
                     c.getLabels(),
                     (GeoFunction) arg[1],
                     (GeoConic) arg[0]);
@@ -125,28 +125,28 @@ public  GeoElement[] process(Command c) throws MyError {
             else if (
                 (ok[0] = (arg[0] .isGeoConic()))
                     && (ok[1] = (arg[1] .isGeoConic())))
-				return (GeoElement[]) kernel.IntersectConics(
+				return (GeoElement[]) kernelA.IntersectConics(
                     c.getLabels(),
                     (GeoConic) arg[0],
                     (GeoConic) arg[1]);
 			else if (
                 (ok[0] = (arg[0] .isGeoFunctionable()))
                     && (ok[1] = (arg[1] .isGeoLine())))
-				return kernel.IntersectPolynomialLine(
+				return kernelA.IntersectPolynomialLine(
                     c.getLabels(),
                     ((GeoFunctionable) arg[0]).getGeoFunction(),
                     (GeoLine) arg[1]);
 			else if (
                 (ok[0] = (arg[0] .isGeoLine()))
                     && (ok[1] = (arg[1] .isGeoFunctionable())))
-				return kernel.IntersectPolynomialLine(
+				return kernelA.IntersectPolynomialLine(
                     c.getLabels(),
                     ((GeoFunctionable) arg[1]).getGeoFunction(),
                     (GeoLine) arg[0]);
 			else if ( // check after GeoLine as GeoLine is now GeoFunctionable
 	                (ok[0] = (arg[0].isGeoFunctionable()))
 	                    && (ok[1] = (arg[1].isGeoFunctionable())))
-					return kernel.IntersectPolynomials(
+					return kernelA.IntersectPolynomials(
 	                    c.getLabels(),
 	                    ((GeoFunctionable) arg[0]).getGeoFunction(),
 	                    ((GeoFunctionable) arg[1]).getGeoFunction());
@@ -156,7 +156,7 @@ public  GeoElement[] process(Command c) throws MyError {
 	                    && (ok[1] = (arg[1] .isGeoFunctionable())
 	                    //&& (ok[1]=((GeoFunctionable) arg[1]).getGeoFunction().isPolynomialFunction(false))
 	                    && (ok[1] = !(arg[1].isGeoLine()))))
-					return kernel.IntersectImplicitpolyPolynomial(
+					return kernelA.IntersectImplicitpolyPolynomial(
 	                    c.getLabels(), (GeoImplicitPoly) arg[0],
 	                    ((GeoFunctionable) arg[1]).getGeoFunction()
 	                   );
@@ -164,7 +164,7 @@ public  GeoElement[] process(Command c) throws MyError {
 	                    //&& (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
 						&& (ok[0] = !(arg[0].isGeoLine()))
 	                    && (ok[1] = (arg[1] .isGeoImplicitPoly())))
-					return kernel.IntersectImplicitpolyPolynomial(
+					return kernelA.IntersectImplicitpolyPolynomial(
 	                    c.getLabels(), (GeoImplicitPoly) arg[1],
 	                    ((GeoFunctionable) arg[0]).getGeoFunction()
 	                   );
@@ -172,40 +172,40 @@ public  GeoElement[] process(Command c) throws MyError {
 			else if (
 	                (ok[0] = (arg[0] .isGeoImplicitPoly()))
 	                    && (ok[1] = (arg[1].isGeoLine())))
-					return kernel.IntersectImplicitpolyLine(
+					return kernelA.IntersectImplicitpolyLine(
 	                    c.getLabels(), (GeoImplicitPoly) arg[0],
 	                    (GeoLine) arg[1] );
 			else if (
 	                (ok[1] = (arg[1] .isGeoImplicitPoly()))
 	                    && (ok[0] = (arg[0].isGeoLine())))
-					return kernel.IntersectImplicitpolyLine(
+					return kernelA.IntersectImplicitpolyLine(
 	                    c.getLabels(), (GeoImplicitPoly) arg[1],
 	                    (GeoLine) arg[0] );
             //implicitPoly - implicitPoly
 			else if (
 	                (ok[0] = (arg[0] .isGeoImplicitPoly()))
 	                    && (ok[1] = (arg[1].isGeoImplicitPoly())))
-					return kernel.IntersectImplicitpolys(
+					return kernelA.IntersectImplicitpolys(
 	                    c.getLabels(), (GeoImplicitPoly) arg[0],
 	                    (GeoImplicitPoly) arg[1] );
             //implicitPoly-conic
 			else if (
 	                (ok[0] = (arg[0] .isGeoImplicitPoly()))
                     && (ok[1] = (arg[1].isGeoConic())))
-				return kernel.IntersectImplicitpolyConic(
+				return kernelA.IntersectImplicitpolyConic(
                     c.getLabels(), (GeoImplicitPoly) arg[0],
                     (GeoConic) arg[1] );
 			else if (
 	                (ok[1] = (arg[1] .isGeoImplicitPoly()))
                     && (ok[0] = (arg[0].isGeoConic())))
-				return kernel.IntersectImplicitpolyConic(
+				return kernelA.IntersectImplicitpolyConic(
                     c.getLabels(), (GeoImplicitPoly) arg[1],
                     (GeoConic) arg[0] );
             /* moved to CmdIntersection to allow Intersect[List, List] to intersect list elements in the future
 			// intersection of two lists
 			else if (arg[0].isGeoList() && arg[1].isGeoList() ) {
 				GeoElement[] ret = { 
-						kernel.Intersection(c.getLabel(),
+						kernelA.Intersection(c.getLabel(),
 						(GeoList) arg[0], (GeoList)arg[1] ) };
 				return ret;
 			} */
@@ -228,7 +228,7 @@ public  GeoElement[] process(Command c) throws MyError {
                 && (ok[2] = (arg[2] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectLineConicSingle(
+                         kernelA.IntersectLineConicSingle(
                             c.getLabel(),
                             (GeoLine) arg[0],
                             (GeoConic) arg[1],
@@ -240,7 +240,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectLineConicSingle(
+                         kernelA.IntersectLineConicSingle(
                             c.getLabel(),
                             (GeoLine) arg[1],
                             (GeoConic) arg[0],
@@ -252,7 +252,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoConic()))
                     && (ok[2] = (arg[2] .isGeoPoint()))) {
             	GeoElement[] ret = {
-            			kernel.IntersectLineConicSingle(
+            			kernelA.IntersectLineConicSingle(
                                 c.getLabel(),
                                 (GeoLine) arg[0],
                                 (GeoConic) arg[1],
@@ -263,7 +263,7 @@ public  GeoElement[] process(Command c) throws MyError {
                         && (ok[1] = (arg[1] .isGeoLine()))
                         && (ok[2] = (arg[2] .isGeoPoint()))) {
             	GeoElement[] ret = {
-            			kernel.IntersectLineConicSingle(
+            			kernelA.IntersectLineConicSingle(
                                 c.getLabel(),
                                 (GeoLine) arg[1],
                                 (GeoConic) arg[0],
@@ -275,7 +275,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[1] = (arg[1] .isGeoConic()))
                     && (ok[2] = (arg[2] .isGeoPoint()))) {
             	GeoElement[] ret = {
-            			kernel.IntersectConicsSingle(
+            			kernelA.IntersectConicsSingle(
                                 c.getLabel(),
                                 (GeoConic) arg[0],
                                 (GeoConic) arg[1],
@@ -289,7 +289,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectConicsSingle(
+                         kernelA.IntersectConicsSingle(
                             c.getLabel(),
                             (GeoConic) arg[0],
                             (GeoConic) arg[1],
@@ -304,7 +304,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectPolynomialLineSingle(
+                         kernelA.IntersectPolynomialLineSingle(
                             c.getLabel(),
                             ((GeoFunctionable) arg[0]).getGeoFunction(),
                             (GeoLine) arg[1],
@@ -318,7 +318,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectPolynomialsSingle(
+                         kernelA.IntersectPolynomialsSingle(
                             c.getLabel(),
                             ((GeoFunctionable) arg[0]).getGeoFunction(),
                             ((GeoFunctionable) arg[1]).getGeoFunction(),
@@ -332,7 +332,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isNumberValue()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectPolynomialLineSingle(
+                         kernelA.IntersectPolynomialLineSingle(
                             c.getLabel(),
                             ((GeoFunctionable) arg[1]).getGeoFunction(),
                             (GeoLine) arg[0],
@@ -344,7 +344,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     (ok[0] = (arg[0] .isGeoFunction()))
                         && (ok[1] = (arg[1] .isGeoConic()))
                         && (ok[2] = (arg[2] .isNumberValue())) )
-    				return new GeoElement[]{kernel.IntersectPolynomialConicSingle(
+    				return new GeoElement[]{kernelA.IntersectPolynomialConicSingle(
                         c.getLabel(),
                         (GeoFunction) arg[0],
                         (GeoConic) arg[1],(NumberValue)arg[2])};
@@ -352,7 +352,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     (ok[0] = (arg[0] .isGeoConic()))
                         && (ok[1] = (arg[1] .isGeoFunction()))
                         && (ok[2] = (arg[2] .isNumberValue())))
-    				return new GeoElement[]{kernel.IntersectPolynomialConicSingle(
+    				return new GeoElement[]{kernelA.IntersectPolynomialConicSingle(
                         c.getLabel(),
                         (GeoFunction) arg[1],
                         (GeoConic) arg[0],(NumberValue)arg[2])};
@@ -362,7 +362,7 @@ public  GeoElement[] process(Command c) throws MyError {
 	                    && (ok[1] = (arg[1] .isGeoFunctionable())
 	                    && (ok[1]=((GeoFunctionable) arg[1]).getGeoFunction().isPolynomialFunction(false)))
 	                    && (ok[2] = (arg[2] .isNumberValue())))
-					return new GeoElement[]{kernel.IntersectImplicitpolyPolynomialSingle(
+					return new GeoElement[]{kernelA.IntersectImplicitpolyPolynomialSingle(
 	                    c.getLabel(), (GeoImplicitPoly) arg[0],
 	                    ((GeoFunctionable) arg[1]).getGeoFunction(),(NumberValue)arg[2]
 	                   )};
@@ -370,7 +370,7 @@ public  GeoElement[] process(Command c) throws MyError {
 	                    && (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
 	                    && (ok[1] = (arg[1] .isGeoImplicitPoly()))
 	                    && (ok[2] = (arg[2] .isNumberValue())))
-						return new GeoElement[]{kernel.IntersectImplicitpolyPolynomialSingle(
+						return new GeoElement[]{kernelA.IntersectImplicitpolyPolynomialSingle(
 			                    c.getLabel(), (GeoImplicitPoly) arg[0],
 			                    ((GeoFunctionable) arg[1]).getGeoFunction(),(NumberValue)arg[2]
 			                   )};
@@ -379,14 +379,14 @@ public  GeoElement[] process(Command c) throws MyError {
 	                (ok[0] = (arg[0] .isGeoImplicitPoly()))
 	                    && (ok[1] = (arg[1].isGeoLine()))
 	                    && (ok[2] = (arg[2] .isNumberValue())) )
-					return new GeoElement[]{kernel.IntersectImplicitpolyLineSingle(
+					return new GeoElement[]{kernelA.IntersectImplicitpolyLineSingle(
 	                    c.getLabel(), (GeoImplicitPoly) arg[0],
 	                    (GeoLine) arg[1] ,(NumberValue)arg[2])};
 			else if (
 	                (ok[1] = (arg[1] .isGeoImplicitPoly()))
 	                    && (ok[0] = (arg[0].isGeoLine()))
 	                    && (ok[2] = (arg[2] .isNumberValue())))
-				return new GeoElement[]{kernel.IntersectImplicitpolyLineSingle(
+				return new GeoElement[]{kernelA.IntersectImplicitpolyLineSingle(
 	                    c.getLabel(), (GeoImplicitPoly) arg[1],
 	                    (GeoLine) arg[0] ,(NumberValue)arg[2])};
           //implicitPoly - implicitPoly
@@ -394,7 +394,7 @@ public  GeoElement[] process(Command c) throws MyError {
 	                (ok[0] = (arg[0] .isGeoImplicitPoly()))
 	                    && (ok[1] = (arg[1].isGeoImplicitPoly()))
 	                    && (ok[2]=arg[2].isNumberValue()))
-					return new GeoElement[]{kernel.IntersectImplicitpolysSingle(
+					return new GeoElement[]{kernelA.IntersectImplicitpolysSingle(
 	                    c.getLabel(), (GeoImplicitPoly) arg[0],
 	                    (GeoImplicitPoly) arg[1], (NumberValue) arg[2] )};
             //implicitPoly-conic
@@ -402,14 +402,14 @@ public  GeoElement[] process(Command c) throws MyError {
 	                (ok[0] = (arg[0] .isGeoImplicitPoly()))
                     && (ok[1] = (arg[1].isGeoConic()))
                     && (ok[2]=arg[2].isNumberValue()))
-				return new GeoElement[]{kernel.IntersectImplicitpolyConicSingle(
+				return new GeoElement[]{kernelA.IntersectImplicitpolyConicSingle(
                     c.getLabel(), (GeoImplicitPoly) arg[0],
                     (GeoConic) arg[1], (NumberValue) arg[2] )};
 			else if (
 	                (ok[1] = (arg[1] .isGeoImplicitPoly()))
                     && (ok[0] = (arg[0].isGeoConic()))
                     && (ok[2]=arg[2].isNumberValue()))
-				return new GeoElement[]{kernel.IntersectImplicitpolyConicSingle(
+				return new GeoElement[]{kernelA.IntersectImplicitpolyConicSingle(
                     c.getLabel(), (GeoImplicitPoly) arg[1],
                     (GeoConic) arg[0], (NumberValue) arg[2] )};
             // Function - Line with startPoint
@@ -420,7 +420,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectFunctionLine(
+                         kernelA.IntersectFunctionLine(
                             c.getLabel(),
                             ((GeoFunctionable) arg[0]).getGeoFunction(),
                             (GeoLine) arg[1],
@@ -434,7 +434,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectFunctions(
+                         kernelA.IntersectFunctions(
                             c.getLabel(),
                             ((GeoFunctionable) arg[0]).getGeoFunction(),
                             ((GeoFunctionable) arg[1]).getGeoFunction(),
@@ -448,7 +448,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[2] = (arg[2] .isGeoPoint()))) {
                 GeoElement[] ret =
                     {
-                         kernel.IntersectFunctionLine(
+                         kernelA.IntersectFunctionLine(
                             c.getLabel(),
                             ((GeoFunctionable) arg[1]).getGeoFunction(),
                             (GeoLine) arg[0],
@@ -476,7 +476,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     && (ok[3] = (arg[3] .isNumberValue()))
                     ) {
                 GeoElement[] ret =
-                         kernel.IntersectFunctions(
+                         kernelA.IntersectFunctions(
                             c.getLabels(),
                             (GeoFunction) arg[0],
                             (GeoFunction) arg[1],

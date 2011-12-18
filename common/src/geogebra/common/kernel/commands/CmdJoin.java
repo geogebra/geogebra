@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Join
  */
-class CmdJoin extends CommandProcessorDesktop {
+public class CmdJoin extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdJoin extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdJoin(Kernel kernel) {
+	public CmdJoin(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -34,7 +34,7 @@ class CmdJoin extends CommandProcessorDesktop {
 			ok[0] = arg[0].isGeoList();
 
 			if (ok[0]) {
-				GeoElement[] ret = { kernel
+				GeoElement[] ret = { kernelA
 						.Join(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else
@@ -46,10 +46,10 @@ class CmdJoin extends CommandProcessorDesktop {
 
 		default:
 			// try to create list of numbers
-			GeoList list = wrapInList(kernel, arg, arg.length,
+			GeoList list = wrapInList(kernelA, arg, arg.length,
 					GeoClass.LIST);
 			if (list != null) {
-				GeoElement[] ret = { kernel.Join(c.getLabel(), list) };
+				GeoElement[] ret = { kernelA.Join(c.getLabel(), list) };
 				return ret;
 			}
 			throw argNumErr(app, c.getName(), n);

@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- *InverseBinomial
+ *InverseCauchy
  */
-class CmdInverseBinomial extends CommandProcessorDesktop {
+public class CmdInverseCauchy extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdInverseBinomial extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseBinomial(Kernel kernel) {
+	public CmdInverseCauchy(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,7 +32,7 @@ class CmdInverseBinomial extends CommandProcessorDesktop {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernel.InverseBinomial(c.getLabel(),
+				GeoElement[] ret = { kernelA.InverseCauchy(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
@@ -48,5 +48,4 @@ class CmdInverseBinomial extends CommandProcessorDesktop {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-
 }

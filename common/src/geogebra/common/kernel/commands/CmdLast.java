@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -6,16 +6,16 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Last[ <List>,n ]
  * Michael Borcherds
  * 2008-03-04
  */
-public class CmdLast extends CommandProcessorDesktop {
+public class CmdLast extends CommandProcessor {
 
-	public CmdLast(Kernel kernel) {
+	public CmdLast(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,12 +29,12 @@ public class CmdLast extends CommandProcessorDesktop {
 
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
-						kernel.Last(c.getLabel(),
+						kernelA.Last(c.getLabel(),
 						(GeoList) arg[0], null ) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = { 
-						kernel.Last(c.getLabel(),
+						kernelA.Last(c.getLabel(),
 						(GeoText) arg[0], null ) };
 				return ret;
 			} else
@@ -45,12 +45,12 @@ public class CmdLast extends CommandProcessorDesktop {
 			boolean text = arg[0].isGeoText();
 			if ( list && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernel.Last(c.getLabel(),
+						kernelA.Last(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else if ( text && arg[1].isGeoNumeric() ) {
 				GeoElement[] ret = { 
-						kernel.Last(c.getLabel(),
+						kernelA.Last(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
 				return ret;
 			} else

@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *IsInteger
  */
-class CmdIsInteger extends CommandProcessorDesktop {
+public class CmdIsInteger extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdIsInteger extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIsInteger(Kernel kernel) {
+	public CmdIsInteger(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ class CmdIsInteger extends CommandProcessorDesktop {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { kernel.IsInteger(c.getLabel(),
+				GeoElement[] ret = { kernelA.IsInteger(c.getLabel(),
 						(GeoNumeric) arg[0]) };
 				return ret;
 			} else

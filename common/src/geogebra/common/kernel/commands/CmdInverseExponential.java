@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- *InverseTDistribution
+ *InverseExponential
  */
-class CmdInverseTDistribution extends CommandProcessorDesktop {
+public class CmdInverseExponential extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdInverseTDistribution extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseTDistribution(Kernel kernel) {
+	public CmdInverseExponential(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,15 +31,18 @@ class CmdInverseTDistribution extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernel.InverseTDistribution(c.getLabel(),
+				GeoElement[] ret = { kernelA.InverseExponential(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
 
-			} else
+			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
+			else
+				throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+
 }

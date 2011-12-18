@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- *InverseCauchy
+ *InverseFDistribution
  */
-class CmdInverseCauchy extends CommandProcessorDesktop {
+public class CmdInverseFDistribution extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdInverseCauchy extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseCauchy(Kernel kernel) {
+	public CmdInverseFDistribution(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,7 +32,7 @@ class CmdInverseCauchy extends CommandProcessorDesktop {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernel.InverseCauchy(c.getLabel(),
+				GeoElement[] ret = { kernelA.InverseFDistribution(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;

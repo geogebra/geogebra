@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -8,13 +8,13 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Integral[ <GeoFunction> ] Integral[ <GeoFunction>, <Number a>, <Number b> ]
  * Integral[ <GeoFunction f>, <GeoFunction g>, <Number a>, <Number b> ]
  */
-class CmdIntegral extends CommandProcessorDesktop {
+public class CmdIntegral extends CommandProcessor {
 
 	
 	// from GeoGebra 4.0, Integral has been split into Integral and IntegralBetween
@@ -27,7 +27,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIntegral(Kernel kernel, boolean between) {
+	public CmdIntegral(AbstractKernel kernel, boolean between) {
 		super(kernel);
 		internalCommandName = between ? "IntegralBetween" : "Integral";
 	}
@@ -41,7 +41,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (ok[0] = (arg[0].isGeoFunctionable())) {
-				GeoElement[] ret = { kernel.Integral(c.getLabel(),
+				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(), null) };
 				return ret;
 			} else
@@ -51,7 +51,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 			// Integral[ f(x,y), x]
 			arg = resArgsLocalNumVar(c, 1, 1);
 			if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { kernel.Integral(c.getLabel(),
+				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						(CasEvaluableFunction) arg[0], // function
 						(GeoNumeric) arg[1]) }; // var
 				return ret;
@@ -63,7 +63,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = { kernel.Integral(c.getLabel(),
+				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
@@ -84,7 +84,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue() && !arg[3]
 							.isBooleanValue()))) {
-				GeoElement[] ret = { kernel.Integral(c.getLabel(),
+				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
 						(NumberValue) arg[2], (NumberValue) arg[3]) };
@@ -96,7 +96,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { kernel.Integral(c.getLabel(),
+				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2],
 						(GeoBoolean) arg[3]) };
@@ -121,7 +121,7 @@ class CmdIntegral extends CommandProcessorDesktop {
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue())
 							&& (ok[4] = (arg[4].isGeoBoolean())))) {
-				GeoElement[] ret = { kernel.Integral(c.getLabel(),
+				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
 						(NumberValue) arg[2], (NumberValue) arg[3],

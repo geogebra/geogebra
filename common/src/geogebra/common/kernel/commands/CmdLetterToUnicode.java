@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 
-public class CmdLetterToUnicode extends CommandProcessorDesktop {
+public class CmdLetterToUnicode extends CommandProcessor {
 
-	public CmdLetterToUnicode(Kernel kernel) {
+	public CmdLetterToUnicode(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -23,7 +23,7 @@ public class CmdLetterToUnicode extends CommandProcessorDesktop {
 
 			if (arg[0].isGeoText()) {
 				GeoElement[] ret = { 
-						kernel.LetterToUnicode(c.getLabel(),
+						kernelA.LetterToUnicode(c.getLabel(),
 						(GeoText) arg[0] ) };
 				return ret;
 			} else

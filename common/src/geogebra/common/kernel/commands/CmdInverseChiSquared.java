@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *InverseChiSquared
  */
-class CmdInverseChiSquared extends CommandProcessorDesktop {
+public class CmdInverseChiSquared extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdInverseChiSquared extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseChiSquared(Kernel kernel) {
+	public CmdInverseChiSquared(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +31,7 @@ class CmdInverseChiSquared extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernel.InverseChiSquared(c.getLabel(),
+				GeoElement[] ret = { kernelA.InverseChiSquared(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
 

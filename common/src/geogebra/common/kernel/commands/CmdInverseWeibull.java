@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
- *InverseGamma
+ *InverseWeibull
  */
-class CmdInverseGamma extends CommandProcessorDesktop {
+public class CmdInverseWeibull extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdInverseGamma extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseGamma(Kernel kernel) {
+	public CmdInverseWeibull(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,7 +32,7 @@ class CmdInverseGamma extends CommandProcessorDesktop {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernel.InverseGamma(c.getLabel(),
+				GeoElement[] ret = { kernelA.InverseWeibull(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
@@ -48,4 +48,5 @@ class CmdInverseGamma extends CommandProcessorDesktop {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+
 }

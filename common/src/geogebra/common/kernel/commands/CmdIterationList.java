@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * IterationList[ <function>, <start>, <n> ]
  */
-public class CmdIterationList extends CommandProcessorDesktop {
+public class CmdIterationList extends CommandProcessor {
 	
-	public CmdIterationList(Kernel kernel) {
+	public CmdIterationList(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,7 +29,7 @@ final public  GeoElement[] process(Command c) throws MyError {
                	 && (ok[1] = arg[1].isNumberValue())
                	 && (ok[2] = arg[2].isNumberValue()))
                {
-            	GeoElement[] ret = {  kernel.IterationList(
+            	GeoElement[] ret = {  kernelA.IterationList(
                                 c.getLabel(),
                                 (GeoFunction) arg[0],
                                 (NumberValue) arg[1],

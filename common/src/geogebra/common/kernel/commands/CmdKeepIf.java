@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -6,13 +6,12 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *KeepIf
  */
-class CmdKeepIf extends CommandProcessorDesktop {
+public class CmdKeepIf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +19,7 @@ class CmdKeepIf extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdKeepIf(Kernel kernel) {
+	public CmdKeepIf(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -38,7 +37,7 @@ AbstractApplication.debug(n);
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						&& (ok[1] = arg[1].isGeoList())) {
 
-					GeoElement[] ret = { kernel.KeepIf(c.getLabel(),
+					GeoElement[] ret = { kernelA.KeepIf(c.getLabel(),
 							(GeoFunction) booleanFun, ((GeoList) arg[1])) };
 					return ret;
 				}

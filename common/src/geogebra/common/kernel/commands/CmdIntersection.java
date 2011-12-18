@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 
 /*
  * Intersection[ <GeoList>, <GeoList> ]
  */
-public class CmdIntersection extends CommandProcessorDesktop {
+public class CmdIntersection extends CommandProcessor {
 	
-	public CmdIntersection(Kernel kernel) {
+	public CmdIntersection(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -26,7 +26,7 @@ public  GeoElement[] process(Command c) throws MyError {
             arg = resArgs(c);
             if (arg[0].isGeoList() && arg[1].isGeoList() ) {
 				GeoElement[] ret = { 
-						kernel.Intersection(c.getLabel(),
+						kernelA.Intersection(c.getLabel(),
 						(GeoList) arg[0], (GeoList)arg[1] ) };
 				return ret;
 			} 
