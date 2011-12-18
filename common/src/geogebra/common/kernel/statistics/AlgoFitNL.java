@@ -1,4 +1,4 @@
-package geogebra.kernel.statistics;
+package geogebra.common.kernel.statistics;
 
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
@@ -12,14 +12,15 @@ package geogebra.kernel.statistics;
 
  */
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.optimization.FitRealFunction;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.optimization.FitRealFunction;
 
 import org.apache.commons.math.optimization.fitting.CurveFitter;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
@@ -186,7 +187,7 @@ public class AlgoFitNL extends AlgoElement {
   // --- SNIP --- /// *** Comment out when finished ***
  	
     /* Hook for plugin scripts */
-    public final void AlgoFitNL(geogebra.kernel.Kernel k,String fname){
+    public final void AlgoFitNL(AbstractKernel k,String fname){
     	
     }//test()
  

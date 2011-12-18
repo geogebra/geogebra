@@ -1,4 +1,4 @@
-package geogebra.kernel.barycentric;
+package geogebra.common.kernel.barycentric;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;

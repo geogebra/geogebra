@@ -1,4 +1,4 @@
-package geogebra.kernel.optimization;
+package geogebra.common.kernel.optimization;
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
@@ -12,6 +12,7 @@ the Free Software Foundation.
 */
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -20,7 +21,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.kernel.Kernel;
 
 /**
 <h3>FitRealFunction</h3>
@@ -71,7 +71,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 	private final static	double		DELTAX			=	1.0E-8;		//To be decided...	
 	
 	/// --- Properties --- ///
-	private		Kernel			kernel				=	null;
+	private		AbstractKernel			kernel				=	null;
 	private 	int				numberOfParameters	=	0;
 	private		Object[]		gliders				=	null;			//Pointers to gliders, need for new startvalues
 	private		Function		newf				=	null;
@@ -127,7 +127,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 	}//gradient(x,pars)
 	
 	public void setFunction(Function f) throws Exception{
-		kernel=(Kernel) f.getKernel();
+		kernel= f.getKernel();
 		FunctionVariable fvar=f.getFunctionVariable();
 
 		java.util.HashSet<GeoElement> hash= f.getVariables();		//Get a,b,c,... to array
@@ -190,7 +190,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
   // --- SNIP --- /// *** Comment out when finished ***
  	
     // Hook for plugin scripts
-	public FitRealFunction(Kernel k,String fname) throws Exception{
+	public FitRealFunction(AbstractKernel k,String fname) throws Exception{
 		GeoElement geo=k.lookupLabel(fname);
 		if(geo.isGeoFunction()){
 			setFunction(((GeoFunction)geo).getFunction());

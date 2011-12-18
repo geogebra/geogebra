@@ -102,10 +102,10 @@ public class MatrixUtils {
      * <code>data[0]</code> is null
      * @see #createRealMatrix(int, int)
      */
-    /*ARpublic static RealMatrix createRealMatrix(double[][] data) {
+    public static RealMatrix createRealMatrix(double[][] data) {
         return (data.length * data[0].length <= 4096) ?
                 new Array2DRowRealMatrix(data) : new BlockRealMatrix(data);
-    }*/
+    }
 
     /**
      * Returns a {@link FieldMatrix} whose entries are the the values in the
