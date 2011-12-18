@@ -451,6 +451,19 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public EuclidianViewInterfaceSlim getEuclidianView2() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @return width of the whole application (central panel)
+	 * This is needed for Corner[6]
+	 */
+	public abstract double getWidth();
+	
+	public abstract double getHeight();
 	
 
 }

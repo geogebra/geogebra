@@ -285,11 +285,7 @@ public class Util extends Object {
     
 	private static Comparator<File> comparator;
 	
-	public static StringBuffer resetStringBuffer(StringBuffer high) {
-		if (high == null) return new StringBuffer();
-		high.setLength(0);
-		return high;
-	}       
+	       
     
 	/**
 	 * Returns a comparator for GeoText objects.

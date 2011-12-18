@@ -12,19 +12,15 @@ the Free Software Foundation.
 
 // adapted from AlgoTextCorner by Michael Borcherds 2008-05-10
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.euclidian.EuclidianView;
-import geogebra.main.AppletImplementation;
-import geogebra.main.Application;
-
-import javax.swing.JPanel;
+import geogebra.common.main.AbstractApplication;
 
 public class AlgoDrawingPadCorner extends AlgoElement implements
 		EuclidianViewCE {
@@ -81,9 +77,9 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 		// x1 = x1 / invXscale + xZero;
 		// x2 = x2 / invXscale + xZero;
 
-		EuclidianView ev;
+		EuclidianViewInterfaceSlim ev;
 
-		Application app = (Application)cons.getApplication();
+		AbstractApplication app = cons.getApplication();
 
 		if (evNum == null || evNum.getDouble() == 1.0)
 			ev = app.getEuclidianView();
@@ -92,7 +88,7 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 				corner.setUndefined();
 				return;
 			} else
-				ev = ((Application) cons.getApplication()).getEuclidianView2();
+				ev = app.getEuclidianView2();
 		}
 
 		double width = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
@@ -120,13 +116,8 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 			// (to help with sizing for export to applet)
 			// doesn't work very well as it receives updates only when
 			// EuclidianView is changed
-			if (app.isApplet()) {
-				AppletImplementation applet = app.getApplet();
-				corner.setCoords(applet.width, applet.height, 1.0);
-			} else {
-				JPanel appCP = app.getCenterPanel();
-				corner.setCoords(appCP.getWidth(), appCP.getHeight(), 1.0);
-			}
+			corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
+			
 			break;
 		default:
 			corner.setUndefined();

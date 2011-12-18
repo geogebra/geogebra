@@ -6626,4 +6626,22 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	public double getWidth() {
+		if (isApplet()) {
+			AppletImplementation applet = getApplet();
+			return applet.width;
+		} 
+			JPanel appCP = getCenterPanel();
+			return appCP.getWidth();
+	}
+	
+	public double getHeight() {
+		if (isApplet()) {
+			AppletImplementation applet = getApplet();
+			return applet.height;
+		} 
+			JPanel appCP = getCenterPanel();
+			return appCP.getHeight();
+	}
+
 }

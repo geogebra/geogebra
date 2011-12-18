@@ -495,5 +495,11 @@ public class StringUtil {
 
 
     private static StringBuilder sbReplaceExp = new StringBuilder(200);
+    
+    public static StringBuilder resetStringBuilder(StringBuilder high) {
+		if (high == null) return new StringBuilder();
+		high.setLength(0);
+		return high;
+	}
 
 }

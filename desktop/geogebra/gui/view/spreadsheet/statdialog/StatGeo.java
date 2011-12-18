@@ -15,6 +15,7 @@ import geogebra.common.kernel.algos.AlgoListMin;
 import geogebra.common.kernel.algos.AlgoNormalQuantilePlot;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoResidualPlot;
+import geogebra.common.kernel.algos.AlgoStemPlot;
 import geogebra.common.kernel.algos.AlgoText;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -41,7 +42,6 @@ import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoHistogram;
-import geogebra.kernel.algos.AlgoStemPlot;
 import geogebra.main.Application;
 
 import java.awt.Color;
