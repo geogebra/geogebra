@@ -598,26 +598,7 @@ public class Kernel extends AbstractKernel{
 		return ret;
 	}
 
-	/** 
-	 * StemPlot[list]
-	 * Michael Borcherds
-	 */
-	final public GeoText StemPlot(String label, GeoList list) {
-		AlgoStemPlot algo = new AlgoStemPlot((Construction)cons, label, list, null);
-		GeoText text = algo.getResult();
-		return text;
-	}
-	
-	/** 
-	 * StemPlot[list, number]
-	 * Michael Borcherds
-	 */
-	final public GeoText StemPlot(String label, GeoList list, GeoNumeric num) {
-		AlgoStemPlot algo = new AlgoStemPlot((Construction)cons, label, list, num);
-		GeoText text = algo.getResult();
-		return text;
-	}
-	
+
 	
 	@Override
 	public GeoElement [] PolygonND(String [] labels, GeoPointND [] P) {
@@ -638,49 +619,49 @@ public class Kernel extends AbstractKernel{
 		cons.setSuppressLabelCreation(oldMacroMode);
 		
 	
-	StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 	
-	double xA = points[0].inhomX;
-	double yA = points[0].inhomY;
+		double xA = points[0].inhomX;
+		double yA = points[0].inhomY;
 	
-	for (int i = 1; i < points.length ; i++) {
+		for (int i = 1; i < points.length ; i++) {
 
-		double xC = points[i].inhomX;
-		double yC = points[i].inhomY;
-		
-		GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
-		GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
-		
-		// make string like this
-		// (a+x(A),b+y(A))
-		sb.setLength(0);
-		sb.append('(');
-		sb.append(nx.getLabel());
-		sb.append("+x(");
-		sb.append(points[0].getLabel());
-		sb.append("),");
-		sb.append(ny.getLabel());
-		sb.append("+y(");
-		sb.append(points[0].getLabel());
-		sb.append("))");
+			double xC = points[i].inhomX;
+			double yC = points[i].inhomY;
 			
-		//Application.debug(sb.toString());
-
-		GeoPoint2 pp = (GeoPoint2)getAlgebraProcessor().evaluateToPoint(sb.toString(), true);
-		
-		try {
-			((Construction)cons).replace(points[i], pp);
-			points[i] = pp;
-			//points[i].setEuclidianVisible(false);
-			points[i].update();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-    }
-	points[0].update();
+			GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
+			GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
+			
+			// make string like this
+			// (a+x(A),b+y(A))
+			sb.setLength(0);
+			sb.append('(');
+			sb.append(nx.getLabel());
+			sb.append("+x(");
+			sb.append(points[0].getLabel());
+			sb.append("),");
+			sb.append(ny.getLabel());
+			sb.append("+y(");
+			sb.append(points[0].getLabel());
+			sb.append("))");
+				
+			//Application.debug(sb.toString());
 	
-	return Polygon(labels, points);
+			GeoPoint2 pp = (GeoPoint2)getAlgebraProcessor().evaluateToPoint(sb.toString(), true);
+		
+			try {
+				((Construction)cons).replace(points[i], pp);
+				points[i] = pp;
+				//points[i].setEuclidianVisible(false);
+				points[i].update();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+	    }
+		points[0].update();
+		
+		return Polygon(labels, points);
 	
 	}
 
@@ -708,102 +689,11 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	
-	/** 
-	 * Corner of Drawing Pad Michael Borcherds 2008-05-10
-	 */
-	final public GeoPoint2 CornerOfDrawingPad(String label, NumberValue number, NumberValue ev) {
-		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner((Construction)cons, label, number, ev);	
-		return algo.getCorner();
-	}
-
-	
 	/********************************************************************
 	 * TRANSFORMATIONS
 	 ********************************************************************/
 
-	/**
-	 * translate geoTrans by vector v
-	 */
-	final public GeoElement [] Translate(String label, GeoElement geoTrans, GeoVec3D v) {
-		Transform t = new TransformTranslate((Construction)cons, v);
-		return t.transform(geoTrans, label);				
-	}
-	
-	/**
-	 * translates vector v to point A. The resulting vector is equal
-	 * to v and has A as startPoint
-	 */
-	final public GeoVector Translate(String label, GeoVec3D v, GeoPoint2 A) {
-		AlgoTranslateVector algo = new AlgoTranslateVector((Construction)cons, label, v, A);
-		GeoVector vec = algo.getTranslatedVector();
-		return vec;
-	}	
 
-	/**
-	 * rotate geoRot by angle phi around (0,0)
-	 */
-	final public GeoElement [] Rotate(String label, GeoElement geoRot, NumberValue phi) {
-		Transform t = new TransformRotate((Construction)cons, phi);
-		return t.transform(geoRot, label);					
-	}
-
-
-	/**
-	 * rotate geoRot by angle phi around Q
-	 */
-	final public GeoElement [] Rotate(String label, GeoElement geoRot, NumberValue phi, GeoPoint2 Q) {
-		Transform t = new TransformRotate((Construction)cons, phi,Q);
-		return t.transform(geoRot, label);		
-	}
-		
-
-
-	/**
-	 * mirror geoMir at point Q
-	 */
-	final public GeoElement [] Mirror(String label, GeoElement geoMir, GeoPoint2 Q) {	
-		Transform t = new TransformMirror((Construction)cons, Q);
-		return t.transform(geoMir, label);
-	}
-
-	/**
-	 * mirror (invert) element Q in circle 
-	 * Michael Borcherds 2008-02-10
-	 */
-	final public GeoElement [] Mirror(String label, GeoElement Q, GeoConic conic) {	
-		Transform t = new TransformMirror((Construction)cons, conic);
-		return t.transform(Q, label);
-	}
-
-
-	
-	/**
-	 * shear
-	 */
-	final public GeoElement [] Shear(String label, GeoElement Q, GeoVec3D l, GeoNumeric num) {	
-		Transform t = new TransformShearOrStretch((Construction)cons, l, num, true);
-		return t.transform(Q, label);
-	}
-	/**
-	 * apply matrix 
-	 * Michael Borcherds 2010-05-27
-	 */
-	final public GeoElement [] Stretch(String label, GeoElement Q, GeoVec3D l, GeoNumeric num) {	
-		Transform t = new TransformShearOrStretch((Construction)cons, l, num, false);
-		return t.transform(Q, label);
-	}
-
-	/**
-	 * mirror geoMir at line g
-	 */
-	final public GeoElement [] Mirror(String label, GeoElement geoMir, GeoLine g) {
-		Transform t = new TransformMirror((Construction)cons, g);
-		return t.transform(geoMir, label);
-		
-			
-	}			
-	
-	
 	static final int TRANSFORM_TRANSLATE = 0;
 	static final int TRANSFORM_MIRROR_AT_POINT = 1;
 	static final int TRANSFORM_MIRROR_AT_LINE = 2;	
@@ -826,46 +716,6 @@ public class Kernel extends AbstractKernel{
 	 * CALCULUS
 	 ***********************************/
 
-	
-	/**
-	 * Tries to expand a function f to a polynomial.
-	 */
-	final public GeoFunction PolynomialFunction(String label, GeoFunction f) {		
-		AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction((Construction)cons, label, f);
-		return algo.getPolynomial();			
-	}
-	
-	/**
-	 * Fits a polynomial exactly to a list of coordinates
-	 * Michael Borcherds 2008-01-22
-	 */
-	final public GeoFunction PolynomialFunction(String label, GeoList list) {		
-		AlgoPolynomialFromCoordinates algo = new AlgoPolynomialFromCoordinates((Construction)cons, label, list);
-		return algo.getPolynomial();			
-	}
-
-	
-	final public GeoElement Simplify(String label, CasEvaluableFunction func) {		
-		AlgoSimplify algo = new AlgoSimplify((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
-	final public GeoElement SolveODE(String label, CasEvaluableFunction func) {		
-		AlgoSolveODECas algo = new AlgoSolveODECas((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
-	/**
-	 * Simplify text, eg "+-x" to "-x"
-	 * @author Michael Borcherds 
-	 */
-	final public GeoElement Simplify(String label, GeoText text) {		
-		AlgoSimplifyText algo = new AlgoSimplifyText((Construction)cons, label, text);
-		return algo.getGeoText();		
-	}
-	
-
-	
 
 	
 	final public GeoLocus SolveODE(String label, FunctionalNVar f, FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end, GeoNumeric step) {		
@@ -882,176 +732,6 @@ public class Kernel extends AbstractKernel{
 	}
 	
 
-	/**
-	 * Numerator
-	 * Michael Borcherds 
-	 */
-	final public GeoFunction Numerator(String label, GeoFunction func) {		
-		AlgoNumerator algo = new AlgoNumerator((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
-
-	
-
-	/**
-	 * Limit
-	 * Michael Borcherds 
-	 */
-	final public GeoNumeric Limit(String label, GeoFunction func, NumberValue num) {		
-		AlgoLimit algo = new AlgoLimit((Construction)cons, label, func, num);
-		return algo.getResult();			
-	}
-	
-	/**
-	 * LimitBelow
-	 * Michael Borcherds 
-	 */
-	final public GeoNumeric LimitBelow(String label, GeoFunction func, NumberValue num) {		
-		AlgoLimitBelow algo = new AlgoLimitBelow((Construction)cons, label, func, num);
-		return algo.getResult();			
-	}
-	
-	/**
-	 * LimitAbove
-	 * Michael Borcherds 
-	 */
-	final public GeoNumeric LimitAbove(String label, GeoFunction func, NumberValue num) {		
-		AlgoLimitAbove algo = new AlgoLimitAbove((Construction)cons, label, func, num);
-		return algo.getResult();			
-	}
-	
-	/**
-	 * Partial Fractions
-	 * Michael Borcherds 
-	 */
-	final public GeoElement PartialFractions(String label, CasEvaluableFunction func) {		
-		AlgoPartialFractions algo = new AlgoPartialFractions((Construction)cons, label, func);
-		return algo.getResult();			
-	}
-	
-
-
-	
-	/**
-	 * Taylor series of function f about point x=a of order n
-	 */
-	final public GeoFunction TaylorSeries(
-		String label,
-		GeoFunction f,
-		NumberValue a, 
-		NumberValue n) {
-		
-		AlgoTaylorSeries algo = new AlgoTaylorSeries((Construction)cons, label, f, a, n);
-		return algo.getPolynomial();
-	}
-
-	/**
-	 * Integral of function f
-	 */
-	final public GeoElement Integral(String label, CasEvaluableFunction f, GeoNumeric var) {
-		AlgoIntegral algo = new AlgoIntegral((Construction)cons, label, f, var);
-		return algo.getResult();
-	}
-	
-	/**
-	 * definite Integral of function f from x=a to x=b
-	 */
-	final public GeoNumeric Integral(String label, GeoFunction f, NumberValue a, NumberValue b) {
-		AlgoIntegralDefinite algo = new AlgoIntegralDefinite((Construction)cons, label, f, a, b);
-		GeoNumeric n = algo.getIntegral();
-		return n;
-	}
-
-	/**
-	 * definite Integral of function f from x=a to x=b 
-	 * with option to evaluate  (evaluate == false allows shade-only drawing)
-	 */
-	final public GeoNumeric Integral(String label, GeoFunction f, NumberValue a, NumberValue b, GeoBoolean evaluate) {
-		AlgoIntegralDefinite algo = new AlgoIntegralDefinite((Construction)cons, label, f, a, b, evaluate);
-		GeoNumeric n = algo.getIntegral();
-		return n;
-	}
-	
-	
-	/** 
-	 * definite integral of function (f - g) in interval [a, b]
-	 */
-	final public GeoNumeric Integral(String label, GeoFunction f, GeoFunction g,
-												NumberValue a, NumberValue b) {
-		AlgoIntegralFunctions algo = new AlgoIntegralFunctions((Construction)cons, label, f, g, a, b);
-		GeoNumeric num = algo.getIntegral();
-		return num;
-	}		
-	
-	
-	/** 
-	 * definite integral of function (f - g) in interval [a, b]
-	 * with option to not evaluate  (evaluate == false allows shade-only drawing)
-	 */
-	final public GeoNumeric Integral(String label, GeoFunction f, GeoFunction g,
-												NumberValue a, NumberValue b, GeoBoolean evaluate) {
-		AlgoIntegralFunctions algo = new AlgoIntegralFunctions((Construction)cons, label, f, g, a, b,evaluate);
-		GeoNumeric num = algo.getIntegral();
-		return num;
-	}		
-	
-	
-	
-
-	
-	/**
-	 * all Roots of polynomial f (works only for polynomials and functions
-	 * that can be simplified to factors of polynomials, e.g. sqrt(x) to x)
-	 */
-	final public GeoPoint2 [] Root(String [] labels, GeoFunction f) {
-		// allow functions that can be simplified to factors of polynomials
-		if (!f.isPolynomialFunction(true)) return null;
-		
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial((Construction)cons, labels, f);
-		GeoPoint2 [] g = algo.getRootPoints();
-		return g;
-	}	
-	
-	@Override
-	final public GeoPoint2 [] RootMultiple(String [] labels, GeoFunction f) {
-		// allow functions that can be simplified to factors of polynomials
-		if (!f.isPolynomialFunction(true)) return null;
-		
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial((GeoFunction)f);
-		GeoPoint2 [] g = algo.getRootPoints();
-		return g;
-	}
-
-	
-	/**
-	 * Root of a function f to given start value a (works only if first derivative of f exists)
-	 */
-	final public GeoPoint2 Root(String label, GeoFunction f, NumberValue a) {			 
-		AlgoRootNewton algo = new AlgoRootNewton((Construction)cons, label, f, a);
-		GeoPoint2 p = algo.getRootPoint();
-		return p;
-	}	
-
-	/**
-	 * Root of a function f in given interval [a, b]
-	 */
-	final public GeoPoint2 Root(String label, GeoFunction f, NumberValue a, NumberValue b) {			 
-		AlgoRootInterval algo = new AlgoRootInterval((Construction)cons, label, f, a, b);
-		GeoPoint2 p = algo.getRootPoint();
-		return p;
-	}	
-
-	/**
-	 * Roots of a function f in given interval [a, b]
-	 * Numerical version
-	 */
-	final public GeoPoint2[] Roots(String[] labels, GeoFunction f, NumberValue a, NumberValue b) {			 
-		AlgoRoots algo = new AlgoRoots((Construction)cons, labels, f, a, b);
-		GeoPoint2[] pts = algo.getRootPoints();
-		return pts;
-	}//Roots(label,f,a,b)
-	
 
 	/**
 	 * Numeric search for extremum of function f in interval [left,right]
@@ -1065,155 +745,6 @@ public class Kernel extends AbstractKernel{
 		return result;
 	}//Extremum(label,geofunction,numbervalue,numbervalue)
 	*/
-
-	/**
-	* Trying to maximize dependent variable with respect to independen variable
-	* Ulven 2011-2-13
-	*
-	*/
-	final public GeoElement Maximize(String label, GeoElement dep, GeoNumeric indep) {
-		AlgoMaximize algo=new AlgoMaximize((Construction)cons,label,dep,indep);
-		/*
-		GeoElement[] geo=new GeoElement[1];
-		geo[0]=algo.getMaximized();	//All variants return array...
-		*/
-		return algo.getResult();//geo;
-	}//Maximize(lbl,dep,indep);	
-	
-	/**
-	* Trying to minimize dependent variable with respect to independen variable
-	* Ulven 2011-2-13
-	*
-	*/
-	final public GeoElement Minimize(String label, GeoElement dep, GeoNumeric indep) {
-		AlgoMinimize algo=new AlgoMinimize((Construction)cons,label,dep,indep);	//	true: minimize
-		/*GeoElement geo=algo.getMaximized();	//All variants return array...
-		 * 
-		 */
-		return algo.getResult();
-	}//Minimize(lbl,dep,indep,minimize);
-	
-	
-	
-	/**
-	 * all Turning points of function f (works only for polynomials)
-	 */
-	final public GeoPoint2 [] TurningPoint(String [] labels, GeoFunction f) {
-		//	check if this is a polynomial at the moment
-		if (!f.isPolynomialFunction(true)) return null;
-			 
-		AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial((Construction)cons, labels, f);
-		GeoPoint2 [] g = algo.getRootPoints();
-		return g;
-	}	
-
-
-
-
-	
-
-
-
-	/**
-	 * Osculating Circle of a function f in point A
-	 */
-
-	final public GeoConic OsculatingCircle(String label,GeoPoint2 A,GeoFunction f){
-
-		  AlgoOsculatingCircle algo = new AlgoOsculatingCircle((Construction)cons,label,A,f);
-		  GeoConic circle = algo.getCircle();
-		  return circle;
-
-	}
-
-	
-
-	/**
-	 * Osculating Circle of a curve f in point A
-	 */
-
-	final public GeoConic OsculatingCircleCurve(String label,GeoPoint2 A,GeoCurveCartesian f){
-
-		  AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve((Construction)cons,label,A,f);
-		  GeoConic circle = algo.getCircle();
-		  return circle;
-
-	}
-
-	
-
-	/**
-	 * Calculate Function Length between the numbers A and B: integral from A to B on T = sqrt(1+(f')^2)
-	 */
-
-	final public GeoNumeric FunctionLength(String label,GeoFunction f,GeoNumeric A,GeoNumeric B){
-
-		  AlgoLengthFunction algo = new AlgoLengthFunction((Construction)cons,label,f,A,B);
-		  GeoNumeric length = algo.getLength();
-		  return length;
-
-	}
-
-	
-
-	/**
-	 * Calculate Function Length between the points A and B: integral from A to B on T = sqrt(1+(f')^2)
-	 */
-
-	final public GeoNumeric FunctionLength2Points(String label,GeoFunction f,GeoPoint2 A,GeoPoint2 B){
-
-		  AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points((Construction)cons,label,f,A,B);
-		  GeoNumeric length = algo.getLength();
-		  return length;
-
-	}
-
-	
-
-	/**
-
-	 * Calculate Curve Length between the parameters t0 and t1: integral from t0 to t1 on T = sqrt(a'(t)^2+b'(t)^2)
-
-	 */
-
-	final public GeoNumeric CurveLength(String label, GeoCurveCartesian c, GeoNumeric t0,GeoNumeric t1){
-
-		  AlgoLengthCurve algo = new AlgoLengthCurve((Construction)cons,label,c,t0,t1);
-		  GeoNumeric length = algo.getLength();
-		  return length;
-
-	}
-
-	
-
-	/**
-	 * Calculate Curve Length between the points A and B: integral from t0 to t1 on T = sqrt(a'(t)^2+b'(t)^2)
-	 */
-	final public GeoNumeric CurveLength2Points(String label, GeoCurveCartesian c, GeoPoint2 A,GeoPoint2 B){
-		  AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points((Construction)cons,label,c,A,B);
-		  GeoNumeric length = algo.getLength();
-		  return length;
-	}
-
-
-	/** 
-	 * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
-	 */
-	final public GeoLine Tangent(String label,GeoPoint2 P,GeoCurveCartesian f) {
-		AlgoTangentCurve algo = new AlgoTangentCurve((Construction)cons, label, P, f);
-		GeoLine t = algo.getTangent();
-		t.setToExplicit();
-		t.update();     
-		notifyUpdate(t);
-		return t;
-	}
-
-	/**
-	 * Victor Franco Espino 18-04-2007: End new commands 
-	 */
-
-
-	
 
 	/***********************************
 	 * PACKAGE STUFF
@@ -1295,16 +826,7 @@ public class Kernel extends AbstractKernel{
 		isSaving = saving;
 	}
 	
-		
-	
-	
 
-
-	
-
-	
-	
-	
 	
 	@Override
 	final public AbstractAnimationManager getAnimatonManager() {		
@@ -1315,10 +837,6 @@ public class Kernel extends AbstractKernel{
 	}
 	
 	
-	
-	
-	
-
 	
 	
 	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
@@ -1384,48 +902,12 @@ public class Kernel extends AbstractKernel{
 	}
 	
 
-	
-	final public GeoPoint2 Kimberling(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C, NumberValue v) {
-		AlgoKimberling algo = new AlgoKimberling((Construction)cons, label, A,B,C,v);
-		GeoPoint2 P = algo.getResult();
-		return P;
-	}
-	
-	final public GeoPoint2 Barycenter(String label, GeoList A, GeoList B) {
-		AlgoBarycenter algo = new AlgoBarycenter((Construction)cons, label, A,B);
-		GeoPoint2 P = algo.getResult();
-		return P;
-	}
-	
-	final public GeoPoint2 Trilinear(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C, 
-			NumberValue a, NumberValue b, NumberValue c) {
-		AlgoTrilinear algo = new AlgoTrilinear((Construction)cons, label, A,B,C,a,b,c);
-		GeoPoint2 P = algo.getResult();
-		return P;
-	}
-	
-	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C, NumberValue v) {
-		AlgoTriangleCubic algo = new AlgoTriangleCubic((Construction)cons, label, A,B,C,v);
-		GeoImplicitPoly poly = algo.getResult();
-		return poly;
-	}
-	
-	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint2 A, GeoPoint2 B,
-			GeoPoint2 C, GeoImplicitPoly v, GeoNumeric a, GeoNumeric b, GeoNumeric c) {
-		AlgoTriangleCurve algo = new AlgoTriangleCurve((Construction)cons, label, A,B,C,v,a,b,c);
-		GeoImplicitPoly poly = algo.getResult();
-
-		return poly;
-	}
-
 	public GeoTextField textfield(String label,GeoElement geoElement) {
 		AlgoTextfield at = new AlgoTextfield((Construction)cons,label,geoElement);
 		return  (GeoTextField) at.getResult();		
 		
 		
 	}
-
-	
 
 	
 	/**

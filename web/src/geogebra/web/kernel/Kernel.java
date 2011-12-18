@@ -107,11 +107,6 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    public GeoPoint2[] RootMultiple(String[] labels, GeoFunction f) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public GeoNumeric getDefaultNumber(boolean geoAngle) {
@@ -214,12 +209,6 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    public GeoElement[] Rotate(String label, GeoElement A, NumberValue Alpha,
-            GeoPoint2 B) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public SystemOfEquationsSolverInterface getSystemOfEquationsSolver(
