@@ -1,17 +1,18 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /*
  * Incircle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ]
  * dsun [6/26/2011]
  */
-class CmdIncircle extends CommandProcessorDesktop {
-    public CmdIncircle(Kernel kernel) {
+class CmdIncircle extends CommandProcessor {
+    public CmdIncircle(AbstractKernel kernel) {
 	super(kernel);
     }
     public GeoElement[] process(Command c) throws MyError {
@@ -26,7 +27,7 @@ class CmdIncircle extends CommandProcessorDesktop {
 		&& (ok[2] = (arg[2] .isGeoPoint()))) {
 		GeoElement[] ret =
 		{
-		    kernel.Incircle(
+		    kernelA.Incircle(
 			c.getLabel(),
 			(GeoPoint2) arg[0],
 			(GeoPoint2) arg[1],

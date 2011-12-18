@@ -2,16 +2,17 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Append
  */
-class CmdIndexOf extends CommandProcessorDesktop {
+class CmdIndexOf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +20,7 @@ class CmdIndexOf extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIndexOf(Kernel kernel) {
+	public CmdIndexOf(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,11 +32,11 @@ class CmdIndexOf extends CommandProcessorDesktop {
 		switch (n) {
 		case 2:
 			if (arg[1].isGeoText() && arg[0].isGeoText()) {
-				GeoElement[] ret = { kernel.IndexOf(c.getLabel(),
+				GeoElement[] ret = { kernelA.IndexOf(c.getLabel(),
 						(GeoText) arg[0], (GeoText) arg[1]) };
 				return ret;
 			} else if (arg[1].isGeoList()) {
-				GeoElement[] ret = { kernel.IndexOf(c.getLabel(), arg[0],
+				GeoElement[] ret = { kernelA.IndexOf(c.getLabel(), arg[0],
 						(GeoList) arg[1]) };
 				return ret;
 			} else
@@ -45,13 +46,13 @@ class CmdIndexOf extends CommandProcessorDesktop {
 			boolean[] ok = new boolean[2];
 			if ((ok[0] = arg[1].isGeoText() && arg[0].isGeoText())
 					&& (ok[1] = arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernel.IndexOf(c.getLabel(),
+				GeoElement[] ret = { kernelA.IndexOf(c.getLabel(),
 						(GeoText) arg[0], (GeoText) arg[1],
 						(NumberValue) arg[2]) };
 				return ret;
 			} else if ((ok[0] = arg[1].isGeoList())
 					&& (ok[1] = arg[2].isNumberValue())) {
-				GeoElement[] ret = { kernel.IndexOf(c.getLabel(), arg[0],
+				GeoElement[] ret = { kernelA.IndexOf(c.getLabel(), arg[0],
 						(GeoList) arg[1], (NumberValue) arg[2]) };
 				return ret;
 			} else if (!ok[0])

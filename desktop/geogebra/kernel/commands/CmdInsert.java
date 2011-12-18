@@ -1,16 +1,17 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Insert
  */
-class CmdInsert extends CommandProcessorDesktop {
+class CmdInsert extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +19,7 @@ class CmdInsert extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInsert(Kernel kernel) {
+	public CmdInsert(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +32,7 @@ class CmdInsert extends CommandProcessorDesktop {
 		case 3:
 
 			if (arg[1].isGeoList() && arg[2].isGeoNumeric()) {
-				GeoElement[] ret = { kernel.Insert(c.getLabel(), arg[0],
+				GeoElement[] ret = { kernelA.Insert(c.getLabel(), arg[0],
 						(GeoList) arg[1], (GeoNumeric) arg[2]) };
 				return ret;
 			} else
