@@ -64,7 +64,7 @@ public abstract class Graphics2D {
 	 * @see #setClip
 	 * @see #setComposite
 	 */
-	public abstract void draw(Shape s);
+	//public abstract void draw(Shape s);
 
 	/**
 	 * Renders an image, applying a transform from image space into user space
@@ -327,7 +327,7 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract void fill(Shape s);
+	//public abstract void fill(Shape s);
 
 	/**
 	 * Checks whether or not the specified <code>Shape</code> intersects
@@ -358,7 +358,7 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract boolean hit(Rectangle rect, Shape s, boolean onStroke);
+	//public abstract boolean hit(Rectangle rect, Shape s, boolean onStroke);
 
 	/**
 	 * Returns the device configuration associated with this
@@ -418,7 +418,7 @@ public abstract class Graphics2D {
 	 * @see BasicStroke
 	 * @see #getStroke
 	 */
-	public abstract void setStroke(Stroke s);
+	//public abstract void setStroke(Stroke s);
 
 	/**
 	 * Sets the value of a single preference for the rendering algorithms.
@@ -722,7 +722,7 @@ public abstract class Graphics2D {
 	 *                 which defines the line style.
 	 * @see #setStroke
 	 */
-	public abstract Stroke getStroke();
+	//public abstract Stroke getStroke();
 
 	/**
 	 * Intersects the current <code>Clip</code> with the interior of the
@@ -743,7 +743,7 @@ public abstract class Graphics2D {
 	 *          <code>Clip</code>.  If <code>s</code> is <code>null</code>,
 	 *          this method clears the current <code>Clip</code>.
 	 */
-	public abstract void clip(Shape s);
+	//public abstract void clip(Shape s);
 
 	/**
 	 * Get the rendering context of the <code>Font</code> within this
@@ -771,9 +771,9 @@ public abstract class Graphics2D {
 
 	public abstract Color getColor();
 
-	public abstract Font getFont();
+	//public abstract Font getFont();
 
-	public abstract void setFont(Font font);
+	//public abstract void setFont(Font font);
 
 	public abstract void setPaint(Color fillColor);
 

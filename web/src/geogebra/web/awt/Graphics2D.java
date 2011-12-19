@@ -7,7 +7,6 @@ import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.ColorAdapter;
 import geogebra.common.awt.Composite;
-import geogebra.common.awt.Font;
 import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GlyphVector;
 import geogebra.common.awt.GraphicsConfiguration;
@@ -19,7 +18,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
-import geogebra.common.awt.Stroke;
+import geogebra.web.kernel.gawt.Font;
 import geogebra.web.kernel.gawt.PathIterator;
 import geogebra.web.kernel.gawt.Shape;
 
@@ -33,6 +32,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	protected final Canvas canvas;
 	private final Context2d context;
+	
+	private Font currentFont = new Font("normal");
 
 	/**
 	 * @param canvas
@@ -55,6 +56,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	//tmp@Override
+	/**<p>
+	 * Draws a shape.
+	 * </p>
+	 * 
+	 * @param shape
+	 */
 	public void draw(Shape shape) {
 		if (shape == null) {
 			GWT.log("Error in EuclidianView.draw");
@@ -117,14 +124,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
 	public void drawString(String str, int x, int y) {
-		// TODO Auto-generated method stub
-
+		context.fillText(str, x, y);
 	}
 
 	@Override
 	public void drawString(String str, float x, float y) {
-		// TODO Auto-generated method stub
-
+		context.fillText(str, x, y);
 	}
 
 	@Override
@@ -147,9 +152,38 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 
-	public void fill(Shape s) {
+	public void fill(Shape shape) {
+		if (shape == null) {
+			GWT.log("Error in EuclidianView.fill");
+			return;
+		}
 		// TODO Auto-generated method stub
-
+		context.beginPath();
+		PathIterator it = shape.getPathIterator(null);
+		double[] coords = new double[6];
+		while (!it.isDone()) {
+			int cu = it.currentSegment(coords);
+			switch (cu) {
+			case PathIterator.SEG_MOVETO:
+				context.moveTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_LINETO:
+				context.lineTo(coords[0], coords[1]);
+				break;
+			case PathIterator.SEG_CUBICTO: 
+				context.bezierCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
+				break;
+			case PathIterator.SEG_QUADTO:			
+				context.quadraticCurveTo(coords[0], coords[1], coords[2], coords[3]);
+				break;
+			case PathIterator.SEG_CLOSE:
+				context.closePath();
+			default:
+				break;
+			}
+			it.next();
+		}
+		context.fill();		
 	}
 
 
@@ -176,10 +210,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	}
 
-	@Override
-	public void setStroke(Stroke s) {
-		// TODO Auto-generated method stub
-
+	//@Override
+	public void setStroke(Stroke stroke) {
+		if (stroke != null) {
+			context.setLineWidth(stroke.getLineWidth());
+			context.setLineCap(stroke.getLineCap());
+			context.setLineJoin(stroke.getLineJoin());
+		}
 	}
 
 	@Override
@@ -290,7 +327,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return null;
 	}
 
-	@Override
+	//@Override
 	public Stroke getStroke() {
 		// TODO Auto-generated method stub
 		return null;
@@ -313,21 +350,20 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return null;
 	}
 
-	@Override
+	
 	public Font getFont() {
-		// TODO Auto-generated method stub
-		return null;
+		return currentFont;
 	}
 
-	@Override
+	//@Override
 	public void setFont(Font font) {
-		// TODO Auto-generated method stub
-
+		currentFont = font;
 	}
 
 	@Override
 	public void setPaint(Color fillColor) {
-		// TODO Auto-generated method stub
+		context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");	
+		context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");
 
 	}
 
@@ -362,30 +398,4 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public int getAbsoluteLeft() {
 	    return canvas.getAbsoluteLeft(); 
     }
-
-	@Override
-    public void draw(geogebra.common.awt.Shape s) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void fill(geogebra.common.awt.Shape s) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public boolean hit(Rectangle rect, geogebra.common.awt.Shape s,
-            boolean onStroke) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	@Override
-    public void clip(geogebra.common.awt.Shape s) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 }
