@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -6,12 +6,12 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *TDistribution
  */
-class CmdTDistribution extends CommandProcessorDesktop {
+public class CmdTDistribution extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ class CmdTDistribution extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTDistribution(Kernel kernel) {
+	public CmdTDistribution(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -48,9 +48,9 @@ class CmdTDistribution extends CommandProcessorDesktop {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString().equals("x")) {
 
 					// needed for eg Normal[1, 0.001, x] 
-					kernel.setTemporaryPrintFigures(15);
+					kernelA.setTemporaryPrintFigures(15);
 					String v = arg[0].getLabel();
-					kernel.restorePrintAccuracy();
+					kernelA.restorePrintAccuracy();
 					String command;
 					
 					if (cumulative) {
@@ -60,12 +60,12 @@ class CmdTDistribution extends CommandProcessorDesktop {
 					}
 					
 					
-					GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand(command, true);
+					GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
 					return ret;
 
 
 				} else if (arg[1].isNumberValue()) {
-					GeoElement[] ret = { kernel.TDistribution(c.getLabel(),
+					GeoElement[] ret = { kernelA.TDistribution(c.getLabel(),
 							(NumberValue) arg[0], (NumberValue) arg[1]) };
 					return ret;
 				} else

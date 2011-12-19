@@ -1,13 +1,13 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
-class CmdTrilinear extends CommandProcessorDesktop {
+public class CmdTriangleCubic extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -15,7 +15,7 @@ class CmdTrilinear extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTrilinear(Kernel kernel) {
+	public CmdTriangleCubic(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -25,31 +25,28 @@ class CmdTrilinear extends CommandProcessorDesktop {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 6:
+		case 4:						
 			arg = resArgs(c);
+			
 			if ((ok[0] = arg[0].isGeoPoint()) &&
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
-					(ok[3] = arg[3].isNumberValue()) &&
-					(ok[4] = arg[5].isNumberValue()) &&
-					(ok[5] = arg[5].isNumberValue())) {
-				GeoElement[] ret = { kernel.Trilinear(c.getLabel(),
+					(ok[3] = arg[3].isNumberValue())) {
+				GeoElement[] ret = { kernelA.TriangleCubic(c.getLabel(),
 						(GeoPoint2)arg[0], (GeoPoint2)arg[1], (GeoPoint2)arg[2],
-						(NumberValue) arg[3], (NumberValue) arg[4], (NumberValue) arg[5])} ;
+						(NumberValue) arg[3])} ;
 				return ret;
 				
-			} else{
+			}
+				
+			else{
 				if(!ok[0])
 					throw argErr(app, c.getName(), arg[0]);
 				if(!ok[1])
 					throw argErr(app, c.getName(), arg[1]);
 				if(!ok[2])
 					throw argErr(app, c.getName(), arg[2]);
-				if(!ok[3])
-					throw argErr(app, c.getName(), arg[3]);
-				if(!ok[4])
-					throw argErr(app, c.getName(), arg[4]);
-				throw argErr(app, c.getName(), arg[5]);
+				throw argErr(app, c.getName(), arg[3]);
 			}
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * TaylorSeries[ <GeoFunction>, <Number>, <Number> ]
  */
-class CmdTaylorSeries extends CommandProcessorDesktop {
+public class CmdTaylorSeries extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdTaylorSeries extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTaylorSeries(Kernel kernel) {
+	public CmdTaylorSeries(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -33,7 +33,7 @@ class CmdTaylorSeries extends CommandProcessorDesktop {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
-				GeoElement[] ret = { kernel.TaylorSeries(c.getLabel(),
+				GeoElement[] ret = { kernelA.TaylorSeries(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;

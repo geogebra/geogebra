@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * TurningPoint[ <GeoFunction> ]
  */
-class CmdTurningPoint extends CommandProcessorDesktop {
+public class CmdTurningPoint extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdTurningPoint extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTurningPoint(Kernel kernel) {
+	public CmdTurningPoint(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ class CmdTurningPoint extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (ok[0] = (arg[0].isGeoFunctionable()))
-				return kernel.TurningPoint(c.getLabels(),
+				return kernelA.TurningPoint(c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
 			else
 				throw argErr(app, c.getName(), arg[0]);

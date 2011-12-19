@@ -3,6 +3,7 @@ package geogebra3D.kernel3D.commands;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdAngle;
+import geogebra.common.kernel.commands.CmdTranslate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -13,7 +14,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CmdTranslate;
 
 public class CmdTranslate3D extends CmdTranslate {
 	
@@ -57,7 +57,7 @@ public class CmdTranslate3D extends CmdTranslate {
 				if ((ok[0] = (arg[0] instanceof Translateable
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
 						&& (ok[1] = (arg[1].isGeoVector()))) {				
-					ret = kernel.getManager3D().Translate3D(label, arg[0], (GeoVectorND) arg[1]);
+					ret = ((Kernel)kernelA).getManager3D().Translate3D(label, arg[0], (GeoVectorND) arg[1]);
 					return ret;
 				}
 			}

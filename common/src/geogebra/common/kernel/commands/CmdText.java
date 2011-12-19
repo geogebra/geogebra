@@ -1,18 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Name[ <GeoElement> ]
  */
-public class CmdText extends CommandProcessorDesktop {
+public class CmdText extends CommandProcessor {
 
-	public CmdText(Kernel kernel) {
+	public CmdText(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -24,7 +24,7 @@ public class CmdText extends CommandProcessorDesktop {
 		case 1:
 
 			arg = resArgs(c);	
-			GeoElement[] ret = { kernel.Text(c.getLabel(),
+			GeoElement[] ret = { kernelA.Text(c.getLabel(),
 					arg[0]) };
 			return ret;
 
@@ -34,12 +34,12 @@ public class CmdText extends CommandProcessorDesktop {
 
 			arg = resArgs(c);	
 			if (arg[1].isGeoBoolean()) {
-				GeoElement[] ret2 = { kernel.Text(c.getLabel(),
+				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
 						arg[0], (GeoBoolean)arg[1]) };
 				return ret2;
 			}
 			else if (arg[1].isGeoPoint()) {
-				GeoElement[] ret2 = { kernel.Text(c.getLabel(),
+				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
 						arg[0], (GeoPoint2)arg[1]) };
 				return ret2;
 			}
@@ -50,7 +50,7 @@ public class CmdText extends CommandProcessorDesktop {
 			boolean ok;
 			arg = resArgs(c);	
 			if (ok = arg[1].isGeoPoint() && arg[2].isGeoBoolean()) {
-				GeoElement[] ret2 = { kernel.Text(c.getLabel(),
+				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
 						arg[0], (GeoPoint2)arg[1], (GeoBoolean)arg[2]) };
 				return ret2;
 			}
@@ -61,7 +61,7 @@ public class CmdText extends CommandProcessorDesktop {
 			boolean ok1 = false;
 			arg = resArgs(c);	
 			if ((ok = arg[1].isGeoPoint()) && (ok1 = arg[2].isGeoBoolean()) && arg[3].isGeoBoolean()) {
-				GeoElement[] ret2 = { kernel.Text(c.getLabel(),
+				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
 						arg[0], (GeoPoint2)arg[1], (GeoBoolean)arg[2], (GeoBoolean)arg[3]) };
 				return ret2;
 			}

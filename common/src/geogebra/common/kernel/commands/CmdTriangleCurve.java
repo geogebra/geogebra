@@ -1,13 +1,14 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
-class CmdTriangleCubic extends CommandProcessorDesktop {
+public class CmdTriangleCurve extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -15,7 +16,7 @@ class CmdTriangleCubic extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTriangleCubic(Kernel kernel) {
+	public CmdTriangleCurve(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -25,20 +26,32 @@ class CmdTriangleCubic extends CommandProcessorDesktop {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:						
-			arg = resArgs(c);
+		case 4:
+			GeoNumeric ta=null,tb=null,tc=null;
 			
+			ta =new GeoNumeric(cons);
+			tb =new GeoNumeric(cons);
+			tc =new GeoNumeric(cons);
+			cons.addLocalVariable("A", ta);
+			cons.addLocalVariable("B", tb);
+			cons.addLocalVariable("C", tc);
+			arg = resArgs(c);
+
 			if ((ok[0] = arg[0].isGeoPoint()) &&
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
-					(ok[3] = arg[3].isNumberValue())) {
-				GeoElement[] ret = { kernel.TriangleCubic(c.getLabel(),
+					(ok[3] = arg[3].isGeoImplicitPoly())) {
+				
+				
+				GeoElement[] ret = { kernelA.TriangleCubic(c.getLabel(),
 						(GeoPoint2)arg[0], (GeoPoint2)arg[1], (GeoPoint2)arg[2],
-						(NumberValue) arg[3])} ;
+						(GeoImplicitPoly) arg[3],ta,tb,tc)} ;
+				cons.removeLocalVariable("A");
+				cons.removeLocalVariable("B");
+				cons.removeLocalVariable("C");
 				return ret;
 				
-			}
-				
+			}			
 			else{
 				if(!ok[0])
 					throw argErr(app, c.getName(), arg[0]);

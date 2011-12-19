@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoClass;
@@ -6,20 +6,20 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * TableText[<Matrix>],TableText[<Matrix>,<Point>]
  */
 
-class CmdTableText extends CommandProcessorDesktop {
+public class CmdTableText extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTableText(Kernel kernel) {
+	public CmdTableText(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -39,13 +39,13 @@ class CmdTableText extends CommandProcessorDesktop {
 					throw argErr(app, c.getName(), arg[0]);
 
 				if (list.get(0).isGeoList()) { // list of lists: no need to wrap
-					GeoElement[] ret = { kernel.TableText(c.getLabel(),
+					GeoElement[] ret = { kernelA.TableText(c.getLabel(),
 							(GeoList) arg[0], null) };
 					return ret;
 				} else {
-					list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
+					list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
 					if (list != null) {
-						GeoElement[] ret = { kernel.TableText(c.getLabel(),
+						GeoElement[] ret = { kernelA.TableText(c.getLabel(),
 								list, null) };
 						return ret;
 					}
@@ -63,13 +63,13 @@ class CmdTableText extends CommandProcessorDesktop {
 					throw argErr(app, c.getName(), arg[0]);
 
 				if (list.get(0).isGeoList()) { // list of lists: no need to wrap
-					GeoElement[] ret = { kernel.TableText(c.getLabel(),
+					GeoElement[] ret = { kernelA.TableText(c.getLabel(),
 							(GeoList) arg[0], (GeoText) arg[1]) };
 					return ret;
 				} else {
-					list = wrapInList(kernel, arg, arg.length - 1, GeoClass.DEFAULT);
+					list = wrapInList(kernelA, arg, arg.length - 1, GeoClass.DEFAULT);
 					if (list != null) {
-						GeoElement[] ret = { kernel.TableText(c.getLabel(),
+						GeoElement[] ret = { kernelA.TableText(c.getLabel(),
 								list, (GeoText) arg[1]) };
 						return ret;
 					}
@@ -78,9 +78,9 @@ class CmdTableText extends CommandProcessorDesktop {
 			}
 			if (ok[0] = (arg[0].isGeoList()) && (arg[1].isGeoList())) {
 				// two lists, no alignment
-				GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
+				GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { kernel.TableText(c.getLabel(), list,
+					GeoElement[] ret = { kernelA.TableText(c.getLabel(), list,
 							null) };
 					return ret;
 				}
@@ -96,16 +96,16 @@ class CmdTableText extends CommandProcessorDesktop {
 			// try to create list of numbers
 			GeoList list;
 			if (arg[arg.length - 1].isGeoText()) {
-				list = wrapInList(kernel, arg, arg.length - 1, GeoClass.DEFAULT);
+				list = wrapInList(kernelA, arg, arg.length - 1, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { kernel.TableText(c.getLabel(), list,
+					GeoElement[] ret = { kernelA.TableText(c.getLabel(), list,
 							(GeoText) arg[arg.length - 1]) };
 					return ret;
 				}
 			} else {
-				list = wrapInList(kernel, arg, arg.length, GeoClass.DEFAULT);
+				list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { kernel.TableText(c.getLabel(), list,
+					GeoElement[] ret = { kernelA.TableText(c.getLabel(), list,
 							null) };
 					return ret;
 				}

@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Translate[ <GeoPoint>, <GeoVector> ] Translate[ <GeoLine>, <GeoVector> ]
@@ -18,7 +18,7 @@ import geogebra.kernel.Kernel;
  * <GeoPolygon>, <GeoVector> ]
  * 
  */
-public class CmdTranslate extends CommandProcessorDesktop {
+public class CmdTranslate extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -26,7 +26,7 @@ public class CmdTranslate extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTranslate(Kernel kernel) {
+	public CmdTranslate(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -49,14 +49,14 @@ public class CmdTranslate extends CommandProcessorDesktop {
 				GeoVector v = (GeoVector) arg[0];
 				GeoPoint2 P = (GeoPoint2) arg[1];
 
-				ret[0] = kernel.Translate(label, v, P);
+				ret[0] = kernelA.Translate(label, v, P);
 
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof Translateable
 					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoVector() || arg[1].isGeoPoint()))) {
 				GeoVec3D v = (GeoVec3D) arg[1];
-				ret = kernel.Translate(label, arg[0], v);
+				ret = kernelA.Translate(label, arg[0], v);
 				return ret;
 			}
 

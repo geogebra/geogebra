@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -7,19 +7,19 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * TTest2 (t test of two sample means)
  */
-class CmdTTest2 extends CommandProcessorDesktop {
+public class CmdTTest2 extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTTest2(Kernel kernel) {
+	public CmdTTest2(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -36,7 +36,7 @@ class CmdTTest2 extends CommandProcessorDesktop {
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoText())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.TTest2(c.getLabel(),
+				GeoElement[] ret = { kernelA.TTest2(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
 
@@ -59,7 +59,7 @@ class CmdTTest2 extends CommandProcessorDesktop {
 					&& (ok[6] = arg[6].isGeoText())
 					&& (ok[7] = arg[7].isGeoBoolean())
 			) {
-				GeoElement[] ret = { kernel.TTest2(c.getLabel(),
+				GeoElement[] ret = { kernelA.TTest2(c.getLabel(),
 						(GeoNumeric) arg[0], 
 						(GeoNumeric) arg[1],
 						(GeoNumeric) arg[2],

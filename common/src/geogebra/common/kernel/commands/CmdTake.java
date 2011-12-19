@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -6,16 +6,16 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Take[ <List>,m,n ]
  * Michael Borcherds
  * 2008-03-04
  */
-public class CmdTake extends CommandProcessorDesktop {
+public class CmdTake extends CommandProcessor {
 
-	public CmdTake(Kernel kernel) {
+	public CmdTake(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,12 +30,12 @@ public class CmdTake extends CommandProcessorDesktop {
 
 			if ( (ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = arg[2].isGeoNumeric()) ) {
 				GeoElement[] ret = { 
-						kernel.Take(c.getLabel(),
+						kernelA.Take(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2] ) };
 				return ret;
 			} else if ( (ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = arg[2].isGeoNumeric()) ) {
 				GeoElement[] ret = { 
-						kernel.Take(c.getLabel(),
+						kernelA.Take(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2] ) };
 				return ret;
 			} else

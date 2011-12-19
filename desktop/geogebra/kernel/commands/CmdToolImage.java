@@ -2,12 +2,13 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
 
@@ -18,14 +19,14 @@ import java.util.Locale;
 /**
  *ToolImage
  */
-class CmdToolImage extends CommandProcessorDesktop {
+class CmdToolImage extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdToolImage(Kernel kernel) {
+	public CmdToolImage(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -41,7 +42,7 @@ class CmdToolImage extends CommandProcessorDesktop {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
-				String modeStr = kernel.getModeText(mode)
+				String modeStr = kernelA.getModeText(mode)
 						.toLowerCase(Locale.US);
 
 				if ("".equals(modeStr))
