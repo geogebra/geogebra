@@ -9529,6 +9529,22 @@ public abstract class AbstractKernel {
 			return poly;
 		}
 
+		
+		
+		
+		
+		
+		
+		public abstract GeoElement TravelingSalesman(String a, GeoList b);
+
+		public abstract GeoElement Voronoi(String a, GeoList b);
+
+		public abstract GeoElement ConvexHull(String a, GeoList b);
+
+		public abstract GeoElement MinimumSpanningTree(String a, GeoList b);
+
+		public abstract GeoElement DelauneyTriangulation(String a, GeoList b);
+
 
 
 		

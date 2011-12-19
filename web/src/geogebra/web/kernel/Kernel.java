@@ -229,5 +229,35 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
+	@Override
+    public GeoElement TravelingSalesman(String a, GeoList b) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement Voronoi(String a, GeoList b) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement ConvexHull(String a, GeoList b) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement MinimumSpanningTree(String a, GeoList b) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement DelauneyTriangulation(String a, GeoList b) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
 	
 }

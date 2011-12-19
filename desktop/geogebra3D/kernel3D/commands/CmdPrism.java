@@ -2,6 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.commands.CmdPolygon;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -10,7 +11,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CmdPolygon;
 import geogebra.kernel.commands.CommandProcessorDesktop;
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPoint3D;
