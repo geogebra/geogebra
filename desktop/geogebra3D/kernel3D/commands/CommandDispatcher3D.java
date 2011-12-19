@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.commands.CommandDispatcher;
@@ -76,11 +77,13 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 		cmdTable.put("Cone", new CmdCone(kernel));
 		cmdTable.put("InfiniteCone", new CmdConeInfinite(kernel));
-		cmdTable.put("ConeInfinite", new CmdConeInfinite(kernel)); //TODO remove this on release candidate
+		if (GeoGebraConstants.IS_PRE_RELEASE)
+			cmdTable.put("ConeInfinite", new CmdConeInfinite(kernel)); //removed for release candidate
 
 		cmdTable.put("Cylinder", new CmdCylinder(kernel));
 		cmdTable.put("InfiniteCylinder", new CmdCylinderInfinite(kernel));
-		cmdTable.put("CylinderInfinite", new CmdCylinderInfinite(kernel)); //TODO remove this on release candidate
+		if (GeoGebraConstants.IS_PRE_RELEASE)
+			cmdTable.put("CylinderInfinite", new CmdCylinderInfinite(kernel)); //removed for release candidate
 		
 
 		cmdTable.put("QuadricSide", new CmdQuadricSide(kernel));
