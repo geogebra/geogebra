@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  *Zipf
  */
-class CmdZipf extends CommandProcessorDesktop {
+public class CmdZipf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdZipf extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdZipf(Kernel kernel) {
+	public CmdZipf(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,7 +32,7 @@ class CmdZipf extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = {kernel.Zipf(c.getLabel(),
+				GeoElement[] ret = {kernelA.Zipf(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]
 						) };
 				return ret;
@@ -46,7 +46,7 @@ class CmdZipf extends CommandProcessorDesktop {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())					
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.Zipf(c.getLabel(),
+				GeoElement[] ret = { kernelA.Zipf(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(GeoBoolean) arg[2]) };
 				return ret;
@@ -66,7 +66,7 @@ class CmdZipf extends CommandProcessorDesktop {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.Zipf(c.getLabel(),
+				GeoElement[] ret = { kernelA.Zipf(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2], (GeoBoolean) arg[3]) };
 				return ret;

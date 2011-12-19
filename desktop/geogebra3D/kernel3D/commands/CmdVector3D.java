@@ -1,11 +1,11 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CmdVector;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CmdVector;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
 
@@ -45,7 +45,7 @@ public class CmdVector3D extends CmdVector {
 						&& (ok[1] = (arg[1] .isGeoPoint()))) {
 					GeoElement[] ret =
 					{
-							kernel.getManager3D().Vector3D(
+							((Kernel)kernelA).getManager3D().Vector3D(
 									c.getLabel(),
 									(GeoPointND) arg[0],
 									(GeoPointND) arg[1])};

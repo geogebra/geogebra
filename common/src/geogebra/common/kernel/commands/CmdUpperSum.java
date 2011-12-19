@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  * UpperSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
  */
-class CmdUpperSum extends CommandProcessorDesktop {
+public class CmdUpperSum extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdUpperSum extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUpperSum(Kernel kernel) {
+	public CmdUpperSum(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -34,7 +34,7 @@ class CmdUpperSum extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue()))) {
-				GeoElement[] ret = { kernel.UpperSum(c.getLabel(),
+				GeoElement[] ret = { kernelA.UpperSum(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2],
 						(NumberValue) arg[3]) };

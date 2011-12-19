@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -8,12 +8,12 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  * Vertex[ <GeoConic> ]
  */
-class CmdVertex extends CommandProcessorDesktop {
+public class CmdVertex extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -21,7 +21,7 @@ class CmdVertex extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdVertex(Kernel kernel) {
+	public CmdVertex(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -35,11 +35,11 @@ class CmdVertex extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (ok[0] = (arg[0].isGeoConic()))
-				return kernel.Vertex(c.getLabels(), (GeoConic) arg[0]);
+				return kernelA.Vertex(c.getLabels(), (GeoConic) arg[0]);
 			if (ok[0] = (arg[0] instanceof GeoPolyLineInterface))
-				return kernel.Vertex(c.getLabels(), (GeoPolyLineInterface) arg[0]);
+				return kernelA.Vertex(c.getLabels(), (GeoPolyLineInterface) arg[0]);
 			else if (ok[0] = (arg[0].isNumberValue())) {
-				GeoElement[] ret = { kernel.CornerOfDrawingPad(c.getLabel(),
+				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[0], null) };
 				return ret;
 			} else
@@ -50,12 +50,12 @@ class CmdVertex extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoPolyLineInterface))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernel.Vertex(c.getLabel(),
+				GeoElement[] ret = { kernelA.Vertex(c.getLabel(),
 						(GeoPolyLineInterface) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernel.Corner(c.getLabel(),
+				GeoElement[] ret = { kernelA.Corner(c.getLabel(),
 						(GeoImage) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			}
@@ -63,13 +63,13 @@ class CmdVertex extends CommandProcessorDesktop {
 			// Corner[ <Text>, <number> ]
 			else if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernel.Corner(c.getLabel(),
+				GeoElement[] ret = { kernelA.Corner(c.getLabel(),
 						(GeoText) arg[0], (NumberValue) arg[1]) };
 				return ret;
 				// Michael Borcherds 2007-11-26 END
 			} else if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernel.CornerOfDrawingPad(c.getLabel(),
+				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[1], (NumberValue) arg[0]) };
 				return ret;
 				

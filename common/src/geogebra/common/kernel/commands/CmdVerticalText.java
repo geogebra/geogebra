@@ -1,22 +1,22 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  *VerticalText
  */
-class CmdVerticalText extends CommandProcessorDesktop {
+public class CmdVerticalText extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdVerticalText(Kernel kernel) {
+	public CmdVerticalText(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,7 +29,7 @@ class CmdVerticalText extends CommandProcessorDesktop {
 		switch (n) {
 		case 1:
 			if ((ok[0] = (arg[0].isGeoText()))) {
-				GeoElement[] ret = { kernel.VerticalText(c.getLabel(),
+				GeoElement[] ret = { kernelA.VerticalText(c.getLabel(),
 						(GeoText) arg[0]) };
 				return ret;
 			} else {

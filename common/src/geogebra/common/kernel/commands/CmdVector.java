@@ -1,19 +1,19 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 
 /*
  * Vector[ <GeoPoint>, <GeoPoint> ] Vector[ <GeoPoint> ]
  */
-public class CmdVector extends CommandProcessorDesktop {
+public class CmdVector extends CommandProcessor {
 
-	public CmdVector(Kernel kernel) {
+	public CmdVector(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -27,7 +27,7 @@ public class CmdVector extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if (ok[0] = (arg[0] .isGeoPoint())) {
 				GeoElement[] ret =
-				{ kernel.Vector(c.getLabel(), (GeoPoint2) arg[0])};
+				{ kernelA.Vector(c.getLabel(), (GeoPoint2) arg[0])};
 				return ret;
 			}
 
@@ -59,7 +59,7 @@ public class CmdVector extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
 				GeoElement[] ret =
 				{
-						kernel.Vector(
+						kernelA.Vector(
 								c.getLabel(),
 								(GeoPoint2) arg[0],
 								(GeoPoint2) arg[1])};

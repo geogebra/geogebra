@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
@@ -281,6 +282,13 @@ public class Kernel extends AbstractKernel {
             GeoNumeric geoNumeric, GeoNumeric geoNumeric2,
             GeoNumeric geoNumeric3, GeoNumeric geoNumeric4,
             GeoNumeric geoNumeric5) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
+            GeoPolygon geoPolygon2) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

@@ -1,4 +1,4 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
@@ -6,19 +6,19 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
  * <number-var>, <from>, <to>, <step> ] Sequence[ <number-var>]
  */
-class CmdZip extends CommandProcessorDesktop {
+public class CmdZip extends CommandProcessor {
 	/**
 	 * Creates new zip command
 	 * 
 	 * @param kernel
 	 */
-	public CmdZip(Kernel kernel) {
+	public CmdZip(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -37,7 +37,7 @@ class CmdZip extends CommandProcessorDesktop {
 		arg = resArgsForZip(c);
 
 		if ((ok[0] = arg[0].isGeoElement()) && (ok[2] = arg[2].isGeoList())) {
-			return kernel.Zip(c.getLabel(), arg[0], vars, over);
+			return kernelA.Zip(c.getLabel(), arg[0], vars, over);
 		} else {
 			for (int i = 0; i < n; i++) {
 				if (!ok[i])

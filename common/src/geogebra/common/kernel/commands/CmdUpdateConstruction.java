@@ -1,14 +1,13 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  *UpdateConstruction
  */
-class CmdUpdateConstruction extends CmdScripting {
+public class CmdUpdateConstruction extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -16,7 +15,7 @@ class CmdUpdateConstruction extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUpdateConstruction(Kernel kernel) {
+	public CmdUpdateConstruction(AbstractKernel kernel) {
 		super(kernel);
 	}
 

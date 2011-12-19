@@ -1,34 +1,36 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /*
  * Max[ <Number>, <Number> ]
  */
-public class CmdUnicodeToText extends CommandProcessorDesktop {
+public class CmdUnicodeToLetter extends CommandProcessor {
 
-	public CmdUnicodeToText(Kernel kernel) {
+	public CmdUnicodeToLetter(AbstractKernel kernel) {
 		super(kernel);
 	}
 
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
+		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoList()) {
+			if ((ok[0] = arg[0].isNumberValue()) ) 
+			{
 				GeoElement[] ret = { 
-						kernel.UnicodeToText(c.getLabel(),
-						(GeoList) arg[0]) };
+						kernelA.UnicodeToLetter(c.getLabel(),
+						(NumberValue) arg[0] ) };
 				return ret;
-			}
-			else
+						
+			} else
 				throw argErr(app, c.getName(), arg[0]);
 		
 		default:

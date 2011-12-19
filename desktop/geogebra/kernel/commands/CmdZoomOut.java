@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  *ZoomOut
@@ -21,7 +21,7 @@ class CmdZoomOut extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdZoomOut(Kernel kernel) {
+	public CmdZoomOut(AbstractKernel kernel) {
 		super(kernel);
 	}
 

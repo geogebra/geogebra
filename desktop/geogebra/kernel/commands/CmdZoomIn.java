@@ -9,14 +9,14 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  *ZoomIn
  */
 class CmdZoomIn extends CmdScripting {
 
-	public CmdZoomIn(Kernel kernel) {
+	public CmdZoomIn(AbstractKernel kernel) {
 		super(kernel);
 	}
 

@@ -9561,6 +9561,9 @@ public abstract class AbstractKernel {
 				GeoNumeric geoNumeric2, GeoNumeric geoNumeric3,
 				GeoNumeric geoNumeric4, GeoNumeric geoNumeric5);
 
+		public abstract GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
+				GeoPolygon geoPolygon2);
+
 
 
 		

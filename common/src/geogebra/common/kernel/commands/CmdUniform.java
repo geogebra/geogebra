@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
-	class CmdUniform extends CommandProcessorDesktop {
+	public class CmdUniform extends CommandProcessor {
 
-		public CmdUniform(Kernel kernel) {
+		public CmdUniform(AbstractKernel kernel) {
 			super(kernel);
 		}
 
@@ -38,18 +38,18 @@ import geogebra.kernel.Kernel;
 					if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString().equals("x")) {
 										
 						// needed for eg Normal[1, 0.001, x] 
-						kernel.setTemporaryPrintFigures(15);
+						kernelA.setTemporaryPrintFigures(15);
 						String a = arg[0].getLabel();
 						String b = arg[1].getLabel();
-						kernel.restorePrintAccuracy();
+						kernelA.restorePrintAccuracy();
 						
 						if (cumulative) {
-							GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],1,(x-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
+							GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],1,(x-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
 							
 							return ret;
 							
 						} else {
-							GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
+							GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
 							
 							return ret;
 						}
@@ -57,12 +57,12 @@ import geogebra.kernel.Kernel;
 					} else if (arg[2].isNumberValue()) 
 					{
 						// needed for eg Normal[1, 0.001, x] 
-						kernel.setTemporaryPrintFigures(15);
+						kernelA.setTemporaryPrintFigures(15);
 						String a = arg[0].getLabel();
 						String b = arg[1].getLabel();
 						String x = arg[2].getLabel();
-						kernel.restorePrintAccuracy();
-						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "If["+x+"<Min["+a+","+b+"],0,If["+x+">Max["+a+","+b+"],1,("+x+"-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
+						kernelA.restorePrintAccuracy();
+						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "If["+x+"<Min["+a+","+b+"],0,If["+x+">Max["+a+","+b+"],1,("+x+"-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
 						return ret;
 						
 					}  else

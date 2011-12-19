@@ -1,18 +1,16 @@
-package geogebra.kernel.commands;
-
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
- * UnitOrthogonalVector[ <GeoLine> ] UnitOrthogonalVector[ <GeoVector> ]
+ * UnitVector[ <GeoLine> ] UnitVector[ <GeoVector> ]
  */
-public class CmdUnitOrthogonalVector extends CommandProcessorDesktop {
+public class CmdUnitVector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,11 +18,11 @@ public class CmdUnitOrthogonalVector extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUnitOrthogonalVector(Kernel kernel) {
+	public CmdUnitVector(AbstractKernel kernel) {
 		super(kernel);
 	}
 
-	public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -33,11 +31,11 @@ public class CmdUnitOrthogonalVector extends CommandProcessorDesktop {
 		case 1:
 			arg = resArgs(c);
 			if (ok[0] = (arg[0].isGeoLine())) {
-				GeoElement[] ret = { kernel.UnitOrthogonalVector(c.getLabel(),
+				GeoElement[] ret = { kernelA.UnitVector(c.getLabel(),
 						(GeoLine) arg[0]) };
 				return ret;
 			} else if (ok[0] = (arg[0].isGeoVector())) {
-				GeoElement[] ret = { kernel.UnitOrthogonalVector(c.getLabel(),
+				GeoElement[] ret = { kernelA.UnitVector(c.getLabel(),
 						(GeoVector) arg[0]) };
 				return ret;
 			} else {
@@ -50,5 +48,3 @@ public class CmdUnitOrthogonalVector extends CommandProcessorDesktop {
 		}
 	}
 }
-
-

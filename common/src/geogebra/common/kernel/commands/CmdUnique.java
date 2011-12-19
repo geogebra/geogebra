@@ -1,22 +1,22 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;;
 
 /**
  * Unique
  */
-class CmdUnique extends CommandProcessorDesktop {
+public class CmdUnique extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUnique(Kernel kernel) {
+	public CmdUnique(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ class CmdUnique extends CommandProcessorDesktop {
 
 		case 1:
 			if (ok[0] = arg[0].isGeoList()) {
-				GeoElement[] ret = { kernel.Unique(c.getLabel(),
+				GeoElement[] ret = { kernelA.Unique(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 
