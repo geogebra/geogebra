@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -9544,6 +9545,21 @@ public abstract class AbstractKernel {
 		public abstract GeoElement MinimumSpanningTree(String a, GeoList b);
 
 		public abstract GeoElement DelauneyTriangulation(String a, GeoList b);
+
+		public abstract GeoElement ShortestDistance(String label, GeoList geoList,
+				GeoPointND geoPointND, GeoPointND geoPointND2,
+				GeoBoolean geoBoolean);
+
+		public abstract GeoElement SolveODE(String label, FunctionalNVar functionalNVar,
+				FunctionalNVar functionalNVar2, GeoNumeric geoNumeric, GeoNumeric geoNumeric2,
+				GeoNumeric geoNumeric3, GeoNumeric geoNumeric4);
+
+		public abstract GeoElement SolveODE2(String label,
+				GeoFunctionable geoFunctionable,
+				GeoFunctionable geoFunctionable2,
+				GeoFunctionable geoFunctionable3, GeoNumeric geoNumeric,
+				GeoNumeric geoNumeric2, GeoNumeric geoNumeric3,
+				GeoNumeric geoNumeric4, GeoNumeric geoNumeric5);
 
 
 

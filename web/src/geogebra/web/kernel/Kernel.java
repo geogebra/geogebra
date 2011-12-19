@@ -9,20 +9,20 @@ import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.SystemOfEquationsSolverInterface;
 import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
@@ -255,6 +255,32 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public GeoElement DelauneyTriangulation(String a, GeoList b) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement ShortestDistance(String label, GeoList geoList,
+            GeoPointND geoPointND, GeoPointND geoPointND2, GeoBoolean geoBoolean) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement SolveODE(String label, FunctionalNVar functionalNVar,
+            FunctionalNVar functionalNVar2, GeoNumeric geoNumeric,
+            GeoNumeric geoNumeric2, GeoNumeric geoNumeric3,
+            GeoNumeric geoNumeric4) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement SolveODE2(String label, GeoFunctionable geoFunctionable,
+            GeoFunctionable geoFunctionable2, GeoFunctionable geoFunctionable3,
+            GeoNumeric geoNumeric, GeoNumeric geoNumeric2,
+            GeoNumeric geoNumeric3, GeoNumeric geoNumeric4,
+            GeoNumeric geoNumeric5) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

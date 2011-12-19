@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 class CmdSetAxesRatio extends CmdScripting {
 
@@ -17,7 +17,7 @@ class CmdSetAxesRatio extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetAxesRatio(Kernel kernel) {
+	public CmdSetAxesRatio(AbstractKernel kernel) {
 		super(kernel);
 	}
 
