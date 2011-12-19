@@ -2090,7 +2090,7 @@ public class ExpressionNode extends ValidExpression implements
 								// e.g. 23x
 								// need to check start and end for eg A1 * A2
 								boolean leftIsNumber = left.isLeaf()
-										&& Character.isDigit(firstLeft)
+										&& (Character.isDigit(firstLeft) || (firstLeft == '-'))
 										&& Character.isDigit(lastLeft);
 
 								// check if we need a multiplication space:
