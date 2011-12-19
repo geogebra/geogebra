@@ -267,12 +267,13 @@ public abstract class Drawable3D extends DrawableND {
 			waitForUpdateVisualStyle = false;
 		}
 		
+		boolean isVisible = isVisible();
 
-		if (isVisible())
+		if (isVisible)
 			updateForView();
 		
 		
-		if (waitForUpdate){
+		if (waitForUpdate && isVisible){
 			if (updateForItSelf())
 				waitForUpdate = false;
 			setLabelWaitForUpdate();//TODO remove that
