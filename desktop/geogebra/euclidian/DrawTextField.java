@@ -207,6 +207,16 @@ public final class DrawTextField extends Drawable {
 				String defineText = textField.getText();
 
 				if (linkedGeo.isGeoLine()) {
+
+					// not y=
+					// and not Line[A,B]
+					if ((defineText.indexOf('=') == -1)
+							&& (defineText.indexOf('[') == -1)) {
+						// x + 1 changed to
+						// y = x + 1
+						defineText = "y=" + defineText;
+					}
+
 					String prefix = linkedGeo.getLabel() + ":";
 					// need a: in front of
 					// X = (-0.69, 0) + \lambda (1, -2)
