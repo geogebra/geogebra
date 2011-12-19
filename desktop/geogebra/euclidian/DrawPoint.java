@@ -68,7 +68,7 @@ public final class DrawPoint extends Drawable {
 	private Line2D.Double line1, line2, line3, line4;// for cross
 	private GeneralPath gp = null;
     
-    private static BasicStroke borderStroke = EuclidianView.getDefaultStroke();
+    private static BasicStroke borderStroke = EuclidianStatic.getDefaultStroke();
     private static BasicStroke [] crossStrokes = new BasicStroke[10];
     
     private boolean isPreview;
@@ -408,7 +408,7 @@ public final class DrawPoint extends Drawable {
          		// draw diamond    
                 g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
                 g2.setStroke(getCrossStroke(pointSize));  
-                drawWithValueStrokePure(gp, g2);
+                EuclidianStatic.drawWithValueStrokePure(gp, g2);
 				g2.fill(gp);    
         		break;
         		

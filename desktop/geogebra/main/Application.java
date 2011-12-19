@@ -46,6 +46,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.export.GraphicExportDialog;
@@ -5625,7 +5626,7 @@ public class Application extends AbstractApplication implements
 					RenderingHints.VALUE_STROKE_PURE);
 
 			g.setColor(Color.DARK_GRAY);
-			g.setStroke(EuclidianView.getStroke(2,
+			g.setStroke(EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_FULL));
 
 			g.drawOval((10 * size) / 48, (10 * size) / 48, (30 * size) / 48,

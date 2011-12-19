@@ -130,12 +130,12 @@ public final class DrawBoolean extends Drawable {
 			int size = view.getBooleanSize();
 
 			g2.setFont(view.fontPoint);
-			g2.setStroke(EuclidianView.getDefaultStroke()); 
+			g2.setStroke(EuclidianStatic.getDefaultStroke()); 
 			
 			checkBoxIcon.paintIcon(geoBool.getBoolean(), geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5, geoBool.labelOffsetY + 5);
 			
 			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
-			textSize = Drawable.drawIndexedString(view.getApplication(), g2, labelDesc, geoBool.labelOffsetX + size + 9, geoBool.labelOffsetY + (size + 9) / 2 + 5, false);
+			textSize = EuclidianStatic.drawIndexedString(view.getApplication(), g2, labelDesc, geoBool.labelOffsetX + size + 9, geoBool.labelOffsetY + (size + 9) / 2 + 5, false);
 			
 			updateLabel();
 		}

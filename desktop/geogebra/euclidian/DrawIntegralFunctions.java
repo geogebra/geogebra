@@ -119,14 +119,14 @@ public class DrawIntegralFunctions extends Drawable {
             if (geo.doHighlighting()) {
                 g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) n.getSelColor()));
                 g2.setStroke(selStroke);            
-                Drawable.drawWithValueStrokePure(gp, g2);             
+                EuclidianStatic.drawWithValueStrokePure(gp, g2);             
             }         	
             			
 			fill(g2, gp, true); // fill using default/hatching/image as appropriate
 					
 			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) n.getObjectColor()));
 			g2.setStroke(objStroke);                                   
-			Drawable.drawWithValueStrokePure(gp, g2);    
+			EuclidianStatic.drawWithValueStrokePure(gp, g2);    
 			
             if (labelVisible) {
 				g2.setFont(view.fontConic);

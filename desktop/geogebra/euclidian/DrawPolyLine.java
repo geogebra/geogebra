@@ -92,7 +92,7 @@ implements Previewable {
     	if (isVisible) {
     		g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
     		g2.setStroke(objStroke);  
-            Drawable.drawWithValueStrokePure(gp, g2);
+    		EuclidianStatic.drawWithValueStrokePure(gp, g2);
     	}
 	}
     

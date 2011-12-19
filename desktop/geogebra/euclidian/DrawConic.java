@@ -992,13 +992,13 @@ final public class DrawConic extends Drawable implements Previewable {
 					 g2.setStroke(selStroke);
 					 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
 					 
-					 if (hypLeftOnScreen) Drawable.drawWithValueStrokePure(hypLeft, g2);                                               
-					 if (hypRightOnScreen) Drawable.drawWithValueStrokePure(hypRight, g2); 				
+					 if (hypLeftOnScreen) EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);                                               
+					 if (hypRightOnScreen) EuclidianStatic.drawWithValueStrokePure(hypRight, g2); 				
 				 }  
 				 g2.setStroke(objStroke);
 				 g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));				 
-				 if (hypLeftOnScreen) Drawable.drawWithValueStrokePure(hypLeft, g2);                                                
-				 if (hypRightOnScreen) Drawable.drawWithValueStrokePure(hypRight, g2); 
+				 if (hypLeftOnScreen) EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);                                                
+				 if (hypRightOnScreen) EuclidianStatic.drawWithValueStrokePure(hypRight, g2); 
 				             
 				 if (labelVisible) {
 					 g2.setFont(view.fontConic); 

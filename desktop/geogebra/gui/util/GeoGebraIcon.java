@@ -3,6 +3,7 @@ package geogebra.gui.util;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.euclidian.DrawText;
+import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
@@ -413,7 +414,7 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(EuclidianView.getStroke(thickness, dashStyle));
+		g2.setStroke(EuclidianStatic.getStroke(thickness, dashStyle));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
@@ -586,7 +587,7 @@ public class GeoGebraIcon {
 		private Ellipse2D.Double circle = new Ellipse2D.Double();
 		private Line2D.Double line1, line2, line3, line4;
 		private GeneralPath gp = null;
-		private BasicStroke borderStroke = EuclidianView.getDefaultStroke();
+		private BasicStroke borderStroke = EuclidianStatic.getDefaultStroke();
 		private BasicStroke[] crossStrokes = new BasicStroke[10];
 		private int h,w;
 

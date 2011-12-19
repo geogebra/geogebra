@@ -191,10 +191,6 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			230, 50);
 
 	// STROKES
-	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
-
-	protected static MyBasicStroke selStroke = new MyBasicStroke(
-			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	// protected static MyBasicStroke thinStroke = new MyBasicStroke(1.0f);
 
@@ -862,64 +858,6 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		// Michael Borcherds 2008-02-29
 		int layer = img.getGeoElement().getLayer();
 		drawLayers[layer].add(img);
-	}
-
-	static public MyBasicStroke getDefaultStroke() {
-		return standardStroke;
-	}
-
-	static public MyBasicStroke getDefaultSelectionStroke() {
-		return selStroke;
-	}
-
-	/**
-	 * Creates a stroke with thickness width, dashed according to line style
-	 * type.
-	 * 
-	 * @param width
-	 * @param type
-	 * @return stroke
-	 */
-	public static BasicStroke getStroke(float width, int type) {
-		float[] dash;
-
-		switch (type) {
-		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			dash = new float[2];
-			dash[0] = width; // dot
-			dash[1] = 3.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			dash = new float[2];
-			dash[0] = 4.0f + width;
-			// short dash
-			dash[1] = 4.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			dash = new float[2];
-			dash[0] = 8.0f + width; // long dash
-			dash[1] = 8.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			dash = new float[4];
-			dash[0] = 8.0f + width; // dash
-			dash[1] = 4.0f; // space before dot
-			dash[2] = width; // dot
-			dash[3] = dash[1]; // space after dot
-			break;
-
-		default: // EuclidianStyleConstants.LINE_TYPE_FULL
-			dash = null;
-		}
-
-		int endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke
-				.getEndCap();
-
-		return new BasicStroke(width, endCap, standardStroke.getLineJoin(),
-				standardStroke.getMiterLimit(), dash, 0.0f);
 	}
 
 	public void updateFonts() {
@@ -2948,7 +2886,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 			g2.setColor(Color.lightGray);
 		}
 
-		g2.setStroke(EuclidianView.getDefaultStroke());
+		g2.setStroke(EuclidianStatic.getDefaultStroke());
 
 		// draw pause or play button
 		g2.drawRect(x - 2, y - 2, 18, 18);
@@ -3034,7 +2972,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
-		g2.setStroke(getDefaultStroke());
+		g2.setStroke(EuclidianStatic.getDefaultStroke());
 		paintChildren(g2); // draws Buttons and Textfields
 
 	}
@@ -3045,7 +2983,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 		drawGeometricObjects(g2);
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
-		g2.setStroke(getDefaultStroke());
+		g2.setStroke(EuclidianStatic.getDefaultStroke());
 		// TODO layers for Buttons and Textfields
 		paintChildren(g2); // draws Buttons and Textfields
 
@@ -5034,7 +4972,7 @@ public class EuclidianView extends JPanel implements EuclidianViewInterface,
 
 	public void setGridLineStyle(int gridLineStyle) {
 		this.gridLineStyle = gridLineStyle;
-		gridStroke = getStroke(gridIsBold ? 2f : 1f, gridLineStyle); // Michael
+		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f, gridLineStyle); // Michael
 																		// Borcherds
 																		// 2008-04-11
 																		// added

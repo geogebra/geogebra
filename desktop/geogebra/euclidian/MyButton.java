@@ -62,7 +62,7 @@ public class MyButton extends JButton {
 
 		g2.setColor(Color.black);
 
-		g2.setStroke(EuclidianView.standardStroke);           	
+		g2.setStroke(EuclidianStatic.standardStroke);           	
 		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, getHeight() / 3, getHeight() / 3);
 
 		g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geoButton.getObjectColor()));

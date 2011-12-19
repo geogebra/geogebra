@@ -954,12 +954,12 @@ public class DrawParametricCurve extends Drawable {
             if (geo.doHighlighting()) {
                 g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
                 g2.setStroke(selStroke);            
-                drawWithValueStrokePure(gp, g2);		                
+                EuclidianStatic.drawWithValueStrokePure(gp, g2);		                
             } 
         	            
 		    g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));		    
 			g2.setStroke(objStroke);                                   
-			drawWithValueStrokePure(gp, g2);		
+			EuclidianStatic.drawWithValueStrokePure(gp, g2);		
 			
         	if (fillCurve) {
 				try {
@@ -986,7 +986,7 @@ public class DrawParametricCurve extends Drawable {
 	final void drawTrace(Graphics2D g2) {	   
 	   g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));	   
 	   g2.setStroke(objStroke); 		   
-	   drawWithValueStrokePure(gp, g2);		   
+	   EuclidianStatic.drawWithValueStrokePure(gp, g2);		   
 	}		
     
 	final public boolean hit(int x,int y) {  		

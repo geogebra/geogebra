@@ -494,7 +494,7 @@ public class HatchingHandler {
 				//}
 				sb.setLength(sb.length()-1); // remove ','
 				sb.append("]\n"); // remove ','
-				g2d.setStroke(EuclidianView.getDefaultStroke());
+				g2d.setStroke(EuclidianStatic.getDefaultStroke());
 				//System.err.println(sb.toString());
 				//draw(vertices, withFill? getColor(site) : null);
 				//if (withSites) draw(site);

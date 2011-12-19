@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.Drawable;
+import geogebra.euclidian.EuclidianStatic;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
@@ -185,7 +186,7 @@ public class DrawLabel3D {
 			//Application.debug("yMin="+yMin+", yMax="+yMax);
 			hasIndex = true;
 			Point p = 
-				Drawable.drawIndexedString(view.getApplication(), tempGraphics, text, 0, 0, false);
+				EuclidianStatic.drawIndexedString(view.getApplication(), tempGraphics, text, 0, 0, false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
 		}else
 			hasIndex = false;
@@ -194,7 +195,7 @@ public class DrawLabel3D {
 	
 	protected void draw(Graphics2D g2d){
 		if (hasIndex)
-			Drawable.drawIndexedString(view.getApplication(), g2d, text, 0, 0, false);
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text, 0, 0, false);
 		else
 			g2d.drawString(text, 0, 0);	
 	}

@@ -399,11 +399,11 @@ public class EuclidianPen {
 
 
 		if (erasing) {
-			g2d.setStroke(EuclidianView.getStroke(2 * eraserSize, EuclidianStyleConstants.LINE_TYPE_FULL));
+			g2d.setStroke(EuclidianStatic.getStroke(2 * eraserSize, EuclidianStyleConstants.LINE_TYPE_FULL));
 			g2d.setColor(new Color(0, 0, 0, 0)); // transparent	
 			g2d.setComposite(AlphaComposite.Src);
 		} else {
-			g2d.setStroke(EuclidianView.getStroke(2 * penSize, (penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL : penLineStyle));
+			g2d.setStroke(EuclidianStatic.getStroke(2 * penSize, (penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL : penLineStyle));
 			g2d.setColor(penColor);
 		}
 		g2d.draw(pb.gp);
