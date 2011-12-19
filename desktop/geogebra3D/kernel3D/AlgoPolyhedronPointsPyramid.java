@@ -70,7 +70,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 	@Override
-	protected void updateOutput(int n) {
+	protected void updateOutput(int n, GeoPointND[] bottomPoints) {
 		
 	}
 	
@@ -155,5 +155,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		
 	}
 
-	
+	@Override
+	protected void augmentOutputSize(int length){
+		
+	}
 }

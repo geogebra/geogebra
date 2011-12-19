@@ -130,12 +130,18 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		if (labels==null || labels.length <= 1 || isOldFileVersion())
 			polyhedron.initLabels(labels);
 		else{
+			augmentOutputSize(labels.length);
 			for (int i=0; i<labels.length; i++)
 				getOutput(i).setLabel(labels[i]);
 		}
 		
 	}
 
+	/**
+	 * augment the output size if needed (in case of undefined but labelled outputs)
+	 * @param length labels length
+	 */
+	abstract protected void augmentOutputSize(int length);
 	
 
 	
@@ -194,7 +200,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	protected abstract void createPolyhedron();
 	
-	protected abstract void updateOutput(int n);
+	protected abstract void updateOutput(int n, GeoPointND[] bottomPoints);
 	
 	/**
 	 * sets the bottom of the polyhedron
@@ -263,7 +269,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 				return false;
 			}
 			polyhedron.setDefined();
-			updateOutput(bottom.getPointsLength());
+			updateOutput(bottom.getPointsLength(),getBottomPoints());
 		}
 		
 		

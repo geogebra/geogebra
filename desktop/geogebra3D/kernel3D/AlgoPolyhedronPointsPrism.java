@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -133,13 +134,15 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	
 
-	protected void updateOutput(int n) {
+	protected void updateOutput(int n, GeoPointND[] bottomPoints) {
 		
 		//current length of top points
 		int nOld = outputPoints.size()+getShift();
 		
+		
+		
 		if (n>nOld){
-			GeoPointND[] bottomPoints = getBottomPoints();
+			
 			
 			int length=n-nOld;
 			outputPoints.augmentOutputSize(length);
@@ -164,7 +167,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			
 			refreshOutput();
 		}else if (n<nOld){
-			GeoPointND[] bottomPoints = getBottomPoints();
 			
 			for(int i=n; i<bottomPointsLength; i++){
     			outputPoints.getElement(i-getShift()).setUndefined();
@@ -210,7 +212,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 			//update last sides
 			for(int i=bottomPointsLength; i<n; i++)
-				updateSide(i);
+				updateSide(i,bottomPoints);
 		}
 		
 		
@@ -230,9 +232,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		polygon.calcArea();  
 	}
 	
-	private void updateSide(int index){
+	private void updateSide(int index, GeoPointND[] bottomPoints){
 		outputSegmentsTop.getElement(index-1).modifyInputPoints(getTopPoint(index-1),getTopPoint(index));				
-		GeoPointND[] bottomPoints = getBottomPoints();
 		GeoPolygon polygon = outputPolygonsSide.getElement(index-1);
 		GeoPointND[] p = new GeoPointND[4];
 		p[0] = bottomPoints[index-1];
@@ -372,6 +373,44 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		
 	}
 	
+	
+
+	@Override
+	protected void augmentOutputSize(int length){
+		int n;
+		if (bottomAsInput)
+			n = (length + getShift() - 2)/4;
+		else
+			n = (length + getShift() - 3)/5;
+		
+		/*
+		//Application.debug(n);
+		n = n - outputSegmentsSide.size();
+		//Application.debug(n);
+		if (n<=0)
+			return;
+		*/
+		
+		if (n>outputSegmentsSide.size()){
+			GeoPointND[] bottomPoints;
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegular){
+				AlgoPolygonRegular algo = (AlgoPolygonRegular) getBottom().getParentAlgorithm();
+				bottomPoints = algo.getPoints();
+			}else
+				bottomPoints = getBottomPoints();
+			updateOutput(n,bottomPoints);
+		}
+		/*
+		outputPoints.augmentOutputSize(n,false);
+		if (!bottomAsInput)
+			outputSegmentsBottom.augmentOutputSize(n,false);
+		outputSegmentsSide.augmentOutputSize(n,false);
+		outputSegmentsTop.augmentOutputSize(n,false);
+		outputPolygonsSide.augmentOutputSize(n,false);
+		
+		refreshOutput();
+		*/
+	}
     
 
 }

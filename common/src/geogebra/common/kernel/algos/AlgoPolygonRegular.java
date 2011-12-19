@@ -22,6 +22,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoPointND;
+
 import java.util.ArrayList;
 
 
@@ -397,5 +399,16 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
         }
     }
     
+    /**
+     * 
+     * @return all points of the algo, comprising undefined ones
+     */
+    public GeoPointND[] getPoints(){
+    	GeoPointND[] ret = new GeoPointND[2+outputPoints.size()];
+    	ret[0] = A; ret[1] = B;
+    	for (int i=0; i<outputPoints.size(); i++)
+    		ret[2+i] = outputPoints.getElement(i);
+    	return ret;
+    }
        
 }
