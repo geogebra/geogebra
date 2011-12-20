@@ -272,6 +272,7 @@ public class GeoCasCell extends GeoElement {
 		postfix = "";
 		setEvalCommand("");
 		evalComment = "";
+		setError(null);
 
 		// update input and output variables
 		updateInputVariables(inputVE);

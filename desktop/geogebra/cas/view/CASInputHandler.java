@@ -1078,20 +1078,20 @@ public class CASInputHandler {
 	 * @return
 	 */
 	private String fixInputErrors(String input) {
-		input = input.trim();
+		String inputTrim = input.trim();
 
 		// replace a := with Delete[a]
-		if (input.endsWith(":=")) {
-			input = casView.getApp().getCommand("Delete") + "["
-					+ input.substring(0, input.length() - 2).trim() + "];";
+		if (inputTrim.endsWith(":=")) {
+			inputTrim = casView.getApp().getCommand("Delete") + "["
+					+ inputTrim.substring(0, inputTrim.length() - 2).trim() + "];";
 		}
 
 		// remove trailing =
-		else if (input.endsWith("=")) {
-			input = input.substring(0, input.length() - 1);
+		else if (inputTrim.endsWith("=")) {
+			inputTrim = inputTrim.substring(0, inputTrim.length() - 1);
 		}
 
-		return input;
+		return inputTrim;
 	}
 
 	// /**

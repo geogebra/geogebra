@@ -418,12 +418,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (!labelSet && !localVarLabelSet) {
 			if (algoParent == null) {
 				return toOutputValueString();
-			} else {
-				return algoParent.getCommandDescription();
-			}
-		} else {
-			return kernel.printVariableName(label);
-		}
+			} 
+			return algoParent.getCommandDescription();
+		} 
+		return kernel.printVariableName(label);	
 	}
 
 	public void copyLabel(GeoElement c) {
