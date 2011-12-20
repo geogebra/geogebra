@@ -78,7 +78,7 @@ instructions.
 	    description="Internal target, please do not use manually. Download all packages needed for creating the JAR files">
 	</target>
 
-	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx"
+	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx, openni"
 	    description="Internal target, please do not use manually. Downloads all packages needed for runtime use.">
 	</target>
 
@@ -250,6 +250,23 @@ instructions.
 	</unzip>
 	</target>
 
+	<!-- dowload OpenNI from GeoGebra repository -->
+	<target name="openni" depends="openni-windows32, openni-windows64"/>
+
+	<target name="openni-windows32" if="winnt-x86">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni-1-3-3-6.dll"
+	    dest="lib/OpenNI.jni.dll" usetimestamp="true"/>
+	</target>
+	
+	<target name="openni-windows64" if="winnt-amd64">
+	<mkdir dir="lib"/>
+	<get 
+	    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni64-1-3-3-6.dll"
+	    dest="lib/OpenNI.jni64.dll" usetimestamp="true"/>
+	</target>
+	
 	<!-- dowload jogl1 from GeoGebra repository -->
 	<target name="jogl1-geogebra" depends="jogl1-linux-geogebra, jogl1-macosx-geogebra, jogl1-windows-geogebra, jogl1-jar-geogebra"/>
 
