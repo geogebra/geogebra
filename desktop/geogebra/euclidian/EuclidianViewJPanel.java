@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 public class EuclidianViewJPanel extends JPanel implements geogebra.common.euclidian.EuclidianViewJPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	EuclidianView view;
 
 	public EuclidianViewJPanel(EuclidianView view) {

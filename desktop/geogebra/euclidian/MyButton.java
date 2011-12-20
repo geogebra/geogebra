@@ -14,6 +14,8 @@ import javax.swing.JButton;
 
 public class MyButton extends JButton {
 
+	private static final long serialVersionUID = 1L;
+
 	private GeoButton geoButton;
 	private EuclidianView view;
 
@@ -21,15 +23,15 @@ public class MyButton extends JButton {
 		this.geoButton = button;
 		this.view = view;
 	}
+
 	@Override
 	protected void paintBorder(Graphics g) {
-		//super.paintBorder(g);
+		// super.paintBorder(g);
 	}
-
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		//super.paintComponent(g);
+		// super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -40,45 +42,49 @@ public class MyButton extends JButton {
 
 		GradientPaint p;
 
-		Color bg = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geoButton.getBackgroundColor()), bg2;
-		if (bg == null) bg = Color.LIGHT_GRAY;
+		Color bg = geogebra.awt.Color.getAwtColor(geoButton
+				.getBackgroundColor()), bg2;
+		if (bg == null)
+			bg = Color.LIGHT_GRAY;
 		if (isSelected()) {
 			bg2 = bg;
 			bg = bg.darker();
 		} else {
 			bg2 = bg.brighter();
 		}
-		p = new GradientPaint(0, 0, bg2 , 0, getHeight(), bg);
-
+		p = new GradientPaint(0, 0, bg2, 0, getHeight(), bg);
 
 		Paint oldPaint = g2.getPaint();
 
 		g2.setPaint(p);
 
-
-		g2.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight() / 3, getHeight() / 3);
+		g2.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight() / 3,
+				getHeight() / 3);
 
 		g2.setPaint(oldPaint);
 
 		g2.setColor(Color.black);
 
-		g2.setStroke(EuclidianStatic.standardStroke);           	
-		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, getHeight() / 3, getHeight() / 3);
+		g2.setStroke(EuclidianStatic.standardStroke);
+		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1,
+				getHeight() / 3, getHeight() / 3);
 
-		g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geoButton.getObjectColor()));
-		
+		g2.setColor(geogebra.awt.Color.getAwtColor(geoButton.getObjectColor()));
+
 		Font f = getFont();
-		
+
 		g2.setFont(f);
 
 		FontMetrics metrics = getFontMetrics(f);
 
 		int spareHeight = getHeight() - metrics.getHeight();
 
-		int spareWidth = getWidth() - metrics.stringWidth(geoButton.getCaption());
+		int spareWidth = getWidth()
+				- metrics.stringWidth(geoButton.getCaption());
 		this.setForeground(Color.WHITE);
 
 		// center the label on the button
-		g.drawString(geoButton.getCaption(), spareWidth/2, metrics.getAscent() + spareHeight/2 );
+		g.drawString(geoButton.getCaption(), spareWidth / 2,
+				metrics.getAscent() + spareHeight / 2);
 	}
 }

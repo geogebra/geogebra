@@ -1,9 +1,6 @@
 package geogebra.awt;
 
-
-
 public class Color extends geogebra.common.awt.Color {
-
 	
 	public static final Color white = new Color(255,255,255);
 	public static final Color black = new Color(0, 0, 0);
@@ -58,22 +55,27 @@ public class Color extends geogebra.common.awt.Color {
 		adaptedColor = new java.awt.Color(f,g,h);
 	}
 
+	@Override
 	public void getRGBColorComponents(float[] rgb) {
 		adaptedColor.getRGBColorComponents(rgb);
 	}
 
+	@Override
 	public int getBlue() {
 		return adaptedColor.getBlue();
 	}
 
+	@Override
 	public int getAlpha() {
 		return adaptedColor.getAlpha();
 	}
 
+	@Override
 	public int getGreen() {
 		return adaptedColor.getGreen();
 	}
 
+	@Override
 	public int getRed() {
 		return adaptedColor.getRed();
 	}

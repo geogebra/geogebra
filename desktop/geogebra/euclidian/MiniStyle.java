@@ -12,16 +12,17 @@ import java.util.ArrayList;
 
 /**
  * Class to hold style settings for the Euclidian stylebar
+ * 
  * @author G. Sturr
- *
+ * 
  */
-public class MiniStyle{
-	
+public class MiniStyle {
+
 	private Application app;
-	
+
 	final public static int MODE_PEN = 0;
 	final public static int MODE_STANDARD = 1;
-	
+
 	public int lineStyle;
 	public int lineSize;
 	public int pointSize;
@@ -33,94 +34,88 @@ public class MiniStyle{
 	public boolean isItalic = false;
 
 	private Color[] colorList;
-	
-	
+
 	/************************************************
 	 * Constructs MiniStyle
 	 */
-	public MiniStyle(Application app, int mode){	
-		
+	public MiniStyle(Application app, int mode) {
+
 		this.app = app;
-		colorList  = createStyleBarColorList();
-		if(mode == MODE_PEN)
+		colorList = createStyleBarColorList();
+		if (mode == MODE_PEN)
 			setPenDefaults();
 
-		else if(mode == MODE_STANDARD)
+		else if (mode == MODE_STANDARD)
 			setStandardDefaults();
 	}
-	
-	//==============================================
+
+	// ==============================================
 	// set defaults
 
-	public void setPenDefaults(){	
+	public void setPenDefaults() {
 		lineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		pointSize = 3;
 		lineSize = 3;
 		color = Color.black;
-		colorIndex = 23;  // index for black
+		colorIndex = 23; // index for black
 		alpha = 1.0f;
 	}
-	
-	public void setStandardDefaults(){	
+
+	public void setStandardDefaults() {
 		lineStyle = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
 		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 		lineSize = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
-		colorIndex = 0;  // index for red
+		colorIndex = 0; // index for red
 		color = colorList[colorIndex];
 		alpha = ConstructionDefaults.DEFAULT_POLYGON_ALPHA;
 	}
-	
-	
-	//==============================================
+
+	// ==============================================
 	// methods to apply styles to selected geos
-	
+
 	public void applyLineStyle() {
 
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
 			geo.setLineType(lineStyle);
-			geo.updateRepaint();			
+			geo.updateRepaint();
 		}
-	
 	}
-	
+
 	public void applyPointStyle() {
-		
+
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
 
 			if (geo instanceof PointProperties) {
-				((PointProperties)geo).setPointSize(pointSize);
-				((PointProperties)geo).setPointStyle(pointStyle);
+				((PointProperties) geo).setPointSize(pointSize);
+				((PointProperties) geo).setPointStyle(pointStyle);
 				geo.updateRepaint();
-				}
+			}
 		}
 	}
-
 
 	public void applyLineSize() {
 
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
 			geo.setLineThickness(lineSize);
 			geo.updateRepaint();
 		}
 	}
 
-
-	
 	public void applyColor() {
-		
+
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
 			geo.setObjColor(new geogebra.awt.Color(color));
 			geo.updateRepaint();
 		}
@@ -130,8 +125,8 @@ public class MiniStyle{
 
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
 			geo.setAlphaValue(alpha);
 			geo.updateRepaint();
 		}
@@ -140,28 +135,30 @@ public class MiniStyle{
 	public void applyBold() {
 
 		int fontStyle = 0;
-		if (isBold) fontStyle += 1;
-		if (isItalic) fontStyle += 2;
-		
+		if (isBold)
+			fontStyle += 1;
+		if (isItalic)
+			fontStyle += 2;
+
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
-			if(geo.isGeoText()){
-			((GeoText)geo).setFontStyle(fontStyle);
-			geo.updateRepaint();
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo.isGeoText()) {
+				((GeoText) geo).setFontStyle(fontStyle);
+				geo.updateRepaint();
 			}
 		}
 	}
-	
+
 	public void setAllProperties() {
 
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
 
-		for (int i = 0 ; i < geos.size() ; i++) {
-			GeoElement geo = (GeoElement)geos.get(i);
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
 			if (geo instanceof PointProperties) {
-				PointProperties p = (PointProperties)geo;
+				PointProperties p = (PointProperties) geo;
 				p.setPointSize(pointSize);
 			}
 
@@ -171,54 +168,53 @@ public class MiniStyle{
 			geo.setAlphaValue(alpha);
 
 			geo.update();
-			
+
 		}
 	}
 
-	
-	//==============================================
+	// ==============================================
 	// colors
-	
-	public Color getStyleBarColor(int index){
+
+	public Color getStyleBarColor(int index) {
 		return colorList[index];
 	}
-	
-	public Color[] getStyleBarColorList(int index){
+
+	public Color[] getStyleBarColorList(int index) {
 		return colorList;
 	}
-	
+
 	private static Color[] createStyleBarColorList() {
-		
-		Color[]	primaryColors = new Color[] {		
-				new Color(255, 0, 0), // Red
+
+		Color[] primaryColors = new Color[] { new Color(255, 0, 0), // Red
 				new Color(255, 153, 0), // Orange
 				new Color(255, 255, 0), // Yellow
-				new Color(0, 255, 0), // Green 
-				new Color(0, 255, 255), // Cyan 
+				new Color(0, 255, 0), // Green
+				new Color(0, 255, 255), // Cyan
 				new Color(0, 0, 255), // Blue
 				new Color(153, 0, 255), // Purple
-				new Color(255, 0, 255) // Magenta 
+				new Color(255, 0, 255) // Magenta
 		};
-		
+
 		Color[] c = new Color[24];
-		for(int i = 0; i< 8; i++){
-			
+		for (int i = 0; i < 8; i++) {
+
 			// first row: primary colors
 			c[i] = primaryColors[i];
-			
+
 			// second row: modified primary colors
-			float[] hsb = Color.RGBtoHSB(c[i].getRed(), c[i].getGreen(), c[i].getBlue(), null); 
-			int rgb = Color.HSBtoRGB((float) (.9*hsb[0]), (float) (.5*hsb[1]), (float) (1*hsb[2]));
-			c[i+8] = new Color(rgb);
-			
+			float[] hsb = Color.RGBtoHSB(c[i].getRed(), c[i].getGreen(),
+					c[i].getBlue(), null);
+			int rgb = Color.HSBtoRGB((float) (.9 * hsb[0]),
+					(float) (.5 * hsb[1]), (1 * hsb[2]));
+			c[i + 8] = new Color(rgb);
+
 			// third row: gray scales (white ==> black)
-			float p = 1.0f - i/7f;
-			c[i+16] = new Color(p,p,p);
+			float p = 1.0f - i / 7f;
+			c[i + 16] = new Color(p, p, p);
 		}
-			
+
 		return c;
-	
+
 	}
-	
-	
+
 }

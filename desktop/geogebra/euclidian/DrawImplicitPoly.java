@@ -39,6 +39,7 @@ public class DrawImplicitPoly extends DrawLocus {
 		update();
 	}
 	
+	@Override
 	public Area getShape(){
 		return new Area();
 	}

@@ -7,7 +7,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -50,13 +49,13 @@ public class DrawInequality1Var extends Drawable {
 		int i = 0;
 		while (i < gp.length && gp[i] != null) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
 				g2.setStroke(selStroke);
 				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
 			}			
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f, ((GeoElement)ineq
 						.getFunBorder()).lineType));
 				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
@@ -69,13 +68,13 @@ public class DrawInequality1Var extends Drawable {
 			return;
 		while (i < circle.length && circle[i] != null) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
 				g2.setStroke(selStroke);
 				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
 			}	
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f,
 						EuclidianStyleConstants.LINE_TYPE_FULL));
 				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
@@ -118,7 +117,7 @@ public class DrawInequality1Var extends Drawable {
 	public void update() {
 		// get x-coords of the lines
 		if (varIsY) {
-			GeoPoint2[] roots = (GeoPoint2[])ineq.getZeros();
+			GeoPoint2[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = view.height + 10;
 			int numOfX = 1;
@@ -150,7 +149,7 @@ public class DrawInequality1Var extends Drawable {
 			}
 			setShape(a);
 		} else {
-			GeoPoint2[] roots = (GeoPoint2[])ineq.getZeros();
+			GeoPoint2[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = -10;
 			int numOfX = 1;

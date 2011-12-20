@@ -56,7 +56,7 @@ public final class DrawTextField extends Drawable {
 
 	private boolean isVisible;
 
-	private boolean hit = false;
+	boolean hit = false;
 	private String oldCaption;
 
 	JTextField textField;
@@ -109,6 +109,10 @@ public final class DrawTextField extends Drawable {
 
 		private boolean dragging = false;
 		private final EuclidianController ec = view.getEuclidianController();
+
+		public ButtonListener() {
+			// TODO Auto-generated constructor stub
+		}
 
 		/**
 		 * Handles click on check box. Changes value of GeoBoolean.
@@ -282,7 +286,7 @@ public final class DrawTextField extends Drawable {
 
 	}
 
-	private void updateText() {
+	void updateText() {
 
 		GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
 		if (linkedGeo != null) {

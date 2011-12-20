@@ -42,7 +42,7 @@ public final class DrawButton extends Drawable {
 
 	private boolean isVisible;
 
-	private boolean hit = false;
+	boolean hit = false;
 	private String oldCaption;
 
 	private Point textSize = new Point(0,0);

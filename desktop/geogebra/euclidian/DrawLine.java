@@ -23,15 +23,12 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -125,6 +122,7 @@ public class DrawLine extends Drawable implements Previewable {
 		updatePreview();
 	}
 
+	@Override
 	public void update() {  
 		//	take line g here, not geo this object may be used for conics too
         isVisible = geo.isEuclidianVisible(); 
@@ -357,31 +355,32 @@ public class DrawLine extends Drawable implements Previewable {
         }                     
     }
 
-    public void draw(Graphics2D g2) {                                
+    @Override
+	public void draw(Graphics2D g2) {                                
         if (isVisible) {        	
             if (geo.doHighlighting()) {
                 // draw line              
-                g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
+                g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
                 g2.setStroke(selStroke);            
                 g2.draw(line);                              
             }
             
             // draw line              
-            g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+            g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
             g2.setStroke(objStroke);            
 			g2.draw(line);              
 
             // label
             if (labelVisible) {
 				g2.setFont(view.fontLine);
-				g2.setColor(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));
+				g2.setColor(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
 				drawLabel(g2);
             }                            
         }
     }
         
 	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+		g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 		g2.setStroke(objStroke);  
 		g2.draw(line);
 	}
@@ -392,7 +391,7 @@ public class DrawLine extends Drawable implements Previewable {
 		case PREVIEW_PERPENDICULAR_BISECTOR:
 			isVisible = (points.size() == 1); 
 			if (isVisible) {
-				startPoint = (GeoPointND) points.get(0);
+				startPoint = points.get(0);
 			}		                              			                                           
 			break;
 		case PREVIEW_PARALLEL:
@@ -402,8 +401,8 @@ public class DrawLine extends Drawable implements Previewable {
 		case PREVIEW_ANGLE_BISECTOR:
 			isVisible = (points.size() == 2);  
 			if (isVisible) {
-				startPoint = (GeoPointND) points.get(0);
-				previewPoint2 = (GeoPointND) points.get(1);
+				startPoint = points.get(0);
+				previewPoint2 = points.get(1);
 			}		                              			                                           
 			break;
 		}
@@ -569,19 +568,23 @@ public class DrawLine extends Drawable implements Previewable {
      * was this object clicked at? (mouse pointer
      * location (x,y) in screen coords)
      */
-    final public boolean hit(int x, int y) {
+    @Override
+	final public boolean hit(int x, int y) {
         return isVisible && line.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
     }
     
-    final public boolean isInside(Rectangle rect) {  
+    @Override
+	final public boolean isInside(Rectangle rect) {  
     	return false;   
     }
     
-    final public GeoElement getGeoElement() {
+    @Override
+	final public GeoElement getGeoElement() {
         return geo;
     }      
     
-    final public void setGeoElement(GeoElement geo) {
+    @Override
+	final public void setGeoElement(GeoElement geo) {
         this.geo = geo;
     } 
 }

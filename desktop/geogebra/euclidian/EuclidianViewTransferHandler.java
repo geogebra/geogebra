@@ -1,6 +1,5 @@
 package geogebra.euclidian;
 
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -23,11 +22,15 @@ import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
 /**
- * Transfer handler for EuclidianView 
+ * Transfer handler for EuclidianView
+ * 
  * @author G. Sturr
- *
+ * 
  */
-public class EuclidianViewTransferHandler extends TransferHandler implements Transferable {
+public class EuclidianViewTransferHandler extends TransferHandler implements
+		Transferable {
+
+	private static final long serialVersionUID = 1L;
 
 	private EuclidianView ev;
 	private Application app;
@@ -35,23 +38,22 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 	static DataFlavor textReaderFlavor;
 	static {
 
-		try { 
-			textReaderFlavor = 
-				new DataFlavor ("text/plain;class=java.io.Reader"); 			
-		} catch (ClassNotFoundException cnfe) { 
-			cnfe.printStackTrace( );
+		try {
+			textReaderFlavor = new DataFlavor("text/plain;class=java.io.Reader");
+		} catch (ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
 		}
 	}
 
-
 	// supported data flavors
-	private static DataFlavor supportedFlavors[] = null;//{
-		//null,//DataFlavor.imageFlavor,
-		//null,//DataFlavor.stringFlavor,
-		//null,//DataFlavor.javaFileListFlavor,
-		//null,//AlgebraViewTransferHandler.algebraViewFlavor,
-		//null};//PlotPanelEuclidianView.plotPanelFlavor};
-	
+	private static DataFlavor supportedFlavors[] = null;// {
+
+	// null,//DataFlavor.imageFlavor,
+	// null,//DataFlavor.stringFlavor,
+	// null,//DataFlavor.javaFileListFlavor,
+	// null,//AlgebraViewTransferHandler.algebraViewFlavor,
+	// null};//PlotPanelEuclidianView.plotPanelFlavor};
+
 	private void setSupportedFlavours() {
 		if (supportedFlavors == null) {
 			if (app.isUsingFullGui()) {
@@ -65,59 +67,59 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 				supportedFlavors = new DataFlavor[3];
 				supportedFlavors[0] = DataFlavor.imageFlavor;
 				supportedFlavors[1] = DataFlavor.stringFlavor;
-				supportedFlavors[2] = DataFlavor.javaFileListFlavor;				
+				supportedFlavors[2] = DataFlavor.javaFileListFlavor;
 			}
-			
+
 		}
 	}
 
 	@SuppressWarnings("unused")
-	private boolean debug  = true;
-
+	private boolean debug = true;
 
 	/****************************************
 	 * Constructor
+	 * 
 	 * @param ev
 	 */
-	public EuclidianViewTransferHandler(EuclidianView ev){
+	public EuclidianViewTransferHandler(EuclidianView ev) {
 		this.ev = ev;
 		this.app = ev.getApplication();
 	}
 
-
 	/**
 	 * Ensures that transfer are done in COPY mode
 	 */
+	@Override
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.COPY;
 	}
 
 	/**
-	 * Returns true if any element of the DataFlavor parameter array is a supported flavor.
+	 * Returns true if any element of the DataFlavor parameter array is a
+	 * supported flavor.
 	 */
+	@Override
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
-		
+
 		setSupportedFlavours();
-		
+
 		for (int i = 0, n = flavor.length; i < n; i++) {
-			//System.out.println(flavor[i].getMimeType());
+			// System.out.println(flavor[i].getMimeType());
 			for (int j = 0, m = supportedFlavors.length; j < m; j++) {
 				if (flavor[i].equals(supportedFlavors[j])) {
 					return true;
 				}
 			}
 		}
-		return false;  
+		return false;
 	}
-
-
 
 	/**
 	 * Handles data import.
 	 */
+	@Override
 	public boolean importData(JComponent comp, Transferable t) {
 
-		
 		// give the drop target (this EV) the view focus
 		requestViewFocus();
 
@@ -129,65 +131,68 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 		double x = ev.toRealWorldCoordX(mousePos.x);
 		double y = ev.toRealWorldCoordY(mousePos.y);
 
-		startPoint.setCoords(x,y, 1.0);
+		startPoint.setCoords(x, y, 1.0);
 
-		//------------------------------------------
+		// ------------------------------------------
 		// Import handling is done in this order:
 		// 1) Images
 		// 2) Text
 		// 3) GGB files
-		//------------------------------------------
+		// ------------------------------------------
 
-		
 		// first try to get an image
-		if (t.isDataFlavorSupported(PlotPanelEuclidianView.plotPanelFlavor)){
-			if(ev == app.getEuclidianView())
-				app.getGuiManager().getProbabilityCalculator().exportGeosToEV(1);
-			else if(ev == app.getEuclidianView2())
-				app.getGuiManager().getProbabilityCalculator().exportGeosToEV(2);
+		if (t.isDataFlavorSupported(PlotPanelEuclidianView.plotPanelFlavor)) {
+			if (ev == app.getEuclidianView())
+				app.getGuiManager().getProbabilityCalculator()
+						.exportGeosToEV(1);
+			else if (ev == app.getEuclidianView2())
+				app.getGuiManager().getProbabilityCalculator()
+						.exportGeosToEV(2);
 			return true;
 		}
-		
-		// first try to get an image
-		boolean imageDropped = ev.getApplication().getGuiManager().loadImage(startPoint, t, false);
-		if(imageDropped) return true;
 
+		// first try to get an image
+		boolean imageDropped = ev.getApplication().getGuiManager()
+				.loadImage(startPoint, t, false);
+		if (imageDropped)
+			return true;
 
 		// handle all text flavors
 		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
 				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 			try {
 
-				String text = null; // expression to be converted into GeoText 
+				String text = null; // expression to be converted into GeoText
 				boolean isLaTeX = false;
 
-
-				// get text from AlgebraView flavor 
-				if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)){
+				// get text from AlgebraView flavor
+				if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 
 					isLaTeX = true;
 
 					// get list of selected geo labels
 					ArrayList<String> list = (ArrayList<String>) t
-					.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
+							.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
 
 					// exit if empty list
-					if(list.size()==0) return false;
+					if (list.size() == 0)
+						return false;
 
 					// single geo
-					if(list.size()==1){
+					if (list.size() == 1) {
 						text = "FormulaText[" + list.get(0) + ", true, true]";
 					}
 
 					// multiple geos, wrap in TableText
-					else{
+					else {
 						GeoElement geo;
 						text = "TableText[";
-						for(int i=0; i<list.size(); i++){
+						for (int i = 0; i < list.size(); i++) {
 							geo = app.getKernel().lookupLabel(list.get(i));
 
-							text += "{FormulaText[" + list.get(i) + ", true, true]}";
-							if(i<list.size()-1){
+							text += "{FormulaText[" + list.get(i)
+									+ ", true, true]}";
+							if (i < list.size() - 1) {
 								text += ",";
 							}
 						}
@@ -196,11 +201,11 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 				}
 
 				// get text from String flavor
-				else{ 	
+				else {
 					try {
 						// first try to read text line-by-line
 						Reader r = textReaderFlavor.getReaderForText(t);
-						if(r!=null){
+						if (r != null) {
 							StringBuilder sb = new StringBuilder();
 							String line = null;
 							BufferedReader br = new BufferedReader(r);
@@ -212,70 +217,80 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 							br.close();
 							text = sb.toString();
 						}
-					}
-					catch (Exception e) {
-						AbstractApplication.debug("Caught exception decoding text transfer:" + e.getMessage());
+					} catch (Exception e) {
+						AbstractApplication
+								.debug("Caught exception decoding text transfer:"
+										+ e.getMessage());
 					}
 
-					// if the reader didn't work, try to get whatever string is available
-					if(text == null)
-						text = (String) t.getTransferData(DataFlavor.stringFlavor);
+					// if the reader didn't work, try to get whatever string is
+					// available
+					if (text == null)
+						text = (String) t
+								.getTransferData(DataFlavor.stringFlavor);
 
 					// exit if no text found
-					if(text == null) return false;
+					if (text == null)
+						return false;
 
-					//TODO --- validate the text? e.g. no quotes for a GeoText
+					// TODO --- validate the text? e.g. no quotes for a GeoText
 
 					// wrap text in quotes
 					text = "\"" + text + "\"";
 				}
 
+				// ---------------------------------
+				// create GeoText
 
-				//---------------------------------
-				// create GeoText 
-
-				GeoElement[] ret = (GeoElement[]) ev.getApplication().getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(text, true);
+				GeoElement[] ret = ev.getApplication().getKernel()
+						.getAlgebraProcessor()
+						.processAlgebraCommand(text, true);
 
 				if (ret != null && ret[0].isTextValue()) {
 					GeoText geo = (GeoText) ret[0];
 					geo.setLaTeX(isLaTeX, false);
-					
-					//TODO: h should equal the geo height, this is just an estimate
-					double h = 2*app.getFontSize();
-					
-					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x), ev.toRealWorldCoordY(mousePos.y-h));
+
+					// TODO: h should equal the geo height, this is just an
+					// estimate
+					double h = 2 * app.getFontSize();
+
+					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
+							ev.toRealWorldCoordY(mousePos.y - h));
 					geo.updateRepaint();
-					
+
 				}
 
 				return true;
 
 			} catch (UnsupportedFlavorException ignored) {
-				//TODO
+				// TODO
 			} catch (IOException ignored) {
-				//TODO
+				// TODO
 			}
 		}
 
 		// check for ggb file drop
-		boolean ggbFileDropped =  app.getGuiManager().handleGGBFileDrop(t);
-		if(ggbFileDropped) return true;
+		boolean ggbFileDropped = app.getGuiManager().handleGGBFileDrop(t);
+		if (ggbFileDropped)
+			return true;
 
 		return false;
 	}
 
 	/**
-	 * Sets the focus to this EV. 
-	 * TODO: use this view's id directly to set the focus (current code assumes only 2 EVs)
+	 * Sets the focus to this EV. TODO: use this view's id directly to set the
+	 * focus (current code assumes only 2 EVs)
 	 */
-	private void requestViewFocus(){
-		if(ev.equals(app.getEuclidianView()))
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN);
+	private void requestViewFocus() {
+		if (ev.equals(app.getEuclidianView()))
+			app.getGuiManager().getLayout().getDockManager()
+					.setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN);
 		else
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN2);
+			app.getGuiManager().getLayout().getDockManager()
+					.setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN2);
 	}
 
+	@Override
 	public Transferable createTransferable(JComponent comp) {
 		return null;
 	}
@@ -289,11 +304,10 @@ public class EuclidianViewTransferHandler extends TransferHandler implements Tra
 	}
 
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for(int i = 0; i < supportedFlavors.length; i++){
+		for (int i = 0; i < supportedFlavors.length; i++) {
 			if (supportedFlavors[i].equals(flavor))
 				return true;
 		}
 		return false;
 	}
 }
-

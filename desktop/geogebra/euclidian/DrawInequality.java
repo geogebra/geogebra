@@ -6,12 +6,9 @@ import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
@@ -48,12 +45,12 @@ public class DrawInequality extends Drawable {
 		this.function = function;
 		operation = function.getIneqs().getOperation();
 		if (function.getIneqs().getLeft() != null)
-			left = new DrawInequality((IneqTree) function.getIneqs().getLeft(), view, geo);
+			left = new DrawInequality(function.getIneqs().getLeft(), view, geo);
 		if (function.getIneqs().getRight() != null)
-			right = new DrawInequality((IneqTree) function.getIneqs().getRight(), view,
+			right = new DrawInequality(function.getIneqs().getRight(), view,
 					geo);
-		if (((IneqTree) function.getIneqs()).getIneq() != null)
-			ineq = ((IneqTree) function.getIneqs()).getIneq();
+		if (function.getIneqs().getIneq() != null)
+			ineq = function.getIneqs().getIneq();
 		update();
 
 	}
@@ -68,6 +65,7 @@ public class DrawInequality extends Drawable {
 
 	private GeneralPathClipped[] gpAxis;
 
+	@Override
 	final public void update() {
 		// take line g here, not geo this object may be used for conics too
 		isVisible = geo.isEuclidianVisible();
@@ -76,7 +74,7 @@ public class DrawInequality extends Drawable {
 		labelVisible = geo.isLabelVisible();
 		
 		// init gp
-		updateRecursive((IneqTree) function.getIneqs());
+		updateRecursive(function.getIneqs());
 		labelDesc = geo.getLabelDescription();
 		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
 				&& !"y".equals(((GeoFunction) geo).getVarString())) {
@@ -159,7 +157,7 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawInequality1Var(ineq, view, geo, true);
 			break;
 		case Inequality.INEQUALITY_CONIC:
-			drawable = new DrawConic(view, (GeoConicND)ineq.getConicBorder());
+			drawable = new DrawConic(view, ineq.getConicBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
 		/*case Inequality.INEQUALITY_IMPLICIT:
@@ -224,6 +222,7 @@ public class DrawInequality extends Drawable {
 		return false;
 	}
 
+	@Override
 	public void draw(Graphics2D g2) {
 		if (!isForceNoFill() && !isVisible)
 			return;
@@ -240,13 +239,13 @@ public class DrawInequality extends Drawable {
 		if (!isForceNoFill()) {			
 			if (gpAxis != null) {
 				if (geo.doHighlighting()) {
-					g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
+					g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
 					g2.setStroke(selStroke);
 					for (int i = 0; gpAxis[i] != null; i++) {
 						g2.draw(gpAxis[i]);
 					}
 				}
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 				g2.setStroke(objStroke);
 				for (int i = 0; gpAxis[i] != null; i++) {
 					g2.draw(gpAxis[i]);
@@ -258,7 +257,7 @@ public class DrawInequality extends Drawable {
 		
 		if (labelVisible) {
 			g2.setFont(view.fontConic);
-			g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));			
+			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));			
 			drawLabel(g2);
 		}
 	}
@@ -313,6 +312,7 @@ public class DrawInequality extends Drawable {
 			this.geo = geo;
 		}
 
+		@Override
 		public Area getShape() {
 			return new Area(gp);
 		}
@@ -324,7 +324,7 @@ public class DrawInequality extends Drawable {
 		@Override
 		public void draw(Graphics2D g2) {			
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getSelColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
 				g2.setStroke(selStroke);
 				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
@@ -334,7 +334,7 @@ public class DrawInequality extends Drawable {
 			// appropriate
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 				g2.setStroke(objStroke);
 				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
@@ -372,7 +372,7 @@ public class DrawInequality extends Drawable {
 				gp = new GeneralPathClipped(view);
 			else
 				gp.reset();
-			GeoFunction border = (GeoFunction)ineq.getFunBorder();
+			GeoFunction border = ineq.getFunBorder();
 			border.setLineThickness(geo.lineThickness);
 			updateStrokes(border);
 			Point labelPos;

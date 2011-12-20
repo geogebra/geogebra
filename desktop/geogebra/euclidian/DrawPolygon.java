@@ -24,11 +24,8 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -59,7 +56,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	public DrawPolygon(EuclidianView view, GeoPolygon poly) {
 		this.view = view;
-    	hitThreshold = view.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.poly = poly;
 		geo = poly;
 
@@ -81,6 +78,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		updatePreview();
 	}
 
+	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
@@ -92,12 +90,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 			if (!isVisible)
 				return;
 			gp.closePath();
-			if(geo.isInverseFill())			{
+			if (geo.isInverseFill()) {
 				setShape(new Area(view.getBoundingPath()));
 				getShape().subtract(new Area(gp));
 			}
 			// polygon on screen?
-			if (!gp.intersects(0, 0, view.width, view.height)&&!geo.isInverseFill()) {
+			if (!gp.intersects(0, 0, view.width, view.height)
+					&& !geo.isInverseFill()) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -140,7 +139,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		for (int i = 1; i < points.length; i++) {
 			v = view.getCoordsForView(points[i].getInhomCoordsInD(3));
-			if (!AbstractKernel.isZero(v.getZ())) { 
+			if (!AbstractKernel.isZero(v.getZ())) {
 				return false;
 			}
 			coords[0] = v.getX();
@@ -163,13 +162,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return true;
 	}
 
+	@Override
 	final public void draw(Graphics2D g2) {
 		if (isVisible) {
-			fill(g2, geo.isInverseFill()?getShape():gp, false); // fill using default/hatching/image as
-									// appropriate
+			fill(g2, geo.isInverseFill() ? getShape() : gp, false); // fill
+																	// using
+																	// default/hatching/image
+																	// as
+			// appropriate
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getSelColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getSelColor()));
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
@@ -177,13 +180,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
 			else if (!poly.wasInitLabelsCalled() && poly.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getObjectColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(poly
+						.getObjectColor()));
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) poly.getLabelColor()));
+				g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getLabelColor()));
 				g2.setFont(view.fontPoint);
 				drawLabel(g2);
 			}
@@ -245,8 +249,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 							if (angle == 90) {
 								l2.setCoords(1.0, 0, -px2);
 							} else {
-								double gradient2 = Math.tan(ang2 * Math.PI / 180.0);
-								l2.setCoords(gradient2, -1.0, py2 - gradient2 * px2);
+								double gradient2 = Math.tan(ang2 * Math.PI
+										/ 180.0);
+								l2.setCoords(gradient2, -1.0, py2 - gradient2
+										* px2);
 							}
 
 							// calculate intersection
@@ -270,9 +276,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 					xRW = nearestX;
 					yRW = nearestY;
 				} else {
-					double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-					double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW)
-							* (px - xRW));
+					double angle = Math.atan2(yRW - py, xRW - px) * 180
+							/ Math.PI;
+					double radius = Math.sqrt((py - yRW) * (py - yRW)
+							+ (px - xRW) * (px - xRW));
 
 					// round angle to nearest 15 degrees
 					angle = Math.round(angle / 15) * 15;
@@ -296,10 +303,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	final public void drawPreview(Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geogebra.awt.Color.getAwtColor(ConstructionDefaults.colPreviewFill));
+			g2.setPaint(geogebra.awt.Color
+					.getAwtColor(ConstructionDefaults.colPreviewFill));
 			g2.fill(gp);
 
-			g2.setPaint(geogebra.awt.Color.getAwtColor(ConstructionDefaults.colPreview));
+			g2.setPaint(geogebra.awt.Color
+					.getAwtColor(ConstructionDefaults.colPreview));
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}
@@ -308,22 +317,28 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public void disposePreview() {
 	}
 
+	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill()?getShape():gp;
+		Shape t = geo.isInverseFill() ? getShape() : gp;
 		return t != null
-				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y - hitThreshold, 2*hitThreshold, 2*hitThreshold));
+				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
+						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
 	}
 
+	@Override
 	final public boolean isInside(Rectangle rect) {
 		AbstractApplication.debug(gp.getBounds());
 		AbstractApplication.debug(rect);
-		return gp != null && gp.getBounds() != null && rect.contains(gp.getBounds());
+		return gp != null && gp.getBounds() != null
+				&& rect.contains(gp.getBounds());
 	}
 
+	@Override
 	public GeoElement getGeoElement() {
 		return geo;
 	}
 
+	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
@@ -331,11 +346,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
+	@Override
 	final public Rectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible())
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
-		else
-			return gp.getBounds();
+		}
+		return gp.getBounds();
 	}
 
 }

@@ -69,12 +69,10 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawableList.DrawableIterator;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
-import geogebra3D.euclidian3D.opengl.Component3D;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
