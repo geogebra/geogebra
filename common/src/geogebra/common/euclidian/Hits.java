@@ -373,43 +373,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return moveableList;
 	}
 	
-	public static boolean check(GeoElement geo, Test test){
-		switch(test){
-		case GEOPOINTND: return geo instanceof GeoPointND;
-		case GEOVECTOR: return geo instanceof GeoVector;
-		case GEONUMERIC: return geo instanceof GeoNumeric;
-		case GEOLIST: return geo instanceof GeoList;
-		case GEOAXIS: return geo instanceof GeoAxis;
-		case GEOLINE: return geo instanceof GeoLine;
-		case GEOCONIC: return geo instanceof GeoConic;
-		case GEOFUNCTION: return geo instanceof GeoFunction;
-		case GEOPOLYGON: return geo instanceof GeoPolygon;
-		case GEOPOLYLINE: return geo instanceof GeoPolyLine;
-		case GEOPOINT2: return geo instanceof GeoPoint2;
-		case GEOVECTORND: return geo instanceof GeoVectorND;
-		case GEOLINEND: return geo instanceof GeoLineND;
-		case GEOSEGMENTND: return geo instanceof GeoSegmentND;
-		case GEOIMPLICITPOLY: return geo instanceof GeoImplicitPoly;
-		case GEOCURVECARTESIAN: return geo instanceof GeoCurveCartesian;
-		case GEOIMAGE: return geo instanceof GeoImage;
-		case NUMBERVALUE: return geo instanceof NumberValue;
-		case GEOELEMENT: return true;
-		case PATH: return geo instanceof Path;
-		case TRANSLATEABLE: return geo instanceof Translateable;
-		case DIRECTIONND: return geo instanceof GeoDirectionND;
-		case GEOCONICND: return geo instanceof GeoConicND;
-		case GEOCOORDSYS2D: return geo instanceof GeoCoordSys2D;
-		case GEOQUADRICND: return geo instanceof GeoQuadricND;
-		case GEOQUADRIC3D: return geo instanceof GeoQuadric3DInterface;
-		case GEOPOLYGON3D: return geo instanceof GeoPolygon3DInterface;
-		case GEOCOORDSYS1D: return geo instanceof GeoCoordSys1DInterface;
-		case REGION3D: return geo instanceof Region3D;
-		default:
-			AbstractApplication.debug("WARNING: this check may not work properly with "+test);
-			return test.toString().equals(geo.getClass().getName().toUpperCase());
-		}
-	}
-
+	
 	/**
 	 * returns array of GeoElements of type geoclass whose visual representation
 	 * is at streen coords (x,y). order: points, vectors, lines, conics
@@ -471,7 +435,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
-			boolean success = check(get(i),geoclass);
+			boolean success = geoclass.check(get(i));
 			if (other)
 				success = !success;
 			if (success)
@@ -510,7 +474,7 @@ public class Hits extends ArrayList<GeoElement> {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			for (int j = 0; j<geoclasses.length; ++j) {
-				boolean success = check(get(i),geoclasses[j]);
+				boolean success = geoclasses[j].check(get(i));
 				if (other)
 					success = !success;
 				if (success)
@@ -529,7 +493,7 @@ public class Hits extends ArrayList<GeoElement> {
 	final public GeoElement getFirstHit(Test geoclass) {
 
 		for (int i = 0; i < size(); ++i) {
-			if(check(get(i),geoclass))
+			if(geoclass.check(get(i)))
 				return (GeoElement) get(i);
 		}
 

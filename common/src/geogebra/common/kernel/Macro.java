@@ -13,13 +13,13 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.Test;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -124,9 +124,9 @@ public class Macro implements MacroInterface {
 
 	/**
 	 * Initiates macro
-	 * @param macroCons
-	 * @param inputLabels
-	 * @param outputLabels
+	 * @param macroCons macro onstruction
+	 * @param inputLabels labels for input
+	 * @param outputLabels labels for output
 	 */
 	public void initMacro(Construction macroCons, String [] inputLabels, String [] outputLabels) {				
 		this.macroCons = macroCons;
@@ -139,7 +139,7 @@ public class Macro implements MacroInterface {
 		// init inputTypes array		
 		inputTypes = new Test[macroInput.length];		
 		for (int i=0; i < macroInput.length; i++) {
-			inputTypes[i] = Test.valueOf(macroInput[i].getClass().getName().substring("geogebra.common.kernel.geos.".length()).toUpperCase());
+			inputTypes[i] = Test.getSpecificTest(macroInput[i]);
 		}			
 		
 		// after initing we turn global variable lookup on again, 
@@ -203,7 +203,7 @@ public class Macro implements MacroInterface {
 			 //       these points must be part of the macro construction
 			 if (output[i] instanceof Locateable) {
 				 Locateable loc = (Locateable) output[i];
-				 GeoPointND [] points = (GeoPointND[]) loc.getStartPoints();
+				 GeoPointND [] points = loc.getStartPoints();
 				 if (points != null) {
 					 for (int k=0; k < points.length; k++) {
 						 outputParents.add((GeoElement) points[k]);
@@ -302,10 +302,10 @@ public class Macro implements MacroInterface {
     	}    	    	    	    	    
     	AbstractApplication.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
-    	Construction macroCons = createMacroConstruction(macroConsXML); 
+    	Construction macroCons2 = createMacroConstruction(macroConsXML); 
     	    	
     	// init macro 
-    	initMacro(macroCons, inputLabels, outputLabels);
+    	initMacro(macroCons2, inputLabels, outputLabels);
     }
 	
 	/**
@@ -341,8 +341,8 @@ public class Macro implements MacroInterface {
 	 * Adds the geo, its parent algorithm and all input of the parent algorithm to the consElementSet.
 	 * This is used for e.g. a segment that is used as an input object of a macro. We also need to
 	 * have the segment's start and endpoint.
-	 * @param geo
-	 * @param consElementSet
+	 * @param geo special element
+	 * @param consElementSet set to add this element elements
 	 */	
 	public static void addSpecialInputElement(GeoElement geo, Set<ConstructionElement> consElementSet) {		 
 		 // add geo
@@ -366,8 +366,8 @@ public class Macro implements MacroInterface {
 	
 	/**
 	 * Note: changes macroConsElements
-	 * @param kernel
-	 * @param macroConsElements
+	 * @param kernel Kernel
+	 * @param macroConsElements elements involved in macro (input, internal, output)
 	 * @return XML string of macro construction
 	 */
 	 public static String buildMacroXML(AbstractKernel kernel, Set<ConstructionElement> macroConsElements) {	
@@ -440,7 +440,7 @@ public class Macro implements MacroInterface {
 			
 	/**
 	 * Add link to algo using this macro 
-	 * @param algoMacro
+	 * @param algoMacro macro algorithm
 	 */
 	public void registerAlgorithm(AlgoMacroInterface algoMacro) {						
 		usingAlgos.add((AlgoElement)algoMacro);			
@@ -448,7 +448,7 @@ public class Macro implements MacroInterface {
 	
 	/**
 	 * Remove link to algo using this macro 
-	 * @param algoMacro
+	 * @param algoMacro macro algorithm
 	 */
 	public void unregisterAlgorithm(AlgoMacroInterface algoMacro) {
 		usingAlgos.remove(algoMacro);			
@@ -546,8 +546,7 @@ public class Macro implements MacroInterface {
 	public String getToolOrCommandName() {
 		if (!"".equals(toolName)) 
 			return toolName;
-		else
-			return cmdName;			
+		return cmdName;			
 	}
 
 	/**
@@ -583,6 +582,7 @@ public class Macro implements MacroInterface {
 	/**
 	 * Returns the syntax descriptiont of this macro.
 	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(cmdName);

@@ -16,7 +16,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
-import geogebra.common.euclidian.Test;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
@@ -56,6 +55,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -3129,7 +3129,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			Test test) {
 		for (int i = 0; i < hits.size(); i++) {
 			GeoElement geo = hits.get(i);
-			if (!(Hits.check(geo, test))
+			if (!(test.check(geo))
 			// || geo.isGeoPolygon()
 			) {
 				hits.remove(i);
