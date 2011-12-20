@@ -54,7 +54,7 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 
 	@Override
 	public void setToolTipText(String plain) {
-		view.setToolTipText(plain);
+		super.setToolTipText(plain);
 	}
 
 	@Override

@@ -91,7 +91,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 
-import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 import javax.swing.text.JTextComponent;
 
@@ -903,7 +902,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		altDown = e.isAltDown();
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			((JPanel) view).requestFocusInWindow();
+			((EuclidianView) view).requestFocusInWindow();
 		}
 
 		if (Application.isRightClick(e)) {
@@ -2581,7 +2580,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	}
 
 	public void showDrawingPadPopup(Point mouseLoc) {
-		app.getGuiManager().showDrawingPadPopup((JPanel) view, mouseLoc);
+		app.getGuiManager().showDrawingPadPopup((EuclidianViewJPanel) view, mouseLoc);
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -2657,7 +2656,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		movedGeoPointDragged = false;
 		movedGeoNumericDragged = false;
 
-		((JPanel) view).requestFocusInWindow();
+		((EuclidianView) view).requestFocusInWindow();
 		setMouseLocation(e);
 
 		altDown = e.isAltDown();
@@ -2713,7 +2712,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 						// GeoElement selGeo = (GeoElement)
 						// app.getSelectedGeos().get(0);
 						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), (JPanel) view, mouseLoc);
+								app.getSelectedGeos(), (EuclidianViewJPanel) view, mouseLoc);
 					} else {
 						showDrawingPadPopup(mouseLoc);
 					}
@@ -2734,7 +2733,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 						}
 
 						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), (JPanel) view, mouseLoc);
+								app.getSelectedGeos(), (EuclidianViewJPanel) view, mouseLoc);
 					} else {
 						// no selected geos: choose geo and show popup menu
 						geo = chooseGeo(hits, false);
@@ -2742,11 +2741,11 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
 							app.getGuiManager().showPopupMenu(geos,
-									(JPanel) view, mouseLoc);
+									(EuclidianViewJPanel) view, mouseLoc);
 						} else {
 							// for 3D : if the geo hitted is xOyPlane, then
 							// chooseGeo return null
-							// app.getGuiManager().showDrawingPadPopup((JPanel)
+							// app.getGuiManager().showDrawingPadPopup((EuclidianView)
 							// view, mouseLoc);
 							showDrawingPadPopup(mouseLoc);
 						}
@@ -8441,8 +8440,8 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			 * no points selected, multiple objects selected // popup a menu to
 			 * choose from ToolTipManager ttm = ToolTipManager.sharedInstance();
 			 * ttm.setEnabled(false); ListDialog dialog = new
-			 * ListDialog((JPanel) view, geos, null); if
-			 * (app.areChooserPopupsEnabled()) ret = dialog.showDialog((JPanel)
+			 * ListDialog((EuclidianView) view, geos, null); if
+			 * (app.areChooserPopupsEnabled()) ret = dialog.showDialog((EuclidianView)
 			 * view, mouseLoc); ttm.setEnabled(true);
 			 */
 
