@@ -16,12 +16,15 @@ import geogebra.common.main.AbstractApplication;
 
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 
 /**
@@ -449,6 +452,9 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 
 
 	public int getAllowToolTips();
+
+
+	public JPanel getJPanel();
 
 
 	//public GeoDirectionND getDirection();

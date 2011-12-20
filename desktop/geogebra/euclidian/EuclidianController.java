@@ -2579,7 +2579,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	}
 
 	public void showDrawingPadPopup(Point mouseLoc) {
-		app.getGuiManager().showDrawingPadPopup((EuclidianViewJPanel) view, mouseLoc);
+		app.getGuiManager().showDrawingPadPopup(view.getJPanel(), mouseLoc);
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -2711,7 +2711,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 						// GeoElement selGeo = (GeoElement)
 						// app.getSelectedGeos().get(0);
 						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), (EuclidianViewJPanel) view, mouseLoc);
+								app.getSelectedGeos(),  view.getJPanel(), mouseLoc);
 					} else {
 						showDrawingPadPopup(mouseLoc);
 					}
@@ -2732,7 +2732,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 						}
 
 						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), (EuclidianViewJPanel) view, mouseLoc);
+								app.getSelectedGeos(), view.getJPanel(), mouseLoc);
 					} else {
 						// no selected geos: choose geo and show popup menu
 						geo = chooseGeo(hits, false);
@@ -2740,7 +2740,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
 							app.getGuiManager().showPopupMenu(geos,
-									(EuclidianViewJPanel) view, mouseLoc);
+									view.getJPanel(), mouseLoc);
 						} else {
 							// for 3D : if the geo hitted is xOyPlane, then
 							// chooseGeo return null

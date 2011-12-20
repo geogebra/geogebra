@@ -3565,4 +3565,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	final public int getAllowToolTips() {
 		return EuclidianStyleConstants.TOOLTIPS_OFF;
 	}
+	
+	public JPanel getJPanel() {
+		return this;
+	}
 }
