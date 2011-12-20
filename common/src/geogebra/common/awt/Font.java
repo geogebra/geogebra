@@ -1,12 +1,12 @@
 package geogebra.common.awt;
 
-public interface Font {
+public abstract class Font {
 	
 	public static final int PLAIN = 0;
 	public static final int BOLD = 1;
 	public static final int ITALIC = 2;
 
-	public abstract void setFontStyle(String fontStyle);
+	/*public abstract void setFontStyle(String fontStyle);
 
 	public abstract String getFontStyle();
 
@@ -50,7 +50,7 @@ public interface Font {
 
 	public abstract Font deriveFont(int i);
 
-	public abstract Font deriveFont(int style, int newSize);
+	public abstract Font deriveFont(int style, int newSize);*/
 
 
 }

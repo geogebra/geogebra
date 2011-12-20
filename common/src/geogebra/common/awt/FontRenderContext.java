@@ -1,5 +1,5 @@
 package geogebra.common.awt;
 
-public interface FontRenderContext {
+public abstract class FontRenderContext {
 
 }
