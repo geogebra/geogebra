@@ -1,7 +1,6 @@
 package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -14,7 +13,8 @@ import java.util.TreeSet;
 
 import javax.swing.Timer;
 
-public class AnimationManager extends AbstractAnimationManager implements ActionListener {
+public class AnimationManager extends AbstractAnimationManager implements
+		ActionListener {
 
 	private Kernel kernel;
 	private ArrayList<GeoElement> animatedGeos;
@@ -31,6 +31,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 		timer = new Timer(1000 / MAX_ANIMATION_FRAME_RATE, this);
 	}
 
+	@Override
 	public synchronized void startAnimation() {
 		if (!timer.isRunning() && animatedGeos.size() > 0) {
 			updateNeedToShowAnimationButton();
@@ -38,6 +39,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 		}
 	}
 
+	@Override
 	public synchronized void stopAnimation() {
 		if (timer.isRunning()) {
 			timer.stop();
@@ -45,9 +47,10 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 		}
 	}
 
+	@Override
 	public void clearAnimatedGeos() {
 		for (int i = 0; i < animatedGeos.size(); i++) {
-			GeoElement geo = (GeoElement) animatedGeos.get(i);
+			GeoElement geo = animatedGeos.get(i);
 			geo.setAnimating(false);
 		}
 
@@ -58,6 +61,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 	/**
 	 * Returns whether the animation is currently running.
 	 */
+	@Override
 	public boolean isRunning() {
 		return timer.isRunning();
 	}
@@ -66,6 +70,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 	 * Returns whether the animation is currently paused, i.e. the animation is
 	 * not running but there are elements with "Animation on" set.
 	 */
+	@Override
 	public boolean isPaused() {
 		return !timer.isRunning() && animatedGeos.size() > 0;
 	}
@@ -75,6 +80,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 	 * view. This is only needed when there are animated geos with non-dynamic
 	 * speed.
 	 */
+	@Override
 	final public boolean needToShowAnimationButton() {
 		return needToShowAnimationButton;
 	}
@@ -82,6 +88,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 	/**
 	 * Updates the needToShowAnimationButton value.
 	 */
+	@Override
 	public void updateNeedToShowAnimationButton() {
 		int size = animatedGeos.size();
 		if (size == 0) {
@@ -91,7 +98,7 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 
 		// if one animated geo has a static speed, we need to get out of here
 		for (int i = 0; i < size; i++) {
-			GeoElement geo = (GeoElement) animatedGeos.get(i);
+			GeoElement geo = animatedGeos.get(i);
 			GeoElement animObj = geo.getAnimationSpeedObject();
 			if (animObj == null || !animObj.isLabelSet()
 					&& animObj.isIndependent()) {
@@ -133,11 +140,14 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 
 	/**
 	 * Adds geo to the list of animated GeoElements.
-	 * @param geo the GeoElement to add
+	 * 
+	 * @param geo
+	 *            the GeoElement to add
 	 */
+	@Override
 	final public synchronized void addAnimatedGeo(GeoElementInterface geo) {
-		if (geo.isAnimating() && !animatedGeos.contains((GeoElement)geo)) {
-			animatedGeos.add((GeoElement)geo);
+		if (geo.isAnimating() && !animatedGeos.contains(geo)) {
+			animatedGeos.add((GeoElement) geo);
 			// if (animatedGeos.size() == 1) removed, might have geos with
 			// variable controlling speed
 			updateNeedToShowAnimationButton();
@@ -146,8 +156,11 @@ public class AnimationManager extends AbstractAnimationManager implements Action
 
 	/**
 	 * Removes geo from the list of animated GeoElements.
-	 *  @param geo the GeoElement to remove
+	 * 
+	 * @param geo
+	 *            the GeoElement to remove
 	 */
+	@Override
 	final public synchronized void removeAnimatedGeo(GeoElementInterface geo) {
 		if (animatedGeos.remove(geo) && animatedGeos.size() == 0) {
 			stopAnimation();

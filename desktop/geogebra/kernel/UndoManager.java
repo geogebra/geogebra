@@ -30,49 +30,51 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 /**
- * UndoManager handles undo information for a Construction. 
- * It uses an undo info list with construction snapshots in temporary files.
+ * UndoManager handles undo information for a Construction. It uses an undo info
+ * list with construction snapshots in temporary files.
+ * 
  * @author Markus Hohenwarter
  */
-public class UndoManager extends AbstractUndoManager{
+public class UndoManager extends AbstractUndoManager {
 
 	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";
 
 	// maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps
-	private static final int MAX_CAPACITY = 100; 
+	private static final int MAX_CAPACITY = 100;
 
 	private Construction construction;
-	private LinkedList undoInfoList;	      
-	private ListIterator iterator;  // invariant: iterator.previous() is the current state
+	private LinkedList<File> undoInfoList;
+	private ListIterator<File> iterator; // invariant: iterator.previous() is
+											// the current state
 	private MyXMLio xmlio;
 
 	private Application app;
 
 	/**
-	 * Creates a new UndowManager for the given Construction.	 
-	 */	
-	public UndoManager(Construction cons) {				
-		construction = (Construction)cons;
-		xmlio = new MyXMLio((Kernel)cons.getKernel(), (Construction)cons);	
+	 * Creates a new UndowManager for the given Construction.
+	 */
+	public UndoManager(Construction cons) {
+		construction = cons;
+		xmlio = new MyXMLio((Kernel) cons.getKernel(), cons);
 		cons.setXMLio(xmlio);
-		undoInfoList = new LinkedList();		
+		undoInfoList = new LinkedList<File>();
 
 		app = (Application) cons.getApplication();
 	}
-	
 
 	private void updateUndoActions() {
 		if (app.isUsingFullGui())
-			app.getGuiManager().updateActions();		
+			app.getGuiManager().updateActions();
 	}
 
 	/**
-	 * Clears undo info list and adds current state to the undo info list.	 
+	 * Clears undo info list and adds current state to the undo info list.
 	 */
+	@Override
 	public synchronized void initUndoInfo() {
 		clearUndoInfo();
 		storeUndoInfo();
-	}       
+	}
 
 	private synchronized void clearUndoInfo() {
 		undoInfoList.clear();
@@ -83,30 +85,34 @@ public class UndoManager extends AbstractUndoManager{
 	/**
 	 * Loads previous construction state from undo info list.
 	 */
+	@Override
 	public synchronized void undo() {
-		
-		if (undoPossible()) {		
+
+		if (undoPossible()) {
 			iterator.previous();
-			loadUndoInfo(iterator.previous());     
-			iterator.next();  
+			loadUndoInfo(iterator.previous());
+			iterator.next();
 			updateUndoActions();
-		}				         			     
+		}
 	}
 
 	/**
 	 * Loads next construction state from undo info list.
 	 */
-	public synchronized void redo() {           
+	@Override
+	public synchronized void redo() {
 		if (redoPossible()) {
-			loadUndoInfo(iterator.next());	  
+			loadUndoInfo(iterator.next());
 			updateUndoActions();
-		}		   
-	}           
+		}
+	}
 
 	/**
 	 * Get current undo info for later comparisons
+	 * 
 	 * @return Object (the file of last undo)
 	 */
+	@Override
 	final public synchronized Object getCurrentUndoInfo() {
 		Object ret = iterator.previous();
 		iterator.next();
@@ -114,24 +120,28 @@ public class UndoManager extends AbstractUndoManager{
 	}
 
 	/**
-	 * Reloads construction state at current position of undo list
-	 * (this is needed for "cancel" actions).
+	 * Reloads construction state at current position of undo list (this is
+	 * needed for "cancel" actions).
 	 */
-	final public synchronized void restoreCurrentUndoInfo() {		
-		loadUndoInfo(iterator.previous()); 
-		iterator.next();   
+	@Override
+	final public synchronized void restoreCurrentUndoInfo() {
+		loadUndoInfo(iterator.previous());
+		iterator.next();
 		updateUndoActions();
-	} 	
+	}
 
 	/**
 	 * Adds construction state to undo info list
 	 */
+	@Override
 	public void storeUndoInfoAfterPasteOrAdd() {
 
-		// this can cause a java.lang.OutOfMemoryError for very large constructions
+		// this can cause a java.lang.OutOfMemoryError for very large
+		// constructions
 		final StringBuilder currentUndoXML = construction.getCurrentUndoXML();
-		
+
 		Thread undoSaverThread = new Thread() {
+			@Override
 			public void run() {
 				doStoreUndoInfo(currentUndoXML);
 				CopyPaste.pastePutDownCallback(app);
@@ -142,19 +152,23 @@ public class UndoManager extends AbstractUndoManager{
 
 	}
 
+	@Override
 	public void storeUndoInfo() {
 		storeUndoInfo(false);
 	}
-	
+
 	/**
 	 * Adds construction state to undo info list.
 	 */
-	public void storeUndoInfo(final boolean refresh) {	
-		
-		// this can cause a java.lang.OutOfMemoryError for very large constructions
+	@Override
+	public void storeUndoInfo(final boolean refresh) {
+
+		// this can cause a java.lang.OutOfMemoryError for very large
+		// constructions
 		final StringBuilder currentUndoXML = construction.getCurrentUndoXML();
-		
+
 		Thread undoSaverThread = new Thread() {
+			@Override
 			public void run() {
 				doStoreUndoInfo(currentUndoXML);
 				if (refresh)
@@ -165,66 +179,65 @@ public class UndoManager extends AbstractUndoManager{
 		undoSaverThread.start();
 	}
 
-	private synchronized void doStoreUndoInfo(final StringBuilder undoXML) {			
-			// avoid security problems calling from JavaScript ie setUndoPoint()
-			AccessController.doPrivileged(new PrivilegedAction() {
-				public Object run() {
-					try {			
-					
+	private synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
+		// avoid security problems calling from JavaScript ie setUndoPoint()
+		AccessController.doPrivileged(new PrivilegedAction<Object>() {
+			public Object run() {
+				try {
+
 					// perform the security-sensitive operation here
-					
+
 					// save to file
 					File undoInfo = createTempFile(undoXML);
 
-					// insert undo info 
-					iterator.add(undoInfo);				 
+					// insert undo info
+					iterator.add(undoInfo);
 
-					// remove everything after the insert position until end of list
+					// remove everything after the insert position until end of
+					// list
 					while (iterator.hasNext()) {
-						undoInfo = (File) iterator.next();
-						iterator.remove();	
+						undoInfo = iterator.next();
+						iterator.remove();
 						undoInfo.delete();
 					}
 
 					// delete first if too many in list
-					if (undoInfoList.size() > MAX_CAPACITY) {                						
-						// use iterator to delete to avoid ConcurrentModificationException		
+					if (undoInfoList.size() > MAX_CAPACITY) {
+						// use iterator to delete to avoid
+						// ConcurrentModificationException
 						// go to beginning of list
 						while (iterator.hasPrevious())
-							undoInfo = (File) iterator.previous();
+							undoInfo = iterator.previous();
 
-						iterator.remove();	
+						iterator.remove();
 						undoInfo.delete();
 
 						while (iterator.hasNext())
-							iterator.next();											
-					}										
-
-					} 
-					catch (Exception e) {		
-						AbstractApplication.debug("storeUndoInfo: " + e.toString());
-						e.printStackTrace();
-					}     	
-					catch (java.lang.OutOfMemoryError err) {
-						AbstractApplication.debug("UndoManager.storeUndoInfo: " + err.toString());
-						err.printStackTrace();
-						System.gc();
+							iterator.next();
 					}
-					
-					
-					
-					return null;
+
+				} catch (Exception e) {
+					AbstractApplication.debug("storeUndoInfo: " + e.toString());
+					e.printStackTrace();
+				} catch (java.lang.OutOfMemoryError err) {
+					AbstractApplication.debug("UndoManager.storeUndoInfo: "
+							+ err.toString());
+					err.printStackTrace();
+					System.gc();
 				}
-			});
 
+				return null;
+			}
+		});
 
-		updateUndoActions();	
-	}		
+		updateUndoActions();
+	}
 
 	/**
 	 * Creates a temporary file containing the zipped undoXML.
 	 */
-	private synchronized File createTempFile(StringBuilder undoXML) throws IOException {
+	private synchronized static File createTempFile(StringBuilder undoXML)
+			throws IOException {
 		// create temp file
 		File tempFile = File.createTempFile(TEMP_FILE_PREFIX, ".ggb");
 		// Remove when program ends
@@ -232,7 +245,7 @@ public class UndoManager extends AbstractUndoManager{
 
 		// create file
 		FileOutputStream fos = new FileOutputStream(tempFile);
-		MyXMLio.writeZipped(fos, undoXML); 		
+		MyXMLio.writeZipped(fos, undoXML);
 		fos.close();
 
 		return tempFile;
@@ -241,55 +254,58 @@ public class UndoManager extends AbstractUndoManager{
 	/**
 	 * restore info at position pos of undo list
 	 */
-	final private synchronized void loadUndoInfo(final Object info) { 
-				try {    
-					// load from file
-					File tempFile = (File) info;
-					InputStream is = new FileInputStream(tempFile);	
-					
-					// make sure objects are displayed in the correct View
-					app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+	final private synchronized void loadUndoInfo(final Object info) {
+		try {
+			// load from file
+			File tempFile = (File) info;
+			InputStream is = new FileInputStream(tempFile);
 
-					// load undo info
-					app.getScriptManager().disableListeners();
-					xmlio.readZipFromMemory(is);					
-					app.getScriptManager().enableListeners();
-					
-					is.close();
-				} 
-				catch (Exception e) {
-					System.err.println("setUndoInfo: " + e.toString());
-					e.printStackTrace();      
-					restoreCurrentUndoInfo();
-				}   
-				catch (java.lang.OutOfMemoryError err) {
-					System.err.println("UndoManager.loadUndoInfo: " + err.toString());
-					System.gc();							
-				}
+			// make sure objects are displayed in the correct View
+			app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
-	} 		       
+			// load undo info
+			app.getScriptManager().disableListeners();
+			xmlio.readZipFromMemory(is);
+			app.getScriptManager().enableListeners();
 
-	/**
-	 * Returns whether undo operation is possible or not.	 
-	 */
-	public boolean undoPossible() {  
-		if (!app.isUndoActive()) return false;
-		return iterator.nextIndex() > 1;	
+			is.close();
+		} catch (Exception e) {
+			System.err.println("setUndoInfo: " + e.toString());
+			e.printStackTrace();
+			restoreCurrentUndoInfo();
+		} catch (java.lang.OutOfMemoryError err) {
+			System.err.println("UndoManager.loadUndoInfo: " + err.toString());
+			System.gc();
+		}
+
 	}
 
 	/**
-	 * Returns whether redo operation is possible or not.	 
+	 * Returns whether undo operation is possible or not.
 	 */
+	@Override
+	public boolean undoPossible() {
+		if (!app.isUndoActive())
+			return false;
+		return iterator.nextIndex() > 1;
+	}
+
+	/**
+	 * Returns whether redo operation is possible or not.
+	 */
+	@Override
 	public boolean redoPossible() {
-		if (!app.isUndoActive()) return false;
+		if (!app.isUndoActive())
+			return false;
 		return iterator.hasNext();
 	}
 
 	/**
 	 * Processes xml string. Note: this will change the construction.
 	 */
-	public synchronized void processXML(String strXML) throws Exception {	
-		xmlio.processXMLString(strXML, true, false,false);
-	}		
+	@Override
+	public synchronized void processXML(String strXML) throws Exception {
+		xmlio.processXMLString(strXML, true, false, false);
+	}
 
 }

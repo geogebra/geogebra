@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 package geogebra.kernel;
 
 import geogebra.common.util.MaxSizeHashMap;
@@ -26,171 +26,196 @@ import geogebra.common.main.AbstractApplication.CasType;
 
 import java.util.LinkedHashMap;
 
-
-
 /**
  * Kernel with its own construction for macros.
  */
-public class MacroKernel extends Kernel implements MacroKernelInterface  {
+public class MacroKernel extends Kernel implements MacroKernelInterface {
 
 	private Kernel parentKernel;
 	private MacroConstruction macroCons;
-	
+
 	public MacroKernel(Kernel parentKernel) {
 		this.parentKernel = parentKernel;
-		
+
 		app = parentKernel.app;
 		setUndoActive(false);
 		setAllowVisibilitySideEffects(false);
-		
+
 		macroCons = new MacroConstruction(this);
-		cons = macroCons;	
-		
-		//does 3D as parentKernel
+		cons = macroCons;
+
+		// does 3D as parentKernel
 		setManager3D(getParentKernel().newManager3D(this));
 	}
-	
+
+	@Override
 	public final boolean isMacroKernel() {
 		return true;
 	}
-	
+
 	public Kernel getParentKernel() {
 		return parentKernel;
-	}		
-	
-//	public boolean isUseTempVariablePrefix() {		
-//		return super.isUseTempVariablePrefix();
-//	}
-//	
-//	public void setUseTempVariablePrefix(boolean flag) {
-//		useTempVariablePrefix = flag;
-//		super.setUseTempVariablePrefix(flag);
-//	}
-	
+	}
+
+	// public boolean isUseTempVariablePrefix() {
+	// return super.isUseTempVariablePrefix();
+	// }
+	//
+	// public void setUseTempVariablePrefix(boolean flag) {
+	// useTempVariablePrefix = flag;
+	// super.setUseTempVariablePrefix(flag);
+	// }
+
 	public void addReservedLabel(String label) {
 		macroCons.addReservedLabel(label);
 	}
-	
+
 	public void setGlobalVariableLookup(boolean flag) {
 		macroCons.setGlobalVariableLookup(flag);
 	}
-	
+
 	/**
-	 * Sets macro construction of this kernel via XML string.	 
-	 * @return success state
+	 * Sets macro construction of this kernel via XML string.
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		macroCons.loadXML(xmlString);
-	}	
+	}
 
+	@Override
 	public final double getXmax() {
 		return parentKernel.getXmax();
 	}
+
+	@Override
 	public final double getXmin() {
 		return parentKernel.getXmin();
 	}
+
+	@Override
 	public final double getXscale() {
 		return parentKernel.getXscale();
 	}
+
+	@Override
 	public final double getYmax() {
 		return parentKernel.getYmax();
 	}
+
+	@Override
 	public final double getYmin() {
 		return parentKernel.getYmin();
 	}
+
+	@Override
 	public final double getYscale() {
 		return parentKernel.getYscale();
 	}
-	
+
 	/**
 	 * Adds a new macro to the parent kernel.
 	 */
+	@Override
 	public void addMacro(Macro macro) {
 		parentKernel.addMacro(macro);
 	}
-	
+
 	/**
-	 * Returns the macro object for the given macro name.
-	 * Note: null may be returned.
+	 * Returns the macro object for the given macro name. Note: null may be
+	 * returned.
 	 */
+	@Override
 	public Macro getMacro(String name) {
-		return parentKernel.getMacro(name);	
-	}			
-	
-	
-	////////////////////////////////////////
-	// METHODS USING KERNEL3D
-	////////////////////////////////////////
-	
-	public MyXMLHandler newMyXMLHandler(Construction cons){
-		return parentKernel.newMyXMLHandler(this, cons);		
+		return parentKernel.getMacro(name);
 	}
-	
-	
-	public AlgebraProcessor newAlgebraProcessor(Kernel kernel){
+
+	// //////////////////////////////////////
+	// METHODS USING KERNEL3D
+	// //////////////////////////////////////
+
+	@Override
+	public MyXMLHandler newMyXMLHandler(Construction cons) {
+		return parentKernel.newMyXMLHandler(this, cons);
+	}
+
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		return parentKernel.newAlgebraProcessor(kernel);
 	}
-	
-	public ExpressionNodeEvaluator newExpressionNodeEvaluator(){
+
+	@Override
+	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
 		return parentKernel.newExpressionNodeEvaluator();
 	}
-	
-	public GeoElement createGeoElement(Construction cons, String type) throws MyError {    
+
+	@Override
+	public GeoElement createGeoElement(Construction cons, String type)
+			throws MyError {
 		return parentKernel.createGeoElement(cons, type);
 	}
-	
-	public boolean handleCoords(GeoElement geo, LinkedHashMap<String, String> attrs) {
+
+	@Override
+	public boolean handleCoords(GeoElement geo,
+			LinkedHashMap<String, String> attrs) {
 		return parentKernel.handleCoords(geo, attrs);
 	}
-	
+
 	/**
 	 * Returns the parent kernel's GeoGebraCAS object.
 	 */
-	public GeoGebraCasInterface getGeoGebraCAS() {
+	@Override
+	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		return parentKernel.getGeoGebraCAS();
 	}
-	
+
 	/**
-	 * @return Whether the GeoGebraCAS of the parent kernel has been initialized before
+	 * @return Whether the GeoGebraCAS of the parent kernel has been initialized
+	 *         before
 	 */
-	public boolean isGeoGebraCASready() {
+	@Override
+	public synchronized boolean isGeoGebraCASready() {
 		return parentKernel.isGeoGebraCASready();
 	}
 
 	/**
 	 * Resets the GeoGebraCAS of the parent kernel and clears all variables.
 	 */
+	@Override
 	public void resetGeoGebraCAS() {
 		parentKernel.resetGeoGebraCAS();
 	}
-		
+
 	/**
 	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
-	 * @param casID CasType.MPREDUCE or CAS_MPREDUCE.CAS_Maxima
+	 * 
+	 * @param casID
+	 *            CasType.MPREDUCE or CAS_MPREDUCE.CAS_Maxima
 	 */
+	@Override
 	public void setDefaultCAS(CasType casID) {
 		parentKernel.setDefaultCAS(DEFAULT_CAS);
 	}
-	
+
 	/**
 	 * Removes the given variableName from their underlying CAS.
 	 */
+	@Override
 	public void unbindVariableInGeoGebraCAS(String variableName) {
 		parentKernel.unbindVariableInGeoGebraCAS(variableName);
 	}
-	
+
 	/**
 	 * @return Hash map for caching CAS results from parent kernel.
 	 */
+	@Override
 	public MaxSizeHashMap<String, String> getCasCache() {
 		return parentKernel.getCasCache();
 	}
-	
+
 	/**
 	 * @return Whether parent kernel is already using CAS caching.
 	 */
+	@Override
 	public boolean hasCasCache() {
 		return parentKernel.hasCasCache();
 	}
-	
+
 }

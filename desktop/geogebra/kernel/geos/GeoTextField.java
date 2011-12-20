@@ -2,8 +2,6 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.AbstractGeoTextField;
-import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextField;
@@ -14,8 +12,6 @@ import javax.swing.SwingUtilities;
 
 public class GeoTextField extends AbstractGeoTextField {
 
-	
-	
 	private static int defaultLength = 20;
 	
 	AutoCompleteTextField textField;
@@ -33,9 +29,7 @@ public class GeoTextField extends AbstractGeoTextField {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;
-	}
-
-	
+	}	
 	
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
@@ -57,6 +51,7 @@ public class GeoTextField extends AbstractGeoTextField {
 		}
 
 	}
+	
 	public JTextField getTextField() {
 		return textField;
 	}

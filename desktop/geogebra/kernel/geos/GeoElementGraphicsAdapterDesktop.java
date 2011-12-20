@@ -6,19 +6,19 @@ import geogebra.common.main.AbstractApplication;
 
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
-import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.awt.BufferedImage;
 
 import java.awt.Image;
 
-public class GeoElementGraphicsAdapterDesktop implements GeoElementGraphicsAdapter {
+public class GeoElementGraphicsAdapterDesktop implements
+		GeoElementGraphicsAdapter {
 
 	protected String imageFileName = "";
 	protected BufferedImageAdapter image;
 	protected Application app;
 
 	public GeoElementGraphicsAdapterDesktop(AbstractApplication appl) {
-		app = (Application)appl;
+		app = (Application) appl;
 	}
 
 	public BufferedImageAdapter getImageOnly() {
@@ -27,7 +27,7 @@ public class GeoElementGraphicsAdapterDesktop implements GeoElementGraphicsAdapt
 
 	public void setImageOnly(BufferedImageAdapter ba) {
 		try {
-			image = (BufferedImage)ba;
+			image = ba;
 		} catch (Exception e) {
 		}
 	}
@@ -37,13 +37,15 @@ public class GeoElementGraphicsAdapterDesktop implements GeoElementGraphicsAdapt
 	}
 
 	public BufferedImageAdapter getFillImage() {
-		if (image != null) return image;
+		if (image != null)
+			return image;
 
 		if (imageFileName.startsWith("/geogebra")) {
 			Image im = app.getImageManager().getImageResource(imageFileName);
 			image = new BufferedImage(ImageManager.toBufferedImage(im));
 		} else {
-			java.awt.image.BufferedImage extimg = app.getExternalImage(imageFileName);
+			java.awt.image.BufferedImage extimg = app
+					.getExternalImage(imageFileName);
 			if (extimg == null)
 				image = null;
 			else
@@ -54,7 +56,7 @@ public class GeoElementGraphicsAdapterDesktop implements GeoElementGraphicsAdapt
 	}
 
 	public void setFillImage(String filename) {
-		imageFileName=filename;
+		imageFileName = filename;
 		image = null;
 	}
 
@@ -65,11 +67,13 @@ public class GeoElementGraphicsAdapterDesktop implements GeoElementGraphicsAdapt
 		this.imageFileName = fileName;
 
 		if (fileName.startsWith("/geogebra")) { // internal image
-			Image im = ((ImageManager) ((AbstractApplication)app).getImageManager()).getImageResource(imageFileName);
+			Image im = ((ImageManager) ((AbstractApplication) app)
+					.getImageManager()).getImageResource(imageFileName);
 			image = new BufferedImage(ImageManager.toBufferedImage(im));
 
 		} else {
-			image = ((AbstractApplication)app).getExternalImageAdapter(fileName);
+			image = ((AbstractApplication) app)
+					.getExternalImageAdapter(fileName);
 		}
 	}
 
