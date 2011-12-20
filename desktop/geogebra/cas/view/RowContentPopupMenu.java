@@ -56,13 +56,20 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String ac = e.getActionCommand();
 
+		Clipboard sysClip = Toolkit.getDefaultToolkit()
+				.getSystemClipboard();
+		Transferable data = null;
+		
 		if (ac.equals("copy")) {
-			Clipboard sysClip = Toolkit.getDefaultToolkit()
-					.getSystemClipboard();
-			Transferable data = new StringSelection(value.toOutputValueString());
-			sysClip.setContents(data, null);
+			data = new StringSelection(value.toOutputValueString());
 		} else if (ac.equals("copyToLaTeX")) {
-			// TODO
+			data = new StringSelection(value.getLaTeXOutput());
+		} 
+		
+		if(data == null) {
+			throw new NullPointerException("Transferable data is null");
 		}
+			
+		sysClip.setContents(data, null);
 	}
 }
