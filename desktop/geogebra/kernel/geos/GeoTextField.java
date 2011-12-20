@@ -37,6 +37,7 @@ public class GeoTextField extends AbstractGeoTextField {
 
 	
 	
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 
 		super.getXMLtags(sb);
@@ -60,6 +61,7 @@ public class GeoTextField extends AbstractGeoTextField {
 		return textField;
 	}
 	
+	@Override
 	public void setLength(int l) {
 		textField.setColumns(l);
 		// don't show the popup button in small fields
@@ -81,6 +83,7 @@ public class GeoTextField extends AbstractGeoTextField {
 		}
 	}
 	
+	@Override
 	public GeoElement copy() {
 		return new GeoTextField(cons, labelOffsetX, labelOffsetY);
 	}
