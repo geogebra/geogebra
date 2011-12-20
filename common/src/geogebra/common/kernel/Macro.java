@@ -139,7 +139,7 @@ public class Macro implements MacroInterface {
 		// init inputTypes array		
 		inputTypes = new Test[macroInput.length];		
 		for (int i=0; i < macroInput.length; i++) {
-			inputTypes[i] = Test.valueOf(macroInput[i].getClass().getName().toUpperCase());
+			inputTypes[i] = Test.valueOf(macroInput[i].getClass().getName().substring("geogebra.common.kernel.geos.".length()).toUpperCase());
 		}			
 		
 		// after initing we turn global variable lookup on again, 

@@ -202,7 +202,8 @@ implements GeoElementSelectionListener {
 			
 			// show error message
 			app.showError(app.getError("Tool.CreationFailed") 
-								+ "\n" + e.getMessage());			
+								+ "\n" + e.getMessage());
+			e.printStackTrace();
 			newTool = null;			
 			return false;
 		}							

@@ -7,6 +7,7 @@ import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.SystemOfEquationsSolverInterface;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -289,6 +290,12 @@ public class Kernel extends AbstractKernel {
 	@Override
     public GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
             GeoPolygon geoPolygon2) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public MacroKernelInterface newMacroKernel() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

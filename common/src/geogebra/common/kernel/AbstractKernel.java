@@ -4717,10 +4717,7 @@ public abstract class AbstractKernel {
 	 * @return
 	 */
 	@Deprecated
-	public MacroKernelInterface newMacroKernel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract MacroKernelInterface newMacroKernel();
 
 		/* **********************************
 		 *   MACRO handling

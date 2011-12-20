@@ -28,6 +28,7 @@ import geogebra.common.kernel.EquationSolver;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -1010,5 +1011,10 @@ public class Kernel extends AbstractKernel{
 	@Override
 	public AbstractGeoTextField getGeoTextField(Construction cons) {
 		return new GeoTextField(cons);
+	}
+
+	@Override
+	public MacroKernelInterface newMacroKernel() {
+		return new MacroKernel(this);
 	}	
 }
