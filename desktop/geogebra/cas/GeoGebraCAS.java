@@ -17,6 +17,7 @@ import geogebra.common.main.AbstractApplication.CasType;
 import java.util.ArrayList;
 import java.util.Map;
 
+//TODO Update the description (we are currently not using Maxima and MathPiper as far as i know)
 /**
  * This class provides an interface for GeoGebra to use the computer algebra
  * systems Maxima and MathPiper.

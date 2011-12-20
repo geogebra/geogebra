@@ -574,13 +574,12 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * Writes all images used in construction to zip.
 	 */
 	// Modified for Intergeo File Format (Yves Kreis) -->
-	private void writeConstructionImages(Construction cons, ZipOutputStream zip)
-			throws IOException {
+	private void writeConstructionImages(Construction cons, ZipOutputStream zip) {
 		writeConstructionImages(cons, zip, "");
 	}
 
 	private void writeConstructionImages(Construction cons,
-			ZipOutputStream zip, String filePath) throws IOException {
+			ZipOutputStream zip, String filePath) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 		// save all GeoImage images
 		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
@@ -609,7 +608,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	// private void writeThumbnail(Construction cons, ZipOutputStream zip)
 	// throws IOException {
 	private void writeThumbnail(Construction cons, ZipOutputStream zip,
-			String fileName) throws IOException {
+			String fileName) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 
 		EuclidianView ev = app.getEuclidianView();
@@ -637,20 +636,19 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * Writes all images used in the given macros to zip.
 	 */
 	// Modified for Intergeo File Format (Yves Kreis) -->
-	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip)
-			throws IOException {
+	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip) {
 		writeMacroImages(macros, zip, "");
 	}
 
 	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip,
-			String filePath) throws IOException {
+			String filePath) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (macros == null)
 			return;
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
-			Macro macro = (Macro) macros.get(i);
+			Macro macro = macros.get(i);
 			// Modified for Intergeo File Format (Yves Kreis) -->
 			// writeConstructionImages(macro.getMacroConstruction(), zip);
 			writeConstructionImages(macro.getMacroConstruction(), zip, filePath);
@@ -736,7 +734,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	}
 
-	private final void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId) {
+	private final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId) {
 		sb.append("<geogebra format=\"");
 		sb.append(GeoGebraConstants.XML_FILE_FORMAT);
 		sb.append("\" ");

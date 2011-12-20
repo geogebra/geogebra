@@ -19,7 +19,6 @@
 
 package geogebra.io;
 
-
 import geogebra.common.io.DocHandler;
 
 import java.io.Reader;
@@ -31,18 +30,18 @@ import java.util.Stack;
  * based parser, but with much less functionality.
  */
 public class QDParser {
-	
-	private LinkedHashMap attrs;
-	private Stack stack;
+
+	private LinkedHashMap<String, String> attrs;
+	private Stack<Integer> stack;
 	private StringBuilder sb, etag;
-	
+
 	public QDParser() {
-		attrs = new LinkedHashMap();
-		stack = new Stack();
+		attrs = new LinkedHashMap<String, String>();
+		stack = new Stack<Integer>();
 		sb = new StringBuilder();
 		etag = new StringBuilder();
 	}
-	
+
 	public void reset() {
 		attrs.clear();
 		stack.clear();
@@ -50,12 +49,12 @@ public class QDParser {
 		etag = new StringBuilder();
 		System.gc();
 	}
-	
-	private int popMode(Stack st) {
-		if (!st.empty())
-			return ((Integer) st.pop()).intValue();
-		else
-			return PRE;
+
+	private static int popMode(Stack<Integer> st) {
+		if (!st.empty()) {
+			return st.pop().intValue();
+		}
+		return PRE;
 	}
 
 	private final static int TEXT = 1, ENTITY = 2, OPEN_TAG = 3, CLOSE_TAG = 4,
@@ -64,32 +63,32 @@ public class QDParser {
 			COMMENT = 13, DONE = 11, DOCTYPE = 14, PRE = 15, CDATA = 16;
 
 	final public void parse(DocHandler doc, Reader r) throws Exception {
-		//Stack stack = new Stack();
+		// Stack stack = new Stack();
 		stack.clear();
-		
+
 		int depth = 0;
 		int mode = PRE;
 		int c = 0;
 		int quotec = '"';
 		depth = 0;
-		//StringBuilder sb = new StringBuilder();
-		//StringBuilder etag = new StringBuilder();
+		// StringBuilder sb = new StringBuilder();
+		// StringBuilder etag = new StringBuilder();
 		sb.setLength(0);
 		etag.setLength(0);
 		String tagName = null;
 		String lvalue = null;
 		String rvalue = null;
 
-		//attrs = new LinkedHashMap();
+		// attrs = new LinkedHashMap();
 		attrs.clear();
-		
+
 		doc.startDocument();
 		int line = 1, col = 0;
 		boolean eol = false;
 		while ((c = r.read()) != -1) {
 
 			// We need to map \r, \r\n, and \n to \n
-			// See XML spec section 2.11				
+			// See XML spec section 2.11
 			if (c == '\n' && eol) {
 				eol = false;
 				continue;
@@ -107,51 +106,50 @@ public class QDParser {
 				col++;
 			}
 
-			switch (mode) { 
-			case DONE: 
+			switch (mode) {
+			case DONE:
 				doc.endDocument();
 				return;
-				
-				
+
 				// We are between tags collecting text.
 			case TEXT:
 				switch (c) {
-					case '<':
-						stack.push(new Integer(mode));
-						mode = START_TAG;
-						if (sb.length() > 0) {
-							doc.text(sb.toString());
-							sb.setLength(0);
-						}
-						break;
-					case '&':
-						stack.push(new Integer(mode));
-						mode = ENTITY;
-						etag.setLength(0);
-						break;
-					default:
-						sb.append((char) c);
-				}
-				break;
-				
-				// we are processing a closing tag: e.g. </foo>
-			case CLOSE_TAG: 
-				switch (c) {
-					case '>':
-						mode = popMode(stack);
-						tagName = sb.toString();
+				case '<':
+					stack.push(new Integer(mode));
+					mode = START_TAG;
+					if (sb.length() > 0) {
+						doc.text(sb.toString());
 						sb.setLength(0);
-						depth--;
-						if (depth == 0)
-							mode = DONE;
-						doc.endElement(tagName);
-						break;
-					default:
-						sb.append((char) c);
+					}
+					break;
+				case '&':
+					stack.push(new Integer(mode));
+					mode = ENTITY;
+					etag.setLength(0);
+					break;
+				default:
+					sb.append((char) c);
 				}
 				break;
 
-				// we are processing CDATA
+			// we are processing a closing tag: e.g. </foo>
+			case CLOSE_TAG:
+				switch (c) {
+				case '>':
+					mode = popMode(stack);
+					tagName = sb.toString();
+					sb.setLength(0);
+					depth--;
+					if (depth == 0)
+						mode = DONE;
+					doc.endElement(tagName);
+					break;
+				default:
+					sb.append((char) c);
+				}
+				break;
+
+			// we are processing CDATA
 			case CDATA:
 				if (c == '>' && sb.toString().endsWith("]]")) {
 					sb.setLength(sb.length() - 2);
@@ -161,9 +159,9 @@ public class QDParser {
 				} else
 					sb.append((char) c);
 				break;
-				
-				// we are processing a comment. We are inside
-				// the <!-- .... --> looking for the -->.
+
+			// we are processing a comment. We are inside
+			// the <!-- .... --> looking for the -->.
 			case COMMENT:
 				if (c == '>' && sb.toString().endsWith("--")) {
 					sb.setLength(0);
@@ -171,8 +169,8 @@ public class QDParser {
 				} else
 					sb.append((char) c);
 				break;
-				
-				// We are outside the root tag element
+
+			// We are outside the root tag element
 			case PRE:
 				if (c == '<') {
 					mode = TEXT;
@@ -181,8 +179,8 @@ public class QDParser {
 				}
 				break;
 
-				// We are inside one of these <? ... ?>
-				// or one of these <!DOCTYPE ... >
+			// We are inside one of these <? ... ?>
+			// or one of these <!DOCTYPE ... >
 			case DOCTYPE:
 				if (c == '>') {
 					mode = popMode(stack);
@@ -191,29 +189,29 @@ public class QDParser {
 				}
 				break;
 
-				// we have just seen a < and
-				// are wondering what we are looking at
-				// <foo>, </foo>, <!-- ... --->, etc.
+			// we have just seen a < and
+			// are wondering what we are looking at
+			// <foo>, </foo>, <!-- ... --->, etc.
 			case START_TAG:
 				mode = popMode(stack);
-				switch (c) {							
-					case '/':
-						stack.push(new Integer(mode));
-						mode = CLOSE_TAG;
-						break;
-					case '?':
-						mode = DOCTYPE;
-						break;
-					default:				
-						stack.push(new Integer(mode));
-						mode = OPEN_TAG;
-						tagName = null;
-						//attrs = new LinkedHashMap();
-						sb.append((char) c);
+				switch (c) {
+				case '/':
+					stack.push(new Integer(mode));
+					mode = CLOSE_TAG;
+					break;
+				case '?':
+					mode = DOCTYPE;
+					break;
+				default:
+					stack.push(new Integer(mode));
+					mode = OPEN_TAG;
+					tagName = null;
+					// attrs = new LinkedHashMap();
+					sb.append((char) c);
 				}
 				break;
 
-				// we are processing an entity, e.g. &lt;, &#187;, etc.
+			// we are processing an entity, e.g. &lt;, &#187;, etc.
 			case ENTITY:
 				if (c == ';') {
 					mode = popMode(stack);
@@ -230,8 +228,8 @@ public class QDParser {
 					else if (cent.equals("apos"))
 						sb.append('\'');
 					// Could parse hex entities if we wanted to
-					else if(cent.startsWith("#x"))
-						sb.append((char)Integer.parseInt(cent.substring(2),16));
+					else if (cent.startsWith("#x"))
+						sb.append((char) Integer.parseInt(cent.substring(2), 16));
 					else if (cent.startsWith("#"))
 						sb.append((char) Integer.parseInt(cent.substring(1)));
 					// Insert custom entity definitions here
@@ -242,9 +240,9 @@ public class QDParser {
 				}
 				break;
 
-				// we have just seen something like this:
-				// <foo a="b"/
-				// and are looking for the final >.
+			// we have just seen something like this:
+			// <foo a="b"/
+			// and are looking for the final >.
 			case SINGLE_TAG:
 				if (tagName == null)
 					tagName = sb.toString();
@@ -257,70 +255,70 @@ public class QDParser {
 					return;
 				}
 				sb.setLength(0);
-				//attrs = new LinkedHashMap();
+				// attrs = new LinkedHashMap();
 				attrs.clear();
 				tagName = null;
 				mode = popMode(stack);
 				break;
-				
-				// we are processing something
-				// like this <foo ... >. It could
-				// still be a <!-- ... --> or something.
+
+			// we are processing something
+			// like this <foo ... >. It could
+			// still be a <!-- ... --> or something.
 			case OPEN_TAG:
-				switch (c) {									
-					case '>':
-						if (tagName == null)
-							tagName = sb.toString();
+				switch (c) {
+				case '>':
+					if (tagName == null)
+						tagName = sb.toString();
+					sb.setLength(0);
+					depth++;
+					doc.startElement(tagName, attrs);
+					tagName = null;
+					// attrs = new LinkedHashMap();
+					attrs.clear();
+					mode = popMode(stack);
+					break;
+
+				case '/':
+					mode = SINGLE_TAG;
+					break;
+
+				case '-':
+					if (sb.toString().equals("!-")) {
+						mode = COMMENT;
+						// Added for Intergeo File Format (Yves Kreis) -->
+					} else {
+						sb.append((char) c);
+						// <-- Added for Intergeo File Format (Yves Kreis)
+					}
+					break;
+
+				case '[':
+					if (sb.toString().equals("![CDATA")) {
+						mode = CDATA;
 						sb.setLength(0);
-						depth++;
-						doc.startElement(tagName, attrs);
-						tagName = null;
-						//attrs = new LinkedHashMap();
-						attrs.clear();
-						mode = popMode(stack);
-						break;
-						
-					case '/':
-						mode = SINGLE_TAG;
-						break;
-						
-					case '-': 
-						if (sb.toString().equals("!-")) { 
-							mode = COMMENT;
-				    	// Added for Intergeo File Format (Yves Kreis) -->
-						} else {
-							sb.append((char) c);
-				    	// <-- Added for Intergeo File Format (Yves Kreis)
-						}
-						break;		
-						
-					case '[':
-						if (sb.toString().equals("![CDATA")) {
-							mode = CDATA;
-							sb.setLength(0);
-						}
-						break;
-						
-					case 'E':
-						if (sb.toString().equals("!DOCTYP")) {
-							sb.setLength(0);
-							mode = DOCTYPE;
-						}
-						break;
-					
-					default:
-						if (Character.isWhitespace((char) c)) {
-							tagName = sb.toString();
-							sb.setLength(0);
-							mode = IN_TAG;
-						} else {
-							sb.append((char) c);
-						}
+					}
+					break;
+
+				case 'E':
+					if (sb.toString().equals("!DOCTYP")) {
+						sb.setLength(0);
+						mode = DOCTYPE;
+					}
+					break;
+
+				default:
+					if (Character.isWhitespace((char) c)) {
+						tagName = sb.toString();
+						sb.setLength(0);
+						mode = IN_TAG;
+					} else {
+						sb.append((char) c);
+					}
 				}
 				break;
 
-				// We are processing the quoted right-hand side
-				// of an element's attribute.
+			// We are processing the quoted right-hand side
+			// of an element's attribute.
 			case QUOTE:
 				if (c == quotec) {
 					rvalue = sb.toString();
@@ -329,16 +327,16 @@ public class QDParser {
 					mode = IN_TAG;
 					// See section the XML spec, section 3.3.3
 					// on normalization processing.
-				} 
-				
+				}
+
 				// Markus Hohenwarter, begin
 				// I need to get all characters within quotes
 				// including newlines
-				//else if (" \r\n\u0009".indexOf(c) >= 0) {
-				//	sb.append(' ');
-				//}
+				// else if (" \r\n\u0009".indexOf(c) >= 0) {
+				// sb.append(' ');
+				// }
 				// Markus Hohenwarter, end
-				
+
 				else if (c == '&') {
 					stack.push(new Integer(mode));
 					mode = ENTITY;
@@ -352,9 +350,7 @@ public class QDParser {
 				if (c == '"' || c == '\'') {
 					quotec = c;
 					mode = QUOTE;
-				} else if (Character.isWhitespace((char) c)) {
-					;
-				} else {
+				} else if (!Character.isWhitespace((char) c)) {
 					exc("Error in attribute processing", line, col);
 				}
 				break;
@@ -376,49 +372,44 @@ public class QDParser {
 			case ATTRIBUTE_EQUAL:
 				if (c == '=') {
 					mode = ATTRIBUTE_RVALUE;
-				} else if (Character.isWhitespace((char) c)) {
-					;
-				} else {
+				} else if (!Character.isWhitespace((char) c)) {
 					exc("Error in attribute processing.", line, col);
 				}
 				break;
 
 			case IN_TAG:
 				switch (c) {
-					case '>':
-						mode = popMode(stack);
-						doc.startElement(tagName, attrs);
-						depth++;
-						tagName = null;
-						//attrs = new LinkedHashMap();
-						attrs.clear();
-						break;
-						
-					case '/':
-						mode = SINGLE_TAG;
-						break;
-					
-					default:
-						if (Character.isWhitespace((char) c)) {
-							;
-						} else {
-							mode = ATTRIBUTE_LVALUE;
-							sb.append((char) c);
-						}
+				case '>':
+					mode = popMode(stack);
+					doc.startElement(tagName, attrs);
+					depth++;
+					tagName = null;
+					// attrs = new LinkedHashMap();
+					attrs.clear();
+					break;
+
+				case '/':
+					mode = SINGLE_TAG;
+					break;
+
+				default:
+					if (!Character.isWhitespace((char) c)) {
+						mode = ATTRIBUTE_LVALUE;
+						sb.append((char) c);
+					}
 				}
 				break;
 			}
 		}
-		
+
 		if (mode == DONE)
 			doc.endDocument();
 		else
 			exc("missing end tag", line, col);
-		
-		
+
 	}
 
-	private void exc(String s, int line, int col) throws Exception {
+	private static void exc(String s, int line, int col) throws Exception {
 		throw new Exception(s + " near line " + line + ", column " + col);
 	}
 }

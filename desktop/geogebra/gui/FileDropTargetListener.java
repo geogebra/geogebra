@@ -124,7 +124,7 @@ public class FileDropTargetListener implements DropTargetListener {
 				List<File> list = (List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
 				ListIterator<File> it = list.listIterator( );    
 				while (it.hasNext( )) {
-					File f = (File) it.next( );
+					File f = it.next( );
 					al.add(f);
 				}
 			} else if (transferable.isDataFlavorSupported (GuiManager.uriListFlavor)) {

@@ -38,6 +38,8 @@ import javax.swing.text.StyleConstants;
 
 public class DynamicTextInputPane extends JTextPane {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Application app;
 	private DynamicTextInputPane thisPane;
 	public DefaultStyledDocument doc;
@@ -287,6 +289,8 @@ public class DynamicTextInputPane extends JTextPane {
 	 */
 	class MyCaret extends DefaultCaret {
 
+		private static final long serialVersionUID = 1L;
+		
 		public MyCaret(){
 			super();
 			this.setBlinkRate(500);
@@ -309,6 +313,8 @@ public class DynamicTextInputPane extends JTextPane {
 	 */
 	private class DynamicTextField extends MyTextField{
 
+		private static final long serialVersionUID = 1L;
+		
 		public static final int MODE_VALUE = 0;
 		public static final int MODE_DEFINITION = 1;
 		public static final int MODE_FORMULATEXT = 2;
@@ -343,7 +349,7 @@ public class DynamicTextInputPane extends JTextPane {
 
 			// special transparent border to show caret when next to the component
 			setOpaque(false);
-			setBorder( (Border) new CompoundBorder(new LineBorder(new Color(0, 0, 0, 0), 1), getBorder()));
+			setBorder( new CompoundBorder(new LineBorder(new Color(0, 0, 0, 0), 1), getBorder()));
 
 			// make sure the field is aligned nicely in the text pane
 			Font f = thisPane.getFont();

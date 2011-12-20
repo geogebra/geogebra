@@ -40,6 +40,8 @@ import javax.swing.event.ListSelectionListener;
  */
 public class CASView extends JComponent implements View, Gridable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Kernel kernel;
 
 	private CASTable consoleTable;

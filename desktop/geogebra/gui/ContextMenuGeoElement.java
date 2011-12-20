@@ -667,7 +667,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						((SpreadsheetView)app.getGuiManager().getSpreadsheetView()).showTraceDialog(geo, null);
+						app.getGuiManager().getSpreadsheetView().showTraceDialog(geo, null);
 					}
 				});
 				addItem(cbItem);

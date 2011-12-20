@@ -21,7 +21,6 @@ package geogebra.gui;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;

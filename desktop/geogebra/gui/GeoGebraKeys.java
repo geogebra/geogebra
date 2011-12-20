@@ -1,12 +1,10 @@
 package geogebra.gui;
 
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

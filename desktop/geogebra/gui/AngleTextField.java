@@ -18,6 +18,8 @@ import java.util.Locale;
 
 public class AngleTextField extends MyTextField implements KeyListener {
 
+	private static final long serialVersionUID = 1L;
+
 	public AngleTextField(int columns, Application app) {
 		super(app, columns);
 		this.addKeyListener(this);
