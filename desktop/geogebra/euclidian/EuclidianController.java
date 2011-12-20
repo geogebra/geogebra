@@ -901,7 +901,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		altDown = e.isAltDown();
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			((EuclidianView) view).requestFocusInWindow();
+			view.requestFocusInWindow();
 		}
 
 		if (Application.isRightClick(e)) {
@@ -2655,7 +2655,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		movedGeoPointDragged = false;
 		movedGeoNumericDragged = false;
 
-		((EuclidianView) view).requestFocusInWindow();
+		view.requestFocusInWindow();
 		setMouseLocation(e);
 
 		altDown = e.isAltDown();
@@ -3325,7 +3325,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		if (!hits.isEmpty()) {
 			boolean alwaysOn = false;
 			if (view instanceof EuclidianView) {
-				if (((EuclidianView) view).getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
+				if ( view.getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
 					alwaysOn = true;
 				}
 			}

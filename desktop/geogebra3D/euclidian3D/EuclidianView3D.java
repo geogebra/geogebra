@@ -3561,4 +3561,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		updateAuxiliaryObject((GeoElement)geo);
 		
 	}
+	
+	final public int getAllowToolTips() {
+		return EuclidianStyleConstants.TOOLTIPS_OFF;
+	}
 }

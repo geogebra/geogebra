@@ -5730,8 +5730,8 @@ public class EuclidianView implements EuclidianViewInterface,
 		return evjpanel.isShowing();
 	}
 
-	public void requestFocusInWindow() {
-		evjpanel.requestFocusInWindow();	
+	public boolean requestFocusInWindow() {
+		return evjpanel.requestFocusInWindow();	
 	}
 	
 	public void setPreferredSize(Dimension preferredSize) {

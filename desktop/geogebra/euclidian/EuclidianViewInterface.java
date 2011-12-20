@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -442,4 +443,15 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 
 
 	public Graphics2D getGraphicsForPen();
+
+
+	public boolean requestFocusInWindow();
+
+
+	public int getAllowToolTips();
+
+
+	//public GeoDirectionND getDirection();
+
+
 }
