@@ -11,12 +11,13 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
+import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
-GeoLineND, GeoCoordSys,
+GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
 Translateable{
 	
 	protected CoordSys coordsys;

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.commands;
 
+import geogebra.common.euclidian.Test;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
@@ -34,7 +35,7 @@ public class MacroProcessor extends CommandProcessor {
 		GeoElement [] arg = resArgs(c);
 		MacroInterface macro = c.getMacro();
 				
-		String[] macroInputTypes = macro.getInputTypes();		
+		Test[] macroInputTypes = macro.getInputTypes();		
 		
 		// wrong number of arguments
 		if (arg.length != macroInputTypes.length) {
@@ -61,7 +62,7 @@ public class MacroProcessor extends CommandProcessor {
 		
 		// check whether the types of the arguments are ok for our macro
 		for (int i=0; i < macroInputTypes.length; i++) {
-			if (!macroInputTypes[i].equals(arg[i].getClass().getName()))	{				
+			if (!macroInputTypes[i].toString().equals(arg[i].getClass().getName().toUpperCase()))	{				
 				StringBuilder sb = new StringBuilder();
 		        sb.append(app.getPlain("Macro") + " " + macro.getCommandName() + ":\n");
 		        sb.append(app.getError("IllegalArgument") + ": ");	            

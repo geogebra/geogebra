@@ -3,6 +3,8 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.Test;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -22,7 +24,6 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.Hits;
 import geogebra.euclidian.Previewable;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -172,6 +173,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		return new double[] {min,max};
 	}
 	
+	@Override
 	public void setMovedGeoPoint(GeoElement geo){
 		
 		movedGeoPoint = (GeoPointND) geo;
@@ -315,6 +317,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 
 	
+	@Override
 	protected void movePoint(boolean repaint){
 		
 		
@@ -440,14 +443,16 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// creating a new point
 	
 	
+	@Override
 	protected Hits getRegionHits(Hits hits){
-		return hits.getHits(Region3D.class, tempArrayList);
+		return hits.getHits(Test.REGION3D, tempArrayList);
 	}
 	
 	
 	/**
 	 * return a copy of the preview point if one
 	 */
+	@Override
 	protected GeoPointND getNewPoint(Hits hits,
 			boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible, 
 			boolean doSingleHighlighting, boolean complex) {
@@ -526,7 +531,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		case EuclidianView3D.PREVIEW_POINT_ALREADY:
 			//Application.debug(hits);
 			//if (mode==EuclidianView3D.MODE_POINT || mode==EuclidianView3D.MODE_POINT_ON_OBJECT)
-			GeoPointND firstPoint = (GeoPointND) hits.getFirstHit(GeoPointND.class);			
+			GeoPointND firstPoint = (GeoPointND) hits.getFirstHit(Test.GEOPOINTND);			
 			if (firstPoint==null)
 				firstPoint = (GeoPointND) getMovedGeoPoint(); //keep current point
 			//view3D.getCursor3D().setRegionParameters(firstPoint.getRegionParameters());
@@ -559,6 +564,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	/** put sourcePoint coordinates in point */
+	@Override
 	protected void createNewPoint(GeoPointND sourcePoint){
 		GeoPoint3D point3D = view3D.getCursor3D();
 		
@@ -582,6 +588,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	/** put intersectionPoint coordinates in point */
+	@Override
 	protected void createNewPointIntersection(GeoPointND intersectionPoint){
 		GeoPoint3D point3D = view3D.getCursor3D();
 		point3D.setCoords(intersectionPoint.getCoordsInD(3),false);
@@ -595,6 +602,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * create a new free point
 	 * or update the preview point
 	 */
+	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex){
 		
 		GeoPoint3D point3D;
@@ -627,6 +635,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * create a new path point
 	 * or update the preview point
 	 */	
+	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex){
 			
 		GeoPoint3D point3D;
@@ -654,6 +663,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * create a new region point
 	 * or update the preview point
 	 */	
+	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex){
 		
 		GeoPoint3D point3D;
@@ -713,6 +723,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	// tries to get a single intersection point for the given hits
 	// i.e. hits has to include two intersectable objects.
+	@Override
 	protected GeoPointND getSingleIntersectionPoint(Hits hits) {
 		//Application.debug(hits);
 
@@ -1167,6 +1178,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	///////////////////////////////////////////
 	// moved GeoElements
 	
+	@Override
 	public GeoElement getMovedGeoPoint(){
 		return (GeoElement) movedGeoPoint;
 	}
@@ -1176,6 +1188,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	///////////////////////////////////////////
 	// mouse released
 	
+	@Override
 	protected void processReleaseForMovedGeoPoint(MouseEvent e){
 		
 		
@@ -1221,6 +1234,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	//private boolean mousePressed = false;
 	private MouseEvent mouseEvent = null;
 	
+	@Override
 	protected void processMouseMoved(MouseEvent e) {	
 		((EuclidianView3D) view).setHits3D(mouseLoc);	
 		
@@ -1234,6 +1248,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 	}
 	
+	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseMoved = false;
 		//mousePressed = true;
@@ -1280,12 +1295,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	
 	
+	@Override
 	protected void initNewMode(int mode) {
 				
 		super.initNewMode(mode);
 		
 	}
 
+	@Override
 	protected Previewable switchPreviewableForInitNewMode(int mode){
 
 		Previewable previewDrawable = null;
@@ -1324,6 +1341,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	}
 
+	@Override
 	public void clearSelections() {
 		clearSelection(selectedCS2D);
 		clearSelection(selectedCS1D);
@@ -1333,13 +1351,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	//not only moveable hits are selected in move mode
+	@Override
 	protected boolean move(Hits hits) {	
 		Hits top = hits.getTopHits(1);
 		//Application.debug(hits+"\ntop "+top);
 		addSelectedGeo(top, 1, false);
 		
 		//display correctly oriented 3D cursor
-		GeoPointND point = (GeoPointND) top.getFirstHit(GeoPointND.class);
+		GeoPointND point = (GeoPointND) top.getFirstHit(Test.GEOPOINTND);
 		if (point!=null)
 			view3D.updateCursor3D(hits);
 
@@ -1373,6 +1392,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	
 	//TODO
+	@Override
 	public void processModeLock(){}; 
 
 	///////////////////////////////////////////
@@ -1383,6 +1403,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 
 	/** right-press the mouse makes start 3D rotation */
+	@Override
 	protected void processRightPressFor3D(){
 		
 		if (view3D.isRotAnimated()){
@@ -1407,6 +1428,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	/** right-drag the mouse makes 3D rotation 
 	 * @return true*/
+	@Override
 	protected boolean processRotate3DView(){
 
 		long time = System.currentTimeMillis();
@@ -1424,6 +1446,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	/** right-release the mouse makes stop 3D rotation 
 	 * @return true if a rotation occured */
+	@Override
 	protected boolean processRightReleaseFor3D(){
 		
 		if (viewRotationOccured){
@@ -1451,6 +1474,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	///////////////////////////////////////////
 	// PROCESS MODE
 	
+	@Override
 	protected boolean switchModeForProcessMode(Hits hits, MouseEvent e){
 		
 		boolean changedKernel = false;
@@ -1515,6 +1539,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * for some modes, polygons are not to be removed
 	 * @param hits
 	 */
+	@Override
 	protected void switchModeForRemovePolygons(Hits hits){
 		
 		switch (mode){
@@ -1533,6 +1558,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	
+	@Override
 	protected GeoElement[] switchModeForThreePoints(){
 		
 		switch (mode) {
@@ -1548,6 +1574,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	}
 
+	@Override
 	protected GeoElement[] switchModeForCircleOrSphere2(int mode){
 		
 		
@@ -1566,16 +1593,19 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	///////////////////////////////////////////
 	// MOUSE PRESSED
 	
+	@Override
 	protected void createNewPointForModePoint(Hits hits, boolean complex){
 		//super.createNewPointForModePoint(hits, false);
 		createNewPoint(hits, true, true, true, true, false);
 	}
 	
+	@Override
 	protected void createNewPointForModeOther(Hits hits){
 		createNewPoint(hits, true, true, true, true, false);
 	}
 
 	
+	@Override
 	protected void switchModeForMousePressed(MouseEvent e){
 
 		Hits hits;
@@ -1640,6 +1670,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	///////////////////////////////////////////
 	// MOUSE RELEASED
 	
+	@Override
 	protected boolean switchModeForMouseReleased(int mode, Hits hits, boolean changedKernel){
 		switch (mode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
@@ -1660,6 +1691,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	}
 	
+	@Override
 	protected Hits addPointCreatedForMouseReleased(Hits hits){
 		
 		hits.add(getMovedGeoPoint());	
@@ -1667,6 +1699,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	
+	@Override
 	public void showDrawingPadPopup(Point mouseLoc){
 		((GuiManager3D) app.getGuiManager()).showDrawingPadPopup3D((JPanel) view, mouseLoc);		
 	}
@@ -1681,6 +1714,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	/**
 	 *  get two objects (lines or conics) and create intersection point 
 	 */
+	@Override
 	protected GeoElement[] intersect(Hits hits) {
 		
 		Application.debug(hits);
@@ -1711,9 +1745,9 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				hits.add(((GeoElement)singlePoint).getParentAlgorithm().getInput()[1]);
 				
 			} else {
-				hits.getHits(new Class[] {
-						GeoLineND.class, GeoCoordSys2D.class,
-						GeoQuadricND.class}, false, goodHits);
+				hits.getHits(new Test[] {
+						Test.GEOLINEND, Test.GEOCOORDSYS2D,
+						Test.GEOQUADRICND}, false, goodHits);
 				
 				hits = hits.getHits(1);
 			}
@@ -1726,14 +1760,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			// see what we had selected
 			
 			if (selCS2D()==1 || selQuadric()==1) {//2d geo: can only intersect with 1d ones.
-				hits.getHits(new Class[] { GeoCoordSys2D.class, GeoQuadric3D.class },
+				hits.getHits(new Test[] { Test.GEOCOORDSYS2D, Test.GEOQUADRIC3D },
 						true, goodHits);
 				
 				
 			} else { //1d geo: can intersect with 1d or 2d geo
-				hits.getHits(new Class[] {
-						GeoLineND.class, GeoCoordSys2D.class,
-						GeoQuadricND.class}, false, goodHits);
+				hits.getHits(new Test[] {
+						Test.GEOLINEND, Test.GEOCOORDSYS2D,
+						Test.GEOQUADRICND}, false, goodHits);
 				
 				//does not have to test this. we will select only the top element!
 				// we can only have at most one polygon
@@ -2191,6 +2225,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	///////////////////////////////////////////
 	// POINT CAPTURING
 	
+	@Override
 	protected void transformCoords() {
 		//TODO point capturing
 	}
@@ -2214,7 +2249,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	final protected int addSelectedCS1D(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		//Application.debug(hits.toString());
-		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedCS1D, GeoCoordSys1D.class);
+		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedCS1D, Test.GEOCOORDSYS1D);
 	}
 	
 	/**
@@ -2256,7 +2291,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 */
 	final protected int addSelectedCS2D(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedCS2D, GeoCoordSys2D.class);
+		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedCS2D, Test.GEOCOORDSYS2D);
 	}
 	
 	
@@ -2295,7 +2330,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	final protected int addSelectedQuadric(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedQuadric, GeoQuadric3D.class);
+		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedQuadric, Test.GEOQUADRIC3D);
 	}	
 	final protected GeoQuadric3D[] getSelectedQuadric() {
 		GeoQuadric3D[] quads = new GeoQuadric3D[selectedQuadric.size()];
@@ -2311,6 +2346,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
  	
 	
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	protected GeoElement chooseGeo(ArrayList geos, boolean includeFixed) {
 		
@@ -2408,7 +2444,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 */
 	final protected int addselectedCS2D(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedCS2D, GeoCoordSys2D.class);
+		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedCS2D, Test.GEOCOORDSYS2D);
 	}
 	
 	/**
@@ -2522,6 +2558,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	
+	@Override
 	protected boolean viewHasHitsForMouseDragged(){
 		//Application.debug(moveMode);
 		if (moveMode==MOVE_POINT && view3D.getCursor3DType()==EuclidianView3D.PREVIEW_POINT_ALREADY)
@@ -2531,6 +2568,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (handledGeo!=null){
 			setMouseLocation(e);
@@ -2559,6 +2597,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		translationVec3D = point.sub(startPoint3D);
 	}
 	
+	@Override
 	public void setStartPointLocation(){
 		if (mouseLoc==null)//case that it's algebra view calling
 			return;
@@ -2568,6 +2607,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		super.setStartPointLocation();
 	}
 
+	@Override
 	protected void moveDependent(boolean repaint) {
 
 		updateTranslationVector();
@@ -2576,6 +2616,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		kernel.notifyRepaint();
 	}
 	
+	@Override
 	protected void moveMultipleObjects(boolean repaint) {	
 		/*
 		translationVec.setX(xRW - startPoint.x);
@@ -2592,7 +2633,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	final protected int addSelectedPolygon3D(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedPolygons3D, GeoPolygon3D.class);
+		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedPolygons3D, Test.GEOPOLYGON3D);
 	}
 	final protected GeoPolygon[] getSelectedPolygons3D() {				
 		GeoPolygon[] ret = new GeoPolygon[selectedPolygons3D.size()];
@@ -2609,6 +2650,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	
 	
+	@Override
 	final protected GeoElement[] orthogonal(Hits hits) {
 
 		if (hits.isEmpty())
@@ -2640,6 +2682,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 
 	//TODO remove ?
+	@Override
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line){
 		if (((GeoElement) point).isGeoElement3D() || ((GeoElement) line).isGeoElement3D())
 			return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null,point, line)};		

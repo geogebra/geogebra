@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.Test;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -48,7 +49,7 @@ public class Macro implements MacroInterface {
 	//private String macroConsXML;
 	private GeoElement [] macroInput, macroOutput; // input and output objects 
 	private String [] macroInputLabels, macroOutputLabels;
-	private String [] inputTypes;
+	private Test [] inputTypes;
 	
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<AlgoElement>();	
 		
@@ -136,9 +137,9 @@ public class Macro implements MacroInterface {
 		initInputOutput();
 		
 		// init inputTypes array		
-		inputTypes = new String[macroInput.length];		
+		inputTypes = new Test[macroInput.length];		
 		for (int i=0; i < macroInput.length; i++) {
-			inputTypes[i] = macroInput[i].getClass().getName();
+			inputTypes[i] = Test.valueOf(macroInput[i].getClass().getName().toUpperCase());
 		}			
 		
 		// after initing we turn global variable lookup on again, 
@@ -475,7 +476,7 @@ public class Macro implements MacroInterface {
 	 * as input for this macro.
 	 * @return types of input objects
 	 */
-	final public String [] getInputTypes() {	
+	final public Test [] getInputTypes() {	
 		return inputTypes;
 	}			
 	

@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;

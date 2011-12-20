@@ -15,6 +15,8 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.Test;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
@@ -288,7 +290,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 	protected int mode, oldMode, moveMode = MOVE_NONE;
 	protected Macro macro;
-	protected String[] macroInput;
+	protected Test[] macroInput;
 
 	protected int DEFAULT_INITIAL_DELAY;
 
@@ -1317,15 +1319,15 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
-			GeoElement tracegeo = hits.getFirstHit(GeoPoint2.class);
+			GeoElement tracegeo = hits.getFirstHit(Test.GEOPOINTND);
 			if (tracegeo == null) {
-				tracegeo = hits.getFirstHit(GeoVector.class);
+				tracegeo = hits.getFirstHit(Test.GEOVECTOR);
 			}
 			if (tracegeo == null) {
-				tracegeo = hits.getFirstHit(GeoNumeric.class);
+				tracegeo = hits.getFirstHit(Test.GEONUMERIC);
 			}
 			if (tracegeo == null) {
-				tracegeo = hits.getFirstHit(GeoList.class);
+				tracegeo = hits.getFirstHit(Test.GEOLIST);
 			}
 			if (tracegeo != null) {
 				if (recordObject == null) {
@@ -1366,7 +1368,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		if (rotationCenter == null) {
 			view.setHits(mouseLoc);
 			rotationCenter = (GeoPoint2) chooseGeo(
-					view.getHits().getHits(GeoPoint2.class, tempArrayList),
+					view.getHits().getHits(Test.GEOPOINT2, tempArrayList),
 					true);
 			app.addSelectedGeo(rotationCenter);
 			moveMode = MOVE_NONE;
@@ -3035,21 +3037,21 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
 														// 2008-03-23
 			processSelectionRectangleForTransformations(hits,
-					Transformable.class);
+					Test.TRANSFORMABLE);
 			break;
 
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 			processSelectionRectangleForTransformations(hits,
-					Transformable.class);
+					Test.TRANSFORMABLE);
 			break;
 
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			processSelectionRectangleForTransformations(hits,
-					Transformable.class);
+					Test.TRANSFORMABLE);
 			break;
 
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			processSelectionRectangleForTransformations(hits, Dilateable.class);
+			processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
 			break;
 
 		case EuclidianConstants.MODE_CREATE_LIST:
@@ -3126,12 +3128,12 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 	// TODO replace Class<?> by Class<GeoElement> ?
 	protected void processSelectionRectangleForTransformations(Hits hits,
-			Class<?> transformationInterface) {
+			Test test) {
 		for (int i = 0; i < hits.size(); i++) {
 			GeoElement geo = hits.get(i);
-			if (!(transformationInterface.isInstance(geo)
+			if (!(Hits.check(geo, test))
 			// || geo.isGeoPolygon()
-			)) {
+			) {
 				hits.remove(i);
 			}
 		}
@@ -3151,21 +3153,21 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
 														// 2008-03-23
 			processSelectionRectangleForTransformations(hits,
-					Transformable.class);
+					Test.TRANSFORMABLE);
 			break;
 
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 			processSelectionRectangleForTransformations(hits,
-					Transformable.class);
+					Test.TRANSFORMABLE);
 			break;
 
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			processSelectionRectangleForTransformations(hits,
-					Transformable.class);
+					Test.TRANSFORMABLE);
 			break;
 
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			processSelectionRectangleForTransformations(hits, Dilateable.class);
+			processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
 			break;
 
 		// case EuclidianConstants.MODE_CREATE_LIST:
@@ -3464,7 +3466,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 				point(hits);
 			} else {
 				GeoElement[] ret0 = { null };
-				ret0[0] = hits.getFirstHit(GeoPointND.class);
+				ret0[0] = hits.getFirstHit(Test.GEOPOINTND);
 				ret = ret0;
 				clearSelection(selectedPoints);
 			}
@@ -3628,14 +3630,14 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// new text
 		case EuclidianConstants.MODE_TEXT:
 			changedKernel = text(
-					hits.getOtherHits(GeoImage.class, tempArrayList), mode,
+					hits.getOtherHits(Test.GEOIMAGE, tempArrayList), mode,
 					altDown); // e.isAltDown());
 			break;
 
 		// new image
 		case EuclidianConstants.MODE_IMAGE:
 			changedKernel = image(
-					hits.getOtherHits(GeoImage.class, tempArrayList), mode,
+					hits.getOtherHits(Test.GEOIMAGE, tempArrayList), mode,
 					altDown); // e.isAltDown());
 			break;
 
@@ -4622,7 +4624,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		if (hits.containsGeoPoint()) {
 			createPoint = false;
 			if (forPreviewable) {
-				createNewPoint((GeoPointND) hits.getHits(GeoPointND.class,
+				createNewPoint((GeoPointND) hits.getHits(Test.GEOPOINTND,
 						tempArrayList).get(0));
 			}
 		}
@@ -4750,7 +4752,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 				region = null;
 				createPoint = true;
 			} else {
-				Hits pathHits = hits.getHits(Path.class, tempArrayList);
+				Hits pathHits = hits.getHits(Test.PATH, tempArrayList);
 				if (!pathHits.isEmpty()) {
 					if (onPathPossible) {
 						if (chooseGeo) {
@@ -5117,23 +5119,23 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		if (!selectionPreview && (hits.size() > (2 - selGeos()))) {
 			Hits goodHits = new Hits();
 			// goodHits.add(selectedGeos);
-			hits.getHits(GeoLine.class, tempArrayList);
+			hits.getHits(Test.GEOLINE, tempArrayList);
 			goodHits.addAll(tempArrayList);
 
 			if (goodHits.size() < 2) {
-				hits.getHits(GeoConic.class, tempArrayList);
+				hits.getHits(Test.GEOCONIC, tempArrayList);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
-				hits.getHits(GeoFunction.class, tempArrayList);
+				hits.getHits(Test.GEOFUNCTION, tempArrayList);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
-				hits.getHits(GeoPolygon.class, tempArrayList);
+				hits.getHits(Test.GEOPOLYGON, tempArrayList);
 				goodHits.addAll(tempArrayList);
 			}
 			if (goodHits.size() < 2) {
-				hits.getHits(GeoPolyLine.class, tempArrayList);
+				hits.getHits(Test.GEOPOLYLINE, tempArrayList);
 				goodHits.addAll(tempArrayList);
 			}
 
@@ -5498,7 +5500,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 		if (!hitPoint) {
 			if (selLines() == 0) {
-				addSelectedVector(hits, 1, false, GeoVector.class);
+				addSelectedVector(hits, 1, false, Test.GEOVECTOR);
 			}
 			if (selVectors() == 0) {
 				addSelectedLine(hits, 1, false);
@@ -5770,7 +5772,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		boolean polyFound = false;
 		if (count == 0) {
 			polyFound = 1 == addSelectedGeo(
-					hits.getHits(GeoPolygon.class, tempArrayList), 1, false);
+					hits.getHits(Test.GEOPOLYGON, tempArrayList), 1, false);
 		}
 
 		GeoAngle angle = null;
@@ -6532,7 +6534,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		}
 
 		GeoElement geo = chooseGeo(
-				hits.getOtherHits(GeoAxis.class, tempArrayList), true);
+				hits.getOtherHits(Test.GEOAXIS, tempArrayList), true);
 		if (geo != null) {
 			geo.setLabelVisible(!geo.isLabelVisible());
 			geo.updateRepaint();
@@ -6552,7 +6554,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		}
 
 		GeoElement geo = chooseGeo(
-				hits.getOtherHits(GeoAxis.class, tempArrayList), true);
+				hits.getOtherHits(Test.GEOAXIS, tempArrayList), true);
 		if (geo == null) {
 			return false;
 		}
@@ -6612,7 +6614,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// try to get one Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits mirAbles = hits.getHits(Transformable.class, tempArrayList);
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
 			count = addSelectedGeo(mirAbles, 1, false);
 		}
 
@@ -6720,7 +6722,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits mirAbles = hits.getHits(Transformable.class, tempArrayList);
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
 			count = addSelectedGeo(mirAbles, 1, false);
 		}
 
@@ -6772,7 +6774,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits mirAbles = hits.getHits(Transformable.class, tempArrayList);
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
 			mirAbles.removeImages();
 			count = addSelectedGeo(mirAbles, 1, false);
 		}
@@ -6942,7 +6944,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits transAbles = hits.getHits(Translateable.class, tempArrayList);
+			Hits transAbles = hits.getHits(Test.TRANSLATEABLE, tempArrayList);
 			count = addSelectedGeo(transAbles, 1, false);
 		}
 
@@ -7022,7 +7024,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits rotAbles = hits.getHits(Transformable.class, tempArrayList);
+			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
 			count = addSelectedGeo(rotAbles, 1, false);
 		}
 
@@ -7063,7 +7065,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// dilateable
 		int count = 0;
 		if (selGeos() == 0) {
-			Hits dilAbles = hits.getHits(Dilateable.class, tempArrayList);
+			Hits dilAbles = hits.getHits(Test.DILATEABLE, tempArrayList);
 			count = addSelectedGeo(dilAbles, 1, false);
 		}
 
@@ -7194,7 +7196,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			points[1] = (GeoPoint2) selectedPoints.get(1);
 
 			// check for centerPoint
-			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, GeoPoint2.class);
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
 
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -7219,7 +7221,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			GeoConic circle = selectedConicsND.get(0);
 
 			// check for centerPoint
-			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, GeoPoint2.class);
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
 
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -7243,7 +7245,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			GeoSegment segment = selectedSegments.get(0);
 
 			// check for centerPoint
-			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, GeoPoint2.class);
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
 
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -7369,7 +7371,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		int index = selGeos();
 
 		// standard case: try to get one object of needed input type
-		boolean objectFound = 1 == handleAddSelectedStr(hits,
+		boolean objectFound = 1 == handleAddSelected(hits,
 				macroInput.length, false, selectedGeos, macroInput[index]);
 
 		// some old code for polygon removed in [6779]
@@ -7391,7 +7393,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		}
 
 		// object found in handleAddSelected()
-		if (objectFound || macroInput[index].equals(GeoNumeric.class.getName())
+		if (objectFound || macroInput[index].equals(Test.GEONUMERIC)
 				|| macroInput[index].equals(GeoAngle.class.getName())) {
 			if (!objectFound) {
 				index--;
@@ -7399,7 +7401,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			// look ahead if we need a number or an angle next
 			while (++index < macroInput.length) {
 				// maybe we need a number
-				if (macroInput[index].equals(GeoNumeric.class.getName())) {
+				if (macroInput[index].equals(Test.GEONUMERIC)) {
 					NumberValue num = app
 							.getGuiManager()
 							.getDialogManager()
@@ -7485,7 +7487,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	// dummy function for highlighting:
 	// used only in preview mode, see mouseMoved() and selectionPreview
 	final protected boolean point(Hits hits) {
-		addSelectedGeo(hits.getHits(Path.class, tempArrayList), 1, false);
+		addSelectedGeo(hits.getHits(Test.PATH, tempArrayList), 1, false);
 		return false;
 	}
 
@@ -7885,24 +7887,12 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	final protected int addSelectedGeo(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedGeos, GeoElement.class);
+				selectedGeos, Test.GEOELEMENT);
 	}
 
-	protected int handleAddSelectedStr(Hits hits, int max, boolean addMore,
-			ArrayList<?> list, String str) {
-
-		if (selectionPreview) {
-			return addToHighlightedList(list,
-					hits.getHitsStr(str, handleAddSelectedArrayList), max);
-		} else {
-			return addToSelectionList(list,
-					hits.getHitsStr(str, handleAddSelectedArrayList), max,
-					addMore, hits.size() == 1);
-		}
-	}
 
 	protected int handleAddSelected(Hits hits, int max, boolean addMore,
-			ArrayList<?> list, Class<?> geoClass) {
+			ArrayList<?> list, Test geoClass) {
 
 		if (selectionPreview) {
 			return addToHighlightedList(list,
@@ -7931,47 +7921,47 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	final protected int addSelectedPoint(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPoints, GeoPointND.class);
+				selectedPoints, Test.GEOPOINTND);
 	}
 
 	public final int addSelectedNumeric(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedNumbers, GeoNumeric.class);
+				selectedNumbers, Test.GEONUMERIC);
 	}
 
 	public final int addSelectedNumberValue(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedNumberValues, NumberValue.class);
+				selectedNumberValues, Test.NUMBERVALUE);
 	}
 
 	final protected int addSelectedLine(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedLines, GeoLineND.class);
+				selectedLines, Test.GEOLINEND);
 	}
 
 	final protected int addSelectedDirection(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedDirections, GeoDirectionND.class);
+				selectedDirections, Test.DIRECTIONND);
 	}
 
 	final protected int addSelectedSegment(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedSegments, GeoSegmentND.class);
+				selectedSegments, Test.GEOSEGMENTND);
 	}
 
 	final protected int addSelectedVector(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return addSelectedVector(hits, max, addMoreThanOneAllowed,
-				GeoVectorND.class);
+				Test.GEOVECTORND);
 	}
 
 	final protected int addSelectedVector(Hits hits, int max,
-			boolean addMoreThanOneAllowed, Class<?> geoClass) {
+			boolean addMoreThanOneAllowed, Test geoClass) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedVectors, geoClass);
 	}
@@ -7985,19 +7975,19 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			}
 		}
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCircles, GeoConic.class);
+				selectedCircles, Test.GEOCONIC);
 	}
 
 	final protected int addSelectedConic(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedConicsND, GeoConicND.class);
+				selectedConicsND, Test.GEOCONICND);
 	}
 
 	final protected int addSelectedPath(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPaths, Path.class);
+				selectedPaths, Test.PATH);
 	}
 
 	final protected int addSelectedRegion(Hits hits, int max,
@@ -8009,37 +7999,37 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	final protected int addSelectedImplicitpoly(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedImplicitpoly, GeoImplicitPoly.class);
+				selectedImplicitpoly, Test.GEOIMPLICITPOLY);
 	}
 
 	final protected int addSelectedFunction(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedFunctions, GeoFunction.class);
+				selectedFunctions, Test.GEOFUNCTION);
 	}
 
 	final protected int addSelectedCurve(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCurves, GeoCurveCartesian.class);
+				selectedCurves, Test.GEOCURVECARTESIAN);
 	}
 
 	final protected int addSelectedPolygon(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolygons, GeoPolygon.class);
+				selectedPolygons, Test.GEOPOLYGON);
 	}
 
 	final protected int addSelectedPolyLine(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolyLines, GeoPolyLine.class);
+				selectedPolyLines, Test.GEOPOLYLINE);
 	}
 
 	final protected int addSelectedList(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedLists, GeoList.class);
+				selectedLists, Test.GEOLIST);
 	}
 
 	protected final int selGeos() {
@@ -8224,7 +8214,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	 * specified class (note: subclasses are included)
 	 * 
 	 */
-	private GeoElement chooseGeo(Hits hits, Class<GeoPoint2> geoclass) {
+	private GeoElement chooseGeo(Hits hits, Test geoclass) {
 		return chooseGeo(hits.getHits(geoclass, tempArrayList), true);
 	}
 

@@ -1,8 +1,8 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
-import geogebra.euclidian.Hits;
 import geogebra3D.euclidian3D.Drawable3D.drawableComparator;
 import geogebra3D.kernel3D.GeoQuadric3D;
 import java.util.ArrayList;

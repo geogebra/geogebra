@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -28,7 +29,8 @@ import geogebra.main.Application;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements
-		GeoElement3DInterface, Functional2Var, Region3D, Translateable {
+		GeoElement3DInterface, Functional2Var, Region3D, Translateable,
+		GeoQuadric3DInterface{
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };

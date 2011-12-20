@@ -1,12 +1,12 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.*;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.*;
+import geogebra.common.main.AbstractApplication;
 
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -25,12 +25,7 @@ public class Hits extends ArrayList<GeoElement> {
 	private int listCount;
 	protected int polyCount;
 	private int imageCount;
-	
-	protected final int TEST_MOVEABLE = 1;
-	protected final int TEST_ROTATEMOVEABLE = 2;
 
-	
-	
 	/** init the hits */
 	public void init(){
 		clear();
@@ -38,8 +33,8 @@ public class Hits extends ArrayList<GeoElement> {
 		polyCount = 0;
 		imageCount = 0;
 	}
-	
-	@Override
+	//Can't override
+	@SuppressWarnings("all")
 	public Hits clone() {
 
 		Hits ret = (Hits) super.clone();
@@ -319,8 +314,8 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param view 
 	 * @return array of changeable GeoElements out of hits
 	 */
-	final public Hits getMoveableHits(EuclidianViewInterface view) {
-		return getMoveables(view, TEST_MOVEABLE, null);
+	final public Hits getMoveableHits(EuclidianViewInterfaceSlim view) {
+		return getMoveables(view, Test.MOVEABLE, null);
 	}
 
 	/**
@@ -329,18 +324,18 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param rotCenter 
 	 * @return array of changeable GeoElements out of hits that implement 
 	 */
-	final public Hits getPointRotateableHits(EuclidianViewInterface view, GeoPointND rotCenter) {
-		return getMoveables(view, TEST_ROTATEMOVEABLE, rotCenter);
+	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view, GeoPointND rotCenter) {
+		return getMoveables(view, Test.ROTATEMOVEABLE, rotCenter);
 	}
 
-	protected Hits getMoveables(EuclidianViewInterface view, int test, GeoPointND rotCenter) {
+	protected Hits getMoveables(EuclidianViewInterfaceSlim view, Test test, GeoPointND rotCenter) {
 
 		GeoElement geo;
 		Hits moveableList = new Hits();
 		for (int i = 0; i < size(); ++i) {
 			geo = (GeoElement) get(i);
 			switch (test) {
-			case TEST_MOVEABLE:
+			case MOVEABLE:
 				// moveable object
 				if (geo.isMoveable(view)) {
 					moveableList.add(geo);
@@ -358,7 +353,7 @@ public class Hits extends ArrayList<GeoElement> {
 				}
 				break;
 
-			case TEST_ROTATEMOVEABLE:
+			case ROTATEMOVEABLE:
 				// check for circular definition
 				if (geo.isRotateMoveable()) {
 					if (rotCenter == null || !geo.isParentOf((GeoElement) rotCenter))
@@ -377,6 +372,43 @@ public class Hits extends ArrayList<GeoElement> {
 			*/
 		return moveableList;
 	}
+	
+	public static boolean check(GeoElement geo, Test test){
+		switch(test){
+		case GEOPOINTND: return geo instanceof GeoPointND;
+		case GEOVECTOR: return geo instanceof GeoVector;
+		case GEONUMERIC: return geo instanceof GeoNumeric;
+		case GEOLIST: return geo instanceof GeoList;
+		case GEOAXIS: return geo instanceof GeoAxis;
+		case GEOLINE: return geo instanceof GeoLine;
+		case GEOCONIC: return geo instanceof GeoConic;
+		case GEOFUNCTION: return geo instanceof GeoFunction;
+		case GEOPOLYGON: return geo instanceof GeoPolygon;
+		case GEOPOLYLINE: return geo instanceof GeoPolyLine;
+		case GEOPOINT2: return geo instanceof GeoPoint2;
+		case GEOVECTORND: return geo instanceof GeoVectorND;
+		case GEOLINEND: return geo instanceof GeoLineND;
+		case GEOSEGMENTND: return geo instanceof GeoSegmentND;
+		case GEOIMPLICITPOLY: return geo instanceof GeoImplicitPoly;
+		case GEOCURVECARTESIAN: return geo instanceof GeoCurveCartesian;
+		case GEOIMAGE: return geo instanceof GeoImage;
+		case NUMBERVALUE: return geo instanceof NumberValue;
+		case GEOELEMENT: return true;
+		case PATH: return geo instanceof Path;
+		case TRANSLATEABLE: return geo instanceof Translateable;
+		case DIRECTIONND: return geo instanceof GeoDirectionND;
+		case GEOCONICND: return geo instanceof GeoConicND;
+		case GEOCOORDSYS2D: return geo instanceof GeoCoordSys2D;
+		case GEOQUADRICND: return geo instanceof GeoQuadricND;
+		case GEOQUADRIC3D: return geo instanceof GeoQuadric3DInterface;
+		case GEOPOLYGON3D: return geo instanceof GeoPolygon3DInterface;
+		case GEOCOORDSYS1D: return geo instanceof GeoCoordSys1DInterface;
+		case REGION3D: return geo instanceof Region3D;
+		default:
+			AbstractApplication.debug("WARNING: this check may not work properly with "+test);
+			return test.toString().equals(geo.getClass().getName().toUpperCase());
+		}
+	}
 
 	/**
 	 * returns array of GeoElements of type geoclass whose visual representation
@@ -393,12 +425,12 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result 
 	 * @return array of GeoElements NOT of type geoclass out of hits 
 	 */
-	final public Hits getOtherHits(Class<?> geoclass,
+	final public Hits getOtherHits(Test geoclass,
 			Hits result) {
 		return getHits(geoclass, true, result);
 	}
 
-	final public Hits getHits(Class<?> geoclass,
+	final public Hits getHits(Test geoclass,
 			Hits result) {
 		return getHits(geoclass, false, result);
 	}
@@ -432,28 +464,14 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result Hits in which the result should be stored
 	 * @return result
 	 */
-	final public Hits getHitsStr(String str
-			, Hits result) {
-
-
-		result.clear();
-		for (int i = 0; i < size(); ++i) {
-			boolean success = str.equals(get(i).getClass().getName());			
-			if (success)
-				result.add(get(i));
-		}
-		//return result.size() == 0 ? null : result;
-		
-		return result;
-	}
 	
-	final protected Hits getHits(Class<?> geoclass,
+	final protected Hits getHits(Test geoclass,
 			boolean other, Hits result) {
 
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
-			boolean success = geoclass.isInstance(get(i));
+			boolean success = check(get(i),geoclass);
 			if (other)
 				success = !success;
 			if (success)
@@ -464,7 +482,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return result;
 	}
 	
-	final protected Hits getRegionHits(
+	public final Hits getRegionHits(
 			Hits result) {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
@@ -486,13 +504,13 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param result Hits in which the result should be stored
 	 * @return result
 	 */
-	final public Hits getHits(Class<?>[] geoclasses,
+	final public Hits getHits(Test[] geoclasses,
 			boolean other, Hits result) {
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			for (int j = 0; j<geoclasses.length; ++j) {
-				boolean success = geoclasses[j].isInstance(get(i));
+				boolean success = check(get(i),geoclasses[j]);
 				if (other)
 					success = !success;
 				if (success)
@@ -508,10 +526,10 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param geoclass
 	 * @return first hit of given class
 	 */
-	final public GeoElement getFirstHit(Class<?> geoclass) {
+	final public GeoElement getFirstHit(Test geoclass) {
 
 		for (int i = 0; i < size(); ++i) {
-			if(geoclass.isInstance(get(i)))
+			if(check(get(i),geoclass))
 				return (GeoElement) get(i);
 		}
 
@@ -568,7 +586,7 @@ public class Hits extends ArrayList<GeoElement> {
 		Hits topHitsList = new Hits();
 		if (containsGeoPoint(topHitsList)) {
 			//Hits topHitsList = new Hits();
-			getHits(GeoPointND.class, false, topHitsList);
+			getHits(Test.GEOPOINTND, false, topHitsList);
 			return topHitsList;
 		} else
 			return clone();
