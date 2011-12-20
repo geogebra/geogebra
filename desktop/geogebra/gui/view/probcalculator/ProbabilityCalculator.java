@@ -401,7 +401,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		plotSplitPane = new JSplitPane();
 		plotSplitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		plotSplitPane.setLeftComponent(plotPanel);
+		plotSplitPane.setLeftComponent(plotPanel.getJPanel());
 		plotSplitPane.setResizeWeight(1);
 		plotSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		defaultDividerSize = plotSplitPane.getDividerSize();

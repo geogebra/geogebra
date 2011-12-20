@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JPopupMenu;
+import javax.swing.border.Border;
 
 /**
  * 
@@ -80,7 +81,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 
 	protected void enableDnD() {
 		ds = new DragSource();
-		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(this,
+		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(this.getJPanel(),
 				DnDConstants.ACTION_COPY, this);
 	}
 
@@ -129,6 +130,8 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 
 	}
 
+
+
 	public void setMouseEnabled(boolean enableMouse) {
 
 		removeMouseListener(ec);
@@ -137,6 +140,8 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		}
 		setContextMenuEnabled(enableContextMenu);
 	}
+
+	
 
 	public void setMouseMotionEnabled(boolean enableMouseMotion) {
 		removeMouseMotionListener(ec);
@@ -511,5 +516,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	public int getViewID() {
 		return viewID;
 	}
+
+	
 
 }

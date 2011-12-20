@@ -1122,7 +1122,7 @@ public class Application extends AbstractApplication implements
 
 		// minimal applet => just display EV
 		else {
-			panel.add(euclidianView, BorderLayout.CENTER);
+			panel.add(euclidianView.getJPanel(), BorderLayout.CENTER);
 			centerPanel.add(panel, BorderLayout.CENTER);
 			return panel;
 		}
@@ -1281,7 +1281,7 @@ public class Application extends AbstractApplication implements
 			centerPanel.add(getGuiManager().getLayout().getRootComponent(),
 					BorderLayout.CENTER);
 		} else {
-			centerPanel.add(getEuclidianView(), BorderLayout.CENTER);
+			centerPanel.add(getEuclidianView().getJPanel(), BorderLayout.CENTER);
 		}
 
 		if (updateUI) {

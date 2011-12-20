@@ -253,7 +253,7 @@ StatPanelInterface{
 
 
 		metaPlotPanel = new JPanel(new BorderLayout());
-		metaPlotPanel.add(plotPanel, BorderLayout.CENTER);
+		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
 		createImagePanel();
 
@@ -376,7 +376,7 @@ StatPanelInterface{
 		metaPlotPanel.removeAll();
 		plotPanelSouth.removeAll();
 		plotPanelNorth.removeAll();
-		metaPlotPanel.add(plotPanel, BorderLayout.CENTER);
+		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
 		if(selectedPlot == this.PLOT_SCATTERPLOT){
 			plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));

@@ -39,6 +39,6 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	
 	@Override
 	protected JComponent loadComponent() {
-		return app.getEuclidianView2();
+		return app.getEuclidianView2().getJPanel();
 	}
 }

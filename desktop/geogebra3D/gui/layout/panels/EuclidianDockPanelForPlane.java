@@ -40,7 +40,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 
 	@Override
 	protected JComponent loadComponent() {
-		return view;
+		return view.getJPanel();
 	}
 	
 	@Override

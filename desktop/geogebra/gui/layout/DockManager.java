@@ -3,6 +3,7 @@ package geogebra.gui.layout;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.SetLabels;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -714,7 +715,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		// ignore this if we didn't hit a dock panel at all or if we hit the euclidian
 		// view, they are always handled by their own mouse event (see doc comment above)
-		if(dp != null && !(dp.getComponent() instanceof EuclidianView)) {
+		if(dp != null && !(dp.getComponent() instanceof EuclidianViewJPanel)) {
 			setFocusedPanel(dp);
 		}
 	}

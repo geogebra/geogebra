@@ -226,7 +226,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		previewHeader.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
 		JPanel p = new JPanel(new BorderLayout());
-		p.add(textPreviewer, BorderLayout.CENTER);
+		p.add(textPreviewer.getJPanel(), BorderLayout.CENTER);
 
 		previewPanel = new JPanel(new BorderLayout());
 		previewPanel.add(previewHeader, BorderLayout.NORTH);	

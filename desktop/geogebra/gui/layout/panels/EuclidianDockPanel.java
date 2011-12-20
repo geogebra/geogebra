@@ -62,7 +62,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 		if(panel == null) {
 			panel = new JPanel(new BorderLayout());
 			
-			panel.add(app.getEuclidianView(), BorderLayout.CENTER);
+			panel.add(app.getEuclidianView().getJPanel(), BorderLayout.CENTER);
 			
 			consProtNav = app.getGuiManager().getConstructionProtocolNavigation();
 
