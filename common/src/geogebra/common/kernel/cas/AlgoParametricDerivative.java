@@ -42,10 +42,12 @@ public class AlgoParametricDerivative extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoParametricDerivative";
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = curve;
@@ -59,6 +61,7 @@ public class AlgoParametricDerivative extends AlgoElement {
 		return paramDeriv;
 	}
 
+	@Override
 	final public void compute() {
 		if (!curve.isDefined()) {
 			paramDeriv.setUndefined();

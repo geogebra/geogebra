@@ -20,32 +20,22 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 
-
 public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPoint2 P; // input
-	private GeoLine tangent; // output  
+	private GeoLine tangent; // output
 	private GeoFunction f;
 	private GeoPoint2 T;
 	private boolean pointOnFunction;
 	private GeoFunction deriv;
 
-	public AlgoTangentFunctionPoint(
-			Construction cons,
-			String label,
-			GeoPoint2 P,
-			GeoFunction f) {
+	public AlgoTangentFunctionPoint(Construction cons, String label,
+			GeoPoint2 P, GeoFunction f) {
 		this(cons, P, f);
 		tangent.setLabel(label);
 	}
 
-	public AlgoTangentFunctionPoint(
-			Construction cons,
-			GeoPoint2 P,
+	public AlgoTangentFunctionPoint(Construction cons, GeoPoint2 P,
 			GeoFunction f) {
 		super(cons);
 		this.P = P;
@@ -58,7 +48,7 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			AlgoPointOnPath algo = (AlgoPointOnPath) P.getParentAlgorithm();
 			pointOnFunction = algo.getPath() == f;
-		}        
+		}
 
 		if (pointOnFunction)
 			T = P;
@@ -67,53 +57,59 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 		tangent.setStartPoint(T);
 
 		// derivative of f
-		algoCAS = new AlgoDerivative(cons, f);       
-		deriv = (GeoFunction) ((AlgoDerivative)algoCAS).getResult();
+		algoCAS = new AlgoDerivative(cons, f);
+		deriv = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
 
-		setInputOutput(); // for AlgoElement                
+		setInputOutput(); // for AlgoElement
 		compute();
 	}
 
+	@Override
 	public String getClassName() {
 		return "AlgoTangentFunctionPoint";
 	}
 
+	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_TANGENTS;
 	}
 
-
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = P;
 		input[1] = f;
 
-		output = new GeoElement[1];
-		output[0] = tangent;
+		setOutputLength(1);
+		setOutput(0, tangent);
 		setDependencies(); // done by AlgoElement
 	}
 
 	public GeoLine getTangent() {
 		return tangent;
 	}
+
 	GeoFunction getFunction() {
 		return f;
 	}
+
 	GeoPoint2 getPoint() {
 		return P;
 	}
+
 	GeoPoint2 getTangentPoint() {
 		return T;
 	}
 
 	// calc tangent at x=a
+	@Override
 	public final void compute() {
 		if (!(f.isDefined() && P.isDefined() && deriv.isDefined())) {
 			tangent.setUndefined();
 			return;
-		}      
+		}
 
 		// calc the tangent;
 		double a = P.inhomX;
@@ -125,10 +121,12 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 			T.setCoords(a, fa, 1.0);
 	}
 
+	@Override
 	public final String toString() {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("TangentToAatB",f.getLabel(),"x = x("+P.getLabel()+")");
+		return app.getPlain("TangentToAatB", f.getLabel(),
+				"x = x(" + P.getLabel() + ")");
 
 	}
 

@@ -8,13 +8,14 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunction;
+
 /**
  * Find a limit
  * 
@@ -22,24 +23,24 @@ import geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoLimitAbove extends AlgoLimit {
 
-    public AlgoLimitAbove(Construction cons, String label, GeoFunction f, NumberValue num) {
-    	super(cons, label, f, num);
-    }
-    
-    public String getClassName() {
-        return "AlgoLimitAbove";
-    }
-     
-    public final void compute() {       
-        if (!f.isDefined() || !input[1].isDefined()) {
-        	outNum.setUndefined();
-        	return;
-        }    
-                
-        outNum.setValue(f.getLimit(num.getDouble(), -1));
-		
-    }
+	public AlgoLimitAbove(Construction cons, String label, GeoFunction f,
+			NumberValue num) {
+		super(cons, label, f, num);
+	}
 
-    
+	@Override
+	public String getClassName() {
+		return "AlgoLimitAbove";
+	}
+
+	@Override
+	public final void compute() {
+		if (!f.isDefined() || !input[1].isDefined()) {
+			outNum.setUndefined();
+			return;
+		}
+
+		outNum.setValue(f.getLimit(num.getDouble(), -1));
+	}
 
 }

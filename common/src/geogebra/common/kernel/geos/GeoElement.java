@@ -418,10 +418,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (!labelSet && !localVarLabelSet) {
 			if (algoParent == null) {
 				return toOutputValueString();
-			} 
+			}
 			return algoParent.getCommandDescription();
-		} 
-		return kernel.printVariableName(label);	
+		}
+		return kernel.printVariableName(label);
 	}
 
 	public void copyLabel(GeoElement c) {
@@ -714,15 +714,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String toOutputValueString() {
 		if (isLocalVariable()) {
 			return label;
-		} else {
-			return toValueString();
 		}
+		return toValueString();
 	}
 
 	public void setConstructionDefaults() {
 		if (useVisualDefaults) {
-			ConstructionDefaults consDef = cons
-					.getConstructionDefaults();
+			ConstructionDefaults consDef = cons.getConstructionDefaults();
 			if (consDef != null) {
 				consDef.setDefaultVisualStyles(this, false);
 			}
@@ -899,18 +897,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	public Color getSelColor() {
 		if (colFunction == null) {
 			return selColor;
-		} else {
-			return getRGBFromList(100);
 		}
+		return getRGBFromList(100);
 	}
 
 	// Michael Borcherds 2008-04-02
 	public Color getFillColor() {
 		if (colFunction == null) {
 			return fillColor;
-		} else {
-			return getRGBFromList(getAlphaValue());
 		}
+		return getRGBFromList(getAlphaValue());
 	}
 
 	/**
@@ -927,9 +923,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public Color getLabelColor() {
 		if (colFunction == null) {
 			return labelColor;
-		} else {
-			return getObjectColor();
 		}
+		return getObjectColor();
 	}
 
 	// Michael Borcherds 2008-04-01
@@ -1093,7 +1088,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		float[] rgb = new float[3];
 		fillColor.getRGBColorComponents(rgb);
-		fillColor = AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2], alpha);
+		fillColor = AwtFactory.prototype
+				.newColor(rgb[0], rgb[1], rgb[2], alpha);
 	}
 
 	public float getAlphaValue() {
@@ -3718,9 +3714,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 
 			if (colored) {
-				Color colorAdapter = AwtFactory.prototype.newColor(getAlgebraColor()
-						.getRed(), getAlgebraColor().getGreen(),
-						getAlgebraColor().getBlue());
+				Color colorAdapter = AwtFactory.prototype.newColor(
+						getAlgebraColor().getRed(), getAlgebraColor()
+								.getGreen(), getAlgebraColor().getBlue());
 				sbLongDescHTML.append("<b><font color=\"#");
 				sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
 				sbLongDescHTML.append("\">");
@@ -4188,9 +4184,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			Color colorAdapter = AwtFactory.prototype.newColor(getAlgebraColor()
-					.getRed(), getAlgebraColor().getGreen(), getAlgebraColor()
-					.getBlue());
+			Color colorAdapter = AwtFactory.prototype.newColor(
+					getAlgebraColor().getRed(), getAlgebraColor().getGreen(),
+					getAlgebraColor().getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
 			sbNameDescriptionHTML.append(StringUtil.toHexString(colorAdapter));
 			sbNameDescriptionHTML.append("\">");

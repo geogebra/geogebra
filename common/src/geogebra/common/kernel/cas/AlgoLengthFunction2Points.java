@@ -16,9 +16,9 @@ import geogebra.common.kernel.roots.RealRootFunction;
 
 public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 
-	private static final long serialVersionUID = 1L;
 	private GeoPoint2 A, B; //input
-	private GeoFunction f, f1;//f1 is f'(x)
+	private GeoFunction f;//f1 is f'(x)
+	GeoFunction f1;
     private GeoNumeric length; //output
     private RealRootFunction lengthFunction; //is T = sqrt(1+(f')^2)
     	
@@ -33,25 +33,27 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
         algoCAS = new AlgoDerivative(cons, f);
         cons.removeFromConstructionList(algoCAS);
         this.f1 = (GeoFunction) ((AlgoDerivative)algoCAS).getResult();        
-    	lengthFunction = new LengthFunction();		
+		lengthFunction = new LengthFunction();		
 		
 	    setInputOutput();
 	    compute();
         length.setLabel(label); 
 	}
 	 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoLengthFunction2Points";
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[3];
         input[0] = f;
         input[1] = A;
         input[2] = B;
         
-        output = new GeoElement[1];
-        output[0] = length;
+        setOutputLength(1);
+        setOutput(0, length);
         setDependencies(); // done by AlgoElement
     }
     
@@ -59,7 +61,8 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
         return length;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	double a = A.inhomX;
     	double b = B.inhomX;
 
@@ -71,6 +74,10 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	 * T = sqrt( 1 + f'(x)^2) 
 	 */
 	private class LengthFunction implements RealRootFunction {
+		public LengthFunction() {
+			// TODO Auto-generated constructor stub
+		}
+
 		public double evaluate(double t) {
 			double p = f1.evaluate(t);
 			return Math.sqrt(1 + p*p);

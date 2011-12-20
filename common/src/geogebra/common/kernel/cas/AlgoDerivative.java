@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -51,15 +52,15 @@ public class AlgoDerivative extends AlgoCasBase {
             setInputOutput(); // for AlgoElement    
             compute();            
      }
-    
-    
 
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoDerivative";
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         int length = 1;
         if (order != null) length++;
         if (var != null) length++;
@@ -81,8 +82,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	protected void applyCasCommand() {
 		
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-		boolean internationalizeDigits = kernel.internationalizeDigits;
-		kernel.internationalizeDigits = false;
+		boolean internationalizeDigits = AbstractKernel.internationalizeDigits;
+		AbstractKernel.internationalizeDigits = false;
 		
 		// get variable string with tmp prefix, 
 		// e.g. "x" becomes "ggbtmpvarx" here
@@ -91,8 +92,8 @@ public class AlgoDerivative extends AlgoCasBase {
 		String varStr = var != null ? var.getLabel() : f.getVarString();
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
-		 kernel.internationalizeDigits = internationalizeDigits;
-		
+		AbstractKernel.internationalizeDigits = internationalizeDigits;
+
 		 sbAE.setLength(0);
 		 sbAE.append("Derivative(%");
 		 sbAE.append(",");
@@ -106,7 +107,8 @@ public class AlgoDerivative extends AlgoCasBase {
 
 	}
   
-    final public String toString() {
+    @Override
+	final public String toString() {
     	StringBuilder sb = new StringBuilder();
         
         if (var != null) {

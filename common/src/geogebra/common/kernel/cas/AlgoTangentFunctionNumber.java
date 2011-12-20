@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoTangents.java
@@ -27,93 +27,93 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 /**
- *
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private NumberValue n; // input
-    private GeoElement ngeo;
-    private GeoFunction f; // input
-    private GeoLine tangent; // output  
+	private GeoElement ngeo;
+	private GeoFunction f; // input
+	private GeoLine tangent; // output
 
-    private GeoPoint2 T;
-    private GeoFunction deriv;
+	private GeoPoint2 T;
+	private GeoFunction deriv;
 
-    public AlgoTangentFunctionNumber(
-        Construction cons,
-        String label,
-        NumberValue n,
-        GeoFunction f) {
-        super(cons);
-        this.n = n;
-        ngeo = (GeoElement)n.toGeoElement();
-        this.f = f;
+	public AlgoTangentFunctionNumber(Construction cons, String label,
+			NumberValue n, GeoFunction f) {
+		super(cons);
+		this.n = n;
+		ngeo = (GeoElement) n.toGeoElement();
+		this.f = f;
 
-        tangent = new GeoLine(cons);
-        T = new GeoPoint2(cons);
-        tangent.setStartPoint(T);
-        
-        // derivative of f
-        algoCAS = new AlgoDerivative(cons, f);       
-        deriv = (GeoFunction) ((AlgoDerivative)algoCAS).getResult();
-        cons.removeFromConstructionList(algoCAS);
+		tangent = new GeoLine(cons);
+		T = new GeoPoint2(cons);
+		tangent.setStartPoint(T);
 
-        setInputOutput(); // for AlgoElement                
-        compute();
-        tangent.setLabel(label);
-    }
+		// derivative of f
+		algoCAS = new AlgoDerivative(cons, f);
+		deriv = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
+		cons.removeFromConstructionList(algoCAS);
 
-    public String getClassName() {
-        return "AlgoTangentFunctionNumber";
-    }
+		setInputOutput(); // for AlgoElement
+		compute();
+		tangent.setLabel(label);
+	}
 
-    public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_TANGENTS;
-    }
+	@Override
+	public String getClassName() {
+		return "AlgoTangentFunctionNumber";
+	}
 
-    
-    // for AlgoElement
-    protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = ngeo;
-        input[1] = f;
+	@Override
+	public int getRelatedModeID() {
+		return EuclidianConstants.MODE_TANGENTS;
+	}
 
-        output = new GeoElement[1];
-        output[0] = tangent;
-        setDependencies(); // done by AlgoElement
-    }
+	// for AlgoElement
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[2];
+		input[0] = ngeo;
+		input[1] = f;
 
-    public GeoLine getTangent() {
-        return tangent;
-    }
-    GeoFunction getFunction() {
-        return f;
-    }
+		setOutputLength(1);
+		setOutput(0, tangent);
+		setDependencies(); // done by AlgoElement
+	}
 
-    // calc tangent at x=a
-    public final void compute() {
-        double a = n.getDouble();
-        if (!f.isDefined() || !deriv.isDefined() || Double.isInfinite(a) || Double.isNaN(a)) {
-            tangent.setUndefined();
-            return;
-        }       
+	public GeoLine getTangent() {
+		return tangent;
+	}
 
-        // calc the tangent;    
-        double fa = f.evaluate(a);
-        double slope = deriv.evaluate(a);
-        tangent.setCoords(-slope, 1.0, a * slope - fa);
-        T.setCoords(a, fa, 1.0);
-    }
+	GeoFunction getFunction() {
+		return f;
+	}
 
-    public final String toString() {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-    	return app.getPlain("TangentToAatB",f.getLabel(),"x = "+ngeo.getLabel());
-    }
+	// calc tangent at x=a
+	@Override
+	public final void compute() {
+		double a = n.getDouble();
+		if (!f.isDefined() || !deriv.isDefined() || Double.isInfinite(a)
+				|| Double.isNaN(a)) {
+			tangent.setUndefined();
+			return;
+		}
+
+		// calc the tangent;
+		double fa = f.evaluate(a);
+		double slope = deriv.evaluate(a);
+		tangent.setCoords(-slope, 1.0, a * slope - fa);
+		T.setCoords(a, fa, 1.0);
+	}
+
+	@Override
+	public final String toString() {
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return app.getPlain("TangentToAatB", f.getLabel(),
+				"x = " + ngeo.getLabel());
+	}
 }

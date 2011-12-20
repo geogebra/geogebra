@@ -28,7 +28,8 @@ public class AlgoExpand extends AlgoCasBase {
     	super(cons, label, f);
     }   
     
-    public String getClassName() {
+    @Override
+	public String getClassName() {
         return "AlgoExpand";
     }
 
