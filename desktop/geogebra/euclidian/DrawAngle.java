@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.main.Application;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -284,9 +285,6 @@ public class DrawAngle extends Drawable implements Previewable {
 		case DRAW_MODE_LINES: // two lines
 			// intersect lines to get vertex
 			m = GeoVec3D.cross(line, line2).get();
-			m[0] = m[0] / m[2];
-			m[1] = m[1] / m[2];
-
 			m[0] = m[0] / m[2];
 			m[1] = m[1] / m[2];
 
