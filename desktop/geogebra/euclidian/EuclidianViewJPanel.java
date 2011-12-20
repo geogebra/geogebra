@@ -3,10 +3,9 @@ package geogebra.euclidian;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
-
-import org.w3c.dom.events.MouseEvent;
 
 public class EuclidianViewJPanel extends JPanel implements geogebra.common.euclidian.EuclidianViewJPanel {
 
@@ -63,7 +62,7 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 		view.paint(g);
 	}
 	
-	public void processMouseEventImpl(java.awt.event.MouseEvent e) {
+	public void processMouseEventImpl(MouseEvent e) {
 		processMouseEvent(e);
 	}
 }
