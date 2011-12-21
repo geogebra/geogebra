@@ -21,13 +21,12 @@ import geogebra3D.kernel3D.Geo3DVec;
  */
 public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	
-	
-    /** Evaluates the ExpressionNode described by the parameters
-     * @param expressionNode ExpressionNode to evaluate
-     * @return corresponding ExpressionValue
-     */
-    public ExpressionValue evaluate(ExpressionNode expressionNode){ 
-    	
+
+
+	@Override
+	public ExpressionValue evaluate(ExpressionValue expressionValue) {
+		ExpressionNode expressionNode = (ExpressionNode) expressionValue;
+
 		Kernel kernel = (Kernel) expressionNode.kernel;
 		boolean leaf = expressionNode.leaf; 
 		ExpressionValue left = expressionNode.left; 
@@ -150,7 +149,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
 		
 		
-		return super.evaluate(expressionNode);
+		return super.evaluate(expressionValue);
 		
 	}
 
