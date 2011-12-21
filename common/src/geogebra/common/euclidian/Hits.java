@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.*;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.*;
 import geogebra.common.main.AbstractApplication;
