@@ -8,6 +8,8 @@ import geogebra.gui.layout.Layout;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
+import geogebra.plugin.kinect.KinectTest;
+import geogebra.plugin.kinect.KinectTestApplication;
 
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
@@ -15,6 +17,7 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
@@ -23,13 +26,13 @@ import javax.swing.SwingUtilities;
  * The "View" menu.
  */
 class ViewMenu extends BaseMenu {
-	private static final long serialVersionUID = -8719255878019899997L;
 
 	private final Layout layout;
 
 	private AbstractAction showAlgebraInputAction,
 			showKeyboardAction,
-			showPythonAction, // Arnaud Delobelle 12 Oct 2011
+			showPythonAction,
+			showKinectAction,
 			showInputHelpToggleAction, showInputTopAction, showToolBarAction,
 			showToolBarTopAction,
 			// constProtocolAction,
@@ -43,7 +46,7 @@ class ViewMenu extends BaseMenu {
 			cbShowConsProtNavigationPlay,
 			cbShowConsProtNavigationOpenProt,
 			cbShowAlgebraInput,
-			cbShowKeyboard, cbShowPython, // Arnaud Delobelle 12 Oct 2011
+			cbShowKeyboard, cbShowPython, cbShowKinect,
 			cbShowInputHelpToggle, cbShowAxes, cbShowGrid;
 
 	private AbstractAction[] showViews;
@@ -109,6 +112,11 @@ class ViewMenu extends BaseMenu {
 		cbShowPython = new JCheckBoxMenuItem(showPythonAction);
 		app.setEmptyIcon(cbShowPython);
 		add(cbShowPython);
+
+		// TEST: show/hide Kinect window
+		cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
+		app.setEmptyIcon(cbShowKinect);
+		add(cbShowKinect);
 
 		// cbShowHandwriting = new JCheckBoxMenuItem(showHandwritingAction);
 		// app.setEmptyIcon(cbShowHandwriting);
@@ -231,6 +239,41 @@ class ViewMenu extends BaseMenu {
 				update();
 			}
 		};
+
+		showKinectAction = new AbstractAction(app.getMenu("Kinect Window")) {
+
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+
+
+			    JFrame f = new JFrame("Kinect Window");
+				final KinectTestApplication app2 = new KinectTestApplication(f);
+
+				app2.viewer = new KinectTest(app.getKernel());
+				f.add("Center", app2.viewer);
+				f.pack(); 
+				f.setVisible(true); 
+				Thread runner = new Thread() {
+
+					@Override public void run() 
+					{ 
+						try { 
+							Thread.sleep(7000);
+						} 
+						catch(InterruptedException e) 
+						{ // TODO Auto-generated catch block
+							e.printStackTrace(); } 
+						app2.run(); 
+					}
+				}; 
+				runner.start();
+
+
+			}
+		};
+
+
 
 		/*
 		 * showHandwritingAction = new

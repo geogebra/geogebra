@@ -23,6 +23,7 @@ package geogebra.plugin.kinect;
 
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -130,6 +131,7 @@ public class KinectTest extends Component {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final float YMAX = 200;
 	private OutArg<ScriptNode> scriptNode;
 	private Context context;
 	private DepthGenerator depthGen;
@@ -336,11 +338,21 @@ public class KinectTest extends Component {
 				(int) pos2.getY());
 	}
 
-	GeoPoint3D HEAD, NECK, TORSO, WAIST, LEFT_COLLAR, LEFT_SHOULDER,
-			LEFT_ELBOW, LEFT_WRIST, LEFT_HAND, LEFT_FINGER_TIP, RIGHT_COLLAR,
-			RIGHT_SHOULDER, RIGHT_ELBOW, RIGHT_WRIST, RIGHT_HAND,
-			RIGHT_FINGER_TIP, LEFT_HIP, LEFT_KNEE, LEFT_ANKLE, LEFT_FOOT,
-			RIGHT_HIP, RIGHT_KNEE, RIGHT_ANKLE, RIGHT_FOOT;
+	GeoNumeric xHEAD, xNECK, xTORSO, xWAIST, xLEFT_COLLAR, xLEFT_SHOULDER,
+	xLEFT_ELBOW, xLEFT_WRIST, xLEFT_HAND, xLEFT_FINGER_TIP, xRIGHT_COLLAR,
+	xRIGHT_SHOULDER, xRIGHT_ELBOW, xRIGHT_WRIST, xRIGHT_HAND,
+	xRIGHT_FINGER_TIP, xLEFT_HIP, xLEFT_KNEE, xLEFT_ANKLE, xLEFT_FOOT,
+	xRIGHT_HIP, xRIGHT_KNEE, xRIGHT_ANKLE, xRIGHT_FOOT;
+	GeoNumeric yHEAD, yNECK, yTORSO, yWAIST, yLEFT_COLLAR, yLEFT_SHOULDER,
+	yLEFT_ELBOW, yLEFT_WRIST, yLEFT_HAND, yLEFT_FINGER_TIP, yRIGHT_COLLAR,
+	yRIGHT_SHOULDER, yRIGHT_ELBOW, yRIGHT_WRIST, yRIGHT_HAND,
+	yRIGHT_FINGER_TIP, yLEFT_HIP, yLEFT_KNEE, yLEFT_ANKLE, yLEFT_FOOT,
+	yRIGHT_HIP, yRIGHT_KNEE, yRIGHT_ANKLE, yRIGHT_FOOT;
+	GeoNumeric zHEAD, zNECK, zTORSO, zWAIST, zLEFT_COLLAR, zLEFT_SHOULDER,
+	zLEFT_ELBOW, zLEFT_WRIST, zLEFT_HAND, zLEFT_FINGER_TIP, zRIGHT_COLLAR,
+	zRIGHT_SHOULDER, zRIGHT_ELBOW, zRIGHT_WRIST, zRIGHT_HAND,
+	zRIGHT_FINGER_TIP, zLEFT_HIP, zLEFT_KNEE, zLEFT_ANKLE, zLEFT_FOOT,
+	zRIGHT_HIP, zRIGHT_KNEE, zRIGHT_ANKLE, zRIGHT_FOOT;
 
 	public void drawSkeleton(Graphics g, int user) throws StatusException {
 		getJoints(user);
@@ -372,102 +384,103 @@ public class KinectTest extends Component {
 		drawLine(g, dict, SkeletonJoint.RIGHT_KNEE, SkeletonJoint.RIGHT_FOOT);
 
 		// GeoPoint3D p = (GeoPoint3D) kernel.lookupLabel("A");
-		if (HEAD == null) {
-			HEAD = (GeoPoint3D) kernel.lookupLabel("HEAD");
-		}
-		if (NECK == null) {
-			NECK = (GeoPoint3D) kernel.lookupLabel("NECK");
-		}
-		if (TORSO == null) {
-			TORSO = (GeoPoint3D) kernel.lookupLabel("TORSO");
-		}
-		if (WAIST == null) {
-			WAIST = (GeoPoint3D) kernel.lookupLabel("WAIST");
-		}
-		if (LEFT_COLLAR == null) {
-			LEFT_COLLAR = (GeoPoint3D) kernel.lookupLabel("LEFT_COLLAR");
-		}
-		if (LEFT_SHOULDER == null) {
-			LEFT_SHOULDER = (GeoPoint3D) kernel.lookupLabel("LEFT_SHOULDER");
-		}
-		if (LEFT_ELBOW == null) {
-			LEFT_ELBOW = (GeoPoint3D) kernel.lookupLabel("LEFT_ELBOW");
-		}
-		if (LEFT_WRIST == null) {
-			LEFT_WRIST = (GeoPoint3D) kernel.lookupLabel("LEFT_WRIST");
-		}
-		if (LEFT_HAND == null) {
-			LEFT_HAND = (GeoPoint3D) kernel.lookupLabel("LEFT_HAND");
-		}
-		if (LEFT_FINGER_TIP == null) {
-			LEFT_FINGER_TIP = (GeoPoint3D) kernel.lookupLabel("LEFT_FINGER");
-		}
-		if (RIGHT_COLLAR == null) {
-			RIGHT_COLLAR = (GeoPoint3D) kernel.lookupLabel("RIGHT_COLLAR");
-		}
-		if (RIGHT_SHOULDER == null) {
-			RIGHT_SHOULDER = (GeoPoint3D) kernel.lookupLabel("RIGHT_SHOULDER");
-		}
-		if (RIGHT_ELBOW == null) {
-			RIGHT_ELBOW = (GeoPoint3D) kernel.lookupLabel("RIGHT_ELBOW");
-		}
-		if (RIGHT_WRIST == null) {
-			RIGHT_WRIST = (GeoPoint3D) kernel.lookupLabel("RIGHT_WRIST");
-		}
-		if (RIGHT_HAND == null) {
-			RIGHT_HAND = (GeoPoint3D) kernel.lookupLabel("RIGHT_HAND");
-		}
-		if (RIGHT_FINGER_TIP == null) {
-			RIGHT_FINGER_TIP = (GeoPoint3D) kernel.lookupLabel("RIGHT_FINGER");
-		}
-		if (LEFT_HIP == null) {
-			LEFT_HIP = (GeoPoint3D) kernel.lookupLabel("LEFT_HIP");
-		}
-		if (LEFT_KNEE == null) {
-			LEFT_KNEE = (GeoPoint3D) kernel.lookupLabel("LEFT_KNEE");
-		}
-		if (LEFT_ANKLE == null) {
-			LEFT_ANKLE = (GeoPoint3D) kernel.lookupLabel("LEFT_ANKLE");
-		}
-		if (LEFT_FOOT == null) {
-			LEFT_FOOT = (GeoPoint3D) kernel.lookupLabel("LEFT_FOOT");
-		}
-		if (RIGHT_HIP == null) {
-			RIGHT_HIP = (GeoPoint3D) kernel.lookupLabel("RIGHT_HIP");
-		}
-		if (RIGHT_KNEE == null) {
-			RIGHT_KNEE = (GeoPoint3D) kernel.lookupLabel("RIGHT_KNEE");
-		}
-		if (RIGHT_ANKLE == null) {
-			RIGHT_ANKLE = (GeoPoint3D) kernel.lookupLabel("RIGHT_ANKLE");
-		}
-		if (RIGHT_FOOT == null) {
-			RIGHT_FOOT = (GeoPoint3D) kernel.lookupLabel("RIGHT_FOOT");
-			pointList = new ArrayList<GeoElement>();
-			pointList.add(HEAD);
-			pointList.add(NECK);
-			pointList.add(TORSO);
-			// pointList.add(WAIST);
-			// pointList.add(LEFT_COLLAR);
-			pointList.add(LEFT_SHOULDER);
-			pointList.add(LEFT_ELBOW);
-			// pointList.add(LEFT_WRIST);
-			pointList.add(LEFT_HAND);
-			// pointList.add(LEFT_FINGER_TIP);
-			// pointList.add(RIGHT_COLLAR);
-			pointList.add(RIGHT_SHOULDER);
-			pointList.add(RIGHT_ELBOW);
-			// pointList.add(RIGHT_WRIST);
-			pointList.add(RIGHT_HAND);
-			// pointList.add(RIGHT_FINGER_TIP);
-			pointList.add(LEFT_HIP);
-			pointList.add(LEFT_KNEE);
-			// pointList.add(LEFT_ANKLE);
-			pointList.add(LEFT_FOOT);
-			pointList.add(RIGHT_HIP);
-			pointList.add(RIGHT_KNEE);
-			// pointList.add(RIGHT_ANKLE);
-			pointList.add(RIGHT_FOOT);
+		if (xHEAD == null) {
+			xHEAD = getGeoPoint("xHEAD");
+			xNECK = getGeoPoint("xNECK");
+			xTORSO = getGeoPoint("xTORSO");
+			xLEFT_SHOULDER = getGeoPoint("xLEFT_SHOULDER");
+			xLEFT_ELBOW = getGeoPoint("xLEFT_ELBOW");
+			xLEFT_HAND = getGeoPoint("xLEFT_HAND");
+			xRIGHT_SHOULDER = getGeoPoint("xRIGHT_SHOULDER");
+			xRIGHT_ELBOW = getGeoPoint("xRIGHT_ELBOW");
+			xRIGHT_HAND = getGeoPoint("xRIGHT_HAND");
+			xLEFT_HIP = getGeoPoint("xLEFT_HIP");
+			xLEFT_KNEE = getGeoPoint("xLEFT_KNEE");
+			xLEFT_FOOT = getGeoPoint("xLEFT_FOOT");
+			xRIGHT_HIP = getGeoPoint("xRIGHT_HIP");
+			xRIGHT_KNEE = getGeoPoint("xRIGHT_KNEE");
+			xRIGHT_FOOT = getGeoPoint("xRIGHT_FOOT");
+
+			yHEAD = getGeoPoint("yHEAD");
+			yNECK = getGeoPoint("yNECK");
+			yTORSO = getGeoPoint("yTORSO");
+			yLEFT_SHOULDER = getGeoPoint("yLEFT_SHOULDER");
+			yLEFT_ELBOW = getGeoPoint("yLEFT_ELBOW");
+			yLEFT_HAND = getGeoPoint("yLEFT_HAND");
+			yRIGHT_SHOULDER = getGeoPoint("yRIGHT_SHOULDER");
+			yRIGHT_ELBOW = getGeoPoint("yRIGHT_ELBOW");
+			yRIGHT_HAND = getGeoPoint("yRIGHT_HAND");
+			yLEFT_HIP = getGeoPoint("yLEFT_HIP");
+			yLEFT_KNEE = getGeoPoint("yLEFT_KNEE");
+			yLEFT_FOOT = getGeoPoint("yLEFT_FOOT");
+			yRIGHT_HIP = getGeoPoint("yRIGHT_HIP");
+			yRIGHT_KNEE = getGeoPoint("yRIGHT_KNEE");
+			yRIGHT_FOOT = getGeoPoint("yRIGHT_FOOT");
+
+			zHEAD = getGeoPoint("zHEAD");
+			zNECK = getGeoPoint("zNECK");
+			zTORSO = getGeoPoint("zTORSO");
+			zLEFT_SHOULDER = getGeoPoint("zLEFT_SHOULDER");
+			zLEFT_ELBOW = getGeoPoint("zLEFT_ELBOW");
+			zLEFT_HAND = getGeoPoint("zLEFT_HAND");
+			zRIGHT_SHOULDER = getGeoPoint("zRIGHT_SHOULDER");
+			zRIGHT_ELBOW = getGeoPoint("zRIGHT_ELBOW");
+			zRIGHT_HAND = getGeoPoint("zRIGHT_HAND");
+			zLEFT_HIP = getGeoPoint("zLEFT_HIP");
+			zLEFT_KNEE = getGeoPoint("zLEFT_KNEE");
+			zLEFT_FOOT = getGeoPoint("zLEFT_FOOT");
+			zRIGHT_HIP = getGeoPoint("zRIGHT_HIP");
+			zRIGHT_KNEE = getGeoPoint("zRIGHT_KNEE");
+			zRIGHT_FOOT = getGeoPoint("zRIGHT_FOOT");
+
+			numberList = new ArrayList<GeoNumeric>();
+			numberList.add(xHEAD);
+			numberList.add(xNECK);
+			numberList.add(xTORSO);
+			numberList.add(xLEFT_SHOULDER);
+			numberList.add(xLEFT_ELBOW);
+			numberList.add(xLEFT_HAND);
+			numberList.add(xRIGHT_SHOULDER);
+			numberList.add(xRIGHT_ELBOW);
+			numberList.add(xRIGHT_HAND);
+			numberList.add(xLEFT_HIP);
+			numberList.add(xLEFT_KNEE);
+			numberList.add(xLEFT_FOOT);
+			numberList.add(xRIGHT_HIP);
+			numberList.add(xRIGHT_KNEE);
+			numberList.add(xRIGHT_FOOT);
+
+			numberList.add(yHEAD);
+			numberList.add(yNECK);
+			numberList.add(yTORSO);
+			numberList.add(yLEFT_SHOULDER);
+			numberList.add(yLEFT_ELBOW);
+			numberList.add(yLEFT_HAND);
+			numberList.add(yRIGHT_SHOULDER);
+			numberList.add(yRIGHT_ELBOW);
+			numberList.add(yRIGHT_HAND);
+			numberList.add(yLEFT_HIP);
+			numberList.add(yLEFT_KNEE);
+			numberList.add(yLEFT_FOOT);
+			numberList.add(yRIGHT_HIP);
+			numberList.add(yRIGHT_KNEE);
+			numberList.add(yRIGHT_FOOT);
+			
+			numberList.add(zHEAD);
+			numberList.add(zNECK);
+			numberList.add(zTORSO);
+			numberList.add(zLEFT_SHOULDER);
+			numberList.add(zLEFT_ELBOW);
+			numberList.add(zLEFT_HAND);
+			numberList.add(zRIGHT_SHOULDER);
+			numberList.add(zRIGHT_ELBOW);
+			numberList.add(zRIGHT_HAND);
+			numberList.add(zLEFT_HIP);
+			numberList.add(zLEFT_KNEE);
+			numberList.add(zLEFT_FOOT);
+			numberList.add(zRIGHT_HIP);
+			numberList.add(zRIGHT_KNEE);
+			numberList.add(zRIGHT_FOOT);
 
 			// for (int i = 0; i < pointList.size(); i++) {
 			// if (pointList.get(i) == null) {
@@ -479,19 +492,24 @@ public class KinectTest extends Component {
 		}
 
 		Point3D pos1 = dict.get(SkeletonJoint.RIGHT_HAND).getPosition();
-		if (RIGHT_HAND != null) {
-			RIGHT_HAND.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xRIGHT_HAND != null) {
+			xRIGHT_HAND.setValue(pos1.getX());
+			yRIGHT_HAND.setValue(YMAX - pos1.getY());
+			zRIGHT_HAND.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.HEAD).getPosition();
-		if (HEAD != null) {
-			HEAD.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(), 1.0);
+		if (xHEAD != null) {
+			xHEAD.setValue(pos1.getX());
+			yHEAD.setValue(YMAX - pos1.getY());
+			zHEAD.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.NECK).getPosition();
-		if (NECK != null) {
-			NECK.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(), 1.0);
+		if (xNECK != null) {
+			xNECK.setValue(pos1.getX());
+			yNECK.setValue(YMAX - pos1.getY());
+			zNECK.setValue(pos1.getZ());
 		}
 
 		// pos1 = dict.get(SkeletonJoint.WAIST).getPosition();
@@ -505,19 +523,24 @@ public class KinectTest extends Component {
 		// }
 
 		pos1 = dict.get(SkeletonJoint.LEFT_SHOULDER).getPosition();
-		if (LEFT_SHOULDER != null) {
-			LEFT_SHOULDER.setCoords(pos1.getX(), 1000 - pos1.getY(), 1.0);
+		if (xLEFT_SHOULDER != null) {
+			xLEFT_SHOULDER.setValue(pos1.getX());
+			yLEFT_SHOULDER.setValue(YMAX - pos1.getY());
+			zLEFT_SHOULDER.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.LEFT_ELBOW).getPosition();
-		if (LEFT_ELBOW != null) {
-			LEFT_ELBOW.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xLEFT_ELBOW != null) {
+			xLEFT_ELBOW.setValue(pos1.getX());
+			yLEFT_ELBOW.setValue(YMAX - pos1.getY());
+			zLEFT_ELBOW.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.TORSO).getPosition();
-		if (TORSO != null) {
-			TORSO.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(), 1.0);
+		if (xTORSO != null) {
+			xTORSO.setValue(pos1.getX());
+			yTORSO.setValue(YMAX - pos1.getY());
+			zTORSO.setValue(pos1.getZ());
 		}
 
 		// pos1 = dict.get(SkeletonJoint.LEFT_WRIST).getPosition();
@@ -526,65 +549,83 @@ public class KinectTest extends Component {
 		// }
 
 		pos1 = dict.get(SkeletonJoint.LEFT_HAND).getPosition();
-		if (LEFT_HAND != null) {
-			LEFT_HAND.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xLEFT_HAND != null) {
+			xLEFT_HAND.setValue(pos1.getX());
+			yLEFT_HAND.setValue(YMAX - pos1.getY());
+			zLEFT_HAND.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.LEFT_FOOT).getPosition();
-		if (LEFT_FOOT != null) {
-			LEFT_FOOT.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xLEFT_FOOT != null) {
+			xLEFT_FOOT.setValue(pos1.getX());
+			yLEFT_FOOT.setValue(YMAX - pos1.getY());
+			zLEFT_FOOT.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.RIGHT_FOOT).getPosition();
-		if (RIGHT_FOOT != null) {
-			RIGHT_FOOT.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xRIGHT_FOOT != null) {
+			xRIGHT_FOOT.setValue(pos1.getX());
+			yRIGHT_FOOT.setValue(YMAX - pos1.getY());
+			zRIGHT_FOOT.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.RIGHT_SHOULDER).getPosition();
-		if (RIGHT_SHOULDER != null) {
-			RIGHT_SHOULDER.setCoords(pos1.getX(), 1000 - pos1.getY(),
-					pos1.getZ(), 1.0);
+		if (xRIGHT_SHOULDER != null) {
+			xRIGHT_SHOULDER.setValue(pos1.getX());
+			yRIGHT_SHOULDER.setValue(YMAX - pos1.getY());
+			zRIGHT_SHOULDER.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.RIGHT_ELBOW).getPosition();
-		if (RIGHT_ELBOW != null) {
-			RIGHT_ELBOW.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xRIGHT_ELBOW != null) {
+			xRIGHT_ELBOW.setValue(pos1.getX());
+			yRIGHT_ELBOW.setValue(YMAX - pos1.getY());
+			zRIGHT_ELBOW.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.LEFT_HIP).getPosition();
-		if (LEFT_HIP != null) {
-			LEFT_HIP.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xLEFT_HIP != null) {
+			xLEFT_HIP.setValue(pos1.getX());
+			yLEFT_HIP.setValue(YMAX - pos1.getY());
+			zLEFT_HIP.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.LEFT_KNEE).getPosition();
-		if (LEFT_KNEE != null) {
-			LEFT_KNEE.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xLEFT_KNEE != null) {
+			xLEFT_KNEE.setValue(pos1.getX());
+			yLEFT_KNEE.setValue(YMAX - pos1.getY());
+			zLEFT_KNEE.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.RIGHT_HIP).getPosition();
-		if (RIGHT_HIP != null) {
-			RIGHT_HIP.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xRIGHT_HIP != null) {
+			xRIGHT_HIP.setValue(pos1.getX());
+			yRIGHT_HIP.setValue(YMAX - pos1.getY());
+			zRIGHT_HIP.setValue(pos1.getZ());
 		}
 
 		pos1 = dict.get(SkeletonJoint.RIGHT_KNEE).getPosition();
-		if (RIGHT_KNEE != null) {
-			RIGHT_KNEE.setCoords(pos1.getX(), 1000 - pos1.getY(), pos1.getZ(),
-					1.0);
+		if (xRIGHT_KNEE != null) {
+			xRIGHT_KNEE.setValue(pos1.getX());
+			yRIGHT_KNEE.setValue(YMAX - pos1.getY());
+			zRIGHT_KNEE.setValue(pos1.getZ());
 		}
 
-		GeoElement.updateCascade(pointList, getTempSet(), false);
+		GeoElement.updateCascade(numberList, getTempSet(), false);
 		kernel.notifyRepaint();
 
 	}
 
-	private ArrayList<GeoElement> pointList;
+	private GeoNumeric getGeoPoint(String label) {
+		GeoElement ret = kernel.lookupLabel(label);
+		
+		if (ret == null || !(ret.isGeoNumeric())) {
+			ret = new GeoNumeric(kernel.getConstruction(), label, 0);
+		}
+		return (GeoNumeric) ret;
+	}
+
+	private ArrayList<GeoNumeric> numberList;
 	private TreeSet<AlgoElementInterface> tempSet;
 
 	private TreeSet<AlgoElementInterface> getTempSet() {
