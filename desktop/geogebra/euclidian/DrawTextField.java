@@ -346,7 +346,7 @@ public final class DrawTextField extends Drawable {
 			label.setText("");
 		}
 
-		int fontSize = view.fontSize + geoButton.getFontSize();
+		int fontSize = view.getFontSize() + geoButton.getFontSize();
 		Application app = view.getApplication();
 
 		Font vFont = view.getFont();

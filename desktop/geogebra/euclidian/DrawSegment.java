@@ -127,9 +127,9 @@ public class DrawSegment extends Drawable implements Previewable {
 			// clip at screen, that's important for huge coordinates
 			Point2D.Double[] clippedPoints = ClipLine.getClipped(coordsA[0],
 					coordsA[1], coordsB[0], coordsB[1],
-					-EuclidianView.CLIP_DISTANCE, view.width
+					-EuclidianView.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianView.CLIP_DISTANCE,
-					-EuclidianView.CLIP_DISTANCE, view.height
+					-EuclidianView.CLIP_DISTANCE, view.getHeight()
 							+ EuclidianView.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;

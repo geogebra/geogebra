@@ -20,6 +20,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -119,7 +120,7 @@ public abstract class Drawable extends DrawableND {
 			boolean serif = true; // nice "x"s
 			if (geo.isGeoText())
 				serif = ((GeoText) geo).isSerifFont();
-			int offsetY = 10 + view.fontSize; // make sure LaTeX labels don't go
+			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels don't go
 												// off bottom of screen
 			view.getApplication().getDrawEquation();
 			Dimension dim = DrawEquation.drawEquation(geo.getKernel()
@@ -193,14 +194,14 @@ public abstract class Drawable extends DrawableND {
 		if (xLabel < 3)
 			xLabel = 3;
 		else
-			xLabel = Math.min(xLabel, view.width - labelRectangle.width - 3);
+			xLabel = Math.min(xLabel, view.getWidth() - labelRectangle.width - 3);
 		if (yLabel < labelRectangle.height)
 			yLabel = labelRectangle.height;
 		else
-			yLabel = Math.min(yLabel, view.height - 3);
+			yLabel = Math.min(yLabel, view.getHeight() - 3);
 
 		// update label rectangle position
-		labelRectangle.setLocation(xLabel, yLabel - view.fontSize);
+		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
 	}
 
 	/*
@@ -412,8 +413,8 @@ public abstract class Drawable extends DrawableND {
 		int y = yLabel + geo.labelOffsetY;
 
 		// don't let offset move label out of screen
-		int xmax = view.width - 15;
-		int ymax = view.height - 5;
+		int xmax = view.getWidth() - 15;
+		int ymax = view.getHeight() - 5;
 		if (x < 5 || x > xmax)
 			return false;
 		if (y < 15 || y > ymax)

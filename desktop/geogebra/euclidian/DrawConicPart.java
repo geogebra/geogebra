@@ -129,7 +129,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 			// shape on screen?
 			if (shape != null
-					&& !shape.intersects(0, 0, view.width, view.height)) {
+					&& !shape.intersects(0, 0, view.getWidth(), view.getHeight())) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -154,8 +154,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 		draw_type = DRAW_TYPE_ELLIPSE;
 
 		// check for huge pixel radius
-		double xradius = halfAxes[0] * view.xscale;
-		double yradius = halfAxes[1] * view.yscale;
+		double xradius = halfAxes[0] * view.getXscale();
+		double yradius = halfAxes[1] * view.getYscale();
 		if (xradius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
@@ -174,13 +174,13 @@ public class DrawConicPart extends Drawable implements Previewable {
 						.getAffineTransform()));
 
 		// BIG RADIUS: larger than screen diagonal
-		int BIG_RADIUS = view.width + view.height; // > view's diagonal
+		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
 		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
 			shape = transform.createTransformedShape(arc);
 		} else {
 			// clip big arc at screen
 			shape = ClipShape.clipToRect(arc, transform, new Rectangle(-1, -1,
-					view.width + 2, view.height + 2));
+					view.getWidth() + 2, view.getHeight() + 2));
 		}
 
 		// label position

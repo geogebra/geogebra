@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;
@@ -244,7 +245,7 @@ public class EuclidianStatic {
 		return latexTmp.toString().replaceAll("\\?", "");
 	}
 
-	public final static Rectangle drawMultiLineText(Application app,
+	public final static Rectangle drawMultiLineText(AbstractApplication app,
 			String labelDesc, int xLabel, int yLabel, Graphics2D g2,
 			boolean serif) {
 		int lines = 0;
@@ -252,7 +253,7 @@ public class EuclidianStatic {
 		float lineSpread = fontSize * 1.5f;
 
 		Font font = g2.getFont();
-		font = app.getFontCanDisplay(labelDesc, serif, font.getStyle(),
+		font = ((Application) app).getFontCanDisplay(labelDesc, serif, font.getStyle(),
 				font.getSize());
 
 		FontRenderContext frc = g2.getFontRenderContext();
@@ -352,10 +353,10 @@ public class EuclidianStatic {
 	 * @param str
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static Point drawIndexedString(Application app, Graphics2D g2,
+	public static Point drawIndexedString(AbstractApplication app, Graphics2D g2,
 			String str, float xPos, float yPos, boolean serif) {
 		Font g2font = g2.getFont();
-		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
+		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
 		Font indexFont = getIndexFont(g2font);
 		Font font = g2font;

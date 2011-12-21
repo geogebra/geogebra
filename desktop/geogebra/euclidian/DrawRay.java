@@ -98,13 +98,13 @@ public class DrawRay extends Drawable implements Previewable {
 			a[1] = A.getY();
 			view.toScreenCoords(a);
 
-			v[0] = equation.getY() * view.xscale;
-			v[1] = equation.getX() * view.yscale;
+			v[0] = equation.getY() * view.getXscale();
+			v[1] = equation.getX() * view.getYscale();
 
 			setClippedLine();
 
 			// line on screen?
-			if (!line.intersects(0, 0, view.width, view.height)) {
+			if (!line.intersects(0, 0, view.getWidth(), view.getHeight())) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -153,13 +153,13 @@ public class DrawRay extends Drawable implements Previewable {
 		double lambda;
 		if (Math.abs(v[0]) > Math.abs(v[1])) {
 			if (v[0] > 0) // RIGHT
-				lambda = (view.width - a[0]) / v[0];
+				lambda = (view.getWidth() - a[0]) / v[0];
 			else
 				// LEFT
 				lambda = -a[0] / v[0];
 		} else {
 			if (v[1] > 0) // BOTTOM
-				lambda = (view.height - a[1]) / v[1];
+				lambda = (view.getHeight() - a[1]) / v[1];
 			else
 				lambda = -a[1] / v[1];
 		}
@@ -177,9 +177,9 @@ public class DrawRay extends Drawable implements Previewable {
 			// clip ray at screen, that's important for huge coordinates of A
 			Point2D.Double[] clippedPoints = ClipLine.getClipped(a[0], a[1],
 					a[0] + lambda * v[0], a[1] + lambda * v[1],
-					-EuclidianView.CLIP_DISTANCE, view.width
+					-EuclidianView.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianView.CLIP_DISTANCE,
-					-EuclidianView.CLIP_DISTANCE, view.height
+					-EuclidianView.CLIP_DISTANCE, view.getHeight()
 							+ EuclidianView.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
@@ -268,8 +268,8 @@ public class DrawRay extends Drawable implements Previewable {
 				view.getEuclidianController().setLineEndPoint(endPoint);
 
 				// don't use view.toScreenCoordX/Y() as we don't want rounding
-				xx = view.xZero + xRW * view.xscale;
-				yy = view.yZero - yRW * view.yscale;
+				xx = view.getxZero() + xRW * view.getXscale();
+				yy = view.getyZero() - yRW * view.getYscale();
 
 			} else
 				view.getEuclidianController().setLineEndPoint(null);

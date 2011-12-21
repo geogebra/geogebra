@@ -260,7 +260,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			return;
 
 		// shape on screen?
-		Rectangle viewRect = new Rectangle(0, 0, view.width, view.height);
+		Rectangle viewRect = new Rectangle(0, 0, view.getWidth(), view.getHeight());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -419,29 +419,29 @@ final public class DrawConic extends Drawable implements Previewable {
 		gpc.moveTo(drawLine.x1, drawLine.y1);
 		gpc.lineTo(drawLine.x2, drawLine.y2);
 		// cross top and bottom
-		if (drawLine.x1 > 0 && drawLine.x2 <= view.width) {
+		if (drawLine.x1 > 0 && drawLine.x2 <= view.getWidth()) {
 			AbstractApplication.debug("top-bot");
 			if (drawLines[0].y2 < drawLine.y1) {
 				gpc.lineTo(0, 0);
-				gpc.lineTo(0, view.height);
+				gpc.lineTo(0, view.getHeight());
 			} else {
-				gpc.lineTo(0, view.height);
+				gpc.lineTo(0, view.getHeight());
 				gpc.lineTo(0, 0);
 			}
 		}
 		// cross top/bottom and right
-		else if (drawLine.x1 > 0 && drawLine.x2 > view.width) {
-			gpc.lineTo(view.width, drawLine.y1);
+		else if (drawLine.x1 > 0 && drawLine.x2 > view.getWidth()) {
+			gpc.lineTo(view.getWidth(), drawLine.y1);
 			invert = true;
 		}
 		// cros left and bottom/top
-		else if (drawLine.x1 <= 0 && drawLine.x2 <= view.width) {
+		else if (drawLine.x1 <= 0 && drawLine.x2 <= view.getWidth()) {
 			gpc.lineTo(0, drawLine.y2);
 			invert = drawLine.y2 > 0;
 		}
 		// cross left and right
 		else {
-			gpc.lineTo(view.width, 0);
+			gpc.lineTo(view.getWidth(), 0);
 			gpc.lineTo(0, 0);
 
 		}
@@ -458,8 +458,8 @@ final public class DrawConic extends Drawable implements Previewable {
 	final private void updateCircle() {
 		setShape(null);
 		// calc screen pixel of radius
-		radius = halfAxes[0] * view.xscale;
-		yradius = halfAxes[1] * view.yscale; // radius scaled in y direction
+		radius = halfAxes[0] * view.getXscale();
+		yradius = halfAxes[1] * view.getYscale(); // radius scaled in y direction
 		if (radius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
@@ -478,7 +478,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// for graphical continuity
 
 		// BIG RADIUS: larger than screen diagonal
-		int BIG_RADIUS = view.width + view.height; // > view's diagonal
+		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
 		if (radius < BIG_RADIUS && yradius < BIG_RADIUS) {
 			circle = ellipse;
 			arcFiller = null;
@@ -501,8 +501,8 @@ final public class DrawConic extends Drawable implements Previewable {
 					}
 				}
 			}
-			mx = M.getX() * view.xscale + view.xZero;
-			my = -M.getY() * view.yscale + view.yZero;
+			mx = M.getX() * view.getXscale() + view.getxZero();
+			my = -M.getY() * view.getYscale() + view.getyZero();
 			ellipse.setFrame(mx - radius, my - yradius, 2.0 * radius,
 					2.0 * yradius);
 		} else {
@@ -522,8 +522,8 @@ final public class DrawConic extends Drawable implements Previewable {
 					return;
 				}
 			}
-			mx = M.getX() * view.xscale + view.xZero;
-			my = -M.getY() * view.yscale + view.yZero;
+			mx = M.getX() * view.getXscale() + view.getxZero();
+			my = -M.getY() * view.getYscale() + view.getyZero();
 
 			angSt = Double.NaN;
 			// left
@@ -535,48 +535,48 @@ final public class DrawConic extends Drawable implements Previewable {
 					i = 0;
 				}
 				// bottom
-				else if (my > view.height) {
-					angSt = Math.asin((my - view.height) / yradius);
+				else if (my > view.getHeight()) {
+					angSt = Math.asin((my - view.getHeight()) / yradius);
 					angEnd = Math.acos(-mx / radius);
 					i = 2;
 				}
 				// middle
 				else {
-					angSt = -Math.asin((view.height - my) / yradius);
+					angSt = -Math.asin((view.getHeight() - my) / yradius);
 					angEnd = Math.asin(my / yradius);
 					i = 1;
 				}
 			}
 			// right
-			else if (mx > view.width) {
+			else if (mx > view.getWidth()) {
 				// top
 				if (my < 0.0) {
 					angSt = Math.PI + Math.asin(-my / yradius);
-					angEnd = Math.PI + Math.acos((mx - view.width) / radius);
+					angEnd = Math.PI + Math.acos((mx - view.getWidth()) / radius);
 					i = 6;
 				}
 				// bottom
-				else if (my > view.height) {
-					angSt = Math.PI - Math.acos((mx - view.width) / radius);
-					angEnd = Math.PI - Math.asin((my - view.height) / yradius);
+				else if (my > view.getHeight()) {
+					angSt = Math.PI - Math.acos((mx - view.getWidth()) / radius);
+					angEnd = Math.PI - Math.asin((my - view.getHeight()) / yradius);
 					i = 4;
 				}
 				// middle
 				else {
 					angSt = Math.PI - Math.asin(my / yradius);
-					angEnd = Math.PI + Math.asin((view.height - my) / yradius);
+					angEnd = Math.PI + Math.asin((view.getHeight() - my) / yradius);
 					i = 5;
 				}
 			}
 			// top middle
 			else if (my < 0.0) {
 				angSt = Math.PI + Math.acos(mx / radius);
-				angEnd = 2 * Math.PI - Math.acos((view.width - mx) / radius);
+				angEnd = 2 * Math.PI - Math.acos((view.getWidth() - mx) / radius);
 				i = 7;
 			}
 			// bottom middle
-			else if (my > view.height) {
-				angSt = Math.acos((view.width - mx) / radius);
+			else if (my > view.getHeight()) {
+				angSt = Math.acos((view.getWidth() - mx) / radius);
 				angEnd = Math.PI - Math.acos(mx / radius);
 				i = 3;
 			}
@@ -584,8 +584,8 @@ final public class DrawConic extends Drawable implements Previewable {
 			else {
 				// huge circle with center on screen: use screen rectangle
 				// instead of circle for possible filling
-				shape = circle = new Rectangle(-1, -1, view.width + 2,
-						view.height + 2);
+				shape = circle = new Rectangle(-1, -1, view.getWidth() + 2,
+						view.getHeight() + 2);
 				arcFiller = null;
 				xLabel = -100;
 				yLabel = -100;
@@ -621,40 +621,40 @@ final public class DrawConic extends Drawable implements Previewable {
 					break;
 
 				case 1: // left middle
-					gp.moveTo(0, view.height);
+					gp.moveTo(0, view.getHeight());
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
 					gp.lineTo(0, 0);
 					break;
 
 				case 2: // left bottom
-					gp.moveTo(0, view.height);
+					gp.moveTo(0, view.getHeight());
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
 					break;
 
 				case 3: // middle bottom
-					gp.moveTo(view.width, view.height);
+					gp.moveTo(view.getWidth(), view.getHeight());
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(0, view.height);
+					gp.lineTo(0, view.getHeight());
 					break;
 
 				case 4: // right bottom
-					gp.moveTo(view.width, view.height);
+					gp.moveTo(view.getWidth(), view.getHeight());
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
 					break;
 
 				case 5: // right middle
-					gp.moveTo(view.width, 0);
+					gp.moveTo(view.getWidth(), 0);
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(view.width, view.height);
+					gp.lineTo(view.getWidth(), view.getHeight());
 					break;
 
 				case 6: // right top
-					gp.moveTo(view.width, 0);
+					gp.moveTo(view.getWidth(), 0);
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
 					break;
@@ -663,7 +663,7 @@ final public class DrawConic extends Drawable implements Previewable {
 					gp.moveTo(0, 0);
 					gp.lineTo(sp.getX(), sp.getY());
 					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(view.width, 0);
+					gp.lineTo(view.getWidth(), 0);
 					break;
 
 				default:
@@ -683,8 +683,8 @@ final public class DrawConic extends Drawable implements Previewable {
 	final private void updateEllipse() {
 		setShape(null);
 		// check for huge pixel radius
-		double xradius = halfAxes[0] * view.xscale;
-		double yradius = halfAxes[1] * view.yscale;
+		double xradius = halfAxes[0] * view.getXscale();
+		double yradius = halfAxes[1] * view.getYscale();
 		if (xradius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
@@ -719,18 +719,18 @@ final public class DrawConic extends Drawable implements Previewable {
 		ellipse.setFrameFromCenter(0, 0, halfAxes[0], halfAxes[1]);
 
 		// BIG RADIUS: larger than screen diagonal
-		int BIG_RADIUS = view.width + view.height; // > view's diagonal
+		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
 		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
 			shape = transform.createTransformedShape(ellipse);
 		} else {
 			// clip big arc at screen
 			shape = ClipShape.clipToRect(ellipse, transform, new Rectangle(-1,
-					-1, view.width + 2, view.height + 2));
+					-1, view.getWidth() + 2, view.getHeight() + 2));
 
 		}
 		// set label coords
 		labelCoords[0] = -halfAxes[0] / 2.0d;
-		labelCoords[1] = halfAxes[1] * 0.85d - 20.0 / view.yscale;
+		labelCoords[1] = halfAxes[1] * 0.85d - 20.0 / view.getYscale();
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
@@ -771,10 +771,10 @@ final public class DrawConic extends Drawable implements Previewable {
 		// the drawn hyperbola must be larger than the screen
 		// get max distance from midpoint to screen edge
 		x0 = Math.max(
-				Math.max(Math.abs(midpoint.x - view.xmin),
-						Math.abs(midpoint.x - view.xmax)),
-				Math.max(Math.abs(midpoint.y - view.ymin),
-						Math.abs(midpoint.y - view.ymax)));
+				Math.max(Math.abs(midpoint.x - view.getXmin()),
+						Math.abs(midpoint.x - view.getXmax())),
+				Math.max(Math.abs(midpoint.y - view.getYmin()),
+						Math.abs(midpoint.y - view.getYmax())));
 		// ensure that rotated hyperbola is fully on screen:
 		x0 *= 1.5;
 
@@ -786,7 +786,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		// set number of plot points according to size of x0
 		// add ten points per screen width
-		n = PLOT_POINTS + (int) (Math.abs(x0 - a) / (view.xmax - view.xmin))
+		n = PLOT_POINTS + (int) (Math.abs(x0 - a) / (view.getXmax() - view.getXmin()))
 				* 10;
 
 		if (points != n) {
@@ -848,7 +848,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// set label coords
 		labelCoords[0] = 2.0 * a;
 		// point on curve: y = b * sqrt(3) minus 20 pixels
-		labelCoords[1] = b * 1.7 - 20.0 / view.yscale;
+		labelCoords[1] = b * 1.7 - 20.0 / view.getYscale();
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
@@ -882,10 +882,10 @@ final public class DrawConic extends Drawable implements Previewable {
 			parabola = new QuadCurve2D.Double();
 		}
 		// calc control points coords of parabola y^2 = 2 p x
-		x0 = Math.max(Math.abs(vertex.x - view.xmin),
-				Math.abs(vertex.x - view.xmax));
-		x0 = Math.max(x0, Math.abs(vertex.y - view.ymin));
-		x0 = Math.max(x0, Math.abs(vertex.y - view.ymax));
+		x0 = Math.max(Math.abs(vertex.x - view.getXmin()),
+				Math.abs(vertex.x - view.getXmax()));
+		x0 = Math.max(x0, Math.abs(vertex.y - view.getYmin()));
+		x0 = Math.max(x0, Math.abs(vertex.y - view.getYmax()));
 
 		/*
 		 * x0 *= 2.0d; // y^2 = 2px y0 = Math.sqrt(2*c.p*x0);
@@ -927,7 +927,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// set label coords
 		labelCoords[0] = 2 * conic.p;
 		// y = 2p minus 20 pixels
-		labelCoords[1] = labelCoords[0] - 20.0 / view.yscale;
+		labelCoords[1] = labelCoords[0] - 20.0 / view.getYscale();
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];

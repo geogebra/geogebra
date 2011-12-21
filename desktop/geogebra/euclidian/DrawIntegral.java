@@ -91,7 +91,7 @@ public class DrawIntegral extends Drawable {
 
 		double ax = view.toScreenCoordXd(aRW);
 		double bx = view.toScreenCoordXd(bRW);
-		float y0 = (float) view.yZero;
+		float y0 = (float) view.getyZero();
 
 		// plot definite integral
 
@@ -109,7 +109,7 @@ public class DrawIntegral extends Drawable {
 		gp.lineTo(ax, y0);
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.width, view.height)) {
+		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -117,7 +117,7 @@ public class DrawIntegral extends Drawable {
 
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
-			yLabel = (int) view.yZero - view.fontSize;
+			yLabel = (int) view.getyZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}

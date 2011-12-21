@@ -368,7 +368,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		int arcSize = Math.min((int) maxRadius, angle.getArcSize());
 
-		double r = arcSize * view.invXscale;
+		double r = arcSize * view.getInvXscale();
 
 		// check whether we need to take care for a special 90 degree angle
 		// appearance
@@ -484,7 +484,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			switch (geo.decorationType) {
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.lineThickness / 2d;
-				r = (arcSize - rdiff) * view.invXscale;
+				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.coordTransform.createTransformedShape(decoArc);
@@ -492,11 +492,11 @@ public class DrawAngle extends Drawable implements Previewable {
 
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
 				rdiff = 4 + geo.lineThickness / 2d;
-				r = (arcSize - rdiff) * view.invXscale;
+				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.coordTransform.createTransformedShape(decoArc);
-				r = (arcSize - 2 * rdiff) * view.invXscale;
+				r = (arcSize - 2 * rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc2 = view.coordTransform.createTransformedShape(decoArc);
@@ -560,7 +560,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				double p2[] = new double[2];
 				double p3[] = new double[2];
 				rdiff = 4 + geo.lineThickness / 2d;
-				r = (arcSize) * view.invXscale;
+				r = (arcSize) * view.getInvXscale();
 
 				p1[0] = m[0] + r * n2[0];
 				p1[1] = m[1] + r * n2[1]; // arrow tip
@@ -568,13 +568,13 @@ public class DrawAngle extends Drawable implements Previewable {
 				double size = 4d + geo.lineThickness / 4d;
 				size = size * 0.9d;
 
-				p2[0] = p1[0] + (1 * n[0] + 3 * v[0]) * size * view.invXscale;
-				p2[1] = p1[1] + (1 * n[1] + 3 * v[1]) * size * view.invYscale; // arrow
+				p2[0] = p1[0] + (1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
+				p2[1] = p1[1] + (1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
 																				// end
 																				// 1
 
-				p3[0] = p1[0] + (-1 * n[0] + 3 * v[0]) * size * view.invXscale;
-				p3[1] = p1[1] + (-1 * n[1] + 3 * v[1]) * size * view.invYscale; // arrow
+				p3[0] = p1[0] + (-1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
+				p3[1] = p1[1] + (-1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
 																				// end
 																				// 2
 
@@ -602,7 +602,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 
 		// shape on screen?
-		if (!shape.intersects(0, 0, view.width, view.height)) {
+		if (!shape.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			return;
 		}

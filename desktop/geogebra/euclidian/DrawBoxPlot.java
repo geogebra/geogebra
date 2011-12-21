@@ -193,7 +193,7 @@ public class DrawBoxPlot extends Drawable {
 		gp.lineTo(coords[0], coords[1]);
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.width, view.height)) {
+		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -201,7 +201,7 @@ public class DrawBoxPlot extends Drawable {
 
 		if (labelVisible) {
 			xLabel = (int) coords[0];
-			yLabel = (int) coords[1] - view.fontSize;
+			yLabel = (int) coords[1] - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}

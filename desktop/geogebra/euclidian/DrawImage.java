@@ -124,7 +124,7 @@ public final class DrawImage extends Drawable {
 				// we only have corner A
 				if (D == null) {
 					// use original pixel width and heigt of image
-					at.scale(view.invXscale, -view.invXscale);
+					at.scale(view.getInvXscale(), -view.getInvXscale());
 				}
 				// we have corners A and D
 				else {
@@ -212,9 +212,9 @@ public final class DrawImage extends Drawable {
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
 			if (isInBackground) {
-				view.addBackgroundImage(this);
+				((EuclidianView) view).addBackgroundImage(this);
 			} else {
-				view.removeBackgroundImage(this);
+				((EuclidianView) view).removeBackgroundImage(this);
 				view.updateBackgroundImage();
 			}
 		}

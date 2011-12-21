@@ -156,7 +156,7 @@ public final class DrawButton extends Drawable {
 		}
 		myButton.setText(labelDesc);
 
-		int fontSize = view.fontSize + geoButton.getFontSize();
+		int fontSize = view.getFontSize() + geoButton.getFontSize();
 		Application app = view.getApplication();
 
 		myButton.setOpaque(true);

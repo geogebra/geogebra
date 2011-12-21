@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.euclidian.PathPoint;
 import geogebra.euclidian.clipping.ClipLine;
 
@@ -33,8 +34,8 @@ public class GeneralPathClipped implements Shape {
 	private boolean needClosePath;
 	private Rectangle bounds;
 
-	public GeneralPathClipped(EuclidianView view) {
-		this.view = view;
+	public GeneralPathClipped(EuclidianViewInterface2D view) {
+		this.view = (EuclidianView)view;
 		pathPoints = new ArrayList<PathPoint>();
 		gp = new GeneralPath();
 		// bounds = new Rectangle();
@@ -86,7 +87,7 @@ public class GeneralPathClipped implements Shape {
 	 * coordinates. This is especially important for fill the GeneralPath.
 	 */
 	private void addClippedSegments() {
-		Rectangle viewRect = new Rectangle(0, 0, view.width, view.height);
+		Rectangle viewRect = new Rectangle(0, 0, view.getWidth(), view.getHeight());
 		PathPoint curP = null, prevP;
 
 		int size = pathPoints.size();
@@ -121,7 +122,7 @@ public class GeneralPathClipped implements Shape {
 
 		// at least one point is not on screen: clip line at screen
 		Point2D.Double[] clippedPoints = ClipLine.getClipped(prevP.x, prevP.y,
-				curP.x, curP.y, -10, view.width + 10, -10, view.height + 10);
+				curP.x, curP.y, -10, view.getWidth() + 10, -10, view.getHeight() + 10);
 
 		if (clippedPoints != null) {
 			// we have two intersection points with the screen
@@ -153,8 +154,8 @@ public class GeneralPathClipped implements Shape {
 
 	private Point2D.Double getPointCloseToScreen(double x, double y) {
 		double border = 10;
-		double right = view.width + border;
-		double bottom = view.height + border;
+		double right = view.getWidth() + border;
+		double bottom = view.getHeight() + border;
 		if (x > right) {
 			x = right;
 		} else if (x < -border) {

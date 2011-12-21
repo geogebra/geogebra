@@ -77,8 +77,8 @@ public class DrawSlider extends Drawable {
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 
 				widthScreen = number.getSliderWidth();
-				widthRW = horizontal ? widthScreen * view.invXscale
-						: widthScreen * view.invYscale;
+				widthRW = horizontal ? widthScreen * view.getInvXscale()
+						: widthScreen * view.getInvYscale();
 			} else {
 				coordsRW[0] = number.getSliderX();
 				coordsRW[1] = number.getSliderY();
@@ -86,8 +86,8 @@ public class DrawSlider extends Drawable {
 				coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
 
 				widthRW = number.getSliderWidth();
-				widthScreen = horizontal ? widthRW * view.xscale : widthRW
-						* view.yscale;
+				widthScreen = horizontal ? widthRW * view.getXscale() : widthRW
+						* view.getYscale();
 			}
 
 			// point on slider that moves

@@ -175,9 +175,9 @@ public class DrawVector extends Drawable implements Previewable {
 			// check if any of vector is on-screen
 			Point2D.Double[] clippedPoints = ClipLine.getClipped(coordsA[0],
 					coordsA[1], coordsB[0], coordsB[1],
-					-EuclidianView.CLIP_DISTANCE, view.width
+					-EuclidianView.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianView.CLIP_DISTANCE,
-					-EuclidianView.CLIP_DISTANCE, view.height
+					-EuclidianView.CLIP_DISTANCE, view.getHeight()
 							+ EuclidianView.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
@@ -188,8 +188,8 @@ public class DrawVector extends Drawable implements Previewable {
 				// now re-clip at A and F
 				clippedPoints = ClipLine.getClipped(coordsA[0], coordsA[1],
 						coordsF[0], coordsF[1], -EuclidianView.CLIP_DISTANCE,
-						view.width + EuclidianView.CLIP_DISTANCE,
-						-EuclidianView.CLIP_DISTANCE, view.height
+						view.getWidth() + EuclidianView.CLIP_DISTANCE,
+						-EuclidianView.CLIP_DISTANCE, view.getHeight()
 								+ EuclidianView.CLIP_DISTANCE);
 				if (clippedPoints != null)
 					line.setLine(clippedPoints[0].x, clippedPoints[0].y,
@@ -220,7 +220,7 @@ public class DrawVector extends Drawable implements Previewable {
 			}
 
 			arrowheadVisible = onscreenB
-					|| gp.intersects(0, 0, view.width, view.height);
+					|| gp.intersects(0, 0, view.getWidth(), view.getHeight());
 		}
 	}
 

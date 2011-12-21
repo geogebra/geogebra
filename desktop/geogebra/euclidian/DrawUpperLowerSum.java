@@ -94,7 +94,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 		double ax = view.toScreenCoordXd(aRW);
 		double bx = view.toScreenCoordXd(bRW);
-		double y0 = view.yZero;
+		double y0 = view.getyZero();
 
 		// plot upper/lower sum rectangles
 		int N = algo.getIntervals();
@@ -147,7 +147,7 @@ public class DrawUpperLowerSum extends Drawable {
 		gp.lineTo(ax, y0);// all bars, along bottom
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.width, view.height)) {
+		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -155,7 +155,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
-			yLabel = (int) view.yZero - view.fontSize;
+			yLabel = (int) view.getyZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
@@ -163,7 +163,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 	private void updateBarChart() {
 		gp.reset();
-		double base = view.yZero;
+		double base = view.getyZero();
 
 		int N = algo.getIntervals();
 		double[] leftBorder = algo.getLeftBorder();
@@ -186,7 +186,7 @@ public class DrawUpperLowerSum extends Drawable {
 		gp.lineTo(view.toScreenCoordXd(leftBorder[0]), base);
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.width, view.height)) {
+		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -195,7 +195,7 @@ public class DrawUpperLowerSum extends Drawable {
 		if (labelVisible) {
 			xLabel = (view.toScreenCoordX(leftBorder[0]) + view
 					.toScreenCoordX(leftBorder[N - 1])) / 2 - 6;
-			yLabel = (int) view.yZero - view.fontSize;
+			yLabel = (int) view.getyZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}

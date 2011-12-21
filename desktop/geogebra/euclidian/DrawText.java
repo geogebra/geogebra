@@ -58,7 +58,7 @@ public final class DrawText extends Drawable {
 		geo = text;
 
 		textFont = view.getApplication().getPlainFont()
-				.deriveFont(Font.PLAIN, view.fontSize);
+				.deriveFont(Font.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
@@ -95,8 +95,8 @@ public final class DrawText extends Drawable {
 		} else {
 			loc = text.getStartPoint();
 			if (loc == null) {
-				xLabel = (int) view.xZero;
-				yLabel = (int) view.yZero;
+				xLabel = (int) view.getxZero();
+				yLabel = (int) view.getyZero();
 			} else {
 				if (!loc.isDefined()) {
 					isVisible = false;
@@ -188,8 +188,8 @@ public final class DrawText extends Drawable {
 			double yRW = view.toRealWorldCoordY(labelRectangle.y);
 
 			text.setBoundingBox(xRW, yRW,
-					labelRectangle.width * view.invXscale,
-					-labelRectangle.height * view.invYscale);
+					labelRectangle.width * view.getInvXscale(),
+					-labelRectangle.height * view.getInvYscale());
 		}
 	}
 
@@ -289,7 +289,7 @@ public final class DrawText extends Drawable {
 
 	private boolean doUpdateFontSize() {
 		// text's font size is relative to the global font size
-		int newFontSize = Math.max(4, view.fontSize + text.getFontSize());
+		int newFontSize = Math.max(4, view.getFontSize() + text.getFontSize());
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 

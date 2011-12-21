@@ -75,7 +75,7 @@ public class DrawSlope extends Drawable {
 				init();
 			int slopeTriangleSize = slope.getSlopeTriangleSize();
 			double rwHeight = slope.getValue() * slopeTriangleSize;
-			double height = view.yscale * rwHeight;
+			double height = view.getYscale() * rwHeight;
 			if (Math.abs(height) > Float.MAX_VALUE) {
 				isVisible = false;
 				return;
@@ -93,7 +93,7 @@ public class DrawSlope extends Drawable {
 			// draw slope triangle
 			double x = coords[0];
 			double y = coords[1];
-			double xright = x + view.xscale * slopeTriangleSize;
+			double xright = x + view.getXscale() * slopeTriangleSize;
 			if (gp == null)
 				gp = new GeneralPathClipped(view);
 			gp.reset();
@@ -102,7 +102,7 @@ public class DrawSlope extends Drawable {
 			gp.lineTo(xright, y - height);
 
 			// gp on screen?
-			if (!gp.intersects(0, 0, view.width, view.height)) {
+			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -142,7 +142,7 @@ public class DrawSlope extends Drawable {
 
 				// position off horizontal label (i.e. slopeTriangleSize)
 				xLabelHor = (int) ((x + xright) / 2.0);
-				yLabelHor = (int) (y + view.fontSize + 2);
+				yLabelHor = (int) (y + view.getFontSize() + 2);
 				StringBuilder sb = new StringBuilder();
 				sb.append(slopeTriangleSize);
 				horLabel = sb.toString();

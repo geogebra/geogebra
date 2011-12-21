@@ -49,7 +49,7 @@ public class DrawLocus extends Drawable {
 		buildGeneralPath(locus.getMyPointList());
 
 		// line on screen?
-		if (!gp.intersects(0, 0, view.width, view.height)) {
+		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -60,7 +60,7 @@ public class DrawLocus extends Drawable {
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) (lastPointCoords[0] - 5);
-			yLabel = (int) (lastPointCoords[1] + 4 + view.fontSize);
+			yLabel = (int) (lastPointCoords[1] + 4 + view.getFontSize());
 			addLabelOffset();
 		}
 

@@ -143,7 +143,7 @@ public class DrawLine extends Drawable implements Previewable {
             setClippedLine();
 			
             // line on screen?		
-    		if (!line.intersects( -EuclidianView.CLIP_DISTANCE,  -EuclidianView.CLIP_DISTANCE, view.width + EuclidianView.CLIP_DISTANCE, view.height + EuclidianView.CLIP_DISTANCE)) {				
+    		if (!line.intersects( -EuclidianView.CLIP_DISTANCE,  -EuclidianView.CLIP_DISTANCE, view.getWidth() + EuclidianView.CLIP_DISTANCE, view.getHeight() + EuclidianView.CLIP_DISTANCE)) {				
     			isVisible = false;
             	// don't return here to make sure that getBounds() works for offscreen points too
     		}
@@ -176,14 +176,14 @@ public class DrawLine extends Drawable implements Previewable {
         // abs(slope) < 1
         // y = k x + d
         // x1 = 0, x2 = width
-        if (Math.abs(gx) * view.scaleRatio < Math.abs(gy)) {
+        if (Math.abs(gx) * view.getScaleRatio() < Math.abs(gy)) {
             // calc points on line in screen coords
-            k = gx / gy * view.scaleRatio; 
-            d = view.yZero + gz/gy * view.yscale - k * view.xZero;
+            k = gx / gy * view.getScaleRatio(); 
+            d = view.getyZero() + gz/gy * view.getYscale() - k * view.getxZero();
             
             x1 = -EuclidianView.CLIP_DISTANCE;
             y1 = k * x1 + d;            
-            x2 = view.width + EuclidianView.CLIP_DISTANCE;
+            x2 = view.getWidth() + EuclidianView.CLIP_DISTANCE;
             y2 = k * x2 + d; 
             p1Pos = LEFT;
             p2Pos = RIGHT;            
@@ -194,10 +194,10 @@ public class DrawLine extends Drawable implements Previewable {
         // y1 = height, y2 = 0
         else {
             // calc points on line in screen coords
-            k = gy / (gx * view.scaleRatio) ; 
-            d = view.xZero - gz/gx * view.xscale - k * view.yZero;
+            k = gy / (gx * view.getScaleRatio()) ; 
+            d = view.getxZero() - gz/gx * view.getXscale() - k * view.getyZero();
             
-            y1 = view.height + EuclidianView.CLIP_DISTANCE;   
+            y1 = view.getHeight() + EuclidianView.CLIP_DISTANCE;   
             x1 = k * y1 + d;
             y2 = -EuclidianView.CLIP_DISTANCE;
             x2 = k * y2 + d;
@@ -217,9 +217,9 @@ public class DrawLine extends Drawable implements Previewable {
     final private void clipTopBottom() {
         // calc clip attributes for both points (x1,y1), (x2,y2)        
         attr1[TOP]      = y1 < -EuclidianView.CLIP_DISTANCE;
-        attr1[BOTTOM]   = y1 > view.height + EuclidianView.CLIP_DISTANCE;                
+        attr1[BOTTOM]   = y1 > view.getHeight() + EuclidianView.CLIP_DISTANCE;                
         attr2[TOP]      = y2 < -EuclidianView.CLIP_DISTANCE;
-        attr2[BOTTOM]   = y2 > view.height + EuclidianView.CLIP_DISTANCE;
+        attr2[BOTTOM]   = y2 > view.getHeight() + EuclidianView.CLIP_DISTANCE;
         
         // both points outside (TOP or BOTTOM)
         if ((attr1[TOP] && attr2[TOP]) ||
@@ -234,7 +234,7 @@ public class DrawLine extends Drawable implements Previewable {
         }
         // point1 BOTTOM -> clip with y=height
         else if (attr1[BOTTOM]) { 
-            y1 = view.height + EuclidianView.CLIP_DISTANCE;
+            y1 = view.getHeight() + EuclidianView.CLIP_DISTANCE;
             x1 = (y1 - d)/k;             
             p1Pos = BOTTOM;
         }
@@ -247,7 +247,7 @@ public class DrawLine extends Drawable implements Previewable {
         }
         // point2 BOTTOM -> clip with y=height
         else if (attr2[BOTTOM]) { 
-            y2 = view.height + EuclidianView.CLIP_DISTANCE;
+            y2 = view.getHeight() + EuclidianView.CLIP_DISTANCE;
             x2 = (y2 - d)/k;             
             p2Pos = BOTTOM;
         }        
@@ -259,9 +259,9 @@ public class DrawLine extends Drawable implements Previewable {
     final private void clipLeftRight() {
         // calc clip attributes for both points (x1,y1), (x2,y2)        
         attr1[LEFT]     = x1 < -EuclidianView.CLIP_DISTANCE;
-        attr1[RIGHT]    = x1 > view.width + EuclidianView.CLIP_DISTANCE;                
+        attr1[RIGHT]    = x1 > view.getWidth() + EuclidianView.CLIP_DISTANCE;                
         attr2[LEFT]     = x2 < -EuclidianView.CLIP_DISTANCE;
-        attr2[RIGHT]    = x2 > view.width + EuclidianView.CLIP_DISTANCE;
+        attr2[RIGHT]    = x2 > view.getWidth() + EuclidianView.CLIP_DISTANCE;
         
         // both points outside (LEFT or RIGHT)
         if ((attr1[LEFT] && attr2[LEFT]) ||
@@ -276,7 +276,7 @@ public class DrawLine extends Drawable implements Previewable {
         }
         // point1 RIGHT -> clip with x=width
         else if (attr1[RIGHT]) { 
-            x1 = view.width + EuclidianView.CLIP_DISTANCE;
+            x1 = view.getWidth() + EuclidianView.CLIP_DISTANCE;
             y1 = (x1 - d)/k;             
             p1Pos = RIGHT;
         }
@@ -289,7 +289,7 @@ public class DrawLine extends Drawable implements Previewable {
         }
         // point2 RIGHT -> clip with x=width
         else if (attr2[RIGHT]) { 
-            x2 = view.width + EuclidianView.CLIP_DISTANCE;
+            x2 = view.getWidth() + EuclidianView.CLIP_DISTANCE;
             y2 = (x2 - d)/k;             
             p2Pos = RIGHT;
         }        
@@ -317,7 +317,7 @@ public class DrawLine extends Drawable implements Previewable {
         switch (labelPos) {
             case LEFT:    
                 xLabel = 5;
-                if (2*y < view.height) {
+                if (2*y < view.getHeight()) {
                     yLabel = y + 16 + (int)(16 * (gx / gy));
                 } else {
                     yLabel = y - 8 + (int)(16 * (gx / gy));
@@ -325,8 +325,8 @@ public class DrawLine extends Drawable implements Previewable {
                 break;
                 
             case RIGHT:        
-                xLabel = view.width - 15;
-                if (2*y < view.height) {
+                xLabel = view.getWidth() - 15;
+                if (2*y < view.getHeight()) {
                     yLabel = y + 16 - (int)(16 * (gx / gy));
                 } else {
                     yLabel = y - 8 - (int)(16 * (gx / gy));
@@ -335,7 +335,7 @@ public class DrawLine extends Drawable implements Previewable {
                 
             case TOP:                      
                 yLabel = 15;
-                if (2*x < view.width) {
+                if (2*x < view.getWidth()) {
                     xLabel = x + 8 + (int)(16 * (gy / gx));
                 } else {
                     xLabel = x - 16 + (int)(16 * (gy / gx));
@@ -345,8 +345,8 @@ public class DrawLine extends Drawable implements Previewable {
             
         
             case BOTTOM:        
-                yLabel = view.height - 5;
-                if (2*x < view.width) {
+                yLabel = view.getHeight() - 5;
+                if (2*x < view.getWidth()) {
                     xLabel = x + 8 - (int)(16 * (gy / gx));
                 } else {
                     xLabel = x - 16 - (int)(16 * (gy / gx));

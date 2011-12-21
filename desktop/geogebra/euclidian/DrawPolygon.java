@@ -95,7 +95,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				getShape().subtract(new Area(gp));
 			}
 			// polygon on screen?
-			if (!gp.intersects(0, 0, view.width, view.height)
+			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
 					&& !geo.isInverseFill()) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for

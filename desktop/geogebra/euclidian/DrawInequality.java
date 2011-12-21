@@ -84,8 +84,8 @@ public class DrawInequality extends Drawable {
 			double radius = geo.getLineThickness()
 					* DrawInequality1Var.DOT_RADIUS;
 			// we add poits 2*radius to the left and right of the screen
-			zeros.add(view.xmin - 2 * radius * view.xscale);
-			zeros.add(view.xmax + 2 * radius * view.xscale);
+			zeros.add(view.getXmin() - 2 * radius * view.getXscale());
+			zeros.add(view.getXmax() + 2 * radius * view.getXscale());
 			gpAxis = new GeneralPathClipped[zeros.size()];
 			Double last = null;
 			int gpCount = 0;
@@ -378,14 +378,14 @@ public class DrawInequality extends Drawable {
 			Point labelPos;
 			if (ineq.getType() == Inequality.INEQUALITY_PARAMETRIC_X) {
 				double bx = view.toRealWorldCoordY(-10);
-				double ax = view.toRealWorldCoordY(view.height + 10);				
+				double ax = view.toRealWorldCoordY(view.getHeight() + 10);				
 				double axEv = view.toScreenCoordYd(ax);				
 				if (ineq.isAboveBorder()) {					
-					gp.moveTo(view.width + 10, axEv);
+					gp.moveTo(view.getWidth() + 10, axEv);
 					labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
 							true, DrawParametricCurve.GAP_RESET_XMAX);
-					gp.lineTo(view.width + 10, gp.getCurrentPoint().getY());
-					gp.lineTo(view.width + 10, axEv);
+					gp.lineTo(view.getWidth() + 10, gp.getCurrentPoint().getY());
+					gp.lineTo(view.getWidth() + 10, axEv);
 					gp.closePath();
 				} else {					
 					gp.moveTo(-10, axEv);
@@ -397,7 +397,7 @@ public class DrawInequality extends Drawable {
 				}				
 			} else {
 				double ax = view.toRealWorldCoordX(-10);
-				double bx = view.toRealWorldCoordX(view.width + 10);				
+				double bx = view.toRealWorldCoordX(view.getWidth() + 10);				
 				double axEv = view.toScreenCoordXd(ax);				
 				if (ineq.isAboveBorder()) {
 					gp.moveTo(axEv, -10);
@@ -407,11 +407,11 @@ public class DrawInequality extends Drawable {
 					gp.lineTo(axEv, -10);
 					gp.closePath();
 				} else {
-					gp.moveTo(axEv, view.height + 10);
+					gp.moveTo(axEv, view.getHeight() + 10);
 					labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
 							true, DrawParametricCurve.GAP_RESET_YMAX);					
-					gp.lineTo(gp.getCurrentPoint().getX(), view.height + 10);
-					gp.lineTo(axEv, view.height + 10);
+					gp.lineTo(gp.getCurrentPoint().getX(), view.getHeight() + 10);
+					gp.lineTo(axEv, view.getHeight() + 10);
 					gp.closePath();
 				}
 				border.evaluateCurve(ax);

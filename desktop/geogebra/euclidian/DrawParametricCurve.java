@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
@@ -138,7 +139,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.width, view.height)) {
+		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -217,7 +218,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
 	final public static Point plotCurve(ParametricCurve curve, double t1,
-			double t2, EuclidianView view, GeneralPathClipped gp,
+			double t2, EuclidianViewInterface2D view, GeneralPathClipped gp,
 			boolean calcLabelPos, int moveToAllowed) {
 
 		countPoints = 0;
@@ -272,7 +273,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static Point plotInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
-			EuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
+			EuclidianViewInterface2D view, GeneralPathClipped gp, boolean calcLabelPos,
 			int moveToAllowed) {
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
@@ -337,8 +338,8 @@ public class DrawParametricCurve extends Drawable {
 		} else if (moveToAllowed == GAP_RESET_XMAX) {
 			double d = gp.getCurrentPoint().getY();
 			if (!AbstractKernel.isEqual(d, y0)) {
-				lineTo(gp, view.width + 10, d);
-				lineTo(gp, view.width + 10, y0);
+				lineTo(gp, view.getWidth() + 10, d);
+				lineTo(gp, view.getWidth() + 10, y0);
 			}
 			lineTo(gp, x0, y0);
 
@@ -352,8 +353,8 @@ public class DrawParametricCurve extends Drawable {
 		} else if (moveToAllowed == GAP_RESET_YMAX) {
 			double d = gp.getCurrentPoint().getX();
 			if (!AbstractKernel.isEqual(d, x0)) {
-				lineTo(gp, gp.getCurrentPoint().getX(), view.height + 10);
-				lineTo(gp, x0, view.height + 10);
+				lineTo(gp, gp.getCurrentPoint().getX(), view.getHeight() + 10);
+				lineTo(gp, x0, view.getHeight() + 10);
 			}
 			lineTo(gp, x0, y0);
 		}
@@ -504,13 +505,13 @@ public class DrawParametricCurve extends Drawable {
 				double xLabel = x + 10;
 				if (xLabel < 20)
 					xLabel = 5;
-				if (xLabel > view.width - 30)
-					xLabel = view.width - 15;
+				if (xLabel > view.getWidth() - 30)
+					xLabel = view.getWidth() - 15;
 				double yLabel = y + 15;
 				if (yLabel < 40)
 					yLabel = 15;
-				else if (yLabel > view.height - 30)
-					yLabel = view.height - 5;
+				else if (yLabel > view.getHeight() - 30)
+					yLabel = view.getHeight() - 5;
 
 				labelPoint = new Point((int) xLabel, (int) yLabel);
 				needLabelPos = false;
@@ -649,7 +650,7 @@ public class DrawParametricCurve extends Drawable {
 	 * Performs a quick test whether the segment (x1, y1) to (x2, y2) is off
 	 * screen.
 	 */
-	private static boolean isSegmentOffScreen(EuclidianView view, double x1,
+	private static boolean isSegmentOffScreen(EuclidianViewInterface2D view, double x1,
 			double y1, double x2, double y2) {
 		// top;
 		if (y1 < -EuclidianView.CLIP_DISTANCE
@@ -662,13 +663,13 @@ public class DrawParametricCurve extends Drawable {
 			return true;
 
 		// bottom
-		if (y1 > view.height + EuclidianView.CLIP_DISTANCE
-				&& y2 > view.height + EuclidianView.CLIP_DISTANCE)
+		if (y1 > view.getHeight() + EuclidianView.CLIP_DISTANCE
+				&& y2 > view.getHeight() + EuclidianView.CLIP_DISTANCE)
 			return true;
 
 		// right
-		if (x1 > view.width + EuclidianView.CLIP_DISTANCE
-				&& x2 > view.width + EuclidianView.CLIP_DISTANCE)
+		if (x1 > view.getWidth() + EuclidianView.CLIP_DISTANCE
+				&& x2 > view.getWidth() + EuclidianView.CLIP_DISTANCE)
 			return true;
 
 		// close to screen
@@ -709,7 +710,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static Point plotProblemInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
-			EuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
+			EuclidianViewInterface2D view, GeneralPathClipped gp, boolean calcLabelPos,
 			int moveToAllowed, Point labelPoint) {
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {

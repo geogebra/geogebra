@@ -119,29 +119,29 @@ public class DrawInequality1Var extends Drawable {
 		if (varIsY) {
 			GeoPoint2[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
-			x[0] = view.height + 10;
+			x[0] = view.getHeight() + 10;
 			int numOfX = 1;
 			for (int i = 0; i < roots.length; i++)
 				if (roots[i].x < view.toRealWorldCoordY(-10)
 						&& roots[i].x > view
-								.toRealWorldCoordY(view.height + 10))
+								.toRealWorldCoordY(view.getHeight() + 10))
 					x[numOfX++] = view.toScreenCoordY(roots[i].x);
 			x[numOfX++] = -10;
-			if(numOfX > 2 && x[numOfX-2]>0 && x[numOfX-2]<view.height)
+			if(numOfX > 2 && x[numOfX-2]>0 && x[numOfX-2]<view.getHeight())
 				yLabel = (int) x[numOfX-2] - 5;
 			else
 				yLabel = 10;
-			xLabel = (int) view.xZero + 6;
+			xLabel = (int) view.getxZero() + 6;
 			if (gp == null)
 				gp = new GeneralPathClipped[numOfX / 2];
 			int j = ineq.getFunBorder().evaluate(
-					view.toRealWorldCoordY(view.height + 10)) <= 0 ? 1 : 0;
+					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
 			Area a = new Area();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
 				gp[i].moveTo(-10, x[2 * i + j]);
-				gp[i].lineTo(view.width + 10, x[2 * i + j]);
-				gp[i].lineTo(view.width + 10, x[2 * i + j + 1]);
+				gp[i].lineTo(view.getWidth() + 10, x[2 * i + j]);
+				gp[i].lineTo(view.getWidth() + 10, x[2 * i + j + 1]);
 				gp[i].lineTo(-10, x[2 * i + j + 1]);
 				gp[i].lineTo(-10, x[2 * i + j]);
 				gp[i].closePath();
@@ -155,15 +155,15 @@ public class DrawInequality1Var extends Drawable {
 			int numOfX = 1;
 			for (int i = 0; i < roots.length; i++)
 				if (roots[i].x > view.toRealWorldCoordX(-10)
-						&& roots[i].x < view.toRealWorldCoordX(view.width + 10))
+						&& roots[i].x < view.toRealWorldCoordX(view.getWidth() + 10))
 					x[numOfX++] = view.toScreenCoordX(roots[i].x);
-			x[numOfX++] = view.width + 10;
+			x[numOfX++] = view.getWidth() + 10;
 
-			if(numOfX > 2 && x[numOfX-2]>0 && x[numOfX-2]<view.height)
+			if(numOfX > 2 && x[numOfX-2]>0 && x[numOfX-2]<view.getHeight())
 				xLabel = (int) x[numOfX-2] - 10;
 			else
 				xLabel = 10;
-			yLabel = (int) view.yZero + 15;
+			yLabel = (int) view.getyZero() + 15;
 			
 			if (gp == null)
 				gp = new GeneralPathClipped[numOfX / 2];
@@ -175,7 +175,7 @@ public class DrawInequality1Var extends Drawable {
 				for (int i = 0; i < numOfX; i++) {					
 					if (x[i] < 0)
 						continue;
-					if (x[i] > view.width)
+					if (x[i] > view.getWidth())
 						break;
 					circle[circleCount] = new Ellipse2D.Double();
 					double radius = geo.getLineThickness() * DOT_RADIUS;
@@ -190,8 +190,8 @@ public class DrawInequality1Var extends Drawable {
 				for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 					gp[i] = new GeneralPathClipped(view);
 					gp[i].moveTo(x[2 * i + j], -10);
-					gp[i].lineTo(x[2 * i + j], view.height + 10);
-					gp[i].lineTo(x[2 * i + j + 1], view.height + 10);
+					gp[i].lineTo(x[2 * i + j], view.getHeight() + 10);
+					gp[i].lineTo(x[2 * i + j + 1], view.getHeight() + 10);
 					gp[i].lineTo(x[2 * i + j + 1], -10);
 					gp[i].lineTo(x[2 * i + j], -10);
 					gp[i].closePath();

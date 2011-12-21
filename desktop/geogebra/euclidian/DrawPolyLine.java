@@ -67,7 +67,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			addPointsToPath(poly.getPoints());
 
 			// polygon on screen?
-			if (!gp.intersects(0, 0, view.width, view.height)) {
+			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too

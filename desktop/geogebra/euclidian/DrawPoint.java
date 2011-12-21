@@ -134,9 +134,9 @@ public final class DrawPoint extends Drawable {
 		// point outside screen?
 		if (Double.isNaN(coords[0]) || Double.isNaN(coords[1])) { // fix for #63
 			isVisible = false;
-		} else if (coords[0] > view.width + P.getPointSize()
+		} else if (coords[0] > view.getWidth() + P.getPointSize()
 				|| coords[0] < -P.getPointSize()
-				|| coords[1] > view.height + P.getPointSize()
+				|| coords[1] > view.getHeight() + P.getPointSize()
 				|| coords[1] < -P.getPointSize()) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
