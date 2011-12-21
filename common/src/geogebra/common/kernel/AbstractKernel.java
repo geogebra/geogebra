@@ -93,6 +93,7 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -3396,7 +3397,7 @@ public abstract class AbstractKernel {
 
 	// temporary methods just while moving things
 
-	public abstract ParserInterface getParser();
+	public abstract geogebra.common.kernel.parser.Parser getParser();
 
 	public abstract ExtremumFinder getExtremumFinder();
 
@@ -9560,6 +9561,16 @@ public abstract class AbstractKernel {
 
 		public abstract GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
 				GeoPolygon geoPolygon2);
+
+		public GeoPlaneND getDefaultPlane() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Manager3DInterface getManager3D() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
 
 

@@ -251,9 +251,9 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	public GeoPlaneND getPlaneContaining(){
 		if (plane instanceof GeoPlaneND) {
 			return (GeoPlaneND) plane;
-		} else {
-			return kernel.getManager3D().Plane3D(plane);
-		}
+		} 
+		return kernel.getManager3D().Plane3D(plane);
+		
 	}
 	
 	@Override

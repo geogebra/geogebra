@@ -16,6 +16,7 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
@@ -30,6 +31,7 @@ import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -66,13 +68,10 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.DrawableList.DrawableIterator;
-import geogebra.gui.GuiManager;
-import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.kernel.geos.GeoTextField;
+import geogebra.euclidian.DrawableList.DrawableIterator;
 import geogebra.main.Application;
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -275,7 +274,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	// member variables
 	protected Application app;
 
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 
 	protected EuclidianController euclidianController;
 
@@ -730,7 +729,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	 * //kernel.notifyRemoveAll(this); }
 	 */
 
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 
@@ -2934,14 +2933,13 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	private boolean drawPlayButtonInThisView() {
 
-		GuiManager gui;
 		// just one view
-		if ((gui = app.getGuiManager()) == null) {
+		if ( app.getGuiManager() == null) {
 			return true;
 		}
-		EuclidianDockPanelAbstract evp;
+		GetViewId evp;
 		// eg ev1 just closed
-		if ((evp = gui.getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
+		if ((evp = app.getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
 			return true;
 		}
 
@@ -3710,7 +3708,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 		case TEXTFIELD:
 
-			d = new DrawTextField(this, (GeoTextField) geo);
+			d = new DrawTextField(this, (AbstractGeoTextField) geo);
 			break;
 
 		case POINT:

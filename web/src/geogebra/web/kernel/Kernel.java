@@ -145,7 +145,7 @@ public class Kernel extends AbstractKernel {
 
 	
 	@Override
-    public ParserInterface getParser() {
+    public geogebra.common.kernel.parser.Parser getParser() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

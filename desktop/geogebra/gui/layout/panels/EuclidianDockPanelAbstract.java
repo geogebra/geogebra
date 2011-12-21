@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  * @remark {@link #getEuclidianView()} has to be overridden if {@link #getComponent()}
  * 			does not return the euclidian view directly
  */
-public abstract class EuclidianDockPanelAbstract extends DockPanel {
+public abstract class EuclidianDockPanelAbstract extends DockPanel implements geogebra.common.euclidian.GetViewId {
 	/** */
 	private static final long serialVersionUID = 1L;
 	

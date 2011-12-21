@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -64,14 +65,14 @@ public final class DrawTextField extends Drawable {
 	ButtonListener bl;
 	Container box = Box.createHorizontalBox();
 
-	public DrawTextField(EuclidianView view, GeoTextField geoButton) {
+	public DrawTextField(EuclidianView view, AbstractGeoTextField geo) {
 		this.view = view;
-		this.geoButton = geoButton;
-		geo = geoButton;
+		this.geoButton = geo;
+		this.geo = geo;
 
 		// action listener for checkBox
 		bl = new ButtonListener();
-		textField = geoButton.getTextField();// new JTextField(20);
+		textField = ((GeoTextField)geo).getTextField();// new JTextField(20);
 		label = new JLabel("Label");
 		label.setLabelFor(textField);
 		textField.setVisible(true);
