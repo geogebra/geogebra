@@ -1,24 +1,21 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
-/**
- * Frequency
- */
-class CmdFrequency extends CommandProcessorDesktop {
+public class CmdFrequencyTable extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFrequency(Kernel kernel) {
+	public CmdFrequencyTable(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,7 +29,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 
 		case 1:
 			if (ok[0] = arg[0].isGeoList()) {
-				GeoElement[] ret = { kernel.Frequency(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 
@@ -44,7 +41,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 
 			//  arg[0] = is cumulative,  arg[1] = data list,
 			if ((arg[0].isGeoBoolean()) && (arg[1].isGeoList())) {
-				GeoElement[] ret = { kernel.Frequency(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1]) };
 				return ret;
 			}
@@ -52,7 +49,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 			// arg[0] = class list, arg[1] = data list
 			else if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
 				if (arg[1].isGeoList()) {
-					GeoElement[] ret = { kernel.Frequency(c.getLabel(),
+					GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
 							(GeoList) arg[0], (GeoList) arg[1]) };
 					return ret;
 				}
@@ -68,8 +65,8 @@ class CmdFrequency extends CommandProcessorDesktop {
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list
 			if ((ok[0] = arg[0].isGeoBoolean()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoList())) {
-				GeoElement[] ret = { kernel
-						.Frequency(c.getLabel(), (GeoBoolean) arg[0],
+				GeoElement[] ret = { kernelA
+						.FrequencyTable(c.getLabel(), (GeoBoolean) arg[0],
 								(GeoList) arg[1], (GeoList) arg[2]) };
 				return ret;
 
@@ -78,7 +75,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 			else if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.Frequency(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(), (GeoList) arg[0],
 								(GeoList) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 
@@ -97,7 +94,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { kernel.Frequency(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2], (GeoNumeric) arg[3]) };
 				return ret;
@@ -108,7 +105,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { kernel.Frequency(c.getLabel(),
+				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
@@ -133,7 +130,7 @@ class CmdFrequency extends CommandProcessorDesktop {
 					&& (ok[3] = arg[3].isGeoBoolean())
 					&& (ok[4] = arg[4].isGeoNumeric())) 
 			{
-				GeoElement[] ret = { kernel.Frequency(c.getLabel(), 
+				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(), 
 								(GeoBoolean) arg[0],
 								(GeoList) arg[1], 
 								(GeoList) arg[2], 

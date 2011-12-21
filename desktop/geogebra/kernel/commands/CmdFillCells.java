@@ -147,7 +147,7 @@ class CmdFillCells extends CommandProcessor {
 
 			} else {
 
-				if (GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabel())) {
+				if (app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) {
 
 					if (!arg[1].isGeoList()) {
 						app.setScrollToShow(true);

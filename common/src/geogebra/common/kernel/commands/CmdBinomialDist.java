@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
- *HyperGeometric
+ *Binomial Distribution
  */
-class CmdHyperGeometric extends CommandProcessorDesktop {
+public class CmdBinomialDist extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdHyperGeometric extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHyperGeometric(Kernel kernel) {
+	public CmdBinomialDist(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,12 +29,27 @@ class CmdHyperGeometric extends CommandProcessorDesktop {
 
 		switch (n) {
 		
-		case 3:
+		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernel.HyperGeometric(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
+				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1]) };
+				return ret;
+
+			} else if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			else
+				throw argErr(app, c.getName(), arg[1]);
+
+			
+		case 3:
+			arg = resArgs(c);
+			if ((ok[0] = arg[0].isNumberValue())
+					&& (ok[1] = arg[1].isNumberValue())
+					&& (ok[2] = arg[2].isGeoBoolean())) {
+				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
+						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]) };
 				return ret;
 
 			} else if (!ok[0])
@@ -50,32 +65,10 @@ class CmdHyperGeometric extends CommandProcessorDesktop {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.HyperGeometric(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2], (GeoBoolean)arg[3]) };
-				return ret;
-
-			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
-			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
-			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
-			else
-				throw argErr(app, c.getName(), arg[3]);
-			
-
-		case 5:
-			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue())
-					&& (ok[4] = arg[4].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.HyperGeometric(c.getLabel(),
+					&& (ok[2] = arg[3].isGeoBoolean())) {
+				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (NumberValue) arg[3],
-						(GeoBoolean) arg[4]) };
+						(NumberValue) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
 
 			} else if (!ok[0])
@@ -84,10 +77,8 @@ class CmdHyperGeometric extends CommandProcessorDesktop {
 				throw argErr(app, c.getName(), arg[1]);
 			else if (!ok[2])
 				throw argErr(app, c.getName(), arg[2]);
-			else if (!ok[3])
-				throw argErr(app, c.getName(), arg[3]);
 			else
-				throw argErr(app, c.getName(), arg[4]);
+				throw argErr(app, c.getName(), arg[3]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

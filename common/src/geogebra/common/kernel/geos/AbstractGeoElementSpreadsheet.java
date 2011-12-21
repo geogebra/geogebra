@@ -23,4 +23,6 @@ public abstract class AbstractGeoElementSpreadsheet {
 
 	public abstract GeoElement autoCreate(String label,Construction cons);
 
+	public abstract boolean isSpreadsheetLabel(String label);
+
 }

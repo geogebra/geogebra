@@ -260,7 +260,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 			for(int i=0; i < geoArray.length; i++){
 				GeoElement geo = app.getKernel().lookupLabel(list.get(i));
 				if(geo != null)
-					if(GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel()))
+					if(app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(geo.getLabel()))
 						return false;
 					geoArray[i] = geo;
 			}

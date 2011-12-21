@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /*
  * Name[ <GeoElement> ]
  */
-public class CmdName extends CommandProcessorDesktop {
+public class CmdName extends CommandProcessor {
 
-	public CmdName(Kernel kernel) {
+	public CmdName(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -22,7 +22,7 @@ public class CmdName extends CommandProcessorDesktop {
 		case 1:
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);			
-			GeoElement[] ret = { kernel.Name(c.getLabel(),
+			GeoElement[] ret = { kernelA.Name(c.getLabel(),
 								arg[0]) };
 			return ret;
 

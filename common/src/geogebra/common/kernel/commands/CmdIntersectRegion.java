@@ -1,17 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
-class CmdIntersectRegion extends CommandProcessorDesktop {
+public class CmdIntersectRegion extends CommandProcessor {
 
 	/**
 	 * @param kernel
 	 */
-	public CmdIntersectRegion(Kernel kernel) {
+	public CmdIntersectRegion(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -24,7 +24,7 @@ class CmdIntersectRegion extends CommandProcessorDesktop {
 		switch (n) {
 			case 2:		
 				if ((ok[0]=arg[0].isGeoPolygon()) && arg[1].isGeoPolygon() ) {
-					GeoElement[] ret =  kernel.IntersectPolygons(c.getLabels(),
+					GeoElement[] ret =  kernelA.IntersectPolygons(c.getLabels(),
 					(GeoPolygon) arg[0], (GeoPolygon)arg[1] ) ;
 					return ret;
 				} 

@@ -1,8 +1,7 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
@@ -11,7 +10,7 @@ import geogebra.common.main.MyError;
  * Incircle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ]
  * dsun [6/26/2011]
  */
-class CmdIncircle extends CommandProcessor {
+public class CmdIncircle extends CommandProcessor {
     public CmdIncircle(AbstractKernel kernel) {
 	super(kernel);
     }

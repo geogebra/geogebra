@@ -295,6 +295,19 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
+    public GeoElement Hull(String label, GeoList geoList, GeoNumeric geoNumeric) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElement[] IntersectPolygons(String[] labels,
+            GeoPolygon geoPolygon, GeoPolygon geoPolygon2) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
     public MacroKernelInterface newMacroKernel() {
 	    // TODO Auto-generated method stub
 	    return null;

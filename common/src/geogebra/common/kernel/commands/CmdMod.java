@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Mod[a, b]
  */
-class CmdMod extends CommandProcessorDesktop {
+public class CmdMod extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdMod extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdMod(Kernel kernel) {
+	public CmdMod(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,12 +32,12 @@ class CmdMod extends CommandProcessorDesktop {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				GeoElement[] ret = { kernel.Mod(c.getLabel(),
+				GeoElement[] ret = { kernelA.Mod(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunction()))
 					&& (ok[1] = (arg[1].isGeoFunction()))) {
-				GeoElement[] ret = { kernel.Mod(c.getLabel(),
+				GeoElement[] ret = { kernelA.Mod(c.getLabel(),
 						(GeoFunction) arg[0], (GeoFunction) arg[1]) };
 				return ret;
 			} else {

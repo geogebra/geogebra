@@ -672,7 +672,7 @@ implements
 		}else{
 		if (mode == MODE_ADD 
 				&& geo.isSpreadsheetTraceable()
-				&& !GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel())) {
+				&& !app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(geo.getLabel())) {
 			
 				addTrace(geo);
 			}

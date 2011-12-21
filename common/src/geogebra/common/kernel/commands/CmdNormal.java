@@ -1,22 +1,21 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 /*
  * , (NumberValue) arg[1][ <Number>, <Number>,<Number> ]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
-public class CmdNormal extends CommandProcessorDesktop {
+public class CmdNormal extends CommandProcessor {
 
-	public CmdNormal(Kernel kernel) {
+	public CmdNormal(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -41,20 +40,20 @@ public class CmdNormal extends CommandProcessorDesktop {
 				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString().equals("x")) {
 									
 					// needed for eg Normal[1, 0.001, x] 
-					kernel.setTemporaryPrintFigures(15);
+					kernelA.setTemporaryPrintFigures(15);
 					
 					String mean = arg[0].getLabel();
 					String sd = arg[1].getLabel();
 					
-					kernel.restorePrintAccuracy();
+					kernelA.restorePrintAccuracy();
 					
 					if (cumulative) {
-						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/abs("+sd+")) + 1)/2", true );
+						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/abs("+sd+")) + 1)/2", true );
 						
 						return ret;
 						
 					} else {
-						GeoElement[] ret = (GeoElement[])kernel.getAlgebraProcessor().processAlgebraCommand( "exp(-((x-("+mean+"))/("+sd+"))^2/2)/(sqrt(2*pi)*abs("+sd+"))", true );
+						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "exp(-((x-("+mean+"))/("+sd+"))^2/2)/(sqrt(2*pi)*abs("+sd+"))", true );
 						
 						return ret;
 					}
@@ -62,7 +61,7 @@ public class CmdNormal extends CommandProcessorDesktop {
 				} else if (arg[2].isNumberValue()) 
 				{
 					GeoElement[] ret = { 
-							kernel.Normal(c.getLabel(),
+							kernelA.Normal(c.getLabel(),
 							(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
 					return ret;
 					

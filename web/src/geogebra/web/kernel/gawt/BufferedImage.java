@@ -6,4 +6,7 @@ import com.google.gwt.dom.client.ImageElement;
 
 public class BufferedImage extends ImageElement implements BufferedImageAdapter {
 
+	protected BufferedImage(){
+		super();
+	}
 }

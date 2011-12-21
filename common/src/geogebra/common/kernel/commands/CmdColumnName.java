@@ -1,16 +1,14 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 /**
  *ColumnName
  */
-class CmdColumnName extends CommandProcessor {
+public class CmdColumnName extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
@@ -30,7 +28,7 @@ class CmdColumnName extends CommandProcessor {
 		case 1:
 
 			if (arg[0].getLabel() != null
-					&& GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabel())) {
+					&& kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) {
 				GeoElement[] ret = { kernelA.ColumnName(c.getLabel(), arg[0]) };
 
 				return ret;

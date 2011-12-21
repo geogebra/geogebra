@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *Hull
  */
-class CmdHull extends CommandProcessorDesktop {
+public class CmdHull extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdHull extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHull(Kernel kernel) {
+	public CmdHull(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -31,7 +31,7 @@ class CmdHull extends CommandProcessorDesktop {
 		case 2:
 
 			if (arg[0].isGeoList() && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { kernel.Hull(c.getLabel(),
+				GeoElement[] ret = { kernelA.Hull(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
 			} else

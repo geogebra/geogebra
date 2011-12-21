@@ -1,23 +1,23 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * ANOVA test 
  */
-class CmdANOVA extends CommandProcessorDesktop {
+public class CmdANOVA extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdANOVA(Kernel kernel) {
+	public CmdANOVA(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -37,7 +37,7 @@ class CmdANOVA extends CommandProcessorDesktop {
 					throw argErr(app, c.getName(), arg[0]);
 
 				if (list.get(0).isGeoList()) { 
-					GeoElement[] ret = { kernel.ANOVATest(c.getLabel(),
+					GeoElement[] ret = { kernelA.ANOVATest(c.getLabel(),
 							(GeoList) arg[0]) };
 					return ret;
 
@@ -47,9 +47,9 @@ class CmdANOVA extends CommandProcessorDesktop {
 			}
 
 		default:
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
+			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
-				GeoElement[] ret = { kernel.ANOVATest(c.getLabel(), list) };
+				GeoElement[] ret = { kernelA.ANOVATest(c.getLabel(), list) };
 				return ret;
 			}
 			else{

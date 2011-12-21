@@ -1,8 +1,7 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -13,7 +12,7 @@ import geogebra.common.main.MyError;
  * @author Zbynek
  *
  */
-class CmdButton extends CommandProcessor {
+public class CmdButton extends CommandProcessor {
 
 	/**
 	 * Create new command processor

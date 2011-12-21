@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *Binomial Distribution
  */
-class CmdBinomialDist extends CommandProcessorDesktop {
+public class CmdBernoulli extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -18,7 +18,7 @@ class CmdBinomialDist extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdBinomialDist(Kernel kernel) {
+	public CmdBernoulli(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -32,9 +32,9 @@ class CmdBinomialDist extends CommandProcessorDesktop {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())) {
-				GeoElement[] ret = { kernel.BinomialDist(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+					&& (ok[1] = arg[1].isGeoBoolean())) {
+				GeoElement[] ret = { kernelA.Bernoulli(c.getLabel(),
+						(NumberValue) arg[0], (GeoBoolean) arg[1]) };
 				return ret;
 
 			} else if (!ok[0])
@@ -48,7 +48,7 @@ class CmdBinomialDist extends CommandProcessorDesktop {
 			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.BinomialDist(c.getLabel(),
+				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]) };
 				return ret;
 
@@ -66,7 +66,7 @@ class CmdBinomialDist extends CommandProcessorDesktop {
 					&& (ok[1] = arg[1].isNumberValue())
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[2] = arg[3].isGeoBoolean())) {
-				GeoElement[] ret = { kernel.BinomialDist(c.getLabel(),
+				GeoElement[] ret = { kernelA.BinomialDist(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(NumberValue) arg[2], (GeoBoolean) arg[3]) };
 				return ret;

@@ -1,4 +1,4 @@
-package geogebra.kernel.commands; 
+package geogebra.common.kernel.commands; 
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
@@ -10,12 +10,12 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /** 
  * Fit[<List Points>,<List of Functions>]  (linear combination)
@@ -23,9 +23,9 @@ import geogebra.kernel.Kernel;
  * @author Hans-Petter Ulven
  * @version 2011-03-15
  */
-public class CmdFit extends CommandProcessorDesktop{
+public class CmdFit extends CommandProcessor{
 
-    public CmdFit(Kernel kernel) {super(kernel);}
+    public CmdFit(AbstractKernel kernel) {super(kernel);}
     
     public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();
@@ -33,10 +33,10 @@ public class CmdFit extends CommandProcessorDesktop{
         switch(n) {
             case 2:
                     if(  (arg[0].isGeoList() )&& (arg[1].isGeoList())  ){ 
-                        GeoElement[] ret={kernel.Fit(c.getLabel(),(GeoList)arg[0],(GeoList) arg[1]) };
+                        GeoElement[] ret={kernelA.Fit(c.getLabel(),(GeoList)arg[0],(GeoList) arg[1]) };
                         return ret;
                     }else if(  (arg[0].isGeoList() )&& (arg[1].isGeoFunction())  ){
-                    	GeoElement[] ret={kernel.Fit(c.getLabel(),(GeoList)arg[0],(GeoFunction) arg[1])  };
+                    	GeoElement[] ret={kernelA.Fit(c.getLabel(),(GeoList)arg[0],(GeoFunction) arg[1])  };
                     	return ret;
                     }else{
                         throw argErr(app,c.getName(),arg[0]);

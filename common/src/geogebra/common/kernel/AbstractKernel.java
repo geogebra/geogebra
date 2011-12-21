@@ -9562,17 +9562,21 @@ public abstract class AbstractKernel {
 		public abstract GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
 				GeoPolygon geoPolygon2);
 
+		public abstract GeoElement Hull(String label, GeoList geoList,
+				GeoNumeric geoNumeric);
+				
 		public GeoPlaneND getDefaultPlane() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		public abstract GeoElement[] IntersectPolygons(String[] labels,
+				GeoPolygon geoPolygon, GeoPolygon geoPolygon2);
+
 		public Manager3DInterface getManager3D() {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
-
 
 		
 	

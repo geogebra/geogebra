@@ -1,22 +1,22 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  *Object
  */
-class CmdObject extends CommandProcessorDesktop {
+public class CmdObject extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdObject(Kernel kernel) {
+	public CmdObject(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -29,7 +29,7 @@ class CmdObject extends CommandProcessorDesktop {
 		switch (n) {
 		case 1:
 			if ((ok[0] = (arg[0].isGeoText()))) {
-				GeoElement[] ret = { kernel.Object(c.getLabel(),
+				GeoElement[] ret = { kernelA.Object(c.getLabel(),
 						(GeoText) arg[0]) };
 				return ret;
 			} else {

@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * Numerator[ <Function> ]
  */
-class CmdNumerator extends CommandProcessorDesktop {
+public class CmdNumerator extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ class CmdNumerator extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdNumerator(Kernel kernel) {
+	public CmdNumerator(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -30,7 +30,7 @@ class CmdNumerator extends CommandProcessorDesktop {
 			arg = resArgs(c);
 
 			if (arg[0].isGeoFunction()) {
-				GeoElement[] ret = { kernel.Numerator(c.getLabel(),
+				GeoElement[] ret = { kernelA.Numerator(c.getLabel(),
 						(GeoFunction) arg[0]) };
 				return ret;
 

@@ -1,15 +1,15 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
-class CmdBarycenter extends CommandProcessorDesktop 
+public class CmdBarycenter extends CommandProcessor 
 {
 
-	public CmdBarycenter(Kernel kernel) 
+	public CmdBarycenter(AbstractKernel kernel) 
 	{
 		super(kernel);
 	}
@@ -24,7 +24,7 @@ class CmdBarycenter extends CommandProcessorDesktop
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList()) &&
 					(ok[1] = arg[1].isGeoList())) {
-				GeoElement[] ret = { kernel.Barycenter(c.getLabel(),
+				GeoElement[] ret = { kernelA.Barycenter(c.getLabel(),
 						(GeoList)arg[0], (GeoList)arg[1])} ;
 				return ret;
 				

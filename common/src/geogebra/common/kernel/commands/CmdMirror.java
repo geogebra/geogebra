@@ -1,5 +1,6 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -12,7 +13,6 @@ import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
  * (2nd argument is the mirror) Mirror[ <GeoPoint>, <GeoPoint> ]
@@ -22,7 +22,7 @@ import geogebra.kernel.Kernel;
  * Mirror[ <GeoPoint>, <GeoLine> ] Mirror[ <GeoLine>, <GeoLine> ] Mirror[
  * <GeoConic>, <GeoLine> ] Mirror[ <GeoPolygon>, <GeoLine> ]
  */
-class CmdMirror extends CommandProcessorDesktop {
+public class CmdMirror extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -30,7 +30,7 @@ class CmdMirror extends CommandProcessorDesktop {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdMirror(Kernel kernel) {
+	public CmdMirror(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -57,7 +57,7 @@ class CmdMirror extends CommandProcessorDesktop {
 						|| arg[0] instanceof GeoFunction
 						|| arg[0] instanceof GeoList
 						|| arg[0] instanceof GeoImplicitPoly) {
-					ret = kernel.Mirror(label, arg[0], conic1);
+					ret = kernelA.Mirror(label, arg[0], conic1);
 					return ret;
 				}
 
@@ -72,14 +72,14 @@ class CmdMirror extends CommandProcessorDesktop {
 				if (ok[1] = (arg[1].isGeoPoint())) {
 					GeoPoint2 Q = (GeoPoint2) arg[1];
 
-					ret = kernel.Mirror(label, arg[0], Q);
+					ret = kernelA.Mirror(label, arg[0], Q);
 					return ret;
 				}
 				// mirror is line
 				else if (ok[1] = (arg[1].isGeoLine())) {
 					GeoLine line = (GeoLine) arg[1];
 
-					ret = kernel.Mirror(label, arg[0], line);
+					ret = kernelA.Mirror(label, arg[0], line);
 					return ret;
 				}
 			}

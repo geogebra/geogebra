@@ -1,9 +1,8 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
@@ -11,7 +10,7 @@ import geogebra.common.main.MyError;
 /**
  * BarChart[ <Number>, <Number>, <List> ]
  */
-class CmdBoxPlot extends CommandProcessor {
+public class CmdBoxPlot extends CommandProcessor {
 
 	/**
 	 * Create new command processor

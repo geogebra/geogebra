@@ -4,7 +4,6 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 /*
  * Row[ <GeoElement> ]
@@ -23,7 +22,7 @@ public class CmdRow extends CommandProcessorDesktop {
 		case 1:
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);			
-			if (arg[0].getLabel() != null && GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabel())) {
+			if (arg[0].getLabel() != null && kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) {
 				GeoElement[] ret = { kernel.Row(c.getLabel(),
 						arg[0]) };
 				return ret;

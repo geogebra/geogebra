@@ -60,7 +60,7 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	}
 
 	// Michael Borcherds
-	public static boolean isSpreadsheetLabel(String str) {
+	public boolean isSpreadsheetLabel(String str) {
 		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(str);
 		if (matcher.matches()) {
 			return true;
