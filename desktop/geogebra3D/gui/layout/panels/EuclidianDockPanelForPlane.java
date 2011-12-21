@@ -2,10 +2,12 @@ package geogebra3D.gui.layout.panels;
 
 import javax.swing.JComponent;
 
+import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
 
+import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 /**
@@ -46,5 +48,10 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	@Override
 	protected JComponent loadStyleBar() {
 		return view.getStyleBar();
+	}
+	
+	@Override
+	public EuclidianViewInterface getEuclidianView() {
+		return view;
 	}
 }

@@ -46,9 +46,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 	 * @remark This method has to be overridden if the component of the 
 	 * 			dock panel is not the euclidian view itself
 	 */
-	public EuclidianViewInterface getEuclidianView() {
-		return (EuclidianViewInterface)getComponent();
-	}
+	abstract public EuclidianViewInterface getEuclidianView();
 	
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"

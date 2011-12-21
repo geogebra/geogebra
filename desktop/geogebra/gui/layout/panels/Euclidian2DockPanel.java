@@ -1,6 +1,7 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
 
 import javax.swing.JComponent;
@@ -40,5 +41,10 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	@Override
 	protected JComponent loadComponent() {
 		return app.getEuclidianView2().getJPanel();
+	}
+	
+	@Override
+	public EuclidianViewInterface getEuclidianView() {
+		return app.getEuclidianView2();
 	}
 }
