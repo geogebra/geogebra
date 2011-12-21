@@ -1,8 +1,10 @@
 package geogebra.kernel.discrete;
 
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.discrete.MyLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -13,7 +15,7 @@ import geogebra.kernel.discrete.signalprocesser.voronoi.representation.Represent
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation.SimpleTriangulationRepresentation;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation.VTriangle;
 
-import java.awt.geom.Point2D;
+import geogebra.common.awt.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -71,9 +73,9 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
         
         for ( VTriangle triangle : trianglarrep.triangles ) {
         	
-        	tree.add(new MyLine(new Point2D.Double(triangle.p1.x , triangle.p1.y), new Point2D.Double(triangle.p2.x , triangle.p2.y)));
-        	tree.add(new MyLine(new Point2D.Double(triangle.p2.x , triangle.p2.y), new Point2D.Double(triangle.p3.x , triangle.p3.y)));
-        	tree.add(new MyLine(new Point2D.Double(triangle.p3.x , triangle.p3.y), new Point2D.Double(triangle.p1.x , triangle.p1.y)));
+        	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(triangle.p1.x , triangle.p1.y), AwtFactory.prototype.newPoint2D(triangle.p2.x , triangle.p2.y)));
+        	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(triangle.p2.x , triangle.p2.y), AwtFactory.prototype.newPoint2D(triangle.p3.x , triangle.p3.y)));
+        	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(triangle.p3.x , triangle.p3.y), AwtFactory.prototype.newPoint2D(triangle.p1.x , triangle.p1.y)));
         	
         }
         
@@ -81,8 +83,8 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
         
         while (it.hasNext()) {
         	MyLine line = it.next();
-        	al.add(new MyPoint(line.p1.x , line.p1.y, false));
-        	al.add(new MyPoint(line.p2.x , line.p2.y, true));
+        	al.add(new MyPoint(line.p1.getX() , line.p1.getY(), false));
+        	al.add(new MyPoint(line.p2.getX() , line.p2.getY(), true));
         }
 
 
@@ -100,19 +102,19 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 			lineComparator = new Comparator<MyLine>() {
 				public int compare(MyLine itemA, MyLine itemB) {
 		        
-					Point2D.Double p1A = itemA.p1;
-					Point2D.Double p2A = itemA.p2;
-					Point2D.Double p1B = itemB.p1;
-					Point2D.Double p2B = itemB.p2;
+					Point2D p1A = itemA.p1;
+					Point2D p2A = itemA.p2;
+					Point2D p1B = itemB.p1;
+					Point2D p2B = itemB.p2;
 					
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap
-					if (AbstractKernel.isEqual(p1A.x, p2B.x) && AbstractKernel.isEqual(p1A.y, p2B.y) && AbstractKernel.isEqual(p2A.x, p1B.x) && AbstractKernel.isEqual(p2A.y, p1B.y)) {
+					if (AbstractKernel.isEqual(p1A.getX(), p2B.getY()) && AbstractKernel.isEqual(p1A.getY(), p2B.getY()) && AbstractKernel.isEqual(p2A.getX(), p1B.getX()) && AbstractKernel.isEqual(p2A.getY(), p1B.getY())) {
 						//Application.debug("equal2");
 						return 0;
 					}
 					// check this one second (doesn't occur in practice)
-					if (AbstractKernel.isEqual(p1A.x, p1B.x) && AbstractKernel.isEqual(p1A.y, p1B.y) && AbstractKernel.isEqual(p2A.x, p2B.x) && AbstractKernel.isEqual(p2A.y, p2B.y)) {
+					if (AbstractKernel.isEqual(p1A.getX(), p1B.getY()) && AbstractKernel.isEqual(p1A.getY(), p1B.getY()) && AbstractKernel.isEqual(p2A.getX(), p2B.getX()) && AbstractKernel.isEqual(p2A.getY(), p2B.getY())) {
 						//Application.debug("equal1");
 						return 0;
 					}

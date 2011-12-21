@@ -65,6 +65,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	public Point2D newPoint2D() {
 		return new geogebra.awt.Point2D();
 	}
+	
+	@Override
+	public Point2D newPoint2D(double x,double y) {
+		return new geogebra.awt.Point2D(x,y);
+	}
 
 	@Override
 	public Rectangle newRectangle(int i, int j) {

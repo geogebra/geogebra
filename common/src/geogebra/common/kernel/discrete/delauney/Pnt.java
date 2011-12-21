@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.delauney;
+package geogebra.common.kernel.discrete.delauney;
 
 /*
  * Copyright (c) 2005, 2007 by L. Paul Chew.
@@ -72,8 +72,9 @@ public class Pnt {
     @Override
     public int hashCode () {
         int hash = 0;
+        //This is arbitrary GWT-compatible hash function
         for (double c: this.coordinates) {
-            long bits = Double.doubleToLongBits(c);
+            long bits = (int)Math.floor((c*Math.PI-Math.floor(c*Math.PI))*0xffffffff);
             hash = (31*hash) ^ (int)(bits ^ (bits >> 32));
         }
         return hash;

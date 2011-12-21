@@ -5,6 +5,9 @@ private java.awt.geom.Point2D.Double impl;
 	public Point2D(){
 		impl = new java.awt.geom.Point2D.Double();
 	}
+	public Point2D(double x, double y) {
+		impl = new java.awt.geom.Point2D.Double(x,y);
+	}
 	@Override
 	public double getX() {
 		return impl.x;

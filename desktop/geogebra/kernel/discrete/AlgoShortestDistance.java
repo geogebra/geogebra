@@ -6,6 +6,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.discrete.MyNode;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;

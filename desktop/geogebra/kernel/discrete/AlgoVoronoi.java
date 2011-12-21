@@ -12,19 +12,22 @@ the Free Software Foundation.
 
 package geogebra.kernel.discrete;
 
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.discrete.MyLine;
+import geogebra.common.kernel.discrete.delauney.Pnt;
+import geogebra.common.kernel.discrete.delauney.Triangle;
+import geogebra.common.kernel.discrete.delauney.Triangulation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.discrete.delauney.Pnt;
-import geogebra.kernel.discrete.delauney.Triangle;
-import geogebra.kernel.discrete.delauney.Triangulation;
 
-import java.awt.geom.Point2D;
+import geogebra.common.awt.Point2D;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -153,7 +156,7 @@ public class AlgoVoronoi extends AlgoElement {
                     //al.add(new MyPoint(p.coord(0), p.coord(1), i != 0));
 
                     if (prevPoint != null)
-                    	tree.add(new MyLine(new Point2D.Double(prevPoint.coord(0) , prevPoint.coord(1)), new Point2D.Double(p.coord(0) , p.coord(1))));
+                    	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(prevPoint.coord(0) , prevPoint.coord(1)), AwtFactory.prototype.newPoint2D(p.coord(0) , p.coord(1))));
 
                     
                     if (i == 0) firstPoint = p;
@@ -165,7 +168,7 @@ public class AlgoVoronoi extends AlgoElement {
                 
                 // close curve
                 //al.add(new MyPoint(firstPoint.coord(0), firstPoint.coord(1), true));
-            	tree.add(new MyLine(new Point2D.Double(prevPoint.coord(0) , prevPoint.coord(1)), new Point2D.Double(firstPoint.coord(0) , firstPoint.coord(1))));
+            	tree.add(new MyLine(AwtFactory.prototype.newPoint2D(prevPoint.coord(0) , prevPoint.coord(1)), AwtFactory.prototype.newPoint2D(firstPoint.coord(0) , firstPoint.coord(1))));
 
                 //draw(vertices, withFill? getColor(site) : null);
                 //if (withSites) draw(site);
@@ -180,8 +183,8 @@ public class AlgoVoronoi extends AlgoElement {
         
         while (it.hasNext()) {
         	MyLine line = it.next();
-        	al.add(new MyPoint(line.p1.x , line.p1.y, false));
-        	al.add(new MyPoint(line.p2.x , line.p2.y, true));
+        	al.add(new MyPoint(line.p1.getX() , line.p1.getY(), false));
+        	al.add(new MyPoint(line.p2.getX() , line.p2.getX(), true));
         }
 
         
