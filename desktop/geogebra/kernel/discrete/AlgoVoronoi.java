@@ -185,7 +185,7 @@ public class AlgoVoronoi extends AlgoElement {
         while (it.hasNext()) {
         	MyLine line = it.next();
         	al.add(new MyPoint(line.p1.getX() , line.p1.getY(), false));
-        	al.add(new MyPoint(line.p2.getX() , line.p2.getX(), true));
+        	al.add(new MyPoint(line.p2.getX() , line.p2.getY(), true));
         }
 
         
