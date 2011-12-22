@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.io.ConstructionException;

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.View;
@@ -404,38 +405,20 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * needed so that JavaScript commands work:
 	 * ggbApplet.getCommandString(objName); ggbApplet.getValueString(objName);
 	 */
-	final public static void initAlgo2CommandBundle(AbstractApplication app) {
-		if (rbalgo2command == null) {
-			rbalgo2command = app.initAlgo2CommandBundle();
-		}
-
-	}
 
 	final String getCommandString(String classname) {
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
-		if (rbalgo2command == null) {
-			rbalgo2command = app.initAlgo2CommandBundle();
-		}
 
 		// translate algorithm class name to internal command name
-		return rbalgo2command.getString(classname);
+		return Algos.valueOf(classname).getCommand();
 	}
 
 	// Added for Intergeo File Format (Yves Kreis) -->
 	public String getIntergeoString(String classname) {// it will be private
 		// init rbalgo2intergeo if needed
 		// for translation of Algo-classname to Intergeo name
-		if (rbalgo2intergeo == null) {
-			rbalgo2intergeo = app.initAlgo2IntergeoBundle();
-		}
-
-		// translate algorithm class name to Intergeo name
-		try {
-			return rbalgo2intergeo.getString(classname);
-		} catch (MissingResourceException e) {
-			return classname;
-		}
+		return Algos.valueOf(classname).getIntergeo();
 	}
 
 	// <-- Added for Intergeo File Format (Yves Kreis)

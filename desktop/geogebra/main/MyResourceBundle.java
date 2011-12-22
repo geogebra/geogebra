@@ -10,7 +10,7 @@ the Free Software Foundation.
 
 */
 
-package geogebra.common.main;
+package geogebra.main;
 
 import geogebra.common.util.ResourceBundleAdapter;
 
