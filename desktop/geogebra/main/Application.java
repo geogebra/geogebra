@@ -432,13 +432,6 @@ public class Application extends AbstractApplication implements
 	public static final String RB_COLORS = "/geogebra/properties/colors";
 
 	private static final String RB_SETTINGS = "/geogebra/export/settings";
-	//commented by Rana
-	//private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
-	// Added for Intergeo File Format (Yves Kreis) -->
-
-	//commented by Rana
-	//private static final String RB_ALGO2INTERGEO = "/geogebra/kernel/algo2intergeo";
-	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	// private static Color COLOR_STATUS_BACKGROUND = new Color(240, 240, 240);
 
@@ -2383,22 +2376,6 @@ public class Application extends AbstractApplication implements
 		return Locale.ENGLISH;
 	}
 
-	//Commented by Rana
-	/*@Override
-	public ResourceBundleAdapter initAlgo2CommandBundle() {
-		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
-	}*/
-
-
-	//Commented by Rana
-	/*
-	// Added for Intergeo File Format (Yves Kreis) -->
-	@Override
-	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
-		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
-	}
-*/
-	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	private void updateResourceBundles() {
 		if (rbmenu != null) {
