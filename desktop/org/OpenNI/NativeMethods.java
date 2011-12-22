@@ -28,10 +28,11 @@ class NativeMethods
 	static 
 	{ 
 		String arch = System.getenv("PROCESSOR_ARCHITECTURE");
-		if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64"))))
+		if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64")))) {
 			System.loadLibrary("OpenNI.jni64"); 
-		else
+		} else {
 			System.loadLibrary("OpenNI.jni");
+		}
 	}
 
 	// Marshaling
@@ -286,6 +287,7 @@ class NativeMethods
 //	static native int xnGetActiveGestures(long hInstance, XnChar** pstrGestures, XnUInt16* nGestures);
 	static native int xnGetAllActiveGestures(long hInstance, OutArg<String[]> gestures);
 //	static native int xnEnumerateGestures(long hInstance, XnChar** pstrGestures, XnUInt16* nGestures);
+	static native int xnGetNumberOfAvailableGestures(long hInstance);
 	static native int xnEnumerateAllGestures(long hInstance, OutArg<String[]> gestures);
 	static native boolean xnIsGestureAvailable(long hInstance, String strGesture);
 	static native boolean xnIsGestureProgressSupported(long hInstance, String strGesture);
@@ -373,7 +375,8 @@ class NativeMethods
 	static native void xnUnregisterFromOutOfPose(long hInstance, long hCallback);
 	static native int xnRegisterToPoseDetectionInProgress(long hInstance, Object obj, String poseDetectionInProgressCB, OutArg<Long> phCallback);
 	static native void xnUnregisterFromPoseDetectionInProgress(long hInstance, long hCallback);
-
+	static native boolean xnIsPoseSupported(long hInstance, String strPose);
+	static native int xnGetPoseStatus(long hInstance, int user, String strPose, OutArg<Long> poseTime, OutArg<Integer> eStatus, OutArg<Integer> eState);
 	// Hands
 	static native int xnCreateHandsGenerator(
 			long pContext,

@@ -94,6 +94,22 @@ public class PoseDetectionCapability extends CapabilityBase
 	{
 		return NativeMethods.xnGetNumberOfPoses(toNative());
 	}
+	
+	public boolean isPoseSupported(String pose)
+	{
+		return NativeMethods.xnIsPoseSupported(toNative(),pose);
+	}
+	
+	public void getPoseStatus(int user, String pose, OutArg<Long> poseTime, OutArg<PoseDetectionStatus> eStatus, OutArg<PoseDetectionState> eState ) throws StatusException
+	{
+		OutArg<Integer> eInnerStatus = new OutArg<Integer>();
+		OutArg<Integer> eInnerState = new OutArg<Integer>();
+		int status = NativeMethods.xnGetPoseStatus(toNative(), user, pose, poseTime, eInnerStatus,eInnerState);
+		eStatus.value = PoseDetectionStatus.fromNative(eInnerStatus.value);
+		eState.value = PoseDetectionState.fromNative(eInnerState.value);
+		WrapperUtils.throwOnError(status);
+	}
+	
 	public String[] getAllAvailablePoses() throws StatusException
 	{
 		OutArg<String[]> poses = new OutArg<String[]>();

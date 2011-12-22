@@ -166,6 +166,11 @@ public class GestureGenerator extends Generator
 		WrapperUtils.throwOnError(status);
 	}
 	
+	public int getNumberOfAvailableGestures()
+	{
+		return NativeMethods.xnGetNumberOfAvailableGestures(toNative());
+	}
+	
 	public boolean isGestureAvailable(String gesture)
 	{
 		return NativeMethods.xnIsGestureAvailable(toNative(), gesture);

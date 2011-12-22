@@ -21,51 +21,34 @@
 ****************************************************************************/
 package org.OpenNI;
 
-public class AlternativeViewpointCapability extends CapabilityBase
+import java.util.NoSuchElementException;
+
+public enum PoseDetectionState
 {
-	public AlternativeViewpointCapability(ProductionNode node) throws StatusException
+	InPose(0),
+	OutOfPose(1),
+	Undefined(2);
+	
+	PoseDetectionState(int val)
 	{
-		super(node);
-		
-		this.viewPointChanged = new StateChangedObservable() 
+		this.val = val;
+	}
+	
+	public int toNative() { return this.val; }
+	
+	public static PoseDetectionState fromNative(int value)
+	{
+		for (PoseDetectionState type : PoseDetectionState.values()) 
 		{
-			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
-			{
-				return NativeMethods.xnRegisterToViewPointChange(toNative(), this, cb, phCallback);
-			}
+			if (type.val == value)
+				return type;
+		}
+		
+		throw new NoSuchElementException();
+	}
+	
+	private final int val;
 
-			@Override
-			protected void unregisterNative(long hCallback) 
-			{
-				NativeMethods.xnUnregisterFromViewPointChange(toNative(), hCallback);
-			}
-		};
-	}
-	
-	public boolean isViewpointSupported(ProductionNode other)
-	{
-		return NativeMethods.xnIsViewPointSupported(toNative(), other.toNative());
-	}
-	
-	public void setViewpoint(ProductionNode other) throws StatusException
-	{
-		int status = NativeMethods.xnSetViewPoint(toNative(), other.toNative());
-		WrapperUtils.throwOnError(status);
-	}
-	
-	public void resetViewpoint() throws StatusException
-	{
-		int status = NativeMethods.xnResetViewPoint(toNative());
-		WrapperUtils.throwOnError(status);
-	}
-	
-	public boolean isViewpointAs(ProductionNode other)
-	{
-		return NativeMethods.xnIsViewPointAs(toNative(), other.toNative());
-	}
 
-	public IStateChangedObservable getViewPointChangedEvent() { return this.viewPointChanged; }
 
-	private StateChangedObservable viewPointChanged;
 }

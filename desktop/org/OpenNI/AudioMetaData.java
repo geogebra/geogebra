@@ -21,6 +21,9 @@
 ****************************************************************************/
 package org.OpenNI;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class AudioMetaData extends OutputMetaData
 {
 	public int getSampleRate()
@@ -46,6 +49,15 @@ public class AudioMetaData extends OutputMetaData
 	public void setNumberOfChannels(byte numberOfChannels)
 	{
 		this.numberOfChannels = numberOfChannels;
+	}
+	
+	public ByteBuffer createByteBuffer()
+	{
+		int size = getDataSize();
+		ByteBuffer buffer = ByteBuffer.allocateDirect(size);
+		buffer.order(ByteOrder.LITTLE_ENDIAN);
+		NativeMethods.copyToBuffer(buffer, getDataPtr(), size);
+		return buffer;
 	}
 
 	private int sampleRate;

@@ -56,7 +56,12 @@ public class Map
 		NativeMethods.copyToBuffer(buffer, this.ptr, size);
 		return buffer;
 	}
-
+	
+	public void copyToBuffer(ByteBuffer buffer, int size)
+	{
+		NativeMethods.copyToBuffer(buffer, this.ptr, size);
+	} 	
+	
 	protected long getPixelPtr(int x, int y) 
 	{ 
 		return this.ptr + (y * this.xRes + x) * this.bytesPerPixel; 
