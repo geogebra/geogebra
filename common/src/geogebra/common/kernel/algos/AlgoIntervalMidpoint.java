@@ -24,8 +24,8 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoIntervalMidpoint";
+	public Algos getClassName() {
+        return Algos.AlgoIntervalMidpoint;
     }
 
     @Override

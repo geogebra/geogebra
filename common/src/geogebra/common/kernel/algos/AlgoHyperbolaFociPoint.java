@@ -61,8 +61,8 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
         }
 
     @Override
-	public String getClassName() {
-        return "AlgoHyperbolaFociPoint";
+	public Algos getClassName() {
+        return Algos.AlgoHyperbolaFociPoint;
     }
     
     @Override

@@ -73,8 +73,8 @@ public class AlgoRotatePoint extends AlgoTransformation {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRotatePoint";
+	public Algos getClassName() {
+        return Algos.AlgoRotatePoint;
     }
 
     @Override

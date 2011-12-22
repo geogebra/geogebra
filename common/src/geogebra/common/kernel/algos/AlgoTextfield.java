@@ -45,8 +45,8 @@ public class AlgoTextfield extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoTextfield";
+	public Algos getClassName() {
+        return Algos.AlgoTextfield;
     }
 
     @Override

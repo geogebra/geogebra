@@ -56,8 +56,8 @@ public class AlgoDistancePointObject extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDistancePointObject";
+	public Algos getClassName() {
+        return Algos.AlgoDistancePointObject;
     }
 
     @Override

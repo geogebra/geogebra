@@ -16,6 +16,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.MyLine;
 import geogebra.common.kernel.discrete.delauney.Pnt;
 import geogebra.common.kernel.discrete.delauney.Triangle;
@@ -60,8 +61,8 @@ public class AlgoVoronoi extends AlgoElement {
         locus.setLabel(label);
     }
 
-    public String getClassName() {
-        return "AlgoVoronoi";
+    public Algos getClassName() {
+        return Algos.AlgoVoronoi;
     }
 
     protected void setInputOutput(){

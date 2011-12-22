@@ -41,8 +41,8 @@ public class AlgoDeterminant extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDeterminant";
+	public Algos getClassName() {
+        return Algos.AlgoDeterminant;
     }
 
     @Override

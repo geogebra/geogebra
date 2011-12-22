@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -42,8 +43,8 @@ public class AlgoPolynomialMod extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoPolynomialMod";
+	public Algos getClassName() {
+		return Algos.AlgoPolynomialMod;
 	}
 
 	// for AlgoElement

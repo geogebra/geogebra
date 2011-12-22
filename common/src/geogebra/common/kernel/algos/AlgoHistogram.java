@@ -82,8 +82,8 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	}
 
 	@Override
-	public String getClassName() {
-		return isRight()?"AlgoHistogramRight":"AlgoHistogram";
+	public Algos getClassName() {
+		return isRight()?Algos.AlgoHistogramRight:Algos.AlgoHistogram;
 	}
 	
 	public AlgoHistogram copy() {

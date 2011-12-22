@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -171,9 +172,9 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
 	
 
 
-	public String getClassName() {
+	public Algos getClassName() {
     	
-    	return "AlgoIntersectCS2D2D";
+    	return Algos.AlgoIntersectCS2D2D;
 	}
 
  

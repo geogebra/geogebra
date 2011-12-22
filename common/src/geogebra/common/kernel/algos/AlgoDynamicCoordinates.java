@@ -43,8 +43,8 @@ public class AlgoDynamicCoordinates extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDynamicCoordinates";
+	public Algos getClassName() {
+        return Algos.AlgoDynamicCoordinates;
     }
 
     // for AlgoElement

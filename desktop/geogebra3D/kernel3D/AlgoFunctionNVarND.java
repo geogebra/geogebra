@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -197,9 +198,9 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		return ret;
 	}
 
-	public String getClassName() {
+	public Algos getClassName() {
 		
-		return "AlgoFunctionInterval";
+		return Algos.AlgoFunctionInterval;
 	}
 	
 	

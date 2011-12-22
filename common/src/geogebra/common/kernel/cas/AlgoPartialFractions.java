@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 public class AlgoPartialFractions extends AlgoCasBase {
@@ -24,8 +25,8 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoPartialFractions";
+	public Algos getClassName() {
+		return Algos.AlgoPartialFractions;
 	}
 
 	@Override

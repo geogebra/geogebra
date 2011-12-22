@@ -43,8 +43,8 @@ public class AlgoPrimeFactors extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoPrimeFactors";
+	public Algos getClassName() {
+        return Algos.AlgoPrimeFactors;
     }
 
     @Override

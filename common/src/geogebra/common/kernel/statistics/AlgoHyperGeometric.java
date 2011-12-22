@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 
@@ -37,8 +38,8 @@ public class AlgoHyperGeometric extends AlgoDistribution {
         super(cons, a, b, c, d, isCumulative);
     }
 
-    public String getClassName() {
-        return "AlgoHyperGeometric";
+    public Algos getClassName() {
+        return Algos.AlgoHyperGeometric;
     }
     
 	public final void compute() {

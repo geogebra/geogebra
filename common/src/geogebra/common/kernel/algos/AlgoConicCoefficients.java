@@ -46,8 +46,8 @@ public class AlgoConicCoefficients extends AlgoElement {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoConicCoefficients";
+	public Algos getClassName() {
+        return Algos.AlgoConicCoefficients;
     }
     
     // for AlgoElement

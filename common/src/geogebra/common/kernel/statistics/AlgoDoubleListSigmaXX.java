@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
@@ -29,7 +30,7 @@ public class AlgoDoubleListSigmaXX extends AlgoStats2D {
         super(cons,label,geoListx,geoListy,AlgoStats2D.STATS_SIGMAXX);
     }
 
-    public String getClassName() {
-        return "AlgoDoubleListSigmaXX";
+    public Algos getClassName() {
+        return Algos.AlgoDoubleListSigmaXX;
     }
 }

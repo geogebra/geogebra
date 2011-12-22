@@ -40,8 +40,8 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 		    }
 
 	@Override
-	public String getClassName() {
-        return "AlgoEllipseFociLength";
+	public Algos getClassName() {
+        return Algos.AlgoEllipseFociLength;
     }
 	
 	@Override

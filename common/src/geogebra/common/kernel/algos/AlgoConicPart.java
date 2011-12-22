@@ -43,12 +43,12 @@ public abstract class AlgoConicPart extends AlgoElement {
     }
     
 	@Override
-	public String getClassName() {
+	public Algos getClassName() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
-				return "AlgoConicArc";
+				return Algos.AlgoConicArc;
 			default:
-				return "AlgoConicSector";
+				return Algos.AlgoConicSector;
 		}		
 	}
 

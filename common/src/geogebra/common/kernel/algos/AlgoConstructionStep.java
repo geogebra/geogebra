@@ -49,8 +49,8 @@ public class AlgoConstructionStep extends AlgoElement {
    }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoConstructionStep";
+	public Algos getClassName() {
+		return Algos.AlgoConstructionStep;
 	}
     
     // for AlgoElement

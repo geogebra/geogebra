@@ -45,8 +45,8 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoClosestPoint";
+	public Algos getClassName() {
+        return Algos.AlgoClosestPoint;
     }
 
     // for AlgoElement

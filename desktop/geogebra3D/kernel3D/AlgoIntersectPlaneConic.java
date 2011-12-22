@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 
@@ -46,8 +46,8 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectLineConic3D {
     
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectPlaneConic";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectPlaneConic;
 	}
 	
 }

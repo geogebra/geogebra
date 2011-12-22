@@ -99,8 +99,8 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoFrequencyPolygon";
+	public Algos getClassName() {
+		return Algos.AlgoFrequencyPolygon;
 	}
 
 	@Override

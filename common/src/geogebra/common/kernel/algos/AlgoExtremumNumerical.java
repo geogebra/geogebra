@@ -88,8 +88,8 @@ public class AlgoExtremumNumerical extends AlgoElement {
     }//constructor
 
     @Override
-	public String getClassName() {
-        return "AlgoExtremumNumerical";
+	public Algos getClassName() {
+        return Algos.AlgoExtremumNumerical;
     }
 
     @Override

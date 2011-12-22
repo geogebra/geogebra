@@ -35,8 +35,8 @@ public class AlgoDiv extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoDiv";
+	public Algos getClassName() {
+        return Algos.AlgoDiv;
     }        
     
     // calc area of conic c 

@@ -45,8 +45,8 @@ public class AlgoListLength extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoListLength";
+	public Algos getClassName() {
+        return Algos.AlgoListLength;
     }
 
     @Override

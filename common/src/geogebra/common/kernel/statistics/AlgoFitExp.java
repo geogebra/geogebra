@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -54,8 +55,8 @@ public class AlgoFitExp extends AlgoElement {
 		compute();
 	}// Constructor
 
-	public String getClassName() {
-		return "AlgoFitExp";
+	public Algos getClassName() {
+		return Algos.AlgoFitExp;
 	}
 
 	protected void setInputOutput() {

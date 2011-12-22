@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.Algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.View;
@@ -406,19 +405,19 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * ggbApplet.getCommandString(objName); ggbApplet.getValueString(objName);
 	 */
 
-	final String getCommandString(String classname) {
+	final String getCommandString(Algos classname) {
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
 
 		// translate algorithm class name to internal command name
-		return Algos.valueOf(classname).getCommand();
+		return classname.getCommand();
 	}
 
 	// Added for Intergeo File Format (Yves Kreis) -->
-	public String getIntergeoString(String classname) {// it will be private
+	public String getIntergeoString(Algos classname) {// it will be private
 		// init rbalgo2intergeo if needed
 		// for translation of Algo-classname to Intergeo name
-		return Algos.valueOf(classname).getIntergeo();
+		return classname.getIntergeo();
 	}
 
 	// <-- Added for Intergeo File Format (Yves Kreis)
@@ -924,7 +923,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			freeInputPoints = new ArrayList<GeoPoint2>(input.length);
 
 			// don't use free points from dependent algos with expression trees
-			if (!getClassName().startsWith("AlgoDependent")) {
+			if (!getClassName().name().startsWith("AlgoDependent")) {
 				for (int i = 0; i < input.length; i++) {
 					if (input[i].isGeoPoint() && input[i].isIndependent()) {
 						freeInputPoints.add((GeoPoint2) input[i]);
@@ -1090,16 +1089,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @return internal command name
 	 */
 	public String getCommandName() {
-		String cmdname, classname;
+		String cmdname;
+		Algos classname;
 		// get class name
 		classname = getClassName();
+		// translate algorithm class name to internal command name
+		cmdname = getCommandString(classname);
 		// dependent algorithm is an "Expression"
-		if (classname.startsWith("AlgoDependent")) {
-			cmdname = "Expression";
-		} else {
-			// translate algorithm class name to internal command name
-			cmdname = getCommandString(classname);
-
+		if(!cmdname.equals("Expression")) {
 			if (kernel.isUseTempVariablePrefix()) {
 				// protect GeoGebra commands when sent to CAS
 				// e.g. Element[list, 1] becomes ggbtmpvarElement[list, 1] to
@@ -1117,17 +1114,16 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @return intergeo command name
 	 */
 	String getIntergeoName() {
-		String cmdname, classname;
+		String cmdname;
+		Algos classname;
 		// get class name
 		// classname = this.getClass().toString();
 		// classname = classname.substring(classname.lastIndexOf('.') + 1);
 		classname = getClassName();
 		// dependent algorithm is an "Expression"
-		if (classname.startsWith("AlgoDependent")) {
-			cmdname = "Expression";
-		} else if (classname.equals("AlgoPointOnPath")) {
+		if (classname.equals(Algos.AlgoPointOnPath)) {
 			AlgoPointOnPath algo1 = (AlgoPointOnPath) this;
-			cmdname = getIntergeoString(classname + "+" + algo1.getPath().toGeoElement().getClassName());
+			cmdname = getIntergeoString(classname) + "+" + algo1.getPath().toGeoElement().getClassName();
 		} else {
 			// translate algorithm class name to Intergeo name
 			cmdname = getIntergeoString(classname);
@@ -1401,7 +1397,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return geo.getKernel().getApplication()
 				.toLowerCase(geo.getClassName().substring(3));
 	}
-
+	public abstract Algos getClassName();
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	/**

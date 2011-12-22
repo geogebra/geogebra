@@ -48,8 +48,8 @@ public class AlgoRemoveUndefined extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRemoveUndefined";
+	public Algos getClassName() {
+        return Algos.AlgoRemoveUndefined;
     }
 
     @Override

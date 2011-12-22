@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.util.ArrayList;

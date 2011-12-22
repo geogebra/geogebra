@@ -36,8 +36,8 @@ public class AlgoLetterToUnicode extends AlgoElement {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoLetterToUnicode";
+	public Algos getClassName() {
+        return Algos.AlgoLetterToUnicode;
     }
     
     // for AlgoElement

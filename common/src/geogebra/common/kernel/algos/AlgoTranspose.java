@@ -40,8 +40,8 @@ public class AlgoTranspose extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoTranspose";
+	public Algos getClassName() {
+        return Algos.AlgoTranspose;
     }
 
     @Override

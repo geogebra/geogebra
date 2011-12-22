@@ -52,8 +52,8 @@ public class AlgoDistanceLineLine extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDistanceLineLine";
+	public Algos getClassName() {
+        return Algos.AlgoDistanceLineLine;
     }
 
     @Override

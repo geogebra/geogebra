@@ -15,6 +15,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
@@ -66,8 +67,8 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoTangentFunctionPoint";
+	public Algos getClassName() {
+		return Algos.AlgoTangentFunctionPoint;
 	}
 
 	@Override

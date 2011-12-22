@@ -57,8 +57,8 @@ public class AlgoDependentText extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentText";
+	public Algos getClassName() {
+		return Algos.AlgoDependentText;
 	}
     
     @Override

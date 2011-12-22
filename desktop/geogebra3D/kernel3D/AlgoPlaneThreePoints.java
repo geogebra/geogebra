@@ -2,12 +2,10 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
-import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 /**
  * @author ggb3D
@@ -85,8 +83,8 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	
 	
 	
-	public String getClassName() {
-		return "AlgoPlane";
+	public Algos getClassName() {
+		return Algos.AlgoPlane;
 	}
 	
     final public String toString() {

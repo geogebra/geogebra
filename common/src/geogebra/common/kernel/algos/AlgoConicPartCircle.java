@@ -86,12 +86,12 @@ public class AlgoConicPartCircle extends AlgoConicPart {
     }
     
 	@Override
-	public String getClassName() {
+	public Algos getClassName() {
 		switch (type) {
 			case GeoConicPart.CONIC_PART_ARC:
-				return "AlgoCircleArc";
+				return Algos.AlgoCircleArc;
 			default:
-				return "AlgoCircleSector";
+				return Algos.AlgoCircleSector;
 		}		
 	}
 	

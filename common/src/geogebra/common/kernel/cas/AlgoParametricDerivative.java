@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -43,8 +44,8 @@ public class AlgoParametricDerivative extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoParametricDerivative";
+	public Algos getClassName() {
+		return Algos.AlgoParametricDerivative;
 	}
 
 	@Override

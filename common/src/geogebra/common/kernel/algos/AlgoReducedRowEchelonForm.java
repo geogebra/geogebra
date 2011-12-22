@@ -46,8 +46,8 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoReducedRowEchelonForm";
+	public Algos getClassName() {
+        return Algos.AlgoReducedRowEchelonForm;
     }
 
     @Override

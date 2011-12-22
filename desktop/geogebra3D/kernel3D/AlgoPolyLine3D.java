@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.algos.AlgoPolyLine;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -79,8 +80,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     	poly = new GeoPolyLine3D(this.cons, this.points);
     }
         
-    public String getClassName() {
-        return "AlgoPolyLine3D";
+    public Algos getClassName() {
+        return Algos.AlgoPolyLine3D;
     }
     
     public int getRelatedModeID() {

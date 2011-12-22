@@ -179,8 +179,8 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     }   
         
     @Override
-	public String getClassName() {
-        return "AlgoPolygonRegular";
+	public Algos getClassName() {
+        return Algos.AlgoPolygonRegular;
     }        
     
     @Override

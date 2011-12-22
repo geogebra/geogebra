@@ -40,8 +40,8 @@ public class AlgoTextLength extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoTextLength";
+	public Algos getClassName() {
+        return Algos.AlgoTextLength;
     }
 
     @Override

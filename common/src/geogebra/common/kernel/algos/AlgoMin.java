@@ -39,8 +39,8 @@ public class AlgoMin extends AlgoTwoNumFunction {
       }   
     
     @Override
-	public String getClassName() {
-        return "AlgoMin";
+	public Algos getClassName() {
+        return Algos.AlgoMin;
     }
     
     // calc minimum of a,b 

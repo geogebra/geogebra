@@ -65,8 +65,8 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoAnglePolygon";
+	public Algos getClassName() {
+        return Algos.AlgoAnglePolygon;
     }
     
     @Override

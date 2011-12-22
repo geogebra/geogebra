@@ -34,8 +34,8 @@ public class AlgoCentroidPolygon extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoCentroidPolygon";
+	public Algos getClassName() {
+        return Algos.AlgoCentroidPolygon;
     }
     
     // for AlgoElement

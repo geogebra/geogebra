@@ -1,5 +1,7 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.TransformInterface;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoClass;
@@ -9,9 +11,6 @@ import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.kernel.Kernel;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Transform;
-import geogebra.common.kernel.TransformInterface;
 
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 

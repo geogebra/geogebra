@@ -58,8 +58,8 @@ public class AlgoOsculatingCircle extends AlgoElement {
     }
  
     @Override
-	public String getClassName() {
-        return "AlgoOsculatingCircle";
+	public Algos getClassName() {
+        return Algos.AlgoOsculatingCircle;
     }
 
     // for AlgoElement

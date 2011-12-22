@@ -63,8 +63,8 @@ public class AlgoDependentList extends AlgoElement implements AlgoDependentListI
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentList";
+	public Algos getClassName() {
+		return Algos.AlgoDependentList;
 	}
     
     // for AlgoElement

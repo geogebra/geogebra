@@ -52,8 +52,8 @@ public class AlgoRandomElement extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRandomElement";
+	public Algos getClassName() {
+        return Algos.AlgoRandomElement;
     }
 
     @Override

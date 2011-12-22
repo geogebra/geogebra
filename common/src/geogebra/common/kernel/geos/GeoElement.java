@@ -4214,7 +4214,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * #****************************************************** SAVING
 	 * *****************************************************
 	 */
-
+	public abstract String getClassName();
 	final public String getXMLtypeString() {
 		return app.toLowerCase(getClassName().substring(3));
 	}

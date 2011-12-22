@@ -3,6 +3,7 @@ package geogebra.common.kernel.barycentric;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -37,8 +38,8 @@ public class AlgoKimberling extends AlgoElement {
 		M.setLabel(label);
 	}
 
-	public String getClassName() {
-		return "AlgoKimberling";
+	public Algos getClassName() {
+		return Algos.AlgoKimberling;
 	}
 
 	// for AlgoElement

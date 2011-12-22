@@ -42,8 +42,8 @@ public class AlgoIsInteger extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoIsInteger";
+	public Algos getClassName() {
+        return Algos.AlgoIsInteger;
     }
 
     @Override

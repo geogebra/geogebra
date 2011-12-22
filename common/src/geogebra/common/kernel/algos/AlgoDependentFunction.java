@@ -77,8 +77,8 @@ public class AlgoDependentFunction extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoDependentFunction";
+	public Algos getClassName() {
+		return Algos.AlgoDependentFunction;
 	}
 
 	// for AlgoElement

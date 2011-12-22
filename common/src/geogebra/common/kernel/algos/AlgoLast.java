@@ -44,8 +44,8 @@ public class AlgoLast extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoLast";
+	public Algos getClassName() {
+        return Algos.AlgoLast;
     }
 
     @Override

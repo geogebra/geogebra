@@ -52,8 +52,8 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     }
  
     @Override
-	public String getClassName() {
-        return "AlgoOsculatingCircleCurve";
+	public Algos getClassName() {
+        return Algos.AlgoOsculatingCircleCurve;
     }
 
     // for AlgoElement

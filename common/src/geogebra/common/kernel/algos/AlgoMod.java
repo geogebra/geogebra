@@ -43,8 +43,8 @@ public class AlgoMod extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoMod";
+	public Algos getClassName() {
+        return Algos.AlgoMod;
     }       
     
     @Override

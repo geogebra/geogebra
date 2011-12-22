@@ -62,8 +62,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoTaylorSeries";
+	public Algos getClassName() {
+		return Algos.AlgoTaylorSeries;
 	}
 
 	// for AlgoElement

@@ -68,8 +68,8 @@ public class AlgoVertex extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoVertex";
+	public Algos getClassName() {
+        return Algos.AlgoVertex;
     }
     
     // for AlgoElement

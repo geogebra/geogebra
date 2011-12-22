@@ -46,8 +46,8 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoPerimeterLocus";
+	public Algos getClassName() {
+		return Algos.AlgoPerimeterLocus;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -43,8 +44,8 @@ public class AlgoCoefficients extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoCoefficients";
+	public Algos getClassName() {
+		return Algos.AlgoCoefficients;
 	}
 
 	// for AlgoElement

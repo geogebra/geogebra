@@ -6,6 +6,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.MyNode;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -59,8 +60,8 @@ public class AlgoShortestDistance extends AlgoElement {
         return locus;
     }
 
-    public String getClassName() {
-        return "AlgoShortestDistance";
+    public Algos getClassName() {
+        return Algos.AlgoShortestDistance;
     }
     
     public final void compute() {

@@ -122,7 +122,7 @@ public abstract class AlgoOptimize extends AlgoElement{
     }//getMinimized()
     
     @Override
-	public abstract String getClassName();  
+	public abstract Algos getClassName();  
 	
 	private final static boolean	DEBUG	=	true;			//debug or errormsg
 	

@@ -13,9 +13,11 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.main.AbstractApplication;
+
 import org.apache.commons.math.distribution.PoissonDistribution;
 
 
@@ -38,8 +40,8 @@ public class AlgoPoisson extends AlgoDistribution {
 		super(cons, a, b, null, isCumulative); 
 	}
 
-	public String getClassName() {
-		return "AlgoPoisson";
+	public Algos getClassName() {
+		return Algos.AlgoPoisson;
 	}
 
 	@SuppressWarnings("deprecation")

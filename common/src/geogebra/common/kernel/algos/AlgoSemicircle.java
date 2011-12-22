@@ -76,8 +76,8 @@ public class AlgoSemicircle extends AlgoElement {
     }    	
     
 	@Override
-	public String getClassName() {
-		return "AlgoSemicircle";
+	public Algos getClassName() {
+		return Algos.AlgoSemicircle;
 	}
 
     @Override

@@ -3,6 +3,7 @@ package geogebra.common.kernel.barycentric;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -84,8 +85,8 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		
 	}
 
-	public String getClassName() {
-		return "AlgoTriangleCubic";
+	public Algos getClassName() {
+		return Algos.AlgoTriangleCubic;
 	}
 
 	// for AlgoElement

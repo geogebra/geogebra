@@ -74,8 +74,8 @@ public class AlgoLaTeX extends AlgoElement {
 	}   
     
 	@Override
-	public String getClassName() {
-		return "AlgoLaTeX";
+	public Algos getClassName() {
+		return Algos.AlgoLaTeX;
 	}
     
     // for AlgoElement

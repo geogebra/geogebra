@@ -17,6 +17,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -62,8 +63,8 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         
     }
     
-    public String getClassName() {
-        return "AlgoAsymptoteImplicitPoly";
+    public Algos getClassName() {
+        return Algos.AlgoAsymptoteImplicitPoly;
     }
     
     // for AlgoElement

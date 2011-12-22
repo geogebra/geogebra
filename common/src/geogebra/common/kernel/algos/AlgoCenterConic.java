@@ -44,8 +44,8 @@ public class AlgoCenterConic extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoCenterConic";
+	public Algos getClassName() {
+        return Algos.AlgoCenterConic;
     }
 
     @Override

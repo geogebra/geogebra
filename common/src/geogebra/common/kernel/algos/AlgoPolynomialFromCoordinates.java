@@ -47,8 +47,8 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoPolynomialFromCoordinates";
+	public Algos getClassName() {
+        return Algos.AlgoPolynomialFromCoordinates;
     }
     
     // for AlgoElement

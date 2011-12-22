@@ -49,8 +49,8 @@ public class AlgoAreaPolygon extends AlgoElement {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoAreaPolygon";
+	public Algos getClassName() {
+        return Algos.AlgoAreaPolygon;
     }
     
     @Override

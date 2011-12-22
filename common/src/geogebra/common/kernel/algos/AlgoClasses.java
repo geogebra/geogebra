@@ -53,8 +53,8 @@ public class AlgoClasses extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoClasses";
+	public Algos getClassName() {
+		return Algos.AlgoClasses;
 	}
 
 	@Override

@@ -40,8 +40,8 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoExtremumPolynomial";
+	public Algos getClassName() {
+        return Algos.AlgoExtremumPolynomial;
     }
 
     public GeoPoint2[] getExtremumPoints() {

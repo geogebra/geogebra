@@ -59,8 +59,8 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoCircleTwoPoints";
+	public Algos getClassName() {
+        return Algos.AlgoCircleTwoPoints;
     }
 
     // for AlgoElement

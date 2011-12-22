@@ -82,8 +82,8 @@ public class AlgoTableText extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoTableText";
+	public Algos getClassName() {
+		return Algos.AlgoTableText;
 	}
 
 	@Override

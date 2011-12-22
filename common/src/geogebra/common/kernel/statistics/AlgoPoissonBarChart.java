@@ -15,9 +15,10 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.util.Cloner;
 
 /**
@@ -48,8 +49,8 @@ public class AlgoPoissonBarChart extends AlgoFunctionAreaSums implements Euclidi
         super(mean, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_POISSON,a,b,vals,borders,N);
     }
 
-    public String getClassName() {
-        return "AlgoPoissonBarChart";
+    public Algos getClassName() {
+        return Algos.AlgoPoissonBarChart;
     }
 
 	public AlgoDrawInformation copy() {

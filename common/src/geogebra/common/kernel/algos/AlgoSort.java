@@ -51,8 +51,8 @@ public class AlgoSort extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoSort";
+	public Algos getClassName() {
+        return Algos.AlgoSort;
     }
 
     @Override

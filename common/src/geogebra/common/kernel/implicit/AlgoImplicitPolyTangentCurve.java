@@ -2,6 +2,7 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 
@@ -70,8 +71,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoImplicitPolyTangentCurve";
+	public Algos getClassName() {
+		return Algos.AlgoImplicitPolyTangentCurve;
 	}
 	
 	public GeoImplicitPoly getTangentCurve(){

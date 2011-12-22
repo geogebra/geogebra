@@ -43,8 +43,8 @@ public class AlgoListGCD extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoListGCD";
+	public Algos getClassName() {
+        return Algos.AlgoListGCD;
     }
 
     @Override

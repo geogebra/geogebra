@@ -30,8 +30,8 @@ public class AlgoLCM extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoLCM";
+	public Algos getClassName() {
+        return Algos.AlgoLCM;
     }
       
     @Override

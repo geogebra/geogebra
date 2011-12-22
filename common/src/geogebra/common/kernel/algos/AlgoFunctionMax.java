@@ -76,8 +76,8 @@ public class AlgoFunctionMax extends AlgoElement {
     }//constructor
 
     @Override
-	public String getClassName() {
-        return "AlgoFunctionMax";
+	public Algos getClassName() {
+        return Algos.AlgoFunctionMax;
     }
 
     @Override

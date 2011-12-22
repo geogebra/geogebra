@@ -128,8 +128,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     }//Constructor TYPE_INTERSECTIONS    
     
     @Override
-	public String getClassName() {
-        return "AlgoRoots";
+	public Algos getClassName() {
+        return Algos.AlgoRoots;
     }//getClassName()
     
     public GeoPoint2[] getRootPoints() {

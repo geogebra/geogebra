@@ -51,8 +51,8 @@ public class AlgoPolarLine extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoPolarLine";
+	public Algos getClassName() {
+        return Algos.AlgoPolarLine;
     }
     
     @Override

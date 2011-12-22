@@ -82,8 +82,8 @@ public class AlgoTranslate extends AlgoTransformation {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoTranslate";
+	public Algos getClassName() {
+		return Algos.AlgoTranslate;
 	}
 
 	@Override

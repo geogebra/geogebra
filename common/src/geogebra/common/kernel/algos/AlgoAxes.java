@@ -51,8 +51,8 @@ public class AlgoAxes extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoAxes";
+	public Algos getClassName() {
+        return Algos.AlgoAxes;
     }
 
     private AlgoAxes(Construction cons, GeoConic c) {

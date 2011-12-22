@@ -4,6 +4,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.MyLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -27,8 +28,9 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 		super(cons, label, inputList, null);
 	}
 	
-    public String getClassName() {
-        return "AlgoDelauneyTriangulation";
+	@Override
+    public Algos getClassName() {
+        return Algos.AlgoDelauneyTriangulation;
     }
     
     public final void compute() {

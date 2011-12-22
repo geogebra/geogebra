@@ -2,9 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoAxisND;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 /**
  * @author ggb3D

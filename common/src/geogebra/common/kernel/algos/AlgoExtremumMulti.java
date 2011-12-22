@@ -99,8 +99,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
     }//constructor
 
     @Override
-	public String getClassName() {
-        return "AlgoExtremumMulti";
+	public Algos getClassName() {
+        return Algos.AlgoExtremumMulti;
     }//getClassName()
     
     public GeoPoint2[] getExtremumPoints() {

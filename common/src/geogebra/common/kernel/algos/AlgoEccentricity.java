@@ -42,8 +42,8 @@ public class AlgoEccentricity extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoEccentricity";
+	public Algos getClassName() {
+        return Algos.AlgoEccentricity;
     }
 
     // for AlgoElement

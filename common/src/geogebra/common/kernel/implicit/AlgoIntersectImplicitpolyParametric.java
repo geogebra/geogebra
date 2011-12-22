@@ -22,10 +22,12 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoRoots;
 import geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,8 +226,8 @@ public class AlgoIntersectImplicitpolyParametric extends
 		
 	}
 
-	public String getClassName() {
-        return "AlgoIntersectImplicitpolyParametric";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectImplicitpolyParametric;
     }
 	
 	public int getRelatedModeID() {

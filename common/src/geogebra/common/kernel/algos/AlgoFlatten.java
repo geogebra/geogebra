@@ -43,8 +43,8 @@ public class AlgoFlatten extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoFlatten";
+	public Algos getClassName() {
+		return Algos.AlgoFlatten;
 	}
 	
 	@Override

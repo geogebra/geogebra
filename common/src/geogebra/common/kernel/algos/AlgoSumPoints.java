@@ -56,8 +56,8 @@ public class AlgoSumPoints extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoSumPoints";
+	public Algos getClassName() {
+        return Algos.AlgoSumPoints;
     }
 
     @Override

@@ -93,8 +93,8 @@ public class AlgoIntersectSingle extends AlgoIntersect {
     }
 	
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectSingle";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectSingle;
 	}
     
     @Override

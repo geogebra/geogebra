@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 /**
@@ -32,8 +33,8 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 		cons.addRandomGeo(num);
 	}
 
-	public String getClassName() {
-		return "AlgoRandomBinomial";
+	public Algos getClassName() {
+		return Algos.AlgoRandomBinomial;
 	}
 
 	public final void compute() {

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -56,8 +57,8 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
     	P.setLabel(label);
     }   
     
-	public String getClassName() {
-		return "AlgoDependentPoint3D";
+	public Algos getClassName() {
+		return Algos.AlgoDependentPoint3D;
 	}
 	
     // for AlgoElement

@@ -2,11 +2,8 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 /**
  * @author ggb3D
@@ -84,8 +81,8 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	 */
 
 	@Override
-	public String getClassName(){
-		return "AlgoQuadricSide";
+	public Algos getClassName(){
+		return Algos.AlgoQuadricSide;
 	}
 	
 

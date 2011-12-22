@@ -46,8 +46,8 @@ public class AlgoLengthSegment extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoLengthSegment";
+	public Algos getClassName() {
+        return Algos.AlgoLengthSegment;
     }
 
     // for AlgoElement

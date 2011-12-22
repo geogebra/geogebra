@@ -136,8 +136,8 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectPolynomialConic";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectPolynomialConic;
 	}
 
 	@Override

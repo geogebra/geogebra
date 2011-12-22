@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
@@ -33,7 +34,7 @@ public class AlgoMean extends AlgoStats1D {
         super(cons,geoList,AlgoStats1D.STATS_MEAN);
 	}
 
-	public String getClassName() {
-        return "AlgoMean";
+	public Algos getClassName() {
+        return Algos.AlgoMean;
     }
 }

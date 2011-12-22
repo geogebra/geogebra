@@ -40,8 +40,8 @@ public class AlgoInsert extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoInsert";
+	public Algos getClassName() {
+        return Algos.AlgoInsert;
     }
 
     @Override

@@ -111,8 +111,8 @@ public class AlgoPolygon extends AlgoElement {
     }
         
     @Override
-	public String getClassName() {
-        return "AlgoPolygon";
+	public Algos getClassName() {
+        return Algos.AlgoPolygon;
     }
     
     @Override

@@ -36,8 +36,8 @@ public class AlgoJoin extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoJoin";
+	public Algos getClassName() {
+		return Algos.AlgoJoin;
 	}
 	
 	@Override

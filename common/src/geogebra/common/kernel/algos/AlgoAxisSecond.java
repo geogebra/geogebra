@@ -58,8 +58,8 @@ public class AlgoAxisSecond extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoAxisSecond";
+	public Algos getClassName() {
+        return Algos.AlgoAxisSecond;
     }
     
     // for AlgoElement

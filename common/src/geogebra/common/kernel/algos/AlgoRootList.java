@@ -43,8 +43,8 @@ public class AlgoRootList extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRootList";
+	public Algos getClassName() {
+        return Algos.AlgoRootList;
     }
 
     @Override

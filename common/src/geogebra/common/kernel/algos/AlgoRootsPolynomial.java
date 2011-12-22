@@ -190,8 +190,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoRootsPolynomial";
+	public Algos getClassName() {
+		return Algos.AlgoRootsPolynomial;
 	}
 
 	// for AlgoElement

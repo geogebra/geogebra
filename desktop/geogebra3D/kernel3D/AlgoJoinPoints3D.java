@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -180,21 +180,16 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	
     }
     
-	public String getClassName() {
-		String s = 	"AlgoJoinPoints3D";
+	public Algos getClassName() {
     	switch(geoClassType){
     	case SEGMENT3D:
-    		s+="Segment";
-    		break;
+    		return Algos.AlgoJoinPoints3DSegment;
     	case LINE3D:
-    		s+="Line";
-    		break;
+    		return Algos.AlgoJoinPoints3DLine;
     	case RAY3D:
-    		s+="Ray";
-    		break;
+    		return Algos.AlgoJoinPoints3DRay;
     	}		
-    	
-    	return s;
+    	return null;
 	}
 	
     final public String toString() {

@@ -61,8 +61,8 @@ public class AlgoRotateVector extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRotateVector";
+	public Algos getClassName() {
+        return Algos.AlgoRotateVector;
     }
 
     @Override

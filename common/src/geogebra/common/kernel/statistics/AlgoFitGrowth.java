@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -52,8 +53,8 @@ public class AlgoFitGrowth extends AlgoElement {
 		geofunction.setLabel(label);
 	}// Constructor
 
-	public String getClassName() {
-		return "AlgoFitGrowth";
+	public Algos getClassName() {
+		return Algos.AlgoFitGrowth;
 	}
 
 	protected void setInputOutput() {

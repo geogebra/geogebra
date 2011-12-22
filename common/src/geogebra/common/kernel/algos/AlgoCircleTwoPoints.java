@@ -55,8 +55,8 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoCircleTwoPoints";
+	public Algos getClassName() {
+		return Algos.AlgoCircleTwoPoints;
 	}
 
 	@Override

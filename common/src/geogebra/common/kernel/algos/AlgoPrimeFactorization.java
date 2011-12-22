@@ -50,8 +50,8 @@ public class AlgoPrimeFactorization extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoFactors";
+	public Algos getClassName() {
+        return Algos.AlgoFactors;
     }
 
     @Override

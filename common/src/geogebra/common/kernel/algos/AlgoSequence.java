@@ -126,8 +126,8 @@ public class AlgoSequence extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoSequence";
+	public Algos getClassName() {
+        return Algos.AlgoSequence;
     }
 
     // for AlgoElement

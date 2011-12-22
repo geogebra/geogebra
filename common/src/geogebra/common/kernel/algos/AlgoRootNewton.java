@@ -66,8 +66,8 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRootNewton";
+	public Algos getClassName() {
+        return Algos.AlgoRootNewton;
     }
 
     // for AlgoElement

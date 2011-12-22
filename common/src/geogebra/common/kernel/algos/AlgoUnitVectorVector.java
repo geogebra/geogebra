@@ -70,8 +70,8 @@ public class AlgoUnitVectorVector extends AlgoElement {
     }    
     
     @Override
-	public String getClassName() {
-        return "AlgoUnitVectorVector";
+	public Algos getClassName() {
+        return Algos.AlgoUnitVectorVector;
     }
     
     public GeoVector getVector() { return u; }    

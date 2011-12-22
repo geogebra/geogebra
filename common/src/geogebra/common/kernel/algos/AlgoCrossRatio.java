@@ -31,8 +31,8 @@ public class AlgoCrossRatio extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoCrossRatio";
+	public Algos getClassName() {
+        return Algos.AlgoCrossRatio;
     }
 
     // for AlgoElement

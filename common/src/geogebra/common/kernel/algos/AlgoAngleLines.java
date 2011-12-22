@@ -77,8 +77,8 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation,
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoAngleLines";
+	public Algos getClassName() {
+        return Algos.AlgoAngleLines;
     }
 
     @Override

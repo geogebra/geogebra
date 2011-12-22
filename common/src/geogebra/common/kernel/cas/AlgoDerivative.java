@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -54,8 +55,8 @@ public class AlgoDerivative extends AlgoCasBase {
      }
 
     @Override
-	public String getClassName() {
-        return "AlgoDerivative";
+	public Algos getClassName() {
+        return Algos.AlgoDerivative;
     }
 
     // for AlgoElement

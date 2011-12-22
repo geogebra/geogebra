@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 
@@ -30,8 +31,8 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectPlanePolygon";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectPlanePolygon;
 	}
 	
 	protected void setInputOutput() {

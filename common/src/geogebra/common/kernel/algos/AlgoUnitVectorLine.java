@@ -61,8 +61,8 @@ public class AlgoUnitVectorLine extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoUnitVectorLine";
+	public Algos getClassName() {
+        return Algos.AlgoUnitVectorLine;
     }
     
     // for AlgoElement

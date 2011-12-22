@@ -191,7 +191,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns name of class. This is needed to allow code obfuscation.
 	 */
-	public abstract String getClassName();
+	
 
 	/**
 	 * Returns the mode ID of a related tool.

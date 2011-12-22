@@ -54,8 +54,8 @@ public class AlgoCountIf extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoCountIf";
+	public Algos getClassName() {
+		return Algos.AlgoCountIf;
 	}
     
     // for AlgoElement

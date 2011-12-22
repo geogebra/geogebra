@@ -53,7 +53,7 @@ public class AlgoFitPow extends AlgoElement{
         compute();
     }//Constructor
     
-    public String getClassName() {return "AlgoFitPow";}
+    public Algos getClassName() {return Algos.AlgoFitPow;}
         
     protected void setInputOutput(){
         input=new GeoElement[1];

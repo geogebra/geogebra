@@ -32,8 +32,8 @@ public class AlgoIntersectFunctions extends AlgoRoots {
     }//Constructor
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectFunctions";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectFunctions;
     }//getClassName()
     
     

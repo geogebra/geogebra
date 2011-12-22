@@ -48,8 +48,8 @@ public class AlgoStepObject extends AlgoElement {
    }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoStepObject";
+	public Algos getClassName() {
+		return Algos.AlgoStepObject;
 	}
     
     // for AlgoElement

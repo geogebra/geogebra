@@ -44,8 +44,8 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	}
 	
 	@Override
-	public String getClassName() {
-		return "AlgoSumTrapezoidal";
+	public Algos getClassName() {
+		return Algos.AlgoSumTrapezoidal;
 	}
 	
 	public AlgoSumTrapezoidal copy() {

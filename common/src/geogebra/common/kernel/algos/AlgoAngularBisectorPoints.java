@@ -73,8 +73,8 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoAngularBisectorPoints";
+	public Algos getClassName() {
+        return Algos.AlgoAngularBisectorPoints;
     }
 
     @Override

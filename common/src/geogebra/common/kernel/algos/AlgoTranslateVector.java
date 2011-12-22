@@ -57,8 +57,8 @@ public class AlgoTranslateVector extends AlgoElement {
     }           
     
     @Override
-	public String getClassName() {
-        return "AlgoTranslateVector";
+	public Algos getClassName() {
+        return Algos.AlgoTranslateVector;
     }
     
     @Override

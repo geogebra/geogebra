@@ -50,8 +50,8 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	@Override
-	public String getClassName() {
-		return "AlgoSumLeft";
+	public Algos getClassName() {
+		return Algos.AlgoSumLeft;
 	}
 	
 }//class AlgoSumLeft

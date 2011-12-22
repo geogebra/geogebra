@@ -29,8 +29,8 @@ public class AlgoGCD extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoGCD";
+	public Algos getClassName() {
+        return Algos.AlgoGCD;
     }
       
     @Override

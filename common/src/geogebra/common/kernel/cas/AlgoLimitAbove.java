@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -29,8 +30,8 @@ public class AlgoLimitAbove extends AlgoLimit {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoLimitAbove";
+	public Algos getClassName() {
+		return Algos.AlgoLimitAbove;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegular;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAxis;
@@ -119,16 +120,16 @@ public class CopyPaste {
 				geo = (GeoElement)geos.get(i);
 				found = false;
 				if (geo.getParentAlgorithm() != null) {
-					if (geo.getParentAlgorithm().getClassName().equals("AlgoMacro")) {
+					if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoMacro)) {
 						found = true;
 					}
 				}
 				if (!found) {
 					it = geo.getAllPredecessors().iterator();
 					while (it.hasNext()) {
-						geo2 = (GeoElement)it.next();
+						geo2 = it.next();
 						if (geo2.getParentAlgorithm() != null) {
-							if (geo2.getParentAlgorithm().getClassName().equals("AlgoMacro")) {
+							if (geo2.getParentAlgorithm().getClassName().equals(Algos.AlgoMacro)) {
 								found = true;
 								break;
 							}
@@ -154,10 +155,10 @@ public class CopyPaste {
 		for (int i = geos.size() - 1; i >= 0; i--)
 		{
 			geo = (GeoElement) geos.get(i);
-			if ((geo.isGeoLine() && geo.getParentAlgorithm().getClassName().equals("AlgoJoinPoints")) ||
-				(geo.isGeoSegment() && geo.getParentAlgorithm().getClassName().equals("AlgoJoinPointsSegment")) ||
-				(geo.isGeoRay() && geo.getParentAlgorithm().getClassName().equals("AlgoJoinPointsRay")) ||
-				(geo.isGeoVector() && geo.getParentAlgorithm().getClassName().equals("AlgoVector"))) {
+			if ((geo.isGeoLine() && geo.getParentAlgorithm().getClassName().equals(Algos.AlgoJoinPoints)) ||
+				(geo.isGeoSegment() && geo.getParentAlgorithm().getClassName().equals(Algos.AlgoJoinPointsSegment)) ||
+				(geo.isGeoRay() && geo.getParentAlgorithm().getClassName().equals(Algos.AlgoJoinPointsRay)) ||
+				(geo.isGeoVector() && geo.getParentAlgorithm().getClassName().equals(Algos.AlgoVector))) {
 
 				if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
 					geos.add(geo.getParentAlgorithm().getInput()[0]);
@@ -166,7 +167,7 @@ public class CopyPaste {
 					geos.add(geo.getParentAlgorithm().getInput()[1]);
 				}
 			} else if (geo.isGeoPolygon()) {
-				if (geo.getParentAlgorithm().getClassName().equals("AlgoPolygon")) {
+				if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoPolygon)) {
 					GeoElement [] points = ((AlgoPolygon)(geo.getParentAlgorithm())).getPoints();
 					for (int j = 0; j < points.length; j++) {
 						if (!geos.contains(points[j])) {
@@ -179,7 +180,7 @@ public class CopyPaste {
 							geos.add(ogeos[j]);
 						}
 					}
-				} else if (geo.getParentAlgorithm().getClassName().equals("AlgoPolygonRegular")) {
+				} else if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoPolygonRegular)) {
 					GeoElement [] pgeos = ((AlgoPolygonRegular)(geo.getParentAlgorithm())).getInput();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j]) && pgeos[j].isGeoPoint()) {
@@ -194,7 +195,7 @@ public class CopyPaste {
 					}
 				}
 			} else if (geo instanceof GeoPolyLine) {
-				if (geo.getParentAlgorithm().getClassName().equals("AlgoPolyLine")) {
+				if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoPolyLine)) {
 					GeoElement [] pgeos = ((AlgoPolyLine)(geo.getParentAlgorithm())).getPoints();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j])) {
@@ -203,15 +204,15 @@ public class CopyPaste {
 					}
 				}
 			} else if (geo.isGeoConic()) {
-				if (geo.getParentAlgorithm().getClassName().equals("AlgoCircleTwoPoints")) {
+				if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoCircleTwoPoints)) {
 					GeoElement [] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);
 					if (!geos.contains(pgeos[1]))
 						geos.add(pgeos[1]);
-				} else if (geo.getParentAlgorithm().getClassName().equals("AlgoCircleThreePoints") ||
-							geo.getParentAlgorithm().getClassName().equals("AlgoEllipseFociPoint") ||
-							geo.getParentAlgorithm().getClassName().equals("AlgoHyperbolaFociPoint")) {
+				} else if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoCircleThreePoints) ||
+							geo.getParentAlgorithm().getClassName().equals(Algos.AlgoEllipseFociPoint) ||
+							geo.getParentAlgorithm().getClassName().equals(Algos.AlgoHyperbolaFociPoint)) {
 					GeoElement [] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);
@@ -219,19 +220,19 @@ public class CopyPaste {
 						geos.add(pgeos[1]);
 					if (!geos.contains(pgeos[2]))
 						geos.add(pgeos[2]);
-				} else if (geo.getParentAlgorithm().getClassName().equals("AlgoConicFivePoints")) {
+				} else if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoConicFivePoints)) {
 					GeoElement [] pgeos = geo.getParentAlgorithm().getInput();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j]))
 							geos.add(pgeos[j]);
 					}
-				} else if (geo.getParentAlgorithm().getClassName().equals("AlgoCirclePointRadius")) {
+				} else if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoCirclePointRadius)) {
 					GeoElement [] pgeos = geo.getParentAlgorithm().getInput();
 					if (!geos.contains(pgeos[0]))
 						geos.add(pgeos[0]);
 				}
 			} else if (geo.isGeoList()) {
-				if (geo.getParentAlgorithm().getClassName().equals("AlgoSequence")) {
+				if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoSequence)) {
 					GeoElement [] pgeos = geo.getParentAlgorithm().getInput();
 					if (pgeos.length > 1) {
 						if (!geos.contains(pgeos[0]))
@@ -299,7 +300,7 @@ public class CopyPaste {
 			for (int j = 0; j < geoal.size(); j++) {
 				ale = (AlgoElement) geoal.get(j);
 
-				if (!ale.getClassName().equals("AlgoMacro")) {
+				if (!ale.getClassName().equals(Algos.AlgoMacro)) {
 				
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
@@ -610,7 +611,7 @@ public class CopyPaste {
 
 				if (geo.getParentAlgorithm() != null)
 				{
-					if (geo.getParentAlgorithm().getClassName().equals("AlgoSequence")) {
+					if (geo.getParentAlgorithm().getClassName().equals(Algos.AlgoSequence)) {
 						// variable of AlgoSequence is not returned in lookupLabel!
 						// the old name of the variable may remain, as it is not part of the construction anyway 
 						GeoElement [] pgeos = geo.getParentAlgorithm().getInput();

@@ -49,8 +49,8 @@ public class AlgoLengthVector extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoLengthVector";
+	public Algos getClassName() {
+        return Algos.AlgoLengthVector;
     }
 
     // for AlgoElement

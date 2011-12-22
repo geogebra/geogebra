@@ -70,8 +70,8 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoNormalQuantilePlot";
+	public Algos getClassName() {
+		return Algos.AlgoNormalQuantilePlot;
 	}
 
 	@Override

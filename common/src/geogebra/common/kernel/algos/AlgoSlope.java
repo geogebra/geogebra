@@ -60,8 +60,8 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     }
     
 	@Override
-	public String getClassName() {
-        return "AlgoSlope";
+	public Algos getClassName() {
+        return Algos.AlgoSlope;
     }
 
     @Override

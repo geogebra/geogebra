@@ -91,8 +91,8 @@ public class AlgoText extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoText";
+	public Algos getClassName() {
+		return Algos.AlgoText;
 	}
 
 	@Override

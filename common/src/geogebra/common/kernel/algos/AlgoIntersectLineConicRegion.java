@@ -51,8 +51,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	private GeoLine[] outputLines;
 	
     @Override
-	public String getClassName() {
-        return "AlgoIntersectLineConicRegion";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectLineConicRegion;
     }
 
     @Override

@@ -2,6 +2,7 @@ package geogebra.kernel.discrete;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -18,8 +19,8 @@ public class AlgoTravelingSalesman extends AlgoHull{
 		super(cons, label, inputList, null);
 	}
 	
-    public String getClassName() {
-        return "AlgoTravelingSalesman";
+    public Algos getClassName() {
+        return Algos.AlgoTravelingSalesman;
     }
     
     public void compute() {

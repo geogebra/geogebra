@@ -121,8 +121,8 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
 //    }
  
     @Override
-	public String getClassName() {
-        return "AlgoLocusSlider";
+	public Algos getClassName() {
+        return Algos.AlgoLocusSlider;
     }
     
     @Override

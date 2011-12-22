@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -77,8 +78,8 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     }   
     
     
-	public String getClassName() {
-		return "AlgoDependentPlane";
+	public Algos getClassName() {
+		return Algos.AlgoDependentPlane;
 	}
     
     // for AlgoElement

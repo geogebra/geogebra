@@ -43,8 +43,8 @@ public class AlgoAxisStepX extends AlgoElement {
    }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoAxisStepX";
+	public Algos getClassName() {
+		return Algos.AlgoAxisStepX;
 	}
     
     // for AlgoElement

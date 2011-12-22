@@ -647,7 +647,7 @@ implements EuclidianViewCE, AlgoDrawInformation{
 	}
 	
 	@Override
-	public abstract String getClassName();
+	public abstract Algos getClassName();
 
 	// for AlgoElement
 	@Override

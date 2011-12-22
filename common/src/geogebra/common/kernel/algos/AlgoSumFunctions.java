@@ -29,8 +29,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoSumFunctions  extends AlgoElement {
 
 	@Override
-	public String getClassName() {
-        return "AlgoSumFunctions";
+	public Algos getClassName() {
+        return Algos.AlgoSumFunctions;
     }
 
 	private GeoList geoList; //input

@@ -32,8 +32,8 @@ public class AlgoIntersectPolynomials extends AlgoRootsPolynomial {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectPolynomials";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectPolynomials;
     }
     
     @Override

@@ -46,8 +46,8 @@ public class AlgoFirstString extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoFirstString";
+	public Algos getClassName() {
+		return Algos.AlgoFirstString;
 	}
 
 	@Override

@@ -38,8 +38,8 @@ implements EuclidianViewCE {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoImageCorner";
+	public Algos getClassName() {
+        return Algos.AlgoImageCorner;
     }
     
     // for AlgoElement

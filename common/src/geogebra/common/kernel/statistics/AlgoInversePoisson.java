@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import org.apache.commons.math.distribution.PoissonDistribution;
@@ -37,8 +38,8 @@ public class AlgoInversePoisson extends AlgoDistribution {
 	}
 	
 	
-	public String getClassName() {
-		return "AlgoInversePoisson";
+	public Algos getClassName() {
+		return Algos.AlgoInversePoisson;
 	}
 	
 	public final void compute() {

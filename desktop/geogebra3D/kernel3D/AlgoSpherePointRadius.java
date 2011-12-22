@@ -18,11 +18,12 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoSphereNDPointRadius;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
-import geogebra.common.kernel.Construction;
 
 /**
  *
@@ -75,8 +76,8 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
     }
     
 
-    public String getClassName() {
-        return "AlgoSpherePointRadius";
+    public Algos getClassName() {
+        return Algos.AlgoSpherePointRadius;
     }
 
     public GeoQuadric3D getSphere() {

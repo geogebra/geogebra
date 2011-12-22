@@ -56,8 +56,8 @@ public class AlgoRotateText extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRotateText";
+	public Algos getClassName() {
+        return Algos.AlgoRotateText;
     }
 
     @Override

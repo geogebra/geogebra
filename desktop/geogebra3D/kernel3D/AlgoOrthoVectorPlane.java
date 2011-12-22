@@ -19,12 +19,10 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
-import geogebra.main.Application;
 
 
 
@@ -117,9 +115,9 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
     
     
 
-	public String getClassName() {
+	public Algos getClassName() {
     	
-    	return "AlgoOrthoVectorPlane";
+    	return Algos.AlgoOrthoVectorPlane;
 	}
 
 	

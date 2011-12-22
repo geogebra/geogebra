@@ -42,8 +42,8 @@ public class AlgoLineBisectorSegment extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoLineBisectorSegment";
+	public Algos getClassName() {
+        return Algos.AlgoLineBisectorSegment;
     }
     
     @Override

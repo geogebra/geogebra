@@ -20,6 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -91,8 +92,8 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     	return new GeoSurfaceCartesian3D(cons, fun);
     }
     
-	public String getClassName() {
-		return "AlgoSurfaceCartesian";
+	public Algos getClassName() {
+		return Algos.AlgoSurfaceCartesian;
 	}
     
     // for AlgoElement

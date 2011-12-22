@@ -49,7 +49,7 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
       }   
     
     @Override
-	public abstract String getClassName();
+	public abstract Algos getClassName();
     
     // for AlgoElement
     @Override

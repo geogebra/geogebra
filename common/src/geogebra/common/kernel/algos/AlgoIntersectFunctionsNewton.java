@@ -50,8 +50,8 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectFunctionsNewton";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectFunctionsNewton;
     }
     
     @Override

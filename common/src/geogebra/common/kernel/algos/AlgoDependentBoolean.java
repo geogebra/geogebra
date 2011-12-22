@@ -41,8 +41,8 @@ public class AlgoDependentBoolean extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentBoolean";
+	public Algos getClassName() {
+		return Algos.AlgoDependentBoolean;
 	}
     
     // for AlgoElement

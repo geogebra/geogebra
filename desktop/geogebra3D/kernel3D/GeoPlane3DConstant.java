@@ -3,8 +3,6 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
-import java.awt.Color;
-
 public class GeoPlane3DConstant extends GeoPlane3D {
 	
 	public static final int XOY_PLANE = 1;

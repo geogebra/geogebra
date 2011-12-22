@@ -54,8 +54,8 @@ public class AlgoStemPlot extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoStemPlot";
+	public Algos getClassName() {
+		return Algos.AlgoStemPlot;
 	}
 
 	@Override

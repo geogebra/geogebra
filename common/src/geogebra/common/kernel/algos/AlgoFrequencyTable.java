@@ -69,8 +69,8 @@ public class AlgoFrequencyTable extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoFrequencyTable";
+	public Algos getClassName() {
+		return Algos.AlgoFrequencyTable;
 	}
 
 	@Override

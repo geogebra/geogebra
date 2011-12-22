@@ -64,8 +64,8 @@ public class AlgoDependentNumber extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentNumber";
+	public Algos getClassName() {
+		return Algos.AlgoDependentNumber;
 	}
     
     // for AlgoElement

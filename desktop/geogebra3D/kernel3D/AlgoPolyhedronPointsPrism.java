@@ -1,18 +1,15 @@
 package geogebra3D.kernel3D;
 
-import java.util.Collection;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoPolygonRegular;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.main.Application;
+
+import java.util.Collection;
 
 /**
  * @author ggb3D
@@ -308,9 +305,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 	
 
-    public String getClassName() {
+    public Algos getClassName() {
 
-    	return "AlgoPrism";
+    	return Algos.AlgoPrism;
 
     }
     

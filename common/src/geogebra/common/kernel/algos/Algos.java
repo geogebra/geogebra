@@ -1,4 +1,4 @@
-package geogebra.common.kernel;
+package geogebra.common.kernel.algos;
 
 public enum Algos {
 	AlgoAngleConic("Angle"),
@@ -365,6 +365,7 @@ public enum Algos {
 	AlgoTiedRank("TiedRank"),
 	AlgoOrdinalRank("OrdinalRank"),
 	AlgoShuffle("Shuffle"),
+	AlgoRotateVector("Rotate"),
 	AlgoRandomElement("RandomElement"),
 	AlgoApplyMatrix("ApplyMatrix"),
 	AlgoShear("Shear"),
@@ -472,9 +473,24 @@ public enum Algos {
 	AlgoQuadricEnds("Ends"),
 	AlgoQuadricEndBottom("Bottom"),
 	AlgoQuadricEndTop("Top"),
-	AlgoSurfaceCartesian("SurfaceCartesian");
+	AlgoSurfaceCartesian("SurfaceCartesian"), 
+	AlgoDependentPlane,AlgoDependentPoint3D,
+	AlgoDependentPoint,AlgoDependentList,AlgoDependentImplicitPoly,
+	AlgoDependentCasCell,AlgoDependentVector,AlgoDependentText,
+	AlgoDependentNumber,AlgoDependentListExpression,
+AlgoDependentBoolean,AlgoDependentConic,AlgoDependentFunction,
+AlgoDependentFunctionNVar,AlgoDependentInterval,AlgoDependentLine,
+AlgoCellRangeExpression,AlgoDependentGeoCopy,AlgoMacro,
+AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
+	AlgoDoubleListSigmaXX("SigmaXX"),AlgoDoubleListSigmaYY("SigmaYY"),
+	AlgoDoubleListSXX("SXX"),AlgoDoubleListSYY("SYY"),
+	AlgoExtremumNumerical("Extremum"), AlgoSimpleRootsPoly("Roots"),
+	AlgoImplicitPolyTangentCurve("Tangent");
 	private String command;
 	private String intergeo;
+	private Algos(){
+		this.command="Expression";
+	}
 	private Algos(String command){
 		this.command = command;
 	}
@@ -488,4 +504,5 @@ public enum Algos {
 	public String getIntergeo(){
 		return intergeo;
 	}
+	
 }

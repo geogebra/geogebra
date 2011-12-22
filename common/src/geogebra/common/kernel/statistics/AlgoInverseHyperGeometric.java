@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import org.apache.commons.math.distribution.HypergeometricDistribution;
@@ -30,8 +31,8 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
         super(cons, label, a, b, c, d);
     }
 
-    public String getClassName() {
-        return "AlgoInverseHyperGeometric";
+    public Algos getClassName() {
+        return Algos.AlgoInverseHyperGeometric;
     }
     
 	public final void compute() {

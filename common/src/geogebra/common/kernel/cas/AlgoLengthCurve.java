@@ -1,6 +1,7 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -43,8 +44,8 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoLengthCurve";
+	public Algos getClassName() {
+		return Algos.AlgoLengthCurve;
 	}
 
 	@Override

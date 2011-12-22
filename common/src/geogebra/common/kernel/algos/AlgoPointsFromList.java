@@ -81,8 +81,8 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoPointsFromList";
+	public Algos getClassName() {
+		return Algos.AlgoPointsFromList;
 	}
 
 	// for AlgoElement

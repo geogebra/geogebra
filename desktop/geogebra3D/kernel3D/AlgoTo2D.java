@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.kernel.Kernel;
@@ -67,8 +68,8 @@ public class AlgoTo2D extends AlgoElement3D {
     	}
     }   
 
-    public String getClassName() {
-        return "AlgoTo2D";
+    public Algos getClassName() {
+        return Algos.AlgoTo2D;
     }
 
     // for AlgoElement

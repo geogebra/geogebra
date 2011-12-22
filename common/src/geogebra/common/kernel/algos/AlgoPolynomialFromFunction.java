@@ -45,8 +45,8 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoPolynomialFromFunction";
+	public Algos getClassName() {
+        return Algos.AlgoPolynomialFromFunction;
     }
     
     // for AlgoElement

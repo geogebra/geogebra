@@ -43,8 +43,8 @@ public class AlgoLineBisector extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoLineBisector";
+	public Algos getClassName() {
+        return Algos.AlgoLineBisector;
     }
     
     @Override

@@ -88,8 +88,8 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoApplyMatrix";
+	public Algos getClassName() {
+		return Algos.AlgoApplyMatrix;
 	}
 
 	// for AlgoElement

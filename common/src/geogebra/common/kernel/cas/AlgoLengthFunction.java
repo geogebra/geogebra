@@ -1,6 +1,7 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -49,8 +50,8 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoLengthFunction";
+	public Algos getClassName() {
+		return Algos.AlgoLengthFunction;
 	}
 
 	@Override

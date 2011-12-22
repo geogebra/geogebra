@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import org.apache.commons.math.distribution.BinomialDistribution;
@@ -30,8 +31,8 @@ public class AlgoInverseBinomial extends AlgoDistribution {
         super(cons, label, a, b, c, null);
     }
 
-    public String getClassName() {
-        return "AlgoInverseBinomial";
+    public Algos getClassName() {
+        return Algos.AlgoInverseBinomial;
     }
     
 	public final void compute() {

@@ -12,16 +12,17 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootAdapter;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.roots.RealRootFunction;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -110,8 +111,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntegralDefinite";
+	public Algos getClassName() {
+		return Algos.AlgoIntegralDefinite;
 	}
 
 	// for AlgoElement

@@ -86,8 +86,8 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoTangentPoint";
+	public Algos getClassName() {
+        return Algos.AlgoTangentPoint;
     }
 
     @Override

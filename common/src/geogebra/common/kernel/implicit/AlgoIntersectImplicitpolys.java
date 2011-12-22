@@ -23,10 +23,12 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 import geogebra.common.main.AbstractApplication;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -862,8 +864,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectImplicitpolys";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectImplicitpolys;
 	}
 	
 	@Override

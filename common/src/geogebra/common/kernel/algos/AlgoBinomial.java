@@ -152,8 +152,8 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoBinomial";
+	public Algos getClassName() {
+        return Algos.AlgoBinomial;
     }
     
     @Override

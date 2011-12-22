@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import org.apache.commons.math.distribution.FDistribution;
@@ -30,8 +31,8 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
         super(cons, label, a, b, c, null);
     }
 
-    public String getClassName() {
-        return "AlgoInverseFDistribution";
+    public Algos getClassName() {
+        return Algos.AlgoInverseFDistribution;
     }
     
 	public final void compute() {

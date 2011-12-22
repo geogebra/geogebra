@@ -18,8 +18,8 @@ public class AlgoFirstLocus extends AlgoFirst {
 	}
 
     @Override
-	public String getClassName() {
-        return "AlgoFirstLocus";
+	public Algos getClassName() {
+        return Algos.AlgoFirstLocus;
     }
     
     @Override

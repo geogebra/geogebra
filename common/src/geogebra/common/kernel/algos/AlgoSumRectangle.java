@@ -44,8 +44,8 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	}
 	
 	@Override
-	public String getClassName() {
-		return "AlgoSumRectangle";
+	public Algos getClassName() {
+		return Algos.AlgoSumRectangle;
 	}
 	
 	public AlgoSumRectangle copy() {

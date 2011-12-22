@@ -1,11 +1,12 @@
 package geogebra3D.kernel3D;
 
-import java.awt.Color;
-
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+
+import java.awt.Color;
 
 
 
@@ -34,8 +35,8 @@ public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygona
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectPlanePolygonalRegion";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectPlanePolygonalRegion;
 	}
 	
 	//try this

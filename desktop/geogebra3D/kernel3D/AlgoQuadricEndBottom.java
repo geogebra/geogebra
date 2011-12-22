@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.Algos;
 
 /**
  * Compute the bottom of a limited quadric
@@ -23,8 +24,8 @@ public class AlgoQuadricEndBottom extends AlgoQuadricEnd {
 	}
 
 
-	public String getClassName() {
-		return "AlgoQuadricEndBottom";
+	public Algos getClassName() {
+		return Algos.AlgoQuadricEndBottom;
 	}
 
 }

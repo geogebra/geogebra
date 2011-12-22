@@ -26,8 +26,8 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial{
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoComplexPolynomial";
+	public Algos getClassName() {
+        return Algos.AlgoComplexPolynomial;
     }
     
     // roots of f

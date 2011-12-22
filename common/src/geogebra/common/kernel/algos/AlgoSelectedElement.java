@@ -61,8 +61,8 @@ public class AlgoSelectedElement extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoSelectedElement";
+	public Algos getClassName() {
+        return Algos.AlgoSelectedElement;
     }
 
     @Override

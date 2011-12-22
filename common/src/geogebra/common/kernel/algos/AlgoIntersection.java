@@ -38,8 +38,8 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoIntersection";
+	public Algos getClassName() {
+        return Algos.AlgoIntersection;
     }
 
   

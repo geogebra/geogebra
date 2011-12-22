@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -56,8 +57,8 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
   
   public GeoNumeric getResult() { return num; }  
   
-	public String getClassName() {
-		return "AlgoRandomPoisson";
+	public Algos getClassName() {
+		return Algos.AlgoRandomPoisson;
 	}
 
 	public final void compute() {

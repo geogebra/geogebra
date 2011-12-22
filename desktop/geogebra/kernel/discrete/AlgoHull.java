@@ -15,6 +15,7 @@ package geogebra.kernel.discrete;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -60,8 +61,8 @@ public class AlgoHull extends AlgoElement {
         locus.setLabel(label);
     }
 
-    public String getClassName() {
-        return "AlgoHull";
+    public Algos getClassName() {
+        return Algos.AlgoHull;
     }
 
     protected void setInputOutput(){

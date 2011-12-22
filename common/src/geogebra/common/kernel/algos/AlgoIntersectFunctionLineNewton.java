@@ -53,8 +53,8 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectFunctionLineNewton";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectFunctionLineNewton;
     }
     
     @Override

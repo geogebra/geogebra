@@ -14,10 +14,11 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -81,8 +82,8 @@ public class AlgoFit extends AlgoElement {
 		fitfunction.setLabel(label);
 	}// Constructor
 
-	public String getClassName() {
-		return "AlgoFit";
+	public Algos getClassName() {
+		return Algos.AlgoFit;
 	}
 
 	protected void setInputOutput() {

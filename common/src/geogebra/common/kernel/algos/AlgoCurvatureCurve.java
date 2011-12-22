@@ -40,8 +40,8 @@ public class AlgoCurvatureCurve extends AlgoElement {
     }
  
     @Override
-	public String getClassName() {
-        return "AlgoCurvatureCurve";
+	public Algos getClassName() {
+        return Algos.AlgoCurvatureCurve;
     }
 
     // for AlgoElement

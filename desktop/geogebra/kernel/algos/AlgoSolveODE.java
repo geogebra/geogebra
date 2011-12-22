@@ -4,6 +4,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -45,8 +46,8 @@ public class AlgoSolveODE extends AlgoElement {
 	    }
 	    
 	    @Override
-		public String getClassName() {
-	        return "AlgoSolveODE";
+		public Algos getClassName() {
+	        return Algos.AlgoSolveODE;
 	    }
 	    
 	    // for AlgoElement

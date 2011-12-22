@@ -50,8 +50,8 @@ public class AlgoCellRange extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "Expression";
+	public Algos getClassName() {
+		return Algos.AlgoCellRangeExpression;
 	}
 	
 	@Override

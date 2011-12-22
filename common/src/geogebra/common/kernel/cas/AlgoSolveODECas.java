@@ -1,6 +1,7 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 public class AlgoSolveODECas extends AlgoCasBase {
@@ -10,8 +11,8 @@ public class AlgoSolveODECas extends AlgoCasBase {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoSolveODECas";
+	public Algos getClassName() {
+		return Algos.AlgoSolveODECas;
 	}
 
 	@Override

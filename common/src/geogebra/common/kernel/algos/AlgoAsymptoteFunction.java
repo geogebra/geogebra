@@ -43,8 +43,8 @@ public class AlgoAsymptoteFunction extends AlgoElement {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoAsymptoteFunction";
+	public Algos getClassName() {
+        return Algos.AlgoAsymptoteFunction;
     }
     
     // for AlgoElement

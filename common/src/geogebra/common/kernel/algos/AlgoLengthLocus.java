@@ -38,8 +38,8 @@ public class AlgoLengthLocus extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoLengthLocus";
+	public Algos getClassName() {
+        return Algos.AlgoLengthLocus;
     }
 
     @Override

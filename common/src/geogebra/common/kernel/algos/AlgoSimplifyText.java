@@ -47,8 +47,8 @@ public class AlgoSimplifyText extends AlgoElement {
     }     
     
 	@Override
-	public String getClassName() {
-		return "AlgoSimplifyText";
+	public Algos getClassName() {
+		return Algos.AlgoSimplifyText;
 	}
     
     // for AlgoElement

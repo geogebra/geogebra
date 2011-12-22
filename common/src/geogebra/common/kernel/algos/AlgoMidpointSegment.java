@@ -58,8 +58,8 @@ public class AlgoMidpointSegment extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoMidpointSegment";
+	public Algos getClassName() {
+        return Algos.AlgoMidpointSegment;
     }
 
     @Override

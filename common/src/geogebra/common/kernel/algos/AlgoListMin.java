@@ -47,8 +47,8 @@ public class AlgoListMin extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoListMin";
+	public Algos getClassName() {
+        return Algos.AlgoListMin;
     }
 
     @Override

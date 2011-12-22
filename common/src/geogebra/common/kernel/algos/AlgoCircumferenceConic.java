@@ -53,8 +53,8 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoCircumferenceConic";
+	public Algos getClassName() {
+		return Algos.AlgoCircumferenceConic;
 	}
 	
 	@Override

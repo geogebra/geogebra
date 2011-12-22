@@ -45,8 +45,8 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoDrawingPadCorner";
+	public Algos getClassName() {
+		return Algos.AlgoDrawingPadCorner;
 	}
 
 	// for AlgoElement

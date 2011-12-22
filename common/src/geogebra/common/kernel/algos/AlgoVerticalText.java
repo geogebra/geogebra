@@ -41,8 +41,8 @@ public class AlgoVerticalText extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoVerticalText";
+	public Algos getClassName() {
+        return Algos.AlgoVerticalText;
     }
 
     @Override

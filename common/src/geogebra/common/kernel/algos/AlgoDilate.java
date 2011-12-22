@@ -88,8 +88,8 @@ public class AlgoDilate extends AlgoTransformation {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoDilate";
+	public Algos getClassName() {
+		return Algos.AlgoDilate;
 	}
 
 	@Override

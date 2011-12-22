@@ -155,8 +155,8 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoBoxPlot";
+	public Algos getClassName() {
+		return Algos.AlgoBoxPlot;
 	}
 
 	public AlgoBoxPlot copy() {

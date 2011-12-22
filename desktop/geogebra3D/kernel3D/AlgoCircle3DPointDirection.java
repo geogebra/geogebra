@@ -16,6 +16,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -131,8 +132,8 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     }
     
 
-    public String getClassName() {
-        return "AlgoCirclePointRadiusDirection";
+    public Algos getClassName() {
+        return Algos.AlgoCirclePointRadiusDirection;
     }
 
 

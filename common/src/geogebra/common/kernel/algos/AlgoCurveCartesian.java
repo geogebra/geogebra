@@ -86,8 +86,8 @@ public class AlgoCurveCartesian extends AlgoElement {
     }
     
 	@Override
-	public String getClassName() {
-		return "AlgoCurveCartesian";
+	public Algos getClassName() {
+		return Algos.AlgoCurveCartesian;
 	}
     
     // for AlgoElement

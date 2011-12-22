@@ -58,8 +58,8 @@ public class AlgoOrthoVectorVector extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoOrthoVectorVector";
+	public Algos getClassName() {
+        return Algos.AlgoOrthoVectorVector;
     }
     
     @Override

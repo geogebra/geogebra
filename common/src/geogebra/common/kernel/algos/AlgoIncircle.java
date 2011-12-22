@@ -76,8 +76,8 @@ public class AlgoIncircle extends AlgoElement {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIncircle";
+	public Algos getClassName() {
+        return Algos.AlgoIncircle;
     }
     
     // for AlgoElement

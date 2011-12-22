@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -48,8 +49,8 @@ public class AlgoOrdinalRank extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
-        return "AlgoOrdinalRank";
+    public Algos getClassName() {
+        return Algos.AlgoOrdinalRank;
     }
 
     protected void setInputOutput(){

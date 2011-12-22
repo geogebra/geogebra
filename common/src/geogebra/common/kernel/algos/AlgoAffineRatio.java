@@ -30,8 +30,8 @@ public class AlgoAffineRatio extends AlgoElement {
     }
  
     @Override
-	public String getClassName() {
-        return "AlgoAffineRatio";
+	public Algos getClassName() {
+        return Algos.AlgoAffineRatio;
     }
 
     // for AlgoElement

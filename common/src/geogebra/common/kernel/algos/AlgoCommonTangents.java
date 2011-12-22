@@ -120,8 +120,8 @@ public class AlgoCommonTangents extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoCommonTangents";
+	public Algos getClassName() {
+        return Algos.AlgoCommonTangents;
     }
 
     @Override

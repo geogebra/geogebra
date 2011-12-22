@@ -20,22 +20,12 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoIntersectAbstract;
-import geogebra.common.kernel.algos.AlgoIntersectLineConic;
-import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.kernelND.AlgoIntersectND;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 
 
@@ -80,8 +70,8 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         GeoElement.setLabels(labels, Q,kernel.getGeoElementSpreadsheet());       //TODO change to P      
     }
     
-    public String getClassName() {
-        return "AlgoIntersectLineQuadric3D";
+    public Algos getClassName() {
+        return Algos.AlgoIntersectLineQuadric3D;
     }
 
     public int getRelatedModeID() {

@@ -23,8 +23,8 @@ public class AlgoIntervalMin extends AlgoIntervalAbstract {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoIntervalMin";
+	public Algos getClassName() {
+        return Algos.AlgoIntervalMin;
     }
 
     @Override

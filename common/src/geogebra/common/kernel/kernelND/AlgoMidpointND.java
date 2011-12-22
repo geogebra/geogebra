@@ -21,6 +21,7 @@ package geogebra.common.kernel.kernelND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -81,8 +82,8 @@ public abstract class AlgoMidpointND extends AlgoElement {
      */
     protected abstract GeoPointND newGeoPoint(Construction cons);
 
-    public String getClassName() {
-        return "AlgoMidpoint";
+    public Algos getClassName() {
+        return Algos.AlgoMidpoint;
     }
 
     public int getRelatedModeID() {

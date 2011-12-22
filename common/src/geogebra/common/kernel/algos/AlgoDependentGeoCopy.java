@@ -52,8 +52,8 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "Expression";
+	public Algos getClassName() {
+		return Algos.AlgoDependentGeoCopy;
 	}
     
     // for AlgoElement

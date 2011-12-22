@@ -49,8 +49,8 @@ public class AlgoRadius extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoRadius";
+	public Algos getClassName() {
+        return Algos.AlgoRadius;
     }
     
     // for AlgoElement

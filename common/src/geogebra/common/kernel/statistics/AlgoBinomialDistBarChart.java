@@ -14,9 +14,10 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.util.Cloner;
 
 /**
@@ -46,8 +47,8 @@ public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
     }
 	
 
-    public String getClassName() {
-        return "AlgoBinomialDistBarChart";
+    public Algos getClassName() {
+        return Algos.AlgoBinomialDistBarChart;
     }
 
 	public AlgoDrawInformation copy() {		

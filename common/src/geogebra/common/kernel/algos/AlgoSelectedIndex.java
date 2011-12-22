@@ -52,8 +52,8 @@ public class AlgoSelectedIndex extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoSelectedIndex";
+	public Algos getClassName() {
+        return Algos.AlgoSelectedIndex;
     }
 
     @Override

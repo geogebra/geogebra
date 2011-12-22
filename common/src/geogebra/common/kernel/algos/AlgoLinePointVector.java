@@ -62,8 +62,8 @@ public class AlgoLinePointVector extends AlgoElement {
     
     
     @Override
-	public String getClassName() {
-        return "AlgoLinePointVector";
+	public Algos getClassName() {
+        return Algos.AlgoLinePointVector;
     }
 
     // for AlgoElement

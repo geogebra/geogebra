@@ -54,8 +54,8 @@ public class AlgoDiameterLine extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDiameterLine";
+	public Algos getClassName() {
+        return Algos.AlgoDiameterLine;
     }
 
     @Override

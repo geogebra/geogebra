@@ -1,7 +1,5 @@
 package geogebra3D.kernel3D;
 
-import java.awt.Color;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -11,6 +9,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+
+import java.awt.Color;
 
 /**
  * Class for limited quadrics (e.g. limited cones, cylinders, ...)

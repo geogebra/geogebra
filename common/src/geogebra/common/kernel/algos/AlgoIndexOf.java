@@ -72,8 +72,8 @@ public class AlgoIndexOf extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoIndexOf";
+	public Algos getClassName() {
+        return Algos.AlgoIndexOf;
     }
 
     @Override

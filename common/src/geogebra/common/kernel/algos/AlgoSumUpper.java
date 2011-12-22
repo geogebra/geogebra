@@ -45,8 +45,8 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	}
 	
 	@Override
-	public String getClassName() {
-		return "AlgoSumUpper";
+	public Algos getClassName() {
+		return Algos.AlgoSumUpper;
 	}
 	
 	public AlgoSumUpper copy() {

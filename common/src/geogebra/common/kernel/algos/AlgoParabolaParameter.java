@@ -45,8 +45,8 @@ public class AlgoParabolaParameter extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoParabolaParameter";
+	public Algos getClassName() {
+        return Algos.AlgoParabolaParameter;
     }
     
     @Override

@@ -3,15 +3,16 @@ package geogebra.common.kernel.barycentric;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 
 
@@ -43,8 +44,8 @@ public class AlgoTriangleCubic extends AlgoElement {
 		poly.setLabel(label);
 	}
 
-	public String getClassName() {
-		return "AlgoTriangleCubic";
+	public Algos getClassName() {
+		return Algos.AlgoTriangleCubic;
 	}
 
 	// for AlgoElement

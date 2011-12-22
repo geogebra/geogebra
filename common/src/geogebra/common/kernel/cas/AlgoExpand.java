@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 
@@ -29,8 +30,8 @@ public class AlgoExpand extends AlgoCasBase {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoExpand";
+	public Algos getClassName() {
+        return Algos.AlgoExpand;
     }
 
 	@Override

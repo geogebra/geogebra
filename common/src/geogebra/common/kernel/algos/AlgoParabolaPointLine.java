@@ -49,8 +49,8 @@ public class AlgoParabolaPointLine extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoParabolaPointLine";
+	public Algos getClassName() {
+        return Algos.AlgoParabolaPointLine;
     }
     
     @Override

@@ -70,8 +70,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     protected int specialCasePointOnCircleIndex = 0; // index of point on line and conic
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectLineConic";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectLineConic;
     }
 
     @Override

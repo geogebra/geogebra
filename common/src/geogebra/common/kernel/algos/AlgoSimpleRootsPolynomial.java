@@ -231,8 +231,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoSimpleRootsPoly";
+	public Algos getClassName() {
+		return Algos.AlgoSimpleRootsPoly;
 	}
 	
 }

@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -53,8 +54,8 @@ public class AlgoSample extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public String getClassName() {
-        return "AlgoSample";
+    public Algos getClassName() {
+        return Algos.AlgoSample;
     }
 
     protected void setInputOutput(){

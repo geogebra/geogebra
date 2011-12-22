@@ -120,8 +120,8 @@ public class AlgoLocus extends AlgoElement implements EuclidianViewCE {
 //    }
  
     @Override
-	public String getClassName() {
-        return "AlgoLocus";
+	public Algos getClassName() {
+        return Algos.AlgoLocus;
     }
     
     @Override

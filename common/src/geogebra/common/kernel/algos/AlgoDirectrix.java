@@ -57,8 +57,8 @@ public class AlgoDirectrix extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDirectrix";
+	public Algos getClassName() {
+        return Algos.AlgoDirectrix;
     }
 
     // for AlgoElement

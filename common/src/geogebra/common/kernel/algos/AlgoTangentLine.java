@@ -57,8 +57,8 @@ public class AlgoTangentLine extends AlgoElement implements TangentAlgo{
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoTangentLine";
+	public Algos getClassName() {
+        return Algos.AlgoTangentLine;
     }        
     
     @Override

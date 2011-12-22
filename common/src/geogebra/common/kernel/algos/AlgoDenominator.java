@@ -40,7 +40,7 @@ public class AlgoDenominator extends AlgoNumerator {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDenominator";
+	public Algos getClassName() {
+        return Algos.AlgoDenominator;
     }
 }

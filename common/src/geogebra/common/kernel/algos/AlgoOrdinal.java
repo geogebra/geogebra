@@ -37,8 +37,8 @@ public class AlgoOrdinal extends AlgoElement {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoOrdinal";
+	public Algos getClassName() {
+        return Algos.AlgoOrdinal;
     }
     
     // for AlgoElement

@@ -46,8 +46,8 @@ public class AlgoReverse extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoReverse";
+	public Algos getClassName() {
+        return Algos.AlgoReverse;
     }
 
     @Override

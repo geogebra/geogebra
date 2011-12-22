@@ -55,7 +55,7 @@ public class AlgoFitPoly extends AlgoElement{
         compute();
     }//Constructor
     
-    public String getClassName() {return "AlgoFitPoly";}
+    public Algos getClassName() {return Algos.AlgoFitPoly;}
         
     protected void setInputOutput(){
         input=new GeoElement[2];

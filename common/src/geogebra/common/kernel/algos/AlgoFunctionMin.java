@@ -76,8 +76,8 @@ public class AlgoFunctionMin extends AlgoElement {
     }//constructor
 
     @Override
-	public String getClassName() {
-        return "AlgoFunctionMin";
+	public Algos getClassName() {
+        return Algos.AlgoFunctionMin;
     }
 
     @Override

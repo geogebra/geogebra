@@ -14,10 +14,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
-
 import geogebra.kernel.Kernel;
-
-
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**

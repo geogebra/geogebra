@@ -71,8 +71,8 @@ public class AlgoDependentConic extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentConic";
+	public Algos getClassName() {
+		return Algos.AlgoDependentConic;
 	}
     
     // for AlgoElement

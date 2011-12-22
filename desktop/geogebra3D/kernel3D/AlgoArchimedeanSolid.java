@@ -3,12 +3,10 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
-import geogebra.common.kernel.algos.AlgoElement.elementFactory;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.gui.SetLabels;
 import geogebra.kernel.Kernel;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
@@ -280,8 +278,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
 
 
-	public String getClassName() {
-		return className;
+	public Algos getClassName() {
+		return Algos.valueOf(className);
 	}
 	
     

@@ -62,8 +62,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoDependentFunctionNVar";
+	public Algos getClassName() {
+        return Algos.AlgoDependentFunctionNVar;
     }
     
     // for AlgoElement

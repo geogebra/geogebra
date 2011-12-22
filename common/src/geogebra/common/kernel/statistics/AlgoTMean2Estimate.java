@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -95,8 +96,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	}
 
 
-	public String getClassName() {
-		return "AlgoTMean2Estimate";
+	public Algos getClassName() {
+		return Algos.AlgoTMean2Estimate;
 	}
 
 	protected void setInputOutput(){

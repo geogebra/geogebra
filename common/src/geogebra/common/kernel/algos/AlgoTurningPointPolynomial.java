@@ -29,8 +29,8 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoTurningPointPolynomial";    
+	public Algos getClassName() {
+        return Algos.AlgoTurningPointPolynomial;    
     }
             
     public GeoPoint2 [] getInflectionPoints() {

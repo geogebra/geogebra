@@ -83,8 +83,8 @@ public class AlgoZip extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoZip";
+	public Algos getClassName() {
+		return Algos.AlgoZip;
 	}
 
 	// for AlgoElement

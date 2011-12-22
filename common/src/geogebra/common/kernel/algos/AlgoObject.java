@@ -56,8 +56,8 @@ public class AlgoObject extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoObject";
+	public Algos getClassName() {
+		return Algos.AlgoObject;
 	}
     
     // for AlgoElement

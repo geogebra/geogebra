@@ -133,8 +133,8 @@ public class AlgoListElement extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoListElement";
+	public Algos getClassName() {
+		return Algos.AlgoListElement;
 	}
 
 	@Override

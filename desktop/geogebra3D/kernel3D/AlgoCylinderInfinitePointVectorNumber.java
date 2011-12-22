@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -33,8 +34,8 @@ public class AlgoCylinderInfinitePointVectorNumber extends
 	
 
 	@Override
-	public String getClassName(){
-		return "AlgoCylinderInfinitePointVectorNumber";
+	public Algos getClassName(){
+		return Algos.AlgoCylinderInfinitePointVectorNumber;
 	}
 	
 }

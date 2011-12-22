@@ -40,8 +40,8 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoHyperbolaFociLength";
+	public Algos getClassName() {
+        return Algos.AlgoHyperbolaFociLength;
     }
     
     @Override

@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * @author G.Sturr 2010-3-14
  *
  */
-public class AlgoPolygonOperation extends AlgoElement {
+public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	private GeoPolygon inPoly0; //input
 	private GeoPolygon inPoly1; //input
@@ -96,11 +96,7 @@ public class AlgoPolygonOperation extends AlgoElement {
 
 	}
 
-	@Override
-	public String getClassName() {
-		return "AlgoPolygonOperation";
-	}
-
+	
 	@Override
 	protected void setInputOutput() {
 

@@ -110,8 +110,8 @@ implements EuclidianViewCE, AlgoMacroInterface {
     }           
     
     @Override
-	public String getClassName() {
-		return "AlgoMacro";
+	public Algos getClassName() {
+		return Algos.AlgoMacro;
 	}
 	
 	@Override

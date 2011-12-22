@@ -46,8 +46,8 @@ public class AlgoListMax extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoListMax";
+	public Algos getClassName() {
+        return Algos.AlgoListMax;
     }
 
     @Override

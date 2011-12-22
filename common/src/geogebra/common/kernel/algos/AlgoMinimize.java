@@ -40,8 +40,8 @@ public class AlgoMinimize extends AlgoOptimize{
 	
 
     @Override
-	public String getClassName() {
-    	return "AlgoMinimize";
+	public Algos getClassName() {
+    	return Algos.AlgoMinimize;
     }//getClassName()    
 
 }//class AlgoMinimize

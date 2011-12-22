@@ -71,8 +71,8 @@ public class AlgoRotate extends AlgoTransformation {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoRotate";
+	public Algos getClassName() {
+        return Algos.AlgoRotate;
     }
 
     @Override

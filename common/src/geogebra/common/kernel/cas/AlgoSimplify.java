@@ -1,6 +1,7 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 public class AlgoSimplify extends AlgoCasBase {
@@ -10,8 +11,8 @@ public class AlgoSimplify extends AlgoCasBase {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoSimplify";
+	public Algos getClassName() {
+		return Algos.AlgoSimplify;
 	}
 
 	@Override

@@ -38,8 +38,8 @@ public class AlgoUnicodeToText extends AlgoElement {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoUnicodeToText";
+	public Algos getClassName() {
+        return Algos.AlgoUnicodeToText;
     }
     
     // for AlgoElement

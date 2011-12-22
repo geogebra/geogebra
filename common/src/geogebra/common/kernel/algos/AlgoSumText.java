@@ -52,8 +52,8 @@ public class AlgoSumText extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoSumText";
+	public Algos getClassName() {
+        return Algos.AlgoSumText;
     }
 
     @Override

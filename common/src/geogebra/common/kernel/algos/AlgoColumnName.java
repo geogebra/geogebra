@@ -47,8 +47,8 @@ public class AlgoColumnName extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoColumnName";
+	public Algos getClassName() {
+		return Algos.AlgoColumnName;
 	}
     
     // for AlgoElement

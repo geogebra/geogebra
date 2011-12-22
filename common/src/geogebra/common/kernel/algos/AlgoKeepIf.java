@@ -47,8 +47,8 @@ public class AlgoKeepIf extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoKeepIf";
+	public Algos getClassName() {
+        return Algos.AlgoKeepIf;
     }
 
     @Override

@@ -42,8 +42,8 @@ public class AlgoAngleNumeric extends AlgoElement {
     }   
     
     @Override
-	public String getClassName() {
-        return "AlgoAngleNumeric";
+	public Algos getClassName() {
+        return Algos.AlgoAngleNumeric;
     }
         
     // for AlgoElement

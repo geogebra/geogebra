@@ -2,6 +2,7 @@ package geogebra.common.kernel.barycentric;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -38,8 +39,8 @@ public class AlgoTrilinear extends AlgoElement {
 		point.setLabel(label);
 	}
 
-	public String getClassName() {
-		return "AlgoTrilinear";
+	public Algos getClassName() {
+		return Algos.AlgoTrilinear;
 	}
 
 	// for AlgoElement

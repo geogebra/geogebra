@@ -97,9 +97,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     }//setLabels(String[])
 
     @Override
-	public String getClassName() {
-        return "AlgoGeoPointsFunction";
-    }//getClassName()
+	public abstract Algos getClassName();
 
 
 

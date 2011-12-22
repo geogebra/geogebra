@@ -20,6 +20,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -63,8 +64,8 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoTangentFunctionNumber";
+	public Algos getClassName() {
+		return Algos.AlgoTangentFunctionNumber;
 	}
 
 	@Override

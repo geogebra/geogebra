@@ -48,8 +48,8 @@ public class AlgoVectorPoint extends AlgoElement {
     }           
     
     @Override
-	public String getClassName() {
-        return "AlgoVectorPoint";
+	public Algos getClassName() {
+        return Algos.AlgoVectorPoint;
     }
     
     @Override

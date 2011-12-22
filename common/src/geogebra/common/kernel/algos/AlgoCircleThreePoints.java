@@ -117,8 +117,8 @@ public class AlgoCircleThreePoints extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoCircleThreePoints";
+	public Algos getClassName() {
+		return Algos.AlgoCircleThreePoints;
 	}
 
 	@Override

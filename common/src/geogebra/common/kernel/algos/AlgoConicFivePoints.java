@@ -76,8 +76,8 @@ public class AlgoConicFivePoints extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoConicFivePoints";
+	public Algos getClassName() {
+        return Algos.AlgoConicFivePoints;
     }
     
     @Override

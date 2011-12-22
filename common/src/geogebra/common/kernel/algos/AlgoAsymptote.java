@@ -54,8 +54,8 @@ public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoAsymptote";
+	public Algos getClassName() {
+        return Algos.AlgoAsymptote;
     }
 
     private AlgoAsymptote(Construction cons, GeoConic c) {

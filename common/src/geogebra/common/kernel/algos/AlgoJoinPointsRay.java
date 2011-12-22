@@ -57,8 +57,8 @@ public class AlgoJoinPointsRay extends AlgoElement {
 	}
     
     @Override
-	public String getClassName() {
-        return "AlgoJoinPointsRay";
+	public Algos getClassName() {
+        return Algos.AlgoJoinPointsRay;
     }
     
     @Override

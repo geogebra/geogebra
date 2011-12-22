@@ -62,8 +62,8 @@ public class AlgoDirection extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoDirection";
+	public Algos getClassName() {
+        return Algos.AlgoDirection;
     }
 
     // for AlgoElement

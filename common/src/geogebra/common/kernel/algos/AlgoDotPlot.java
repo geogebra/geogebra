@@ -67,8 +67,8 @@ public class AlgoDotPlot extends AlgoElement {
 
     
     @Override
-	public String getClassName() {
-        return "AlgoDotPlot";
+	public Algos getClassName() {
+        return Algos.AlgoDotPlot;
     }
 
     @Override

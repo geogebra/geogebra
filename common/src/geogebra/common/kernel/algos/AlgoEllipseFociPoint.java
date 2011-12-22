@@ -64,8 +64,8 @@ public class AlgoEllipseFociPoint extends AlgoElement {
         }
 
     @Override
-	public String getClassName() {
-        return "AlgoEllipseFociPoint";
+	public Algos getClassName() {
+        return Algos.AlgoEllipseFociPoint;
     }
     
     @Override

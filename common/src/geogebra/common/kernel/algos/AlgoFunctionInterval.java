@@ -62,8 +62,8 @@ public class AlgoFunctionInterval extends AlgoElement {
     
   
     @Override
-	public String getClassName() {
-        return "AlgoFunctionInterval";
+	public Algos getClassName() {
+        return Algos.AlgoFunctionInterval;
     }   
 
     // for AlgoElement

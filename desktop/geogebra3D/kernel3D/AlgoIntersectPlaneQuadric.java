@@ -18,14 +18,11 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import java.awt.Color;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.main.Application;
 
 
 
@@ -140,9 +137,9 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     
     
 
-	public String getClassName() {
+	public Algos getClassName() {
     	
-    	return "AlgoIntersectPlaneQuadric";
+    	return Algos.AlgoIntersectPlaneQuadric;
 	}
 
 	

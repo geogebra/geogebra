@@ -64,8 +64,8 @@ public class AlgoIsInRegion extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIsInRegion";
+	public Algos getClassName() {
+		return Algos.AlgoIsInRegion;
 	}
 
 }

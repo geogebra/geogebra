@@ -24,19 +24,16 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoIntersectConics;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 
 
@@ -100,8 +97,8 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
         GeoElement.setLabels(labels, P,kernel.getGeoElementSpreadsheet());            
     }
     
-    public String getClassName() {
-        return "AlgoIntersectConics";
+    public Algos getClassName() {
+        return Algos.AlgoIntersectConics;
     }
 
     public int getRelatedModeID() {

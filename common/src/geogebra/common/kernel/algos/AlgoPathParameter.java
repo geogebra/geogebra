@@ -47,8 +47,8 @@ public class AlgoPathParameter extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoPathParameter";
+	public Algos getClassName() {
+		return Algos.AlgoPathParameter;
 	}
 
 	@Override

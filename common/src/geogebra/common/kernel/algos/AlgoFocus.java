@@ -67,8 +67,8 @@ public class AlgoFocus extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoFocus";
+	public Algos getClassName() {
+		return Algos.AlgoFocus;
 	}
 
 	// for AlgoElement

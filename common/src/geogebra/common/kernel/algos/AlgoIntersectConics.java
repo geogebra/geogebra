@@ -70,8 +70,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
     private SystemOfEquationsSolverInterface sysSolver;
         
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectConics";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectConics;
 	}
 	
 	@Override

@@ -125,8 +125,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectLinePolygonalRegion";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectLinePolygonalRegion;
     }
 
     @Override

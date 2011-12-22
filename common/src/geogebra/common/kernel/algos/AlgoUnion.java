@@ -38,8 +38,8 @@ public class AlgoUnion extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoUnion";
+	public Algos getClassName() {
+		return Algos.AlgoUnion;
 	}
 
 	@Override

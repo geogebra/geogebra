@@ -47,8 +47,8 @@ public class AlgoConicFromCoeffList extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoConicFivePoints";
+	public Algos getClassName() {
+        return Algos.AlgoConicFivePoints;
     }
     
     @Override

@@ -7,7 +7,6 @@ import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
 
 /**
  * @author ggb3D

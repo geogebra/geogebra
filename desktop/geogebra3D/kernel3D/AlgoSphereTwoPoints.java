@@ -20,6 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoSphereNDTwoPoints;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -53,8 +54,8 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
         return sphere;
     }
 
-    public String getClassName() {
-        return "AlgoSphereTwoPoints";
+    public Algos getClassName() {
+        return Algos.AlgoSphereTwoPoints;
     }
 
 

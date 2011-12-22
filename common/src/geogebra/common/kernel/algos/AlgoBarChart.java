@@ -72,8 +72,8 @@ public class AlgoBarChart extends AlgoFunctionAreaSums {
 	}
 	
 	@Override
-	public String getClassName() {
-		return "AlgoBarChart";
+	public Algos getClassName() {
+		return Algos.AlgoBarChart;
 	}
 	
 	public AlgoBarChart copy() {

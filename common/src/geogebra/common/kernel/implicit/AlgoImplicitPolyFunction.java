@@ -3,6 +3,7 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -63,8 +64,8 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoImplicitPolyFunction";
+	public Algos getClassName() {
+		return Algos.AlgoImplicitPolyFunction;
 	}
 	
 	public GeoImplicitPoly getImplicitPoly(){

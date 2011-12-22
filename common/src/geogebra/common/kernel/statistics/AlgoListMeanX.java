@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
@@ -33,7 +34,7 @@ public class AlgoListMeanX extends AlgoStats2D {
         super(cons,geoListx,AlgoStats2D.STATS_MEANX);
     }
 
-    public String getClassName() {
-        return "AlgoListMeanX";
+    public Algos getClassName() {
+        return Algos.AlgoListMeanX;
     }
 }

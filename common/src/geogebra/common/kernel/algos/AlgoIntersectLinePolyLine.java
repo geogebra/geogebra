@@ -111,8 +111,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectLinePolyLine";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectLinePolyLine;
     }
 
     @Override

@@ -123,8 +123,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoCompleteSquare";
+	public Algos getClassName() {
+		return Algos.AlgoCompleteSquare;
 	}
 
 }

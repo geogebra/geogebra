@@ -50,8 +50,8 @@ public class AlgoIterationList extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoIterationList";
+	public Algos getClassName() {
+        return Algos.AlgoIterationList;
     }
 
     @Override

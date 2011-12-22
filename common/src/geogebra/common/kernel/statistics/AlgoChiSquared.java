@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
@@ -30,8 +31,8 @@ public class AlgoChiSquared extends AlgoDistribution {
         super(cons, label, a, b, null, null);
     }
 
-    public String getClassName() {
-        return "AlgoChiSquared";
+    public Algos getClassName() {
+        return Algos.AlgoChiSquared;
     }
     
 	public final void compute() {

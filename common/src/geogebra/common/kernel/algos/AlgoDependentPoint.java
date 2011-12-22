@@ -63,8 +63,8 @@ public class AlgoDependentPoint extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentPoint";
+	public Algos getClassName() {
+		return Algos.AlgoDependentPoint;
 	}
 	
     // for AlgoElement

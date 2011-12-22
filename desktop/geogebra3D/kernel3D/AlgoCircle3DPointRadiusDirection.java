@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -55,8 +56,8 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
 
     }
 
-    public String getClassName() {
-        return "AlgoCirclePointRadiusDirection";
+    public Algos getClassName() {
+        return Algos.AlgoCirclePointRadiusDirection;
     }
 
 

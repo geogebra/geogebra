@@ -54,8 +54,8 @@ public class AlgoIf extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoIf";
+	public Algos getClassName() {
+		return Algos.AlgoIf;
 	}
     
     // for AlgoElement

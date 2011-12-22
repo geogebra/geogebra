@@ -55,7 +55,7 @@ public abstract class AlgoConicFociLength extends AlgoElement {
     }
 
     @Override
-	public abstract String getClassName();
+	public abstract Algos getClassName();
 
     // for AlgoElement
     @Override

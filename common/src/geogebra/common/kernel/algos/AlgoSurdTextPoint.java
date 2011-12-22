@@ -46,8 +46,8 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoSurdTextPoint";
+	public Algos getClassName() {
+        return Algos.AlgoSurdTextPoint;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package geogebra.kernel.discrete;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoConvexHull extends AlgoHull{
@@ -9,8 +10,8 @@ public class AlgoConvexHull extends AlgoHull{
 		super(cons, label, inputList, null);
 	}
 	
-    public String getClassName() {
-        return "AlgoConvexHull";
+    public Algos getClassName() {
+        return Algos.AlgoConvexHull;
     }
 
 }

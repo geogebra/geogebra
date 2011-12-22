@@ -43,8 +43,8 @@ public class AlgoNumerator extends AlgoElement {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoNumerator";
+	public Algos getClassName() {
+        return Algos.AlgoNumerator;
     }
     
     // for AlgoElement

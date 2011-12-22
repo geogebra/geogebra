@@ -23,8 +23,8 @@ public class AlgoIntervalMax extends AlgoIntervalAbstract {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoIntervalMax";
+	public Algos getClassName() {
+        return Algos.AlgoIntervalMax;
     }
 
     @Override

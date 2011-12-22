@@ -49,8 +49,8 @@ public class AlgoUnique extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoUnique";
+	public Algos getClassName() {
+		return Algos.AlgoUnique;
 	}
 
 	@Override

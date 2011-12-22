@@ -63,8 +63,8 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements Al
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoCirclePointRadius";
+	public Algos getClassName() {
+		return Algos.AlgoCirclePointRadius;
 	}
 
 	@Override

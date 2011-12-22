@@ -80,8 +80,8 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoPointOnPath";
+	public Algos getClassName() {
+        return Algos.AlgoPointOnPath;
     }
 
 	@Override

@@ -2,6 +2,7 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -262,8 +263,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	}
 
 	@Override
-    public String getClassName() {
-		return "AlgoDependentImplicitPoly";
+    public Algos getClassName() {
+		return Algos.AlgoDependentImplicitPoly;
 	}
 	
 	public GeoElement getGeo(){

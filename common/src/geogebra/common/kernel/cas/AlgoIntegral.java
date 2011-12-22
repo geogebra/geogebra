@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -44,8 +45,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntegral";
+	public Algos getClassName() {
+		return Algos.AlgoIntegral;
 	}
 
 	@Override

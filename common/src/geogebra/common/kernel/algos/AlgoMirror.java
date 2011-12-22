@@ -128,8 +128,8 @@ public class AlgoMirror extends AlgoTransformation {
     }           
     
     @Override
-	public String getClassName() {
-        return "AlgoMirror";
+	public Algos getClassName() {
+        return Algos.AlgoMirror;
     }
     
     @Override

@@ -16,6 +16,7 @@ the Free Software Foundation.
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -123,7 +124,7 @@ public final class AlgoFitLogistic extends AlgoElement{
         compute();
     }//Constructor
     
-    public String getClassName() {return "AlgoFitLogistic";}
+    public Algos getClassName() {return Algos.AlgoFitLogistic;}
         
     protected void setInputOutput(){
         input=new GeoElement[1];

@@ -48,8 +48,8 @@ public class AlgoPointInRegion extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoPointInRegion";
+	public Algos getClassName() {
+        return Algos.AlgoPointInRegion;
     }
     
     @Override

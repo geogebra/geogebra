@@ -14,6 +14,7 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -76,7 +77,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 		this(cons, geoList, null, stat);
 	}
 
-	public abstract String getClassName();
+	public abstract Algos getClassName();
 
 	protected void setInputOutput(){
 		if (Truncate == null) {

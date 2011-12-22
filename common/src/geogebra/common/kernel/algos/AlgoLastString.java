@@ -30,8 +30,8 @@ public class AlgoLastString extends AlgoFirstString {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoLastString";
+	public Algos getClassName() {
+        return Algos.AlgoLastString;
     }
 
     @Override

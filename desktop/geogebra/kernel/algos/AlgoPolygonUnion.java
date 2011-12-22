@@ -15,6 +15,7 @@ the Free Software Foundation.
 package geogebra.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoPolygon;
 
 
@@ -28,8 +29,8 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 	}
 	
 	@Override
-	public String getClassName() {
-		return "AlgoPolygonUnion";
+	public Algos getClassName() {
+		return Algos.AlgoPolygonUnion;
 	}
 	
 }

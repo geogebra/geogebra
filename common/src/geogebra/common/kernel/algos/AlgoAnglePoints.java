@@ -58,8 +58,8 @@ public class AlgoAnglePoints extends AlgoElement implements
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoAnglePoints";
+	public Algos getClassName() {
+		return Algos.AlgoAnglePoints;
 	}
 
 	@Override

@@ -56,8 +56,8 @@ public class AlgoResidualPlot extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoResidualPlot";
+	public Algos getClassName() {
+		return Algos.AlgoResidualPlot;
 	}
 
 	@Override

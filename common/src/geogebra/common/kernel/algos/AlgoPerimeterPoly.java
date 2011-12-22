@@ -47,8 +47,8 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoPerimeterPoly";
+	public Algos getClassName() {
+		return Algos.AlgoPerimeterPoly;
 	}
 
 	@Override

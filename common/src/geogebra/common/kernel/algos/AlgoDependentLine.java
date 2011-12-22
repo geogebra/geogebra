@@ -75,8 +75,8 @@ public class AlgoDependentLine extends AlgoElement {
     }   
     
 	@Override
-	public String getClassName() {
-		return "AlgoDependentLine";
+	public Algos getClassName() {
+		return Algos.AlgoDependentLine;
 	}
     
     // for AlgoElement

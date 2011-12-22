@@ -88,8 +88,8 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 	}
 
 	@Override
-	public String getClassName() {
-		return "AlgoIntegralFunctions";
+	public Algos getClassName() {
+		return Algos.AlgoIntegralFunctions;
 	}
 	
     public AlgoIntegralFunctions copy(){

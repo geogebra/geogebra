@@ -45,8 +45,8 @@ public class AlgoListLCM extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoListLCM";
+	public Algos getClassName() {
+        return Algos.AlgoListLCM;
     }
 
     @Override

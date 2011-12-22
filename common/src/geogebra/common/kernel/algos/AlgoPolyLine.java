@@ -101,8 +101,8 @@ public class AlgoPolyLine extends AlgoElement {
     }
         
     @Override
-	public String getClassName() {
-        return "AlgoPolyLine";
+	public Algos getClassName() {
+        return Algos.AlgoPolyLine;
     }
     
     @Override

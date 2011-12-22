@@ -1,6 +1,7 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
@@ -55,8 +56,8 @@ public class AlgoDependentCasCell extends AlgoElement {
 	}
 	
 	@Override
-	public String getClassName() {
-		return "AlgoDependentCasCell";
+	public Algos getClassName() {
+		return Algos.AlgoDependentCasCell;
 	}
 
 	private void initInput() {

@@ -46,8 +46,8 @@ public class AlgoFractionText extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoFractionText";
+	public Algos getClassName() {
+        return Algos.AlgoFractionText;
     }
 
     @Override

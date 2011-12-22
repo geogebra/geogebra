@@ -79,8 +79,8 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 	}
     
     @Override
-	public String getClassName() {
-        return "AlgoJoinPointsSegment";
+	public Algos getClassName() {
+        return Algos.AlgoJoinPointsSegment;
     }
 
 	@Override

@@ -20,20 +20,16 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 
 
@@ -82,8 +78,8 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
         GeoElement.setLabels(labels, P,kernel.getGeoElementSpreadsheet());            
     }
     
-    public String getClassName() {
-        return "AlgoIntersectLineConic";
+    public Algos getClassName() {
+        return Algos.AlgoIntersectLineConic;
     }
 
     public int getRelatedModeID() {

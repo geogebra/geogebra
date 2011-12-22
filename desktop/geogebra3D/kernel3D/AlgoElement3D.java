@@ -52,8 +52,8 @@ import geogebra.common.kernel.geos.GeoElement;
     <li> Set the classname :
     <p>
     <code>
-    protected String getClassName() { <br> &nbsp;&nbsp;
-      return "AlgoNew3D"; <br> 
+    protected Algos getClassName() { <br> &nbsp;&nbsp;
+      return Algos.AlgoNew3D; <br> 
     }
     </code>
     </li>

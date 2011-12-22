@@ -69,8 +69,8 @@ public class AlgoAngularBisectorLines extends AlgoElement {
     }
 
     @Override
-	public String getClassName() {
-        return "AlgoAngularBisectorLines";
+	public Algos getClassName() {
+        return Algos.AlgoAngularBisectorLines;
     }
 
     @Override

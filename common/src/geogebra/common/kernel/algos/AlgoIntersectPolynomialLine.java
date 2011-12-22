@@ -33,8 +33,8 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
     }
     
     @Override
-	public String getClassName() {
-        return "AlgoIntersectPolynomialLine";
+	public Algos getClassName() {
+        return Algos.AlgoIntersectPolynomialLine;
     }
     
     @Override

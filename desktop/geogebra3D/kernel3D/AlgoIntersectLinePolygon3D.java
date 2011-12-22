@@ -4,6 +4,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -151,8 +152,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     }
     
 	@Override
-	public String getClassName() {
-		return "AlgoIntersectLinePolygon3D";
+	public Algos getClassName() {
+		return Algos.AlgoIntersectLinePolygon3D;
 	}
 	
 	protected void setLabels(String[] labels) {

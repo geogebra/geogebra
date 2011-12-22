@@ -2,6 +2,7 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -45,8 +46,8 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement
 	}
 	
 	@Override
-	public String getClassName() {
-		 return "AlgoImplicitPolyThroughPoints";
+	public Algos getClassName() {
+		 return Algos.AlgoImplicitPolyThroughPoints;
 	}
 
 }

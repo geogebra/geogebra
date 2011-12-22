@@ -17,7 +17,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.kernel.Kernel;
-import geogebra.main.Application;
 
 
 /**

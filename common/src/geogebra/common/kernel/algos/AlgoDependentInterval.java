@@ -27,8 +27,8 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoDependentInterval";
+	public Algos getClassName() {
+        return Algos.AlgoDependentInterval;
     }
     
     @Override

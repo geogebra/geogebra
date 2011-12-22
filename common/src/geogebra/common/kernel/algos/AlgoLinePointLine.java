@@ -59,8 +59,8 @@ public class AlgoLinePointLine extends AlgoElement {
 
     
     @Override
-	public String getClassName() {
-        return "AlgoLinePointLine";
+	public Algos getClassName() {
+        return Algos.AlgoLinePointLine;
     }
 
 	@Override

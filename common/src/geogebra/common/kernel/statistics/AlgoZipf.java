@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 
@@ -31,8 +32,8 @@ public class AlgoZipf extends AlgoDistribution {
         super(cons, label, a, b, c, isCumulative);
     }
 
-    public String getClassName() {
-        return "AlgoZipf";
+    public Algos getClassName() {
+        return Algos.AlgoZipf;
     }
 
 	public final void compute() {

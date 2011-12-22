@@ -50,8 +50,8 @@ public class AlgoSurdText extends AlgoElement {
 	}
 
 	@Override
-	public String getClassName() {
-        return "AlgoSurdText";
+	public Algos getClassName() {
+        return Algos.AlgoSurdText;
     }
 
     @Override

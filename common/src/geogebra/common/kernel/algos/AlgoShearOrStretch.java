@@ -87,9 +87,9 @@ public class AlgoShearOrStretch extends AlgoTransformation {
     }
     
     @Override
-	public String getClassName() {
-        if(shear)return "AlgoShear";
-        return "AlgoStretch";
+	public Algos getClassName() {
+        if(shear)return Algos.AlgoShear;
+        return Algos.AlgoStretch;
     }
     
     // for AlgoElement

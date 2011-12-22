@@ -35,8 +35,8 @@ public class AlgoMax extends AlgoTwoNumFunction {
     }   
   
     @Override
-	public String getClassName() {
-        return "AlgoMax";
+	public Algos getClassName() {
+        return Algos.AlgoMax;
     }
       
     @Override
