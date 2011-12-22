@@ -62,9 +62,8 @@ public abstract class AbstractApplication {
 
 	public boolean useJavaFontsForLaTeX = false;
 	
-	//added by Rana
 	public static final String RB_ALGO2INTERGEO = "/geogebra/kernel/algo2intergeo";
-	private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
+	public static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
 	
 	
 	public boolean useJavaFontsForLaTeX() {
@@ -73,10 +72,6 @@ public abstract class AbstractApplication {
 	}
  
 
-	//Commented by Rana
-	//public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
-	
-	
 	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
 	}
@@ -85,9 +80,6 @@ public abstract class AbstractApplication {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
 	}
 	
-
-	//Commented by Rana
-	//public abstract ResourceBundleAdapter initAlgo2CommandBundle();
 
 	public abstract String getCommand(String cmdName);
 
