@@ -1,5 +1,6 @@
 package geogebra.common.main;
 
+//import static geogebra.common.main.AbstractApplication.RB_ALGO2COMMAND;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Dimension;
 import geogebra.common.euclidian.DrawEquationInterface;
@@ -60,15 +61,33 @@ public abstract class AbstractApplication {
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 
 	public boolean useJavaFontsForLaTeX = false;
-
+	
+	//added by Rana
+	public static final String RB_ALGO2INTERGEO = "/geogebra/kernel/algo2intergeo";
+	private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
+	
+	
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
 
 	}
+ 
 
-	public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
+	//Commented by Rana
+	//public abstract ResourceBundleAdapter initAlgo2IntergeoBundle();
+	
+	
+	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
+		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
+	}
+	
+	public ResourceBundleAdapter initAlgo2CommandBundle() {
+		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
+	}
+	
 
-	public abstract ResourceBundleAdapter initAlgo2CommandBundle();
+	//Commented by Rana
+	//public abstract ResourceBundleAdapter initAlgo2CommandBundle();
 
 	public abstract String getCommand(String cmdName);
 

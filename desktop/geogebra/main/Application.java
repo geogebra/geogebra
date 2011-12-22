@@ -38,6 +38,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.main.MyResourceBundle;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.LowerCaseDictionary;
@@ -431,9 +432,12 @@ public class Application extends AbstractApplication implements
 	public static final String RB_COLORS = "/geogebra/properties/colors";
 
 	private static final String RB_SETTINGS = "/geogebra/export/settings";
-	private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
+	//commented by Rana
+	//private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
 	// Added for Intergeo File Format (Yves Kreis) -->
-	private static final String RB_ALGO2INTERGEO = "/geogebra/kernel/algo2intergeo";
+
+	//commented by Rana
+	//private static final String RB_ALGO2INTERGEO = "/geogebra/kernel/algo2intergeo";
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	// private static Color COLOR_STATUS_BACKGROUND = new Color(240, 240, 240);
@@ -2379,17 +2383,21 @@ public class Application extends AbstractApplication implements
 		return Locale.ENGLISH;
 	}
 
-	@Override
+	//Commented by Rana
+	/*@Override
 	public ResourceBundleAdapter initAlgo2CommandBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
-	}
+	}*/
 
+
+	//Commented by Rana
+	/*
 	// Added for Intergeo File Format (Yves Kreis) -->
 	@Override
 	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
 		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
 	}
-
+*/
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	private void updateResourceBundles() {

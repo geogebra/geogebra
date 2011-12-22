@@ -3,8 +3,6 @@ package geogebra.web.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -22,13 +20,14 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.Kernel;
 import geogebra.web.util.DataUtil;
+
+
 public class Application extends AbstractApplication {
 	
 	private Kernel kernel;
@@ -41,19 +40,7 @@ public class Application extends AbstractApplication {
 	private boolean showGrid = false;
 	
 	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
-
-
-	@Override
-	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResourceBundleAdapter initAlgo2CommandBundle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public String getCommand(String cmdName) {
