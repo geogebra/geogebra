@@ -22,8 +22,9 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.MatrixTransformable;
@@ -37,22 +38,22 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.kernel.AbstractAnimationManager;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1695,7 +1696,7 @@ GeoPointND, Animatable, Transformable {
 			
 			//GeoConicND, GeoLine, GeoPoint are the three types who have an incidence list 
 			if (geo.isGeoConic())
-				((GeoConic)geo).addPointOnConic(this);//GeoConicND
+				((GeoConicND)geo).addPointOnConic(this);//GeoConicND
 			else if (geo.isGeoLine())
 				((GeoLine)geo).addPointOnLine(this);
 			//TODO: if geo instanceof GeoPoint...
