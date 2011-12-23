@@ -1724,12 +1724,14 @@ Translateable, GeoConicNDConstants
 		double c1 = C.inhomX;
 		double c2 = C.inhomY;
 
+		/* removed again, we want Ellipse[(-3,3), (3,-5), 5] to give a double-line
+		 * (also see #1297)
 		double halfLengthBC = Math.sqrt((b1-c1)*(b1-c1)+(b2-c2)*(b2-c2))/2;
 
 		if (AbstractKernel.isEqual(halfLengthBC, a)) {
 			defined = false;
 			return;
-		}
+		}*/
 
 		// precalculations
 		double diff1 = b1 - c1;
