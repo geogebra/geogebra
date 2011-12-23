@@ -29,6 +29,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
@@ -2581,7 +2582,7 @@ public class Application extends AbstractApplication implements
 			return;
 		}
 
-		ArrayList<Macro> macros = kernel.getAllMacros();
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = macros.get(i).getCommandName();
 			if (!commandDict.containsValue(cmdName)) {
@@ -2596,7 +2597,7 @@ public class Application extends AbstractApplication implements
 			return;
 		}
 
-		ArrayList<Macro> macros = kernel.getAllMacros();
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = macros.get(i).getCommandName();
 			commandDict.removeEntry(cmdName);
@@ -3471,7 +3472,7 @@ public class Application extends AbstractApplication implements
 			// MACRO
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
-				Macro macro = kernel.getMacro(macroID);
+				Macro macro = (Macro) kernel.getMacro(macroID);
 				if (toolName) {
 					// TOOL NAME
 					ret = macro.getToolName();
@@ -3516,7 +3517,7 @@ public class Application extends AbstractApplication implements
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
-				Macro macro = kernel.getMacro(macroID);
+				Macro macro = (Macro) kernel.getMacro(macroID);
 				String iconName = macro.getIconFileName();
 				BufferedImage img = getExternalImage(iconName);
 				if (img == null) {
@@ -4167,7 +4168,7 @@ public class Application extends AbstractApplication implements
 	 * 
 	 * @return true if successful
 	 */
-	final public boolean saveMacroFile(File file, ArrayList<Macro> macros) {
+	final public boolean saveMacroFile(File file, ArrayList<MacroInterface> macros) {
 		try {
 			setWaitCursor();
 			myXMLio.writeMacroFile(file, macros);
@@ -4187,7 +4188,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	public String getMacroXML() {
-		ArrayList<Macro> macros = kernel.getAllMacros();
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
 		return myXMLio.getFullMacroXML(macros);
 	}
 

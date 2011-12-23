@@ -134,7 +134,7 @@ public class ButtonDialog extends JDialog
 			FontMetrics fm = getFontMetrics(getFont());
 			int width = (int)cbAdd.getPreferredSize().getWidth();
 			while (it.hasNext()) {
-				GeoElement geo = (GeoElement) it.next();				
+				GeoElement geo = it.next();				
 				if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {				
 					comboModel.addElement(geo);
 					String str = geo.toString();

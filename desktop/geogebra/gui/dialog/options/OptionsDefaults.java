@@ -8,7 +8,6 @@ import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.util.Hashtable;
@@ -28,77 +27,80 @@ import javax.swing.tree.TreePath;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaults extends JPanel implements TreeSelectionListener, SetLabels {
+public class OptionsDefaults extends JPanel implements TreeSelectionListener,
+		SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * An instance of the GeoGebra application.
 	 */
 	private Application app;
-	
+
 	/**
 	 * The panel with the tabs for the different properties.
 	 */
 	private PropertiesPanel propPanel;
-	
+
 	/**
 	 * A tree with the different available object types to which new default
 	 * values can be assigned.
 	 */
 	private JTree tree;
-	
+
 	/**
 	 * The tree model.
 	 */
 	private DefaultTreeModel treeModel;
-	
+
 	/**
 	 * The root node of the tree.
 	 */
 	private DefaultMutableTreeNode rootNode;
-	
+
 	/**
 	 * Nodes for points.
 	 */
-	private DefaultMutableTreeNode pointsNode, pointsFreeNode, pointsDepNode, pointsPathNode, pointsInRegionNode, pointsComplexNode;
-	
-	private DefaultMutableTreeNode lineNode, segmentNode, vectorNode, conicNode, conicSectorNode;
-	
+	private DefaultMutableTreeNode pointsNode, pointsFreeNode, pointsDepNode,
+			pointsPathNode, pointsInRegionNode, pointsComplexNode;
+
+	private DefaultMutableTreeNode lineNode, segmentNode, vectorNode,
+			conicNode, conicSectorNode;
+
 	private DefaultMutableTreeNode numberNode, angleNode;
-	
+
 	private DefaultMutableTreeNode functionNode, polygonNode, locusNode;
-	
+
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
-	
+
 	private DefaultMutableTreeNode listNode;
-	
+
 	/**
 	 * The class which contains all default objects.
 	 */
 	private ConstructionDefaults defaults;
-	
+
 	/**
-	 * A dictionary which assigns a constant of the ConstructionsDefaults class to the
-	 * tree nodes.
+	 * A dictionary which assigns a constant of the ConstructionsDefaults class
+	 * to the tree nodes.
 	 */
 	private static Hashtable<DefaultMutableTreeNode, Integer> typeToNode;
-	
+
 	/**
-	 * Construct an panel where the user can assign new values to the
-	 * default objects.
+	 * Construct an panel where the user can assign new values to the default
+	 * objects.
 	 * 
 	 * @param app
 	 */
 	public OptionsDefaults(Application app) {
 		this.app = app;
-		
-		defaults = (ConstructionDefaults) app.getKernel().getConstruction().getConstructionDefaults();
-		
+
+		defaults = app.getKernel().getConstruction().getConstructionDefaults();
+
 		initGUI();
 		updateGUI();
 	}
-	
+
 	/**
 	 * Initialize the GUI.
 	 */
@@ -106,50 +108,52 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		// init the model of the tree
 		initNodes();
 		treeModel = new DefaultTreeModel(rootNode);
-		
+
 		// init the real JTree component
 		tree = new JTree(treeModel);
-		
+
 		tree.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
 		tree.setRootVisible(false);
 		tree.setScrollsOnExpand(true);
-		
+
 		// expand the point node and select the first point
 		tree.expandRow(0);
 		tree.setSelectionRow(1);
-		
+
 		tree.addTreeSelectionListener(this);
-		
+
 		// disable leaf icons
 		DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
 		treeCellRenderer.setLeafIcon(null);
 		tree.setCellRenderer(treeCellRenderer);
-		
+
 		// create the properties panel
 		GeoGebraColorChooser colorChooser = new GeoGebraColorChooser(app);
 		propPanel = new PropertiesPanel(app, colorChooser, true);
 		propPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		propPanel.updateSelection(new Object[] { defaults.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });
-		
+		propPanel.updateSelection(new Object[] { defaults
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });
+
 		// set the labels of the components
 		setLabels();
-		
+
 		// define panel properties
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout());
-		
+
 		// tree scroll pane
-		JScrollPane treeScroller = new JScrollPane(tree);			
+		JScrollPane treeScroller = new JScrollPane(tree);
 		treeScroller.setMinimumSize(new Dimension(120, 200));
 		treeScroller.setBackground(tree.getBackground());
-		treeScroller.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, SystemColor.controlDkShadow));
-		
+		treeScroller.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				SystemColor.controlDkShadow));
+
 		// add components
 		add(treeScroller, BorderLayout.WEST);
 		add(propPanel, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	 * Initialize the nodes of the tree.
 	 */
@@ -176,14 +180,14 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		angleNode = new DefaultMutableTreeNode();
 		booleanNode = new DefaultMutableTreeNode();
 		listNode = new DefaultMutableTreeNode();
-		
+
 		rootNode.add(pointsNode);
 		pointsNode.add(pointsFreeNode);
 		pointsNode.add(pointsDepNode);
 		pointsNode.add(pointsPathNode);
 		pointsNode.add(pointsInRegionNode);
 		pointsNode.add(pointsComplexNode);
-		
+
 		rootNode.add(lineNode);
 		rootNode.add(segmentNode);
 		rootNode.add(vectorNode);
@@ -198,31 +202,35 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		rootNode.add(angleNode);
 		rootNode.add(booleanNode);
 		rootNode.add(listNode);
-		
-		// create the dictionary which is used to assign a type constant (int) to
+
+		// create the dictionary which is used to assign a type constant (int)
+		// to
 		// every tree leaf
 		createDefaultMap();
 	}
-	
-	
-	
+
 	/**
 	 * Creates the dictionary which is used to assign a type constant (int) to
 	 * every tree leaf
 	 */
-	private void createDefaultMap(){
-			
+	private void createDefaultMap() {
+
 		typeToNode = new Hashtable<DefaultMutableTreeNode, Integer>(15);
 		typeToNode.put(pointsFreeNode, ConstructionDefaults.DEFAULT_POINT_FREE);
-		typeToNode.put(pointsDepNode, ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-		typeToNode.put(pointsPathNode, ConstructionDefaults.DEFAULT_POINT_ON_PATH);
-		typeToNode.put(pointsInRegionNode, ConstructionDefaults.DEFAULT_POINT_IN_REGION);
-		typeToNode.put(pointsComplexNode, ConstructionDefaults.DEFAULT_POINT_COMPLEX);
+		typeToNode.put(pointsDepNode,
+				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
+		typeToNode.put(pointsPathNode,
+				ConstructionDefaults.DEFAULT_POINT_ON_PATH);
+		typeToNode.put(pointsInRegionNode,
+				ConstructionDefaults.DEFAULT_POINT_IN_REGION);
+		typeToNode.put(pointsComplexNode,
+				ConstructionDefaults.DEFAULT_POINT_COMPLEX);
 		typeToNode.put(lineNode, ConstructionDefaults.DEFAULT_LINE);
 		typeToNode.put(segmentNode, ConstructionDefaults.DEFAULT_SEGMENT);
 		typeToNode.put(vectorNode, ConstructionDefaults.DEFAULT_VECTOR);
 		typeToNode.put(conicNode, ConstructionDefaults.DEFAULT_CONIC);
-		typeToNode.put(conicSectorNode, ConstructionDefaults.DEFAULT_CONIC_SECTOR);
+		typeToNode.put(conicSectorNode,
+				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
 		typeToNode.put(functionNode, ConstructionDefaults.DEFAULT_FUNCTION);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
@@ -232,32 +240,30 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		typeToNode.put(angleNode, ConstructionDefaults.DEFAULT_ANGLE);
 		typeToNode.put(booleanNode, ConstructionDefaults.DEFAULT_BOOLEAN);
 		typeToNode.put(listNode, ConstructionDefaults.DEFAULT_LIST);
-		
+
 	}
-	
+
 	/**
-	 * Restores all defaults to the current ConstructionDefault values. 
+	 * Restores all defaults to the current ConstructionDefault values.
 	 */
-	public void restoreDefaults(){
+	public void restoreDefaults() {
 		createDefaultMap();
 		// update panel selection
 		TreePath path = tree.getSelectionPath();
 		tree.setSelectionPath(null);
 		tree.setSelectionPath(path);
 	}
-	
-	
-	
+
 	/**
 	 * Update the GUI to take care of new settings which were applied.
 	 */
 	public void updateGUI() {
 		SwingUtilities.updateComponentTreeUI(this);
 	}
-	
+
 	/**
-	 * Update the labels of the current panel. Should be applied if the
-	 * language was changed.
+	 * Update the labels of the current panel. Should be applied if the language
+	 * was changed.
 	 */
 	public void setLabels() {
 		// update tree labels
@@ -281,44 +287,47 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener, Se
 		angleNode.setUserObject(app.getPlain("Angle"));
 		booleanNode.setUserObject(app.getPlain("Boolean"));
 		listNode.setUserObject(app.getPlain("List"));
-		
-		GuiManager.setLabelsRecursive((Container)propPanel);
-		//propPanel.setLabels();
+
+		GuiManager.setLabelsRecursive(propPanel);
+		// propPanel.setLabels();
 	}
 
 	/**
 	 * The selection has changed.
 	 */
 	public void valueChanged(TreeSelectionEvent e) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-		
-		if(node == null || node == rootNode) {
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+				.getLastSelectedPathComponent();
+
+		if (node == null || node == rootNode) {
 			propPanel.setVisible(false);
 		} else {
-			if(!propPanel.isVisible()) {
+			if (!propPanel.isVisible()) {
 				propPanel.setVisible(true);
 			}
-			
-			if(node == pointsNode) {
+
+			if (node == pointsNode) {
 				Object[] selection = new Object[pointsNode.getChildCount()];
-				
-				for(int i = 0; i < pointsNode.getChildCount(); ++i) {
-					selection[i] = defaults.getDefaultGeo(typeToNode.get(pointsNode.getChildAt(i)));
+
+				for (int i = 0; i < pointsNode.getChildCount(); ++i) {
+					selection[i] = defaults.getDefaultGeo(typeToNode
+							.get(pointsNode.getChildAt(i)));
 				}
-				
+
 				propPanel.updateSelection(selection);
 			} else {
-				if(typeToNode.containsKey(node)) {
-					propPanel.updateSelection(new Object[] { defaults.getDefaultGeo(typeToNode.get(node)) });
+				if (typeToNode.containsKey(node)) {
+					propPanel.updateSelection(new Object[] { defaults
+							.getDefaultGeo(typeToNode.get(node)) });
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Save the settings of this panel.
 	 */
 	public void apply() {
-		
+
 	}
 }

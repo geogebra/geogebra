@@ -842,7 +842,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 			if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				// get ID of macro
 				int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
-				macro = kernel.getMacro(macroID);
+				macro = (Macro) kernel.getMacro(macroID);
 				macroInput = macro.getInputTypes();
 				this.mode = EuclidianConstants.MODE_MACRO;
 			}

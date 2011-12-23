@@ -1,6 +1,5 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Test;
 
 public interface MacroInterface {

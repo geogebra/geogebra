@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * Relation.java
@@ -35,39 +35,38 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.AbstractApplication;
 
 /**
- *
- * @author  markus
- * @version 
+ * 
+ * @author markus
+ * @version
  */
 public class Relation extends java.lang.Object {
 
-    private AbstractApplication app;
-    private AbstractKernel kernel;
-    private Construction cons;
+	private AbstractApplication app;
+	private AbstractKernel kernel;
+	private Construction cons;
 
-    public Relation(AbstractKernel kernel) {
-        this.kernel = kernel;
-        app = kernel.getApplication();
-        cons = kernel.getConstruction();
-    }
+	public Relation(AbstractKernel kernel) {
+		this.kernel = kernel;
+		app = kernel.getApplication();
+		cons = kernel.getConstruction();
+	}
 
-    /**
-     * description of the relation between two GeoElements a, b
-     * (equal, incident, intersect, parallel, linear dependent, 
-     * tangent of, ...)
-     */
-    final public String relation(GeoElement a, GeoElement b) {
-        // check defined state
-        if (!a.isDefined()) {
-            return getPlainNumerical("AisNotDefined",a.getNameDescription());
-        } else if (!b.isDefined()) {
-            return getPlainNumerical("AisNotDefined",b.getNameDescription());
-        }
+	/**
+	 * description of the relation between two GeoElements a, b (equal,
+	 * incident, intersect, parallel, linear dependent, tangent of, ...)
+	 */
+	final public String relation(GeoElement a, GeoElement b) {
+		// check defined state
+		if (!a.isDefined()) {
+			return getPlainNumerical("AisNotDefined", a.getNameDescription());
+		} else if (!b.isDefined()) {
+			return getPlainNumerical("AisNotDefined", b.getNameDescription());
+		}
 
-        // decide what relation method can be used                                
+		// decide what relation method can be used
 
-        // point, point
-        if (a instanceof GeoPoint2 && b instanceof GeoPoint2)
+		// point, point
+		if (a instanceof GeoPoint2 && b instanceof GeoPoint2)
 			return relation((GeoPoint2) a, (GeoPoint2) b);
 		else if (a instanceof GeoVector && b instanceof GeoVector)
 			return relation((GeoVector) a, (GeoVector) b);
@@ -81,385 +80,401 @@ public class Relation extends java.lang.Object {
 			return relation((GeoConic) a, (GeoConic) b);
 		else if (a instanceof GeoFunction && b instanceof GeoFunction)
 			return relation((GeoFunction) a, (GeoFunction) b);
-        
+
 		else if (a instanceof GeoPoint2 && b instanceof GeoPolygon)
 			return relation((GeoPoint2) a, (GeoPolygon) b);
 		else if (a instanceof GeoPolygon && b instanceof GeoPoint2)
 			return relation((GeoPoint2) b, (GeoPolygon) a);
-        
+
 		else if (a instanceof GeoPoint2 && b instanceof Path)
 			return relation((GeoPoint2) a, (Path) b);
 		else if (a instanceof Path && b instanceof GeoPoint2)
 			return relation((GeoPoint2) b, (Path) a);
-        
+
 		else if (a instanceof GeoConic && b instanceof GeoLine)
 			return relation((GeoLine) b, (GeoConic) a);
 		else if (a instanceof GeoLine && b instanceof GeoConic)
 			return relation((GeoLine) a, (GeoConic) b);
-        
+
 		else if (a instanceof NumberValue && b instanceof NumberValue)
 			return relation((NumberValue) a, (NumberValue) b);
 		else if (a instanceof GeoList && b instanceof GeoList)
 			return relation((GeoList) a, (GeoList) b);
 		else {
-           return getPlainNumerical("AandBcannotBeCompared",a.getNameDescription(),b.getNameDescription());
-        }
-    }
+			return getPlainNumerical("AandBcannotBeCompared",
+					a.getNameDescription(), b.getNameDescription());
+		}
+	}
 
 	/**
-     * description of the relation between two lists a, b
-     * (equal, unequal)
-     */
-    final private String relation(GeoList a, GeoList b) {
-        String str = equalityString(a.toGeoElement(), b.toGeoElement(), 
-        							a.isEqual(b));
-        return str;
-    }
+	 * description of the relation between two lists a, b (equal, unequal)
+	 */
+	final private String relation(GeoList a, GeoList b) {
+		String str = equalityString(a.toGeoElement(), b.toGeoElement(),
+				a.isEqual(b));
+		return str;
+	}
 
-    /**
-     * description of the relation between two numbers a, b
-     * (equal, unequal)
-     */
-    final private String relation(NumberValue a, NumberValue b) {
-        String str = equalityString((GeoElement)a.toGeoElement(), (GeoElement)b.toGeoElement(), 
-        							AbstractKernel.isEqual(a.getDouble(), b.getDouble()));
-        return str;
-    }
+	/**
+	 * description of the relation between two numbers a, b (equal, unequal)
+	 */
+	final private String relation(NumberValue a, NumberValue b) {
+		String str = equalityString((GeoElement) a.toGeoElement(),
+				(GeoElement) b.toGeoElement(),
+				AbstractKernel.isEqual(a.getDouble(), b.getDouble()));
+		return str;
+	}
 
-    /**
-     * description of the relation between segment a and segment b
-     * (equal, unequal)
-     */
-    final private String relation(GeoSegment a, GeoSegment b) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(equalityString(a, b, a.isEqual(b)));
-        sb.append("\n");
-        //sb.append(getPlain("Length"));
-        //sb.append(": ");
-        //sb.append(relation((NumberValue) a, (NumberValue) b));
-    	if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),((NumberValue) b).getDouble()))
-    	    sb.append(getPlainNumerical("AhasTheSameLengthAsB",a.getNameDescription(),b.getNameDescription()));
-    	else
-        	sb.append(getPlainNumerical("AdoesNothaveTheSameLengthAsB",a.getNameDescription(),b.getNameDescription()));	        		  
-        return sb.toString();
-    }
+	/**
+	 * description of the relation between segment a and segment b (equal,
+	 * unequal)
+	 */
+	final private String relation(GeoSegment a, GeoSegment b) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(equalityString(a, b, a.isEqual(b)));
+		sb.append("\n");
+		// sb.append(getPlain("Length"));
+		// sb.append(": ");
+		// sb.append(relation((NumberValue) a, (NumberValue) b));
+		if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),
+				((NumberValue) b).getDouble()))
+			sb.append(getPlainNumerical("AhasTheSameLengthAsB",
+					a.getNameDescription(), b.getNameDescription()));
+		else
+			sb.append(getPlainNumerical("AdoesNothaveTheSameLengthAsB",
+					a.getNameDescription(), b.getNameDescription()));
+		return sb.toString();
+	}
 
-    /**
-     * description of the relation between two points A, B
-     * (equal, unequal)
-     */
-    final private String relation(GeoPoint2 A, GeoPoint2 B) {
-        String str = equalityString(A, B, A.isEqual(B));
-        return str;
-    }
+	/**
+	 * description of the relation between two points A, B (equal, unequal)
+	 */
+	final private String relation(GeoPoint2 A, GeoPoint2 B) {
+		String str = equalityString(A, B, A.isEqual(B));
+		return str;
+	}
 
-    /**
-     * description of the relation between two vectors a, b
-     * (equal, linear dependent, linear independent)
-     */
-    final private String relation(GeoVector a, GeoVector b) {
-        String str;
-        if (a.isEqual(b)) {
-            str = equalityString(a, b, true);
-        } else {
-            str = linDependencyString(a, b, a.linDep(b));
-        }
-        return str;
-    }
+	/**
+	 * description of the relation between two vectors a, b (equal, linear
+	 * dependent, linear independent)
+	 */
+	final private String relation(GeoVector a, GeoVector b) {
+		String str;
+		if (a.isEqual(b)) {
+			str = equalityString(a, b, true);
+		} else {
+			str = linDependencyString(a, b, a.linDep(b));
+		}
+		return str;
+	}
 
-    /**
-     * description of the relation between point A and a polygon
-     * ((not) on perimeter)
-     */
-    final private String relation(GeoPoint2 A, GeoPolygon p) {
-    	return incidencePerimeterString(A, p.toGeoElement(), p.isOnPath(A, AbstractKernel.STANDARD_PRECISION));   
-    }
+	/**
+	 * description of the relation between point A and a polygon ((not) on
+	 * perimeter)
+	 */
+	final private String relation(GeoPoint2 A, GeoPolygon p) {
+		return incidencePerimeterString(A, p.toGeoElement(),
+				p.isOnPath(A, AbstractKernel.STANDARD_PRECISION));
+	}
 
-    /**
-     * description of the relation between point A and a path
-     * (incident, not incident)
-     */
-    final private String relation(GeoPoint2 A, Path path) {
-    	return incidenceString(A, (GeoElement)path.toGeoElement(), path.isOnPath(A, AbstractKernel.STANDARD_PRECISION));   
-    }
+	/**
+	 * description of the relation between point A and a path (incident, not
+	 * incident)
+	 */
+	final private String relation(GeoPoint2 A, Path path) {
+		return incidenceString(A, (GeoElement) path.toGeoElement(),
+				path.isOnPath(A, AbstractKernel.STANDARD_PRECISION));
+	}
 
-    /**
-     * description of the relation between lines g and h
-     * (equal, parallel or intersecting)
-     */
-    final private String relation(GeoLine g, GeoLine h) {
-        String str;
-        // check for equality
-        if (g.isEqual(h)) {
-            str = equalityString(g, h, true);
-        } else {
-            if (g.isParallel(h))
-                str = parallelString(g, h);
-            else if (g.isPerpendicular(h))
-                str = perpendicularString(g, h);
-            else {
-            	// check if intersection point really lies on both objects (e.g. segments)
-            	GeoPoint2 tempPoint = new GeoPoint2(g.cons);
-            	GeoVec3D.cross(g, h, tempPoint);
-            	boolean isIntersection = g.isIntersectionPointIncident(tempPoint, AbstractKernel.STANDARD_PRECISION)
-					&& h.isIntersectionPointIncident(tempPoint, AbstractKernel.STANDARD_PRECISION);
-            	
-                str = intersectString(g, h, isIntersection);
-            }
-        }
-        return str;
-    }
+	/**
+	 * description of the relation between lines g and h (equal, parallel or
+	 * intersecting)
+	 */
+	final private String relation(GeoLine g, GeoLine h) {
+		String str;
+		// check for equality
+		if (g.isEqual(h)) {
+			str = equalityString(g, h, true);
+		} else {
+			if (g.isParallel(h))
+				str = parallelString(g, h);
+			else if (g.isPerpendicular(h))
+				str = perpendicularString(g, h);
+			else {
+				// check if intersection point really lies on both objects (e.g.
+				// segments)
+				GeoPoint2 tempPoint = new GeoPoint2(g.cons);
+				GeoVec3D.cross(g, h, tempPoint);
+				boolean isIntersection = g.isIntersectionPointIncident(
+						tempPoint, AbstractKernel.STANDARD_PRECISION)
+						&& h.isIntersectionPointIncident(tempPoint,
+								AbstractKernel.STANDARD_PRECISION);
 
-    /**
-     * description of the relation between line g and conic c
-     * (intersection type: tangent, secant, ...)
-     */
-    final private String relation(GeoLine g, GeoConic c) {
-        int type;
-        String str;
-        
-        // limited paths have to handled differently (e.g. segments, arcs) 
-        if (g.isLimitedPath() || c.isLimitedPath()) {
-        	// intersect line and conic
-            // precision setting is not needed here (done by algorithm)
-            AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
-            GeoPoint2[] points = algo.getIntersectionPoints();
-            cons.removeFromConstructionList(algo);
+				str = intersectString(g, h, isIntersection);
+			}
+		}
+		return str;
+	}
 
-            // check for defined intersection points
-            boolean intersect = false;
-            for (int i = 0; i < points.length; i++) {
-                if (points[i].isDefined()) {                	              
-                    intersect = true;
-                    break;
-                }
-            }
-            // build relation string
-            str = intersectString(g, c, intersect);
-            
-            // remove algorithm by removing one of its points
-            points[0].remove();
-            return str;
-        }
+	/**
+	 * description of the relation between line g and conic c (intersection
+	 * type: tangent, secant, ...)
+	 */
+	final private String relation(GeoLine g, GeoConic c) {
+		int type;
+		String str;
 
-        // is line defined as tangent or asymptote of c?
-        if (g.isDefinedTangent(c)) {
-            str =
-                lineConicString(
-                    g,
-                    c,
-                    AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE);
-        } else if (g.isDefinedAsymptote(c)) {
-            str =
-                lineConicString(
-                    g,
-                    c,
-                    AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE);
-        } else {
-            // intersect line and conic 
-            GeoPoint2[] points = { new GeoPoint2(cons), new GeoPoint2(cons)};
-            type = AlgoIntersectLineConic.intersectLineConic(g, c, points);           
-            str = lineConicString(g, c, type);
-        }
-        return str;
-    }
-    
-    /**
-     * description of the relation between conci parts a, b
-     * (equal, intersecting or not intersecting)
-     */
-    final private String relation(GeoConicPart a, GeoConicPart b) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(equalityString(a, b, a.isEqual(b)));
-                
-        int type = a.getConicPartType();
-        if (type == b.getConicPartType()) {
-        	sb.append("\n");
-	        if (type == GeoConicPart.CONIC_PART_ARC) {
-	        	if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),((NumberValue) b).getDouble()))
-	        	    sb.append(getPlainNumerical("AhasTheSameLengthAsB",a.getNameDescription(),b.getNameDescription()));
-	        	else
-		        	sb.append(getPlainNumerical("AdoesNothaveTheSameLengthAsB",a.getNameDescription(),b.getNameDescription()));	        		  
-	        } else {
-	        	//sb.append(app.getCommand("Area"));
-	        	if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),((NumberValue) b).getDouble()))
-	        	    sb.append(getPlainNumerical("AhasTheSameAreaAsB",a.getNameDescription(),b.getNameDescription()));
-	        	else
-		        	sb.append(getPlainNumerical("AdoesNothaveTheSameAreaAsB",a.getNameDescription(),b.getNameDescription()));	  
-	        }	        	
-	        //sb.append(": ");
-	        //sb.append(relation((NumberValue) a, (NumberValue) b));
-        }
-        
-        return sb.toString();
-    }
+		// limited paths have to handled differently (e.g. segments, arcs)
+		if (g.isLimitedPath() || c.isLimitedPath()) {
+			// intersect line and conic
+			// precision setting is not needed here (done by algorithm)
+			AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
+			GeoPoint2[] points = algo.getIntersectionPoints();
+			cons.removeFromConstructionList(algo);
 
-    /**
-     * description of the relation between conics a, b
-     * (equal, intersecting or not intersecting)
-     */
-    final private String relation(GeoConic a, GeoConic b) {
-        String str;
+			// check for defined intersection points
+			boolean intersect = false;
+			for (int i = 0; i < points.length; i++) {
+				if (points[i].isDefined()) {
+					intersect = true;
+					break;
+				}
+			}
+			// build relation string
+			str = intersectString(g, c, intersect);
 
-        if (a.isEqual(b)) {
-            str = equalityString(a, b, true);
-        } else {
-            // intersect conics
-            // precision setting is not needed here (done by algorithm)
-            AlgoIntersectConics algo = new AlgoIntersectConics(cons, a, b);
-            GeoPoint2[] points = algo.getIntersectionPoints();
-            cons.removeFromConstructionList(algo);
+			// remove algorithm by removing one of its points
+			points[0].remove();
+			return str;
+		}
 
-            // check for defined intersection points
-            boolean intersect = false;
-            for (int i = 0; i < points.length; i++) {
-                if (points[i].isDefined()) {
-                    intersect = true;
-                    break;
-                }
-            }
-            // build relation string
-            str = intersectString(a, b, intersect);
-            
-            // remove algorithm by removing one of its points
-            points[0].remove();
-        }
-        return str;
-    }
-    /**
-     * description of the relation between functions
-     */
-    final private String relation(GeoFunction a, GeoFunction b) {
+		// is line defined as tangent or asymptote of c?
+		if (g.isDefinedTangent(c)) {
+			str = lineConicString(g, c,
+					AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE);
+		} else if (g.isDefinedAsymptote(c)) {
+			str = lineConicString(g, c,
+					AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE);
+		} else {
+			// intersect line and conic
+			GeoPoint2[] points = { new GeoPoint2(cons), new GeoPoint2(cons) };
+			type = AlgoIntersectLineConic.intersectLineConic(g, c, points);
+			str = lineConicString(g, c, type);
+		}
+		return str;
+	}
 
-        return equalityString(a, b, a.isEqual(b));
-    }
+	/**
+	 * description of the relation between conci parts a, b (equal, intersecting
+	 * or not intersecting)
+	 */
+	final private String relation(GeoConicPart a, GeoConicPart b) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(equalityString(a, b, a.isEqual(b)));
 
-    /***************************
-     * private methods
-     ***************************/
+		int type = a.getConicPartType();
+		if (type == b.getConicPartType()) {
+			sb.append("\n");
+			if (type == GeoConicPart.CONIC_PART_ARC) {
+				if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),
+						((NumberValue) b).getDouble()))
+					sb.append(getPlainNumerical("AhasTheSameLengthAsB",
+							a.getNameDescription(), b.getNameDescription()));
+				else
+					sb.append(getPlainNumerical("AdoesNothaveTheSameLengthAsB",
+							a.getNameDescription(), b.getNameDescription()));
+			} else {
+				// sb.append(app.getCommand("Area"));
+				if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),
+						((NumberValue) b).getDouble()))
+					sb.append(getPlainNumerical("AhasTheSameAreaAsB",
+							a.getNameDescription(), b.getNameDescription()));
+				else
+					sb.append(getPlainNumerical("AdoesNothaveTheSameAreaAsB",
+							a.getNameDescription(), b.getNameDescription()));
+			}
+			// sb.append(": ");
+			// sb.append(relation((NumberValue) a, (NumberValue) b));
+		}
 
-    // "Relation of a and b: equal"
-    // "Relation of a and b: unequal"
-    final private String equalityString(
-        GeoElement a,
-        GeoElement b,
-        boolean equal) {
-        if (equal)
-            return getPlainNumerical("AandBareEqual",a.getNameDescription(),b.getNameDescription());
-        else
-            return getPlainNumerical("AandBareNotEqual",a.getNameDescription(),b.getNameDescription());
-    }
+		return sb.toString();
+	}
 
-    // "Relation of a and b: linear dependent"
-    // "Relation of a and b: linear independent"
-    final private String linDependencyString(
-        GeoElement a,
-        GeoElement b,
-        boolean dependent) {
-        if (dependent)
-            return getPlainNumerical("AandBareLinearlyDependent",a.getNameDescription(),b.getNameDescription());
-        else
-            return getPlainNumerical("AandBareLinearlyIndependent",a.getNameDescription(),b.getNameDescription());
-    }
+	/**
+	 * description of the relation between conics a, b (equal, intersecting or
+	 * not intersecting)
+	 */
+	final private String relation(GeoConic a, GeoConic b) {
+		String str;
 
-    // "a lies on b"
-    // "a does not lie on b"
-    final private String incidenceString(
-        GeoPoint2 a,
-        GeoElement b,
-        boolean incident) {
-        if (incident)
-            return getPlainNumerical("AliesOnB",a.getNameDescription(),b.getNameDescription());
-        else
-            return getPlainNumerical("AdoesNotLieOnB",a.getNameDescription(),b.getNameDescription());
-    }
+		if (a.isEqual(b)) {
+			str = equalityString(a, b, true);
+		} else {
+			// intersect conics
+			// precision setting is not needed here (done by algorithm)
+			AlgoIntersectConics algo = new AlgoIntersectConics(cons, a, b);
+			GeoPoint2[] points = algo.getIntersectionPoints();
+			cons.removeFromConstructionList(algo);
 
-    // "a lies on the perimeter of b"
-    // "a does not lie on the perimeter of b"
-    final private String incidencePerimeterString(
-        GeoPoint2 a,
-        GeoElement b,
-        boolean incident) {
-        if (incident)
-            return getPlainNumerical("AliesOnThePerimeterOfB",a.getNameDescription(),b.getNameDescription());
-        else
-            return getPlainNumerical("AdoesNotLieOnThePerimeterOfB",a.getNameDescription(),b.getNameDescription());
-    }
+			// check for defined intersection points
+			boolean intersect = false;
+			for (int i = 0; i < points.length; i++) {
+				if (points[i].isDefined()) {
+					intersect = true;
+					break;
+				}
+			}
+			// build relation string
+			str = intersectString(a, b, intersect);
 
-    // "Relation of a and b: parallel"    
-    final private String parallelString(GeoLine a, GeoLine b) {
-        return getPlainNumerical("AandBareParallel",a.getNameDescription(),b.getNameDescription());
-    }
+			// remove algorithm by removing one of its points
+			points[0].remove();
+		}
+		return str;
+	}
 
-    // Michael Borcherds 2008-05-15
-    final private String perpendicularString(GeoLine a, GeoLine b) {
-        return getPlainNumerical("AandBarePerpendicular",a.getNameDescription(),b.getNameDescription());
-    }
+	/**
+	 * description of the relation between functions
+	 */
+	final private String relation(GeoFunction a, GeoFunction b) {
 
-    // "a intersects with b"
-    final private String intersectString(
-        GeoElement a,
-        GeoElement b,
-        boolean intersects) {
-        StringBuilder sb = new StringBuilder();
-        // Michael Borcherds 2008-05-14
-        // updated for better translation
-        if (intersects)
-            sb.append(getPlainNumerical("AIntersectsWithB",a.getNameDescription(),b.getNameDescription()));
-        else
-            sb.append(getPlainNumerical("ADoesNotIntersectWithB",a.getNameDescription(),b.getNameDescription()));
-        return sb.toString();
-    }
+		return equalityString(a, b, a.isEqual(b));
+	}
 
-    // e.g "a is tangent of b"
-    // types are defined in AlgoIntersectLineConic
-    final private String lineConicString(GeoLine a, GeoConic b, int type) {
-       
-        switch (type) {
-            case AlgoIntersectLineConic.INTERSECTION_PRODUCING_LINE :
-                //strType = getPlain("producingLine");
-            	return getPlainNumerical("AisaDegenerateBranchOfB",a.getNameDescription(),b.getNameDescription());
-                //break;
+	/***************************
+	 * private methods
+	 ***************************/
 
-            case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE :
-                //strType = getPlain("asymptoticLine");
-            	return getPlainNumerical("AisAnAsymptoteToB",a.getNameDescription(),b.getNameDescription());
-                //break;
+	// "Relation of a and b: equal"
+	// "Relation of a and b: unequal"
+	final private String equalityString(GeoElement a, GeoElement b,
+			boolean equal) {
+		if (equal) {
+			return getPlainNumerical("AandBareEqual", a.getNameDescription(),
+					b.getNameDescription());
+		}
+		return getPlainNumerical("AandBareNotEqual", a.getNameDescription(),
+				b.getNameDescription());
+	}
 
-            case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE :
-                //strType = getPlain("meetingLine");
-            	return getPlainNumerical("AintersectsWithBOnce",a.getNameDescription(),b.getNameDescription());
-                //break;
+	// "Relation of a and b: linear dependent"
+	// "Relation of a and b: linear independent"
+	final private String linDependencyString(GeoElement a, GeoElement b,
+			boolean dependent) {
+		if (dependent) {
+			return getPlainNumerical("AandBareLinearlyDependent",
+					a.getNameDescription(), b.getNameDescription());
+		}
+		return getPlainNumerical("AandBareLinearlyIndependent",
+				a.getNameDescription(), b.getNameDescription());
+	}
 
-            case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE :
-                //strType = getPlain("tangentLine");
-            	return getPlainNumerical("AisaTangentToB",a.getNameDescription(),b.getNameDescription());
-                //break;
+	// "a lies on b"
+	// "a does not lie on b"
+	final private String incidenceString(GeoPoint2 a, GeoElement b,
+			boolean incident) {
+		if (incident) {
+			return getPlainNumerical("AliesOnB", a.getNameDescription(),
+					b.getNameDescription());
+		}
+		return getPlainNumerical("AdoesNotLieOnB", a.getNameDescription(),
+				b.getNameDescription());
+	}
 
-            case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE :
-                //strType = getPlain("secantLine");
-            	return getPlainNumerical("AintersectsWithBTwice",a.getNameDescription(),b.getNameDescription());
-                //break;
+	// "a lies on the perimeter of b"
+	// "a does not lie on the perimeter of b"
+	final private String incidencePerimeterString(GeoPoint2 a, GeoElement b,
+			boolean incident) {
+		if (incident) {
+			return getPlainNumerical("AliesOnThePerimeterOfB",
+					a.getNameDescription(), b.getNameDescription());
+		}
+		return getPlainNumerical("AdoesNotLieOnThePerimeterOfB",
+				a.getNameDescription(), b.getNameDescription());
+	}
 
-            default :
-                //case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
-                //strType = getPlain("passingLine");
-            	return getPlainNumerical("ADoesNotIntersectWithB",a.getNameDescription(),b.getNameDescription());
-                //break;
-        }
+	// "Relation of a and b: parallel"
+	final private String parallelString(GeoLine a, GeoLine b) {
+		return getPlainNumerical("AandBareParallel", a.getNameDescription(),
+				b.getNameDescription());
+	}
 
-    }
+	// Michael Borcherds 2008-05-15
+	final private String perpendicularString(GeoLine a, GeoLine b) {
+		return getPlainNumerical("AandBarePerpendicular",
+				a.getNameDescription(), b.getNameDescription());
+	}
+
+	// "a intersects with b"
+	final private String intersectString(GeoElement a, GeoElement b,
+			boolean intersects) {
+		StringBuilder sb = new StringBuilder();
+		// Michael Borcherds 2008-05-14
+		// updated for better translation
+		if (intersects)
+			sb.append(getPlainNumerical("AIntersectsWithB",
+					a.getNameDescription(), b.getNameDescription()));
+		else
+			sb.append(getPlainNumerical("ADoesNotIntersectWithB",
+					a.getNameDescription(), b.getNameDescription()));
+		return sb.toString();
+	}
+
+	// e.g "a is tangent of b"
+	// types are defined in AlgoIntersectLineConic
+	final private String lineConicString(GeoLine a, GeoConic b, int type) {
+
+		switch (type) {
+		case AlgoIntersectLineConic.INTERSECTION_PRODUCING_LINE:
+			// strType = getPlain("producingLine");
+			return getPlainNumerical("AisaDegenerateBranchOfB",
+					a.getNameDescription(), b.getNameDescription());
+			// break;
+
+		case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE:
+			// strType = getPlain("asymptoticLine");
+			return getPlainNumerical("AisAnAsymptoteToB",
+					a.getNameDescription(), b.getNameDescription());
+			// break;
+
+		case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE:
+			// strType = getPlain("meetingLine");
+			return getPlainNumerical("AintersectsWithBOnce",
+					a.getNameDescription(), b.getNameDescription());
+			// break;
+
+		case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE:
+			// strType = getPlain("tangentLine");
+			return getPlainNumerical("AisaTangentToB", a.getNameDescription(),
+					b.getNameDescription());
+			// break;
+
+		case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE:
+			// strType = getPlain("secantLine");
+			return getPlainNumerical("AintersectsWithBTwice",
+					a.getNameDescription(), b.getNameDescription());
+			// break;
+
+		default:
+			// case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
+			// strType = getPlain("passingLine");
+			return getPlainNumerical("ADoesNotIntersectWithB",
+					a.getNameDescription(), b.getNameDescription());
+			// break;
+		}
+
+	}
 
 	private String getPlainNumerical(String string, String nameDescription,
 			String nameDescription2) {
-		
-		return app.getPlain(string, nameDescription, nameDescription2) + "\n" + app.getPlain("CheckedNumerically");
-	}
-	
-    private String getPlainNumerical(String string, String nameDescription) {
-		return app.getPlain(string, nameDescription) + "\n" + app.getPlain("CheckedNumerically");
+
+		return app.getPlain(string, nameDescription, nameDescription2) + "\n"
+				+ app.getPlain("CheckedNumerically");
 	}
 
-
+	private String getPlainNumerical(String string, String nameDescription) {
+		return app.getPlain(string, nameDescription) + "\n"
+				+ app.getPlain("CheckedNumerically");
+	}
 
 }

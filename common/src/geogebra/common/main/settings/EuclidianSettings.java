@@ -707,11 +707,10 @@ public class EuclidianSettings extends AbstractSettings {
 			pointCapturingMode = mode;
 			settingChanged();
 			return true;
-		} else {
-			if (euclidianSettings1.setPointCapturing(mode)) {
-				settingChanged();
-				return true;
-			}
+		}
+		if (euclidianSettings1.setPointCapturing(mode)) {
+			settingChanged();
+			return true;
 		}
 
 		return false;

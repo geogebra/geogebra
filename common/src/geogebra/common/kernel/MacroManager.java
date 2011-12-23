@@ -25,12 +25,12 @@ import java.util.HashMap;
 public class MacroManager {
 	
 	private HashMap<String, Macro> macroMap; // maps macro name to macro object
-	private ArrayList<Macro> macroList; // lists all macros	
+	private ArrayList<MacroInterface> macroList; // lists all macros	
 	private AbstractApplication app;
 	
 	public MacroManager(AbstractApplication app) {
 		macroMap = new HashMap<String, Macro>();
-		macroList = new ArrayList<Macro>();
+		macroList = new ArrayList<MacroInterface>();
 		this.app = app;
 	}
 		
@@ -40,7 +40,7 @@ public class MacroManager {
 	}
 	
 	public Macro getMacro(String name) {
-		return (Macro) macroMap.get(app.toLowerCase(name));
+		return macroMap.get(app.toLowerCase(name));
 	}
 	
 	public void removeMacro(Macro macro) {
@@ -64,8 +64,8 @@ public class MacroManager {
 		macroMap.put(app.toLowerCase(macro.getCommandName()), macro);			
 	}
 	
-	public Macro getMacro(int i) {
-		return (Macro) macroList.get(i);		
+	public MacroInterface getMacro(int i) {
+		return macroList.get(i);		
 	}
 	
 	public int getMacroID(Macro macro) {		
@@ -92,7 +92,7 @@ public class MacroManager {
 	/**
 	 * Returns an array of all macros handled by this MacroManager. 
 	 */
-	public ArrayList<Macro> getAllMacros() {
+	public ArrayList<MacroInterface> getAllMacros() {
 		return macroList;
 	}
 	
@@ -110,7 +110,7 @@ public class MacroManager {
 	/**
 	 * Returns an XML represenation of the specified macros in this kernel.	 
 	 */
-	public static String getMacroXML(ArrayList<Macro> macros) {				
+	public static String getMacroXML(ArrayList<MacroInterface> macros) {				
 		if (macros == null) return "";
 
 		StringBuilder sb = new StringBuilder();	

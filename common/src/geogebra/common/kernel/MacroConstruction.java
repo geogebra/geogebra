@@ -13,7 +13,6 @@ package geogebra.common.kernel;
 
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.AbstractUndoManager;
 
 import java.util.HashSet;
 
@@ -65,12 +64,13 @@ public class MacroConstruction extends Construction {
      * the specified label a lookup is made in the parent construction.
      * @return may return null
      */      	    	   
-    public final GeoElement lookupLabel(String label, boolean autoCreate) {//package private
+    @Override
+	public final GeoElement lookupLabel(String label, boolean autoCreate) {//package private
     	if (label == null) return null;
     	
     	// local var handling
 		if (localVariableTable != null) {        	
-        	GeoElement localGeo = (GeoElement) localVariableTable.get(label);        
+        	GeoElement localGeo = localVariableTable.get(label);        
             if (localGeo != null) return localGeo;
         }
     	    	       

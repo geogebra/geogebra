@@ -15,7 +15,7 @@ public class NumberInputHandler implements InputHandler {
   }
 
   public boolean processInput(String inputString) {
-    GeoElement[] result = (GeoElement[]) algebraProcessor.processAlgebraCommand(inputString, false);
+    GeoElement[] result = algebraProcessor.processAlgebraCommand(inputString, false);
     boolean success = result != null && result[0].isNumberValue();
     if (success) {
       setNum((NumberValue) result[0]);

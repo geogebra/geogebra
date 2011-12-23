@@ -675,7 +675,7 @@ public class Macro implements MacroInterface {
 	 * Returns list of macros used by this one
 	 * @return list of macros used by this one
 	 */
-	public ArrayList<Macro> getUsedMacros() {
+	public ArrayList<MacroInterface> getUsedMacros() {
 		return macroCons.getUsedMacros();
 	}
 	

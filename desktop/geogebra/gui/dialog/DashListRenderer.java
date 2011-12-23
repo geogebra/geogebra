@@ -75,7 +75,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		// value is an Integer with the line type's int value
 		int type = ((Integer) value).intValue();
 		// get the dashpanel for this dashing type
-		dashStroke = (BasicStroke) dashStrokeMap.get(type);
+		dashStroke = dashStrokeMap.get(type);
 		return this;
 	}
 

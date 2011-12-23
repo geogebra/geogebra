@@ -12,7 +12,6 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.DebugPrinter;
-import geogebra.common.util.ResourceBundleAdapter;
 
 import java.util.ArrayList;
 

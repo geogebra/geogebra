@@ -23,6 +23,7 @@ import geogebra.common.io.DocHandler;
 import geogebra.common.io.MyI2GHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
@@ -432,7 +433,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 			// save macros
 			if (kernel.hasMacros()) {
 				// get all registered macros from kernel
-				ArrayList<Macro> macros = kernel.getAllMacros();
+				ArrayList<MacroInterface> macros = kernel.getAllMacros();
 	
 				// write all images used by macros
 				writeMacroImages(macros, zip);
@@ -496,7 +497,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 			// save macros
 			if (kernel.hasMacros()) {
 				// get all registered macros from kernel
-				ArrayList<Macro> macros = kernel.getAllMacros();
+				ArrayList<MacroInterface> macros = kernel.getAllMacros();
 	
 				// write all images used by macros
 				writeMacroImages(macros, zip, I2G_PRIVATE_IMAGES);
@@ -535,7 +536,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * Creates a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons).
 	 */
-	public void writeMacroFile(File file, ArrayList<Macro> macros) throws IOException {
+	public void writeMacroFile(File file, ArrayList<MacroInterface> macros) throws IOException {
 		if (macros == null)
 			return;
 
@@ -551,7 +552,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * Writes a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons) to the specified output stream.
 	 */
-	public void writeMacroStream(OutputStream os, ArrayList<Macro> macros)
+	public void writeMacroStream(OutputStream os, ArrayList<MacroInterface> macros)
 			throws IOException {
 		// zip stream
 		ZipOutputStream zip = new ZipOutputStream(os);
@@ -636,11 +637,11 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * Writes all images used in the given macros to zip.
 	 */
 	// Modified for Intergeo File Format (Yves Kreis) -->
-	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip) {
+	private void writeMacroImages(ArrayList<MacroInterface> macros, ZipOutputStream zip) {
 		writeMacroImages(macros, zip, "");
 	}
 
-	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip,
+	private void writeMacroImages(ArrayList<MacroInterface> macros, ZipOutputStream zip,
 			String filePath) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (macros == null)
@@ -648,7 +649,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
-			Macro macro = macros.get(i);
+			Macro macro = (Macro) macros.get(i);
 			// Modified for Intergeo File Format (Yves Kreis) -->
 			// writeConstructionImages(macro.getMacroConstruction(), zip);
 			writeConstructionImages(macro.getMacroConstruction(), zip, filePath);
@@ -832,7 +833,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	/**
 	 * Returns XML representation of given macros in the kernel.
 	 */
-	public String getFullMacroXML(ArrayList<Macro> macros) {
+	public String getFullMacroXML(ArrayList<MacroInterface> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, true, null);

@@ -212,9 +212,9 @@ public final class DrawImage extends Drawable {
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
 			if (isInBackground) {
-				((EuclidianView) view).addBackgroundImage(this);
+				view.addBackgroundImage(this);
 			} else {
-				((EuclidianView) view).removeBackgroundImage(this);
+				view.removeBackgroundImage(this);
 				view.updateBackgroundImage();
 			}
 		}

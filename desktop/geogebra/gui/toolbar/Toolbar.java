@@ -109,17 +109,21 @@ public class Toolbar extends JToolBar {
 
 	/**
 	 * Sets toolbar mode. This will change the selected toolbar icon.
-	 * @param mode Mode to set; see EuclidianConstants for mode numbers
-	 * @param createTemporaryMode If temporary modes should be
-	 * added to the toolbar if the mode is not in the toolbar already.
-	 * If the value is false the mode is set to the default one.
+	 * 
+	 * @param mode
+	 *            Mode to set; see EuclidianConstants for mode numbers
+	 * @param createTemporaryMode
+	 *            If temporary modes should be added to the toolbar if the mode
+	 *            is not in the toolbar already. If the value is false the mode
+	 *            is set to the default one.
 	 * 
 	 * @return true if mode could be selected in toolbar.
 	 */
 	public boolean setMode(int mode, boolean createTemporaryMode) {
 		boolean success = false;
 
-		// there is no special icon/button for the selection listener mode, use the
+		// there is no special icon/button for the selection listener mode, use
+		// the
 		// move mode button instead
 		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			mode = EuclidianConstants.MODE_MOVE;
@@ -132,7 +136,7 @@ public class Toolbar extends JToolBar {
 
 		if (modeToggleMenus != null) {
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
-				ModeToggleMenu mtm = (ModeToggleMenu) modeToggleMenus.get(i);
+				ModeToggleMenu mtm = modeToggleMenus.get(i);
 				if (mtm.selectMode(mode)) {
 					success = true;
 					break;
@@ -140,11 +144,13 @@ public class Toolbar extends JToolBar {
 			}
 
 			this.mode = mode;
-			
+
 			if (!success) {
-				if(createTemporaryMode) {
-					// don't display move mode icon in other views, this is a bit irritating
-					if (dockPanel == null || mode != EuclidianConstants.MODE_MOVE) {
+				if (createTemporaryMode) {
+					// don't display move mode icon in other views, this is a
+					// bit irritating
+					if (dockPanel == null
+							|| mode != EuclidianConstants.MODE_MOVE) {
 						// we insert a temporary icon if possible
 						temporaryModes.addMode(mode);
 						temporaryModes.setVisible(true);
@@ -164,19 +170,18 @@ public class Toolbar extends JToolBar {
 	}
 
 	public int getFirstMode() {
-		if (modeToggleMenus == null || modeToggleMenus.size() == 0)
+		if (modeToggleMenus == null || modeToggleMenus.size() == 0) {
 			return -1;
-		else {
-			ModeToggleMenu mtm = (ModeToggleMenu) modeToggleMenus.get(0);
-			return mtm.getFirstMode();
 		}
+		ModeToggleMenu mtm = modeToggleMenus.get(0);
+		return mtm.getFirstMode();
 	}
 
 	/**
 	 * Adds the given modes to a two-dimensional toolbar. The toolbar definition
-	 * string looks like "0 , 1 2 | 3 4 5 || 7 8 9" where the int values are mode
-	 * numbers, "," adds a separator within a menu, "|" starts a new menu and "||"
-	 * adds a separator before starting a new menu.
+	 * string looks like "0 , 1 2 | 3 4 5 || 7 8 9" where the int values are
+	 * mode numbers, "," adds a separator within a menu, "|" starts a new menu
+	 * and "||" adds a separator before starting a new menu.
 	 * 
 	 * @param modes
 	 * @param tb
@@ -214,14 +219,14 @@ public class Toolbar extends JToolBar {
 				continue;
 			}
 
-			// new menu			
+			// new menu
 			Vector<Integer> menu = (Vector<Integer>) ob;
 			ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
 			modeToggleMenus.add(tm);
 
 			for (int k = 0; k < menu.size(); k++) {
 				// separator
-				int mode = ((Integer) menu.get(k)).intValue();
+				int mode = menu.get(k).intValue();
 				if (mode < 0) {
 					// separator within menu:
 					tm.addSeparator();
@@ -244,8 +249,8 @@ public class Toolbar extends JToolBar {
 	}
 
 	/**
-	 * @return The dock panel associated with this toolbar or null if this is the
-	 *         general toolbar.
+	 * @return The dock panel associated with this toolbar or null if this is
+	 *         the general toolbar.
 	 */
 	public DockPanel getDockPanel() {
 		return dockPanel;
@@ -255,34 +260,33 @@ public class Toolbar extends JToolBar {
 	 * @return The top-most panel of the window this toolbar belongs to.
 	 */
 	public Component getMainComponent() {
-		// if this is the general toolbar the main component is the application main
+		// if this is the general toolbar the main component is the application
+		// main
 		// component (not true for toolbars in EV)
 		if (dockPanel == null) {
 			return app.getMainComponent();
 		}
 
 		// this toolbar belongs to a dock panel
-		else {
-			// in frame?
-			if (dockPanel.isOpenInFrame()) {
-				return dockPanel;
-			}
-
-			// otherwise use the application main component
-			else {
-				return app.getMainComponent();
-			}
+		// in frame?
+		if (dockPanel.isOpenInFrame()) {
+			return dockPanel;
 		}
+
+		// otherwise use the application main component
+		return app.getMainComponent();
 	}
 
 	/**
 	 * Parses a toolbar definition string like "0 , 1 2 | 3 4 5 || 7 8 9" where
 	 * the int values are mode numbers, "," adds a separator within a menu, "|"
 	 * starts a new menu and "||" adds a separator before starting a new menu.
-	 * @param toolbarString toolbar definition string
 	 * 
-	 * @return toolbar as nested Vector objects with Integers for the modes. Note:
-	 *         separators have negative values.
+	 * @param toolbarString
+	 *            toolbar definition string
+	 * 
+	 * @return toolbar as nested Vector objects with Integers for the modes.
+	 *         Note: separators have negative values.
 	 */
 	public static Vector<Object> parseToolbarString(String toolbarString) {
 		String[] tokens = toolbarString.split(" ");
@@ -333,9 +337,8 @@ public class Toolbar extends JToolBar {
 	public String getDefaultToolbarString() {
 		if (dockPanel != null) {
 			return dockPanel.getDefaultToolbarString();
-		} else {
-			return Toolbar.getAllTools(app);
 		}
+		return Toolbar.getAllTools(app);
 	}
 
 	/**
@@ -509,7 +512,7 @@ public class Toolbar extends JToolBar {
 
 		// dialogs
 		sb.append(" | ");
-		
+
 		sb.append(EuclidianConstants.MODE_TEXT);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
@@ -553,7 +556,6 @@ public class Toolbar extends JToolBar {
 		return sb.toString();
 	}
 
-	
 	/**
 	 * @return The default definition of the general tool bar without macros.
 	 */
@@ -562,10 +564,10 @@ public class Toolbar extends JToolBar {
 
 		// move
 		sb.append(EuclidianConstants.MODE_MOVE);
-		//sb.append(" ");
-		//sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
-		//sb.append(" ");
-		//sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
+		// sb.append(" ");
+		// sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
+		// sb.append(" ");
+		// sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
 
 		// points
 		sb.append(" || ");
@@ -584,135 +586,109 @@ public class Toolbar extends JToolBar {
 		sb.append(EuclidianConstants.MODE_JOIN);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SEGMENT);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_SEGMENT_FIXED);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_SEGMENT_FIXED);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_RAY);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_VECTOR);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_VECTOR_FROM_POINT);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_VECTOR_FROM_POINT);
 
 		// advanced lines
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_ORTHOGONAL);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PARALLEL);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_LINE_BISECTOR);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_ANGULAR_BISECTOR);
-		//sb.append(" , ");
-		//sb.append(EuclidianView.MODE_TANGENTS);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_POLAR_DIAMETER);
-		//sb.append(" , ");
-		//sb.append(EuclidianView.MODE_FITLINE);
-		//sb.append(" , ");
-		//sb.append(EuclidianView.MODE_LOCUS);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_LINE_BISECTOR);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_ANGULAR_BISECTOR);
+		// sb.append(" , ");
+		// sb.append(EuclidianView.MODE_TANGENTS);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_POLAR_DIAMETER);
+		// sb.append(" , ");
+		// sb.append(EuclidianView.MODE_FITLINE);
+		// sb.append(" , ");
+		// sb.append(EuclidianView.MODE_LOCUS);
 
 		// polygon
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_POLYGON);
 		sb.append(" ");
-		//sb.append(EuclidianView.MODE_REGULAR_POLYGON);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_RIGID_POLYGON);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_POLYLINE);
+		// sb.append(EuclidianView.MODE_REGULAR_POLYGON);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_RIGID_POLYGON);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_POLYLINE);
 
 		// circles, arcs
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
-		//sb.append(" ");
-		//sb.append(EuclidianView.MODE_COMPASSES);
+		// sb.append(" ");
+		// sb.append(EuclidianView.MODE_COMPASSES);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		/*
-		sb.append(" , ");
-		sb.append(EuclidianView.MODE_SEMICIRCLE);
-		sb.append("  ");
-		sb.append(EuclidianView.MODE_CIRCLE_ARC_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
-		sb.append(" , ");
-		sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-		*/
+		 * sb.append(" , "); sb.append(EuclidianView.MODE_SEMICIRCLE);
+		 * sb.append("  ");
+		 * sb.append(EuclidianView.MODE_CIRCLE_ARC_THREE_POINTS);
+		 * sb.append(" ");
+		 * sb.append(EuclidianView.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+		 * sb.append(" , ");
+		 * sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
+		 * sb.append(" ");
+		 * sb.append(EuclidianView.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+		 */
 
 		// conics
 		/*
-		sb.append(" | ");
-		sb.append(EuclidianView.MODE_ELLIPSE_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_HYPERBOLA_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_PARABOLA);
-		sb.append(" , ");
-		sb.append(EuclidianView.MODE_CONIC_FIVE_POINTS);
+		 * sb.append(" | "); sb.append(EuclidianView.MODE_ELLIPSE_THREE_POINTS);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_HYPERBOLA_THREE_POINTS);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_PARABOLA);
+		 * sb.append(" , "); sb.append(EuclidianView.MODE_CONIC_FIVE_POINTS);
 		 */
-		
+
 		// measurements
 		/*
-		sb.append(" || ");
-		sb.append(EuclidianView.MODE_ANGLE);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_ANGLE_FIXED);
-		sb.append(" , ");
-		sb.append(EuclidianView.MODE_DISTANCE);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_AREA);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_SLOPE);
+		 * sb.append(" || "); sb.append(EuclidianView.MODE_ANGLE);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_ANGLE_FIXED);
+		 * sb.append(" , "); sb.append(EuclidianView.MODE_DISTANCE);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_AREA); sb.append(" ");
+		 * sb.append(EuclidianView.MODE_SLOPE);
 		 */
-		
+
 		// transformations
 		/*
-		sb.append(" | ");
-		sb.append(EuclidianView.MODE_MIRROR_AT_LINE);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_MIRROR_AT_POINT);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_MIRROR_AT_CIRCLE);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_ROTATE_BY_ANGLE);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_TRANSLATE_BY_VECTOR);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_DILATE_FROM_POINT);
-		*/
+		 * sb.append(" | "); sb.append(EuclidianView.MODE_MIRROR_AT_LINE);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_MIRROR_AT_POINT);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_MIRROR_AT_CIRCLE);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_ROTATE_BY_ANGLE);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_TRANSLATE_BY_VECTOR);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_DILATE_FROM_POINT);
+		 */
 
 		// dialogs
 		/*
-		sb.append(" | ");
-		sb.append(EuclidianView.MODE_SLIDER);
-		sb.append(" , ");
-		sb.append(EuclidianView.MODE_TEXT);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_IMAGE);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_PEN);
-		sb.append(" , ");
-		sb.append(EuclidianView.MODE_RELATION);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_PROBABILITY_CALCULATOR);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_FUNCTION_INSPECTOR);
+		 * sb.append(" | "); sb.append(EuclidianView.MODE_SLIDER);
+		 * sb.append(" , "); sb.append(EuclidianView.MODE_TEXT); sb.append(" ");
+		 * sb.append(EuclidianView.MODE_IMAGE); sb.append(" ");
+		 * sb.append(EuclidianView.MODE_PEN); sb.append(" , ");
+		 * sb.append(EuclidianView.MODE_RELATION); sb.append(" ");
+		 * sb.append(EuclidianView.MODE_PROBABILITY_CALCULATOR); sb.append(" ");
+		 * sb.append(EuclidianView.MODE_FUNCTION_INSPECTOR);
 		 */
-		
+
 		// objects with actions
 		/*
-		sb.append(" | ");
-		sb.append(EuclidianView.MODE_SHOW_HIDE_CHECKBOX);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_BUTTON_ACTION);
-		sb.append(" ");
-		sb.append(EuclidianView.MODE_TEXTFIELD_ACTION);
+		 * sb.append(" | "); sb.append(EuclidianView.MODE_SHOW_HIDE_CHECKBOX);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_BUTTON_ACTION);
+		 * sb.append(" "); sb.append(EuclidianView.MODE_TEXTFIELD_ACTION);
 		 */
-		
+
 		// properties
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
@@ -736,55 +712,54 @@ public class Toolbar extends JToolBar {
 	 * @return default toolbar (3D)
 	 */
 	public static String getAllToolsNoMacros3D() {
-		return EuclidianConstants.MODE_MOVE 
-		+ " || "
-		+ EuclidianConstants.MODE_POINT
-		+ " " 
-		+ EuclidianConstants.MODE_POINT_ON_OBJECT 
-		+ " " 
-		+ EuclidianConstants.MODE_INTERSECT 
-		+ " "
-		+ EuclidianConstants.MODE_MIDPOINT 
-		+ " , "
-		+ EuclidianConstants.MODE_ATTACH_DETACH 
-		+ " , "
-		+ EuclidianConstants.MODE_COMPLEX_NUMBER
-		+ " | " 
-		+ EuclidianConstants.MODE_JOIN + " "
-		+ EuclidianConstants.MODE_SEGMENT + " " + EuclidianConstants.MODE_RAY + " , "
-		+ EuclidianConstants.MODE_VECTOR + " | " + EuclidianConstants.MODE_ORTHOGONAL
-		+ " " + EuclidianConstants.MODE_PARALLEL + " || "
-		+ EuclidianConstants.MODE_POLYGON
-		+ " | "
-		+ EuclidianConstants.MODE_CIRCLE_AXIS_POINT
-		+ " "
-		+ EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION
-		+ " "
-		+ EuclidianConstants.MODE_CIRCLE_THREE_POINTS
-		+ " | "
-		+ EuclidianConstants.MODE_INTERSECTION_CURVE
-		+ " || "
-		+ EuclidianConstants.MODE_PLANE_THREE_POINTS
-		+ " , "
-		+ EuclidianConstants.MODE_PLANE_POINT_LINE
-		+ " | "
-		+ EuclidianConstants.MODE_ORTHOGONAL_PLANE
-		+ " , "
-		+ EuclidianConstants.MODE_PARALLEL_PLANE
-		+ " || "
-		+ EuclidianConstants.MODE_RIGHT_PRISM
-		// +" , "
-		// +EuclidianConstants.MODE_PRISM
-		+ " | " + EuclidianConstants.MODE_SPHERE_TWO_POINTS + " "
-		+ EuclidianConstants.MODE_SPHERE_POINT_RADIUS 
-		+ " || "
-		+ EuclidianConstants.MODE_ANGLE		
-		+ " | "		
-		+ EuclidianConstants.MODE_TRANSLATE_BY_VECTOR	
-		+ " || "		
-		+ EuclidianConstants.MODE_ROTATEVIEW + " "
-		+ EuclidianConstants.MODE_TRANSLATEVIEW + " " + EuclidianConstants.MODE_ZOOM_IN
-		+ " " + EuclidianConstants.MODE_ZOOM_OUT + " | "
-		+ EuclidianConstants.MODE_VIEW_IN_FRONT_OF;
+		return EuclidianConstants.MODE_MOVE + " || "
+				+ EuclidianConstants.MODE_POINT + " "
+				+ EuclidianConstants.MODE_POINT_ON_OBJECT + " "
+				+ EuclidianConstants.MODE_INTERSECT + " "
+				+ EuclidianConstants.MODE_MIDPOINT + " , "
+				+ EuclidianConstants.MODE_ATTACH_DETACH + " , "
+				+ EuclidianConstants.MODE_COMPLEX_NUMBER + " | "
+				+ EuclidianConstants.MODE_JOIN
+				+ " "
+				+ EuclidianConstants.MODE_SEGMENT
+				+ " "
+				+ EuclidianConstants.MODE_RAY
+				+ " , "
+				+ EuclidianConstants.MODE_VECTOR
+				+ " | "
+				+ EuclidianConstants.MODE_ORTHOGONAL
+				+ " "
+				+ EuclidianConstants.MODE_PARALLEL
+				+ " || "
+				+ EuclidianConstants.MODE_POLYGON
+				+ " | "
+				+ EuclidianConstants.MODE_CIRCLE_AXIS_POINT
+				+ " "
+				+ EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION
+				+ " "
+				+ EuclidianConstants.MODE_CIRCLE_THREE_POINTS
+				+ " | "
+				+ EuclidianConstants.MODE_INTERSECTION_CURVE
+				+ " || "
+				+ EuclidianConstants.MODE_PLANE_THREE_POINTS
+				+ " , "
+				+ EuclidianConstants.MODE_PLANE_POINT_LINE
+				+ " | "
+				+ EuclidianConstants.MODE_ORTHOGONAL_PLANE
+				+ " , "
+				+ EuclidianConstants.MODE_PARALLEL_PLANE
+				+ " || "
+				+ EuclidianConstants.MODE_RIGHT_PRISM
+				// +" , "
+				// +EuclidianConstants.MODE_PRISM
+				+ " | " + EuclidianConstants.MODE_SPHERE_TWO_POINTS + " "
+				+ EuclidianConstants.MODE_SPHERE_POINT_RADIUS + " || "
+				+ EuclidianConstants.MODE_ANGLE + " | "
+				+ EuclidianConstants.MODE_TRANSLATE_BY_VECTOR + " || "
+				+ EuclidianConstants.MODE_ROTATEVIEW + " "
+				+ EuclidianConstants.MODE_TRANSLATEVIEW + " "
+				+ EuclidianConstants.MODE_ZOOM_IN + " "
+				+ EuclidianConstants.MODE_ZOOM_OUT + " | "
+				+ EuclidianConstants.MODE_VIEW_IN_FRONT_OF;
 	}
 }

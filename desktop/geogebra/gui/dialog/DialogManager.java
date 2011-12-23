@@ -9,7 +9,6 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
@@ -38,7 +37,6 @@ import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.gui.dialog.handler.RedefineInputHandler;
 import geogebra.gui.dialog.handler.RenameInputHandler;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.gui.dialog.options.OptionsDialog.Factory;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
@@ -46,20 +44,21 @@ import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
 
 /**
- * Class to manage all kind of dialogs, including the file chooser, appearing in GeoGebra. Supports
- * (explicit) lazy initialization so that dialogs have to be created manually if needed.
+ * Class to manage all kind of dialogs, including the file chooser, appearing in
+ * GeoGebra. Supports (explicit) lazy initialization so that dialogs have to be
+ * created manually if needed.
  */
 public class DialogManager {
 	/**
 	 * Application instance.
 	 */
 	protected Application app;
-	
+
 	/**
 	 * The option dialog where the user can change all application settings.
 	 */
 	private OptionsDialog optionsDialog;
-	
+
 	/**
 	 * Object which provides an option dialog if requested. Used because
 	 * different option dialogs are needed for GeoGebra 4 and 5.
@@ -75,27 +74,29 @@ public class DialogManager {
 	 * Dialog to view properties of a function.
 	 */
 	private FunctionInspector functionInspector;
-	
+
 	/**
 	 * Dialog for styling text objects.
 	 */
 	private TextInputDialog textInputDialog;
 
 	/**
-	 * Dialog to select new files, either for loading or saving. Various file types are supported.
+	 * Dialog to select new files, either for loading or saving. Various file
+	 * types are supported.
 	 */
 	private GeoGebraFileChooser fileChooser;
 
 	/**
-	 * Properties for translation of file chooser UI in languages Java doesn't support.
+	 * Properties for translation of file chooser UI in languages Java doesn't
+	 * support.
 	 */
 	private ResourceBundle rbJavaUI;
-	
+
 	/**
 	 * Keep track of the current locale for file chooser UI updating.
 	 */
 	private Locale currentLocale;
-	
+
 	public DialogManager(Application app) {
 		this.app = app;
 	}
@@ -115,12 +116,12 @@ public class DialogManager {
 	public synchronized void reinitPropertiesDialog() {
 		if (propDialog != null && propDialog.isVisible())
 			propDialog.setVisible(false);
-		
+
 		propDialog = null;
 		propDialog = new PropertiesDialog(app);
 
 	}
-	
+
 	/**
 	 * Update the fonts used in the dialogs.
 	 */
@@ -139,13 +140,13 @@ public class DialogManager {
 			GuiManager.setFontRecursive(optionsDialog, app.getPlainFont());
 			SwingUtilities.updateComponentTreeUI(optionsDialog);
 		}
-		
+
 		if (fileChooser != null) {
 			fileChooser.setFont(app.getPlainFont());
 			SwingUtilities.updateComponentTreeUI(fileChooser);
 		}
 	}
-	
+
 	/**
 	 * Update labels in the GUI.
 	 */
@@ -153,7 +154,7 @@ public class DialogManager {
 		if (propDialog != null)
 			// changed to force all language strings to be updated
 			reinitPropertiesDialog(); // was propDialog.initGUI();
-		
+
 		if (optionsDialog != null)
 			optionsDialog.setLabels();
 
@@ -162,7 +163,7 @@ public class DialogManager {
 
 		if (textInputDialog != null)
 			textInputDialog.setLabels();
-		
+
 		if (fileChooser != null)
 			updateJavaUILanguage();
 	}
@@ -266,7 +267,6 @@ public class DialogManager {
 		id.setVisible(true);
 	}
 
-
 	/**
 	 * Displays the redefine dialog for geo
 	 * 
@@ -306,11 +306,12 @@ public class DialogManager {
 	private void showTextDialog(GeoText text, GeoPointND startPoint) {
 		app.setWaitCursor();
 
-		if (textInputDialog == null)
+		if (textInputDialog == null) {
 			textInputDialog = (TextInputDialog) createTextDialog(text,
 					startPoint);
-		else
-			((TextInputDialog) textInputDialog).reInitEditor(text, startPoint);
+		} else {
+			textInputDialog.reInitEditor(text, startPoint);
+		}
 
 		textInputDialog.setVisible(true);
 		app.setDefaultCursor();
@@ -344,137 +345,145 @@ public class DialogManager {
 		}
 		return success;
 	}
-	
 
+	/**
+	 * Creates a new checkbox at given startPoint
+	 */
+	public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
+		CheckboxCreationDialog d = new CheckboxCreationDialog(app, loc, bool);
+		d.setVisible(true);
+	}
 
-  /**
-   * Creates a new checkbox at given startPoint
-   */
-  public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
-    CheckboxCreationDialog d = new CheckboxCreationDialog(app, loc, bool);
-    d.setVisible(true);
-  }
+	/**
+	 * Shows a modal dialog to enter a number or number variable name.
+	 */
+	public NumberValue showNumberInputDialog(String title, String message,
+			String initText) {
+		// avoid labeling of num
+		Construction cons = app.getKernel().getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
 
-  /**
-   * Shows a modal dialog to enter a number or number variable name.
-   */
-  public NumberValue showNumberInputDialog(String title, String message,
-      String initText) {
-    // avoid labeling of num
-    Construction cons = app.getKernel().getConstruction();
-    boolean oldVal = cons.isSuppressLabelsActive();
-    cons.setSuppressLabelCreation(true);
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialog(app, message, title, initText, false,
+				handler, true, false, null);
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialog(app, message, title, initText, false,
-        handler, true, false, null);
-    id.setVisible(true);
+		cons.setSuppressLabelCreation(oldVal);
+		return handler.getNum();
+	}
 
-    cons.setSuppressLabelCreation(oldVal);
-    return handler.getNum();
-  }
+	/**
+	 * Shows a modal dialog to enter a number or number variable name.
+	 */
+	public NumberValue showNumberInputDialog(String title, String message,
+			String initText, boolean changingSign, String checkBoxText) {
+		// avoid labeling of num
+		Construction cons = app.getKernel().getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
 
-  /**
-   * Shows a modal dialog to enter a number or number variable name.
-   */
-  public NumberValue showNumberInputDialog(String title, String message,
-      String initText, boolean changingSign, String checkBoxText) {
-    // avoid labeling of num
-    Construction cons = app.getKernel().getConstruction();
-    boolean oldVal = cons.isSuppressLabelsActive();
-    cons.setSuppressLabelCreation(true);
+		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
+				app.getKernel().getAlgebraProcessor());
+		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(app,
+				message, title, initText, handler, changingSign, checkBoxText);
+		id.setVisible(true);
 
-    NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(app.getKernel().getAlgebraProcessor());
-    NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(app,
-        message, title, initText, handler, changingSign, checkBoxText);
-    id.setVisible(true);
+		cons.setSuppressLabelCreation(oldVal);
 
-    cons.setSuppressLabelCreation(oldVal);
+		return handler.getNum();
+	}
 
-    return handler.getNum();
-  }
+	public void showNumberInputDialogRegularPolygon(String title,
+			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
 
-  public void showNumberInputDialogRegularPolygon(String title,
-      GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialogRegularPolygon(app, title, handler,
+				geoPoint1, geoPoint2, app.getKernel());
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialogRegularPolygon(app, title, handler,
-        geoPoint1, geoPoint2, app.getKernel());
-    id.setVisible(true);
+	}
 
-  }
+	public void showNumberInputDialogCirclePointRadius(String title,
+			GeoPointND geoPoint1, EuclidianView view) {
 
-  public void showNumberInputDialogCirclePointRadius(String title,
-      GeoPointND geoPoint1, EuclidianView view) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialogCirclePointRadius(app, title, handler,
+				(GeoPoint2) geoPoint1, app.getKernel());
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialogCirclePointRadius(app, title, handler,
-        (GeoPoint2) geoPoint1, app.getKernel());
-    id.setVisible(true);
+	}
 
-  }
+	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
+			GeoPoint2[] points, GeoElement[] selGeos) {
 
-  public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-      GeoPoint2[] points, GeoElement[] selGeos) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialogRotate(app, title, handler, polys,
+				points, selGeos, app.getKernel());
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialogRotate(app, title, handler, polys, points,
-        selGeos, app.getKernel());
-    id.setVisible(true);
+	}
 
-  }
+	public void showNumberInputDialogAngleFixed(String title,
+			GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
 
-  public void showNumberInputDialogAngleFixed(String title,
-      GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialogAngleFixed(app, title, handler,
+				segments, points, selGeos, app.getKernel());
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialogAngleFixed(app, title, handler, segments,
-        points, selGeos, app.getKernel());
-    id.setVisible(true);
+	}
 
-  }
+	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
+			GeoPoint2[] points, GeoElement[] selGeos) {
 
-  public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-      GeoPoint2[] points, GeoElement[] selGeos) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialogDilate(app, title, handler, points,
+				selGeos, app.getKernel());
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialogDilate(app, title, handler, points,
-        selGeos, app.getKernel());
-    id.setVisible(true);
+	}
 
-  }
+	public void showNumberInputDialogSegmentFixed(String title,
+			GeoPoint2 geoPoint1) {
 
-  public void showNumberInputDialogSegmentFixed(String title, GeoPoint2 geoPoint1) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialog id = new InputDialogSegmentFixed(app, title, handler,
+				geoPoint1, app.getKernel());
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    InputDialog id = new InputDialogSegmentFixed(app, title, handler,
-        geoPoint1, app.getKernel());
-    id.setVisible(true);
+	}
 
-  }
+	/**
+	 * Shows a modal dialog to enter an angle or angle variable name.
+	 * 
+	 * @return: Object[] with { NumberValue, AngleInputDialog } pair
+	 */
+	public Object[] showAngleInputDialog(String title, String message,
+			String initText) {
+		// avoid labeling of num
+		Construction cons = app.getKernel().getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
 
-  /**
-   * Shows a modal dialog to enter an angle or angle variable name.
-   * 
-   * @return: Object[] with { NumberValue, AngleInputDialog } pair
-   */
-  public Object[] showAngleInputDialog(String title, String message,
-      String initText) {
-    // avoid labeling of num
-    Construction cons = app.getKernel().getConstruction();
-    boolean oldVal = cons.isSuppressLabelsActive();
-    cons.setSuppressLabelCreation(true);
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		AngleInputDialog id = new AngleInputDialog(app, message, title,
+				initText, false, handler, true);
+		id.setVisible(true);
 
-    NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-    AngleInputDialog id = new AngleInputDialog(app, message, title, initText,
-        false, handler, true);
-    id.setVisible(true);
+		cons.setSuppressLabelCreation(oldVal);
+		Object[] ret = { handler.getNum(), id };
+		return ret;
+	}
 
-    cons.setSuppressLabelCreation(oldVal);
-    Object[] ret = { handler.getNum(), id };
-    return ret;
-  }
-	
 	/**
 	 * Close all open dialogs.
 	 * 
@@ -485,8 +494,8 @@ public class DialogManager {
 	}
 
 	/**
-	 * Close the properties dialog. Has no side-effects if the dialog has 
-	 * not yet been used or is invisible already.
+	 * Close the properties dialog. Has no side-effects if the dialog has not
+	 * yet been used or is invisible already.
 	 */
 	public void closePropertiesDialog() {
 		if (propDialog != null && propDialog.isShowing()) {
@@ -494,37 +503,37 @@ public class DialogManager {
 		}
 	}
 
-  /**
-   * Creates a new slider at given location (screen coords).
-   * 
-   * @return whether a new slider (number) was create or not
-   */
-  public boolean showSliderCreationDialog(int x, int y) {
-    app.setWaitCursor();
-
-    SliderDialog dialog = new SliderDialog(app, x, y);
-    dialog.setVisible(true);
-
-    app.setDefaultCursor();
-
-    return true;
-  }
-
-  /**
-   * Creates a new JavaScript button at given location (screen coords).
-   * 
-   * @return whether a new slider (number) was create or not
-   */
-  public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-    ButtonDialog dialog = new ButtonDialog(app, x, y, textfield);
-    dialog.setVisible(true);
-    return true;
-  }
-	
 	/**
-	 * Close the properties dialog if it is not the current selection
-	 * listener. Has no side-effects if the dialog is has not yet been
-	 * used or if if it invisible already. 
+	 * Creates a new slider at given location (screen coords).
+	 * 
+	 * @return whether a new slider (number) was create or not
+	 */
+	public boolean showSliderCreationDialog(int x, int y) {
+		app.setWaitCursor();
+
+		SliderDialog dialog = new SliderDialog(app, x, y);
+		dialog.setVisible(true);
+
+		app.setDefaultCursor();
+
+		return true;
+	}
+
+	/**
+	 * Creates a new JavaScript button at given location (screen coords).
+	 * 
+	 * @return whether a new slider (number) was create or not
+	 */
+	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
+		ButtonDialog dialog = new ButtonDialog(app, x, y, textfield);
+		dialog.setVisible(true);
+		return true;
+	}
+
+	/**
+	 * Close the properties dialog if it is not the current selection listener.
+	 * Has no side-effects if the dialog is has not yet been used or if if it
+	 * invisible already.
 	 * 
 	 * @see #closePropertiesDialog()
 	 */
@@ -613,37 +622,37 @@ public class DialogManager {
 			AutoCompletion.install(getFileChooser(), true);
 		}
 	}
-	
-	
+
 	public OptionsDialog getOptionsDialog() {
 		return optionsDialog;
 	}
-	
+
 	public PropertiesDialog getPropDialog() {
 		return propDialog;
 	}
-	
+
 	public GeoGebraFileChooser getFileChooser() {
 		return fileChooser;
 	}
-	
+
 	public void setFileChooser(GeoGebraFileChooser fileChooser) {
 		this.fileChooser = fileChooser;
 	}
-	
+
 	public FunctionInspector getFunctionInspector() {
 		return functionInspector;
 	}
-	
+
 	public TextInputDialog getTextInputDialog() {
 		return textInputDialog;
 	}
-	
+
 	public OptionsDialog.Factory getOptionsDialogFactory() {
 		return optionsDialogFactory;
 	}
 
-	public void setOptionsDialogFactory(OptionsDialog.Factory optionsDialogFactory) {
+	public void setOptionsDialogFactory(
+			OptionsDialog.Factory optionsDialogFactory) {
 		this.optionsDialogFactory = optionsDialogFactory;
 	}
 
@@ -674,13 +683,14 @@ public class DialogManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Factory for the {@link DialogManager} class.
 	 */
 	public static class Factory {
 		/**
-		 * @param app Application instance
+		 * @param app
+		 *            Application instance
 		 * @return a new {@link DialogManager}
 		 */
 		public DialogManager create(Application app) {

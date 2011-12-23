@@ -4,12 +4,11 @@
  */
 package geogebra.common.kernel;
 
-
 /**
  * @author HOHENWARTER
- *
- * sorted list of point pairs (sorted by distance)
- * used in AlgoInteresectConics and AlgoIntersecLineConic
+ * 
+ *         sorted list of point pairs (sorted by distance) used in
+ *         AlgoInteresectConics and AlgoIntersecLineConic
  */
 public class PointPairList {
 	private PointPair head;
@@ -23,11 +22,13 @@ public class PointPairList {
 	}
 
 	/**
-	 *  Inserts pair (indexD, indexQ) in ascending order of distance
-	 * where alive points come before others and points Q on path come before others.
+	 * Inserts pair (indexD, indexQ) in ascending order of distance where alive
+	 * points come before others and points Q on path come before others.
 	 */
-	public final void insertPointPair(int indexD, boolean isPalive, int indexQ, boolean isQonPath, double distance) {
-		PointPair newPair = new PointPair(indexD, isPalive, indexQ, isQonPath, distance);
+	public final void insertPointPair(int indexD, boolean isPalive, int indexQ,
+			boolean isQonPath, double distance) {
+		PointPair newPair = new PointPair(indexD, isPalive, indexQ, isQonPath,
+				distance);
 
 		// insert as head
 		if (head == null || smallerThan(newPair, head)) {
@@ -46,61 +47,67 @@ public class PointPairList {
 		newPair.next = currentPair.next;
 		currentPair.next = newPair;
 	}
-	
-	
+
 	/**
-	 * Checks a < b. Ascending ordering by isPalive and isQonPath and distance, where isPalive == true  comes
-	 * before isPalive == false and isQonPath == true comes
-	 * before isQonPath == false.	 
+	 * Checks a < b. Ascending ordering by isPalive and isQonPath and distance,
+	 * where isPalive == true comes before isPalive == false and isQonPath ==
+	 * true comes before isQonPath == false.
 	 */
 	private boolean smallerThan(PointPair a, PointPair b) {
 		if (a.isPalive) {
-			if (b.isPalive) // both are alive
+			if (b.isPalive) {
+				// both are alive
 				return smallerThan2(a, b);
-			else // a alive, b not
-				return true;
-		} else { // a not alive, b is alive: a > b
-			if (b.isPalive)
-				return false;
-			else // both not alive
-				return smallerThan2(a, b);
+			}
+			// a alive, b not
+			return true;
 		}
-	}
-	
-	/**
-	 * Checks a < b. Ascending ordering by isQonPath and distance, where isQonPath == true comes
-	 * before isQonPath == false.	 
-	 */
-	private boolean smallerThan2(PointPair a, PointPair b) {
-		if (a.isQonPath) {
-			if (b.isQonPath) // both on path
-				return (a.dist < b.dist);
-			else // a on path, b not on path: a < b
-				return true;
-		} else { // a not on path, b on path: a > b
-			if (b.isQonPath)
-				return false;
-			else // both not on path
-				return (a.dist < b.dist);
+		// a not alive, b is alive: a > b
+		if (b.isPalive) {
+			return false;
 		}
+		// both not alive
+		return smallerThan2(a, b);
 	}
 
 	/**
-	 * Removes all PointPairs where indexP == pair.indexP or 
-	 * indexQ == pair.indexQ
+	 * Checks a < b. Ascending ordering by isQonPath and distance, where
+	 * isQonPath == true comes before isQonPath == false.
+	 */
+	private static boolean smallerThan2(PointPair a, PointPair b) {
+		if (a.isQonPath) {
+			if (b.isQonPath) {
+				// both on path
+				return (a.dist < b.dist);
+			}
+			// a on path, b not on path: a < b
+			return true;
+		}
+		// a not on path, b on path: a > b
+		if (b.isQonPath) {
+			return false;
+		}
+		// both not on path
+		return (a.dist < b.dist);
+	}
+
+	/**
+	 * Removes all PointPairs where indexP == pair.indexP or indexQ ==
+	 * pair.indexQ
 	 */
 	public final void removeAllPairs(PointPair pair) {
-		if (head == null) return;
-		while ( head.indexP == pair.indexP || 
-				head.indexQ == pair.indexQ) {
+		if (head == null)
+			return;
+		while (head.indexP == pair.indexP || head.indexQ == pair.indexQ) {
 			head = head.next;
-			if (head == null) return;
+			if (head == null)
+				return;
 		}
-		
+
 		PointPair prevPair = head, currentPair = head.next;
 		while (currentPair != null) {
-			if (currentPair.indexP == pair.indexP || 
-				currentPair.indexQ == pair.indexQ) {
+			if (currentPair.indexP == pair.indexP
+					|| currentPair.indexQ == pair.indexQ) {
 				// remove currentPair
 				prevPair.next = currentPair.next;
 				currentPair = currentPair.next;
@@ -117,18 +124,10 @@ public class PointPairList {
 	}
 
 	/*
-	final public String toString() {
-		StringBuilder sb = new StringBuilder();
-		PointPair currentPair = head;
-		while (currentPair != null) {
-			sb.append(currentPair);
-			currentPair = currentPair.next;
-		}
-		return sb.toString();
-	}
-	*/
-	
+	 * final public String toString() { StringBuilder sb = new StringBuilder();
+	 * PointPair currentPair = head; while (currentPair != null) {
+	 * sb.append(currentPair); currentPair = currentPair.next; } return
+	 * sb.toString(); }
+	 */
 
 }
-
-

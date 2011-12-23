@@ -151,7 +151,7 @@ public class ConstructionDefaults {
 	 * @param cons2
 	 */
 	public ConstructionDefaults(Construction cons2) {
-		this.cons = (Construction)cons2;
+		this.cons = cons2;
 		createDefaultGeoElements();		
 	}
 
@@ -647,7 +647,7 @@ public class ConstructionDefaults {
 			
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();	
+			GeoElement geo = it.next();	
 			
 					
 			switch (geo.getGeoClassType()) {
@@ -665,7 +665,7 @@ public class ConstructionDefaults {
 		
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();	
+			GeoElement geo = it.next();	
 			
 				
 			switch (geo.getGeoClassType()) {
@@ -686,7 +686,7 @@ public class ConstructionDefaults {
 			
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();	
+			GeoElement geo = it.next();	
 			
 			// set line thickness
 			if (!geo.isGeoText() && !geo.isGeoImage()) // affects bounding box
@@ -706,7 +706,7 @@ public class ConstructionDefaults {
 			
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();	
+			GeoElement geo = it.next();	
 			
 			geo.setAlphaValue(filling);
 		}		

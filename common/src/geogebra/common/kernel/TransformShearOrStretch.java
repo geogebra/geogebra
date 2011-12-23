@@ -44,6 +44,7 @@ public class TransformShearOrStretch extends Transform {
 		return false;
 	}
 	
+	@Override
 	public boolean changesOrientation() {
 		return !shear && num.getDouble()<0;
 	}	

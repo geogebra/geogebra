@@ -47,7 +47,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private Point selectedCell = new Point(0,0);
 	
 	// preferred size
-	private Dimension preferredSize;;
+	private Dimension preferredSize;
 	
 	
 	//============================================

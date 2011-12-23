@@ -8,15 +8,12 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel;
 
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
-
-
 
 public class MyPoint {
 	public double x, y;
@@ -27,18 +24,19 @@ public class MyPoint {
 		this.y = y;
 		this.lineTo = lineTo;
 	}
-	
+
 	public double distSqr(double px, double py) {
 		double vx = px - x;
-        double vy = py - y;        
-        return vx*vx + vy*vy;
+		double vy = py - y;
+		return vx * vx + vy * vy;
 	}
-	
+
 	public boolean isEqual(double px, double py) {
-		return AbstractKernel.isEqual(x, px, AbstractKernel.MIN_PRECISION) &&
-			   AbstractKernel.isEqual(y, py, AbstractKernel.MIN_PRECISION);
+		return AbstractKernel.isEqual(x, px, AbstractKernel.MIN_PRECISION)
+				&& AbstractKernel.isEqual(y, py, AbstractKernel.MIN_PRECISION);
 	}
-	
+
+	@Override
 	public String toString() {
 		return "(" + x + ", " + y + ")";
 	}

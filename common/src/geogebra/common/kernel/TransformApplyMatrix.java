@@ -37,6 +37,7 @@ public class TransformApplyMatrix extends Transform {
 		return false;
 	}
 	
+	@Override
 	public boolean changesOrientation() {
 		AlgoTransformation at = getTransformAlgo(new GeoPoint2(cons));
 		cons.removeFromConstructionList(at);
