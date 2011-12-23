@@ -2036,8 +2036,8 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	}
 
-	final public Graphics2D getBackgroundGraphics() {
-		return bgGraphics;
+	final public geogebra.common.awt.Graphics2D getBackgroundGraphics() {
+		return new geogebra.awt.Graphics2D(bgGraphics);
 	}
 
 	final public void updateBackground() {
@@ -2912,7 +2912,7 @@ public class EuclidianView implements EuclidianViewInterface,
 			g2.setColor(Color.lightGray);
 		}
 
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.setStroke(EuclidianStatic.getDefaultStrokeAwt());
 
 		// draw pause or play button
 		g2.drawRect(x - 2, y - 2, 18, 18);
@@ -2997,7 +2997,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.setStroke(EuclidianStatic.getDefaultStrokeAwt());
 		((geogebra.euclidian.EuclidianViewJPanel)evjpanel).paintChildren(g2); // draws Buttons and Textfields
 
 	}
@@ -3008,12 +3008,12 @@ public class EuclidianView implements EuclidianViewInterface,
 		drawGeometricObjects(g2);
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.setStroke(EuclidianStatic.getDefaultStrokeAwt());
 		// TODO layers for Buttons and Textfields
 		((geogebra.euclidian.EuclidianViewJPanel)evjpanel).paintChildren(g2); // draws Buttons and Textfields
 
 		if (previewDrawable != null) {
-			previewDrawable.drawPreview(g2);
+			previewDrawable.drawPreview(new geogebra.awt.Graphics2D(g2));
 		}
 	}
 
@@ -4997,7 +4997,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	public void setGridLineStyle(int gridLineStyle) {
 		this.gridLineStyle = gridLineStyle;
-		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f, gridLineStyle); // Michael
+		gridStroke = geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(gridIsBold ? 2f : 1f, gridLineStyle)); // Michael
 																		// Borcherds
 																		// 2008-04-11
 																		// added
@@ -5134,10 +5134,10 @@ public class EuclidianView implements EuclidianViewInterface,
 		return euclidianController;
 	}
 
-	final public Graphics2D getTempGraphics2D(geogebra.common.awt.Font font) {
+	final public geogebra.common.awt.Graphics2D getTempGraphics2D(geogebra.common.awt.Font font) {
 		g2Dtemp.setFont(geogebra.awt.Font.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
 								// Corner[text,n]
-		return g2Dtemp;
+		return new geogebra.awt.Graphics2D(g2Dtemp);
 	}
 
 	final public Graphics2D getTempGraphics2D() {

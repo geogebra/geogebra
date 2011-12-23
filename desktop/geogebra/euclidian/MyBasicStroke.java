@@ -17,10 +17,10 @@ import java.awt.BasicStroke;
 /**
  * @author Markus Hohenwarter
  */
-public class MyBasicStroke extends BasicStroke {
+public class MyBasicStroke extends geogebra.awt.BasicStroke {
 	
 	public MyBasicStroke(float width) {
-		super(width, CAP_ROUND, JOIN_ROUND);
+		super(width, CAP_ROUND,JOIN_ROUND);
 		//super(width, CAP_ROUND, JOIN_MITER, 5.0f);
 	}
 

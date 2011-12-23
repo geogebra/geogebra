@@ -225,25 +225,25 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void draw(Graphics2D g2) {
+	public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			if (traceDrawingNeeded) {
 				traceDrawingNeeded = false;
-				Graphics2D g2d = view.getBackgroundGraphics();
+				geogebra.common.awt.Graphics2D g2d = view.getBackgroundGraphics();
 				if (g2d != null)
 					drawTrace(g2d);
 			}
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(((GeoElement) v)
-						.getSelColor()));
+				g2.setPaint(((GeoElement) v)
+						.getSelColor());
 				g2.setStroke(selStroke);
 				if (lineVisible)
 					g2.draw(line);
 			}
 
-			g2.setPaint(geogebra.awt.Color.getAwtColor(((GeoElement) v)
-					.getObjectColor()));
+			g2.setPaint(((GeoElement) v)
+					.getObjectColor());
 			g2.setStroke(objStroke);
 			if (lineVisible)
 				g2.draw(line);
@@ -251,17 +251,17 @@ public class DrawVector extends Drawable implements Previewable {
 				g2.fill(gp);
 
 			if (labelVisible) {
-				g2.setFont(view.fontVector);
-				g2.setPaint(geogebra.awt.Color.getAwtColor(((GeoElement) v)
-						.getLabelColor()));
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontVector);
+				g2.setPaint(((GeoElement) v)
+						.getLabelColor());
 				drawLabel(g2);
 			}
 		}
 	}
 
-	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geogebra.awt.Color.getAwtColor(((GeoElement) v)
-				.getObjectColor()));
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+		g2.setPaint(((GeoElement) v)
+				.getObjectColor());
 		g2.setStroke(objStroke);
 		if (lineVisible)
 			g2.draw(line);
@@ -322,10 +322,9 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geogebra.awt.Color
-					.getAwtColor(ConstructionDefaults.colPreview));
+			g2.setPaint(ConstructionDefaults.colPreview);
 			g2.setStroke(objStroke);
 			if (arrowheadVisible)
 				g2.fill(gp);

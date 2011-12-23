@@ -26,11 +26,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.main.Application;
 
-import java.awt.BasicStroke;
+import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
-import java.awt.Graphics2D;
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.factories.AwtFactory;
@@ -126,8 +126,8 @@ public abstract class Drawable extends DrawableND {
 			view.getApplication().getDrawEquation();
 			Dimension dim = DrawEquation.drawEquation(geo.getKernel()
 					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label
-					.substring(1, label.length() - 1), new geogebra.awt.Font(g2.getFont()), serif, new geogebra.awt.Color(g2
-					.getColor()), new geogebra.awt.Color(g2.getBackground()), true);
+					.substring(1, label.length() - 1), g2.getFont(), serif, g2
+					.getColor(), g2.getBackground(), true);
 			labelRectangle.setBounds(xLabel, yLabel - offsetY, (int)dim.getWidth(),
 					(int)dim.getHeight());
 			return;
@@ -141,11 +141,11 @@ public abstract class Drawable extends DrawableND {
 			// must be whole caption
 			if (label.startsWith("<i>") && label.endsWith("</i>")) {
 				if (oldFont == null) {
-					oldFont = new geogebra.awt.Font(g2.getFont());
+					oldFont = g2.getFont();
 				}
 
 				// use Serif font so that we can get a nice curly italic x
-				g2.setFont(view.getApplication().getFont(true,
+				g2.setFont(view.getApplication().getFontCommon(true,
 						oldFont.getStyle() | Font.ITALIC, oldFont.getSize()));
 				label = label.substring(3, label.length() - 4);
 				italic = true;
@@ -153,7 +153,7 @@ public abstract class Drawable extends DrawableND {
 
 			if (label.startsWith("<b>") && label.endsWith("</b>")) {
 				if (oldFont == null)
-					oldFont = new geogebra.awt.Font(g2.getFont());
+					oldFont = g2.getFont();
 
 				g2.setFont(g2.getFont().deriveFont(
 						Font.BOLD + (italic ? Font.ITALIC : 0)));
@@ -180,7 +180,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		if (oldFont != null)
-			g2.setFont(geogebra.awt.Font.getAwtFont(oldFont));
+			g2.setFont(oldFont);
 	}
 
 	/**
@@ -513,7 +513,7 @@ public abstract class Drawable extends DrawableND {
 			HatchingHandler.setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(shape);
 		} else if (geo.getAlphaValue() > 0.0f) {
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getFillColor()));
+			g2.setPaint(geo.getFillColor());
 			g2.fill(shape);
 		}
 

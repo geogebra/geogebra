@@ -104,7 +104,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					fill(g2, gp, false);
 			} else {
@@ -163,7 +163,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
 																	// using
@@ -172,7 +172,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// appropriate
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getSelColor()));
+				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
@@ -180,15 +180,15 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
 			else if (!poly.wasInitLabelsCalled() && poly.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(poly
-						.getObjectColor()));
+				g2.setPaint(poly
+						.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getLabelColor()));
-				g2.setFont(view.fontPoint);
+				g2.setPaint(poly.getLabelColor());
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontPoint);
 				drawLabel(g2);
 			}
 		}
@@ -301,14 +301,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geogebra.awt.Color
-					.getAwtColor(ConstructionDefaults.colPreviewFill));
+			g2.setPaint(ConstructionDefaults.colPreviewFill);
 			g2.fill(gp);
 
-			g2.setPaint(geogebra.awt.Color
-					.getAwtColor(ConstructionDefaults.colPreview));
+			g2.setPaint(ConstructionDefaults.colPreview);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}

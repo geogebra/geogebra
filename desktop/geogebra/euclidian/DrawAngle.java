@@ -631,7 +631,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 
 		if (isVisible) {
 			if (!show90degrees
@@ -641,14 +641,14 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(angle.getSelColor()));
+				g2.setPaint(angle.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(shape);
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(angle
-						.getObjectColor()));
+				g2.setPaint(angle
+						.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 			}
@@ -707,9 +707,9 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (labelVisible) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(angle
-						.getLabelColor()));
-				g2.setFont(view.fontAngle);
+				g2.setPaint(angle
+						.getLabelColor());
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontAngle);
 				drawLabel(g2);
 			}
 		}
@@ -807,7 +807,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		isVisible = geo != null && prevPoints.size() == 2;
 		draw(g2);
 	}

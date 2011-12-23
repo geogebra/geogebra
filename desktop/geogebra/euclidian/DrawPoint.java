@@ -63,9 +63,9 @@ public final class DrawPoint extends Drawable {
 	private Line2D.Double line1, line2, line3, line4;// for cross
 	private GeneralPath gp = null;
 
-	private static BasicStroke borderStroke = EuclidianStatic
+	private static geogebra.common.awt.BasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static BasicStroke[] crossStrokes = new BasicStroke[10];
+	private static geogebra.common.awt.BasicStroke[] crossStrokes = new geogebra.awt.BasicStroke[10];
 
 	private boolean isPreview;
 
@@ -304,7 +304,7 @@ public final class DrawPoint extends Drawable {
 		// draw trace
 		if (P.getTrace()) {
 			isTracing = true;
-			Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -324,7 +324,7 @@ public final class DrawPoint extends Drawable {
 
 	private Drawable drawable;
 
-	private void drawClippedSection(GeoElement geo, Graphics2D g2) {
+	private void drawClippedSection(GeoElement geo, geogebra.common.awt.Graphics2D g2) {
 
 		switch (geo.getGeoClassType()) {
 		case LINE:
@@ -360,21 +360,21 @@ public final class DrawPoint extends Drawable {
 
 			Ellipse2D.Float circle = new Ellipse2D.Float((int) coords[0] - 30,
 					(int) coords[1] - 30, 60, 60);
-			g2.clip(circle);
+			geogebra.awt.Graphics2D.getAwtGraphics(g2).clip(circle);
 			geo.forceEuclidianVisible(true);
 			drawable.update();
 			drawable.draw(g2);
 			geo.forceEuclidianVisible(false);
-			g2.setClip(null);
+			geogebra.awt.Graphics2D.getAwtGraphics(g2).setClip(null);
 		}
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 
 		if (isVisible) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
+				g2.setPaint(geo.getSelColor());
 				g2.fill(circleHighlight);
 			}
 
@@ -400,7 +400,7 @@ public final class DrawPoint extends Drawable {
 			case EuclidianStyleConstants.POINT_STYLE_PLUS:
 			case EuclidianStyleConstants.POINT_STYLE_CROSS:
 				// draw cross like: X or +
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
 				g2.draw(line1);
 				g2.draw(line2);
@@ -408,7 +408,7 @@ public final class DrawPoint extends Drawable {
 
 			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
 				// draw diamond
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
 				g2.draw(line1);
 				g2.draw(line2);
@@ -422,15 +422,15 @@ public final class DrawPoint extends Drawable {
 			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
 			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 				// draw diamond
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				EuclidianStatic.drawWithValueStrokePure(gp, geogebra.awt.Graphics2D.getAwtGraphics(g2));
 				g2.fill(gp);
 				break;
 
 			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 				// draw a circle
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
 				g2.draw(circle);
 				break;
@@ -438,19 +438,19 @@ public final class DrawPoint extends Drawable {
 			// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 			default:
 				// draw a dot
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+				g2.setPaint(geo.getObjectColor());
 				g2.fill(circle);
 
 				// black stroke
-				g2.setPaint(Color.black);
+				g2.setPaint(geogebra.common.awt.Color.black);
 				g2.setStroke(borderStroke);
 				g2.draw(circle);
 			}
 
 			// label
 			if (labelVisible) {
-				g2.setFont(view.fontPoint);
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontPoint);
+				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}
 		}
@@ -462,8 +462,8 @@ public final class DrawPoint extends Drawable {
 	 * @param g2
 	 *            graphics to be used
 	 */
-	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+		g2.setPaint(geo.getObjectColor());
 
 		// Florian Sonner 2008-07-17
 		int pointStyle = P.getPointStyle();
@@ -519,13 +519,13 @@ public final class DrawPoint extends Drawable {
 	/*
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
 	 */
-	final private static BasicStroke getCrossStroke(int pointSize) {
+	final private static geogebra.common.awt.BasicStroke getCrossStroke(int pointSize) {
 
 		if (pointSize > 9)
-			return new BasicStroke(pointSize / 2f);
+			return new geogebra.awt.BasicStroke(pointSize / 2f);
 
 		if (crossStrokes[pointSize] == null)
-			crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			crossStrokes[pointSize] = new geogebra.awt.BasicStroke(pointSize / 2f);
 
 		return crossStrokes[pointSize];
 	}

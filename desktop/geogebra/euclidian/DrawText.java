@@ -194,11 +194,12 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 
-			Color bg = geo.getBackgroundColor() == null ? Color.WHITE
-					: geogebra.awt.Color.getAwtColor(geo.getBackgroundColor());
+			geogebra.common.awt.Color bg = geo.getBackgroundColor() == null ? 
+					geogebra.awt.Color.WHITE
+					: geo.getBackgroundColor();
 
 			if (bg != null) {
 
@@ -216,22 +217,22 @@ public final class DrawText extends Drawable {
 			}
 
 			if (isLaTeX) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
-				g2.setFont(geogebra.awt.Font.getAwtFont(textFont));
+				g2.setPaint(geo.getObjectColor());
+				g2.setFont(textFont);
 				g2.setStroke(objStroke); // needed eg for \sqrt
 				drawMultilineLaTeX(g2, textFont,
 						geo.getObjectColor(),
-						bg != null ? new geogebra.awt.Color(bg) : view.getBackgroundCommon());
+						bg != null ? bg : view.getBackgroundCommon());
 			} else {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
-				g2.setFont(geogebra.awt.Font.getAwtFont(textFont));
+				g2.setPaint(geo.getObjectColor());
+				g2.setFont(textFont);
 				drawMultilineText(g2);
 			}
 
 			// draw label rectangle
 			if (geo.doHighlighting()) {
 				g2.setStroke(objStroke);
-				g2.setPaint(Color.lightGray);
+				g2.setPaint(geogebra.awt.Color.lightGray);
 				g2.draw(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 			}
 		}

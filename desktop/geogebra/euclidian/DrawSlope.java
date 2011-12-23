@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Kernel;
 
-import java.awt.Graphics2D;
+import geogebra.common.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
@@ -159,22 +159,22 @@ public class DrawSlope extends Drawable {
 									// appropriate
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
+				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(slope
-						.getObjectColor()));
+				g2.setPaint(slope
+						.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(slope
-						.getLabelColor()));
-				g2.setFont(view.fontLine);
+				g2.setPaint(slope
+						.getLabelColor());
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
 				drawLabel(g2);
 				g2.drawString(horLabel, xLabelHor, yLabelHor);
 			}

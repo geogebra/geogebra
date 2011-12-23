@@ -11,6 +11,7 @@ public abstract class Font {
 	public abstract boolean isBold();
 	public abstract int canDisplayUpTo(String textString);
 	public abstract Font deriveFont(int plain2, int fontSize);
+	public abstract Font deriveFont(int i);
 
 	/*public abstract void setFontStyle(String fontStyle);
 

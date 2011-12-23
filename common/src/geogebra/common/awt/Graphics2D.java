@@ -1,5 +1,6 @@
 package geogebra.common.awt;
 
+import java.awt.Shape;
 import java.util.Map;
 
 public abstract class Graphics2D {
@@ -705,7 +706,7 @@ public abstract class Graphics2D {
 	 * @see #getBackground
 	 * @see java.awt.Graphics#clearRect
 	 */
-	public abstract void setBackground(ColorAdapter color);
+	public abstract void setBackground(Color color);
 
 	/**
 	 * Returns the background color used for clearing a region.
@@ -713,7 +714,7 @@ public abstract class Graphics2D {
 	 * which defines the background color.
 	 * @see #setBackground
 	 */
-	public abstract ColorAdapter getBackground();
+	public abstract Color getBackground();
 
 	/**
 	 * Returns the current <code>Stroke</code> in the
@@ -771,10 +772,17 @@ public abstract class Graphics2D {
 
 	public abstract Color getColor();
 
-	//public abstract Font getFont();
+	public abstract Font getFont();
 
-	//public abstract void setFont(Font font);
+	public abstract void setFont(Font font);
 
 	public abstract void setPaint(Color fillColor);
+	
+	public abstract void setStroke(BasicStroke s);
+
+	public abstract void setColor(Color selColor);
+
+	public abstract void draw(Object shape);
+	public abstract void fill(Object shape);
 
 }

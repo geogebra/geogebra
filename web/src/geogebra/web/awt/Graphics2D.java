@@ -2,6 +2,7 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.AttributedCharacterIterator;
+import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
@@ -316,13 +317,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	@Override
-	public void setBackground(ColorAdapter color) {
+	public void setBackground(Color color) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public ColorAdapter getBackground() {
+	public Color getBackground() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -351,7 +352,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	
-	public Font getFont() {
+	public geogebra.common.awt.Font getFont() {
 		return currentFont;
 	}
 
@@ -397,5 +398,35 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	public int getAbsoluteLeft() {
 	    return canvas.getAbsoluteLeft(); 
+    }
+
+	@Override
+    public void setFont(geogebra.common.awt.Font font) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setStroke(BasicStroke s) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setColor(Color selColor) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void draw(Object shape) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void fill(Object shape) {
+	    // TODO Auto-generated method stub
+	    
     }
 }

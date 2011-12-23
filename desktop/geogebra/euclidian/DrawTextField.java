@@ -393,7 +393,7 @@ public final class DrawTextField extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				label.setOpaque(true);

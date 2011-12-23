@@ -253,10 +253,11 @@ public class DrawEquation implements DrawEquationInterface{
 	}
 
 	final public static geogebra.common.awt.Dimension drawEquation(AbstractApplication app,
-			GeoElement geo, Graphics2D g2, int x, int y, String text,
+			GeoElement geo, geogebra.common.awt.Graphics2D g2, int x, int y, String text,
 			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
 			boolean useCache) {
-		return new geogebra.awt.Dimension(drawEquation((Application)app, geo, g2, x, y, text, font, serif, fgColor,
+		return new geogebra.awt.Dimension(drawEquation((Application)app, geo, 
+				geogebra.awt.Graphics2D.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
 				bgColor, useCache, null, null));
 	}
 

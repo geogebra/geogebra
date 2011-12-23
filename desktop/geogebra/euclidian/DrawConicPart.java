@@ -138,7 +138,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			// draw trace
 			if (conicPart.trace) {
 				isTracing = true;
-				Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -224,7 +224,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
@@ -232,20 +232,20 @@ public class DrawConicPart extends Drawable implements Previewable {
 										// appropriate
 
 				if (geo.doHighlighting()) {
-					g2.setPaint(geogebra.awt.Color.getAwtColor(geo
-							.getSelColor()));
+					g2.setPaint(geo
+							.getSelColor());
 					g2.setStroke(selStroke);
 					g2.draw(shape);
 				}
 
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 
 				if (labelVisible) {
-					g2.setPaint(geogebra.awt.Color.getAwtColor(geo
-							.getLabelColor()));
-					g2.setFont(view.fontLine);
+					g2.setPaint(geo
+							.getLabelColor());
+					geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
 					drawLabel(g2);
 				}
 				break;
@@ -284,10 +284,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
-	final void drawTrace(Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(shape);
 			break;
@@ -366,7 +366,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		draw(g2);
 	}
 
@@ -384,7 +384,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(shape);
+				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return shape.intersects(x - hitThreshold, y - hitThreshold,

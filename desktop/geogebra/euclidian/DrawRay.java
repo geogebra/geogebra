@@ -113,7 +113,7 @@ public class DrawRay extends Drawable implements Previewable {
 			// draw trace
 			if (ray.getTrace()) {
 				isTracing = true;
-				Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -191,34 +191,34 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
+				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(line);
 			}
 
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(line);
 
 			if (labelVisible) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
-				g2.setFont(view.fontLine);
+				g2.setPaint(geo.getLabelColor());
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
 				drawLabel(g2);
 			}
 		}
 	}
 
-	final public void setStroke(BasicStroke objStroke) {
+	final public void setStroke(geogebra.common.awt.BasicStroke objStroke) {
 		this.objStroke = objStroke;
 	}
 
-	final public void drawTrace(Graphics2D g2) {
-		g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
+		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
-		g2.draw(line);
+		geogebra.awt.Graphics2D.getAwtGraphics(g2).draw(line);
 	}
 
 	final public void updatePreview() {
@@ -283,10 +283,9 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geogebra.awt.Color
-					.getAwtColor(ConstructionDefaults.colPreview));
+			g2.setPaint(ConstructionDefaults.colPreview);
 			g2.setStroke(objStroke);
 			g2.draw(line);
 		}

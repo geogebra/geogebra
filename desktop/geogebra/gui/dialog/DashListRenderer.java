@@ -49,7 +49,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		BasicStroke stroke;
 		for (int i = 0; i < types.length; i++) {
 			type = types[i];
-			stroke = EuclidianStatic.getStroke(1.0f, type);
+			stroke = geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(1.0f, type));
 			dashStrokeMap.put(type, stroke);
 		}
 	}

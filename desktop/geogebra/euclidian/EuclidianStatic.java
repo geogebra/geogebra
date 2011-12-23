@@ -47,7 +47,7 @@ public class EuclidianStatic {
 	 * @param bgColor
 	 */
 	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(Application app,
-			Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, geogebra.common.awt.Font font,
+			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
 			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
 		int fontSize = g2.getFont().getSize();
@@ -147,7 +147,7 @@ public class EuclidianStatic {
 							.get(currentElement))).intValue()) / 2;
 
 					// draw the string
-					g2.setFont(geogebra.awt.Font.getAwtFont(font)); // JLaTeXMath changes g2's fontsize
+					g2.setFont(font); // JLaTeXMath changes g2's fontsize
 					xOffset += drawIndexedString(app, g2, lines[j], xLabel
 							+ xOffset, yLabel + height + yOffset + lineSpread,
 							serif).x;
@@ -247,17 +247,17 @@ public class EuclidianStatic {
 	}
 
 	public final static geogebra.common.awt.Rectangle drawMultiLineText(AbstractApplication app,
-			String labelDesc, int xLabel, int yLabel, Graphics2D g2,
+			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
 			boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
 		float lineSpread = fontSize * 1.5f;
 
-		Font font = g2.getFont();
+		Font font = geogebra.awt.Font.getAwtFont(g2.getFont());
 		font = ((Application) app).getFontCanDisplay(labelDesc, serif, font.getStyle(),
 				font.getSize());
 
-		FontRenderContext frc = g2.getFontRenderContext();
+		FontRenderContext frc = geogebra.awt.Graphics2D.getAwtGraphics(g2).getFontRenderContext();
 		int xoffset = 0;
 
 		// draw text line by line
@@ -300,7 +300,7 @@ public class EuclidianStatic {
 	}
 
 	public final static Rectangle drawMultiLineIndexedText(Application app,
-			String labelDesc, int xLabel, int yLabel, Graphics2D g2,
+			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
 			boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
@@ -354,8 +354,9 @@ public class EuclidianStatic {
 	 * @param str
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, Graphics2D g2,
+	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
+		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		Font g2font = g2.getFont();
 		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
@@ -459,6 +460,19 @@ public class EuclidianStatic {
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
+	final public static void fillWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
+		fillWithValueStrokePure(shape, geogebra.awt.Graphics2D.getAwtGraphics(g3));
+	}
+	
+	final public static void drawWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
+		drawWithValueStrokePure(shape, geogebra.awt.Graphics2D.getAwtGraphics(g3));
+	}
+	
+	/**
+	 * @deprecated
+	 * @param shape
+	 * @param g2
+	 */
 	final public static void fillWithValueStrokePure(Shape shape, Graphics2D g2) {
 		Object oldHint = g2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
@@ -475,6 +489,10 @@ public class EuclidianStatic {
 	static public MyBasicStroke getDefaultStroke() {
 		return standardStroke;
 	}
+	
+	static public java.awt.BasicStroke getDefaultStrokeAwt() {
+		return geogebra.awt.BasicStroke.getAwtStroke(standardStroke);
+	}
 
 	static public MyBasicStroke getDefaultSelectionStroke() {
 		return selStroke;
@@ -488,7 +506,7 @@ public class EuclidianStatic {
 	 * @param type
 	 * @return stroke
 	 */
-	public static BasicStroke getStroke(float width, int type) {
+	public static geogebra.common.awt.BasicStroke getStroke(float width, int type) {
 		float[] dash;
 
 		switch (type) {
@@ -526,8 +544,8 @@ public class EuclidianStatic {
 		int endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke
 				.getEndCap();
 
-		return new BasicStroke(width, endCap, standardStroke.getLineJoin(),
-				standardStroke.getMiterLimit(), dash, 0.0f);
+		return new geogebra.awt.BasicStroke(new BasicStroke(width, endCap, standardStroke.getLineJoin(),
+				standardStroke.getMiterLimit(), dash, 0.0f));
 	}
 
 }

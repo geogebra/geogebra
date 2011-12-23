@@ -151,7 +151,7 @@ public class DrawLine extends Drawable implements Previewable {
 			// draw trace
 			if (g.getTrace()) {
 				isTracing = true;
-				Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null) drawTrace(g2);
 			} else {
 				if (isTracing) {
@@ -356,31 +356,31 @@ public class DrawLine extends Drawable implements Previewable {
     }
 
     @Override
-	public void draw(Graphics2D g2) {                                
+	public void draw(geogebra.common.awt.Graphics2D g2) {                                
         if (isVisible) {        	
             if (geo.doHighlighting()) {
                 // draw line              
-                g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
+                g2.setPaint(geo.getSelColor());
                 g2.setStroke(selStroke);            
                 g2.draw(line);                              
             }
             
             // draw line              
-            g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+            g2.setPaint(geo.getObjectColor());
             g2.setStroke(objStroke);            
 			g2.draw(line);              
 
             // label
             if (labelVisible) {
-				g2.setFont(view.fontLine);
-				g2.setColor(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
+            	geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
             }                            
         }
     }
         
-	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);  
 		g2.draw(line);
 	}
@@ -552,9 +552,9 @@ public class DrawLine extends Drawable implements Previewable {
 		
 	}
     
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {			            
-			g2.setPaint(geogebra.awt.Color.getAwtColor(ConstructionDefaults.colPreview));             
+			g2.setPaint(ConstructionDefaults.colPreview);             
 			g2.setStroke(objStroke);            
 			g2.draw(line);                        		
 		}

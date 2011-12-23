@@ -300,7 +300,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// draw trace
 		if (conic.trace) {
 			isTracing = true;
-			Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -934,10 +934,10 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (!isVisible)
 			return;
-		g2.setColor(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+		g2.setColor(geo.getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			drawPoint.draw(g2);
@@ -973,15 +973,15 @@ final public class DrawConic extends Drawable implements Previewable {
 
 			if (geo.doHighlighting()) {
 				g2.setStroke(selStroke);
-				g2.setColor(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
+				g2.setColor(geo.getSelColor());
 				g2.draw(shape);
 			}
 			g2.setStroke(objStroke);
-			g2.setColor(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+			g2.setColor(geo.getObjectColor());
 			g2.draw(shape);
 			if (labelVisible && geo instanceof GeoConic) {
-				g2.setFont(view.fontConic);
-				g2.setColor(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontConic);
+				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
 			break;
@@ -1003,7 +1003,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 			if (geo.doHighlighting()) {
 				g2.setStroke(selStroke);
-				g2.setColor(geogebra.awt.Color.getAwtColor(geo.getSelColor()));
+				g2.setColor(geo.getSelColor());
 
 				if (hypLeftOnScreen)
 					EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
@@ -1011,15 +1011,15 @@ final public class DrawConic extends Drawable implements Previewable {
 					EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
 			}
 			g2.setStroke(objStroke);
-			g2.setColor(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+			g2.setColor(geo.getObjectColor());
 			if (hypLeftOnScreen)
 				EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
 			if (hypRightOnScreen)
 				EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
 
 			if (labelVisible) {
-				g2.setFont(view.fontConic);
-				g2.setColor(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontConic);
+				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
 			break;
@@ -1054,8 +1054,8 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * 
 	 * @param g2
 	 */
-	final public void drawTrace(Graphics2D g2) {
-		g2.setColor(geogebra.awt.Color.getAwtColor(conic.getObjectColor()));
+	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
+		g2.setColor(conic.getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			drawPoint.drawTrace(g2);
@@ -1076,13 +1076,13 @@ final public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			g2.setStroke(objStroke);
-			g2.setColor(geogebra.awt.Color.getAwtColor(conic.getObjectColor()));
+			g2.setColor(conic.getObjectColor());
 			g2.draw(shape);
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			g2.setStroke(objStroke);
-			g2.setColor(geogebra.awt.Color.getAwtColor(conic.getObjectColor()));
+			g2.setColor(conic.getObjectColor());
 			g2.draw(hypLeft);
 			g2.draw(hypRight);
 			break;
@@ -1130,15 +1130,15 @@ final public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(shape);
+				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape);
 			}
 			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(hypLeft);
-				strokedShape2 = objStroke.createStrokedShape(hypRight);
+				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(hypLeft);
+				strokedShape2 = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(hypRight);
 			}
 			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
@@ -1290,7 +1290,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		draw(g2);
 	}
 

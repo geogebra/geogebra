@@ -30,15 +30,17 @@ public class Font extends geogebra.common.awt.Font {
 	}
 	@Override
 	public boolean isBold() {
-		// TODO Auto-generated method stub
 		return impl.isBold();
 	}
 	@Override
 	public int canDisplayUpTo(String textString) {
-		// TODO Auto-generated method stub
 		return impl.canDisplayUpTo(textString);
 	}
 	public Font deriveFont(int style, int fontSize){
 		return new Font(impl.deriveFont(style, fontSize));
+	}
+	@Override
+	public geogebra.common.awt.Font deriveFont(int i) {
+		return new Font(impl.deriveFont(i));
 	}
 }

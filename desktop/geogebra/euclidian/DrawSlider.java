@@ -141,10 +141,10 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			// horizontal line
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(line);
 

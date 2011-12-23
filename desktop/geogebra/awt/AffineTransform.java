@@ -44,8 +44,9 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		return at.getShearY();
 	}
 
-	public static java.awt.geom.AffineTransform getAwtAffineTransform(AffineTransform a) {
-		if (a == null) return null;
-		return a.getImpl();
+	public static java.awt.geom.AffineTransform getAwtAffineTransform(geogebra.common.awt.AffineTransform a) {
+		if (!(a instanceof AffineTransform))
+			return null;
+		return ((AffineTransform)a).getImpl();
 	}
 }

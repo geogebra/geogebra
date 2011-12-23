@@ -32,10 +32,10 @@ public class HatchingHandler {
 
 	private static BufferedImage bufferedImage = null;
 
-	public static void setHatching(Graphics2D g2, BasicStroke objStroke,
+	public static void setHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.BasicStroke objStroke,
 			Color color, Color bgColor, float backgroundTransparency,
 			double dist, double angle) {
-
+		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
 
@@ -97,7 +97,7 @@ public class HatchingHandler {
 		g2d.setColor(new Color(color.getRed(), color.getGreen(), color
 				.getBlue(), 255));
 
-		g2d.setStroke(objStroke);
+		g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(objStroke));
 		if (angle == 0) { // horizontal
 
 			g2d.drawLine(0, yInt, xInt * 3, yInt);
@@ -126,8 +126,8 @@ public class HatchingHandler {
 
 	}
 
-	public static void setTexture(Graphics2D g2, GeoElement geo, float alpha) {
-
+	public static void setTexture(geogebra.common.awt.Graphics2D g3, GeoElement geo, float alpha) {
+		Graphics2D g2= geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getFillColor()));
 			return;
@@ -241,7 +241,7 @@ public class HatchingHandler {
 				* pixelsPerPoint, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = image.createGraphics();
 
-		g2d.setStroke(new MyBasicStroke(0.0f));
+		g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(new MyBasicStroke(0.0f)));
 
 		GeneralPath gp = new GeneralPath();
 		Area intersection = new Area();
@@ -521,7 +521,7 @@ public class HatchingHandler {
 				// }
 				sb.setLength(sb.length() - 1); // remove ','
 				sb.append("]\n"); // remove ','
-				g2d.setStroke(EuclidianStatic.getDefaultStroke());
+				g2d.setStroke(EuclidianStatic.getDefaultStrokeAwt());
 				// System.err.println(sb.toString());
 				// draw(vertices, withFill? getColor(site) : null);
 				// if (withSites) draw(site);

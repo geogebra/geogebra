@@ -316,7 +316,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		geogebra.common.awt.Dimension d = new geogebra.awt.Dimension();
-		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, 
+		d = app.getDrawEquation().drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, 
 				new geogebra.awt.Font(font), serif, new geogebra.awt.Color(fgColor),
 				new geogebra.awt.Color(bgColor), true);
 
@@ -329,7 +329,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, 
+		d = app.getDrawEquation().drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, 
 				new geogebra.awt.Font(font), serif, new geogebra.awt.Color(fgColor),
 				new geogebra.awt.Color(bgColor), true);
 

@@ -122,10 +122,10 @@ public class DrawIntegralFunctions extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(n.getSelColor()));
+				g2.setPaint(n.getSelColor());
 				g2.setStroke(selStroke);
 				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
@@ -133,13 +133,13 @@ public class DrawIntegralFunctions extends Drawable {
 			fill(g2, gp, true); // fill using default/hatching/image as
 								// appropriate
 
-			g2.setPaint(geogebra.awt.Color.getAwtColor(n.getObjectColor()));
+			g2.setPaint(n.getObjectColor());
 			g2.setStroke(objStroke);
 			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 
 			if (labelVisible) {
-				g2.setFont(view.fontConic);
-				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontConic);
+				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}
 		}

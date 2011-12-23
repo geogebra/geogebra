@@ -178,7 +178,7 @@ public class DrawLabel3D {
 			//Application.debug("yMin="+yMin+", yMax="+yMax);
 			hasIndex = true;
 			geogebra.common.awt.Point p = 
-				EuclidianStatic.drawIndexedString(view.getApplication(), tempGraphics, text, 0, 0, false);
+				EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.Graphics2D(tempGraphics), text, 0, 0, false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
 		}else
 			hasIndex = false;
@@ -187,7 +187,7 @@ public class DrawLabel3D {
 	
 	protected void draw(Graphics2D g2d){
 		if (hasIndex)
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text, 0, 0, false);
+			EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.Graphics2D(g2d), text, 0, 0, false);
 		else
 			g2d.drawString(text, 0, 0);	
 	}

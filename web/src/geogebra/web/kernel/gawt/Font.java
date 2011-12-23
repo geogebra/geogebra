@@ -1,6 +1,6 @@
 package geogebra.web.kernel.gawt;
 
-public class Font {
+public class Font extends geogebra.common.awt.Font{
 	public static final int PLAIN = 0;
 	public static final int BOLD = 1;
 	private String fontStyle = "normal";
@@ -138,5 +138,23 @@ public class Font {
 	public boolean isBold() {
 		return (fontWeight == "bold");
 	}
+
+	@Override
+    public int getStyle() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public geogebra.common.awt.Font deriveFont(int plain2, int fontSize) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public geogebra.common.awt.Font deriveFont(int i) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 }

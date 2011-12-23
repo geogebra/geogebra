@@ -101,7 +101,7 @@ public final class DrawList extends Drawable {
 		// draw trace
 		if (geoList.trace) {
 			isTracing = true;
-			Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -135,8 +135,8 @@ public final class DrawList extends Drawable {
 	 * 
 	 * @param g2
 	 */
-	final void drawTrace(Graphics2D g2) {
-		g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
 		if (isVisible) {
 			int size = drawables.size();
@@ -178,7 +178,7 @@ public final class DrawList extends Drawable {
 	 */
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			boolean doHighlight = geoList.doHighlighting();
 

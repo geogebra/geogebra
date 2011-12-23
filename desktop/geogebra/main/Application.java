@@ -5628,8 +5628,8 @@ public class Application extends AbstractApplication implements
 					RenderingHints.VALUE_STROKE_PURE);
 
 			g.setColor(Color.DARK_GRAY);
-			g.setStroke(EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_FULL));
+			g.setStroke(geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(2,
+					EuclidianStyleConstants.LINE_TYPE_FULL)));
 
 			g.drawOval((10 * size) / 48, (10 * size) / 48, (30 * size) / 48,
 					(30 * size) / 48);
@@ -6645,6 +6645,10 @@ public class Application extends AbstractApplication implements
 		} 
 			JPanel appCP = getCenterPanel();
 			return appCP.getHeight();
+	}
+
+	public geogebra.common.awt.Font getFontCommon(boolean b, int i, int size) {
+		return new geogebra.awt.Font(getFont(b,i,size));
 	}
 
 }

@@ -77,7 +77,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		// draw trace
 		if (poly.getTrace()) {
 			isTracing = true;
-			Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -89,9 +89,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	}
 
-	final void drawTrace(Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
+			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
 			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 		}
@@ -131,22 +131,22 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 
-			g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getObjectColor()));
+			g2.setPaint(poly.getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getSelColor()));
+				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint(geogebra.awt.Color.getAwtColor(poly.getLabelColor()));
-				g2.setFont(view.fontPoint);
+				g2.setPaint(poly.getLabelColor());
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontPoint);
 				drawLabel(g2);
 			}
 		}
@@ -203,11 +203,10 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 
-			g2.setPaint(geogebra.awt.Color
-					.getAwtColor(ConstructionDefaults.colPreview));
+			g2.setPaint(ConstructionDefaults.colPreview);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}
@@ -220,7 +219,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(gp);
+				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
 			}
 			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);

@@ -414,7 +414,7 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(EuclidianStatic.getStroke(thickness, dashStyle));
+		g2.setStroke(geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
@@ -587,7 +587,7 @@ public class GeoGebraIcon {
 		private Ellipse2D.Double circle = new Ellipse2D.Double();
 		private Line2D.Double line1, line2, line3, line4;
 		private GeneralPath gp = null;
-		private BasicStroke borderStroke = EuclidianStatic.getDefaultStroke();
+		private BasicStroke borderStroke = EuclidianStatic.getDefaultStrokeAwt();
 		private BasicStroke[] crossStrokes = new BasicStroke[10];
 		private int h,w;
 
@@ -863,7 +863,7 @@ public class GeoGebraIcon {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		draw.drawMultilineLaTeX(g2image, new geogebra.awt.Font(font), 
+		draw.drawMultilineLaTeX(new geogebra.awt.Graphics2D(g2image), new geogebra.awt.Font(font), 
 				new geogebra.awt.Color(fgColor), new geogebra.awt.Color(bgColor));
 
 		latexIcon.setImage(image);

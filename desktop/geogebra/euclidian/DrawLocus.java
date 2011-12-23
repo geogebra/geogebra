@@ -68,7 +68,7 @@ public class DrawLocus extends Drawable {
 		if (geo.isTraceable() && (geo instanceof Traceable)
 				&& ((Traceable) geo).getTrace()) {
 			isTracing = true;
-			Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -84,10 +84,10 @@ public class DrawLocus extends Drawable {
 
 	}
 
-	final void drawTrace(Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo
-					.getObjectColor()));
+			g2.setPaint(geo
+					.getObjectColor());
 			g2.setStroke(objStroke);
 			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 		}
@@ -132,19 +132,18 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				// draw locus
-				g2.setPaint(geogebra.awt.Color
-.getAwtColor(geo.getSelColor()));
+				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
 
 			// draw locus
-			g2.setPaint(geogebra.awt.Color.getAwtColor(geo
-					.getObjectColor()));
+			g2.setPaint(geo
+					.getObjectColor());
 			g2.setStroke(objStroke);
 			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 
@@ -165,9 +164,8 @@ public class DrawLocus extends Drawable {
 
 			// label
 			if (labelVisible) {
-				g2.setFont(view.fontLine);
-				g2.setColor(geogebra.awt.Color
-						.getAwtColor(geo.getLabelColor()));
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
 		}
@@ -184,7 +182,7 @@ public class DrawLocus extends Drawable {
 			return false; // hasn't been drawn yet (hidden)
 
 		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(gp);
+			strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
 		}
 		if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,

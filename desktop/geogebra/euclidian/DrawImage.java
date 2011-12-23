@@ -224,7 +224,8 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(geogebra.common.awt.Graphics2D g3) {
+		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		if (isVisible) {
 			Composite oldComp = g2.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
@@ -238,8 +239,8 @@ public final class DrawImage extends Drawable {
 				g2.drawImage(image, screenX, screenY, null);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
-					g2.setStroke(selStroke);
-					g2.setPaint(Color.lightGray);
+					g3.setStroke(selStroke);
+					g3.setPaint(geogebra.awt.Color.lightGray);
 					g2.draw(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 				}
 			} else {
@@ -264,8 +265,8 @@ public final class DrawImage extends Drawable {
 				g2.drawImage(image, 0, 0, null);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
-					g2.setStroke(selStroke);
-					g2.setPaint(Color.lightGray);
+					g3.setStroke(selStroke);
+					g3.setPaint(geogebra.common.awt.Color.lightGray);
 
 					// changed to code below so that the line thicknesses aren't
 					// transformed
