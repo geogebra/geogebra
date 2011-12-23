@@ -20,7 +20,6 @@ import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
 import geogebra.web.kernel.gawt.BufferedImage;
-import geogebra.web.kernel.gawt.Font;
 import geogebra.web.kernel.gawt.PathIterator;
 import geogebra.web.kernel.gawt.Shape;
 

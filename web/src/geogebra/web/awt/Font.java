@@ -1,4 +1,4 @@
-package geogebra.web.kernel.gawt;
+package geogebra.web.awt;
 
 public class Font extends geogebra.common.awt.Font{
 	public static final int PLAIN = 0;
