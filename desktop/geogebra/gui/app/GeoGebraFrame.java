@@ -414,7 +414,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			app.getDrawEquation();
 			DrawEquation.drawEquation(this.app, null,
 					g2d, 0, 0, "x^{2}",
-					g2d.getFont(), false, Color.BLACK, Color.WHITE, false);
+					new geogebra.awt.Font(g2d.getFont()), false, geogebra.awt.Color.BLACK, geogebra.awt.Color.WHITE, false);
 
 			// check if newer version is available
 			if (!app.isApplet() && !Application.isWebstart()) {

@@ -23,7 +23,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	final protected Rectangle2D getBounds(){
 	
 		if (geo.isLaTeX())
-			return geogebra.awt.Rectangle.getAWTRectangle(EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, font, Color.BLACK, Color.WHITE, text, 0, 0, false));
+			return geogebra.awt.Rectangle.getAWTRectangle(EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, new geogebra.awt.Font(font), 
+					geogebra.awt.Color.BLACK, geogebra.awt.Color.WHITE, text, 0, 0, false));
 		else
 			return EuclidianStatic.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, tempGraphics, false);
 		
@@ -31,7 +32,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 	final protected void draw(Graphics2D g2d){
 		if (geo.isLaTeX())
-			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, font, Color.BLACK, Color.WHITE, text, 0, 0, false);
+			EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, g2d, new geogebra.awt.Font(font), 
+					geogebra.awt.Color.BLACK, geogebra.awt.Color.WHITE, text, 0, 0, false);
 		else
 			EuclidianStatic.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, g2d, false);
 	}

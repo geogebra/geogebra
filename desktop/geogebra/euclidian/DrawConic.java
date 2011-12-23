@@ -129,11 +129,11 @@ final public class DrawConic extends Drawable implements Previewable {
 	private boolean isPreview = false;
 
 	@Override
-	public Area getShape() {
-		Area a = super.getShape() != null ? super.getShape()
-				: (shape == null ? new Area() : new Area(shape));
+	public geogebra.common.awt.Area getShape() {
+		geogebra.common.awt.Area a = super.getShape() != null ? super.getShape()
+				: (shape == null ? new geogebra.awt.Area() : new geogebra.awt.Area(shape));
 		if (conic.isInverseFill()) {
-			Area b = new Area(view.getBoundingPath());
+			geogebra.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
 			b.subtract(a);
 			return b;
 		}
@@ -225,7 +225,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		switch (type) {
 		case GeoConicNDConstants.CONIC_EMPTY:
-			setShape(conic.evaluate(0, 0) < 0 ? null : new Area(
+			setShape(conic.evaluate(0, 0) < 0 ? null : new geogebra.awt.Area(
 					view.getBoundingPath()));
 			shape = null;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
@@ -321,7 +321,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// point
 		// as it may be equal to the single point. Point (b.x+1,0) differs in
 		// one coord.
-		setShape(conic.evaluate(conic.b.x + 1, 0) < 0 ? null : new Area(
+		setShape(conic.evaluate(conic.b.x + 1, 0) < 0 ? null : new geogebra.awt.Area(
 				view.getBoundingPath()));
 		shape = null;
 		if (conic.isGeoElement3D()) {// TODO implement for 3D conics
@@ -852,8 +852,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
-		setShape(new Area(hypLeft));
-		super.getShape().add(new Area(hypRight));
+		setShape(new geogebra.awt.Area(hypLeft));
+		geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(hypRight));
 	}
 
 	final private void updateParabola() {
@@ -949,7 +949,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			drawLines[0].draw(g2);
 			drawLines[1].draw(g2);
 			if (conic.isInverseFill()) {
-				fill(g2, getShape(), false);
+				fill(g2, geogebra.awt.Area.getAWTArea(getShape()), false);
 			} else
 				fill(g2, shape, false);
 			break;
@@ -962,7 +962,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			if (conic.isInverseFill()) {
-				fill(g2, getShape(), false);
+				fill(g2, geogebra.awt.Area.getAWTArea(getShape()), false);
 			} else {
 				fill(g2, shape, false); // fill using default/hatching/image as
 										// appropriate

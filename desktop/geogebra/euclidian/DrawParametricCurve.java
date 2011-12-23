@@ -180,8 +180,8 @@ public class DrawParametricCurve extends Drawable {
 		// shape for filling
 
 		if (geo.isInverseFill()) {
-			setShape(new Area(view.getBoundingPath()));
-			getShape().subtract(new Area(gp));
+			setShape(new geogebra.awt.Area(view.getBoundingPath()));
+			getShape().subtract(new geogebra.awt.Area(gp));
 		}
 		// draw trace
 		if (curve.getTrace()) {
@@ -976,7 +976,7 @@ public class DrawParametricCurve extends Drawable {
 			if (fillCurve) {
 				try {
 
-					fill(g2, geo.isInverseFill() ? getShape() : gp, false); // fill
+					fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -1012,7 +1012,7 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
-			Shape t = geo.isInverseFill() ? getShape() : gp;
+			Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(gp);
 			}

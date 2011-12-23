@@ -2,8 +2,14 @@ package geogebra.awt;
 
 public class Dimension extends geogebra.common.awt.Dimension {
 	private java.awt.Dimension impl;
+	public Dimension(java.awt.Dimension dim){
+		impl = dim;
+	}
 	public Dimension(int a,int b){
 		impl = new java.awt.Dimension(a,b);
+	}
+	public Dimension() {
+		impl = new java.awt.Dimension();
 	}
 	@Override
 	public double getWidth() {

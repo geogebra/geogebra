@@ -27,15 +27,15 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Font;
 import java.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.factories.AwtFactory;
 import java.awt.Shape;
-import java.awt.geom.Area;
+import geogebra.common.awt.Area;
 
 /**
  * 
@@ -126,10 +126,10 @@ public abstract class Drawable extends DrawableND {
 			view.getApplication().getDrawEquation();
 			Dimension dim = DrawEquation.drawEquation(geo.getKernel()
 					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label
-					.substring(1, label.length() - 1), g2.getFont(), serif, g2
-					.getColor(), g2.getBackground(), true);
-			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.width,
-					dim.height);
+					.substring(1, label.length() - 1), new geogebra.awt.Font(g2.getFont()), serif, new geogebra.awt.Color(g2
+					.getColor()), new geogebra.awt.Color(g2.getBackground()), true);
+			labelRectangle.setBounds(xLabel, yLabel - offsetY, (int)dim.getWidth(),
+					(int)dim.getHeight());
 			return;
 		}
 
@@ -141,7 +141,7 @@ public abstract class Drawable extends DrawableND {
 			// must be whole caption
 			if (label.startsWith("<i>") && label.endsWith("</i>")) {
 				if (oldFont == null) {
-					oldFont = g2.getFont();
+					oldFont = new geogebra.awt.Font(g2.getFont());
 				}
 
 				// use Serif font so that we can get a nice curly italic x
@@ -153,7 +153,7 @@ public abstract class Drawable extends DrawableND {
 
 			if (label.startsWith("<b>") && label.endsWith("</b>")) {
 				if (oldFont == null)
-					oldFont = g2.getFont();
+					oldFont = new geogebra.awt.Font(g2.getFont());
 
 				g2.setFont(g2.getFont().deriveFont(
 						Font.BOLD + (italic ? Font.ITALIC : 0)));
@@ -180,7 +180,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		if (oldFont != null)
-			g2.setFont(oldFont);
+			g2.setFont(geogebra.awt.Font.getAwtFont(oldFont));
 	}
 
 	/**
@@ -189,7 +189,7 @@ public abstract class Drawable extends DrawableND {
 	 */
 	final public void ensureLabelDrawsOnScreen() {
 		// draw label and
-		drawLabel(view.getTempGraphics2D(view.getApplication().getPlainFont()));
+		drawLabel(view.getTempGraphics2D(view.getApplication().getPlainFontCommon()));
 
 		// make sure labelRectangle fits on screen horizontally
 		if (xLabel < 3)

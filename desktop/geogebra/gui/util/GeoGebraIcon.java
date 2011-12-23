@@ -848,7 +848,8 @@ public class GeoGebraIcon {
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
 		geo.setSerifFont(serif);
 		DrawText draw = new DrawText(app.getEuclidianView(), geo);		
-		draw.drawMultilineLaTeX(app.getEuclidianView().getTempGraphics2D(font), font, fgColor, bgColor);
+		draw.drawMultilineLaTeX(app.getEuclidianView().getTempGraphics2D(new geogebra.awt.Font(font)),
+				new geogebra.awt.Font(font), new geogebra.awt.Color(fgColor), new geogebra.awt.Color(bgColor));
 		Rectangle d = geogebra.awt.Rectangle.getAWTRectangle(draw.getBounds());
 		
 		// Now use this size and draw again to get the final image
@@ -862,7 +863,8 @@ public class GeoGebraIcon {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		draw.drawMultilineLaTeX(g2image, font, fgColor, bgColor);
+		draw.drawMultilineLaTeX(g2image, new geogebra.awt.Font(font), 
+				new geogebra.awt.Color(fgColor), new geogebra.awt.Color(bgColor));
 
 		latexIcon.setImage(image);
 	}

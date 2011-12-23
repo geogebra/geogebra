@@ -3569,4 +3569,15 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public JPanel getJPanel() {
 		return this;
 	}
+
+	
+	public void setBackground(geogebra.common.awt.Color color) {
+		setBackground(geogebra.awt.Color.getAwtColor(color));
+		
+	}
+	public geogebra.common.awt.Color getBackgroundCommon() {
+		return new geogebra.awt.Color(getBackground());
+		
+	}
 }
+

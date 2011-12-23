@@ -184,8 +184,9 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 		Dimension d = new Dimension();
 		app.getDrawEquation();
-		d = DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
-				bgColor, true);
+		d = geogebra.awt.Dimension.getAWTDimension(DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, new geogebra.awt.Font(font), serif, 
+				new geogebra.awt.Color(fgColor),
+				new geogebra.awt.Color(bgColor), true));
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
@@ -197,8 +198,9 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		app.getDrawEquation();
-		DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
-				bgColor, true);
+		DrawEquation.drawEquation(app, null, g2image, 0, 0, latex, new geogebra.awt.Font(font), serif, 
+				new geogebra.awt.Color(fgColor),
+				new geogebra.awt.Color(bgColor), true);
 
 		latexIcon.setImage(image);
 	}

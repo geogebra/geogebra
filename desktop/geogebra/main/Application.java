@@ -836,6 +836,10 @@ public class Application extends AbstractApplication implements
 	final public Font getPlainFont() {
 		return fontManager.getPlainFont();
 	}
+	
+	final public geogebra.common.awt.Font getPlainFontCommon() {
+		return new geogebra.awt.Font(fontManager.getPlainFont());
+	}
 
 	final public Font getSerifFont() {
 		return fontManager.getSerifFont();

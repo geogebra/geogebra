@@ -5,6 +5,12 @@ public abstract class Font {
 	public static final int PLAIN = 0;
 	public static final int BOLD = 1;
 	public static final int ITALIC = 2;
+	public abstract int getStyle();
+	public abstract int getSize();
+	public abstract boolean isItalic();
+	public abstract boolean isBold();
+	public abstract int canDisplayUpTo(String textString);
+	public abstract Font deriveFont(int plain2, int fontSize);
 
 	/*public abstract void setFontStyle(String fontStyle);
 

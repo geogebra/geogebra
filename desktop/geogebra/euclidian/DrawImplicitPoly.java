@@ -40,8 +40,8 @@ public class DrawImplicitPoly extends DrawLocus {
 	}
 	
 	@Override
-	public Area getShape(){
-		return new Area();
+	public geogebra.common.awt.Area getShape(){
+		return new geogebra.awt.Area();
 	}
 	/**
 	 * Returns the poly to be draw

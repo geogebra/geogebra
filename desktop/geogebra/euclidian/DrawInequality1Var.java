@@ -136,7 +136,7 @@ public class DrawInequality1Var extends Drawable {
 				gp = new GeneralPathClipped[numOfX / 2];
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
-			Area a = new Area();
+			geogebra.awt.Area a = new geogebra.awt.Area();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
 				gp[i].moveTo(-10, x[2 * i + j]);
@@ -145,7 +145,7 @@ public class DrawInequality1Var extends Drawable {
 				gp[i].lineTo(-10, x[2 * i + j + 1]);
 				gp[i].lineTo(-10, x[2 * i + j]);
 				gp[i].closePath();
-				a.add(new Area(gp[i]));
+				a.add(new geogebra.awt.Area(gp[i]));
 			}
 			setShape(a);
 		} else {
@@ -168,7 +168,7 @@ public class DrawInequality1Var extends Drawable {
 			if (gp == null)
 				gp = new GeneralPathClipped[numOfX / 2];
 
-			Area a = new Area();
+			geogebra.awt.Area a = new geogebra.awt.Area();
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)&&((GeoFunction) geo).showOnAxis()) {
 				circle = new Ellipse2D.Double[numOfX];
@@ -195,7 +195,7 @@ public class DrawInequality1Var extends Drawable {
 					gp[i].lineTo(x[2 * i + j + 1], -10);
 					gp[i].lineTo(x[2 * i + j], -10);
 					gp[i].closePath();
-					a.add(new Area(gp[i]));
+					a.add(new geogebra.awt.Area(gp[i]));
 				}
 			}
 			setShape(a);

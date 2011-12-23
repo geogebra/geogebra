@@ -48,7 +48,7 @@ public class DrawEquation implements DrawEquationInterface{
 	 */
 	final public Dimension drawEquationJLaTeXMath(Application app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
-			Font font, boolean serif, Color fgColor, Color bgColor,
+			geogebra.common.awt.Font font, boolean serif, Color fgColor, Color bgColor,
 			boolean useCache, Integer maxWidth, Float lineSpace) {
 		// TODO uncomment when \- works
 		// text=addPossibleBreaks(text);
@@ -252,21 +252,21 @@ public class DrawEquation implements DrawEquationInterface{
 		}
 	}
 
-	final public static Dimension drawEquation(AbstractApplication app,
+	final public static geogebra.common.awt.Dimension drawEquation(AbstractApplication app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
-			Font font, boolean serif, Color fgColor, Color bgColor,
+			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
 			boolean useCache) {
-		return drawEquation((Application)app, geo, g2, x, y, text, font, serif, fgColor,
-				bgColor, useCache, null, null);
+		return new geogebra.awt.Dimension(drawEquation((Application)app, geo, g2, x, y, text, font, serif, fgColor,
+				bgColor, useCache, null, null));
 	}
 
 	final public static Dimension drawEquation(Application app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
-			Font font, boolean serif, Color fgColor, Color bgColor,
+			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
 			boolean useCache, Integer maxWidth, Float lineSpace) {
 		// if (useJLaTeXMath)
 		return app.getDrawEquation().drawEquationJLaTeXMath(app, geo, g2, x, y,
-				text, font, serif, fgColor, bgColor, useCache, maxWidth,
+				text, font, serif, geogebra.awt.Color.getAwtColor(fgColor), geogebra.awt.Color.getAwtColor(bgColor), useCache, maxWidth,
 				lineSpace);
 		// else return drawEquationHotEqn(app, g2, x, y, text, font, fgColor,
 		// bgColor);

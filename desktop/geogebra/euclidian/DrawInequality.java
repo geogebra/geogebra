@@ -135,7 +135,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			Area b = new Area(view.getBoundingPath());
+			geogebra.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -179,14 +179,14 @@ public class DrawInequality extends Drawable {
 			setShape(left.getShape());
 			getShape().add(right.getShape());
 		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
-			setShape(new Area(view.getBoundingPath()));
+			setShape(new geogebra.awt.Area(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
 		} else if (operation.equals(Operation.NOT_EQUAL)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
 		} else if (operation.equals(Operation.NOT)) {
-			setShape(new Area(view.getBoundingPath()));
+			setShape(new geogebra.awt.Area(view.getBoundingPath()));
 			getShape().subtract(left.getShape());
 		}		
 	}
@@ -252,7 +252,7 @@ public class DrawInequality extends Drawable {
 				}
 
 			} else
-				fill(g2, getShape(), true);
+				fill(g2, geogebra.awt.Area.getAWTArea(getShape()), true);
 		}
 		
 		if (labelVisible) {
@@ -313,8 +313,8 @@ public class DrawInequality extends Drawable {
 		}
 
 		@Override
-		public Area getShape() {
-			return new Area(gp);
+		public geogebra.common.awt.Area getShape() {
+			return new geogebra.awt.Area(gp);
 		}
 
 		private Object getBorder() {

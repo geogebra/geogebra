@@ -39,7 +39,7 @@ public final class DrawText extends Drawable {
 	private int fontSize = -1;
 	private int fontStyle = -1;
 	private boolean serifFont;
-	private Font textFont;
+	private geogebra.common.awt.Font textFont;
 	private GeoPointND loc; // text location
 
 	// private Image eqnImage;
@@ -57,7 +57,7 @@ public final class DrawText extends Drawable {
 		this.text = text;
 		geo = text;
 
-		textFont = view.getApplication().getPlainFont()
+		textFont = view.getApplication().getPlainFontCommon()
 				.deriveFont(Font.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
@@ -177,8 +177,8 @@ public final class DrawText extends Drawable {
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX)
 				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,
-						geogebra.awt.Color.getAwtColor(geo.getObjectColor()),
-						view.getBackground());
+						geo.getObjectColor(),
+						view.getBackgroundCommon());
 			else
 				drawMultilineText(view.getTempGraphics2D(textFont));
 
@@ -205,8 +205,8 @@ public final class DrawText extends Drawable {
 				// needed to calculate labelRectangle
 				if (isLaTeX) {
 					drawMultilineLaTeX(view.getTempGraphics2D(textFont),
-							textFont, geogebra.awt.Color.getAwtColor(geo
-									.getObjectColor()), view.getBackground());
+							textFont, geo
+									.getObjectColor(), view.getBackgroundCommon());
 				} else {
 					drawMultilineText(view.getTempGraphics2D(textFont));
 				}
@@ -217,14 +217,14 @@ public final class DrawText extends Drawable {
 
 			if (isLaTeX) {
 				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
-				g2.setFont(textFont);
+				g2.setFont(geogebra.awt.Font.getAwtFont(textFont));
 				g2.setStroke(objStroke); // needed eg for \sqrt
 				drawMultilineLaTeX(g2, textFont,
-						geogebra.awt.Color.getAwtColor(geo.getObjectColor()),
-						bg != null ? bg : view.getBackground());
+						geo.getObjectColor(),
+						bg != null ? new geogebra.awt.Color(bg) : view.getBackgroundCommon());
 			} else {
 				g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
-				g2.setFont(textFont);
+				g2.setFont(geogebra.awt.Font.getAwtFont(textFont));
 				drawMultilineText(g2);
 			}
 
@@ -306,8 +306,8 @@ public final class DrawText extends Drawable {
 			// //setEqnFontSize();
 			// } else {
 			Application app = view.getApplication();
-			textFont = app.getFontCanDisplay(text.getTextString(), serifFont,
-					fontStyle, fontSize);
+			textFont = new geogebra.awt.Font(app.getFontCanDisplay(text.getTextString(), serifFont,
+					fontStyle, fontSize));
 			// }
 			return true;
 		}

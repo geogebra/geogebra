@@ -320,9 +320,9 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	
 	
 	//options
-	public Color getBackground();
 	public Color getAxesColor();
 	public Color getGridColor();
+	//GetBackground is still implemented in all implementations, but GetBackgroundCommon should be used instead
 	public boolean getShowGrid();
 	public boolean getGridIsBold();
 	public boolean getAllowShowMouseCoords();
@@ -334,7 +334,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	public int getGridLineStyle();
 	public boolean isAutomaticGridDistance();
 	public double[] getGridDistances();
-	public void setBackground(Color showColorChooser);
+	public void setBackground(geogebra.common.awt.Color showColorChooser);
 	public void setAxesColor(Color showColorChooser);
 	public void setGridColor(Color showColorChooser);
 	public void showGrid(boolean selected);
@@ -455,6 +455,9 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 
 
 	public JPanel getJPanel();
+
+
+	public geogebra.common.awt.Color getBackgroundCommon();
 
 
 	//public GeoDirectionND getDirection();

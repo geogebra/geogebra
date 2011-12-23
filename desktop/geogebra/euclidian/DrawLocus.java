@@ -78,8 +78,8 @@ public class DrawLocus extends Drawable {
 			}
 		}
 		if (geo.isInverseFill()) {
-			setShape(new Area(view.getBoundingPath()));
-			getShape().subtract(new Area(gp));
+			setShape(new geogebra.awt.Area(view.getBoundingPath()));
+			geogebra.awt.Area.getAWTArea(getShape()).subtract(new Area(gp));
 		}
 
 	}
@@ -152,7 +152,7 @@ public class DrawLocus extends Drawable {
 					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {
 				try {
 
-					fill(g2, geo.isInverseFill() ? getShape() : gp, false); // fill
+					fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -179,7 +179,7 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill() ? getShape() : gp;
+		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
 		if (t == null)
 			return false; // hasn't been drawn yet (hidden)
 

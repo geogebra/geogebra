@@ -91,8 +91,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 				return;
 			gp.closePath();
 			if (geo.isInverseFill()) {
-				setShape(new Area(view.getBoundingPath()));
-				getShape().subtract(new Area(gp));
+				setShape(new geogebra.awt.Area(view.getBoundingPath()));
+				getShape().subtract(new geogebra.awt.Area(gp));
 			}
 			// polygon on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
@@ -165,7 +165,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public void draw(Graphics2D g2) {
 		if (isVisible) {
-			fill(g2, geo.isInverseFill() ? getShape() : gp, false); // fill
+			fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
 																	// using
 																	// default/hatching/image
 																	// as
@@ -319,7 +319,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill() ? getShape() : gp;
+		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
 						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));

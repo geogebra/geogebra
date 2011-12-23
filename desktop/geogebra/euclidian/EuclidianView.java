@@ -655,7 +655,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(Color.black); // Michael Borcherds 2008-01-26 was darkgray
 		setGridColor(Color.lightGray);
-		setBackground(Color.white);
+		setBackground(geogebra.awt.Color.white);
 
 		// showAxes = true;
 		// showGrid = false;
@@ -2131,7 +2131,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	}
 
 	final protected void clearBackground(Graphics2D g) {
-		g.setColor(getBackground());
+		g.setColor(((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground());
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 
@@ -4929,9 +4929,13 @@ public class EuclidianView implements EuclidianViewInterface,
 	public Color getBackground() {
 		return ((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground();
 	}
+	
+	public geogebra.common.awt.Color getBackgroundCommon() {
+		return new geogebra.awt.Color(((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground());
+	}
 
-	public void setBackground(Color bgColor) {
-		((geogebra.euclidian.EuclidianViewJPanel)evjpanel).setBackground(bgColor);
+	public void setBackground(geogebra.common.awt.Color bgColor) {
+		((geogebra.euclidian.EuclidianViewJPanel)evjpanel).setBackground(geogebra.awt.Color.getAwtColor(bgColor));
 	}
 
 	public Color getGridColor() {
@@ -5130,8 +5134,8 @@ public class EuclidianView implements EuclidianViewInterface,
 		return euclidianController;
 	}
 
-	final public Graphics2D getTempGraphics2D(Font font) {
-		g2Dtemp.setFont(font); // Michael Borcherds 2008-06-11 bugfix for
+	final public Graphics2D getTempGraphics2D(geogebra.common.awt.Font font) {
+		g2Dtemp.setFont(geogebra.awt.Font.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
 								// Corner[text,n]
 		return g2Dtemp;
 	}
@@ -5521,7 +5525,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		setYminObject(evs.getYminObject());
 		setYmaxObject(evs.getYmaxObject());
 
-		setBackground(geogebra.awt.Color.getAwtColor(evs.getBackground()));
+		setBackground(evs.getBackground());
 		setAxesColor(geogebra.awt.Color.getAwtColor(evs.getAxesColor()));
 		setGridColor(geogebra.awt.Color.getAwtColor(evs.getGridColor()));
 		setAxesLineStyle(evs.getAxesLineStyle());

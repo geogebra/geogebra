@@ -6,7 +6,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -14,7 +13,6 @@ import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 
-import java.awt.Color;
 import java.util.LinkedHashMap;
 
 
@@ -271,19 +269,19 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		
 		Application.debug("TODO: remove this");
 		
-		Color col = handleColorAttrs(attrs);
+		geogebra.common.awt.Color col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		ev.setBackground(col);
 		return true;
 	}
 	
-	private static Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
+	private static geogebra.common.awt.Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt((String) attrs.get("r"));
 			int green = Integer.parseInt((String) attrs.get("g"));
 			int blue = Integer.parseInt((String) attrs.get("b"));
-			return new Color(red, green, blue);
+			return new geogebra.awt.Color(red, green, blue);
 		} catch (Exception e) {
 			return null;
 		}

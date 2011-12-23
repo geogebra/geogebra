@@ -504,7 +504,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	
 	public void updateGUI() {
 		
-		btBackgroundColor.setForeground(view.getBackground());
+		btBackgroundColor.setForeground(geogebra.awt.Color.getAwtColor(view.getBackgroundCommon()));
 		btAxesColor.setForeground(view.getAxesColor());
 		btGridColor.setForeground(view.getGridColor());
 		
@@ -707,7 +707,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 					))
 				);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-				view.setBackground(view.getBackground());
+				view.setBackground(view.getBackgroundCommon());
 			} else if (view == app.getEuclidianView2()) {
 				app.getSettings().getEuclidian(2).setBackground(
 						new geogebra.awt.Color(app.getGuiManager().showColorChooser(
@@ -715,7 +715,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 					)
 				);
 			} else {
-				view.setBackground(view.getBackground());
+				view.setBackground(view.getBackgroundCommon());
 			}
 		} else if (source == btAxesColor) {
 			Color col = app.getGuiManager().showColorChooser(view.getAxesColor());

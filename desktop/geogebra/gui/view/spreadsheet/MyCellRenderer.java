@@ -315,12 +315,13 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		Dimension d = new Dimension();
-		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
-				bgColor, true);
+		geogebra.common.awt.Dimension d = new geogebra.awt.Dimension();
+		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, 
+				new geogebra.awt.Font(font), serif, new geogebra.awt.Color(fgColor),
+				new geogebra.awt.Color(bgColor), true);
 
 		// Now use this size and draw again to get the final image
-		image = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage((int)d.getWidth(), (int)d.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		g2image = image.createGraphics();
 		g2image.setBackground(bgColor);
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
@@ -328,8 +329,9 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, font, serif, fgColor,
-				bgColor, true);
+		d = app.getDrawEquation().drawEquation(app, null, g2image, 0, 0, latex, 
+				new geogebra.awt.Font(font), serif, new geogebra.awt.Color(fgColor),
+				new geogebra.awt.Color(bgColor), true);
 
 		latexIcon.setImage(image);
 

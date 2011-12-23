@@ -47,8 +47,8 @@ public class EuclidianStatic {
 	 * @param bgColor
 	 */
 	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(Application app,
-			Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font,
-			Color fgColor, Color bgColor, String labelDesc, int xLabel,
+			Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, geogebra.common.awt.Font font,
+			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
 		int fontSize = g2.getFont().getSize();
 		int lineSpread = (int) (fontSize * 1.0f);
@@ -75,13 +75,13 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				Dimension dim = new Dimension();
+				geogebra.common.awt.Dimension dim = new geogebra.awt.Dimension();
 				app.getDrawEquation();
 				dim = DrawEquation.drawEquation(app, geo, tempGraphics, 0, 0,
 						elements[i], font, ((GeoText) geo).isSerifFont(),
 						fgColor, bgColor, false);
 
-				int height = dim.height;
+				int height = (int) dim.getHeight();
 
 				// depth += dim.depth;
 
@@ -135,7 +135,7 @@ public class EuclidianStatic {
 				xOffset += DrawEquation.drawEquation(app, geo, g2, xLabel
 						+ xOffset, (yLabel + height) + yOffset, elements[i],
 						font, ((GeoText) geo).isSerifFont(), fgColor, bgColor,
-						true).width;
+						true).getWidth();
 
 				++currentElement;
 			} else {
@@ -147,7 +147,7 @@ public class EuclidianStatic {
 							.get(currentElement))).intValue()) / 2;
 
 					// draw the string
-					g2.setFont(font); // JLaTeXMath changes g2's fontsize
+					g2.setFont(geogebra.awt.Font.getAwtFont(font)); // JLaTeXMath changes g2's fontsize
 					xOffset += drawIndexedString(app, g2, lines[j], xLabel
 							+ xOffset, yLabel + height + yOffset + lineSpread,
 							serif).x;
