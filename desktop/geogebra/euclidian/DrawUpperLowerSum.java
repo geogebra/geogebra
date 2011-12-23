@@ -249,7 +249,7 @@ public class DrawUpperLowerSum extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		return false;
 	}
 
@@ -267,10 +267,10 @@ public class DrawUpperLowerSum extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return gp.getBounds();
+		return new geogebra.awt.Rectangle(gp.getBounds());
 	}
 }

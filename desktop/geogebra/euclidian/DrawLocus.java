@@ -199,8 +199,8 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
-		return rect.contains(gp.getBounds());
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds());
 	}
 
 	@Override
@@ -217,12 +217,12 @@ public class DrawLocus extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !locus.isClosedPath()
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return gp.getBounds();
+		return new geogebra.awt.Rectangle(gp.getBounds());
 	}
 
 }

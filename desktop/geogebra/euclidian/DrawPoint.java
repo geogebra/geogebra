@@ -490,20 +490,20 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
-		return rect.contains(circle.getBounds());
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(circle.getBounds());
 	}
 
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		// return selection circle's bounding box
 		if (!geo.isEuclidianVisible()) {
 			return null;
 		}
-		return circleSel.getBounds();
+		return new geogebra.awt.Rectangle(circleSel.getBounds());
 	}
 
 	@Override

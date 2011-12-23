@@ -1,16 +1,12 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianStatic;
-import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
@@ -18,11 +14,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import javax.imageio.ImageIO;
 
 
 /**
@@ -185,7 +177,7 @@ public class DrawLabel3D {
 		if(text.contains("_")){ //text contains subscript
 			//Application.debug("yMin="+yMin+", yMax="+yMax);
 			hasIndex = true;
-			Point p = 
+			geogebra.common.awt.Point p = 
 				EuclidianStatic.drawIndexedString(view.getApplication(), tempGraphics, text, 0, 0, false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
 		}else

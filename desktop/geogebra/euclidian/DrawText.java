@@ -184,12 +184,12 @@ public final class DrawText extends Drawable {
 
 			// Michael Borcherds 2007-11-26 BEGIN update corners for Corner[]
 			// command
-			double xRW = view.toRealWorldCoordX(labelRectangle.x);
-			double yRW = view.toRealWorldCoordY(labelRectangle.y);
+			double xRW = view.toRealWorldCoordX(labelRectangle.getX());
+			double yRW = view.toRealWorldCoordY(labelRectangle.getY());
 
 			text.setBoundingBox(xRW, yRW,
-					labelRectangle.width * view.getInvXscale(),
-					-labelRectangle.height * view.getInvYscale());
+					labelRectangle.getWidth() * view.getInvXscale(),
+					-labelRectangle.getHeight() * view.getInvYscale());
 		}
 	}
 
@@ -212,7 +212,7 @@ public final class DrawText extends Drawable {
 				}
 				g2.setStroke(objStroke);
 				g2.setPaint(bg);
-				g2.fill(labelRectangle);
+				g2.fill(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 			}
 
 			if (isLaTeX) {
@@ -232,7 +232,7 @@ public final class DrawText extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setStroke(objStroke);
 				g2.setPaint(Color.lightGray);
-				g2.draw(labelRectangle);
+				g2.draw(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 			}
 		}
 	}
@@ -265,7 +265,7 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 
@@ -333,7 +333,7 @@ public final class DrawText extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || ((GeoText) geo).isAbsoluteScreenLocActive()
 				|| !geo.isEuclidianVisible()) {
 			return null;

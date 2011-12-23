@@ -574,7 +574,7 @@ public class DrawLine extends Drawable implements Previewable {
     }
     
     @Override
-	final public boolean isInside(Rectangle rect) {  
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {  
     	return false;   
     }
     

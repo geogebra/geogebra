@@ -377,7 +377,7 @@ public final class DrawTextField extends Drawable {
 		Dimension prefSize = box.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.width,
 				prefSize.height);
-		box.setBounds(labelRectangle);
+		box.setBounds(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 	}
 
 	@SuppressWarnings("unused")
@@ -422,7 +422,7 @@ public final class DrawTextField extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 

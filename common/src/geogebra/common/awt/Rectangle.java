@@ -13,6 +13,12 @@ public abstract class Rectangle {
 
 	public abstract void setBounds(Rectangle rectangle);
 
-	public abstract boolean contains(int x, int y);
+	public abstract boolean contains(Rectangle labelRectangle);
+	public abstract void add(Rectangle bb);
+	public abstract double getMinX();
+	public abstract double getMinY();
+	public abstract double getMaxX();
+	public abstract double getMaxY();
+	public abstract boolean contains(double d, double e);
 
 }

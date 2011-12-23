@@ -6,6 +6,9 @@ public class Rectangle extends geogebra.common.awt.Rectangle{
 	public Rectangle(){
 		impl = new java.awt.Rectangle();
 	}
+	public Rectangle(geogebra.common.awt.Rectangle r){
+		impl = ((Rectangle)r).impl;
+	}
 	public Rectangle(int x, int y, int w, int h){
 		impl = new java.awt.Rectangle(x,y,w,h);
 	}
@@ -57,7 +60,7 @@ public class Rectangle extends geogebra.common.awt.Rectangle{
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
+	public boolean contains(double x, double y) {
 		return impl.contains(x, y);
 	}
 	/**
@@ -67,6 +70,32 @@ public class Rectangle extends geogebra.common.awt.Rectangle{
 	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.Rectangle frameBounds) {
 
 		return ((geogebra.awt.Rectangle)frameBounds).impl;
+	}
+	@Override
+	public boolean contains(geogebra.common.awt.Rectangle labelRectangle) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void add(geogebra.common.awt.Rectangle bb) {
+		impl.add(((Rectangle)bb).impl);
+		
+	}
+	@Override
+	public double getMinX() {
+		return impl.getMinX();
+	}
+	@Override
+	public double getMinY() {
+		return impl.getMinY();
+	}
+	@Override
+	public double getMaxX() {
+		return impl.getMaxX();
+	}
+	@Override
+	public double getMaxY() {
+		return impl.getMinY();
 	}
 
 }

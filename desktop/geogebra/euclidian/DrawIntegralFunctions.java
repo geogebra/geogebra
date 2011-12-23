@@ -152,7 +152,7 @@ public class DrawIntegralFunctions extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		return false;
 	}
 
@@ -160,11 +160,11 @@ public class DrawIntegralFunctions extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return gp.getBounds();
+		return new geogebra.awt.Rectangle(gp.getBounds());
 	}
 
 	@Override

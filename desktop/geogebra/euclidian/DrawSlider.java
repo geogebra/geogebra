@@ -159,7 +159,7 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		return drawPoint.isInside(rect);
 	}
 
@@ -206,12 +206,12 @@ public class DrawSlider extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || ((GeoNumeric) geo).isAbsoluteScreenLocActive()
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return line.getBounds();
+		return new geogebra.awt.Rectangle(line.getBounds());
 	}
 
 }

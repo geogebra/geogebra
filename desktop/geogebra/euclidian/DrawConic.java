@@ -1032,7 +1032,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @return null when this Drawable is infinite or undefined
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
 
@@ -1042,7 +1042,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return shape.getBounds();
+			return new geogebra.awt.Rectangle(shape.getBounds());
 
 		default:
 			return null;
@@ -1165,14 +1165,14 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			return drawPoint.isInside(rect);
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return rect != null && rect.contains(shape.getBounds());
+			return rect != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(shape.getBounds());
 		}
 
 		return false;

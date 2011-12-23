@@ -849,7 +849,7 @@ public class GeoGebraIcon {
 		geo.setSerifFont(serif);
 		DrawText draw = new DrawText(app.getEuclidianView(), geo);		
 		draw.drawMultilineLaTeX(app.getEuclidianView().getTempGraphics2D(font), font, fgColor, bgColor);
-		Rectangle d = draw.getBounds();
+		Rectangle d = geogebra.awt.Rectangle.getAWTRectangle(draw.getBounds());
 		
 		// Now use this size and draw again to get the final image
 		if(d.width == -1 || d.height == -1)

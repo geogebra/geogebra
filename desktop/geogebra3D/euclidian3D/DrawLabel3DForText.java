@@ -23,7 +23,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	final protected Rectangle2D getBounds(){
 	
 		if (geo.isLaTeX())
-			return EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, font, Color.BLACK, Color.WHITE, text, 0, 0, false);
+			return geogebra.awt.Rectangle.getAWTRectangle(EuclidianStatic.drawMultilineLaTeX(view.getApplication(), tempGraphics, geo, tempGraphics, font, Color.BLACK, Color.WHITE, text, 0, 0, false));
 		else
 			return EuclidianStatic.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, tempGraphics, false);
 		

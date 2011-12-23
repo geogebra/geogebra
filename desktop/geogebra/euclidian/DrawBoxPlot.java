@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import geogebra.common.awt.Rectangle;
 
 public class DrawBoxPlot extends Drawable {
 	private boolean isVisible, labelVisible;

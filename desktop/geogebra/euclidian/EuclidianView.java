@@ -784,7 +784,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			Rectangle bb = d.getBounds();
+			Rectangle bb = geogebra.awt.Rectangle.getAWTRectangle(d.getBounds());
 			if (bb != null) {
 				if (result == null) {
 					result = new Rectangle(bb); // changed () to (bb) bugfix,
@@ -3180,7 +3180,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	 */
 	final public void setHits(Rectangle rect) {
 		hits.init();
-
+		geogebra.awt.Rectangle rect2 =  new geogebra.awt.Rectangle(rect);
 		if (rect == null) {
 			return;
 		}
@@ -3189,7 +3189,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.isInside(rect)) {
+			if (geo.isEuclidianVisible() && d.isInside(rect2)) {
 				hits.add(geo);
 			}
 		}
@@ -3364,12 +3364,12 @@ public class EuclidianView implements EuclidianViewInterface,
 		if (rect == null) {
 			return foundHits;
 		}
-
+		geogebra.awt.Rectangle rect2 =  new geogebra.awt.Rectangle(rect);
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.isInside(rect)) {
+			if (geo.isEuclidianVisible() && d.isInside(rect2)) {
 				foundHits.add(geo);
 			}
 		}

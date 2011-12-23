@@ -20,7 +20,7 @@ import geogebra.main.Application;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
+import geogebra.common.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
@@ -177,7 +177,7 @@ public final class DrawButton extends Drawable {
 		Dimension prefSize = myButton.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.width,
 				prefSize.height);
-		myButton.setBounds(labelRectangle);
+		myButton.setBounds(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 	}
 
 	private void updateLabel() {

@@ -33,7 +33,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import geogebra.common.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
@@ -746,7 +746,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(Rectangle rect) {
-		return shape != null && rect.contains(shape.getBounds());
+		return shape != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(shape.getBounds());
 	}
 
 	@Override
@@ -768,7 +768,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			return null;
 
 		// return selection circle's bounding box
-		return shape.getBounds();
+		return new geogebra.awt.Rectangle(shape.getBounds());
 	}
 
 	private void initPreview() {

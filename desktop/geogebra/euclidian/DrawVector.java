@@ -344,9 +344,9 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
-		return (lineVisible && rect.contains(line.getBounds()))
-				|| (arrowheadVisible && rect.contains(gp.getBounds()));
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+		return (lineVisible && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(line.getBounds()))
+				|| (arrowheadVisible && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds()));
 	}
 
 	@Override
@@ -363,15 +363,16 @@ public class DrawVector extends Drawable implements Previewable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
-		Rectangle ret = null;
+		geogebra.common.awt.Rectangle ret = null;
 		if (lineVisible)
-			ret = line.getBounds();
+			ret = new geogebra.awt.Rectangle(line.getBounds());
 
 		if (arrowheadVisible)
-			ret = (ret == null) ? gp.getBounds() : ret.union(gp.getBounds());
+			ret = (ret == null) ? new geogebra.awt.Rectangle(gp.getBounds()):
+		new geogebra.awt.Rectangle(geogebra.awt.Rectangle.getAWTRectangle(ret).union(gp.getBounds()));
 
 		return ret;
 	}

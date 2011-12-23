@@ -268,16 +268,16 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			return shape.getBounds();
+			return new geogebra.awt.Rectangle(shape.getBounds());
 
 		case DRAW_TYPE_SEGMENT:
-			return drawSegment.getBounds();
+			return new geogebra.awt.Rectangle(drawSegment.getBounds());
 
 		default:
 			return null;
@@ -417,10 +417,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			return rect.contains(shape.getBounds());
+			return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(shape.getBounds());
 
 		case DRAW_TYPE_SEGMENT:
 			return drawSegment.isInside(rect);

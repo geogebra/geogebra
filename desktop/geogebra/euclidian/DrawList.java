@@ -213,7 +213,7 @@ public final class DrawList extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
@@ -227,20 +227,20 @@ public final class DrawList extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 
 		if (!geo.isEuclidianVisible())
 			return null;
 
-		Rectangle result = null;
+		geogebra.common.awt.Rectangle result = null;
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			Rectangle bb = d.getBounds();
+			geogebra.common.awt.Rectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null)
-					result = new Rectangle(bb); // changed () to (bb) bugfix,
+					result = new geogebra.awt.Rectangle(bb); // changed () to (bb) bugfix,
 												// otherwise top-left of screen
 												// is always included
 				// add bounding box of list element

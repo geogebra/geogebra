@@ -240,7 +240,7 @@ public final class DrawImage extends Drawable {
 					// draw rectangle around image
 					g2.setStroke(selStroke);
 					g2.setPaint(Color.lightGray);
-					g2.draw(labelRectangle);
+					g2.draw(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
 				}
 			} else {
 				AffineTransform oldAT = g2.getTransform();
@@ -345,21 +345,21 @@ public final class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		if (!isVisible || geoImage.isInBackground())
 			return false;
-		return rect.contains(boundingBox);
+		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(boundingBox);
 	}
 
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return boundingBox;
+		return new geogebra.awt.Rectangle(boundingBox);
 	}
 
 	/**

@@ -481,9 +481,9 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
-		return line != null && rect.contains(line.getP1())
-				&& rect.contains(line.getP2());
+	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+		return line != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(line.getP1())
+				&& geogebra.awt.Rectangle.getAWTRectangle(rect).contains(line.getP2());
 	}
 
 	@Override
@@ -500,11 +500,11 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public Rectangle getBounds() {
+	final public geogebra.common.awt.Rectangle getBounds() {
 		if (line == null || !geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return line.getBounds();
+		return new geogebra.awt.Rectangle(line.getBounds());
 	}
 
 }

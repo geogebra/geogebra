@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
@@ -45,7 +46,7 @@ public class EuclidianStatic {
 	 * @param fgColor
 	 * @param bgColor
 	 */
-	public static final Rectangle drawMultilineLaTeX(Application app,
+	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(Application app,
 			Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font,
 			Color fgColor, Color bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
@@ -181,7 +182,7 @@ public class EuclidianStatic {
 			isLaTeX = !isLaTeX;
 		}
 
-		return new Rectangle(xLabel - 3, yLabel - 3 + depth, width + 6,
+		return AwtFactory.prototype.newRectangle(xLabel - 3, yLabel - 3 + depth, width + 6,
 				height + 6);
 
 	}
@@ -245,7 +246,7 @@ public class EuclidianStatic {
 		return latexTmp.toString().replaceAll("\\?", "");
 	}
 
-	public final static Rectangle drawMultiLineText(AbstractApplication app,
+	public final static geogebra.common.awt.Rectangle drawMultiLineText(AbstractApplication app,
 			String labelDesc, int xLabel, int yLabel, Graphics2D g2,
 			boolean serif) {
 		int lines = 0;
@@ -291,7 +292,7 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return new Rectangle(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
+		return AwtFactory.prototype.newRectangle(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
 				height + 6);
 		// labelRectangle.setBounds(xLabel, yLabel - fontSize, xoffset, height
 		// );
@@ -315,7 +316,7 @@ public class EuclidianStatic {
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 				// end of line reached: draw this line
-				Point p = drawIndexedString(app, g2,
+				geogebra.common.awt.Point p = drawIndexedString(app, g2,
 						labelDesc.substring(lineBegin, i), xLabel, yLabel
 								+ lines * lineSpread, serif);
 				if (p.x > xoffset)
@@ -328,7 +329,7 @@ public class EuclidianStatic {
 		}
 
 		float ypos = yLabel + lines * lineSpread;
-		Point p = drawIndexedString(app, g2, labelDesc.substring(lineBegin),
+		geogebra.common.awt.Point p = drawIndexedString(app, g2, labelDesc.substring(lineBegin),
 				xLabel, ypos, serif);
 		if (p.x > xoffset)
 			xoffset = p.x;
@@ -353,7 +354,7 @@ public class EuclidianStatic {
 	 * @param str
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static Point drawIndexedString(AbstractApplication app, Graphics2D g2,
+	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, Graphics2D g2,
 			String str, float xPos, float yPos, boolean serif) {
 		Font g2font = g2.getFont();
 		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
@@ -441,7 +442,7 @@ public class EuclidianStatic {
 			x += layout.getAdvance();
 		}
 		g2.setFont(g2font);
-		return new Point(Math.round(x - xPos), Math.round(maxY - yPos));
+		return new geogebra.common.awt.Point(Math.round(x - xPos), Math.round(maxY - yPos));
 	}
 
 	private static Font getIndexFont(Font f) {

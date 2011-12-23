@@ -31,8 +31,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import geogebra.common.awt.Point;
+import geogebra.common.awt.Rectangle;
+import geogebra.common.factories.AwtFactory;
 import java.awt.Shape;
 import java.awt.geom.Area;
 
@@ -63,7 +64,7 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	Rectangle labelRectangle = new Rectangle();
+	Rectangle labelRectangle = AwtFactory.prototype.newRectangle(0, 0);
 	Shape strokedShape, strokedShape2;
 
 	private Area shape;
@@ -194,9 +195,9 @@ public abstract class Drawable extends DrawableND {
 		if (xLabel < 3)
 			xLabel = 3;
 		else
-			xLabel = Math.min(xLabel, view.getWidth() - labelRectangle.width - 3);
-		if (yLabel < labelRectangle.height)
-			yLabel = labelRectangle.height;
+			xLabel = Math.min(xLabel, view.getWidth() - (int)labelRectangle.getWidth() - 3);
+		if (yLabel < labelRectangle.getHeight())
+			yLabel = (int)labelRectangle.getHeight();
 		else
 			yLabel = Math.min(yLabel, view.getHeight() - 3);
 

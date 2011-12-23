@@ -290,7 +290,7 @@ public class DrawInequality extends Drawable {
 	}
 
 	@Override
-	public boolean isInside(Rectangle rect) {
+	public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -355,7 +355,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		@Override
-		public boolean isInside(Rectangle rect) {
+		public boolean isInside(geogebra.common.awt.Rectangle rect) {
 			// TODO Auto-generated method stub
 			return false;
 		}
