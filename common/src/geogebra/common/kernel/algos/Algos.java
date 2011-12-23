@@ -439,7 +439,7 @@ public enum Algos {
 	AlgoCirclePointPointDirection("Circle"),
 	AlgoPlane("Plane"),
 	AlgoPlaneThroughPoint("Plane"),
-	AlgoOrthoPlanePoint("OrthogonalPlane"),
+	AlgoOrthoPlanePoint("PerpendicularPlane"),
 	AlgoPlaneBisector("PlaneBisector"),
 	Algo3Dto2D("To2D"),
 	AlgoPoint3DOnPath("Point"),
