@@ -419,7 +419,7 @@ public abstract class Graphics2D {
 	 * @see BasicStroke
 	 * @see #getStroke
 	 */
-	//public abstract void setStroke(Stroke s);
+	public abstract void setStroke(BasicStroke s);
 
 	/**
 	 * Sets the value of a single preference for the rendering algorithms.
@@ -723,7 +723,7 @@ public abstract class Graphics2D {
 	 *                 which defines the line style.
 	 * @see #setStroke
 	 */
-	//public abstract Stroke getStroke();
+	public abstract BasicStroke getStroke();
 
 	/**
 	 * Intersects the current <code>Clip</code> with the interior of the
@@ -769,20 +769,11 @@ public abstract class Graphics2D {
 	 */
 
 	public abstract FontRenderContext getFontRenderContext();
-
 	public abstract Color getColor();
-
 	public abstract Font getFont();
-
 	public abstract void setFont(Font font);
-
 	public abstract void setPaint(Color fillColor);
-	
-	public abstract void setStroke(BasicStroke s);
-
 	public abstract void setColor(Color selColor);
-
 	public abstract void draw(Object shape);
 	public abstract void fill(Object shape);
-
 }

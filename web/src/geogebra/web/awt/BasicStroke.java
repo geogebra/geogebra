@@ -1,10 +1,12 @@
-package geogebra.web.kernel.gawt;
+package geogebra.web.awt;
+
+import geogebra.web.kernel.gawt.Shape;
 
 /**
  * A class that reassembles {@link java.awt.BasicStroke} for use with GWT.
  * This class is immutable.
  */
-public class BasicStroke {
+public class BasicStroke implements geogebra.common.awt.BasicStroke {
 
 	// Constants
 	public static final String CAP_BUTT = "butt";

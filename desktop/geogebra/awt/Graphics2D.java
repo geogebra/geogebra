@@ -270,5 +270,10 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 		impl.fill((java.awt.Shape)shape);
 		
 	}
+
+	@Override
+	public BasicStroke getStroke() {
+		return (geogebra.awt.BasicStroke) impl.getStroke();
+	}
 	
 }
