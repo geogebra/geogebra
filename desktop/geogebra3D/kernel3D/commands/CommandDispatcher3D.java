@@ -49,6 +49,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 		cmdTable.put("Plane", new CmdPlane(kernel));
 		cmdTable.put("PerpendicularPlane", new CmdOrthogonalPlane(kernel));
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			// old name
+			cmdTable.put("OrthogonalPlane", new CmdOrthogonalPlane(kernel));
+		}
 		cmdTable.put("PlaneBisector", new CmdPlaneBisector(kernel));
 
 		// cmdTable.put("Polyhedron", new CmdPolyhedron(kernel));
@@ -77,14 +81,17 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 		cmdTable.put("Cone", new CmdCone(kernel));
 		cmdTable.put("InfiniteCone", new CmdConeInfinite(kernel));
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			// old name
 			cmdTable.put("ConeInfinite", new CmdConeInfinite(kernel)); //removed for release candidate
+		}
 
 		cmdTable.put("Cylinder", new CmdCylinder(kernel));
 		cmdTable.put("InfiniteCylinder", new CmdCylinderInfinite(kernel));
-		if (GeoGebraConstants.IS_PRE_RELEASE)
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			// old name
 			cmdTable.put("CylinderInfinite", new CmdCylinderInfinite(kernel)); //removed for release candidate
-		
+		}
 
 		cmdTable.put("QuadricSide", new CmdQuadricSide(kernel));
 		cmdTable.put("Bottom", new CmdBottom(kernel));
