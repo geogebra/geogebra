@@ -251,7 +251,7 @@ public class DrawVector extends Drawable implements Previewable {
 				g2.fill(gp);
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontVector);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontVector());
 				g2.setPaint(((GeoElement) v)
 						.getLabelColor());
 				drawLabel(g2);
@@ -291,7 +291,7 @@ public class DrawVector extends Drawable implements Previewable {
 			// double yRW = view.toRealWorldCoordY(y);
 
 			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1 && view.getEuclidianController().altDown) {
+			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
 				GeoPoint2 p = (GeoPoint2) points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;

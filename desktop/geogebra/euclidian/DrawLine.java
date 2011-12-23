@@ -372,7 +372,7 @@ public class DrawLine extends Drawable implements Previewable {
 
             // label
             if (labelVisible) {
-            	geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+            	geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
             }                            
@@ -421,7 +421,7 @@ public class DrawLine extends Drawable implements Previewable {
 			case PREVIEW_LINE:
 	
 				// round angle to nearest 15 degrees if alt pressed
-				if (points.size() == 1 && view.getEuclidianController().altDown) {
+				if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
 					GeoPoint2 p = (GeoPoint2)points.get(0);
 					double px = p.inhomX;
 					double py = p.inhomY;

@@ -467,7 +467,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 				// set arc in real world coords and transform to screen coords
 				drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.PIE);
-				shape = view.coordTransform.createTransformedShape(drawArc);
+				shape = view.getCoordTransform().createTransformedShape(drawArc);
 				break;
 			}
 		}
@@ -475,7 +475,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		else {
 			// set arc in real world coords and transform to screen coords
 			drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.PIE);
-			shape = view.coordTransform.createTransformedShape(drawArc);
+			shape = view.getCoordTransform().createTransformedShape(drawArc);
 
 			double rdiff;
 
@@ -487,7 +487,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc1 = view.coordTransform.createTransformedShape(decoArc);
+				shapeArc1 = view.getCoordTransform().createTransformedShape(decoArc);
 				break;
 
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
@@ -495,11 +495,11 @@ public class DrawAngle extends Drawable implements Previewable {
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc1 = view.coordTransform.createTransformedShape(decoArc);
+				shapeArc1 = view.getCoordTransform().createTransformedShape(decoArc);
 				r = (arcSize - 2 * rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc2 = view.coordTransform.createTransformedShape(decoArc);
+				shapeArc2 = view.getCoordTransform().createTransformedShape(decoArc);
 				break;
 
 			case GeoElement.DECORATION_ANGLE_ONE_TICK:
@@ -709,7 +709,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			if (labelVisible) {
 				g2.setPaint(angle
 						.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontAngle);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontAngle());
 				drawLabel(g2);
 			}
 		}

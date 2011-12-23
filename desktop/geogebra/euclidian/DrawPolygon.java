@@ -188,7 +188,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setPaint(poly.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontPoint);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontPoint());
 				drawLabel(g2);
 			}
 		}
@@ -219,7 +219,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			int my = view.toScreenCoordY(yRW);
 
 			// round angle to nearest 15 degrees if alt pressed
-			if (view.getEuclidianController().altDown) {
+			if (view.getEuclidianController().isAltDown()) {
 
 				GeoPoint2 p = (GeoPoint2) points.get(points.size() - 1);
 				double px = p.inhomX;

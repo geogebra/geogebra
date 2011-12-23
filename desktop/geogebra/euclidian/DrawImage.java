@@ -116,7 +116,7 @@ public final class DrawImage extends Drawable {
 			}
 
 			// set transform according to corners
-			at.setTransform(view.coordTransform); // last transform: real world
+			at.setTransform(view.getCoordTransform()); // last transform: real world
 													// -> screen
 			at.translate(ax, ay); // translate to first corner A
 

@@ -294,7 +294,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 	protected boolean toggleModeChangedKernel = false;
 
-	boolean altDown = false;
+	private boolean altDown = false;
 
 	// boolean polygonRigid = false;
 
@@ -898,7 +898,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		Hits hits;
 		// GeoElement geo;
 
-		altDown = e.isAltDown();
+		setAltDown(e.isAltDown());
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			view.requestFocusInWindow();
@@ -2658,7 +2658,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		view.requestFocusInWindow();
 		setMouseLocation(e);
 
-		altDown = e.isAltDown();
+		setAltDown(e.isAltDown());
 
 		transformCoords();
 		Hits hits = null;
@@ -3243,7 +3243,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		// standard handling
 		Hits hits = new Hits();
 		boolean noHighlighting = false;
-		altDown = e.isAltDown();
+		setAltDown(e.isAltDown());
 
 		// label hit
 		GeoElement geo = view.getLabelHit(mouseLoc);
@@ -3629,14 +3629,14 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		case EuclidianConstants.MODE_TEXT:
 			changedKernel = text(
 					hits.getOtherHits(Test.GEOIMAGE, tempArrayList), mode,
-					altDown); // e.isAltDown());
+					isAltDown()); // e.isAltDown());
 			break;
 
 		// new image
 		case EuclidianConstants.MODE_IMAGE:
 			changedKernel = image(
 					hits.getOtherHits(Test.GEOIMAGE, tempArrayList), mode,
-					altDown); // e.isAltDown());
+					isAltDown()); // e.isAltDown());
 			break;
 
 		// new slider
@@ -4511,7 +4511,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 	protected void setMouseLocation(MouseEvent e) {
 		mouseLoc = e.getPoint();
 
-		altDown = e.isAltDown();
+		setAltDown(e.isAltDown());
 
 		if (mouseLoc.x < 0) {
 			mouseLoc.x = 0;
@@ -6862,7 +6862,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 		}
 
 		if (selPoints() == 1) {
-			if ((selPaths() == 1) && !altDown) { // press alt to force region
+			if ((selPaths() == 1) && !isAltDown()) { // press alt to force region
 													// (ie inside) not path
 													// (edge)
 				Path paths[] = getSelectedPaths();
@@ -8710,6 +8710,14 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 	public Hits getHighlightedgeos() {
 		return highlightedGeos.clone();
+	}
+
+	public boolean isAltDown() {
+		return altDown;
+	}
+
+	public void setAltDown(boolean altDown) {
+		this.altDown = altDown;
 	}
 
 }

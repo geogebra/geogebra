@@ -168,7 +168,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				-Math.toDegrees(conicPart.getParameterExtent()), closure);
 
 		// transform to screen coords
-		transform.setTransform(view.coordTransform);
+		transform.setTransform(view.getCoordTransform());
 		transform.concatenate(geogebra.awt.AffineTransform
 				.getAwtAffineTransform((geogebra.awt.AffineTransform) conicPart
 						.getAffineTransform()));
@@ -245,7 +245,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				if (labelVisible) {
 					g2.setPaint(geo
 							.getLabelColor());
-					geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+					geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
 					drawLabel(g2);
 				}
 				break;

@@ -205,7 +205,7 @@ public class DrawRay extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setPaint(geo.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
 				drawLabel(g2);
 			}
 		}
@@ -247,7 +247,7 @@ public class DrawRay extends Drawable implements Previewable {
 			double yy = view.toScreenCoordY(yRW);
 
 			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1 && view.getEuclidianController().altDown) {
+			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
 				// double xRW = view.toRealWorldCoordX(x);
 				// double yRW = view.toRealWorldCoordY(y);
 				GeoPoint2 p = (GeoPoint2) points.get(0);

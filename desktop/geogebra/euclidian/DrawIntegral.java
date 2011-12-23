@@ -142,7 +142,7 @@ public class DrawIntegral extends Drawable {
 			}
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontConic);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}

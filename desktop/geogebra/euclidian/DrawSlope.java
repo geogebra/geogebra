@@ -174,7 +174,7 @@ public class DrawSlope extends Drawable {
 			if (labelVisible) {
 				g2.setPaint(slope
 						.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
 				drawLabel(g2);
 				g2.drawString(horLabel, xLabelHor, yLabelHor);
 			}

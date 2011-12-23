@@ -164,7 +164,7 @@ public class DrawLocus extends Drawable {
 
 			// label
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}

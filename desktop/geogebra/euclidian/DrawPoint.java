@@ -449,7 +449,7 @@ public final class DrawPoint extends Drawable {
 
 			// label
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontPoint);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontPoint());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}

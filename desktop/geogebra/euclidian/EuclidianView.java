@@ -266,8 +266,19 @@ public class EuclidianView implements EuclidianViewInterface,
 	}
 
 	// FONTS
-	public Font fontPoint, fontLine, fontVector, fontConic, fontCoords,
-			fontAxes, fontAngle;
+	private Font fontPoint;
+
+	private Font fontLine;
+
+	private Font fontVector;
+
+	private Font fontConic;
+
+	private Font fontCoords;
+
+	private Font fontAxes;
+
+	private Font fontAngle;
 
 	private int fontSize;
 
@@ -278,7 +289,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	protected EuclidianController euclidianController;
 
-	AffineTransform coordTransform = new AffineTransform();
+	private AffineTransform coordTransform = new AffineTransform();
 
 	// use sensible defaults, see #640
 	private int width = Application.getScreenSize().width;
@@ -894,13 +905,13 @@ public class EuclidianView implements EuclidianViewInterface,
 	public void updateFonts() {
 		setFontSize(app.getFontSize());
 
-		fontPoint = app.getPlainFont().deriveFont(Font.PLAIN, getFontSize());
-		fontAngle = fontPoint;
-		fontLine = fontPoint;
-		fontVector = fontPoint;
-		fontConic = fontPoint;
-		fontCoords = app.getPlainFont().deriveFont(Font.PLAIN, getFontSize() - 2);
-		fontAxes = fontCoords;
+		setFontPoint(app.getPlainFont().deriveFont(Font.PLAIN, getFontSize()));
+		setFontAngle(getFontPoint());
+		setFontLine(getFontPoint());
+		setFontVector(getFontPoint());
+		setFontConic(getFontPoint());
+		setFontCoords(app.getPlainFont().deriveFont(Font.PLAIN, getFontSize() - 2));
+		setFontAxes(getFontCoords());
 
 		updateDrawableFontSize();
 		updateBackground();
@@ -1362,7 +1373,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		// ( xscale 0 xZero )
 		// ( 0 -yscale yZero )
 		// ( 0 0 1 )
-		coordTransform.setTransform(xscale, 0.0d, 0.0d, -yscale, xZero, yZero);
+		getCoordTransform().setTransform(xscale, 0.0d, 0.0d, -yscale, xZero, yZero);
 
 		// real world values
 		setRealWorldBounds();
@@ -2197,7 +2208,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		TextLayout layout = new TextLayout(
 				kernel.formatPiE(rw, axesNumberFormat[0])
 						+ ((axesUnitLabels[0] != null) && !piAxisUnit[0] ? axesUnitLabels[0]
-								: ""), fontAxes, frc);
+								: ""), getFontAxes(), frc);
 		return layout.getAdvance();
 	}
 
@@ -2246,8 +2257,8 @@ public class EuclidianView implements EuclidianViewInterface,
 				axesTickStyles[1] == 0 };
 
 		FontRenderContext frc = g2.getFontRenderContext();
-		g2.setFont(fontAxes);
-		int fontsize = fontAxes.getSize();
+		g2.setFont(getFontAxes());
+		int fontsize = getFontAxes().getSize();
 		int arrowSize = fontsize / 3;
 		g2.setPaint(axesColor);
 
@@ -2286,7 +2297,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 			// label of x axis
 			if (axesLabels[0] != null) {
-				TextLayout layout = new TextLayout(axesLabels[0], fontLine, frc);
+				TextLayout layout = new TextLayout(axesLabels[0], getFontLine(), frc);
 				g2.drawString(axesLabels[0],
 						(int) (getWidth() - 10 - layout.getAdvance()),
 						(int) (yCrossPix - 4));
@@ -2353,7 +2364,7 @@ public class EuclidianView implements EuclidianViewInterface,
 							}
 
 							TextLayout layout = new TextLayout(sb.toString(),
-									fontAxes, frc);
+									getFontAxes(), frc);
 							int x, y = (int) (yCrossPix + yoffset);
 
 							// if label intersects the y-axis then draw it 6
@@ -2442,7 +2453,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 			// label of y axis
 			if (axesLabels[1] != null) {
-				TextLayout layout = new TextLayout(axesLabels[1], fontLine, frc);
+				TextLayout layout = new TextLayout(axesLabels[1], getFontLine(), frc);
 				g2.drawString(axesLabels[1], (int) (xCrossPix + 5),
 						(int) (5 + layout.getAscent()));
 			}
@@ -2469,7 +2480,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 			double tickStep = axesStep / 2;
 
-			double maxHeight = new TextLayout("9", fontAxes, frc).getBounds()
+			double maxHeight = new TextLayout("9", getFontAxes(), frc).getBounds()
 					.getHeight() * 2;
 			int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight
 					/ axesStep);
@@ -2515,7 +2526,7 @@ public class EuclidianView implements EuclidianViewInterface,
 							}
 
 							TextLayout layout = new TextLayout(sb.toString(),
-									fontAxes, frc);
+									getFontAxes(), frc);
 							int x = (int) ((xCrossPix + xoffset) - layout
 									.getAdvance());
 							int y;
@@ -2591,8 +2602,8 @@ public class EuclidianView implements EuclidianViewInterface,
 				sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1]));
 				sb.append(')');
 
-				int textHeight = 2 + fontAxes.getSize();
-				g2.setFont(fontAxes);
+				int textHeight = 2 + getFontAxes().getSize();
+				g2.setFont(getFontAxes());
 				g2.drawString(sb.toString(), 5, textHeight);
 
 				// lower right corner
@@ -2604,7 +2615,7 @@ public class EuclidianView implements EuclidianViewInterface,
 				sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1]));
 				sb.append(')');
 
-				TextLayout layout = new TextLayout(sb.toString(), fontAxes, frc);
+				TextLayout layout = new TextLayout(sb.toString(), getFontAxes(), frc);
 				layout.draw(g2, (int) (getWidth() - 5 - layout.getAdvance()),
 						getHeight() - 5);
 			}
@@ -2622,7 +2633,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 		Point max = new Point(0, 0);
 
-		g2.setFont(fontAxes);
+		g2.setFont(getFontAxes());
 		FontRenderContext frc = g2.getFontRenderContext();
 
 		int yAxisHeight = positiveAxes[1] ? (int) getyZero() : getHeight();
@@ -2643,7 +2654,7 @@ public class EuclidianView implements EuclidianViewInterface,
 						sb.append(axesUnitLabels[1]);
 					}
 
-					TextLayout layout = new TextLayout(sb.toString(), fontAxes,
+					TextLayout layout = new TextLayout(sb.toString(), getFontAxes(),
 							frc);
 					// System.out.println(layout.getAdvance() + " : " + sb);
 					if (max.x < layout.getAdvance()) {
@@ -2856,7 +2867,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		sb.append(')');
 
 		g2.setColor(Color.darkGray);
-		g2.setFont(fontCoords);
+		g2.setFont(getFontCoords());
 		g2.drawString(sb.toString(), pos.x + 15, pos.y + 15);
 	}
 
@@ -2867,7 +2878,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		}
 
 		g2.setColor(Color.darkGray);
-		g2.setFont(fontLine);
+		g2.setFont(getFontLine());
 		g2.drawString(getXYscaleRatioString(), pos.x + 15, pos.y + 30);
 	}
 
@@ -2889,7 +2900,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		}
 
 		g2.setColor(Color.darkGray);
-		g2.setFont(fontLine);
+		g2.setFont(getFontLine());
 		g2.drawString(val, pos.x + 15, pos.y + 15);
 
 		return true;
@@ -4283,7 +4294,7 @@ public class EuclidianView implements EuclidianViewInterface,
 					getYscale());
 		}
 
-		coordTransform.setTransform(getXscale(), 0.0d, 0.0d, -getYscale(), getxZero(), getyZero());
+		getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(), getxZero(), getyZero());
 
 		updateBackgroundImage();
 		updateAllDrawables(true);
@@ -5877,5 +5888,69 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	void setYmax(double ymax) {
 		this.ymax = ymax;
+	}
+
+	public Font getFontPoint() {
+		return fontPoint;
+	}
+
+	public void setFontPoint(Font fontPoint) {
+		this.fontPoint = fontPoint;
+	}
+
+	public Font getFontLine() {
+		return fontLine;
+	}
+
+	public void setFontLine(Font fontLine) {
+		this.fontLine = fontLine;
+	}
+
+	public Font getFontVector() {
+		return fontVector;
+	}
+
+	public void setFontVector(Font fontVector) {
+		this.fontVector = fontVector;
+	}
+
+	public Font getFontConic() {
+		return fontConic;
+	}
+
+	public void setFontConic(Font fontConic) {
+		this.fontConic = fontConic;
+	}
+
+	public Font getFontCoords() {
+		return fontCoords;
+	}
+
+	public void setFontCoords(Font fontCoords) {
+		this.fontCoords = fontCoords;
+	}
+
+	public Font getFontAxes() {
+		return fontAxes;
+	}
+
+	public void setFontAxes(Font fontAxes) {
+		this.fontAxes = fontAxes;
+	}
+
+	public Font getFontAngle() {
+		return fontAngle;
+	}
+
+	public void setFontAngle(Font fontAngle) {
+		this.fontAngle = fontAngle;
+	}
+
+	AffineTransform getCoordTransform() {
+		return coordTransform;
+	}
+
+	void setCoordTransform(AffineTransform coordTransform) {
+		this.coordTransform = coordTransform;
 	}
 }

@@ -712,7 +712,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// set transform
-		transform.setTransform(view.coordTransform);
+		transform.setTransform(view.getCoordTransform());
 		transform.concatenate(view.getTransform(conic, M, ev));
 
 		// set ellipse
@@ -838,7 +838,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// set transform for Graphics2D
-		transform.setTransform(view.coordTransform);
+		transform.setTransform(view.getCoordTransform());
 		transform.concatenate(view.getTransform(conic, M, ev));
 
 		// build general paths of hyperbola wings and transform them
@@ -908,7 +908,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		y0 = i * conic.p; // y = sqrt(2k p^2) = i p
 
 		// set transform
-		transform.setTransform(view.coordTransform);
+		transform.setTransform(view.getCoordTransform());
 		transform.concatenate(view.getTransform(conic, M, ev));
 
 		// setCurve(P0, P1, P2)
@@ -980,7 +980,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			g2.setColor(geo.getObjectColor());
 			g2.draw(shape);
 			if (labelVisible && geo instanceof GeoConic) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontConic);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
@@ -1018,7 +1018,7 @@ final public class DrawConic extends Drawable implements Previewable {
 				EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontConic);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}

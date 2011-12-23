@@ -390,7 +390,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			if (labelVisible) {
 				g2.setPaint(
 						geo.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.fontLine);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
 				drawLabel(g2);
 			}
 		}
@@ -435,7 +435,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			int my = view.toScreenCoordY(yRW);
 
 			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1 && view.getEuclidianController().altDown) {
+			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
 				GeoPoint2 p = (GeoPoint2) points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;
