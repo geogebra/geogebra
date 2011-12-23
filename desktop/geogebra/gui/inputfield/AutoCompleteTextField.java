@@ -743,34 +743,29 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 	}
 
 	/**
-	 * Ticket #1167
-	 * Autocompletes input; It will keep already entered parameters and merge them in order.
-	 * If chosen command has less it will output: 
-	 *   command_name[<original parameter list>][<command parameter list>]
+	 * Ticket #1167 Autocompletes input; It will keep already entered parameters
+	 * and merge them in order. If chosen command has less it will output:
+	 * command_name[<original parameter list>][<command parameter list>]
 	 * 
-	 * e.g.:
-	 *   Input:  der
-	 *   Choose: Derivative[ <Function> ]
-	 *   Output: Derivative[ <Function> ]
-	 *   
-	 *   Input:  derivative[x^2]
-	 *   Choose: Derivative[ <Function> ]
-	 *   Output: Derivative[x^2]
-	 *   
-	 *   Input:  derivative[x^2]
-	 *   Choose: Derivative[ <Function>, <Number> ]
-	 *   Output: Derivative[x^2, <Number> ]
-	 *   
-	 *   Input:  derivative[x^2, <Number> ]
-	 *   Choose: Derivative[ <Function>, <Number> ]
-	 *   Output: Derivative[x^2, <Number> ]
-	 *   
-	 *   Input:  inde[x, <Number> ]
-	 *   Choose: IndexOf[ <Object>, <List>, <Start Index> ]
-	 *   Output: IndexOf[x^2, <Number> , <Start Index> ]
-	 *   
-	 * @param index index of the chosen command in the completions list
-	 * @return false if completions list is null or index < 0 or index > completions.size()
+	 * e.g.: Input: der Choose: Derivative[ <Function> ] Output: Derivative[
+	 * <Function> ]
+	 * 
+	 * Input: derivative[x^2] Choose: Derivative[ <Function> ] Output:
+	 * Derivative[x^2]
+	 * 
+	 * Input: derivative[x^2] Choose: Derivative[ <Function>, <Number> ] Output:
+	 * Derivative[x^2, <Number> ]
+	 * 
+	 * Input: derivative[x^2, <Number> ] Choose: Derivative[ <Function>,
+	 * <Number> ] Output: Derivative[x^2, <Number> ]
+	 * 
+	 * Input: inde[x, <Number> ] Choose: IndexOf[ <Object>, <List>, <Start
+	 * Index> ] Output: IndexOf[x^2, <Number> , <Start Index> ]
+	 * 
+	 * @param index
+	 *            index of the chosen command in the completions list
+	 * @return false if completions list is null or index < 0 or index >
+	 *         completions.size()
 	 */
 	public boolean validateAutoCompletion(int index) {
 		if (completions == null || index < 0 || index >= completions.size()) {
@@ -779,70 +774,82 @@ AutoComplete, KeyListener, GeoElementSelectionListener {
 		String command = completions.get(index);
 		String text = getText();
 		StringBuilder sb = new StringBuilder();
-    int commandBracketLeft = command.indexOf('[', curWordStart);// + 1;
-    int commandCommaIndex = command.indexOf(',', commandBracketLeft);
-		
+		int commandBracketLeft = command.indexOf('[');
+		int commandCommaIndex = command.indexOf(',', commandBracketLeft);
+
 		// Ticket #1167
 		// Lucas Binter
-		// check if original Text already contains a parameter ( e.g.: Derivative[x^2])
-		int textBracketLeft = text.indexOf('[');
-    int textBracketRight = text.indexOf(']', textBracketLeft);
-    int textCommaIndex = text.indexOf(',', textBracketLeft);
-		if(textBracketLeft != -1 && textBracketRight != -1 && textBracketLeft + 1 != textBracketRight) {     // Original Input already contains a parameter  
-			  sb.append(text.substring(0, curWordStart));
-			  sb.append(command.substring(0, commandBracketLeft));
-			  if(commandCommaIndex != -1) {                                                                    // multiple parameter command
-			    int countCommaCommand = 0;
-			    int lastIndex = commandCommaIndex;
-			    do{
-			      lastIndex = command.indexOf(',', lastIndex + 1);
-			      countCommaCommand++;
-			    } while (lastIndex != -1);
-			    if(textCommaIndex != -1 ) {                                                                    // input already contains multiple parameters
-	          int countCommaText = 0;
-	          lastIndex = textCommaIndex;
-	          do{
-	            lastIndex = text.indexOf(',', lastIndex + 1);
-	            countCommaText++;
-	          } while (lastIndex != -1);
-	          sb.append(text.substring(curWordStart + curWord.length(), textBracketRight));                // Keep already entered parameters
- 	          if(countCommaCommand > countCommaText) {                                                     // Append missing command parameters
- 	            lastIndex = commandCommaIndex;
- 	            int count = 1;
-   	          while(count <= countCommaText) {
-   	            lastIndex = command.indexOf(',', lastIndex + 1);
-   	            count++;
- 	            }
-   	          sb.append(command.substring(lastIndex));
- 	          } else if(countCommaCommand < countCommaText) {
-	            sb.append(']');
- 	            sb.append(command.substring(commandBracketLeft));
-	          } else if(countCommaCommand == countCommaText) {
-              sb.append(']');
-	          }
-			    } else {                                                                                       // multiple parameter Function but only 1 parameter found
-			      sb.append(text.substring(textBracketLeft, textBracketRight));                                // Replace first from command keep rest from command
-            sb.append(command.substring(commandCommaIndex));
-			    }
-			  } else {                                                                                         // single parameter command
-			    sb.append(text.substring(curWordStart + curWord.length()));
-			  }
-	      setText(sb.toString());
-	      setCaretPosition(curWordStart + sb.length());
+		// check if original Text already contains a parameter ( e.g.:
+		// Derivative[x^2])
+		int textBracketLeft = text.indexOf('[', curWordStart);// + 1;
+		int textBracketRight = text.indexOf(']', textBracketLeft);
+		int textCommaIndex = text.indexOf(',', textBracketLeft);
+		if (textBracketLeft != -1 && textBracketRight != -1
+				&& textBracketLeft + 1 != textBracketRight) { // Original Input
+																// already
+																// contains a
+																// parameter
+			sb.append(text.substring(0, curWordStart));
+			sb.append(command.substring(0, commandBracketLeft));
+			if (commandCommaIndex != -1) { // multiple parameter command
+				int countCommaCommand = 0;
+				int lastIndex = commandCommaIndex;
+				do {
+					lastIndex = command.indexOf(',', lastIndex + 1);
+					countCommaCommand++;
+				} while (lastIndex != -1);
+				if (textCommaIndex != -1) { // input already contains multiple
+											// parameters
+					int countCommaText = 0;
+					lastIndex = textCommaIndex;
+					do {
+						lastIndex = text.indexOf(',', lastIndex + 1);
+						countCommaText++;
+					} while (lastIndex != -1);
+					sb.append(text.substring(curWordStart + curWord.length(),
+							textBracketRight)); // Keep already entered
+												// parameters
+					if (countCommaCommand > countCommaText) { // Append missing
+																// command
+																// parameters
+						lastIndex = commandCommaIndex;
+						int count = 1;
+						while (count <= countCommaText) {
+							lastIndex = command.indexOf(',', lastIndex + 1);
+							count++;
+						}
+						sb.append(command.substring(lastIndex));
+					} else if (countCommaCommand < countCommaText) {
+						sb.append(']');
+						sb.append(command.substring(commandBracketLeft));
+					} else if (countCommaCommand == countCommaText) {
+						sb.append(']');
+					}
+				} else { // multiple parameter Function but only 1 parameter
+							// found
+					// Replace first from command keep rest from command
+					sb.append(text.substring(textBracketLeft, textBracketRight)); 
+					sb.append(command.substring(commandCommaIndex));
+				}
+			} else { // single parameter command
+				sb.append(text.substring(curWordStart + curWord.length()));
+			}
+			setText(sb.toString());
+			setCaretPosition(curWordStart + sb.length());
 		} else {
-		  sb.append(text.substring(0, curWordStart));
+			sb.append(text.substring(0, curWordStart));
 			sb.append(command);
 			sb.append(text.substring(curWordStart + curWord.length()));
-	    setText(sb.toString());
-	    setCaretPosition(curWordStart + commandBracketLeft);
+			setText(sb.toString());
+			setCaretPosition(curWordStart + commandBracketLeft);
 		}
 
-//		Application.debug("----- selected command: " + command + 
-//		                "\n-----    original text: " + text +
-//		                "\n----- inserted command: " + sb.toString() +
-//		                "\n-----          curWord: " + curWord +
-//                    "\n-----     curWordStart: " + curWordStart);
-		
+		// Application.debug("----- selected command: " + command +
+		// "\n-----    original text: " + text +
+		// "\n----- inserted command: " + sb.toString() +
+		// "\n-----          curWord: " + curWord +
+		// "\n-----     curWordStart: " + curWordStart);
+
 		moveToNextArgument(false);
 		return true;
 	}
