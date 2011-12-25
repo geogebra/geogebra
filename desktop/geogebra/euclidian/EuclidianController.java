@@ -2101,10 +2101,17 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 						vec.setAuxiliaryObject(true);
 						GeoElement[] pp = kernel.Translate(null, p, vec);
 						GeoElement[] qq = kernel.Translate(null, q, vec);
-						new AlgoVector(kernel.getConstruction(), null,
+						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
 								(GeoPointND) pp[0], (GeoPointND) qq[0]);
 						transformCoordsOffset[0] = xRW;
 						transformCoordsOffset[1] = yRW;
+
+						// make sure vector looks the same when translated
+						pp[0].setEuclidianVisible(p.isEuclidianVisible());
+						qq[0].update();
+						qq[0].setEuclidianVisible(q.isEuclidianVisible());
+						qq[0].update();
+						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
 
 						app.setMode(EuclidianConstants.MODE_MOVE);
 						movedGeoVector = vec;
@@ -2118,8 +2125,16 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 								(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
 						GeoPoint2 p = (GeoPoint2) algoTP.getGeoElements()[0];
 
-						new AlgoVector(kernel.getConstruction(), null,
+						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
 								movedGeoPoint, p);
+						
+						// make sure vector looks the same when translated
+						((GeoPoint2) movedGeoPoint).setEuclidianVisible(false);
+						((GeoPoint2) movedGeoPoint).update();
+						p.setEuclidianVisible(false);
+						p.update();
+						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+						
 						moveMode = MOVE_POINT;
 					}
 				}
