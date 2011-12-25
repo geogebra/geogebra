@@ -1533,23 +1533,26 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 				AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
 				if (algo instanceof AlgoTranslate) {
 					GeoElement[] input = algo.getInput();
-					vec = (GeoVector) input[1];
-
-					// now check other points are translated by the same vector
-					for (int i = 1; i < pts.length; i++) {
-						algo = ((GeoElement) pts[i]).getParentAlgorithm();
-						if (!(algo instanceof AlgoTranslate)) {
-							sameVector = false;
-							break;
+					
+					if ( input[1].isIndependent()) {
+						vec = (GeoVector) input[1];
+	
+						// now check other points are translated by the same vector
+						for (int i = 1; i < pts.length; i++) {
+							algo = ((GeoElement) pts[i]).getParentAlgorithm();
+							if (!(algo instanceof AlgoTranslate)) {
+								sameVector = false;
+								break;
+							}
+							input = algo.getInput();
+	
+							GeoVector vec2 = (GeoVector) input[1];
+							if (vec != vec2) {
+								sameVector = false;
+								break;
+							}
+	
 						}
-						input = algo.getInput();
-
-						GeoVector vec2 = (GeoVector) input[1];
-						if (vec != vec2) {
-							sameVector = false;
-							break;
-						}
-
 					}
 
 				}
@@ -1604,7 +1607,9 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 				AlgoElement algo = movedGeoElement.getParentAlgorithm();
 				if (algo instanceof AlgoTranslate) {
 					GeoElement[] input = algo.getInput();
-					vec = (GeoVector) input[1];
+					if (input[1].isIndependent()) {
+						vec = (GeoVector) input[1];
+					}
 				}
 			} else if (movedGeoElement.getParentAlgorithm() instanceof AlgoVectorPoint) {
 				// allow Vector[(1,2)] to be dragged
