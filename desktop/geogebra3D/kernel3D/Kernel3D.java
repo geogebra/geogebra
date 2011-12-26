@@ -106,6 +106,7 @@ public class Kernel3D extends Kernel {
 	 * *******************************************
 	 */
 
+	@Override
 	public String getModeText(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
@@ -165,6 +166,7 @@ public class Kernel3D extends Kernel {
 	 * 
 	 * @return whether z may be used as a variable name
 	 */
+	@Override
 	public boolean isZvarAllowed() {
 		return false;
 	}
@@ -205,6 +207,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	/** return all points of the current construction */
+	@Override
 	public TreeSet<GeoElement> getPointSet() {
 		TreeSet<GeoElement> t3d = getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D);
 		TreeSet<GeoElement> t = super.getPointSet();
@@ -214,58 +217,77 @@ public class Kernel3D extends Kernel {
 		return t;
 	}
 
-	public GeoClass getClassType(String type) throws MyError {
-
-		switch (type.charAt(0)) {
-		case 'p': // point, polygon
-			if (type.equals("point3d")) {
-				return GeoClass.POINT3D;
-			} else if (type.equals("polygon3d"))
-				return GeoClass.POLYGON3D;
-			else if (type.equals("polyhedron"))
-				return GeoClass.POLYHEDRON;
-
-		case 's': // segment
-			if (type.equals("segment3d"))
-				return GeoClass.SEGMENT3D;
-		}
-
-		return super.getClassType(type);
-	}
-
 	/**
 	 * Creates a new GeoElement object for the given type string.
 	 * 
 	 * @param type
 	 *            : String as produced by GeoElement.getXMLtypeString()
 	 */
-	public GeoElement createGeoElement(Construction cons, String type)
+	@Override
+	public GeoElement createGeoElement(Construction cons1, String type)
 			throws MyError {
 
 		switch (type.charAt(0)) {
-		case 'p': // point, polygon, plane
+		case 'a': 
+			if (type.equals("axis3d"))
+				return new GeoAxis3D(cons1);
+			else if (type.equals("angle3d")) 
+				return new GeoAngle3D(cons1);
+			
+		case 'c': 
+			if (type.equals("conic3d"))
+				return new GeoConic3D(cons1);
+			else if (type.equals("curvecartesian3d")) 
+				return new GeoCurveCartesian3D(cons1);
+			
+		case 'l': 
+			if (type.equals("line3d"))
+				return new GeoLine3D(cons1);
+
+		case 'p': 
 			if (type.equals("point3d")) {
-				return new GeoPoint3D(cons);
+				return new GeoPoint3D(cons1);
 			} else if (type.equals("polygon3d"))
-				return new GeoPolygon3D(cons, null);
-			else if (type.equals("plane3d")) {
-				return new GeoPlane3D(cons);
-			}
-		case 's': // segment
+				return new GeoPolygon3D(cons1, null);
+			else if (type.equals("plane3d")) 
+				return new GeoPlane3D(cons1);
+			else if (type.equals("polyline3d")) 
+				return new GeoPolyLine3D(cons1, null);
+			else if (type.equals("polyhedron")) 
+				return new GeoPolyhedron(cons1);
+
+		case 'q': 
+			if (type.equals("quadric3d")) {
+				return new GeoQuadric3D(cons1);
+			} else if (type.equals("quadric3dpart"))
+				return new GeoQuadric3DPart(cons1);
+			else if (type.equals("quadric3dlimited")) 
+				return new GeoQuadric3DLimited(cons1);
+
+		case 'r': 
+			if (type.equals("ray3d"))
+				return new GeoRay3D(cons1);
+			
+		case 's': 
 			if (type.equals("segment3d"))
-				return new GeoSegment3D(cons, null, null);
-		case 'v': // vector
+				return new GeoSegment3D(cons1);
+			if (type.equals("surfacecartesian3d"))
+				return new GeoSurfaceCartesian3D(cons1);
+			
+		case 'v': 
 			if (type.equals("vector3d"))
-				return new GeoVector3D(cons);
+				return new GeoVector3D(cons1);
 
 		}
 
-		return super.createGeoElement(cons, type);
+		// not a 3D object, now check 2D objects in Kernel
+		return super.createGeoElement(cons1, type);
 	}
 
 	/* *******************************************
 	 * Methods for MyXMLHandler *******************************************
 	 */
+	@Override
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
 
@@ -295,6 +317,7 @@ public class Kernel3D extends Kernel {
 		}
 	}
 
+	@Override
 	public GeoPlaneND getDefaultPlane() {
 		return app3D.getEuclidianView3D().getxOyPlane();
 	}
@@ -302,32 +325,34 @@ public class Kernel3D extends Kernel {
 	// ///////////////////////////////
 	// OVERRIDES KERNEL
 	// ///////////////////////////////
+	@Override
 	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
 
 		if (((GeoElement) g).isGeoElement3D()
 				|| ((GeoElement) h).isGeoElement3D())
 			return (GeoPointND) getManager3D().Intersect(label, (GeoElement) g,
 					(GeoElement) h);
-		else
-			return super.IntersectLines(label, g, h);
+		return super.IntersectLines(label, g, h);
 
 	}
 
+	@Override
 	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
 			GeoConicND b) {
 
 		if (((GeoElement) a).isGeoElement3D()
 				|| ((GeoElement) b).isGeoElement3D())
 			return getManager3D().IntersectConics(labels, a, b);
-		else
-			return super.IntersectConics(labels, a, b);
+		return super.IntersectConics(labels, a, b);
 	}
 
+	@Override
 	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
 			GeoDirectionND direction) {
 		return getManager3D().OrthogonalLine3D(label, P, l, direction);
 	}
 
+	@Override
 	public String getXMLFileFormat() {
 		return GeoGebra3D.XML_FILE_FORMAT;
 	}
@@ -345,15 +370,15 @@ public class Kernel3D extends Kernel {
 			return new GeoPoint3D((GeoPointND) geo);
 
 		case LINE:
-			GeoCoordSys1D ret = new GeoLine3D((Construction)geo.getConstruction());
+			GeoCoordSys1D ret = new GeoLine3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
 		case SEGMENT:
-			ret = new GeoSegment3D((Construction)geo.getConstruction());
+			ret = new GeoSegment3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
 		case RAY:
-			ret = new GeoRay3D((Construction)geo.getConstruction());
+			ret = new GeoRay3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
 
@@ -395,23 +420,24 @@ public class Kernel3D extends Kernel {
 	// 2D FACTORY EXTENSION
 	// //////////////////////////////////
 
+	@Override
 	final public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) P).isGeoElement3D())
 			return getManager3D().Ray3D(label, P, Q);
-		else
-			return super.Ray(label, (GeoPoint2) P, (GeoPoint2) Q);
+		return super.Ray(label, (GeoPoint2) P, (GeoPoint2) Q);
 	}
 
+	@Override
 	final public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) P).isGeoElement3D())
 			return getManager3D().Segment3D(label, P, Q);
-		else
-			return super.Segment(label, (GeoPoint2) P, (GeoPoint2) Q);
+		return super.Segment(label, (GeoPoint2) P, (GeoPoint2) Q);
 	}
 
+	@Override
 	final public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
 
 		boolean is3D = false;
@@ -421,10 +447,10 @@ public class Kernel3D extends Kernel {
 
 		if (is3D)
 			return getManager3D().Polygon3D(labels, P);
-		else
-			return super.Polygon(labels, P);
+		return super.Polygon(labels, P);
 	}
 
+	@Override
 	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
 
 		boolean is3D = false;
@@ -434,8 +460,7 @@ public class Kernel3D extends Kernel {
 
 		if (is3D)
 			return getManager3D().PolyLine3D(labels, P);
-		else
-			return super.PolyLine(labels, P);
+		return super.PolyLine(labels, P);
 
 	}
 
