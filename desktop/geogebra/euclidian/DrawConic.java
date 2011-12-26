@@ -726,7 +726,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			shape = new geogebra.awt.GenericShape(transform.createTransformedShape(ellipse));
 		} else {
 			// clip big arc at screen
-			ClipShape.clipToRect(shape,ellipse, transform, new Rectangle(-1,
+			shape=ClipShape.clipToRect(shape,ellipse, transform, new Rectangle(-1,
 					-1, view.getWidth() + 2, view.getHeight() + 2));
 
 		}

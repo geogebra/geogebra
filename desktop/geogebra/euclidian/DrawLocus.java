@@ -183,7 +183,7 @@ public class DrawLocus extends Drawable {
 			return false; // hasn't been drawn yet (hidden)
 
 		if (strokedShape == null) {
-			strokedShape = (geogebra.common.awt.Shape) geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
+			strokedShape = objStroke.createStrokedShape(new geogebra.awt.GenericShape(gp));
 		}
 		if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
