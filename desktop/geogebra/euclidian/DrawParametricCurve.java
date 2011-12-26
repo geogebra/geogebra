@@ -976,7 +976,7 @@ public class DrawParametricCurve extends Drawable {
 			if (fillCurve) {
 				try {
 
-					fill(g2, (geogebra.common.awt.Shape) (geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp), false); // fill
+					fill(g2, new geogebra.awt.GenericShape((geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp)), false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -1013,7 +1013,7 @@ public class DrawParametricCurve extends Drawable {
 		if (isVisible) {
 			Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
 			if (strokedShape == null) {
-				strokedShape = (geogebra.common.awt.Shape) geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
+				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp));
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,

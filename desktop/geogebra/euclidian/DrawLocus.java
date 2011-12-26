@@ -152,7 +152,7 @@ public class DrawLocus extends Drawable {
 					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {
 				try {
 
-					fill(g2, (geogebra.common.awt.Shape) (geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp), false); // fill
+					fill(g2, new geogebra.awt.GenericShape((geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp)), false); // fill
 																			// using
 																			// default/hatching/image
 																			// as

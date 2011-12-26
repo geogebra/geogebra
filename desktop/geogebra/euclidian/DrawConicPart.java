@@ -231,7 +231,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		if (isVisible) {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
-				fill(g2, (geogebra.common.awt.Shape) shape, false); // fill using default/hatching/image as
+				fill(g2, new geogebra.awt.GenericShape(shape), false); // fill using default/hatching/image as
 										// appropriate
 
 				if (geo.doHighlighting()) {
@@ -387,7 +387,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			if (strokedShape == null) {
-				strokedShape = (geogebra.common.awt.Shape) geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape);
+				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape));
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return shape.intersects(x - hitThreshold, y - hitThreshold,

@@ -33,8 +33,6 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
-
 import java.awt.Graphics2D;
 
 import geogebra.common.awt.GeneralPath;
