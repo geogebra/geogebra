@@ -2,6 +2,7 @@ package geogebra.common.factories;
 
 import java.awt.geom.Point2D.Double;
 
+import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
@@ -29,4 +30,5 @@ public abstract class AwtFactory {
 	public abstract Rectangle newRectangle(int i, int j);
 	public abstract Point2D newPoint2D(double d, double coord);
 	public abstract GeneralPath newGeneralPath();
+	public abstract BasicStroke newMyBasicStroke(float f);
 }

@@ -214,8 +214,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public void setStroke(BasicStroke stroke) {
 		if (stroke != null) {
 			context.setLineWidth(((geogebra.web.awt.BasicStroke)stroke).getLineWidth());
-			context.setLineCap(((geogebra.web.awt.BasicStroke)stroke).getLineCap());
-			context.setLineJoin(((geogebra.web.awt.BasicStroke)stroke).getLineJoin());
+			context.setLineCap(((geogebra.web.awt.BasicStroke)stroke).getEndCapString());
+			context.setLineJoin(((geogebra.web.awt.BasicStroke)stroke).getLineJoinString());
 		}
 	}
 
@@ -330,7 +330,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
 	public BasicStroke getStroke() {
 		// TODO Auto-generated method stub
-		return new geogebra.web.awt.BasicStroke((float) context.getLineWidth(), context.getLineCap(), context.getLineJoin());
+		return new geogebra.web.awt.BasicStroke((float) context.getLineWidth(), 
+				geogebra.web.awt.BasicStroke.getCap(context.getLineCap()),
+				geogebra.web.awt.BasicStroke.getJoin(context.getLineJoin()));
 	}
 
 	public void clip(Shape s) {

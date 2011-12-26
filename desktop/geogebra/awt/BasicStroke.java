@@ -10,8 +10,6 @@ import geogebra.common.awt.Shape;
  *
  */
 public class BasicStroke implements geogebra.common.awt.BasicStroke {
-	public static int CAP_ROUND=1;
-	public static int JOIN_ROUND=1;
 	private java.awt.BasicStroke impl; 
 	public BasicStroke(java.awt.BasicStroke basicStroke) {
 		impl = basicStroke;

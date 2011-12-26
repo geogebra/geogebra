@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
-import java.awt.BasicStroke;
+import geogebra.common.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -481,12 +481,14 @@ public class EuclidianStatic {
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
-	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
+	protected static BasicStroke standardStroke = 
+			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.0f);
 
-	protected static MyBasicStroke selStroke = new MyBasicStroke(
+	protected static BasicStroke selStroke = 
+			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(
 			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
-	static public MyBasicStroke getDefaultStroke() {
+	static public BasicStroke getDefaultStroke() {
 		return standardStroke;
 	}
 	
@@ -494,7 +496,7 @@ public class EuclidianStatic {
 		return geogebra.awt.BasicStroke.getAwtStroke(standardStroke);
 	}
 
-	static public MyBasicStroke getDefaultSelectionStroke() {
+	static public BasicStroke getDefaultSelectionStroke() {
 		return selStroke;
 	}
 
@@ -544,7 +546,7 @@ public class EuclidianStatic {
 		int endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke
 				.getEndCap();
 
-		return new geogebra.awt.BasicStroke(new BasicStroke(width, endCap, standardStroke.getLineJoin(),
+		return new geogebra.awt.BasicStroke(new java.awt.BasicStroke(width, endCap, standardStroke.getLineJoin(),
 				standardStroke.getMiterLimit(), dash, 0.0f));
 	}
 

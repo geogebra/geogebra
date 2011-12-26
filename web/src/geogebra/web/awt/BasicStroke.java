@@ -1,5 +1,8 @@
 package geogebra.web.awt;
 
+import com.google.gwt.canvas.dom.client.Context2d.LineCap;
+import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
+
 import geogebra.web.kernel.gawt.Shape;
 
 /**
@@ -9,16 +12,15 @@ import geogebra.web.kernel.gawt.Shape;
 public class BasicStroke implements geogebra.common.awt.BasicStroke {
 
 	// Constants
-	public static final String CAP_BUTT = "butt";
-	public static final String CAP_ROUND = "round";
-	public static final String CAP_SQUARE = "square";
-	public static final String JOIN_BEVEL = "bevel";
-	public static final String JOIN_MITER = "miter";
-	public static final String JOIN_ROUND ="round";
+	public static LineJoin[] gwtJoins = {LineJoin.MITER,LineJoin.ROUND,
+		LineJoin.BEVEL};
+	public static LineCap[] gwtCaps = {LineCap.BUTT,LineCap.ROUND,
+		LineCap.SQUARE};
+	
 	// Private fields
 	private float lineWidth = 1;
-	private String lineCap = CAP_BUTT;
-	private String lineJoin = JOIN_MITER;
+	private int lineCap = CAP_BUTT;
+	private int lineJoin = JOIN_MITER;
 	private float miterLimit = 10;
 
 	// Constructors
@@ -30,13 +32,13 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		this(width, CAP_BUTT, JOIN_MITER);
 	}
 
-	public BasicStroke(float lineWidth, String lineCap, String lineJoin) {
+	public BasicStroke(float lineWidth, int lineCap, int lineJoin) {
 		this.lineWidth = lineWidth;
 		this.lineCap = lineCap;
 		this.lineJoin = lineJoin;
 	}
 
-	public BasicStroke(float width, String endCap, String lineJoin2,
+	public BasicStroke(float width, int endCap, int lineJoin2,
 			float miterLimit2, float[] dash, float f) {
 		
 	}
@@ -52,12 +54,12 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		return lineWidth;
 	}
 
-	public String getLineCap() {
+	public int getEndCap() {
 		return lineCap;
 	}
 
 
-	public String getLineJoin() {
+	public int getLineJoin() {
 		return lineJoin;
 	}
 	
@@ -70,6 +72,28 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
             geogebra.common.awt.Shape shape) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+	
+	public static int getJoin(String join){
+		switch(join.charAt(0)){
+		case 'r':return JOIN_ROUND;
+		case 'b':return JOIN_BEVEL;
+		}
+		return JOIN_MITER;
+	}
+	public static int getCap(String join){
+		switch(join.charAt(0)){
+		case 'r':return CAP_ROUND;
+		case 's':return CAP_SQUARE;
+		}
+		return CAP_BUTT;
+	}
+
+	public LineCap getEndCapString() {
+	    return gwtCaps[getEndCap()];
+    }
+	public LineJoin getLineJoinString() {
+	    return gwtJoins[getEndCap()];
     }
 
 }

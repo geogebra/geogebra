@@ -28,13 +28,16 @@ import java.util.List;
  * @author Michael Borcherds
  * 
  */
-public class HatchingHandler {
+public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler{
 
 	private static BufferedImage bufferedImage = null;
-
-	public static void setHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.BasicStroke objStroke,
-			Color color, Color bgColor, float backgroundTransparency,
-			double dist, double angle) {
+	public static HatchingHandler prototype;
+	
+	@Override
+	protected void dosetHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.BasicStroke objStroke,
+			geogebra.common.awt.Color color, geogebra.common.awt.Color bgColor, float backgroundTransparency,
+			double dist, double angle)
+	{
 		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
@@ -126,7 +129,8 @@ public class HatchingHandler {
 
 	}
 
-	public static void setTexture(geogebra.common.awt.Graphics2D g3, GeoElement geo, float alpha) {
+	@Override
+	protected void doSetTexture(geogebra.common.awt.Graphics2D g3, GeoElement geo, float alpha) {
 		Graphics2D g2= geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geogebra.awt.Color.getAwtColor(geo.getFillColor()));
@@ -240,8 +244,8 @@ public class HatchingHandler {
 		BufferedImage image = new BufferedImage(n * pixelsPerPoint, n
 				* pixelsPerPoint, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = image.createGraphics();
-
-		g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(new MyBasicStroke(0.0f)));
+		geogebra.common.awt.BasicStroke bs = geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(0.0f);
+		g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(bs));
 
 		GeneralPath gp = new GeneralPath();
 		Area intersection = new Area();

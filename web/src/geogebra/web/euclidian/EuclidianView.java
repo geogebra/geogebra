@@ -239,7 +239,7 @@ public class EuclidianView extends BaseEuclidianView {
 			dash = null;
 		}
 
-		String endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke.getLineCap();
+		int endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke.getEndCap();
 
 		return new BasicStroke(width, endCap, standardStroke.getLineJoin(),
 				standardStroke.getMiterLimit(), dash, 0.0f);

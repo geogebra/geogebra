@@ -67,7 +67,7 @@ public final class DrawImage extends Drawable {
 		tempAT = new AffineTransform();
 		boundingBox = new Rectangle();
 
-		selStroke = new MyBasicStroke(1.5f);
+		selStroke = geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.5f);
 
 		update();
 	}

@@ -1,5 +1,6 @@
 package geogebra.factories;
 
+import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Point2D;
@@ -80,5 +81,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public GeneralPath newGeneralPath(){
 		return new geogebra.awt.GeneralPath();
+	}
+
+	@Override
+	public BasicStroke newMyBasicStroke(float f) {
+		return new geogebra.awt.BasicStroke(f,
+				BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
 	}
 }
