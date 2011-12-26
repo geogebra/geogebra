@@ -179,13 +179,13 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void traceToSpreadsheet(Object o) {
+	public void traceToSpreadsheet(GeoElement o) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void resetTraceColumn(Object o) {
+	public void resetTraceColumn(GeoElement o) {
 		// TODO Auto-generated method stub
 
 	}

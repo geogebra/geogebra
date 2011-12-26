@@ -6499,13 +6499,13 @@ public class Application extends AbstractApplication implements
 
 	// TODO: change parameter to GeoElement once it is ported
 	@Override
-	public void traceToSpreadsheet(Object ge) {
+	public void traceToSpreadsheet(GeoElement ge) {
 		getGuiManager().traceToSpreadsheet((GeoElement) ge);
 	}
 
 	// TODO: change parameter to GeoElement once it is ported
 	@Override
-	public void resetTraceColumn(Object ge) {
+	public void resetTraceColumn(GeoElement ge) {
 		getGuiManager().resetTraceColumn((GeoElement) ge);
 	}
 

@@ -24,7 +24,7 @@ import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Color;
@@ -489,7 +489,7 @@ public abstract class Drawable extends DrawableND {
 			return;
 		Construction cons = view.getKernel().getConstruction();
 		if (cons.getApplication().isUsingFullGui())
-			((Application) cons.getApplication()).getGuiManager()
+			cons.getApplication()
 					.traceToSpreadsheet(geo);
 	}
 

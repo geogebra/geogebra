@@ -113,9 +113,9 @@ public abstract class AbstractApplication {
 
 	public abstract String translationFix(String s);
 
-	public abstract void traceToSpreadsheet(Object o);
+	public abstract void traceToSpreadsheet(GeoElement o);
 
-	public abstract void resetTraceColumn(Object o);
+	public abstract void resetTraceColumn(GeoElement o);
 
 	public abstract boolean isReverseNameDescriptionLanguage();
 
