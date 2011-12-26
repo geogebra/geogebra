@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
+
 import java.awt.Graphics2D;
 import java.util.Iterator;
 
@@ -178,7 +180,7 @@ public class DrawableList {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
-			if (cur.d.geo.isDefined())
+			if (cur.d.getGeoElement().isDefined())
 				cur.d.draw(new geogebra.awt.Graphics2D(g2));
 			cur = cur.next;
 		}

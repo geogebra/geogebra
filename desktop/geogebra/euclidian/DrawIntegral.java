@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;

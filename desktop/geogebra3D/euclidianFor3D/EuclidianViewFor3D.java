@@ -1,8 +1,8 @@
 package geogebra3D.euclidianFor3D;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 

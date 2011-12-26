@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -34,7 +35,6 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Kernel;

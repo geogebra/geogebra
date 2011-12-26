@@ -675,8 +675,9 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		geogebra.common.awt.Dimension d = new geogebra.awt.Dimension();
-		app.getDrawEquation();
-		d = DrawEquation.drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, new geogebra.awt.Font(font), serif, 
+		
+		d = app.getDrawEquation().
+				drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, new geogebra.awt.Font(font), serif, 
 				new geogebra.awt.Color(fgColor),
 				new geogebra.awt.Color(bgColor), true);
 
@@ -688,9 +689,8 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		app.getDrawEquation();
-		d = DrawEquation.drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, new geogebra.awt.Font(font), serif, 
+				RenderingHints.VALUE_ANTIALIAS_ON);		
+		d = app.getDrawEquation().drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, new geogebra.awt.Font(font), serif, 
 				new geogebra.awt.Color(fgColor),
 				new geogebra.awt.Color(bgColor), true);
 

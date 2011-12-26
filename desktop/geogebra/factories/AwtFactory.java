@@ -88,4 +88,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		return new geogebra.awt.BasicStroke(f,
 				BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
 	}
+
+	@Override
+	public BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
+			float miterLimit, float[] dash, float f) {
+		java.awt.BasicStroke s = new java.awt.BasicStroke(width,endCap,lineJoin,
+				miterLimit,dash,f);
+		return new geogebra.awt.BasicStroke(s);
+	}
 }

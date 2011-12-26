@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;

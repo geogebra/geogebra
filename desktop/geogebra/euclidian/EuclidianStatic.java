@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +21,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.util.ArrayList;
 
-public class EuclidianStatic {
+public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 
 	// This has to be made singleton or use prototype,
 	// while its static methods be made non-static,
@@ -36,17 +37,8 @@ public class EuclidianStatic {
 
 	}
 
-	/**
-	 * Draw a multiline LaTeX label.
-	 * 
-	 * TODO: Improve performance (caching, etc.) Florian Sonner
-	 * 
-	 * @param g2
-	 * @param font
-	 * @param fgColor
-	 * @param bgColor
-	 */
-	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(AbstractApplication app,
+	@Override
+	public final geogebra.common.awt.Rectangle doDrawMultilineLaTeX(AbstractApplication app,
 			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
 			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
@@ -76,8 +68,8 @@ public class EuclidianStatic {
 				// save the height of this element by drawing it to a temporary
 				// buffer
 				geogebra.common.awt.Dimension dim = new geogebra.awt.Dimension();
-				app.getDrawEquation();
-				dim = DrawEquation.drawEquation(app, geo, tempGraphics, 0, 0,
+				dim = app.getDrawEquation().
+						drawEquation(app, geo, tempGraphics, 0, 0,
 						elements[i], font, ((GeoText) geo).isSerifFont(),
 						fgColor, bgColor, false);
 
@@ -130,9 +122,9 @@ public class EuclidianStatic {
 				yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights
 						.get(currentElement))).intValue()) / 2;
 
-				app.getDrawEquation();
+				DrawEquationInterface de = app.getDrawEquation();
 				// draw the equation and save the x offset
-				xOffset += DrawEquation.drawEquation(app, geo, g2, xLabel
+				xOffset += de.drawEquation(app, geo, g2, xLabel
 						+ xOffset, (yLabel + height) + yOffset, elements[i],
 						font, ((GeoText) geo).isSerifFont(), fgColor, bgColor,
 						true).getWidth();
@@ -246,7 +238,7 @@ public class EuclidianStatic {
 		return latexTmp.toString().replaceAll("\\?", "");
 	}
 
-	public final static geogebra.common.awt.Rectangle drawMultiLineText(AbstractApplication app,
+	public final geogebra.common.awt.Rectangle doDrawMultiLineText(AbstractApplication app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
 			boolean serif) {
 		int lines = 0;
@@ -354,7 +346,8 @@ public class EuclidianStatic {
 	 * @param str
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
+	@Override
+	public geogebra.common.awt.Point doDrawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
 		Graphics2D g2 =  geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		Font g2font = g2.getFont();
@@ -460,7 +453,7 @@ public class EuclidianStatic {
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
-	final public static void fillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3) {
+	protected void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3) {
 		fillWithValueStrokePure(geogebra.awt.GenericShape.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g3));
 	}
 	
@@ -481,73 +474,14 @@ public class EuclidianStatic {
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
-	protected static BasicStroke standardStroke = 
-			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.0f);
 
-	protected static BasicStroke selStroke = 
-			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(
-			1.0f + EuclidianStyleConstants.SELECTION_ADD);
-
-	static public BasicStroke getDefaultStroke() {
-		return standardStroke;
-	}
 	
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
-		return geogebra.awt.BasicStroke.getAwtStroke(standardStroke);
+		return geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 	}
 
-	static public BasicStroke getDefaultSelectionStroke() {
-		return selStroke;
-	}
 
-	/**
-	 * Creates a stroke with thickness width, dashed according to line style
-	 * type.
-	 * 
-	 * @param width
-	 * @param type
-	 * @return stroke
-	 */
-	public static geogebra.common.awt.BasicStroke getStroke(float width, int type) {
-		float[] dash;
+	
 
-		switch (type) {
-		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			dash = new float[2];
-			dash[0] = width; // dot
-			dash[1] = 3.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			dash = new float[2];
-			dash[0] = 4.0f + width;
-			// short dash
-			dash[1] = 4.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			dash = new float[2];
-			dash[0] = 8.0f + width; // long dash
-			dash[1] = 8.0f; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			dash = new float[4];
-			dash[0] = 8.0f + width; // dash
-			dash[1] = 4.0f; // space before dot
-			dash[2] = width; // dot
-			dash[3] = dash[1]; // space after dot
-			break;
-
-		default: // EuclidianStyleConstants.LINE_TYPE_FULL
-			dash = null;
-		}
-
-		int endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke
-				.getEndCap();
-
-		return new geogebra.awt.BasicStroke(new java.awt.BasicStroke(width, endCap, standardStroke.getLineJoin(),
-				standardStroke.getMiterLimit(), dash, 0.0f));
-	}
-
+	
 }

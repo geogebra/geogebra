@@ -16,11 +16,8 @@ the Free Software Foundation.
  * Created on 13. Oktober 2001, 17:40
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -36,6 +33,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.awt.Area;
+//import geogebra.euclidian.DrawEquation;
 
 /**
  * 
@@ -46,9 +44,9 @@ public abstract class Drawable extends DrawableND {
 
 	private boolean forceNoFill;
 
-	BasicStroke objStroke = EuclidianStatic.getDefaultStroke();
-	BasicStroke selStroke = EuclidianStatic.getDefaultSelectionStroke();
-	BasicStroke decoStroke = EuclidianStatic.getDefaultStroke();
+	protected BasicStroke objStroke = EuclidianStatic.getDefaultStroke();
+	protected BasicStroke selStroke = EuclidianStatic.getDefaultSelectionStroke();
+	protected BasicStroke decoStroke = EuclidianStatic.getDefaultStroke();
 
 	private int lineThickness = -1;
 	public int lineType = -1;
@@ -64,8 +62,8 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	Rectangle labelRectangle = AwtFactory.prototype.newRectangle(0, 0);
-	Shape strokedShape, strokedShape2;
+	protected Rectangle labelRectangle = AwtFactory.prototype.newRectangle(0, 0);
+	protected Shape strokedShape, strokedShape2;
 
 	private Area shape;
 
@@ -98,7 +96,7 @@ public abstract class Drawable extends DrawableND {
 		return yLabel;
 	}
 
-	void updateFontSize() {
+	public void updateFontSize() {
 	}
 
 	/**
@@ -123,8 +121,9 @@ public abstract class Drawable extends DrawableND {
 				serif = ((GeoText) geo).isSerifFont();
 			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels don't go
 												// off bottom of screen
-			view.getApplication().getDrawEquation();
-			Dimension dim = DrawEquation.drawEquation(geo.getKernel()
+			AbstractApplication app = view.getApplication();
+			Dimension dim = app.getDrawEquation().
+					drawEquation(geo.getKernel()
 					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label
 					.substring(1, label.length() - 1), g2.getFont(), serif, g2
 					.getColor(), g2.getBackground(), true);
@@ -316,7 +315,7 @@ public abstract class Drawable extends DrawableND {
 		return geo.isGeoText() ? ((GeoText) geo).isSerifFont() : false;
 	}
 
-	final void drawMultilineText(Graphics2D g2) {
+	protected final void drawMultilineText(Graphics2D g2) {
 
 		if (labelDesc == null)
 			return;
@@ -441,7 +440,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @param type
 	 */
-	final void forceLineType(int type) {
+	public final void forceLineType(int type) {
 		forcedLineType = true;
 		lineType = type;
 	}
@@ -451,7 +450,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @param geo
 	 */
-	final void updateStrokes(GeoElement geo) {
+	final public void updateStrokes(GeoElement geo) {
 		strokedShape = null;
 		strokedShape2 = null;
 
@@ -547,6 +546,10 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public Area getShape() {
 		return shape;
+	}
+
+	public boolean isTracing() {
+		return isTracing;
 	}
 
 }

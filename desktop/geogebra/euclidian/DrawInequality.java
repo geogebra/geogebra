@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;

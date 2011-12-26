@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.AwtFactory;

@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -1983,7 +1984,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	protected boolean isTracing() {
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
-			if (it.next().isTracing) {
+			if (it.next().isTracing()) {
 				return true;
 			}
 		}

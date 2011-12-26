@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -146,7 +147,7 @@ public final class DrawList extends Drawable {
 				// list;
 				// if d belongs to another object, we don't want to mess with it
 				// here
-				if (createdByDrawList() || !d.geo.isLabelSet()) {
+				if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
 					d.draw(g2);
 				}
 			}
@@ -189,8 +190,8 @@ public final class DrawList extends Drawable {
 				// list;
 				// if d belongs to another object, we don't want to mess with it
 				// here
-				if (createdByDrawList() || !d.geo.isLabelSet()) {
-					d.geo.setHighlighted(doHighlight);
+				if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+					d.getGeoElement().setHighlighted(doHighlight);
 					d.draw(g2);
 				}
 			}

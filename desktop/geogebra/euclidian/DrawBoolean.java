@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.euclidian.Drawable;
 
 
 /**

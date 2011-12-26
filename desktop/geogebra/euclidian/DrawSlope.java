@@ -25,6 +25,7 @@ import geogebra.kernel.Kernel;
 
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.Drawable;
 
 import java.awt.Rectangle;
 

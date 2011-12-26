@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;

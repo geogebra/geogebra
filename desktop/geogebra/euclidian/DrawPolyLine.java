@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;

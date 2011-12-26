@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -32,7 +33,6 @@ import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.DrawLine;
 import geogebra.euclidian.DrawPoint;
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoBarChart;

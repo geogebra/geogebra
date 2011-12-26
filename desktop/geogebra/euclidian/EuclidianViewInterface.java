@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.Hits;

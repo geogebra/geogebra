@@ -7,6 +7,7 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MyPoint;
@@ -48,7 +49,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawPoint;
-import geogebra.euclidian.Drawable;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;

@@ -127,6 +127,7 @@ public class Kernel extends AbstractKernel {
 		geogebra.common.awt.Color.darkGray = geogebra.awt.Color.darkGray;
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandler();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStatic();
 		newConstruction();
 		getExpressionNodeEvaluator();
 

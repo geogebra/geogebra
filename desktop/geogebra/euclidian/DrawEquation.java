@@ -252,7 +252,7 @@ public class DrawEquation implements DrawEquationInterface{
 		}
 	}
 
-	final public static geogebra.common.awt.Dimension drawEquation(AbstractApplication app,
+	final public geogebra.common.awt.Dimension drawEquation(AbstractApplication app,
 			GeoElement geo, geogebra.common.awt.Graphics2D g2, int x, int y, String text,
 			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
 			boolean useCache) {
@@ -261,7 +261,7 @@ public class DrawEquation implements DrawEquationInterface{
 				bgColor, useCache, null, null));
 	}
 
-	final public static Dimension drawEquation(Application app,
+	final public Dimension drawEquation(Application app,
 			GeoElement geo, Graphics2D g2, int x, int y, String text,
 			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
 			boolean useCache, Integer maxWidth, Float lineSpace) {
