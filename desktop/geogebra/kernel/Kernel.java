@@ -31,7 +31,8 @@ import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.SystemOfEquationsSolver;
-import geogebra.common.kernel.algos.*;
+import geogebra.common.kernel.algos.AlgoMacro;
+import geogebra.common.kernel.algos.AlgoTextfield;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -44,14 +45,19 @@ import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionConditional;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -344,6 +350,10 @@ public class Kernel extends AbstractKernel {
 				return new GeoConic(cons);
 			else if (type.equals("conicpart"))
 				return new GeoConicPart(cons, 0);
+		    else if (type.equals("curvecartesian"))
+		    	return new GeoCurveCartesian(cons);
+		    else if (type.equals("cascell"))
+		    	return new GeoCasCell(cons);
 			else if (type.equals("circle")) { // bug in GeoGebra 2.6c
 				return new GeoConic(cons);
 			}
@@ -355,7 +365,13 @@ public class Kernel extends AbstractKernel {
 			return new GeoConic(cons);
 
 		case 'f': // function
-			return new GeoFunction(cons);
+			if (type.equals("function")) {
+				return new GeoFunction(cons);
+			} else if (type.equals("functionconditional")) {
+				return new GeoFunctionConditional(cons);
+			} else {
+				return new GeoFunctionNVar(cons);
+			}
 
 		case 'h': // hyperbola // bug in GeoGebra 2.6c
 			return new GeoConic(cons);
@@ -367,7 +383,10 @@ public class Kernel extends AbstractKernel {
 				return new GeoConic(cons);
 			else if (type.equals("implicitpoly"))
 				return new GeoImplicitPoly(cons);
-
+			else if (type.equals("interval")) {
+				return new GeoInterval(cons);
+			} 
+			
 		case 'l': // line, list, locus
 			if (type.equals("line"))
 				return new GeoLine(cons);

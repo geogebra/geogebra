@@ -44,6 +44,10 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	private Function uncondFun;	
 
+	public GeoFunctionConditional(Construction c) {
+		super(c);
+	}	
+
 	/**
 	 * Creates a new GeoFunctionConditional object.
 	 * 
