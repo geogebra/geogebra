@@ -80,7 +80,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
     // parent conditional function
    // private GeoFunctionConditional parentCondFun = null;
 
-	private boolean isInequality;    
+	private Boolean isInequality=null;    
 	
 	/**
 	 * Creates new function
@@ -119,9 +119,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		if(fun.isBooleanFunction()){
 			GeoElement ge = (GeoElement) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
 			setVisualStyle(ge);
-			setAlphaValue(ge.getAlphaValue());
-			//initialize inequlaities to make sure that drawable is made when necessary
-			getIneqs();
+			setAlphaValue(ge.getAlphaValue());			
 		}
 	}
 
@@ -229,7 +227,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	@Override
 	protected String getTypeString() {
-		return isInequality?"Inequality":"Function";
+		return (isInequality!=null && isInequality)?"Inequality":"Function";
 	}
 	
     @Override
@@ -271,7 +269,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 				algoMacro.initFunction(this.fun);	
 			}			
 		}
-		isInequality = fun.initIneqs(this.getFunctionExpression(),this);
+		isInequality = null;
 	}
 	
 
@@ -529,7 +527,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	@Override
 	public boolean isFillable(){
-		return isInequality;
+		if(fun!=null && isInequality==null && isBooleanFunction())
+			getIneqs();
+		return isInequality!=null && isInequality;
 	}
 
 	/**
@@ -551,7 +551,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 
 	@Override
-	protected boolean showInEuclidianView() {		
+	protected boolean showInEuclidianView() {
+		if(fun!=null && isInequality==null && isBooleanFunction())
+			getIneqs();
 		return isDefined() && (!isBooleanFunction() || isInequality);
 	}
 		
