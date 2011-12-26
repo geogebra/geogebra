@@ -151,7 +151,7 @@ public class DrawLocus extends Drawable {
 					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {
 				try {
 
-					fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
+					fill(g2, (geogebra.common.awt.Shape) (geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp), false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -164,7 +164,7 @@ public class DrawLocus extends Drawable {
 
 			// label
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
+				g2.setFont(view.getFontLine());
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
@@ -182,7 +182,7 @@ public class DrawLocus extends Drawable {
 			return false; // hasn't been drawn yet (hidden)
 
 		if (strokedShape == null) {
-			strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
+			strokedShape = (geogebra.common.awt.Shape) geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
 		}
 		if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,

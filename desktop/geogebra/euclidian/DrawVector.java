@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -122,7 +123,7 @@ public class DrawVector extends Drawable implements Previewable {
 			addLabelOffset();
 		}
 
-		if (v == view.getEuclidianController().recordObject)
+		if (v == view.getEuclidianController().getRecordObject())
 			recordToSpreadsheet((GeoElement) v);
 
 		// draw trace
@@ -251,7 +252,7 @@ public class DrawVector extends Drawable implements Previewable {
 				g2.fill(gp);
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontVector());
+				g2.setFont(view.getFontVector());
 				g2.setPaint(((GeoElement) v)
 						.getLabelColor());
 				drawLabel(g2);
@@ -283,7 +284,8 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	Point2D.Double endPoint = new Point2D.Double();
+	geogebra.common.awt.Point2D endPoint = 
+			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
@@ -305,8 +307,8 @@ public class DrawVector extends Drawable implements Previewable {
 				xRW = px + radius * Math.cos(angle * Math.PI / 180);
 				yRW = py + radius * Math.sin(angle * Math.PI / 180);
 
-				endPoint.x = xRW;
-				endPoint.y = yRW;
+				endPoint.setX(xRW);
+				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 			} else
 				view.getEuclidianController().setLineEndPoint(null);

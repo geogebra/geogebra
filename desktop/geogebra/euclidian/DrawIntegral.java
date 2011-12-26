@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Shape;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -132,7 +133,7 @@ public class DrawIntegral extends Drawable {
 				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
 
-			fill(g2, gp, true); // fill using default/hatching/image as
+			fill(g2, new geogebra.awt.GenericShape(gp), true); // fill using default/hatching/image as
 								// appropriate
 
 			if (geo.lineThickness > 0) {
@@ -142,7 +143,7 @@ public class DrawIntegral extends Drawable {
 			}
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
+				g2.setFont(view.getFontConic());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}

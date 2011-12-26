@@ -1,6 +1,4 @@
-package geogebra.euclidian;
-
-import java.awt.Graphics2D;
+package geogebra.common.euclidian;
 
 /**
  * @author Markus Hohenwarter

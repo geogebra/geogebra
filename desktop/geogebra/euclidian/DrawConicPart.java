@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -67,7 +69,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private GeoPoint2[] previewTempPoints;
 	private int previewMode, neededPrevPoints;
 
-	public DrawConicPart(EuclidianView view, GeoConicPart conicPart) {
+	public DrawConicPart(EuclidianViewInterface2D view, GeoConicPart conicPart) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		initConicPart(conicPart);
@@ -88,7 +90,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawConicPart for preview.
 	 */
-	DrawConicPart(EuclidianView view, int mode, ArrayList<GeoPointND> points) {
+	DrawConicPart(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;
@@ -168,9 +170,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 				-Math.toDegrees(conicPart.getParameterExtent()), closure);
 
 		// transform to screen coords
-		transform.setTransform(view.getCoordTransform());
+		transform.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform()));
 		transform.concatenate(geogebra.awt.AffineTransform
-				.getAwtAffineTransform((geogebra.awt.AffineTransform) conicPart
+				.getAwtAffineTransform(conicPart
 						.getAffineTransform()));
 
 		// BIG RADIUS: larger than screen diagonal
@@ -228,7 +230,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		if (isVisible) {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
-				fill(g2, shape, false); // fill using default/hatching/image as
+				fill(g2, (geogebra.common.awt.Shape) shape, false); // fill using default/hatching/image as
 										// appropriate
 
 				if (geo.doHighlighting()) {
@@ -245,7 +247,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				if (labelVisible) {
 					g2.setPaint(geo
 							.getLabelColor());
-					geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
+					g2.setFont(view.getFontLine());
 					drawLabel(g2);
 				}
 				break;
@@ -384,7 +386,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			if (strokedShape == null) {
-				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape);
+				strokedShape = (geogebra.common.awt.Shape) geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return shape.intersects(x - hitThreshold, y - hitThreshold,

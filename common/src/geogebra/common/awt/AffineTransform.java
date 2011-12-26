@@ -8,4 +8,5 @@ public interface AffineTransform {
 	public double getScaleY();
 	public double getShearX();
 	public double getShearY();
+	public Shape createTransformedShape(Object shape);
 }

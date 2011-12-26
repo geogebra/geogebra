@@ -1,5 +1,7 @@
 package geogebra.awt;
 
+import geogebra.common.awt.Shape;
+
 public class AffineTransform implements geogebra.common.awt.AffineTransform {
 
 	private java.awt.geom.AffineTransform at;
@@ -48,5 +50,14 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		if (!(a instanceof AffineTransform))
 			return null;
 		return ((AffineTransform)a).getImpl();
+	}
+
+	public Shape createTransformedShape(Object shape) {
+		java.awt.Shape ret = null;
+		if(shape instanceof geogebra.awt.GenericShape)
+			ret = at.createTransformedShape(geogebra.awt.GenericShape.getAwtShape((geogebra.awt.GenericShape)shape));
+		if(shape instanceof java.awt.Shape)
+			ret = at.createTransformedShape((java.awt.Shape)shape);
+		return new geogebra.awt.GenericShape(ret);
 	}
 }

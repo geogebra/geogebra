@@ -2,6 +2,7 @@ package geogebra.common.main;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
@@ -459,6 +460,21 @@ public abstract class AbstractApplication {
 	public abstract double getWidth();
 	
 	public abstract double getHeight();
+
+	public Font getFontCommon(boolean b, int i, int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Font getPlainFontCommon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isExporting() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }

@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -146,7 +148,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setPaint(poly.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontPoint());
+				g2.setFont(view.getFontPoint());
 				drawLabel(g2);
 			}
 		}
@@ -165,7 +167,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	private Point2D.Double endPoint = new Point2D.Double();
+	private geogebra.common.awt.Point2D endPoint = 
+			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
@@ -193,8 +196,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				mx = view.toScreenCoordX(xRW);
 				my = view.toScreenCoordY(yRW);
 
-				endPoint.x = xRW;
-				endPoint.y = yRW;
+				endPoint.setX(xRW);
+				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
 			} else
@@ -219,7 +222,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
 			if (strokedShape == null) {
-				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
+				strokedShape = objStroke.createStrokedShape(new geogebra.awt.GenericShape(gp));
 			}
 			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);

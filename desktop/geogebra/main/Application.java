@@ -6651,4 +6651,8 @@ public class Application extends AbstractApplication implements
 		return new geogebra.awt.Font(getFont(b,i,size));
 	}
 
+	public geogebra.common.awt.Font getBoldFontCommon() {
+		return new geogebra.awt.Font(getBoldFont());
+	}
+
 }

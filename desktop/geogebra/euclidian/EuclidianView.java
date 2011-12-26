@@ -18,6 +18,7 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -78,7 +79,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
+import geogebra.common.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -289,7 +290,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	protected EuclidianController euclidianController;
 
-	private AffineTransform coordTransform = new AffineTransform();
+	private geogebra.common.awt.AffineTransform coordTransform = new geogebra.awt.AffineTransform();
 
 	// use sensible defaults, see #640
 	private int width = Application.getScreenSize().width;
@@ -905,12 +906,12 @@ public class EuclidianView implements EuclidianViewInterface,
 	public void updateFonts() {
 		setFontSize(app.getFontSize());
 
-		setFontPoint(app.getPlainFont().deriveFont(Font.PLAIN, getFontSize()));
+		setFontPoint(app.getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize()));
 		setFontAngle(getFontPoint());
 		setFontLine(getFontPoint());
 		setFontVector(getFontPoint());
 		setFontConic(getFontPoint());
-		setFontCoords(app.getPlainFont().deriveFont(Font.PLAIN, getFontSize() - 2));
+		setFontCoords(app.getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize() - 2));
 		setFontAxes(getFontCoords());
 
 		updateDrawableFontSize();
@@ -1787,9 +1788,9 @@ public class EuclidianView implements EuclidianViewInterface,
 			Construction cons = kernel.getConstruction();
 			String title = cons.getTitle();
 			if (!title.equals("")) {
-				Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
+				Font titleFont = app.getBoldFontCommon().deriveFont(Font.BOLD,
 						app.getBoldFont().getSize() + 2);
-				g2d.setFont(titleFont);
+				g2d.setFont(geogebra.awt.Font.getAwtFont(titleFont));
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
 				FontMetrics fm = g2d.getFontMetrics();
@@ -2208,7 +2209,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		TextLayout layout = new TextLayout(
 				kernel.formatPiE(rw, axesNumberFormat[0])
 						+ ((axesUnitLabels[0] != null) && !piAxisUnit[0] ? axesUnitLabels[0]
-								: ""), getFontAxes(), frc);
+								: ""), geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
 		return layout.getAdvance();
 	}
 
@@ -2257,7 +2258,7 @@ public class EuclidianView implements EuclidianViewInterface,
 				axesTickStyles[1] == 0 };
 
 		FontRenderContext frc = g2.getFontRenderContext();
-		g2.setFont(getFontAxes());
+		g2.setFont(geogebra.awt.Font.getAwtFont(getFontAxes()));
 		int fontsize = getFontAxes().getSize();
 		int arrowSize = fontsize / 3;
 		g2.setPaint(axesColor);
@@ -2297,7 +2298,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 			// label of x axis
 			if (axesLabels[0] != null) {
-				TextLayout layout = new TextLayout(axesLabels[0], getFontLine(), frc);
+				TextLayout layout = new TextLayout(axesLabels[0], geogebra.awt.Font.getAwtFont(getFontLine()), frc);
 				g2.drawString(axesLabels[0],
 						(int) (getWidth() - 10 - layout.getAdvance()),
 						(int) (yCrossPix - 4));
@@ -2364,7 +2365,7 @@ public class EuclidianView implements EuclidianViewInterface,
 							}
 
 							TextLayout layout = new TextLayout(sb.toString(),
-									getFontAxes(), frc);
+									geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
 							int x, y = (int) (yCrossPix + yoffset);
 
 							// if label intersects the y-axis then draw it 6
@@ -2453,7 +2454,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 			// label of y axis
 			if (axesLabels[1] != null) {
-				TextLayout layout = new TextLayout(axesLabels[1], getFontLine(), frc);
+				TextLayout layout = new TextLayout(axesLabels[1], geogebra.awt.Font.getAwtFont(getFontLine()), frc);
 				g2.drawString(axesLabels[1], (int) (xCrossPix + 5),
 						(int) (5 + layout.getAscent()));
 			}
@@ -2480,7 +2481,8 @@ public class EuclidianView implements EuclidianViewInterface,
 
 			double tickStep = axesStep / 2;
 
-			double maxHeight = new TextLayout("9", getFontAxes(), frc).getBounds()
+			double maxHeight = new TextLayout("9", 
+					geogebra.awt.Font.getAwtFont(getFontAxes()), frc).getBounds()
 					.getHeight() * 2;
 			int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight
 					/ axesStep);
@@ -2526,7 +2528,7 @@ public class EuclidianView implements EuclidianViewInterface,
 							}
 
 							TextLayout layout = new TextLayout(sb.toString(),
-									getFontAxes(), frc);
+									geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
 							int x = (int) ((xCrossPix + xoffset) - layout
 									.getAdvance());
 							int y;
@@ -2603,7 +2605,7 @@ public class EuclidianView implements EuclidianViewInterface,
 				sb.append(')');
 
 				int textHeight = 2 + getFontAxes().getSize();
-				g2.setFont(getFontAxes());
+				g2.setFont(geogebra.awt.Font.getAwtFont(getFontAxes()));
 				g2.drawString(sb.toString(), 5, textHeight);
 
 				// lower right corner
@@ -2615,7 +2617,7 @@ public class EuclidianView implements EuclidianViewInterface,
 				sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1]));
 				sb.append(')');
 
-				TextLayout layout = new TextLayout(sb.toString(), getFontAxes(), frc);
+				TextLayout layout = new TextLayout(sb.toString(), geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
 				layout.draw(g2, (int) (getWidth() - 5 - layout.getAdvance()),
 						getHeight() - 5);
 			}
@@ -2633,7 +2635,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 		Point max = new Point(0, 0);
 
-		g2.setFont(getFontAxes());
+		g2.setFont(geogebra.awt.Font.getAwtFont(getFontAxes()));
 		FontRenderContext frc = g2.getFontRenderContext();
 
 		int yAxisHeight = positiveAxes[1] ? (int) getyZero() : getHeight();
@@ -2654,7 +2656,7 @@ public class EuclidianView implements EuclidianViewInterface,
 						sb.append(axesUnitLabels[1]);
 					}
 
-					TextLayout layout = new TextLayout(sb.toString(), getFontAxes(),
+					TextLayout layout = new TextLayout(sb.toString(), geogebra.awt.Font.getAwtFont(getFontAxes()),
 							frc);
 					// System.out.println(layout.getAdvance() + " : " + sb);
 					if (max.x < layout.getAdvance()) {
@@ -2867,7 +2869,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		sb.append(')');
 
 		g2.setColor(Color.darkGray);
-		g2.setFont(getFontCoords());
+		g2.setFont(geogebra.awt.Font.getAwtFont(getFontCoords()));
 		g2.drawString(sb.toString(), pos.x + 15, pos.y + 15);
 	}
 
@@ -2878,7 +2880,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		}
 
 		g2.setColor(Color.darkGray);
-		g2.setFont(getFontLine());
+		g2.setFont(geogebra.awt.Font.getAwtFont(getFontLine()));
 		g2.drawString(getXYscaleRatioString(), pos.x + 15, pos.y + 30);
 	}
 
@@ -2900,7 +2902,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		}
 
 		g2.setColor(Color.darkGray);
-		g2.setFont(getFontLine());
+		g2.setFont(geogebra.awt.Font.getAwtFont(getFontLine()));
 		g2.drawString(val, pos.x + 15, pos.y + 15);
 
 		return true;
@@ -5343,15 +5345,15 @@ public class EuclidianView implements EuclidianViewInterface,
 		return new DrawLine(this, selectedPoints, selectedLines, false);
 	}
 
-	public GeneralPathClipped getBoundingPath() {
-		GeneralPathClipped gs = new GeneralPathClipped(this);
+	public geogebra.common.awt.GeneralPath getBoundingPath() {
+		java.awt.geom.GeneralPath gs = new java.awt.geom.GeneralPath();
 		gs.moveTo(0, 0);
 		gs.lineTo(getWidth(), 0);
 		gs.lineTo(getWidth(), getHeight());
 		gs.lineTo(0, getHeight());
 		gs.lineTo(0, 0);
 		gs.closePath();
-		return gs;
+		return new geogebra.awt.GeneralPath(gs);
 	}
 
 	// object is hit if mouse is within this many pixels
@@ -5452,10 +5454,9 @@ public class EuclidianView implements EuclidianViewInterface,
 	 * @param ev
 	 * @return affine transform of the conic for this view
 	 */
-	public AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
-		return geogebra.awt.AffineTransform
-				.getAwtAffineTransform((geogebra.awt.AffineTransform) conic
-						.getAffineTransform());
+	public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
+		return conic
+						.getAffineTransform();
 	}
 
 	public String getFromPlaneString() {
@@ -5743,7 +5744,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	public Font getFont() {
 		// TODO Auto-generated method stub
-		return evjpanel.getFont();
+		return new geogebra.awt.Font(evjpanel.getFont());
 	}
 
 	public Graphics2D getGraphics() {
@@ -5754,7 +5755,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		return evjpanel.getMousePosition();
 	}
 
-	public FontMetrics getFontMetrics(Font font) {
+	public FontMetrics getFontMetrics(java.awt.Font font) {
 		return evjpanel.getFontMetrics(font);
 	}
 
@@ -5890,7 +5891,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		this.ymax = ymax;
 	}
 
-	public Font getFontPoint() {
+	public geogebra.common.awt.Font getFontPoint() {
 		return fontPoint;
 	}
 
@@ -5898,7 +5899,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		this.fontPoint = fontPoint;
 	}
 
-	public Font getFontLine() {
+	public geogebra.common.awt.Font getFontLine() {
 		return fontLine;
 	}
 
@@ -5938,7 +5939,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		this.fontAxes = fontAxes;
 	}
 
-	public Font getFontAngle() {
+	public geogebra.common.awt.Font getFontAngle() {
 		return fontAngle;
 	}
 
@@ -5946,11 +5947,11 @@ public class EuclidianView implements EuclidianViewInterface,
 		this.fontAngle = fontAngle;
 	}
 
-	AffineTransform getCoordTransform() {
+	public geogebra.common.awt.AffineTransform getCoordTransform() {
 		return coordTransform;
 	}
 
-	void setCoordTransform(AffineTransform coordTransform) {
+	void setCoordTransform(geogebra.common.awt.AffineTransform coordTransform) {
 		this.coordTransform = coordTransform;
 	}
 }

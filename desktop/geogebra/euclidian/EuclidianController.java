@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
@@ -8738,6 +8739,18 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 	public void setAltDown(boolean altDown) {
 		this.altDown = altDown;
+	}
+
+	public void setLineEndPoint(geogebra.common.awt.Point2D p) {
+		if(p==null)
+			lineEndPoint = null;
+		else
+		lineEndPoint = new java.awt.geom.Point2D.Double(p.getX(),p.getY());
+		useLineEndPoint = true;
+	}
+
+	public GeoElement getRecordObject() {
+		return recordObject;
 	}
 
 }

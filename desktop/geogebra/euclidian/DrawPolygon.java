@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -106,7 +107,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				isTracing = true;
 				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
-					fill(g2, gp, false);
+					fill(g2, new geogebra.awt.GenericShape(gp), false);
 			} else {
 				if (isTracing) {
 					isTracing = false;
@@ -165,7 +166,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
-			fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
+			fill(g2,  (geo.isInverseFill() ? getShape() : 
+				new geogebra.awt.GenericShape(gp)), false); // fill
 																	// using
 																	// default/hatching/image
 																	// as
@@ -188,7 +190,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setPaint(poly.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontPoint());
+				g2.setFont(view.getFontPoint());
 				drawLabel(g2);
 			}
 		}
@@ -207,7 +209,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private Point2D.Double endPoint = new Point2D.Double();
+	private geogebra.common.awt.Point2D endPoint = 
+			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
@@ -291,8 +294,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 				mx = view.toScreenCoordX(xRW);
 				my = view.toScreenCoordY(yRW);
 
-				endPoint.x = xRW;
-				endPoint.y = yRW;
+				endPoint.setX(xRW);
+				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
 			} else

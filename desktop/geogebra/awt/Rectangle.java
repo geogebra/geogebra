@@ -1,5 +1,7 @@
 package geogebra.awt;
 
+import java.awt.geom.Rectangle2D;
+
 public class Rectangle extends geogebra.common.awt.Rectangle{
 
 	private java.awt.Rectangle impl;
@@ -19,6 +21,7 @@ public class Rectangle extends geogebra.common.awt.Rectangle{
 	public Rectangle(java.awt.Rectangle frameBounds) {
 		impl = frameBounds;
 	}
+
 	@Override
 	public double getY() {
 		return impl.getY();
@@ -74,7 +77,9 @@ public class Rectangle extends geogebra.common.awt.Rectangle{
 	@Override
 	public boolean contains(geogebra.common.awt.Rectangle labelRectangle) {
 		// TODO Auto-generated method stub
-		return false;
+		return impl.contains(getAWTRectangle(labelRectangle));
+		
+		//return false;
 	}
 	@Override
 	public void add(geogebra.common.awt.Rectangle bb) {

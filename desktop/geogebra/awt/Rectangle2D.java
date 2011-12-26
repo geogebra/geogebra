@@ -1,5 +1,7 @@
 package geogebra.awt;
 
+import geogebra.common.awt.Rectangle;
+
 public class Rectangle2D extends geogebra.common.awt.Rectangle2D{
 
 	private java.awt.geom.Rectangle2D impl;
@@ -7,6 +9,10 @@ public class Rectangle2D extends geogebra.common.awt.Rectangle2D{
 		impl = new java.awt.geom.Rectangle2D.Double();
 	}
 	
+	public Rectangle2D(java.awt.geom.Rectangle2D bounds2d) {
+		impl = bounds2d;
+	}
+
 	@Override
 	public double getY() {
 		return impl.getY();
@@ -43,6 +49,11 @@ public class Rectangle2D extends geogebra.common.awt.Rectangle2D{
 	public boolean intersects(double minX, double minY, double lengthX,
 			double lengthY) {
 		return impl.intersects(minX, minY, lengthX, lengthY);
+	}
+
+	@Override
+	public boolean intersects(Rectangle viewRect) {
+		return impl.intersects(geogebra.awt.Rectangle.getAWTRectangle(viewRect));
 	}
 
 }

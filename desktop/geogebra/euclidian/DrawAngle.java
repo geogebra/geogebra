@@ -13,6 +13,8 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.Previewable;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
@@ -33,11 +35,14 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
+
+import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
-import java.awt.Shape;
+import geogebra.common.awt.Shape;
+//import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
+//import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import java.util.ArrayList;
@@ -73,7 +78,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private Arc2D.Double drawArc = new Arc2D.Double();
-	private GeneralPath polygon = new GeneralPath(); // Michael Borcherds
+	private GeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
 														// 2007-11-19
 	private Ellipse2D.Double dot90degree;
 	private Shape shape;
@@ -390,7 +395,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 				// set 90 degrees square
 				if (square == null)
-					square = new GeneralPath();
+					square = AwtFactory.prototype.newGeneralPath();
 				else
 					square.reset();
 				double length = arcSize * 0.7071067811865;
@@ -418,7 +423,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
 				// Belgian offset |_
 				if (square == null)
-					square = new GeneralPath();
+					square = AwtFactory.prototype.newGeneralPath();
 				else
 					square.reset();
 				length = arcSize * 0.7071067811865;
@@ -446,7 +451,7 @@ public class DrawAngle extends Drawable implements Previewable {
 								* view.getScaleRatio() - offset
 								* Math.sin(angSt) - offset
 								* Math.sin(angSt + AbstractKernel.PI_HALF)));
-				shape = square;
+				shape = square;  //FIXME
 
 				break;
 
@@ -709,7 +714,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			if (labelVisible) {
 				g2.setPaint(angle
 						.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontAngle());
+				g2.setFont(view.getFontAngle());
 				drawLabel(g2);
 			}
 		}
@@ -746,7 +751,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(Rectangle rect) {
-		return shape != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(shape.getBounds());
+		return shape != null && rect.contains(shape.getBounds());
 	}
 
 	@Override

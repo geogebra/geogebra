@@ -1,12 +1,12 @@
 package geogebra3D.euclidian3D;
 
 
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.euclidian.Previewable;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoVector3D;

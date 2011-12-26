@@ -109,7 +109,7 @@ public final class DrawTextField extends Drawable {
 			FocusListener, KeyListener {
 
 		private boolean dragging = false;
-		private final EuclidianController ec = view.getEuclidianController();
+		private final EuclidianController ec = ((EuclidianView)view).getEuclidianController();
 
 		public ButtonListener() {
 			// TODO Auto-generated constructor stub
@@ -128,14 +128,14 @@ public final class DrawTextField extends Drawable {
 			dragging = true;
 			e.translatePoint(box.getX(), box.getY());
 			ec.mouseDragged(e);
-			view.setToolTipText(null);
+			((EuclidianView)view).setToolTipText(null);
 		}
 
 		public void mouseMoved(MouseEvent e) {
 
 			e.translatePoint(box.getX(), box.getY());
 			ec.mouseMoved(e);
-			view.setToolTipText(null);
+			((EuclidianView)view).setToolTipText(null);
 		}
 
 		public void mouseClicked(MouseEvent e) {
@@ -188,7 +188,7 @@ public final class DrawTextField extends Drawable {
 
 		public void mouseEntered(MouseEvent arg0) {
 			hit = true;
-			view.setToolTipText(null);
+			((EuclidianView)view).setToolTipText(null);
 			updateText();
 		}
 
@@ -197,13 +197,13 @@ public final class DrawTextField extends Drawable {
 		}
 
 		public void focusGained(FocusEvent e) {
-			view.getEuclidianController().textfieldHasFocus(true);
+			((EuclidianView)view).getEuclidianController().textfieldHasFocus(true);
 			updateText();
 
 		}
 
 		public void focusLost(FocusEvent e) {
-			view.getEuclidianController().textfieldHasFocus(false);
+			((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
 
 			GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
 
@@ -275,7 +275,7 @@ public final class DrawTextField extends Drawable {
 
 				// this should be enough to trigger script event
 				// ie in focusLost
-				view.requestFocus();
+				((EuclidianView)view).requestFocus();
 			}
 
 		}
@@ -348,9 +348,9 @@ public final class DrawTextField extends Drawable {
 		}
 
 		int fontSize = view.getFontSize() + geoButton.getFontSize();
-		Application app = view.getApplication();
+		Application app = ((EuclidianView)view).getApplication();
 
-		Font vFont = view.getFont();
+		Font vFont = geogebra.awt.Font.getAwtFont(view.getFont());
 		Font font = app.getFontCanDisplay(textField.getText(), false,
 				vFont.getStyle(), fontSize);
 
@@ -362,7 +362,7 @@ public final class DrawTextField extends Drawable {
 				.getObjectColor()));
 		label.setForeground(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 		Color bgCol = geogebra.awt.Color.getAwtColor(geo.getBackgroundColor());
-		textField.setBackground(bgCol != null ? bgCol : view.getBackground());
+		textField.setBackground(bgCol != null ? bgCol : ((EuclidianView)view).getBackground());
 
 		textField.setFocusable(true);
 		textField.setEditable(true);
@@ -409,7 +409,7 @@ public final class DrawTextField extends Drawable {
 	 * Removes button from view again
 	 */
 	final public void remove() {
-		view.remove(box);
+		((EuclidianView)view).remove(box);
 	}
 
 	/**

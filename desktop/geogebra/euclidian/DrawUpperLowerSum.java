@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Shape;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -217,7 +218,7 @@ public class DrawUpperLowerSum extends Drawable {
 			}
 
 			try {
-				fill(g2, gp, false); // fill using default/hatching/image as
+				fill(g2, new geogebra.awt.GenericShape(gp), false); // fill using default/hatching/image as
 										// appropriate
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -235,7 +236,7 @@ public class DrawUpperLowerSum extends Drawable {
 			}
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
+				g2.setFont(view.getFontConic());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}

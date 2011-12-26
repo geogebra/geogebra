@@ -306,7 +306,7 @@ public final class DrawText extends Drawable {
 			// if (isLaTeX) {
 			// //setEqnFontSize();
 			// } else {
-			Application app = view.getApplication();
+			Application app = (Application)view.getApplication();
 			textFont = new geogebra.awt.Font(app.getFontCanDisplay(text.getTextString(), serifFont,
 					fontStyle, fontSize));
 			// }

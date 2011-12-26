@@ -5,13 +5,13 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.euclidian.Previewable;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.AlgoPolyhedronPointsPrism;

@@ -93,7 +93,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @param curve
 	 *            Curve to be drawn
 	 */
-	public DrawParametricCurve(EuclidianView view, ParametricCurve curve) {
+	public DrawParametricCurve(EuclidianViewInterface2D view, ParametricCurve curve) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.curve = curve;
@@ -975,7 +975,7 @@ public class DrawParametricCurve extends Drawable {
 			if (fillCurve) {
 				try {
 
-					fill(g2, geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp, false); // fill
+					fill(g2, (geogebra.common.awt.Shape) (geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp), false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -987,7 +987,7 @@ public class DrawParametricCurve extends Drawable {
 			}
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
+				g2.setFont(view.getFontConic());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}
@@ -1012,7 +1012,7 @@ public class DrawParametricCurve extends Drawable {
 		if (isVisible) {
 			Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
 			if (strokedShape == null) {
-				strokedShape = geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
+				strokedShape = (geogebra.common.awt.Shape) geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,

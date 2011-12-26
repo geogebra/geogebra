@@ -3,10 +3,10 @@
 
 
 
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.euclidian.Previewable;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;

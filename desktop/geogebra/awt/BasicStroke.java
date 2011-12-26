@@ -1,5 +1,7 @@
 package geogebra.awt;
 
+import geogebra.common.awt.Shape;
+
 
 
 
@@ -33,6 +35,9 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	}
 	public int getLineJoin(){
 		return impl.getLineJoin();
+	}
+	public Shape createStrokedShape(Shape shape) {
+		return new geogebra.awt.GenericShape(impl.createStrokedShape(geogebra.awt.GenericShape.getAwtShape(shape)));
 	}
 	
 }

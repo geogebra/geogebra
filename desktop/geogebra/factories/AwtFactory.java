@@ -1,6 +1,7 @@
 package geogebra.factories;
 
 import geogebra.common.awt.Dimension;
+import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.BufferedImageAdapter;
@@ -74,5 +75,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Rectangle newRectangle(int i, int j) {
 		return new geogebra.awt.Rectangle(i, j);
+	}
+	
+	@Override
+	public GeneralPath newGeneralPath(){
+		return new geogebra.awt.GeneralPath();
 	}
 }

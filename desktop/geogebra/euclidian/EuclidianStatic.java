@@ -46,7 +46,7 @@ public class EuclidianStatic {
 	 * @param fgColor
 	 * @param bgColor
 	 */
-	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(Application app,
+	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(AbstractApplication app,
 			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
 			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
@@ -356,7 +356,7 @@ public class EuclidianStatic {
 	 */
 	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
-		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		Graphics2D g2 =  geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		Font g2font = g2.getFont();
 		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
@@ -460,8 +460,8 @@ public class EuclidianStatic {
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
-	final public static void fillWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
-		fillWithValueStrokePure(shape, geogebra.awt.Graphics2D.getAwtGraphics(g3));
+	final public static void fillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3) {
+		fillWithValueStrokePure(geogebra.awt.GenericShape.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g3));
 	}
 	
 	final public static void drawWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {

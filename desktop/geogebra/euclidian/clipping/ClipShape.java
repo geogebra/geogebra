@@ -330,6 +330,9 @@ public class ClipShape {
 		return clipToRect(s,null,r);
 	}
 
+	public static void clipToRect(geogebra.common.awt.Shape result,Shape s,AffineTransform t,Rectangle2D r) {
+		((geogebra.awt.GenericShape)result).setImpl(clipToRect(s,t,r));
+	}
 	/** This creates a <code>GeneralPath</code> representing <code>s</code> when
 	 * clipped to <code>r</code>
 	 * @param s a shape that you want clipped

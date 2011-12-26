@@ -72,7 +72,7 @@ public final class DrawButton extends Drawable {
 			MouseListener, MouseMotionListener {
 
 		private boolean dragging = false;
-		private EuclidianController ec = view.getEuclidianController();
+		private EuclidianController ec = ((EuclidianView)view).getEuclidianController();
 
 		/**
 		 * Handles click on check box. Changes value of GeoBoolean.
@@ -84,13 +84,13 @@ public final class DrawButton extends Drawable {
 			dragging = true;			
 			e.translatePoint(myButton.getX(), myButton.getY());
 			ec.mouseDragged(e);
-			view.setToolTipText(null);
+			((EuclidianView)view).setToolTipText(null);
 		}
 
 		public void mouseMoved(MouseEvent e) {				
 			e.translatePoint(myButton.getX(), myButton.getY());
 			ec.mouseMoved(e);
-			view.setToolTipText(null);
+			((EuclidianView)view).setToolTipText(null);
 		}
 
 		public void mouseClicked(MouseEvent e) {
@@ -133,7 +133,7 @@ public final class DrawButton extends Drawable {
 
 		public void mouseEntered(MouseEvent arg0) {
 			hit = true;
-			view.setToolTipText(null);
+			((EuclidianView)view).setToolTipText(null);
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -157,7 +157,7 @@ public final class DrawButton extends Drawable {
 		myButton.setText(labelDesc);
 
 		int fontSize = view.getFontSize() + geoButton.getFontSize();
-		Application app = view.getApplication();
+		Application app = (Application)view.getApplication();
 
 		myButton.setOpaque(true);
 		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
@@ -205,7 +205,7 @@ public final class DrawButton extends Drawable {
 	 * Removes button from view again
 	 */
 	final public void remove() {
-		view.remove(myButton);
+		((EuclidianView)view).remove(myButton);
 	}
 	
 	/**

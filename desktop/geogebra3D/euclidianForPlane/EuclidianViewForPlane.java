@@ -214,7 +214,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}
 	
 	@Override
-	public AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
+	public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
 
 		//use already computed for this view middlepoint M and eigen vecs ev
 		AffineTransform transform = new AffineTransform();			
@@ -226,7 +226,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 				M.getX(),
 				M.getY());
 
-		return transform;
+		return new geogebra.awt.AffineTransform(transform);
 	}
 	
 	@Override

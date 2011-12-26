@@ -66,4 +66,10 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		return miterLimit;
 	}
 
+	public geogebra.common.awt.Shape createStrokedShape(
+            geogebra.common.awt.Shape shape) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
 }

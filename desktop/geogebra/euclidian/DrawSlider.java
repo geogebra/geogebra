@@ -130,7 +130,7 @@ public class DrawSlider extends Drawable {
 			updateStrokes(number);
 		}
 
-		if (number == view.getEuclidianController().recordObject)
+		if (number == view.getEuclidianController().getRecordObject())
 			recordToSpreadsheet(number);
 
 		// G.Sturr 2010-6-28 spreadsheet trace is now handled in

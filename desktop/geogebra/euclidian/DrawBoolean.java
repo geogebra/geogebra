@@ -128,7 +128,7 @@ public final class DrawBoolean extends Drawable {
 			
 			int size = view.getBooleanSize();
 
-			geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontPoint());
+			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke()); 
 			
 			checkBoxIcon.paintIcon(geoBool.getBoolean(), geoBool.doHighlighting(), geogebra.awt.Graphics2D.getAwtGraphics(g2), geoBool.labelOffsetX + 5, geoBool.labelOffsetY + 5);

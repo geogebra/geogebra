@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -61,7 +63,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param s
 	 *            Segment to be drawn
 	 */
-	public DrawSegment(EuclidianView view, GeoLineND s) {
+	public DrawSegment(EuclidianViewInterface2D view, GeoLineND s) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.s = s;
@@ -78,7 +80,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param points
 	 *            endpoints of the segment
 	 */
-	DrawSegment(EuclidianView view, ArrayList<GeoPointND> points) {
+	DrawSegment(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -390,7 +392,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			if (labelVisible) {
 				g2.setPaint(
 						geo.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
+				g2.setFont(view.getFontLine());
 				drawLabel(g2);
 			}
 		}
@@ -423,7 +425,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
-	private Point2D.Double endPoint = new Point2D.Double();
+	private geogebra.common.awt.Point2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRW, double yRW) {
 
@@ -452,8 +454,8 @@ public class DrawSegment extends Drawable implements Previewable {
 				mx = view.toScreenCoordX(xRW);
 				my = view.toScreenCoordY(yRW);
 
-				endPoint.x = xRW;
-				endPoint.y = yRW;
+				endPoint.setX(xRW);
+				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 			} else
 				view.getEuclidianController().setLineEndPoint(null);

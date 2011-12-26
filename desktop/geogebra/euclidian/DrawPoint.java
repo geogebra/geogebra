@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -75,7 +76,7 @@ public final class DrawPoint extends Drawable {
 	 * @param view
 	 * @param P
 	 */
-	public DrawPoint(EuclidianView view, GeoPointND P) {
+	public DrawPoint(EuclidianViewInterface2D view, GeoPointND P) {
 		this(view, P, false);
 	}
 
@@ -86,7 +87,7 @@ public final class DrawPoint extends Drawable {
 	 * @param P
 	 * @param isPreview
 	 */
-	public DrawPoint(EuclidianView view, GeoPointND P, boolean isPreview) {
+	public DrawPoint(EuclidianViewInterface2D view, GeoPointND P, boolean isPreview) {
 		this.view = view;
 		this.P = P;
 		geo = (GeoElement) P;
@@ -164,7 +165,7 @@ public final class DrawPoint extends Drawable {
 
 		// Math.round to make sure that highlight circles drawn symmetrically
 		// (eg after zoom when points aren't on pixel boundaries)
-		if (!view.getApplication().exporting) {
+		if (!view.getApplication().isExporting()) {
 			xUL = Math.round(xUL);
 			yUL = Math.round(yUL);
 		}
@@ -298,7 +299,7 @@ public final class DrawPoint extends Drawable {
 		// G.Sturr 2010-6-28 spreadsheet trace is now handled in
 		// GeoElement.update()
 		// if (P.getSpreadsheetTrace()) recordToSpreadsheet(P);
-		if (P == view.getEuclidianController().recordObject)
+		if (P == view.getEuclidianController().getRecordObject())
 			recordToSpreadsheet((GeoElement) P);
 
 		// draw trace
@@ -449,7 +450,7 @@ public final class DrawPoint extends Drawable {
 
 			// label
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontPoint());
+				g2.setFont(view.getFontPoint());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}

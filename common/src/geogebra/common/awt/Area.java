@@ -1,10 +1,10 @@
 package geogebra.common.awt;
 
-public interface Area {
+public interface Area extends Shape{
 
-	void subtract(geogebra.common.awt.Area shape);
-	void intersect(geogebra.common.awt.Area shape);
-	void exclusiveOr(geogebra.common.awt.Area shape);
-	void add(geogebra.common.awt.Area shape);
+	void subtract(Area shape);
+	void intersect(Area shape);
+	void exclusiveOr(Area shape);
+	void add(Area shape);
 
 }

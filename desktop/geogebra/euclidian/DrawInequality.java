@@ -1,5 +1,7 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -38,7 +40,7 @@ public class DrawInequality extends Drawable {
 	 * @param function
 	 *            boolean 2-var function
 	 */
-	public DrawInequality(EuclidianView view, FunctionalNVar function) {
+	public DrawInequality(EuclidianViewInterface2D view, FunctionalNVar function) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		geo = (GeoElement) function;
@@ -55,7 +57,7 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private DrawInequality(IneqTree tree, EuclidianView view,
+	private DrawInequality(IneqTree tree, EuclidianViewInterface2D view,
 			GeoElement geo) {
 		this.view = view;
 		this.geo = geo;
@@ -252,11 +254,11 @@ public class DrawInequality extends Drawable {
 				}
 
 			} else
-				fill(g2, geogebra.awt.Area.getAWTArea(getShape()), true);
+				fill(g2, getShape(), true);
 		}
 		
 		if (labelVisible) {
-			geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
+			g2.setFont(view.getFontConic());
 			g2.setPaint(geo.getLabelColor());			
 			drawLabel(g2);
 		}
@@ -305,7 +307,7 @@ public class DrawInequality extends Drawable {
 		private Inequality ineq;
 		private GeneralPathClipped gp;
 
-		protected DrawParametricInequality(Inequality ineq, EuclidianView view,
+		protected DrawParametricInequality(Inequality ineq, EuclidianViewInterface2D view,
 				GeoElement geo) {
 			this.view = view;
 			this.ineq = ineq;
@@ -330,7 +332,7 @@ public class DrawInequality extends Drawable {
 			}
 
 			if (!isForceNoFill())
-				fill(g2, gp, true); // fill using default/hatching/image as
+				fill(g2, new geogebra.awt.GenericShape(gp), true); // fill using default/hatching/image as
 			// appropriate
 
 			if (geo.lineThickness > 0) {

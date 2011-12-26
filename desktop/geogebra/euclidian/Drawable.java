@@ -33,8 +33,8 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
-import java.awt.Shape;
 import geogebra.common.awt.Area;
 
 /**
@@ -53,7 +53,7 @@ public abstract class Drawable extends DrawableND {
 	private int lineThickness = -1;
 	public int lineType = -1;
 
-	protected EuclidianView view;
+	protected EuclidianViewInterface2D view;
 	protected int hitThreshold = 3;
 	protected GeoElement geo;
 	public int xLabel, yLabel;

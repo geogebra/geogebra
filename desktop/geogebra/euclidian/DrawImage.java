@@ -116,7 +116,7 @@ public final class DrawImage extends Drawable {
 			}
 
 			// set transform according to corners
-			at.setTransform(view.getCoordTransform()); // last transform: real world
+			at.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform())); // last transform: real world
 													// -> screen
 			at.translate(ax, ay); // translate to first corner A
 
@@ -212,9 +212,9 @@ public final class DrawImage extends Drawable {
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
 			if (isInBackground) {
-				view.addBackgroundImage(this);
+				((EuclidianView)view).addBackgroundImage(this);
 			} else {
-				view.removeBackgroundImage(this);
+				((EuclidianView)view).removeBackgroundImage(this);
 				view.updateBackgroundImage();
 			}
 		}

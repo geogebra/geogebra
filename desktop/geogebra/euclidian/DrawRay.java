@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -52,7 +54,7 @@ public class DrawRay extends Drawable implements Previewable {
 	private double[] v = new double[2];
 
 	/** Creates new DrawSegment */
-	public DrawRay(EuclidianView view, GeoLineND ray) {
+	public DrawRay(EuclidianViewInterface2D view, GeoLineND ray) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.ray = ray;
@@ -67,7 +69,7 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param view
 	 * @param points
 	 */
-	DrawRay(EuclidianView view, ArrayList<GeoPointND> points) {
+	DrawRay(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -205,7 +207,7 @@ public class DrawRay extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setPaint(geo.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
+				g2.setFont(view.getFontLine());
 				drawLabel(g2);
 			}
 		}
@@ -235,7 +237,8 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	Point2D.Double endPoint = new Point2D.Double();
+	private geogebra.common.awt.Point2D endPoint = 
+			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRW, double yRW) {
 
@@ -263,8 +266,8 @@ public class DrawRay extends Drawable implements Previewable {
 				xRW = px + radius * Math.cos(angle * Math.PI / 180);
 				yRW = py + radius * Math.sin(angle * Math.PI / 180);
 
-				endPoint.x = xRW;
-				endPoint.y = yRW;
+				endPoint.setX(xRW);
+				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 
 				// don't use view.toScreenCoordX/Y() as we don't want rounding

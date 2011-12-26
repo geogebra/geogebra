@@ -24,6 +24,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.kernel.Kernel;
 
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Shape;
+
 import java.awt.Rectangle;
 
 /**
@@ -155,7 +157,7 @@ public class DrawSlope extends Drawable {
 	@Override
 	final public void draw(Graphics2D g2) {
 		if (isVisible) {
-			fill(g2, gp, false); // fill using default/hatching/image as
+			fill(g2, new geogebra.awt.GenericShape(gp), false); // fill using default/hatching/image as
 									// appropriate
 
 			if (geo.doHighlighting()) {
@@ -174,7 +176,7 @@ public class DrawSlope extends Drawable {
 			if (labelVisible) {
 				g2.setPaint(slope
 						.getLabelColor());
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontLine());
+				g2.setFont(view.getFontLine());
 				drawLabel(g2);
 				g2.drawString(horLabel, xLabelHor, yLabelHor);
 			}

@@ -2158,7 +2158,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
 				startBeamer(codePoint);			
-				FontMetrics fm=euclidianView.getFontMetrics(euclidianView.getFont());
+				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(StringUtil.toLaTeXString(geo.getLabelDescription(),true));
 				int height=fm.getHeight();
 				double translation[] =new double[2];
@@ -2251,7 +2251,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color,codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm=euclidianView.getFontMetrics(euclidianView.getFont());
+				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(label[0]);
 			   	Rectangle rect = euclidianView.getSelectionRectangle();
 		    	double x=euclidianView.toRealWorldCoordX(euclidianView.getWidth()-10-width);
@@ -2305,7 +2305,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color,codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm=euclidianView.getFontMetrics(euclidianView.getFont());
+				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
 			   	Rectangle rect = euclidianView.getSelectionRectangle();
 				double x=euclidianView.toRealWorldCoordX(euclidianView.getXZero()+5);
 				double y=euclidianView.toRealWorldCoordY(5+fm.getHeight());

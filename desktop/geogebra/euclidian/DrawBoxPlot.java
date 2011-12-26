@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 
-import java.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
 
 public class DrawBoxPlot extends Drawable {
@@ -49,7 +48,7 @@ public class DrawBoxPlot extends Drawable {
 			}
 
 			try {
-				fill(g2, gp, false); // fill using default/hatching/image as
+				fill(g2, new geogebra.awt.GenericShape(gp), false); // fill using default/hatching/image as
 										// appropriate
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -67,7 +66,7 @@ public class DrawBoxPlot extends Drawable {
 			}
 
 			if (labelVisible) {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2).setFont(view.getFontConic());
+				g2.setFont(view.getFontConic());
 				g2.setPaint(geo.getLabelColor());
 				drawLabel(g2);
 			}
