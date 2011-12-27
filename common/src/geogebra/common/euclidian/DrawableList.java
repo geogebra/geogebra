@@ -10,11 +10,10 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.Drawable;
 
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.util.Iterator;
 
 /**
@@ -36,7 +35,7 @@ public class DrawableList {
 	 * 
 	 * @return number of drawables in list
 	 */
-	final int size() {
+	public final int size() {
 		return size;
 	}
 
@@ -118,7 +117,7 @@ public class DrawableList {
 	 * 
 	 * @param d
 	 */
-	final void addUnique(Drawable d) {
+	public final void addUnique(Drawable d) {
 		if (!contains(d))
 			add(d);
 	}
@@ -130,7 +129,7 @@ public class DrawableList {
 	 *            Drawable to be looked for
 	 * @return true iff d is in this list.
 	 */
-	final boolean contains(Drawable d) {
+	public final boolean contains(Drawable d) {
 		Link cur = head;
 		while (cur != null) {
 			if (cur.d == d)
@@ -146,7 +145,7 @@ public class DrawableList {
 	 * @param d
 	 *            Drawable to be removed
 	 */
-	final void remove(Drawable d) {
+	public final void remove(Drawable d) {
 		Link prev = null;
 		Link cur = head;
 		while (cur != null) {
@@ -176,12 +175,12 @@ public class DrawableList {
 	 * @param g2
 	 *            Graphic to be used
 	 */
-	public final void drawAll(Graphics2D g2) {
+	public final void drawAll(geogebra.common.awt.Graphics2D g2) {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
 			if (cur.d.getGeoElement().isDefined())
-				cur.d.draw(new geogebra.awt.Graphics2D(g2));
+				cur.d.draw(g2);
 			cur = cur.next;
 		}
 	}
@@ -189,7 +188,7 @@ public class DrawableList {
 	/**
 	 * Updates all drawables in list
 	 */
-	final void updateAll() {
+	public final void updateAll() {
 		Link cur = head;
 		while (cur != null) {
 			cur.d.update();
@@ -200,7 +199,7 @@ public class DrawableList {
 	/**
 	 * Updates fot size for all drawables in list
 	 */
-	final void updateFontSizeAll() {
+	public final void updateFontSizeAll() {
 		Link cur = head;
 		while (cur != null) {
 			cur.d.updateFontSize();
@@ -211,7 +210,7 @@ public class DrawableList {
 	/**
 	 * Empties the list
 	 */
-	void clear() {
+	public void clear() {
 		head = null;
 		tail = null;
 		size = 0;
@@ -240,7 +239,7 @@ public class DrawableList {
 	 * Allows iteration over the list
 	 * 
 	 */
-	class DrawableIterator implements Iterator<Drawable> {
+	public class DrawableIterator implements Iterator<Drawable> {
 		private Link it;
 
 		private DrawableIterator() {

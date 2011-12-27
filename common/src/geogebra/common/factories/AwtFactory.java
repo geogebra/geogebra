@@ -35,4 +35,5 @@ public abstract class AwtFactory {
 	public abstract BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f);
 	public abstract Line2D newLine2D();
+	public abstract Rectangle newRectangle(Rectangle bb);
 }

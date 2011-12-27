@@ -1,8 +1,8 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.DrawListArray;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.DrawListArray;
 import geogebra.euclidian.EuclidianViewInterface;
 
 /**

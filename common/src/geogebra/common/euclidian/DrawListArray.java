@@ -1,6 +1,5 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
@@ -16,14 +15,14 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	private static final long serialVersionUID = 1L;
 
 	/** view */
-	protected EuclidianViewInterface view;
+	protected EuclidianViewInterfaceSlim view;
 
 	/**
 	 * common constructor
 	 * 
 	 * @param view
 	 */
-	public DrawListArray(EuclidianViewInterface view) {
+	public DrawListArray(EuclidianViewInterfaceSlim view) {
 
 		this.view = view;
 		// drawables = new ArrayList<DrawableND>();

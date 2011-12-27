@@ -13,7 +13,9 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawLine;
+import geogebra.common.euclidian.DrawList;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.DrawableList;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -21,6 +23,7 @@ import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.DrawableList.DrawableIterator;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -72,7 +75,6 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.euclidian.DrawableList.DrawableIterator;
 import geogebra.main.Application;
 
 
@@ -792,7 +794,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	//@Override
 	public Rectangle getBounds() {
 		Rectangle result = null;
-
+		
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
@@ -2077,7 +2079,7 @@ public class EuclidianView implements EuclidianViewInterface,
 			clearBackground(g);
 		}
 
-		bgImageList.drawAll(g);
+		bgImageList.drawAll(new geogebra.awt.Graphics2D(g));
 		drawBackground(g, false);
 	}
 
@@ -3041,7 +3043,7 @@ public class EuclidianView implements EuclidianViewInterface,
 		{
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
-			drawLayers[layer].drawAll(g2);
+			drawLayers[layer].drawAll(new geogebra.awt.Graphics2D(g2));
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
 		}

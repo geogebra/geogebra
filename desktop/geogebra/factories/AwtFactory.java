@@ -102,4 +102,9 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	public Line2D newLine2D() {
 		return new geogebra.awt.Line2D();
 	}
+
+	@Override
+	public Rectangle newRectangle(Rectangle bb) {
+		return new geogebra.awt.Rectangle(bb);
+	}
 }

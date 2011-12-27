@@ -16,14 +16,10 @@ the Free Software Foundation.
  * Created on 11. Oktober 2001, 23:59
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 /**
  * Draw a list of objects
@@ -44,7 +40,7 @@ public final class DrawList extends Drawable {
 	 * @param view
 	 * @param geoList
 	 */
-	public DrawList(EuclidianView view, GeoList geoList) {
+	public DrawList(EuclidianViewInterface2D view, GeoList geoList) {
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;
@@ -241,7 +237,7 @@ public final class DrawList extends Drawable {
 			geogebra.common.awt.Rectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null)
-					result = new geogebra.awt.Rectangle(bb); // changed () to (bb) bugfix,
+					result = geogebra.common.factories.AwtFactory.prototype.newRectangle(bb); // changed () to (bb) bugfix,
 												// otherwise top-left of screen
 												// is always included
 				// add bounding box of list element

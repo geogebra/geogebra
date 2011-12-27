@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import java.util.ArrayList;
 
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -27,4 +28,6 @@ public interface EuclidianViewInterfaceSlim extends View{
 	double getYmin();
 	double getXscale();
 	double getYscale();
+	DrawableND getDrawableND(GeoElement listElement);
+	DrawableND createDrawableND(GeoElement listElement);
 }
