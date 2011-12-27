@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.main.AbstractApplication;
@@ -78,11 +79,14 @@ public class Construction3D extends Construction {
 	protected void initGeoTables() {		
 		super.initGeoTables();
 		
-				
+
 		// add axes labels both in English and current language
-		geoTable.put("xAxis3D", getXAxis());
-		geoTable.put("yAxis3D", getYAxis());
-		geoTable.put("zAxis3D", zAxis3D);
+		if (GeoGebraConstants.IS_PRE_RELEASE){
+			geoTable.put("xAxis3D", getXAxis());
+			geoTable.put("yAxis3D", getYAxis());
+			geoTable.put("zAxis3D", zAxis3D);
+		}
+		geoTable.put("zAxis", zAxis3D);
 		geoTable.put("xOyPlane", xOyPlane);
 		
 		if (zAxis3DLocalName != null) {
@@ -92,6 +96,7 @@ public class Construction3D extends Construction {
 			
 	}
 
+	@Override
 	public void updateLocalAxesNames() {	
 		
 		super.updateLocalAxesNames();
@@ -101,7 +106,7 @@ public class Construction3D extends Construction {
 		geoTable.remove(xOyPlaneLocalName);
 
 		AbstractApplication app = getKernel().getApplication();
-		zAxis3DLocalName = app.getPlain("zAxis3D");
+		zAxis3DLocalName = app.getPlain("zAxis");
 		xOyPlaneLocalName = app.getPlain("xOyPlane");
 		
 		geoTable.put(zAxis3DLocalName, zAxis3D);	
