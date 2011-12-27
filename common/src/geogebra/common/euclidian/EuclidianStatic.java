@@ -14,6 +14,10 @@ import geogebra.common.main.AbstractApplication;
  *Abstract class for EuclidianStatic
  */
 public abstract class EuclidianStatic {
+	// need to clip just outside the viewing area when drawing eg vectors
+		// as a near-horizontal thick vector isn't drawn correctly otherwise
+		public static final int CLIP_DISTANCE = 5;
+		
 	public static EuclidianStatic prototype;
 	protected static BasicStroke standardStroke = 
 			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.0f);

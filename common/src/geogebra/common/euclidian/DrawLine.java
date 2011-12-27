@@ -16,11 +16,8 @@ the Free Software Foundation.
  * Created on 11. Oktober 2001, 23:59
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -31,10 +28,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 
@@ -59,8 +52,13 @@ public class DrawLine extends Drawable implements Previewable {
     protected GeoLineND g;    
     //private double [] coeffs = new double[3];
     
-    protected Line2D.Double line;    
-    protected double y1, y2, x1, x2, k, d;
+    protected geogebra.common.awt.Line2D line;    
+    public double y1;
+	public double y2;
+	public double x1;
+	public double x2;
+	protected double k;
+	protected double d;
 	protected double gx;
 	protected double gy;
 	protected double gz;    
@@ -93,7 +91,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @param points 
 	 * @param previewMode 
 	 */
-	DrawLine(EuclidianViewInterface2D view, ArrayList<GeoPointND> points, int previewMode) {
+	public DrawLine(EuclidianViewInterface2D view, ArrayList<GeoPointND> points, int previewMode) {
 		this.previewMode = previewMode;
 		this.view = view; 
 		this.points = points;
@@ -114,7 +112,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @param lines 
 	 * @param parallel true for paralel, false for perpendicular
 	 */
-    public DrawLine(EuclidianView view, ArrayList<GeoPointND> points,
+    public DrawLine(EuclidianViewInterface2D view, ArrayList<GeoPointND> points,
 			ArrayList<GeoLineND> lines, boolean parallel) {
     	if (parallel) previewMode = PREVIEW_PARALLEL;
     	else previewMode = PREVIEW_PERPENDICULAR;
@@ -146,7 +144,7 @@ public class DrawLine extends Drawable implements Previewable {
             setClippedLine();
 			
             // line on screen?		
-    		if (!line.intersects( -EuclidianView.CLIP_DISTANCE,  -EuclidianView.CLIP_DISTANCE, view.getWidth() + EuclidianView.CLIP_DISTANCE, view.getHeight() + EuclidianView.CLIP_DISTANCE)) {				
+    		if (!line.intersects( -EuclidianStatic.CLIP_DISTANCE,  -EuclidianStatic.CLIP_DISTANCE, view.getWidth() + EuclidianStatic.CLIP_DISTANCE, view.getHeight() + EuclidianStatic.CLIP_DISTANCE)) {				
     			isVisible = false;
             	// don't return here to make sure that getBounds() works for offscreen points too
     		}
@@ -184,9 +182,9 @@ public class DrawLine extends Drawable implements Previewable {
             k = gx / gy * view.getScaleRatio(); 
             d = view.getyZero() + gz/gy * view.getYscale() - k * view.getxZero();
             
-            x1 = -EuclidianView.CLIP_DISTANCE;
+            x1 = -EuclidianStatic.CLIP_DISTANCE;
             y1 = k * x1 + d;            
-            x2 = view.getWidth() + EuclidianView.CLIP_DISTANCE;
+            x2 = view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
             y2 = k * x2 + d; 
             p1Pos = LEFT;
             p2Pos = RIGHT;            
@@ -200,9 +198,9 @@ public class DrawLine extends Drawable implements Previewable {
             k = gy / (gx * view.getScaleRatio()) ; 
             d = view.getxZero() - gz/gx * view.getXscale() - k * view.getyZero();
             
-            y1 = view.getHeight() + EuclidianView.CLIP_DISTANCE;   
+            y1 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;   
             x1 = k * y1 + d;
-            y2 = -EuclidianView.CLIP_DISTANCE;
+            y2 = -EuclidianStatic.CLIP_DISTANCE;
             x2 = k * y2 + d;
             p1Pos = BOTTOM;
             p2Pos = TOP;                        
@@ -210,7 +208,7 @@ public class DrawLine extends Drawable implements Previewable {
         }                 
         
         if (line == null)
-        	line = new Line2D.Double();
+        	line = geogebra.common.factories.AwtFactory.prototype.newLine2D();
         line.setLine(x1, y1, x2, y2);
     }
         
@@ -219,10 +217,10 @@ public class DrawLine extends Drawable implements Previewable {
     // points (0, y1), (width, y2) -> clip on y=0 and y=height
     final private void clipTopBottom() {
         // calc clip attributes for both points (x1,y1), (x2,y2)        
-        attr1[TOP]      = y1 < -EuclidianView.CLIP_DISTANCE;
-        attr1[BOTTOM]   = y1 > view.getHeight() + EuclidianView.CLIP_DISTANCE;                
-        attr2[TOP]      = y2 < -EuclidianView.CLIP_DISTANCE;
-        attr2[BOTTOM]   = y2 > view.getHeight() + EuclidianView.CLIP_DISTANCE;
+        attr1[TOP]      = y1 < -EuclidianStatic.CLIP_DISTANCE;
+        attr1[BOTTOM]   = y1 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE;                
+        attr2[TOP]      = y2 < -EuclidianStatic.CLIP_DISTANCE;
+        attr2[BOTTOM]   = y2 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
         
         // both points outside (TOP or BOTTOM)
         if ((attr1[TOP] && attr2[TOP]) ||
@@ -231,26 +229,26 @@ public class DrawLine extends Drawable implements Previewable {
         // at least one point inside -> clip        
         // point1 TOP -> clip with y=0
         if (attr1[TOP]) { 
-            y1 = -EuclidianView.CLIP_DISTANCE; 
+            y1 = -EuclidianStatic.CLIP_DISTANCE; 
             x1 = (y1 - d)/k;  
             p1Pos = TOP;
         }
         // point1 BOTTOM -> clip with y=height
         else if (attr1[BOTTOM]) { 
-            y1 = view.getHeight() + EuclidianView.CLIP_DISTANCE;
+            y1 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
             x1 = (y1 - d)/k;             
             p1Pos = BOTTOM;
         }
         
         // point2 TOP -> clip with y=0
         if (attr2[TOP]) { 
-            y2 = -EuclidianView.CLIP_DISTANCE; 
+            y2 = -EuclidianStatic.CLIP_DISTANCE; 
             x2 = (y2 - d)/k;  
             p2Pos = TOP;
         }
         // point2 BOTTOM -> clip with y=height
         else if (attr2[BOTTOM]) { 
-            y2 = view.getHeight() + EuclidianView.CLIP_DISTANCE;
+            y2 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
             x2 = (y2 - d)/k;             
             p2Pos = BOTTOM;
         }        
@@ -261,10 +259,10 @@ public class DrawLine extends Drawable implements Previewable {
     // points (x1, 0), (x2, height) -> clip on x=0 and x=width
     final private void clipLeftRight() {
         // calc clip attributes for both points (x1,y1), (x2,y2)        
-        attr1[LEFT]     = x1 < -EuclidianView.CLIP_DISTANCE;
-        attr1[RIGHT]    = x1 > view.getWidth() + EuclidianView.CLIP_DISTANCE;                
-        attr2[LEFT]     = x2 < -EuclidianView.CLIP_DISTANCE;
-        attr2[RIGHT]    = x2 > view.getWidth() + EuclidianView.CLIP_DISTANCE;
+        attr1[LEFT]     = x1 < -EuclidianStatic.CLIP_DISTANCE;
+        attr1[RIGHT]    = x1 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE;                
+        attr2[LEFT]     = x2 < -EuclidianStatic.CLIP_DISTANCE;
+        attr2[RIGHT]    = x2 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
         
         // both points outside (LEFT or RIGHT)
         if ((attr1[LEFT] && attr2[LEFT]) ||
@@ -273,26 +271,26 @@ public class DrawLine extends Drawable implements Previewable {
         // at least one point inside -> clip        
         // point1 LEFT -> clip with x=0
         if (attr1[LEFT]) { 
-            x1 = -EuclidianView.CLIP_DISTANCE; 
+            x1 = -EuclidianStatic.CLIP_DISTANCE; 
             y1 = (x1 - d)/k;  
             p1Pos = LEFT;
         }
         // point1 RIGHT -> clip with x=width
         else if (attr1[RIGHT]) { 
-            x1 = view.getWidth() + EuclidianView.CLIP_DISTANCE;
+            x1 = view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
             y1 = (x1 - d)/k;             
             p1Pos = RIGHT;
         }
         
         // point2 LEFT -> clip with x=0
         if (attr2[LEFT]) { 
-            x2 = -EuclidianView.CLIP_DISTANCE; 
+            x2 = -EuclidianStatic.CLIP_DISTANCE; 
             y2 = (x2 - d)/k;  
             p2Pos = LEFT;
         }
         // point2 RIGHT -> clip with x=width
         else if (attr2[RIGHT]) { 
-            x2 = view.getWidth() + EuclidianView.CLIP_DISTANCE;
+            x2 = view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
             y2 = (x2 - d)/k;             
             p2Pos = RIGHT;
         }        
@@ -382,7 +380,7 @@ public class DrawLine extends Drawable implements Previewable {
         }
     }
         
-	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	public final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);  
 		g2.draw(line);

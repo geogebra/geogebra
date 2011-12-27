@@ -1,50 +1,47 @@
 package geogebra.awt;
 
 import java.awt.Shape;
-import java.awt.geom.GeneralPath;
 
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.factories.AwtFactory;
 
-public class GenericShape implements geogebra.awt.Shape{
-	private java.awt.Shape impl; 
-	
-	private GenericShape(){}
+public class Line2D extends geogebra.common.awt.Line2D implements geogebra.awt.Shape{
+	private java.awt.geom.Line2D impl;
+	public Line2D(){
+		impl = new java.awt.geom.Line2D.Double();
+	}
 	public boolean intersects(int i, int j, int k, int l) {
-		return impl.intersects(i, j, k, l);
+		return impl.intersects(i,j,k,l);
 	}
-	public static java.awt.Shape getAwtShape(geogebra.common.awt.Shape s){
-		if(!(s instanceof geogebra.awt.Shape))
-			return null;
-		return ((geogebra.awt.Shape)s).getAwtShape();
-	}
-	
-	public GenericShape(java.awt.Shape s){
-		this();
-		impl = s;
-	}
-	
+
 	public boolean contains(int x, int y) {
-		return impl.contains(x, y);
+		return impl.contains(x,y);
 	}
-	
-	public geogebra.awt.Rectangle getBounds() {
+
+	public Rectangle getBounds() {
 		return new geogebra.awt.Rectangle(impl.getBounds());
 	}
+
 	public Rectangle2D getBounds2D() {
 		return new geogebra.awt.Rectangle2D(impl.getBounds2D());
 	}
+
 	public boolean contains(Rectangle rectangle) {
 		return impl.contains(geogebra.awt.Rectangle.getAWTRectangle(rectangle));
 	}
+
 	public boolean contains(double xTry, double yTry) {
 		return impl.contains(xTry, yTry);
 	}
-	public void setImpl(java.awt.Shape newImpl) {
-		impl = newImpl;
-	}
+
 	public Shape getAwtShape() {
 		return impl;
 	}
+
+	@Override
+	public void setLine(double x1, double y1, double x2, double y2) {
+		impl.setLine(x1, y1, x2, y2);
+		
+	}
+
 }

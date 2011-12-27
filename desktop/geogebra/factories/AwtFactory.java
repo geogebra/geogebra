@@ -3,6 +3,7 @@ package geogebra.factories;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.BufferedImageAdapter;
@@ -95,5 +96,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		java.awt.BasicStroke s = new java.awt.BasicStroke(width,endCap,lineJoin,
 				miterLimit,dash,f);
 		return new geogebra.awt.BasicStroke(s);
+	}
+
+	@Override
+	public Line2D newLine2D() {
+		return new geogebra.awt.Line2D();
 	}
 }

@@ -654,23 +654,23 @@ public class DrawParametricCurve extends Drawable {
 	private static boolean isSegmentOffScreen(EuclidianViewInterface2D view, double x1,
 			double y1, double x2, double y2) {
 		// top;
-		if (y1 < -EuclidianView.CLIP_DISTANCE
-				&& y2 < -EuclidianView.CLIP_DISTANCE)
+		if (y1 < -EuclidianStatic.CLIP_DISTANCE
+				&& y2 < -EuclidianStatic.CLIP_DISTANCE)
 			return true;
 
 		// left
-		if (x1 < -EuclidianView.CLIP_DISTANCE
-				&& x2 < -EuclidianView.CLIP_DISTANCE)
+		if (x1 < -EuclidianStatic.CLIP_DISTANCE
+				&& x2 < -EuclidianStatic.CLIP_DISTANCE)
 			return true;
 
 		// bottom
-		if (y1 > view.getHeight() + EuclidianView.CLIP_DISTANCE
-				&& y2 > view.getHeight() + EuclidianView.CLIP_DISTANCE)
+		if (y1 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE
+				&& y2 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE)
 			return true;
 
 		// right
-		if (x1 > view.getWidth() + EuclidianView.CLIP_DISTANCE
-				&& x2 > view.getWidth() + EuclidianView.CLIP_DISTANCE)
+		if (x1 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE
+				&& x2 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE)
 			return true;
 
 		// close to screen

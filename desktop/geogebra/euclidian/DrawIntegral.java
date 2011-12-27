@@ -83,12 +83,12 @@ public class DrawIntegral extends Drawable {
 		// for DrawParametricCurve.plotCurve to work with special values,
 		// these changes are needed (also filter out out of screen integrals)
 		// see #1234
-		aRW = Math.max(aRW, view.getXmin() - EuclidianView.CLIP_DISTANCE);
-		if (aRW > view.getXmax() + EuclidianView.CLIP_DISTANCE)
+		aRW = Math.max(aRW, view.getXmin() - EuclidianStatic.CLIP_DISTANCE);
+		if (aRW > view.getXmax() + EuclidianStatic.CLIP_DISTANCE)
 			return;
 
-		bRW = Math.min(bRW, view.getXmax() + EuclidianView.CLIP_DISTANCE);
-		if (bRW < view.getXmin() - EuclidianView.CLIP_DISTANCE)
+		bRW = Math.min(bRW, view.getXmax() + EuclidianStatic.CLIP_DISTANCE);
+		if (bRW < view.getXmin() - EuclidianStatic.CLIP_DISTANCE)
 			return;
 
 		double ax = view.toScreenCoordXd(aRW);

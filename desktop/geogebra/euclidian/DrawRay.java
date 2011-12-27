@@ -180,10 +180,10 @@ public class DrawRay extends Drawable implements Previewable {
 			// clip ray at screen, that's important for huge coordinates of A
 			Point2D.Double[] clippedPoints = ClipLine.getClipped(a[0], a[1],
 					a[0] + lambda * v[0], a[1] + lambda * v[1],
-					-EuclidianView.CLIP_DISTANCE, view.getWidth()
-							+ EuclidianView.CLIP_DISTANCE,
-					-EuclidianView.CLIP_DISTANCE, view.getHeight()
-							+ EuclidianView.CLIP_DISTANCE);
+					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
+							+ EuclidianStatic.CLIP_DISTANCE,
+					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
+							+ EuclidianStatic.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
 			} else {

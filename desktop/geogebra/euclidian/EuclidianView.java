@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -155,9 +156,7 @@ public class EuclidianView implements EuclidianViewInterface,
 
 	public static final double YZERO_STANDARD = 315;
 
-	// need to clip just outside the viewing area when drawing eg vectors
-	// as a near-horizontal thick vector isn't drawn correctly otherwise
-	public static final int CLIP_DISTANCE = 5;
+	
 
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),

@@ -6,6 +6,7 @@ import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
@@ -33,4 +34,5 @@ public abstract class AwtFactory {
 	public abstract BasicStroke newMyBasicStroke(float f);
 	public abstract BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f);
+	public abstract Line2D newLine2D();
 }
