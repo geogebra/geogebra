@@ -2,6 +2,8 @@ package geogebra.awt;
 
 import java.awt.Shape;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.euclidian.GeneralPathClipped;
@@ -73,5 +75,29 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 
 	public Shape getAwtShape() {
 		return impl;
+	}
+
+	public PathIterator getPathIterator(AffineTransform affineTransform) {
+		// TODO Auto-generated method stub
+		return (PathIterator) impl.getPathIterator((java.awt.geom.AffineTransform) affineTransform);
+	}
+
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+		// TODO Auto-generated method stub
+		return (PathIterator) impl.getPathIterator((java.awt.geom.AffineTransform) at, flatness);
+	}
+
+	public boolean intersects(double x, double y, double w, double h) {
+		return impl.intersects(x, y, w, h);
+	}
+
+	public boolean intersects(java.awt.geom.Rectangle2D r) {
+		// TODO Auto-generated method stub
+		return impl.intersects(r);
+	}
+
+	public boolean intersects(Rectangle2D r) {
+		// TODO Auto-generated method stub
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
 	}
 }

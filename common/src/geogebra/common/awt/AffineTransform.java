@@ -1,6 +1,13 @@
 package geogebra.common.awt;
 
 public interface AffineTransform {
+	int m00 = 0;
+	int m10 = 0;
+	int m01 = 0;
+	int m11 = 0;
+	int m02 = 0;
+	int m12 = 0;
+	int type = 0;
 	public void setTransform(AffineTransform a);
 	public void setTransform(double m00, double m10, double m01, double m11, double m02, double m12);
 	public void concatenate(AffineTransform a);

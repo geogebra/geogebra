@@ -3,6 +3,8 @@ package geogebra.awt;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.factories.AwtFactory;
@@ -46,5 +48,17 @@ public class GenericShape implements geogebra.awt.Shape{
 	}
 	public Shape getAwtShape() {
 		return impl;
+	}
+	public PathIterator getPathIterator(AffineTransform affineTransform) {
+		return (PathIterator) impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(affineTransform));
+	}
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+		return (PathIterator) impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(at), flatness);
+	}
+	public boolean intersects(double x, double y, double w, double h) {
+		return impl.intersects(x, y, w, h);
+	}
+	public boolean intersects(Rectangle2D r) {
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
 	}
 }

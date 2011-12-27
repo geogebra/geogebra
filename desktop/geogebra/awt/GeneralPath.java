@@ -1,5 +1,7 @@
 package geogebra.awt;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 
@@ -59,6 +61,19 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shap
 	}
 	public java.awt.Shape getAwtShape() {
 		return impl;
+	}
+	public PathIterator getPathIterator(AffineTransform affineTransform) {
+		// TODO Auto-generated method stub
+		return (PathIterator) impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(affineTransform));
+	}
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+		return (PathIterator) impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(at), flatness);
+	}
+	public boolean intersects(double x, double y, double w, double h) {
+		return impl.intersects(x, y, w, h);
+	}
+	public boolean intersects(Rectangle2D r) {
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
 	}
 
 }
