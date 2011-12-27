@@ -592,12 +592,10 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		// SHOW, HIDE
 		
 		//G.Sturr 2010-5-14: allow menu to show spreadsheet trace for non-drawables
-		// if (geo.isDrawable()) { 	
-		if (geo.isDrawable() || geo.isSpreadsheetTraceable()) { 
-			JCheckBoxMenuItem cbItem;
+        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(Application.VIEW_SPREADSHEET))) {  			JCheckBoxMenuItem cbItem;
 
 			// show object
-			if (geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
+			if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
 				cbItem = new JCheckBoxMenuItem( app.getPlain("ShowObject"));
 				cbItem.setIcon(app.getImageIcon("mode_showhideobject_16.gif"));
 				cbItem.setSelected(geo.isSetEuclidianVisible());
