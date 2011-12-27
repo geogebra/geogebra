@@ -155,8 +155,8 @@ public class Kernel3D extends Kernel {
 	 */
 
 	@Override
-	protected Manager3DInterface newManager3D(Kernel kernel) {
-		return new Manager3D(kernel);
+	public Manager3DInterface newManager3D(AbstractKernel kernel) {
+		return new Manager3D((Kernel)kernel);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction construction) {
+	public MyXMLHandler newMyXMLHandler(AbstractKernel kernel, Construction construction) {
 		return new MyXMLHandler3D(kernel, construction);
 	}
 

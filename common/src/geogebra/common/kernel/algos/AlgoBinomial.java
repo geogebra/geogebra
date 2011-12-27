@@ -14,7 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.util.AbstractMyMath2;
+import geogebra.common.util.MyMath2;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -92,7 +92,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	  return binom;
 	}*/
 
-    private static double Binom(double n, double r,AbstractMyMath2 m) {
+    private static double Binom(double n, double r) {
 		double INFINITY=Double.POSITIVE_INFINITY;
     	try {
     		if (n==0d && r==0d) return 1d;
@@ -100,7 +100,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     		if (n<1d || r<0d || n<r) return 0d;
     		if (Math.floor(n)!=n || Math.floor(r)!=r) return 0d;
 	    
-    		double ncr=BinomLog(n,r,m);
+    		double ncr=BinomLog(n,r);
     		if (ncr==INFINITY) return INFINITY; // check to stop needless slow calculations
 
     		// BinomLog is not exact for some values
@@ -138,12 +138,12 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	    return ncr.doubleValue();
 	  }
 	
-	private static double BinomLog(double n, double r,AbstractMyMath2 m) {
+	private static double BinomLog(double n, double r) {
 		// exact for n<=37
 		// also  if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg Binom2(38,19) is wrong
 		
-		return Math.floor(0.5+Math.exp(m.logGamma(n+1d)-m.logGamma(r+1)-m.logGamma((n-r)+1)));
+		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(r+1)-MyMath2.logGamma((n-r)+1)));
 		
 	}
 	
@@ -159,7 +159,7 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
     @Override
 	public final void compute() {
     	if (input[0].isDefined() && input[1].isDefined()) {
-    		double nCr=Binom(a.getDouble(), b.getDouble(),kernel.getMyMath2());
+    		double nCr=Binom(a.getDouble(), b.getDouble());
 			num.setValue(nCr);
     	}
     	else num.setUndefined();

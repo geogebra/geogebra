@@ -1,36 +1,23 @@
 package geogebra.web.kernel;
 
-import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EquationSolverInterface;
-import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.MacroKernelInterface;
-import geogebra.common.kernel.SystemOfEquationsSolverInterface;
-import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.optimization.ExtremumFinder;
-import geogebra.common.kernel.parser.ParserInterface;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.GgbMat;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
@@ -67,20 +54,9 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    protected void notifyEuclidianViewCE() {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     public LaTeXCache newLaTeXCache() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public AbstractApplication getApplication() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -104,84 +80,7 @@ public class Kernel extends AbstractKernel {
     }
 
 	@Override
-    public GgbMat getGgbMat(MyList myList) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-	@Override
-    public GeoNumeric getDefaultNumber(boolean geoAngle) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-	
-	@Override
-    public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoConicPart newGeoConicPart(Construction cons, int type) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-	
-
-	@Override
-    public GeoImplicitPoly newGeoImplicitPoly(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	
-	@Override
-    public geogebra.common.kernel.parser.Parser getParser() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public ExtremumFinder getExtremumFinder() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public EquationSolverInterface getEquationSolver() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public void resetGeoGebraCAS() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public AbstractUndoManager getUndoManager(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoImplicitPoly ImplicitPoly(String label, Polynomial lhs) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement DependentImplicitPoly(String label, Equation equ) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -191,42 +90,9 @@ public class Kernel extends AbstractKernel {
 	    // TODO Auto-generated method stub
 	    return null;
     }
-
-	@Override
-    public GeoElement[] useMacro(String[] labels, MacroInterface macro,
-            GeoElement[] arg) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public DocHandler newMyXMLHandler(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-	@Override
-    public GeoElement createGeoElement(Construction cons2, String type) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-	@Override
-    public SystemOfEquationsSolverInterface getSystemOfEquationsSolver(
-            EquationSolverInterface eSolver) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
+	
 	@Override
     public AbstractGeoTextField getGeoTextField(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GgbMat getGgbMat(GeoList inputList) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

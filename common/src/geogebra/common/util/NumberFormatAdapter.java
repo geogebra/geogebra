@@ -10,6 +10,8 @@ public interface NumberFormatAdapter {
 
 	public void setMaximumFractionDigits(int decimals);
 
+	public void applyPattern(String string);
+
 	
 
 }

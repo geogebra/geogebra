@@ -1,8 +1,7 @@
-package geogebra.util;
+package geogebra.common.util;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.util.AbstractMyMath2;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
@@ -13,8 +12,8 @@ import org.apache.commons.math.special.Gamma;
  * moved functions from MyMath as they use org.apache
  * important for minimal applets
  */
-public class MyMath2 extends AbstractMyMath2{
-	final public double gammaIncomplete(double a, double x, AbstractKernel kernel) {
+public class MyMath2 {
+	final public static double gammaIncomplete(double a, double x, AbstractKernel kernel) {
 
 		try {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html
@@ -26,7 +25,7 @@ public class MyMath2 extends AbstractMyMath2{
 
 	}
 
-	final public double gammaIncompleteRegularized(double a, double x) {
+	final public static double gammaIncompleteRegularized(double a, double x) {
 
 		try {
 			return Gamma.regularizedGammaP(a, x);
@@ -36,13 +35,13 @@ public class MyMath2 extends AbstractMyMath2{
 
 	}
 
-	final public double beta(double a, double b) {
+	final public static double beta(double a, double b) {
 
 		return Math.exp(Beta.logBeta(a, b));
 
 	}
 
-	final public double betaIncomplete(double a, double b, double x) {
+	final public static double betaIncomplete(double a, double b, double x) {
 
 		try {
 			return Beta.regularizedBeta(x, a, b) * beta(a, b);
@@ -52,7 +51,7 @@ public class MyMath2 extends AbstractMyMath2{
 
 	}
 
-	final public double betaIncompleteRegularized(double a, double b,
+	final public static double betaIncompleteRegularized(double a, double b,
 			double x) {
 
 		try {
@@ -69,7 +68,7 @@ public class MyMath2 extends AbstractMyMath2{
 	 * @param x 
 	 * @return factorial
 	 */
-	final public double factorial(double x) {
+	final public static double factorial(double x) {
 
 		if (x < 0)
 			return Double.NaN; // bugfix Michael Borcherds 2008-05-04
@@ -98,7 +97,7 @@ public class MyMath2 extends AbstractMyMath2{
 		factorialTable[4] = 24.0;
 	}
 
-	final public double gamma(double x, AbstractKernel kernel) {
+	final public static double gamma(double x, AbstractKernel kernel) {
 
 		// Michael Borcherds 2008-05-04
 		if (x <= 0 && AbstractKernel.isEqual(x, Math.round(x)))
@@ -113,7 +112,7 @@ public class MyMath2 extends AbstractMyMath2{
 		// Michael Borcherds 2007-10-15 END
 	}
 
-	final public double erf(double mean, double standardDeviation,
+	final public static double erf(double mean, double standardDeviation,
 			double x) {
 		try {
 			return Erf.erf((x - mean) / (standardDeviation));
@@ -128,15 +127,15 @@ public class MyMath2 extends AbstractMyMath2{
 		}
 	}
 
-	final public double psi(double x) {
+	final public static double psi(double x) {
 		return Gamma.digamma(x);
 	}
 	
-	final public double logGama(double x) {
+	final public static double logGamma(double x) {
 		return Gamma.logGamma(x);
 	}
 
-	final public double polyGamma(NumberValue order, double x) {
+	final public static double polyGamma(NumberValue order, double x) {
 		int o = (int) order.getDouble();
 		switch (o) {
 		case 0: return Gamma.digamma(x);

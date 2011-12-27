@@ -52,4 +52,9 @@ public class NumberFormat extends Format implements NumberFormatAdapter {
 		 }
 	}
 
+	public void applyPattern(String string) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

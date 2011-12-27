@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.algos.*;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -55,6 +56,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
@@ -65,6 +67,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoImage;
@@ -84,6 +87,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
+import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
 import geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
 import geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
@@ -98,6 +102,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
+import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.statistics.AlgoANOVA;
 import geogebra.common.kernel.statistics.AlgoBernoulliBarChart;
 import geogebra.common.kernel.statistics.AlgoBinomialDist;
@@ -198,8 +203,6 @@ import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.main.MyError;
-import geogebra.common.util.AbstractMyMath2;
-import geogebra.common.util.GgbMat;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.NumberFormatAdapter;
@@ -212,6 +215,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.TreeSet;
 
 public abstract class AbstractKernel {
 
@@ -367,6 +371,16 @@ public abstract class AbstractKernel {
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 
+	protected AbstractApplication app;
+
+	private EquationSolver eqnSolver;
+	private SystemOfEquationsSolver sysEqSolv;
+	private ExtremumFinder extrFinder;
+	protected Parser parser;
+
+	/** 3D manager */
+	private Manager3DInterface manager3D;
+	
 	public AbstractKernel() {
 		kernelInstances++;
 		kernelID = kernelInstances;
@@ -399,6 +413,97 @@ public abstract class AbstractKernel {
 	 */
 	public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel) {
 		return new AlgebraProcessor(kernel);
+	}
+
+	/**
+	 * @param kernel
+	 * @return a new 3D manager
+	 * TODO: reduce visibility after refactoring
+	 */
+	public Manager3DInterface newManager3D(AbstractKernel kernel) {
+		return null;
+	}
+
+	/**
+	 * sets the 3D manager
+	 * 
+	 * @param manager
+	 */
+	public void setManager3D(Manager3DInterface manager) {
+		this.manager3D = manager;
+	}
+	
+	/**
+	 * 
+	 * @return default plane (null for 2D implementation, xOy plane for 3D)
+	 */
+	public GeoPlaneND getDefaultPlane() {
+		return null;
+	}
+
+	/**
+	 * @return the 3D manager of this
+	 */
+	public Manager3DInterface getManager3D() {
+		return manager3D;
+	}
+
+	/**
+	 * creates the construction cons
+	 */
+	protected void newConstruction() {
+		cons = new Construction(this);
+	}
+
+	/**
+	 * creates a new MyXMLHandler (used for 3D)
+	 * 
+	 * @param cons
+	 *            construction used in MyXMLHandler constructor
+	 * @return a new MyXMLHandler
+	 */
+	public MyXMLHandler newMyXMLHandler(Construction cons) {
+		return newMyXMLHandler(this, cons);
+	}
+
+	/**
+	 * creates a new MyXMLHandler (used for 3D)
+	 * 
+	 * @param kernel
+	 * @param cons
+	 * @return a new MyXMLHandler
+	 */
+	public MyXMLHandler newMyXMLHandler(AbstractKernel kernel, Construction cons) {
+		return new MyXMLHandler(kernel, cons);
+	}
+
+	final public AbstractApplication getApplication() {
+		return app;
+	}
+
+	final public EquationSolver getEquationSolver() {
+		if (eqnSolver == null)
+			eqnSolver = new EquationSolver(this);
+		return eqnSolver;
+	}
+
+	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
+			EquationSolverInterface eSolver) {
+		if (sysEqSolv == null)
+			sysEqSolv = new SystemOfEquationsSolver((EquationSolver) eSolver);
+		return sysEqSolv;
+	}
+
+	final public ExtremumFinder getExtremumFinder() {
+		if (extrFinder == null)
+			extrFinder = new ExtremumFinder();
+		return extrFinder;
+	}
+
+	final public Parser getParser() {
+		if (parser == null)
+			parser = new Parser(this, cons);
+		return parser;
 	}
 
 	/**
@@ -1555,11 +1660,43 @@ public abstract class AbstractKernel {
 		return value;
 	}
 
-	/**
-	 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
-	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
-	 * otherwise x is returned.
-	 */
+	// //////////////////////////////////////////////
+		// FORMAT FOR NUMBERS
+		// //////////////////////////////////////////////
+
+		public double axisNumberDistance(double units,
+				NumberFormatAdapter numberFormat) {
+
+			// calc number of digits
+			int exp = (int) Math.floor(Math.log(units) / Math.log(10));
+			int maxFractionDigtis = Math.max(-exp, getPrintDecimals());
+
+			// format the numbers
+			numberFormat.applyPattern("###0.##");
+			numberFormat.setMaximumFractionDigits(maxFractionDigtis);
+
+			// calc the distance
+			double pot = Math.pow(10, exp);
+			double n = units / pot;
+			double distance;
+
+			if (n > 5) {
+				distance = 5 * pot;
+			} else if (n > 2) {
+				distance = 2 * pot;
+			} else {
+				distance = pot;
+			}
+
+			return distance;
+		}
+
+		/**
+		 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
+		 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
+		 * otherwise x is returned.
+		 */
+
 	final public static double checkDecimalFraction(double x, double precision) {
 
 		// Application.debug(precision+" ");
@@ -1743,6 +1880,51 @@ public abstract class AbstractKernel {
 
 	}
 
+	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
+
+	String libraryJavaScript = defaultLibraryJavaScript;
+
+	public void resetLibraryJavaScript() {
+		libraryJavaScript = defaultLibraryJavaScript;
+	}
+
+	public void setLibraryJavaScript(String str) {
+		AbstractApplication.debug(str);
+		libraryJavaScript = str;
+
+		// libraryJavaScript =
+		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');ggbApplet.registerObjectUpdateListener('A','listener');}function listener() {//java.lang.System.out.println('add listener called'); var x = ggbApplet.getXcoord('A');var y = ggbApplet.getYcoord('A');var len = Math.sqrt(x*x + y*y);if (len > 5) { x=x*5/len; y=y*5/len; }ggbApplet.unregisterObjectUpdateListener('A');ggbApplet.setCoords('A',x,y);ggbApplet.registerObjectUpdateListener('A','listener');}";
+		// libraryJavaScript =
+		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');}";
+	}
+
+	// public String getLibraryJavaScriptXML() {
+	// return Util.encodeXML(libraryJavaScript);
+	// }
+
+	public String getLibraryJavaScript() {
+		return libraryJavaScript;
+	}
+
+	/** return all points of the current construction */
+	public TreeSet<GeoElement> getPointSet() {
+		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
+	}
+
+	/*******************************************************
+	 * SAVING
+	 *******************************************************/
+
+	private boolean isSaving;
+
+	public synchronized boolean isSaving() {
+		return isSaving;
+	}
+
+	public synchronized void setSaving(boolean saving) {
+		isSaving = saving;
+	}
+	
 	private final StringBuilder sbFormatAngle = new StringBuilder(40);
 
 	private boolean arcusFunctionCreatesAngle;
@@ -2231,6 +2413,36 @@ public abstract class AbstractKernel {
 		}
 		return result;
 	}
+	
+	/**
+	 * Resets the GeoGebraCAS and clears all variables.
+	 */
+	public void resetGeoGebraCAS() {
+		if (!isGeoGebraCASready())
+			return;
+
+		// do NOT reset CAS because we are using one static CAS for all
+		// applicatin windows
+		// see http://www.geogebra.org/trac/ticket/1415
+		// instead we clear variable names of this kernel individually below
+		// ggbCAS.reset();
+
+		// CAS reset may not clear user variables right now,
+		// see http://www.geogebra.org/trac/ticket/1249
+		// so we clear all user variable names individually from the CAS
+		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
+			geo.unbindVariableInCAS();
+		}
+	}
+
+	// G.Sturr 2009-10-18
+	final public void setAlgebraStyle(int style) {
+		algebraStyle = style;
+	}
+
+	final public int getAlgebraStyle() {
+		return algebraStyle;
+	}
 
 	private MaxSizeHashMap<String, String> ggbCasCache;
 
@@ -2404,8 +2616,6 @@ public abstract class AbstractKernel {
 	 */
 	@Deprecated
 	public abstract LaTeXCache newLaTeXCache();
-
-	public abstract AbstractApplication getApplication();
 
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {
@@ -2885,10 +3095,6 @@ public abstract class AbstractKernel {
 
 	public abstract AbstractAnimationManager getAnimatonManager();
 
-	public AbstractMyMath2 getMyMath2() {
-		return new AbstractMyMath2();
-	}
-
 	public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
 		intersectionAlgos.remove(algo);
 	}
@@ -3328,15 +3534,7 @@ public abstract class AbstractKernel {
 
 	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
 
-	/**
-	 * @deprecated
-	 * @param myList
-	 * @return
-	 */
-	@Deprecated
-	public abstract GgbMat getGgbMat(MyList myList);
-
-	public abstract GgbMat getGgbMat(GeoList inputList);
+	
 
 	/**
 	 * Get {@link Kernel#insertLineBreaks insertLineBreaks}.
@@ -3362,26 +3560,16 @@ public abstract class AbstractKernel {
 		this.insertLineBreaks = insertLineBreaks;
 	}
 
-	public abstract GeoElement[] PolygonND(String[] labels, GeoPointND[] P);
+	public GeoConicPart newGeoConicPart(Construction cons, int type) {// temporary
+		return new GeoConicPart(cons, type);
+	}
 
-	public abstract GeoElement[] PolyLineND(String[] labels, GeoPointND[] P);
+	public GeoImplicitPoly newGeoImplicitPoly(Construction cons) {
+		return new GeoImplicitPoly(cons);
+	}
 
-	public abstract GeoConicPart newGeoConicPart(Construction cons, int type);
-
-	public abstract GeoImplicitPoly newGeoImplicitPoly(Construction cons);
 
 	// temporary methods just while moving things
-
-	public abstract geogebra.common.kernel.parser.Parser getParser();
-
-	public abstract ExtremumFinder getExtremumFinder();
-
-	public abstract EquationSolverInterface getEquationSolver();
-
-	public abstract SystemOfEquationsSolverInterface getSystemOfEquationsSolver(
-			EquationSolverInterface eSolver);
-
-	public abstract void resetGeoGebraCAS();
 
 	public Geo3DVec getGeo3DVec(double x, double y, double z) {
 		AbstractApplication.debug("GeoGebraCommon does not support 3D Vectors");
@@ -3499,6 +3687,22 @@ public abstract class AbstractKernel {
 		GeoConic conic = new GeoConic(cons, label, coeffs);
 		return conic;
 	}
+	
+	/** Implicit Polynomial */
+	final public GeoImplicitPoly ImplicitPoly(String label, Polynomial poly) {
+		GeoImplicitPoly implicitPoly = new GeoImplicitPoly(cons, label, poly);
+		return implicitPoly;
+	}
+
+
+
+	final public GeoElement DependentImplicitPoly(String label, Equation equ) {
+		AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(cons,
+				label, equ);
+		GeoElement geo = algo.getGeo();
+		return geo;
+	}
+
 
 	/**
 	 * Text dependent on coefficients of arithmetic expressions with variables,
@@ -3556,6 +3760,9 @@ public abstract class AbstractKernel {
 		return p;
 	}
 
+	/********************
+	 * ALGORITHMIC PART *
+	 ********************/
 	/** Point anywhere on path with */
 	final public GeoPoint2 ClosestPoint(String label, Path path, GeoPoint2 p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, label, path, p);
@@ -4529,10 +4736,6 @@ public abstract class AbstractKernel {
 	@Deprecated
 	public abstract AbstractUndoManager getUndoManager(Construction cons);
 
-	public abstract GeoImplicitPoly ImplicitPoly(String label, Polynomial lhs);
-
-	public abstract GeoElement DependentImplicitPoly(String label, Equation equ);
-
 	/**
 	 * @deprecated
 	 * @return
@@ -4540,8 +4743,22 @@ public abstract class AbstractKernel {
 	@Deprecated
 	public abstract AbstractCommandDispatcher getCommandDispatcher();
 
-	public abstract GeoElement[] useMacro(String[] labels,
-			MacroInterface macro, GeoElement[] arg);
+	/**
+	 * Creates a new algorithm that uses the given macro.
+	 * 
+	 * @return output of macro algorithm
+	 */
+	
+	final public GeoElement[] useMacro(String[] labels, MacroInterface macro,
+			GeoElement[] input) {
+		try {
+			AlgoMacro algo = new AlgoMacro(cons, labels, (Macro) macro, input);
+			return algo.getOutput();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * Returns the kernel settings in XML format.
@@ -4740,12 +4957,116 @@ public abstract class AbstractKernel {
 		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);
 	}
 
-	public abstract GeoElement createGeoElement(Construction cons2, String type);
+	/**
+	 * Creates a new GeoElement object for the given type string.
+	 * 
+	 * @param type
+	 *            String as produced by GeoElement.getXMLtypeString()
+	 */
+	public GeoElement createGeoElement(Construction cons, String type)
+			throws MyError {
+		// the type strings are the classnames in lowercase without the
+		// beginning "geo"
+		// due to a bug in GeoGebra 2.6c the type strings for conics
+		// in XML may be "ellipse", "hyperbola", ...
 
-	public void setAlgebraStyle(int parseInt) {
-		// TODO Auto-generated method stub
+		switch (type.charAt(0)) {
+		case 'a': // angle
+			return new GeoAngle(cons);
 
+		case 'b': // angle
+			if (type.equals("boolean")) {
+				return new GeoBoolean(cons);
+			}
+			return new GeoButton(cons); // "button"
+
+		case 'c': // conic
+			if (type.equals("conic"))
+				return new GeoConic(cons);
+			else if (type.equals("conicpart"))
+				return new GeoConicPart(cons, 0);
+		    else if (type.equals("curvecartesian"))
+		    	return new GeoCurveCartesian(cons);
+		    else if (type.equals("cascell"))
+		    	return new GeoCasCell(cons);
+			else if (type.equals("circle")) { // bug in GeoGebra 2.6c
+				return new GeoConic(cons);
+			}
+
+		case 'd': // doubleLine // bug in GeoGebra 2.6c
+			return new GeoConic(cons);
+
+		case 'e': // ellipse, emptyset // bug in GeoGebra 2.6c
+			return new GeoConic(cons);
+
+		case 'f': // function
+			if (type.equals("function")) {
+				return new GeoFunction(cons);
+			} else if (type.equals("functionconditional")) {
+				return new GeoFunctionConditional(cons);
+			} else {
+				return new GeoFunctionNVar(cons);
+			}
+
+		case 'h': // hyperbola // bug in GeoGebra 2.6c
+			return new GeoConic(cons);
+
+		case 'i': // image,implicitpoly
+			if (type.equals("image"))
+				return new GeoImage(cons);
+			else if (type.equals("intersectinglines")) // bug in GeoGebra 2.6c
+				return new GeoConic(cons);
+			else if (type.equals("implicitpoly"))
+				return new GeoImplicitPoly(cons);
+			else if (type.equals("interval")) {
+				return new GeoInterval(cons);
+			} 
+			
+		case 'l': // line, list, locus
+			if (type.equals("line"))
+				return new GeoLine(cons);
+			else if (type.equals("list"))
+				return new GeoList(cons);
+			else
+				return new GeoLocus(cons);
+
+		case 'n': // numeric
+			return new GeoNumeric(cons);
+
+		case 'p': // point, polygon
+			if (type.equals("point"))
+				return new GeoPoint2(cons);
+			else if (type.equals("polygon"))
+				return new GeoPolygon(cons, null);
+			else if (type.equals("polyline"))
+				return new GeoPolyLine(cons, null);
+			else
+				// parabola, parallelLines, point // bug in GeoGebra 2.6c
+				return new GeoConic(cons);
+
+		case 'r': // ray
+			return new GeoRay(cons, null);
+
+		case 's': // segment
+			return new GeoSegment(cons, null, null);
+
+		case 't':
+			if (type.equals("text")) {
+				return new GeoText(cons); // text
+			}
+			return getGeoTextField(cons); // textfield
+
+		case 'v': // vector
+			return new GeoVector(cons);
+
+		default:
+			throw new MyError(cons.getApplication(),
+					"Kernel: GeoElement of type " + type
+							+ " could not be created.");
+		}
 	}
+
+
 
 	/*
 	 * used to delay animation start until everything loaded
@@ -8007,6 +8328,68 @@ public abstract class AbstractKernel {
 		return algo.getOutput();
 	}
 
+	public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
+		return Polygon(labels, P);
+	}
+
+	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
+		return PolyLine(labels, P);
+	}
+
+	final public GeoElement[] VectorPolygon(String[] labels, GeoPoint2[] points) {
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+
+		cons.setSuppressLabelCreation(true);
+		Circle(null, points[0],
+				new MyDouble(this, points[0].distance(points[1])));
+		cons.setSuppressLabelCreation(oldMacroMode);
+
+		StringBuilder sb = new StringBuilder();
+
+		double xA = points[0].inhomX;
+		double yA = points[0].inhomY;
+
+		for (int i = 1; i < points.length; i++) {
+
+			double xC = points[i].inhomX;
+			double yC = points[i].inhomY;
+
+			GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
+			GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
+
+			// make string like this
+			// (a+x(A),b+y(A))
+			sb.setLength(0);
+			sb.append('(');
+			sb.append(nx.getLabel());
+			sb.append("+x(");
+			sb.append(points[0].getLabel());
+			sb.append("),");
+			sb.append(ny.getLabel());
+			sb.append("+y(");
+			sb.append(points[0].getLabel());
+			sb.append("))");
+
+			// Application.debug(sb.toString());
+
+			GeoPoint2 pp = (GeoPoint2) getAlgebraProcessor().evaluateToPoint(
+					sb.toString(), true);
+
+			try {
+				cons.replace(points[i], pp);
+				points[i] = pp;
+				// points[i].setEuclidianVisible(false);
+				points[i].update();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		points[0].update();
+
+		return Polygon(labels, points);
+
+	}
 	/**
 	 * IntersectLines yields intersection point named label of lines g, h
 	 */
@@ -9376,17 +9759,8 @@ public abstract class AbstractKernel {
 	public abstract GeoElement Hull(String label, GeoList geoList,
 			GeoNumeric geoNumeric);
 
-	public GeoPlaneND getDefaultPlane() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public abstract GeoElement[] IntersectPolygons(String[] labels,
 			GeoPolygon geoPolygon, GeoPolygon geoPolygon2);
 
-	public Manager3DInterface getManager3D() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

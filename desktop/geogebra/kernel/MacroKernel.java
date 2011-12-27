@@ -37,7 +37,7 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 	public MacroKernel(Kernel parentKernel) {
 		this.parentKernel = parentKernel;
 
-		app = parentKernel.app;
+		app = parentKernel.getApplication();
 		setUndoActive(false);
 		setAllowVisibilitySideEffects(false);
 

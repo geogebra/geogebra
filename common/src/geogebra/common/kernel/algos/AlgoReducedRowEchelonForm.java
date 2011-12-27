@@ -71,7 +71,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
     @Override
 	public final void compute() {
     	   		
-   		GgbMat matrix = cons.getKernel().getGgbMat(inputList);
+   		GgbMat matrix = new GgbMat(inputList);
    		
    		if (matrix.isUndefined()) {
   			outputList.setUndefined();

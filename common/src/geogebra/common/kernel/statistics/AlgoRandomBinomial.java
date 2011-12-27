@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.util.MyMath2;
 
 /**
  * Computes RandomNormal[a, b]
@@ -132,7 +133,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 	private double logOfKFactorial(int k) {
 		if (k<10) {
-			if (logtable[k] == 0) logtable[k] = Math.log(kernel.getMyMath2().factorial(k+1d));
+			if (logtable[k] == 0) logtable[k] = Math.log(MyMath2.factorial(k+1d));
 			return logtable[k];
 		}
 

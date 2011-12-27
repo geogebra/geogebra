@@ -22,9 +22,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-//import geogebra.kernel.geos.GeoElement;
 import geogebra.common.util.GgbMat;
-//import geogebra.kernel.arithmetic.Polynomial;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -460,7 +458,7 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	public MyList invert() {
-		GgbMat g = kernel.getGgbMat(this);
+		GgbMat g = new GgbMat(this);
 		g.inverseImmediate();
 		MyList gl = new MyList(kernel);
 		g.getMyList(gl, kernel);

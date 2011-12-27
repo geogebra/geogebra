@@ -62,7 +62,7 @@ public class AlgoDeterminant extends AlgoElement {
     @Override
 	public final void compute() {
     	   		
-   		GgbMat matrix = kernel.getGgbMat(inputList.getMyList());
+   		GgbMat matrix = new GgbMat(inputList);
    		
    		if (matrix.isUndefined() || !matrix.isSquare()) {
   			num.setUndefined();
