@@ -3,7 +3,7 @@ package geogebra.web.euclidian;
 import com.google.gwt.canvas.client.Canvas;
 
 import geogebra.web.awt.BasicStroke;
-import geogebra.web.kernel.gawt.Color;
+import geogebra.web.awt.Color;
 import geogebra.web.kernel.gawt.Ellipse2D;
 import geogebra.web.kernel.gawt.Line2D;
 

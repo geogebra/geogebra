@@ -33,7 +33,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 
 	@Override
-	public Color newColor(int red, float green, int blue) {
+	public Color newColor(float red, float green, float blue) {
 		return new geogebra.awt.Color(red, green, blue);
 	}
 	
