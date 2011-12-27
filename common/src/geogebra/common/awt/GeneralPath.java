@@ -11,9 +11,7 @@ public abstract class GeneralPath implements geogebra.common.awt.Shape {
 
 	public abstract void closePath();
 
-	public Shape createTransformedShape(AffineTransform affineTransform) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract Shape createTransformedShape(AffineTransform affineTransform);
 
+	public abstract Point2D getCurrentPoint();
 }

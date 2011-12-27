@@ -1,6 +1,6 @@
 package geogebra.common.awt;
 
-public abstract class Rectangle {
+public abstract class Rectangle extends Rectangle2D {
 	
 	public abstract double getY();
 	public abstract double getX();
@@ -20,5 +20,6 @@ public abstract class Rectangle {
 	public abstract double getMaxX();
 	public abstract double getMaxY();
 	public abstract boolean contains(double d, double e);
+	public abstract void add(double x, double y);
 
 }

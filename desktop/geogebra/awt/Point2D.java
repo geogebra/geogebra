@@ -28,5 +28,10 @@ private java.awt.geom.Point2D.Double impl;
 	public void setY(double y) {
 		impl.y=y;
 	}
+	@Override
+	public double distance(geogebra.common.awt.Point2D q) {
+		// TODO Auto-generated method stub
+		return impl.distance(q.getX(),q.getY());
+	}
 
 }

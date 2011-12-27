@@ -2,6 +2,7 @@ package geogebra.awt;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
+import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 
@@ -74,6 +75,16 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shap
 	}
 	public boolean intersects(Rectangle2D r) {
 		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
+	}
+	@Override
+	public geogebra.common.awt.Shape createTransformedShape(
+			AffineTransform affineTransform) {
+		return (geogebra.common.awt.Shape) impl.createTransformedShape((java.awt.geom.AffineTransform) affineTransform);
+	}
+	
+	@Override
+	public Point2D getCurrentPoint() {
+		return new geogebra.awt.Point2D(impl.getCurrentPoint().getX(),impl.getCurrentPoint().getY());
 	}
 
 }
