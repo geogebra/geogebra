@@ -130,71 +130,16 @@ import javax.swing.border.Border;
  * @author Markus Hohenwarter
  * @version
  */
-public class EuclidianView implements EuclidianViewInterface,
-		EuclidianViewInterface2D, Printable, SettingListener {
+public class EuclidianView extends EuclidianViewInterface2D implements EuclidianViewInterface,
+		Printable, SettingListener {
 
 	protected static final long serialVersionUID = 1L;
 
-	protected static final int MIN_WIDTH = 50;
-	protected static final int MIN_HEIGHT = 50;
-
-	private static final String EXPORT1 = "Export_1"; // Points used to define
-														// corners for export
-														// (if they exist)
-	private static final String EXPORT2 = "Export_2";
-
-	// pixel per centimeter (at 72dpi)
-	protected static final double PRINTER_PIXEL_PER_CM = 72.0 / 2.54;
-
-	public static final double MODE_ZOOM_FACTOR = 1.5;
-
-	public static final double MOUSE_WHEEL_ZOOM_FACTOR = 1.1;
-
-	public static final double SCALE_STANDARD = 50;
-
-	// public static final double SCALE_MAX = 10000;
-	// public static final double SCALE_MIN = 0.1;
-	public static final double XZERO_STANDARD = 215;
-
-	public static final double YZERO_STANDARD = 315;
+	
 
 	
 
-	public static final Integer[] getLineTypes() {
-		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED) };
-		return ret;
-	}
-
-	// G.Sturr added 2009-9-21
-	public static final Integer[] getPointStyles() {
-		Integer[] ret = {
-				new Integer(EuclidianStyleConstants.POINT_STYLE_DOT),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_CROSS),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_CIRCLE),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_PLUS),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) };
-		return ret;
-	}
-
-	// end
-
-	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
-
-	// Michael Borcherds 2008-04-28
-	public static final int GRID_CARTESIAN = 0;
-	public static final int GRID_ISOMETRIC = 1;
-	public static final int GRID_POLAR = 2;
-	private int gridType = GRID_CARTESIAN;
-
+	
 	// zoom rectangle colors
 	protected static final Color colZoomRectangle = new Color(200, 200, 230);
 	protected static final Color colZoomRectangleFill = new Color(200, 200,
@@ -539,7 +484,7 @@ public class EuclidianView implements EuclidianViewInterface,
 	private int evNo = 1;
 
 	private final EuclidianSettings settings;
-	public static int EVNO_GENERAL = 1001;
+	
 
 	public EuclidianView(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, EuclidianSettings settings) {
