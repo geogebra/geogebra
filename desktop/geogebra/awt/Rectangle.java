@@ -67,12 +67,13 @@ public class Rectangle extends geogebra.common.awt.Rectangle{
 		return impl.contains(x, y);
 	}
 	/**
-	 * @param frameBounds
-	 * @return
+	 * @param rect Common rectangle to unwrap
+	 * @return java.awt.Rectangle from the wrapper or null for wrong input type 
 	 */
-	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.Rectangle frameBounds) {
-
-		return ((geogebra.awt.Rectangle)frameBounds).impl;
+	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.Rectangle rect) {
+		if(!(rect instanceof Rectangle))
+			return null;
+		return ((Rectangle)rect).impl;
 	}
 	@Override
 	public boolean contains(geogebra.common.awt.Rectangle labelRectangle) {
