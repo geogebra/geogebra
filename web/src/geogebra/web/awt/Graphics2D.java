@@ -45,19 +45,21 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    this.context = canvas.getContext2d();
     }
 
+	
 	@Override
-	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
+    public void draw3DRect(int x, int y, int width, int height, boolean raised) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
+    public void fill3DRect(int x, int y, int width, int height, boolean raised) {
 		// TODO Auto-generated method stub
 
 	}
 
-	//tmp@Override
+	//tmp
 	/**<p>
 	 * Draws a shape.
 	 * </p>
@@ -99,55 +101,63 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	}
 
+	
 	@Override
-	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	//@Override
+	//
 	public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
 	        int y) {
 		context.drawImage((BufferedImage) img, x, y);
 	}
 
+	
 	@Override
-	public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
+    public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
+    public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void drawString(String str, int x, int y) {
+    public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
 	}
 
+	
 	@Override
-	public void drawString(String str, float x, float y) {
+    public void drawString(String str, float x, float y) {
 		context.fillText(str, x, y);
 	}
 
+	
 	@Override
-	public void drawString(AttributedCharacterIterator iterator, int x, int y) {
+    public void drawString(AttributedCharacterIterator iterator, int x, int y) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void drawString(AttributedCharacterIterator iterator, float x,
+    public void drawString(AttributedCharacterIterator iterator, float x,
 	        float y) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void drawGlyphVector(GlyphVector g, float x, float y) {
+    public void drawGlyphVector(GlyphVector g, float x, float y) {
 		// TODO Auto-generated method stub
 
 	}
@@ -193,26 +203,30 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return false;
 	}
 
+	
 	@Override
-	public GraphicsConfiguration getDeviceConfiguration() {
+    public GraphicsConfiguration getDeviceConfiguration() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@Override
-	public void setComposite(Composite comp) {
+    public void setComposite(Composite comp) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void setPaint(Paint paint) {
+    public void setPaint(Paint paint) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void setStroke(BasicStroke stroke) {
+    public void setStroke(BasicStroke stroke) {
 		if (stroke != null) {
 			context.setLineWidth(((geogebra.web.awt.BasicStroke)stroke).getLineWidth());
 			context.setLineCap(((geogebra.web.awt.BasicStroke)stroke).getEndCapString());
@@ -220,116 +234,135 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		}
 	}
 
+	
 	@Override
-	public void setRenderingHint(Key hintKey, Object hintValue) {
+    public void setRenderingHint(Key hintKey, Object hintValue) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public Object getRenderingHint(Key hintKey) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setRenderingHints(Map<?, ?> hints) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addRenderingHints(Map<?, ?> hints) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public RenderingHints getRenderingHints() {
+    public Object getRenderingHint(Key hintKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@Override
-	public void translate(int x, int y) {
+    public void setRenderingHints(Map<?, ?> hints) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void translate(double tx, double ty) {
+    public void addRenderingHints(Map<?, ?> hints) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
-	public void rotate(double theta) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void rotate(double theta, double x, double y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void scale(double sx, double sy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void shear(double shx, double shy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void transform(AffineTransform Tx) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setTransform(AffineTransform Tx) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public AffineTransform getTransform() {
+    public RenderingHints getRenderingHints() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@Override
-	public Paint getPaint() {
+    public void translate(int x, int y) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void translate(double tx, double ty) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void rotate(double theta) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void rotate(double theta, double x, double y) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void scale(double sx, double sy) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void shear(double shx, double shy) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void transform(AffineTransform Tx) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public void setTransform(AffineTransform Tx) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public AffineTransform getTransform() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@Override
-	public Composite getComposite() {
+    public Paint getPaint() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@Override
-	public void setBackground(Color color) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Color getBackground() {
+    public Composite getComposite() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@Override
-	public BasicStroke getStroke() {
+    public void setBackground(Color color) {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	@Override
+    public Color getBackground() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	@Override
+    public BasicStroke getStroke() {
 		// TODO Auto-generated method stub
 		return new geogebra.web.awt.BasicStroke((float) context.getLineWidth(), 
 				geogebra.web.awt.BasicStroke.getCap(context.getLineCap()),
@@ -341,30 +374,34 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	}
 
+	
 	@Override
-	public FontRenderContext getFontRenderContext() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Color getColor() {
+    public FontRenderContext getFontRenderContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	
-	public geogebra.common.awt.Font getFont() {
+	@Override
+    public Color getColor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	@Override
+    public geogebra.common.awt.Font getFont() {
 		return currentFont;
 	}
 
-	//@Override
+	//
 	public void setFont(Font font) {
 		currentFont = font;
 	}
 
+	
 	@Override
-	public void setPaint(Color fillColor) {
+    public void setPaint(Color fillColor) {
 		context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");	
 		context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");
 
@@ -402,50 +439,54 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    return canvas.getAbsoluteLeft(); 
     }
 
-	@Override
+	
+    @Override
     public void setFont(geogebra.common.awt.Font font) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
+    @Override
     public void setColor(Color selColor) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
+    @Override
     public void draw(Object shape) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
+    @Override
     public void fill(Object shape) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
     public void drawImage(BufferedImageAdapter img, int x, int y,
             BufferedImageOp op) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
     public void fillRect(int i, int j, int k, int l) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
     public void drawLine(int x1, int y1, int x2, int y2) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	@Override
+	
     public void setComposite(AlphaComposite alphaComp) {
 	    // TODO Auto-generated method stub
 	    

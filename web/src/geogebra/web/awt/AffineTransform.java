@@ -31,47 +31,55 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		at = new geogebra.web.kernel.gawt.AffineTransform();
 	}
 	
-	
-	
-	@Override
     public void setTransform(geogebra.common.awt.AffineTransform a) {
 	    at.setTransform((geogebra.web.kernel.gawt.AffineTransform) a);    
     }
 
-	@Override
+	
     public void setTransform(double m00, double m10, double m01, double m11,
             double m02, double m12) {
 	    at.setTransform(m00, m10, m01, m11, m02, m12);	    
     }
 
-	@Override
+	
     public void concatenate(geogebra.common.awt.AffineTransform a) {
 	  at.concatenate((geogebra.web.kernel.gawt.AffineTransform) a);
     }
 
-	@Override
+	
     public double getScaleX() {
 	    return at.getScaleX();
     }
 
-	@Override
+	
     public double getScaleY() {
 	    return at.getScaleX();
     }
 
-	@Override
+	
     public double getShearX() {
 	    return at.getShearX();
     }
 
-	@Override
+	
     public double getShearY() {
 	    return at.getShearY();
     }
 
-	@Override
+	
     public Shape createTransformedShape(Object shape) {
 	    return (Shape) at.createTransformedShape((geogebra.web.kernel.gawt.Shape) shape);
+    }
+
+	/**
+	 * @param at2
+	 * @return
+	 */
+	public static geogebra.web.kernel.gawt.AffineTransform getWebTransform(
+            geogebra.common.awt.AffineTransform at2) {
+	    if(!(at2 instanceof AffineTransform))
+	    	return null;
+	    return ((AffineTransform)at2).at;
     }
 	
 	

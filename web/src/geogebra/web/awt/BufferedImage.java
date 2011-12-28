@@ -15,12 +15,12 @@ public class BufferedImage implements BufferedImageAdapter {
 	    // TODO Auto-generated constructor stub
     }
 
-	@Override
+	
 	public int getWidth() {
 		return impl.getWidth();
 	}
 
-	@Override
+	
 	public int getHeight() {
 		return impl.getHeight();
 	}
