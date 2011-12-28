@@ -1622,74 +1622,15 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public void setSelectionRectangle(Rectangle selectionRectangle) {
+	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public void setShowAxesRatio(boolean b) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	public void setShowMouseCoords(boolean b) {
@@ -1698,80 +1639,20 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public double toRealWorldCoordX(double minX) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public double toRealWorldCoordY(double maxY) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public void updateSize() {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	public void zoom(double px, double py, double zoomFactor, int steps,
@@ -1783,28 +1664,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/////////////////////////////////////////
 	// previewables
@@ -3546,5 +3405,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return new geogebra.awt.Color(getBackground());
 		
 	}
+
 }
 

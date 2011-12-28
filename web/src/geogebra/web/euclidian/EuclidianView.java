@@ -8,6 +8,8 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Rectangle;
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -81,14 +83,7 @@ public class EuclidianView extends EuclidianViewInterface2D {
 		this.disableRepaint = disableRepaint;
 	}
 	
-	//temp@Override
-	final public void repaintView() {
-		if (!disableRepaint) {
-			//clear();
-			//temppaint();
-		}
-	}
-
+	
 	/**
 	 * Creates a stroke with thickness width, dashed according to line style
 	 * type.
@@ -211,16 +206,6 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    return false;
     }
 
-	public double toRealWorldCoordX(double i) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	public double toRealWorldCoordY(double i) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
 	public void updateBounds() {
 	    // TODO Auto-generated method stub
 	    
@@ -241,58 +226,13 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    return null;
     }
 
-
-	public DrawableND getDrawableND(GeoElement listElement) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public DrawableND createDrawableND(GeoElement listElement) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public void add(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	public void remove(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	public void rename(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void update(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void updateVisualStyle(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void updateAuxiliaryObject(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void reset() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
+	
 	public void clearView() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void setMode(int mode) {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -315,12 +255,6 @@ public class EuclidianView extends EuclidianViewInterface2D {
     }
 
 	@Override
-    public AbstractKernel getKernel() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public AbstractApplication getApplication() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -340,41 +274,8 @@ public class EuclidianView extends EuclidianViewInterface2D {
     }
 
 
-	@Override
-    public double toScreenCoordXd(double aRW) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
 
-	@Override
-    public double toScreenCoordYd(double aRW) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
 
-	@Override
-    public int toScreenCoordY(double aRW) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public int toScreenCoordX(double aRW) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public boolean toScreenCoords(double[] coords) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	@Override
-    public int getMode() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
 
 	@Override
     public Coords getCoordsForView(Coords coords) {
@@ -419,30 +320,6 @@ public class EuclidianView extends EuclidianViewInterface2D {
     }
 
 	@Override
-    public Font getFontAngle() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Font getFontLine() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Font getFontPoint() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public Font getFontConic() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public GeneralPath getBoundingPath() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -460,23 +337,7 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    return null;
     }
 
-	@Override
-    public boolean isOnScreen(double[] a) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
 
-	@Override
-    public int toClippedScreenCoordX(double x) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public int toClippedScreenCoordY(double y) {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
 
 	@Override
     public Font getFont() {
@@ -512,6 +373,30 @@ public class EuclidianView extends EuclidianViewInterface2D {
     protected void repaint() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    protected void initCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected void setSelectionRectangle(Rectangle r) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected void setStyleBarMode(int mode) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected Drawable newDrawable(GeoElement ge) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 

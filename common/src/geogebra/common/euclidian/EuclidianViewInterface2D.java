@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import geogebra.common.awt.Color;
+import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -21,6 +22,8 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;
 	protected int evNo = 1;
+	double xZeroOld, yZeroOld;
+	protected int mode = EuclidianConstants.MODE_MOVE;
 	
 	protected static final int MIN_WIDTH = 50;
 	protected static final int MIN_HEIGHT = 50;
@@ -98,6 +101,22 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	public static final int GRID_POLAR = 2;
 	protected int gridType = GRID_CARTESIAN;
 	
+	// FONTS
+		private Font fontPoint;
+
+		private Font fontLine;
+
+		private Font fontVector;
+
+		private Font fontConic;
+
+		private Font fontCoords;
+
+		private Font fontAxes;
+
+		private Font fontAngle;
+
+	
 	// object is hit if mouse is within this many pixels
 		// (more for points, see DrawPoint)
 		private int capturingThreshold = 3;
@@ -108,6 +127,49 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 
 		public int getCapturingThreshold() {
 			return capturingThreshold;
+		}
+		final public int getMode() {
+			return mode;
+		}
+		
+		public void setMode(int mode) {
+			if (mode == this.mode) {
+				return;
+			}
+			this.mode = mode;
+			initCursor();
+			getEuclidianController().clearJustCreatedGeos();
+			getEuclidianController().setMode(mode);
+			if (clearRectangle(mode)) {
+				setSelectionRectangle(null);
+			}
+			setStyleBarMode(mode);
+		}
+		
+		public AbstractKernel getKernel() {
+			return kernel;
+		}
+		
+		/**
+		 * whether to clear selection rectangle when mode selected
+		 */
+		final private static boolean clearRectangle(int mode) {
+			switch (mode) {
+			case EuclidianConstants.MODE_PEN:
+				return false;
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+				return false;
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+				return false;
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				return false;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				return false;
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+				return false;
+			default:
+				return true;
+			}
 		}
 
 
@@ -224,6 +286,232 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 		((GeoNumeric) xmaxObject).addEVSizeListener(this);
 		((GeoNumeric) ymaxObject).addEVSizeListener(this);
 	}
+	
+	/**
+	 * convert real world coordinate x to screen coordinate x
+	 * 
+	 * @param xRW
+	 * @return screen equivalent of real world x-coord
+	 */
+	final public int toScreenCoordX(double xRW) {
+		return (int) Math.round(getxZero() + (xRW * getXscale()));
+	}
+
+	/**
+	 * convert real world coordinate y to screen coordinate y
+	 * 
+	 * @param yRW
+	 * @return screen equivalent of real world y-coord
+	 */
+	final public int toScreenCoordY(double yRW) {
+		return (int) Math.round(getyZero() - (yRW * getYscale()));
+	}
+
+	/**
+	 * convert real world coordinate x to screen coordinate x
+	 * 
+	 * @param xRW
+	 * @return screen equivalent of real world x-coord as double
+	 */
+	final public double toScreenCoordXd(double xRW) {
+		return getxZero() + (xRW * getXscale());
+	}
+
+	/**
+	 * convert real world coordinate y to screen coordinate y
+	 * 
+	 * @param yRW
+	 * @return screen equivalent of real world y-coord
+	 */
+	final public double toScreenCoordYd(double yRW) {
+		return getyZero() - (yRW * getYscale());
+	}
+
+	/**
+	 * convert real world coordinate x to screen coordinate x. If the value is
+	 * outside the screen it is clipped to one pixel outside.
+	 * 
+	 * @param xRW
+	 * @return real world coordinate x to screen coordinate x clipped to screen
+	 */
+	final public int toClippedScreenCoordX(double xRW) {
+		if (xRW > getXmax()) {
+			return getWidth() + 1;
+		} else if (xRW < getXmin()) {
+			return -1;
+		} else {
+			return toScreenCoordX(xRW);
+		}
+	}
+
+	/** remembers the origins values (xzero, ...) */
+	public void rememberOrigins() {
+		xZeroOld = getxZero();
+		yZeroOld = getyZero();
+	}
+	
+	/**
+	 * convert real world coordinate y to screen coordinate y. If the value is
+	 * outside the screen it is clipped to one pixel outside.
+	 * 
+	 * @param yRW
+	 * @return real world coordinate y to screen coordinate x clipped to screen
+	 */
+	final public int toClippedScreenCoordY(double yRW) {
+		if (yRW > getYmax()) {
+			return -1;
+		} else if (yRW < getYmin()) {
+			return getHeight() + 1;
+		} else {
+			return toScreenCoordY(yRW);
+		}
+	}
+
+	/**
+	 * Converts real world coordinates to screen coordinates. Note that
+	 * MAX_SCREEN_COORD is used to avoid huge coordinates.
+	 * 
+	 * @param inOut
+	 *            input and output array with x and y coords
+	 * @return if resulting coords are on screen
+	 */
+	final public boolean toScreenCoords(double[] inOut) {
+		// convert to screen coords
+		inOut[0] = getxZero() + (inOut[0] * getXscale());
+		inOut[1] = getyZero() - (inOut[1] * getYscale());
+
+		// check if (x, y) is on screen
+		boolean onScreen = true;
+
+		// note that java drawing has problems for huge coord values
+		// so we use FAR_OFF_SCREEN for clipping
+		if (Double.isNaN(inOut[0]) || Double.isInfinite(inOut[0])) {
+			inOut[0] = Double.NaN;
+			onScreen = false;
+		} else if (inOut[0] < 0) { // x left of screen
+			// inOut[0] = Math.max(inOut[0], -MAX_SCREEN_COORD);
+			onScreen = false;
+		} else if (inOut[0] > getWidth()) { // x right of screen
+			// inOut[0] = Math.min(inOut[0], width + MAX_SCREEN_COORD);
+			onScreen = false;
+		}
+
+		// y undefined
+		if (Double.isNaN(inOut[1]) || Double.isInfinite(inOut[1])) {
+			inOut[1] = Double.NaN;
+			onScreen = false;
+		} else if (inOut[1] < 0) { // y above screen
+			// inOut[1] = Math.max(inOut[1], -MAX_SCREEN_COORD);
+			onScreen = false;
+		} else if (inOut[1] > getHeight()) { // y below screen
+			// inOut[1] = Math.min(inOut[1], height + MAX_SCREEN_COORD);
+			onScreen = false;
+		}
+
+		return onScreen;
+	}
+
+	/**
+	 * Checks if (screen) coords are on screen.
+	 * 
+	 * @param coords
+	 * @return true if coords are on screen
+	 */
+	final public boolean isOnScreen(double[] coords) {
+		return (coords[0] >= 0) && (coords[0] <= getWidth()) && (coords[1] >= 0)
+				&& (coords[1] <= getHeight());
+	}
+
+	// private static final double MAX_SCREEN_COORD = Float.MAX_VALUE; //10000;
+
+	// /**
+	// * Converts real world coordinates to screen coordinates. If a coord value
+	// * is outside the screen it is clipped to a rectangle with border
+	// * PIXEL_OFFSET around the screen.
+	// *
+	// * @param inOut:
+	// * input and output array with x and y coords
+	// * @return true iff resulting coords are on screen, note: Double.NaN is
+	// NOT
+	// * checked
+	// */
+	// final public boolean toClippedScreenCoords(double[] inOut, int
+	// PIXEL_OFFSET) {
+	// inOut[0] = xZero + inOut[0] * xscale;
+	// inOut[1] = yZero - inOut[1] * yscale;
+	//
+	// boolean onScreen = true;
+	//
+	// // x-coord on screen?
+	// if (inOut[0] < 0) {
+	// inOut[0] = Math.max(inOut[0], -PIXEL_OFFSET);
+	// onScreen = false;
+	// } else if (inOut[0] > width) {
+	// inOut[0] = Math.min(inOut[0], width + PIXEL_OFFSET);
+	// onScreen = false;
+	// }
+	//
+	// // y-coord on screen?
+	// if (inOut[1] < 0) {
+	// inOut[1] = Math.max(inOut[1], -PIXEL_OFFSET);
+	// onScreen = false;
+	// } else if (inOut[1] > height) {
+	// inOut[1] = Math.min(inOut[1], height + PIXEL_OFFSET);
+	// onScreen = false;
+	// }
+	//
+	// return onScreen;
+	// }
+
+	/**
+	 * convert screen coordinate x to real world coordinate x
+	 * 
+	 * @param x
+	 * @return real world equivalent of screen x-coord
+	 */
+	final public double toRealWorldCoordX(double x) {
+		return (x - getxZero()) * getInvXscale();
+	}
+
+	/**
+	 * convert screen coordinate y to real world coordinate y
+	 * 
+	 * @param y
+	 * @return real world equivalent of screen y-coord
+	 */
+	final public double toRealWorldCoordY(double y) {
+		return (getyZero() - y) * getInvYscale();
+	}
+
+	/**
+	 * Sets real world coord system, where zero point has screen coords (xZero,
+	 * yZero) and one unit is xscale pixels wide on the x-Axis and yscale pixels
+	 * heigh on the y-Axis.
+	 */
+	final public void setCoordSystem(double xZero, double yZero, double xscale,
+			double yscale) {
+		setCoordSystem(xZero, yZero, xscale, yscale, true);
+	}
+
+	/** Sets coord system from mouse move */
+	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
+	}
+
+	/**
+	 * Sets real world coord system using min and max values for both axes in
+	 * real world values.
+	 */
+	final public void setRealWorldCoordSystem(double xmin, double xmax,
+			double ymin, double ymax) {
+		double calcXscale = getWidth() / (xmax - xmin);
+		double calcYscale = getHeight() / (ymax - ymin);
+		double calcXzero = -calcXscale * xmin;
+		double calcYzero = calcYscale * ymax;
+
+		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
+	}
+
 	
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean repaint) {
@@ -616,13 +904,243 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	public int getFontSize() {
 		return fontSize;
 	}
+	
+	/**
+	 * renames an element
+	 */
+	public void rename(GeoElement geo) {
+		Object d = DrawableMap.get(geo);
+		if (d != null) {
+			((Drawable) d).update();
+			repaint();
+		}
+	}
 
+	final public void update(GeoElement geo) {
+		Object d = DrawableMap.get(geo);
+		if (d != null) {
+			((Drawable) d).update();
+		}
+	}
+	
+	/**
+	 * adds a GeoElement to this view
+	 */
+	public void add(GeoElement geo) {
+
+		// Application.printStacktrace(""+geo.isVisibleInView(this));
+
+		// G.Sturr 2010-6-30
+		// filter out any geo not marked for this view
+		if (!isVisibleInThisView(geo)) {
+			return;
+			// END G.Sturr
+		}
+
+		// check if there is already a drawable for geo
+		Drawable d = getDrawable(geo);
+		if (d != null) {
+			return;
+		}
+
+		d = createDrawable(geo);
+		if (d != null) {
+			addToDrawableLists(d);
+			repaint();
+		}
+
+	}
+	
+	/**
+	 * Returns the drawable for the given GeoElement.
+	 * 
+	 * @param geo
+	 * @return drawable for the given GeoElement.
+	 */
+	final Drawable getDrawable(GeoElement geo) {
+		return DrawableMap.get(geo);
+	}
+
+	final public DrawableND getDrawableND(GeoElement geo) {
+		return getDrawable(geo);
+	}
+
+	/**
+	 * adds a GeoElement to this view
+	 * 
+	 * @param d
+	 *            drawable to be added
+	 */
+	protected void addToDrawableLists(Drawable d) {
+		if (d == null) {
+			return;
+		}
+
+		GeoElement geo = d.getGeoElement();
+		int layer = geo.getLayer();
+
+		switch (geo.getGeoClassType()) {
+
+		case ANGLE:
+			if (geo.isIndependent()) {
+				drawLayers[layer].add(d);
+			} else {
+				if (geo.isDrawable()) {
+					drawLayers[layer].add(d);
+				} else {
+					d = null;
+				}
+			}
+			break;
+
+		case IMAGE:
+			if (!bgImageList.contains(d)) {
+				drawLayers[layer].add(d);
+			}
+			break;
+
+		default:
+			drawLayers[layer].add(d);
+			break;
+
+		}
+
+		if (d != null) {
+			allDrawableList.add(d);
+		}
+	}
+
+
+	public boolean isVisibleInThisView(GeoElement geo) {
+		return geo.isVisibleInView(this.getViewID());
+	}
+
+	public DrawableND createDrawableND(GeoElement geo) {
+		return createDrawable(geo);
+	}
+	/**
+	 * adds a GeoElement to this view
+	 * 
+	 * @param geo
+	 *            GeoElement to be added
+	 * @return drawable for given GeoElement
+	 */
+	protected Drawable createDrawable(GeoElement geo) {
+		Drawable d = newDrawable(geo);
+
+		if (d != null) {
+			DrawableMap.put(geo, d);
+			if (geo.isGeoPoint()) {
+				stickyPointList.add((GeoPointND) geo);
+			}
+		}
+
+		return d;
+	}
+
+	public void reset() {
+		resetMode();
+		updateBackgroundImage();
+	}
+	
+	/**
+	 * clears all selections and highlighting
+	 */
+	public void resetMode() {
+		setMode(mode);
+	}
+	
+	final public void repaintView() {
+		repaint();
+	}
+
+	final public void repaintEuclidianView() {
+		repaint();
+	}
+
+
+	final public void updateVisualStyle(GeoElement geo) {
+		update(geo);
+	}
+
+	final public Drawable getDrawableFor(GeoElement geo) {
+		return DrawableMap.get(geo);
+	}
+
+	final public void updateAuxiliaryObject(GeoElement geo) {
+		// repaint();
+	}
+
+	
+	final protected void updateDrawableFontSize() {
+		allDrawableList.updateFontSizeAll();
+		repaint();
+	}
+
+	public geogebra.common.awt.Font getFontPoint() {
+		return fontPoint;
+	}
+
+	public void setFontPoint(Font fontPoint) {
+		this.fontPoint = fontPoint;
+	}
+
+	public geogebra.common.awt.Font getFontLine() {
+		return fontLine;
+	}
+
+	public void setFontLine(Font fontLine) {
+		this.fontLine = fontLine;
+	}
+
+	public Font getFontVector() {
+		return fontVector;
+	}
+
+	public void setFontVector(Font fontVector) {
+		this.fontVector = fontVector;
+	}
+
+	public Font getFontConic() {
+		return fontConic;
+	}
+
+	public void setFontConic(Font fontConic) {
+		this.fontConic = fontConic;
+	}
+
+	public Font getFontCoords() {
+		return fontCoords;
+	}
+
+	public void setFontCoords(Font fontCoords) {
+		this.fontCoords = fontCoords;
+	}
+
+	public Font getFontAxes() {
+		return fontAxes;
+	}
+
+	public void setFontAxes(Font fontAxes) {
+		this.fontAxes = fontAxes;
+	}
+
+	public geogebra.common.awt.Font getFontAngle() {
+		return fontAngle;
+	}
+
+	public void setFontAngle(Font fontAngle) {
+		this.fontAngle = fontAngle;
+	}
+
+	public ArrayList<GeoPointND> getStickyPointList() {
+		return stickyPointList;
+	}
 	
 	public abstract  void updateForPlane();
 
 	public abstract  int getMaxLayerUsed();
 
-	public abstract  AbstractKernel getKernel();
 	public abstract  AbstractApplication getApplication();
 
 	public abstract  void updateBackgroundImage();
@@ -630,15 +1148,8 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	public abstract  void updateBackground();
 
 
-	public abstract  double toScreenCoordXd(double aRW);
-	public abstract  double toScreenCoordYd(double aRW);
-	public abstract  int toScreenCoordY(double aRW);
-	public abstract  int toScreenCoordX(double aRW);
 
-	public abstract  boolean toScreenCoords(double[] coords);
 
-	
-	public abstract  int getMode();
 	public abstract  Coords getCoordsForView(Coords coords);
 
 	public abstract  int getRightAngleStyle();
@@ -653,11 +1164,6 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 
 	public abstract  geogebra.common.awt.AffineTransform getCoordTransform();
 
-	public abstract  geogebra.common.awt.Font getFontAngle();
-	public abstract  geogebra.common.awt.Font getFontLine();
-	public abstract  geogebra.common.awt.Font getFontPoint();
-	public abstract  geogebra.common.awt.Font getFontConic();
-
 
 	public abstract  geogebra.common.awt.GeneralPath getBoundingPath();
 
@@ -665,19 +1171,18 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 
 	public abstract  geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords m, Coords[] ev);
 
-	public abstract  boolean isOnScreen(double[] a);
 
-	public abstract  int toClippedScreenCoordX(double x);
-	public abstract  int toClippedScreenCoordY(double y);
 
 	public abstract  geogebra.common.awt.Font getFont();
 
-	public abstract   geogebra.common.awt.Font  getFontVector();
 
 	public abstract  Color getBackgroundCommon();
 	
 	protected abstract void setHeight(int h);
 	protected abstract void setWidth(int h);
 	protected abstract void repaint();
-	
+	protected abstract void initCursor();
+	protected abstract void setSelectionRectangle(geogebra.common.awt.Rectangle r);
+	protected abstract void setStyleBarMode(int mode);
+	protected abstract Drawable newDrawable(GeoElement ge);
 }

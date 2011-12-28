@@ -24,4 +24,6 @@ public interface EuclidianControllerInterface {
 
 	GeoElement getRecordObject();
 
+	void setMode(int mode);
+
 }

@@ -2535,7 +2535,7 @@ public class EuclidianController implements MouseListener, MouseMotionListener,
 
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		if (view.getSelectionRectangle() == null) {
-			view.setSelectionRectangle(new Rectangle());
+			view.setSelectionRectangle(geogebra.common.factories.AwtFactory.prototype.newRectangle(0,0));
 		}
 
 		int dx = mouseLoc.x - selectionStartPoint.x;

@@ -78,7 +78,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 
 	
 	// selection rectangle
-	public void setSelectionRectangle(Rectangle selectionRectangle);
+	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle);
 	public Rectangle getSelectionRectangle();
 
 	
