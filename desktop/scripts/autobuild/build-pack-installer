@@ -1,0 +1,242 @@
+#!/bin/sh
+# Goes through the building, packing and installer creating procedure.
+# Has the same purpose like buildggbXX.
+
+# 1. Start and loading configuration
+test -r autobuild.conf || {
+ echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ exit 1
+ }
+test -r autobuild.conf && . ./autobuild.conf
+
+# 2. Setting defaults
+if [ "$SVNDIR" = "" ]; then
+ ORIGDIR=`dirname $0`
+ WORKDIR=`cd $ORIGDIR/../..; pwd`
+else
+ WORKDIR=`cd $SVNDIR/geogebra/desktop; pwd`
+ fi
+
+CLEAN=0
+GRAMMAR=1
+VERBOSE=0
+CLASSES=1
+PURGE=1
+DELSRC=1
+LOGFILE=/tmp/build-pack-installer.log
+CV=4.2
+
+# 3. Reading command line arguments
+while [ $# -gt 0 ]; do
+ case $1 in
+  -h | -help | --help)
+   echo "This script goes through the building, packing and installer creation procedure."
+   echo
+   echo "Usage: $0 [options]"
+   echo " Where options can be (defaults in parentheses):"
+   echo "  -h, -help, --help         This help"
+   echo "  -cv [version]             Set GeoGebra compilation version: 4.2 (default) or 5.0"
+   echo "  -np, --no-purge           Do not purge certain directories before SVN update"
+   echo "  -nd, --no-delete-src      Do not delete sources before SVN update"
+   echo "  -ng, --no-grammar         Do not compile grammar with javacc"
+   echo "  -nc, --no-classes         Do not (re)compile classes"
+   echo "  -r [revision]             Use revision instead of latest"
+   echo "  -l [logfile]              Use logfile instead of /tmp/build-pack-installer.log"
+   echo "  -v, --verbose             Be verbose whenever possible"
+   exit 0
+   ;;
+
+  -cv)
+   shift
+   CV="$1"
+   ;;
+
+  -ng | --no-grammar)
+   GRAMMAR=0
+   ;;
+   
+  -nd | --no-delete-src)
+   DELSRC=0
+   ;;
+   
+  -np | --no-purge)
+   PURGE=0
+   ;;
+   
+  -nc | --no-classes)
+   CLASSES=0
+   ;;
+
+  -r)
+   shift
+   REVISION="$1"
+   REVISION_PARAM=" -r $1 "
+   ;;
+   
+  -l)
+   shift
+   LOGFILE="$1"
+   ;;
+   
+  -v | --verbose)
+   VERBOSE=1
+   ;;
+
+  *)
+   echo "Unknown parameter: $1. Use \"$0 -h\" for help."
+   exit 1
+   ;;
+
+  esac
+ shift
+ done
+
+log() {
+ NOW=`date`
+ echo "$NOW $*" >> $LOGFILE
+ echo "$NOW $*"
+}
+
+appendlog() {
+ LINES=`wc -l $1 | awk '{print $1}'`
+ log "Appending logfile with $1 ($LINES lines)"
+ cat $1 >> $LOGFILE
+}
+
+runstep() {
+ EXITCODE=$1
+ shift
+ STEPLOG=$1
+ shift
+ STEPLOGMESS=$1
+ shift
+ PROBLEM=0
+ log "$STEPLOGMESS"
+ $* >$STEPLOG 2>&1 || PROBLEM=$?
+ appendlog $STEPLOG
+ if [ $PROBLEM != 0 ]; then
+  log "Exited with exit code $PROBLEM, see $STEPLOG for details"
+  tail $STEPLOG
+  exit $EXITCODE
+  fi
+}
+
+
+# 4. Some more settings
+if [ "$CV" = "4.2" ]; then
+ PROJECT=geogebra
+ MYDIR=test42
+ else
+  if [ "$CV" = "5.0" ]; then
+  PROJECT=geogebra3D
+  MYDIR=test50
+  fi
+ fi
+if [ "$PROJECT" = "" ]; then
+ echo "Unknown GeoGebra version: $CV"
+ exit 1
+ fi
+if [ "$WWWDIR" = "" ]; then
+ echo "WWWDIR is not set, exiting for safety reasons"
+ exit 2
+ fi
+
+export JAVA_HOME
+export JDK_HOME=$JAVA_HOME
+export JAVACMD=$JAVA_HOME/bin/java
+export ANT_OPTS="-Xmx1024m"
+
+log "START"
+
+cd $WORKDIR
+umask 0002 # trying to ensure g+w rights for all created files automatically
+
+# 5/1. Updating source files
+if [ $PURGE = 1 ]; then
+ log "Purge: removing some problematic directories before SVN update"
+ rm -fR org # not sure why SVN cannot handle this properly (org/mathpiper), http://stackoverflow.com/questions/1608836/folders-skipped-when-updating-svn
+ fi
+
+if [ $DELSRC = 1 ]; then
+ runstep 51 .delete-sources "Deleting sources" ant -f pack.xml # FIXME: delete-sources must work for common as well
+ fi
+
+runstep 2 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full --force ..
+$SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revision
+
+# 5/2. Downloading newest 3rd party libraries and installer tools
+runstep 52 .kickstart "Downloading build/pack tools" ant -f kickstart.xml geogebra5-packager-commandline
+cd installer
+runstep 52 .installer "Downloading installer tools" ant
+
+# 6. Invoking make-vanilla-jars
+cd $WORKDIR/scripts/autobuild
+runstep 6 .build "Building" ./make-vanilla-jars -c
+
+# 7. Doing the rest (packing)
+cd $WORKDIR
+runstep 7 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
+
+# 8. Creating Windows and Mac OS X installer
+runstep 8 .installer "Creating installers" ant -f installer.xml
+
+# 9. Copying and text replacing
+log "(Re)creating $WWWDIR/$MYDIR directory"
+MYVER=`cat build/unpacked/version.txt`
+cd $WORKDIR/build
+mkdir -p $WWWDIR/$MYDIR || exit 4
+chmod g+rwx $WWWDIR/$MYDIR || exit 4
+
+# 10/1. Copying dynamically generated files (autobuild)
+log "Generating dynamic files"
+cp -R * $WWWDIR/$MYDIR || exit 4
+
+# 10/2. Copying static files
+log "Copying static files"
+cp -R $WORKDIR/webstart/$CV/* $WWWDIR/$MYDIR || exit 4
+cp $WORKDIR/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
+mkdir -p $WWWDIR/$MYDIR/usb
+cp $WORKDIR/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
+
+# 10/3. Rewriting *.html and *.jnlp to static URLs:
+# http://www.geogebra.org/webstart/4.2/unsigned -> http://www.geogebra.org/webstart/$MYDIR/unsigned/unpacked
+# http://www.geogebra.org/webstart/4.2/usb-gomotion.ggb -> http://www.geogebra.org/webstart/$MYDIR/usb-gomotion.ggb
+# http://www.geogebra.org/webstart/4.2/debug -> http://www.geogebra.org/webstart/$MYDIR/debug
+# http://www.geogebra.org/webstart/4.2/jnlp/ -> http://www.geogebra.org/webstart/$MYDIR/unpacked/
+# </title> -> ($MYVER) </title>
+
+# The 1st and 4th change is needed to prevent testing the packed version.
+
+# In addition, removing those lines which have the "association mime-type" text.
+
+log "Rewriting HTML and JNLP files"
+cd $WWWDIR/$MYDIR
+for i in *.html *.jnlp; do
+    cat $i | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/unsigned\/unpacked"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/usb-gomotion"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/debug"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/unpacked\/"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/"/g | \
+     sed s/"<\/title>"/" ($MYVER)<\/title>"/g | \
+     grep -v "association mime-type" | \
+     grep -v packEnabled \
+     > $i.work
+    mv $i.work $i || exit 4
+    done
+
+# 10/4. Copying unsigned geogebra.jar and geogebra_main.jar to $WWWDIR/$MYDIR/minimal:
+log "Copying files to minimal/"
+mkdir -p $WWWDIR/$MYDIR/minimal
+for i in geogebra geogebra_main; do
+ cp $WORKDIR/build/unsigned/unpacked/$i.jar $WWWDIR/$MYDIR/minimal
+ done
+
+# 11. rsync-www on demand
+if [ "$WWW_REMOTEDIR" != "" ]; then
+ cd $WORKDIR/scripts/autobuild
+ runstep 11 .rsync-www "Copying all files to $WWW_REMOTEDIR" ./rsync-www
+ fi
+
+log "END"
+
