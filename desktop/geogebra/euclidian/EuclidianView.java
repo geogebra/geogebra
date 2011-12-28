@@ -45,7 +45,6 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
@@ -4988,11 +4987,11 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		// only used in EuclidianViewForPlane
 	}
 
-	public boolean hasForParent(GeoElementInterface geo) {
+	public boolean hasForParent(GeoElement geo) {
 		return false;
 	}
 
-	public boolean isMoveable(GeoElementInterface geo) {
+	public boolean isMoveable(GeoElement geo) {
 		return geo.isMoveable();
 	}
 
@@ -5180,36 +5179,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	}
 
-	public void add(GeoElementInterface geo) {
-		add((GeoElement) geo);
-
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement) geo);
-
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement) geo);
-
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement) geo);
-
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement) geo);
-
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement) geo);
-
-	}
-
+	
 	public void setCursor(Cursor cursor) {
 		((JPanel)evjpanel).setCursor(cursor);
 	}

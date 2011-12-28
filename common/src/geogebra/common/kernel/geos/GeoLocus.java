@@ -23,7 +23,7 @@ import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 
 import java.util.ArrayList;
 
-public class GeoLocus extends GeoElement implements Path, Traceable, GeoLocusInterface {
+public class GeoLocus extends GeoElement implements Path, Traceable{
 
 	public static final int MAX_PATH_RUNS = 10;
 				

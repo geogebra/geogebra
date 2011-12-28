@@ -7,7 +7,7 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -409,7 +409,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	 * @param geo
 	 * @return true if the geo is parent of the view
 	 */
-	public boolean hasForParent(GeoElementInterface geo);
+	public boolean hasForParent(GeoElement geo);
 	
 	/**
 	 * 

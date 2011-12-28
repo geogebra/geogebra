@@ -2,7 +2,6 @@ package geogebra.plugin.jython;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -85,36 +84,5 @@ public class PythonBridge implements View, GeoElementSelectionListener {
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		pyInterface.notifySelected(geo, addToSelection);
 	}
-	
-	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-		
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-		
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-		
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-		
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-		
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-		
-	}
-
 }
 

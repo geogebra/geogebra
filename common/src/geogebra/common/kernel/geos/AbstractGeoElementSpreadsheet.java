@@ -19,7 +19,7 @@ public abstract class AbstractGeoElementSpreadsheet {
 	
 	public abstract String dogetSpreadsheetColumnName(int index);
 	
-	public abstract void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElementInterface cellGeo);
+	public abstract void setSpreadsheetCell(AbstractApplication app, int row, int col, GeoElement cellGeo);
 
 	public abstract GeoElement autoCreate(String label,Construction cons);
 

@@ -17,7 +17,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -206,7 +206,7 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    return null;
     }
 
-	public boolean isMoveable(GeoElementInterface geoElement) {
+	public boolean isMoveable(GeoElement geoElement) {
 	    // TODO Auto-generated method stub
 	    return false;
     }
@@ -252,32 +252,32 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    return null;
     }
 
-	public void add(GeoElementInterface geo) {
+	public void add(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	public void remove(GeoElementInterface geo) {
+	public void remove(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	public void rename(GeoElementInterface geo) {
+	public void rename(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	public void update(GeoElementInterface geo) {
+	public void update(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	public void updateVisualStyle(GeoElementInterface geo) {
+	public void updateVisualStyle(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
 
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
+	public void updateAuxiliaryObject(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }

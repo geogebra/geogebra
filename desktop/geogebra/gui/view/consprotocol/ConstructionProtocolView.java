@@ -15,7 +15,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -578,7 +578,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						//if (colName.equals("Breakpoint")) {
 						if (colName.equals("H")) {
 							RowData rd = data.getRow(row);
-							GeoElementInterface geo = rd.geo;
+							GeoElement geo = rd.geo;
 							boolean newVal = !geo.isConsProtocolBreakpoint();
 							geo.setConsProtocolBreakpoint(newVal);
 
@@ -908,13 +908,13 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		int index; // construction index of line: may be different
 					// to geo.getConstructionIndex() as not every
 					// geo is shown in the protocol
-		GeoElementInterface geo;
+		GeoElement geo;
 		ImageIcon toolbarIcon;
 		String name, algebra, definition, command, caption;
 		boolean includesIndex;
 		Boolean consProtocolVisible;
 
-		public RowData(GeoElementInterface geo) {
+		public RowData(GeoElement geo) {
 			this.geo = geo;
 			updateAll();
 		}
@@ -1065,12 +1065,12 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 		private ArrayList<RowData> rowList;
 		// map for (GeoElement, RowData) pairs
-		private HashMap<GeoElementInterface, RowData> geoMap;
+		private HashMap<GeoElement, RowData> geoMap;
 		private int columnsCount = columns.length;
 
 		public ConstructionTableData() {
 			rowList = new ArrayList<RowData>();
-			geoMap = new HashMap<GeoElementInterface, RowData>();
+			geoMap = new HashMap<GeoElement, RowData>();
 		}
 
 		/**
@@ -1117,7 +1117,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 			// reorder rows in this view
 			ConstructionElement ce = kernel.getConstructionElement(toIndex);
-			GeoElementInterface[] geos = ce.getGeoElements();
+			GeoElement[] geos = ce.getGeoElements();
 			for (int i = 0; i < geos.length; ++i) {
 				remove(geos[i]);
 				add(geos[i]);
@@ -1407,7 +1407,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		 * View Implementation *
 		 ***********************/
 
-		public void add(GeoElementInterface geo) {
+		public void add(GeoElement geo) {
 			if (!geo.isLabelSet()
 					|| (kernel.showOnlyBreakpoints() && !geo
 							.isConsProtocolBreakpoint()))
@@ -1441,7 +1441,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			}
 		}
 
-		public void remove(GeoElementInterface geo) {
+		public void remove(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			// lookup row for GeoElement
 			if (row != null) {
@@ -1495,7 +1495,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			}
 		}
 
-		public void rename(GeoElementInterface geo) {
+		public void rename(GeoElement geo) {
 			// renaming may affect multiple rows
 			// so let's update whole table
 			updateAll();
@@ -1541,7 +1541,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			fireTableRowsUpdated(0, size - 1);
 		}
 
-		final public void update(GeoElementInterface geo) {
+		final public void update(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			if (row != null) {
 				// remove row if only breakpoints
@@ -1566,11 +1566,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 		
 
-		final public void updateVisualStyle(GeoElementInterface geo) {
+		final public void updateVisualStyle(GeoElement geo) {
 			update(geo);
 		}
 
-		final public void updateAuxiliaryObject(GeoElementInterface geo) {
+		final public void updateAuxiliaryObject(GeoElement geo) {
 			// update(geo);
 		}
 
@@ -1613,15 +1613,6 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			return AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL;
 		}
 
-		public void add(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void remove(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
-		}
 	}
 
 	/************

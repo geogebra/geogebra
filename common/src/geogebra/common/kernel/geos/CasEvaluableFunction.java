@@ -30,5 +30,5 @@ public interface CasEvaluableFunction {
 		
 	public String toSymbolicString();
 	public String getVarString();
-	public GeoElementInterface toGeoElement();
+	public GeoElement toGeoElement();
 }

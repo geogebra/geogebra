@@ -11,7 +11,6 @@ import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTable
 import geogebra.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
@@ -135,35 +134,6 @@ public class AssignmentView extends JPanel implements View, Gridable {
 		return null;
 	}
 
-	public void add(GeoElementInterface geo) {
-		// TODO Auto-generated method stub
 		
-	}
-
-	public void remove(GeoElementInterface geo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void rename(GeoElementInterface geo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void update(GeoElementInterface geo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 }

@@ -3,7 +3,7 @@ package geogebra.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.Point;
@@ -117,7 +117,7 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	 */
 	@Override
 	public void setSpreadsheetCell(AbstractApplication app, int row, int col,
-			GeoElementInterface cellGeo) {
+			GeoElement cellGeo) {
 		String cellName = dogetSpreadsheetCellName(col, row);
 
 		if (sb == null)
@@ -154,10 +154,10 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(sb.toString(), false);
 
-		GeoElementInterface cell = app.getKernel().lookupLabel(cellName);
+		GeoElement cell = app.getKernel().lookupLabel(cellName);
 		if (cell != null) {
-			((GeoElement) cell).setVisualStyle((GeoElement) cellGeo);
-			((GeoElement) cell).setAuxiliaryObject(true);
+			(cell).setVisualStyle(cellGeo);
+			(cell).setAuxiliaryObject(true);
 		}
 
 	}

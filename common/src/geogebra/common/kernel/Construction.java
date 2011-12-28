@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
@@ -158,7 +158,7 @@ public class Construction {
 	protected TreeSet<GeoElement> geoSetWithCasCells;
 
 	// list of random numbers or lists
-	private TreeSet<GeoElementInterface> randomElements;
+	private TreeSet<GeoElement> randomElements;
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -910,7 +910,7 @@ public class Construction {
 		if (randomElements == null)
 			return;
 
-		Iterator<GeoElementInterface> it = randomElements.iterator();
+		Iterator<GeoElement> it = randomElements.iterator();
 		while (it.hasNext()) {
 			GeoElement num = (GeoElement) it.next();
 			num.updateRandomGeo();
@@ -923,9 +923,9 @@ public class Construction {
 	 * @param num
 	 *            Element to be added
 	 */
-	public void addRandomGeo(GeoElementInterface num) {
+	public void addRandomGeo(GeoElement num) {
 		if (randomElements == null)
-			randomElements = new TreeSet<GeoElementInterface>();
+			randomElements = new TreeSet<GeoElement>();
 		randomElements.add(num);
 		num.setRandomGeo(true);
 	}
@@ -936,7 +936,7 @@ public class Construction {
 	 * @param num
 	 *            Element to be removed
 	 */
-	public void removeRandomGeo(GeoElementInterface num) {
+	public void removeRandomGeo(GeoElement num) {
 		if (randomElements != null)
 			randomElements.remove(num);
 		num.setRandomGeo(false);
@@ -1561,10 +1561,10 @@ public class Construction {
 	 * 
 	 * @param geo
 	 *            GeoElement to be added, must be labeled
-	 * @see #removeLabel(GeoElementInterface)
+	 * @see #removeLabel(GeoElement)
 	 * @see #lookupLabel(String)
 	 */
-	public void putLabel(GeoElementInterface geoI) {
+	public void putLabel(GeoElement geoI) {
 		GeoElement geo = (GeoElement) geoI;
 		if (supressLabelCreation || geo.label == null)
 			return;
@@ -1579,9 +1579,9 @@ public class Construction {
 	 * 
 	 * @param geo
 	 *            GeoElement to be removed
-	 * @see #putLabel(GeoElementInterface)
+	 * @see #putLabel(GeoElement)
 	 */
-	public void removeLabel(GeoElementInterface geoI) {
+	public void removeLabel(GeoElement geoI) {
 		GeoElement geo = (GeoElement) geoI;
 		geo.unbindVariableInCAS();
 		geoTable.remove(geo.label);
@@ -1955,7 +1955,7 @@ public class Construction {
 	protected boolean updateConstructionOrder(GeoCasCell casCell) {
 		// collect all predecessors of casCell
 		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
-		for (GeoElementInterface directInput : casCell.getGeoElementVariables()) {
+		for (GeoElement directInput : casCell.getGeoElementVariables()) {
 			allPred.addAll(((GeoElement) directInput).getAllPredecessors());
 			allPred.add((GeoElement) directInput);
 		}

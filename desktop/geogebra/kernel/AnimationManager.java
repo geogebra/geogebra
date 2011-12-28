@@ -4,7 +4,6 @@ import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -145,7 +144,7 @@ public class AnimationManager extends AbstractAnimationManager implements
 	 *            the GeoElement to add
 	 */
 	@Override
-	final public synchronized void addAnimatedGeo(GeoElementInterface geo) {
+	final public synchronized void addAnimatedGeo(GeoElement geo) {
 		if (geo.isAnimating() && !animatedGeos.contains(geo)) {
 			animatedGeos.add((GeoElement) geo);
 			// if (animatedGeos.size() == 1) removed, might have geos with
@@ -161,7 +160,7 @@ public class AnimationManager extends AbstractAnimationManager implements
 	 *            the GeoElement to remove
 	 */
 	@Override
-	final public synchronized void removeAnimatedGeo(GeoElementInterface geo) {
+	final public synchronized void removeAnimatedGeo(GeoElement geo) {
 		if (animatedGeos.remove(geo) && animatedGeos.size() == 0) {
 			stopAnimation();
 		}

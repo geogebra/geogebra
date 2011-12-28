@@ -71,7 +71,7 @@ import java.util.TreeSet;
  * @version 2011-12-02
  */
 public abstract class GeoElement extends ConstructionElement implements
-		ExpressionValue, GeoElementInterface {
+		ExpressionValue{
 
 	public boolean isVector3DValue() {
 		return false;
@@ -3442,7 +3442,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo
 	 * @return true if this object is dependent on geo.
 	 */
-	public boolean isChildOf(GeoElementInterface geo) {
+	public boolean isChildOf(GeoElement geo) {
 		if ((geo == null) || isIndependent()) {
 			return false;
 		} else {

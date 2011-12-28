@@ -65,7 +65,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -3109,7 +3109,7 @@ public abstract class AbstractKernel {
 	 *         views in which <b>geo</b> is shown.<br />
 	 *         Format: {xMin,xMax,yMin,yMax,xScale,yScale}
 	 */
-	public double[] getViewBoundsForGeo(GeoElementInterface geo) {
+	public double[] getViewBoundsForGeo(GeoElement geo) {
 		List<Integer> viewSet = geo.getViewSet();
 		double[] viewBounds = new double[6];
 		for (int i = 0; i < 6; i++) {
@@ -3383,7 +3383,7 @@ public abstract class AbstractKernel {
 		}
 	}
 
-	public final void notifyAdd(GeoElementInterface geo) {
+	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				if ((views[i].getViewID() != AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL)
@@ -3396,7 +3396,7 @@ public abstract class AbstractKernel {
 		notifyRenameListenerAlgos();
 	}
 
-	public final void notifyRemove(GeoElementInterface geo) {
+	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				if ((views[i].getViewID() != AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL)
@@ -3409,7 +3409,7 @@ public abstract class AbstractKernel {
 		notifyRenameListenerAlgos();
 	}
 
-	public final void notifyUpdate(GeoElementInterface geo) {
+	public final void notifyUpdate(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].update(geo);
@@ -3417,7 +3417,7 @@ public abstract class AbstractKernel {
 		}
 	}
 
-	public final void notifyUpdateVisualStyle(GeoElementInterface geo) {
+	public final void notifyUpdateVisualStyle(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].updateVisualStyle(geo);
@@ -3425,7 +3425,7 @@ public abstract class AbstractKernel {
 		}
 	}
 
-	public final void notifyUpdateAuxiliaryObject(GeoElementInterface geo) {
+	public final void notifyUpdateAuxiliaryObject(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].updateAuxiliaryObject(geo);
@@ -3433,7 +3433,7 @@ public abstract class AbstractKernel {
 		}
 	}
 
-	public final void notifyRename(GeoElementInterface geo) {
+	public final void notifyRename(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].rename(geo);

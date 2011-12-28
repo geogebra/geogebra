@@ -79,7 +79,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	private boolean trace; //for traceable interface
 	
-	public GeoLocusInterface locus;
+	public GeoLocus locus;
 	public Polynomial poly;
 
 	public GeoImplicitPoly(Construction c) {
@@ -1366,7 +1366,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			return x*x/scaleX/scaleX+y*y/scaleY/scaleY;
 		}
 		
-		private void startPath(int w, int h, double x, double y,GeoLocusInterface locus) {
+		private void startPath(int w, int h, double x, double y,GeoLocus locus) {
 
 			double sx=x;
 			double sy=y;

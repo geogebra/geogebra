@@ -7,7 +7,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -133,7 +133,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 		return rbCasTranslations;
 	}
 
-	public final String toAssignment(GeoElementInterface ge) {
+	public final String toAssignment(GeoElement ge) {
 		String body = ge.getCASString(false);
 		String casLabel = ge.getLabel();
 		if (ge instanceof FunctionalNVar) {

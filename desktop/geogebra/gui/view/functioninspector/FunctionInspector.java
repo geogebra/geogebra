@@ -39,7 +39,6 @@ import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.cas.AlgoLengthFunction;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -1645,36 +1644,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		return AbstractApplication.VIEW_FUNCTION_INSPECTOR;
 	}
 	
-	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-		
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-		
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-		
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-		
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-		
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-		
-	}
-
+	
 }
 
 

@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for drawables in any dimension
@@ -66,7 +66,7 @@ public abstract class DrawableND {
 	/**
 	 * @return the geo linked to this
 	 */
-	public abstract GeoElementInterface getGeoElement();
+	public abstract GeoElement getGeoElement();
 	
 	
 	/**

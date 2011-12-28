@@ -24,7 +24,6 @@ import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -2207,36 +2206,6 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculator(pcSettings.getDistributionType(), pcSettings.getParameters(), pcSettings.isCumulative());
 
-	}
-
-	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-		
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-		
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-		
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-		
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-		
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-		
 	}
 
 }

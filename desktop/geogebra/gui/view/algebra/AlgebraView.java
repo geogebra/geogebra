@@ -21,7 +21,6 @@ package geogebra.gui.view.algebra;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
@@ -1152,36 +1151,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 		return new Component[][] { { this } };
 	}
 
-	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-
-	}
-
+	
 	
 	/**
 	 * returns settings in XML format

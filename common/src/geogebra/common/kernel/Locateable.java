@@ -1,6 +1,6 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -34,5 +34,5 @@ public interface Locateable {
 	 */
 	public void setWaitForStartPoint();
 	
-	public GeoElementInterface toGeoElement();
+	public GeoElement toGeoElement();
 }

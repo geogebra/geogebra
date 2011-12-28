@@ -14,7 +14,7 @@ package geogebra.common.kernel.Matrix;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
@@ -139,7 +139,7 @@ public class CoordMatrix {
 			return;
 		}
 
-		GeoElementInterface geo = inputList.get(0);
+		GeoElement geo = inputList.get(0);
 
 		if (!geo.isGeoList()) {
 			setIsSingular(true);

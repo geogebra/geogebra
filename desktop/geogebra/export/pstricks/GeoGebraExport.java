@@ -3,17 +3,24 @@ package geogebra.export.pstricks;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoSumLeft;
+import geogebra.common.kernel.algos.AlgoSumLower;
+import geogebra.common.kernel.algos.AlgoSumRectangle;
+import geogebra.common.kernel.algos.AlgoSumTrapezoidal;
+import geogebra.common.kernel.algos.AlgoSumUpper;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -26,7 +33,6 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -35,14 +41,6 @@ import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoBarChart;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.common.kernel.algos.AlgoHistogram;
-import geogebra.common.kernel.algos.AlgoSumLeft;
-import geogebra.common.kernel.algos.AlgoSumLower;
-import geogebra.common.kernel.algos.AlgoSumRectangle;
-import geogebra.common.kernel.algos.AlgoSumTrapezoidal;
-import geogebra.common.kernel.algos.AlgoSumUpper;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -954,9 +952,9 @@ public abstract class GeoGebraExport implements ActionListener{
     	for (int step=0;step<construction.steps();step++){
     		if (increment) beamerSlideNumber=step+2;
     		else beamerSlideNumber=step+1;
-    		GeoElementInterface[] geos=construction.getConstructionElement(step).getGeoElements();
+    		GeoElement[] geos=construction.getConstructionElement(step).getGeoElements();
     		for (int j=0;j<geos.length;j++){
-            	GeoElement g = (GeoElement)(geos[j]);
+            	GeoElement g = geos[j];
             	drawGeoElement(g,false,false);    
     		}
     	}

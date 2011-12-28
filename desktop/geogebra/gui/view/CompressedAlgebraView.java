@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.Timer;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
 

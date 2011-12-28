@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
@@ -542,7 +542,7 @@ public class ConstructionDefaults {
 	 * @param geo The element which needs new default visual styles
 	 * @param isReset If the visual styles should be reset
 	 */
-	final public void setDefaultVisualStyles(GeoElementInterface geoI, boolean isReset) {
+	final public void setDefaultVisualStyles(GeoElement geoI, boolean isReset) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		//int type = DEFAULT_LINE;

@@ -50,21 +50,21 @@ public abstract class AlgoCasBase extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = (GeoElement) f.toGeoElement();
+		input[0] = f.toGeoElement();
 
 		setOutputLength(1);
-		setOutput(0, (GeoElement) g.toGeoElement());
+		setOutput(0, g.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
 	public GeoElement getResult() {
-		return (GeoElement) g.toGeoElement();
+		return g.toGeoElement();
 	}
 
 	@Override
 	public final void compute() {
 		if (!f.toGeoElement().isDefined()) {
-			((GeoElement) g.toGeoElement()).setUndefined();
+				g.toGeoElement().setUndefined();
 			return;
 		}
 

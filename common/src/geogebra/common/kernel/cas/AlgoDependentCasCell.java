@@ -4,7 +4,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.TreeSet;
 
@@ -63,7 +63,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	private void initInput() {
 		// input
 		// m := c + 3 has input variable c
-		TreeSet<GeoElementInterface> geoVars = casCell.getGeoElementVariables();
+		TreeSet<GeoElement> geoVars = casCell.getGeoElementVariables();
 		GeoElement [] geos = new GeoElement[geoVars.size()];
 		input = geoVars.toArray(geos);	
 		

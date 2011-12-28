@@ -34,7 +34,7 @@ public class GeoCasCell extends GeoElement {
 	// input variables of this cell
 	private TreeSet<String> invars, functionvars;
 	// defined input GeoElements of this cell
-	private TreeSet<GeoElementInterface> inGeos;
+	private TreeSet<GeoElement> inGeos;
 	private boolean isCircularDefinition;
 
 	// twin geo, e.g. GeoCasCell m := 8 creates GeoNumeric m = 8
@@ -506,7 +506,7 @@ public class GeoCasCell extends GeoElement {
 		// check for circular definition
 		isCircularDefinition = false;
 		if (inGeos != null) {
-			for (GeoElementInterface inGeo : inGeos) {
+			for (GeoElement inGeo : inGeos) {
 				if (inGeo.isChildOf(this)) {
 					isCircularDefinition = true;
 					setError("CircularDefinition");
@@ -709,25 +709,25 @@ public class GeoCasCell extends GeoElement {
 	 * 
 	 * @return input GeoElements including GeoCasCell objects
 	 */
-	public TreeSet<GeoElementInterface> getGeoElementVariables() {
+	public TreeSet<GeoElement> getGeoElementVariables() {
 		if (inGeos == null) {
 			inGeos = updateInputGeoElements(invars);
 		}
 		return inGeos;
 	}
 
-	private TreeSet<GeoElementInterface> updateInputGeoElements(
+	private TreeSet<GeoElement> updateInputGeoElements(
 			TreeSet<String> invars) {
 		if (invars == null || invars.isEmpty())
 			return null;
 
 		// list to collect geo variables
-		TreeSet<GeoElementInterface> geoVars = new TreeSet<GeoElementInterface>();
+		TreeSet<GeoElement> geoVars = new TreeSet<GeoElement>();
 
 		// go through all variables
 		for (String varLabel : invars) {
 			// lookup GeoCasCell first
-			GeoElementInterface geo = kernel.lookupCasCellLabel(varLabel);
+			GeoElement geo = kernel.lookupCasCellLabel(varLabel);
 
 			if (geo == null) {
 				// try row reference lookup
@@ -764,7 +764,7 @@ public class GeoCasCell extends GeoElement {
 	 * important for row references and renaming of inGeos to work.
 	 */
 	private ValidExpression resolveInputReferences(ValidExpression ve,
-			TreeSet<GeoElementInterface> inGeos) {
+			TreeSet<GeoElement> inGeos) {
 		if (ve == null)
 			return ve;
 
@@ -786,7 +786,7 @@ public class GeoCasCell extends GeoElement {
 
 		// replace GeoDummyVariable occurances for each geo
 		if (inGeos != null) {
-			for (GeoElementInterface inGeo : inGeos) {
+			for (GeoElement inGeo : inGeos) {
 				boolean success = node.replaceGeoDummyVariables(
 						inGeo.getLabel(), (GeoElement) inGeo);
 				if (!success) {

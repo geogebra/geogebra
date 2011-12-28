@@ -4,7 +4,6 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
@@ -825,35 +824,6 @@ SpecialNumberFormatInterface {
 		return AbstractApplication.VIEW_NONE;
 	}
 	
-	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-		
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-		
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-		
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-		
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-		
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-		
-	}
 	
 	
 	

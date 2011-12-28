@@ -1,6 +1,6 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -55,7 +55,7 @@ public interface PathOrPoint {
 	 * Returns this path as an object of type GeoElement.
 	 * @return this path as geo
 	 */
-	public GeoElementInterface toGeoElement();
+	public GeoElement toGeoElement();
 	
 	/**
 	 * Returns the smallest possible parameter value for this

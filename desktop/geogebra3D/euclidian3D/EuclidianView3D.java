@@ -16,7 +16,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -3276,12 +3275,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	
 
-	public boolean hasForParent(GeoElementInterface geo){
+	public boolean hasForParent(GeoElement geo){
 		return false;
 	}
 	
 
-	public boolean isMoveable(GeoElementInterface geo){
+	public boolean isMoveable(GeoElement geo){
 		return geo.isMoveable();
 	}
 	
@@ -3530,36 +3529,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	public int getFontSize() {
 		
 		return app.getFontSize();
-	}
-	
-	public void add(GeoElementInterface geo) {
-		add((GeoElement)geo);
-		
-	}
-
-	public void remove(GeoElementInterface geo) {
-		remove((GeoElement)geo);
-		
-	}
-
-	public void rename(GeoElementInterface geo) {
-		rename((GeoElement)geo);
-		
-	}
-
-	public void update(GeoElementInterface geo) {
-		update((GeoElement)geo);
-		
-	}
-
-	public void updateVisualStyle(GeoElementInterface geo) {
-		updateVisualStyle((GeoElement)geo);
-		
-	}
-
-	public void updateAuxiliaryObject(GeoElementInterface geo) {
-		updateAuxiliaryObject((GeoElement)geo);
-		
 	}
 	
 	final public int getAllowToolTips() {

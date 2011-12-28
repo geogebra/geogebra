@@ -6,7 +6,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
-public interface GeoLocusInterface extends GeoElementInterface {
+public interface GeoLocusInterface {
 
 	// temporary methods, of course
 	public ArrayList<MyPoint> getMyPointList();

@@ -468,7 +468,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		System.gc();
 	}
 
-	public final void add(GeoElementInterface geoI) {
+	public final void add(GeoElement geoI) {
 		// add geo to end of list
 		GeoElement geo = (GeoElement)geoI;
 		geoList.add(geo);
@@ -754,13 +754,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * 
 	 * @param geo
 	 */
-	public void registerColorFunctionListener(GeoElementInterface geo) {
+	public void registerColorFunctionListener(GeoElement geo) {
 		if (colorFunctionListener == null)
 			colorFunctionListener = new ArrayList<GeoElement>();
 		colorFunctionListener.add((GeoElement)geo);
 	}
 	
-	public void unregisterColorFunctionListener(GeoElementInterface geo) {
+	public void unregisterColorFunctionListener(GeoElement geo) {
 		if (colorFunctionListener != null) {
 			colorFunctionListener.remove(geo);
 		}

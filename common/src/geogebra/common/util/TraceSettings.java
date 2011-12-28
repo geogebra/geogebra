@@ -1,6 +1,6 @@
 package geogebra.common.util;
 
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class TraceSettings {
 
 	public boolean doTraceGeoCopy = false;
 
-	public void debug(GeoElementInterface geo) {
+	public void debug(GeoElement geo) {
 		System.out.println("=====================================");
 		System.out.println(geo.toString());
 		System.out.println("traceColumn1 = " + traceColumn1);

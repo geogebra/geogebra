@@ -14,7 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.TreeSet;
@@ -158,7 +158,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns an array with all GeoElements of this construction element.
 	 */
-	public abstract GeoElementInterface[] getGeoElements();
+	public abstract GeoElement[] getGeoElements();
 
 	public abstract boolean isGeoElement();
 

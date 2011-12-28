@@ -9,8 +9,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -262,12 +260,12 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}
 	
 	@Override
-	public boolean hasForParent(GeoElementInterface geo){
-		return ((GeoElement) geo).isParentOf((GeoElement) plane);
+	public boolean hasForParent(GeoElement geo){
+		return geo.isParentOf((GeoElement) plane);
 	}
 
 	@Override
-	public boolean isMoveable(GeoElementInterface geo){
+	public boolean isMoveable(GeoElement geo){
 		if (hasForParent(geo)) {
 			return false;
 		} else {

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 
 /**
  *
@@ -29,6 +29,6 @@ public interface NumberValue extends ExpressionValue {
     public MyDouble getNumber();
     public boolean isAngle();
     public double getDouble(); 
-    public GeoElementInterface toGeoElement();
+    public GeoElement toGeoElement();
 }
 

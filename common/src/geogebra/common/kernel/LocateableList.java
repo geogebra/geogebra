@@ -1,7 +1,7 @@
 package geogebra.common.kernel;
 
 import geogebra.common.kernel.algos.AlgoElementInterface;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -42,7 +42,7 @@ public class LocateableList extends ArrayList<Locateable> {
 		// part of the updateSet of this point
 		AlgoElementInterface parentAlgo = l.toGeoElement().getParentAlgorithm();
 		if (parentAlgo == null ||
-			!(((GeoElementInterface) point).algoUpdateSetContains(parentAlgo))) {
+			!(((GeoElement) point).algoUpdateSetContains(parentAlgo))) {
 			// add the locatable
 			add(l);			
 		}

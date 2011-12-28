@@ -29,7 +29,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -182,9 +182,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // generate point list 
         if(pairName) {
             for (int step = 0; step < construction.steps(); step++){
-                GeoElementInterface[] geos = construction.getConstructionElement(step).getGeoElements();
+                GeoElement[] geos = construction.getConstructionElement(step).getGeoElements();
                 for (int j = 0; j < geos.length; j++){
-                    GeoElement g = (GeoElement)(geos[j]);
+                    GeoElement g = geos[j];
                     if (g.isEuclidianVisible() && g.isGeoPoint()) 
                         pointList.add((GeoPoint2) g);
                 }
