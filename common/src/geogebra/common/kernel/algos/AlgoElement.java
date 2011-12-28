@@ -26,14 +26,12 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.MissingResourceException;
 import java.util.TreeSet;
 
 /**
@@ -1293,6 +1291,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 		sb.append("<command name=\"");
 		sb.append(cmdname);
 		sb.append("\"");
+		if ((this instanceof AlgoListElement || this instanceof AlgoCell || this instanceof AlgoObject) && !getOutput()[0].isDefined()) {
+			// need to write the geo type in the XML if it's undefined 
+			// so that it's the same type when the file is loaded again
+			sb.append(" type=\"");
+			sb.append(getOutput()[0].getXMLtypeString());
+			sb.append("\"");
+		}
 		sb.append(">\n");
 
 		// add input information

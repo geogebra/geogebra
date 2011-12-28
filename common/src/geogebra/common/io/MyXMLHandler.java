@@ -2517,9 +2517,11 @@ public class MyXMLHandler implements DocHandler {
 		switch (constMode) {
 		case MODE_CONSTRUCTION:
 			if (eName.equals("element")) {
+				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
 				geo = getGeoElement(attrs);
 			} else if (eName.equals("command")) {
+				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;
 				cmd = getCommand(attrs);
 			} else if (eName.equals("expression")) {
@@ -2582,8 +2584,10 @@ public class MyXMLHandler implements DocHandler {
 			break;						
 
 		case MODE_CONST_COMMAND:
-			if (eName.equals("command"))
+			if (eName.equals("command")) {
+				cons.setOutputGeo(null);
 				constMode = MODE_CONSTRUCTION;
+			}
 			break;
 			
 		case MODE_CONST_CAS_CELL:
@@ -4350,7 +4354,12 @@ public class MyXMLHandler implements DocHandler {
 	// e.g. for <command name="Intersect">
 	private Command getCommand(LinkedHashMap<String, String> attrs) {
 		Command cmd = null;
-		String name = (String) attrs.get("name");
+		String name = attrs.get("name");
+
+		String type = attrs.get("type");
+		if (type != null) {
+			cons.setOutputGeo(type);
+		}
 
 		//Application.debug(name);
 		if (name != null)

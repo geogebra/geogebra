@@ -2588,6 +2588,7 @@ public class Construction {
 	}
 
 	private MyXMLio xmlio;
+	private GeoElement outputGeo;
 
 	public void setXMLio(MyXMLio xmlio) {
 		this.xmlio = xmlio;
@@ -2631,6 +2632,26 @@ public class Construction {
 	public AbstractUndoManager getUndoManager() {
 		return undoManager;
 	}
+	
+	/*
+	 * used by commands Element[] and Cell[] as they need to know their output type in advance
+	 */
+	public void setOutputGeo(String type) {
+		if (type == null) {
+			this.outputGeo = null;
+			return;
+		}
+		this.outputGeo = kernel.createGeoElement(this, type);
+	}
+
+	/*
+	 * used by commands Element[] and Cell[] as they need to know their output type in advance
+	 * default: return new GeoNumeric(this)
+	 */
+	public GeoElement getOutputGeo() {
+		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
+	}    
+
 
 	// update all indices >= pos
 

@@ -75,9 +75,9 @@ public class AlgoListElement extends AlgoElement {
 
 		// desperate case: empty list
 		else {
-			element = new GeoNumeric(cons);
+			// saved in XML from 4.0.18.0
+			element = cons.getOutputGeo();
 		}
-
 		setInputOutput();
 		compute();
 	}
@@ -124,9 +124,10 @@ public class AlgoListElement extends AlgoElement {
 		}
 
 		// desperate case: empty list, or malformed 2D array
-		if (element == null)
-			element = new GeoNumeric(cons);
-
+		if (element == null) {
+			// saved in XML from 4.0.18.0
+			element = cons.getOutputGeo();
+		}
 		setInputOutput();
 		compute();
 		

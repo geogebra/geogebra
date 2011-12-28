@@ -841,7 +841,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	@Override
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
 		
-		return isLaTeX() || getTextString().indexOf('_') != -1;
+		return isLaTeX() || (getTextString() != null && getTextString().indexOf('_') != -1);
 	}
 	
 

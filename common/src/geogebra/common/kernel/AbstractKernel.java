@@ -4972,7 +4972,9 @@ public abstract class AbstractKernel {
 
 		switch (type.charAt(0)) {
 		case 'a': // angle
-			return new GeoAngle(cons);
+			if (type.equals("angle"))
+				return new GeoAngle(cons);
+			else return new GeoAxis(cons, 1);
 
 		case 'b': // angle
 			if (type.equals("boolean")) {

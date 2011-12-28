@@ -78,7 +78,8 @@ public class AlgoCell extends AlgoElement {
      	   geo.setVisualStyle(refObject);  
      	   geo.setUseVisualDefaults(false);
         } else {
-     	   geo = new GeoNumeric(cons,Double.NaN);
+        	geo = cons.getOutputGeo();
+        	geo.setUndefined();
         }
     
 		// output is a copy of the referenced object   
