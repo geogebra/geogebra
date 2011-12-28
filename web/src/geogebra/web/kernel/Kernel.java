@@ -38,6 +38,9 @@ public class Kernel extends AbstractKernel {
 		geogebra.common.awt.Color.gray = geogebra.web.awt.Color.gray;
 		geogebra.common.awt.Color.lightGray = geogebra.web.awt.Color.lightGray;
 		geogebra.common.awt.Color.darkGray = geogebra.web.awt.Color.darkGray;
+		
+		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 	}
 	
 	public Kernel() {
