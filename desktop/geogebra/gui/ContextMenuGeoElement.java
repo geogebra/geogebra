@@ -523,7 +523,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 		AbstractAction action;
 
-		action = new AbstractAction(app.getPlain("CreateNew2DViewFromA")) {
+		action = new AbstractAction(app.getPlain("CreateNew2DViewFromA", geo.getLabel())) {
 			/**
 			 * 
 			 */
