@@ -16,7 +16,7 @@ public interface Shape {
 	
 	boolean contains(double xTry, double yTry);
 
-	PathIterator getPathIterator(AffineTransform affineTransform);
+	 PathIterator getPathIterator(AffineTransform affineTransform);
 	
 	 public PathIterator getPathIterator(AffineTransform at, double flatness);
 

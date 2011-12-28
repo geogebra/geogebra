@@ -456,15 +456,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     @Override
     public void draw(Object shape) {
-	    // TODO Auto-generated method stub
-	    
+	  draw((geogebra.web.awt.Shape) shape);
     }
 
 	
     @Override
     public void fill(Object shape) {
-	    // TODO Auto-generated method stub
-	    
+	    fill((geogebra.web.awt.Shape) shape);
     }
 
 	@Override
@@ -497,6 +495,18 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     public void setComposite(AlphaComposite alphaComp) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+
+	@Override
+    public void draw(geogebra.common.awt.Shape s) {
+	    draw(s);
+    }
+
+
+	@Override
+    public void fill(geogebra.common.awt.Shape s) {
+	  fill(s);
     }
 
 }

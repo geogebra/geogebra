@@ -319,5 +319,15 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public void setComposite(AlphaComposite alphaComp) {
 		impl.setComposite((java.awt.Composite) alphaComp);
 	}
+
+	@Override
+	public void draw(geogebra.common.awt.Shape s) {
+		impl.draw(((geogebra.awt.Shape)s).getAwtShape());
+	}
+
+	@Override
+	public void fill(geogebra.common.awt.Shape s) {
+		impl.fill(((geogebra.awt.Shape)s).getAwtShape());
+	}
 	
 }

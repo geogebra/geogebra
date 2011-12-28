@@ -1,6 +1,5 @@
 package geogebra.common.awt;
 
-import java.awt.Shape;
 import java.util.Map;
 
 public abstract class Graphics2D {
@@ -65,7 +64,7 @@ public abstract class Graphics2D {
 	 * @see #setClip
 	 * @see #setComposite
 	 */
-	//public abstract void draw(Shape s);
+	public abstract void draw(Shape s);
 
 	/**
 	 * Renders an image, applying a transform from image space into user space
@@ -329,7 +328,7 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	//public abstract void fill(Shape s);
+	public abstract void fill(Shape s);
 
 	/**
 	 * Checks whether or not the specified <code>Shape</code> intersects
@@ -775,10 +774,10 @@ public abstract class Graphics2D {
 	public abstract void setFont(Font font);
 	public abstract void setPaint(Color fillColor);
 	public abstract void setColor(Color selColor);
-	public abstract void draw(Object shape);
-	public abstract void fill(Object shape);
 	public abstract void fillRect(int i, int j, int k, int l);
 	public abstract void drawLine(int x1, int y1, int x2, int y2);
+	public abstract void draw(Object shape);
+	public abstract void fill(Object shape);
 
 	public abstract void setComposite(AlphaComposite alphaComp);
 }
