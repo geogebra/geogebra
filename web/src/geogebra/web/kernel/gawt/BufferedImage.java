@@ -1,19 +1,29 @@
 package geogebra.web.kernel.gawt;
 
-import geogebra.common.awt.BufferedImageAdapter;
-
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.DOM;
 
-public class BufferedImage extends ImageElement {
-
-	protected BufferedImage(){
-		super();
-	}
+public class BufferedImage {
+	
+	ImageElement img = null;
 
 	public BufferedImage(int width, int height, int imageType) {
-	    this();
-	    setWidth(width);
-	    setHeight(height);
+	    img = ImageElement.as(DOM.createImg());
+	    img.setWidth(width);
+	    img.setHeight(height);
+    }
+
+	public int getWidth() {
+	   return img.getWidth();
+    }
+	
+	public int getHeight() {
+		return img.getHeight();
+	}
+
+	public ImageElement getImageElement() {
+	   return img;
     }
 	
 	

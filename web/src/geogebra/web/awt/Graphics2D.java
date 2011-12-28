@@ -111,7 +111,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	//
 	public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
 	        int y) {
-		context.drawImage((BufferedImage) img, x, y);
+		context.drawImage(((BufferedImage) img).getImageElement(), x, y);
 	}
 
 	
