@@ -41,6 +41,8 @@ public class Kernel extends AbstractKernel {
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
+		newConstruction();
+		getExpressionNodeEvaluator();
 	}
 	
 	public Kernel() {
