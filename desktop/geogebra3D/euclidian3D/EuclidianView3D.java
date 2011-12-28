@@ -19,8 +19,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -3530,7 +3528,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		return app.getFontSize();
 	}
-	
+
 	final public int getAllowToolTips() {
 		return EuclidianStyleConstants.TOOLTIPS_OFF;
 	}
