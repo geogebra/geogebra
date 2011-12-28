@@ -1,8 +1,27 @@
 package geogebra.web.euclidian;
 
+import java.util.ArrayList;
+
 import com.google.gwt.canvas.client.Canvas;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Font;
+import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianControllerInterface;
+import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementInterface;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.Color;
 import geogebra.web.kernel.gawt.Ellipse2D;
@@ -10,146 +29,18 @@ import geogebra.web.kernel.gawt.Line2D;
 
 
 
-public class EuclidianView extends BaseEuclidianView {
+public class EuclidianView extends EuclidianViewInterface2D {
+	
+	geogebra.web.awt.Graphics2D g2 = null;
 	
 	protected static final long serialVersionUID = 1L;
-
-	protected static final int MIN_WIDTH = 50;
-	protected static final int MIN_HEIGHT = 50;
-	
-	private static final String EXPORT1 = "Export_1"; // Points used to define corners for export (if they exist)
-	private static final String EXPORT2 = "Export_2";
-
-	// pixel per centimeter (at 72dpi)
-	protected static final double PRINTER_PIXEL_PER_CM = 72.0 / 2.54;
-
-	public static final double MODE_ZOOM_FACTOR = 1.5;
-
-	public static final double MOUSE_WHEEL_ZOOM_FACTOR = 1.1;
-
-	public static final double SCALE_STANDARD = 50;
-
-	// public static final double SCALE_MAX = 10000;
-	// public static final double SCALE_MIN = 0.1;
-	public static final double XZERO_STANDARD = 215;
-
-	public static final double YZERO_STANDARD = 315;
-
-	public static final int LINE_TYPE_FULL = 0;
-
-	public static final int LINE_TYPE_DASHED_SHORT = 10;
-
-	public static final int LINE_TYPE_DASHED_LONG = 15;
-
-	public static final int LINE_TYPE_DOTTED = 20;
-
-	public static final int LINE_TYPE_DASHED_DOTTED = 30;
 
 	public EuclidianView(Canvas canvas,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid) {
 	    // TODO Auto-generated constructor stub
+		this.g2 = new geogebra.web.awt.Graphics2D(canvas);
     }
-
-	public static final Integer[] getLineTypes() {
-		Integer[] ret = { new Integer(LINE_TYPE_FULL),
-				new Integer(LINE_TYPE_DASHED_LONG),
-				new Integer(LINE_TYPE_DASHED_SHORT),
-				new Integer(LINE_TYPE_DOTTED),
-				new Integer(LINE_TYPE_DASHED_DOTTED) };
-		return ret;
-	}
-	
-	// need to clip just outside the viewing area when drawing eg vectors
-	// as a near-horizontal thick vector isn't drawn correctly otherwise
-	public static final int CLIP_DISTANCE = 5;
-	
-	public static final int AXES_LINE_TYPE_FULL = 0;
-
-	public static final int AXES_LINE_TYPE_ARROW = 1;
-
-	public static final int AXES_LINE_TYPE_FULL_BOLD = 2;
-
-	public static final int AXES_LINE_TYPE_ARROW_BOLD = 3;
-
-
-
-	public static final int POINT_STYLE_DOT = 0;
-	public static final int POINT_STYLE_CROSS = 1;
-	public static final int POINT_STYLE_CIRCLE = 2;
-	public static final int POINT_STYLE_PLUS = 3;
-	public static final int POINT_STYLE_FILLED_DIAMOND = 4;
-	public static final int POINT_STYLE_EMPTY_DIAMOND = 5;
-	public static final int POINT_STYLE_TRIANGLE_NORTH = 6;
-	public static final int POINT_STYLE_TRIANGLE_SOUTH = 7;
-	public static final int POINT_STYLE_TRIANGLE_EAST = 8;
-	public static final int POINT_STYLE_TRIANGLE_WEST = 9;
-	public static final int MAX_POINT_STYLE = 9;
-
-	// G.Sturr added 2009-9-21 
-	public static final Integer[] getPointStyles() {
-		Integer[] ret = { new Integer(POINT_STYLE_DOT),
-				new Integer(POINT_STYLE_CROSS),
-				new Integer(POINT_STYLE_CIRCLE),
-				new Integer(POINT_STYLE_PLUS),
-				new Integer(POINT_STYLE_FILLED_DIAMOND),
-				new Integer(POINT_STYLE_EMPTY_DIAMOND),
-				new Integer(POINT_STYLE_TRIANGLE_NORTH),
-				new Integer(POINT_STYLE_TRIANGLE_SOUTH),
-				new Integer(POINT_STYLE_TRIANGLE_EAST),
-				new Integer(POINT_STYLE_TRIANGLE_WEST)	
-				};
-		return ret;
-	}
-	//end		
-	
-	public static final int RIGHT_ANGLE_STYLE_NONE = 0;
-
-	public static final int RIGHT_ANGLE_STYLE_SQUARE = 1;
-
-	public static final int RIGHT_ANGLE_STYLE_DOT = 2;
-
-	public static final int RIGHT_ANGLE_STYLE_L = 3; // Belgian style
-
-	public static final int DEFAULT_POINT_SIZE = 3;
-
-	public static final int DEFAULT_LINE_THICKNESS = 2;
-
-	public static final int DEFAULT_ANGLE_SIZE = 30;
-
-	public static final int DEFAULT_LINE_TYPE = LINE_TYPE_FULL;
-	
-	
-	public static final int LINE_TYPE_HIDDEN_NONE = 0;
-	
-	public static final int LINE_TYPE_HIDDEN_DASHED = 1;
-	
-	public static final int LINE_TYPE_HIDDEN_AS_NOT_HIDDEN = 2;
-	
-	public static final int DEFAULT_LINE_TYPE_HIDDEN = LINE_TYPE_HIDDEN_DASHED;
-
-	public static final float SELECTION_ADD = 2.0f;
-
-	// ggb3D 2008-10-27 : mode constants moved to EuclidianConstants.java
-	
-	public static final int POINT_CAPTURING_OFF = 0;
-	public static final int POINT_CAPTURING_ON = 1;
-	public static final int POINT_CAPTURING_ON_GRID = 2;
-	public static final int POINT_CAPTURING_AUTOMATIC = 3;
-	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
-	
-	public static final int TOOLTIPS_AUTOMATIC = 0;
-	public static final int TOOLTIPS_ON = 1;
-	public static final int TOOLTIPS_OFF = 2;
-	
-	protected int tooltipsInThisView = TOOLTIPS_AUTOMATIC;
-	
-//	 Michael Borcherds 2008-04-28 
-	public static final int GRID_CARTESIAN = 0;
-	public static final int GRID_ISOMETRIC = 1;
-	public static final int GRID_POLAR = 2;
-	private int gridType = GRID_CARTESIAN;
-	
 
 	// zoom rectangle colors
 	protected static final Color colZoomRectangle = new Color(200, 200, 230);
@@ -159,7 +50,7 @@ public class EuclidianView extends BaseEuclidianView {
 	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
 
 	protected static MyBasicStroke selStroke = new MyBasicStroke(
-			1.0f + SELECTION_ADD);
+			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	// protected static MyBasicStroke thinStroke = new MyBasicStroke(1.0f);
 
@@ -209,26 +100,26 @@ public class EuclidianView extends BaseEuclidianView {
 		float[] dash;
 
 		switch (type) {
-		case EuclidianView.LINE_TYPE_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			dash = new float[2];
 			dash[0] = width; // dot
 			dash[1] = 3.0f; // space
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_SHORT:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
 			dash = new float[2];
 			dash[0] = 4.0f + width;
 			// short dash
 			dash[1] = 4.0f; // space
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_LONG:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
 			dash = new float[2];
 			dash[0] = 8.0f + width; // long dash
 			dash[1] = 8.0f; // space
 			break;
 
-		case EuclidianView.LINE_TYPE_DASHED_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
 			dash = new float[4];
 			dash[0] = 8.0f + width; // dash
 			dash[1] = 4.0f; // space before dot
@@ -236,7 +127,7 @@ public class EuclidianView extends BaseEuclidianView {
 			dash[3] = dash[1]; // space after dot
 			break;
 
-		default: // EuclidianView.LINE_TYPE_FULL
+		default: // EuclidianStyleConstants.LINE_TYPE_FULL
 			dash = null;
 		}
 
@@ -250,5 +141,378 @@ public class EuclidianView extends BaseEuclidianView {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	public void setCoordinateSpaceSize(int width, int height) {
+		g2.setCoordinateSpaceWidth(width);
+		g2.setCoordinateSpaceHeight(height);
+	}
+	
+	public void synCanvasSize() {
+		setCoordinateSpaceSize(g2.getOffsetWidth(), g2.getOffsetHeight());
+	}
+	
+	/**
+	 * Gets the coordinate space width of the &lt;canvas&gt;.
+	 * 
+	 * @return the logical width
+	 */
+	public int getWidth() {
+		return g2.getCoordinateSpaceWidth();
+	}
+
+	/**
+	 * Gets the coordinate space height of the &lt;canvas&gt;.
+	 * 
+	 * @return the logical height
+	 */
+	public int getHeight() {
+		return g2.getCoordinateSpaceHeight();
+	}
+	
+	/**
+	 * Gets pixel width of the &lt;canvas&gt;.
+	 * 
+	 * @return the physical width in pixels
+	 */
+	public int getPhysicalWidth() {
+		return g2.getOffsetWidth();
+	}
+	
+	/**
+	 * Gets pixel height of the &lt;canvas&gt;.
+	 * 
+	 * @return the physical height in pixels
+	 */
+	public int getPhysicalHeight() {
+		return g2.getOffsetHeight();
+	}
+	
+	public int getAbsoluteTop() {
+		return g2.getAbsoluteTop();
+	}
+	
+	public int getAbsoluteLeft() {
+		return g2.getAbsoluteLeft();
+	}
+
+	public boolean isDefault2D() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public ArrayList<GeoPoint2> getFreeInputPoints(
+            AlgoElementInterface algoParent) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public boolean isMoveable(GeoElementInterface geoElement) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public double toRealWorldCoordX(double i) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	public double toRealWorldCoordY(double i) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	public void updateBounds() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public EuclidianControllerInterface getEuclidianController() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public double[] getGridDistances() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+
+	public DrawableND getDrawableND(GeoElement listElement) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public DrawableND createDrawableND(GeoElement listElement) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public void add(GeoElementInterface geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void remove(GeoElementInterface geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void rename(GeoElementInterface geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void update(GeoElementInterface geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void updateVisualStyle(GeoElementInterface geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void updateAuxiliaryObject(GeoElementInterface geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void reset() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void clearView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void setMode(int mode) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public int getViewID() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public void updateForPlane() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public int getMaxLayerUsed() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public AbstractKernel getKernel() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractApplication getApplication() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public void updateBackgroundImage() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	
+	@Override
+    public void updateBackground() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+	@Override
+    public double toScreenCoordXd(double aRW) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public double toScreenCoordYd(double aRW) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public int toScreenCoordY(double aRW) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public int toScreenCoordX(double aRW) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public boolean toScreenCoords(double[] coords) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public int getMode() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public Coords getCoordsForView(Coords coords) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public int getRightAngleStyle() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public CoordMatrix getMatrix() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Graphics2D getBackgroundGraphics() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Graphics2D getTempGraphics2D(Font plainFontCommon) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public int getBooleanSize() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public AffineTransform getCoordTransform() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Font getFontAngle() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Font getFontLine() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Font getFontPoint() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Font getFontConic() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeneralPath getBoundingPath() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public int getPointStyle() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public AffineTransform getTransform(GeoConicND conic, Coords m, Coords[] ev) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public boolean isOnScreen(double[] a) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public int toClippedScreenCoordX(double x) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public int toClippedScreenCoordY(double y) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	@Override
+    public Font getFont() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Font getFontVector() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public geogebra.common.awt.Color getBackgroundCommon() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    protected void setHeight(int h) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected void setWidth(int h) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    protected void repaint() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }

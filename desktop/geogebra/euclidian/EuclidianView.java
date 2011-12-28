@@ -228,12 +228,10 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	private Font fontAngle;
 
-	private int fontSize;
+	
 
 	// member variables
 	protected Application app;
-
-	protected AbstractKernel kernel;
 
 	protected EuclidianController euclidianController;
 
@@ -243,138 +241,14 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	private int width = Application.getScreenSize().width;
 	private int height = Application.getScreenSize().height;
 
-	protected NumberFormatAdapter[] axesNumberFormat;
+	
 
 	protected NumberFormatAdapter printScaleNF;
-	NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
+	
 
-	/**
-	 * @return the xminObject
-	 */
-	public GeoNumeric getXminObject() {
-		return (GeoNumeric) xminObject;
-	}
-
-	/**
-	 * @param xminObjectNew
-	 *            the xminObject to set
-	 */
-	public void setXminObject(NumberValue xminObjectNew) {
-		if (xminObject != null) {
-			((GeoNumeric) xminObject).removeEVSizeListener(this);
-		}
-		if (xminObjectNew == null) {
-			this.xminObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.xminObject = xminObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	/**
-	 * @return the xmaxObject
-	 */
-	public GeoNumeric getXmaxObject() {
-		return (GeoNumeric) xmaxObject;
-	}
-
-	/**
-	 * @param xmaxObjectNew
-	 *            the xmaxObject to set
-	 */
-	public void setXmaxObject(NumberValue xmaxObjectNew) {
-		if (xmaxObject != null) {
-			((GeoNumeric) xmaxObject).removeEVSizeListener(this);
-		}
-		if (xmaxObjectNew == null) {
-			this.xmaxObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.xmaxObject = xmaxObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	/**
-	 * @return the yminObject
-	 */
-	public GeoNumeric getYminObject() {
-		return (GeoNumeric) yminObject;
-	}
-
-	/**
-	 * @param yminObjectNew
-	 *            the yminObject to set
-	 */
-	public void setYminObject(NumberValue yminObjectNew) {
-		if (yminObject != null) {
-			((GeoNumeric) yminObject).removeEVSizeListener(this);
-		}
-		if (yminObjectNew == null) {
-			this.yminObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.yminObject = yminObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	private void setSizeListeners() {
-		((GeoNumeric) xminObject).addEVSizeListener(this);
-		((GeoNumeric) yminObject).addEVSizeListener(this);
-		((GeoNumeric) xmaxObject).addEVSizeListener(this);
-		((GeoNumeric) ymaxObject).addEVSizeListener(this);
-	}
-
-	/**
-	 * @return the ymaxObject
-	 */
-	public GeoNumeric getYmaxObject() {
-		return (GeoNumeric) ymaxObject;
-	}
-
-	/**
-	 * @param ymaxObjectNew
-	 *            the ymaxObject to set
-	 */
-	public void setYmaxObject(NumberValue ymaxObjectNew) {
-		if (ymaxObject != null) {
-			((GeoNumeric) ymaxObject).removeEVSizeListener(this);
-		}
-		if (ymaxObjectNew == null) {
-			this.ymaxObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.ymaxObject = ymaxObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	private double xmin; // ratio yscale / xscale
-
-	private double xmax;
-
-	private double ymin;
-
-	private double ymax;
-
-	private double invXscale;
-
-	private double invYscale;
-
-	private double xZero;
-
-	private double yZero;
-
-	private double xscale;
-
-	private double yscale;
-
-	private double scaleRatio = 1.0;
 	double xZeroOld, yZeroOld;
 
-	protected double[] AxesTickInterval = { 1, 1 }; // for axes =
+	
 
 	// axesNumberingDistances /
 	// 2
@@ -400,7 +274,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	int mode = EuclidianConstants.MODE_MOVE;
 
-	protected boolean[] showAxes = { true, true };
+	
 	private boolean showAxesCornerCoords = true;
 
 	protected boolean[] showAxesNumbers = { true, true };
@@ -409,47 +283,12 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	protected String[] axesUnitLabels = { null, null };
 
-	protected boolean[] piAxisUnit = { false, false };
-
-	protected int[] axesTickStyles = {
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
-
-	// for axes labeling with numbers
-	protected boolean[] automaticAxesNumberingDistances = { true, true };
-
-	protected double[] axesNumberingDistances = { 2, 2 };
-
-	// distances between grid lines
-	protected boolean automaticGridDistance = true;
 	
 	
-
-	double[] gridDistances = { 2, 2, Math.PI / 6 };
-
-	protected int gridLineStyle, axesLineType;
-
-	protected boolean gridIsBold = false; // Michael Borcherds 2008-04-11
-
 	// colors: axes, grid, background
 	protected Color axesColor, gridColor;
 
-	protected double printingScale;
-
-	// Map (geo, drawable) for GeoElements and Drawables
-	protected HashMap<GeoElement, Drawable> DrawableMap = new HashMap<GeoElement, Drawable>(
-			500);
-
-	protected ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
-
-	protected DrawableList allDrawableList = new DrawableList();
-
-	public DrawableList drawLayers[];
-
-	// on add: change resetLists()
-
-	protected DrawableList bgImageList = new DrawableList();
-
+	
 	Previewable previewDrawable;
 
 	protected Rectangle selectionRectangle;
@@ -481,7 +320,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
 	// EVNO_GENERAL for others
-	private int evNo = 1;
+	
 
 	private final EuclidianSettings settings;
 	
@@ -715,23 +554,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		}
 	}
 
-	/**
-	 * Returns grid type.
-	 */
-	final public int getGridType() {
-		return gridType;
-	}
-
-	/**
-	 * Set grid type.
-	 */
-	public void setGridType(int type) {
-		gridType = type;
-		if (type == GRID_POLAR) {
-			updateBounds();
-		}
-	}
-
+	
 	/**
 	 * Returns the bounding box of all Drawable objects in this view in screen
 	 * coordinates.
@@ -865,10 +688,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		updateBackground();
 	}
 
-	public int getFontSize() {
-		return fontSize;
-	}
-
+	
 	public void setAntialiasing(boolean flag) {
 		if (flag == antiAliasing) {
 			return;
@@ -1296,49 +1116,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
 	}
 
-	public void setCoordSystem(double xZero, double yZero, double xscale,
-			double yscale, boolean repaint) {
-		if (Double.isNaN(xscale)
-				|| (xscale < AbstractKernel.MAX_DOUBLE_PRECISION)
-				|| (xscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
-			return;
-		}
-		if (Double.isNaN(yscale)
-				|| (yscale < AbstractKernel.MAX_DOUBLE_PRECISION)
-				|| (yscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
-			return;
-		}
-
-		this.setxZero(xZero);
-		this.setyZero(yZero);
-		this.setXscale(xscale);
-		this.setYscale(yscale);
-		setScaleRatio(yscale / xscale);
-		setInvXscale(1.0d / xscale);
-		setInvYscale(1.0d / yscale);
-
-		// set transform for my coord system:
-		// ( xscale 0 xZero )
-		// ( 0 -yscale yZero )
-		// ( 0 0 1 )
-		getCoordTransform().setTransform(xscale, 0.0d, 0.0d, -yscale, xZero, yZero);
-
-		// real world values
-		setRealWorldBounds();
-
-		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
-		if (repaint) {
-			updateBackgroundImage();
-			updateAllDrawables(repaint);
-
-			// needed so that eg Corner[2,1] updates properly on zoom / pan
-			if (app.hasEuclidianView2()) {
-				kernel.notifyRepaint();
-				// app.updateStatusLabelAxesRatio();
-			}
-		}
-	}
-
+	
 	public int getWidth() {
 		return evjpanel.getWidth();
 	}
@@ -1408,118 +1186,10 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	 * }
 	 */
 
-	final protected void setRealWorldBounds() {
-		setXmin(-getxZero() * getInvXscale());
-		setXmax((getWidth() - getxZero()) * getInvXscale());
-		setYmax(getyZero() * getInvYscale());
-		setYmin((getyZero() - getHeight()) * getInvYscale());
-		updateBoundObjects();
-		updateBounds();
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		calcPrintingScale();
+	
+	
+	
 
-		// tell kernel
-		if (evNo != EVNO_GENERAL) {
-			kernel.setEuclidianViewBounds(evNo, getXmin(), getXmax(), getYmin(), getYmax(), getXscale(),
-					getYscale());
-		}
-
-	}
-
-	public void updateBoundObjects() {
-		if (isZoomable()) {
-			((GeoNumeric) xminObject).setValue(getXmin());
-			((GeoNumeric) xmaxObject).setValue(getXmax());
-			((GeoNumeric) yminObject).setValue(getYmin());
-			((GeoNumeric) ymaxObject).setValue(getYmax());
-		}
-	}
-
-	protected void calcPrintingScale() {
-		double unitPerCM = PRINTER_PIXEL_PER_CM / getXscale();
-		int exp = (int) Math.round(Math.log(unitPerCM) / Math.log(10));
-		printingScale = Math.pow(10, -exp);
-	}
-
-	// axis: 0 for x-axis, 1 for y-axis
-	protected void setAxesIntervals(double scale, int axis) {
-		double maxPix = 100; // only one tick is allowed per maxPix pixels
-		double units = maxPix / scale;
-		int exp = (int) Math.floor(Math.log(units) / Math.log(10));
-		int maxFractionDigtis = Math.max(-exp, kernel.getPrintDecimals());
-
-		if (automaticAxesNumberingDistances[axis]) {
-			// force same unit if scales are same, see #1082
-			if ((axis == 1) && automaticAxesNumberingDistances[0]
-					&& AbstractKernel.isEqual(getXscale(), getYscale())) {
-				axesNumberingDistances[1] = axesNumberingDistances[0];
-			} else if (piAxisUnit[axis]) {
-				axesNumberingDistances[axis] = Math.PI;
-			} else {
-				double pot = Math.pow(10, exp);
-				double n = units / pot;
-
-				if (n > 5) {
-					axesNumberingDistances[axis] = 5 * pot;
-				} else if (n > 2) {
-					axesNumberingDistances[axis] = 2 * pot;
-				} else {
-					axesNumberingDistances[axis] = pot;
-				}
-			}
-		}
-		AxesTickInterval[axis] = axesNumberingDistances[axis] / 2.0;
-
-		// set axes number format
-		if (axesNumberFormat[axis] instanceof DecimalFormat) {
-			DecimalFormat df = (DecimalFormat) axesNumberFormat[axis];
-
-			// display large and small numbers in scienctific notation
-			if ((axesNumberingDistances[axis] < 10E-6)
-					|| (axesNumberingDistances[axis] > 10E6)) {
-				df.applyPattern("0.##E0");
-				// avoid 4.00000000000004E-11 due to rounding error when
-				// computing
-				// tick mark numbers
-				maxFractionDigtis = Math.min(14, maxFractionDigtis);
-			} else {
-				df.applyPattern("###0.##");
-			}
-		}
-		axesNumberFormat[axis].setMaximumFractionDigits(maxFractionDigtis);
-
-		if (automaticGridDistance) {
-			gridDistances[axis] = axesNumberingDistances[axis]
-					* EuclidianStyleConstants.automaticGridDistanceFactor;
-		}
-	}
-
-	/**
-	 * Returns xscale of this view. The scale is the number of pixels in screen
-	 * space that represent one unit in user space.
-	 */
-	public double getXscale() {
-		return xscale;
-	}
-
-	/**
-	 * Returns the yscale of this view. The scale is the number of pixels in
-	 * screen space that represent one unit in user space.
-	 */
-	public double getYscale() {
-		return yscale;
-	}
-
-	/**
-	 * Returns the ratio yscale / xscale of this view. The scale is the number
-	 * of pixels in screen space that represent one unit in user space.
-	 * 
-	 * @return yscale / xscale ratio
-	 */
-	public double getScaleRatio() {
-		return getYscale() / getXscale();
-	}
 
 	protected String getXYscaleRatioString() {
 		StringBuilder sb = new StringBuilder();
@@ -3956,13 +3626,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		// repaint();
 	}
 
-	final public void updateAllDrawables(boolean repaint) {
-		allDrawableList.updateAll();
-		if (repaint) {
-			repaint();
-		}
-	}
-
+	
 	final protected void updateDrawableFontSize() {
 		allDrawableList.updateFontSizeAll();
 		repaint();
@@ -4210,46 +3874,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	}
 
-	/**
-	 * Zooms around fixed point (center of screen)
-	 * 
-	 * @param zoomFactor
-	 */
-	public final void zoomAroundCenter(double zoomFactor) {
-		if (!isZoomable()) {
-			return;
-			// keep xmin, xmax, ymin, ymax constant, adjust everything else
-		}
-
-		setXscale(getXscale() * zoomFactor);
-		setYscale(getYscale() * zoomFactor);
-
-		setScaleRatio(getYscale() / getXscale());
-		setInvXscale(1.0d / getXscale());
-		setInvYscale(1.0d / getYscale());
-
-		setxZero(-getXmin() * getXscale());
-		setWidth((int) ((getXmax() * getXscale()) + getxZero()));
-		setyZero(getYmax() * getYscale());
-		setHeight((int) (getyZero() - (getYmin() * getYscale())));
-
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		calcPrintingScale();
-
-		// tell kernel
-		if (evNo != EVNO_GENERAL) {
-			kernel.setEuclidianViewBounds(evNo, getXmin(), getXmax(), getYmin(), getYmax(), getXscale(),
-					getYscale());
-		}
-
-		getCoordTransform().setTransform(getXscale(), 0.0d, 0.0d, -getYscale(), getxZero(), getyZero());
-
-		updateBackgroundImage();
-		updateAllDrawables(true);
-
-	}
-
+	
 	protected MyZoomer zoomer;
 
 	/**
@@ -4789,34 +4414,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
 	}
 
-	/**
-	 * @return Returns the xmax.
-	 */
-	public double getXmax() {
-		return xmax;
-	}
-
-	/**
-	 * @return Returns the xmin.
-	 */
-	public double getXmin() {
-		return xmin;
-	}
-
-	/**
-	 * @return Returns the ymax.
-	 */
-	public double getYmax() {
-		return ymax;
-	}
-
-	/**
-	 * @return Returns the ymin.
-	 */
-	public double getYmin() {
-		return ymin;
-	}
-
+	
 	public Color getAxesColor() {
 		return axesColor;
 	}
@@ -5198,22 +4796,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		return gridDistances[i];
 	}
 
-	public double getInvXscale() {
-		return invXscale;
-	}
-
-	public double getInvYscale() {
-		return invYscale;
-	}
-
-	public int getViewWidth() {
-		return getWidth();
-	}
-
-	public int getViewHeight() {
-		return getHeight();
-	}
-
+	
 	// ///////////////////////////////////////
 	// previewables
 
@@ -5303,41 +4886,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		return new geogebra.awt.GeneralPath(gs);
 	}
 
-	// object is hit if mouse is within this many pixels
-	// (more for points, see DrawPoint)
-	private int capturingThreshold = 3;
-
-	public void setCapturingThreshold(int i) {
-		capturingThreshold = i;
-	}
-
-	public int getCapturingThreshold() {
-		return capturingThreshold;
-	}
-
-	public boolean isZoomable() {
-		if ((xminObject != null)
-				&& (!((GeoNumeric) xminObject).isIndependent() || ((GeoNumeric) xminObject)
-						.isLabelSet())) {
-			return false;
-		}
-		if ((xmaxObject != null)
-				&& (!((GeoNumeric) xmaxObject).isIndependent() || ((GeoNumeric) xmaxObject)
-						.isLabelSet())) {
-			return false;
-		}
-		if ((yminObject != null)
-				&& (!((GeoNumeric) yminObject).isIndependent() || ((GeoNumeric) yminObject)
-						.isLabelSet())) {
-			return false;
-		}
-		if ((ymaxObject != null)
-				&& (!((GeoNumeric) ymaxObject).isIndependent() || ((GeoNumeric) ymaxObject)
-						.isLabelSet())) {
-			return false;
-		}
-		return true;
-	}
+	
+	
 
 	private boolean updatingBounds = false;
 
@@ -5774,70 +5324,15 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		evjpanel.processMouseEventImpl(e);
 	}
 
-	void setHeight(int height) {
+	protected void setHeight(int height) {
 		this.height = height;
 	}
 
-	void setWidth(int width) {
+	protected void setWidth(int width) {
 		this.width = width;
 	}
 
-	void setXscale(double xscale) {
-		this.xscale = xscale;
-	}
-
-	void setYscale(double yscale) {
-		this.yscale = yscale;
-	}
-
-	void setInvXscale(double invXscale) {
-		this.invXscale = invXscale;
-	}
-
-	void setInvYscale(double invYscale) {
-		this.invYscale = invYscale;
-	}
-
-	void setFontSize(int fontSize) {
-		this.fontSize = fontSize;
-	}
-
-	public double getxZero() {
-		return xZero;
-	}
-
-	void setxZero(double xZero) {
-		this.xZero = xZero;
-	}
-
-	public double getyZero() {
-		return yZero;
-	}
-
-	void setyZero(double yZero) {
-		this.yZero = yZero;
-	}
-
-	void setScaleRatio(double scaleRatio) {
-		this.scaleRatio = scaleRatio;
-	}
-
-	void setXmin(double xmin) {
-		this.xmin = xmin;
-	}
-
-	void setXmax(double xmax) {
-		this.xmax = xmax;
-	}
-
-	void setYmin(double ymin) {
-		this.ymin = ymin;
-	}
-
-	void setYmax(double ymax) {
-		this.ymax = ymax;
-	}
-
+	
 	public geogebra.common.awt.Font getFontPoint() {
 		return fontPoint;
 	}

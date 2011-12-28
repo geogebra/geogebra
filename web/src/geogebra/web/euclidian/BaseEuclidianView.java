@@ -11,69 +11,17 @@ import com.google.gwt.dom.client.ImageElement;
 
 public class BaseEuclidianView {	
 
-	Graphics2D g2 = null;
 	
-	protected BaseEuclidianView() {
+	
+/*	protected BaseEuclidianView() {
 		this(Canvas.createIfSupported());
 	}
 	
 	protected BaseEuclidianView(Canvas canvas) {
 		this.g2 = new Graphics2D(canvas);
-	}
+	}*/
 
-	public void setCoordinateSpaceSize(int width, int height) {
-		g2.setCoordinateSpaceWidth(width);
-		g2.setCoordinateSpaceHeight(height);
-	}
-	
-	public void synCanvasSize() {
-		setCoordinateSpaceSize(g2.getOffsetWidth(), g2.getOffsetHeight());
-	}
-	
-	/**
-	 * Gets the coordinate space width of the &lt;canvas&gt;.
-	 * 
-	 * @return the logical width
-	 */
-	public int getWidth() {
-		return g2.getCoordinateSpaceWidth();
-	}
-
-	/**
-	 * Gets the coordinate space height of the &lt;canvas&gt;.
-	 * 
-	 * @return the logical height
-	 */
-	public int getHeight() {
-		return g2.getCoordinateSpaceHeight();
-	}
-	
-	/**
-	 * Gets pixel width of the &lt;canvas&gt;.
-	 * 
-	 * @return the physical width in pixels
-	 */
-	public int getPhysicalWidth() {
-		return g2.getOffsetWidth();
-	}
-	
-	/**
-	 * Gets pixel height of the &lt;canvas&gt;.
-	 * 
-	 * @return the physical height in pixels
-	 */
-	public int getPhysicalHeight() {
-		return g2.getOffsetHeight();
-	}
-	
-	public int getAbsoluteTop() {
-		return g2.getAbsoluteTop();
-	}
-	
-	public int getAbsoluteLeft() {
-		return g2.getAbsoluteLeft();
-	}
-	
+		
 	
 	// Canvas Drawing and Context Methods
 	/*
