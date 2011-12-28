@@ -56,7 +56,7 @@ public class Rectangle2D extends geogebra.common.awt.Rectangle2D{
 		return impl.intersects(geogebra.awt.Rectangle.getAWTRectangle(viewRect));
 	}
 
-	public static java.awt.geom.Rectangle2D getAWTRectangle(geogebra.common.awt.Rectangle2D r2d) {
+	public static java.awt.geom.Rectangle2D getAWTRectangle2D(geogebra.common.awt.Rectangle2D r2d) {
 
 		return ((geogebra.awt.Rectangle2D)r2d).impl;
 	}

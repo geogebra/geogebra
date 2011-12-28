@@ -90,7 +90,7 @@ public class DrawLocus extends Drawable {
 			g2.setPaint(geo
 					.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
 		}
 	}
 
@@ -139,14 +139,14 @@ public class DrawLocus extends Drawable {
 				// draw locus
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
 			}
 
 			// draw locus
 			g2.setPaint(geo
 					.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
 
 			if (geo.isFillable()
 					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {

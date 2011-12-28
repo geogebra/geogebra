@@ -6,6 +6,8 @@ import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
@@ -36,4 +38,9 @@ public abstract class AwtFactory {
 			float miterLimit, float[] dash, float f);
 	public abstract Line2D newLine2D();
 	public abstract Rectangle newRectangle(Rectangle bb);
+	public abstract Ellipse2DDouble newEllipse2DDouble();
+	public abstract Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
+
+
+
 }

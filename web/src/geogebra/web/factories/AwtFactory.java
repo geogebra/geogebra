@@ -5,6 +5,8 @@ import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
@@ -104,5 +106,17 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	public Rectangle newRectangle(Rectangle bb) {
 		return new geogebra.web.awt.Rectangle(bb);
 	}
+
+	@Override
+    public Ellipse2DDouble newEllipse2DDouble() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 
 }

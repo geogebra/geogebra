@@ -1,6 +1,8 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -50,14 +52,14 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp[i]), g2);
 			}			
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f, ((GeoElement)ineq
 						.getFunBorder()).lineType));
-				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp[i]), g2);
 			}
 
 			// TODO: draw label
@@ -69,14 +71,14 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
+				geogebra.euclidian.EuclidianStatic.doDrawWithValueStrokePure(circle[i], g2);
 			}	
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f,
 						EuclidianStyleConstants.LINE_TYPE_FULL));
-				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(circle[i]), g2);
 				if (!ineq.isStrict()) {
 					g2.fill(circle[i]);
 				}

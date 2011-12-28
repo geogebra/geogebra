@@ -1,8 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.Font;
-import geogebra.common.awt.FontRenderContext;
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -134,5 +133,12 @@ public abstract class EuclidianStatic {
 	}
 	protected abstract  geogebra.common.awt.Rectangle doDrawMultiLineText(AbstractApplication app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
-			boolean serif); 
+			boolean serif);
+
+	public static void drawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2) {
+		prototype.doDrawWithValueStrokePure(shape, g2);
+		
+	}
+	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2);
+		
 }

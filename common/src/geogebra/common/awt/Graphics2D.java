@@ -745,7 +745,7 @@ public abstract class Graphics2D {
 	 *          <code>Clip</code>.  If <code>s</code> is <code>null</code>,
 	 *          this method clears the current <code>Clip</code>.
 	 */
-	//public abstract void clip(Shape s);
+	public abstract void clip(geogebra.common.awt.Shape s);
 
 	/**
 	 * Get the rendering context of the <code>Font</code> within this

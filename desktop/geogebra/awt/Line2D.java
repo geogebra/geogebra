@@ -61,7 +61,7 @@ public class Line2D extends geogebra.common.awt.Line2D implements geogebra.awt.S
 	}
 	public boolean intersects(Rectangle2D r) {
 		// TODO Auto-generated method stub
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
 	}
 
 }

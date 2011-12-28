@@ -19,6 +19,8 @@ import geogebra.common.awt.Paint;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
+
+import java.awt.Shape;
 import java.util.Map;
 
 /**
@@ -266,7 +268,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public void draw(Object shape) {
 		if(shape instanceof java.awt.Shape)
 			impl.draw((java.awt.Shape)shape);
-		if(shape instanceof geogebra.awt.Shape)
+		if(shape instanceof geogebra.common.awt.Shape)
 			impl.draw(((geogebra.awt.Shape)shape).getAwtShape());
 	}
 
@@ -274,7 +276,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public void fill(Object shape) {
 		if(shape instanceof java.awt.Shape)
 			impl.fill((java.awt.Shape)shape);
-		if(shape instanceof geogebra.awt.Shape)
+		if(shape instanceof geogebra.common.awt.Shape)
 			impl.fill(((geogebra.awt.Shape)shape).getAwtShape());
 		
 	}
@@ -282,6 +284,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	@Override
 	public BasicStroke getStroke() {
 		return (geogebra.awt.BasicStroke) impl.getStroke();
+	}
+
+	@Override
+	public void clip(geogebra.common.awt.Shape shape) {
+		impl.clip(((geogebra.awt.Shape)shape).getAwtShape());
 	}
 
 	@Override

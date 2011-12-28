@@ -33,15 +33,11 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import java.awt.Graphics2D;
-
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
-//import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
-//import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import java.util.ArrayList;

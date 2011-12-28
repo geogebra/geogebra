@@ -467,6 +467,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    
     }
 
+	@Override
+    public void clip(geogebra.common.awt.Shape s) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
 	
     public void drawImage(BufferedImageAdapter img, int x, int y,
             BufferedImageOp op) {
@@ -491,4 +498,5 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    // TODO Auto-generated method stub
 	    
     }
+
 }

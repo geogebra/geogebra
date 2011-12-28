@@ -96,7 +96,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (isVisible) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(gp, g2);
+			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
 		}
 	}
 

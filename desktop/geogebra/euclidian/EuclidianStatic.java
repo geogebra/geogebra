@@ -9,6 +9,8 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.GeneralPath;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -445,6 +447,10 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		return f.deriveFont(f.getStyle(), newSize);
 	}
 
+	/**
+	 * @param shape
+	 * @param g2
+	 */
 	final public static void drawWithValueStrokePure(Shape shape, Graphics2D g2) {
 		Object oldHint = g2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
@@ -453,11 +459,19 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
+	protected void doDrawWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g2) {
+		drawWithValueStrokePure(geogebra.awt.GenericShape.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g2));
+	}
+	
 	protected void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3) {
 		fillWithValueStrokePure(geogebra.awt.GenericShape.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g3));
 	}
 	
-	final public static void drawWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
+	/**
+	 * @param shape
+	 * @param g3
+	 */
+	final public static void doDrawWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
 		drawWithValueStrokePure(shape, geogebra.awt.Graphics2D.getAwtGraphics(g3));
 	}
 	
@@ -479,9 +493,6 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
 		return geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 	}
-
-
-	
 
 	
 }

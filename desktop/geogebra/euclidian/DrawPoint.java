@@ -20,8 +20,10 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -35,13 +37,6 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 
 /**
  * 
@@ -60,11 +55,11 @@ public final class DrawPoint extends Drawable {
 	private int diameter, hightlightDiameter, selDiameter, pointSize;
 	private boolean isVisible, labelVisible;
 	// for dot and selection
-	private Ellipse2D.Double circle = new Ellipse2D.Double();
-	private Ellipse2D.Double circleHighlight = new Ellipse2D.Double();
-	private Ellipse2D.Double circleSel = new Ellipse2D.Double();
-	private Line2D.Double line1, line2, line3, line4;// for cross
-	private GeneralPath gp = null;
+	private geogebra.common.awt.Ellipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.Ellipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.Ellipse2DDouble circleSel = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.Line2D line1, line2, line3, line4;// for cross
+	private geogebra.common.awt.GeneralPath gp = null;
 
 	private static geogebra.common.awt.BasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
@@ -186,7 +181,7 @@ public final class DrawPoint extends Drawable {
 			double yB = coords[1] + pointSize;
 
 			if (gp == null) {
-				gp = new GeneralPath();
+				gp = AwtFactory.prototype.newGeneralPath();
 			}
 			gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
 			gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
@@ -203,7 +198,7 @@ public final class DrawPoint extends Drawable {
 				direction = -1.0;
 
 			if (gp == null) {
-				gp = new GeneralPath();
+				gp = AwtFactory.prototype.newGeneralPath();;
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
 			gp.moveTo((float) coords[0], (float) (coords[1] + direction
@@ -225,7 +220,7 @@ public final class DrawPoint extends Drawable {
 				direction = -1.0;
 
 			if (gp == null) {
-				gp = new GeneralPath();
+				gp = AwtFactory.prototype.newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
 			gp.moveTo((float) (coords[0] + direction * pointSize),
@@ -244,12 +239,12 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = new Line2D.Double();
-				line2 = new Line2D.Double();
+				line1 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line2 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
 			}
 			if (line3 == null) {
-				line3 = new Line2D.Double();
-				line4 = new Line2D.Double();
+				line3 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line4 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
 			line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
@@ -262,8 +257,8 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = new Line2D.Double();
-				line2 = new Line2D.Double();
+				line1 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line2 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
 			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
@@ -274,8 +269,8 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = new Line2D.Double();
-				line2 = new Line2D.Double();
+				line1 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line2 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
 			}
 			line1.setLine(xUL, yUL, xR, yB);
 			line2.setLine(xUL, yB, xR, yUL);
@@ -361,9 +356,9 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords);
 
-			Ellipse2D.Float circle = new Ellipse2D.Float((int) coords[0] - 30,
+			geogebra.common.awt.Ellipse2DFloat circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords[0] - 30,
 					(int) coords[1] - 30, 60, 60);
-			geogebra.awt.Graphics2D.getAwtGraphics(g2).clip(circle);
+			g2.clip(circle);
 			geo.forceEuclidianVisible(true);
 			drawable.update();
 			drawable.draw(g2);
@@ -427,7 +422,7 @@ public final class DrawPoint extends Drawable {
 				// draw diamond
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
-				EuclidianStatic.drawWithValueStrokePure(gp, geogebra.awt.Graphics2D.getAwtGraphics(g2));
+				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 				g2.fill(gp);
 				break;
 
@@ -494,7 +489,7 @@ public final class DrawPoint extends Drawable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(circle.getBounds());
+		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(geogebra.awt.Rectangle.getAWTRectangle(circle.getBounds()));
 	}
 
 	/**

@@ -74,7 +74,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shap
 		return impl.intersects(x, y, w, h);
 	}
 	public boolean intersects(Rectangle2D r) {
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
 	}
 	@Override
 	public geogebra.common.awt.Shape createTransformedShape(

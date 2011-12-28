@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -329,7 +330,7 @@ public class DrawInequality extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
 			}
 
 			if (!isForceNoFill())
@@ -339,7 +340,7 @@ public class DrawInequality extends Drawable {
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(objStroke);
-				EuclidianStatic.drawWithValueStrokePure(gp, g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
 			}
 
 

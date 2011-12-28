@@ -59,6 +59,6 @@ public class GenericShape implements geogebra.awt.Shape{
 		return impl.intersects(x, y, w, h);
 	}
 	public boolean intersects(Rectangle2D r) {
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
 	}
 }

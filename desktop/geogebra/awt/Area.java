@@ -98,6 +98,6 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 
 	public boolean intersects(Rectangle2D r) {
 		// TODO Auto-generated method stub
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle(r));
+		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
 	}
 }

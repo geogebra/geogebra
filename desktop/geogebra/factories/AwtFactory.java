@@ -1,7 +1,9 @@
 package geogebra.factories;
 
+import geogebra.awt.Ellipse2DDouble;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
@@ -106,5 +108,17 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Rectangle newRectangle(Rectangle bb) {
 		return new geogebra.awt.Rectangle(bb);
+	}
+
+	@Override
+	public Ellipse2DDouble newEllipse2DDouble() {
+		return new geogebra.awt.Ellipse2DDouble();
+				
+				
+	}
+
+	@Override
+	public Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
+		return new geogebra.awt.Ellipse2DFloat();
 	}
 }

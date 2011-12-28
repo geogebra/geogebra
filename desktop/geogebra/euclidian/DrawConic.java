@@ -22,6 +22,7 @@ import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.AbstractKernel;
@@ -1009,16 +1010,16 @@ final public class DrawConic extends Drawable implements Previewable {
 				g2.setColor(geo.getSelColor());
 
 				if (hypLeftOnScreen)
-					EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
+					EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypLeft), g2);
 				if (hypRightOnScreen)
-					EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
+					EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypRight), g2);
 			}
 			g2.setStroke(objStroke);
 			g2.setColor(geo.getObjectColor());
 			if (hypLeftOnScreen)
-				EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypLeft), g2);
 			if (hypRightOnScreen)
-				EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
+				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypRight), g2);
 
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
