@@ -44,16 +44,25 @@ office@geogebra.org
 	
 	<!-- build signed and unsigned GeoGebra jar files -->
 	<target name="geogebra" 
+		depends="clean, ggb-jar-files, geogebra-aftervanilla">
+	</target>
+
+	<!-- build signed and unsigned GeoGebra 3D jar files -->
+	<target name="geogebra3D" 
+		depends="clean, ggb-jar-files3D, geogebra3D-aftervanilla">
+	</target>
+
+	<!-- build signed and unsigned GeoGebra jar files -->
+	<target name="geogebra-aftervanilla" 
 		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate, delete3D, ggb-jar-index, 
 					copyJars, sign, pack, preloadHtml, finish">
 	</target>
 
 	<!-- build signed and unsigned GeoGebra 3D jar files -->
-	<target name="geogebra3D" 
+	<target name="geogebra3D-aftervanilla" 
 		depends="clean, ggb-jar-files3D, copyDebug3D, signDebug, obfuscate3D, ggb-jar-index3D, 
 					copyJars3D, sign, pack, preloadHtml, finish">
 	</target>
-
 	<!-- build jar files for testing without obfuscation -->
 	<target name="geogebra-unobfuscated" 
 		depends="clean, ggb-jar-files, delete3D, ggb-jar-index, 

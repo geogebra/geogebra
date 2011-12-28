@@ -211,7 +211,7 @@ cp $WORKDIR/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
 
 log "Rewriting HTML and JNLP files"
 cd $WWWDIR/$MYDIR
-for i in *.html *.jnlp; do
+for i in `ls -1 *.html *.jnlp 2>/dev/null`; do
     cat $i | \
      sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/unsigned\/unpacked"/g | \
      sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/usb-gomotion"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
