@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -52,7 +53,7 @@ import javax.swing.JTextField;
  * @author Michael
  * @version
  */
-public final class DrawTextField extends Drawable {
+public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 	private final GeoButton geoButton;
 

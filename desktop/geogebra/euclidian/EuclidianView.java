@@ -12,30 +12,27 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.DrawList;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableList;
-import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.DrawableList.DrawableIterator;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.euclidian.DrawableList.DrawableIterator;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix;
-import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.AbstractGeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -58,9 +55,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -73,16 +68,13 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.main.Application;
-
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import geogebra.common.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -113,9 +105,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.TreeSet;
@@ -173,30 +163,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	protected EuclidianViewJPanel evjpanel;
 
-	protected boolean unitAxesRatio;
-
-	/**
-	 * returns true if the axes ratio is 1
-	 * 
-	 * @return true if the axes ratio is 1
-	 */
-	public boolean isUnitAxesRatio() {
-		return unitAxesRatio || (gridType == GRID_POLAR);
-	}
-
-	/**
-	 * Set unit axes ratio to 1
-	 * 
-	 * @param flag
-	 *            true to set to 1, false to allow user
-	 */
-	public void setUnitAxesRatio(boolean flag) {
-		unitAxesRatio = flag;
-		if (flag) {
-			updateBounds();
-		}
-	}
-
+	
 	protected static RenderingHints defRenderingHints = new RenderingHints(null);
 	{
 		defRenderingHints.put(RenderingHints.KEY_RENDERING,
@@ -216,11 +183,11 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	
 
 	// member variables
-	protected Application app;
+	private Application application;
 
 	protected EuclidianController euclidianController;
 
-	private geogebra.common.awt.AffineTransform coordTransform = new geogebra.awt.AffineTransform();
+	
 
 	// use sensible defaults, see #640
 	private int width = Application.getScreenSize().width;
@@ -336,7 +303,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		evNo = evno;
 		euclidianController = ec;
 		kernel = ec.getKernel();
-		app = ec.getApplication();
+		setApplication(ec.getApplication());
 		this.settings = settings;
 
 		evjpanel = new EuclidianViewJPanel(this);
@@ -361,7 +328,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		evjpanel.setLayout(null);
 		evjpanel.setMinimumSize(new Dimension(20, 20));
 		euclidianController.setView(this);
-		euclidianController.setPen(new EuclidianPen(app, this));
+		euclidianController.setPen(new EuclidianPen(getApplication(), this));
 
 		attachView();
 
@@ -389,14 +356,14 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		// settings from XML for EV1, EV2
 		// not for eg probability calculator
 		if ((evNo == 1) || (evNo == 2)) {
-			EuclidianSettings es = app.getSettings().getEuclidian(evNo);
+			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
 			settingsChanged(es);
 			es.addListener(this);
 		}
 	}
 
 	public Application getApplication() {
-		return app;
+		return application;
 	}
 
 	/**
@@ -491,7 +458,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		allDrawableList.clear();
 		bgImageList.clear();
 
-		for (int i = 0; i <= app.maxLayerUsed; i++) {
+		for (int i = 0; i <= getApplication().maxLayerUsed; i++) {
 			drawLayers[i].clear(); // Michael Borcherds 2008-02-29
 		}
 
@@ -564,50 +531,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	//
-	/**
-	 * Sets the global size for checkboxes. Michael Borcherds 2008-05-12
-	 * 
-	 * @param size
-	 *            13 or 26
-	 */
-	public void setBooleanSize(int size) {
 
-		// only 13 and 26 currently allowed
-		app.booleanSize = (size == 13) ? 13 : 26;
-
-		updateAllDrawables(true);
-	}
-
-	final public int getBooleanSize() {
-		return app.booleanSize;
-	}
-
-	/**
-	 * Sets the global style for point drawing.
-	 * 
-	 * @param style
-	 */
-	public void setPointStyle(int style) {
-		if ((style > 0) && (style <= EuclidianStyleConstants.MAX_POINT_STYLE)) {
-			app.pointStyle = style;
-		} else {
-			app.pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-		}
-
-		updateAllDrawables(true);
-	}
-
-	final public int getPointStyle() {
-		return app.pointStyle;
-	}
-
-	public void setAllowToolTips(int setto) {
-		tooltipsInThisView = setto;
-	}
-
-	final public int getAllowToolTips() {
-		return tooltipsInThisView;
-	}
 
 	//@Override
 	public void setToolTipText(String plain) {
@@ -618,20 +542,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	// added by Loic BEGIN
-	/**
-	 * Sets the global style for rightAngle drawing.
-	 * 
-	 * @param style
-	 */
-	public void setRightAngleStyle(int style) {
-		app.rightAngleStyle = style;
-		updateAllDrawables(true);
-	}
-
-	final public int getRightAngleStyle() {
-		return app.rightAngleStyle;
-	}
-
+	
 	// END
 	final void addBackgroundImage(DrawImage img) {
 		bgImageList.addUnique(img);
@@ -652,14 +563,14 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	public void updateFonts() {
-		setFontSize(app.getFontSize());
+		setFontSize(getApplication().getFontSize());
 
-		setFontPoint(app.getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize()));
+		setFontPoint(getApplication().getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize()));
 		setFontAngle(getFontPoint());
 		setFontLine(getFontPoint());
 		setFontVector(getFontPoint());
 		setFontConic(getFontPoint());
-		setFontCoords(app.getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize() - 2));
+		setFontCoords(getApplication().getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize() - 2));
 		setFontAxes(getFontCoords());
 
 		updateDrawableFontSize();
@@ -681,8 +592,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	public void setDragCursor() {
 
-		if (app.useTransparentCursorWhenDragging) {
-			setCursor(app.getTransparentCursor());
+		if (getApplication().useTransparentCursorWhenDragging) {
+			setCursor(getApplication().getTransparentCursor());
 		} else {
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
@@ -722,12 +633,12 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 		switch (mode) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-			defaultCursor = getCursorForImage(app
+			defaultCursor = getCursorForImage(getApplication()
 					.getInternalImage("cursor_zoomin.gif"));
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
-			defaultCursor = getCursorForImage(app
+			defaultCursor = getCursorForImage(getApplication()
 					.getInternalImage("cursor_zoomout.gif"));
 			break;
 		}
@@ -805,9 +716,9 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		ymaxTemp = getYmax();
 
 		try {
-			GeoPoint2 export1 = (GeoPoint2) app.getKernel().lookupLabel(
+			GeoPoint2 export1 = (GeoPoint2) getApplication().getKernel().lookupLabel(
 					EuclidianView.EXPORT1);
-			GeoPoint2 export2 = (GeoPoint2) app.getKernel().lookupLabel(
+			GeoPoint2 export2 = (GeoPoint2) getApplication().getKernel().lookupLabel(
 					EuclidianView.EXPORT2);
 
 			if ((export1 == null) || (export2 == null)) {
@@ -1119,8 +1030,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			Construction cons = kernel.getConstruction();
 			String title = cons.getTitle();
 			if (!title.equals("")) {
-				Font titleFont = app.getBoldFontCommon().deriveFont(Font.BOLD,
-						app.getBoldFont().getSize() + 2);
+				Font titleFont = getApplication().getBoldFontCommon().deriveFont(Font.BOLD,
+						getApplication().getBoldFont().getSize() + 2);
 				g2d.setFont(geogebra.awt.Font.getAwtFont(titleFont));
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
@@ -1147,9 +1058,9 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			// scale string:
 			// Scale in cm: 1:1 (x), 1:2 (y)
 			String scaleString = null;
-			if (app.isPrintScaleString()) {
+			if (getApplication().isPrintScaleString()) {
 				StringBuilder sb = new StringBuilder(
-						app.getPlain("ScaleInCentimeter"));
+						getApplication().getPlain("ScaleInCentimeter"));
 				if (printingScale <= 1) {
 					sb.append(": 1:");
 					sb.append(printScaleNF.format(1 / printingScale));
@@ -1184,7 +1095,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			}
 
 			if (line != null) {
-				g2d.setFont(app.getPlainFont());
+				g2d.setFont(getApplication().getPlainFont());
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
 				FontMetrics fm = g2d.getFontMetrics();
@@ -1235,10 +1146,10 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	 * 
 	 */
 	public void exportPaint(Graphics2D g2d, double scale, boolean transparency) {
-		app.exporting = true;
+		getApplication().exporting = true;
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
-		app.exporting = false;
+		getApplication().exporting = false;
 	}
 
 	public void exportPaintPre(Graphics2D g2d, double scale) {
@@ -1383,15 +1294,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		return new geogebra.awt.Graphics2D(bgGraphics);
 	}
 
-	final public void updateBackground() {
-		// make sure axis number formats are up to date
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-
-		updateBackgroundImage();
-		updateAllDrawables(true);
-		// repaint();
-	}
+	
 
 	final public void updateBackgroundImage() {
 		if (bgGraphics != null) {
@@ -1443,10 +1346,10 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			drawAxes(g);
 		}
 
-		if (app.showResetIcon() && app.isApplet()) {
+		if (getApplication().showResetIcon() && getApplication().isApplet()) {
 			// need to use getApplet().width rather than width so that
 			// it works with applet rescaling
-			int w = app.onlyGraphicsViewShowing() ? app.getApplet().width
+			int w = getApplication().onlyGraphicsViewShowing() ? getApplication().getApplet().width
 					: getWidth() + 2;
 			g.drawImage(getResetImage(), w - 18, 2, null);
 		}
@@ -1454,21 +1357,21 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	private Image getResetImage() {
 		if (resetImage == null) {
-			resetImage = app.getRefreshViewImage();
+			resetImage = getApplication().getRefreshViewImage();
 		}
 		return resetImage;
 	}
 
 	private Image getPlayImage() {
 		if (playImage == null) {
-			playImage = app.getPlayImage();
+			playImage = getApplication().getPlayImage();
 		}
 		return playImage;
 	}
 
 	private Image getPauseImage() {
 		if (pauseImage == null) {
-			pauseImage = app.getPauseImage();
+			pauseImage = getApplication().getPauseImage();
 		}
 		return pauseImage;
 	}
@@ -2278,16 +2181,16 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	private boolean drawPlayButtonInThisView() {
 
 		// just one view
-		if ( app.getGuiManager() == null) {
+		if ( getApplication().getGuiManager() == null) {
 			return true;
 		}
 		GetViewId evp;
 		// eg ev1 just closed
-		if ((evp = app.getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
+		if ((evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
 			return true;
 		}
 
-		return !((app.getGuiManager() != null) && (this.getViewID() != evp
+		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
 				.getViewId()));
 	}
 
@@ -2311,28 +2214,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		}
 	}
 
-	// Michael Borcherds 2008-02-29
-	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
-		updateMaxLayerUsed(newlayer);
-		// Application.debug(drawLayers[oldlayer].size());
-		drawLayers[oldlayer].remove(DrawableMap.get(geo));
-		// Application.debug(drawLayers[oldlayer].size());
-		drawLayers[newlayer].add(DrawableMap.get(geo));
-
-	}
-
-	public void updateMaxLayerUsed(int layer) {
-		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
-			layer = EuclidianStyleConstants.MAX_LAYERS;
-		}
-		if (layer > app.maxLayerUsed) {
-			app.maxLayerUsed = layer;
-		}
-	}
-
-	public int getMaxLayerUsed() {
-		return app.maxLayerUsed;
-	}
+	
 
 	// Michael Borcherds 2008-03-01
 	public void drawObjectsPre(Graphics2D g2) {
@@ -2367,7 +2249,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		// isSVGExtensions=g2.getClass().getName().endsWith("SVGExtensions");
 		int layer;
 
-		for (layer = 0; layer <= app.maxLayerUsed; layer++) // only draw layers
+		for (layer = 0; layer <= getApplication().maxLayerUsed; layer++) // only draw layers
 															// we need
 		{
 			// if (isSVGExtensions)
@@ -2450,7 +2332,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
 				e);
 		if (changedKernel) {
-			app.storeUndoInfo();
+			getApplication().storeUndoInfo();
 		}
 		kernel.notifyRepaint();
 	}
@@ -2545,7 +2427,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
 	final public GeoElement getLabelHit(Point p) {
-		if (!app.isLabelDragsEnabled()) {
+		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
 		}
 		DrawableIterator it = allDrawableList.getIterator();
@@ -3149,56 +3031,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	
-	/**
-	 * removes a GeoElement from this view
-	 */
-	final public void remove(GeoElement geo) {
-		Drawable d = DrawableMap.get(geo);
-		int layer = geo.getLayer();
-
-		if (d != null) {
-			switch (geo.getGeoClassType()) {
-			// case BOOLEAN:
-			// drawLayers[layer].remove(d);
-			// remove checkbox
-			// not needed now it's not drawn by the view
-			// ((DrawBoolean) d).remove();
-			// break;
-
-			case BUTTON:
-				drawLayers[layer].remove(d);
-				// remove button
-				((DrawButton) d).remove();
-				break;
-
-			case TEXTFIELD:
-				drawLayers[layer].remove(d);
-				// remove button
-				((DrawTextField) d).remove();
-				break;
-
-			case LIST:
-				drawLayers[layer].remove(d);
-				// remove sub-drawables
-				((DrawList) d).remove();
-				break;
-
-			default:
-				drawLayers[layer].remove(d);
-				break;
-
-			}
-
-			allDrawableList.remove(d);
-
-			DrawableMap.remove(geo);
-			if (geo.isGeoPoint()) {
-				stickyPointList.remove(geo);
-			}
-			repaint();
-		}
-	}
-
+	
 
 
 	
@@ -3303,7 +3136,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		sb.append("\" pointCapturing=\"");
 		sb.append(getPointCapturingMode());
 		sb.append("\" rightAngleStyle=\"");
-		sb.append(app.rightAngleStyle);
+		sb.append(getApplication().rightAngleStyle);
 		if (asPreference) {
 			sb.append("\" allowShowMouseCoords=\"");
 			sb.append(getAllowShowMouseCoords());
@@ -3313,7 +3146,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		}
 
 		sb.append("\" checkboxSize=\"");
-		sb.append(app.booleanSize); // Michael Borcherds 2008-05-12
+		sb.append(getApplication().booleanSize); // Michael Borcherds 2008-05-12
 
 		sb.append("\" gridType=\"");
 		sb.append(getGridType()); // cartesian/isometric/polar
@@ -3628,7 +3461,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			setAnimatedCoordSystem(xzero, yzero, 0, SCALE_STANDARD, 15, false);
 		}
 		if (storeUndo) {
-			app.storeUndoInfo();
+			getApplication().storeUndoInfo();
 		}
 	}
 
@@ -3726,7 +3559,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 					newScale * getScaleRatio());
 
 			if (storeUndo) {
-				app.storeUndoInfo();
+				getApplication().storeUndoInfo();
 			}
 		}
 
@@ -3796,7 +3629,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			setRealWorldCoordSystem(x0, x1, y0, y1);
 
 			if (storeUndo) {
-				app.storeUndoInfo();
+				getApplication().storeUndoInfo();
 			}
 		}
 
@@ -3862,7 +3695,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 			setCoordSystem(getxZero(), getyZero(), getXscale(), newScale);
 			if (storeUndo) {
-				app.storeUndoInfo();
+				getApplication().storeUndoInfo();
 			}
 		}
 
@@ -3928,7 +3761,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 			setCoordSystem(ox, oy, getXscale(), getYscale());
 			if (storeUndo) {
-				app.storeUndoInfo();
+				getApplication().storeUndoInfo();
 			}
 		}
 
@@ -4082,36 +3915,6 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		}
 	}
 
-	public void setAutomaticGridDistance(boolean flag) {
-		automaticGridDistance = flag;
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		if (flag) {
-			gridDistances[2] = Math.PI / 6;
-		}
-	}
-
-	public boolean isAutomaticGridDistance() {
-		return automaticGridDistance;
-	}
-
-	public double[] getGridDistances() {
-		return gridDistances;
-	}
-
-	public void setGridDistances(double[] dist) {
-		if (dist == null) {
-			AbstractApplication.debug("NULL");
-			return;
-		}
-		gridDistances = dist;
-		setAutomaticGridDistance(false);
-	}
-
-	public int getGridLineStyle() {
-		return gridLineStyle;
-	}
-
 	public void setGridLineStyle(int gridLineStyle) {
 		this.gridLineStyle = gridLineStyle;
 		gridStroke = geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(gridIsBold ? 2f : 1f, gridLineStyle)); // Michael
@@ -4121,14 +3924,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 																		// gridisbold
 	}
 
-	public int getAxesLineStyle() {
-		return axesLineType;
-	}
-
-	public void setAxesLineStyle(int axesLineStyle) {
-		this.axesLineType = axesLineStyle;
-	}
-
+	
 	public boolean[] getShowAxesNumbers() {
 		return showAxesNumbers;
 	}
@@ -4258,7 +4054,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(app.getPlainFont());
+		g2Dtemp.setFont(getApplication().getPlainFont());
 		return g2Dtemp;
 	}
 
@@ -4298,12 +4094,12 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	public void resetMaxLayerUsed() {
-		app.maxLayerUsed = 0;
+		getApplication().maxLayerUsed = 0;
 	}
 
 	public void resetXYMinMaxObjects() {
 		if ((evNo == 1) || (evNo == 2)) {
-			EuclidianSettings es = app.getSettings().getEuclidian(evNo);
+			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
 			// this is necessary in File->New because there might have been
 			// dynamic xmin bounds
 			GeoNumeric xmao = new GeoNumeric(kernel.getConstruction(),
@@ -4448,143 +4244,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	
 	
 
-	private boolean updatingBounds = false;
-
-	public void updateBounds() {
-		if (updatingBounds) {
-			return;
-		}
-		updatingBounds = true;
-		double xmin2 = xminObject.getDouble();
-		double xmax2 = xmaxObject.getDouble();
-		double ymin2 = yminObject.getDouble();
-		double ymax2 = ymaxObject.getDouble();
-		if (isUnitAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
-			double newWidth = ((ymax2 - ymin2) * getWidth()) / (getHeight() + 0.0);
-			double newHeight = ((xmax2 - xmin2) * getHeight()) / (getWidth() + 0.0);
-
-			if ((xmax2 - xmin2) < newWidth) {
-				double c = (xmin2 + xmax2) / 2;
-				xmin2 = c - (newWidth / 2);
-				xmax2 = c + (newWidth / 2);
-			} else {
-				double c = (ymin2 + ymax2) / 2;
-				ymin2 = c - (newHeight / 2);
-				ymax2 = c + (newHeight / 2);
-			}
-		}
-		if (((xmax2 - xmin2) > AbstractKernel.MIN_PRECISION)
-				&& ((ymax2 - ymin2) > AbstractKernel.MIN_PRECISION)) {
-			setRealWorldCoordSystem(xmin2, xmax2, ymin2, ymax2);
-		}
-		updatingBounds = false;
-	}
-
-	// /////////////////////////////////////////
-	// FOR EUCLIDIANVIEWFORPLANE
-	// /////////////////////////////////////////
-
-	/**
-	 * tranform in view coords
-	 * 
-	 * @param coords
-	 * @return the same coords for classic 2d view
-	 */
-	public Coords getCoordsForView(Coords coords) {
-		return coords;
-	}
-
-	/**
-	 * return null if classic 2D view
-	 * 
-	 * @return matrix representation of the plane shown by this view
-	 */
-	public CoordMatrix getMatrix() {
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param conic
-	 * @param M
-	 * @param ev
-	 * @return affine transform of the conic for this view
-	 */
-	public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
-		return conic
-						.getAffineTransform();
-	}
-
-	public String getFromPlaneString() {
-		return "xOyPlane";
-	}
-
-	public String getTranslatedFromPlaneString() {
-		return app.getPlain("xOyPlane");
-	}
-
-	public boolean isDefault2D() {
-		return true;
-	}
-
-	/**
-	 * 
-	 * @return null (for 2D) and xOyPlane (for 3D)
-	 */
-	public GeoPlaneND getPlaneContaining() {
-		return kernel.getDefaultPlane();
-	}
-
-	/**
-	 * 
-	 * @return null (for 2D) and xOyPlane (for 3D)
-	 */
-	public GeoDirectionND getDirection() {
-		return getPlaneContaining();
-	}
-
-	public void updateForPlane() {
-		// only used in EuclidianViewForPlane
-	}
-
-	public boolean hasForParent(GeoElement geo) {
-		return false;
-	}
-
-	public boolean isMoveable(GeoElement geo) {
-		return geo.isMoveable();
-	}
-
-	public ArrayList<GeoPoint2> getFreeInputPoints(
-			AlgoElementInterface algoParent) {
-		return algoParent.getFreeInputPoints();
-	}
-
-	/**
-	 * Replaces num by num2 in xmin, xmax,ymin,ymax. Does not add / remove EV
-	 * listeners from these numerics
-	 * 
-	 * @param num
-	 *            old numeric
-	 * @param num2
-	 *            new numeric
-	 */
-	public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
-		if (xmaxObject == num) {
-			xmaxObject = num2;
-		}
-		if (xminObject == num) {
-			xminObject = num2;
-		}
-		if (ymaxObject == num) {
-			ymaxObject = num2;
-		}
-		if (yminObject == num) {
-			yminObject = num2;
-		}
-		updateBounds();
-	}
-
+	
+	
 	public void settingsChanged(AbstractSettings settings) {
 		EuclidianSettings evs = (EuclidianSettings) settings;
 
@@ -4674,19 +4335,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	private void synchronizeMenuBarAndEuclidianStyleBar(EuclidianSettings evs) {
 		getStyleBar().updateButtonPointCapture(evs.getPointCapturingMode());
 
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().updateMenubar();
-		}
-	}
-
-	public int getViewID() {
-		switch (evNo) {
-		case 1:
-			return AbstractApplication.VIEW_EUCLIDIAN;
-		case 2:
-			return AbstractApplication.VIEW_EUCLIDIAN2;
-		default:
-			return AbstractApplication.VIEW_NONE;
+		if (getApplication().getGuiManager() != null) {
+			getApplication().getGuiManager().updateMenubar();
 		}
 	}
 
@@ -4864,18 +4514,16 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 	
 	
-	public geogebra.common.awt.AffineTransform getCoordTransform() {
-		return coordTransform;
-	}
-
-	void setCoordTransform(geogebra.common.awt.AffineTransform coordTransform) {
-		this.coordTransform = coordTransform;
-	}
+	
 
 	@Override
 	protected void setStyleBarMode(int mode) {
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
+	}
+
+	protected void setApplication(Application application) {
+		this.application = application;
 	}
 }

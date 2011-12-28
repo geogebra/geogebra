@@ -103,9 +103,9 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		viewID = ((Application)kernel.getApplication()).getGuiManager()
 				.assignPlotPanelID(this);
 
-		grabCursor = getCursorForImage(app.getImageIcon("cursor_grab.gif")
+		grabCursor = getCursorForImage(getApplication().getImageIcon("cursor_grab.gif")
 				.getImage());
-		grabbingCursor = getCursorForImage(app.getImageIcon(
+		grabbingCursor = getCursorForImage(getApplication().getImageIcon(
 				"cursor_grabbing.gif").getImage());
 
 		setMouseEnabled(false);
@@ -226,7 +226,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		if (plotSettings.forceXAxisBuffer) {
 			// ensure that the axis labels are shown
 			// by forcing a fixed pixel height below the x-axis
-			double pixelOffset = (30 * app.getSmallFont().getSize()) / 12.0;
+			double pixelOffset = (30 * getApplication().getSmallFont().getSize()) / 12.0;
 			double pixelHeight = this.getHeight();
 			plotSettings.yMin = (-pixelOffset * plotSettings.yMax)
 					/ (pixelHeight + pixelOffset);
@@ -355,7 +355,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		public ContextMenu() {
 			this.setOpaque(true);
 			// setBackground(bgColor);
-			setFont(app.getPlainFont());
+			setFont(getApplication().getPlainFont());
 
 			for (AbstractAction action : getActionList()) {
 				add(action);
@@ -384,8 +384,8 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	}
 
 	AbstractAction exportGraphicAction = new AbstractAction(
-			app.getPlain("ExportAsPicture") + "...",
-			app.getImageIcon("image-x-generic.png")) {
+			getApplication().getPlain("ExportAsPicture") + "...",
+			getApplication().getImageIcon("image-x-generic.png")) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
@@ -393,45 +393,45 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						app.setWaitCursor();
+						getApplication().setWaitCursor();
 						try {
-							app.clearSelectedGeos();
+							getApplication().clearSelectedGeos();
 
 							// use reflection for
 							JDialog d = new geogebra.export.GraphicExportDialog(
-									app);
+									getApplication());
 							d.setVisible(true);
 
 						} catch (Exception e) {
 							AbstractApplication
 									.debug("GraphicExportDialog not available");
 						}
-						app.setDefaultCursor();
+						getApplication().setDefaultCursor();
 					}
 				};
 				runner.start();
 			}
 
 			catch (java.lang.NoClassDefFoundError ee) {
-				app.showError("ExportJarMissing");
+				getApplication().showError("ExportJarMissing");
 				ee.printStackTrace();
 			}
 		}
 	};
 
 	AbstractAction drawingPadToClipboardAction = new AbstractAction(
-			app.getMenu("CopyToClipboard"), app.getImageIcon("edit-copy.png")) {
+			getApplication().getMenu("CopyToClipboard"), getApplication().getImageIcon("edit-copy.png")) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			app.clearSelectedGeos();
+			getApplication().clearSelectedGeos();
 
 			Thread runner = new Thread() {
 				@Override
 				public void run() {
-					app.setWaitCursor();
-					app.copyGraphicsViewToClipboard(plotPanelEV);
-					app.setDefaultCursor();
+					getApplication().setWaitCursor();
+					getApplication().copyGraphicsViewToClipboard(plotPanelEV);
+					getApplication().setDefaultCursor();
 				}
 			};
 			runner.start();

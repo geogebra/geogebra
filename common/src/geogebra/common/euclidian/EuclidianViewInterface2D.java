@@ -9,10 +9,14 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NumberFormatAdapter;
@@ -77,6 +81,8 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 
 	// end
 	private int fontSize;
+	private geogebra.common.awt.AffineTransform coordTransform = 
+			geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
 	protected double[] AxesTickInterval = { 1, 1 }; // for axes =
 	protected NumberFormatAdapter[] axesNumberFormat;
 	protected boolean[] showAxes = { true, true };
@@ -190,6 +196,63 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 			((GeoNumeric) ymaxObject).setValue(getYmax());
 		}
 	}
+	
+	private boolean updatingBounds = false;
+
+	protected boolean unitAxesRatio;
+
+	/**
+	 * returns true if the axes ratio is 1
+	 * 
+	 * @return true if the axes ratio is 1
+	 */
+	public boolean isUnitAxesRatio() {
+		return unitAxesRatio || (gridType == GRID_POLAR);
+	}
+
+	/**
+	 * Set unit axes ratio to 1
+	 * 
+	 * @param flag
+	 *            true to set to 1, false to allow user
+	 */
+	public void setUnitAxesRatio(boolean flag) {
+		unitAxesRatio = flag;
+		if (flag) {
+			updateBounds();
+		}
+	}
+
+	public void updateBounds() {
+		if (updatingBounds) {
+			return;
+		}
+		updatingBounds = true;
+		double xmin2 = xminObject.getDouble();
+		double xmax2 = xmaxObject.getDouble();
+		double ymin2 = yminObject.getDouble();
+		double ymax2 = ymaxObject.getDouble();
+		if (isUnitAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
+			double newWidth = ((ymax2 - ymin2) * getWidth()) / (getHeight() + 0.0);
+			double newHeight = ((xmax2 - xmin2) * getHeight()) / (getWidth() + 0.0);
+
+			if ((xmax2 - xmin2) < newWidth) {
+				double c = (xmin2 + xmax2) / 2;
+				xmin2 = c - (newWidth / 2);
+				xmax2 = c + (newWidth / 2);
+			} else {
+				double c = (ymin2 + ymax2) / 2;
+				ymin2 = c - (newHeight / 2);
+				ymax2 = c + (newHeight / 2);
+			}
+		}
+		if (((xmax2 - xmin2) > AbstractKernel.MIN_PRECISION)
+				&& ((ymax2 - ymin2) > AbstractKernel.MIN_PRECISION)) {
+			setRealWorldCoordSystem(xmin2, xmax2, ymin2, ymax2);
+		}
+		updatingBounds = false;
+	}
+
 	
 	public boolean isZoomable() {
 		if ((xminObject != null)
@@ -952,6 +1015,32 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	}
 	
 	/**
+	 * removes a GeoElement from this view
+	 */
+	final public void remove(GeoElement geo) {
+		Drawable d = DrawableMap.get(geo);
+		int layer = geo.getLayer();
+		if(d==null)
+			return;
+		if (d instanceof RemoveNeeded) {
+			drawLayers[layer].remove(d);
+			((RemoveNeeded)d).remove();
+		}
+		else{
+			drawLayers[layer].remove(d);
+		}
+		allDrawableList.remove(d);
+
+		DrawableMap.remove(geo);
+		if (geo.isGeoPoint()) {
+			stickyPointList.remove(geo);
+		}
+		repaint();
+		
+	}
+
+	
+	/**
 	 * Returns the drawable for the given GeoElement.
 	 * 
 	 * @param geo
@@ -1137,47 +1226,267 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 		return stickyPointList;
 	}
 	
-	public abstract  void updateForPlane();
+	/**
+	 * Sets the global size for checkboxes. Michael Borcherds 2008-05-12
+	 * 
+	 * @param size
+	 *            13 or 26
+	 */
+	public void setBooleanSize(int size) {
 
-	public abstract  int getMaxLayerUsed();
+		// only 13 and 26 currently allowed
+		getApplication().booleanSize = (size == 13) ? 13 : 26;
 
-	public abstract  AbstractApplication getApplication();
+		updateAllDrawables(true);
+	}
 
-	public abstract  void updateBackgroundImage();
+	final public int getBooleanSize() {
+		return getApplication().booleanSize;
+	}
 
-	public abstract  void updateBackground();
+	/**
+	 * Sets the global style for point drawing.
+	 * 
+	 * @param style
+	 */
+	public void setPointStyle(int style) {
+		if ((style > 0) && (style <= EuclidianStyleConstants.MAX_POINT_STYLE)) {
+			getApplication().pointStyle = style;
+		} else {
+			getApplication().pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+		}
 
+		updateAllDrawables(true);
+	}
 
+	final public int getPointStyle() {
+		return getApplication().pointStyle;
+	}
 
+	public void setAllowToolTips(int setto) {
+		tooltipsInThisView = setto;
+	}
 
-	public abstract  Coords getCoordsForView(Coords coords);
-
-	public abstract  int getRightAngleStyle();
-
-	public abstract  CoordMatrix getMatrix();
-
-	public abstract  Graphics2D getBackgroundGraphics();
-
-	public abstract  Graphics2D getTempGraphics2D(geogebra.common.awt.Font plainFontCommon);
-
-	public abstract  int getBooleanSize();
-
-	public abstract  geogebra.common.awt.AffineTransform getCoordTransform();
-
-
-	public abstract  geogebra.common.awt.GeneralPath getBoundingPath();
-
-	public abstract  int getPointStyle();
-
-	public abstract  geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords m, Coords[] ev);
-
-
-
-	public abstract  geogebra.common.awt.Font getFont();
-
-
-	public abstract  Color getBackgroundCommon();
+	final public int getAllowToolTips() {
+		return tooltipsInThisView;
+	}
 	
+	// /////////////////////////////////////////
+		// FOR EUCLIDIANVIEWFORPLANE
+		// /////////////////////////////////////////
+
+		/**
+		 * tranform in view coords
+		 * 
+		 * @param coords
+		 * @return the same coords for classic 2d view
+		 */
+		public Coords getCoordsForView(Coords coords) {
+			return coords;
+		}
+
+		/**
+		 * return null if classic 2D view
+		 * 
+		 * @return matrix representation of the plane shown by this view
+		 */
+		public CoordMatrix getMatrix() {
+			return null;
+		}
+
+		/**
+		 * 
+		 * @param conic
+		 * @param M
+		 * @param ev
+		 * @return affine transform of the conic for this view
+		 */
+		public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
+			return conic
+							.getAffineTransform();
+		}
+
+		public String getFromPlaneString() {
+			return "xOyPlane";
+		}
+
+		public String getTranslatedFromPlaneString() {
+			return getApplication().getPlain("xOyPlane");
+		}
+
+		public boolean isDefault2D() {
+			return true;
+		}
+		
+		public int getViewID() {
+			switch (evNo) {
+			case 1:
+				return AbstractApplication.VIEW_EUCLIDIAN;
+			case 2:
+				return AbstractApplication.VIEW_EUCLIDIAN2;
+			default:
+				return AbstractApplication.VIEW_NONE;
+			}
+		}
+
+		// Michael Borcherds 2008-02-29
+		public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
+			updateMaxLayerUsed(newlayer);
+			// Application.debug(drawLayers[oldlayer].size());
+			drawLayers[oldlayer].remove(DrawableMap.get(geo));
+			// Application.debug(drawLayers[oldlayer].size());
+			drawLayers[newlayer].add(DrawableMap.get(geo));
+
+		}
+
+		public void updateMaxLayerUsed(int layer) {
+			if (layer > EuclidianStyleConstants.MAX_LAYERS) {
+				layer = EuclidianStyleConstants.MAX_LAYERS;
+			}
+			if (layer > getApplication().maxLayerUsed) {
+				getApplication().maxLayerUsed = layer;
+			}
+		}
+
+		public int getMaxLayerUsed() {
+			return getApplication().maxLayerUsed;
+		}
+		
+		/**
+		 * 
+		 * @return null (for 2D) and xOyPlane (for 3D)
+		 */
+		public GeoPlaneND getPlaneContaining() {
+			return kernel.getDefaultPlane();
+		}
+
+		/**
+		 * 
+		 * @return null (for 2D) and xOyPlane (for 3D)
+		 */
+		public GeoDirectionND getDirection() {
+			return getPlaneContaining();
+		}
+
+		public void updateForPlane() {
+			// only used in EuclidianViewForPlane
+		}
+
+		public boolean hasForParent(GeoElement geo) {
+			return false;
+		}
+
+		public boolean isMoveable(GeoElement geo) {
+			return geo.isMoveable();
+		}
+
+		public ArrayList<GeoPoint2> getFreeInputPoints(
+				AlgoElementInterface algoParent) {
+			return algoParent.getFreeInputPoints();
+		}
+
+		/**
+		 * Replaces num by num2 in xmin, xmax,ymin,ymax. Does not add / remove EV
+		 * listeners from these numerics
+		 * 
+		 * @param num
+		 *            old numeric
+		 * @param num2
+		 *            new numeric
+		 */
+		public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
+			if (xmaxObject == num) {
+				xmaxObject = num2;
+			}
+			if (xminObject == num) {
+				xminObject = num2;
+			}
+			if (ymaxObject == num) {
+				ymaxObject = num2;
+			}
+			if (yminObject == num) {
+				yminObject = num2;
+			}
+			updateBounds();
+		}
+		
+		/**
+		 * Sets the global style for rightAngle drawing.
+		 * 
+		 * @param style
+		 */
+		public void setRightAngleStyle(int style) {
+			getApplication().rightAngleStyle = style;
+			updateAllDrawables(true);
+		}
+
+		final public int getRightAngleStyle() {
+			return getApplication().rightAngleStyle;
+		}
+
+		public boolean isAutomaticGridDistance() {
+			return automaticGridDistance;
+		}
+
+		public double[] getGridDistances() {
+			return gridDistances;
+		}
+
+		public void setGridDistances(double[] dist) {
+			if (dist == null) {
+				AbstractApplication.debug("NULL");
+				return;
+			}
+			gridDistances = dist;
+			setAutomaticGridDistance(false);
+		}
+
+		public int getGridLineStyle() {
+			return gridLineStyle;
+		}
+
+		
+		
+		public void setAutomaticGridDistance(boolean flag) {
+			automaticGridDistance = flag;
+			setAxesIntervals(getXscale(), 0);
+			setAxesIntervals(getYscale(), 1);
+			if (flag) {
+				gridDistances[2] = Math.PI / 6;
+			}
+		}
+
+		public int getAxesLineStyle() {
+			return axesLineType;
+		}
+
+		public void setAxesLineStyle(int axesLineStyle) {
+			this.axesLineType = axesLineStyle;
+		}
+		public geogebra.common.awt.AffineTransform getCoordTransform() {
+			return coordTransform;
+		}
+
+		void setCoordTransform(geogebra.common.awt.AffineTransform coordTransform) {
+			this.coordTransform = coordTransform;
+		}
+		final public void updateBackground() {
+			// make sure axis number formats are up to date
+			setAxesIntervals(getXscale(), 0);
+			setAxesIntervals(getYscale(), 1);
+
+			updateBackgroundImage();
+			updateAllDrawables(true);
+			// repaint();
+		}
+		
+	public abstract  AbstractApplication getApplication();
+	public abstract  void updateBackgroundImage();
+	public abstract  Graphics2D getBackgroundGraphics();
+	public abstract  Graphics2D getTempGraphics2D(geogebra.common.awt.Font plainFontCommon);
+	public abstract  geogebra.common.awt.GeneralPath getBoundingPath();
+	public abstract  geogebra.common.awt.Font getFont();
+	public abstract  Color getBackgroundCommon();
 	protected abstract void setHeight(int h);
 	protected abstract void setWidth(int h);
 	protected abstract void repaint();

@@ -190,68 +190,15 @@ public class EuclidianView extends EuclidianViewInterface2D {
 		return g2.getAbsoluteLeft();
 	}
 
-	public boolean isDefault2D() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	public ArrayList<GeoPoint2> getFreeInputPoints(
-            AlgoElementInterface algoParent) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public boolean isMoveable(GeoElement geoElement) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	public void updateBounds() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	public EuclidianControllerInterface getEuclidianController() {
 	    // TODO Auto-generated method stub
 	    return null;
-    }
-
-	public double[] getGridDistances() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public void remove(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
     }
 
 	
 	public void clearView() {
 	    // TODO Auto-generated method stub
 	    
-    }
-
-	public int getViewID() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public void updateForPlane() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public int getMaxLayerUsed() {
-	    // TODO Auto-generated method stub
-	    return 0;
     }
 
 	@Override
@@ -264,35 +211,6 @@ public class EuclidianView extends EuclidianViewInterface2D {
     public void updateBackgroundImage() {
 	    // TODO Auto-generated method stub
 	    
-    }
-
-	
-	@Override
-    public void updateBackground() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-
-
-
-
-	@Override
-    public Coords getCoordsForView(Coords coords) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public int getRightAngleStyle() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public CoordMatrix getMatrix() {
-	    // TODO Auto-generated method stub
-	    return null;
     }
 
 	@Override
@@ -308,12 +226,6 @@ public class EuclidianView extends EuclidianViewInterface2D {
     }
 
 	@Override
-    public int getBooleanSize() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
     public AffineTransform getCoordTransform() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -326,30 +238,11 @@ public class EuclidianView extends EuclidianViewInterface2D {
     }
 
 	@Override
-    public int getPointStyle() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public AffineTransform getTransform(GeoConicND conic, Coords m, Coords[] ev) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-
-	@Override
     public Font getFont() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
 
-	@Override
-    public Font getFontVector() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public geogebra.common.awt.Color getBackgroundCommon() {

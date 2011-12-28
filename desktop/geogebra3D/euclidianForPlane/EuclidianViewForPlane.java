@@ -235,9 +235,9 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	@Override
 	public String getTranslatedFromPlaneString(){
 		if (plane instanceof GeoPlaneND) {
-			return app.getPlain("PlaneA",((GeoElement) plane).getLabel());
+			return getApplication().getPlain("PlaneA",((GeoElement) plane).getLabel());
 		} else {
-			return app.getPlain("PlaneFromA",((GeoElement) plane).getLabel());
+			return getApplication().getPlain("PlaneFromA",((GeoElement) plane).getLabel());
 		}
 	}
 	

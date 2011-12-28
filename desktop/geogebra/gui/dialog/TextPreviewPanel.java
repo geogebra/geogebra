@@ -185,7 +185,7 @@ public class TextPreviewPanel extends EuclidianView {
 			// set the text string for the geo
 			String text = "";
 			if (showErrorMessage) {
-				text = app.getError("InvalidInput");
+				text = getApplication().getError("InvalidInput");
 			} else if (eval != null) {
 				MyStringBuffer eval2 = ((TextValue) eval).getText();
 				text = eval2.toValueString();
@@ -266,8 +266,8 @@ public class TextPreviewPanel extends EuclidianView {
 		if (previewGeo.isLaTeX()) {
 			// LaTex geo, use dummy ImageIcon
 
-			GeoGebraIcon.drawLatexImageIcon(app, testIcon,
-					previewGeo.getTextString(), app.getPlainFont(), true,
+			GeoGebraIcon.drawLatexImageIcon(getApplication(), testIcon,
+					previewGeo.getTextString(), getApplication().getPlainFont(), true,
 					Color.black, null);
 			// System.out.println("=============> " + testIcon.getIconHeight() +
 			// " : " + testIcon.getIconWidth());
@@ -280,7 +280,7 @@ public class TextPreviewPanel extends EuclidianView {
 			// Plain text geo, use dummy JTextArea
 
 			// set font and line spacing (guessing at this value)
-			dummyText.setFont(app.getPlainFont());
+			dummyText.setFont(getApplication().getPlainFont());
 			MutableAttributeSet set = new SimpleAttributeSet();
 			StyleConstants.setLineSpacing(set, 1);
 			// StyleConstants.setSpaceBelow(set, (float) 0.5);

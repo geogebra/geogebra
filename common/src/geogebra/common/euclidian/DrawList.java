@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoList;
  * @author Markus Hohenwarter
  * @version
  */
-public final class DrawList extends Drawable {
+public final class DrawList extends Drawable implements RemoveNeeded {
 
 	private GeoList geoList;
 	// private ArrayList drawables = new ArrayList();

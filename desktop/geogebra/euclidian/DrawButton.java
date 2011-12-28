@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
@@ -37,7 +38,7 @@ import javax.swing.SwingUtilities;
  * @author Markus Hohenwarter
  * @version
  */
-public final class DrawButton extends Drawable {
+public final class DrawButton extends Drawable implements RemoveNeeded {
 
 	private GeoButton geoButton;
 
