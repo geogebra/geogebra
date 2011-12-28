@@ -47,8 +47,8 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 		float lineSpread = fontSize * 1.5f;
 
 		Font font = g2.getFont();
-		font = ((Application) app).getFontCanDisplay(labelDesc, serif, font.getStyle(),
-				font.getSize());
+		//font = ((Application) app).getFontCanDisplay(labelDesc, serif, font.getStyle(),
+			//	font.getSize());
 
 		FontRenderContext frc = (FontRenderContext) g2.getFontRenderContext();
 		int xoffset = 0;
