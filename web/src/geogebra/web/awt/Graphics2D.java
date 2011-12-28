@@ -1,6 +1,7 @@
 package geogebra.web.awt;
 
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.AttributedCharacterIterator;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
@@ -421,6 +422,31 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void fill(Object shape) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void drawImage(BufferedImageAdapter img, int x, int y,
+            BufferedImageOp op) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void fillRect(int i, int j, int k, int l) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void drawLine(int x1, int y1, int x2, int y2) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setComposite(AlphaComposite alphaComp) {
 	    // TODO Auto-generated method stub
 	    
     }

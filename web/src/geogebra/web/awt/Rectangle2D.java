@@ -14,6 +14,10 @@ public class Rectangle2D extends geogebra.common.awt.Rectangle2D {
 	public Rectangle2D(geogebra.web.kernel.gawt.Rectangle2D bounds2d) {
 		impl = bounds2d;
 	}
+	public Rectangle2D(int x, int y, int width, int height) {
+		impl = new geogebra.web.kernel.gawt.Rectangle2D.Double(x, y, width, height);
+    }
+
 	@Override
 	public double getY() {
 		return impl.getY();

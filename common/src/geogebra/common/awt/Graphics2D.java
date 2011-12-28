@@ -95,7 +95,6 @@ public abstract class Graphics2D {
 	 */
 	public abstract boolean drawImage(Image img, AffineTransform xform,
 			ImageObserver obs);
-
 	/**
 	 * Renders a <code>BufferedImage</code> that is
 	 * filtered with a
@@ -121,8 +120,10 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	/*public abstract void drawImage(BufferedImageAdapter img, BufferedImageOp op,
-			int x, int y);*/
+	public abstract void drawImage(BufferedImageAdapter img, BufferedImageOp op,
+			int x, int y);
+	
+	public abstract void drawImage(BufferedImageAdapter img, int x, int y, BufferedImageOp op);
 
 	/**
 	 * Renders a {@link RenderedImage},
@@ -776,4 +777,8 @@ public abstract class Graphics2D {
 	public abstract void setColor(Color selColor);
 	public abstract void draw(Object shape);
 	public abstract void fill(Object shape);
+	public abstract void fillRect(int i, int j, int k, int l);
+	public abstract void drawLine(int x1, int y1, int x2, int y2);
+
+	public abstract void setComposite(AlphaComposite alphaComp);
 }

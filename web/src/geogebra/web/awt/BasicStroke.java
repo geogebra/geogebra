@@ -38,10 +38,22 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		this.lineJoin = lineJoin;
 	}
 
-	public BasicStroke(float width, int endCap, int lineJoin2,
+	public BasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit2, float[] dash, float f) {
-		
+		this.lineWidth = width;
+		this.lineCap = endCap;
+		this.lineJoin = lineJoin;
 	}
+
+	public BasicStroke(geogebra.common.awt.BasicStroke objStroke) {
+	   this.lineWidth = ((BasicStroke) objStroke).getLineWidth();
+	   this.lineCap = ((BasicStroke) objStroke).getLineCap();
+	   this.lineJoin = ((BasicStroke) objStroke).getLineJoin();
+    }
+
+	public int getLineCap() {
+	 return lineCap;
+    }
 
 	// Methods
 	public Shape createStrokedShape(Shape shape) {

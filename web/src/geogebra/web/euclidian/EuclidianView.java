@@ -2,6 +2,7 @@ package geogebra.web.euclidian;
 
 import com.google.gwt.canvas.client.Canvas;
 
+import geogebra.common.awt.Graphics2D;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.Color;
 import geogebra.web.kernel.gawt.Ellipse2D;
@@ -244,5 +245,10 @@ public class EuclidianView extends BaseEuclidianView {
 		return new BasicStroke(width, endCap, standardStroke.getLineJoin(),
 				standardStroke.getMiterLimit(), dash, 0.0f);
 	}
+
+	public static void setAntialiasing(Graphics2D g2d) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

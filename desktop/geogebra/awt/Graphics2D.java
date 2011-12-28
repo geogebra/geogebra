@@ -1,8 +1,11 @@
 package geogebra.awt;
 
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.AttributedCharacterIterator;
 import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Composite;
 import geogebra.common.awt.Font;
@@ -279,6 +282,35 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	@Override
 	public BasicStroke getStroke() {
 		return (geogebra.awt.BasicStroke) impl.getStroke();
+	}
+
+	@Override
+	public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
+			int y) {
+		impl.drawImage(BufferedImage.getAwtBufferedImage(img), (geogebra.awt.BufferedImageOp) op, x, y);
+		
+	}
+
+	@Override
+	public void drawImage(BufferedImageAdapter img, int x, int y,
+			BufferedImageOp op) {
+		impl.drawImage(BufferedImage.getAwtBufferedImage(img),(geogebra.awt.BufferedImageOp) op, x, y);
+		
+	}
+
+	@Override
+	public void fillRect(int x, int y, int width, int height) {
+		impl.fillRect(x, y, width, height);
+	}
+
+	@Override
+	public void drawLine(int x1, int y1, int x2, int y2) {
+		impl.drawLine(x1, y1, x2, y2);
+	}
+
+	@Override
+	public void setComposite(AlphaComposite alphaComp) {
+		impl.setComposite((java.awt.Composite) alphaComp);
 	}
 	
 }

@@ -30,7 +30,7 @@ public class Kernel extends AbstractKernel {
 		this();
 		this.app = app;
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
-	
+		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		// TODO: probably there is better way
 		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
 		geogebra.common.awt.Color.white = geogebra.web.awt.Color.white;
