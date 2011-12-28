@@ -377,8 +377,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public FontRenderContext getFontRenderContext() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.FontRenderContext(context);
 	}
 
 	

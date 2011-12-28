@@ -10,6 +10,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -596,5 +597,11 @@ public class Application extends AbstractApplication {
     public double getHeight() {
 	    // TODO Auto-generated method stub
 	    return 0;
+    }
+
+	public Font getFontCanDisplay(String labelDesc, boolean serif, int style,
+            int size) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 }
