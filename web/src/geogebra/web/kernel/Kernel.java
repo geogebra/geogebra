@@ -26,8 +26,22 @@ import geogebra.web.util.NumberFormat;
 
 public class Kernel extends AbstractKernel {
 
-	public Kernel(Application application) {
-		// TODO Auto-generated constructor stub
+	public Kernel(Application app) {
+		this();
+		this.app = app;
+		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
+	
+		// TODO: probably there is better way
+		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
+		geogebra.common.awt.Color.white = geogebra.web.awt.Color.white;
+		geogebra.common.awt.Color.blue = geogebra.web.awt.Color.blue;
+		geogebra.common.awt.Color.gray = geogebra.web.awt.Color.gray;
+		geogebra.common.awt.Color.lightGray = geogebra.web.awt.Color.lightGray;
+		geogebra.common.awt.Color.darkGray = geogebra.web.awt.Color.darkGray;
+	}
+	
+	public Kernel() {
+		super();
 	}
 
 	@Override

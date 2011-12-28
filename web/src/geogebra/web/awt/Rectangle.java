@@ -20,6 +20,10 @@ public class Rectangle extends geogebra.common.awt.Rectangle {
 	    impl = new geogebra.web.kernel.gawt.Rectangle(r.x, r.y, r.width, r.height);    
 	}
 
+	public Rectangle(int x, int y, int w, int h) {
+	    impl = new geogebra.web.kernel.gawt.Rectangle(x, y, w, h);
+    }
+
 	@Override
 	public double getY() {
 		return impl.getY();

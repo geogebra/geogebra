@@ -25,13 +25,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
 	public Color newColor(int red, int green, int blue, int alpha) {
-		// TODO Auto-generated method stub
 		return new geogebra.web.awt.Color(red, green, blue, alpha);
 	}
 
 	@Override
 	public Color newColor(float red, float green, float blue, float alpha) {
-		// TODO Auto-generated method stub
 		return new geogebra.web.awt.Color(red,green,blue,alpha);
 	}
 
@@ -42,82 +40,69 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
 	public AffineTransform newAffineTransform() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.AffineTransform();
 	}
 
 	@Override
 	public Rectangle2D newRectangle() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.Rectangle2D();
 	}
 
 	@Override
 	public Rectangle newRectangle(int x, int y, int w, int h) {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.Rectangle(x, y, w, h);
 	}
 
 	@Override
 	public BufferedImageAdapter newBufferedImage(int pixelWidth,
 	        int pixelHeight, int typeIntArgb) {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.BufferedImage(pixelWidth, pixelHeight, typeIntArgb);
 	}
 
 	@Override
 	public Dimension newDimension(int width, int height) {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.Dimension(width, height);
 	}
 
 	@Override
 	public Point2D newPoint2D() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.Point2D();
 	}
-
+	
 	@Override
-	public Rectangle newRectangle(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+	public Point2D newPoint2D(double x, double y) {
+		return new geogebra.web.awt.Point2D(x, y);
 	}
-
+	
 	@Override
-	public Point2D newPoint2D(double d, double coord) {
-		// TODO Auto-generated method stub
-		return null;
+	public Rectangle newRectangle(int x, int y) {
+		return new geogebra.web.awt.Rectangle(x, y);
 	}
 
 	@Override
 	public GeneralPath newGeneralPath() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.GeneralPath();
 	}
 
 	@Override
 	public BasicStroke newMyBasicStroke(float f) {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.BasicStroke(f,geogebra.web.awt.BasicStroke.CAP_ROUND,geogebra.web.awt.BasicStroke.JOIN_ROUND);
 	}
 
 	@Override
 	public BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 	        float miterLimit, float[] dash, float f) {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.BasicStroke(width, endCap, lineJoin, miterLimit, dash, f);
 	}
 
 	@Override
 	public Line2D newLine2D() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.Line2D();
 	}
 
 	@Override
 	public Rectangle newRectangle(Rectangle bb) {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.web.awt.Rectangle(bb);
 	}
 
 }
