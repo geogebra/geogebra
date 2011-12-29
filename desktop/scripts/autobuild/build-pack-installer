@@ -100,7 +100,9 @@ log() {
 appendlog() {
  LINES=`wc -l $1 | awk '{print $1}'`
  log "Appending logfile with $1 ($LINES lines)"
+ echo "-------- 8< $1 TOP ---------------" >> $LOGFILE
  cat $1 >> $LOGFILE
+ echo "-------- 8< $1 BOTTOM ---------------" >> $LOGFILE
 }
 
 runstep() {
@@ -172,6 +174,7 @@ runstep 52 .installer "Downloading installer tools" ant
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
 runstep 6 .build "Building" ./make-vanilla-jars -c
+appendlog .ecjlog
 
 # 7. Doing the rest (packing)
 cd $WORKDIR
@@ -233,11 +236,14 @@ for i in geogebra geogebra_main; do
  cp $WORKDIR/build/unsigned/unpacked/$i.jar $WWWDIR/$MYDIR/minimal
  done
 
+# 10/5. Removing .svn subdirectories from $WWWDIR
+find $WWWDIR -name .svn | xargs rm -fR
+
 # 11. rsync-www on demand
 if [ "$WWW_REMOTEDIR" != "" ]; then
  cd $WORKDIR/scripts/autobuild
- runstep 11 .rsync-www "Copying all files to $WWW_REMOTEDIR" ./rsync-www
+ runstep 11 .rsyncwww "Copying all files to $WWW_REMOTEDIR" ./rsync-www
+ appendlog .rsync-www
  fi
 
 log "END"
-
