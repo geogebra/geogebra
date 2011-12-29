@@ -182,7 +182,7 @@ cd $WORKDIR/scripts/autobuild
 runstep 6 .build "Building" ./make-vanilla-jars -c
 cd $WORKDIR
 ECJRESULT=`tail -1 .ecjlog`
-log "Eclipse Compiler for Java found $ECJRESULT"
+log "Eclipse Compiler for Java (ecj) found $ECJRESULT"
 appendlog .ecjlog
 if [ $STOPONECJERR = 1 ]; then
  echo "$ECJRESULT" | grep --silent error && exit 6
@@ -195,7 +195,7 @@ runstep 7 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
 runstep 8 .installer "Creating installers" ant -f installer.xml
 
 # 9. Copying and text replacing
-log "(Re)creating $WWWDIR/$MYDIR directory"
+log "Recreating $WWWDIR/$MYDIR directory"
 MYVER=`cat build/unpacked/version.txt`
 cd $WORKDIR/build
 test -d $WWWDIR/$MYDIR && rm -fR $WWWDIR/$MYDIR
