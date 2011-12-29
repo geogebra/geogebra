@@ -158,7 +158,7 @@ if [ $PURGE = 1 ]; then
  fi
 
 if [ $DELSRC = 1 ]; then
- runstep 51 .delete-sources "Deleting sources" ant -f pack.xml # FIXME: delete-sources must work for common as well
+ runstep 51 .delete-sources "Deleting sources" ant -f pack.xml delete-sources # FIXME: delete-sources must work for common as well
  fi
 
 runstep 2 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full --force ..
@@ -184,6 +184,7 @@ runstep 8 .installer "Creating installers" ant -f installer.xml
 log "(Re)creating $WWWDIR/$MYDIR directory"
 MYVER=`cat build/unpacked/version.txt`
 cd $WORKDIR/build
+test -d $WWWDIR/$MYDIR && rm -fR $WWWDIR/$MYDIR
 mkdir -p $WWWDIR/$MYDIR || exit 4
 chmod g+rwx $WWWDIR/$MYDIR || exit 4
 
