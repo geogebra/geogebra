@@ -11,7 +11,6 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianControllerInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.AbstractKernel;
@@ -190,7 +189,7 @@ public class EuclidianView extends EuclidianViewInterface2D {
 		return g2.getAbsoluteLeft();
 	}
 
-	public EuclidianControllerInterface getEuclidianController() {
+	public EuclidianController getEuclidianController() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
