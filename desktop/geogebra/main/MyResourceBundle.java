@@ -65,6 +65,15 @@ public class MyResourceBundle extends PropertyResourceBundle implements Resource
     			// country and variant
     			sb.append('_');
     			sb.append(country);
+    			
+    			// needed for "no_NO_NY"
+    			// we need to load "no_NO", not "no"
+    			temp = loadSingleBundleFile(sb.toString());
+        		if (temp != null) {
+            		temp.setParent(bundle);
+            		bundle = temp;
+            	}
+    			
     			sb.append('_');
     			sb.append(variant);
     		} else {
