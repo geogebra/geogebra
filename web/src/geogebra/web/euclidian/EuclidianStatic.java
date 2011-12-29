@@ -12,6 +12,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.FontRenderContext;
+import geogebra.web.awt.font.TextLayout;
 import geogebra.web.main.Application;
 
 public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
@@ -28,10 +29,104 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	@Override
 	protected Point doDrawIndexedString(AbstractApplication app, Graphics2D g3,
 	        String str, float xPos, float yPos, boolean serif) {
-		// TODO Auto-generated method stub
-		return null;
+		Graphics2D g2 =  (geogebra.web.awt.Graphics2D) g3;
+		Font g2font = g2.getFont();
+		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
+				g2font.getSize());
+		Font indexFont = getIndexFont(g2font);
+		Font font = g2font;
+		TextLayout layout;
+		FontRenderContext frc = (FontRenderContext) g2.getFontRenderContext();
+
+		int indexOffset = indexFont.getSize() / 2;
+		float maxY = 0;
+		int depth = 0;
+		float x = xPos;
+		float y = yPos;
+		int startPos = 0;
+		if (str == null)
+			return null;
+		int length = str.length();
+
+		for (int i = 0; i < length; i++) {
+			switch (str.charAt(i)) {
+			case '_':
+				// draw everything before _
+				if (i > startPos) {
+					font = (depth == 0) ? g2font : indexFont;
+					y = yPos + depth * indexOffset;
+					if (y > maxY)
+						maxY = y;
+					String tempStr = str.substring(startPos, i);
+					layout = new TextLayout(tempStr, font, frc);
+					g2.setFont(font);
+					g2.drawString(tempStr, x, y);
+					x += layout.getAdvance();
+				}
+				startPos = i + 1;
+				depth++;
+
+				// check if next character is a '{' (beginning of index with
+				// several chars)
+				if (startPos < length && str.charAt(startPos) != '{') {
+					font = (depth == 0) ? g2font : indexFont;
+					y = yPos + depth * indexOffset;
+					if (y > maxY)
+						maxY = y;
+					String tempStr = str.substring(startPos, startPos + 1);
+					layout = new TextLayout(tempStr, font, frc);
+					g2.setFont(font);
+					g2.drawString(tempStr, x, y);
+					x += layout.getAdvance();
+					depth--;
+				}
+				i++;
+				startPos++;
+				break;
+
+			case '}': // end of index with several characters
+				if (depth > 0) {
+					if (i > startPos) {
+						font = (depth == 0) ? g2font : indexFont;
+						y = yPos + depth * indexOffset;
+						if (y > maxY)
+							maxY = y;
+						String tempStr = str.substring(startPos, i);
+						layout = new TextLayout(tempStr, font, frc);
+						g2.setFont(font);
+						g2.drawString(tempStr, x, y);
+						x += layout.getAdvance();
+					}
+					startPos = i + 1;
+					depth--;
+				}
+				break;
+			}
+		}
+
+		if (startPos < length) {
+			font = (depth == 0) ? g2font : indexFont;
+			y = yPos + depth * indexOffset;
+			if (y > maxY)
+				maxY = y;
+			String tempStr = str.substring(startPos);
+			layout = new TextLayout(tempStr, font, frc);
+			g2.setFont(font);
+			g2.drawString(tempStr, x, y);
+			x += layout.getAdvance();
+		}
+		g2.setFont(g2font);
+		return new geogebra.common.awt.Point(Math.round(x - xPos), Math.round(maxY - yPos));
 	}
 
+
+	private static Font getIndexFont(Font f) {
+		// index font size should be at least 8pt
+		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
+		return f.deriveFont(f.getStyle(), newSize);
+	}
+
+	
 	@Override
 	protected void doFillWithValueStrokePure(Shape shape, Graphics2D g3) {
 		// TODO Auto-generated method stub
