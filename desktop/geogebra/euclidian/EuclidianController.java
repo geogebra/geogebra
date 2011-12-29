@@ -102,53 +102,6 @@ import javax.swing.text.JTextComponent;
 public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseListener, MouseMotionListener,
 		MouseWheelListener, ComponentListener, PropertiesPanelMiniListener {
 
-	private int mx, my; // keep track of mouse position
-
-	protected static final int MOVE_NONE = 101;
-
-	protected static final int MOVE_POINT = 102;
-
-	protected static final int MOVE_LINE = 103;
-
-	protected static final int MOVE_CONIC = 104;
-
-	protected static final int MOVE_VECTOR = 105;
-
-	protected static final int MOVE_VECTOR_STARTPOINT = 205;
-
-	public static final int MOVE_VIEW = 106;
-
-	protected static final int MOVE_FUNCTION = 107;
-
-	protected static final int MOVE_LABEL = 108;
-
-	protected static final int MOVE_TEXT = 109;
-
-	protected static final int MOVE_NUMERIC = 110; // for number on slider
-
-	protected static final int MOVE_SLIDER = 111; // for slider itself
-
-	protected static final int MOVE_IMAGE = 112;
-
-	protected static final int MOVE_ROTATE = 113;
-
-	protected static final int MOVE_DEPENDENT = 114;
-
-	protected static final int MOVE_MULTIPLE_OBJECTS = 115; // for multiple
-															// objects
-
-	protected static final int MOVE_X_AXIS = 116;
-	protected static final int MOVE_Y_AXIS = 117;
-
-	protected static final int MOVE_BOOLEAN = 118; // for checkbox moving
-	protected static final int MOVE_BUTTON = 119;
-
-	public static final int MOVE_ROTATE_VIEW = 120; // for 3D
-
-	protected static final int MOVE_IMPLICITPOLY = 121;
-	protected static final int MOVE_VECTOR_NO_GRID = 122;
-	protected static final int MOVE_POINT_WITH_OFFSET = 123;
-
 	protected Application app;
 
 	protected Kernel kernel;
