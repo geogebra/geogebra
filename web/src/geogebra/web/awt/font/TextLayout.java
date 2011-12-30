@@ -15,7 +15,6 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	   this.frc = frc;
     }
 
-	@Override
 	public float getAdvance() {
 		return frc.measureText(str, ((geogebra.web.awt.Font) font).getFullFontString());
 	}

@@ -63,7 +63,7 @@ public final class DrawPoint extends Drawable {
 
 	private static geogebra.common.awt.BasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static geogebra.common.awt.BasicStroke[] crossStrokes = new geogebra.awt.BasicStroke[10];
+	private static geogebra.common.awt.BasicStroke[] crossStrokes = new geogebra.common.awt.BasicStroke[10];
 
 	private boolean isPreview;
 
@@ -363,7 +363,7 @@ public final class DrawPoint extends Drawable {
 			drawable.update();
 			drawable.draw(g2);
 			geo.forceEuclidianVisible(false);
-			geogebra.awt.Graphics2D.getAwtGraphics(g2).setClip(null);
+			g2.setClip(null);
 		}
 	}
 
@@ -489,7 +489,7 @@ public final class DrawPoint extends Drawable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(geogebra.awt.Rectangle.getAWTRectangle(circle.getBounds()));
+		return rect.contains(circle.getBounds());
 	}
 
 	/**
@@ -501,7 +501,7 @@ public final class DrawPoint extends Drawable {
 		if (!geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(circleSel.getBounds());
+		return circleSel.getBounds();
 	}
 
 	@Override
@@ -520,10 +520,10 @@ public final class DrawPoint extends Drawable {
 	final private static geogebra.common.awt.BasicStroke getCrossStroke(int pointSize) {
 
 		if (pointSize > 9)
-			return new geogebra.awt.BasicStroke(pointSize / 2f);
+			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
 		if (crossStrokes[pointSize] == null)
-			crossStrokes[pointSize] = new geogebra.awt.BasicStroke(pointSize / 2f);
+			crossStrokes[pointSize] = AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
 		return crossStrokes[pointSize];
 	}

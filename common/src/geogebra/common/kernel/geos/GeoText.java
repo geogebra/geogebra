@@ -753,7 +753,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		
 		boolean firstTime = boundingBox == null;
 		if (firstTime) {
-			boundingBox = geogebra.common.factories.AwtFactory.prototype.newRectangle();
+			boundingBox = geogebra.common.factories.AwtFactory.prototype.newRectangle2D();
 		}
 		
 		boundingBox.setRect(x, y, w, h);

@@ -66,7 +66,7 @@ public class AlgoLocusSlider extends AlgoElement implements EuclidianViewCE, Alg
 		maxYdist, xmin, xmax, ymin, ymax,
 		farXmin, farXmax, farYmin, farYmax;
     //private Line2D.Double tempLine = new Line2D.Double();
-    private Rectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype.newRectangle();   
+    private Rectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype.newRectangle2D();   
     private boolean continuous;
     private boolean lastFarAway;
     private boolean foundDefined;

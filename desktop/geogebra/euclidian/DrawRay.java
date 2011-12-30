@@ -34,7 +34,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+//import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -178,7 +178,7 @@ public class DrawRay extends Drawable implements Previewable {
 		} else {
 			// A off screen
 			// clip ray at screen, that's important for huge coordinates of A
-			Point2D.Double[] clippedPoints = ClipLine.getClipped(a[0], a[1],
+			geogebra.common.awt.Point2D[] clippedPoints = ClipLine.getClipped(a[0], a[1],
 					a[0] + lambda * v[0], a[1] + lambda * v[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -187,8 +187,8 @@ public class DrawRay extends Drawable implements Previewable {
 			if (clippedPoints == null) {
 				isVisible = false;
 			} else {
-				line.setLine(clippedPoints[0].x, clippedPoints[0].y,
-						clippedPoints[1].x, clippedPoints[1].y);
+				line.setLine(clippedPoints[0].getX(), clippedPoints[0].getY(),
+						clippedPoints[1].getX(), clippedPoints[1].getY());
 			}
 		}
 	}

@@ -1,25 +1,25 @@
 package geogebra.common.awt;
 
-public abstract class Rectangle extends Rectangle2D {
+public interface Rectangle extends Rectangle2D {
 	
-	public abstract double getY();
-	public abstract double getX();
-	public abstract double getWidth();
-	public abstract double getHeight();
+	public double getY();
+	public double getX();
+	public double getWidth();
+	public double getHeight();
 
-	public abstract void setBounds(int xLabel, int i, int width, int height);
+	public void setBounds(int xLabel, int i, int width, int height);
 
-	public abstract void setLocation(int xLabel, int i);
+	public void setLocation(int xLabel, int i);
 
-	public abstract void setBounds(Rectangle rectangle);
+	public void setBounds(Rectangle rectangle);
 
-	public abstract boolean contains(Rectangle labelRectangle);
-	public abstract void add(Rectangle bb);
-	public abstract double getMinX();
-	public abstract double getMinY();
-	public abstract double getMaxX();
-	public abstract double getMaxY();
-	public abstract boolean contains(double d, double e);
-	public abstract void add(double x, double y);
+	public boolean contains(Rectangle labelRectangle);
+	public void add(Rectangle bb);
+	public double getMinX();
+	public double getMinY();
+	public double getMaxX();
+	public double getMaxY();
+	public boolean contains(double d, double e);
+	public void add(double x, double y);
 
 }

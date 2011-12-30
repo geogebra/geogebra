@@ -321,13 +321,25 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
+	public void setClip(Object shape) {
+		if (shape == null){
+			impl.setClip(null);
+		} else if (shape instanceof geogebra.common.awt.Shape){
+			impl.setClip(geogebra.awt.GenericShape.getAwtShape((geogebra.awt.Shape)shape));
+		}
+	}
+
+	@Override
 	public void draw(geogebra.common.awt.Shape s) {
-		impl.draw(((geogebra.awt.Shape)s).getAwtShape());
+		if (s instanceof geogebra.awt.Shape)
+			impl.draw(((geogebra.awt.Shape)s).getAwtShape());
+		
 	}
 
 	@Override
 	public void fill(geogebra.common.awt.Shape s) {
-		impl.fill(((geogebra.awt.Shape)s).getAwtShape());
+		if (s instanceof geogebra.awt.Shape)
+			impl.fill(((geogebra.awt.Shape)s).getAwtShape());
 	}
 	
 }

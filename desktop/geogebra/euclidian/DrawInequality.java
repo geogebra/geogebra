@@ -330,17 +330,17 @@ public class DrawInequality extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
 
 			if (!isForceNoFill())
-				fill(g2, new geogebra.awt.GenericShape(gp), true); // fill using default/hatching/image as
+				fill(g2, gp, true); // fill using default/hatching/image as
 			// appropriate
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(objStroke);
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
 
 

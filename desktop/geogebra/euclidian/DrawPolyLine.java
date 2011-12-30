@@ -96,7 +96,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (isVisible) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 		}
 	}
 
@@ -223,7 +223,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(new geogebra.awt.GenericShape(gp));
+				strokedShape = objStroke.createStrokedShape(gp);
 			}
 			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
@@ -233,7 +233,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return gp != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds());
+		return gp != null && rect.contains(gp.getBounds());
 	}
 
 	@Override

@@ -22,6 +22,7 @@
 package geogebra.web.awt;
 
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.PathPoint;
 
 public class AffineTransform implements geogebra.common.awt.AffineTransform {
 
@@ -80,6 +81,11 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	    if(!(at2 instanceof AffineTransform))
 	    	return null;
 	    return ((AffineTransform)at2).at;
+    }
+
+	public void transform(PathPoint p, PathPoint p2) {
+	    // TODO Auto-generated method stub
+	    
     }
 	
 	

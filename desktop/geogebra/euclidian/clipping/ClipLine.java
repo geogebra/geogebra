@@ -22,7 +22,9 @@ package geogebra.euclidian.clipping;
 
 //package de.caff.gimmicks;
 
-import java.awt.geom.Point2D;
+//import java.awt.geom.Point2D;
+//import geogebra.common.awt.Point2D;
+import geogebra.common.factories.AwtFactory;
 
 /**
 *  Clipping of lines to the inside of a rectangle.
@@ -71,7 +73,7 @@ public final static int OUTSIDE  = LEFT | RIGHT | BELOW | ABOVE;
 *  @param  ymax   upper right y of rectangle
 *  @return <code>null</code> (does not clip) or array of two points
 */
-public static Point2D.Double[] getClipped(double x1,   double y1, 
+public static geogebra.common.awt.Point2D[] getClipped(double x1,   double y1, 
 					double x2,   double y2, 
 				   int xmin, int xmax,
 				   int ymin, int ymax)
@@ -123,9 +125,9 @@ public static Point2D.Double[] getClipped(double x1,   double y1,
  
  if ((mask & OUTSIDE) == 0) {
    // fine. everything's internal
-	 Point2D.Double[] ret = new Point2D.Double[2];
-   ret[0] = new Point2D.Double(x1, y1);
-   ret[1] = new Point2D.Double(x2, y2);
+	 geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
+   ret[0] = AwtFactory.prototype.newPoint2D(x1, y1);
+   ret[1] = AwtFactory.prototype.newPoint2D(x2, y2);
    return ret;
  }
  else if ((mask & (H_CENTER|LEFT))  == 0  || // everything's right
@@ -157,13 +159,13 @@ public static Point2D.Double[] getClipped(double x1,   double y1,
 *  @param  ymax   upper right y of rectangle
 *  @return <code>null</code> (does not clip) or array of two points
 */
-protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
+protected static geogebra.common.awt.Point2D[] getClipped(double x1, double y1, int mask1,
 				      double x2, double y2, int mask2,
 				      double xmin, double xmax,
 				      double ymin, double ymax)
 {
  int mask = mask1 ^ mask2;
- Point2D.Double p1 = null;
+ geogebra.common.awt.Point2D p1 = null;
 
  /*
  System.out.println("mask1 = "+mask1);
@@ -173,18 +175,18 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
 
  if (mask1 == INSIDE) {
    // point 1 is internal
-   p1 = new Point2D.Double((x1+0.5), (y1+0.5));
+   p1 = AwtFactory.prototype.newPoint2D((x1+0.5), (y1+0.5));
    if (mask == 0) {
 	// both masks are the same, so the second point is inside, too
-	   Point2D.Double[] ret = new Point2D.Double[2];
+	   geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
 	ret[0] = p1;
-	ret[1] = new Point2D.Double((x2+0.5), (y2+0.5));
+	ret[1] = AwtFactory.prototype.newPoint2D((x2+0.5), (y2+0.5));
 	return ret;
    }
  }
  else if (mask2 == INSIDE) {
    // point 2 is internal
-   p1 = new Point2D.Double((x2+0.5), (y2+0.5));
+   p1 = AwtFactory.prototype.newPoint2D((x2+0.5), (y2+0.5));
  }
  else if (mask == 0) {
    // shortcut: no point is inside, but both are in the same sector, so no intersection is possible
@@ -194,13 +196,13 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
  if ((mask & LEFT) != 0) {
    //      System.out.println("Trying left");
    // try to calculate intersection with left line
-	 Point2D.Double p = intersect(x1, y1, x2, y2, xmin, ymin, xmin, ymax);
+	 geogebra.common.awt.Point2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmin, ymax);
    if (p != null) {
 	if (p1 == null) {
 	  p1 = p;
 	}
 	else {
-		Point2D.Double[] ret = new Point2D.Double[2];
+		geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
 	  ret[0] = p1;
 	  ret[1] = p;
 	  return ret;
@@ -210,28 +212,28 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
  if ((mask & RIGHT) != 0) {
    //      System.out.println("Trying right");
    // try to calculate intersection with right line
-	 Point2D.Double p = intersect(x1, y1, x2, y2, xmax, ymin, xmax, ymax);
+	 geogebra.common.awt.Point2D p = intersect(x1, y1, x2, y2, xmax, ymin, xmax, ymax);
    if (p != null) {
 	if (p1 == null) {
 	  p1 = p;
 	}
 	else {
-		Point2D.Double[] ret = new Point2D.Double[2];
+		geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
 	  ret[0] = p1;
 	  ret[1] = p;
 	  return ret;
 	}
    }
  }
- if (p1 != null  &&  p1.y == (ymin + 0.5)) {
+ if (p1 != null  &&  p1.getY() == (ymin + 0.5)) {
    // use different sequence if a lower corner of clipping rectangle is hit
 
    if ((mask & ABOVE) != 0) {
 	//      System.out.println("Trying top");
 	// try to calculate intersection with upper line
-	   Point2D.Double p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax);
+	   geogebra.common.awt.Point2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax);
 	if (p != null) {
-		Point2D.Double[] ret = new Point2D.Double[2];
+		geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
        ret[0] = p1;
        ret[1] = p;
        return ret;
@@ -240,9 +242,9 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
    if ((mask & BELOW) != 0) {
 	//      System.out.println("Trying bottom");
 	// try to calculate intersection with lower line
-	   Point2D.Double p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin);
+	   geogebra.common.awt.Point2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin);
 	if (p != null) {
-		Point2D.Double[] ret = new Point2D.Double[2];
+		geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
        ret[0] = p1;
        ret[1] = p;
        return ret;
@@ -253,13 +255,13 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
    if ((mask & BELOW) != 0) {
 	//      System.out.println("Trying bottom");
 	// try to calculate intersection with lower line
-	   Point2D.Double p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin);
+	   geogebra.common.awt.Point2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin);
 	if (p != null) {
 	  if (p1 == null) {
 	    p1 = p;
 	  }
 	  else {
-		  Point2D.Double[] ret = new Point2D.Double[2];
+		  geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
 	    ret[0] = p1;
 	    ret[1] = p;
 	    return ret;
@@ -269,13 +271,13 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
    if ((mask & ABOVE) != 0) {
 	//      System.out.println("Trying top");
 	// try to calculate intersection with upper line
-	   Point2D.Double p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax);
+	   geogebra.common.awt.Point2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax);
 	if (p != null) {
 	  if (p1 == null) {
 	    p1 = p;
 	  }
 	  else {
-		  Point2D.Double[] ret = new Point2D.Double[2];
+		  geogebra.common.awt.Point2D[] ret = new geogebra.common.awt.Point2D[2];
 	    ret[0] = p1;
 	    ret[1] = p;
 	    return ret;
@@ -300,7 +302,7 @@ protected static Point2D.Double[] getClipped(double x1, double y1, int mask1,
 *  @param  y22  ending y of 2nd line
 *  @return intersection point or <code>null</code>
 */
-private static Point2D.Double intersect(double x11, double y11,
+private static geogebra.common.awt.Point2D intersect(double x11, double y11,
 				 double x12, double y12,
 				 double x21, double y21,
 				 double x22, double y22)
@@ -327,7 +329,7 @@ private static Point2D.Double intersect(double x11, double y11,
    double mu = ((x11 - x21)*dy1 - (y11 - y21)*dx1)/det;
    //      System.out.println("mu = "+mu);
    if (mu >= 0.0  &&  mu <= 1.0) {
-	   Point2D.Double p = new Point2D.Double((x21 + mu*dx2 + 0.5),
+	   geogebra.common.awt.Point2D p = AwtFactory.prototype.newPoint2D((x21 + mu*dx2 + 0.5),
 			    (y21 + mu*dy2 + 0.5));
 	//	System.out.println("p = "+p);
 	return p;

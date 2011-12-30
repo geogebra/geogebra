@@ -111,4 +111,22 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 		return new geogebra.web.awt.Point2D(impl.getCurrentPoint().getX(),impl.getCurrentPoint().getY());
 	}
 
+	@Override
+    public boolean contains(Rectangle2D p) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public boolean contains(double arg0, double arg1, double arg2, double arg3) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public boolean contains(Point2D p) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
 }

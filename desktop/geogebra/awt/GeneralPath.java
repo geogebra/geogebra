@@ -5,6 +5,7 @@ import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.Shape;
 
 
 public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shape{
@@ -14,8 +15,16 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shap
 		impl = g;
 	}
 	public GeneralPath() {
-		impl = new java.awt.geom.GeneralPath();
+		impl = new java.awt.geom.GeneralPath();			
 	}
+	
+	public static java.awt.geom.GeneralPath getAwtGeneralPath(geogebra.common.awt.GeneralPath gp){
+		if(!(gp instanceof geogebra.awt.GeneralPath))
+			return null;
+		return ((geogebra.awt.GeneralPath)gp).impl;
+	}
+
+	
 	@Override
 	public synchronized void moveTo(float f, float g) {
 		impl.moveTo(f,g);
@@ -73,6 +82,8 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shap
 	public boolean intersects(double x, double y, double w, double h) {
 		return impl.intersects(x, y, w, h);
 	}
+	
+	@Override
 	public boolean intersects(Rectangle2D r) {
 		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
 	}
@@ -84,7 +95,22 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shap
 	
 	@Override
 	public Point2D getCurrentPoint() {
+		if (impl.getCurrentPoint() == null){
+			return null;
+		}
 		return new geogebra.awt.Point2D(impl.getCurrentPoint().getX(),impl.getCurrentPoint().getY());
 	}
-
+	@Override
+	public boolean contains(Rectangle2D p) {
+		return impl.contains(geogebra.awt.Rectangle2D.getAWTRectangle2D(p));
+	}
+	@Override
+	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
+		return impl.contains(arg0, arg1, arg2, arg3);
+	}
+	@Override
+	public boolean contains(Point2D p) {
+		if (p==null) return false;
+		return impl.contains(p.getX(), p.getY());
+	}
 }

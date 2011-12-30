@@ -175,7 +175,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 		gp.closePath();
 
-		return new Area(gp);	
+		return new Area(geogebra.awt.GenericShape.getAwtShape(gp));	
 	}
 
 	@Override

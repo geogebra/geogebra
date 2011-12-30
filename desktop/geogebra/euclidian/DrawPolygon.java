@@ -108,7 +108,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				isTracing = true;
 				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
-					fill(g2, new geogebra.awt.GenericShape(gp), false);
+					fill(g2, gp, false);
 			} else {
 				if (isTracing) {
 					isTracing = false;
@@ -168,7 +168,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			fill(g2,  (geo.isInverseFill() ? getShape() : 
-				new geogebra.awt.GenericShape(gp)), false); // fill
+				gp), false); // fill
 																	// using
 																	// default/hatching/image
 																	// as
@@ -321,7 +321,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
+		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : geogebra.awt.GenericShape.getAwtShape(gp);
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
 						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
@@ -332,7 +332,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		AbstractApplication.debug(gp.getBounds());
 		AbstractApplication.debug(rect);
 		return gp != null && gp.getBounds() != null
-				&& geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds());
+				&& rect.contains(gp.getBounds());
 	}
 
 	@Override

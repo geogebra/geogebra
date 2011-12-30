@@ -8,6 +8,14 @@ public class Point2D extends geogebra.common.awt.Point2D {
 	public Point2D(double x, double y) {
 		impl = new java.awt.geom.Point2D.Double(x,y);
 	}
+	
+	
+	public static java.awt.geom.Point2D getAwtPoint2D(geogebra.common.awt.Point2D p) {
+		if (p==null) return null;
+		return new java.awt.geom.Point2D.Double(p.getX(),p.getY());
+	}
+
+	
 	@Override
 	public double getX() {
 		return impl.x;
@@ -33,5 +41,10 @@ public class Point2D extends geogebra.common.awt.Point2D {
 		// TODO Auto-generated method stub
 		return impl.distance(q.getX(),q.getY());
 	}
+	@Override
+	public double distance(double x, double y) {
+		return impl.distance(x,y);
+	}
+
 
 }

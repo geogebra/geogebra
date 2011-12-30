@@ -158,7 +158,7 @@ public class DrawSlope extends Drawable {
 	@Override
 	final public void draw(Graphics2D g2) {
 		if (isVisible) {
-			fill(g2, new geogebra.awt.GenericShape(gp), false); // fill using default/hatching/image as
+			fill(g2, gp, false); // fill using default/hatching/image as
 									// appropriate
 
 			if (geo.doHighlighting()) {

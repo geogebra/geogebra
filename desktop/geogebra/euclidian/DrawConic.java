@@ -290,8 +290,8 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// hyperbola wings on screen?
-			hypLeftOnScreen = hypLeft.intersects(viewRect);
-			hypRightOnScreen = hypRight.intersects(viewRect);
+			hypLeftOnScreen = hypLeft.intersects(new geogebra.awt.Rectangle(viewRect));
+			hypRightOnScreen = hypRight.intersects(new geogebra.awt.Rectangle(viewRect));
 			if (!hypLeftOnScreen && !hypRightOnScreen) {
 				isVisible = false;
 			}
@@ -846,8 +846,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		transform.concatenate(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getTransform(conic, M, ev)));
 
 		// build general paths of hyperbola wings and transform them
-		hypLeft.transform(transform);
-		hypRight.transform(transform);
+		hypLeft.transform(new geogebra.awt.AffineTransform(transform));
+		hypRight.transform(new geogebra.awt.AffineTransform(transform));
 
 		// set label coords
 		labelCoords[0] = 2.0 * a;
@@ -857,7 +857,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
 		setShape(new geogebra.awt.Area(hypLeft));
-		geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(hypRight));
+		geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
 	}
 
 	final private void updateParabola() {
@@ -972,7 +972,7 @@ final public class DrawConic extends Drawable implements Previewable {
 										// appropriate
 			}
 			if (arcFiller != null)
-				fill(g2, new geogebra.awt.GenericShape( arcFiller), true); // fill using default/hatching/image
+				fill(g2, arcFiller, true); // fill using default/hatching/image
 											// as appropriate
 
 			if (geo.doHighlighting()) {
@@ -1000,9 +1000,9 @@ final public class DrawConic extends Drawable implements Previewable {
 				fill(g2, b, false);
 			} else {
 				if (hypLeftOnScreen)
-					fill(g2, new geogebra.awt.GenericShape(hypLeft), true);
+					fill(g2, hypLeft, true);
 				if (hypRightOnScreen)
-					fill(g2, new geogebra.awt.GenericShape( hypRight), true);
+					fill(g2, hypRight, true);
 			}
 
 			if (geo.doHighlighting()) {
@@ -1010,16 +1010,16 @@ final public class DrawConic extends Drawable implements Previewable {
 				g2.setColor(geo.getSelColor());
 
 				if (hypLeftOnScreen)
-					EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypLeft), g2);
+					EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
 				if (hypRightOnScreen)
-					EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypRight), g2);
+					EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
 			}
 			g2.setStroke(objStroke);
 			g2.setColor(geo.getObjectColor());
 			if (hypLeftOnScreen)
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypLeft), g2);
+				EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
 			if (hypRightOnScreen)
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(hypRight), g2);
+				EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
 
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
@@ -1141,8 +1141,8 @@ final public class DrawConic extends Drawable implements Previewable {
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(new geogebra.awt.GenericShape(hypLeft));
-				strokedShape2 = objStroke.createStrokedShape(new geogebra.awt.GenericShape(hypRight));
+				strokedShape = objStroke.createStrokedShape(hypLeft);
+				strokedShape2 = objStroke.createStrokedShape(hypRight);
 			}
 			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold)

@@ -80,7 +80,7 @@ public class DrawLocus extends Drawable {
 		}
 		if (geo.isInverseFill()) {
 			setShape(new geogebra.awt.Area(view.getBoundingPath()));
-			geogebra.awt.Area.getAWTArea(getShape()).subtract(new Area(gp));
+			geogebra.awt.Area.getAWTArea(getShape()).subtract(new Area(geogebra.awt.GenericShape.getAwtShape(gp)));
 		}
 
 	}
@@ -90,7 +90,7 @@ public class DrawLocus extends Drawable {
 			g2.setPaint(geo
 					.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 		}
 	}
 
@@ -139,20 +139,20 @@ public class DrawLocus extends Drawable {
 				// draw locus
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
 
 			// draw locus
 			g2.setPaint(geo
 					.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 
 			if (geo.isFillable()
 					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {
 				try {
 
-					fill(g2, new geogebra.awt.GenericShape((geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp)), false); // fill
+					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -178,12 +178,12 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
+		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : geogebra.awt.GenericShape.getAwtShape(gp);
 		if (t == null)
 			return false; // hasn't been drawn yet (hidden)
 
 		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(new geogebra.awt.GenericShape(gp));
+			strokedShape = objStroke.createStrokedShape(gp);
 		}
 		if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
@@ -199,7 +199,7 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds());
+		return rect.contains(gp.getBounds());
 	}
 
 	@Override

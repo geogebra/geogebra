@@ -11,7 +11,7 @@ import geogebra.euclidian.GeneralPathClipped;
 public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 	private java.awt.geom.Area impl;
 	public Area(GeneralPathClipped boundingPath) {
-		impl = new java.awt.geom.Area(boundingPath);
+		impl = new java.awt.geom.Area(geogebra.awt.GenericShape.getAwtShape(boundingPath));
 	}
 	
 	public Area() {

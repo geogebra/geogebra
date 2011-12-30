@@ -23,7 +23,7 @@ public abstract class AwtFactory {
 	public abstract Color newColor(float red, float green, float blue, float alpha);
 	public abstract Color newColor(float red, float green, float blue);
 	public abstract AffineTransform newAffineTransform();
-	public abstract Rectangle2D newRectangle();
+	public abstract Rectangle2D newRectangle2D();
 	public abstract Rectangle newRectangle(int x,int y,int w,int h);
 	public abstract BufferedImageAdapter newBufferedImage(int pixelWidth,
 			int pixelHeight, int typeIntArgb);
@@ -31,16 +31,16 @@ public abstract class AwtFactory {
 			int height);
 	public abstract Point2D newPoint2D();
 	public abstract Rectangle newRectangle(int i, int j);
+	public abstract Rectangle newRectangle();
 	public abstract Point2D newPoint2D(double d, double coord);
 	public abstract GeneralPath newGeneralPath();
 	public abstract BasicStroke newMyBasicStroke(float f);
 	public abstract BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f);
+	public abstract BasicStroke newBasicStroke(float f);
 	public abstract Line2D newLine2D();
 	public abstract Rectangle newRectangle(Rectangle bb);
 	public abstract Ellipse2DDouble newEllipse2DDouble();
 	public abstract Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
-
-
-
+	
 }

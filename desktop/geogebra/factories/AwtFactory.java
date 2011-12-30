@@ -45,7 +45,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 
 	@Override
-	public Rectangle2D newRectangle() {
+	public Rectangle2D newRectangle2D() {
 		return new geogebra.awt.Rectangle2D();
 	}
 	
@@ -101,6 +101,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 
 	@Override
+	public BasicStroke newBasicStroke(float f) {
+		return new geogebra.awt.BasicStroke(f);
+	}
+	
+	@Override
 	public Line2D newLine2D() {
 		return new geogebra.awt.Line2D();
 	}
@@ -108,6 +113,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Rectangle newRectangle(Rectangle bb) {
 		return new geogebra.awt.Rectangle(bb);
+	}
+	
+	@Override
+	public Rectangle newRectangle() {
+		return new geogebra.awt.Rectangle();
 	}
 
 	@Override
@@ -121,4 +131,5 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	public Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
 		return new geogebra.awt.Ellipse2DFloat();
 	}
+
 }

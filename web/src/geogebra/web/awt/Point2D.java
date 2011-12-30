@@ -37,4 +37,10 @@ public class Point2D extends geogebra.common.awt.Point2D {
 		return impl.distance(q.getX(), q.getY());
 	}
 
+	@Override
+    public double distance(double x, double y) {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
 }

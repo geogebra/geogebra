@@ -34,7 +34,7 @@ import geogebra.euclidian.clipping.ClipLine;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+//import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -128,7 +128,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
-			Point2D.Double[] clippedPoints = ClipLine.getClipped(coordsA[0],
+			geogebra.common.awt.Point2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
 					coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -137,8 +137,8 @@ public class DrawSegment extends Drawable implements Previewable {
 			if (clippedPoints == null) {
 				isVisible = false;
 			} else {
-				line.setLine(clippedPoints[0].x, clippedPoints[0].y,
-						clippedPoints[1].x, clippedPoints[1].y);
+				line.setLine(clippedPoints[0].getX(), clippedPoints[0].getY(),
+						clippedPoints[1].getX(), clippedPoints[1].getY());
 			}
 		}
 

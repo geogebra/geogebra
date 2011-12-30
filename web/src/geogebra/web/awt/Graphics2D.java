@@ -498,6 +498,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
+    public void setClip(Object shape) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+	@Override
     public void draw(geogebra.common.awt.Shape s) {
 	    draw(s);
     }

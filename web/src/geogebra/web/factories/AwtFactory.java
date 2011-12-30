@@ -46,7 +46,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	}
 
 	@Override
-	public Rectangle2D newRectangle() {
+	public Rectangle2D newRectangle2D() {
 		return new geogebra.web.awt.Rectangle2D();
 	}
 
@@ -115,6 +115,18 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public BasicStroke newBasicStroke(float f) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Rectangle newRectangle() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

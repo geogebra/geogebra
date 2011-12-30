@@ -852,7 +852,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static void drawTo(GeneralPathClipped gp, double x, double y,
 			boolean lineTo) {
-		Point2D point = gp.getCurrentPoint();
+		Point2D point = geogebra.awt.Point2D.getAwtPoint2D(gp.getCurrentPoint());
 
 		// no points in path yet
 		if (point == null) {
@@ -966,17 +966,17 @@ public class DrawParametricCurve extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 			}
 
 			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke);
-			EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 
 			if (fillCurve) {
 				try {
 
-					fill(g2, new geogebra.awt.GenericShape((geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp)), false); // fill
+					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
 																			// using
 																			// default/hatching/image
 																			// as
@@ -1005,15 +1005,15 @@ public class DrawParametricCurve extends Drawable {
 		g2.setPaint(geo
 				.getObjectColor());
 		g2.setStroke(objStroke);
-		EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp), g2);
+		EuclidianStatic.drawWithValueStrokePure(gp, g2);
 	}
 
 	@Override
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
-			Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : gp;
+			Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : geogebra.awt.GenericShape.getAwtShape(gp);
 			if (strokedShape == null) {
-				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(gp));
+				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
@@ -1030,7 +1030,7 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return gp != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds());
+		return gp != null && rect.contains(gp.getBounds());
 	}
 
 	@Override

@@ -52,14 +52,14 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp[i]), g2);
+				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
 			}			
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f, ((GeoElement)ineq
 						.getFunBorder()).lineType));
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(gp[i]), g2);
+				EuclidianStatic.drawWithValueStrokePure(gp[i], g2);
 			}
 
 			// TODO: draw label
