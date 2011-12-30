@@ -3,6 +3,7 @@ package geogebra.web.euclidian;
 import java.util.ArrayList;
 
 import geogebra.common.awt.Point2D;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.kernel.Kernel;
 
@@ -62,6 +63,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 	@Override
     public void setMode(int mode) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setKernel(AbstractKernel kernel) {
 	    // TODO Auto-generated method stub
 	    
     }
