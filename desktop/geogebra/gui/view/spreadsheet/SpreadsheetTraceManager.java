@@ -864,6 +864,12 @@ public class SpreadsheetTraceManager {
 			currentTrace.add(angle.getValue());
 			return true;
 			
+		case ANGLE3D:
+		case POINT3D:
+		case VECTOR3D:
+			// handled in TraceManager3D
+			return false;
+			
 		// all other geos ... these should be traced as geo copies 	
 		default:
 			currentTrace.add(0.0);

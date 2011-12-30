@@ -1031,6 +1031,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			typePriority = 70;
 			break;
 		case ANGLE:
+		case ANGLE3D:
 		case NUMERIC:
 			typePriority = 80;
 			break;

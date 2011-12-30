@@ -55,6 +55,7 @@ public class SpreadsheetTraceManager3D extends SpreadsheetTraceManager {
 		return false;
 	}
 		
+	@Override
 	protected boolean setGeoTraceRow(GeoElement geo, Construction cons, ArrayList<Double> traceArray,  int row) {
 
 		TraceSettings t = traceGeoCollection.get(geo);
@@ -124,15 +125,15 @@ public class SpreadsheetTraceManager3D extends SpreadsheetTraceManager {
 
 			case POINT3D: 
 
-				setTraceCell3D(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
 				++column;
 				++traceIndex;
 
-				setTraceCell3D(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
 				++column;
 				++traceIndex;
 
-				setTraceCell3D(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
 				++column;
 				++traceIndex;
 
@@ -169,58 +170,6 @@ public class SpreadsheetTraceManager3D extends SpreadsheetTraceManager {
 		
 		return false;
 	}
-
-	private void setTraceCell3D(Construction cons, int column, int row,
-			Object value, GeoClass geoClassType) {
-
-		GeoElement cell = RelativeCopy.getValue(table, column, row);
-		boolean isUpdateCell = cell != null
-				&& cell.getGeoClassType() == geoClassType;
-
-		if (isUpdateCell) {
-			switch (geoClassType) {
-			case NUMERIC:
-				((GeoNumeric) cell).setValue((Double) value);
-				break;
-
-			case ANGLE:
-				((GeoAngle) cell).setValue((Double) value);
-				break;
-
-			case TEXT:
-				((GeoText) cell).setTextString((String) value);
-				break;
-
-			}
-
-		} else {
-			// delete old cell geo
-			if (cell != null)
-				table.copyPasteCut.delete(column, row, column, row);
-
-			String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
-			switch (geoClassType) {
-
-			case NUMERIC:
-				cell = new GeoNumeric(cons, cellName, (Double) value);
-				break;
-
-			case ANGLE:
-				cell = new GeoAngle(cons, cellName, (Double) value);
-				break;
-
-			case TEXT:
-				cell = new GeoText(cons, cellName, (String) value);
-				break;
-
-			}
-			cell.setEuclidianVisible(false);
-		}
-
-		cell.setAuxiliaryObject(true);
-		cell.updateCascade();
-	}
-	
 
 
 }
