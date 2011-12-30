@@ -76,7 +76,7 @@ public class MyTable extends JTable implements FocusListener
 	private MyCellEditorList editorList;
 
 	protected RelativeCopy relativeCopy;
-	protected CopyPasteCut copyPasteCut;
+	public CopyPasteCut copyPasteCut;
 	protected SpreadsheetColumnController.ColumnHeaderRenderer headerRenderer;
 	protected SpreadsheetView view;
 	protected DefaultTableModel tableModel;

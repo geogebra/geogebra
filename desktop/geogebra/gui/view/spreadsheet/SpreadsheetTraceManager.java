@@ -47,12 +47,12 @@ public class SpreadsheetTraceManager {
 	private Application app;
 	private Kernel kernel;
 	private SpreadsheetView view;
-	private MyTable table; 
+	protected MyTable table; 
 	
 	
 	
 	// collection of all geos currently traced
-	private HashMap<GeoElement, TraceSettings> traceGeoCollection;	
+	protected HashMap<GeoElement, TraceSettings> traceGeoCollection;	
 	
 	
 	// temporary collection of trace geos, held during construction updates 
@@ -582,7 +582,7 @@ public class SpreadsheetTraceManager {
 	
 	
 	/** create array of GeoElements to be traced */
-	private static GeoElement[] getElementList(GeoElement geo){
+	protected static GeoElement[] getElementList(GeoElement geo){
 
 		GeoElement[] geos;
 		if(geo.isGeoList()){	
@@ -599,7 +599,7 @@ public class SpreadsheetTraceManager {
 
 	
 	/** Create a row of trace cell(s) in the trace column(s) of a geo. */  
-	private void setGeoTraceRow(GeoElement geo, Construction cons, ArrayList<Double> traceArray,  int row) {
+	protected boolean setGeoTraceRow(GeoElement geo, Construction cons, ArrayList<Double> traceArray,  int row) {
 
 		TraceSettings t = traceGeoCollection.get(geo);
 		int column = t.traceColumn1;
@@ -608,7 +608,7 @@ public class SpreadsheetTraceManager {
 		
 		if(t.doTraceGeoCopy){
 			setTraceCellAsGeoCopy(cons,geo,t.traceColumn1,row);
-			return;
+			return true;
 		}
 		
 		// handle null trace (when shifting cells a null trace is sometimes needed)	
@@ -636,7 +636,7 @@ public class SpreadsheetTraceManager {
 				++column;
 				++traceIndex;
 
-				break;
+				return true;
 
 
 			case VECTOR: 
@@ -648,7 +648,7 @@ public class SpreadsheetTraceManager {
 				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
 				++column;
 				++traceIndex;
-				break;
+				return true;
 
 
 			case NUMERIC:
@@ -656,7 +656,7 @@ public class SpreadsheetTraceManager {
 				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
 				++column;
 				++traceIndex;
-				break;
+				return true;
 
 
 			case ANGLE: 
@@ -664,15 +664,20 @@ public class SpreadsheetTraceManager {
 				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.ANGLE);
 				++column;
 				++traceIndex;
-				break;
+				return true;
+				
+				default:
+					Application.debug(geos[i].getClassName());
 
 			}
 		}					
+		
+		return false;
 	}
 
 
 	
-	private void setTraceCellAsGeoCopy(Construction cons, GeoElement geo,
+	protected void setTraceCellAsGeoCopy(Construction cons, GeoElement geo,
 			int column, int row) {
 
 		GeoElement cell = RelativeCopy.getValue(table, column, row);
@@ -709,7 +714,7 @@ public class SpreadsheetTraceManager {
 		}
 	}
 	
-	private void setTraceCell(Construction cons, int column, int row,
+	protected void setTraceCell(Construction cons, int column, int row,
 			Object value, GeoClass geoClassType) {
 
 		GeoElement cell = RelativeCopy.getValue(table, column, row);
