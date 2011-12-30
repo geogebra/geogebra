@@ -19,26 +19,21 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -102,7 +97,6 @@ import java.util.Locale;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -4664,7 +4658,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			lblFillType.setVisible(true); // TODO remove this (see below)
 			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
-				if (!((GeoElement) geos[i]).isInverseFillable()) {
+				if (!(((GeoElement) geos[i]).isInverseFillable()) 
+						// transformed objects copy inverse filling from parents, so users can't change this
+						|| (((GeoElement) geos[i]).getParentAlgorithm() instanceof AlgoTransformation)) {
 					cbFillInverse.setVisible(false);
 					lblFillInverse.setVisible(false);
 				}

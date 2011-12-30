@@ -1393,7 +1393,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public boolean isInverseFillable() {
-		return getParentAlgorithm() instanceof AlgoTransformation;
+		return false;
 	}
 
 	public boolean isTraceable() {
