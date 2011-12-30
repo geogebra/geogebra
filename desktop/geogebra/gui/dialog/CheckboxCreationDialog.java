@@ -124,7 +124,7 @@ public class CheckboxCreationDialog extends JDialog implements
 
 	protected void createGUI(String title) {
 		setTitle(title);
-		setResizable(false);
+		setResizable(true);
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption") + ":");
