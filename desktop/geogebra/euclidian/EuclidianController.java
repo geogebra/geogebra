@@ -8286,8 +8286,17 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			 * view, mouseLoc); ttm.setEnabled(true);
 			 */
 
-			// popup removed, just return something at this stage
-			ret = geos.get(0);
+			// now just choose geo with highest drawing priority:
+			int maxIndex = 0;
+			long maxDrawingPriority = Integer.MIN_VALUE;
+			
+			for (int i = 0 ; i < geos.size() ; i++) {
+				if (geos.get(i).getDrawingPriority() > maxDrawingPriority) {
+					maxDrawingPriority = geos.get(i).getDrawingPriority();
+					maxIndex = i;
+				}
+			}
+			ret = geos.get(maxIndex);
 		}
 		return ret;
 
