@@ -532,6 +532,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		return isInequality!=null && isInequality;
 	}
 
+	@Override
+	public boolean isInverseFillable() {
+		return isFillable();
+	}
+
 	/**
 	 * Changes the defined state
 	 * @param defined true iff the function should be considered defined

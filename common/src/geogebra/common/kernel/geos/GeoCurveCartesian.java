@@ -808,6 +808,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
+	public boolean isInverseFillable() {
+		return isFillable();
+	}
+
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}

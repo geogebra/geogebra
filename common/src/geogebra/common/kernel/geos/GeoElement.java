@@ -37,6 +37,7 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1388,6 +1389,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public boolean isFillable() {
 		return false;
+	}
+
+	public boolean isInverseFillable() {
+		return getParentAlgorithm() instanceof AlgoTransformation;
 	}
 
 	public boolean isTraceable() {

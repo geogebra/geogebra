@@ -543,6 +543,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return true;
 	}
 	
+	@Override
+	public boolean isInverseFillable() {
+		return isFillable();
+	}
+
 //	Michael Borcherds 2008-01-26 BEGIN
 	/** 
 	 * Calculates this polygon's area . This method should only be called by

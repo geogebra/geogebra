@@ -502,6 +502,11 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		return type != GeoConic.CONIC_LINE;
 	}
 
+	@Override
+	public boolean isInverseFillable() {
+		return isFillable();
+	}
+
 	/* 
 	 *               ( A[0]  A[3]    A[4] )
 	 *      matrix = ( A[3]  A[1]    A[5] )

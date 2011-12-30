@@ -4664,12 +4664,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			lblFillType.setVisible(true); // TODO remove this (see below)
 			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoFunctionNVar
-						|| geos[i] instanceof GeoFunction
-						|| geos[i] instanceof GeoCurveCartesian
-						|| geos[i] instanceof GeoConic
-						|| geos[i] instanceof GeoPolygon || geos[i] instanceof GeoLocus)
-						|| (((GeoElement) geos[i]).getParentAlgorithm() instanceof AlgoTransformation)) {
+				if (!((GeoElement) geos[i]).isInverseFillable()) {
 					cbFillInverse.setVisible(false);
 					lblFillInverse.setVisible(false);
 				}
