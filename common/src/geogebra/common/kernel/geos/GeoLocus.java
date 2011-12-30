@@ -114,10 +114,8 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 	* returns all class-specific xml tags for getXML
 	*/
 	protected void getXMLtags(StringBuilder sb) {
-	   	getXMLvisualTags(sb);		
+	   	super.getXMLtags(sb);		
 	   	getLineStyleXML(sb);
-		getAuxiliaryXML(sb); 
-		getScriptTags(sb);
    	}
 
 	public void setMode(int mode) {
