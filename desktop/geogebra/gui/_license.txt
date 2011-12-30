@@ -246,7 +246,7 @@ Note for Commercial Users (e.g. publishers or online schools)
         you may distribute the resulting work only under the same,
         similar or a compatible license.
 
-   GeoGebra file types that are subject to the abovmentioned license:
+   GeoGebra file types that are subject to the above-mentioned license:
     * GeoGebra language files are ...
         the user interface language files ("properties files") for
         all languages used by the GeoGebra application and applets.
