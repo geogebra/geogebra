@@ -10,6 +10,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.util.TraceSettings;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
@@ -61,7 +63,7 @@ public class SpreadsheetTraceManager {
 	
 	// misc variables
 	private boolean doShiftCellsUp = true; 
-	private double[] coords = new double[2];
+	private double[] coords = new double[3];
 	private ArrayList<Double> currentTrace = new ArrayList<Double>();
 	
 	
@@ -666,7 +668,46 @@ public class SpreadsheetTraceManager {
 				++traceIndex;
 				return true;
 				
-				default:
+			case POINT3D: 
+
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				++column;
+				++traceIndex;
+
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				++column;
+				++traceIndex;
+
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				++column;
+				++traceIndex;
+
+				return true;
+
+
+			case VECTOR3D: 
+				
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				++column;
+				++traceIndex;
+				
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				++column;
+				++traceIndex;
+				
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.NUMERIC);
+				++column;
+				++traceIndex;
+				return true;
+
+			case ANGLE3D: 
+				
+				setTraceCell(cons, column, row, traceArray.get(traceIndex), GeoClass.ANGLE);
+				++column;
+				++traceIndex;
+				return true;
+
+			default:
 					Application.debug(geos[i].getClassName());
 
 			}
@@ -845,9 +886,10 @@ public class SpreadsheetTraceManager {
 			currentTrace.add(coords[1]);		
 			return true;
 			
+
 		case VECTOR:
-			GeoVector vector = (GeoVector) geo;
-			vector.getInhomCoords(coords);
+			GeoVector vector2 = (GeoVector) geo;
+			vector2.getInhomCoords(coords);
 
 			currentTrace.add(coords[0]);
 			currentTrace.add(coords[1]);
@@ -860,15 +902,31 @@ public class SpreadsheetTraceManager {
 			return true;
 			
 		case ANGLE:
+		case ANGLE3D:
+			// don't use any 3D geos
 			GeoAngle angle = (GeoAngle) geo;			
 			currentTrace.add(angle.getValue());
 			return true;
-			
-		case ANGLE3D:
+
 		case POINT3D:
+			// don't use any 3D geos
+			GeoPointND P3 = (GeoPointND) geo;
+			P3.getInhomCoords(coords);
+			currentTrace.add(coords[0]);
+			currentTrace.add(coords[1]);
+			currentTrace.add(coords[2]);
+			return true;
+			
 		case VECTOR3D:
-			// handled in TraceManager3D
-			return false;
+			// don't use any 3D geos
+			GeoVectorND vector3 = (GeoVectorND) geo;
+			vector3.getInhomCoords(coords);
+
+			currentTrace.add(coords[0]);
+			currentTrace.add(coords[1]);
+			currentTrace.add(coords[2]);
+
+			return true;
 			
 		// all other geos ... these should be traced as geo copies 	
 		default:
@@ -898,6 +956,14 @@ public class SpreadsheetTraceManager {
 					headerText = "y( " + geos[i].getLabel() + " )";
 					setTraceCell(cons, column + 1, row, headerText, GeoClass.TEXT);
 					column = column + 2;
+					
+					if (geos[i].getGeoClassType().equals(GeoClass.POINT3D)
+							|| geos[i].getGeoClassType().equals(GeoClass.VECTOR3D)) {
+						headerText = "z( " + geos[i].getLabel() + " )";
+						setTraceCell(cons, column, row, headerText, GeoClass.TEXT);									
+						column ++;
+					}
+					
 
 				} else {
 					headerText = geos[i].getLabel(); 

@@ -341,11 +341,4 @@ public class Application3D extends Application {
 		return true;
 	}
 	
-	public SpreadsheetTraceManager getTraceManager() {
-		if (traceManager == null)
-			traceManager = new SpreadsheetTraceManager3D(getGuiManager().getSpreadsheetView());
-		return traceManager;
-	}
-
-
 }

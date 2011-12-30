@@ -441,4 +441,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		return true;
 	}
 
+	public void getInhomCoords(double[] coords) {
+		coords[0] = v.getX();
+		coords[1] = v.getY();
+		coords[2] = v.getZ();
+		
+	}
+
 }

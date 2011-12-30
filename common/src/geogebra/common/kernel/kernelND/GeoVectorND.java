@@ -34,5 +34,7 @@ public interface GeoVectorND extends GeoDirectionND {
 
 	boolean isFinite();
 
+	void getInhomCoords(double[] coords);
+
 
 }
