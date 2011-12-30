@@ -307,7 +307,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			else
 				namePanel.init(null, null);
 
-			setResizable(false);
+			setResizable(true);
 			namePanel.setPreferredSize(new Dimension(400, 200));
 			pack();
 			setLocationRelativeTo(app.getFrame()); // center

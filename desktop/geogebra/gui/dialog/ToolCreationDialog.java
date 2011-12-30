@@ -83,7 +83,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	public ToolCreationDialog(Application app) {
 		super(app.getFrame());
 		this.app = app;
-
+		
 		initLists();
 		initGUI();
 		Macro appMacro = app.getMacro();
@@ -420,7 +420,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			namePanel = new ToolNameIconPanel(app, false);
 			tabbedPane.addTab(app.getMenu("NameIcon"), null, namePanel, null);
 
-			setResizable(false);
+			setResizable(true);
 			pack();
 			// center
 			setLocationRelativeTo(app.getFrame());

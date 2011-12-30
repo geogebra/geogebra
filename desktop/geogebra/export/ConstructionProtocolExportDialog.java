@@ -63,7 +63,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	}
 
 	private void initGUI() {
-		setResizable(false);
+		setResizable(true);
 		setTitle(app.getMenu("Export") + ": "
 				+ app.getPlain("ConstructionProtocol") + " ("
 				+ Application.FILE_EXT_HTML + ")");

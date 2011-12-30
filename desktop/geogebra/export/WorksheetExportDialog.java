@@ -334,7 +334,7 @@ public class WorksheetExportDialog extends JDialog {
 		Util.registerForDisposeOnEscape(this);
 
 		setTitle(app.getPlain("DynamicWorksheetExport"));
-		setResizable(false);
+		setResizable(true);
 		centerOnScreen();
 	}
 
