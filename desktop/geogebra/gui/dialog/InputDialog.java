@@ -142,7 +142,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	protected void createGUI(String title, String message, boolean autoComplete, int columns, int rows,
 			boolean specialChars, boolean greekLetters, boolean selectInitText, boolean showDisplayChars,
 			boolean showProperties, boolean showApply, boolean dynamic) {
-		setResizable(false);		
+		setResizable(true);		
 		
 		//Create components to be displayed
 		inputPanel = new InputPanel(initString, app, rows, columns, greekLetters, dynamic);	
