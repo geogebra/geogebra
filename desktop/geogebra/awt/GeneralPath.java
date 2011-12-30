@@ -5,10 +5,9 @@ import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.Shape;
 
 
-public class GeneralPath extends geogebra.common.awt.GeneralPath implements Shape{
+public class GeneralPath extends geogebra.common.awt.GeneralPath implements geogebra.awt.Shape{
 	
 	private java.awt.geom.GeneralPath impl = new java.awt.geom.GeneralPath();
 	public GeneralPath(java.awt.geom.GeneralPath g){
