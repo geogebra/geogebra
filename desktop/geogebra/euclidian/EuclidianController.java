@@ -111,160 +111,32 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 	protected Point startLoc, mouseLoc, lastMouseLoc; // current mouse location
 
-	// protected double xZeroOld, yZeroOld;
-	protected double xTemp, yTemp;
-
 	protected Point oldLoc = new Point();
-
-	protected double xRW;
-
-	protected double yRW;
-
-	double xRWold = Double.NEGATIVE_INFINITY, yRWold = xRWold, temp;
 
 	// for moving conics:
 	protected Point2D.Double startPoint = new Point2D.Double();
 
-	protected boolean useLineEndPoint = false;
 	protected Point2D.Double lineEndPoint = null;
 
 	protected Point selectionStartPoint = new Point();
 
-	protected GeoConic tempConic;
-
-	protected GeoImplicitPoly tempImplicitPoly;
 	protected ArrayList<Double> tempDependentPointX;
 	protected ArrayList<Double> tempDependentPointY;
-	protected ArrayList<GeoPoint2> moveDependentPoints;
-
-	protected GeoFunction tempFunction;
+	
 
 	// protected GeoVec2D b;
 
-	protected GeoPointND movedGeoPoint;
-	protected boolean movedGeoPointDragged = false;
-
-	protected GeoLine movedGeoLine;
+	
 
 	// protected GeoSegment movedGeoSegment;
 
-	protected GeoConic movedGeoConic;
-
-	protected GeoImplicitPoly movedGeoImplicitPoly;
-
-	protected GeoVector movedGeoVector;
-
-	protected GeoText movedGeoText;
-
-	protected GeoImage oldImage, movedGeoImage;
-
-	protected GeoFunction movedGeoFunction;
-
-	protected GeoNumeric movedGeoNumeric;
-	protected boolean movedGeoNumericDragged = false;
-
-	protected GeoBoolean movedGeoBoolean;
-
-	protected GeoButton movedGeoButton;
-
-	protected GeoElement movedLabelGeoElement;
-
-	protected GeoElement movedGeoElement;
-
-	protected GeoElement recordObject = null;
-
-	protected GeoElement rotGeoElement, rotStartGeo;
-	protected GeoPoint2 rotationCenter;
-	protected MyDouble tempNum;
-	protected double rotStartAngle;
-	protected ArrayList translateableGeos;
-	protected Coords translationVec;
-
-	protected Hits tempArrayList = new Hits();
-	protected Hits tempArrayList2 = new Hits();
-	protected Hits tempArrayList3 = new Hits();
-	protected ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
-
-	protected ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
-	protected ArrayList<NumberValue> selectedNumberValues = new ArrayList<NumberValue>();
-
-	protected ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
-	protected ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
-
-	protected ArrayList<GeoSegment> selectedSegments = new ArrayList<GeoSegment>();
-
-	protected ArrayList<Region> selectedRegions = new ArrayList<Region>();
-	protected ArrayList<Path> selectedPaths = new ArrayList<Path>();
-	protected ArrayList<GeoConic> selectedConicsND = new ArrayList<GeoConic>();
-	protected ArrayList<GeoImplicitPoly> selectedImplicitpoly = new ArrayList<GeoImplicitPoly>();
-
-	protected ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
-	protected ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
-
-	protected ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
-
-	protected ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
-	protected ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
-
-	protected ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
-	protected ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
-
-	// protected LinkedList highlightedGeos = new LinkedList();
-	protected Hits highlightedGeos = new Hits();
-
-	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<GeoElement>();
-
-	protected boolean selectionPreview = false;
-	public boolean hideIntersection = false;
-	public boolean previewFromResultedGeo = false;
-	public GeoElement resultedGeo;
-
-	protected boolean TEMPORARY_MODE = false; // changed from
-												// QUICK_TRANSLATEVIEW Michael
-												// Borcherds 2007-10-08
-
-	protected boolean DONT_CLEAR_SELECTION = false; // Michael Borcherds
-													// 2007-12-08
-
-	protected boolean DRAGGING_OCCURED = false; // for moving objects
-
-	protected boolean POINT_CREATED = false;
-
-	protected boolean moveModeSelectionHandled;
-
-	protected boolean highlightJustCreatedGeos = true;
-
-	protected ArrayList<GeoElement> pastePreviewSelected = null;
-	protected ArrayList<GeoElement> pastePreviewSelectedAndDependent;
+	
 
 	// protected MyPopupMenu popupMenu;
 
-	protected int mode, oldMode, moveMode = MOVE_NONE;
-	protected Macro macro;
-	protected Test[] macroInput;
-
-	protected int DEFAULT_INITIAL_DELAY;
-
-	protected boolean toggleModeChangedKernel = false;
-
-	private boolean altDown = false;
+	
 
 	// boolean polygonRigid = false;
-
-	private static int POLYGON_NORMAL = 0;
-	private static int POLYGON_RIGID = 1;
-	private static int POLYGON_VECTOR = 2;
-	int polygonMode = POLYGON_NORMAL;
-
-	// used for gridlock when dragging polygons, segments etc
-	double[] transformCoordsOffset = new double[2];
-
-	boolean allowSelectionRectangleForTranslateByVector = true;
-
-	int previousPointCapturing;
-
-	// just for the mergeStickyPointsAfterPaste method
-	ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<GeoPointND>();
 
 	/***********************************************
 	 * Creates new EuclidianController
