@@ -87,7 +87,6 @@ public class SpreadsheetTraceManager {
 	
 	/**  Add a geo to the trace collection  */
 	public void addSpreadsheetTraceGeo(GeoElement geo){
-			
 		TraceSettings t = geo.getTraceSettings();
 		Construction cons = app.getKernel().getConstruction();
 		
@@ -823,7 +822,7 @@ public class SpreadsheetTraceManager {
 		}
 	}
 		
-	private void addElementTrace(GeoElement geo, Construction cons, ArrayList<Double> currentTrace){
+	protected boolean addElementTrace(GeoElement geo, Construction cons, ArrayList<Double> currentTrace){
 
 		switch (geo.getGeoClassType()) {
 
@@ -839,8 +838,7 @@ public class SpreadsheetTraceManager {
 
 			currentTrace.add(coords[0]);
 			currentTrace.add(coords[1]);		
-			break;
-
+			return true;
 			
 		case VECTOR:
 			GeoVector vector = (GeoVector) geo;
@@ -849,22 +847,26 @@ public class SpreadsheetTraceManager {
 			currentTrace.add(coords[0]);
 			currentTrace.add(coords[1]);
 
-			break;
+			return true;
 
 		case NUMERIC:
 			GeoNumeric num = (GeoNumeric) geo;			
 			currentTrace.add(num.getValue());
-			break;
+			return true;
 			
 		case ANGLE:
 			GeoAngle angle = (GeoAngle) geo;			
 			currentTrace.add(angle.getValue());
-			break;
+			return true;
 			
 		// all other geos ... these should be traced as geo copies 	
 		default:
 			currentTrace.add(0.0);
-		}			
+		}	
+		
+		// 3D geos should fail here, then handled by SpreadsheetTraceManager3D
+		return false;
+
 	}
 
 	/**  Create header cell(s) for each trace column of a geo.   */

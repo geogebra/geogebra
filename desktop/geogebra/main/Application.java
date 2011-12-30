@@ -57,6 +57,7 @@ import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
+import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.Kernel;
 import geogebra.plugin.CallJavaScript;
@@ -6432,6 +6433,8 @@ public class Application extends AbstractApplication implements
 
 	private int[] version = null;
 
+	protected SpreadsheetTraceManager traceManager;
+
 	@Override
 	public void setFileVersion(String version) {
 
@@ -6517,8 +6520,7 @@ public class Application extends AbstractApplication implements
 	// TODO: change parameter to GeoElement once it is ported
 	@Override
 	public String getTraceXML(GeoElement ge) {
-		return getGuiManager().getSpreadsheetView().getTraceManager()
-				.getTraceXML(ge);
+		return getTraceManager().getTraceXML(ge);
 	}
 
 	@Override
@@ -6654,5 +6656,14 @@ public class Application extends AbstractApplication implements
 	public geogebra.common.awt.Font getBoldFontCommon() {
 		return new geogebra.awt.Font(getBoldFont());
 	}
+	
+	public SpreadsheetTraceManager getTraceManager() {
+		if (traceManager == null)
+			traceManager = new SpreadsheetTraceManager(getGuiManager().getSpreadsheetView());
+		return traceManager;
+	}
+
+
+
 
 }

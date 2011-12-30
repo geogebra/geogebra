@@ -25,10 +25,10 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -65,6 +65,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+
 
 /**
  * 
@@ -3041,8 +3042,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	final private void updateGeo() {
-
-		// Application.debug(label);
 
 		if (labelWanted && !labelSet) {
 			// check if this object's label needs to be set

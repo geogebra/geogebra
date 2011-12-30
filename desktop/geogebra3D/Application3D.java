@@ -23,6 +23,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
+import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.kernel.Kernel;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
@@ -339,4 +340,12 @@ public class Application3D extends Application {
 	public boolean is3D() {
 		return true;
 	}
+	
+	public SpreadsheetTraceManager getTraceManager() {
+		if (traceManager == null)
+			traceManager = new SpreadsheetTraceManager3D(getGuiManager().getSpreadsheetView());
+		return traceManager;
+	}
+
+
 }

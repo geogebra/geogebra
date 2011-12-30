@@ -426,12 +426,12 @@ public class GuiManager {
 
 	public void addSpreadsheetTrace(GeoElement geo) {
 		if (spreadsheetView != null)
-			spreadsheetView.getTraceManager().addSpreadsheetTraceGeo(geo);
+			app.getTraceManager().addSpreadsheetTraceGeo(geo);
 	}
 
 	public void removeSpreadsheetTrace(GeoElement geo) {
 		if (spreadsheetView != null)
-			spreadsheetView.getTraceManager().removeSpreadsheetTraceGeo(geo);
+			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
 		geo.setSpreadsheetTrace(false);
 		geo.setTraceSettings(null);
 	}
@@ -439,23 +439,23 @@ public class GuiManager {
 	/** Set a trace manager flag to auto-reset the trace column */
 	public void resetTraceColumn(GeoElement geo) {
 		if (spreadsheetView != null)
-			spreadsheetView.getTraceManager().setNeedsColumnReset(geo, true);
+			app.getTraceManager().setNeedsColumnReset(geo, true);
 	}
 
 	public void startCollectingSpreadsheetTraces() {
 		if (spreadsheetView != null)
-			spreadsheetView.getTraceManager()
+			app.getTraceManager()
 					.startCollectingSpreadsheetTraces();
 	}
 
 	public void stopCollectingSpreadsheetTraces() {
 		if (spreadsheetView != null)
-			spreadsheetView.getTraceManager().stopCollectingSpreadsheetTraces();
+			app.getTraceManager().stopCollectingSpreadsheetTraces();
 	}
 
 	public void traceToSpreadsheet(GeoElement geo) {
 		if (spreadsheetView != null)
-			spreadsheetView.getTraceManager().traceToSpreadsheet(geo);
+			app.getTraceManager().traceToSpreadsheet(geo);
 	}
 
 	// XML

@@ -293,7 +293,7 @@ public class SpreadsheetContextMenu extends JPopupMenu
 			//addSeparator();
 			cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet")+" ...");
 			cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
-			cbItem.setSelected(view.getTraceManager().isTraceColumn(table.minSelectionColumn));
+			cbItem.setSelected(app.getTraceManager().isTraceColumn(table.minSelectionColumn));
 			cbItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					view.showTraceDialog(null, selectedCellRanges.get(0));

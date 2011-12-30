@@ -109,7 +109,7 @@ implements
 		
 		this.app = app;
 		this.view = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();		
-		traceManager = view.getTraceManager();
+		traceManager = app.getTraceManager();
 		traceGeoList = new JList();
 				
 		initGUI();

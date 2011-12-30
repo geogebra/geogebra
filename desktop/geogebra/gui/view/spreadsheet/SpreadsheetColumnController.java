@@ -250,7 +250,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		Point cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
 		if (cellLoc != null ) {
 			column = cellLoc.x;
-			if(view.getTraceManager().isTraceColumn(column)){
+			if(app.getTraceManager().isTraceColumn(column)){
 				// adjust mouseLoc to the coordinate space of this column header
 				mouseLoc.x = mouseLoc.x - table.getCellRect(0, column, true).x; 
 
@@ -437,7 +437,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 			else
 				btnTrace.setIcon(traceIcon);
 
-			if(view.getTraceManager().isTraceColumn(colIndex)){
+			if(app.getTraceManager().isTraceColumn(colIndex)){
 				this.add(btnTrace,BorderLayout.WEST);	
 			}else{
 				if(layout.getLayoutComponent(BorderLayout.WEST) != null)
@@ -462,7 +462,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		 */
 		public boolean isOverTraceButton(int colIndex, java.awt.Point loc, Object value){
 
-			if(!view.getTraceManager().isTraceColumn(colIndex))
+			if(!app.getTraceManager().isTraceColumn(colIndex))
 				return false;
 
 			try {

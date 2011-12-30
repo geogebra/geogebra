@@ -943,10 +943,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return getInhomCoords().get();
 	};
 
-	public boolean getSpreadsheetTrace() {
-		return false;
-	}
-
 	public Geo3DVec get3DVec() {
 		return new Geo3DVec((Kernel)kernel, getX(), getY(), getZ());
 	}

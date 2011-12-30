@@ -411,7 +411,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// just to be sure recordObject is set to null
 			// usually this is already done at mouseRelease
 			if (recordObject != null) {
-				if (((Application) app).getGuiManager().getSpreadsheetView().getTraceManager()
+				if (((Application) app).getTraceManager()
 						.isTraceGeo(recordObject)) {
 					((Application) app).getGuiManager().removeSpreadsheetTrace(recordObject);
 				}
@@ -1151,8 +1151,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			}
 			if (tracegeo != null) {
 				if (recordObject == null) {
-					if (!((Application) app).getGuiManager().getSpreadsheetView()
-							.getTraceManager().isTraceGeo(tracegeo)) {
+					if (!((Application) app).getTraceManager().isTraceGeo(tracegeo)) {
 						((Application) app).getGuiManager().addSpreadsheetTrace(tracegeo);
 					}
 					recordObject = tracegeo;

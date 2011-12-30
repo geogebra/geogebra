@@ -71,7 +71,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 	//TODO move this out
-	private SpreadsheetTraceManager traceManager;
+	//private SpreadsheetTraceManager traceManager;
 	private TraceDialog traceDialog;
 
 
@@ -154,10 +154,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		// Create tool bar manager to handle tool bar mode changes
 		toolbarManager = new SpreadsheetToolbarManager(app, this);
 
-
-		// Create spreadsheet trace manager
-		// TODO move this out of the spreadsheet
-		traceManager = new SpreadsheetTraceManager(this);
 
 		dndHandler = new SpreadsheetViewDnD(app, this);
 
@@ -328,8 +324,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	public void remove(GeoElement geo) {
 		//Application.debug(new Date() + " REMOVE: " + geo);
 
-		if(traceManager.isTraceGeo(geo)){
-			traceManager.removeSpreadsheetTraceGeo(geo);
+		if(app.getTraceManager().isTraceGeo(geo)){
+			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
 			if(isTraceDialogVisible())
 				traceDialog.updateTraceDialog();
 		}
@@ -364,8 +360,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 		add(geo);
 
-		if(traceManager.isTraceGeo(geo))
-			traceManager.updateTraceSettings(geo);
+		if(app.getTraceManager().isTraceGeo(geo))
+			app.getTraceManager().updateTraceSettings(geo);
 		if(isTraceDialogVisible()){
 			traceDialog.updateTraceDialog();
 		}
@@ -432,7 +428,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		updateColumnWidths();
 		updateFonts(); //G.Sturr 2010-6-4
 		//table.changeSelection(0,0,false,false);
-		traceManager.loadTraceGeoCollection();
+		app.getTraceManager().loadTraceGeoCollection();
 
 		table.oneClickEditMap.clear();
 
@@ -451,8 +447,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	/** Resets spreadsheet after undo/redo call. */
 	public void reset() {
-		if(traceManager != null)
-			traceManager.loadTraceGeoCollection();
+		if(app.getTraceManager() != null)
+			app.getTraceManager().loadTraceGeoCollection();
 	}	
 
 
@@ -482,7 +478,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 			// add tracing geos to the trace collection
 			if(geo.getSpreadsheetTrace()){
-				traceManager.addSpreadsheetTraceGeo(geo);
+				app.getTraceManager().addSpreadsheetTraceGeo(geo);
 			}
 
 			// put geos with special editors in the oneClickEditMap 
@@ -648,13 +644,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	//               Tracing
 	//=====================================================
 
-
-
-	public SpreadsheetTraceManager getTraceManager() {
-		if (traceManager == null)
-			traceManager = new SpreadsheetTraceManager(this);
-		return traceManager;
-	}
 
 
 	public void showTraceDialog(GeoElement geo, CellRange traceCell){
