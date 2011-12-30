@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -31,6 +32,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.AbstractApplication;
 
 public abstract class EuclidianController {
 
@@ -207,6 +209,10 @@ public abstract class EuclidianController {
 	protected int previousPointCapturing;
 
 	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<GeoPointND>();
+
+	protected AbstractApplication app;
+
+	protected AbstractKernel kernel;
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
@@ -234,6 +240,8 @@ public abstract class EuclidianController {
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 
 	public abstract void handleMovedElement(GeoElement selGeo, boolean b);
+	
+	public abstract void setKernel(AbstractKernel kernel);
 
 	public abstract void clearJustCreatedGeos();
 

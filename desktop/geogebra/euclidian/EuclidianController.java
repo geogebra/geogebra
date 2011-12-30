@@ -31,6 +31,7 @@ import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -102,10 +103,6 @@ import javax.swing.text.JTextComponent;
 public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseListener, MouseMotionListener,
 		MouseWheelListener, ComponentListener, PropertiesPanelMiniListener {
 
-	protected Application app;
-
-	protected Kernel kernel;
-
 	protected EuclidianViewInterface view;
 	// protected EuclidianView view;
 
@@ -157,15 +154,15 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	public Application getApplication() {
-		return app;
+		return (Application) app;
 	}
 
-	public void setKernel(Kernel kernel) {
-		this.kernel = kernel;
+	public void setKernel(AbstractKernel kernel) {
+		this.kernel = (geogebra.kernel.Kernel)kernel;
 	}
 
 	public Kernel getKernel() {
-		return kernel;
+		return (Kernel) kernel;
 	}
 
 	protected void setView(EuclidianViewInterface view) {
@@ -189,12 +186,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			pastePreviewSelected = new ArrayList<GeoElement>();
 		}
 		pastePreviewSelectedAndDependent = new ArrayList<GeoElement>();
-		pastePreviewSelectedAndDependent.addAll(app.getSelectedGeos());
+		pastePreviewSelectedAndDependent.addAll(((Application)app).getSelectedGeos());
 
 		GeoElement geo;
 		boolean firstMoveable = true;
-		for (int i = 0; i < app.getSelectedGeos().size(); i++) {
-			geo = app.getSelectedGeos().get(i);
+		for (int i = 0; i < ((Application)app).getSelectedGeos().size(); i++) {
+			geo = ((Application)app).getSelectedGeos().get(i);
 			if (geo.isIndependent() && geo.isMoveable()) {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
@@ -390,17 +387,17 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if (EuclidianView.usesSelectionRectangleAsInput(newMode)
 				&& (view.getSelectionRectangle() != null)) {
 			initNewMode(newMode);
-			if (app.getActiveEuclidianView() == view) {
+			if (((Application)app).getActiveEuclidianView() == view) {
 				processSelectionRectangle(null);
 			}
 		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
 			initNewMode(newMode);
-			if (app.getActiveEuclidianView() == view) {
+			if (((Application)app).getActiveEuclidianView() == view) {
 				processSelection();
 			}
 		} else {
 			if (!TEMPORARY_MODE) {
-				app.clearSelectedGeos(false);
+				((Application)app).clearSelectedGeos(false);
 			}
 			initNewMode(newMode);
 		}
@@ -414,9 +411,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// just to be sure recordObject is set to null
 			// usually this is already done at mouseRelease
 			if (recordObject != null) {
-				if (app.getGuiManager().getSpreadsheetView().getTraceManager()
+				if (((Application) app).getGuiManager().getSpreadsheetView().getTraceManager()
 						.isTraceGeo(recordObject)) {
-					app.getGuiManager().removeSpreadsheetTrace(recordObject);
+					((Application) app).getGuiManager().removeSpreadsheetTrace(recordObject);
 				}
 				recordObject.setSelected(false);
 				recordObject = null;
@@ -429,7 +426,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
 			// take all selected objects and hide them
-			Collection<GeoElement> coll = app.getSelectedGeos();
+			Collection<GeoElement> coll = ((Application)app).getSelectedGeos();
 			Iterator<GeoElement> it = coll.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
@@ -447,7 +444,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		}
 
 		if (toggleModeChangedKernel) {
-			app.storeUndoInfo();
+			((Application)app).storeUndoInfo();
 		}
 	}
 
@@ -466,12 +463,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		closeMiniPropertiesPanel();
 
 		if (mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-			if (!app.getGuiManager().hasSpreadsheetView()) {
-				app.getGuiManager().attachSpreadsheetView();
+			if (!((Application) app).getGuiManager().hasSpreadsheetView()) {
+				((Application) app).getGuiManager().attachSpreadsheetView();
 			}
-			if (!app.getGuiManager().showView(
+			if (!((Application) app).getGuiManager().showView(
 					AbstractApplication.VIEW_SPREADSHEET)) {
-				app.getGuiManager().setShowView(true,
+				((Application) app).getGuiManager().setShowView(true,
 						AbstractApplication.VIEW_SPREADSHEET);
 			}
 		}
@@ -504,7 +501,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			 * app.getEuclidianView2().zoomAxesRatio(1, createUndo); }//
 			 */
 
-			ArrayList<GeoElement> selection = app.getSelectedGeos();
+			ArrayList<GeoElement> selection = ((Application)app).getSelectedGeos();
 			if (selection.size() == 1) {
 				GeoElement geo = selection.get(0);
 				// getCorner(1) == null as we can't write to transformed images
@@ -634,7 +631,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 						&& !((geo.isNumberValue() || geo.isBooleanValue()) && geo
 								.isIndependent())) {
 					geo.setEuclidianVisible(true);
-					app.addSelectedGeo(geo);
+					((Application)app).addSelectedGeo(geo);
 					geo.updateRepaint();
 				}
 			}
@@ -652,7 +649,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			// G.Sturr 2010-5-14
 			if (recordObject != null) {
-				app.getGuiManager().removeSpreadsheetTrace(recordObject);
+				((Application) app).getGuiManager().removeSpreadsheetTrace(recordObject);
 				// END G.Sturr
 			}
 
@@ -699,7 +696,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		clearSelection(selectedPaths, false);
 		clearSelection(selectedRegions, false);
 
-		app.clearSelectedGeos();
+		((Application)app).clearSelectedGeos();
 
 		// if we clear selection and highlighting,
 		// we may want to clear justCreatedGeos also
@@ -736,11 +733,11 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (e.getClickCount() == 2) {
-			if (app.isApplet() || Application.isControlDown(e)) {
+			if (((Application)app).isApplet() || Application.isControlDown(e)) {
 				return;
 			}
 
-			app.clearSelectedGeos();
+			((Application)app).clearSelectedGeos();
 			// hits = view.getTopHits(mouseLoc);
 			view.setHits(mouseLoc);
 			hits = view.getHits().getTopHits();
@@ -751,13 +748,13 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
 					// double-click slider -> Object Properties
-					app.getGuiManager().getDialogManager()
+					((Application) app).getGuiManager().getDialogManager()
 							.showPropertiesDialog(hits);
 				} else if (!geo0.isFixed()
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
 						&& !(geo0.isGeoImage() && geo0.isIndependent())
 						&& !geo0.isGeoButton()) {
-					app.getGuiManager().getDialogManager()
+					((Application) app).getGuiManager().getDialogManager()
 							.showRedefineDialog(hits.get(0), true);
 				}
 			}
@@ -767,7 +764,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		mouseClickedMode(e, mode);
 
 		// Alt click: copy definition to input field
-		if (e.isAltDown() && app.showAlgebraInput()) {
+		if (e.isAltDown() && ((Application) app).showAlgebraInput()) {
 			view.setHits(mouseLoc);
 			hits = view.getHits().getTopHits();
 			hits.removePolygons();
@@ -776,7 +773,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 				// F3 key: copy definition to input bar
 				if (mode != EuclidianConstants.MODE_ATTACH_DETACH) {
-					app.getGlobalKeyDispatcher()
+					((Application) app).getGlobalKeyDispatcher()
 							.handleFunctionKeyForAlgebraInput(3, geo);
 				}
 
@@ -833,19 +830,19 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	protected void handleSelectClick(ArrayList<GeoElement> geos,
 			boolean ctrlDown) {
 		if (geos == null) {
-			app.clearSelectedGeos();
+			((Application)app).clearSelectedGeos();
 		} else {
 			if (ctrlDown) {
 				// boolean selected = geo.is
-				app.toggleSelectedGeo(chooseGeo(geos, true));
+				((Application) app).toggleSelectedGeo(chooseGeo(geos, true));
 				// app.geoElementSelected(geo, true); // copy definiton to input
 				// bar
 			} else {
 				if (!moveModeSelectionHandled) {
 					GeoElement geo = chooseGeo(geos, true);
 					if (geo != null) {
-						app.clearSelectedGeos(false);
-						app.addSelectedGeo(geo);
+						((Application)app).clearSelectedGeos(false);
+						((Application)app).addSelectedGeo(geo);
 					}
 				}
 			}
@@ -912,7 +909,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 	public void mousePressed(MouseEvent e) {
 
-		if (app.isUsingFullGui()) {
+		if (((Application)app).isUsingFullGui()) {
 			// determine parent panel to change focus
 			// EuclidianDockPanelAbstract panel =
 			// (EuclidianDockPanelAbstract)SwingUtilities.getAncestorOfClass(EuclidianDockPanelAbstract.class,
@@ -921,7 +918,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// if(panel != null) {
 			// app.getGuiManager().getLayout().getDockManager().setFocusedPanel(panel);
 			// }
-			app.getGuiManager().setFocusedPanel(e);
+			((Application) app).getGuiManager().setFocusedPanel(e);
 		}
 
 		setMouseLocation(e);
@@ -959,7 +956,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			processRightPressFor3D();
 
 			return;
-		} else if (app.isShiftDragZoomEnabled() && (
+		} else if (((Application) app).isShiftDragZoomEnabled() && (
 		// MacOS: shift-cmd-drag is zoom
 				(e.isShiftDown() && !Application.isControlDown(e)) // All
 																	// Platforms:
@@ -1154,9 +1151,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			}
 			if (tracegeo != null) {
 				if (recordObject == null) {
-					if (!app.getGuiManager().getSpreadsheetView()
+					if (!((Application) app).getGuiManager().getSpreadsheetView()
 							.getTraceManager().isTraceGeo(tracegeo)) {
-						app.getGuiManager().addSpreadsheetTrace(tracegeo);
+						((Application) app).getGuiManager().addSpreadsheetTrace(tracegeo);
 					}
 					recordObject = tracegeo;
 				}
@@ -1193,7 +1190,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			rotationCenter = (GeoPoint2) chooseGeo(
 					view.getHits().getHits(Test.GEOPOINT2, tempArrayList),
 					true);
-			app.addSelectedGeo(rotationCenter);
+			((Application)app).addSelectedGeo(rotationCenter);
 			moveMode = MOVE_NONE;
 		} else {
 			view.setHits(mouseLoc);
@@ -1202,7 +1199,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// hits = view.getHits(mouseLoc);
 			// got rotation center again: deselect
 			if (!hits.isEmpty() && hits.contains(rotationCenter)) {
-				app.removeSelectedGeo(rotationCenter);
+				((Application)app).removeSelectedGeo(rotationCenter);
 				rotationCenter = null;
 				moveMode = MOVE_NONE;
 				return;
@@ -1216,7 +1213,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				geo = rotGeoElement;
 			} else {
 				geo = chooseGeo(hits, true);
-				app.addSelectedGeo(geo);
+				((Application)app).addSelectedGeo(geo);
 			}
 			rotGeoElement = geo;
 
@@ -1292,7 +1289,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// Application.debug("end("+(System.currentTimeMillis()-t0)+")");
 
-		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+		ArrayList<GeoElement> selGeos = ((Application)app).getSelectedGeos();
 
 		// if object was chosen before, take it now!
 		if ((selGeos.size() == 1) && !hits.isEmpty()
@@ -1304,8 +1301,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			geo = chooseGeo(hits, false);
 
 			if (!selGeos.contains(geo)) {
-				app.clearSelectedGeos();
-				app.addSelectedGeo(geo);
+				((Application)app).clearSelectedGeos();
+				((Application)app).addSelectedGeo(geo);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
 			}
@@ -1720,7 +1717,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				// or right-hand mouse button
 
 				// otherwise using Move Tool -> move dot
-				if (((TEMPORARY_MODE && app.isRightClickEnabled()) || !movedGeoNumeric
+				if (((TEMPORARY_MODE && ((Application) app).isRightClickEnabled()) || !movedGeoNumeric
 						.isSliderFixed())
 						&& !ds.hitPoint(mouseLoc.x, mouseLoc.y)
 						&& ds.hitSlider(mouseLoc.x, mouseLoc.y)) {
@@ -1769,7 +1766,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// important for electronic whiteboards
 			if (movedGeoBoolean.isCheckboxFixed()) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
-				app.removeSelectedGeo(movedGeoBoolean); // make sure doesn't get
+				((Application)app).removeSelectedGeo(movedGeoBoolean); // make sure doesn't get
 														// selected
 				movedGeoBoolean.updateCascade();
 
@@ -1870,7 +1867,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			movedGeoPoint = ((AlgoDynamicCoordinates) algo).getParentPoint();
 		}
 
-		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());
+		view.setShowMouseCoords(!((Application)app).isApplet() && !movedGeoPoint.hasPath());
 		view.setDragCursor();
 	}
 
@@ -1938,7 +1935,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 						qq[0].update();
 						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
 
-						app.setMode(EuclidianConstants.MODE_MOVE);
+						((Application)app).setMode(EuclidianConstants.MODE_MOVE);
 						movedGeoVector = vec;
 						moveMode = MOVE_VECTOR_NO_GRID;
 						return;
@@ -1979,7 +1976,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					transformCoordsOffset[0] = xRW;
 					transformCoordsOffset[1] = yRW;
 
-					app.setMode(EuclidianConstants.MODE_MOVE);
+					((Application)app).setMode(EuclidianConstants.MODE_MOVE);
 					movedGeoVector = vec;
 					moveMode = MOVE_VECTOR_NO_GRID;
 					return;
@@ -2050,14 +2047,14 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				}
 
 			}
-			if (!app.isRightClickEnabled()) {
+			if (!((Application) app).isRightClickEnabled()) {
 				return;
 				// Michael Borcherds 2007-10-07
 			}
 
 			if (mode == EuclidianConstants.MODE_MOVE_ROTATE) {
-				app.clearSelectedGeos(false);
-				app.addSelectedGeo(rotationCenter, false);
+				((Application)app).clearSelectedGeos(false);
+				((Application)app).addSelectedGeo(rotationCenter, false);
 			}
 		}
 		lastMouseLoc = mouseLoc;
@@ -2182,12 +2179,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			// object selection mode
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			GeoElementSelectionListener sel = app.getCurrentSelectionListener();
+			GeoElementSelectionListener sel = ((Application) app).getCurrentSelectionListener();
 			if (sel == null) {
 				return false;
 			}
-			if (app.isUsingFullGui()) {
-				return !app.getGuiManager().isInputFieldSelectionListener();
+			if (((Application)app).isUsingFullGui()) {
+				return !((Application) app).getGuiManager().isInputFieldSelectionListener();
 			} else {
 				return sel != null;
 			}
@@ -2417,14 +2414,14 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		// if (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
 
 		if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-				&& app.isUsingFullGui()) {
+				&& ((Application)app).isUsingFullGui()) {
 			getMovedGeoPoint().resetTraceColumns();
 		}
 
 	}
 
 	public void showDrawingPadPopup(Point mouseLoc) {
-		app.getGuiManager().showDrawingPadPopup(view.getJPanel(), mouseLoc);
+		((Application) app).getGuiManager().showDrawingPadPopup(view.getJPanel(), mouseLoc);
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -2469,7 +2466,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			pastePreviewSelectedAndDependent = null;
 			view.setPointCapturing(previousPointCapturing);
 			changedKernel0 = true;
-			app.getKernel().getConstruction().getUndoManager()
+			((Application)app).getKernel().getConstruction().getUndoManager()
 					.storeUndoInfoAfterPasteOrAdd();
 		}
 
@@ -2492,7 +2489,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
 
 			if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-					&& app.isUsingFullGui()) {
+					&& ((Application)app).isUsingFullGui()) {
 				movedGeoNumeric.resetTraceColumns();
 			}
 		}
@@ -2510,7 +2507,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		GeoElement geo;
 
 		if (hitResetIcon()) {
-			app.reset();
+			((Application) app).reset();
 			return;
 		} else if (view.hitAnimationButton(e)) {
 			if (kernel.isAnimationRunning()) {
@@ -2519,7 +2516,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				kernel.getAnimatonManager().startAnimation();
 			}
 			view.repaintView();
-			app.setUnsaved();
+			((Application)app).setUnsaved();
 			return;
 		}
 
@@ -2531,7 +2528,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				return;
 			}
 			if (!TEMPORARY_MODE) {
-				if (!app.isRightClickEnabled()) {
+				if (!((Application) app).isRightClickEnabled()) {
 					return;
 				}
 				if (processZoomRectangle()) {
@@ -2552,39 +2549,39 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				hits = view.getHits().getTopHits();
 				if (hits.isEmpty()) {
 					// no hits
-					if (app.selectedGeosSize() > 0) {
+					if (((Application) app).selectedGeosSize() > 0) {
 						// GeoElement selGeo = (GeoElement)
 						// app.getSelectedGeos().get(0);
-						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(),  view.getJPanel(), mouseLoc);
+						((Application) app).getGuiManager().showPopupMenu(
+								((Application)app).getSelectedGeos(),  view.getJPanel(), mouseLoc);
 					} else {
 						showDrawingPadPopup(mouseLoc);
 					}
 				} else {
 					// there are hits
-					if (app.selectedGeosSize() > 0) {
+					if (((Application) app).selectedGeosSize() > 0) {
 
 						// right click on already selected geos -> show menu for
 						// them
 						// right click on object(s) not selected -> clear
 						// selection
 						// and show menu just for new objects
-						if (!app.getSelectedGeos().contains(hits.get(0))) {
-							app.clearSelectedGeos();
-							app.addSelectedGeos(hits, true);
+						if (!((Application)app).getSelectedGeos().contains(hits.get(0))) {
+							((Application)app).clearSelectedGeos();
+							((Application)app).addSelectedGeos(hits, true);
 						} else {
-							app.addSelectedGeo(hits.get(0));
+							((Application)app).addSelectedGeo(hits.get(0));
 						}
 
-						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), view.getJPanel(), mouseLoc);
+						((Application) app).getGuiManager().showPopupMenu(
+								((Application)app).getSelectedGeos(), view.getJPanel(), mouseLoc);
 					} else {
 						// no selected geos: choose geo and show popup menu
 						geo = chooseGeo(hits, false);
 						if (geo != null) {
 							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
-							app.getGuiManager().showPopupMenu(geos,
+							((Application) app).getGuiManager().showPopupMenu(geos,
 									view.getJPanel(), mouseLoc);
 						} else {
 							// for 3D : if the geo hitted is xOyPlane, then
@@ -2639,7 +2636,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// remember helper point, see createNewPoint()
 		if (changedKernel && !changedKernel0) {
-			app.storeUndoInfo();
+			((Application)app).storeUndoInfo();
 		}
 
 		// make sure that when alt is pressed for creating a segment or line
@@ -2689,7 +2686,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				changedKernel = processMode(hits, e);
 			}
 			if (changedKernel) {
-				app.storeUndoInfo();
+				((Application)app).storeUndoInfo();
 			}
 		}
 		// Michael Borcherds 2007-10-12
@@ -2797,7 +2794,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					if (!bool.isCheckboxFixed()) { // otherwise changed on mouse
 													// down
 						bool.setValue(!bool.getBoolean());
-						app.removeSelectedGeo(bool); // make sure doesn't get
+						((Application)app).removeSelectedGeo(bool); // make sure doesn't get
 														// selected
 						bool.updateCascade();
 					}
@@ -2807,8 +2804,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					if (geo1 != null) {
 						geo1.runScripts(null);
 					}
-					if (app.hasPythonBridge()) {
-						app.getPythonBridge().click(geo1);
+					if (((Application) app).hasPythonBridge()) {
+						((Application) app).getPythonBridge().click(geo1);
 					}
 				}
 			}
@@ -2818,7 +2815,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	protected boolean hitResetIcon() {
-		return app.showResetIcon()
+		return ((Application) app).showResetIcon()
 				&& ((mouseLoc.y < 18) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
 
@@ -2830,7 +2827,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		}
 
 		if ((rect.width < 30) || (rect.height < 30)
-				|| !app.isShiftDragZoomEnabled() // Michael Borcherds 2007-12-11
+				|| !((Application) app).isShiftDragZoomEnabled() // Michael Borcherds 2007-12-11
 		) {
 			view.setSelectionRectangle(null);
 			view.repaintView();
@@ -2864,13 +2861,13 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			// tell properties dialog
 			if ((hits.size() > 0)
-					&& app.isUsingFullGui()
-					&& app.getGuiManager()
+					&& ((Application)app).isUsingFullGui()
+					&& ((Application) app).getGuiManager()
 							.isPropertiesDialogSelectionListener()) {
 				GeoElement geo = hits.get(0);
-				app.geoElementSelected(geo, false);
+				((Application) app).geoElementSelected(geo, false);
 				for (int i = 1; i < hits.size(); i++) {
-					app.geoElementSelected(hits.get(i), true);
+					((Application) app).geoElementSelected(hits.get(i), true);
 				}
 			}
 			break;
@@ -2900,7 +2897,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		case EuclidianConstants.MODE_CREATE_LIST:
 			removeParentPoints(hits);
 			selectedGeos.addAll(hits);
-			app.setSelectedGeos(hits);
+			((Application) app).setSelectedGeos(hits);
 			processMode(hits, e);
 			view.setSelectionRectangle(null);
 			break;
@@ -2911,7 +2908,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			if (hits.size() == 1) {
 				if (hits.get(0).isGeoList()) {
 					selectedGeos.addAll(hits);
-					app.setSelectedGeos(hits);
+					((Application) app).setSelectedGeos(hits);
 					processMode(hits, e);
 					view.setSelectionRectangle(null);
 					break;
@@ -2932,7 +2929,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			} else {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
-				app.setSelectedGeos(hits);
+				((Application) app).setSelectedGeos(hits);
 				processMode(hits, e);
 				view.setSelectionRectangle(null);
 			}
@@ -2940,15 +2937,15 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		default:
 			// STANDARD CASE
-			app.setSelectedGeos(hits);
+			((Application) app).setSelectedGeos(hits);
 
 			// if alt pressed, create list of objects as string and copy to
 			// input bar
 			if ((hits != null) && (hits.size() > 0) && (e != null)
-					&& e.isAltDown() && app.isUsingFullGui()
-					&& app.showAlgebraInput()) {
+					&& e.isAltDown() && ((Application)app).isUsingFullGui()
+					&& ((Application) app).showAlgebraInput()) {
 
-				JTextComponent textComponent = app.getGuiManager()
+				JTextComponent textComponent = ((Application) app).getGuiManager()
 						.getAlgebraInputTextField();
 
 				StringBuilder sb = new StringBuilder();
@@ -2982,12 +2979,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		}
 		removeParentPoints(hits);
 		selectedGeos.addAll(hits);
-		app.setSelectedGeos(hits);
+		((Application) app).setSelectedGeos(hits);
 	}
 
 	protected void processSelection() {
 		Hits hits = new Hits();
-		hits.addAll(app.getSelectedGeos());
+		hits.addAll(((Application)app).getSelectedGeos());
 		clearSelections();
 
 		switch (mode) {
@@ -3027,7 +3024,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			} else {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
-				app.setSelectedGeos(hits);
+				((Application) app).setSelectedGeos(hits);
 				processMode(hits, null);
 				view.setSelectionRectangle(null);
 			}
@@ -3066,7 +3063,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// reset icon
 		if (hitResetIcon()) {
-			view.setToolTipText(app.getPlainTooltip("resetConstruction"));
+			view.setToolTipText(((Application) app).getPlainTooltip("resetConstruction"));
 			view.setHitCursor();
 			return;
 		}
@@ -3076,9 +3073,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		repaintNeeded = view.setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
-				view.setToolTipText(app.getPlainTooltip("Play"));
+				view.setToolTipText(((Application) app).getPlainTooltip("Play"));
 			} else {
-				view.setToolTipText(app.getPlainTooltip("Pause"));
+				view.setToolTipText(((Application) app).getPlainTooltip("Pause"));
 			}
 			view.setHitCursor();
 			view.repaintView();
@@ -3282,8 +3279,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			if (selectionPreview) {
 				move(hits.getTopHits());
 			} else {
-				if (DRAGGING_OCCURED && (app.selectedGeosSize() == 1)) {
-					app.clearSelectedGeos();
+				if (DRAGGING_OCCURED && (((Application) app).selectedGeosSize() == 1)) {
+					((Application)app).clearSelectedGeos();
 				}
 
 			}
@@ -3609,23 +3606,23 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				justCreatedGeos.add(geos[i]);
 			}
 		}
-		app.updateStyleBars();
-		app.getGuiManager().updateMenubarSelection();
+		((Application) app).updateStyleBars();
+		((Application) app).getGuiManager().updateMenubarSelection();
 	}
 
 	public void memorizeJustCreatedGeos(ArrayList<GeoElement> geos) {
 		justCreatedGeos.clear();
 		justCreatedGeos.addAll(geos);
-		app.updateStyleBars();
-		app.getGuiManager().updateMenubarSelection();
+		((Application) app).updateStyleBars();
+		((Application) app).getGuiManager().updateMenubarSelection();
 	}
 
 	public void clearJustCreatedGeos() {
 		justCreatedGeos.clear();
-		app.updateStyleBars();
+		((Application) app).updateStyleBars();
 
-		if (app.isUsingFullGui()) {
-			app.getGuiManager().updateMenubarSelection();
+		if (((Application)app).isUsingFullGui()) {
+			((Application) app).getGuiManager().updateMenubarSelection();
 		}
 	}
 
@@ -3733,7 +3730,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		// set tooltip manager
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
 		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY / 2);
-		ttm.setEnabled(app.getAllowToolTips());
+		ttm.setEnabled(((Application) app).getAllowToolTips());
 	}
 
 	protected void resetToolTipManager() {
@@ -4113,7 +4110,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		startLoc = mouseLoc;
 
 		// move all selected geos
-		GeoElement.moveObjects(removeParentsOfView(app.getSelectedGeos()),
+		GeoElement.moveObjects(removeParentsOfView(((Application)app).getSelectedGeos()),
 				translationVec, new Coords(xRW, yRW, 0), null);
 
 		if (repaint) {
@@ -4381,7 +4378,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		return (mode == EuclidianConstants.MODE_POINT)
 				|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
 				|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
-				|| app.isOnTheFlyPointCreationActive();
+				|| ((Application) app).isOnTheFlyPointCreationActive();
 	}
 
 	final protected boolean createNewPoint(Hits hits, boolean onPathPossible,
@@ -5454,9 +5451,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if (selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
 
-			app.getGuiManager().getDialogManager()
+			((Application) app).getGuiManager().getDialogManager()
 					.showFunctionInspector(functions[0]);
-			app.setMoveMode();
+			((Application) app).setMoveMode();
 		}
 
 		return false;
@@ -5803,7 +5800,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if (selGeos() == 2) {
 			// fetch the three selected points
 			GeoElement[] geos = getSelectedGeos();
-			app.showRelation(geos[0], geos[1]);
+			((Application)app).showRelation(geos[0], geos[1]);
 			return true;
 		}
 		return false;
@@ -5906,13 +5903,13 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			GeoNumeric circumFerence = kernel.Circumference(null, conic);
 
 			// text
-			GeoText text = createDynamicText(app.getCommand("Circumference"),
+			GeoText text = createDynamicText(((Application)app).getCommand("Circumference"),
 					circumFerence, e.getPoint());
 			if (conic.isLabelSet()) {
-				circumFerence.setLabel(removeUnderscores(app.getCommand(
+				circumFerence.setLabel(removeUnderscores(((Application)app).getCommand(
 						"Circumference").toLowerCase(Locale.US)
 						+ conic.getLabel()));
-				text.setLabel(removeUnderscores(app.getPlain("Text")
+				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ conic.getLabel()));
 			}
 			GeoElement[] ret = { text };
@@ -5926,14 +5923,14 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			// text
 			GeoText text = createDynamicText(
-					descriptionPoints(app.getCommand("Perimeter"), poly[0]),
+					descriptionPoints(((Application)app).getCommand("Perimeter"), poly[0]),
 					perimeter, e.getPoint());
 
 			if (poly[0].isLabelSet()) {
-				perimeter.setLabel(removeUnderscores(app
+				perimeter.setLabel(removeUnderscores(((Application)app)
 						.getCommand("Perimeter").toLowerCase(Locale.US)
 						+ poly[0].getLabel()));
-				text.setLabel(removeUnderscores(app.getPlain("Text")
+				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ poly[0].getLabel()));
 			}
 			GeoElement[] ret = { text };
@@ -5954,7 +5951,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			String strText = "";
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
-				length.setLabel(removeUnderscores(app.getCommand("Distance")
+				length.setLabel(removeUnderscores(((Application)app).getCommand("Distance")
 						.toLowerCase(Locale.US)
 						+ geoA.getLabel()
 						+ geoB.getLabel()));
@@ -5965,7 +5962,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				// DistanceAB="\\overline{" + %0 + %1 + "} \\, = \\, " + %2
 				// or
 				// DistanceAB=%0+%1+" \\, = \\, "+%2
-				strText = app.getPlain("DistanceAB.LaTeX",
+				strText = ((Application)app).getPlain("DistanceAB.LaTeX",
 						"Name[" + geoA.getLabel() + "]",
 						"Name[" + geoB.getLabel() + "]", length.getLabel());
 				// Application.debug(strText);
@@ -5974,7 +5971,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				geoA.updateRepaint();
 				geoB.updateRepaint();
 			} else {
-				length.setLabel(removeUnderscores(app.getCommand("Distance")
+				length.setLabel(removeUnderscores(((Application)app).getCommand("Distance")
 						.toLowerCase(Locale.US)));
 				strText = "\"\"" + length.getLabel();
 			}
@@ -5983,7 +5980,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
 					true, true);
 			if (useLabels) {
-				text.setLabel(removeUnderscores(app.getPlain("Text")
+				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ geoA.getLabel() + geoB.getLabel()));
 				text.setLaTeX(useLabels, true);
 			}
@@ -6052,12 +6049,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			GeoNumeric area = kernel.Area(null, conic);
 
 			// text
-			GeoText text = createDynamicText(app.getCommand("Area"), area,
+			GeoText text = createDynamicText(((Application)app).getCommand("Area"), area,
 					e.getPoint());
 			if (conic.isLabelSet()) {
-				area.setLabel(removeUnderscores(app.getCommand("Area")
+				area.setLabel(removeUnderscores(((Application)app).getCommand("Area")
 						.toLowerCase(Locale.US) + conic.getLabel()));
-				text.setLabel(removeUnderscores(app.getPlain("Text")
+				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ conic.getLabel()));
 			}
 			GeoElement[] ret = { text };
@@ -6070,10 +6067,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			// dynamic text with polygon's area
 			GeoText text = createDynamicText(
-					descriptionPoints(app.getCommand("Area"), poly[0]),
+					descriptionPoints(((Application)app).getCommand("Area"), poly[0]),
 					poly[0], e.getPoint());
 			if (poly[0].isLabelSet()) {
-				text.setLabel(removeUnderscores(app.getPlain("Text")
+				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ poly[0].getLabel()));
 			}
 			GeoElement[] ret = { text };
@@ -6113,7 +6110,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					points[i].updateRepaint();
 				}
 			} else {
-				descText = app.getCommand("Area");
+				descText = ((Application)app).getCommand("Area");
 			}
 		}
 		return descText;
@@ -6135,7 +6132,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			 * } else { slope = kernel.Slope("m", line); }
 			 */
 
-			String label = app.getPlain("ExplicitLineGradient");
+			String label = ((Application)app).getPlain("ExplicitLineGradient");
 
 			// make sure automatic naming goes m, m_1, m_2, ..., m_{10}, m_{11}
 			// etc
@@ -6174,10 +6171,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		if (selPoints() == 2) {
 			GeoPoint2[] points = getSelectedPoints();
-			app.getGuiManager()
+			((Application)app).getGuiManager()
 					.getDialogManager()
 					.showNumberInputDialogRegularPolygon(
-							app.getMenu(getKernel().getModeText(mode)),
+							((Application)app).getMenu(getKernel().getModeText(mode)),
 							points[0], points[1]);
 			return true;
 		}
@@ -6189,7 +6186,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			return false;
 		}
 
-		app.getGuiManager().getDialogManager()
+		((Application) app).getGuiManager().getDialogManager()
 				.showBooleanCheckboxCreationDialog(mouseLoc, null);
 		return false;
 	}
@@ -6357,9 +6354,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					view.setShowAxis(EuclidianViewInterface.AXIS_Y, false, true);
 					break;
 				}
-				app.updateMenubar();
+				((Application) app).updateMenubar();
 			} else {
-				app.toggleSelectedGeo(geo);
+				((Application) app).toggleSelectedGeo(geo);
 			}
 			return true;
 		}
@@ -6406,7 +6403,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if (movedGeoElement == null) {
 			movedGeoElement = geo;
 			Hits oldhits = new Hits();
-			oldhits.addAll(app.getSelectedGeos());
+			oldhits.addAll(((Application)app).getSelectedGeos());
 			for (int i = oldhits.size() - 1; i >= 0; i--) {
 				GeoElement oldgeo = oldhits.get(i);
 				if (!(movedGeoElement.getClass().isInstance(oldgeo))) {
@@ -6427,15 +6424,15 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			} else {
 				// there were no appropriate selected elements
 				// set movedGeoElement
-				app.addSelectedGeo(geo);
+				((Application)app).addSelectedGeo(geo);
 			}
 		} else {
 			if (geo == movedGeoElement) {
 				// deselect
-				app.removeSelectedGeo(geo);
+				((Application)app).removeSelectedGeo(geo);
 				movedGeoElement = null;
 				if (toggleModeChangedKernel) {
-					app.storeUndoInfo();
+					((Application)app).storeUndoInfo();
 				}
 				toggleModeChangedKernel = false;
 			} else {
@@ -6886,10 +6883,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			GeoElement[] selGeos = getSelectedGeos();
 
-			app.getGuiManager()
+			((Application) app).getGuiManager()
 					.getDialogManager()
 					.showNumberInputDialogRotate(
-							app.getMenu(getKernel().getModeText(mode)),
+							((Application)app).getMenu(getKernel().getModeText(mode)),
 							getSelectedPolygons(), getSelectedPoints(), selGeos);
 
 			return null;
@@ -6927,10 +6924,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			GeoElement[] selGeos = getSelectedGeos();
 
-			app.getGuiManager()
+			((Application) app).getGuiManager()
 					.getDialogManager()
 					.showNumberInputDialogDilate(
-							app.getMenu(getKernel().getModeText(mode)),
+							((Application)app).getMenu(getKernel().getModeText(mode)),
 							getSelectedPolygons(), getSelectedPoints(), selGeos);
 
 			return null;
@@ -6969,10 +6966,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		// we got the point
 		if (selPoints() == 1) {
 			// get length of segment
-			app.getGuiManager()
+			((Application) app).getGuiManager()
 					.getDialogManager()
 					.showNumberInputDialogSegmentFixed(
-							app.getMenu(getKernel().getModeText(mode)),
+							((Application)app).getMenu(getKernel().getModeText(mode)),
 							getSelectedPoints()[0]);
 
 			return true;
@@ -7145,10 +7142,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			GeoElement[] selGeos = getSelectedGeos();
 
-			app.getGuiManager()
+			((Application) app).getGuiManager()
 					.getDialogManager()
 					.showNumberInputDialogAngleFixed(
-							app.getMenu(getKernel().getModeText(mode)),
+							((Application)app).getMenu(getKernel().getModeText(mode)),
 							getSelectedSegments(), getSelectedPoints(), selGeos);
 
 			return null;
@@ -7167,10 +7164,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// we got the center point
 		if (selPoints() == 1) {
-			app.getGuiManager()
+			((Application) app).getGuiManager()
 					.getDialogManager()
 					.showNumberInputDialogCirclePointRadius(
-							app.getMenu(getKernel().getModeText(mode)),
+							((Application)app).getMenu(getKernel().getModeText(mode)),
 							getSelectedPointsND()[0], (EuclidianView) view);
 			return true;
 		}
@@ -7229,7 +7226,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point
 				selectedGeos.add(getMovedGeoPoint());
-				app.addSelectedGeo(getMovedGeoPoint());
+				((Application)app).addSelectedGeo(getMovedGeoPoint());
 				objectFound = true;
 				POINT_CREATED = false;
 			}
@@ -7245,12 +7242,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			while (++index < macroInput.length) {
 				// maybe we need a number
 				if (macroInput[index].equals(Test.GEONUMERIC)) {
-					NumberValue num = app
+					NumberValue num = ((Application) app)
 							.getGuiManager()
 							.getDialogManager()
 							.showNumberInputDialog(
 									macro.getToolOrCommandName(),
-									app.getPlain("Numeric"), null);
+									((Application)app).getPlain("Numeric"), null);
 					if (num == null) {
 						// no success: reset mode
 						view.resetMode();
@@ -7265,11 +7262,11 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 				// maybe we need an angle
 				else if (macroInput[index].equals(GeoAngle.class.getName())) {
-					Object[] ob = app
+					Object[] ob = ((Application) app)
 							.getGuiManager()
 							.getDialogManager()
 							.showAngleInputDialog(macro.getToolOrCommandName(),
-									app.getPlain("Angle"), "45\u00b0");
+									((Application)app).getPlain("Angle"), "45\u00b0");
 					NumberValue num = (NumberValue) ob[0];
 
 					if (num == null) {
@@ -7307,7 +7304,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		addSelectedGeo(hits, 1, false);
 		if (selGeos() == 1) {
 			GeoElement[] geos = getSelectedGeos();
-			app.geoElementSelected(geos[0], addToSelection);
+			((Application)app).geoElementSelected(geos[0], addToSelection);
 		}
 		return false;
 	}
@@ -7357,7 +7354,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// got location
 		if (loc != null) {
-			app.getGuiManager().getDialogManager().showTextCreationDialog(loc);
+			((Application) app).getGuiManager().getDialogManager().showTextCreationDialog(loc);
 			return true;
 		}
 
@@ -7387,7 +7384,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		// got location
 		if (loc != null) {
-			app.getGuiManager().loadImage(loc, null, altDown);
+			((Application) app).getGuiManager().loadImage(loc, null, altDown);
 			return true;
 		}
 
@@ -7397,7 +7394,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	// new slider
 	final protected boolean slider() {
 		if (!selectionPreview && (mouseLoc != null)) {
-			app.getGuiManager().getDialogManager()
+			((Application) app).getGuiManager().getDialogManager()
 					.showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
 		}
 		return false;
@@ -7406,7 +7403,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	// new button
 	final protected boolean button(boolean textfield) {
 		if (!selectionPreview && (mouseLoc != null)) {
-			app.getGuiManager()
+			((Application) app).getGuiManager()
 					.getDialogManager()
 					.showButtonCreationDialog(mouseLoc.x, mouseLoc.y, textfield);
 		}
@@ -7722,7 +7719,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		selectionList.clear();
 		selectedGeos.clear();
 		if (doUpdateSelection) {
-			app.clearSelectedGeos();
+			((Application)app).clearSelectedGeos();
 		}
 		view.repaintView();
 	}
@@ -8023,7 +8020,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			}
 		}
 		if (ret != 0) {
-			app.toggleSelectedGeo(geo);
+			((Application) app).toggleSelectedGeo(geo);
 		}
 		return ret;
 	}
@@ -8335,10 +8332,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		}
 
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
-		boolean allowMouseWheel = !app.isApplet()
+		boolean allowMouseWheel = !((Application)app).isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled() && (e.isControlDown()
+				|| (((Application) app).isShiftDragZoomEnabled() && (e.isControlDown()
 						|| e.isMetaDown() || e.isShiftDown()));
 		if (!allowMouseWheel) {
 			return;
@@ -8358,7 +8355,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			xFactor = 1.5;
 		}
 
-		double reverse = app.isMouseWheelReversed() ? -1 : 1;
+		double reverse = ((Application) app).isMouseWheelReversed() ? -1 : 1;
 
 		double factor = ((e.getWheelRotation() * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				* xFactor
@@ -8371,14 +8368,14 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, 4, false);
 		// view.yscale * factor);
-		app.setUnsaved();
+		((Application)app).setUnsaved();
 	}
 
 	public void zoomInOut(KeyEvent event) {
-		boolean allowZoom = !app.isApplet()
+		boolean allowZoom = !((Application)app).isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled());
+				|| (((Application) app).isShiftDragZoomEnabled());
 		if (!allowZoom) {
 			return;
 		}
@@ -8405,7 +8402,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, 4, false);
 		// view.yscale * factor);
-		app.setUnsaved();
+		((Application)app).setUnsaved();
 
 	}
 
@@ -8467,7 +8464,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		penLineStyle = lineStyle;
 
 		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -8480,7 +8477,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 	public void setSize(int size) {
 		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -8502,7 +8499,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		penColor = color;
 
 		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -8513,7 +8510,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	public void setAlpha(float alpha) {
-		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			geo.setAlphaValue(alpha);
@@ -8522,19 +8519,19 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	private void openMiniPropertiesPanel() {
-		if (!app.isUsingFullGui()) {
+		if (!((Application)app).isUsingFullGui()) {
 			return;
 		}
 		if (Application.isMiniPropertiesActive()) {
-			app.getGuiManager().toggleMiniProperties(true);
+			((Application) app).getGuiManager().toggleMiniProperties(true);
 		}
 	}
 
 	private void closeMiniPropertiesPanel() {
-		if (!app.isUsingFullGui()) {
+		if (!((Application)app).isUsingFullGui()) {
 			return;
 		}
-		app.getGuiManager().toggleMiniProperties(false);
+		((Application) app).getGuiManager().toggleMiniProperties(false);
 
 	}
 

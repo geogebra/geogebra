@@ -914,7 +914,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 		// we got the center point
 		if (selPoints() == 1) {	
-			((DialogManager3D)app.getGuiManager().getDialogManager()).showNumberInputDialogSpherePointRadius(app.getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D)((Application)app).getGuiManager().getDialogManager()).showNumberInputDialogSpherePointRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -1010,7 +1010,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 
 		if (selPoints() == 1 && selDirections() == 1) {
-			((DialogManager3D) app.getGuiManager().getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(app.getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D) ((Application)app).getGuiManager().getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0],getSelectedDirections()[0]);
 
 			return true;
@@ -1456,7 +1456,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			((EuclidianView3D) view).updateCursor3D();
 			
 			view.setHitCursor();
-			app.storeUndoInfo();
+			((Application)app).storeUndoInfo();
 			
 
 			((EuclidianView3D) view).setRotContinueAnimation(
@@ -1701,7 +1701,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	@Override
 	public void showDrawingPadPopup(Point mouseLoc){
-		((GuiManager3D) app.getGuiManager()).showDrawingPadPopup3D((JPanel) view, mouseLoc);		
+		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D((JPanel) view, mouseLoc);		
 	}
 
 	
