@@ -4661,6 +4661,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			boolean geosOK = true;
 			cbFillInverse.setVisible(true);
 			lblFillInverse.setVisible(true);
+			lblFillType.setVisible(true); // TODO remove this (see below)
 			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
 				if (!(geos[i] instanceof GeoFunctionNVar
