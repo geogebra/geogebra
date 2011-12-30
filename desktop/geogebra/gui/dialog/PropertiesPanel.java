@@ -4533,7 +4533,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			btnOpenFile.setText(app.getMenu("ChooseFromFile") + "...");
 
 			// fill type combobox
-			lblFillType = new JLabel(app.getMenu("Filling") + ":");
+			lblFillType.setText(app.getMenu("Filling") + ":");
 
 			int selectedIndex = cbFillType.getSelectedIndex();
 			cbFillType.removeActionListener(this);
@@ -4678,8 +4678,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 
 				// TODO add fill type for 3D elements
-				if (((GeoElement) geos[i]).isGeoElement3D())
+				if (((GeoElement) geos[i]).isGeoElement3D() || ((GeoElement) geos[i]).isGeoImage()) {
+					lblFillType.setVisible(false);
 					cbFillType.setVisible(false);
+				}
 			}
 			return geosOK;
 		}
