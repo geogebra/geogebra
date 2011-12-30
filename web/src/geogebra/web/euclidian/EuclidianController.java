@@ -2,12 +2,43 @@ package geogebra.web.euclidian;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.GestureChangeEvent;
+import com.google.gwt.event.dom.client.GestureChangeHandler;
+import com.google.gwt.event.dom.client.GestureEndEvent;
+import com.google.gwt.event.dom.client.GestureEndHandler;
+import com.google.gwt.event.dom.client.GestureStartEvent;
+import com.google.gwt.event.dom.client.GestureStartHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
+import com.google.gwt.event.dom.client.TouchCancelEvent;
+import com.google.gwt.event.dom.client.TouchCancelHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
+
 import geogebra.common.awt.Point2D;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.kernel.Kernel;
 
-public class EuclidianController extends geogebra.common.euclidian.EuclidianController {
+public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
 	public EuclidianController(Kernel kernel) {
 	    // TODO Auto-generated constructor stub
@@ -69,6 +100,81 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 	@Override
     public void setKernel(AbstractKernel kernel) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onGestureChange(GestureChangeEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onGestureEnd(GestureEndEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onGestureStart(GestureStartEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onTouchCancel(TouchCancelEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onTouchMove(TouchMoveEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onTouchEnd(TouchEndEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onTouchStart(TouchStartEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onDoubleClick(DoubleClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onClick(ClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onMouseWheel(MouseWheelEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onMouseOver(MouseOverEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onMouseOut(MouseOutEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onMouseMove(MouseMoveEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onMouseUp(MouseUpEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onMouseDown(MouseDownEvent event) {
 	    // TODO Auto-generated method stub
 	    
     }
