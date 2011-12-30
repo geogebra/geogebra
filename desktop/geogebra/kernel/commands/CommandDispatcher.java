@@ -386,6 +386,7 @@ public class CommandDispatcher extends AbstractCommandDispatcher{
     			case Name: return new CmdName(kernel);
     			case SlowPlot: return new CmdSlowPlot(kernel);	   
     			case ToolImage: return new CmdToolImage(kernel);
+    			case BarCode: return new CmdBarCode(kernel);
     			case DynamicCoordinates: return new CmdDynamicCoordinates(kernel);
     			case Maximize: return new CmdMaximize(kernel);
     			case Minimize: return new CmdMinimize(kernel);

@@ -239,7 +239,7 @@ public abstract class AbstractCommandDispatcher {
       	// GeoGebra
     	//=============================================================
        	Corner, AxisStepX, AxisStepY, ConstructionStep,
-       	Object, Name, SlowPlot, ToolImage,
+       	Object, Name, SlowPlot, ToolImage, BarCode,
        	DynamicCoordinates,
        	
     	//=================================================================
