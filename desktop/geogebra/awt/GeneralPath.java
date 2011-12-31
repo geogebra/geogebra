@@ -58,7 +58,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements geog
 	}
 
 	public Rectangle2D getBounds2D() {
-		return new geogebra.awt.Rectangle2D(impl.getBounds2D());
+		return new geogebra.awt.GenericRectangle2D(impl.getBounds2D());
 	}
 
 	public boolean contains(Rectangle rectangle) {
@@ -84,7 +84,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements geog
 	
 	@Override
 	public boolean intersects(Rectangle2D r) {
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
+		return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
 	}
 	@Override
 	public geogebra.common.awt.Shape createTransformedShape(
@@ -101,7 +101,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements geog
 	}
 	@Override
 	public boolean contains(Rectangle2D p) {
-		return impl.contains(geogebra.awt.Rectangle2D.getAWTRectangle2D(p));
+		return impl.contains(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(p));
 	}
 	@Override
 	public boolean contains(double arg0, double arg1, double arg2, double arg3) {

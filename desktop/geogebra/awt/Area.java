@@ -62,7 +62,7 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 	}
 
 	public Rectangle2D getBounds2D() {
-		return new geogebra.awt.Rectangle2D(impl.getBounds2D());
+		return new geogebra.awt.GenericRectangle2D(impl.getBounds2D());
 	}
 
 	public boolean contains(Rectangle rectangle) {
@@ -98,6 +98,6 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 
 	public boolean intersects(Rectangle2D r) {
 		// TODO Auto-generated method stub
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
+		return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
 	}
 }

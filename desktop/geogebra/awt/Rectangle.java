@@ -2,9 +2,9 @@ package geogebra.awt;
 
 import java.awt.geom.Rectangle2D;
 
-public class Rectangle extends geogebra.awt.Rectangle2D implements geogebra.common.awt.Rectangle{
+public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.Rectangle{
 
-	private java.awt.Rectangle impl;
+	java.awt.Rectangle impl;
 	public Rectangle(){
 		impl = new java.awt.Rectangle();
 	}

@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.factories.AwtFactory;

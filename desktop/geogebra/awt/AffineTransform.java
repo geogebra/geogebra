@@ -1,5 +1,7 @@
 package geogebra.awt;
 
+import java.awt.geom.Point2D.Double;
+
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.PathPoint;
 
@@ -68,6 +70,11 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 			java.awt.geom.Point2D point = geogebra.awt.Point2D.getAwtPoint2D((geogebra.euclidian.PathPoint)p);
 			java.awt.geom.Point2D point2 = geogebra.awt.Point2D.getAwtPoint2D((geogebra.euclidian.PathPoint)p2); 
 			at.transform(point, point2);
+			p.setX(point.getX());
+			p.setY(point.getY());
+			p2.setX(point2.getX());
+			p2.setY(point2.getY());
+
 		}
 	}
 }

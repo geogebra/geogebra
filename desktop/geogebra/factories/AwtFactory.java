@@ -46,7 +46,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 
 	@Override
 	public Rectangle2D newRectangle2D() {
-		return new geogebra.awt.Rectangle2D();
+		return new geogebra.awt.GenericRectangle2D();
 	}
 	
 	@Override

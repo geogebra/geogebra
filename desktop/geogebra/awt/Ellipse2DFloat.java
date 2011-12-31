@@ -33,7 +33,7 @@ public class Ellipse2DFloat extends geogebra.awt.RectangularShape implements geo
 		}
 
 		public Rectangle2D getBounds2D() {
-			return new geogebra.awt.Rectangle2D(impl.getBounds2D());
+			return new geogebra.awt.GenericRectangle2D(impl.getBounds2D());
 		}
 
 		public boolean contains(Rectangle rectangle) {
@@ -57,7 +57,7 @@ public class Ellipse2DFloat extends geogebra.awt.RectangularShape implements geo
 		}
 
 		public boolean intersects(Rectangle2D r) {
-			return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
+			return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
 		}
 
 		public Shape getAwtShape() {

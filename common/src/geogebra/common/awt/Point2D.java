@@ -1,14 +1,14 @@
 package geogebra.common.awt;
 
-public abstract class Point2D {
-	public abstract class Double {
+public interface Point2D {
+	public class Double {
 		
 	}
 	
-	public abstract double getX();
-	public abstract double getY();
-	public abstract void setX(double x);
-	public abstract void setY(double y);
-	public abstract double distance(Point2D q);
-	public abstract double distance(double x, double y);
+	public double getX();
+	public double getY();
+	public void setX(double x);
+	public void setY(double y);
+	public double distance(Point2D q);
+	public double distance(double x, double y);
 }

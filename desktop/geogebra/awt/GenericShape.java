@@ -32,7 +32,7 @@ public class GenericShape implements geogebra.awt.Shape{
 		return new geogebra.awt.Rectangle(impl.getBounds());
 	}
 	public Rectangle2D getBounds2D() {
-		return new geogebra.awt.Rectangle2D(impl.getBounds2D());
+		return new geogebra.awt.GenericRectangle2D(impl.getBounds2D());
 	}
 	public boolean contains(Rectangle rectangle) {
 		return impl.contains(geogebra.awt.Rectangle.getAWTRectangle(rectangle));
@@ -56,6 +56,6 @@ public class GenericShape implements geogebra.awt.Shape{
 		return impl.intersects(x, y, w, h);
 	}
 	public boolean intersects(Rectangle2D r) {
-		return impl.intersects(geogebra.awt.Rectangle2D.getAWTRectangle2D(r));
+		return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
 	}
 }
