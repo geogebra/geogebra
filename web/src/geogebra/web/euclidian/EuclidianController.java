@@ -33,16 +33,46 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
-import geogebra.common.awt.Point2D;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
+import geogebra.web.awt.Point2D;
 import geogebra.web.kernel.Kernel;
+import geogebra.web.kernel.gawt.Point;
+import geogebra.web.main.Application;
 
 public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
+	protected EuclidianViewInterface2D view;
+	
+	protected Point oldLoc = new Point();
+
+	// for moving conics:
+	protected Point2D startPoint = new Point2D();
+
+	protected Point2D lineEndPoint = null;
+
+	protected Point selectionStartPoint = new Point();
+
+	protected ArrayList<Double> tempDependentPointX;
+	protected ArrayList<Double> tempDependentPointY;
+	
 	public EuclidianController(Kernel kernel) {
-	    // TODO Auto-generated constructor stub
+		setKernel(kernel);
+		setApplication((Application) kernel.getApplication());
+		
+		tempNum = new MyDouble(kernel);
     }
+	
+	public void setApplication(AbstractApplication app) {
+		this.app = (Application)app;
+	}
+	
+	public  void setView(EuclidianViewInterface2D view) {
+		this.view = view;
+	}
 
 	@Override
     public void handleMovedElement(GeoElement selGeo, boolean b) {
@@ -81,7 +111,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
     }
 
 	@Override
-    public void setLineEndPoint(Point2D endPoint) {
+    public void setLineEndPoint(geogebra.common.awt.Point2D endPoint) {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -100,8 +130,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 	@Override
     public void setKernel(AbstractKernel kernel) {
-	    // TODO Auto-generated method stub
-	    
+	   this.kernel = (geogebra.web.kernel.Kernel)kernel;
     }
 
 	public void onGestureChange(GestureChangeEvent event) {
@@ -177,6 +206,11 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	public void onMouseDown(MouseDownEvent event) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public Kernel getKernel() {
+	    return (Kernel)kernel;
     }
 
 }

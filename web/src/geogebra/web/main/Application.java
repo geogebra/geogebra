@@ -32,7 +32,6 @@ import geogebra.web.util.DataUtil;
 
 public class Application extends AbstractApplication {
 	
-	private Kernel kernel;
 	private EuclidianView euclidianview;
 	private EuclidianController euclidiancontroller;
 	
@@ -386,10 +385,10 @@ public class Application extends AbstractApplication {
 	public void init(Canvas canvas) {
 		kernel = new Kernel(this);
 		
-		euclidiancontroller = new EuclidianController(kernel);
+		euclidiancontroller = new EuclidianController((Kernel)kernel);
 		euclidianview = new EuclidianView(canvas, euclidiancontroller, showAxes, showGrid);
 		
-		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+		myXMLio = new MyXMLio((Kernel) kernel, ((Kernel)kernel).getConstruction());
 	    // TODO Auto-generated method stub
 	    
     }
@@ -478,22 +477,11 @@ public class Application extends AbstractApplication {
 		return image;
 	}
 
-	@Override
-    public ArrayList<GeoElement> getSelectedGeos() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public int getMode() {
 	    // TODO Auto-generated method stub
 	    return 0;
-    }
-
-	@Override
-    public void addSelectedGeo(GeoElement selGeo, boolean b) {
-	    // TODO Auto-generated method stub
-	    
     }
 
 	@Override
@@ -603,5 +591,11 @@ public class Application extends AbstractApplication {
             int size) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	@Override
+    public void updateSelection() {
+	    // TODO Auto-generated method stub
+	    
     }
 }

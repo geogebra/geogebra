@@ -7,6 +7,7 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -242,6 +243,10 @@ public abstract class EuclidianController {
 	public abstract void handleMovedElement(GeoElement selGeo, boolean b);
 	
 	public abstract void setKernel(AbstractKernel kernel);
+	
+	public abstract AbstractKernel getKernel();
+	
+	public abstract void setApplication(AbstractApplication app);
 
 	public abstract void clearJustCreatedGeos();
 

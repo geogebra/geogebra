@@ -61,6 +61,10 @@ public abstract class AbstractApplication {
 
 	public boolean useJavaFontsForLaTeX = false;
 
+	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
+
+	protected AbstractKernel kernel;
+
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
 
@@ -289,11 +293,7 @@ public abstract class AbstractApplication {
 		return false;
 	}
 
-	public abstract ArrayList<GeoElement> getSelectedGeos();
-
 	public abstract int getMode();
-
-	public abstract void addSelectedGeo(GeoElement selGeo, boolean b);
 
 	/**
 	 * @deprecated added when refactoring
@@ -474,6 +474,42 @@ public abstract class AbstractApplication {
 	public boolean isExporting() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public final ArrayList<GeoElement> getSelectedGeos() {
+		return selectedGeos;
+	}
+	
+	public abstract void updateSelection();
+
+	public final void addSelectedGeo(GeoElement geo) {
+		addSelectedGeo(geo, true);
+	}
+
+	public final void addSelectedGeo(GeoElement geo, boolean repaint) {
+		if ((geo == null) || selectedGeos.contains(geo)) {
+			return;
+		}
+	
+		selectedGeos.add(geo);
+		geo.setSelected(true);
+		if (repaint) {
+			((AbstractKernel)kernel).notifyRepaint();
+		}
+		updateSelection();
+	
+	}
+
+	public final void addSelectedGeos(ArrayList<GeoElement> geos, boolean repaint) {
+	
+		selectedGeos.addAll(geos);
+		for (int i = 0; i < geos.size(); i++) {
+			geos.get(i).setSelected(true);
+		}
+		if (repaint) {
+			((AbstractKernel)kernel).notifyRepaint();
+		}
+		updateSelection();
 	}
 	
 

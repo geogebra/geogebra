@@ -149,8 +149,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		tempNum = new MyDouble(kernel);
 	}
 
-	public void setApplication(Application app) {
-		this.app = app;
+	public void setApplication(AbstractApplication app) {
+		this.app = (Application)app;
 	}
 
 	public Application getApplication() {
