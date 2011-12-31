@@ -5527,10 +5527,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/** @return if geos of this type can be traced to the spreadsheet */
 	public boolean isSpreadsheetTraceable() {
-		if (isGeoList() || isGeoNumeric() || isGeoVector() || isGeoPoint()) {
-			return true;
-		}
-
 		return this instanceof SpreadsheetTraceable;
 	}
 
