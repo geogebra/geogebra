@@ -461,7 +461,6 @@ public class Application extends AbstractApplication implements
 	public boolean runningInFrame = false; // don't want to show resetIcon if
 											// running in Frame
 
-	protected Kernel kernel;
 	private final MyXMLio myXMLio;
 
 	protected EuclidianView euclidianView;
@@ -528,8 +527,6 @@ public class Application extends AbstractApplication implements
 	// private int euclidianFontSize;
 
 	protected JPanel centerPanel, topPanel, bottomPanel;
-
-	private final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 
 	private ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
 
@@ -649,7 +646,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		// init xml io for construction loading
-		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
@@ -755,7 +752,7 @@ public class Application extends AbstractApplication implements
 	 */
 	public void initEuclidianViews() {
 
-		euclidianController = newEuclidianController(kernel);
+		euclidianController = newEuclidianController((Kernel) kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
 	}
@@ -1489,7 +1486,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	final public Kernel getKernel() {
-		return kernel;
+		return (Kernel) kernel;
 	}
 
 	public void setApplet(AppletImplementation appletImpl) {
@@ -4528,11 +4525,6 @@ public class Application extends AbstractApplication implements
 		return selectedGeos.size();
 	}
 
-	@Override
-	final public ArrayList<GeoElement> getSelectedGeos() {
-		return selectedGeos;
-	}
-
 	final public GeoElement getLastCreatedGeoElement() {
 		return kernel.getConstruction().getLastGeoElement();
 	}
@@ -4788,38 +4780,6 @@ public class Application extends AbstractApplication implements
 			}
 			lastGeo = geo;
 		}
-	}
-
-	final public void addSelectedGeo(GeoElement geo) {
-		addSelectedGeo(geo, true);
-	}
-
-	@Override
-	final public void addSelectedGeo(GeoElement geo, boolean repaint) {
-		if ((geo == null) || selectedGeos.contains(geo)) {
-			return;
-		}
-
-		selectedGeos.add(geo);
-		geo.setSelected(true);
-		if (repaint) {
-			kernel.notifyRepaint();
-		}
-		updateSelection();
-
-	}
-
-	final public void addSelectedGeos(ArrayList<GeoElement> geos,
-			boolean repaint) {
-
-		selectedGeos.addAll(geos);
-		for (int i = 0; i < geos.size(); i++) {
-			geos.get(i).setSelected(true);
-		}
-		if (repaint) {
-			kernel.notifyRepaint();
-		}
-		updateSelection();
 	}
 
 	/* Event dispatching */
