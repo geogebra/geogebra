@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * @version
  */
 public class GeoNumeric extends GeoElement 
-implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {	
+implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable, SpreadsheetTraceable {	
 
 
 	public static int DEFAULT_SLIDER_WIDTH_RW = 4;//private
@@ -1193,6 +1193,18 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	@Override
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
 		return false;
+	}
+	
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		if (spreadsheetTraceList == null) {
+			spreadsheetTraceList = new ArrayList<GeoNumeric>();
+			GeoNumeric xx = (GeoNumeric) this.copy(); // should handle GeoAngle too
+			spreadsheetTraceList.add(xx);
+		} else {
+			spreadsheetTraceList.get(0).setValue(getValue());
+		}
+		
+		return spreadsheetTraceList;
 	}
 
 }

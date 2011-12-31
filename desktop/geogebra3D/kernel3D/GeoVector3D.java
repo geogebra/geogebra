@@ -1,5 +1,7 @@
 package geogebra3D.kernel3D;
 
+import java.util.ArrayList;
+
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
@@ -10,6 +12,8 @@ import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.kernel.Kernel;
@@ -21,7 +25,7 @@ import geogebra.kernel.Kernel;
  * 
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
-		Vector3DValue {
+		Vector3DValue, SpreadsheetTraceable {
 
 	private GeoPointND startPoint;
 
@@ -446,6 +450,49 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		coords[1] = v.getY();
 		coords[2] = v.getZ();
 		
+	}
+	public StringBuilder[] getColumnHeadings() {
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new StringBuilder[3];
+			spreadsheetColumnHeadings[0] = new StringBuilder(4);
+			spreadsheetColumnHeadings[1] = new StringBuilder(4);
+			spreadsheetColumnHeadings[2] = new StringBuilder(4);
+		} else {
+			spreadsheetColumnHeadings[0].setLength(0);
+			spreadsheetColumnHeadings[1].setLength(0);
+			spreadsheetColumnHeadings[2].setLength(0);
+		}
+		spreadsheetColumnHeadings[0].append("x(");
+		spreadsheetColumnHeadings[0].append(getLabel());
+		spreadsheetColumnHeadings[0].append(')');
+		
+		spreadsheetColumnHeadings[1].append("y(");
+		spreadsheetColumnHeadings[1].append(getLabel());
+		spreadsheetColumnHeadings[1].append(')');
+		
+		spreadsheetColumnHeadings[2].append("z(");
+		spreadsheetColumnHeadings[2].append(getLabel());
+		spreadsheetColumnHeadings[2].append(')');
+		
+		return spreadsheetColumnHeadings;
+	}
+	
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		if (spreadsheetTraceList == null) {
+			spreadsheetTraceList = new ArrayList<GeoNumeric>();
+			GeoNumeric xx = new GeoNumeric(cons, v.getX());
+			spreadsheetTraceList.add(xx);
+			GeoNumeric yy = new GeoNumeric(cons, v.getY());
+			spreadsheetTraceList.add(yy);
+			GeoNumeric zz = new GeoNumeric(cons, v.getZ());
+			spreadsheetTraceList.add(zz);
+		} else {
+			spreadsheetTraceList.get(0).setValue(v.getX());
+			spreadsheetTraceList.get(1).setValue(v.getY());
+			spreadsheetTraceList.get(2).setValue(v.getZ());
+		}
+		
+		return spreadsheetTraceList;
 	}
 
 }

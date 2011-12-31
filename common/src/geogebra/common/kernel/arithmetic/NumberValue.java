@@ -19,13 +19,14 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.SpreadsheetTraceable;
 
 /**
  *
  * @author  Markus
  * @version 
  */
-public interface NumberValue extends ExpressionValue { 
+public interface NumberValue extends SpreadsheetTraceable { 
     public MyDouble getNumber();
     public boolean isAngle();
     public double getDouble(); 

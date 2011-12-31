@@ -37,8 +37,10 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
@@ -47,6 +49,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.kernel.Kernel;
 
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
@@ -55,7 +58,7 @@ import java.util.TreeSet;
  * @version
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
-		PointProperties, Vector3DValue, Translateable {
+		PointProperties, Vector3DValue, Translateable, SpreadsheetTraceable {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1043,4 +1046,49 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		if (algorithm != null)
 			setConstructionDefaults(); // set colors to dependent colors
 	}
+	
+	public StringBuilder[] getColumnHeadings() {
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new StringBuilder[3];
+			spreadsheetColumnHeadings[0] = new StringBuilder(4);
+			spreadsheetColumnHeadings[1] = new StringBuilder(4);
+			spreadsheetColumnHeadings[2] = new StringBuilder(4);
+		} else {
+			spreadsheetColumnHeadings[0].setLength(0);
+			spreadsheetColumnHeadings[1].setLength(0);
+			spreadsheetColumnHeadings[1].setLength(0);
+		}
+		spreadsheetColumnHeadings[0].append("x(");
+		spreadsheetColumnHeadings[0].append(getLabel());
+		spreadsheetColumnHeadings[0].append(')');
+		
+		spreadsheetColumnHeadings[1].append("y(");
+		spreadsheetColumnHeadings[1].append(getLabel());
+		spreadsheetColumnHeadings[1].append(')');
+		
+		spreadsheetColumnHeadings[2].append("z(");
+		spreadsheetColumnHeadings[2].append(getLabel());
+		spreadsheetColumnHeadings[2].append(')');
+		
+		return spreadsheetColumnHeadings;
+	}
+	
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		if (spreadsheetTraceList == null) {
+			spreadsheetTraceList = new ArrayList<GeoNumeric>();
+			GeoNumeric xx = new GeoNumeric(cons, inhom.getX());
+			spreadsheetTraceList.add(xx);
+			GeoNumeric yy = new GeoNumeric(cons, inhom.getY());
+			spreadsheetTraceList.add(yy);
+			GeoNumeric zz = new GeoNumeric(cons, inhom.getZ());
+			spreadsheetTraceList.add(zz);
+		} else {
+			spreadsheetTraceList.get(0).setValue(inhom.getX());
+			spreadsheetTraceList.get(1).setValue(inhom.getY());
+			spreadsheetTraceList.get(2).setValue(inhom.getZ());
+		}
+		
+		return spreadsheetTraceList;
+	}
+
 }

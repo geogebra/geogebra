@@ -69,7 +69,7 @@ import java.util.TreeSet;
 final public class GeoPoint2 extends GeoVec3D 
 implements VectorValue, PathOrPoint,
 Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable, PointProperties,
-GeoPointND, Animatable, Transformable {   	
+GeoPointND, Animatable, Transformable, SpreadsheetTraceable {   	
 
 	// don't set point size here as this would overwrite setConstructionDefaults() 
 	// in GeoElement constructor
@@ -326,8 +326,8 @@ GeoPointND, Animatable, Transformable {
 			yvar.setValue( yvar.getValue() - inhomY + endPosition.getY());
 		}
 
-		addChangeableCoordParentNumberToUpdateList((GeoElement)xvar, updateGeos, tempMoveObjectList);
-		addChangeableCoordParentNumberToUpdateList((GeoElement)yvar, updateGeos, tempMoveObjectList);
+		addChangeableCoordParentNumberToUpdateList(xvar, updateGeos, tempMoveObjectList);
+		addChangeableCoordParentNumberToUpdateList(yvar, updateGeos, tempMoveObjectList);
 
 		return true;
 	}
@@ -354,10 +354,10 @@ GeoPointND, Animatable, Transformable {
 		GeoElement maxObj2 = num2.getIntervalMaxObject();
 		GeoElement minObj1 = num1.getIntervalMinObject();
 		GeoElement minObj2 = num2.getIntervalMinObject();
-		if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement)num2))return false;
-		if (minObj1 != null && minObj1.isChildOrEqual((GeoElement)num2))return false;
-		if (maxObj2 != null && maxObj2.isChildOrEqual((GeoElement)num1))return false;
-		if (minObj2 != null && minObj2.isChildOrEqual((GeoElement)num1))return false;
+		if (maxObj1 != null && maxObj1.isChildOrEqual(num2))return false;
+		if (minObj1 != null && minObj1.isChildOrEqual(num2))return false;
+		if (maxObj2 != null && maxObj2.isChildOrEqual(num1))return false;
+		if (minObj2 != null && minObj2.isChildOrEqual(num1))return false;
 	
 		boolean ret = num1.isChangeable() && 
 				num2.isChangeable();
@@ -454,8 +454,8 @@ GeoPointND, Animatable, Transformable {
 			if (rightVars != null) {
 				Iterator<GeoElement> it = rightVars.iterator();
 				while (it.hasNext()) {			
-					GeoElement var = (GeoElement) it.next(); 
-					if (var.isChildOrEqual((GeoElement)coordNumeric)) 
+					GeoElement var = it.next(); 
+					if (var.isChildOrEqual(coordNumeric)) 
 						throw new Exception("dependent var: " + var);							
 				}
 			}
@@ -491,7 +491,7 @@ GeoPointND, Animatable, Transformable {
 		
 		// tell conic that this point is on it, that's needed to handle reflections
         // of conics correctly for path parameter calculation of point P
-        GeoElement geo = (GeoElement)path.toGeoElement();
+        GeoElement geo = path.toGeoElement();
         if (geo.isGeoConic()) {
         	((GeoConic) geo).addPointOnConic(this);//GeoConicND
         }   
@@ -739,8 +739,8 @@ GeoPointND, Animatable, Transformable {
     // euclidian distance between this GeoPoint and P
     @Override
 	final public double distance(GeoPoint2 P) {       
-        return MyMath.length(	((GeoPoint2)P).inhomX - inhomX, 
-        						((GeoPoint2)P).inhomY - inhomY);
+        return MyMath.length(	P.inhomX - inhomX, 
+        						P.inhomY - inhomY);
     }            
     
     /** returns the square distance of this point and P (may return
@@ -876,7 +876,7 @@ GeoPointND, Animatable, Transformable {
     	if (c.getType()==4/*GeoConic.CONIC_CIRCLE*/)
     	{ // Mirror point in circle
     		double r =  c.getHalfAxes()[0];
-    		GeoVec2D midpoint=(GeoVec2D)(c.getTranslationVector());
+    		GeoVec2D midpoint=(c.getTranslationVector());
     		double a=midpoint.x;
     		double b=midpoint.y;
     		if(Double.isInfinite(x)||Double.isInfinite(y2D))
@@ -1268,7 +1268,7 @@ GeoPointND, Animatable, Transformable {
 		
 		//TODO: remove this part because the path should be in incidenceList already.
 		if (path != null) {
-			GeoElement geo = (GeoElement)path.toGeoElement();
+			GeoElement geo = path.toGeoElement();
 			if (geo.isGeoConic()) {
 				((GeoConic) geo).removePointOnConic(this);//GeoConicND
 			}
@@ -1841,5 +1841,44 @@ GeoPointND, Animatable, Transformable {
 
 		public void setZ(double z) {
 			this.z = z;
+		}
+		
+		//protected GeoList spreadsheetTraceList = null;
+		//protected String[] spreadsheetColumnHeadings = null;
+
+
+		public StringBuilder[] getColumnHeadings() {
+			if (spreadsheetColumnHeadings == null) {
+				spreadsheetColumnHeadings = new StringBuilder[2];
+				spreadsheetColumnHeadings[0] = new StringBuilder(4);
+				spreadsheetColumnHeadings[1] = new StringBuilder(4);
+			} else {
+				spreadsheetColumnHeadings[0].setLength(0);
+				spreadsheetColumnHeadings[1].setLength(0);
+			}
+			spreadsheetColumnHeadings[0].append("x(");
+			spreadsheetColumnHeadings[0].append(getLabel());
+			spreadsheetColumnHeadings[0].append(')');
+			
+			spreadsheetColumnHeadings[1].append("y(");
+			spreadsheetColumnHeadings[1].append(getLabel());
+			spreadsheetColumnHeadings[1].append(')');
+			
+			return spreadsheetColumnHeadings;
+		}
+		
+		public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+			if (spreadsheetTraceList == null) {
+				spreadsheetTraceList = new ArrayList<GeoNumeric>();
+				GeoNumeric xx = new GeoNumeric(cons, inhomX);
+				spreadsheetTraceList.add(xx);
+				GeoNumeric yy = new GeoNumeric(cons, inhomY);
+				spreadsheetTraceList.add(yy);
+			} else {
+				spreadsheetTraceList.get(0).setValue(inhomX);
+				spreadsheetTraceList.get(1).setValue(inhomY);
+			}
+			
+			return spreadsheetTraceList;
 		}
 }

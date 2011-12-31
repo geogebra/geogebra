@@ -108,6 +108,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setClickJavaScript(boolean clickJavaScript) {
 		this.clickJavaScript = clickJavaScript;
 	}
+	
+	protected ArrayList<GeoNumeric> spreadsheetTraceList = null;
+	protected StringBuilder[] spreadsheetColumnHeadings = null;
 
 	/** min decimals or significant figures to use in editing string */
 	public static final int MIN_EDITING_PRINT_PRECISION = 5;
@@ -5527,9 +5530,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isGeoList() || isGeoNumeric() || isGeoVector() || isGeoPoint()) {
 			return true;
 		}
-		// TODO should all geos be traceable?
-		// temporary allow all
-		return true;
+
+		return this instanceof SpreadsheetTraceable;
 	}
 
 	private geogebra.common.util.TraceSettings traceSettings;
@@ -6247,4 +6249,48 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean algoUpdateSetContains(AlgoElementInterface i) {
 		return getAlgoUpdateSet().contains(i);
 	}
+
+	/*
+	 * for the SpreadsheetTraceable interface.
+	 * Default: just return the label
+	 */
+	public StringBuilder[] getColumnHeadings() {
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new StringBuilder[1];
+			spreadsheetColumnHeadings[0] = new StringBuilder(4);
+		} else {
+			spreadsheetColumnHeadings[0].setLength(0);
+		}
+		spreadsheetColumnHeadings[0].append(getLabel());
+		
+		return spreadsheetColumnHeadings;
+	}
+	
+	
+	/*
+	 * default for elements implementing NumberValue interface
+	 * eg GeoSegment, GeoPolygon
+	 */
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		
+		if (isNumberValue()) {
+			
+			if (spreadsheetTraceList == null) {
+				spreadsheetTraceList = new ArrayList<GeoNumeric>();
+				GeoNumeric xx = new GeoNumeric(cons, ((NumberValue) this).getDouble());
+				spreadsheetTraceList.add(xx);
+			} else {
+				spreadsheetTraceList.get(0).setValue(((NumberValue) this).getDouble());
+			}
+
+		} else {
+			AbstractApplication.debug("error in getSpreadsheetTraceList(), not a NumberValue");
+			return null;
+		}
+		
+		
+		return spreadsheetTraceList;
+	}
+
+
 }

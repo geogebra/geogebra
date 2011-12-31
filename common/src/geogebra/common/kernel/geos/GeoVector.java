@@ -39,6 +39,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -49,7 +50,7 @@ import java.util.Iterator;
  */
 final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
-Transformable, GeoVectorND {
+Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	private GeoPoint2 startPoint;
 
@@ -733,6 +734,41 @@ Transformable, GeoVectorND {
 	
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
 		return true;
+	}
+	
+	public StringBuilder[] getColumnHeadings() {
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new StringBuilder[2];
+			spreadsheetColumnHeadings[0] = new StringBuilder(4);
+			spreadsheetColumnHeadings[1] = new StringBuilder(4);
+		} else {
+			spreadsheetColumnHeadings[0].setLength(0);
+			spreadsheetColumnHeadings[1].setLength(0);
+		}
+		spreadsheetColumnHeadings[0].append("x(");
+		spreadsheetColumnHeadings[0].append(getLabel());
+		spreadsheetColumnHeadings[0].append(')');
+		
+		spreadsheetColumnHeadings[1].append("y(");
+		spreadsheetColumnHeadings[1].append(getLabel());
+		spreadsheetColumnHeadings[1].append(')');
+		
+		return spreadsheetColumnHeadings;
+	}
+	
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		if (spreadsheetTraceList == null) {
+			spreadsheetTraceList = new ArrayList<GeoNumeric>();
+			GeoNumeric xx = new GeoNumeric(cons, getInhomVec().x);
+			spreadsheetTraceList.add(xx);
+			GeoNumeric yy = new GeoNumeric(cons, getInhomVec().y);
+			spreadsheetTraceList.add(yy);
+		} else {
+			spreadsheetTraceList.get(0).setValue(getInhomVec().x);
+			spreadsheetTraceList.get(1).setValue(getInhomVec().y);
+		}
+		
+		return spreadsheetTraceList;
 	}
 
 }

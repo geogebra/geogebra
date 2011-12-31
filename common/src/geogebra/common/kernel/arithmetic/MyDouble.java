@@ -27,6 +27,7 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
 import geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -758,6 +759,16 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public int hashCode() {
 		assert false : "hashCode not designed";
 		return 42; // any arbitrary constant will do
+	}
+
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		// dummy implementation - never used
+		return null;
+	}
+
+	public StringBuilder[] getColumnHeadings() {
+		// dummy implementation - never used
+		return null;
 	}
 
 }
