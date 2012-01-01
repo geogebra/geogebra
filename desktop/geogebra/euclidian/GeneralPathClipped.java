@@ -3,9 +3,9 @@ package geogebra.euclidian;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.PathPoint;
+import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
-import geogebra.euclidian.PathPoint;
-import geogebra.euclidian.clipping.ClipLine;
 
 //import java.awt.geom.AffineTransform;
 //import geogebra.common.awt.GeneralPath;
@@ -79,7 +79,7 @@ public class GeneralPathClipped  implements geogebra.awt.Shape {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
 			PathPoint curP = pathPoints.get(i);
-			addToGeneralPath(curP, curP.lineTo);
+			addToGeneralPath(curP, curP.getLineTo());
 		}
 		if (needClosePath)
 			gp.closePath();
@@ -97,7 +97,7 @@ public class GeneralPathClipped  implements geogebra.awt.Shape {
 		for (int i = 0; i < size; i++) {
 			prevP = curP;
 			curP = pathPoints.get(i);
-			if (!curP.lineTo || prevP == null) {
+			if (!curP.getLineTo() || prevP == null) {
 				// moveTo point, make sure it is only slightly outside screen
 				geogebra.common.awt.Point2D p = getPointCloseToScreen(curP.getX(), curP.getY());
 				addToGeneralPath(p, false);

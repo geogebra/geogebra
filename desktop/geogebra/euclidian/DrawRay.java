@@ -21,6 +21,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -28,7 +29,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.euclidian.clipping.ClipLine;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;

@@ -65,16 +65,13 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	}
 
 	public void transform(PathPoint p, PathPoint p2) {
-		if((p instanceof geogebra.euclidian.PathPoint)&&
-				(p2 instanceof geogebra.euclidian.PathPoint)){
-			java.awt.geom.Point2D point = geogebra.awt.Point2D.getAwtPoint2D((geogebra.euclidian.PathPoint)p);
-			java.awt.geom.Point2D point2 = geogebra.awt.Point2D.getAwtPoint2D((geogebra.euclidian.PathPoint)p2); 
-			at.transform(point, point2);
-			p.setX(point.getX());
-			p.setY(point.getY());
-			p2.setX(point2.getX());
-			p2.setY(point2.getY());
+		java.awt.geom.Point2D point = geogebra.awt.Point2D.getAwtPoint2D(p);
+		java.awt.geom.Point2D point2 = geogebra.awt.Point2D.getAwtPoint2D(p2); 
+		at.transform(point, point2);
+		p.setX(point.getX());
+		p.setY(point.getY());
+		p2.setX(point2.getX());
+		p2.setY(point2.getY());
 
-		}
 	}
 }

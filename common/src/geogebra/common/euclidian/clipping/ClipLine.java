@@ -1,4 +1,4 @@
-package geogebra.euclidian.clipping;
+package geogebra.common.euclidian.clipping;
 
 //============================================================================
 //File:               Clipping.java
