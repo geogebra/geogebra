@@ -32,8 +32,6 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.oned.EAN8Reader;
-import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 /**
@@ -50,9 +48,9 @@ class CmdBarCode extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		arg = resArgs(c);
 
@@ -64,19 +62,19 @@ class CmdBarCode extends CommandProcessor {
 			return decode(image, c);
 
 		case 1:
-			
-			if (!arg[0].isGeoText()) {
+
+			if (!arg[0].isGeoText() && !arg[0].isNumberValue()) {
 				if (!arg[0].isGeoImage()) {
 					throw argErr(app, c.getName(), arg[0]);
 				}
-	
+
 				image = geogebra.awt.BufferedImage
 						.getAwtBufferedImage(((GeoImage) arg[0]).getFillImage());
-	
+
 				return decode(image, c);
 			}
-			
-			// GeoText: fall through
+
+			// GeoText, GeoNumeric: fall through
 
 		case 2:
 		case 3:
@@ -91,6 +89,8 @@ class CmdBarCode extends CommandProcessor {
 
 			if (arg[0].isTextValue() && arg[0].isDefined()) {
 				text = ((TextValue) arg[0]).toValueString();
+			} else if (arg[0].isNumberValue() && arg[0].isDefined()) {
+				text = (Math.round(((NumberValue) arg[0]).getDouble())) + "";
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}
@@ -106,11 +106,11 @@ class CmdBarCode extends CommandProcessor {
 			if (i < arg.length && arg[i].isTextValue()) {
 				TextValue format = (TextValue) arg[i];
 				try {
-					formatText = format.getText()
-							.toValueString().toUpperCase(Locale.US);
+					formatText = format.getText().toValueString()
+							.toUpperCase(Locale.US);
 					barcodeFormat = BarcodeFormat.valueOf(formatText);
-					checksumNeeded = formatText.startsWith("EAN")|| formatText.startsWith("UPC");
-					Application.debug(formatText+" "+checksumNeeded);
+					checksumNeeded = formatText.startsWith("EAN")
+							|| formatText.startsWith("UPC");
 				} catch (Exception e) {
 					// default already set
 					// barcodeFormat = BarcodeFormat.QR_CODE;
@@ -166,42 +166,93 @@ class CmdBarCode extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[i]);
 			}
 
+			boolean allDigits = true;
+			for (int j = 0; j < text.length(); j++) {
+				if (text.charAt(j) < '0' || text.charAt(j) > '9') {
+					allDigits = false;
+					break;
+				}
+			}
+
+			// try to guess correct format
+			// if this fails, QR_CODE used
+			if (formatText == null && allDigits) {
+				// UPC_E not supported in zxing 1.7
+				// if (text.length() <= 5) {
+				// formatText = "UPC_E";
+				// barcodeFormat = BarcodeFormat.valueOf(formatText);
+				// checksumNeeded = true;
+				// } else
+				if (text.length() <= 8) {
+					formatText = "EAN_8";
+					barcodeFormat = BarcodeFormat.valueOf(formatText);
+					checksumNeeded = true;
+				} else if (text.length() <= 12) {
+					formatText = "UPC_A";
+					barcodeFormat = BarcodeFormat.valueOf(formatText);
+					checksumNeeded = true;
+				} else if (text.length() <= 13) {
+					formatText = "EAN_13";
+					barcodeFormat = BarcodeFormat.valueOf(formatText);
+					checksumNeeded = true;
+				}
+			}
+
 			MultiFormatWriter writer = new MultiFormatWriter();
-			Hashtable hints = new Hashtable();
+			Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
 			hints.put(EncodeHintType.ERROR_CORRECTION, errorLevel);
 			BitMatrix matrix;
 			try {
-				
+
+				// add checksums for EAN and UPC barcodes (otherwise barcodes
+				// won't decode)
 				if (checksumNeeded) {
 					if (formatText.equals("EAN_8")) {
-						text = (text+"00000000").substring(0,8);
+						text = (text + "00000000").substring(0, 8);
 						text = BarcodeFactory.addStandardUPCEANChecksum(text);
 					} else if (formatText.equals("EAN_13")) {
-						text = (text+"0000000000008").substring(0,13);
+						text = (text + "0000000000000").substring(0, 13);
 						text = BarcodeFactory.addStandardUPCEANChecksum(text);
-					} 
+						// UPC_E not supported in zxing 1.7
+						// } else if (formatText.equals("UPC_E")) {
+						// text = (text+"00000").substring(0,5);
+						// text =
+						// BarcodeFactory.addStandardUPCEANChecksum(text);
+					} else if (formatText.equals("UPC_A")) {
+						// text = (text+"000000000000").substring(0,12);
+						// 11 or 12 digits OK, less not OK
+						if (text.length() < 11) {
+							text = (text + "000000000000").substring(0, 12);
+						}
+						if (text.length() > 12) {
+							text = text.substring(0, 12);
+						}
+						text = BarcodeFactory.addStandardUPCEANChecksum(text);
+					}
 				}
-				
-				
-				matrix = writer.encode(text, barcodeFormat, (int) width,
-						(int) height, hints);
+
+				matrix = writer.encode(text, barcodeFormat, width, height,
+						hints);
 				image = MatrixToImageWriter.toBufferedImage(matrix);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				// some errors are OK
 				// BarCode["12345","EAN_13"]
-				// java.lang.IllegalArgumentException: Requested contents should be 13 digits long, but got 5
-				//at com.google.zxing.oned.EAN13Writer.encode(EAN13Writer.java:50)
-				
+				// java.lang.IllegalArgumentException: Requested contents should
+				// be 13 digits long, but got 5
+				// at
+				// com.google.zxing.oned.EAN13Writer.encode(EAN13Writer.java:50)
+
 				// some are not too helpful
 				// BarCode["123456789123a","EAN_13"]
 				// java.lang.NumberFormatException: For input string: "a"
-				//at java.lang.NumberFormatException.forInputString(NumberFormatException.java:48)
-				//at java.lang.Integer.parseInt(Integer.java:447)
-				//at java.lang.Integer.parseInt(Integer.java:497)
-				//at com.google.zxing.oned.EAN13Writer.encode(EAN13Writer.java:73)
-				
-				
+				// at
+				// java.lang.NumberFormatException.forInputString(NumberFormatException.java:48)
+				// at java.lang.Integer.parseInt(Integer.java:447)
+				// at java.lang.Integer.parseInt(Integer.java:497)
+				// at
+				// com.google.zxing.oned.EAN13Writer.encode(EAN13Writer.java:73)
+
 				GeoText geoText = new GeoText(cons, e1.getLocalizedMessage());
 				geoText.setLabel(c.getLabel());
 				GeoElement[] ret = { geoText };
@@ -222,6 +273,7 @@ class CmdBarCode extends CommandProcessor {
 			try {
 				geoImage.setStartPoint(corner);
 			} catch (CircularDefinitionException e) {
+				// don't mind about this error
 			}
 			geoImage.setLabel(null);
 
@@ -238,39 +290,11 @@ class CmdBarCode extends CommandProcessor {
 	 * http://code.google.com/p/zxing/wiki/DeveloperNotes
 	 */
 	private GeoElement[] decode(BufferedImage image, Command c) {
-		
+
 		Result result;
-		
-		/*
-		LuminanceSource ls = new BufferedImageLuminanceSource(image);
-		try {
-			result = new QRCodeReader().decode(new BinaryBitmap(
-					new HybridBinarizer(ls)));
-		} catch (Exception e) {
-			e.printStackTrace();
-			result = null;
-			//GeoElement[] ret = {};
-			//return ret;
-
-		}
 
 		try {
-			Hashtable hints = new Hashtable();
-			//result = new MultiFormatUPCEANReader(hints).decode(new BinaryBitmap(
-			//		new HybridBinarizer(ls)));
-		      LuminanceSource source;
-		        source = new BufferedImageLuminanceSource(image);
-		      BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-		      result = new EAN8Reader().decode(bitmap, hints);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			result = null;
-
-		}
-		*/
-		try {
-			// 
+			//
 			Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
 			hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 			Reader reader = new MultiFormatReader();
@@ -282,7 +306,7 @@ class CmdBarCode extends CommandProcessor {
 			result = null;
 
 		}
-		
+
 		if (result == null) {
 			GeoElement[] ret = {};
 			return ret;
