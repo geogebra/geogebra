@@ -766,7 +766,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return null;
 	}
 
-	public StringBuilder[] getColumnHeadings() {
+	public ArrayList<String> getColumnHeadings() {
 		// dummy implementation - never used
 		return null;
 	}

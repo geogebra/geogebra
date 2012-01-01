@@ -973,10 +973,10 @@ public class SpreadsheetTraceManager {
 			for (int i = 0; i < geos.length; i++) {
 
 				if (geos[i] instanceof SpreadsheetTraceable) {
-					StringBuilder[] strings = ((SpreadsheetTraceable)geos[i]).getColumnHeadings();
+					ArrayList<String> strings = ((SpreadsheetTraceable)geos[i]).getColumnHeadings();
 					
-					for (int j = 0 ; j < strings.length ; j++) {
-						headerText = strings[j].toString();
+					for (int j = 0 ; j < strings.size() ; j++) {
+						headerText = strings.get(j);
 						setTraceCell(cons, column, row, headerText,
 								GeoClass.TEXT);
 						column++;

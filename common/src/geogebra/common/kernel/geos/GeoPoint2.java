@@ -1847,22 +1847,15 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		//protected String[] spreadsheetColumnHeadings = null;
 
 
-		public StringBuilder[] getColumnHeadings() {
+		public ArrayList<String> getColumnHeadings() {
 			if (spreadsheetColumnHeadings == null) {
-				spreadsheetColumnHeadings = new StringBuilder[2];
-				spreadsheetColumnHeadings[0] = new StringBuilder(4);
-				spreadsheetColumnHeadings[1] = new StringBuilder(4);
+				spreadsheetColumnHeadings = new ArrayList<String>();
 			} else {
-				spreadsheetColumnHeadings[0].setLength(0);
-				spreadsheetColumnHeadings[1].setLength(0);
+				spreadsheetColumnHeadings.clear();
 			}
-			spreadsheetColumnHeadings[0].append("x(");
-			spreadsheetColumnHeadings[0].append(getLabel());
-			spreadsheetColumnHeadings[0].append(')');
-			
-			spreadsheetColumnHeadings[1].append("y(");
-			spreadsheetColumnHeadings[1].append(getLabel());
-			spreadsheetColumnHeadings[1].append(')');
+
+			spreadsheetColumnHeadings.add("x("+getLabel()+')');
+			spreadsheetColumnHeadings.add("y("+getLabel()+')');
 			
 			return spreadsheetColumnHeadings;
 		}

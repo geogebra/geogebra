@@ -12,30 +12,29 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Font;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.algos.AlgoDependentListInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
-import geogebra.common.kernel.algos.AlgoDependentListInterface;
-
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
 
 import java.util.ArrayList;
 
@@ -1655,40 +1654,24 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return super.isLaTeXDrawableGeo(latexStr);
 	}
 
-	public StringBuilder[] getColumnHeadings() {
+	public ArrayList<String> getColumnHeadings() {
 
-		int columns = 0;
-		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = geoList.get(i);
-			if (geo instanceof SpreadsheetTraceable) {
-				columns += ((SpreadsheetTraceable) geo).getColumnHeadings().length;
-			}
-		}
-		if (spreadsheetColumnHeadings == null
-				|| spreadsheetColumnHeadings.length != columns) {
-			spreadsheetColumnHeadings = new StringBuilder[columns];
-			for (int i = 0; i < columns; i++) {
-				spreadsheetColumnHeadings[i] = new StringBuilder(4);
-			}
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new ArrayList<String>();
 		} else {
-			for (int i = 0; i < columns; i++) {
-				spreadsheetColumnHeadings[i].setLength(0);
-			}
+			spreadsheetColumnHeadings.clear();
 		}
-
-		int index = 0;
+				
 		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo = geoList.get(i);
 			if (geo instanceof SpreadsheetTraceable) {
-				StringBuilder[] headings = ((SpreadsheetTraceable) geo)
-						.getColumnHeadings();
-
-				for (int j = 0; j < headings.length; j++) {
-					spreadsheetColumnHeadings[index].append(headings[j]);
-					index++;
+				ArrayList<String> geoHead = geo.getColumnHeadings();
+				for (int j = 0 ; j < geoHead.size() ; j++) {
+					spreadsheetColumnHeadings.add(geoHead.get(j));
 				}
 			}
 		}
+		
 
 		return spreadsheetColumnHeadings;
 	}

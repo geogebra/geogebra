@@ -451,29 +451,19 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		coords[2] = v.getZ();
 		
 	}
-	public StringBuilder[] getColumnHeadings() {
+	
+	@Override
+	public ArrayList<String> getColumnHeadings() {
 		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new StringBuilder[3];
-			spreadsheetColumnHeadings[0] = new StringBuilder(4);
-			spreadsheetColumnHeadings[1] = new StringBuilder(4);
-			spreadsheetColumnHeadings[2] = new StringBuilder(4);
+			spreadsheetColumnHeadings = new ArrayList<String>();
 		} else {
-			spreadsheetColumnHeadings[0].setLength(0);
-			spreadsheetColumnHeadings[1].setLength(0);
-			spreadsheetColumnHeadings[2].setLength(0);
+			spreadsheetColumnHeadings.clear();
 		}
-		spreadsheetColumnHeadings[0].append("x(");
-		spreadsheetColumnHeadings[0].append(getLabel());
-		spreadsheetColumnHeadings[0].append(')');
 		
-		spreadsheetColumnHeadings[1].append("y(");
-		spreadsheetColumnHeadings[1].append(getLabel());
-		spreadsheetColumnHeadings[1].append(')');
-		
-		spreadsheetColumnHeadings[2].append("z(");
-		spreadsheetColumnHeadings[2].append(getLabel());
-		spreadsheetColumnHeadings[2].append(')');
-		
+		spreadsheetColumnHeadings.add("x("+getLabel()+')');
+		spreadsheetColumnHeadings.add("y("+getLabel()+')');
+		spreadsheetColumnHeadings.add("z("+getLabel()+')');
+			
 		return spreadsheetColumnHeadings;
 	}
 	

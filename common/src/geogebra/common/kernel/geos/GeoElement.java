@@ -110,7 +110,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 	
 	protected ArrayList<GeoNumeric> spreadsheetTraceList = null;
-	protected StringBuilder[] spreadsheetColumnHeadings = null;
+	protected ArrayList<String> spreadsheetColumnHeadings = null;
 
 	/** min decimals or significant figures to use in editing string */
 	public static final int MIN_EDITING_PRINT_PRECISION = 5;
@@ -6250,14 +6250,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * for the SpreadsheetTraceable interface.
 	 * Default: just return the label
 	 */
-	public StringBuilder[] getColumnHeadings() {
+	public ArrayList<String> getColumnHeadings() {
 		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new StringBuilder[1];
-			spreadsheetColumnHeadings[0] = new StringBuilder(4);
-		} else {
-			spreadsheetColumnHeadings[0].setLength(0);
-		}
-		spreadsheetColumnHeadings[0].append(getLabel());
+			spreadsheetColumnHeadings = new ArrayList<String>();
+		} 
+		
+		spreadsheetColumnHeadings.add(getLabel());
 		
 		return spreadsheetColumnHeadings;
 	}
