@@ -25,6 +25,8 @@ else
  fi
 
 DESKTOPDIR=`cd $WORKDIR/../desktop; pwd`
+COMMONDIR=`cd $WORKDIR/../common; pwd`
+GWTLIBDIR=war/WEB-INF/lib
 
 if [ "$JAVA_HOME" = "" ]; then
  JAVA_HOME="not set"
@@ -117,18 +119,27 @@ if [ "$JAVA_HOME" = "not set" ]; then
  echo "Java home is not set. Consider using -j followed by your selection of an item from this list:"
  export JVM_DIR=/usr/lib/jvm
  ls -1 $JVM_DIR | awk '{print "'$JVM_DIR'/" $0}'
- exit 2
+ exit 41
  fi
 
 if [ "$BOOTCLASSPATH" = "not set" ]; then
  echo "Bootclasspath is not set. Consult a Java guru to find it on your machine."
- exit 3
+ exit 42
  fi
 
 if [ "$GWTDIR" = "" ]; then
  echo "GWTDIR is not set"
- exit 4
+ exit 43
  fi
+
+GWTLIBDIR_JARS=`ls $GWTLIBDIR/*.jar 2>/dev/null`
+if [ "$GWTLIBDIR_JARS" = "" ]; then
+ echo "No .jar files in $GWTLIBDIR"
+ echo "WARNING: There is no automation for this yet. Please do a manual Eclipse build"
+ echo "and create these files by the GWT SDK plugin automatically."
+ exit 44
+ fi
+
 
 cd $WORKDIR
 
@@ -166,17 +177,29 @@ if [ $GRAMMAR = 1 ]; then
 # 6/2. Setting classpath for ecj (required for Java 5)
 
 CP=""
-for i in $GWTDIR/{gwt-dev*,gwt-user}.jar war/WEB-INF/lib/*.jar; do
+
+for i in $GWTDIR/gwt-*.jar war/WEB-INF/lib/*.jar; do
  CP=$CP:$i
  done
 CP=$CP:war/WEB-INF/classes
+echo "$0: Using classpath $CP"
 
 # 6/3. Creating *.class files
 if [ $CLASSES = 1 ]; then
  echo "$0: (Re)creating class files"
+
+ # Creating symbolic links to common
+ cd $WORKDIR/src/geogebra
+ COMMON_LINK=$COMMONDIR/src/geogebra/common
+ test -L common || ln -s $COMMON_LINK
+ WEBAPACHE_LINK=$COMMONDIR/src/geogebra/webapache
+ test -L webapache || ln -s $WEBAPACHE_LINK
+ XML_LINK=$COMMONDIR/src/geogebra/Common.gwt.xml
+ test -L Common.gwt.xml || ln -s $XML_LINK
+ cd $WORKDIR
  
  $JAVACMD $ANT_OPTS -jar $DESKTOPDIR/lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
-  -time -proceedOnError -g . > .ecjlog 2>&1
+  -time -proceedOnError -g -d war/WEB-INF/classes . > .ecjlog 2>&1
  tail -1 .ecjlog
  echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 

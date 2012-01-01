@@ -3,7 +3,7 @@
      
      Based on the build.xml file created by the GWT webAppCreator, run by
 
-     ${env.GWTDIR}/webAppCreator -ignore geogebra.web.Web
+     ${env.GWTDIR}/webAppCreator -ignore geogebra.Web
      
      Make sure you set the GWTDIR environment variable before running this
      build file.
@@ -28,6 +28,7 @@
     <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
     <!-- Add any additional non-server libs (such as JUnit) -->
     <fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
+    <fileset dir="../common" includes="**/*.jar"/>
   </path>
 
   <target name="libs" description="Copy libs to WEB-INF/lib">
@@ -68,7 +69,7 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="geogebra.web.Web"/>
+      <arg value="geogebra.Web"/>
     </java>
   </target>
 
@@ -87,7 +88,7 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="geogebra.web.Web"/>
+      <arg value="geogebra.Web"/>
     </java>
   </target>
 
