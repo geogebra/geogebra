@@ -1,7 +1,7 @@
 package geogebra.awt;
 
 
-public class Point2D implements geogebra.common.awt.Point2D {
+public class Point2D extends geogebra.common.awt.Point2D {
 	private java.awt.geom.Point2D.Double impl;
 	public Point2D(){
 		impl = new java.awt.geom.Point2D.Double();

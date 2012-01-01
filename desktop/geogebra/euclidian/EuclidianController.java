@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Point2D;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -85,7 +86,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -186,12 +186,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			pastePreviewSelected = new ArrayList<GeoElement>();
 		}
 		pastePreviewSelectedAndDependent = new ArrayList<GeoElement>();
-		pastePreviewSelectedAndDependent.addAll(((Application)app).getSelectedGeos());
+		pastePreviewSelectedAndDependent.addAll(app.getSelectedGeos());
 
 		GeoElement geo;
 		boolean firstMoveable = true;
 		for (int i = 0; i < ((Application)app).getSelectedGeos().size(); i++) {
-			geo = ((Application)app).getSelectedGeos().get(i);
+			geo = app.getSelectedGeos().get(i);
 			if (geo.isIndependent() && geo.isMoveable()) {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
@@ -8574,7 +8574,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if(p==null)
 			lineEndPoint = null;
 		else
-		lineEndPoint = new java.awt.geom.Point2D.Double(p.getX(),p.getY());
+		lineEndPoint = new Point2D.Double(p.getX(),p.getY());
 		useLineEndPoint = true;
 	}
 

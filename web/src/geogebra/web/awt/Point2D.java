@@ -1,6 +1,6 @@
 package geogebra.web.awt;
 
-public class Point2D implements geogebra.common.awt.Point2D {
+public class Point2D extends geogebra.common.awt.Point2D {
 	
 	private geogebra.web.kernel.gawt.Point2D.Double impl;
 
