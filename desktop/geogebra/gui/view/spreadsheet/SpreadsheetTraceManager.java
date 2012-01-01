@@ -614,7 +614,7 @@ public class SpreadsheetTraceManager {
 				for (int j = 0; j < traceList.size(); j++) {
 
 					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							traceList.get(i).isGeoAngle() ? GeoClass.ANGLE
+							traceList.get(j).isGeoAngle() ? GeoClass.ANGLE
 									: GeoClass.NUMERIC);
 					++column;
 					++traceIndex;

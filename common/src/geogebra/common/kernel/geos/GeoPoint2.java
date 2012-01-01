@@ -1872,8 +1872,14 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 				spreadsheetTraceList = new ArrayList<GeoNumeric>();
 				GeoNumeric xx = new GeoNumeric(cons, inhomX);
 				spreadsheetTraceList.add(xx);
-				GeoNumeric yy = new GeoNumeric(cons, inhomY);
-				spreadsheetTraceList.add(yy);
+				if(isPolar()){
+					GeoAngle yy = new GeoAngle(cons, inhomY);
+					spreadsheetTraceList.add(yy);
+				}else{
+					GeoNumeric yy = new GeoNumeric(cons, inhomY);
+					spreadsheetTraceList.add(yy);
+				}
+				
 			} else {
 				spreadsheetTraceList.get(0).setValue(inhomX);
 				spreadsheetTraceList.get(1).setValue(inhomY);
