@@ -276,6 +276,7 @@ office@geogebra.org
 					org/apache/log4j/**, 
 			com/bric/**,
 			com/quantimegroup/**,
+			com/google/zxing/**,
 			scripts/**,
 			**/*.tmp,
 				    tutor/**,
@@ -342,6 +343,7 @@ office@geogebra.org
 			geogebra/sound/**,
 			geogebra/advancedgeometry/**,
 					edu/uci/**,
+					com/google/zxing/**,
 					org/jfugue/**,
 					org/apache/**"
 			excludes="**/*.java,
