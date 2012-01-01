@@ -7820,7 +7820,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	final protected int addSelectedConic(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedConicsND, Test.GEOCONIC);
+				selectedConicsND, Test.GEOCONICND);
 	}
 
 	final protected int addSelectedPath(Hits hits, int max,

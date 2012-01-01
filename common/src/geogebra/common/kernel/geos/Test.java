@@ -159,7 +159,7 @@ public enum Test {
 	GEOCONICND {
 		@Override
 		public boolean check(GeoElement ge) {
-			return false;
+			return ge instanceof GeoConicND;
 		}
 	},
 	GEOCOORDSYS2D {
