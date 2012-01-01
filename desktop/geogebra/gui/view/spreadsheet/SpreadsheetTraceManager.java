@@ -563,21 +563,6 @@ public class SpreadsheetTraceManager {
 
 	}
 
-	/** create array of GeoElements to be traced */
-	protected static GeoElement[] getElementList(GeoElement geo) {
-
-		GeoElement[] geos;
-		/*
-		if (geo.isGeoList()) {
-			geos = new GeoElement[((GeoList) geo).size()];
-			for (int i = 0; i < ((GeoList) geo).size(); i++) {
-				geos[i] = ((GeoList) geo).get(i);
-			}
-		} else */{
-			geos = geo.getGeoElements();
-		}
-		return geos;
-	}
 
 	/** Create a row of trace cell(s) in the trace column(s) of a geo. */
 	protected boolean setGeoTraceRow(GeoElement geo, Construction cons,
@@ -586,7 +571,7 @@ public class SpreadsheetTraceManager {
 		TraceSettings t = traceGeoCollection.get(geo);
 		int column = t.traceColumn1;
 		int traceIndex = 0;
-		GeoElement[] geos = getElementList(geo);
+		GeoElement[] geos = geo.getGeoElements();
 
 		if (t.doTraceGeoCopy) {
 			setTraceCellAsGeoCopy(cons, geo, t.traceColumn1, row);
@@ -623,105 +608,7 @@ public class SpreadsheetTraceManager {
 			} else {
 				AbstractApplication.debug("not SpreadsheetTraceable "
 						+ geos[i].getClassName());
-/*
-				switch (geos[i].getGeoClassType()) {
 
-				case POINT:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					if (((GeoPoint2) geos[i]).getMode() == AbstractKernel.COORD_POLAR)
-						setTraceCell(cons, column, row,
-								traceArray.get(traceIndex), GeoClass.ANGLE);
-					else
-						setTraceCell(cons, column, row,
-								traceArray.get(traceIndex), GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					return true;
-
-				case VECTOR:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-					return true;
-
-				case NUMERIC:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-					return true;
-
-				case ANGLE:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.ANGLE);
-					++column;
-					++traceIndex;
-					return true;
-
-				case POINT3D:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					return true;
-
-				case VECTOR3D:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.NUMERIC);
-					++column;
-					++traceIndex;
-					return true;
-
-				case ANGLE3D:
-
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							GeoClass.ANGLE);
-					++column;
-					++traceIndex;
-					return true;
-
-				default:
-					AbstractApplication.debug(geos[i].getClassName());
-
-				}*/
 			}
 		}
 
@@ -889,71 +776,7 @@ public class SpreadsheetTraceManager {
 				currentTrace.add(traceList.get(i).getValue());
 			}
 
-		} else {
-			
-			/*
-			switch (geo.getGeoClassType()) {
-
-			case POINT:
-
-				GeoPoint2 P = (GeoPoint2) geo;
-				boolean polar = P.getMode() == AbstractKernel.COORD_POLAR;
-
-				if (polar)
-					P.getPolarCoords(coords);
-				else
-					P.getInhomCoords(coords);
-
-				currentTrace.add(coords[0]);
-				currentTrace.add(coords[1]);
-				return true;
-
-			case VECTOR:
-				GeoVector vector2 = (GeoVector) geo;
-				vector2.getInhomCoords(coords);
-
-				currentTrace.add(coords[0]);
-				currentTrace.add(coords[1]);
-
-				return true;
-
-			case NUMERIC:
-				GeoNumeric num = (GeoNumeric) geo;
-				currentTrace.add(num.getValue());
-				return true;
-
-			case ANGLE:
-			case ANGLE3D:
-				// don't use any 3D geos
-				GeoAngle angle = (GeoAngle) geo;
-				currentTrace.add(angle.getValue());
-				return true;
-
-			case POINT3D:
-				// don't use any 3D geos
-				GeoPointND P3 = (GeoPointND) geo;
-				P3.getInhomCoords(coords);
-				currentTrace.add(coords[0]);
-				currentTrace.add(coords[1]);
-				currentTrace.add(coords[2]);
-				return true;
-
-			case VECTOR3D:
-				// don't use any 3D geos
-				GeoVectorND vector3 = (GeoVectorND) geo;
-				vector3.getInhomCoords(coords);
-
-				currentTrace.add(coords[0]);
-				currentTrace.add(coords[1]);
-				currentTrace.add(coords[2]);
-
-				return true;
-
-				// all other geos ... these should be traced as geo copies
-			default:
-				currentTrace.add(0.0);
-			}*/
-		}
+		} 
 
 		return false;
 
@@ -965,7 +788,7 @@ public class SpreadsheetTraceManager {
 		TraceSettings t = traceGeoCollection.get(geo);
 		int column, row;
 		String headerText = "";
-		GeoElement[] geos = getElementList(geo);
+		GeoElement[] geos = geo.getGeoElements();
 
 		if (t.showLabel) {
 			row = t.traceRow1 + t.headerOffset - 1;
@@ -981,35 +804,7 @@ public class SpreadsheetTraceManager {
 								GeoClass.TEXT);
 						column++;
 					}
-				} else {
-					
-					/*
-					if (!t.doTraceGeoCopy
-							&& (geos[i].isGeoPoint() || geos[i].isGeoVector())) {
-						headerText = "x( " + geos[i].getLabel() + " )";
-						setTraceCell(cons, column, row, headerText,
-								GeoClass.TEXT);
-						headerText = "y( " + geos[i].getLabel() + " )";
-						setTraceCell(cons, column + 1, row, headerText,
-								GeoClass.TEXT);
-						column = column + 2;
-
-						if (geos[i].getGeoClassType().equals(GeoClass.POINT3D)
-								|| geos[i].getGeoClassType().equals(
-										GeoClass.VECTOR3D)) {
-							headerText = "z( " + geos[i].getLabel() + " )";
-							setTraceCell(cons, column, row, headerText,
-									GeoClass.TEXT);
-							column++;
-						}
-
-					} else {
-						headerText = geos[i].getLabel();
-						setTraceCell(cons, column, row, headerText,
-								GeoClass.TEXT);
-						++column;
-					}*/
-				}
+				} 
 			}
 		}
 	}
