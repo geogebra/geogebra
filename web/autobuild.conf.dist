@@ -1,0 +1,5 @@
+# Default settings for GeoGebraWeb autobuild.
+# Edit it and save as autobuild.conf as required.
+
+GWTDIR=~/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.relr37v201110112027/gwt-2.4.0
+JAVA_HOME=/usr/lib/jvm/java-6-sun
