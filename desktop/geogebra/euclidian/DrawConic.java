@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.Drawable;
@@ -26,6 +28,7 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
@@ -49,12 +52,9 @@ import geogebra.euclidian.clipping.ClipShape;
 
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 
 /**
@@ -94,7 +94,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	// CONIC_CIRCLE
 	private boolean firstCircle = true;
 	private GeoVec2D midpoint;
-	private Arc2D.Double arc;
+	private Arc2D arc;
 	private GeneralPathClipped arcFiller, gp;
 	private RectangularShape circle;
 	private double mx, my, radius, yradius, angSt, angEnd;
@@ -472,7 +472,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		if (firstCircle) {
 			firstCircle = false;
-			arc = new Arc2D.Double();
+			arc = AwtFactory.prototype.newArc2D();
 			if (ellipse == null)
 				ellipse = new Ellipse2D.Double();
 		}
@@ -485,7 +485,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
 		if (radius < BIG_RADIUS && yradius < BIG_RADIUS) {
-			circle = ellipse;
+			circle = new geogebra.awt.Ellipse2DDouble(ellipse);
 			arcFiller = null;
 			// calc screen coords of midpoint
 			Coords M;
@@ -589,8 +589,10 @@ final public class DrawConic extends Drawable implements Previewable {
 			else {
 				// huge circle with center on screen: use screen rectangle
 				// instead of circle for possible filling
-				shape = new geogebra.awt.GenericShape( (circle = new Rectangle(-1, -1, view.getWidth() + 2,
-						view.getHeight() + 2)));
+				
+				shape = circle = AwtFactory.prototype.newRectangle(-1, -1, view.getWidth() + 2,
+						view.getHeight() + 2);
+				
 				arcFiller = null;
 				xLabel = -100;
 				yLabel = -100;
@@ -615,8 +617,8 @@ final public class DrawConic extends Drawable implements Previewable {
 					gp = new GeneralPathClipped(view);
 				else
 					gp.reset();
-				Point2D sp = arc.getStartPoint();
-				Point2D ep = arc.getEndPoint();
+				geogebra.common.awt.Point2D sp = arc.getStartPoint();
+				geogebra.common.awt.Point2D ep = arc.getEndPoint();
 
 				switch (i) { // case number
 				case 0: // left top
@@ -678,7 +680,7 @@ final public class DrawConic extends Drawable implements Previewable {
 				arcFiller = gp;
 			}
 		}
-		shape = new geogebra.awt.GenericShape(circle);
+		shape = circle;
 
 		// set label position
 		xLabel = (int) (mx - radius / 2.0);

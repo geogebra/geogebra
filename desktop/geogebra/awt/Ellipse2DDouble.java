@@ -6,9 +6,8 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.RectangularShape;
 
-public class Ellipse2DDouble extends geogebra.awt.RectangularShape implements geogebra.common.awt.Ellipse2DDouble{
+public class Ellipse2DDouble implements geogebra.awt.RectangularShape, geogebra.common.awt.Ellipse2DDouble{
 	
 		private java.awt.geom.Ellipse2D.Double impl;
 	
@@ -20,7 +19,11 @@ public class Ellipse2DDouble extends geogebra.awt.RectangularShape implements ge
 			impl = new java.awt.geom.Ellipse2D.Double();
 		}
 
-		public void setFrame(double xUL, double yUL, int diameter, int diameter2) {
+		public Ellipse2DDouble(java.awt.geom.Ellipse2D.Double ellipse) {
+			impl = ellipse;
+		}
+
+		public void setFrame(double xUL, double yUL, double diameter, double diameter2) {
 			impl.setFrame(xUL, yUL, diameter, diameter2);	
 		}
 
@@ -66,6 +69,21 @@ public class Ellipse2DDouble extends geogebra.awt.RectangularShape implements ge
 
 		public Shape getAwtShape() {
 			return impl;
+		}
+
+		public static java.awt.geom.Ellipse2D.Double getAwtEllipse2DDouble(
+				java.awt.geom.Ellipse2D.Double ellipse) {
+			if (ellipse == null) return null;
+			return new java.awt.geom.Ellipse2D.Double(
+					ellipse.getX(), ellipse.getY(),
+					ellipse.getWidth(), ellipse.getHeight());
+			
+			/*
+			if(ellipse instanceof geogebra.awt.Shape)
+				return ((geogebra.awt.Ellipse2DDouble)ellipse).getAwtShape();
+			if (ellipse!= null) Application.debug("other type");
+			return null;
+			*/
 		}
 
 

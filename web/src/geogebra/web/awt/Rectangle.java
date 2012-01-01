@@ -1,5 +1,8 @@
 package geogebra.web.awt;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.PathIterator;
+import geogebra.common.awt.Rectangle2D;
 import geogebra.common.euclidian.PathPoint;
 
 public class Rectangle implements geogebra.common.awt.Rectangle {
@@ -130,6 +133,41 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
 	}
 
 	public boolean contains(PathPoint prevP) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean intersects(int i, int j, int k, int l) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean contains(int x, int y) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public geogebra.common.awt.Rectangle getBounds() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public Rectangle2D getBounds2D() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public PathIterator getPathIterator(AffineTransform affineTransform) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public boolean intersects(Rectangle2D r) {
 	    // TODO Auto-generated method stub
 	    return false;
     }

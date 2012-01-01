@@ -14,6 +14,9 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.RectangularShape;
+import geogebra.common.awt.Shape;
 
 public abstract class AwtFactory {
 	public static AwtFactory prototype = null;
@@ -42,5 +45,6 @@ public abstract class AwtFactory {
 	public abstract Rectangle newRectangle(Rectangle bb);
 	public abstract Ellipse2DDouble newEllipse2DDouble();
 	public abstract Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
+	public abstract Arc2D newArc2D();
 	
 }

@@ -1,6 +1,7 @@
 package geogebra.factories;
 
 import geogebra.awt.Ellipse2DDouble;
+import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Ellipse2DFloat;
@@ -12,6 +13,8 @@ import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.RectangularShape;
+import geogebra.common.awt.Shape;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
@@ -132,4 +135,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		return new geogebra.awt.Ellipse2DFloat();
 	}
 
+	@Override
+	public Arc2D newArc2D() {
+		return new geogebra.awt.Arc2D();
+	}
+
+	
 }

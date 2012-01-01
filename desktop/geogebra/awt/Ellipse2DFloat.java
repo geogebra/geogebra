@@ -8,7 +8,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.RectangularShape;
 
-public class Ellipse2DFloat extends geogebra.awt.RectangularShape implements geogebra.common.awt.Ellipse2DFloat{
+public class Ellipse2DFloat implements geogebra.awt.RectangularShape, geogebra.common.awt.Ellipse2DFloat{
 	
 		private java.awt.geom.Ellipse2D.Float impl;
 		

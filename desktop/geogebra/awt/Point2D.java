@@ -10,6 +10,10 @@ public class Point2D extends geogebra.common.awt.Point2D {
 		impl = new java.awt.geom.Point2D.Double(x,y);
 	}	
 	
+	public Point2D(java.awt.geom.Point2D.Double point) {
+		this();
+		impl = point;
+	}
 	public static java.awt.geom.Point2D getAwtPoint2D(geogebra.common.awt.Point2D p) {
 		if (p==null) return null;
 		return new java.awt.geom.Point2D.Double(p.getX(),p.getY());

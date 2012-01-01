@@ -1,5 +1,7 @@
 package geogebra.web.awt;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 
 public class Rectangle2D implements geogebra.common.awt.Rectangle2D {
@@ -58,5 +60,50 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D {
 	public boolean intersects(Rectangle r) {
 		return impl.intersects(r.getX(), r.getY(), r.getHeight(), r.getWidth());
 	}
+
+	public boolean intersects(int i, int j, int k, int l) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean contains(int x, int y) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public Rectangle getBounds() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public geogebra.common.awt.Rectangle2D getBounds2D() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public boolean contains(Rectangle rectangle) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean contains(double xTry, double yTry) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public PathIterator getPathIterator(AffineTransform affineTransform) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public boolean intersects(geogebra.common.awt.Rectangle2D r) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
 
 }

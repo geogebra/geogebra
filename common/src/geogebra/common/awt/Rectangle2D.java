@@ -2,7 +2,7 @@ package geogebra.common.awt;
 
 import geogebra.common.awt.Rectangle;
 
-public interface Rectangle2D {
+public interface Rectangle2D extends RectangularShape{
 
 	public double getY();
 	public double getX();

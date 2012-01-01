@@ -1,6 +1,7 @@
 package geogebra.web.factories;
 
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
@@ -12,6 +13,8 @@ import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.RectangularShape;
+import geogebra.common.awt.Shape;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
@@ -127,6 +130,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public Rectangle newRectangle() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Arc2D newArc2D() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
