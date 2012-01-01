@@ -31,12 +31,12 @@ public class PathPoint extends geogebra.common.euclidian.PathPoint{
 
 	@Override
 	public void setX(double x) {
-		this.x = (int) x;
+		this.x = x;
 	}
 
 	@Override
 	public void setY(double y) {
-		this.y = (int) y;
+		this.y = y;
 	}
 
 	@Override
