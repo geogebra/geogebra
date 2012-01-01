@@ -19,6 +19,7 @@ import geogebra.common.awt.Paint;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
+import geogebra.common.euclidian.GeneralPathClipped;
 
 import java.awt.Shape;
 import java.util.Map;
@@ -333,6 +334,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public void draw(geogebra.common.awt.Shape s) {
 		if (s instanceof geogebra.awt.Shape)
 			impl.draw(((geogebra.awt.Shape)s).getAwtShape());
+		if(s instanceof GeneralPathClipped)
+			impl.draw(geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
+
 		
 	}
 
@@ -340,6 +344,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public void fill(geogebra.common.awt.Shape s) {
 		if (s instanceof geogebra.awt.Shape)
 			impl.fill(((geogebra.awt.Shape)s).getAwtShape());
+		if(s instanceof GeneralPathClipped)
+			impl.fill(geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
+
 	}
 	
 }

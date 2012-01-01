@@ -6,7 +6,8 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.main.Application;
 
 public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 	private java.awt.geom.Area impl;
@@ -24,8 +25,10 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 		impl = new java.awt.geom.Area(geogebra.awt.GenericShape.getAwtShape(shape));
 	}
 	public static java.awt.geom.Area getAWTArea(geogebra.common.awt.Area a){
-		if(!(a instanceof Area))
+		if(!(a instanceof Area)){
+			if(a!=null) Application.debug("other type");
 			return null;
+		}
 		return ((Area)a).impl;
 	}
 	public void subtract(geogebra.common.awt.Area a) {

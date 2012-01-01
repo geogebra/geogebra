@@ -1,5 +1,7 @@
 package geogebra.web.awt;
 
+import geogebra.common.euclidian.PathPoint;
+
 public class Rectangle implements geogebra.common.awt.Rectangle {
 
 	private geogebra.web.kernel.gawt.Rectangle impl;
@@ -126,4 +128,9 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
 	public static geogebra.web.kernel.gawt.Rectangle getWebRectangle(geogebra.common.awt.Rectangle r) {
 		return new geogebra.web.kernel.gawt.Rectangle((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 	}
+
+	public boolean contains(PathPoint prevP) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
 }

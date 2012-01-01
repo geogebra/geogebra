@@ -5,6 +5,7 @@ import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.main.Application;
 
 
 public class GeneralPath extends geogebra.common.awt.GeneralPath implements geogebra.awt.Shape{
@@ -18,8 +19,10 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements geog
 	}
 	
 	public static java.awt.geom.GeneralPath getAwtGeneralPath(geogebra.common.awt.GeneralPath gp){
-		if(!(gp instanceof geogebra.awt.GeneralPath))
+		if(!(gp instanceof geogebra.awt.GeneralPath)){
+			if (gp!= null) Application.debug("other type");
 			return null;
+		}
 		return ((geogebra.awt.GeneralPath)gp).impl;
 	}
 

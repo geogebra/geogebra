@@ -8,6 +8,7 @@ import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.GeneralPathClipped;
 
 public class DrawBoxPlot extends Drawable {
 	private boolean isVisible, labelVisible;

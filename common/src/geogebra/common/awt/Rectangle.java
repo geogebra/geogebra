@@ -1,5 +1,7 @@
 package geogebra.common.awt;
 
+import geogebra.common.euclidian.PathPoint;
+
 public interface Rectangle extends Rectangle2D {
 	
 	public double getY();
@@ -21,5 +23,6 @@ public interface Rectangle extends Rectangle2D {
 	public double getMaxY();
 	public boolean contains(double d, double e);
 	public void add(double x, double y);
+	public boolean contains(PathPoint prevP);
 
 }

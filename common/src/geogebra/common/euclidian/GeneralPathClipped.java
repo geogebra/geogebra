@@ -1,18 +1,10 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.euclidian.PathPoint;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 
-//import java.awt.geom.AffineTransform;
-//import geogebra.common.awt.GeneralPath;
-//import java.awt.geom.PathIterator;
-//import java.awt.geom.Point2D;
-//import java.awt.geom.Rectangle2D;
-import java.awt.Shape;
+//import java.awt.Shape;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +15,7 @@ import java.util.ArrayList;
  * @author Markus Hohenwarter
  * @version October 2009
  */
-public class GeneralPathClipped  implements geogebra.awt.Shape {
+public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 
 	private static final float MAX_COORD_VALUE = 10000;
 	private static final double TOLERANCE = 0.01; // pixel distance for equal
@@ -31,14 +23,15 @@ public class GeneralPathClipped  implements geogebra.awt.Shape {
 
 	private ArrayList<PathPoint> pathPoints;
 	private geogebra.common.awt.GeneralPath gp;
-	private EuclidianView view;
+	private EuclidianViewInterface2D view;
 	private double largestCoord;
 	private boolean needClosePath;
 	private geogebra.common.awt.Rectangle bounds;
 	
 
 	public GeneralPathClipped(EuclidianViewInterface2D view) {
-		this.view = (EuclidianView)view;
+		//this.view = (EuclidianView)view;
+		this.view = view;
 		pathPoints = new ArrayList<PathPoint>();
 		gp = AwtFactory.prototype.newGeneralPath();
 		// bounds = new Rectangle();
@@ -58,7 +51,7 @@ public class GeneralPathClipped  implements geogebra.awt.Shape {
 		needClosePath = true;
 	}
 
-	private geogebra.common.awt.GeneralPath getGeneralPath() {
+	public geogebra.common.awt.GeneralPath getGeneralPath() {
 		if (pathPoints.size() == 0)
 			return gp;
 
@@ -117,8 +110,7 @@ public class GeneralPathClipped  implements geogebra.awt.Shape {
 	private void addClippedLine(PathPoint prevP, PathPoint curP,
 			geogebra.common.awt.Rectangle viewRect) {
 		// check if both points on screen
-		//if (viewRect.contains(prevP) && viewRect.contains(curP)) {
-		if (geogebra.awt.Rectangle.getAWTRectangle(viewRect).contains(prevP.getX(),prevP.getY()) && geogebra.awt.Rectangle.getAWTRectangle(viewRect).contains(curP.getX(),curP.getY())) {
+		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
 			// draw line to point
 			addToGeneralPath(curP, true);
 			return;
@@ -326,8 +318,10 @@ public class GeneralPathClipped  implements geogebra.awt.Shape {
 		return getGeneralPath().intersects(i,j,k,l);
 	}
 
+	/*
 	public Shape getAwtShape() {
 		return geogebra.awt.GeneralPath.getAwtGeneralPath(getGeneralPath());
 	}
+	*/
 
 }

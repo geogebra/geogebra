@@ -63,7 +63,7 @@ public class GenericRectangle2D implements geogebra.awt.Rectangle2D{
 		} else if(r2d instanceof geogebra.awt.Rectangle){
 			return ((geogebra.awt.Rectangle)r2d).impl;
 		}
-		Application.debug("other type");
+		if (r2d!= null) Application.debug("other type");
 		return null;
 		
 	}

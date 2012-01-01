@@ -1,6 +1,7 @@
 package geogebra.awt;
 
 import geogebra.common.awt.Shape;
+import geogebra.main.Application;
 
 
 
@@ -21,8 +22,10 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		impl = new java.awt.BasicStroke(f);
 	}
 	public static java.awt.BasicStroke getAwtStroke(geogebra.common.awt.BasicStroke s){
-		if(!(s instanceof BasicStroke))
+		if(!(s instanceof BasicStroke)){
+			if (s!= null) Application.debug("other type");
 			return null;
+		}
 		else return ((BasicStroke)s).impl;
 	}
 	public int getEndCap(){

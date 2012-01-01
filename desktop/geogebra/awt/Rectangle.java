@@ -1,5 +1,8 @@
 package geogebra.awt;
 
+import geogebra.common.euclidian.PathPoint;
+import geogebra.main.Application;
+
 import java.awt.geom.Rectangle2D;
 
 public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.Rectangle{
@@ -70,8 +73,10 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 	 * @return java.awt.Rectangle from the wrapper or null for wrong input type 
 	 */
 	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.Rectangle rect) {
-		if(!(rect instanceof Rectangle))
+		if(!(rect instanceof Rectangle)){
+			if (rect!= null) Application.debug("other type");
 			return null;
+		}
 		return ((Rectangle)rect).impl;
 	}
 	
@@ -122,6 +127,9 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 	
 	public boolean intersects(geogebra.common.awt.Rectangle viewRect) {
 		return impl.intersects(Rectangle.getAWTRectangle(viewRect)) ;
+	}
+	public boolean contains(PathPoint prevP) {
+		return impl.contains(Point2D.getAwtPoint2D(prevP));
 	}
 
 }

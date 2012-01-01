@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;

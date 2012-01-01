@@ -5,6 +5,8 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.main.Application;
 
 public class GenericShape implements geogebra.awt.Shape{
 	private java.awt.Shape impl; 
@@ -14,9 +16,12 @@ public class GenericShape implements geogebra.awt.Shape{
 		return impl.intersects(i, j, k, l);
 	}
 	public static java.awt.Shape getAwtShape(geogebra.common.awt.Shape s){
-		if(!(s instanceof geogebra.awt.Shape))
-			return null;
-		return ((geogebra.awt.Shape)s).getAwtShape();
+		if(s instanceof geogebra.awt.Shape)
+			return ((geogebra.awt.Shape)s).getAwtShape();
+		if(s instanceof GeneralPathClipped)
+			return geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath());
+		if (s!= null) Application.debug("other type");
+		return null;
 	}
 	
 	public GenericShape(java.awt.Shape s){
