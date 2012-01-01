@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Ant command line build file for GeoGebraWeb
+<!-- Ant command line build file for common parts of GeoGebraWeb
      
      Based on the build.xml file created by the GWT webAppCreator, run by
 
-     ${env.GWTDIR}/webAppCreator -ignore geogebra.Web
+     ${env.GWTDIR}/webAppCreator -ignore geogebra.Common
      
      Make sure you set the GWTDIR environment variable before running this
      build file.
      
-     Note that GeoGebraWeb currently cannot compile under Java 1.5.
-     At least Java 1.6 is required.
+     Do not use this script to compile the desktop version of GeoGebra.
      
-     Recommended usage: run the ./build script in this folder instead of
-     directly running this build file.
+     Recommended usage: "ant -f web-build.xml libs build javac"
 -->
 
-<project name="Web" default="build" basedir=".">
+<project name="Common" default="build" basedir=".">
 
   <property environment="env"/>
 
@@ -28,11 +26,10 @@
   <path id="project.class.path">
     <pathelement location="war/WEB-INF/classes"/>
     <pathelement location="${gwt.sdk}/gwt-user.jar"/>
-    <pathelement location="../common/war/WEB-INF/classes"/>
     <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
     <!-- Add any additional non-server libs (such as JUnit) -->
     <fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
-    <!--fileset dir="../common" includes="**/*.jar"/-->
+    <fileset dir="../common" includes="**/*.jar"/>
   </path>
 
   <target name="libs" description="Copy libs to WEB-INF/lib">
@@ -44,7 +41,7 @@
 
   <target name="javac" depends="libs" description="Compile java source to bytecode">
     <mkdir dir="war/WEB-INF/classes"/>
-    <javac srcdir="src" includes="**" encoding="utf-8"
+    <javac srcdir="src" includes="**" excludes="org/**, geogebra/jre/**" encoding="utf-8"
         destdir="war/WEB-INF/classes"
         source="1.5" target="1.5" nowarn="true"
         debug="true" debuglevel="lines,vars,source">
@@ -73,7 +70,7 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="geogebra.Web"/>
+      <arg value="geogebra.Common"/>
     </java>
   </target>
 
@@ -87,12 +84,12 @@
       </classpath>
       <jvmarg value="-Xmx256M"/>
       <arg value="-startupUrl"/>
-      <arg value="Web.html"/>
+      <arg value="Common.html"/>
       <arg line="-war"/>
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="geogebra.Web"/>
+      <arg value="geogebra.Common"/>
     </java>
   </target>
 
@@ -101,12 +98,12 @@
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">
-    <zip destfile="Web.war" basedir="war"/>
+    <zip destfile="Common.war" basedir="war"/>
   </target>
 
   <target name="clean" description="Cleans this project">
     <delete dir="war/WEB-INF/classes" failonerror="false" />
-    <delete dir="war/web" failonerror="false" />
+    <delete dir="war/common" failonerror="false" />
   </target>
 
 </project>
