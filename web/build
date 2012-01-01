@@ -1,7 +1,7 @@
 #!/bin/sh
 # Compiles GeoGebraWeb via command line
 cd ../common
-ant -f web-build.xml clean libs build javac
+ant -f web-build.xml clean libs javac
 ant -f web-build.xml javac
 cd ../web
 ant clean libs build
