@@ -2084,10 +2084,10 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	final protected void drawMouseCoords(Graphics2D g2) {
-		Point pos = new java.awt.Point(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
-		if (pos == null) {
+		if (euclidianController.mouseLoc == null) {
 			return;
 		}
+		Point pos = new java.awt.Point(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
 
 		sb.setLength(0);
 		sb.append('(');
