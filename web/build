@@ -1,26 +1,42 @@
 #!/bin/sh
-# Compiles GeoGebraWeb via command line
+# Compiles GeoGebraWeb via command line.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
 
-# Settings
-. ./autobuild.conf
+# Make sure that you run this script from its directory.
+
+# 1. Setting up environment variables
+test -r autobuild.conf || {
+ echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ echo "Continuing with defaults anyway..."
+ }
+test -r autobuild.conf && . ./autobuild.conf
+
 export GWTDIR
+WEBDIR=`pwd`
 
-# Compiling common
+# 2. (Re)creating parser
+cd ../desktop
+ant compile-grammar-cl || exit 2
+
+# 3. Compiling common
 cd ../common
-ant -f web-build.xml clean libs javac
+ant -f web-build.xml clean libs javac || exit 3
 
-# Creating symlinks
+# 4. Creating symlinks
 COMMONDIR=`pwd`
-cd ../web/src/geogebra
-COMMON_LINK=$COMMONDIR/src/geogebra/common
-test -L common || ln -s $COMMON_LINK
-WEBAPACHE_LINK=$COMMONDIR/src/geogebra/webapache
-test -L webapache || ln -s $WEBAPACHE_LINK
-JRE_LINK=$COMMONDIR/src/geogebra/jre
-test -L jre || ln -s $JRE_LINK
-XML_LINK=$COMMONDIR/src/geogebra/Common.gwt.xml
-test -L Common.gwt.xml || ln -s $XML_LINK
-
-# Compiling web
+COMMONDIR_LINK_SOURCE=$COMMONDIR/src/geogebra
+WEBDIR_LINK_TARGET=$WEBDIR/src/geogebra
+cd $COMMONDIR_LINK_SOURCE
+for i in *; do
+ cd $WEBDIR_LINK_TARGET
+ test -L $i || ln -s $COMMONDIR_LINK_SOURCE/$i
+ done
+ 
+# 5. Compiling web
 cd ../..
-ant clean libs build
+ant clean libs build || exit 5
+
+# 6. Done!
+echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
+THISDIR=`pwd`
+echo "file:///$THISDIR/war/ggbtest.html"
