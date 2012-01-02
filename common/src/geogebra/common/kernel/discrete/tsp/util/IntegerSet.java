@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.tsp.util;
+package geogebra.common.kernel.discrete.tsp.util;
 
 /**
  * Integeråž‹ã�®ã‚»ãƒƒãƒˆ

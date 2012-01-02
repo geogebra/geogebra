@@ -1,17 +1,15 @@
-package geogebra.kernel.discrete.tsp.method.tsp;
+package geogebra.common.kernel.discrete.tsp.method.tsp;
 
-import geogebra.kernel.discrete.tsp.gui.DemoPanel;
-import geogebra.kernel.discrete.tsp.method.GraphDemonstration;
-import geogebra.kernel.discrete.tsp.model.Node;
-import geogebra.kernel.discrete.tsp.util.Heap;
-import geogebra.kernel.discrete.tsp.util.IntegerSet;
+import geogebra.common.kernel.discrete.tsp.model.Node;
+import geogebra.common.kernel.discrete.tsp.util.Heap;
+import geogebra.common.kernel.discrete.tsp.util.IntegerSet;
 
 /**
  * åˆ†æž�é™�å®šæ³•ã�«ã‚ˆã‚‹å·¡å›žã‚»ãƒ¼ãƒ«ã‚¹ãƒžãƒ³å•�é¡Œã�®åŽ³å¯†è§£æ³•
  * Held and Karpã�®ãƒ©ã‚°ãƒ©ãƒ³ã‚¸ãƒ¥ç·©å’Œã�‹ã‚‰æ±‚ã�¾ã‚‹ä¸‹ç•Œã�«ã‚ˆã�£ã�¦åˆ†æž�ã�™ã‚‹ã€‚
  * @author ma38su
  */
-public class BranchBound implements GraphDemonstration {
+public class BranchBound {
 	
 	/**
 	 * éƒ¨åˆ†å•�é¡Œã�«ã�Šã�„ã�¦ä¸‹ç•Œã‚’ä¿�æŒ�ã�™ã‚‹ã�Ÿã‚�ã�®ã‚¯ãƒ©ã‚¹
@@ -67,8 +65,8 @@ public class BranchBound implements GraphDemonstration {
 	 * @param percent é€²æ�—
 	 * @return éƒ¨åˆ†å•�é¡Œã�®è§£ã‚’è¿”ã�™ã€‚ã�Ÿã� ã�—éƒ¨åˆ†å•�é¡Œã�Œä¸‹ç•Œã‚’æ”¹å–„ã�§ã��ã�ªã�„å ´å�ˆã�«ã�¯ã€�nullã‚’è¿”ã�™ã€‚
 	 */
-	public Circuit branch(DemoPanel panel, double[][] table, double[] multipliers, boolean[][] edges, boolean[][] connect, boolean[][] disconnect, double circuitLowerBound, int depth, double percent) {
-		if (panel != null) panel.set(connect, disconnect);
+	public Circuit branch(Object panel, double[][] table, double[] multipliers, boolean[][] edges, boolean[][] connect, boolean[][] disconnect, double circuitLowerBound, int depth, double percent) {
+		//if (panel != null) panel.set(connect, disconnect);
 		for (int i = 0; i < multipliers.length; i++) {
 			multipliers[i] = 0;
 		}
@@ -165,9 +163,9 @@ public class BranchBound implements GraphDemonstration {
 							if (circuitLowerBound > circuit.getCost()) {
 								circuitLowerBound = circuit.getCost();
 								int[] route = circuit.getRoute();
-								if (panel != null) panel.set(this.extractArrayToTable(route));
-								if (panel != null) panel.set(connects[j], disconnects[j]);
-								if (panel != null) panel.setCost(circuitLowerBound);
+								//if (panel != null) panel.set(this.extractArrayToTable(route));
+								//if (panel != null) panel.set(connects[j], disconnects[j]);
+								//if (panel != null) panel.setCost(circuitLowerBound);
 								if (circuitLowerBound < lowerBound) {
 									//System.out.println((int) (percent + (1 / Math.pow(3, depth + 1) * (connects.length - j)) * 100) + "% / bound circuit, depth: "+ depth);
 									return circuit;
@@ -408,11 +406,14 @@ public class BranchBound implements GraphDemonstration {
 			} else if (diff > 0){
 				return 1;
 			}
-	        long thisBits = Double.doubleToLongBits(this.cost);
+			//TODO -- implement this in GWT compatible way if we really need such precision
+	        /*long thisBits = Double.doubleToLongBits(this.cost);
 	        long anotherBits = Double.doubleToLongBits(e.cost);
 	        return (thisBits == anotherBits ? 0 : 
 	                (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
 	                 1));                          // (0.0, -0.0) or (NaN, !NaN)
+	                 */
+			return 0;
 		}
 
 		@Override
@@ -455,28 +456,7 @@ public class BranchBound implements GraphDemonstration {
 		return true;
 	}
 
-	public void method(DemoPanel panel) {
-		final Node[] nodes = panel.getNodes().toArray(new Node[]{});
-		panel.set(new boolean[0][0]);
-		if (nodes.length > 2) {
-			boolean[][] edges = new boolean[nodes.length][nodes.length];
-			double[][] table = createTable(nodes);
-			double[] multipliers = new double[nodes.length];
-			boolean[][] connect = new boolean[nodes.length][nodes.length];
-			boolean[][] disconnect = new boolean[nodes.length][nodes.length];
-			int depth = 0;
-			double percent = 0;
-			Circuit betterCase = branch(panel, table, multipliers, edges, connect, disconnect, Double.POSITIVE_INFINITY, depth, percent);
-			//System.out.println("[" + this.toString() + "]");
-			//System.out.println("node: "+ nodes.length);
-			//System.out.println("cost: "+ ((int) (betterCase.getCost() * 1000) / 1000D));
-			//System.out.println("time: "+ (end - start) + "ms");
-			panel.set(this.extractArrayToTable(betterCase.getRoute()));
-			panel.setCost(betterCase.getCost());
-			//System.out.println();
-		}
-	}
-
+	
 	public int[] method(Node[] nodes) {
 		if (nodes.length > 2) {
 			boolean[][] edges = new boolean[nodes.length][nodes.length];

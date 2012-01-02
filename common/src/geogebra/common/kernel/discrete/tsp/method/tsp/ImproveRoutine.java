@@ -1,6 +1,6 @@
-package geogebra.kernel.discrete.tsp.method.tsp;
+package geogebra.common.kernel.discrete.tsp.method.tsp;
 
-import geogebra.kernel.discrete.tsp.model.Node;
+import geogebra.common.kernel.discrete.tsp.model.Node;
 
 import java.util.List;
 
@@ -42,6 +42,6 @@ public class ImproveRoutine implements TspImprovement {
 	}
 
 	public boolean method(int[] route, double[][] table) {
-		throw new IllegalAccessError();
+		throw new Error("Unimplemented method");
 	}
 }

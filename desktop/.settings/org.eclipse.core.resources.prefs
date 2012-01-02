@@ -1,26 +1,3 @@
-#Wed Dec 14 20:43:42 CET 2011
+#Mon Jan 02 13:59:21 CET 2012
 eclipse.preferences.version=1
-encoding//geogebra/kernel/discrete/tsp/AppletMain.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/Main.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/controller/Controller.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/gui/DemoPanel.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/GraphDemonstration.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/BranchBound.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/CheapestInsertion.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/HeldKarp.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/ImproveRoutine.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/NearestAddition.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/NearestInsertion.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/NearestNeighbor.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/NoImprovement.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/OneTree.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/Opt2.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/Opt3.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/OrOpt.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/TspConstruction.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/method/tsp/TspImprovement.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/model/Edge.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/model/Node.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/util/Heap.java=UTF-8
-encoding//geogebra/kernel/discrete/tsp/util/IntegerSet.java=UTF-8
 encoding/<project>=UTF-8

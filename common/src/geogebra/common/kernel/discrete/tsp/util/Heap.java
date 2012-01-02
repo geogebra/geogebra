@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.tsp.util;
+package geogebra.common.kernel.discrete.tsp.util;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -254,7 +254,7 @@ public class Heap<E> {
 			return;
 		}
 		if (index == Integer.MAX_VALUE) {
-			throw new OutOfMemoryError();
+			throw new Error("Out of memory");
 		}
 		while (newLength <= index) {
 			if (newLength >= Integer.MAX_VALUE / 2) {
