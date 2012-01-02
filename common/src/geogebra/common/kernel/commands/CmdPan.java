@@ -1,18 +1,17 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  *Pan
  */
-class CmdPan extends CmdScripting {
+public class CmdPan extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -20,7 +19,7 @@ class CmdPan extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdPan(Kernel kernel) {
+	public CmdPan(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -36,7 +35,7 @@ class CmdPan extends CmdScripting {
 
 				GeoNumeric x = (GeoNumeric) arg[0];
 				GeoNumeric y = (GeoNumeric) arg[1];
-				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
 				ev.rememberOrigins();
 				ev.setCoordSystemFromMouseMove((int) x.getDouble(), -(int) y
 						.getDouble(), EuclidianController.MOVE_VIEW);

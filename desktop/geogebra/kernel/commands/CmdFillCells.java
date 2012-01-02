@@ -12,7 +12,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.main.Application;
+
 
 import geogebra.common.awt.Point;
 import java.util.ArrayList;

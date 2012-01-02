@@ -1,16 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /*
  * Row[ <GeoElement> ]
  */
-public class CmdRow extends CommandProcessorDesktop {
+public class CmdRow extends CommandProcessor {
 
-	public CmdRow(Kernel kernel) {
+	public CmdRow(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -23,7 +23,7 @@ public class CmdRow extends CommandProcessorDesktop {
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);			
 			if (arg[0].getLabel() != null && kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) {
-				GeoElement[] ret = { kernel.Row(c.getLabel(),
+				GeoElement[] ret = { kernelA.Row(c.getLabel(),
 						arg[0]) };
 				return ret;
 			}

@@ -496,4 +496,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
+	public CasType getCurrentCASType() {
+		return currentCAS;
+	}
+
 }

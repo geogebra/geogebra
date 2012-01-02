@@ -1,15 +1,14 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.common.kernel.AbstractKernel;
 
-class CmdSetAxesRatio extends CmdScripting {
+public class CmdSetAxesRatio extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -34,7 +33,7 @@ class CmdSetAxesRatio extends CmdScripting {
 				
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
-				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
 				ev.zoomAxesRatio(numGeo.getDouble()/numGeo2.getDouble(), true);
 				
 				return;
@@ -48,7 +47,7 @@ class CmdSetAxesRatio extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
 				GeoNumeric numGeo3 = (GeoNumeric) arg[2];
-				EuclidianViewInterface ev = (EuclidianViewInterface)app.getActiveEuclidianView();
+				EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
 				//TODO: Fix this once 3D view supports zoom
 				if(!ev.isDefault2D()){
 					ev.zoom(numGeo.getDouble()/numGeo3.getDouble(),

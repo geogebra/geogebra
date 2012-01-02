@@ -36,4 +36,6 @@ public interface GeoGebraCasInterface {
 
 	public String getCASCommand(String name, ArrayList<?> args,
 			boolean symbolic);
+
+	public CasType getCurrentCASType();
 }

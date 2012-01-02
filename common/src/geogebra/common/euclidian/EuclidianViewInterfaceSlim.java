@@ -30,4 +30,5 @@ public interface EuclidianViewInterfaceSlim extends View{
 	double getYscale();
 	DrawableND getDrawableND(GeoElement listElement);
 	DrawableND createDrawableND(GeoElement listElement);
+	void zoom(double d, double e, double i, int j, boolean b);
 }

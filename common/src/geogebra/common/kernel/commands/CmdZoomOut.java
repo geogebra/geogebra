@@ -1,19 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianView;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 /**
  *ZoomOut
  */
-class CmdZoomOut extends CmdScripting {
+public class CmdZoomOut extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -35,7 +34,7 @@ class CmdZoomOut extends CmdScripting {
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterfaceSlim ev = app.getEuclidianView();
 				double px = ev.getWidth() / 2.0; // mouseLoc.x;
 				double py = ev.getHeight() / 2.0; // mouseLoc.y;
 
@@ -61,7 +60,7 @@ class CmdZoomOut extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoPoint2 p = (GeoPoint2) arg[1];
 
-				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 

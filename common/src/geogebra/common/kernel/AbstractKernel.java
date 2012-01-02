@@ -50,6 +50,12 @@ import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.discrete.AlgoConvexHull;
+import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;
+import geogebra.common.kernel.discrete.AlgoHull;
+import geogebra.common.kernel.discrete.AlgoMinimumSpanningTree;
+import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
+import geogebra.common.kernel.discrete.AlgoVoronoi;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -219,6 +225,9 @@ import java.util.TreeSet;
 
 public abstract class AbstractKernel {
 
+	// if these are increased above 32000, you need to change traceRow to an int[]
+		public static int MAX_SPREADSHEET_COLUMNS = 9999; 
+		public static int MAX_SPREADSHEET_ROWS = 9999;
 	// G.Sturr 2009-10-18
 	// algebra style
 	final public static int ALGEBRA_STYLE_VALUE = 0;
@@ -813,6 +822,10 @@ public abstract class AbstractKernel {
 	}
 
 	public static CasType DEFAULT_CAS = CasType.MPREDUCE; // default
+	
+	final public CasType getCurrentCAS() {
+		return getGeoGebraCAS().getCurrentCASType();
+	}
 
 	/**
 	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
@@ -4164,6 +4177,11 @@ public abstract class AbstractKernel {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
 				origGeoNode);
 		return algo.getGeo();
+	}
+	
+	public GeoTextField textfield(String label, GeoElement geoElement) {
+		AlgoTextfield at = new AlgoTextfield(cons, label, geoElement);
+		return at.getResult();
 	}
 
 	/**
@@ -9730,15 +9748,47 @@ public abstract class AbstractKernel {
 		return poly;
 	}
 
-	public abstract GeoElement TravelingSalesman(String a, GeoList b);
+	
+	final public GeoLocus Voronoi(String label, GeoList list) {
+		AlgoVoronoi algo = new AlgoVoronoi(cons, label, list);
+		GeoLocus ret = algo.getResult();
+		return ret;
+	}
+	
+	
+	final public GeoLocus DelauneyTriangulation(String label, GeoList list) {
+		AlgoDelauneyTriangulation algo = new AlgoDelauneyTriangulation(cons,
+				label, list);
+		GeoLocus ret = algo.getResult();
+		return ret;
+	}
 
-	public abstract GeoElement Voronoi(String a, GeoList b);
+	final public GeoLocus Hull(String label, GeoList list, GeoNumeric percent) {
+		AlgoHull algo = new AlgoHull(cons, label, list, percent);
+		GeoLocus ret = algo.getResult();
+		return ret;
+	}
 
-	public abstract GeoElement ConvexHull(String a, GeoList b);
+	final public GeoLocus TravelingSalesman(String label, GeoList list) {
+		AlgoTravelingSalesman algo = new AlgoTravelingSalesman(cons, label,
+				list);
+		GeoLocus ret = algo.getResult();
+		return ret;
+	}
 
-	public abstract GeoElement MinimumSpanningTree(String a, GeoList b);
+	final public GeoLocus ConvexHull(String label, GeoList list) {
+		AlgoConvexHull algo = new AlgoConvexHull(cons, label, list);
+		GeoLocus ret = algo.getResult();
+		return ret;
+	}
 
-	public abstract GeoElement DelauneyTriangulation(String a, GeoList b);
+	final public GeoLocus MinimumSpanningTree(String label, GeoList list) {
+		AlgoMinimumSpanningTree algo = new AlgoMinimumSpanningTree(cons, label,
+				list);
+		GeoLocus ret = algo.getResult();
+		return ret;
+	}
+
 
 	public abstract GeoElement ShortestDistance(String label, GeoList geoList,
 			GeoPointND geoPointND, GeoPointND geoPointND2, GeoBoolean geoBoolean);
@@ -9754,14 +9804,26 @@ public abstract class AbstractKernel {
 			GeoNumeric geoNumeric2, GeoNumeric geoNumeric3,
 			GeoNumeric geoNumeric4, GeoNumeric geoNumeric5);
 
-	public abstract GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
-			GeoPolygon geoPolygon2);
+	/**
+	 * Intersect[polygon,polygon] G. Sturr
+	 */
+	final public GeoElement[] IntersectPolygons(String[] labels,
+			GeoPolygon poly0, GeoPolygon poly1) {
+		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
+				labels, poly0, poly1);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
 
-	public abstract GeoElement Hull(String label, GeoList geoList,
-			GeoNumeric geoNumeric);
-
-	public abstract GeoElement[] IntersectPolygons(String[] labels,
-			GeoPolygon geoPolygon, GeoPolygon geoPolygon2);
+	/**
+	 * Union[polygon,polygon] G. Sturr
+	 */
+	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1) {
+		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
 
 
 }

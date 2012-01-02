@@ -1,18 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /**
- *FillRow
+ *FillColumn
  */
-class CmdFillRow extends CommandProcessor {
+public class CmdFillColumn extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -20,7 +18,7 @@ class CmdFillRow extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFillRow(AbstractKernel kernel) {
+	public CmdFillColumn(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -35,21 +33,19 @@ class CmdFillRow extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoNumeric()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
 
-				int row = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
+				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (row < 0 || row > Kernel.MAX_SPREADSHEET_ROWS)
+				if (col < 0 || col > AbstractKernel.MAX_SPREADSHEET_COLUMNS)
 					throw argErr(app, c.getName(), arg[0]);
 
 				GeoList list = (GeoList) arg[1];
-
 				GeoElement[] ret = { list };
 
 				if (list.size() == 0)
 					return ret;
 
-				for (int col = 0; col < list.size(); col++) {
-
-					GeoElement cellGeo = list.get(col).copy();
+				for (int row = 0; row < list.size(); row++) {
+					GeoElement cellGeo = list.get(row).copy();
 
 					try {
 						kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col, cellGeo);
@@ -57,7 +53,6 @@ class CmdFillRow extends CommandProcessor {
 						e.printStackTrace();
 						throw argErr(app, c.getName(), arg[1]);
 					}
-
 				}
 
 				app.storeUndoInfo();

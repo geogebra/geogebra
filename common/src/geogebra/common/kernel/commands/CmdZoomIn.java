@@ -1,20 +1,20 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianView;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+
 
 /**
  *ZoomIn
  */
-class CmdZoomIn extends CmdScripting {
+public class CmdZoomIn extends CmdScripting {
 
 	public CmdZoomIn(AbstractKernel kernel) {
 		super(kernel);
@@ -30,7 +30,7 @@ class CmdZoomIn extends CmdScripting {
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterfaceSlim ev = (EuclidianViewInterface2D) app.getActiveEuclidianView();
 				double px = ev.getWidth() / 2; // mouseLoc.x;
 				double py = ev.getHeight() / 2; // mouseLoc.y;
 
@@ -54,7 +54,7 @@ class CmdZoomIn extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoPoint2 p = (GeoPoint2) arg[1];
 
-				EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getActiveEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 
@@ -76,7 +76,7 @@ class CmdZoomIn extends CmdScripting {
 			for(int i=0;i<3;i++)
 					if(!arg[i].isNumberValue())
 						throw argErr(app, c.getName(),arg[i]);
-			EuclidianView ev = (EuclidianView)app.getActiveEuclidianView();
+			EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getActiveEuclidianView();
 			ev.setXminObject((NumberValue)arg[0]);
 			ev.setXmaxObject((NumberValue)arg[2]);
 			ev.setYminObject((NumberValue)arg[1]);

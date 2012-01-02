@@ -18,26 +18,15 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.cas.GeoGebraCAS;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroKernelInterface;
-import geogebra.common.kernel.algos.AlgoPolygonIntersection;
-import geogebra.common.kernel.algos.AlgoPolygonUnion;
-import geogebra.common.kernel.algos.AlgoTextfield;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
-import geogebra.common.kernel.discrete.AlgoConvexHull;
-import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;
-import geogebra.common.kernel.discrete.AlgoHull;
-import geogebra.common.kernel.discrete.AlgoMinimumSpanningTree;
-import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
-import geogebra.common.kernel.discrete.AlgoVoronoi;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -45,10 +34,8 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
@@ -64,11 +51,6 @@ import geogebra.util.ScientificFormat;
 
 public class Kernel extends AbstractKernel {
 
-
-
-	// if these are increased above 32000, you need to change traceRow to an int[]
-	public static int MAX_SPREADSHEET_COLUMNS = 9999; 
-	public static int MAX_SPREADSHEET_ROWS = 9999;
 
 	public Kernel(AbstractApplication app) {
 		this();
@@ -144,9 +126,7 @@ public class Kernel extends AbstractKernel {
 
 	// end G.Sturr
 
-	final public CasType getCurrentCAS() {
-		return ((GeoGebraCAS) getGeoGebraCAS()).currentCAS;
-	}
+	
 
 	/**
 	 * returns 10^(-PrintDecimals)
@@ -177,43 +157,7 @@ public class Kernel extends AbstractKernel {
 	
 
 	
-	@Override
-	final public GeoLocus Voronoi(String label, GeoList list) {
-		AlgoVoronoi algo = new AlgoVoronoi(cons, label, list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	@Override
-	final public GeoLocus Hull(String label, GeoList list, GeoNumeric percent) {
-		AlgoHull algo = new AlgoHull(cons, label, list, percent);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	@Override
-	final public GeoLocus TravelingSalesman(String label, GeoList list) {
-		AlgoTravelingSalesman algo = new AlgoTravelingSalesman(cons, label,
-				list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	@Override
-	final public GeoLocus ConvexHull(String label, GeoList list) {
-		AlgoConvexHull algo = new AlgoConvexHull(cons, label, list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
-	@Override
-	final public GeoLocus MinimumSpanningTree(String label, GeoList list) {
-		AlgoMinimumSpanningTree algo = new AlgoMinimumSpanningTree(cons, label,
-				list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
+	
 	@Override
 	final public GeoLocus ShortestDistance(String label, GeoList list,
 			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
@@ -223,39 +167,11 @@ public class Kernel extends AbstractKernel {
 		return ret;
 	}
 
-	@Override
-	final public GeoLocus DelauneyTriangulation(String label, GeoList list) {
-		AlgoDelauneyTriangulation algo = new AlgoDelauneyTriangulation(cons,
-				label, list);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
+	
 
 
 
-	/**
-	 * Intersect[polygon,polygon] G. Sturr
-	 */
-	@Override
-	final public GeoElement[] IntersectPolygons(String[] labels,
-			GeoPolygon poly0, GeoPolygon poly1) {
-		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
-				labels, poly0, poly1);
-		GeoElement[] polygon = algo.getOutput();
-		return polygon;
-	}
-
-	/**
-	 * Union[polygon,polygon] G. Sturr
-	 */
-	@Override
-	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
-			GeoPolygon poly1) {
-		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1);
-		GeoElement[] polygon = algo.getOutput();
-		return polygon;
-	}
-
+	
 	/***********************************
 	 * CALCULUS
 	 ***********************************/
@@ -314,10 +230,7 @@ public class Kernel extends AbstractKernel {
 		return animationManager;
 	}
 
-	public GeoTextField textfield(String label, GeoElement geoElement) {
-		AlgoTextfield at = new AlgoTextfield(cons, label, geoElement);
-		return at.getResult();
-	}
+	
 
 	@Deprecated
 	@Override
