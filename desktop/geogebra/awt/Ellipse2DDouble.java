@@ -86,5 +86,10 @@ public class Ellipse2DDouble implements geogebra.awt.RectangularShape, geogebra.
 			*/
 		}
 
+		public void setFrameFromCenter(double i, double j, double d, double e) {
+			impl.setFrameFromCenter(i, j, d, e);
+			
+		}
+
 
 }

@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Ellipse2DDouble;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Previewable;
@@ -37,7 +38,6 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	private Arc2D.Double drawArc = new Arc2D.Double();
 	private GeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
 														// 2007-11-19
-	private Ellipse2D.Double dot90degree;
+	private Ellipse2DDouble dot90degree;
 	private Shape shape;
 	private double m[] = new double[2];
 	private double coords[] = new double[2];
@@ -455,7 +455,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				drawDot = true;
 
 				if (dot90degree == null)
-					dot90degree = new Ellipse2D.Double();
+					dot90degree = AwtFactory.prototype.newEllipse2DDouble();
 				int diameter = 2 * geo.lineThickness;
 				double radius = r / 1.7;
 				double labelAngle = angSt + angExt / 2.0;

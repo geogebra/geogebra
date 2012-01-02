@@ -2,6 +2,7 @@ package geogebra.factories;
 
 import geogebra.awt.Ellipse2DDouble;
 import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Ellipse2DFloat;
@@ -16,6 +17,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.GeneralPathClipped;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
@@ -144,6 +146,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public QuadCurve2D newQuadCurve2D() {
 		return new geogebra.awt.QuadCurve2D();
+	}
+
+	@Override
+	public Area newArea(GeneralPathClipped gp) {
+		return new geogebra.awt.Area(gp);
 	}
 
 	

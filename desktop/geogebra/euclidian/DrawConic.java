@@ -20,6 +20,8 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.QuadCurve2D;
@@ -52,9 +54,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.clipping.ClipShape;
 
-import java.awt.Rectangle;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
+//import java.awt.Rectangle;
+//import java.awt.geom.Area;
+//import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 /**
@@ -106,7 +108,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	// CONIC_ELLIPSE
 	private boolean firstEllipse = true;
 	private double[] halfAxes;
-	private Ellipse2D.Double ellipse;
+	private Ellipse2DDouble ellipse;
 
 	// CONIC_PARABOLA
 	private boolean firstParabola = true;
@@ -265,7 +267,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			return;
 
 		// shape on screen?
-		Rectangle viewRect = new Rectangle(0, 0, view.getWidth(), view.getHeight());
+		Rectangle viewRect = AwtFactory.prototype.newRectangle(0, 0, view.getWidth(), view.getHeight());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -474,7 +476,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			firstCircle = false;
 			arc = AwtFactory.prototype.newArc2D();
 			if (ellipse == null)
-				ellipse = new Ellipse2D.Double();
+				ellipse = AwtFactory.prototype.newEllipse2DDouble();
 		}
 
 		int i = -1; // bugfix
@@ -485,7 +487,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
 		if (radius < BIG_RADIUS && yradius < BIG_RADIUS) {
-			circle = new geogebra.awt.Ellipse2DDouble(ellipse);
+			circle = ellipse;
 			arcFiller = null;
 			// calc screen coords of midpoint
 			Coords M;
@@ -715,7 +717,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		if (firstEllipse) {
 			firstEllipse = false;
 			if (ellipse == null)
-				ellipse = new Ellipse2D.Double();
+				ellipse = AwtFactory.prototype.newEllipse2DDouble();
 		}
 
 		// set transform
@@ -733,7 +735,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			// clip big arc at screen
 //			shape=ClipShape.clipToRect(shape,ellipse, transform, new Rectangle(-1,
 //					-1, view.getWidth() + 2, view.getHeight() + 2));
-			shape=ClipShape.clipToRect(new geogebra.awt.Ellipse2DDouble(ellipse), transform, new geogebra.awt.Rectangle(-1,
+			shape=ClipShape.clipToRect(ellipse, transform, new geogebra.awt.Rectangle(-1,
 					-1, view.getWidth() + 2, view.getHeight() + 2));
 
 		}
@@ -862,7 +864,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
 		setShape(new geogebra.awt.Area(hypLeft));
-		geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
+		//geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
+		super.getShape().add(AwtFactory.prototype.newArea(hypRight));
 	}
 
 	final private void updateParabola() {

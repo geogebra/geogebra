@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.AbstractKernel;
@@ -21,9 +20,6 @@ import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 /**
  * Draws definite Integral of a GeoFunction

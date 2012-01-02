@@ -2,6 +2,7 @@ package geogebra.common.factories;
 
 import java.awt.geom.Point2D.Double;
 
+import geogebra.common.awt.Area;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
@@ -18,6 +19,7 @@ import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.GeneralPathClipped;
 
 public abstract class AwtFactory {
 	public static AwtFactory prototype = null;
@@ -48,5 +50,6 @@ public abstract class AwtFactory {
 	public abstract Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
 	public abstract Arc2D newArc2D();
 	public abstract QuadCurve2D newQuadCurve2D();
+	public abstract Area newArea(GeneralPathClipped hypRight);
 	
 }

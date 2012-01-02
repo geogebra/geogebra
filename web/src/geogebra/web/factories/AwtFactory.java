@@ -2,6 +2,7 @@ package geogebra.web.factories;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
@@ -16,6 +17,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.GeneralPathClipped;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
@@ -143,6 +145,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public QuadCurve2D newQuadCurve2D() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Area newArea(GeneralPathClipped hypRight) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

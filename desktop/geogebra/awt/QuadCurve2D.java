@@ -4,9 +4,8 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.Shape;
 
-public class QuadCurve2D extends geogebra.common.awt.QuadCurve2D implements Shape{
+public class QuadCurve2D extends geogebra.common.awt.QuadCurve2D implements geogebra.awt.Shape{
 
 	private java.awt.geom.QuadCurve2D.Double impl;
 	

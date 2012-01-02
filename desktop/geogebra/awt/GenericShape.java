@@ -20,7 +20,7 @@ public class GenericShape implements geogebra.awt.Shape{
 			return ((geogebra.awt.Shape)s).getAwtShape();
 		if(s instanceof GeneralPathClipped)
 			return geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath());
-		if (s!= null) Application.debug("other type");
+		if (s!= null) Application.debug("other type " + s);
 		return null;
 	}
 	
