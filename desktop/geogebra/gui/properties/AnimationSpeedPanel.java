@@ -7,7 +7,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -145,7 +144,6 @@ public class AnimationSpeedPanel
 			if (!geo.isChangeable() 
 					|| geo.isGeoText() 
 					|| geo.isGeoImage()
-					|| (geo instanceof GeoTextField)
 					|| (geo instanceof GeoButton)
 					|| geo.isGeoList()
 					|| geo.isGeoBoolean()

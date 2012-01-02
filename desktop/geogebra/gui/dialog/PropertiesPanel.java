@@ -22,6 +22,7 @@ import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoClass;
@@ -67,7 +68,6 @@ import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoTextField;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;

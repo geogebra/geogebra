@@ -51,7 +51,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
@@ -5056,7 +5056,7 @@ public abstract class AbstractKernel {
 			if (type.equals("text")) {
 				return new GeoText(cons); // text
 			}
-			return getGeoTextField(cons); // textfield
+			return new GeoTextField(cons); // textfield
 
 		case 'v': // vector
 			return new GeoVector(cons);
@@ -5096,7 +5096,6 @@ public abstract class AbstractKernel {
 		}
 	}
 
-	public abstract AbstractGeoTextField getGeoTextField(Construction cons);
 
 	final public RegressionMath getRegressionMath() {
 		if (regMath == null)

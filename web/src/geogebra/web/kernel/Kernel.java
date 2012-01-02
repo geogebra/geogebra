@@ -9,7 +9,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -106,12 +106,6 @@ public class Kernel extends AbstractKernel {
 
 	@Override
     public AbstractCommandDispatcher getCommandDispatcher() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-	
-	@Override
-    public AbstractGeoTextField getGeoTextField(Construction cons) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

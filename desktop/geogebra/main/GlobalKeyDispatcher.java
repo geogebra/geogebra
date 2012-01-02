@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.AbstractApplication;
+import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -22,7 +23,7 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.util.CopyPaste;
 import geogebra.util.Util;
 
@@ -138,8 +139,9 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			if (geo != null) {
 
 				if (geo instanceof GeoTextField) {
-					GeoTextField tf = (GeoTextField) geo;
-					tf.setFocus(ch + "");
+					DrawTextField dt =
+							(DrawTextField) app.getActiveEuclidianView().getDrawableFor(geo);
+					dt.setFocus(ch+"");
 				} else {
 					app.getGuiManager()
 							.getDialogManager()

@@ -33,7 +33,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -4001,8 +4001,8 @@ public class MyXMLHandler implements DocHandler {
 		// name of linked geo
 		String val = (String) attrs.get("val");
 
-		if (geo instanceof AbstractGeoTextField) {
-			((AbstractGeoTextField)geo).setLength(Integer.parseInt(val));
+		if (geo instanceof GeoTextField) {
+			((GeoTextField)geo).setLength(Integer.parseInt(val));
 		} else {
 			throw new MyError(app, "handleLength: " + geo.getClassName());
 		}
@@ -4042,7 +4042,7 @@ public class MyXMLHandler implements DocHandler {
 			while (it.hasNext()) {
 				GeoExpPair pair = (GeoExpPair) it.next();
 				
-				((AbstractGeoTextField)pair.geo).setLinkedGeo(kernel.lookupLabel(pair.exp));
+				((GeoTextField)pair.geo).setLinkedGeo(kernel.lookupLabel(pair.exp));
 			}
 		} catch (Exception e) {
 			linkedGeoList.clear();

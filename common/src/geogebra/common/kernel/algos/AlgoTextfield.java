@@ -15,7 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 
 
 /**
@@ -26,13 +26,13 @@ import geogebra.common.kernel.geos.AbstractGeoTextField;
 public class AlgoTextfield extends AlgoElement {
 
 	private GeoElement inputGeo; //input
-    private AbstractGeoTextField textfield; //output	
+    private GeoTextField textfield; //output	
 
     public AlgoTextfield(Construction cons, String label, GeoElement inputGeo) {
         super(cons);
         this.inputGeo = inputGeo;
                
-        textfield = cons.getKernel().getGeoTextField(cons);
+        textfield = new GeoTextField(cons);
         if(inputGeo != null)
         	textfield.setLinkedGeo(inputGeo);
         textfield.setAbsoluteScreenLoc(30, 30);
@@ -63,7 +63,7 @@ public class AlgoTextfield extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
-    public AbstractGeoTextField getResult() {
+    public GeoTextField getResult() {
         return textfield;
     }
 

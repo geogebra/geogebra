@@ -37,7 +37,7 @@ import geogebra.common.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.common.kernel.discrete.AlgoVoronoi;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -58,7 +58,6 @@ import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.kernel.geos.GeoTextField;
 import geogebra.util.GeoLaTeXCache;
 import geogebra.util.NumberFormatDesktop;
 import geogebra.util.ScientificFormat;
@@ -317,7 +316,7 @@ public class Kernel extends AbstractKernel {
 
 	public GeoTextField textfield(String label, GeoElement geoElement) {
 		AlgoTextfield at = new AlgoTextfield(cons, label, geoElement);
-		return (GeoTextField) at.getResult();
+		return at.getResult();
 	}
 
 	@Deprecated
@@ -376,11 +375,6 @@ public class Kernel extends AbstractKernel {
 	@Override
 	public AbstractCommandDispatcher getCommandDispatcher() {
 		return new CommandDispatcher(this);
-	}
-
-	@Override
-	public AbstractGeoTextField getGeoTextField(Construction cons) {
-		return new GeoTextField(cons);
 	}
 
 	@Deprecated

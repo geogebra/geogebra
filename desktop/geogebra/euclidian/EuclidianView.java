@@ -34,7 +34,7 @@ import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
-import geogebra.common.kernel.geos.AbstractGeoTextField;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -2868,7 +2868,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 		case TEXTFIELD:
 
-			d = new DrawTextField(this, (AbstractGeoTextField) geo);
+			d = new DrawTextField(this, (GeoTextField) geo);
 			break;
 
 		case POINT:
