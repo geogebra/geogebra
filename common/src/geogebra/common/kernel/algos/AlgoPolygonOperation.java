@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.util.Cloner;
 
 
 import geogebra.common.awt.Area;
@@ -214,7 +215,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 			int type = it.currentSegment(coords);
 			it.next();
-			double[] oldCoords = coords.clone();
+			double[] oldCoords = Cloner.clone(coords);
 			double epsilon = 1E-10;
 
 			while (!it.isDone()) {
@@ -230,7 +231,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 					xcoord.add(coords[0]);
 					ycoord.add(coords[1]);
 				}
-				oldCoords = coords.clone();
+				oldCoords = Cloner.clone(coords);
 
 				it.next();
 
