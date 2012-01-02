@@ -14,7 +14,8 @@ WEBDIR=`pwd`
 cd ../desktop
 ant compile-grammar-cl || exit 2
 
-# 3. Creating symlinks
+# 3. Creating symlinks to common
+cd ../common
 COMMONDIR=`pwd`
 COMMONDIR_LINK_SOURCE=$COMMONDIR/src/geogebra
 WEBDIR_LINK_TARGET=$WEBDIR/src/geogebra
