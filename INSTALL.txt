@@ -7,5 +7,8 @@ The "common" directory contains the common parts for the two interfaces.
 For compiling, running and installing the "desktop" version, please read
 http://www.geogebra.org/trac/wiki/SetUp.
 
-To compile and run the "web" version (a.k.a. GeoGebraMobile), please
-read http://www.geogebra.org/trac/wiki/GeoGebraMobile.
+To compile and run the "web" version, please read
+http://www.geogebra.org/trac/wiki/Web#Compilation. Since the web version
+is in a pre-alpha state, you may want to try out its prototype,
+GeoGebraMobile. For more details on this, please read
+http://www.geogebra.org/trac/wiki/GeoGebraMobile.
