@@ -18,10 +18,12 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipLine;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -31,9 +33,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Line2D;
 //import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -49,12 +48,12 @@ public class DrawSegment extends Drawable implements Previewable {
 	private boolean isVisible, labelVisible;
 	private ArrayList<GeoPointND> points;
 
-	private Line2D.Double line;
+	private Line2D line;
 	private double[] coordsA = new double[2];
 	private double[] coordsB = new double[2];
 
 	// For drawing ticks
-	private Line2D.Double[] decoTicks;
+	private Line2D[] decoTicks;
 
 	/**
 	 * Creates new DrawSegment
@@ -120,7 +119,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		boolean onscreenB = view.toScreenCoords(coordsB);
 
 		if (line == null)
-			line = new Line2D.Double();
+			line = AwtFactory.prototype.newLine2D();
 
 		if (onscreenA && onscreenB) {
 			// A and B on screen
@@ -185,10 +184,10 @@ public class DrawSegment extends Drawable implements Previewable {
 		if (geo.decorationType != GeoElement.DECORATION_NONE && nLength > 0) {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
-				decoTicks = new Line2D.Double[6]; // Michael Borcherds 20071006
+				decoTicks = new Line2D[6]; // Michael Borcherds 20071006
 													// changed from 3 to 6
 				for (int i = 0; i < decoTicks.length; i++)
-					decoTicks[i] = new Line2D.Double();
+					decoTicks[i] = AwtFactory.prototype.newLine2D();
 			}
 
 			// tick spacing and length.
@@ -421,7 +420,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			view.toScreenCoords(coordsA);
 
 			if (line == null)
-				line = new Line2D.Double();
+				line = AwtFactory.prototype.newLine2D();
 			line.setLine(coordsA[0], coordsA[1], coordsA[0], coordsA[1]);
 		}
 	}
@@ -484,8 +483,8 @@ public class DrawSegment extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return line != null && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(line.getP1())
-				&& geogebra.awt.Rectangle.getAWTRectangle(rect).contains(line.getP2());
+		return line != null && rect.contains(line.getP1())
+				&& rect.contains(line.getP2());
 	}
 
 	@Override

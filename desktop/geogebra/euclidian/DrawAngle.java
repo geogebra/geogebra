@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Ellipse2DDouble;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -38,7 +39,7 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
+//import java.awt.geom.Line2D;
 
 import java.util.ArrayList;
 
@@ -88,7 +89,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	// added by Lo�c BEGIN
 	private Shape shapeArc1, shapeArc2;
 	private Arc2D.Double decoArc = new Arc2D.Double();
-	private Line2D.Double[] tick;
+	private Line2D[] tick;
 	private double[] angleTick = new double[2];
 	/** maximum angle distance between two ticks. */
 	public static final double MAX_TICK_DISTANCE = Math.toRadians(15);
@@ -722,9 +723,9 @@ public class DrawAngle extends Drawable implements Previewable {
 		// coords have to be set to screen coords of m before calling this
 		// method
 		if (tick == null) {
-			tick = new Line2D.Double[3];
+			tick = new Line2D[3];
 			for (int i = 0; i < tick.length; i++) {
-				tick[i] = new Line2D.Double();
+				tick[i] = AwtFactory.prototype.newLine2D();
 			}
 		}
 

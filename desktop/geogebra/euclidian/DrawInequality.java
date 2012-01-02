@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.Point;
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
@@ -14,7 +15,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.AbstractApplication;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
+//import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.util.TreeSet;

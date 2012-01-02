@@ -16,14 +16,12 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Line2D;
 
 /**
  * 
@@ -38,7 +36,7 @@ public class DrawSlider extends Drawable {
 
 	private double[] coordsRW = new double[2];
 	private double[] coordsScreen = new double[2];
-	private Line2D.Double line = new Line2D.Double();
+	private Line2D line = AwtFactory.prototype.newLine2D();
 	private GeoPoint2 geoPoint;
 	private DrawPoint drawPoint;
 

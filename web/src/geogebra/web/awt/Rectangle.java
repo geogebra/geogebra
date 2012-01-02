@@ -2,6 +2,7 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
+import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.euclidian.PathPoint;
 
@@ -168,6 +169,11 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
     }
 
 	public boolean intersects(Rectangle2D r) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean contains(Point2D p1) {
 	    // TODO Auto-generated method stub
 	    return false;
     }

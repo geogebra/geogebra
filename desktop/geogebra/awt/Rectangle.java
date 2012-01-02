@@ -165,5 +165,8 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 	public Shape getAwtShape() {
 		return impl;
 	}
+	public boolean contains(geogebra.common.awt.Point2D p1) {
+		return impl.contains(geogebra.awt.Point2D.getAwtPoint2D(p1));
+	}
 
 }

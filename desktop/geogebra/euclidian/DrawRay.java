@@ -18,10 +18,12 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipLine;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -30,11 +32,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Line2D;
-//import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -50,7 +47,7 @@ public class DrawRay extends Drawable implements Previewable {
 	boolean isVisible, labelVisible;
 	private ArrayList<GeoPointND> points;
 
-	private Line2D.Double line = new Line2D.Double();
+	private Line2D line = AwtFactory.prototype.newLine2D();
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 
@@ -221,7 +218,7 @@ public class DrawRay extends Drawable implements Previewable {
 	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
-		geogebra.awt.Graphics2D.getAwtGraphics(g2).draw(line);
+		g2.draw(line);
 	}
 
 	final public void updatePreview() {

@@ -63,5 +63,17 @@ public class Line2D extends geogebra.common.awt.Line2D implements geogebra.awt.S
 		// TODO Auto-generated method stub
 		return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
 	}
+	@Override
+	public geogebra.common.awt.Point2D getP1() {
+		java.awt.geom.Point2D p1 = impl.getP1();
+		if (p1==null) return null;
+		return new Point2D(p1.getX(), p1.getY());
+	}
+	@Override
+	public geogebra.common.awt.Point2D getP2() {
+		java.awt.geom.Point2D p2 = impl.getP2();
+		if (p2==null) return null;
+		return new Point2D(p2.getX(), p2.getY());
+	}
 
 }

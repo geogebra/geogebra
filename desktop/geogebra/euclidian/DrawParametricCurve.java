@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Point;
+import geogebra.common.awt.Point2D;
+import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GeneralPathClipped;
@@ -22,9 +25,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.roots.RealRootUtil;
 
-import java.awt.Point;
-import java.awt.Shape;
-import java.awt.geom.Point2D;
 
 /**
  * Draws graphs of parametric curves and functions
@@ -850,7 +850,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static void drawTo(GeneralPathClipped gp, double x, double y,
 			boolean lineTo) {
-		Point2D point = geogebra.awt.Point2D.getAwtPoint2D(gp.getCurrentPoint());
+		Point2D point = gp.getCurrentPoint();
 
 		// no points in path yet
 		if (point == null) {
@@ -1009,7 +1009,7 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
-			Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : geogebra.awt.GenericShape.getAwtShape(gp);
+			Shape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {
 				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 			}

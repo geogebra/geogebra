@@ -24,5 +24,6 @@ public interface Rectangle extends Rectangle2D {
 	public boolean contains(double d, double e);
 	public void add(double x, double y);
 	public boolean contains(PathPoint prevP);
+	public boolean contains(Point2D p1);
 
 }

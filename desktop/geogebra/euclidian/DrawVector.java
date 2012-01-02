@@ -18,9 +18,11 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipLine;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -30,10 +32,8 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
+//import java.awt.geom.Line2D;
 //import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -50,7 +50,7 @@ public class DrawVector extends Drawable implements Previewable {
 	boolean isVisible, labelVisible;
 	private boolean traceDrawingNeeded = false;
 
-	private Line2D.Double line;
+	private Line2D line;
 	private double[] coordsA = new double[2];
 	private double[] coordsB = new double[2];
 	private double[] coordsV = new double[2];
@@ -166,7 +166,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// set clipped line
 		if (line == null)
-			line = new Line2D.Double();
+			line = AwtFactory.prototype.newLine2D();
 		lineVisible = true;
 		if (onscreenA && onscreenB) {
 			// A and B on screen
@@ -347,7 +347,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return (lineVisible && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(line.getBounds()))
+		return (lineVisible && rect.contains(line.getBounds()))
 				|| (arrowheadVisible && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds()));
 	}
 
