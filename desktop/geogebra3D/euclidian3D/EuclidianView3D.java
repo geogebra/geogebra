@@ -1134,7 +1134,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return 0;
 	}
 
-	public GeoElement getLabelHit(Point p) {
+	public GeoElement getLabelHit(geogebra.common.awt.Point p) {
 		
 		//Application.debug("getLabelHit");
 
@@ -1550,7 +1550,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	*/
 	
 	// empty method : setHits3D() used instead
-	public void setHits(Point p) {
+	public void setHits(geogebra.common.awt.Point p) {
 		
 	}
 	

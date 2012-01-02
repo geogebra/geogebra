@@ -349,8 +349,9 @@ public class DialogManager {
 	/**
 	 * Creates a new checkbox at given startPoint
 	 */
-	public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
-		CheckboxCreationDialog d = new CheckboxCreationDialog(app, loc, bool);
+	public void showBooleanCheckboxCreationDialog(geogebra.common.awt.Point loc, GeoBoolean bool) {
+		Point location = new Point(loc.x, loc.y);
+		CheckboxCreationDialog d = new CheckboxCreationDialog(app, location, bool);
 		d.setVisible(true);
 	}
 

@@ -12,6 +12,7 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -76,7 +77,6 @@ import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -2385,7 +2385,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		Rectangle rect = view.getSelectionRectangle();
 		if (height >= 0) {
 			if (width >= 0) {
-				rect.setLocation(selectionStartPoint);
+				rect.setLocation(selectionStartPoint.x,selectionStartPoint.y);
 				rect.setSize(width, height);
 			} else { // width < 0
 				rect.setLocation(selectionStartPoint.x + width,
@@ -4350,7 +4350,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	protected void setMouseLocation(MouseEvent e) {
-		mouseLoc = e.getPoint();
+		mouseLoc = new Point(e.getPoint().x,e.getPoint().y);
 
 		setAltDown(e.isAltDown());
 
@@ -5810,6 +5810,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if (hits.isEmpty()) {
 			return null;
 		}
+		
+		Point mouseCoords = new Point(e.getPoint().x,e.getPoint().y);
 
 		int count = addSelectedPoint(hits, 2, false);
 		if (count == 0) {
@@ -5903,7 +5905,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			// text
 			GeoText text = createDynamicText(((Application)app).getCommand("Circumference"),
-					circumFerence, e.getPoint());
+					circumFerence, mouseCoords);
 			if (conic.isLabelSet()) {
 				circumFerence.setLabel(removeUnderscores(((Application)app).getCommand(
 						"Circumference").toLowerCase(Locale.US)
@@ -5923,7 +5925,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// text
 			GeoText text = createDynamicText(
 					descriptionPoints(((Application)app).getCommand("Perimeter"), poly[0]),
-					perimeter, e.getPoint());
+					perimeter, mouseCoords);
 
 			if (poly[0].isLabelSet()) {
 				perimeter.setLabel(removeUnderscores(((Application)app)
@@ -6025,6 +6027,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		if (hits.isEmpty()) {
 			return null;
 		}
+		
+		Point mouseCoords = new Point(e.getPoint().x,e.getPoint().y);
 
 		int count = addSelectedPolygon(hits, 1, false);
 		if (count == 0) {
@@ -6049,7 +6053,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 			// text
 			GeoText text = createDynamicText(((Application)app).getCommand("Area"), area,
-					e.getPoint());
+					mouseCoords);
 			if (conic.isLabelSet()) {
 				area.setLabel(removeUnderscores(((Application)app).getCommand("Area")
 						.toLowerCase(Locale.US) + conic.getLabel()));
@@ -6067,7 +6071,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			// dynamic text with polygon's area
 			GeoText text = createDynamicText(
 					descriptionPoints(((Application)app).getCommand("Area"), poly[0]),
-					poly[0], e.getPoint());
+					poly[0], mouseLoc);
 			if (poly[0].isLabelSet()) {
 				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ poly[0].getLabel()));

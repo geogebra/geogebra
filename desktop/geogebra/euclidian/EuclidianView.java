@@ -2084,7 +2084,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	final protected void drawMouseCoords(Graphics2D g2) {
-		Point pos = euclidianController.mouseLoc;
+		Point pos = new java.awt.Point(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
 		if (pos == null) {
 			return;
 		}
@@ -2108,7 +2108,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	final protected void drawAxesRatio(Graphics2D g2) {
-		Point pos = euclidianController.mouseLoc;
+		Point pos = new java.awt.Point(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
 		if (pos == null) {
 			return;
 		}
@@ -2123,11 +2123,12 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		if (mode != EuclidianConstants.MODE_MOVE) {
 			return false;
 		}
-
-		Point pos = euclidianController.mouseLoc;
-		if (pos == null) {
+		
+		if (euclidianController.mouseLoc == null) {
 			return false;
 		}
+		
+		Point pos = new java.awt.Point(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
 
 		String val = euclidianController.getSliderValue();
 
@@ -2348,7 +2349,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
 	 */
-	final public void setHits(Point p) {
+	final public void setHits(geogebra.common.awt.Point p) {
 
 		hits.init();
 
@@ -2426,7 +2427,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
-	final public GeoElement getLabelHit(Point p) {
+	final public GeoElement getLabelHit(geogebra.common.awt.Point p) {
 		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
 		}
@@ -4205,7 +4206,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 	}
 
 	public void updatePreviewable() {
-		Point mouseLoc = getEuclidianController().mouseLoc;
+		Point mouseLoc = new java.awt.Point(getEuclidianController().mouseLoc.x,getEuclidianController().mouseLoc.y);
 		getPreviewDrawable().updateMousePos(toRealWorldCoordX(mouseLoc.x),
 				toRealWorldCoordY(mouseLoc.y));
 	}

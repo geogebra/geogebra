@@ -127,7 +127,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	/**get the hits recorded */
 	Hits getHits();
 	/** set the hits regarding to the mouse location */
-	void setHits(Point p);
+	void setHits(geogebra.common.awt.Point mouseLoc);
 	
 	
 	/**
@@ -136,7 +136,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
 	 */
 	public void setHits(Rectangle rect);	
 	
-	GeoElement getLabelHit(Point mouseLoc);
+	GeoElement getLabelHit(geogebra.common.awt.Point mouseLoc);
 	
 
 	

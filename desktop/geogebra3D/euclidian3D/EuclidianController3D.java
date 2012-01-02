@@ -255,7 +255,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		Coords o;
 		if (useOldMouse){
 			//if (movePointMode != MOVE_POINT_MODE_XY){
-				mouseLocOld = (Point) mouseLoc.clone();
+				mouseLocOld = new java.awt.Point(mouseLoc.x,mouseLoc.y);
 				positionOld = point.getCoords().copyVector();
 				//movePointMode = MOVE_POINT_MODE_XY;
 			//}
@@ -1236,7 +1236,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	@Override
 	protected void processMouseMoved(MouseEvent e) {	
-		((EuclidianView3D) view).setHits3D(mouseLoc);	
+		((EuclidianView3D) view).setHits3D(new java.awt.Point(mouseLoc.x,mouseLoc.y));	
 		
 
 		
@@ -1700,8 +1700,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	
 	@Override
-	public void showDrawingPadPopup(Point mouseLoc){
-		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D((JPanel) view, mouseLoc);		
+	public void showDrawingPadPopup(geogebra.common.awt.Point mouseLoc){
+		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D((JPanel) view, new java.awt.Point(mouseLoc.x,mouseLoc.y));		
 	}
 
 	

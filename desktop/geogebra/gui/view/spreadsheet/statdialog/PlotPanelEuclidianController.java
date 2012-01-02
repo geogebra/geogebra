@@ -13,7 +13,7 @@ public class PlotPanelEuclidianController extends EuclidianController{
 	}
 	
 	@Override
-	public void showDrawingPadPopup(Point mouseLoc){
+	public void showDrawingPadPopup(geogebra.common.awt.Point mouseLoc){
 		// do nothing		
 	}
 }

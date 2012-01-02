@@ -557,6 +557,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			Object ob = e.getSource();
 			if (ob == table) {
 				Point origin = e.getPoint();
+				geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
 				int row = table.rowAtPoint(origin);
 				if (row < 0)
 					return;
@@ -566,7 +567,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 					GeoElement geo = data.getGeoElement(row);
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
-					app.getGuiManager().showPopupMenu(temp, table, origin);
+					app.getGuiManager().showPopupMenu(temp, table, mouseCoords);
 				} else { // left click
 
 					if (e.getClickCount() == 1) {

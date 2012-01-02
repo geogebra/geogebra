@@ -1090,7 +1090,7 @@ public class GuiManager {
 	 * Displays the Graphics View menu at the position p in the coordinate space
 	 * of euclidianView
 	 */
-	public void showDrawingPadPopup(Component invoker, Point p) {
+	public void showDrawingPadPopup(Component invoker, geogebra.common.awt.Point p) {
 		// clear highlighting and selections in views
 		app.getEuclidianView().resetMode();
 
@@ -1104,8 +1104,9 @@ public class GuiManager {
 	 * of euclidianView
 	 */
 	public void toggleDrawingPadPopup(Component invoker, Point p) {
+		geogebra.common.awt.Point loc = new geogebra.common.awt.Point(p.x, p.y);
 		if (drawingPadpopupMenu == null || !drawingPadpopupMenu.isVisible()) {
-			showDrawingPadPopup(invoker, p);
+			showDrawingPadPopup(invoker, loc);
 			return;
 		}
 
@@ -1119,10 +1120,9 @@ public class GuiManager {
 	 * of the component invoker
 	 */
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
-			Point p) {
+			geogebra.common.awt.Point p) {
 		if (geos == null || !app.letShowPopupMenu())
 			return;
-
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
 		} else {
@@ -1145,8 +1145,9 @@ public class GuiManager {
 	 */
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
+		geogebra.common.awt.Point loc = new geogebra.common.awt.Point(p.x,p.y);
 		if (popupMenu == null || !popupMenu.isVisible()) {
-			showPopupMenu(geos, invoker, p);
+			showPopupMenu(geos, invoker, loc);
 			return;
 		}
 

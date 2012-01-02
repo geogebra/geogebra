@@ -207,6 +207,8 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 	public void mousePressed(java.awt.event.MouseEvent e) {
 		view.cancelEditing();
+		
+		geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
 
 		boolean rightClick = app.isRightClickEnabled() && Application.isRightClick(e);
 
@@ -230,13 +232,13 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 				} else {
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
-					app.getGuiManager().showPopupMenu(temp, view, e.getPoint());
+					app.getGuiManager().showPopupMenu(temp, view, mouseCoords);
 				}			
 			} 
 			// multiple selection: popup menu (several geos)
 			else {
 				if(geo != null) {
-					app.getGuiManager().showPopupMenu(app.getSelectedGeos(), view, e.getPoint());
+					app.getGuiManager().showPopupMenu(app.getSelectedGeos(), view, mouseCoords);
 				}
 			}	
 
