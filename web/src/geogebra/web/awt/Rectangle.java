@@ -177,4 +177,10 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
 	    // TODO Auto-generated method stub
 	    return false;
     }
+
+	public geogebra.common.awt.Rectangle union(
+            geogebra.common.awt.Rectangle bounds) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 }

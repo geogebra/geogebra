@@ -210,7 +210,7 @@ public class DrawSlider extends Drawable {
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(line.getBounds());
+		return AwtFactory.prototype.newRectangle(line.getBounds());
 	}
 
 }

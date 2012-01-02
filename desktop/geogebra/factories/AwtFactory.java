@@ -148,9 +148,21 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		return new geogebra.awt.QuadCurve2D();
 	}
 
+	/*
 	@Override
 	public Area newArea(GeneralPathClipped gp) {
 		return new geogebra.awt.Area(gp);
+	}
+	*/
+
+	@Override
+	public Area newArea() {
+		return new geogebra.awt.Area();
+	}
+
+	@Override
+	public Area newArea(Shape shape) {
+		return new geogebra.awt.Area(shape);
 	}
 
 	

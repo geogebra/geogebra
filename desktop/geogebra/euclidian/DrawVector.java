@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.Previewable;
@@ -32,9 +33,6 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-import java.awt.geom.GeneralPath;
-//import java.awt.geom.Line2D;
-//import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -203,7 +201,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// add triangle if visible
 		if (gp == null)
-			gp = new GeneralPath();
+			gp = AwtFactory.prototype.newGeneralPath();
 		else
 			gp.reset();
 
@@ -348,7 +346,7 @@ public class DrawVector extends Drawable implements Previewable {
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		return (lineVisible && rect.contains(line.getBounds()))
-				|| (arrowheadVisible && geogebra.awt.Rectangle.getAWTRectangle(rect).contains(gp.getBounds()));
+				|| (arrowheadVisible && rect.contains(gp.getBounds()));
 	}
 
 	@Override
@@ -370,11 +368,11 @@ public class DrawVector extends Drawable implements Previewable {
 			return null;
 		geogebra.common.awt.Rectangle ret = null;
 		if (lineVisible)
-			ret = new geogebra.awt.Rectangle(line.getBounds());
+			ret = AwtFactory.prototype.newRectangle(line.getBounds());
 
 		if (arrowheadVisible)
-			ret = (ret == null) ? new geogebra.awt.Rectangle(gp.getBounds()):
-		new geogebra.awt.Rectangle(geogebra.awt.Rectangle.getAWTRectangle(ret).union(gp.getBounds()));
+			ret = (ret == null) ? AwtFactory.prototype.newRectangle(gp.getBounds()):
+		AwtFactory.prototype.newRectangle(ret.union(gp.getBounds()));
 
 		return ret;
 	}

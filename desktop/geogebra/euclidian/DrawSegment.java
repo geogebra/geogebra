@@ -33,7 +33,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 
-//import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -505,7 +504,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		if (line == null || !geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(line.getBounds());
+		return AwtFactory.prototype.newRectangle(line.getBounds());
 	}
 
 }

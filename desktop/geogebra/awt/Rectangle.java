@@ -168,5 +168,10 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 	public boolean contains(geogebra.common.awt.Point2D p1) {
 		return impl.contains(geogebra.awt.Point2D.getAwtPoint2D(p1));
 	}
+	public geogebra.common.awt.Rectangle union(
+			geogebra.common.awt.Rectangle bounds) {
+		return new geogebra.awt.Rectangle(
+				impl.union(Rectangle.getAWTRectangle(bounds)));
+	}
 
 }

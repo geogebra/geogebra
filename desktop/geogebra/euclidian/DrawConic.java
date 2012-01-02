@@ -20,6 +20,7 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.Area;
 import geogebra.common.awt.Ellipse2DDouble;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RectangularShape;
@@ -138,9 +139,9 @@ final public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public geogebra.common.awt.Area getShape() {
 		geogebra.common.awt.Area a = super.getShape() != null ? super.getShape()
-				: (shape == null ? new geogebra.awt.Area() : new geogebra.awt.Area(geogebra.awt.GenericShape.getAwtShape(shape)));
+				: (shape == null ? AwtFactory.prototype.newArea() : AwtFactory.prototype.newArea(shape));
 		if (conic.isInverseFill()) {
-			geogebra.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
+			Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
 			b.subtract(a);
 			return b;
 		}
@@ -232,7 +233,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		switch (type) {
 		case GeoConicNDConstants.CONIC_EMPTY:
-			setShape(conic.evaluate(0, 0) < 0 ? null : new geogebra.awt.Area(
+			setShape(conic.evaluate(0, 0) < 0 ? null : AwtFactory.prototype.newArea(
 					view.getBoundingPath()));
 			shape = null;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
@@ -272,12 +273,12 @@ final public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			boolean includesScreenCompletely = shape.contains(new geogebra.awt.Rectangle(viewRect));
+			boolean includesScreenCompletely = shape.contains(AwtFactory.prototype.newRectangle(viewRect));
 
 			// offScreen = includesScreenCompletely or the shape does not
 			// intersect the view rectangle
 			boolean offScreen = includesScreenCompletely
-					|| !shape.getBounds2D().intersects(new geogebra.awt.Rectangle(viewRect));
+					|| !shape.getBounds2D().intersects(AwtFactory.prototype.newRectangle(viewRect));
 			if (geo.getAlphaValue() == 0f) {
 				// no filling
 				isVisible = !offScreen;
@@ -293,8 +294,8 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// hyperbola wings on screen?
-			hypLeftOnScreen = hypLeft.intersects(new geogebra.awt.Rectangle(viewRect));
-			hypRightOnScreen = hypRight.intersects(new geogebra.awt.Rectangle(viewRect));
+			hypLeftOnScreen = hypLeft.intersects(AwtFactory.prototype.newRectangle(viewRect));
+			hypRightOnScreen = hypRight.intersects(AwtFactory.prototype.newRectangle(viewRect));
 			if (!hypLeftOnScreen && !hypRightOnScreen) {
 				isVisible = false;
 			}
@@ -328,7 +329,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// point
 		// as it may be equal to the single point. Point (b.x+1,0) differs in
 		// one coord.
-		setShape(conic.evaluate(conic.b.x + 1, 0) < 0 ? null : new geogebra.awt.Area(
+		setShape(conic.evaluate(conic.b.x + 1, 0) < 0 ? null : AwtFactory.prototype.newArea(
 				view.getBoundingPath()));
 		shape = null;
 		if (conic.isGeoElement3D()) {// TODO implement for 3D conics
@@ -390,7 +391,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {
-				geogebra.common.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
+				geogebra.common.awt.Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
 				b.subtract((geogebra.common.awt.Area)shape);
 				shape = b;
 
@@ -453,10 +454,10 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		}
 		gpc.closePath();
-		geogebra.common.awt.Area a = new geogebra.awt.Area(gpc);
+		geogebra.common.awt.Area a = AwtFactory.prototype.newArea(gpc);
 		if (!invert)
 			return a;
-		geogebra.common.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
+		geogebra.common.awt.Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
 		b.subtract(a);
 		return b;
 
@@ -735,7 +736,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			// clip big arc at screen
 //			shape=ClipShape.clipToRect(shape,ellipse, transform, new Rectangle(-1,
 //					-1, view.getWidth() + 2, view.getHeight() + 2));
-			shape=ClipShape.clipToRect(ellipse, transform, new geogebra.awt.Rectangle(-1,
+			shape=ClipShape.clipToRect(ellipse, transform, AwtFactory.prototype.newRectangle(-1,
 					-1, view.getWidth() + 2, view.getHeight() + 2));
 
 		}
@@ -863,7 +864,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
-		setShape(new geogebra.awt.Area(hypLeft));
+		setShape(AwtFactory.prototype.newArea(hypLeft));
 		//geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
 		super.getShape().add(AwtFactory.prototype.newArea(hypRight));
 	}
@@ -1000,9 +1001,9 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			if (conic.isInverseFill()) {
-				geogebra.common.awt.Area a1 = new geogebra.awt.Area(hypLeft);
-				geogebra.common.awt.Area a2 = new geogebra.awt.Area(hypRight);
-				geogebra.common.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
+				geogebra.common.awt.Area a1 = AwtFactory.prototype.newArea(hypLeft);
+				geogebra.common.awt.Area a2 = AwtFactory.prototype.newArea(hypRight);
+				geogebra.common.awt.Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
 				b.subtract(a1);
 				b.subtract(a2);
 				fill(g2, b, false);
@@ -1054,7 +1055,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return new geogebra.awt.Rectangle(shape.getBounds());
+			return AwtFactory.prototype.newRectangle(shape.getBounds());
 
 		default:
 			return null;

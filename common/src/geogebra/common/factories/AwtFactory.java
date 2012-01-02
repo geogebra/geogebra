@@ -50,6 +50,8 @@ public abstract class AwtFactory {
 	public abstract Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
 	public abstract Arc2D newArc2D();
 	public abstract QuadCurve2D newQuadCurve2D();
-	public abstract Area newArea(GeneralPathClipped hypRight);
+	/*public abstract Area newArea(GeneralPathClipped hypRight);*/
+	public abstract Area newArea();
+	public abstract Area newArea(Shape shape);
 	
 }

@@ -274,10 +274,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			return new geogebra.awt.Rectangle(shape.getBounds());
+			return AwtFactory.prototype.newRectangle(shape.getBounds());
 
 		case DRAW_TYPE_SEGMENT:
-			return new geogebra.awt.Rectangle(drawSegment.getBounds());
+			return AwtFactory.prototype.newRectangle(drawSegment.getBounds());
 
 		default:
 			return null;

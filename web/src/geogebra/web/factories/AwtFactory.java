@@ -149,8 +149,22 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	    return null;
     }
 
+	/*
 	@Override
     public Area newArea(GeneralPathClipped hypRight) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+    */
+
+	@Override
+    public Area newArea() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Area newArea(Shape shape) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

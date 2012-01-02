@@ -18,6 +18,7 @@ import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
@@ -179,8 +180,8 @@ public class DrawParametricCurve extends Drawable {
 		// shape for filling
 
 		if (geo.isInverseFill()) {
-			setShape(new geogebra.awt.Area(view.getBoundingPath()));
-			getShape().subtract(new geogebra.awt.Area(gp));
+			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
+			getShape().subtract(AwtFactory.prototype.newArea(gp));
 		}
 		// draw trace
 		if (curve.getTrace()) {
@@ -1011,7 +1012,8 @@ public class DrawParametricCurve extends Drawable {
 		if (isVisible) {
 			Shape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {
-				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
+				//strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
+				strokedShape = objStroke.createStrokedShape(gp);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
@@ -1050,7 +1052,7 @@ public class DrawParametricCurve extends Drawable {
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(gp.getBounds());
+		return AwtFactory.prototype.newRectangle(gp.getBounds());
 	}
 
 	final private static boolean filling(ParametricCurve curve) {
