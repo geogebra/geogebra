@@ -12,10 +12,14 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Arc2D;
+import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -28,11 +32,6 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.clipping.ClipShape;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
 import java.util.ArrayList;
 
 /**
@@ -45,7 +44,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	boolean isVisible, labelVisible;
 
-	private Arc2D.Double arc = new Arc2D.Double();
+	private Arc2D arc = AwtFactory.prototype.newArc2D();
 	private Shape shape;
 	// private GeoVec2D transVec;
 	private double[] halfAxes;
@@ -56,7 +55,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private static final int DRAW_TYPE_SEGMENT = 2;
 	private static final int DRAW_TYPE_RAYS = 3;
 	private int draw_type;
-	private AffineTransform transform = new AffineTransform();
+	private AffineTransform transform = AwtFactory.prototype.newAffineTransform();
 
 	// these are needed for degenerate arcs
 	private DrawRay drawRay1, drawRay2;
@@ -171,10 +170,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 				-Math.toDegrees(conicPart.getParameterExtent()), closure);
 
 		// transform to screen coords
-		transform.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform()));
-		transform.concatenate(geogebra.awt.AffineTransform
-				.getAwtAffineTransform(conicPart
-						.getAffineTransform()));
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(conicPart.getAffineTransform());
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
@@ -182,7 +179,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			shape = transform.createTransformedShape(arc);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arc, transform, new Rectangle(-1, -1,
+			shape = ClipShape.clipToRect(arc, transform, AwtFactory.prototype.newRectangle(-1, -1,
 					view.getWidth() + 2, view.getHeight() + 2));
 		}
 
@@ -231,7 +228,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		if (isVisible) {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
-				fill(g2, new geogebra.awt.GenericShape(shape), false); // fill using default/hatching/image as
+				fill(g2, shape, false); // fill using default/hatching/image as
 										// appropriate
 
 				if (geo.doHighlighting()) {
@@ -387,7 +384,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			if (strokedShape == null) {
-				strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(shape));
+				strokedShape = objStroke.createStrokedShape(shape);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return shape.intersects(x - hitThreshold, y - hitThreshold,
@@ -423,7 +420,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(shape.getBounds());
+			return rect.contains(shape.getBounds());
 
 		case DRAW_TYPE_SEGMENT:
 			return drawSegment.isInside(rect);
