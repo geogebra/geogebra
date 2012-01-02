@@ -5,12 +5,8 @@
 # Make sure that you run this script from its directory.
 
 # 1. Setting up environment variables
-test -r autobuild.conf || {
- echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
- echo "Continuing with defaults anyway..."
- }
+GWTDIR=../desktop/lib/build/gwt-2.4.0 # Override it if needed by using autobuild.conf
 test -r autobuild.conf && . ./autobuild.conf
-
 export GWTDIR
 WEBDIR=`pwd`
 
